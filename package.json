@@ -28,7 +28,8 @@
   "scripts": {
     "lint": "standard",
     "lint-fix": "standard --fix",
-    "test": "ava"
+    "test": "ava",
+    "watch": "ava --watch"
   },
   "husky": {
     "hooks": {
@@ -50,7 +51,10 @@
   },
   "ava": {
     "babel": false,
-    "compileEnhancements": false
+    "compileEnhancements": false,
+    "files": [
+      "test/**/*.test.js"
+    ]
   },
   "commitlint": {
     "extends": [
