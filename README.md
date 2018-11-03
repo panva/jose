@@ -2,7 +2,8 @@
 
 ```
 $ nvm use stable
-$ node removeme/some.js
+$ node removeme/asym.js
+$ node removeme/sym.js
 ```
 
 # ultimate-jose
