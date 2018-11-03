@@ -36,8 +36,7 @@
     }
   },
   "dependencies": {
-    "eckles": "^1.3.2",
-    "rasha": "^1.1.0"
+    "@trust/keyto": "^0.3.4"
   },
   "devDependencies": {
     "@commitlint/cli": "^7.3.2",
