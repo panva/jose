@@ -1,0 +1,61 @@
+{
+  "name": "ultimate-jose",
+  "version": "0.0.1",
+  "description": "JSON Web Everything (JWA, JWS, JWE, JWK, JWKS, JWT) for Node.js with minimal dependencies",
+  "keywords": [
+    "jose",
+    "jsonwebtoken",
+    "jwa",
+    "jwe",
+    "jwk",
+    "jws",
+    "jwt",
+    "rfc7515",
+    "rfc7516",
+    "rfc7517",
+    "rfc7518",
+    "rfc7519",
+    "rfc7797"
+  ],
+  "homepage": "https://github.com/panva/ultimate-jose",
+  "repository": "panva/ultimate-jose",
+  "license": "MIT",
+  "author": "Filip Skokan <panva.ip@gmail.com>",
+  "files": [
+    "lib"
+  ],
+  "main": "lib/index.js",
+  "scripts": {
+    "lint": "standard",
+    "lint-fix": "standard --fix",
+    "test": "ava"
+  },
+  "husky": {
+    "hooks": {
+      "commit-msg": "commitlint -E HUSKY_GIT_PARAMS"
+    }
+  },
+  "dependencies": {
+    "eckles": "^1.3.2",
+    "rasha": "^1.1.0"
+  },
+  "devDependencies": {
+    "@commitlint/cli": "^7.3.2",
+    "@commitlint/config-conventional": "^7.3.1",
+    "ava": "^1.1.0",
+    "husky": "^1.3.1",
+    "standard": "^12.0.1"
+  },
+  "engines": {
+    "node": ">=11.7.0"
+  },
+  "ava": {
+    "babel": false,
+    "compileEnhancements": false
+  },
+  "commitlint": {
+    "extends": [
+      "@commitlint/config-conventional"
+    ]
+  }
+}
