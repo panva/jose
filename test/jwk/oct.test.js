@@ -1,12 +1,17 @@
 const test = require('ava')
 const { createSecretKey } = require('crypto')
-const { hasProperty, hasNoProperties } = require('../macros')
+const { hasProperty, hasNoProperties, hasProperties } = require('../macros')
 
 const OctKey = require('../../lib/jwk/oct')
 
 const keyObject = createSecretKey(Buffer.from('secret'))
 const key = new OctKey(keyObject)
 
+test('oct key .thumbprintMaterial()', hasProperties, key.thumbprintMaterial(), 'k', 'kty')
+test('oct key (with alg)', hasProperty, new OctKey(keyObject, { alg: 'HS256' }), 'alg', 'HS256')
+test('oct key (with kid)', hasProperty, new OctKey(keyObject, { kid: 'foobar' }), 'kid', 'foobar')
+test('oct key (with use)', hasProperty, new OctKey(keyObject, { use: 'sig' }), 'use', 'sig')
+test('oct key', hasNoProperties, key, 'e', 'n', 'd', 'p', 'q', 'dp', 'dq', 'qi', 'crv', 'x', 'y')
 test('oct key', hasProperty, key, 'alg', undefined)
 test('oct key', hasProperty, key, 'k', 'c2VjcmV0')
 test('oct key', hasProperty, key, 'keyObject', keyObject)
@@ -16,11 +21,6 @@ test('oct key', hasProperty, key, 'length', 48)
 test('oct key', hasProperty, key, 'private', false)
 test('oct key', hasProperty, key, 'public', false)
 test('oct key', hasProperty, key, 'use', undefined)
-test('oct key (with alg)', hasProperty, new OctKey(keyObject, { alg: 'HS256' }), 'alg', 'HS256')
-test('oct key (with kid)', hasProperty, new OctKey(keyObject, { kid: 'foobar' }), 'kid', 'foobar')
-test('oct key (with use)', hasProperty, new OctKey(keyObject, { use: 'sig' }), 'use', 'sig')
-
-test('oct key', hasNoProperties, key, 'e', 'n', 'd', 'p', 'q', 'dp', 'dq', 'qi', 'crv', 'x', 'y')
 
 test('supports all sign algs (no use)', t => {
   const result = key.algorithms('sign')

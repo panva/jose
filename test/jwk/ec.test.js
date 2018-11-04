@@ -17,6 +17,12 @@ Object.entries({
     const keyObject = createPrivateKey(fixtures.PEM[crv].private)
     const key = new ECKey(keyObject)
 
+    test(`${crv} EC Private key .thumbprintMaterial()`, hasProperties, key.thumbprintMaterial(), 'crv', 'kty', 'x', 'y')
+    test(`${crv} EC Private key (with alg)`, hasProperty, new ECKey(keyObject, { alg }), 'alg', alg)
+    test(`${crv} EC Private key (with kid)`, hasProperty, new ECKey(keyObject, { kid: 'foobar' }), 'kid', 'foobar')
+    test(`${crv} EC Private key (with use)`, hasProperty, new ECKey(keyObject, { use: 'sig' }), 'use', 'sig')
+    test(`${crv} EC Private key`, hasNoProperties, key, 'k', 'e', 'n', 'p', 'q', 'dp', 'dq', 'qi')
+    test(`${crv} EC Private key`, hasProperties, key, 'x', 'y', 'd')
     test(`${crv} EC Private key`, hasProperty, key, 'alg', undefined)
     test(`${crv} EC Private key`, hasProperty, key, 'keyObject', keyObject)
     test(`${crv} EC Private key`, hasProperty, key, 'kid', kid)
@@ -25,12 +31,6 @@ Object.entries({
     test(`${crv} EC Private key`, hasProperty, key, 'private', true)
     test(`${crv} EC Private key`, hasProperty, key, 'public', false)
     test(`${crv} EC Private key`, hasProperty, key, 'use', undefined)
-    test(`${crv} EC Private key (with alg)`, hasProperty, new ECKey(keyObject, { alg }), 'alg', alg)
-    test(`${crv} EC Private key (with kid)`, hasProperty, new ECKey(keyObject, { kid: 'foobar' }), 'kid', 'foobar')
-    test(`${crv} EC Private key (with use)`, hasProperty, new ECKey(keyObject, { use: 'sig' }), 'use', 'sig')
-
-    test(`${crv} EC Private key`, hasProperties, key, 'x', 'y', 'd')
-    test(`${crv} EC Private key`, hasNoProperties, key, 'k', 'e', 'n', 'p', 'q', 'dp', 'dq', 'qi')
 
     test(`${crv} EC Private key supports sign alg (no use)`, t => {
       const result = key.algorithms('sign')
@@ -98,6 +98,12 @@ Object.entries({
     const keyObject = createPublicKey(fixtures.PEM[crv].public)
     const key = new ECKey(keyObject)
 
+    test(`${crv} EC Public key .thumbprintMaterial()`, hasProperties, key.thumbprintMaterial(), 'crv', 'kty', 'x', 'y')
+    test(`${crv} EC Public key (with alg)`, hasProperty, new ECKey(keyObject, { alg }), 'alg', alg)
+    test(`${crv} EC Public key (with kid)`, hasProperty, new ECKey(keyObject, { kid: 'foobar' }), 'kid', 'foobar')
+    test(`${crv} EC Public key (with use)`, hasProperty, new ECKey(keyObject, { use: 'sig' }), 'use', 'sig')
+    test(`${crv} EC Public key`, hasNoProperties, key, 'k', 'e', 'n', 'p', 'q', 'dp', 'dq', 'qi', 'd')
+    test(`${crv} EC Public key`, hasProperties, key, 'x', 'y')
     test(`${crv} EC Public key`, hasProperty, key, 'alg', undefined)
     test(`${crv} EC Public key`, hasProperty, key, 'keyObject', keyObject)
     test(`${crv} EC Public key`, hasProperty, key, 'kid', kid)
@@ -106,12 +112,6 @@ Object.entries({
     test(`${crv} EC Public key`, hasProperty, key, 'private', false)
     test(`${crv} EC Public key`, hasProperty, key, 'public', true)
     test(`${crv} EC Public key`, hasProperty, key, 'use', undefined)
-    test(`${crv} EC Public key (with alg)`, hasProperty, new ECKey(keyObject, { alg }), 'alg', alg)
-    test(`${crv} EC Public key (with kid)`, hasProperty, new ECKey(keyObject, { kid: 'foobar' }), 'kid', 'foobar')
-    test(`${crv} EC Public key (with use)`, hasProperty, new ECKey(keyObject, { use: 'sig' }), 'use', 'sig')
-
-    test(`${crv} EC Public key`, hasProperties, key, 'x', 'y')
-    test(`${crv} EC Public key`, hasNoProperties, key, 'k', 'e', 'n', 'p', 'q', 'dp', 'dq', 'qi', 'd')
 
     test(`${crv} EC Public key cannot sign`, t => {
       const result = key.algorithms('sign')
