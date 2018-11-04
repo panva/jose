@@ -2,7 +2,7 @@ const test = require('ava')
 const { createPublicKey, createPrivateKey } = require('crypto')
 
 const { pemToJwk, jwkToPem } = require('../../lib/help/key_utils')
-const fixtures = require('./fixtures')
+const { JWK: fixtures } = require('../fixtures')
 const clone = obj => JSON.parse(JSON.stringify(obj))
 
 test('RSA Public key', t => {
