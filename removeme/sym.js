@@ -5,7 +5,7 @@ const { createSecretKey } = require('crypto')
 
 const { JWS, JWK: { importKey } } = require('..')
 
-const ecPrivate = importKey(readFileSync('./removeme/ec.key'))
+const ecPrivate = importKey(readFileSync('./test/fixtures/P-256.key'))
 const secret = importKey(Buffer.from('foo'))
 
 const payload = { sub: '1234567890', name: 'John Doe', iat: 1516239022 }

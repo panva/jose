@@ -4,10 +4,10 @@ const { readFileSync } = require('fs')
 
 const { JWS, JWK: { importKey } } = require('..')
 
-const ecPrivate = importKey(readFileSync('./removeme/ec.key'))
-const rsaPrivate = importKey(readFileSync('./removeme/rsa.key'))
-const ecPub = importKey(readFileSync('./removeme/ec.pem'))
-const rsaPub = importKey(readFileSync('./removeme/rsa.pem'))
+const ecPrivate = importKey(readFileSync('./test/fixtures/P-256.key'))
+const rsaPrivate = importKey(readFileSync('./test/fixtures/rsa.key'))
+const ecPub = importKey(readFileSync('./test/fixtures/P-256.pem'))
+const rsaPub = importKey(readFileSync('./test/fixtures/rsa.pem'))
 const payload = { sub: '1234567890', name: 'John Doe', iat: 1516239022 }
 
 // compact ec
