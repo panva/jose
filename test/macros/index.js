@@ -1,5 +1,7 @@
 const { inspect } = require('util')
 
+const base64url = require('../../lib/help/base64url')
+
 const hasProperty = (t, obj, property, value, assertion = 'is') => {
   t.true(property in obj)
   if (value !== undefined) {
@@ -33,6 +35,16 @@ const hasProperties = (t, obj, ...properties) => {
 }
 hasProperties.title = (title = '', obj, ...properties) => `${title} has properties ${properties.map(x => `\`${x}\``).join(', ')}`
 
-module.exports.hasProperty = hasProperty
-module.exports.hasProperties = hasProperties
+const compactJwt = (t, jwt, eHeader, ePayload) => {
+  let [aHeader, aPayload] = jwt().split('.')
+  aHeader = base64url.JSON.decode(aHeader)
+  aPayload = base64url.JSON.decode(aPayload)
+
+  t.deepEqual(aHeader, eHeader)
+  t.deepEqual(aPayload, ePayload)
+}
+
+module.exports.compactJwt = compactJwt
 module.exports.hasNoProperties = hasNoProperties
+module.exports.hasProperties = hasProperties
+module.exports.hasProperty = hasProperty

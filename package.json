@@ -38,7 +38,8 @@
     }
   },
   "dependencies": {
-    "@trust/keyto": "^0.3.4"
+    "@trust/keyto": "^0.3.4",
+    "ms": "^2.1.1"
   },
   "devDependencies": {
     "@commitlint/cli": "^7.3.2",
