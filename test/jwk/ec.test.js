@@ -3,7 +3,7 @@ const { createPrivateKey, createPublicKey } = require('crypto')
 const { hasProperty, hasNoProperties, hasProperties } = require('../macros')
 const fixtures = require('../fixtures')
 
-const ECKey = require('../../lib/jwk/ec')
+const ECKey = require('../../lib/jwk/key/ec')
 
 Object.entries({
   'P-256': [256, 'rDd6H6t9-nJUoz72nTpz8tInvypVWhE2iQoPznj8ZY8'],

@@ -3,7 +3,7 @@ const { createPrivateKey, createPublicKey } = require('crypto')
 const { hasProperty, hasNoProperties, hasProperties } = require('../macros')
 const fixtures = require('../fixtures')
 
-const RSAKey = require('../../lib/jwk/rsa')
+const RSAKey = require('../../lib/jwk/key/rsa')
 
 // private
 ;(() => {

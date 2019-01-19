@@ -2,7 +2,7 @@ const test = require('ava')
 const { createSecretKey } = require('crypto')
 const { hasProperty, hasNoProperties, hasProperties } = require('../macros')
 
-const OctKey = require('../../lib/jwk/oct')
+const OctKey = require('../../lib/jwk/key/oct')
 
 const keyObject = createSecretKey(Buffer.from('secret'))
 const key = new OctKey(keyObject)
