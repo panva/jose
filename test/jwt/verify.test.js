@@ -31,6 +31,12 @@ Object.entries(empties).forEach(([alg, [key, jwt]]) => {
   test(`verifies ${alg}`, jwtverify, jwt, key, {})
 })
 
+test('may return complete parsed JWT', jwtverify, empties.HS256[1], oct, {
+  header: { alg: 'HS256' },
+  payload: {},
+  signature: 'wFzc1AaKc-h2sBmMo-q5Btx4pthqj4E1uI9iieszJB4'
+}, { algorithms: 'HS256', complete: true })
+
 test('passes alg option', jwtverify, empties.HS256[1], oct, {}, { algorithms: ['HS256'] })
 test('verifies alg option', jwtverifyfails, empties.HS256[1], oct, { algorithms: ['HS384'] })
 
