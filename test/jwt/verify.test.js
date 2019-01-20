@@ -23,8 +23,8 @@ const jwtverify = (t, jwt, key, ePayload, options) => {
 }
 
 // TODO: thrown error, description and code assertion
-const jwtverifyfails = (t, jwt, key, options) => {
-  t.throws(() => verify(jwt, key, options))
+const jwtverifyfails = (t, jwt, key, options, thrown) => {
+  t.throws(() => verify(jwt, key, options), thrown)
 }
 
 Object.entries(empties).forEach(([alg, [key, jwt]]) => {
@@ -38,17 +38,34 @@ test('may return complete parsed JWT', jwtverify, empties.HS256[1], oct, {
 }, { algorithms: 'HS256', complete: true })
 
 test('passes alg option', jwtverify, empties.HS256[1], oct, {}, { algorithms: ['HS256'] })
-test('verifies alg option', jwtverifyfails, empties.HS256[1], oct, { algorithms: ['HS384'] })
+test('verifies alg option', jwtverifyfails, empties.HS256[1], oct, { algorithms: ['HS384'] },
+  { name: 'JWTInvalidAlgorithm', code: 'ERR_JWT_INVALID_ALGORITHM' }
+)
 
 // test.todo passes issuer option
-test('verifies issuer option', jwtverifyfails, empties.HS256[1], oct, { issuer: 'foo' })
+test('verifies issuer option',
+  jwtverifyfails, empties.HS256[1], oct, { issuer: 'foo' },
+  { name: 'JWTIssuerMismatch', code: 'ERR_JWT_ISSUER_MISMATCH' }
+)
 
 // test.todo passes subject option
-test('verifies subject option', jwtverifyfails, empties.HS256[1], oct, { subject: 'foo' })
+test('verifies subject option',
+  jwtverifyfails, empties.HS256[1], oct, { subject: 'foo' },
+  { name: 'JWTSubjectMismatch', code: 'ERR_JWT_SUBJECT_MISMATCH' }
+)
 
 // test.todo passes nonce option
-test('verifies nonce option', jwtverifyfails, empties.HS256[1], oct, { nonce: 'foo' })
+test('verifies nonce option',
+  jwtverifyfails, empties.HS256[1], oct, { nonce: 'foo' },
+  { name: 'JWTNonceMismatch', code: 'ERR_JWT_NONCE_MISMATCH' }
+)
 
 // test.todo passes jti option
-test('verifies jti option', jwtverifyfails, empties.HS256[1], oct, { jti: 'foo' })
-test('verifies jwtid option', jwtverifyfails, empties.HS256[1], oct, { jwtid: 'foo' })
+test('verifies jti option',
+  jwtverifyfails, empties.HS256[1], oct, { jti: 'foo' },
+  { name: 'JWTTokenIdMismatch', code: 'ERR_JWT_TOKEN_ID_MISMATCH' }
+)
+test('verifies jwtid option',
+  jwtverifyfails, empties.HS256[1], oct, { jwtid: 'foo' },
+  { name: 'JWTTokenIdMismatch', code: 'ERR_JWT_TOKEN_ID_MISMATCH' }
+)

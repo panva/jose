@@ -20,8 +20,7 @@ test('throws when its encrypted', t => {
     return decode('e30.e30.e30.e30.e30')
   }
 
-  const error = t.throws(fn, Error)
-  t.is(error.message, 'jwt appears to be encrypted')
+  t.throws(fn, { instanceOf: Error, message: 'jwt appears to be encrypted' })
 })
 
 test('throws when malformed', t => {
@@ -29,8 +28,7 @@ test('throws when malformed', t => {
     return decode('e30.e30')
   }
 
-  const error = t.throws(fn, Error)
-  t.is(error.message, 'jwt malformed')
+  t.throws(fn, { instanceOf: Error, message: 'jwt malformed' })
 })
 
 test('throws when not a valid JWT', t => {
@@ -38,8 +36,7 @@ test('throws when not a valid JWT', t => {
     return decode('e30.7&&.foo')
   }
 
-  const error = t.throws(fn, Error)
-  t.is(error.message, 'jwt malformed')
+  t.throws(fn, { instanceOf: Error, message: 'jwt malformed' })
 })
 
 test('throws when not a valid input', t => {
@@ -47,6 +44,5 @@ test('throws when not a valid input', t => {
     return decode(0)
   }
 
-  const error = t.throws(fn, TypeError)
-  t.is(error.message, 'jwt must be a string')
+  t.throws(fn, { instanceOf: TypeError, message: 'jwt must be a string' })
 })
