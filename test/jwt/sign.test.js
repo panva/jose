@@ -1,17 +1,17 @@
 const test = require('ava')
 
-const { sign } = require('../../lib/jwt')
+const { JWT: { sign }, JWK: { importKey } } = require('../..')
 
 const { compactJwt } = require('../macros')
 const fixtures = require('../fixtures')
 
-const oct = Buffer.from('foo')
+const oct = importKey(Buffer.from('foo'))
 
 test('uses HS256 for oct keys', compactJwt, () => sign({}, oct, { noTimestamp: true }), { alg: 'HS256' }, {})
-test('uses RS256 for RSA keys', compactJwt, () => sign({}, fixtures.PEM.RSA.private, { noTimestamp: true }), { alg: 'RS256' }, {})
-test('uses ES256 for P-256 keys', compactJwt, () => sign({}, fixtures.PEM['P-256'].private, { noTimestamp: true }), { alg: 'ES256' }, {})
-test('uses ES384 for P-384 keys', compactJwt, () => sign({}, fixtures.PEM['P-384'].private, { noTimestamp: true }), { alg: 'ES384' }, {})
-test('uses ES512 for P-521 keys', compactJwt, () => sign({}, fixtures.PEM['P-521'].private, { noTimestamp: true }), { alg: 'ES512' }, {})
+test('uses RS256 for RSA keys', compactJwt, () => sign({}, importKey(fixtures.PEM.RSA.private), { noTimestamp: true }), { alg: 'RS256' }, {})
+test('uses ES256 for P-256 keys', compactJwt, () => sign({}, importKey(fixtures.PEM['P-256'].private), { noTimestamp: true }), { alg: 'ES256' }, {})
+test('uses ES384 for P-384 keys', compactJwt, () => sign({}, importKey(fixtures.PEM['P-384'].private), { noTimestamp: true }), { alg: 'ES384' }, {})
+test('uses ES512 for P-521 keys', compactJwt, () => sign({}, importKey(fixtures.PEM['P-521'].private), { noTimestamp: true }), { alg: 'ES512' }, {})
 
 ;(() => {
   // header alg

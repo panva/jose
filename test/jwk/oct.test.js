@@ -7,6 +7,10 @@ const OctKey = require('../../lib/jwk/key/oct')
 const keyObject = createSecretKey(Buffer.from('secret'))
 const key = new OctKey(keyObject)
 
+test(`RSA key .algorithms invalid operation`, t => {
+  t.throws(() => key.algorithms('foo'), { instanceOf: TypeError, message: 'invalid key operation' })
+})
+
 test('oct key .thumbprintMaterial()', hasProperties, key.thumbprintMaterial(), 'k', 'kty')
 test('oct key (with alg)', hasProperty, new OctKey(keyObject, { alg: 'HS256' }), 'alg', 'HS256')
 test('oct key (with kid)', hasProperty, new OctKey(keyObject, { kid: 'foobar' }), 'kid', 'foobar')

@@ -5,6 +5,11 @@ const fixtures = require('../fixtures')
 
 const RSAKey = require('../../lib/jwk/key/rsa')
 
+test(`RSA key .algorithms invalid operation`, t => {
+  const key = new RSAKey(createPrivateKey(fixtures.PEM.RSA.private))
+  t.throws(() => key.algorithms('foo'), { instanceOf: TypeError, message: 'invalid key operation' })
+})
+
 // private
 ;(() => {
   const keyObject = createPrivateKey(fixtures.PEM.RSA.private)
@@ -24,6 +29,19 @@ const RSAKey = require('../../lib/jwk/key/rsa')
   test(`RSA Private key`, hasProperty, key, 'private', true)
   test(`RSA Private key`, hasProperty, key, 'public', false)
   test(`RSA Private key`, hasProperty, key, 'use', undefined)
+
+  test('RSA Private key algorithms (no operation)', t => {
+    const result = key.algorithms()
+    t.is(result.constructor, Set)
+    t.deepEqual([...result], ['RS256', 'RS384', 'RS512', 'PS256', 'PS384', 'PS512', 'RSA-OAEP', 'RSA1_5'])
+  })
+
+  test('RSA Private key algorithms (no operation, w/ alg)', t => {
+    const key = new RSAKey(keyObject, { alg: 'RS256' })
+    const result = key.algorithms()
+    t.is(result.constructor, Set)
+    t.deepEqual([...result], ['RS256'])
+  })
 
   test(`RSA Private key supports sign alg (no use)`, t => {
     const result = key.algorithms('sign')
@@ -79,11 +97,43 @@ const RSAKey = require('../../lib/jwk/key/rsa')
     t.deepEqual([...result], [])
   })
 
-  test.todo(`RSA Private key .algorithms() no arg`)
-  test.todo(`RSA Private key .algorithms("encrypt")`)
-  test.todo(`RSA Private key .algorithms("decrypt")`)
-  test.todo(`RSA Private key .algorithms("wrapKey")`)
-  test.todo(`RSA Private key .algorithms("unwrapKey")`)
+  test('RSA Private key .algorithms("encrypt")', t => {
+    const result = key.algorithms('encrypt')
+    t.is(result.constructor, Set)
+    t.deepEqual([...result], [])
+  })
+
+  test('RSA Private key .algorithms("decrypt")', t => {
+    const result = key.algorithms('decrypt')
+    t.is(result.constructor, Set)
+    t.deepEqual([...result], [])
+  })
+
+  test('RSA Private key .algorithms("wrapKey")', t => {
+    const result = key.algorithms('wrapKey')
+    t.is(result.constructor, Set)
+    t.deepEqual([...result], ['RSA-OAEP', 'RSA1_5'])
+  })
+
+  test('RSA Private key .algorithms("wrapKey") when use is sig', t => {
+    const sigKey = new RSAKey(keyObject, { use: 'sig' })
+    const result = sigKey.algorithms('wrapKey')
+    t.is(result.constructor, Set)
+    t.deepEqual([...result], [])
+  })
+
+  test('RSA Private key .algorithms("unwrapKey")', t => {
+    const result = key.algorithms('unwrapKey')
+    t.is(result.constructor, Set)
+    t.deepEqual([...result], ['RSA-OAEP', 'RSA1_5'])
+  })
+
+  test('RSA Private key .algorithms("unwrapKey") when use is sig', t => {
+    const sigKey = new RSAKey(keyObject, { use: 'sig' })
+    const result = sigKey.algorithms('unwrapKey')
+    t.is(result.constructor, Set)
+    t.deepEqual([...result], [])
+  })
 })()
 
 // public
@@ -105,6 +155,19 @@ const RSAKey = require('../../lib/jwk/key/rsa')
   test(`RSA Public key`, hasProperty, key, 'private', false)
   test(`RSA Public key`, hasProperty, key, 'public', true)
   test(`RSA Public key`, hasProperty, key, 'use', undefined)
+
+  test('RSA EC Public key algorithms (no operation)', t => {
+    const result = key.algorithms()
+    t.is(result.constructor, Set)
+    t.deepEqual([...result], ['RS256', 'RS384', 'RS512', 'PS256', 'PS384', 'PS512', 'RSA-OAEP', 'RSA1_5'])
+  })
+
+  test('RSA EC Public key algorithms (no operation, w/ alg)', t => {
+    const key = new RSAKey(keyObject, { alg: 'RS256' })
+    const result = key.algorithms()
+    t.is(result.constructor, Set)
+    t.deepEqual([...result], ['RS256'])
+  })
 
   test(`RSA Public key cannot sign`, t => {
     const result = key.algorithms('sign')
@@ -160,9 +223,34 @@ const RSAKey = require('../../lib/jwk/key/rsa')
     t.deepEqual([...result], [])
   })
 
-  test.todo(`RSA Public key .algorithms() no arg`)
-  test.todo(`RSA Public key .algorithms("encrypt")`)
-  test.todo(`RSA Public key .algorithms("decrypt")`)
-  test.todo(`RSA Public key .algorithms("wrapKey")`)
-  test.todo(`RSA Public key .algorithms("unwrapKey")`)
+  test('RSA Public key .algorithms("encrypt")', t => {
+    const result = key.algorithms('encrypt')
+    t.is(result.constructor, Set)
+    t.deepEqual([...result], [])
+  })
+
+  test('RSA Public key .algorithms("decrypt")', t => {
+    const result = key.algorithms('decrypt')
+    t.is(result.constructor, Set)
+    t.deepEqual([...result], [])
+  })
+
+  test('RSA Public key .algorithms("wrapKey")', t => {
+    const result = key.algorithms('wrapKey')
+    t.is(result.constructor, Set)
+    t.deepEqual([...result], ['RSA-OAEP', 'RSA1_5'])
+  })
+
+  test('RSA Public key .algorithms("wrapKey") when use is sig', t => {
+    const sigKey = new RSAKey(keyObject, { use: 'sig' })
+    const result = sigKey.algorithms('wrapKey')
+    t.is(result.constructor, Set)
+    t.deepEqual([...result], [])
+  })
+
+  test('RSA Public key .algorithms("unwrapKey")', t => {
+    const result = key.algorithms('unwrapKey')
+    t.is(result.constructor, Set)
+    t.deepEqual([...result], [])
+  })
 })()

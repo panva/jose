@@ -5,6 +5,11 @@ const fixtures = require('../fixtures')
 
 const ECKey = require('../../lib/jwk/key/ec')
 
+test(`EC key .algorithms invalid operation`, t => {
+  const key = new ECKey(createPrivateKey(fixtures.PEM['P-256'].private))
+  t.throws(() => key.algorithms('foo'), { instanceOf: TypeError, message: 'invalid key operation' })
+})
+
 Object.entries({
   'P-256': [256, 'rDd6H6t9-nJUoz72nTpz8tInvypVWhE2iQoPznj8ZY8'],
   'P-384': [384, '5gebayAhpztJCs4Pxo-z1hhsN0upoyG2NAoKpiiH2b0'],
@@ -31,6 +36,19 @@ Object.entries({
     test(`${crv} EC Private key`, hasProperty, key, 'private', true)
     test(`${crv} EC Private key`, hasProperty, key, 'public', false)
     test(`${crv} EC Private key`, hasProperty, key, 'use', undefined)
+
+    test(`${crv} EC Private key algorithms (no operation)`, t => {
+      const result = key.algorithms()
+      t.is(result.constructor, Set)
+      t.deepEqual([...result], [alg, 'ECDH-ES', 'ECDH-ES+A128KW', 'ECDH-ES+A192KW', 'ECDH-ES+A256KW'])
+    })
+
+    test(`${crv} EC Private key algorithms (no operation, w/ alg)`, t => {
+      const key = new ECKey(keyObject, { alg })
+      const result = key.algorithms()
+      t.is(result.constructor, Set)
+      t.deepEqual([...result], [alg])
+    })
 
     test(`${crv} EC Private key supports sign alg (no use)`, t => {
       const result = key.algorithms('sign')
@@ -86,11 +104,43 @@ Object.entries({
       t.deepEqual([...result], [])
     })
 
-    test.todo(`${crv} EC Private key .algorithms() no arg`)
-    test.todo(`${crv} EC Private key .algorithms("encrypt")`)
-    test.todo(`${crv} EC Private key .algorithms("decrypt")`)
-    test.todo(`${crv} EC Private key .algorithms("wrapKey")`)
-    test.todo(`${crv} EC Private key .algorithms("unwrapKey")`)
+    test(`${crv} EC Private key .algorithms("encrypt")`, t => {
+      const result = key.algorithms('encrypt')
+      t.is(result.constructor, Set)
+      t.deepEqual([...result], [])
+    })
+
+    test(`${crv} EC Private key .algorithms("decrypt")`, t => {
+      const result = key.algorithms('decrypt')
+      t.is(result.constructor, Set)
+      t.deepEqual([...result], [])
+    })
+
+    test(`${crv} EC Private key .algorithms("wrapKey")`, t => {
+      const result = key.algorithms('wrapKey')
+      t.is(result.constructor, Set)
+      t.deepEqual([...result], ['ECDH-ES', 'ECDH-ES+A128KW', 'ECDH-ES+A192KW', 'ECDH-ES+A256KW'])
+    })
+
+    test(`${crv} EC Private key .algorithms("wrapKey") when use is sig`, t => {
+      const sigKey = new ECKey(keyObject, { use: 'sig' })
+      const result = sigKey.algorithms('wrapKey')
+      t.is(result.constructor, Set)
+      t.deepEqual([...result], [])
+    })
+
+    test(`${crv} EC Private key .algorithms("unwrapKey")`, t => {
+      const result = key.algorithms('unwrapKey')
+      t.is(result.constructor, Set)
+      t.deepEqual([...result], ['ECDH-ES', 'ECDH-ES+A128KW', 'ECDH-ES+A192KW', 'ECDH-ES+A256KW'])
+    })
+
+    test(`${crv} EC Private key .algorithms("unwrapKey") when use is sig`, t => {
+      const sigKey = new ECKey(keyObject, { use: 'sig' })
+      const result = sigKey.algorithms('unwrapKey')
+      t.is(result.constructor, Set)
+      t.deepEqual([...result], [])
+    })
   })()
 
   // public
@@ -112,6 +162,19 @@ Object.entries({
     test(`${crv} EC Public key`, hasProperty, key, 'private', false)
     test(`${crv} EC Public key`, hasProperty, key, 'public', true)
     test(`${crv} EC Public key`, hasProperty, key, 'use', undefined)
+
+    test(`${crv} EC Public key algorithms (no operation)`, t => {
+      const result = key.algorithms()
+      t.is(result.constructor, Set)
+      t.deepEqual([...result], [alg, 'ECDH-ES', 'ECDH-ES+A128KW', 'ECDH-ES+A192KW', 'ECDH-ES+A256KW'])
+    })
+
+    test(`${crv} EC Public key algorithms (no operation, w/ alg)`, t => {
+      const key = new ECKey(keyObject, { alg })
+      const result = key.algorithms()
+      t.is(result.constructor, Set)
+      t.deepEqual([...result], [alg])
+    })
 
     test(`${crv} EC Public key cannot sign`, t => {
       const result = key.algorithms('sign')
@@ -167,10 +230,35 @@ Object.entries({
       t.deepEqual([...result], [])
     })
 
-    test.todo(`${crv} EC Public key .algorithms() no arg`)
-    test.todo(`${crv} EC Public key .algorithms("encrypt")`)
-    test.todo(`${crv} EC Public key .algorithms("decrypt")`)
-    test.todo(`${crv} EC Public key .algorithms("wrapKey")`)
-    test.todo(`${crv} EC Public key .algorithms("unwrapKey")`)
+    test(`${crv} EC Public key .algorithms("encrypt")`, t => {
+      const result = key.algorithms('encrypt')
+      t.is(result.constructor, Set)
+      t.deepEqual([...result], [])
+    })
+
+    test(`${crv} EC Public key .algorithms("decrypt")`, t => {
+      const result = key.algorithms('decrypt')
+      t.is(result.constructor, Set)
+      t.deepEqual([...result], [])
+    })
+
+    test(`${crv} EC Public key .algorithms("wrapKey")`, t => {
+      const result = key.algorithms('wrapKey')
+      t.is(result.constructor, Set)
+      t.deepEqual([...result], ['ECDH-ES', 'ECDH-ES+A128KW', 'ECDH-ES+A192KW', 'ECDH-ES+A256KW'])
+    })
+
+    test(`${crv} EC Public key .algorithms("wrapKey") when use is sig`, t => {
+      const sigKey = new ECKey(keyObject, { use: 'sig' })
+      const result = sigKey.algorithms('wrapKey')
+      t.is(result.constructor, Set)
+      t.deepEqual([...result], [])
+    })
+
+    test(`${crv} EC Public key .algorithms("unwrapKey")`, t => {
+      const result = key.algorithms('unwrapKey')
+      t.is(result.constructor, Set)
+      t.deepEqual([...result], [])
+    })
   })()
 })

@@ -15,7 +15,7 @@ test('.derToJose no signature', t => {
     return derToJose()
   }
 
-  t.throws(fn, TypeError)
+  t.throws(fn, { instanceOf: TypeError, message: 'ECDSA signature must be a Buffer' })
 })
 
 test('.derToJose non buffer or base64 signature', t => {
@@ -23,7 +23,7 @@ test('.derToJose non buffer or base64 signature', t => {
     return derToJose(123)
   }
 
-  t.throws(fn, TypeError)
+  t.throws(fn, { instanceOf: TypeError, message: 'ECDSA signature must be a Buffer' })
 })
 
 test('.derToJose unknown algorithm', t => {
@@ -31,7 +31,7 @@ test('.derToJose unknown algorithm', t => {
     return derToJose(decodeToBuffer('Zm9vLmJhci5iYXo'), 'foobar')
   }
 
-  t.throws(fn, /"foobar"/)
+  t.throws(fn, { instanceOf: Error, message: 'Unknown algorithm "foobar"' })
 })
 
 Object.entries({
@@ -47,7 +47,7 @@ Object.entries({
       derToJose(input, alg)
     }
 
-    t.throws(fn, Error, /expected "seq"/)
+    t.throws(fn, { instanceOf: Error, message: /expected "seq"/ })
   })
 
   test(`.derToJose seq length exceeding input (${alg})`, t => {
@@ -59,7 +59,7 @@ Object.entries({
       derToJose(input, alg)
     }
 
-    t.throws(fn, Error, /length/)
+    t.throws(fn, { instanceOf: Error, message: /length/ })
   })
 
   test(`.derToJose r is not marked as int (${alg})`, t => {
@@ -72,7 +72,7 @@ Object.entries({
       derToJose(input, alg)
     }
 
-    t.throws(fn, Error, /expected "int".+"r"/)
+    t.throws(fn, { instanceOf: Error, message: /expected "int".+"r"/ })
   })
 
   test(`.derToJose r length exceeds available input (${alg})`, t => {
@@ -86,7 +86,7 @@ Object.entries({
       derToJose(input, alg)
     }
 
-    t.throws(fn, Error, /"r".+length/)
+    t.throws(fn, { instanceOf: Error, message: /"r".+length/ })
   })
 
   test(`.derToJose r length exceeds sensical param length (${alg})`, t => {
@@ -100,7 +100,7 @@ Object.entries({
       derToJose(input, alg)
     }
 
-    t.throws(fn, Error, /"r".+length.+acceptable/)
+    t.throws(fn, { instanceOf: Error, message: /"r".+length.+acceptable/ })
   })
 
   test(`.derToJose s is not marked as int (${alg})`, t => {
@@ -117,7 +117,7 @@ Object.entries({
       derToJose(input, alg)
     }
 
-    t.throws(fn, Error, /expected "int".+"s"/)
+    t.throws(fn, { instanceOf: Error, message: /expected "int".+"s"/ })
   })
 
   test(`.derToJose s length exceeds available input (${alg})`, t => {
@@ -135,7 +135,7 @@ Object.entries({
       derToJose(input, alg)
     }
 
-    t.throws(fn, Error, /"s".+length/)
+    t.throws(fn, { instanceOf: Error, message: /"s".+length/ })
   })
 
   test(`.derToJose s length does not consume available input (${alg})`, t => {
@@ -153,7 +153,7 @@ Object.entries({
       derToJose(input, alg)
     }
 
-    t.throws(fn, Error, /"s".+length/)
+    t.throws(fn, { instanceOf: Error, message: /"s".+length/ })
   })
 
   test(`.derToJose s length exceeds sensical param length (${alg})`, t => {
@@ -171,7 +171,7 @@ Object.entries({
       derToJose(input, alg)
     }
 
-    t.throws(fn, Error, /"s".+length.+acceptable/)
+    t.throws(fn, { instanceOf: Error, message: /"s".+length.+acceptable/ })
   })
 })
 
@@ -180,7 +180,7 @@ test('.joseToDer no signature', t => {
     return joseToDer()
   }
 
-  t.throws(fn, TypeError)
+  t.throws(fn, { instanceOf: TypeError, message: 'ECDSA signature must be a Buffer' })
 })
 
 test('.joseToDer non buffer or base64 signature', t => {
@@ -188,7 +188,7 @@ test('.joseToDer non buffer or base64 signature', t => {
     return joseToDer(123)
   }
 
-  t.throws(fn, TypeError)
+  t.throws(fn, { instanceOf: TypeError, message: 'ECDSA signature must be a Buffer' })
 })
 
 test('.joseToDer unknown algorithm', t => {
@@ -196,7 +196,7 @@ test('.joseToDer unknown algorithm', t => {
     return joseToDer(decodeToBuffer('Zm9vLmJhci5iYXo='), 'foobar')
   }
 
-  t.throws(fn, /"foobar"/)
+  t.throws(fn, { instanceOf: Error, message: /"foobar"/ })
 })
 
 test('.joseToDer incorrect signature length (ES256)', t => {
@@ -204,7 +204,7 @@ test('.joseToDer incorrect signature length (ES256)', t => {
     return joseToDer(decodeToBuffer('Zm9vLmJhci5iYXo'), 'ES256')
   }
 
-  t.throws(fn, /"64"/)
+  t.throws(fn, { instanceOf: Error, message: /"64"/ })
 })
 
 test('.joseToDer incorrect signature length (ES384)', t => {
@@ -212,7 +212,7 @@ test('.joseToDer incorrect signature length (ES384)', t => {
     return joseToDer(decodeToBuffer('Zm9vLmJhci5iYXo'), 'ES384')
   }
 
-  t.throws(fn, /"96"/)
+  t.throws(fn, { instanceOf: Error, message: /"96"/ })
 })
 
 test('.joseToDer incorrect signature length (ES512)', t => {
@@ -220,7 +220,7 @@ test('.joseToDer incorrect signature length (ES512)', t => {
     return joseToDer(decodeToBuffer('Zm9vLmJhci5iYXo'), 'ES512')
   }
 
-  t.throws(fn, /"132"/)
+  t.throws(fn, { instanceOf: Error, message: '"ES512" signatures must be "132" bytes, saw "11"' })
 })
 
 test('ES256 should jose -> der -> jose', t => {
