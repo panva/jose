@@ -29,66 +29,44 @@ TODO:
 - ✓ JWT sign/verify
 - ◯ JWT encrypt/decrypt
 
-| JWK Key Types | |
+| JWK Key Types ||
 | -- | -- |
 | RSA | ✓ |
 | EC | ✓ |
 | oct | ✓ |
 
-| JWS Algorithms | |
-| -- | -- |
-| RS256 | ✓ |
-| RS384 | ✓ |
-| RS512 | ✓ |
-| PS256 | ✓ |
-| PS384 | ✓ |
-| PS512 | ✓ |
-| ES256 | ✓ |
-| ES384 | ✓ |
-| ES512 | ✓ |
-| HS256 | ✓ |
-| HS384 | ✓ |
-| HS512 | ✓ |
+| JWS Algorithms |||
+| -- | -- | -- |
+| RSASSA-PKCS1-v1_5 | ✓ | RS256, RS384, RS512 |
+| RSASSA-PSS | ✓ | PS256, PS384, PS512 |
+| ECDSA | ✓ | ES256, ES384, ES512 |
+| HMAC with SHA-2 | ✓ | HS256, HS384, HS512 |
 
-| JWS Serializations | |
+| JWS Serializations ||
 | -- | -- |
 | Compact | ✓ |
 | General JSON | ✓ |
 | Flattened JSON  | ✓ |
 
-| JWE Key Wrapping Algorithms | |
-| -- | -- |
-| A128KW | ✓ |
-| A192KW | ✓ |
-| A256KW | ✓ |
-| A128GCMKW | ✓ |
-| A192GCMKW | ✓ |
-| A256GCMKW | ✓ |
-| RSA-OAEP | ✓ |
-| RSA-OAEP-256 | ✕ |
-| RSA1_5 | ✓ |
-| PBES2-HS256+A128KW | ✓ |
-| PBES2-HS384+A192KW | ✓ |
-| PBES2-HS512+A256KW | ✓ |
-| ECDH-ES | ◯ |
-| ECDH-ES+A128KW | ◯ |
-| ECDH-ES+A192KW | ◯ |
-| ECDH-ES+A256KW | ◯ |
+| JWE Key Wrapping Algorithms |||
+| -- | -- | -- |
+| AES | ✓ | A128KW, A192KW, A256KW |
+| AES GCM | ✓ | A128GCMKW, A192GCMKW, A256GCMKW |
+| RSAES OAEP | ✓ / ✕ | ✓ RSA-OAEP / ✕ RSA-OAEP-256|
+| RSAES-PKCS1-v1_5 | ✓ | RSA1_5 |
+| PBES2 | ✓ | PBES2-HS256+A128KW, PBES2-HS384+A192KW, PBES2-HS512+A256KW |
+| ECDH-ES | ◯ | ECDH-ES, ECDH-ES+A128KW, ECDH-ES+A192KW, ECDH-ES+A256KW |
 
-| JWE Serializations | |
+| JWE Serializations ||
 | -- | -- |
 | Compact | ◯ |
 | General JSON | ◯ |
 | Flattened JSON  | ◯ |
 
-| JWE Content Encryption Algorithms | |
-| -- | -- |
-| A128GCM | ✓ |
-| A192GCM | ✓ |
-| A256GCM | ✓ |
-| A128CBC-HS256 | ✓ |
-| A192CBC-HS384 | ✓ |
-| A256CBC-HS512 | ✓ |
+| JWE Content Encryption Algorithms |||
+| -- | -- | -- |
+| AES GCM | ✓ | A128GCM, A192GCM, A256GCM |
+| AES_CBC_HMAC_SHA2 | ✓ |  A128CBC-HS256, A192CBC-HS384, A256CBC-HS512 |
 
 Missing a feature? - If it wasn't already discussed before, [ask for it][suggest-feature].  
 Found a bug? - [report it][bug].
