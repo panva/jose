@@ -13,7 +13,7 @@ module.exports = {
     alg: 'HS256'
   },
   signing: {
-    'protected': {
+    protected: {
       alg: 'HS256'
     },
     protected_b64u: 'eyJhbGciOiJIUzI1NiJ9',
@@ -28,7 +28,7 @@ module.exports = {
       payload: 'SXTigJlzIGEgZGFuZ2Vyb3VzIGJ1c2luZXNzLCBGcm9kbywgZ29pbmcgb3V0IHlvdXIgZG9vci4gWW91IHN0ZXAgb250byB0aGUgcm9hZCwgYW5kIGlmIHlvdSBkb24ndCBrZWVwIHlvdXIgZmVldCwgdGhlcmXigJlzIG5vIGtub3dpbmcgd2hlcmUgeW91IG1pZ2h0IGJlIHN3ZXB0IG9mZiB0by4',
       signatures: [
         {
-          'protected': 'eyJhbGciOiJIUzI1NiJ9',
+          protected: 'eyJhbGciOiJIUzI1NiJ9',
           header: {
             kid: '018c0ae5-4d9b-471b-bfd6-eef314bc7037'
           },
@@ -38,7 +38,7 @@ module.exports = {
     },
     json_flat: {
       payload: 'SXTigJlzIGEgZGFuZ2Vyb3VzIGJ1c2luZXNzLCBGcm9kbywgZ29pbmcgb3V0IHlvdXIgZG9vci4gWW91IHN0ZXAgb250byB0aGUgcm9hZCwgYW5kIGlmIHlvdSBkb24ndCBrZWVwIHlvdXIgZmVldCwgdGhlcmXigJlzIG5vIGtub3dpbmcgd2hlcmUgeW91IG1pZ2h0IGJlIHN3ZXB0IG9mZiB0by4',
-      'protected': 'eyJhbGciOiJIUzI1NiJ9',
+      protected: 'eyJhbGciOiJIUzI1NiJ9',
       header: {
         kid: '018c0ae5-4d9b-471b-bfd6-eef314bc7037'
       },

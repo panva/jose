@@ -85,7 +85,7 @@ module.exports = {
     }
   ],
   encrypting_content: {
-    'protected': {
+    protected: {
       enc: 'A128CBC-HS256'
     },
     protected_b64u: 'eyJlbmMiOiJBMTI4Q0JDLUhTMjU2In0',
@@ -131,7 +131,7 @@ module.exports = {
       unprotected: {
         cty: 'text/plain'
       },
-      'protected': 'eyJlbmMiOiJBMTI4Q0JDLUhTMjU2In0',
+      protected: 'eyJlbmMiOiJBMTI4Q0JDLUhTMjU2In0',
       iv: 'VgEIHY20EnzUtZFl2RpB1g',
       ciphertext: 'ajm2Q-OpPXCr7-MHXicknb1lsxLdXxK_yLds0KuhJzfWK04SjdxQeSw2L9mu3a_k1C55kCQ_3xlkcVKC5yr__Is48VOoK0k63_QRM9tBURMFqLByJ8vOYQX0oJW4VUHJLmGhF-tVQWB7Kz8mr8zeE7txF0MSaP6ga7-siYxStR7_G07Thd1jh-zGT0wxM5g-VRORtq0K6AXpLlwEqRp7pkt2zRM0ZAXqSpe1O6FJ7FHLDyEFnD-zDIZukLpCbzhzMDLLw2-8I14FQrgi-iEuzHgIJFIJn2wh9Tj0cg_kOZy9BqMRZbmYXMY9YQjorZ_P_JYG3ARAIF3OjDNqpdYe-K_5Q5crGJSDNyij_ygEiItR5jssQVH2ofDQdLChtazE',
       tag: 'BESYyFN7T09KY7i8zKs5_g'
