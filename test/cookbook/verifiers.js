@@ -1,5 +1,5 @@
 const base64url = require('../../lib/help/base64url')
-const withoutRandom = ({ p2s, epk, iv, tag, ...rest } = {}) => rest
+const withoutRandom = ({ p2s, p2c, epk, iv, tag, ...rest } = {}) => rest
 const decodeWithoutRandom = (input) => {
   return withoutRandom(base64url.JSON.decode(input))
 }

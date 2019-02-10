@@ -79,9 +79,3 @@ test('no verify support when `use` is "enc"', t => {
   t.is(result.constructor, Set)
   t.deepEqual([...result], [])
 })
-
-test.todo('algorithms() no arg')
-test.todo('algorithms("encrypt")')
-test.todo('algorithms("decrypt")')
-test.todo('algorithms("wrapKey")')
-test.todo('algorithms("unwrapKey")')

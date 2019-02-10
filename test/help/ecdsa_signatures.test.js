@@ -11,27 +11,15 @@ const TAG_SEQ = (0x10 | PRIMITIVE_BIT) | (CLASS_UNIVERSAL << 6)
 const TAG_INT = 0x02 | (CLASS_UNIVERSAL << 6)
 
 test('.derToJose no signature', t => {
-  function fn () {
-    return derToJose()
-  }
-
-  t.throws(fn, { instanceOf: TypeError, message: 'ECDSA signature must be a Buffer' })
+  t.throws(() => derToJose(), { instanceOf: TypeError, message: 'ECDSA signature must be a Buffer' })
 })
 
 test('.derToJose non buffer or base64 signature', t => {
-  function fn () {
-    return derToJose(123)
-  }
-
-  t.throws(fn, { instanceOf: TypeError, message: 'ECDSA signature must be a Buffer' })
+  t.throws(() => derToJose(123), { instanceOf: TypeError, message: 'ECDSA signature must be a Buffer' })
 })
 
 test('.derToJose unknown algorithm', t => {
-  function fn () {
-    return derToJose(decodeToBuffer('Zm9vLmJhci5iYXo'), 'foobar')
-  }
-
-  t.throws(fn, { instanceOf: Error, message: 'Unknown algorithm "foobar"' })
+  t.throws(() => derToJose(decodeToBuffer('Zm9vLmJhci5iYXo'), 'foobar'), { instanceOf: Error, message: 'Unknown algorithm "foobar"' })
 })
 
 Object.entries({
@@ -43,11 +31,9 @@ Object.entries({
     const input = Buffer.alloc(10)
     input[0] = TAG_SEQ + 1 // not seq
 
-    function fn () {
+    t.throws(() => {
       derToJose(input, alg)
-    }
-
-    t.throws(fn, { instanceOf: Error, message: /expected "seq"/ })
+    }, { instanceOf: Error, message: /expected "seq"/ })
   })
 
   test(`.derToJose seq length exceeding input (${alg})`, t => {
@@ -55,11 +41,9 @@ Object.entries({
     input[0] = TAG_SEQ
     input[1] = 10
 
-    function fn () {
+    t.throws(() => {
       derToJose(input, alg)
-    }
-
-    t.throws(fn, { instanceOf: Error, message: /length/ })
+    }, { instanceOf: Error, message: /length/ })
   })
 
   test(`.derToJose r is not marked as int (${alg})`, t => {
@@ -68,11 +52,9 @@ Object.entries({
     input[1] = 8
     input[2] = TAG_INT + 1 // not int
 
-    function fn () {
+    t.throws(() => {
       derToJose(input, alg)
-    }
-
-    t.throws(fn, { instanceOf: Error, message: /expected "int".+"r"/ })
+    }, { instanceOf: Error, message: /expected "int".+"r"/ })
   })
 
   test(`.derToJose r length exceeds available input (${alg})`, t => {
@@ -82,11 +64,9 @@ Object.entries({
     input[2] = TAG_INT
     input[3] = 5
 
-    function fn () {
+    t.throws(() => {
       derToJose(input, alg)
-    }
-
-    t.throws(fn, { instanceOf: Error, message: /"r".+length/ })
+    }, { instanceOf: Error, message: /"r".+length/ })
   })
 
   test(`.derToJose r length exceeds sensical param length (${alg})`, t => {
@@ -96,11 +76,9 @@ Object.entries({
     input[2] = TAG_INT
     input[3] = len + 2
 
-    function fn () {
+    t.throws(() => {
       derToJose(input, alg)
-    }
-
-    t.throws(fn, { instanceOf: Error, message: /"r".+length.+acceptable/ })
+    }, { instanceOf: Error, message: /"r".+length.+acceptable/ })
   })
 
   test(`.derToJose s is not marked as int (${alg})`, t => {
@@ -113,11 +91,9 @@ Object.entries({
     input[5] = 0
     input[6] = TAG_INT + 1 // not int
 
-    function fn () {
+    t.throws(() => {
       derToJose(input, alg)
-    }
-
-    t.throws(fn, { instanceOf: Error, message: /expected "int".+"s"/ })
+    }, { instanceOf: Error, message: /expected "int".+"s"/ })
   })
 
   test(`.derToJose s length exceeds available input (${alg})`, t => {
@@ -131,11 +107,9 @@ Object.entries({
     input[6] = TAG_INT
     input[7] = 3
 
-    function fn () {
+    t.throws(() => {
       derToJose(input, alg)
-    }
-
-    t.throws(fn, { instanceOf: Error, message: /"s".+length/ })
+    }, { instanceOf: Error, message: /"s".+length/ })
   })
 
   test(`.derToJose s length does not consume available input (${alg})`, t => {
@@ -149,11 +123,9 @@ Object.entries({
     input[6] = TAG_INT
     input[7] = 1
 
-    function fn () {
+    t.throws(() => {
       derToJose(input, alg)
-    }
-
-    t.throws(fn, { instanceOf: Error, message: /"s".+length/ })
+    }, { instanceOf: Error, message: /"s".+length/ })
   })
 
   test(`.derToJose s length exceeds sensical param length (${alg})`, t => {
@@ -167,60 +139,34 @@ Object.entries({
     input[6] = TAG_INT
     input[7] = len + 2
 
-    function fn () {
+    t.throws(() => {
       derToJose(input, alg)
-    }
-
-    t.throws(fn, { instanceOf: Error, message: /"s".+length.+acceptable/ })
+    }, { instanceOf: Error, message: /"s".+length.+acceptable/ })
   })
 })
 
 test('.joseToDer no signature', t => {
-  function fn () {
-    return joseToDer()
-  }
-
-  t.throws(fn, { instanceOf: TypeError, message: 'ECDSA signature must be a Buffer' })
+  t.throws(() => joseToDer(), { instanceOf: TypeError, message: 'ECDSA signature must be a Buffer' })
 })
 
 test('.joseToDer non buffer or base64 signature', t => {
-  function fn () {
-    return joseToDer(123)
-  }
-
-  t.throws(fn, { instanceOf: TypeError, message: 'ECDSA signature must be a Buffer' })
+  t.throws(() => joseToDer(123), { instanceOf: TypeError, message: 'ECDSA signature must be a Buffer' })
 })
 
 test('.joseToDer unknown algorithm', t => {
-  function fn () {
-    return joseToDer(decodeToBuffer('Zm9vLmJhci5iYXo='), 'foobar')
-  }
-
-  t.throws(fn, { instanceOf: Error, message: /"foobar"/ })
+  t.throws(() => joseToDer(decodeToBuffer('Zm9vLmJhci5iYXo='), 'foobar'), { instanceOf: Error, message: /"foobar"/ })
 })
 
 test('.joseToDer incorrect signature length (ES256)', t => {
-  function fn () {
-    return joseToDer(decodeToBuffer('Zm9vLmJhci5iYXo'), 'ES256')
-  }
-
-  t.throws(fn, { instanceOf: Error, message: /"64"/ })
+  t.throws(() => joseToDer(decodeToBuffer('Zm9vLmJhci5iYXo'), 'ES256'), { instanceOf: Error, message: /"64"/ })
 })
 
 test('.joseToDer incorrect signature length (ES384)', t => {
-  function fn () {
-    return joseToDer(decodeToBuffer('Zm9vLmJhci5iYXo'), 'ES384')
-  }
-
-  t.throws(fn, { instanceOf: Error, message: /"96"/ })
+  t.throws(() => joseToDer(decodeToBuffer('Zm9vLmJhci5iYXo'), 'ES384'), { instanceOf: Error, message: /"96"/ })
 })
 
 test('.joseToDer incorrect signature length (ES512)', t => {
-  function fn () {
-    return joseToDer(decodeToBuffer('Zm9vLmJhci5iYXo'), 'ES512')
-  }
-
-  t.throws(fn, { instanceOf: Error, message: '"ES512" signatures must be "132" bytes, saw "11"' })
+  t.throws(() => joseToDer(decodeToBuffer('Zm9vLmJhci5iYXo'), 'ES512'), { instanceOf: Error, message: '"ES512" signatures must be "132" bytes, saw "11"' })
 })
 
 test('ES256 should jose -> der -> jose', t => {
