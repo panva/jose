@@ -25,15 +25,20 @@ TODO:
 ---
 
 - ◯ JWKS abstraction
-- ◯ JWE abstraction
-- ✓ JWT sign/verify
-- ◯ JWT encrypt/decrypt
 
 | JWK Key Types ||
 | -- | -- |
 | RSA | ✓ |
 | EC | ✓ |
 | oct | ✓ |
+
+| JWS ||
+| -- | -- |
+| Sign | ✓ |
+| Verify | ✓ |
+| Compact | ✓ |
+| General JSON | ✓ |
+| Flattened JSON  | ✓ |
 
 | JWS Algorithms |||
 | -- | -- | -- |
@@ -42,8 +47,10 @@ TODO:
 | ECDSA | ✓ | ES256, ES384, ES512 |
 | HMAC with SHA-2 | ✓ | HS256, HS384, HS512 |
 
-| JWS Serializations ||
+| JWE ||
 | -- | -- |
+| Encrypt | ✓ |
+| Decrypt | ✓ |
 | Compact | ✓ |
 | General JSON | ✓ |
 | Flattened JSON  | ✓ |
@@ -56,12 +63,6 @@ TODO:
 | RSAES-PKCS1-v1_5 | ✓ | RSA1_5 |
 | PBES2 | ✓ | PBES2-HS256+A128KW, PBES2-HS384+A192KW, PBES2-HS512+A256KW |
 | ECDH-ES | ✓ | ECDH-ES, ECDH-ES+A128KW, ECDH-ES+A192KW, ECDH-ES+A256KW |
-
-| JWE Serializations ||
-| -- | -- |
-| Compact | ◯ |
-| General JSON | ◯ |
-| Flattened JSON  | ◯ |
 
 | JWE Content Encryption Algorithms |||
 | -- | -- | -- |
