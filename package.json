@@ -6,7 +6,6 @@
     "decrypt",
     "encrypt",
     "jose",
-    "jsonwebtoken",
     "jwa",
     "jwe",
     "jwk",
@@ -30,6 +29,16 @@
     "test": "ava",
     "watch": "ava --watch"
   },
+  "husky": {
+    "hooks": {
+      "commit-msg": "commitlint -E HUSKY_GIT_PARAMS"
+    }
+  },
+  "commitlint": {
+    "extends": [
+      "@commitlint/config-conventional"
+    ]
+  },
   "dependencies": {
     "@trust/keyto": "^0.3.5"
   },
@@ -50,16 +59,6 @@
     "files": [
       "test/**/*.test.js"
     ]
-  },
-  "commitlint": {
-    "extends": [
-      "@commitlint/config-conventional"
-    ]
-  },
-  "husky": {
-    "hooks": {
-      "commit-msg": "commitlint -E HUSKY_GIT_PARAMS"
-    }
   },
   "nyc": {
     "reporter": [
