@@ -108,3 +108,51 @@ const { JWK: { generate, generateSync } } = require('../..');
     }
   })
 })
+
+test('fails to generateSync RSA with invalid bit lengths', t => {
+  t.throws(() => {
+    generateSync('rsa', 2048 + 1)
+  }, { instanceOf: TypeError, message: 'invalid bit length' })
+})
+
+test('fails to generate RSA with invalid bit lengths', async t => {
+  await t.throwsAsync(() => {
+    return generate('rsa', 2048 + 1)
+  }, { instanceOf: TypeError, message: 'invalid bit length' })
+})
+
+test('fails to generateSync RSA with less than 512 bits', t => {
+  t.throws(() => {
+    generateSync('rsa', 512 - 8)
+  }, { instanceOf: TypeError, message: 'invalid bit length' })
+})
+
+test('fails to generate RSA with less than 512 bits', async t => {
+  await t.throwsAsync(() => {
+    return generate('rsa', 512 - 8)
+  }, { instanceOf: TypeError, message: 'invalid bit length' })
+})
+
+test('fails to generateSync oct with invalid bit lengths', t => {
+  t.throws(() => {
+    generateSync('oct', 256 + 1)
+  }, { instanceOf: TypeError, message: 'invalid bit length' })
+})
+
+test('fails to generate oct with invalid bit lengths', async t => {
+  await t.throwsAsync(() => {
+    return generate('oct', 256 + 1)
+  }, { instanceOf: TypeError, message: 'invalid bit length' })
+})
+
+test('fails to generateSync oct with less than 512 bits', t => {
+  t.throws(() => {
+    generateSync('oct', 0)
+  }, { instanceOf: TypeError, message: 'invalid bit length' })
+})
+
+test('fails to generate oct with less than 512 bits', async t => {
+  await t.throwsAsync(() => {
+    return generate('oct', 0)
+  }, { instanceOf: TypeError, message: 'invalid bit length' })
+})
