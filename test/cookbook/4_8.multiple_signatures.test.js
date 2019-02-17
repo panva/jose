@@ -2,12 +2,16 @@ const test = require('ava')
 
 const recipe = require('./recipes').get('4.8')
 
-const { JWS, JWK, JWKS: { KeyStore } } = require('../..')
+const { JWS, JWK: { importKey }, JWKS: { KeyStore }, errors: { JWSVerificationFailed } } = require('../..')
 
 const { input: { payload, key: jwks }, signing: recipients } = recipe
 
-const keys = jwks.map((jwk) => JWK.importKey(jwk))
+const keys = jwks.map((jwk) => importKey(jwk))
 const keystore = new KeyStore(...keys)
+const keystoreMatchNone = new KeyStore()
+keys.forEach(({ kty }) => {
+  keystoreMatchNone.generateSync(kty)
+})
 
 test(`${recipe.title} - general sign`, t => {
   const jws = new JWS.Sign(payload)
@@ -38,4 +42,10 @@ keys.forEach((key, i) => {
 
 test(`${recipe.title} - general verify - keystore`, t => {
   t.is(JWS.verify(recipe.output.json, keystore), payload)
+})
+
+test(`${recipe.title} - general verify (failing)`, t => {
+  t.throws(() => {
+    JWS.verify(recipe.output.json, keystoreMatchNone)
+  }, { instanceOf: JWSVerificationFailed, code: 'ERR_JWS_VERIFICATION_FAILED' })
 })

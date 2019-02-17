@@ -2,7 +2,7 @@ const test = require('ava')
 
 const recipe = require('./recipes').get('4.4')
 
-const { JWS, JWK: { importKey, generateSync }, JWKS: { KeyStore } } = require('../..')
+const { JWS, JWK: { importKey, generateSync }, JWKS: { KeyStore }, errors: { JWSVerificationFailed } } = require('../..')
 
 const { input: { payload, key: jwk }, signing: { protected: header } } = recipe
 
@@ -10,6 +10,7 @@ const key = importKey(jwk)
 
 const keystoreMatchOne = new KeyStore(generateSync(key.kty, key.length, { alg: key.alg, use: key.use }), key)
 const keystoreMatchMore = new KeyStore(generateSync(key.kty, key.length, { alg: key.alg, use: key.use, kid: key.kid }), key, importKey(key))
+const keystoreMatchNone = new KeyStore(generateSync(key.kty), generateSync(key.kty))
 
 test(`${recipe.title} - compact sign`, t => {
   t.is(JWS.sign(payload, key, header), recipe.output.compact)
@@ -47,4 +48,22 @@ test(`${recipe.title} - general verify`, t => {
   test(`${recipe.title} - general verify (using keystore ${i + 1}/2)`, t => {
     t.is(JWS.verify(recipe.output.json, keystore), payload)
   })
+})
+
+test(`${recipe.title} - compact verify (failing)`, t => {
+  t.throws(() => {
+    JWS.verify(recipe.output.compact, keystoreMatchNone)
+  }, { instanceOf: JWSVerificationFailed, code: 'ERR_JWS_VERIFICATION_FAILED' })
+})
+
+test(`${recipe.title} - flattened verify (failing)`, t => {
+  t.throws(() => {
+    JWS.verify(recipe.output.json_flat, keystoreMatchNone)
+  }, { instanceOf: JWSVerificationFailed, code: 'ERR_JWS_VERIFICATION_FAILED' })
+})
+
+test(`${recipe.title} - general verify (failing)`, t => {
+  t.throws(() => {
+    JWS.verify(recipe.output.json, keystoreMatchNone)
+  }, { instanceOf: JWSVerificationFailed, code: 'ERR_JWS_VERIFICATION_FAILED' })
 })

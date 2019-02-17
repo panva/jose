@@ -3,7 +3,7 @@ const test = require('ava')
 const recipe = require('./recipes').get('5.13')
 const { enc: verifiers } = require('./verifiers')
 
-const { JWE, JWK } = require('../..')
+const { JWE, JWK: { importKey }, JWKS: { KeyStore }, errors: { JWEDecryptionFailed } } = require('../..')
 
 const {
   input: { plaintext, key: jwks },
@@ -11,7 +11,12 @@ const {
   encrypting_key: recipients
 } = recipe
 
-const keys = jwks.map((jwk) => JWK.importKey(jwk))
+const keys = jwks.map((jwk) => importKey(jwk))
+const keystore = new KeyStore(...keys)
+const keystoreMatchNone = new KeyStore()
+keys.forEach(({ kty }) => {
+  keystoreMatchNone.generateSync(kty)
+})
 
 test(`${recipe.title} - general encrypt`, t => {
   const jwe = new JWE.Encrypt(plaintext, prot, unprotected)
@@ -27,7 +32,17 @@ test(`${recipe.title} - general encrypt`, t => {
 })
 
 keys.forEach((key, i) => {
-  test(`${recipe.title} - general verify - key ${i + 1}`, t => {
+  test(`${recipe.title} - general decrypt - key ${i + 1}`, t => {
     t.deepEqual(JWE.decrypt(recipe.output.json, key), Buffer.from(plaintext))
   })
+})
+
+test(`${recipe.title} - general decrypt - keystore`, t => {
+  t.deepEqual(JWE.decrypt(recipe.output.json, keystore), Buffer.from(plaintext))
+})
+
+test(`${recipe.title} - general verify (failing)`, t => {
+  t.throws(() => {
+    JWE.decrypt(recipe.output.json, keystoreMatchNone)
+  }, { instanceOf: JWEDecryptionFailed, code: 'ERR_JWE_DECRYPTION_FAILED' })
 })
