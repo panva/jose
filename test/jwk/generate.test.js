@@ -109,6 +109,18 @@ const { JWK: { generate, generateSync } } = require('../..');
   })
 })
 
+test('fails to generateSync unsupported kty', t => {
+  t.throws(() => {
+    generateSync('OKP')
+  }, { instanceOf: TypeError, message: 'invalid key type' })
+})
+
+test('fails to generate unsupported kty', async t => {
+  await t.throwsAsync(() => {
+    return generate('OKP')
+  }, { instanceOf: TypeError, message: 'invalid key type' })
+})
+
 test('fails to generateSync RSA with invalid bit lengths', t => {
   t.throws(() => {
     generateSync('rsa', 2048 + 1)
