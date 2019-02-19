@@ -12,6 +12,7 @@ const {
 
 const key = importKey(jwk)
 
+const keystoreEmpty = new KeyStore()
 const keystoreMatchOne = new KeyStore(generateSync(key.kty, key.crv, { alg: key.alg, use: key.use }), key)
 const keystoreMatchMore = new KeyStore(generateSync(key.kty, key.crv, { alg: key.alg, use: key.use, kid: key.kid }), key, importKey(key))
 const keystoreMatchNone = new KeyStore(generateSync(key.kty), generateSync(key.kty))
@@ -75,5 +76,23 @@ test(`${recipe.title} - flattened verify (failing)`, t => {
 test(`${recipe.title} - general verify (failing)`, t => {
   t.throws(() => {
     JWE.decrypt(recipe.output.json, keystoreMatchNone)
+  }, { instanceOf: JWEDecryptionFailed, code: 'ERR_JWE_DECRYPTION_FAILED' })
+})
+
+test(`${recipe.title} - compact verify (using empty keystore)`, t => {
+  t.throws(() => {
+    JWE.decrypt(recipe.output.compact, keystoreEmpty)
+  }, { instanceOf: JWEDecryptionFailed, code: 'ERR_JWE_DECRYPTION_FAILED' })
+})
+
+test(`${recipe.title} - flattened verify (using empty keystore)`, t => {
+  t.throws(() => {
+    JWE.decrypt(recipe.output.json_flat, keystoreEmpty)
+  }, { instanceOf: JWEDecryptionFailed, code: 'ERR_JWE_DECRYPTION_FAILED' })
+})
+
+test(`${recipe.title} - general verify (using empty keystore)`, t => {
+  t.throws(() => {
+    JWE.decrypt(recipe.output.json, keystoreEmpty)
   }, { instanceOf: JWEDecryptionFailed, code: 'ERR_JWE_DECRYPTION_FAILED' })
 })

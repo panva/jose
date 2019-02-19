@@ -8,6 +8,7 @@ const { input: { payload, key: jwk }, signing: { protected: protec, unprotected 
 
 const key = importKey(jwk)
 
+const keystoreEmpty = new KeyStore()
 const keystoreMatchOne = new KeyStore(generateSync(key.kty, key.length, { alg: key.alg, use: key.use }), key)
 const keystoreMatchMore = new KeyStore(generateSync(key.kty, key.length, { alg: key.alg, use: key.use, kid: key.kid }), key, importKey(key))
 const keystoreMatchNone = new KeyStore(generateSync(key.kty), generateSync(key.kty))
@@ -47,5 +48,17 @@ test(`${recipe.title} - flattened verify (failing)`, t => {
 test(`${recipe.title} - general verify (failing)`, t => {
   t.throws(() => {
     JWS.verify(recipe.output.json, keystoreMatchNone)
+  }, { instanceOf: JWSVerificationFailed, code: 'ERR_JWS_VERIFICATION_FAILED' })
+})
+
+test(`${recipe.title} - flattened verify (using empty keystore)`, t => {
+  t.throws(() => {
+    JWS.verify(recipe.output.json_flat, keystoreEmpty)
+  }, { instanceOf: JWSVerificationFailed, code: 'ERR_JWS_VERIFICATION_FAILED' })
+})
+
+test(`${recipe.title} - general verify (using empty keystore)`, t => {
+  t.throws(() => {
+    JWS.verify(recipe.output.json, keystoreEmpty)
   }, { instanceOf: JWSVerificationFailed, code: 'ERR_JWS_VERIFICATION_FAILED' })
 })

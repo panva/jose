@@ -7,6 +7,8 @@ const { JWS, JWK: { importKey }, JWKS: { KeyStore }, errors: { JWSVerificationFa
 const { input: { payload, key: jwks }, signing: recipients } = recipe
 
 const keys = jwks.map((jwk) => importKey(jwk))
+
+const keystoreEmpty = new KeyStore()
 const keystore = new KeyStore(...keys)
 const keystoreMatchNone = new KeyStore()
 keys.forEach(({ kty }) => {
@@ -47,5 +49,11 @@ test(`${recipe.title} - general verify - keystore`, t => {
 test(`${recipe.title} - general verify (failing)`, t => {
   t.throws(() => {
     JWS.verify(recipe.output.json, keystoreMatchNone)
+  }, { instanceOf: JWSVerificationFailed, code: 'ERR_JWS_VERIFICATION_FAILED' })
+})
+
+test(`${recipe.title} - general verify (using empty keystore)`, t => {
+  t.throws(() => {
+    JWS.verify(recipe.output.json, keystoreEmpty)
   }, { instanceOf: JWSVerificationFailed, code: 'ERR_JWS_VERIFICATION_FAILED' })
 })

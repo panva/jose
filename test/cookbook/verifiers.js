@@ -73,5 +73,64 @@ module.exports = {
         })
       }
     }
+  },
+  sig: {
+    compact (t, actual, expected) {
+      const partsA = actual.split('.')
+      const partsE = expected.split('.')
+
+      partsE.forEach((part, i) => {
+        t.is(partsA[i].length, part.length)
+        if (i === 0) {
+          t.deepEqual(base64url.JSON.decode(partsA[i]), base64url.JSON.decode(part))
+        }
+        if (i === 1) {
+          t.deepEqual(partsA[i], part)
+        }
+      })
+    },
+    flattened (t, actual, expected) {
+      t.deepEqual(Object.keys(expected).sort(), Object.keys(actual).sort())
+
+      t.is(!actual.protected ^ !expected.protected, 0)
+      t.is(actual.payload, expected.payload)
+
+      if (expected.protected) {
+        t.is(actual.protected.length, expected.protected.length)
+        t.deepEqual(decodeWithoutRandom(actual.protected), decodeWithoutRandom(expected.protected))
+      }
+
+      t.deepEqual(actual.header, expected.header)
+      t.deepEqual(actual.unprotected, expected.unprotected)
+
+      t.is(!actual.signatures ^ !expected.signatures, 0)
+    },
+    general (t, actual, expected) {
+      t.deepEqual(Object.keys(expected).sort(), Object.keys(actual).sort())
+
+      t.is(!actual.protected ^ !expected.protected, 0)
+
+      if (expected.protected) {
+        t.is(actual.protected.length, expected.protected.length)
+        t.deepEqual(decodeWithoutRandom(actual.protected), decodeWithoutRandom(expected.protected))
+      }
+      t.deepEqual(actual.unprotected, expected.unprotected)
+
+      t.is(!actual.signatures ^ !expected.signatures, 0)
+
+      if (actual.signatures) {
+        t.true(Array.isArray(actual.signatures))
+        expected.signatures.forEach((eRecipient, i) => {
+          const aRecipient = actual.signatures[i]
+          t.deepEqual(aRecipient.header, eRecipient.header)
+          t.deepEqual(aRecipient.protected, eRecipient.protected)
+          t.is(!aRecipient.signature ^ !eRecipient.signature, 0)
+
+          if (eRecipient.signature) {
+            t.is(aRecipient.signature.length, eRecipient.signature.length)
+          }
+        })
+      }
+    }
   }
 }

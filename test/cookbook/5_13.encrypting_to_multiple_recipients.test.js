@@ -12,6 +12,8 @@ const {
 } = recipe
 
 const keys = jwks.map((jwk) => importKey(jwk))
+
+const keystoreEmpty = new KeyStore()
 const keystore = new KeyStore(...keys)
 const keystoreMatchNone = new KeyStore()
 keys.forEach(({ kty }) => {
@@ -44,5 +46,11 @@ test(`${recipe.title} - general decrypt - keystore`, t => {
 test(`${recipe.title} - general verify (failing)`, t => {
   t.throws(() => {
     JWE.decrypt(recipe.output.json, keystoreMatchNone)
+  }, { instanceOf: JWEDecryptionFailed, code: 'ERR_JWE_DECRYPTION_FAILED' })
+})
+
+test(`${recipe.title} - general verify (using empty keystore)`, t => {
+  t.throws(() => {
+    JWE.decrypt(recipe.output.json, keystoreEmpty)
   }, { instanceOf: JWEDecryptionFailed, code: 'ERR_JWE_DECRYPTION_FAILED' })
 })
