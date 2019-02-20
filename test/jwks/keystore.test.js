@@ -37,10 +37,8 @@ test('.add()', t => {
   const ks = new KeyStore()
   const k = generateSync('ec')
   ks.add(k)
+  ks.add(k)
   t.is(ks.size, 1)
-  t.throws(() => {
-    ks.add(k)
-  }, { code: 'ERR_TODO' })
   t.throws(() => {
     ks.add({})
   }, { instanceOf: TypeError, message: 'key must be an instance of a key instantiated by JWK.importKey' })
@@ -51,9 +49,7 @@ test('.remove()', t => {
   const ks = new KeyStore(k)
   ks.remove(k)
   t.is(ks.size, 0)
-  t.throws(() => {
-    ks.remove(k)
-  }, { code: 'ERR_TODO' })
+  ks.remove(k)
   t.throws(() => {
     ks.remove({})
   }, { instanceOf: TypeError, message: 'key must be an instance of a key instantiated by JWK.importKey' })

@@ -22,7 +22,6 @@ Object.entries({
     const keyObject = createPrivateKey(fixtures.PEM[crv].private)
     const key = new ECKey(keyObject)
 
-    test(`${crv} EC Private key .thumbprintMaterial()`, hasProperties, key.thumbprintMaterial(), 'crv', 'kty', 'x', 'y')
     test(`${crv} EC Private key (with alg)`, hasProperty, new ECKey(keyObject, { alg }), 'alg', alg)
     test(`${crv} EC Private key (with kid)`, hasProperty, new ECKey(keyObject, { kid: 'foobar' }), 'kid', 'foobar')
     test(`${crv} EC Private key (with use)`, hasProperty, new ECKey(keyObject, { use: 'sig' }), 'use', 'sig')
@@ -148,7 +147,6 @@ Object.entries({
     const keyObject = createPublicKey(fixtures.PEM[crv].public)
     const key = new ECKey(keyObject)
 
-    test(`${crv} EC Public key .thumbprintMaterial()`, hasProperties, key.thumbprintMaterial(), 'crv', 'kty', 'x', 'y')
     test(`${crv} EC Public key (with alg)`, hasProperty, new ECKey(keyObject, { alg }), 'alg', alg)
     test(`${crv} EC Public key (with kid)`, hasProperty, new ECKey(keyObject, { kid: 'foobar' }), 'kid', 'foobar')
     test(`${crv} EC Public key (with use)`, hasProperty, new ECKey(keyObject, { use: 'sig' }), 'use', 'sig')

@@ -1,8 +1,8 @@
 const test = require('ava')
 
-const { JWK: { generate, generateSync } } = require('../..');
+const { JWK: { generate, generateSync } } = require('../..')
 
-[
+;[
   ['rsa'],
   ['RSA'],
   ['RSA', undefined, undefined, true],

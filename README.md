@@ -1,11 +1,3 @@
-# WIP
-
-```
-$ nvm use stable
-$ node removeme/asym.js
-$ node removeme/sym.js
-```
-
 # ultimate-jose
 
 [![build][travis-image]][travis-url] [![codecov][codecov-image]][codecov-url]
@@ -19,52 +11,55 @@ TODO:
 ## Implemented specs & features
 
 - **✓** Implemented
-- **✕** Missing node crypto support
+- **✕** Missing node crypto support / won't implement / not planned / PR welcome
 - **◯** TODO
 
 ---
 
-- ◯ JWKS abstraction
+- ✓ JWKS abstraction
+- ✓ `crit` JWE/JWS Header parameter handling
+- ◯ `b64` JWS handling
+- ◯ JWE `zip` handling
+- ◯ JWE/JWS decrypt/verify algorithm whitelisting
+- ◯ JWE/JWS reference (true/false for `kid`, name of the field for other fields)
+- ◯ README and documentation
+- ◯ whitelist additional JWK reference fields (`kid`, `jku`, `x5c`, `x5t`, `x5t#S256`, `x5u`)
+- ✕ JWS embedded key / referenced verification - won't implement, who needs it can decode the header
+  and pass the (`x5c`, `jwk`) to JWK.importKey and validate with that key, similarly the
+  application can handle fetching the referenced `x5u` or `jku`
+- ✕ JWS detached content - won't implement, who needs it can remove/attach the payload after/before
+  the respective operation
 
-| JWK Key Types ||
-| -- | -- |
-| RSA | ✓ |
-| EC | ✓ |
-| oct | ✓ |
+| JWK Key Types | Supported ||
+| -- | -- | -- |
+| RSA | ✓ | RSA |
+| Elliptic Curve | ✓ | EC |
+| Octet sequence | ✓ | oct |
 
-| JWS ||
-| -- | -- |
-| Sign | ✓ |
-| Verify | ✓ |
-| Compact | ✓ |
-| General JSON | ✓ |
-| Flattened JSON  | ✓ |
+| Serialization | JWS Sign | JWS Verify | JWE Encrypt | JWE Decrypt |
+| -- | -- | -- | -- | -- |
+| Compact | ✓ | ✓ | ✓ | ✓ |
+| General JSON | ✓ | ✓ | ✓ | ✓ |
+| Flattened JSON  | ✓ | ✓ | ✓ | ✓ |
 
-| JWS Algorithms |||
+| JWS Algorithms | Supported ||
 | -- | -- | -- |
 | RSASSA-PKCS1-v1_5 | ✓ | RS256, RS384, RS512 |
 | RSASSA-PSS | ✓ | PS256, PS384, PS512 |
 | ECDSA | ✓ | ES256, ES384, ES512 |
 | HMAC with SHA-2 | ✓ | HS256, HS384, HS512 |
 
-| JWE ||
-| -- | -- |
-| Encrypt | ✓ |
-| Decrypt | ✓ |
-| Compact | ✓ |
-| General JSON | ✓ |
-| Flattened JSON  | ✓ |
-
-| JWE Key Wrapping Algorithms |||
+| JWE Key Management Algorithms | Supported ||
 | -- | -- | -- |
 | AES | ✓ | A128KW, A192KW, A256KW |
 | AES GCM | ✓ | A128GCMKW, A192GCMKW, A256GCMKW |
-| RSAES OAEP | ✓ / ✕ | ✓ RSA-OAEP / ✕ RSA-OAEP-256|
+| Direct Key Agreement | ✓ | dir |
+| RSAES OAEP | ✓<sup>*</sup> | RSA-OAEP <sub>(<sup>*</sup>RSA-OAEP-256 is not supported due to its lack of support in Node.JS)</sub> |
 | RSAES-PKCS1-v1_5 | ✓ | RSA1_5 |
 | PBES2 | ✓ | PBES2-HS256+A128KW, PBES2-HS384+A192KW, PBES2-HS512+A256KW |
 | ECDH-ES | ✓ | ECDH-ES, ECDH-ES+A128KW, ECDH-ES+A192KW, ECDH-ES+A256KW |
 
-| JWE Content Encryption Algorithms |||
+| JWE Content Encryption Algorithms | Supported ||
 | -- | -- | -- |
 | AES GCM | ✓ | A128GCM, A192GCM, A256GCM |
 | AES_CBC_HMAC_SHA2 | ✓ |  A128CBC-HS256, A192CBC-HS384, A256CBC-HS512 |

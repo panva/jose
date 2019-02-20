@@ -1,18 +1,141 @@
 const test = require('ava')
 const BLNS = require('big-list-of-naughty-strings')
 
-const { JWK: { generateSync }, JWE, errors: { JWEInvalid } } = require('../..')
+const base64url = require('../../lib/help/base64url')
+const { JWK: { generateSync }, JWE, errors: { JWEInvalid, JWEInvalidHeader, JWENoRecipients } } = require('../..')
 
 test('compact parts length check', t => {
   t.throws(() => {
-    JWE.decrypt('')
+    JWE.decrypt('', generateSync('oct'))
   }, { instanceOf: JWEInvalid, code: 'ERR_JWE_INVALID', message: 'JWE malformed or invalid serialization' })
   t.throws(() => {
-    JWE.decrypt('...')
+    JWE.decrypt('...', generateSync('oct'))
   }, { instanceOf: JWEInvalid, code: 'ERR_JWE_INVALID', message: 'JWE malformed or invalid serialization' })
   t.throws(() => {
-    JWE.decrypt('.....')
+    JWE.decrypt('.....', generateSync('oct'))
   }, { instanceOf: JWEInvalid, code: 'ERR_JWE_INVALID', message: 'JWE malformed or invalid serialization' })
+})
+
+test('verify key or store argument', t => {
+  ;[{}, new Object(), false, null, Infinity, 0, Buffer.from('foo')].forEach((val) => { // eslint-disable-line no-new-object
+    t.throws(() => {
+      JWE.decrypt('....', val)
+    }, { instanceOf: TypeError, message: 'key must be an instance of a key instantiated by JWK.importKey or a JWKS.KeyStore' })
+  })
+})
+
+test('JWE no alg specified but cannot resolve', t => {
+  const k1 = generateSync('rsa', undefined, { alg: 'foo' })
+  t.throws(() => {
+    JWE.encrypt('foo', k1)
+  }, { instanceOf: JWEInvalidHeader, code: 'ERR_JWE_INVALID_HEADER', message: 'could not resolve a usable "alg" for a recipient' })
+})
+
+test('JWE no alg/enc specified (multi recipient)', t => {
+  const encrypt = new JWE.Encrypt('foo')
+  encrypt.recipient(generateSync('rsa'))
+  encrypt.recipient(generateSync('ec'))
+  encrypt.recipient(generateSync('oct', 256))
+
+  const jwe = encrypt.encrypt('general')
+  t.is(jwe.unprotected, undefined)
+  t.deepEqual(base64url.JSON.decode(jwe.protected), { enc: 'A128CBC-HS256' })
+  t.deepEqual(jwe.recipients[0].header, { alg: 'RSA-OAEP' })
+  const { epk, ...rest } = jwe.recipients[1].header
+  t.deepEqual(rest, { alg: 'ECDH-ES+A128KW' })
+  t.deepEqual(jwe.recipients[2].header, { alg: 'A256KW' })
+})
+
+test('JWE no alg/enc specified (multi recipient) with per-recipient headers', t => {
+  const encrypt = new JWE.Encrypt('foo')
+  let k1 = generateSync('rsa', undefined, { kid: 'kid_1' })
+  encrypt.recipient(k1, { kid: k1.kid })
+  let k2 = generateSync('ec', undefined, { kid: 'kid_2' })
+  encrypt.recipient(k2, { kid: k2.kid })
+  let k3 = generateSync('oct', 256, { kid: 'kid_3' })
+  encrypt.recipient(k3, { kid: k3.kid })
+
+  const jwe = encrypt.encrypt('general')
+  t.is(jwe.unprotected, undefined)
+  t.deepEqual(base64url.JSON.decode(jwe.protected), { enc: 'A128CBC-HS256' })
+  t.deepEqual(jwe.recipients[0].header, { alg: 'RSA-OAEP', kid: 'kid_1' })
+  const { epk, ...rest } = jwe.recipients[1].header
+  t.deepEqual(rest, { alg: 'ECDH-ES+A128KW', kid: 'kid_2' })
+  t.deepEqual(jwe.recipients[2].header, { alg: 'A256KW', kid: 'kid_3' })
+})
+
+test('JWE no alg/enc specified (single rsa), no protected header', t => {
+  const encrypt = new JWE.Encrypt('foo')
+  encrypt.recipient(generateSync('rsa'))
+
+  const jwe = encrypt.encrypt('flattened')
+  t.is(jwe.unprotected, undefined)
+  t.is(jwe.header, undefined)
+  t.deepEqual(base64url.JSON.decode(jwe.protected), { alg: 'RSA-OAEP', enc: 'A128CBC-HS256' })
+})
+
+test('JWE no alg/enc specified (single rsa), with protected header', t => {
+  const k = generateSync('rsa', undefined, { kid: 'jwk key id' })
+  const encrypt = new JWE.Encrypt('foo', { kid: k.kid })
+  encrypt.recipient(k)
+
+  const jwe = encrypt.encrypt('flattened')
+  t.is(jwe.unprotected, undefined)
+  t.is(jwe.header, undefined)
+  t.deepEqual(base64url.JSON.decode(jwe.protected), { alg: 'RSA-OAEP', enc: 'A128CBC-HS256', kid: 'jwk key id' })
+})
+
+test('JWE no alg specified (single rsa), with protected header', t => {
+  const k = generateSync('rsa')
+  const encrypt = new JWE.Encrypt('foo', { enc: 'A256CBC-HS512' })
+  encrypt.recipient(k)
+
+  const jwe = encrypt.encrypt('flattened')
+  t.is(jwe.unprotected, undefined)
+  t.is(jwe.header, undefined)
+  t.deepEqual(base64url.JSON.decode(jwe.protected), { alg: 'RSA-OAEP', enc: 'A256CBC-HS512' })
+})
+
+test('JWE no alg specified (single rsa), with unprotected header', t => {
+  const k = generateSync('rsa')
+  const encrypt = new JWE.Encrypt('foo', undefined, { enc: 'A256CBC-HS512' })
+  encrypt.recipient(k)
+
+  const jwe = encrypt.encrypt('flattened')
+  t.deepEqual(jwe.unprotected, { enc: 'A256CBC-HS512' })
+  t.is(jwe.header, undefined)
+  t.deepEqual(base64url.JSON.decode(jwe.protected), { alg: 'RSA-OAEP' })
+})
+
+test('JWE no alg/enc specified (single oct)', t => {
+  const encrypt = new JWE.Encrypt('foo')
+  encrypt.recipient(generateSync('oct', 128))
+
+  const jwe = encrypt.encrypt('flattened')
+  t.is(jwe.unprotected, undefined)
+  t.is(jwe.header, undefined)
+  t.deepEqual(base64url.JSON.decode(jwe.protected), { alg: 'A128KW', enc: 'A128CBC-HS256' })
+})
+
+test('JWE no alg/enc specified (single ec)', t => {
+  const encrypt = new JWE.Encrypt('foo')
+  encrypt.recipient(generateSync('ec'))
+
+  const jwe = encrypt.encrypt('flattened')
+  t.is(jwe.unprotected, undefined)
+  t.is(jwe.header, undefined)
+  const { epk, ...rest } = base64url.JSON.decode(jwe.protected)
+  t.deepEqual(rest, { alg: 'ECDH-ES', enc: 'A128CBC-HS256' })
+})
+
+test('JWE no alg/enc specified (only on a key)', t => {
+  const encrypt = new JWE.Encrypt('foo')
+  encrypt.recipient(generateSync('rsa', undefined, { alg: 'RSA1_5', use: 'enc' }))
+
+  const jwe = encrypt.encrypt('flattened')
+  t.is(jwe.unprotected, undefined)
+  t.is(jwe.header, undefined)
+  t.deepEqual(base64url.JSON.decode(jwe.protected), { alg: 'RSA1_5', enc: 'A128CBC-HS256' })
 })
 
 test('aes_cbc_hmac_sha2 decrypt iv check (missing)', t => {
@@ -125,4 +248,199 @@ test('aes_gcm decrypt tag check (invalid length)', t => {
   t.throws(() => {
     JWE.decrypt(encrypted, k)
   }, { instanceOf: JWEInvalid, code: 'ERR_JWE_INVALID', message: 'invalid tag' })
+})
+
+test('JWE encrypt accepts buffer', t => {
+  const k = generateSync('oct')
+  JWE.encrypt(Buffer.from('foo'), k)
+  t.pass()
+})
+
+test('JWE encrypt accepts string', t => {
+  const k = generateSync('oct')
+  JWE.encrypt('foo', k)
+  t.pass()
+})
+
+test('JWE encrypt rejects other', t => {
+  const k = generateSync('oct')
+  ;[[], {}, false, true, undefined, null, Infinity, 0].forEach((val) => {
+    t.throws(() => {
+      JWE.encrypt(val, k)
+    }, { instanceOf: TypeError, message: 'cleartext argument must be a Buffer or a string' })
+  })
+})
+
+test('JWE encrypt protectedHeader rejects non objects if provided', t => {
+  const k = generateSync('oct')
+  ;[[], false, true, null, Infinity, 0, Buffer.from('foo')].forEach((val) => {
+    t.throws(() => {
+      JWE.encrypt('foo', k, val)
+    }, { instanceOf: TypeError, message: 'protectedHeader argument must be a plain object when provided' })
+  })
+})
+
+test('JWE encrypt unprotectedHeader rejects non objects if provided', t => {
+  ;[[], false, true, null, Infinity, 0, Buffer.from('foo')].forEach((val) => {
+    t.throws(() => {
+      new JWE.Encrypt('foo', undefined, val) // eslint-disable-line no-new
+    }, { instanceOf: TypeError, message: 'unprotectedHeader argument must be a plain object when provided' })
+  })
+})
+
+test('JWE encrypt per-recipient header rejects non objects if provided', t => {
+  const k = generateSync('oct')
+  const enc = new JWE.Encrypt('foo')
+  ;[[], false, true, null, Infinity, 0, Buffer.from('foo')].forEach((val) => {
+    t.throws(() => {
+      enc.recipient(k, val)
+    }, { instanceOf: TypeError, message: 'header argument must be a plain object when provided' })
+  })
+})
+
+test('JWE encrypt aad rejects non buffers and non strings', t => {
+  ;[[], false, true, null, Infinity, 0].forEach((val) => {
+    t.throws(() => {
+      new JWE.Encrypt('foo', undefined, undefined, val) // eslint-disable-line no-new
+    }, { instanceOf: TypeError, message: 'aad argument must be a Buffer or a string when provided' })
+  })
+})
+
+test('JWE encrypt rejects non keys', t => {
+  ;[[], false, true, undefined, null, Infinity, 0].forEach((val) => {
+    t.throws(() => {
+      JWE.encrypt('foo', val)
+    }, { instanceOf: TypeError, message: 'key must be an instance of a key instantiated by JWK.importKey' })
+  })
+})
+
+test('JWE must have recipients', t => {
+  const encrypt = new JWE.Encrypt('foo')
+  t.throws(() => {
+    encrypt.encrypt('compact')
+  }, { instanceOf: JWENoRecipients, code: 'ERR_JWE_NO_RECIPIENTS', message: 'missing recipients' })
+})
+
+test('JWE valid serialization must be provided', t => {
+  ;[[], false, true, null, Infinity, 0, 'foo', ''].forEach((val) => {
+    const encrypt = new JWE.Encrypt('foo')
+    t.throws(() => {
+      encrypt.encrypt(val)
+    }, { instanceOf: TypeError, message: 'serialization must be one of "compact", "flattened", "general"' })
+  })
+})
+
+test('JWE compact does not support multiple recipients', t => {
+  const k = generateSync('oct')
+  const k2 = generateSync('ec')
+  const encrypt = new JWE.Encrypt('foo')
+  encrypt.recipient(k)
+  encrypt.recipient(k2)
+  t.throws(() => {
+    encrypt.encrypt('compact')
+  }, { instanceOf: JWEInvalid, code: 'ERR_JWE_INVALID', message: 'JWE Compact Serialization doesn\'t support multiple recipients, JWE unprotected headers or AAD' })
+})
+
+test('JWE compact does not support unprotected header', t => {
+  const k = generateSync('oct')
+  t.throws(() => {
+    JWE.encrypt('foo', k, undefined, { foo: 1 })
+  }, { instanceOf: JWEInvalid, code: 'ERR_JWE_INVALID', message: 'JWE Compact Serialization doesn\'t support multiple recipients, JWE unprotected headers or AAD' })
+})
+
+test('JWE compact does not support aad', t => {
+  const k = generateSync('oct')
+  t.throws(() => {
+    JWE.encrypt('foo', k, undefined, undefined, 'aad')
+  }, { instanceOf: JWEInvalid, code: 'ERR_JWE_INVALID', message: 'JWE Compact Serialization doesn\'t support multiple recipients, JWE unprotected headers or AAD' })
+})
+
+test('JWE flattened does not support multiple recipients', t => {
+  const k = generateSync('oct')
+  const k2 = generateSync('ec')
+  const encrypt = new JWE.Encrypt('foo')
+  encrypt.recipient(k)
+  encrypt.recipient(k2)
+  t.throws(() => {
+    encrypt.encrypt('flattened')
+  }, { instanceOf: JWEInvalid, code: 'ERR_JWE_INVALID', message: 'Flattened JWE JSON Serialization doesn\'t support multiple recipients' })
+})
+
+test('JWE must only have one Content Encryption algorithm (encrypt)', t => {
+  const k = generateSync('oct')
+  const k2 = generateSync('rsa')
+  const encrypt = new JWE.Encrypt('foo')
+  encrypt.recipient(k, { enc: 'A128CBC-HS256' })
+  encrypt.recipient(k2, { enc: 'A128GCM' })
+  t.throws(() => {
+    encrypt.encrypt('general')
+  }, { instanceOf: JWEInvalidHeader, code: 'ERR_JWE_INVALID_HEADER', message: 'there must only be one Content Encryption algorithm' })
+})
+
+test('JWE must only have one Content Encryption algorithm (decrypt)', t => {
+  const k = generateSync('oct')
+  const k2 = generateSync('rsa')
+  const encrypt = new JWE.Encrypt('foo')
+  encrypt.recipient(k, { enc: 'A128GCM' })
+  encrypt.recipient(k2, { enc: 'A128GCM' })
+  const jwe = encrypt.encrypt('general')
+  t.throws(() => {
+    jwe.recipients[0].header.enc = 'A128CBC-HS256'
+    JWE.decrypt(jwe, k)
+  }, { instanceOf: JWEInvalidHeader, code: 'ERR_JWE_INVALID_HEADER', message: 'there must only be one Content Encryption algorithm' })
+})
+
+test('JWE must have a Content Encryption algorithm (decrypt)', t => {
+  const k = generateSync('oct')
+  const k2 = generateSync('rsa')
+  const encrypt = new JWE.Encrypt('foo')
+  encrypt.recipient(k, { enc: 'A128GCM' })
+  encrypt.recipient(k2, { enc: 'A128GCM' })
+  const jwe = encrypt.encrypt('general')
+  t.throws(() => {
+    delete jwe.recipients[0].header.enc
+    delete jwe.recipients[1].header.enc
+    JWE.decrypt(jwe, k)
+  }, { instanceOf: JWEInvalidHeader, code: 'ERR_JWE_INVALID_HEADER', message: 'missing Content Encryption algorithm' })
+})
+
+test('JWE oct dir is only usable with a single recipient', t => {
+  const k = generateSync('oct', undefined, { alg: 'A128CBC-HS256', use: 'enc' })
+  const k2 = generateSync('rsa')
+  const encrypt = new JWE.Encrypt('foo')
+  encrypt.recipient(k, { alg: 'dir' })
+  encrypt.recipient(k2)
+  t.throws(() => {
+    encrypt.encrypt('general')
+  }, { instanceOf: JWEInvalidHeader, code: 'ERR_JWE_INVALID_HEADER', message: 'dir and ECDH-ES alg may only be used with a single recipient' })
+})
+
+test('JWE EC ECDH-ES is only usable with a single recipient', t => {
+  const k = generateSync('ec', undefined, { alg: 'ECDH-ES', use: 'enc' })
+  const k2 = generateSync('rsa')
+  const encrypt = new JWE.Encrypt('foo')
+  encrypt.recipient(k, { alg: 'ECDH-ES' })
+  encrypt.recipient(k2)
+  t.throws(() => {
+    encrypt.encrypt('general')
+  }, { instanceOf: JWEInvalidHeader, code: 'ERR_JWE_INVALID_HEADER', message: 'dir and ECDH-ES alg may only be used with a single recipient' })
+})
+
+test('JWE prot, unprot and per-recipient headers must be disjoint', t => {
+  const k = generateSync('oct')
+  t.throws(() => {
+    const encrypt = new JWE.Encrypt('foo', { foo: 1 }, { foo: 2 })
+    encrypt.recipient(k)
+    encrypt.encrypt('flattened')
+  }, { instanceOf: JWEInvalidHeader, code: 'ERR_JWE_INVALID_HEADER', message: 'JWE Shared Protected, JWE Shared Unprotected and JWE Per-Recipient Header Parameter names must be disjoint' })
+  t.throws(() => {
+    const encrypt = new JWE.Encrypt('foo', { foo: 1 })
+    encrypt.recipient(k, { foo: 2 })
+    encrypt.encrypt('flattened')
+  }, { instanceOf: JWEInvalidHeader, code: 'ERR_JWE_INVALID_HEADER', message: 'JWE Shared Protected, JWE Shared Unprotected and JWE Per-Recipient Header Parameter names must be disjoint' })
+  t.throws(() => {
+    const encrypt = new JWE.Encrypt('foo', undefined, { foo: 1 })
+    encrypt.recipient(k, { foo: 2 })
+    encrypt.encrypt('flattened')
+  }, { instanceOf: JWEInvalidHeader, code: 'ERR_JWE_INVALID_HEADER', message: 'JWE Shared Protected, JWE Shared Unprotected and JWE Per-Recipient Header Parameter names must be disjoint' })
 })

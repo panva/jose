@@ -1,4 +1,10 @@
 module.exports = new Map([
+  ['3.1', require('./3_1.ec_public_key')],
+  ['3.2', require('./3_2.ec_private_key')],
+  ['3.3', require('./3_3.rsa_public_key')],
+  ['3.4', require('./3_4.rsa_private_key')],
+  ['3.5', require('./3_5.symmetric_key_mac_computation')],
+  ['3.6', require('./3_6.symmetric_key_encryption')],
   ['4.1', require('./4_1.rsa_v15_signature')],
   ['4.2', require('./4_2.rsa-pss_signature')],
   ['4.3', require('./4_3.ecdsa_signature')],

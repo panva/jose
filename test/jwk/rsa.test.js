@@ -15,7 +15,6 @@ test(`RSA key .algorithms invalid operation`, t => {
   const keyObject = createPrivateKey(fixtures.PEM.RSA.private)
   const key = new RSAKey(keyObject)
 
-  test(`RSA Private key .thumbprintMaterial()`, hasProperties, key.thumbprintMaterial(), 'e', 'kty', 'n')
   test(`RSA Private key (with alg)`, hasProperty, new RSAKey(keyObject, { alg: 'RS256' }), 'alg', 'RS256')
   test(`RSA Private key (with kid)`, hasProperty, new RSAKey(keyObject, { kid: 'foobar' }), 'kid', 'foobar')
   test(`RSA Private key (with use)`, hasProperty, new RSAKey(keyObject, { use: 'sig' }), 'use', 'sig')
@@ -141,7 +140,6 @@ test(`RSA key .algorithms invalid operation`, t => {
   const keyObject = createPublicKey(fixtures.PEM.RSA.public)
   const key = new RSAKey(keyObject)
 
-  test(`RSA Public key .thumbprintMaterial()`, hasProperties, key.thumbprintMaterial(), 'e', 'kty', 'n')
   test(`RSA Public key (with alg)`, hasProperty, new RSAKey(keyObject, { alg: 'RS256' }), 'alg', 'RS256')
   test(`RSA Public key (with kid)`, hasProperty, new RSAKey(keyObject, { kid: 'foobar' }), 'kid', 'foobar')
   test(`RSA Public key (with use)`, hasProperty, new RSAKey(keyObject, { use: 'sig' }), 'use', 'sig')
