@@ -15,10 +15,7 @@ module.exports = {
       alg: 'HS256',
       b64: false,
       crit: ['b64']
-    },
-    protected_b64u: 'eyJhbGciOiJIUzI1NiIsImI2NCI6ZmFsc2V9',
-    'sig-input': 'eyJhbGciOiJIUzI1NiIsImI2NCI6ZmFsc2V9.$.02',
-    sig: 'GsyM6AQJbQHY8aQKCbZSPJHzMRWo3HKIlcDuXof7nqs'
+    }
   },
   output: {
     json: {

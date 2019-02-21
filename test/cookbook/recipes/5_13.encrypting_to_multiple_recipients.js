@@ -40,47 +40,23 @@ module.exports = {
     ],
     enc: 'A128CBC-H256'
   },
-  generated: {
-    cek: 'zXayeJ4gvm8NJr3IUInyokTUO-LbQNKEhe_zWlYbdpQ',
-    iv: 'VgEIHY20EnzUtZFl2RpB1g'
-  },
   encrypting_key: [
     {
-      encrypted_key: 'dYOD28kab0Vvf4ODgxVAJXgHcSZICSOp8M51zjwj4w6Y5G4XJQsNNIBiqyvUUAOcpL7S7-cFe7Pio7gV_Q06WmCSa-vhW6me4bWrBf7cHwEQJdXihidAYWVajJIaKMXMvFRMV6iDlRr076DFthg2_AV0_tSiV6xSEIFqt1xnYPpmP91tc5WJDOGb-wqjw0-b-S1laS11QVbuP78dQ7Fa0zAVzzjHX-xvyM2wxj_otxr9clN1LnZMbeYSrRicJK5xodvWgkpIdkMHo4LvdhRRvzoKzlic89jFWPlnBq_V4n5trGuExtp_-dbHcGlihqc_wGgho9fLMK8JOArYLcMDNQ',
       header: {
         alg: 'RSA1_5',
         kid: 'frodo.baggins@hobbiton.example'
       }
     },
     {
-      epk: {
-        kty: 'EC',
-        crv: 'P-384',
-        x: 'Uzdvk3pi5wKCRc1izp5_r0OjeqT-I68i8g2b8mva8diRhsE2xAn2DtMRb25Ma2CX',
-        y: 'VDrRyFJh-Kwd1EjAgmj5Eo-CTHAZ53MC7PjjpLioy3ylEjI1pOMbw91fzZ84pbfm',
-        d: '1DKHfTv-PiifVw2VBHM_ZiVcwOMxkOyANS_lQHJcrDxVY3jhVCvZPwMxJKIE793C'
-      },
-      encrypted_key: 'ExInT0io9BqBMYF6-maw5tZlgoZXThD1zWKsHixJuw_elY4gSSId_w',
       header: {
         alg: 'ECDH-ES+A256KW',
-        kid: 'peregrin.took@tuckborough.example',
-        epk: {
-          kty: 'EC',
-          crv: 'P-384',
-          x: 'Uzdvk3pi5wKCRc1izp5_r0OjeqT-I68i8g2b8mva8diRhsE2xAn2DtMRb25Ma2CX',
-          y: 'VDrRyFJh-Kwd1EjAgmj5Eo-CTHAZ53MC7PjjpLioy3ylEjI1pOMbw91fzZ84pbfm'
-        }
+        kid: 'peregrin.took@tuckborough.example'
       }
     },
     {
-      iv: 'AvpeoPZ9Ncn9mkBn',
-      encrypted_key: 'a7CclAejo_7JSuPB8zeagxXRam8dwCfmkt9-WyTpS1E',
-      tag: '59Nqh1LlYtVIhfD3pgRGvw',
       header: {
         alg: 'A256GCMKW',
-        kid: '18ec08e1-bfa9-4d95-b205-2b4dd1d4321d',
-        tag: '59Nqh1LlYtVIhfD3pgRGvw',
-        iv: 'AvpeoPZ9Ncn9mkBn'
+        kid: '18ec08e1-bfa9-4d95-b205-2b4dd1d4321d'
       }
     }
   ],
@@ -88,12 +64,9 @@ module.exports = {
     protected: {
       enc: 'A128CBC-HS256'
     },
-    protected_b64u: 'eyJlbmMiOiJBMTI4Q0JDLUhTMjU2In0',
     unprotected: {
       cty: 'text/plain'
-    },
-    ciphertext: 'ajm2Q-OpPXCr7-MHXicknb1lsxLdXxK_yLds0KuhJzfWK04SjdxQeSw2L9mu3a_k1C55kCQ_3xlkcVKC5yr__Is48VOoK0k63_QRM9tBURMFqLByJ8vOYQX0oJW4VUHJLmGhF-tVQWB7Kz8mr8zeE7txF0MSaP6ga7-siYxStR7_G07Thd1jh-zGT0wxM5g-VRORtq0K6AXpLlwEqRp7pkt2zRM0ZAXqSpe1O6FJ7FHLDyEFnD-zDIZukLpCbzhzMDLLw2-8I14FQrgi-iEuzHgIJFIJn2wh9Tj0cg_kOZy9BqMRZbmYXMY9YQjorZ_P_JYG3ARAIF3OjDNqpdYe-K_5Q5crGJSDNyij_ygEiItR5jssQVH2ofDQdLChtazE',
-    tag: 'BESYyFN7T09KY7i8zKs5_g'
+    }
   },
   output: {
     json: {
