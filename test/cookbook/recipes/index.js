@@ -20,6 +20,7 @@ module.exports = new Map([
   ['5.6', require('./5_6.direct_encryption_using_aes-gcm')],
   ['5.7', require('./5_7.key_wrap_using_aes-gcm_keywrap_with_aes-cbc-hmac-sha2')],
   ['5.8', require('./5_8.key_wrap_using_aes-keywrap_with_aes-gcm')],
+  ['5.9', require('./5_9.compressed_content')],
   ['5.10', require('./5_10.including_additional_authentication_data')],
   ['5.11', require('./5_11.protecting_specific_header_fields')],
   ['5.12', require('./5_12.protecting_content_only')],

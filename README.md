@@ -1,4 +1,4 @@
-# ultimate-jose
+# @panva/jose
 
 [![build][travis-image]][travis-url] [![codecov][codecov-image]][codecov-url]
 
@@ -19,7 +19,7 @@ TODO:
 - ✓ JWKS abstraction
 - ✓ `crit` JWE/JWS Header parameter handling
 - ✓ `b64` JWS crit support
-- ◯ JWE `zip` handling
+- ✓ JWE `zip` handling
 - ◯ JWE/JWS decrypt/verify algorithm whitelisting
 - ◯ JWE/JWS reference (true/false for `kid`, name of the field for other fields)
 - ◯ README and documentation
@@ -71,7 +71,7 @@ Found a bug? - [report it][bug].
 <h2>Support</h2>
 
 [<img src="https://c5.patreon.com/external/logo/become_a_patron_button@2x.png" width="160" align="right">][support-patreon]
-If you or your business use ultimate-jose, please consider becoming a [Patron][support-patreon] so I can continue maintaining it and adding new features carefree. You may also donate one-time via [PayPal][support-paypal].
+If you or your business use @panva/jose, please consider becoming a [Patron][support-patreon] so I can continue maintaining it and adding new features carefree. You may also donate one-time via [PayPal][support-paypal].
 [<img src="https://cdn.jsdelivr.net/gh/gregoiresgt/payment-icons@183140a5ff8f39b5a19d59ebeb2c77f03c3a24d3/Assets/Payment/PayPal/Paypal@2x.png" width="100" align="right">][support-paypal]
 
 ## Usage
@@ -79,11 +79,11 @@ If you or your business use ultimate-jose, please consider becoming a [Patron][s
 TODO:
 
 
-[travis-image]: https://api.travis-ci.com/panva/ultimate-jose.svg?branch=master
-[travis-url]: https://travis-ci.com/panva/ultimate-jose
-[codecov-image]: https://img.shields.io/codecov/c/github/panva/ultimate-jose/master.svg
-[codecov-url]: https://codecov.io/gh/panva/ultimate-jose
-[suggest-feature]: https://github.com/panva/ultimate-jose/issues/new?template=feature-request.md
-[bug]: https://github.com/panva/ultimate-jose/issues/new?template=bug-report.md
+[travis-image]: https://api.travis-ci.com/panva/jose.svg?branch=master
+[travis-url]: https://travis-ci.com/panva/jose
+[codecov-image]: https://img.shields.io/codecov/c/github/panva/jose/master.svg
+[codecov-url]: https://codecov.io/gh/panva/jose
+[suggest-feature]: https://github.com/panva/jose/issues/new?template=feature-request.md
+[bug]: https://github.com/panva/jose/issues/new?template=bug-report.md
 [support-patreon]: https://www.patreon.com/panva
 [support-paypal]: https://www.paypal.me/panva

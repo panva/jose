@@ -1,5 +1,5 @@
 {
-  "name": "ultimate-jose",
+  "name": "@panva/jose",
   "version": "0.0.1",
   "description": "JSON Web Almost Everything - JWA, JWS, JWE, JWK, JWKS for Node.js with minimal dependencies",
   "keywords": [
@@ -14,8 +14,8 @@
     "sign",
     "verify"
   ],
-  "homepage": "https://github.com/panva/ultimate-jose",
-  "repository": "panva/ultimate-jose",
+  "homepage": "https://github.com/panva/jose",
+  "repository": "panva/jose",
   "license": "MIT",
   "author": "Filip Skokan <panva.ip@gmail.com>",
   "files": [
