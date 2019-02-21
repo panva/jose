@@ -10,7 +10,7 @@ test('crit must be understood', t => {
   const jws = JWE.encrypt('foo', k, { crit: [UNDEFINED], [UNDEFINED]: true })
   t.throws(() => {
     JWE.decrypt(jws, k)
-  }, { instanceOf: JOSECritNotUnderstood, code: 'ERR_JOSE_CRIT_NOT_SUPPORTED', message: `critical "${UNDEFINED}" is not understood` })
+  }, { instanceOf: JOSECritNotUnderstood, code: 'ERR_JOSE_CRIT_NOT_UNDERSTOOD', message: `critical "${UNDEFINED}" is not understood` })
   JWE.decrypt(jws, k, { crit: [UNDEFINED] })
 })
 
@@ -18,14 +18,14 @@ test('crit must be present', t => {
   const k = generateSync('oct')
   t.throws(() => {
     JWE.encrypt('foo', k, { crit: [UNDEFINED] })
-  }, { instanceOf: JWEInvalid, code: 'ERR_JWE_INVALID', message: `critical parameter ${UNDEFINED} is missing` })
+  }, { instanceOf: JWEInvalid, code: 'ERR_JWE_INVALID', message: `critical parameter "${UNDEFINED}" is missing` })
   t.throws(() => {
     JWE.decrypt(
       `${base64url.JSON.encode({ alg: 'HS256', crit: [UNDEFINED] })}.${base64url.JSON.encode({})}...`,
       k,
       { crit: [UNDEFINED] }
     )
-  }, { instanceOf: JWEInvalid, code: 'ERR_JWE_INVALID', message: `critical parameter ${UNDEFINED} is missing` })
+  }, { instanceOf: JWEInvalid, code: 'ERR_JWE_INVALID', message: `critical parameter "${UNDEFINED}" is missing` })
 })
 
 test('crit must be integrity protected', t => {

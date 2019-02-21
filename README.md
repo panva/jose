@@ -18,7 +18,7 @@ TODO:
 
 - ✓ JWKS abstraction
 - ✓ `crit` JWE/JWS Header parameter handling
-- ◯ `b64` JWS handling
+- ✓ `b64` JWS crit support
 - ◯ JWE `zip` handling
 - ◯ JWE/JWS decrypt/verify algorithm whitelisting
 - ◯ JWE/JWS reference (true/false for `kid`, name of the field for other fields)
@@ -29,6 +29,7 @@ TODO:
   application can handle fetching the referenced `x5u` or `jku`
 - ✕ JWS detached content - won't implement, who needs it can remove/attach the payload after/before
   the respective operation
+- ✕ "none" alg support, no crypto, no use, don't bother
 
 | JWK Key Types | Supported ||
 | -- | -- | -- |

@@ -10,7 +10,7 @@ test('crit must be understood', t => {
   const jws = JWS.sign({}, k, { crit: [UNDEFINED], [UNDEFINED]: true })
   t.throws(() => {
     JWS.verify(jws, k)
-  }, { instanceOf: JOSECritNotUnderstood, code: 'ERR_JOSE_CRIT_NOT_SUPPORTED', message: `critical "${UNDEFINED}" is not understood` })
+  }, { instanceOf: JOSECritNotUnderstood, code: 'ERR_JOSE_CRIT_NOT_UNDERSTOOD', message: `critical "${UNDEFINED}" is not understood` })
   JWS.verify(jws, k, { crit: [UNDEFINED] })
 })
 
@@ -18,14 +18,14 @@ test('crit must be present', t => {
   const k = generateSync('oct')
   t.throws(() => {
     JWS.sign({}, k, { crit: [UNDEFINED] })
-  }, { instanceOf: JWSInvalid, code: 'ERR_JWS_INVALID', message: `critical parameter ${UNDEFINED} is missing` })
+  }, { instanceOf: JWSInvalid, code: 'ERR_JWS_INVALID', message: `critical parameter "${UNDEFINED}" is missing` })
   t.throws(() => {
     JWS.verify(
       `${base64url.JSON.encode({ alg: 'HS256', crit: [UNDEFINED] })}.${base64url.JSON.encode({})}.`,
       k,
       { crit: [UNDEFINED] }
     )
-  }, { instanceOf: JWSInvalid, code: 'ERR_JWS_INVALID', message: `critical parameter ${UNDEFINED} is missing` })
+  }, { instanceOf: JWSInvalid, code: 'ERR_JWS_INVALID', message: `critical parameter "${UNDEFINED}" is missing` })
 })
 
 test('crit must be integrity protected', t => {
