@@ -2,18 +2,37 @@ const test = require('ava')
 const BLNS = require('big-list-of-naughty-strings')
 
 const base64url = require('../../lib/help/base64url')
-const { JWK: { generateSync }, JWE, errors: { JWEInvalid, JWEInvalidHeader, JWENoRecipients } } = require('../..')
+const { JWKS, JWK: { generateSync }, JWE, errors } = require('../..')
+
+test('algorithms option be an array of strings', t => {
+  ;[{}, new Object(), false, null, Infinity, 0, '', Buffer.from('foo')].forEach((val) => { // eslint-disable-line no-new-object
+    t.throws(() => {
+      JWE.decrypt({
+        header: { alg: 'HS256' },
+        payload: 'foo',
+        ciphertext: 'bar'
+      }, generateSync('oct'), { algorithms: val })
+    }, { instanceOf: TypeError, message: '"algorithms" option must be an array of non-empty strings' })
+    t.throws(() => {
+      JWE.decrypt({
+        header: { alg: 'HS256' },
+        payload: 'foo',
+        ciphertext: 'bar'
+      }, generateSync('oct'), { algorithms: [val] })
+    }, { instanceOf: TypeError, message: '"algorithms" option must be an array of non-empty strings' })
+  })
+})
 
 test('compact parts length check', t => {
   t.throws(() => {
     JWE.decrypt('', generateSync('oct'))
-  }, { instanceOf: JWEInvalid, code: 'ERR_JWE_INVALID', message: 'JWE malformed or invalid serialization' })
+  }, { instanceOf: errors.JWEInvalid, code: 'ERR_JWE_INVALID', message: 'JWE malformed or invalid serialization' })
   t.throws(() => {
     JWE.decrypt('...', generateSync('oct'))
-  }, { instanceOf: JWEInvalid, code: 'ERR_JWE_INVALID', message: 'JWE malformed or invalid serialization' })
+  }, { instanceOf: errors.JWEInvalid, code: 'ERR_JWE_INVALID', message: 'JWE malformed or invalid serialization' })
   t.throws(() => {
     JWE.decrypt('.....', generateSync('oct'))
-  }, { instanceOf: JWEInvalid, code: 'ERR_JWE_INVALID', message: 'JWE malformed or invalid serialization' })
+  }, { instanceOf: errors.JWEInvalid, code: 'ERR_JWE_INVALID', message: 'JWE malformed or invalid serialization' })
 })
 
 test('verify key or store argument', t => {
@@ -28,7 +47,7 @@ test('JWE no alg specified but cannot resolve', t => {
   const k1 = generateSync('rsa', undefined, { alg: 'foo' })
   t.throws(() => {
     JWE.encrypt('foo', k1)
-  }, { instanceOf: JWEInvalidHeader, code: 'ERR_JWE_INVALID_HEADER', message: 'could not resolve a usable "alg" for a recipient' })
+  }, { instanceOf: errors.JWEInvalidHeader, code: 'ERR_JWE_INVALID_HEADER', message: 'could not resolve a usable "alg" for a recipient' })
 })
 
 test('JWE no alg/enc specified (multi recipient)', t => {
@@ -144,7 +163,7 @@ test('aes_cbc_hmac_sha2 decrypt iv check (missing)', t => {
   delete encrypted.iv
   t.throws(() => {
     JWE.decrypt(encrypted, k)
-  }, { instanceOf: JWEInvalid, code: 'ERR_JWE_INVALID', message: 'JWE malformed or invalid serialization' })
+  }, { instanceOf: errors.JWEInvalid, code: 'ERR_JWE_INVALID', message: 'JWE malformed or invalid serialization' })
 })
 
 test('aes_cbc_hmac_sha2 decrypt iv check (BLNS)', t => {
@@ -163,7 +182,7 @@ test('aes_cbc_hmac_sha2 decrypt iv check (invalid length)', t => {
   encrypted.iv = encrypted.iv.substr(0, 15)
   t.throws(() => {
     JWE.decrypt(encrypted, k)
-  }, { instanceOf: JWEInvalid, code: 'ERR_JWE_INVALID', message: 'invalid iv' })
+  }, { instanceOf: errors.JWEInvalid, code: 'ERR_JWE_INVALID', message: 'invalid iv' })
 })
 
 test('aes_cbc_hmac_sha2 decrypt tag check (missing)', t => {
@@ -172,7 +191,7 @@ test('aes_cbc_hmac_sha2 decrypt tag check (missing)', t => {
   delete encrypted.tag
   t.throws(() => {
     JWE.decrypt(encrypted, k)
-  }, { instanceOf: JWEInvalid, code: 'ERR_JWE_INVALID', message: 'JWE malformed or invalid serialization' })
+  }, { instanceOf: errors.JWEInvalid, code: 'ERR_JWE_INVALID', message: 'JWE malformed or invalid serialization' })
 })
 
 test('aes_cbc_hmac_sha2 decrypt tag check (BLNS)', t => {
@@ -191,7 +210,7 @@ test('aes_cbc_hmac_sha2 decrypt tag check (invalid length)', t => {
   encrypted.tag = encrypted.tag.substr(0, 15)
   t.throws(() => {
     JWE.decrypt(encrypted, k)
-  }, { instanceOf: JWEInvalid, code: 'ERR_JWE_INVALID', message: 'invalid tag' })
+  }, { instanceOf: errors.JWEInvalid, code: 'ERR_JWE_INVALID', message: 'invalid tag' })
 })
 
 test('aes_gcm decrypt iv check (missing)', t => {
@@ -200,7 +219,7 @@ test('aes_gcm decrypt iv check (missing)', t => {
   delete encrypted.iv
   t.throws(() => {
     JWE.decrypt(encrypted, k)
-  }, { instanceOf: JWEInvalid, code: 'ERR_JWE_INVALID', message: 'JWE malformed or invalid serialization' })
+  }, { instanceOf: errors.JWEInvalid, code: 'ERR_JWE_INVALID', message: 'JWE malformed or invalid serialization' })
 })
 
 test('aes_gcm decrypt iv check (BLNS)', t => {
@@ -219,7 +238,7 @@ test('aes_gcm decrypt iv check (invalid length)', t => {
   encrypted.iv = encrypted.iv.substr(0, 15)
   t.throws(() => {
     JWE.decrypt(encrypted, k)
-  }, { instanceOf: JWEInvalid, code: 'ERR_JWE_INVALID', message: 'invalid iv' })
+  }, { instanceOf: errors.JWEInvalid, code: 'ERR_JWE_INVALID', message: 'invalid iv' })
 })
 
 test('aes_gcm decrypt tag check (missing)', t => {
@@ -228,7 +247,7 @@ test('aes_gcm decrypt tag check (missing)', t => {
   delete encrypted.tag
   t.throws(() => {
     JWE.decrypt(encrypted, k)
-  }, { instanceOf: JWEInvalid, code: 'ERR_JWE_INVALID', message: 'JWE malformed or invalid serialization' })
+  }, { instanceOf: errors.JWEInvalid, code: 'ERR_JWE_INVALID', message: 'JWE malformed or invalid serialization' })
 })
 
 test('aes_gcm decrypt tag check (BLNS)', t => {
@@ -247,7 +266,7 @@ test('aes_gcm decrypt tag check (invalid length)', t => {
   encrypted.tag = encrypted.tag.substr(0, 15)
   t.throws(() => {
     JWE.decrypt(encrypted, k)
-  }, { instanceOf: JWEInvalid, code: 'ERR_JWE_INVALID', message: 'invalid tag' })
+  }, { instanceOf: errors.JWEInvalid, code: 'ERR_JWE_INVALID', message: 'invalid tag' })
 })
 
 test('JWE encrypt accepts buffer', t => {
@@ -318,7 +337,7 @@ test('JWE must have recipients', t => {
   const encrypt = new JWE.Encrypt('foo')
   t.throws(() => {
     encrypt.encrypt('compact')
-  }, { instanceOf: JWENoRecipients, code: 'ERR_JWE_NO_RECIPIENTS', message: 'missing recipients' })
+  }, { instanceOf: errors.JWENoRecipients, code: 'ERR_JWE_NO_RECIPIENTS', message: 'missing recipients' })
 })
 
 test('JWE valid serialization must be provided', t => {
@@ -338,21 +357,21 @@ test('JWE compact does not support multiple recipients', t => {
   encrypt.recipient(k2)
   t.throws(() => {
     encrypt.encrypt('compact')
-  }, { instanceOf: JWEInvalid, code: 'ERR_JWE_INVALID', message: 'JWE Compact Serialization doesn\'t support multiple recipients, JWE unprotected headers or AAD' })
+  }, { instanceOf: errors.JWEInvalid, code: 'ERR_JWE_INVALID', message: 'JWE Compact Serialization doesn\'t support multiple recipients, JWE unprotected headers or AAD' })
 })
 
 test('JWE compact does not support unprotected header', t => {
   const k = generateSync('oct')
   t.throws(() => {
     JWE.encrypt('foo', k, undefined, { foo: 1 })
-  }, { instanceOf: JWEInvalid, code: 'ERR_JWE_INVALID', message: 'JWE Compact Serialization doesn\'t support multiple recipients, JWE unprotected headers or AAD' })
+  }, { instanceOf: errors.JWEInvalid, code: 'ERR_JWE_INVALID', message: 'JWE Compact Serialization doesn\'t support multiple recipients, JWE unprotected headers or AAD' })
 })
 
 test('JWE compact does not support aad', t => {
   const k = generateSync('oct')
   t.throws(() => {
     JWE.encrypt('foo', k, undefined, undefined, 'aad')
-  }, { instanceOf: JWEInvalid, code: 'ERR_JWE_INVALID', message: 'JWE Compact Serialization doesn\'t support multiple recipients, JWE unprotected headers or AAD' })
+  }, { instanceOf: errors.JWEInvalid, code: 'ERR_JWE_INVALID', message: 'JWE Compact Serialization doesn\'t support multiple recipients, JWE unprotected headers or AAD' })
 })
 
 test('JWE flattened does not support multiple recipients', t => {
@@ -363,7 +382,7 @@ test('JWE flattened does not support multiple recipients', t => {
   encrypt.recipient(k2)
   t.throws(() => {
     encrypt.encrypt('flattened')
-  }, { instanceOf: JWEInvalid, code: 'ERR_JWE_INVALID', message: 'Flattened JWE JSON Serialization doesn\'t support multiple recipients' })
+  }, { instanceOf: errors.JWEInvalid, code: 'ERR_JWE_INVALID', message: 'Flattened JWE JSON Serialization doesn\'t support multiple recipients' })
 })
 
 test('JWE must only have one Content Encryption algorithm (encrypt)', t => {
@@ -374,7 +393,7 @@ test('JWE must only have one Content Encryption algorithm (encrypt)', t => {
   encrypt.recipient(k2, { enc: 'A128GCM' })
   t.throws(() => {
     encrypt.encrypt('general')
-  }, { instanceOf: JWEInvalidHeader, code: 'ERR_JWE_INVALID_HEADER', message: 'there must only be one Content Encryption algorithm' })
+  }, { instanceOf: errors.JWEInvalidHeader, code: 'ERR_JWE_INVALID_HEADER', message: 'there must only be one Content Encryption algorithm' })
 })
 
 test('JWE must only have one Content Encryption algorithm (decrypt)', t => {
@@ -387,7 +406,7 @@ test('JWE must only have one Content Encryption algorithm (decrypt)', t => {
   t.throws(() => {
     jwe.recipients[0].header.enc = 'A128CBC-HS256'
     JWE.decrypt(jwe, k)
-  }, { instanceOf: JWEInvalidHeader, code: 'ERR_JWE_INVALID_HEADER', message: 'there must only be one Content Encryption algorithm' })
+  }, { instanceOf: errors.JWEInvalidHeader, code: 'ERR_JWE_INVALID_HEADER', message: 'there must only be one Content Encryption algorithm' })
 })
 
 test('JWE must have a Content Encryption algorithm (decrypt)', t => {
@@ -401,7 +420,7 @@ test('JWE must have a Content Encryption algorithm (decrypt)', t => {
     delete jwe.recipients[0].header.enc
     delete jwe.recipients[1].header.enc
     JWE.decrypt(jwe, k)
-  }, { instanceOf: JWEInvalidHeader, code: 'ERR_JWE_INVALID_HEADER', message: 'missing Content Encryption algorithm' })
+  }, { instanceOf: errors.JWEInvalidHeader, code: 'ERR_JWE_INVALID_HEADER', message: 'missing Content Encryption algorithm' })
 })
 
 test('JWE oct dir is only usable with a single recipient', t => {
@@ -412,7 +431,7 @@ test('JWE oct dir is only usable with a single recipient', t => {
   encrypt.recipient(k2)
   t.throws(() => {
     encrypt.encrypt('general')
-  }, { instanceOf: JWEInvalidHeader, code: 'ERR_JWE_INVALID_HEADER', message: 'dir and ECDH-ES alg may only be used with a single recipient' })
+  }, { instanceOf: errors.JWEInvalidHeader, code: 'ERR_JWE_INVALID_HEADER', message: 'dir and ECDH-ES alg may only be used with a single recipient' })
 })
 
 test('JWE EC ECDH-ES is only usable with a single recipient', t => {
@@ -423,7 +442,7 @@ test('JWE EC ECDH-ES is only usable with a single recipient', t => {
   encrypt.recipient(k2)
   t.throws(() => {
     encrypt.encrypt('general')
-  }, { instanceOf: JWEInvalidHeader, code: 'ERR_JWE_INVALID_HEADER', message: 'dir and ECDH-ES alg may only be used with a single recipient' })
+  }, { instanceOf: errors.JWEInvalidHeader, code: 'ERR_JWE_INVALID_HEADER', message: 'dir and ECDH-ES alg may only be used with a single recipient' })
 })
 
 test('JWE prot, unprot and per-recipient headers must be disjoint', t => {
@@ -432,15 +451,68 @@ test('JWE prot, unprot and per-recipient headers must be disjoint', t => {
     const encrypt = new JWE.Encrypt('foo', { foo: 1 }, { foo: 2 })
     encrypt.recipient(k)
     encrypt.encrypt('flattened')
-  }, { instanceOf: JWEInvalidHeader, code: 'ERR_JWE_INVALID_HEADER', message: 'JWE Shared Protected, JWE Shared Unprotected and JWE Per-Recipient Header Parameter names must be disjoint' })
+  }, { instanceOf: errors.JWEInvalidHeader, code: 'ERR_JWE_INVALID_HEADER', message: 'JWE Shared Protected, JWE Shared Unprotected and JWE Per-Recipient Header Parameter names must be disjoint' })
   t.throws(() => {
     const encrypt = new JWE.Encrypt('foo', { foo: 1 })
     encrypt.recipient(k, { foo: 2 })
     encrypt.encrypt('flattened')
-  }, { instanceOf: JWEInvalidHeader, code: 'ERR_JWE_INVALID_HEADER', message: 'JWE Shared Protected, JWE Shared Unprotected and JWE Per-Recipient Header Parameter names must be disjoint' })
+  }, { instanceOf: errors.JWEInvalidHeader, code: 'ERR_JWE_INVALID_HEADER', message: 'JWE Shared Protected, JWE Shared Unprotected and JWE Per-Recipient Header Parameter names must be disjoint' })
   t.throws(() => {
     const encrypt = new JWE.Encrypt('foo', undefined, { foo: 1 })
     encrypt.recipient(k, { foo: 2 })
     encrypt.encrypt('flattened')
-  }, { instanceOf: JWEInvalidHeader, code: 'ERR_JWE_INVALID_HEADER', message: 'JWE Shared Protected, JWE Shared Unprotected and JWE Per-Recipient Header Parameter names must be disjoint' })
+  }, { instanceOf: errors.JWEInvalidHeader, code: 'ERR_JWE_INVALID_HEADER', message: 'JWE Shared Protected, JWE Shared Unprotected and JWE Per-Recipient Header Parameter names must be disjoint' })
+})
+
+test('JWE decrypt algorithms whitelist', t => {
+  const k = generateSync('oct')
+  const jwe = JWE.encrypt('foo', k, { alg: 'PBES2-HS256+A128KW' })
+  JWE.decrypt(jwe, k, { algorithms: ['PBES2-HS256+A128KW', 'PBES2-HS384+A192KW'] })
+
+  t.throws(() => {
+    JWE.decrypt(jwe, k, { algorithms: ['PBES2-HS384+A192KW'] })
+  }, { instanceOf: errors.JOSEAlgNotWhitelisted, code: 'ERR_JOSE_ALG_NOT_WHITELISTED', message: 'alg not whitelisted' })
+})
+
+test('JWE decrypt algorithms whitelist with a keystore', t => {
+  const k = generateSync('oct')
+  const k2 = generateSync('oct')
+  const ks = new JWKS.KeyStore(k, k2)
+
+  const jwe = JWE.encrypt('foo', k2, { alg: 'PBES2-HS256+A128KW' })
+  JWE.decrypt(jwe, ks, { algorithms: ['PBES2-HS256+A128KW', 'PBES2-HS384+A192KW'] })
+
+  t.throws(() => {
+    JWE.decrypt(jwe, ks, { algorithms: ['PBES2-HS384+A192KW'] })
+  }, { instanceOf: errors.JWEDecryptionFailed, code: 'ERR_JWE_DECRYPTION_FAILED' })
+})
+
+test('JWE decrypt algorithms whitelist with direct encryption', t => {
+  const k = generateSync('oct')
+  const jwe = JWE.encrypt('foo', k, { alg: 'dir' })
+  JWE.decrypt(jwe, k, { algorithms: ['A128CBC-HS256'] })
+
+  t.throws(() => {
+    JWE.decrypt(jwe, k, { algorithms: ['PBES2-HS384+A192KW'] })
+  }, { instanceOf: errors.JOSEAlgNotWhitelisted, code: 'ERR_JOSE_ALG_NOT_WHITELISTED' })
+})
+
+test('JWE decrypt algorithms whitelist (multi-recipient)', t => {
+  const k = generateSync('oct')
+  const k2 = generateSync('RSA')
+
+  const encrypt = new JWE.Encrypt('foo')
+  encrypt.recipient(k)
+  encrypt.recipient(k2)
+  const jwe = encrypt.encrypt('general')
+
+  JWE.decrypt(jwe, k, { algorithms: ['A256KW'] })
+  JWE.decrypt(jwe, k2, { algorithms: ['RSA-OAEP'] })
+
+  t.throws(() => {
+    JWE.decrypt(jwe, k, { algorithms: ['RSA-OAEP'] })
+  }, { instanceOf: errors.JWEDecryptionFailed, code: 'ERR_JWE_DECRYPTION_FAILED' })
+  t.throws(() => {
+    JWE.decrypt(jwe, k2, { algorithms: ['A256KW'] })
+  }, { instanceOf: errors.JWEDecryptionFailed, code: 'ERR_JWE_DECRYPTION_FAILED' })
 })

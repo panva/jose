@@ -10,20 +10,29 @@ TODO:
 
 ## Implemented specs & features
 
+Legend:
 - **✓** Implemented
 - **✕** Missing node crypto support / won't implement / not planned / PR welcome
 - **◯** TODO
 
 ---
 
+Remaining tasks:
 - ✓ JWKS abstraction
 - ✓ `crit` JWE/JWS Header parameter handling
 - ✓ `b64` JWS crit support
 - ✓ JWE `zip` handling
-- ◯ JWE/JWS decrypt/verify algorithm whitelisting
+- ✓ JWE/JWS decrypt/verify algorithm whitelisting
 - ◯ JWE/JWS reference (true/false for `kid`, name of the field for other fields)
-- ◯ README and documentation
 - ◯ whitelist additional JWK reference fields (`kid`, `jku`, `x5c`, `x5t`, `x5t#S256`, `x5u`)
+- ◯ README and documentation
+- ◯ .d.ts types
+- ◯ .github files (templates, CoC, Contributing)
+- ◯ `@panva/jwt`
+  - `compact` only with convenience methods and options
+  - `@panva/jose` as a dependency
+
+Won't implement:
 - ✕ JWS embedded key / referenced verification - won't implement, who needs it can decode the header
   and pass the (`x5c`, `jwk`) to JWK.importKey and validate with that key, similarly the
   application can handle fetching the referenced `x5u` or `jku`
