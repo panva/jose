@@ -1,7 +1,7 @@
 const test = require('ava')
 
 const { sign, verify } = require('../../lib/jws')
-const { JWK: { importKey, generateSync }, errors: { JWSVerificationFailed, JWSInvalid, JWSInvalidHeader } } = require('../..')
+const { JWK: { importKey, generateSync }, errors } = require('../..')
 
 const PAYLOAD = {}
 
@@ -28,7 +28,7 @@ const failure = (t, sKey, vKey, alg) => {
     }
     t.throws(() => {
       verify(signed, vKey)
-    }, { instanceOf: JWSInvalid, code: 'ERR_JWS_INVALID', message: 'could not parse JWS protected header' })
+    }, { instanceOf: errors.JWSInvalid, code: 'ERR_JWS_INVALID', message: 'could not parse JWS protected header' })
     signed.protected = orig
   })()
 
@@ -37,7 +37,7 @@ const failure = (t, sKey, vKey, alg) => {
     delete signed.protected
     t.throws(() => {
       verify(signed, vKey)
-    }, { instanceOf: JWSInvalidHeader, code: 'ERR_JWS_INVALID_HEADER', message: 'missing JWS signature algorithm' })
+    }, { instanceOf: errors.JWSInvalidHeader, code: 'ERR_JWS_INVALID_HEADER', message: 'missing JWS signature algorithm' })
     signed.protected = orig
   })()
 
@@ -51,11 +51,11 @@ const failure = (t, sKey, vKey, alg) => {
     }
     t.throws(() => {
       verify(signed, vKey)
-    }, { instanceOf: JWSVerificationFailed, code: 'ERR_JWS_VERIFICATION_FAILED' })
+    }, { instanceOf: errors.JWSVerificationFailed, code: 'ERR_JWS_VERIFICATION_FAILED' })
     signed.signature = signed.signature.substr(4)
     t.throws(() => {
       verify(signed, vKey)
-    }, { instanceOf: JWSVerificationFailed, code: 'ERR_JWS_VERIFICATION_FAILED' })
+    }, { instanceOf: errors.JWSVerificationFailed, code: 'ERR_JWS_VERIFICATION_FAILED' })
     signed.signature = orig
   })()
 }

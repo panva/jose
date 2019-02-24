@@ -3,7 +3,7 @@ const test = require('ava')
 const { randomBytes } = require('crypto')
 
 const { encrypt, decrypt } = require('../../lib/jwe')
-const { JWK: { importKey }, errors: { JWEDecryptionFailed, JWEInvalid, JWEInvalidHeader } } = require('../..')
+const { JWK: { importKey }, errors } = require('../..')
 
 const PAYLOAD = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c'
 const ENCS = [
@@ -41,11 +41,11 @@ const failure = (t, eKey, dKey, alg, enc) => {
     }
     t.throws(() => {
       decrypt(encrypted, dKey)
-    }, { instanceOf: JWEDecryptionFailed, code: 'ERR_JWE_DECRYPTION_FAILED' })
+    }, { instanceOf: errors.JWEDecryptionFailed, code: 'ERR_JWE_DECRYPTION_FAILED' })
     encrypted.encrypted_key = encrypted.encrypted_key.substr(4)
     t.throws(() => {
       decrypt(encrypted, dKey)
-    }, { instanceOf: JWEDecryptionFailed, code: 'ERR_JWE_DECRYPTION_FAILED' })
+    }, { instanceOf: errors.JWEDecryptionFailed, code: 'ERR_JWE_DECRYPTION_FAILED' })
     encrypted.encrypted_key = orig
   }
 
@@ -59,7 +59,7 @@ const failure = (t, eKey, dKey, alg, enc) => {
     }
     t.throws(() => {
       decrypt(encrypted, dKey)
-    }, { instanceOf: JWEInvalid, code: 'ERR_JWE_INVALID', message: 'could not parse JWE protected header' })
+    }, { instanceOf: errors.JWEInvalid, code: 'ERR_JWE_INVALID', message: 'could not parse JWE protected header' })
     encrypted.protected = orig
   })()
 
@@ -68,7 +68,7 @@ const failure = (t, eKey, dKey, alg, enc) => {
     delete encrypted.protected
     t.throws(() => {
       decrypt(encrypted, dKey)
-    }, { instanceOf: JWEInvalidHeader, code: 'ERR_JWE_INVALID_HEADER', message: 'missing Key Management algorithm' })
+    }, { instanceOf: errors.JWEInvalidHeader, code: 'ERR_JWE_INVALID_HEADER', message: 'missing Key Management algorithm' })
     encrypted.protected = orig
   })()
 
@@ -82,7 +82,7 @@ const failure = (t, eKey, dKey, alg, enc) => {
     }
     t.throws(() => {
       decrypt(encrypted, dKey)
-    }, { instanceOf: JWEDecryptionFailed, code: 'ERR_JWE_DECRYPTION_FAILED' })
+    }, { instanceOf: errors.JWEDecryptionFailed, code: 'ERR_JWE_DECRYPTION_FAILED' })
     encrypted[prop] = orig
   })
 
@@ -92,7 +92,7 @@ const failure = (t, eKey, dKey, alg, enc) => {
     encrypted[prop] = encrypted[prop].substr(4)
     t.throws(() => {
       decrypt(encrypted, dKey)
-    }, { instanceOf: JWEInvalid, code: 'ERR_JWE_INVALID' })
+    }, { instanceOf: errors.JWEInvalid, code: 'ERR_JWE_INVALID' })
     encrypted[prop] = orig
   })
 }

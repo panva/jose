@@ -1,7 +1,7 @@
 const test = require('ava')
 
 const base64url = require('../../lib/help/base64url')
-const { JWK: { generateSync }, JWS, errors: { JWSInvalid, JOSECritNotUnderstood } } = require('../..')
+const { JWK: { generateSync }, JWS, errors } = require('../..')
 
 const UNDEFINED = 'http://example.invalid/UNDEFINED'
 
@@ -10,7 +10,7 @@ test('crit must be understood', t => {
   const jws = JWS.sign({}, k, { crit: [UNDEFINED], [UNDEFINED]: true })
   t.throws(() => {
     JWS.verify(jws, k)
-  }, { instanceOf: JOSECritNotUnderstood, code: 'ERR_JOSE_CRIT_NOT_UNDERSTOOD', message: `critical "${UNDEFINED}" is not understood` })
+  }, { instanceOf: errors.JOSECritNotUnderstood, code: 'ERR_JOSE_CRIT_NOT_UNDERSTOOD', message: `critical "${UNDEFINED}" is not understood` })
   JWS.verify(jws, k, { crit: [UNDEFINED] })
 })
 
@@ -18,26 +18,26 @@ test('crit must be present', t => {
   const k = generateSync('oct')
   t.throws(() => {
     JWS.sign({}, k, { crit: [UNDEFINED] })
-  }, { instanceOf: JWSInvalid, code: 'ERR_JWS_INVALID', message: `critical parameter "${UNDEFINED}" is missing` })
+  }, { instanceOf: errors.JWSInvalid, code: 'ERR_JWS_INVALID', message: `critical parameter "${UNDEFINED}" is missing` })
   t.throws(() => {
     JWS.verify(
       `${base64url.JSON.encode({ alg: 'HS256', crit: [UNDEFINED] })}.${base64url.JSON.encode({})}.`,
       k,
       { crit: [UNDEFINED] }
     )
-  }, { instanceOf: JWSInvalid, code: 'ERR_JWS_INVALID', message: `critical parameter "${UNDEFINED}" is missing` })
+  }, { instanceOf: errors.JWSInvalid, code: 'ERR_JWS_INVALID', message: `critical parameter "${UNDEFINED}" is missing` })
 })
 
 test('crit must be integrity protected', t => {
   const k = generateSync('oct')
   t.throws(() => {
     JWS.sign.flattened({}, k, undefined, { crit: [UNDEFINED] })
-  }, { instanceOf: JWSInvalid, code: 'ERR_JWS_INVALID', message: '"crit" Header Parameter MUST be integrity protected when present' })
+  }, { instanceOf: errors.JWSInvalid, code: 'ERR_JWS_INVALID', message: '"crit" Header Parameter MUST be integrity protected when present' })
   const jws = JWS.sign.flattened({}, k)
   jws.header = { crit: [UNDEFINED] }
   t.throws(() => {
     JWS.verify(jws, k, { crit: [UNDEFINED] })
-  }, { instanceOf: JWSInvalid, code: 'ERR_JWS_INVALID', message: '"crit" Header Parameter MUST be integrity protected when present' })
+  }, { instanceOf: errors.JWSInvalid, code: 'ERR_JWS_INVALID', message: '"crit" Header Parameter MUST be integrity protected when present' })
 })
 
 test('crit must be an array of strings', t => {
@@ -45,10 +45,10 @@ test('crit must be an array of strings', t => {
   ;[{}, new Object(), false, null, Infinity, 0, Buffer.from('foo'), '', []].forEach((val) => { // eslint-disable-line no-new-object
     t.throws(() => {
       JWS.sign({}, k, { crit: val })
-    }, { instanceOf: JWSInvalid, code: 'ERR_JWS_INVALID', message: '"crit" Header Parameter MUST be an array of non-empty strings when present' })
+    }, { instanceOf: errors.JWSInvalid, code: 'ERR_JWS_INVALID', message: '"crit" Header Parameter MUST be an array of non-empty strings when present' })
     t.throws(() => {
       JWS.sign({}, k, { crit: [val] })
-    }, { instanceOf: JWSInvalid, code: 'ERR_JWS_INVALID', message: '"crit" Header Parameter MUST be an array of non-empty strings when present' })
+    }, { instanceOf: errors.JWSInvalid, code: 'ERR_JWS_INVALID', message: '"crit" Header Parameter MUST be an array of non-empty strings when present' })
   })
 })
 
@@ -79,6 +79,6 @@ test('crit must not contain JWE/JWS/JWA defined header parameters', t => {
   ].forEach((crit) => {
     t.throws(() => {
       JWS.sign({}, k, { crit: [crit] })
-    }, { instanceOf: JWSInvalid, code: 'ERR_JWS_INVALID', message: `The critical list contains a non-extension Header Parameter ${crit}` })
+    }, { instanceOf: errors.JWSInvalid, code: 'ERR_JWS_INVALID', message: `The critical list contains a non-extension Header Parameter ${crit}` })
   })
 })

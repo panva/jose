@@ -2,7 +2,7 @@ const test = require('ava')
 
 const recipe = require('./recipes').get('4.8')
 
-const { JWS, JWK: { importKey }, JWKS: { KeyStore }, errors: { JWSVerificationFailed } } = require('../..')
+const { JWS, JWK: { importKey }, JWKS: { KeyStore }, errors } = require('../..')
 
 const { input: { payload, key: jwks }, signing: recipients } = recipe
 
@@ -49,11 +49,11 @@ test(`${recipe.title} - general verify - keystore`, t => {
 test(`${recipe.title} - general verify (failing)`, t => {
   t.throws(() => {
     JWS.verify(recipe.output.json, keystoreMatchNone)
-  }, { instanceOf: JWSVerificationFailed, code: 'ERR_JWS_VERIFICATION_FAILED' })
+  }, { instanceOf: errors.JWKSNoMatchingKey, code: 'ERR_JWKS_NO_MATCHING_KEY', message: 'no matching key found in the KeyStore' })
 })
 
 test(`${recipe.title} - general verify (using empty keystore)`, t => {
   t.throws(() => {
     JWS.verify(recipe.output.json, keystoreEmpty)
-  }, { instanceOf: JWSVerificationFailed, code: 'ERR_JWS_VERIFICATION_FAILED' })
+  }, { instanceOf: errors.JWKSNoMatchingKey, code: 'ERR_JWKS_NO_MATCHING_KEY', message: 'no matching key found in the KeyStore' })
 })

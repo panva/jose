@@ -484,7 +484,7 @@ test('JWE decrypt algorithms whitelist with a keystore', t => {
 
   t.throws(() => {
     JWE.decrypt(jwe, ks, { algorithms: ['PBES2-HS384+A192KW'] })
-  }, { instanceOf: errors.JWEDecryptionFailed, code: 'ERR_JWE_DECRYPTION_FAILED' })
+  }, { instanceOf: errors.JOSEAlgNotWhitelisted, code: 'ERR_JOSE_ALG_NOT_WHITELISTED' })
 })
 
 test('JWE decrypt algorithms whitelist with direct encryption', t => {
@@ -508,11 +508,92 @@ test('JWE decrypt algorithms whitelist (multi-recipient)', t => {
 
   JWE.decrypt(jwe, k, { algorithms: ['A256KW'] })
   JWE.decrypt(jwe, k2, { algorithms: ['RSA-OAEP'] })
+  let err
+
+  err = t.throws(() => {
+    JWE.decrypt(jwe, k, { algorithms: ['RSA-OAEP'] })
+  }, { instanceOf: errors.JOSEMultiError, code: 'ERR_JOSE_MULTIPLE_ERRORS' })
+  ;[...err].forEach((e, i) => {
+    if (i === 0) {
+      t.is(e.constructor, errors.JOSEAlgNotWhitelisted)
+    } else {
+      t.is(e.constructor, errors.JWKKeySupport)
+    }
+  })
+
+  err = t.throws(() => {
+    JWE.decrypt(jwe, k2, { algorithms: ['A256KW'] })
+  }, { instanceOf: errors.JOSEMultiError, code: 'ERR_JOSE_MULTIPLE_ERRORS' })
+  ;[...err].forEach((e, i) => {
+    if (i === 0) {
+      t.is(e.constructor, errors.JWKKeySupport)
+    } else {
+      t.is(e.constructor, errors.JOSEAlgNotWhitelisted)
+    }
+  })
+})
+
+test('JWE "zip" must be integrity protected', t => {
+  const k = generateSync('oct')
 
   t.throws(() => {
-    JWE.decrypt(jwe, k, { algorithms: ['RSA-OAEP'] })
-  }, { instanceOf: errors.JWEDecryptionFailed, code: 'ERR_JWE_DECRYPTION_FAILED' })
+    JWE.encrypt.flattened('foo', k, undefined, { zip: 'DEF' })
+  }, { instanceOf: errors.JWEInvalidHeader, code: 'ERR_JWE_INVALID_HEADER', message: '"zip" Header Parameter MUST be integrity protected' })
+})
+
+test('JWE "zip" only DEF is supported', t => {
+  const k = generateSync('oct')
+
   t.throws(() => {
-    JWE.decrypt(jwe, k2, { algorithms: ['A256KW'] })
+    JWE.encrypt.flattened('foo', k, { zip: 'FOO' })
+  }, { instanceOf: errors.JOSENotSupported, code: 'ERR_JOSE_NOT_SUPPORTED', message: 'only "DEF" compression algorithm is supported' })
+})
+
+test('JWE "zip" must be integrity protected (decrypt)', t => {
+  const k = generateSync('oct')
+  const jwe = JWE.encrypt.flattened('foo', k, { zip: 'DEF' })
+  const prot = base64url.JSON.decode(jwe.protected)
+  delete prot.zip
+  jwe.protected = base64url.JSON.encode(prot)
+  jwe.unprotected = { zip: 'DEF' }
+
+  t.throws(() => {
+    JWE.decrypt(jwe, k)
+  }, { instanceOf: errors.JWEInvalidHeader, code: 'ERR_JWE_INVALID_HEADER', message: '"zip" Header Parameter MUST be integrity protected' })
+})
+
+test('JWE "zip" only DEF is supported (decrypt)', t => {
+  const k = generateSync('oct')
+  const jwe = JWE.encrypt.flattened('foo', k, { zip: 'DEF' })
+  const prot = base64url.JSON.decode(jwe.protected)
+  prot.zip = 'foo'
+  jwe.protected = base64url.JSON.encode(prot)
+
+  t.throws(() => {
+    JWE.decrypt(jwe, k)
+  }, { instanceOf: errors.JOSENotSupported, code: 'ERR_JOSE_NOT_SUPPORTED', message: 'only "DEF" compression algorithm is supported' })
+})
+
+test('JWE keystore match multi but fails with decryption error', t => {
+  const k = generateSync('oct')
+  const ks = new JWKS.KeyStore(generateSync('oct'), generateSync('oct'))
+  const jwe = JWE.encrypt('foo', k)
+
+  t.throws(() => {
+    JWE.decrypt(jwe, ks)
+  }, { instanceOf: errors.JWEDecryptionFailed, code: 'ERR_JWE_DECRYPTION_FAILED' })
+})
+
+test('JWE general fails with decryption error', t => {
+  const k = generateSync('oct')
+  const k2 = generateSync('oct')
+  const k3 = generateSync('oct')
+  const encrypt = new JWE.Encrypt('foo')
+  encrypt.recipient(k)
+  encrypt.recipient(k2)
+  const jwe = encrypt.encrypt('general')
+
+  t.throws(() => {
+    JWE.decrypt(jwe, k3)
   }, { instanceOf: errors.JWEDecryptionFailed, code: 'ERR_JWE_DECRYPTION_FAILED' })
 })

@@ -2,7 +2,7 @@ const test = require('ava')
 
 const recipe = require('./recipes').get('4.1 rfc7797')
 
-const { JWS, JWK: { importKey, generateSync }, JWKS: { KeyStore }, errors: { JWSVerificationFailed } } = require('../..')
+const { JWS, JWK: { importKey, generateSync }, JWKS: { KeyStore }, errors } = require('../..')
 
 const { input: { payload, key: jwk }, signing: { protected: header } } = recipe
 
@@ -11,7 +11,7 @@ const key = importKey(jwk)
 const keystoreEmpty = new KeyStore()
 const keystoreMatchOne = new KeyStore(generateSync(key.kty, key.length, { alg: key.alg, use: key.use }), key)
 const keystoreMatchMore = new KeyStore(generateSync(key.kty, key.length, { alg: key.alg, use: key.use, kid: key.kid }), key, importKey(key))
-const keystoreMatchNone = new KeyStore(generateSync(key.kty), generateSync(key.kty))
+const keystoreMatchNone = new KeyStore(generateSync('ec'), generateSync('rsa'))
 
 test(`${recipe.title} - compact sign`, t => {
   t.is(JWS.sign(payload, key, header), recipe.output.compact)
@@ -54,35 +54,35 @@ test(`${recipe.title} - general verify`, t => {
 test(`${recipe.title} - compact verify (failing)`, t => {
   t.throws(() => {
     JWS.verify(recipe.output.compact, keystoreMatchNone, { crit: ['b64'] })
-  }, { instanceOf: JWSVerificationFailed, code: 'ERR_JWS_VERIFICATION_FAILED' })
+  }, { instanceOf: errors.JWKSNoMatchingKey, code: 'ERR_JWKS_NO_MATCHING_KEY' })
 })
 
 test(`${recipe.title} - flattened verify (failing)`, t => {
   t.throws(() => {
     JWS.verify(recipe.output.json_flat, keystoreMatchNone, { crit: ['b64'] })
-  }, { instanceOf: JWSVerificationFailed, code: 'ERR_JWS_VERIFICATION_FAILED' })
+  }, { instanceOf: errors.JWKSNoMatchingKey, code: 'ERR_JWKS_NO_MATCHING_KEY' })
 })
 
 test(`${recipe.title} - general verify (failing)`, t => {
   t.throws(() => {
     JWS.verify(recipe.output.json, keystoreMatchNone, { crit: ['b64'] })
-  }, { instanceOf: JWSVerificationFailed, code: 'ERR_JWS_VERIFICATION_FAILED' })
+  }, { instanceOf: errors.JWKSNoMatchingKey, code: 'ERR_JWKS_NO_MATCHING_KEY' })
 })
 
 test(`${recipe.title} - compact verify (using empty keystore)`, t => {
   t.throws(() => {
     JWS.verify(recipe.output.compact, keystoreEmpty, { crit: ['b64'] })
-  }, { instanceOf: JWSVerificationFailed, code: 'ERR_JWS_VERIFICATION_FAILED' })
+  }, { instanceOf: errors.JWKSNoMatchingKey, code: 'ERR_JWKS_NO_MATCHING_KEY', message: 'no matching key found in the KeyStore' })
 })
 
 test(`${recipe.title} - flattened verify (using empty keystore)`, t => {
   t.throws(() => {
     JWS.verify(recipe.output.json_flat, keystoreEmpty, { crit: ['b64'] })
-  }, { instanceOf: JWSVerificationFailed, code: 'ERR_JWS_VERIFICATION_FAILED' })
+  }, { instanceOf: errors.JWKSNoMatchingKey, code: 'ERR_JWKS_NO_MATCHING_KEY', message: 'no matching key found in the KeyStore' })
 })
 
 test(`${recipe.title} - general verify (using empty keystore)`, t => {
   t.throws(() => {
     JWS.verify(recipe.output.json, keystoreEmpty, { crit: ['b64'] })
-  }, { instanceOf: JWSVerificationFailed, code: 'ERR_JWS_VERIFICATION_FAILED' })
+  }, { instanceOf: errors.JWKSNoMatchingKey, code: 'ERR_JWKS_NO_MATCHING_KEY', message: 'no matching key found in the KeyStore' })
 })

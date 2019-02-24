@@ -205,6 +205,30 @@ test('JWS no alg specified (multi recipient) with per-recipient protected header
   t.deepEqual(base64url.JSON.decode(jws.signatures[2].protected), { alg: 'HS256', kid: 'kid_3' })
 })
 
+test('JWS keystore match multi but fails with verification error', t => {
+  const k = generateSync('oct')
+  const ks = new JWKS.KeyStore(generateSync('oct'), generateSync('oct'))
+  const jws = JWS.sign({}, k)
+
+  t.throws(() => {
+    JWS.verify(jws, ks)
+  }, { instanceOf: errors.JWSVerificationFailed, code: 'ERR_JWS_VERIFICATION_FAILED' })
+})
+
+test('JWS general fails with decryption error', t => {
+  const k = generateSync('oct')
+  const k2 = generateSync('oct')
+  const k3 = generateSync('oct')
+  const sign = new JWS.Sign('foo')
+  sign.recipient(k)
+  sign.recipient(k2)
+  const jws = sign.sign('general')
+
+  t.throws(() => {
+    JWS.verify(jws, k3)
+  }, { instanceOf: errors.JWSVerificationFailed, code: 'ERR_JWS_VERIFICATION_FAILED' })
+})
+
 test('JWS verify algorithms whitelist', t => {
   const k = generateSync('oct')
   const jws = JWS.sign({}, k, { alg: 'HS512' })
@@ -225,7 +249,7 @@ test('JWS verify algorithms whitelist (with keystore)', t => {
 
   t.throws(() => {
     JWS.verify(jws, ks, { algorithms: ['RS256'] })
-  }, { instanceOf: errors.JWSVerificationFailed, code: 'ERR_JWS_VERIFICATION_FAILED' })
+  }, { instanceOf: errors.JOSEAlgNotWhitelisted, code: 'ERR_JOSE_ALG_NOT_WHITELISTED', message: 'alg not whitelisted' })
 })
 
 test('JWS verify algorithms whitelist (multi-recipient)', t => {
@@ -240,10 +264,27 @@ test('JWS verify algorithms whitelist (multi-recipient)', t => {
   JWS.verify(jws, k, { algorithms: ['HS256', 'PS256'] })
   JWS.verify(jws, k2, { algorithms: ['HS256', 'PS256'] })
 
-  t.throws(() => {
+  let err
+
+  err = t.throws(() => {
     JWS.verify(jws, k, { algorithms: ['RS256'] })
-  }, { instanceOf: errors.JWSVerificationFailed, code: 'ERR_JWS_VERIFICATION_FAILED' })
-  t.throws(() => {
+  }, { instanceOf: errors.JOSEMultiError, code: 'ERR_JOSE_MULTIPLE_ERRORS' })
+
+  ;[...err].forEach((e, i) => {
+    if (i === 0) {
+      t.is(e.constructor, errors.JOSEAlgNotWhitelisted)
+    } else {
+      t.is(e.constructor, errors.JOSEAlgNotWhitelisted)
+    }
+  })
+  err = t.throws(() => {
     JWS.verify(jws, k2, { algorithms: ['HS256'] })
-  }, { instanceOf: errors.JWSVerificationFailed, code: 'ERR_JWS_VERIFICATION_FAILED' })
+  }, { instanceOf: errors.JOSEMultiError, code: 'ERR_JOSE_MULTIPLE_ERRORS' })
+  ;[...err].forEach((e, i) => {
+    if (i === 0) {
+      t.is(e.constructor, errors.JWKKeySupport)
+    } else {
+      t.is(e.constructor, errors.JOSEAlgNotWhitelisted)
+    }
+  })
 })
