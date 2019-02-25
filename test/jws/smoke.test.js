@@ -37,7 +37,7 @@ const failure = (t, sKey, vKey, alg) => {
     delete signed.protected
     t.throws(() => {
       verify(signed, vKey)
-    }, { instanceOf: errors.JWSInvalidHeader, code: 'ERR_JWS_INVALID_HEADER', message: 'missing JWS signature algorithm' })
+    }, { instanceOf: errors.JWSInvalid, code: 'ERR_JWS_INVALID', message: 'missing JWS signature algorithm' })
     signed.protected = orig
   })()
 

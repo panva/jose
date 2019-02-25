@@ -47,7 +47,7 @@ test('JWE no alg specified but cannot resolve', t => {
   const k1 = generateSync('rsa', undefined, { alg: 'foo' })
   t.throws(() => {
     JWE.encrypt('foo', k1)
-  }, { instanceOf: errors.JWEInvalidHeader, code: 'ERR_JWE_INVALID_HEADER', message: 'could not resolve a usable "alg" for a recipient' })
+  }, { instanceOf: errors.JWEInvalid, code: 'ERR_JWE_INVALID', message: 'could not resolve a usable "alg" for a recipient' })
 })
 
 test('JWE no alg/enc specified (multi recipient)', t => {
@@ -337,7 +337,7 @@ test('JWE must have recipients', t => {
   const encrypt = new JWE.Encrypt('foo')
   t.throws(() => {
     encrypt.encrypt('compact')
-  }, { instanceOf: errors.JWENoRecipients, code: 'ERR_JWE_NO_RECIPIENTS', message: 'missing recipients' })
+  }, { instanceOf: errors.JWEInvalid, code: 'ERR_JWE_INVALID', message: 'missing recipients' })
 })
 
 test('JWE valid serialization must be provided', t => {
@@ -393,7 +393,7 @@ test('JWE must only have one Content Encryption algorithm (encrypt)', t => {
   encrypt.recipient(k2, { enc: 'A128GCM' })
   t.throws(() => {
     encrypt.encrypt('general')
-  }, { instanceOf: errors.JWEInvalidHeader, code: 'ERR_JWE_INVALID_HEADER', message: 'there must only be one Content Encryption algorithm' })
+  }, { instanceOf: errors.JWEInvalid, code: 'ERR_JWE_INVALID', message: 'there must only be one Content Encryption algorithm' })
 })
 
 test('JWE must only have one Content Encryption algorithm (decrypt)', t => {
@@ -406,7 +406,7 @@ test('JWE must only have one Content Encryption algorithm (decrypt)', t => {
   t.throws(() => {
     jwe.recipients[0].header.enc = 'A128CBC-HS256'
     JWE.decrypt(jwe, k)
-  }, { instanceOf: errors.JWEInvalidHeader, code: 'ERR_JWE_INVALID_HEADER', message: 'there must only be one Content Encryption algorithm' })
+  }, { instanceOf: errors.JWEInvalid, code: 'ERR_JWE_INVALID', message: 'there must only be one Content Encryption algorithm' })
 })
 
 test('JWE must have a Content Encryption algorithm (decrypt)', t => {
@@ -420,7 +420,7 @@ test('JWE must have a Content Encryption algorithm (decrypt)', t => {
     delete jwe.recipients[0].header.enc
     delete jwe.recipients[1].header.enc
     JWE.decrypt(jwe, k)
-  }, { instanceOf: errors.JWEInvalidHeader, code: 'ERR_JWE_INVALID_HEADER', message: 'missing Content Encryption algorithm' })
+  }, { instanceOf: errors.JWEInvalid, code: 'ERR_JWE_INVALID', message: 'missing Content Encryption algorithm' })
 })
 
 test('JWE oct dir is only usable with a single recipient', t => {
@@ -431,7 +431,7 @@ test('JWE oct dir is only usable with a single recipient', t => {
   encrypt.recipient(k2)
   t.throws(() => {
     encrypt.encrypt('general')
-  }, { instanceOf: errors.JWEInvalidHeader, code: 'ERR_JWE_INVALID_HEADER', message: 'dir and ECDH-ES alg may only be used with a single recipient' })
+  }, { instanceOf: errors.JWEInvalid, code: 'ERR_JWE_INVALID', message: 'dir and ECDH-ES alg may only be used with a single recipient' })
 })
 
 test('JWE EC ECDH-ES is only usable with a single recipient', t => {
@@ -442,7 +442,7 @@ test('JWE EC ECDH-ES is only usable with a single recipient', t => {
   encrypt.recipient(k2)
   t.throws(() => {
     encrypt.encrypt('general')
-  }, { instanceOf: errors.JWEInvalidHeader, code: 'ERR_JWE_INVALID_HEADER', message: 'dir and ECDH-ES alg may only be used with a single recipient' })
+  }, { instanceOf: errors.JWEInvalid, code: 'ERR_JWE_INVALID', message: 'dir and ECDH-ES alg may only be used with a single recipient' })
 })
 
 test('JWE prot, unprot and per-recipient headers must be disjoint', t => {
@@ -451,17 +451,17 @@ test('JWE prot, unprot and per-recipient headers must be disjoint', t => {
     const encrypt = new JWE.Encrypt('foo', { foo: 1 }, { foo: 2 })
     encrypt.recipient(k)
     encrypt.encrypt('flattened')
-  }, { instanceOf: errors.JWEInvalidHeader, code: 'ERR_JWE_INVALID_HEADER', message: 'JWE Shared Protected, JWE Shared Unprotected and JWE Per-Recipient Header Parameter names must be disjoint' })
+  }, { instanceOf: errors.JWEInvalid, code: 'ERR_JWE_INVALID', message: 'JWE Shared Protected, JWE Shared Unprotected and JWE Per-Recipient Header Parameter names must be disjoint' })
   t.throws(() => {
     const encrypt = new JWE.Encrypt('foo', { foo: 1 })
     encrypt.recipient(k, { foo: 2 })
     encrypt.encrypt('flattened')
-  }, { instanceOf: errors.JWEInvalidHeader, code: 'ERR_JWE_INVALID_HEADER', message: 'JWE Shared Protected, JWE Shared Unprotected and JWE Per-Recipient Header Parameter names must be disjoint' })
+  }, { instanceOf: errors.JWEInvalid, code: 'ERR_JWE_INVALID', message: 'JWE Shared Protected, JWE Shared Unprotected and JWE Per-Recipient Header Parameter names must be disjoint' })
   t.throws(() => {
     const encrypt = new JWE.Encrypt('foo', undefined, { foo: 1 })
     encrypt.recipient(k, { foo: 2 })
     encrypt.encrypt('flattened')
-  }, { instanceOf: errors.JWEInvalidHeader, code: 'ERR_JWE_INVALID_HEADER', message: 'JWE Shared Protected, JWE Shared Unprotected and JWE Per-Recipient Header Parameter names must be disjoint' })
+  }, { instanceOf: errors.JWEInvalid, code: 'ERR_JWE_INVALID', message: 'JWE Shared Protected, JWE Shared Unprotected and JWE Per-Recipient Header Parameter names must be disjoint' })
 })
 
 test('JWE decrypt algorithms whitelist', t => {
@@ -538,7 +538,7 @@ test('JWE "zip" must be integrity protected', t => {
 
   t.throws(() => {
     JWE.encrypt.flattened('foo', k, undefined, { zip: 'DEF' })
-  }, { instanceOf: errors.JWEInvalidHeader, code: 'ERR_JWE_INVALID_HEADER', message: '"zip" Header Parameter MUST be integrity protected' })
+  }, { instanceOf: errors.JWEInvalid, code: 'ERR_JWE_INVALID', message: '"zip" Header Parameter MUST be integrity protected' })
 })
 
 test('JWE "zip" only DEF is supported', t => {
@@ -559,7 +559,7 @@ test('JWE "zip" must be integrity protected (decrypt)', t => {
 
   t.throws(() => {
     JWE.decrypt(jwe, k)
-  }, { instanceOf: errors.JWEInvalidHeader, code: 'ERR_JWE_INVALID_HEADER', message: '"zip" Header Parameter MUST be integrity protected' })
+  }, { instanceOf: errors.JWEInvalid, code: 'ERR_JWE_INVALID', message: '"zip" Header Parameter MUST be integrity protected' })
 })
 
 test('JWE "zip" only DEF is supported (decrypt)', t => {

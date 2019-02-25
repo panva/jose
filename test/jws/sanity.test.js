@@ -101,14 +101,14 @@ test('JWS prot and unprot headers must be disjoint', t => {
   const sign = new JWS.Sign('foo')
   t.throws(() => {
     sign.recipient(k, { foo: 1 }, { foo: 0 })
-  }, { instanceOf: errors.JWSInvalidHeader, code: 'ERR_JWS_INVALID_HEADER', message: 'JWS Protected and JWS Unprotected Header Parameter names must be disjoint' })
+  }, { instanceOf: errors.JWSInvalid, code: 'ERR_JWS_INVALID', message: 'JWS Protected and JWS Unprotected Header Parameter names must be disjoint' })
 })
 
 test('JWS must have recipients', t => {
   const sign = new JWS.Sign('foo')
   t.throws(() => {
     sign.sign('compact')
-  }, { instanceOf: errors.JWSNoRecipients, code: 'ERR_JWS_NO_RECIPIENTS', message: 'missing recipients' })
+  }, { instanceOf: errors.JWSInvalid, code: 'ERR_JWS_INVALID', message: 'missing recipients' })
 })
 
 test('JWS valid serialization must be provided', t => {
@@ -155,7 +155,7 @@ test('JWS no alg specified but cannot resolve', t => {
   const k1 = generateSync('rsa', undefined, { alg: 'foo' })
   t.throws(() => {
     JWS.sign({}, k1)
-  }, { instanceOf: errors.JWSInvalidHeader, code: 'ERR_JWS_INVALID_HEADER', message: 'could not resolve a usable "alg" for a recipient' })
+  }, { instanceOf: errors.JWSInvalid, code: 'ERR_JWS_INVALID', message: 'could not resolve a usable "alg" for a recipient' })
 })
 
 test('JWS verify must be able to parse the protected header', t => {
@@ -175,7 +175,7 @@ test('JWS verify must have disjoint header members', t => {
   jws.header = { alg: 'HS256' }
   t.throws(() => {
     JWS.verify(jws, k)
-  }, { instanceOf: errors.JWSInvalidHeader, code: 'ERR_JWS_INVALID_HEADER', message: 'JWS Protected and JWS Unprotected Header Parameter names must be disjoint' })
+  }, { instanceOf: errors.JWSInvalid, code: 'ERR_JWS_INVALID', message: 'JWS Protected and JWS Unprotected Header Parameter names must be disjoint' })
 })
 
 test('JWS no alg specified (multi recipient)', t => {

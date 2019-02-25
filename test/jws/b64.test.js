@@ -31,13 +31,13 @@ test('b64=true is also allowed', t => {
 test('b64 must be integrity protected', t => {
   t.throws(() => {
     JWS.sign.flattened('foo', k, { alg: 'HS256', crit: ['b64'] }, { b64: true })
-  }, { instanceOf: errors.JWSInvalidHeader, code: 'ERR_JWS_INVALID_HEADER', message: '"b64" critical parameter must be integrity protected' })
+  }, { instanceOf: errors.JWSInvalid, code: 'ERR_JWS_INVALID', message: '"b64" critical parameter must be integrity protected' })
 })
 
 test('b64 must be a boolean', t => {
   t.throws(() => {
     JWS.sign.flattened('foo', k, { alg: 'HS256', crit: ['b64'], b64: 'true' })
-  }, { instanceOf: errors.JWSInvalidHeader, code: 'ERR_JWS_INVALID_HEADER', message: '"b64" critical parameter must be a boolean' })
+  }, { instanceOf: errors.JWSInvalid, code: 'ERR_JWS_INVALID', message: '"b64" critical parameter must be a boolean' })
 })
 
 test('b64 must be the same for all recipients', t => {
@@ -47,5 +47,5 @@ test('b64 must be the same for all recipients', t => {
 
   t.throws(() => {
     sign.sign('general')
-  }, { instanceOf: errors.JWSInvalidHeader, code: 'ERR_JWS_INVALID_HEADER', message: 'the "b64" Header Parameter value MUST be the same for all recipients' })
+  }, { instanceOf: errors.JWSInvalid, code: 'ERR_JWS_INVALID', message: 'the "b64" Header Parameter value MUST be the same for all recipients' })
 })

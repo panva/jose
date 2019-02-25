@@ -68,7 +68,7 @@ const failure = (t, eKey, dKey, alg, enc) => {
     delete encrypted.protected
     t.throws(() => {
       decrypt(encrypted, dKey)
-    }, { instanceOf: errors.JWEInvalidHeader, code: 'ERR_JWE_INVALID_HEADER', message: 'missing Key Management algorithm' })
+    }, { instanceOf: errors.JWEInvalid, code: 'ERR_JWE_INVALID', message: 'missing Key Management algorithm' })
     encrypted.protected = orig
   })()
 
