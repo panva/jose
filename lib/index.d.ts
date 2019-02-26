@@ -166,6 +166,7 @@ export namespace JWS {
 
     interface completeVerification {
         payload: string | object,
+        key: JWK.Key,
         protected?: object,
         header?: object,
     }
@@ -220,6 +221,7 @@ export namespace JWE {
 
     interface completeDecrypt {
         cleartext: Buffer,
+        key: JWK.Key,
         aad?: string,
         header?: object,
         unprotected?: object,
