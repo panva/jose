@@ -1,6 +1,15 @@
 const test = require('ava')
 
-const { JWK: { generateSync } } = require('../..')
+const { JWK: { generateSync, isKey } } = require('../..')
+
+test('.isKey() only key objects return true', t => {
+  ;[[], false, true, null, Infinity, 0].forEach((val) => {
+    t.false(isKey(val))
+  })
+  ;['RSA', 'EC', 'oct'].forEach((kty) => {
+    t.true(isKey(generateSync(kty)))
+  })
+})
 
 test('"use" must be either `alg` or `enc`', t => {
   ;[[], false, true, null, Infinity, 0].forEach((val) => {

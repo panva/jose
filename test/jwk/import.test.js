@@ -32,7 +32,7 @@ test('parameters must be a plain object', t => {
   ;[Buffer, () => {}, async () => {}, true, Infinity, 1, [], Buffer.from('foo')].forEach((val) => {
     t.throws(() => {
       importKey('foo', val)
-    }, { instanceOf: TypeError, message: 'parameters argument a plain object when provided' })
+    }, { instanceOf: TypeError, message: 'parameters argument must be a plain object when provided' })
   })
 })
 

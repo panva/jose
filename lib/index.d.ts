@@ -84,6 +84,8 @@ export namespace JWK {
         toJWK(private?: boolean): JWKOctKey
     }
 
+    export function isKey(object: any): boolean
+
     export function importKey(keyObject: KeyObject, parameters?: KeyParameters): RSAKey | ECKey | OctKey
     export function importKey(key: PrivateKeyInput | PublicKeyInput | string | Buffer, parameters?: KeyParameters): RSAKey | ECKey | OctKey
     export function importKey(jwk: JWKOctKey): OctKey

@@ -109,3 +109,26 @@ test('.all() and .get() alg sort', t => {
   t.is(ks.get({ alg: 'HS256' }), undefined)
   t.is(ks.get({ alg: 'RS256' }), k2)
 })
+
+test('.fromJWKS()', t => {
+  const ks = new KeyStore()
+  ks.generateSync('ec')
+  ks.generateSync('rsa')
+
+  const ks2 = KeyStore.fromJWKS(ks.toJWKS())
+  t.is(ks2.size, 2)
+})
+
+test('.fromJWKS() input validation', t => {
+  [Buffer, 1, false, '', 'foo', {}, { foo: 'bar' }].forEach((val) => {
+    t.throws(() => {
+      KeyStore.fromJWKS(val)
+    }, { instanceOf: TypeError, message: 'jwks must be a JSON Web Key Set formatted object' })
+    t.throws(() => {
+      KeyStore.fromJWKS({ keys: val })
+    }, { instanceOf: TypeError, message: 'jwks must be a JSON Web Key Set formatted object' })
+    t.throws(() => {
+      KeyStore.fromJWKS({ keys: [val] })
+    }, { instanceOf: TypeError, message: 'jwks must be a JSON Web Key Set formatted object' })
+  })
+})
