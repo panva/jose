@@ -4,12 +4,7 @@
 
 "JSON Web Almost Everything" - JWA, JWS, JWE, JWK, JWKS for Node.js with minimal dependencies
 
-See the [`@panva/jwt`](https://github.com/panva/jwt) package for JWT.
-
-**Table of Contents**
-
-- [Implemented specs & features](#implemented-specs--features)
-- [Usage](#usage)
+See the [`@panva/jwt`](https://github.com/panva/jwt) (coming soon™) for JWT convenience abstraction.
 
 ## Implemented specs & features
 
@@ -30,7 +25,8 @@ implementation is correct.
 
 Legend:
 - **✓** Implemented
-- **✕** Missing node crypto support / won't implement / not planned / PR welcome
+- **✕** Missing node crypto support / won't implement
+- **◯** not planned (yet?) / PR / Use-Case first welcome
 
 | JWK Key Types | Supported ||
 | -- | -- | -- |
@@ -68,327 +64,199 @@ Legend:
 
 ---
 
-Remaining tasks:
-- ✓ JWKS abstraction
-- ✓ `crit` JWE/JWS Header parameter handling
-- ✓ `b64` JWS crit support
-- ✓ JWE `zip` handling
-- ✓ JWE/JWS decrypt/verify algorithm whitelisting
-- ◯ JWE/JWS reference (true/false for `kid`, name of the field for other fields)
-- ◯ whitelist additional JWK reference fields (`kid`, `jku`, `x5c`, `x5t`, `x5t#S256`, `x5u`)
-- ◯ README and documentation
-- ◯ .d.ts types
-- ◯ .github files (templates, CoC, Contributing)
-- ◯ `@panva/jwt`
-  - `compact` only with convenience methods and options
-  - `@panva/jose` as a dependency
+Pending Node.js Support 🤞:
+- [RFC8037][spec-cfrg] (EdDSA, OKP kty, etc)
+  - `crypto.getCurves().includes('Curve25519')` // => 😢
+  - `crypto.getCurves().includes('Curve448')` // => 😢
+  - `openssl ecparam -list_curves` // => 😢
 
 Won't implement:
-- ✕ JWS embedded key / referenced verification - won't implement, who needs it can decode the header
-  and pass the (`x5c`, `jwk`) to `JWK.importKey` and validate with that key, similarly the
-  application can handle fetching the referenced `x5u` or `jku`
-- ✕ JWS detached content - won't implement, who needs it can remove/attach the payload after/before
-  the respective operation
-- ✕ "none" alg support, no crypto, no use, don't bother
+- ✕ JWS embedded key / referenced verification
+  - one can decode the header and pass the (`x5c`, `jwk`) to `JWK.importKey` and validate with that
+    key, similarly the application can handle fetching and then instantiating the referenced `x5u`
+    or `jku` in its own code. This way you opt-in to these behaviours and for `x5c` specifically
+    the recipient is responsible for validating the certificate chain is trusted
+- ✕ JWS detached content
+  - one can remove/attach the payload after/before the respective operation
+- ✕ "none" alg support
+  - no crypto, no use
+
+Not Planned / PR | Use-Case | Discussion Welcome:
+- ◯ automatically adding `kid` reference to JWS / JWE Headers
+- ◯ `x5c`, `x5t`, `x5t#S256`, `x5u` etc `JWK.Key` fields
 
 </details>
 
-Missing a feature? - If it wasn't already discussed before, [ask for it][suggest-feature].  
-Found a bug? - [report it][bug].
+<br>
 
-<h2>Support</h2>
+Have a question about using @panva/jose? - [ask][ask].  
+Found a bug? - [report it][bug].  
+Missing a feature? - If it wasn't already discussed before, [ask for it][suggest-feature].  
+Found a vulnerability? - Reach out to us via email first, see [security vulnerability disclosure][security-vulnerability].  
+
+## Support
 
 [<img src="https://c5.patreon.com/external/logo/become_a_patron_button@2x.png" width="160" align="right">][support-patreon]
 If you or your business use @panva/jose, please consider becoming a [Patron][support-patreon] so I can continue maintaining it and adding new features carefree. You may also donate one-time via [PayPal][support-paypal].
 [<img src="https://cdn.jsdelivr.net/gh/gregoiresgt/payment-icons@183140a5ff8f39b5a19d59ebeb2c77f03c3a24d3/Assets/Payment/PayPal/Paypal@2x.png" width="100" align="right">][support-paypal]
 
+## Documentation
+
+- [@panva/jose API Documentation][documentation]
+  - [JWK (JSON Web Key)][documentation-jwk]
+  - [JWKS (JSON Web Key Set)][documentation-jwks]
+  - [JWS (JSON Web Signature)][documentation-jws]
+  - [JWE (JSON Web Encryption)][documentation-jwe]
+
 ## Usage
 
-The minimal Node.js version supported is v11.8.0
+The minimal Node.js version required is v11.8.0
 
+Installing @panva/jose
+
+```sh
+$ npm install @panva/jose
+```
+
+Usage
 ```js
+const jose = require('@panva/jose')
 const {
   JWE, // JSON Web Encryption (JWE)
   JWK, // JSON Web Key (JWK)
   JWKS, // JSON Web Key Set (JWKS)
   JWS, // JSON Web Signature (JWS)
   errors // errors utilized by @panva/jose
-} = require('@panva/jose')
-
+} = jose
 ```
 
-## JWK (JSON Web Key)
+#### Keys and KeyStores
 
-All @panva/jose operations require `JWK.Key` or `JWKS.KeyStore` as arguments. Here's
-how to get a `JWK.Key`.
-
-#### Class: JWK `<RSAKey>` | `<ECKey>` | `<OctKey>`
-
-`<RSAKey>`, `<ECKey>` and `<OctKey>` represent a key usable for JWS and JWE operations. The
-`JWK.importKey()` method is used to retrieve a key representation of an existing key or secret.
-`JWK.generate()` method is used to generate a new random key.
-
-#### JWK `#importKey(key[, options])` asymmetric key import
-
-Imports an asymmetric private or public key. Supports importing JWK formatted keys (private, public,
-secrets), `pem` and `der` formatted private and public keys, `pem` formatted X.509 certificates.
-Private keys may also be passphrase protected.
-
-<details>
-  <summary><em><strong>API</strong></em> (Click to expand)</summary>
-
-- `key`: `<Object>` | `<string>` | `<Buffer>` | `<KeyObject>`
-  - `key`: `<string>` | `<Buffer>`
-  - `format`: `<string>` Must be 'pem' or 'der'. Default: 'pem'.
-  - `type`: `<string>` Must be 'pkcs1', 'pkcs8' or 'sec1'. This option is required only if the format is 'der' and ignored if it is 'pem'.
-  - `passphrase`: `<string>` | `<Buffer>` The passphrase to use for decryption.
-- `options`: `<Object>`
-  - `alg`: `<string>` option identifies the algorithm intended for use with the key.
-  - `use`: `<string>` option indicates whether the key is to be used for encrypting & decrypting data or signing & verifying data. Must be 'sig' or 'enc'.
-  - `kid`: `<string>` Key ID Parameter. When not provided is computed using the method defined in [RFC7638][spec-thumbprint]
-- Returns: `<RSAKey>` | `<ECKey>`
-
-See the underlying Node.js API for details on importing private and public keys in the different formats
-
-- [crypto.createPrivateKey(key)](https://nodejs.org/api/crypto.html#crypto_crypto_createprivatekey_key)
-- [crypto.createPublicKey(key)](https://nodejs.org/api/crypto.html#crypto_crypto_createpublickey_key)
-- [crypto.createSecretKey(key)](https://nodejs.org/api/crypto.html#crypto_crypto_createsecretkey_key)
-
-</details>
-
-<details>
-  <summary><em><strong>Example</strong></em> (Click to expand)</summary>
+Prepare your Keys and KeyStores. See the [documentation][documentation-jwk] for more.
 
 ```js
-const { readFileSync } = require('fs')
-const { JWK: { importKey } } = require('@panva/jose')
+const key = jose.JWK.importKey(fs.readFileSync('path/to/key/file'))
 
-const key = importKey(readFileSync('path/to/key/file'))
-// ECKey {
-//   kty: 'EC',
-//   public: true,
-//   kid: [Getter],
-//   crv: [Getter],
-//   x: [Getter],
-//   y: [Getter] }
+const jwk = { kty: 'EC',
+  kid: 'dl4M_fcI7XoFCsQ22PYrQBkuxZ2pDcbDimcdFmmXM98',
+  crv: 'P-256',
+  x: 'v37avifcL-xgh8cy6IFzcINqqmFLc2JF20XUpn4Y2uQ',
+  y: 'QTwy27XgP7ZMOdGOSopAHB-FU1JMQn3J9GEWGtUXreQ' }
+const anotherKey = jose.JWK.importKey(jwk)
+
+const keystore = new jose.JWK.KeyStore(key, key2)
 ```
 
-</details>
+#### Signing
 
-#### JWK `#importKey(secret[, options])` secret key import
-
-Imports a symmetric key.
-
-<details>
-  <summary><em><strong>API</strong></em> (Click to expand)</summary>
-
-- `secret`: `<string>` | `<Buffer>` | `<KeyObject>`
-- `options`: `<Object>`
-  - `alg`: `<string>` option identifies the algorithm intended for use with the key.
-  - `use`: `<string>` option indicates whether the key is to be used for encrypting & decrypting data or signing & verifying data. Must be 'sig' or 'enc'.
-  - `kid`: `<string>` Key ID Parameter. When not provided is computed using the method defined in [RFC7638][spec-thumbprint]
-- Returns: `<OctKey>`
-
-</details>
-
-<details>
-  <summary><em><strong>Example</strong></em> (Click to expand)</summary>
+Sign with a private or symmetric key using compact serialization. See the [documentation][documentation-jws] for more.
 
 ```js
-const { JWK: { importKey } } = require('@panva/jose')
-
-const key = importKey(Buffer.from('8yHym6h5CG5FylbzrCn8fhxEbp3kOaTsgLaawaaJ'))
-// OctKey {
-//   kty: 'oct',
-//   kid: [Getter],
-//   k: [Getter] }
+jose.JWS.sign(
+  { sub: 'johndoe' },
+  privateKey
+)
 ```
 
-</details>
+#### Verifying
 
-#### JWK `#importKey(jwk)` JWK-formatted key import
-
-Imports a JWK formatted key. This supports JWK formatted EC, RSA and oct keys. Asymmetrical keys
-may be both private and public.
-
-<details>
-  <summary><em><strong>API</strong></em> (Click to expand)</summary>
-
-- `jwk`: `<Object>`
-  - `kty`: `<string>` Key type. Must be 'RSA', 'EC' or 'oct'.
-  - `alg`: `<string>` option identifies the algorithm intended for use with the key.
-  - `use`: `<string>` option indicates whether the key is to be used for encrypting & decrypting data or signing & verifying data. Must be 'sig' or 'enc'.
-  - `kid`: `<string>` Key ID Parameter. When not provided is computed using the method defined in [RFC7638][spec-thumbprint]
-  - `e`, `n` properties as `<string>` for RSA public keys
-  - `e`, `n`, `d`, `p`, `q`, `dp`, `dq`, `qi` properties as `<string>` for RSA private keys
-  - `crv`, `x`, `y` properties as `<string>` for EC public keys
-  - `crv`, `x`, `y`, `d` properties as `<string>` for EC private keys
-  - `k` properties as `<string>` for secret oct keys
-- Returns: `<RSAKey>` | `<ECKey>` | `<OctKey>`
-
-</details>
-
-<details>
-<summary><em><strong>Example</strong></em> (Click to expand)</summary>
+Verify with a public or symmetric key. See the [documentation][documentation-jws] for more.
 
 ```js
-const { JWK: { importKey } } = require('@panva/jose')
-const jwk = {
-  kty: 'RSA',
-  kid: 'r1LkbBo3925Rb2ZFFrKyU3MVex9T2817Kx0vbi6i_Kc',
-  use: 'sig',
-  e: 'AQAB',
-  n: 'xwQ72P9z9OYshiQ-ntDYaPnnfwG6u9JAdLMZ5o0dmjlcyrvwQRdoFIKPnO65Q8mh6F_LDSxjxa2Yzo_wdjhbPZLjfUJXgCzm54cClXzT5twzo7lzoAfaJlkTsoZc2HFWqmcri0BuzmTFLZx2Q7wYBm0pXHmQKF0V-C1O6NWfd4mfBhbM-I1tHYSpAMgarSm22WDMDx-WWI7TEzy2QhaBVaENW9BKaKkJklocAZCxk18WhR0fckIGiWiSM5FcU1PY2jfGsTmX505Ub7P5Dz75Ygqrutd5tFrcqyPAtPTFDk8X1InxkkUwpP3nFU5o50DGhwQolGYKPGtQ-ZtmbOfcWQ'
-}
-
-const key = importKey(jwk)
-// RSAKey {
-//   kty: 'RSA',
-//   public: true,
-//   use: 'sig',
-//   kid: 'r1LkbBo3925Rb2ZFFrKyU3MVex9T2817Kx0vbi6i_Kc',
-//   e: [Getter],
-//   n: [Getter] }
+jose.JWS.verify(
+  'eyJhbGciOiJFUzI1NiJ9.eyJzdWIiOiJqb2huZG9lIn0.T_SYLQV3A5_kFDDVNuoadoURSEtuSOR-dG2CMmrP-ULK9xbIf2vYeiHOkvTrnqGlWEGBGxYtsP1VkXmNsi1uOw',
+  publicKey
+)
 ```
 
-</details>
+#### Encrypting
 
-#### JWK `#generate(kty[, crvOrSize[, options[, private]]])` generating new keys
+Encrypt using the recipient's public key or a shared symmetrical secret. See the [documentation][documentation-jwe] for more.
 
-Securely generates a new RSA, EC or oct key.
+```js
+jose.JWE.encrypt(
+  'eyJhbGciOiJFUzI1NiJ9.eyJzdWIiOiJqb2huZG9lIn0.T_SYLQV3A5_kFDDVNuoadoURSEtuSOR-dG2CMmrP-ULK9xbIf2vYeiHOkvTrnqGlWEGBGxYtsP1VkXmNsi1uOw',
+  publicKey
+)
+```
 
-<details>
-  <summary><em><strong>API</strong></em> (Click to expand)</summary>
+#### Verifying
 
-- `kty`: `<string>` Key type. Must be 'RSA', 'EC' or 'oct'.
-- `crvOrSize`: `<number>` | `<string>` key's bit size or in case of EC keys the curve
-- `options`: `<Object>`
-  - `alg`: `<string>` option identifies the algorithm intended for use with the key.
-  - `use`: `<string>` option indicates whether the key is to be used for encrypting & decrypting data or signing & verifying data. Must be 'sig' or 'enc'.
-  - `kid`: `<string>` Key ID Parameter. When not provided is computed using the method defined in [RFC7638][spec-thumbprint]
-- `private`: `<boolean>` **Default** 'true'. Is the resulting key private or public (when asymmetrical)
-- Returns: `Promise<RSAKey>` | `Promise<ECKey>` | `Promise<OctKey>`
+Decrypt using the private key or a shared symmetrical secret. See the [documentation][documentation-jwe] for more.
 
-</details>
+```js
+jose.JWE.decrypt(
+  'eyJlbmMiOiJBMTI4Q0JDLUhTMjU2IiwiYWxnIjoiRUNESC1FUyIsImVwayI6eyJrdHkiOiJFQyIsImNydiI6IlAtMjU2IiwieCI6IkVsUGhsN1ljTVZsWkhHM0daSkRoOVJhemNYYlN2VFNheUF6aTBINFFtRUEiLCJ5IjoiM0hDREJTRy12emd6cGtLWmJqMU05UzVuUEJrTDBBdFM4U29ORUxMWE1SayJ9fQ..FhmidRo0twvFA7jcfKFNJw.o112vgiG_qUL1JR5WHpsErcxxgaK_FAa7vCWJ--WulndLpdwdRXHd9k3aL_k8K67xoAThrt10d7dSY2TlPpHdYkw979u0V-C4TNrpzNkv5jpBjU6hHyKpoGZfEsiTD1ivHaFy3ZLCTS69kN_eVKsZGLVf_dkq6Sz6bWE4-ln_fuwukPyMvjTyaTreLjPLBZW.ocKwptCm4Zn437L5hWFnHg',
+  privateKey
+)
+```
 
-#### JWK `#generateSync(kty[, crvOrSize[, options[, private]]])`
+## FAQ
 
-Synchronous version of JWK `#generate`
+#### Semver?
 
-<details>
-  <summary><em><strong>API</strong></em> (Click to expand)</summary>
+**Yes.** Everything that's either exported in the TypeScript definitions file or [documented][documentation]
+is subject to [Semantic Versioning 2.0.0](https://semver.org/spec/v2.0.0.html). The rest is to be
+considered private API and is subject to change between any versions.
 
-- `kty`: `<string>` Key type. Must be 'RSA', 'EC' or 'oct'.
-- `crvOrSize`: `<number>` | `<string>` key's bit size or in case of EC keys the curve. **Default** 2048 for RSA, 'P-256' for EC and 256 for oct.
-- `options`: `<Object>`
-  - `alg`: `<string>` option identifies the algorithm intended for use with the key.
-  - `use`: `<string>` option indicates whether the key is to be used for encrypting & decrypting data or signing & verifying data. Must be 'sig' or 'enc'.
-  - `kid`: `<string>` Key ID Parameter. When not provided is computed using the method defined in [RFC7638][spec-thumbprint]
-- `private`: `<boolean>` **Default** 'true'. Is the resulting key private or public (when asymmetrical)
-- Returns: `<RSAKey>` | `<ECKey>` | `<OctKey>`
+#### How do I use it outside of Node.js
 
-</details>
+It is **only built for Node.js** environment - it builds on top of the `crypto` module and requires
+the KeyObject API that was added in Node.js v11.6.0.
 
-## JWKS (JSON Web Key Set)
+#### How is it different from [`node-jose`][node-jose]
 
-- [Class: KeyStore](#class-keystore)
-- [new KeyStore([keys])](#new-keystorekeys)
-- [keystore.all([parameters])](#keystoreallparameters)
-- [keystore.get([parameters])](#keystoregetparameters)
-- [keystore.add(key)](#keystoreaddkey)
-- [keystore.remove(key)](#keystoreremovekey)
-- [keystore.generate(...)](#keystoregenerate)
-- [keystore.generateSync(...)](#keystoregeneratesync)
+`node-jose` is built to work in any javascript runtime, to be able to do that it packs a lot of
+backfill and javascript implementation code in the form of
+[`node-forge`](https://github.com/digitalbazaar/forge), this significantly increases the footprint
+of the module with dependencies that either aren't ever used or have native implementation available
+in Node.js already, those are often times faster and more reliable.
 
-#### Class: `KeyStore`
+#### How is it different from [`node-jws`](https://github.com/brianloveswords/node-jws) or [`node-jwa`](https://github.com/brianloveswords/node-jwa)?
 
-`KeyStore` is an abstraction representing a set of JWKs
+- it is providing Key and KeyStore abstractions
+- there is JSON Web Encryption support
+- there is no asynchronous API since node crypto is ultimately entirely synchronous
+- it supports all JWS / JWE Serialization Syntaxes
 
-#### `new KeyStore([keys])`
+#### What is the ultimate goal?
 
-Creates a new KeyStore, either empty or populated.
+- **No dependencies**, the moment JWK formatted keys are supported by node's `crypto` the direct
+dependency count will go down from 1 to 0. 🚀
+- Just the API one needs, having used other jose modules for 3+ years I only include what's useful
 
-<details>
-  <summary><em><strong>API</strong></em> (Click to expand)</summary>
+#### Why? Just, why?
 
-- `keys`: `<Key[]>` Array of key keys instantiated by `JWK.importKey`
-- Returns: `<KeyStore>`
+I was / (still am) using [`node-jose`][node-jose] for [`openid-client`](https://github.com/panva/node-openid-client)
+and [`oidc-provider`](https://github.com/panva/node-oidc-provider) and came to realize its shortcomings
+in terms of performance and API (not having well defined errors). When Node.js v12 lands in April
+2019 I will be releasing new major versions of both those libraries using @panva/jose.
 
-</details>
+&plus; this was an amazing opportunity to learn JOSE as a whole
 
-#### `keystore.all([parameters])`
+#### Where's the performance coming from?
 
-Retrieves an array of keys matching the provider parameters, returns all if none are provided. The
-returned array is sorted by relevance based on the parameters. Keys with the exact algorithm or use
-specified by the parameters are first.
+No endless stream of yielded promises, uses KeyObject instances for crypto operations, once a
+KeyObject is instantiated the keys do not need to be "prepped" and validated any more in neither
+the Node runtime nor the underlying OpenSSL implementation. In some cases this yields 2x throughput
+for the actual crypto operation.
 
-<details>
-  <summary><em><strong>API</strong></em> (Click to expand)</summary>
-
-- `parameters`: `<Object>`
-  - `kty`: `<string>` Key Type to filter for.
-  - `alg`: `<string>` Key supported algorithm to filter for.
-  - `use`: `<string>` Key use to filter for.
-  - `kid`: `<string>` Key ID to filter for.
-- Returns: `<Key[]>` Array of key instances or an empty array when none are matching the parameters.
-
-</details>
-
-#### `keystore.get([parameters])`
-
-Retrieves a single key matching the provider parameters. The most relevant Key based on the
-parameters is returned.
-
-<details>
-  <summary><em><strong>API</strong></em> (Click to expand)</summary>
-
-- `parameters`: `<Object>`
-  - `kty`: `<string>` Key Type to filter for.
-  - `alg`: `<string>` Key supported algorithm to filter for.
-  - `use`: `<string>` Key use to filter for.
-  - `kid`: `<string>` Key ID to filter for.
-- Returns: `<RSAKey>` | `<ECKey>` | `<OctKey>` | `<undefined>`
-
-</details>
-
-#### `keystore.add(key)`
-
-Adds a key instance to the store unless it is already included.
-
-<details>
-  <summary><em><strong>API</strong></em> (Click to expand)</summary>
-
-- `key`: `<RSAKey>` | `<ECKey>` | `<OctKey>`
-
-</details>
-
-#### `keystore.remove(key)`
-
-Ensures a key is removed from a store.
-
-<details>
-  <summary><em><strong>API</strong></em> (Click to expand)</summary>
-
-- `key`: `<RSAKey>` | `<ECKey>` | `<OctKey>`
-
-</details>
-
-#### `keystore.generate(...)`
-
-Asynchronously generates new random key and automatically adds it to the store. See `JWK.generate` for the API.
-
-#### `keystore.generateSync(...)`
-
-Synchronous version of `keystore.generate`.
-
-
-
+[node-jose]: https://github.com/cisco/node-jose
+[documentation]: https://github.com/panva/jose/blob/master/docs/README.md
+[documentation-jws]: https://github.com/panva/jose/blob/master/docs/README.md#jws-json-web-signature
+[documentation-jwe]: https://github.com/panva/jose/blob/master/docs/README.md#jwe-json-web-encryption
+[documentation-jwk]: https://github.com/panva/jose/blob/master/docs/README.md#jwk-json-web-key
+[documentation-jwks]: https://github.com/panva/jose/blob/master/docs/README.md#jwks-json-web-key-set
+[documentation]: https://github.com/panva/jose/blob/master/docs/README.md
+[documentation]: https://github.com/panva/jose/blob/master/docs/README.md
 [travis-image]: https://api.travis-ci.com/panva/jose.svg?branch=master
 [travis-url]: https://travis-ci.com/panva/jose
 [codecov-image]: https://img.shields.io/codecov/c/github/panva/jose/master.svg
 [codecov-url]: https://codecov.io/gh/panva/jose
-[suggest-feature]: https://github.com/panva/jose/issues/new?template=feature-request.md
-[bug]: https://github.com/panva/jose/issues/new?template=bug-report.md
+[suggest-feature]: https://github.com/panva/jose/issues/new?labels=enhancement&template=feature-request.md&title=proposal%3A+
+[bug]: https://github.com/panva/jose/issues/new?labels=bug&template=bug-report.md&title=bug%3A+
+[ask]: https://github.com/panva/jose/issues/new?labels=question&template=question.md&title=question%3A+
+[security-vulnerability]: https://github.com/panva/jose/issues/new?template=security-vulnerability.md
 [support-patreon]: https://www.patreon.com/panva
 [support-paypal]: https://www.paypal.me/panva
 [spec-jwa]: https://tools.ietf.org/html/rfc7518
@@ -396,5 +264,6 @@ Synchronous version of `keystore.generate`.
 [spec-jwe]: https://tools.ietf.org/html/rfc7516
 [spec-b64]: https://tools.ietf.org/html/rfc7797
 [spec-jwk]: https://tools.ietf.org/html/rfc7517
+[spec-cfrg]: https://tools.ietf.org/html/rfc8037
 [spec-thumbprint]: https://tools.ietf.org/html/rfc7638
 [spec-cookbook]: https://tools.ietf.org/html/rfc7520
