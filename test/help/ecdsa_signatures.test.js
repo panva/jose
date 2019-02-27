@@ -1,5 +1,3 @@
-// TODO: include license from https://github.com/Brightspace/node-ecdsa-sig-formatter
-
 const test = require('ava')
 
 const { decodeToBuffer } = require('../../lib/help/base64url')
