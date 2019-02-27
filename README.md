@@ -2,20 +2,19 @@
 
 [![build][travis-image]][travis-url] [![codecov][codecov-image]][codecov-url]
 
-"JSON Web Almost Everything" - JWA, JWS, JWE, JWK, JWKS for Node.js with minimal dependencies
-
-See the [`@panva/jwt`](https://github.com/panva/jwt) (coming soon™) for JWT convenience abstraction.
+"JSON Web Almost Everything" - JWA, JWS, JWE, JWT, JWK, JWKS for Node.js with minimal dependencies
 
 ## Implemented specs & features
 
 The following specifications are implemented by @panva/jose
 
-- [RFC7515 - JSON Web Signature (JWS)][spec-jws]
-- [RFC7516 - JSON Web Encryption (JWE)][spec-jwe]
-- [RFC7517 - JSON Web Key (JWK)][spec-jwk]
-- [RFC7518 - JSON Web Algorithms (JWA)][spec-jwa]
-- [RFC7638 - JSON Web Key (JWK) Thumbprint][spec-thumbprint]
-- [RFC7797 - JWS Unencoded Payload Option][spec-b64]
+- JSON Web Signature (JWS) - [RFC7515][spec-jws]
+- JSON Web Encryption (JWE) - [RFC7516][spec-jwe]
+- JSON Web Key (JWK) - [RFC7517][spec-jwk]
+- JSON Web Algorithms (JWA) - [RFC7518][spec-jwa]
+- JSON Web Token (JWT) - [RFC7519][spec-jwt]
+- JSON Web Key (JWK) Thumbprint - [RFC7638][spec-thumbprint]
+- JWS Unencoded Payload Option - [RFC7797][spec-b64]
 
 The test suite utilizes examples defined in [RFC7520][spec-cookbook] to confirm its JOSE
 implementation is correct.
@@ -105,27 +104,30 @@ If you or your business use @panva/jose, please consider becoming a [Patron][sup
 - [@panva/jose API Documentation][documentation]
   - [JWK (JSON Web Key)][documentation-jwk]
   - [JWKS (JSON Web Key Set)][documentation-jwks]
+  - [JWT (JSON Web Token)][documentation-jwt]
   - [JWS (JSON Web Signature)][documentation-jws]
   - [JWE (JSON Web Encryption)][documentation-jwe]
 
 ## Usage
 
-The minimal Node.js version required is v11.8.0
+⚠️ Minimal Node.js version required is **v11.8.0** ⚠️ The plan is to release v1.0.0 when Node.js
+v12.0.0 releases in April 2019
 
 Installing @panva/jose
 
-```sh
-$ npm install @panva/jose
+```console
+npm install @panva/jose
 ```
 
 Usage
 ```js
 const jose = require('@panva/jose')
 const {
-  JWE, // JSON Web Encryption (JWE)
-  JWK, // JSON Web Key (JWK)
-  JWKS, // JSON Web Key Set (JWKS)
-  JWS, // JSON Web Signature (JWS)
+  JWE,   // JSON Web Encryption (JWE)
+  JWK,   // JSON Web Key (JWK)
+  JWKS,  // JSON Web Key Set (JWKS)
+  JWS,   // JSON Web Signature (JWS)
+  JWT,   // JSON Web Token (JWT)
   errors // errors utilized by @panva/jose
 } = jose
 ```
@@ -147,9 +149,58 @@ const anotherKey = jose.JWK.importKey(jwk)
 const keystore = new jose.JWK.KeyStore(key, key2)
 ```
 
-#### Signing
+### JWT vs JWS
 
-Sign with a private or symmetric key using compact serialization. See the [documentation][documentation-jws] for more.
+The JWT module provides IANA registered claim type and format validations on top of JWS as well as
+convenience options for verifying UNIX timestamps, setting maximum allowed JWT age, verifying
+audiences, and more.
+
+The JWS module on the other hand handles the other JWS Serialization Syntaxes with all their
+additional available features and allows signing of any payload, i.e. not just serialized JSON
+objects.
+
+#### JWT Signing
+
+Sign with a private or symmetric key with plethora of convenience options. See the
+[documentation][documentation-jwt] for more.
+
+```js
+jose.JWT.sign(
+  { 'urn:example:claim': 'foo' },
+  privateKey,
+  {
+    expiresIn: '1 hour',
+    issuer: 'https://op.example.com',
+    audience: 'urn:example:client_id',
+    header: {
+      typ: 'JWT'
+    },
+    algorithm: 'PS256'
+  }
+)
+```
+
+#### JWT Verification
+
+Verify with a public or symmetric key with plethora of convenience options. See the
+[documentation][documentation-jwt] for more.
+
+```js
+jose.JWT.verify(
+  'eyJ0eXAiOiJKV1QiLCJhbGciOiJQUzI1NiIsImtpZCI6IjRQQXBsVkJIN0toS1ZqN0xob0RFM0VVQnNGc0hvaTRhSmxBZGstM3JuME0ifQ.eyJ1cm46ZXhhbXBsZTpjbGFpbSI6ImZvbyIsImF1ZCI6InVybjpleGFtcGxlOmNsaWVudF9pZCIsImlzcyI6Imh0dHBzOi8vb3AuZXhhbXBsZS5jb20iLCJpYXQiOjE1NTEyOTI2MjksImV4cCI6MTU1MTI5NjIyOX0.nE5fgRL8gvlStf_wB4mJ0TSXVmhJRnUVQuZ0ts6a1nWnnk0Rv69bEJ12BoMdpyPrGa_W6dxU4HFj89F4pQwW0kqBK2-TZ_n9lq-iqupj46w_lpKOfPC3clVc7ZmqYF81bEA-nX93cSKqVV-qPNPEFenb8XHKszYhBFu_uiRg9rXj2qXVU7PXGJAGTzhVgVxB-3XDB1bQ_6KiDCwzVPftrHxEYLydRCaHzggDg6sAFUhQqhPguKuE2gs6jVUh_gIL2RXeoLoinx6gZ72rfovaOmud-yzNIUN8Tvo0pqBmx0s_lEhTlfrQCzN7hZNmV1eG0GDDE-S_CfZhPePnVJZoRA',
+  publicKey,
+  {
+    issuer: 'https://op.example.com',
+    audience: 'urn:example:client_id',
+    algorithms: ['PS256']
+  }
+)
+```
+
+#### JWS Signing
+
+Sign with a private or symmetric key using compact serialization. See the
+[documentation][documentation-jws] for more.
 
 ```js
 jose.JWS.sign(
@@ -158,7 +209,7 @@ jose.JWS.sign(
 )
 ```
 
-#### Verifying
+#### JWS Verifying
 
 Verify with a public or symmetric key. See the [documentation][documentation-jws] for more.
 
@@ -169,9 +220,10 @@ jose.JWS.verify(
 )
 ```
 
-#### Encrypting
+#### JWE Encrypting
 
-Encrypt using the recipient's public key or a shared symmetrical secret. See the [documentation][documentation-jwe] for more.
+Encrypt using the recipient's public key or a shared symmetrical secret. See the
+[documentation][documentation-jwe] for more.
 
 ```js
 jose.JWE.encrypt(
@@ -180,9 +232,10 @@ jose.JWE.encrypt(
 )
 ```
 
-#### Verifying
+#### JWE Verifying
 
-Decrypt using the private key or a shared symmetrical secret. See the [documentation][documentation-jwe] for more.
+Decrypt using the private key or a shared symmetrical secret. See the
+[documentation][documentation-jwe] for more.
 
 ```js
 jose.JWE.decrypt(
@@ -195,9 +248,10 @@ jose.JWE.decrypt(
 
 #### Semver?
 
-**Yes.** Everything that's either exported in the TypeScript definitions file or [documented][documentation]
-is subject to [Semantic Versioning 2.0.0](https://semver.org/spec/v2.0.0.html). The rest is to be
-considered private API and is subject to change between any versions.
+**Yes.** Everything that's either exported in the TypeScript definitions file or
+[documented][documentation] is subject to
+[Semantic Versioning 2.0.0](https://semver.org/spec/v2.0.0.html). The rest is to be considered
+private API and is subject to change between any versions.
 
 #### How do I use it outside of Node.js
 
@@ -227,43 +281,37 @@ dependency count will go down from 1 to 0. 🚀
 
 #### Why? Just, why?
 
-I was / (still am) using [`node-jose`][node-jose] for [`openid-client`](https://github.com/panva/node-openid-client)
-and [`oidc-provider`](https://github.com/panva/node-oidc-provider) and came to realize its shortcomings
+I was / (still am) using [`node-jose`][node-jose] for
+[`openid-client`](https://github.com/panva/node-openid-client) and
+[`oidc-provider`](https://github.com/panva/node-oidc-provider) and came to realize its shortcomings
 in terms of performance and API (not having well defined errors). When Node.js v12 lands in April
 2019 I will be releasing new major versions of both those libraries using @panva/jose.
 
 &plus; this was an amazing opportunity to learn JOSE as a whole
 
-#### Where's the performance coming from?
-
-No endless stream of yielded promises, uses KeyObject instances for crypto operations, once a
-KeyObject is instantiated the keys do not need to be "prepped" and validated any more in neither
-the Node runtime nor the underlying OpenSSL implementation. In some cases this yields 2x throughput
-for the actual crypto operation.
-
-[node-jose]: https://github.com/cisco/node-jose
-[documentation]: https://github.com/panva/jose/blob/master/docs/README.md
-[documentation-jws]: https://github.com/panva/jose/blob/master/docs/README.md#jws-json-web-signature
+[ask]: https://github.com/panva/jose/issues/new?labels=question&template=question.md&title=question%3A+
+[bug]: https://github.com/panva/jose/issues/new?labels=bug&template=bug-report.md&title=bug%3A+
+[codecov-image]: https://img.shields.io/codecov/c/github/panva/jose/master.svg
+[codecov-url]: https://codecov.io/gh/panva/jose
 [documentation-jwe]: https://github.com/panva/jose/blob/master/docs/README.md#jwe-json-web-encryption
 [documentation-jwk]: https://github.com/panva/jose/blob/master/docs/README.md#jwk-json-web-key
 [documentation-jwks]: https://github.com/panva/jose/blob/master/docs/README.md#jwks-json-web-key-set
+[documentation-jws]: https://github.com/panva/jose/blob/master/docs/README.md#jws-json-web-signature
+[documentation-jwt]: https://github.com/panva/jose/blob/master/docs/README.md#jwt-json-web-token
 [documentation]: https://github.com/panva/jose/blob/master/docs/README.md
-[documentation]: https://github.com/panva/jose/blob/master/docs/README.md
-[travis-image]: https://api.travis-ci.com/panva/jose.svg?branch=master
-[travis-url]: https://travis-ci.com/panva/jose
-[codecov-image]: https://img.shields.io/codecov/c/github/panva/jose/master.svg
-[codecov-url]: https://codecov.io/gh/panva/jose
-[suggest-feature]: https://github.com/panva/jose/issues/new?labels=enhancement&template=feature-request.md&title=proposal%3A+
-[bug]: https://github.com/panva/jose/issues/new?labels=bug&template=bug-report.md&title=bug%3A+
-[ask]: https://github.com/panva/jose/issues/new?labels=question&template=question.md&title=question%3A+
+[node-jose]: https://github.com/cisco/node-jose
 [security-vulnerability]: https://github.com/panva/jose/issues/new?template=security-vulnerability.md
+[spec-b64]: https://tools.ietf.org/html/rfc7797
+[spec-cfrg]: https://tools.ietf.org/html/rfc8037
+[spec-cookbook]: https://tools.ietf.org/html/rfc7520
+[spec-jwa]: https://tools.ietf.org/html/rfc7518
+[spec-jwe]: https://tools.ietf.org/html/rfc7516
+[spec-jwk]: https://tools.ietf.org/html/rfc7517
+[spec-jws]: https://tools.ietf.org/html/rfc7515
+[spec-jwt]: https://tools.ietf.org/html/rfc7519
+[spec-thumbprint]: https://tools.ietf.org/html/rfc7638
+[suggest-feature]: https://github.com/panva/jose/issues/new?labels=enhancement&template=feature-request.md&title=proposal%3A+
 [support-patreon]: https://www.patreon.com/panva
 [support-paypal]: https://www.paypal.me/panva
-[spec-jwa]: https://tools.ietf.org/html/rfc7518
-[spec-jws]: https://tools.ietf.org/html/rfc7515
-[spec-jwe]: https://tools.ietf.org/html/rfc7516
-[spec-b64]: https://tools.ietf.org/html/rfc7797
-[spec-jwk]: https://tools.ietf.org/html/rfc7517
-[spec-cfrg]: https://tools.ietf.org/html/rfc8037
-[spec-thumbprint]: https://tools.ietf.org/html/rfc7638
-[spec-cookbook]: https://tools.ietf.org/html/rfc7520
+[travis-image]: https://api.travis-ci.com/panva/jose.svg?branch=master
+[travis-url]: https://travis-ci.com/panva/jose

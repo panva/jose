@@ -13,6 +13,12 @@ test('constructor', t => {
   t.notThrows(() => {
     new KeyStore(generateSync('ec'), generateSync('ec')) // eslint-disable-line no-new
   })
+  t.notThrows(() => {
+    new KeyStore([generateSync('ec')], generateSync('ec')) // eslint-disable-line no-new
+  })
+  t.notThrows(() => {
+    new KeyStore([[generateSync('ec')], generateSync('ec')]) // eslint-disable-line no-new
+  })
 })
 
 test('constructor only accepts Key instances created through JWK.importKey', t => {

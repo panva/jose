@@ -161,7 +161,7 @@ export namespace JWS {
     }
 
     interface VerifyOptions<komplet> {
-        complete: komplet,
+        complete?: komplet,
         crit?: string[],
         algorithms?: string[]
     }
@@ -216,7 +216,7 @@ export namespace JWE {
     }
 
     interface DecryptOptions<komplet> {
-        complete: komplet,
+        complete?: komplet,
         crit?: string[],
         algorithms?: string[]
     }
@@ -234,22 +234,77 @@ export namespace JWE {
     export function decrypt(jwe: string | FlattenedJWE | GeneralJWE, key: JWK.Key | JWKS.KeyStore, options?: DecryptOptions<true>): completeDecrypt
 }
 
+export namespace JWT {
+    interface completeResult {
+        payload: object,
+        header: object,
+        signature: string,
+        key: JWK.Key
+    }
+
+    interface DecodeOptions<komplet> {
+        complete?: komplet
+    }
+
+    export function decode(jwt: string, options?: DecodeOptions<false>): object
+    export function decode(jwt: string, options?: DecodeOptions<true>): completeResult
+
+    interface VerifyOptions<komplet> {
+        complete?: komplet,
+        ignoreExp?: boolean,
+        ignoreNbf?: boolean,
+        ignoreIat?: boolean,
+        maxTokenAge?: string,
+        subject?: string,
+        issuer?: string,
+        maxAuthAge?: string,
+        jti?: string,
+        clockTolerance?: string,
+        audience?: string | string[],
+        algorithms?: string[],
+        nonce?: string,
+        now?: Date,
+        crit?: string[]
+    }
+    export function verify(jwt: string, key: JWK.Key | JWKS.KeyStore, options?: VerifyOptions<false>): object
+    export function verify(jwt: string, key: JWK.Key | JWKS.KeyStore, options?: VerifyOptions<true>): completeResult
+
+    interface SignOptions {
+        iat?: boolean,
+        kid?: boolean,
+        subject?: string,
+        issuer?: string,
+        audience?: string | string[],
+        header?: object,
+        algorithm?: string,
+        expiresIn?: string,
+        notBefore?: string,
+        jti?: string,
+        nonce?: string,
+        now?: Date
+    }
+    export function sign(payload: object, key: JWK.Key, options?: SignOptions): string
+}
+
 export namespace errors {
     export class JOSEError extends Error {}
-    export class JOSEMultiError extends Error {}
+    export class JOSEMultiError extends JOSEError {}
 
-    export class JOSEAlgNotWhitelisted extends Error {}
-    export class JOSECritNotUnderstood extends Error {}
-    export class JOSENotSupported extends Error {}
+    export class JOSEAlgNotWhitelisted extends JOSEError {}
+    export class JOSECritNotUnderstood extends JOSEError {}
+    export class JOSENotSupported extends JOSEError {}
 
-    export class JWEDecryptionFailed extends Error {}
-    export class JWEInvalid extends Error {}
+    export class JWEDecryptionFailed extends JOSEError {}
+    export class JWEInvalid extends JOSEError {}
 
-    export class JWKImportFailed extends Error {}
-    export class JWKKeySupport extends Error {}
+    export class JWKImportFailed extends JOSEError {}
+    export class JWKKeySupport extends JOSEError {}
 
-    export class JWKSNoMatchingKey extends Error {}
+    export class JWKSNoMatchingKey extends JOSEError {}
 
-    export class JWSInvalid extends Error {}
-    export class JWSVerificationFailed extends Error {}
+    export class JWSInvalid extends JOSEError {}
+    export class JWSVerificationFailed extends JOSEError {}
+
+    export class JWTClaimInvalid extends JOSEError {}
+    export class JWTMalformed extends JOSEError {}
 }

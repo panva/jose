@@ -4,13 +4,17 @@
 
 - [JWK (JSON Web Key)](#jwk-json-web-key)
 - [JWKS (JSON Web Key Set)](#jwks-json-web-key-set)
+- [JWT (JSON Web Token)](#jwt-json-web-token)
 - [JWS (JSON Web Signature)](#jws-json-web-signature)
 - [JWE (JSON Web Encryption)](#jwe-json-web-encryption)
+- [errors](#errors)
 
 ## Support
 
 [<img src="https://c5.patreon.com/external/logo/become_a_patron_button@2x.png" width="160" align="right">][support-patreon]
-If you or your business use @panva/jose, please consider becoming a [Patron][support-patreon] so I can continue maintaining it and adding new features carefree. You may also donate one-time via [PayPal][support-paypal].
+If you or your business use @panva/jose, please consider becoming a [Patron][support-patreon] so
+I can continue maintaining it and adding new features carefree. You may also donate one-time via
+[PayPal][support-paypal].
 [<img src="https://cdn.jsdelivr.net/gh/gregoiresgt/payment-icons@183140a5ff8f39b5a19d59ebeb2c77f03c3a24d3/Assets/Payment/PayPal/Paypal@2x.png" width="100" align="right">][support-paypal]
 
 <br>
@@ -53,13 +57,13 @@ const { JWK } = require('@panva/jose')
 
 #### Class: `<JWK.Key>` and `<JWK.RSAKey>` | `<JWK.ECKey>` | `<JWK.OctKey>`
 
-`<JWK.RSAKey>`, `<JWK.ECKey>` and `<JWK.OctKey>` represent a key usable for JWS and JWE operations. The
-`JWK.importKey()` method is used to retrieve a key representation of an existing key or secret.
+`<JWK.RSAKey>`, `<JWK.ECKey>` and `<JWK.OctKey>` represent a key usable for JWS and JWE operations.
+The `JWK.importKey()` method is used to retrieve a key representation of an existing key or secret.
 `JWK.generate()` method is used to generate a new random key.
 
 `<JWK.RSAKey>`, `<JWK.ECKey>` and `<JWK.OctKey>` inherit methods from `<JWK.Key>` and in addition
-to the properties documented below have the respective key component properties exported as `<string>`
-in their format defined by the specifications.
+to the properties documented below have the respective key component properties exported as
+`<string>` in their format defined by the specifications.
 
 - `e, n` for Public RSA Keys
 - `e, n, d, p, q, dp, dq, qi` for Private RSA Keys
@@ -71,7 +75,8 @@ in their format defined by the specifications.
 
 #### `key.kty`
 
-Returns the key's JWK Key Type Parameter. 'EC', 'RSA' or 'oct' for the respective supported key types
+Returns the key's JWK Key Type Parameter. 'EC', 'RSA' or 'oct' for the respective supported key
+types.
 
 - `<string>`
 
@@ -90,7 +95,7 @@ for that one algorithm and will fail when used with others.
 
 Returns the key's JWK Key Use Parameter if set, undefined otherwise. Only 'sig' and 'enc' values
 are supported. If set the key can only be used for either signing / verification or encryption
-related operations (key management or encryption)
+related operations (key management or encryption).
 
 - `<string>`
 
@@ -99,7 +104,7 @@ related operations (key management or encryption)
 #### `key.kid`
 
 Returns the key's JWK Key ID Parameter if set, if not set it will be calculated using the method
-defined in [RFC7638][spec-thumbprint]
+defined in [RFC7638][spec-thumbprint].
 
 - `<string>`
 
@@ -126,7 +131,8 @@ Returns true/false if the key is asymmetric and private. Returns false for symme
 Returns a [Set](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Set)
 of algorithms the key may perform.
 
-- `operation`: `<string>` Must be one of 'encrypt', 'decrypt', 'sign', 'verify', 'wrapKey', 'unwrapKey'
+- `operation`: `<string>` Must be one of 'encrypt', 'decrypt', 'sign', 'verify', 'wrapKey',
+  'unwrapKey'
 - Returns: `Set<string>`
 
 <details>
@@ -222,15 +228,19 @@ Private keys may also be passphrase protected.
 - `key`: `<Object>` | `<string>` | `<Buffer>` | `<KeyObject>`
   - `key`: `<string>` | `<Buffer>`
   - `format`: `<string>` Must be 'pem' or 'der'. **Default:** 'pem'.
-  - `type`: `<string>` Must be 'pkcs1', 'pkcs8' or 'sec1'. This option is required only if the format is 'der' and ignored if it is 'pem'.
+  - `type`: `<string>` Must be 'pkcs1', 'pkcs8' or 'sec1'. This option is required only if the
+    format is 'der' and ignored if it is 'pem'.
   - `passphrase`: `<string>` | `<Buffer>` The passphrase to use for decryption.
 - `options`: `<Object>`
   - `alg`: `<string>` option identifies the algorithm intended for use with the key.
-  - `use`: `<string>` option indicates whether the key is to be used for encrypting & decrypting data or signing & verifying data. Must be 'sig' or 'enc'.
-  - `kid`: `<string>` Key ID Parameter. When not provided is computed using the method defined in [RFC7638][spec-thumbprint]
+  - `kid`: `<string>` Key ID Parameter. When not provided is computed using the method defined in
+    [RFC7638][spec-thumbprint]
+  - `use`: `<string>` option indicates whether the key is to be used for encrypting & decrypting
+    data or signing & verifying data. Must be 'sig' or 'enc'.
 - Returns: `<JWK.RSAKey>` | `<JWK.ECKey>`
 
-See the underlying Node.js API for details on importing private and public keys in the different formats
+See the underlying Node.js API for details on importing private and public keys in the different
+formats
 
 - [crypto.createPrivateKey(key)](https://nodejs.org/api/crypto.html#crypto_crypto_createprivatekey_key)
 - [crypto.createPublicKey(key)](https://nodejs.org/api/crypto.html#crypto_crypto_createpublickey_key)
@@ -263,8 +273,10 @@ Imports a symmetric key.
 - `secret`: `<string>` | `<Buffer>` | `<KeyObject>`
 - `options`: `<Object>`
   - `alg`: `<string>` option identifies the algorithm intended for use with the key.
-  - `use`: `<string>` option indicates whether the key is to be used for encrypting & decrypting data or signing & verifying data. Must be 'sig' or 'enc'.
-  - `kid`: `<string>` Key ID Parameter. When not provided is computed using the method defined in [RFC7638][spec-thumbprint]
+  - `kid`: `<string>` Key ID Parameter. When not provided is computed using the method defined in
+    [RFC7638][spec-thumbprint]
+  - `use`: `<string>` option indicates whether the key is to be used for encrypting & decrypting
+    data or signing & verifying data. Must be 'sig' or 'enc'.
 - Returns: `<JWK.OctKey>`
 
 <details>
@@ -291,8 +303,10 @@ may be both private and public.
 - `jwk`: `<Object>`
   - `kty`: `<string>` Key type. Must be 'RSA', 'EC' or 'oct'.
   - `alg`: `<string>` option identifies the algorithm intended for use with the key.
-  - `use`: `<string>` option indicates whether the key is to be used for encrypting & decrypting data or signing & verifying data. Must be 'sig' or 'enc'.
-  - `kid`: `<string>` Key ID Parameter. When not provided is computed using the method defined in [RFC7638][spec-thumbprint]
+  - `use`: `<string>` option indicates whether the key is to be used for encrypting & decrypting
+    data or signing & verifying data. Must be 'sig' or 'enc'.
+  - `kid`: `<string>` Key ID Parameter. When not provided is computed using the method defined in
+    [RFC7638][spec-thumbprint]
   - `e`, `n` properties as `<string>` for RSA public keys
   - `e`, `n`, `d`, `p`, `q`, `dp`, `dq`, `qi` properties as `<string>` for RSA private keys
   - `crv`, `x`, `y` properties as `<string>` for EC public keys
@@ -334,9 +348,12 @@ Securely generates a new RSA, EC or oct key.
 - `crvOrSize`: `<number>` | `<string>` key's bit size or in case of EC keys the curve
 - `options`: `<Object>`
   - `alg`: `<string>` option identifies the algorithm intended for use with the key.
-  - `use`: `<string>` option indicates whether the key is to be used for encrypting & decrypting data or signing & verifying data. Must be 'sig' or 'enc'.
-  - `kid`: `<string>` Key ID Parameter. When not provided is computed using the method defined in [RFC7638][spec-thumbprint]
-- `private`: `<boolean>` **Default** 'true'. Is the resulting key private or public (when asymmetrical)
+  - `kid`: `<string>` Key ID Parameter. When not provided is computed using the method defined in
+    [RFC7638][spec-thumbprint]
+  - `use`: `<string>` option indicates whether the key is to be used for encrypting & decrypting
+    data or signing & verifying data. Must be 'sig' or 'enc'.
+- `private`: `<boolean>` **Default** 'true'. Is the resulting key private or public (when
+  asymmetrical)
 - Returns: `Promise<JWK.RSAKey>` | `Promise<JWK.ECKey>` | `Promise<JWK.OctKey>`
 
 <details>
@@ -366,12 +383,16 @@ const { JWK: { generate } } = require('@panva/jose')
 Synchronous version of `JWK.generate()`
 
 - `kty`: `<string>` Key type. Must be 'RSA', 'EC' or 'oct'.
-- `crvOrSize`: `<number>` | `<string>` key's bit size or in case of EC keys the curve. **Default** 2048 for RSA, 'P-256' for EC and 256 for oct.
+- `crvOrSize`: `<number>` | `<string>` key's bit size or in case of EC keys the curve. **Default:**
+  2048 for RSA, 'P-256' for EC and 256 for oct.
 - `options`: `<Object>`
   - `alg`: `<string>` option identifies the algorithm intended for use with the key.
-  - `use`: `<string>` option indicates whether the key is to be used for encrypting & decrypting data or signing & verifying data. Must be 'sig' or 'enc'.
-  - `kid`: `<string>` Key ID Parameter. When not provided is computed using the method defined in [RFC7638][spec-thumbprint]
-- `private`: `<boolean>` **Default** 'true'. Is the resulting key private or public (when asymmetrical)
+  - `use`: `<string>` option indicates whether the key is to be used for encrypting & decrypting
+    data or signing & verifying data. Must be 'sig' or 'enc'.
+  - `kid`: `<string>` Key ID Parameter. When not provided is computed using the method defined in
+    [RFC7638][spec-thumbprint]
+- `private`: `<boolean>` **Default** 'true'. Is the resulting key private or public (when
+  asymmetrical)
 - Returns: `<JWK.RSAKey>` | `<JWK.ECKey>` | `<JWK.OctKey>`
 
 <details>
@@ -431,9 +452,9 @@ const { JWKS } = require('@panva/jose')
 #### Class: `<JWKS.KeyStore>`
 
 `JWKS.KeyStore` is an abstraction representing a set of JWKs, a keystore instance may be queried for
-keys matching specific parameters. Keystores may be instantiated either populated, or empty and there
-are lifecycle `keystore.remove()` and `keystore.add()` methods for adding/removing keys from an existing
-store.
+keys matching specific parameters. Keystores may be instantiated either populated, or empty and
+there are lifecycle `keystore.remove()` and `keystore.add()` methods for adding/removing keys from
+an existing store.
 
 ---
 
@@ -500,7 +521,8 @@ Ensures a key is removed from a store.
 
 #### `keystore.generate(...)`
 
-Asynchronously generates new random key and automatically adds it to the store. See `JWK.generate()` for the API.
+Asynchronously generates new random key and automatically adds it to the store. See `JWK.generate()`
+for the API.
 
 ---
 
@@ -542,6 +564,186 @@ const ks = KeyStore.fromJWKS(jwks)
 // KeyStore {}
 ks.size
 // 1
+```
+</details>
+
+------
+
+## JWT (JSON Web Token)
+
+<!-- TOC JWKS START -->
+- [JWT.sign(payload, key[, options])](#jwtsignpayload-key-options)
+- [JWT.verify(token, keyOrStore[, options])](#jwtverifytoken-keyorstore-options)
+- [JWT.decode(token[, options])](#jwtdecodetoken-options)
+<!-- TOC JWKS END -->
+
+```js
+const { JWT } = require('@panva/jose')
+// { decode: [Function], sign: [Function], verify: [Function] }
+```
+
+#### `JWT.sign(payload, key[, options])`
+
+Serializes and signs the payload as JWT using the provided private or symmetrical key. The Algorithm
+that will be used to sign with is either provided as part of the 'options.algorithm',
+'options.header.alg' or inferred from the provided `<JWK.Key>` instance.
+
+- `payload`: `<Object>` JWT Claims Set
+- `key`: `<JWK.Key>` The key to sign with.
+- `options`: `<Object>`
+  - `algorithm`: `<string>` The algorithm to use
+  - `audience`: `<string>` | `string[]` JWT Audience, "aud" claim value, if provided it will replace
+    "aud" found in the payload
+  - `expiresIn`: `<string>` JWT Expiration Time, "exp" claim value, specified as string which is
+    added to the current unix epoch timestamp e.g. `24 hours`, `20 m`, `60s`, etc., if provided it
+    will replace Expiration Time found in the payload
+  - `header`: `<Object>` JWT Header object
+  - `iat`: `<Boolean>` When true it pushes the "iat" to the JWT Header. **Default:** 'true'
+  - `issuer`: `<string>` JWT Issuer, "iss" claim value, if provided it will replace "iss" found in
+    the payload
+  - `jti`: `<string>` JWT ID, "jti" claim value, if provided it will replace "jti" found in the
+    payload
+  - `kid`: `<Boolean>` When true it pushes the key's "kid" to the JWT Header. **Default:** 'true'
+  - `nonce`: `<string>` ID Token Nonce, "nonce" claim value, if provided it will replace "nonce"
+    found in the payload. See [OpenID Connect Core 1.0][connect-core] for details.
+  - `notBefore`: `<string>` JWT Not Before, "nbf" claim value, specified as string which is added to
+    the current unix epoch timestamp e.g. `24 hours`, `20 m`, `60s`, etc., if provided it will
+    replace Not Before found in the payload
+  - `now`: `<Date>` Date object to be used instead of the current unix epoch timestamp.
+    **Default:** 'new Date()'
+  - `subject`: `<string>` JWT subject, "sub" claim value, if provided it will replace "sub" found in
+    the payload
+- Returns: `<string>`
+
+<details>
+<summary><em><strong>Example</strong></em> (Click to expand)</summary>
+
+```js
+const { JWT, JWK } = require('@panva/jose')
+const key = JWK.importKey({
+  kty: 'oct',
+  k: 'hJtXIZ2uSN5kbQfbtTNWbpdmhkV8FJG-Onbc6mxCcYg'
+})
+
+const payload = {
+  'urn:example:claim': 'foo'
+}
+
+const token = JWT.sign(payload, key, {
+  audience: ['urn:example:client'],
+  issuer: 'https://op.example.com',
+  expiresIn: '2 hours',
+  header: {
+    typ: 'JWT'
+  }
+})
+// eyJ0eXAiOiJKV1QiLCJraWQiOiJSdG9SdXJfMURpcjVNNHd1T2ZxTmtEWU9mOU9fNFJKLWFIa1RBNzVSTEE4IiwiYWxnIjoiSFMyNTYifQ.eyJ1cm46ZXhhbXBsZTpjbGFpbSI6ImZvbyIsImF1ZCI6WyJ1cm46ZXhhbXBsZTpjbGllbnQiXSwiaXNzIjoiaHR0cHM6Ly9vcC5leGFtcGxlLmNvbSIsImlhdCI6MTU1MTI5NDEzNywiZXhwIjoxNTUxMzAxMzM3fQ.YmtApwaGRBWlL9O8avbmpYcJ5UwNy0R8rpbxZqHxNd4
+```
+</details>
+
+---
+
+#### `JWT.verify(token, keyOrStore[, options])`
+
+Verifies the claims and signature of a JSON Web Token.
+
+- `token`: `<String>` JSON Web Token to verify
+- `keyOrStore`: `<JWK.Key>` | `<JWKS.KeyStore>` The key or store to verify with. When
+  `<JWKS.KeyStore>` instance is provided a selection of possible candidate keys will be done and the
+  operation will succeed if just one key matches.
+- `options`: `<Object>`
+  - `algorithms`: `string[]` Array of expected signing algorithms. JWT signed with an algorithm not
+    found in this option will be rejected. **Default:** accepts all algorithms available on the
+    passed key (or keys in the keystore)
+  - `audience`: `<string>` | `string[]` Expected audience value(s). When string an exact match must
+    be found in the payload, when array at least one must be matched.
+  - `clockTolerance`: `<string>` Clock Tolerance for comparing timestamps, provided as timespan
+    string e.g. `120s`, `2 minutes`, etc. **Default:** no clock tolerance
+  - `complete`: `<Boolean>` When false only the parsed payload is returned, otherwise an object with
+    a parsed header, payload, the matched key and the base64url encoded signature will be returned
+    **Default:** 'false'
+  - `crit`: `string[]` Array of Critical Header Parameter names to recognize. **Default:** '[]'
+  - `ignoreExp`: `<Boolean>` When true will not be validating the "exp" claim value to be in the
+    future from now. **Default:** 'false'
+  - `ignoreIat`: `<Boolean>` When true will not be validating the "iat" claim value to be in the
+    past from now. **Default:** 'false'
+  - `ignoreNbf`: `<Boolean>` When true will not be validating the "nbf" claim value to be in the
+    past from now. **Default:** 'false'
+  - `issuer`: `<string>` Expected issuer value. An exact match must be found in the payload.
+  - `jti`: `<string>` Expected jti value. An exact match must be found in the payload.
+  - `maxAuthAge`: `<string>` When provided the payload is checked to have the "auth_time" claim and
+    its value is validated, provided as timespan string e.g. `30m`, `24 hours`. See
+    [OpenID Connect Core 1.0][connect-core] for details. Do not confuse with maxTokenAge option.
+  - `maxTokenAge`: `<string>` When provided the payload is checked to have the "iat" claim and its
+    value is validated not to be older than the provided timespan string e.g. `30m`, `24 hours`.
+    Do not confuse with maxAuthAge option.
+  - `nonce`: `<string>` Expected nonce value. An exact match must be found in the payload. See
+    [OpenID Connect Core 1.0][connect-core] for details.
+  - `now`: `<Date>` Date object to be used instead of the current unix epoch timestamp.
+    **Default:** 'new Date()'
+  - `subject`: `<string>` Expected subject value. An exact match must be found in the payload.
+- Returns: `<Object>`
+
+<details>
+<summary><em><strong>Example</strong></em> (Click to expand)</summary>
+
+```js
+const { JWK, JWT } = require('@panva/jose')
+
+const key = JWK.importKey({
+  kty: 'oct',
+  k: 'hJtXIZ2uSN5kbQfbtTNWbpdmhkV8FJG-Onbc6mxCcYg'
+})
+
+const token = 'eyJ0eXAiOiJKV1QiLCJraWQiOiJSdG9SdXJfMURpcjVNNHd1T2ZxTmtEWU9mOU9fNFJKLWFIa1RBNzVSTEE4IiwiYWxnIjoiSFMyNTYifQ.eyJ1cm46ZXhhbXBsZTpjbGFpbSI6ImZvbyIsImF1ZCI6WyJ1cm46ZXhhbXBsZTpjbGllbnQiXSwiaXNzIjoiaHR0cHM6Ly9vcC5leGFtcGxlLmNvbSIsImlhdCI6MTU1MTI5NDEzNywiZXhwIjoxNTUxMzAxMzM3fQ.YmtApwaGRBWlL9O8avbmpYcJ5UwNy0R8rpbxZqHxNd4'
+
+JWT.verify(token, key, {
+  audience: 'urn:example:client',
+  issuer: 'https://op.example.com',
+  clockTolerance: '1 min'
+})
+```
+</details>
+
+---
+
+#### `JWT.decode(token[, options])`
+
+Decodes the JWT payload and optionally the header. Does not perform any claim validations what so
+ever.
+
+- `token`: `<String>` JSON Web Token to decode
+- `options`: `<Object>`
+  - `complete`: `<Boolean>` When false only the parsed payload is returned, otherwise an object with
+    a parsed header, payload and the base64url encoded signature will be returned **Default:** 'false'
+- Returns: `<Object>`
+
+<details>
+<summary><em><strong>Example</strong></em> (Click to expand)</summary>
+
+```js
+const { JWT } = require('@panva/jose')
+
+const token = 'eyJ0eXAiOiJKV1QiLCJraWQiOiJSdG9SdXJfMURpcjVNNHd1T2ZxTmtEWU9mOU9fNFJKLWFIa1RBNzVSTEE4IiwiYWxnIjoiSFMyNTYifQ.eyJ1cm46ZXhhbXBsZTpjbGFpbSI6ImZvbyIsImF1ZCI6WyJ1cm46ZXhhbXBsZTpjbGllbnQiXSwiaXNzIjoiaHR0cHM6Ly9vcC5leGFtcGxlLmNvbSIsImlhdCI6MTU1MTI5NDEzNywiZXhwIjoxNTUxMzAxMzM3fQ.YmtApwaGRBWlL9O8avbmpYcJ5UwNy0R8rpbxZqHxNd4'
+
+JWT.decode(token)
+// { 'urn:example:claim': 'foo',
+//   aud: [ 'urn:example:client' ],
+//   iss: 'https://op.example.com',
+//   iat: 1551294137,
+//   exp: 1551301337 }
+JWT.decode(token, { complete: true })
+// { header:
+//    { typ: 'JWT',
+//      kid: 'RtoRur_1Dir5M4wuOfqNkDYOf9O_4RJ-aHkTA75RLA8',
+//      alg: 'HS256' },
+//   payload:
+//    { 'urn:example:claim': 'foo',
+//      aud: [ 'urn:example:client' ],
+//      iss: 'https://op.example.com',
+//      iat: 1551294137,
+//      exp: 1551301337 },
+//   signature: 'YmtApwaGRBWlL9O8avbmpYcJ5UwNy0R8rpbxZqHxNd4' }
 ```
 </details>
 
@@ -608,7 +810,6 @@ sig.sign('general')
 //        header: { foo: 'baz' },
 //        signature:
 //         'R7e5ZUkgiZQLh8JagoCbwAY21e9A-Y0rhUGQkhihLOvIU8JG2AyZ9zROOUICaUucf8NQKc2dEaIKdRCXy-fDdQ' } ] }
-
 ```
 </details>
 
@@ -618,8 +819,8 @@ sig.sign('general')
 
 Creates a new Sign object for the provided payload, intended for one or more recipients.
 
-- `payload`: `<Object>` | `<string>` | `<Buffer>` The payload that will be signed. When `<Object>` it
-  will be automatically serialized to JSON before signing
+- `payload`: `<Object>` | `<string>` | `<Buffer>` The payload that will be signed. When `<Object>`
+  it will be automatically serialized to JSON before signing
 - Returns: `<JWS.Sign>`
 
 ---
@@ -637,11 +838,11 @@ of the Protected or Unprotected Header or inferred from the provided `<JWK.Key>`
 
 #### `sign.sign(serialization)`
 
-Performs the signing operations for each registered recipient and returns the final JWS representation
-in the serialization requested. The JWS is validated for conformance during this step. Please note
-that only 'general' and 'flattened' serialization supports Unprotected Per-Recipient Header and only
-the 'general' serialization supports multiple recipients. See `<JWS.sign>` and `<JWS.sign.flattened>`
-for shorthand methods to sign for a single recipient.
+Performs the signing operations for each registered recipient and returns the final JWS
+representation in the serialization requested. The JWS is validated for conformance during this
+step. Please note that only 'general' and 'flattened' serialization supports Unprotected
+Per-Recipient Header and only the 'general' serialization supports multiple recipients. See
+`<JWS.sign>` and `<JWS.sign.flattened>` for shorthand methods to sign for a single recipient.
 
 - `serialization`: `<string>` JWS Serialization. Must be one of 'general', 'flattened', 'compact'
 - Returns: `<string>` | `<Object>`
@@ -654,8 +855,8 @@ Performs the signing operation and 'compact' JWS serialization of the result. Th
 will be used to sign with is either provided as part of the Protected Header or inferred from the
 provided `<JWK.Key>` instance.
 
-- `payload`: `<Object>` | `<string>` | `<Buffer>` The payload that will be signed. When `<Object>` it
-  will be automatically serialized to JSON before signing
+- `payload`: `<Object>` | `<string>` | `<Buffer>` The payload that will be signed. When `<Object>`
+  it will be automatically serialized to JSON before signing
 - `key`: `<JWK.Key>` The key to sign with.
 - `protected`: `<Object>` Protected Header
 - Returns: `<string>`
@@ -684,11 +885,11 @@ JWS.sign(payload, key, { alg: 'HS256' })
 #### `JWS.sign.flattened(payload, key[, protected[, header]])`
 
 Performs the signing operation and 'flattened' JWS serialization of the result. The Algorithm that
-will be used to sign with is either provided as part of the Protected or Unprotected Header or inferred from the
-provided `<JWK.Key>` instance.
+will be used to sign with is either provided as part of the Protected or Unprotected Header or
+inferred from the provided `<JWK.Key>` instance.
 
-- `payload`: `<Object>` | `<string>` | `<Buffer>` The payload that will be signed. When `<Object>` it
-  will be automatically serialized to JSON before signing
+- `payload`: `<Object>` | `<string>` | `<Buffer>` The payload that will be signed. When `<Object>`
+  it will be automatically serialized to JSON before signing
 - `key`: `<JWK.Key>` The key to sign with.
 - `protected`: `<Object>` Protected Header
 - `header`: `<Object>` Unprotected Header
@@ -723,9 +924,10 @@ JWS.sign.flattened(payload, key)
 Verifies the provided JWS in either serialization with a given `<JWK.Key>` or `<JWKS.KeyStore>`
 
 - `jws`: `<Object>` | `<string>` The JWS to verify. This must be a valid JWS.
-- `keyOrStore`: `<JWK.Key>` | `<JWKS.KeyStore>` The key or store to verify with. When `<JWKS.KeyStore>`
-  instance is provided a selection of possible candidate keys will be done and the operation will
-  succeed if just one key or signature (in case of General JWS JSON Serialization Syntax) matches.
+- `keyOrStore`: `<JWK.Key>` | `<JWKS.KeyStore>` The key or store to verify with. When
+  `<JWKS.KeyStore>` instance is provided a selection of possible candidate keys will be done and the
+  operation will succeed if just one key or signature (in case of General JWS JSON Serialization
+  Syntax) matches.
 - `options`: `<Object>`
   - `algorithms`: `string[]` Array of Algorithms to accept, when the signature does not use an
     algorithm from this list the verification will fail. **Default:** 'undefined' - accepts all
@@ -816,8 +1018,8 @@ JWS.verify(general, keystore, { complete: true })
 - [JWE.decrypt(jwe, keyOrStore[, options])](#jwedecryptjwe-keyorstore-options)
 <!-- TOC JWE END -->
 
-The `<JWE>` module provides methods required to encrypt or decrypt JSON Web Encryptions in either one of
-the defined serializations.
+The `<JWE>` module provides methods required to encrypt or decrypt JSON Web Encryptions in either
+one of the defined serializations.
 
 ```js
 const { JWE } = require('@panva/jose')
@@ -850,9 +1052,9 @@ Headers and Additional Authenticated Data.
 
 #### `encrypt.recipient(key[, header])`
 
-Adds a recipient to the JWE, the Algorithm that will be used to wrap or derive the Content Encryption
-Key (CEK) is either provided as part of the combined JWE Header for the recipient or inferred from
-the provided `<JWK.Key>` instance.
+Adds a recipient to the JWE, the Algorithm that will be used to wrap or derive the Content
+Encryption Key (CEK) is either provided as part of the combined JWE Header for the recipient or
+inferred from the provided `<JWK.Key>` instance.
 
 - `key`: `<JWK.Key>` The key to use for Key Management or Direct Encryption
 - `header`: `<Object>` JWE Per-Recipient Unprotected Header
@@ -861,11 +1063,12 @@ the provided `<JWK.Key>` instance.
 
 #### `encrypt.encrypt(serialization)`
 
-Performs the encryption operations for each registered recipient and returns the final JWE representation
-in the serialization requested. The JWE is validated for conformance during this step. Please note
-that only 'general' and 'flattened' serialization supports Unprotected Per-Recipient Header and AAD
-and only the 'general' serialization supports multiple recipients. See `<JWE.encrypt>` and `<JWE.encrypt.flattened>`
-for shorthand methods to encrypt for a single recipient.
+Performs the encryption operations for each registered recipient and returns the final JWE
+representation in the serialization requested. The JWE is validated for conformance during this
+step. Please note that only 'general' and 'flattened' serialization supports Unprotected
+Per-Recipient Header and AAD and only the 'general' serialization supports multiple recipients. See
+`<JWE.encrypt>` and `<JWE.encrypt.flattened>` for shorthand methods to encrypt for a single
+recipient.
 
 - `serialization`: `<string>` JWE Serialization. Must be one of 'general', 'flattened', 'compact'
 - Returns: `<string>` | `<Object>`
@@ -887,9 +1090,9 @@ Protected Header or inferred from the provided `<JWK.Key>` instance.
 
 #### `JWE.encrypt.flattened(cleartext, key[, protected[, header[, aad]]])`
 
-Performs the encryption operation and 'flattened' JWE serialization of the result. The Algorithm that
-will be used to wrap or derive the Content Encryption Key (CEK) is either provided as part of the
-combined JWE Header or inferred from the provided `<JWK.Key>` instance.
+Performs the encryption operation and 'flattened' JWE serialization of the result. The Algorithm
+that will be used to wrap or derive the Content Encryption Key (CEK) is either provided as part of
+the combined JWE Header or inferred from the provided `<JWK.Key>` instance.
 
 - `cleartext`: `<string>` | `<Buffer>` The cleartext that will be encrypted.
 - `key`: `<JWK.Key>` The key to use for Key Management or Direct Encryption
@@ -905,18 +1108,203 @@ combined JWE Header or inferred from the provided `<JWK.Key>` instance.
 Verifies the provided JWE in either serialization with a given `<JWK.Key>` or `<JWKS.KeyStore>`
 
 - `jwe`: `<Object>` | `<string>` The JWE to decrypt. This must be a valid JWE.
-- `keyOrStore`: `<JWK.Key>` | `<JWKS.KeyStore>` The key or store to decrypt with. When `<JWKS.KeyStore>`
-  instance is provided a selection of possible candidate keys will be done and the operation will
-  succeed if just one key or signature (in case of General JWE JSON Serialization Syntax) matches.
+- `keyOrStore`: `<JWK.Key>` | `<JWKS.KeyStore>` The key or store to decrypt with. When
+  `<JWKS.KeyStore>` instance is provided a selection of possible candidate keys will be done and the
+  operation will succeed if just one key or signature (in case of General JWE JSON Serialization
+  Syntax) matches.
 - `options`: `<Object>`
   - `algorithms`: `string[]` Array of Algorithms to accept, when the JWE does not use an
     Key Management algorithm from this list the decryption will fail. **Default:** 'undefined' -
     accepts all algorithms available on the keys
-  - `complete`: `<boolean>` When true returns a complete object with the parsed headers, verified AAD
-    and cleartext instead of just the cleartext. **Default:** 'false'
+  - `complete`: `<boolean>` When true returns a complete object with the parsed headers, verified
+    AAD and cleartext instead of just the cleartext. **Default:** 'false'
 - Returns: `<string>` | `<Object>`
+
+---
+
+## Errors
+
+<!-- TOC JWE START -->
+- [Class: &lt;TypeError&gt;](#class-typeerror)
+- [Class: &lt;JOSEError&gt;](#class-joseerror)
+- [Class: &lt;JOSEAlgNotWhitelisted&gt;](#class-josealgnotwhitelisted)
+- [Class: &lt;JOSECritNotUnderstood&gt;](#class-josecritnotunderstood)
+- [Class: &lt;JOSEMultiError&gt;](#class-josemultierror)
+- [Class: &lt;JOSENotSupported&gt;](#class-josenotsupported)
+- [Class: &lt;JWEDecryptionFailed&gt;](#class-jwedecryptionfailed)
+- [Class: &lt;JWEInvalid&gt;](#class-jweinvalid)
+- [Class: &lt;JWKImportFailed&gt;](#class-jwkimportfailed)
+- [Class: &lt;JWKKeySupport&gt;](#class-jwkkeysupport)
+- [Class: &lt;JWKSNoMatchingKey&gt;](#class-jwksnomatchingkey)
+- [Class: &lt;JWSInvalid&gt;](#class-jwsinvalid)
+- [Class: &lt;JWSVerificationFailed&gt;](#class-jwsverificationfailed)
+- [Class: &lt;JWTClaimInvalid&gt;](#class-jwtclaiminvalid)
+- [Class: &lt;JWTMalformed&gt;](#class-jwtmalformed)
+<!-- TOC JWE END -->
+
+
+The following errors are expected to be thrown by @panva/jose runtime and have their prototypes
+exported in `jose.errors`. If you encounter an `Error` other then `TypeError` or one that's
+`instanceof jose.errors.JOSEError` please [report it][bug], it is not intended.
+
+#### Class: `TypeError`
+
+Thrown when unexpected argument types or their format is encountered. This is the standard built-in
+[`TypeError`](https://nodejs.org/api/errors.html#errors_class_typeerror).
+
+#### Class: `JOSEError`
+
+Base Error the others inherit from.
+
+#### Class: `JOSEAlgNotWhitelisted`
+
+Thrown when an algorithm whitelist is provided but the validated JWE/JWS does not use one from it.
+
+```js
+if (err.code === 'ERR_JOSE_ALG_NOT_WHITELISTED') {
+  // ...
+}
+```
+
+#### Class: `JOSECritNotUnderstood`
+
+Thrown when a Critical member is encountered that's not acknowledged. The only built in "crit"
+handler is for "b64", it must still be acknowledged though.
+
+```js
+if (err.code === 'ERR_JOSE_CRIT_NOT_UNDERSTOOD') {
+  // ...
+}
+```
+
+#### Class: `JOSEMultiError`
+
+This error is thrown when
+
+- multi-recipient JWE decryption fails for each recipient with errors other than `JWEDecryptionFailed (ERR_JWE_DECRYPTION_FAILED)`
+- multi-recipient JWS verification fails for each recipient with errors other than `JWSVerificationFailed (ERR_JWS_VERIFICATION_FAILED)`
+- KeyStore instance is passed to JWT/JWS verify, there are multiple usable keys and all of them fail with errors other than `JWSVerificationFailed (ERR_JWS_VERIFICATION_FAILED)`
+- KeyStore instance is passed to JWE decrypto, there are multiple usable keys and all of them fail with errors other than `JWEDecryptionFailed (ERR_JWE_DECRYPTION_FAILED)`
+
+The error is an [Iterable](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Iterators_and_Generators#Iterables)
+and yields every single one of the encountered errors.
+
+```js
+if (err.code === 'ERR_JOSE_MULTIPLE_ERRORS') {
+  for (const e of err) {
+    console.log(e)
+    // ...
+  }
+}
+```
+
+#### Class: `JOSENotSupported`
+
+Thrown when an unsupported "alg", "kty" or specific header value like "zip" is encountered.
+
+```js
+if (err.code === 'ERR_JOSE_NOT_SUPPORTED') {
+  // ...
+}
+```
+
+#### Class: `JWEDecryptionFailed`
+
+Thrown when JWE decrypt operations are started but fail to decrypt. Only generic error message is
+provided.
+
+```js
+if (err.code === 'ERR_JWE_DECRYPTION_FAILED') {
+  // ...
+}
+```
+
+#### Class: `JWEInvalid`
+
+Thrown when syntactically incorrect JWE is either requested to be encrypted or decrypted
+
+```js
+if (err.code === 'ERR_JWE_INVALID') {
+  // ...
+}
+```
+
+#### Class: `JWKImportFailed`
+
+Thrown when a key failed to import as `<JWK.Key>`
+
+```js
+if (err.code === 'ERR_JWK_IMPORT_FAILED') {
+  // ...
+}
+```
+
+#### Class: `JWKKeySupport`
+
+Thrown when a key does not support the request algorithm.
+
+```js
+if (err.code === 'ERR_JWK_KEY_SUPPORT') {
+  // ...
+}
+```
+
+#### Class: `JWKSNoMatchingKey`
+
+Thrown when `<JWKS.KeyStore>` is used as argument for decrypt / verify operation and no usable key
+for the crypto operation is found in it
+
+```js
+if (err.code === 'ERR_JWKS_NO_MATCHING_KEY') {
+  // ...
+}
+```
+
+#### Class: `JWSInvalid`
+
+Thrown when syntactically incorrect JWS is either requested to be signed or
+  verified
+
+```js
+if (err.code === 'ERR_JWS_INVALID') {
+  // ...
+}
+```
+
+#### Class: `JWSVerificationFailed`
+
+Thrown when JWS verify operations are started but fail to verify. Only generic error message is
+provided.
+
+```js
+if (err.code === 'ERR_JWS_VERIFICATION_FAILED') {
+  // ...
+}
+```
+
+#### Class: `JWTClaimInvalid`
+
+Thrown when JWT Claim is either of incorrect type or fails to validate by the provided options.
+
+```js
+if (err.code === 'ERR_JWT_CLAIM_INVALID') {
+  // ...
+}
+```
+
+#### Class: `JWTMalformed`
+
+Thrown when malformed JWT is either being decoded or verified.
+
+```js
+if (err.code === 'ERR_JWT_MALFORMED') {
+  // ...
+}
+```
 
 
 [spec-thumbprint]: https://tools.ietf.org/html/rfc7638
 [support-patreon]: https://www.patreon.com/panva
 [support-paypal]: https://www.paypal.me/panva
+[connect-core]: https://openid.net/specs/openid-connect-core-1_0.html
+[bug]: https://github.com/panva/jose/issues/new?labels=bug&template=bug-report.md&title=bug%3A+

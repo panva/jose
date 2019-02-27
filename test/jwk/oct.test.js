@@ -2,7 +2,9 @@ const test = require('ava')
 const { createSecretKey } = require('crypto')
 const { hasProperty, hasNoProperties } = require('../macros')
 
+const errors = require('../../lib/errors')
 const OctKey = require('../../lib/jwk/key/oct')
+const { JWK: { importKey } } = require('../..')
 
 const keyObject = createSecretKey(Buffer.from('secret'))
 const key = new OctKey(keyObject)
@@ -77,4 +79,33 @@ test('no verify support when `use` is "enc"', t => {
   const result = encKey.algorithms('verify')
   t.is(result.constructor, Set)
   t.deepEqual([...result], [])
+})
+
+test('oct keys may not be generated as public', t => {
+  t.throws(() => {
+    OctKey.generateSync(undefined, undefined, false)
+  }, { instanceOf: TypeError, message: '"oct" keys cannot be generated as public' })
+})
+
+test('they may be imported from', t => {
+  const key = importKey({
+    kty: 'oct',
+    kid: '4p9o4_DcKoT6Qg2BI_mSgMP_MsXwFqogKuI26CunKAM'
+  })
+
+  t.is(key.keyObject, undefined)
+  t.is(key.k, undefined)
+  t.false(key.private)
+  t.false(key.public)
+  t.deepEqual([...key.algorithms()], [])
+})
+
+test('they may be imported so long as there was no k', t => {
+  t.throws(() => {
+    importKey({
+      kty: 'oct',
+      kid: '4p9o4_DcKoT6Qg2BI_mSgMP_MsXwFqogKuI26CunKAM',
+      k: undefined
+    })
+  }, { instanceOf: errors.JWKImportFailed, message: 'import failed' })
 })

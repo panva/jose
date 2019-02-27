@@ -1,9 +1,10 @@
 {
   "name": "@panva/jose",
-  "version": "0.8.0",
-  "description": "JSON Web Almost Everything - JWA, JWS, JWE, JWK, JWKS for Node.js with minimal dependencies",
+  "version": "0.9.0",
+  "description": "JSON Web Almost Everything - JWA, JWS, JWE, JWK, JWT, JWKS for Node.js with minimal dependencies",
   "keywords": [
     "compact",
+    "decode",
     "decrypt",
     "encrypt",
     "flattened",
@@ -14,6 +15,7 @@
     "jwk",
     "jwks",
     "jws",
+    "jwt",
     "sign",
     "verify"
   ],
