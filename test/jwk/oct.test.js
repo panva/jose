@@ -19,7 +19,6 @@ test('oct key (with use)', hasProperty, new OctKey(keyObject, { use: 'sig' }), '
 test('oct key', hasNoProperties, key, 'e', 'n', 'd', 'p', 'q', 'dp', 'dq', 'qi', 'crv', 'x', 'y')
 test('oct key', hasProperty, key, 'alg', undefined)
 test('oct key', hasProperty, key, 'k', 'c2VjcmV0')
-test('oct key', hasProperty, key, 'keyObject', keyObject)
 test('oct key', hasProperty, key, 'kid', 'DWBh0SEIAPYh1x5uvot4z3AhaikHkxNJa3Ada2fT-Cg')
 test('oct key', hasProperty, key, 'kty', 'oct')
 test('oct key', hasProperty, key, 'length', 48)
@@ -93,7 +92,6 @@ test('they may be imported from', t => {
     kid: '4p9o4_DcKoT6Qg2BI_mSgMP_MsXwFqogKuI26CunKAM'
   })
 
-  t.is(key.keyObject, undefined)
   t.is(key.k, undefined)
   t.false(key.private)
   t.false(key.public)
