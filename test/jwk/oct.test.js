@@ -136,7 +136,7 @@ test('they may be imported from (no kid)', t => {
   t.deepEqual([...key.algorithms()], [])
   t.throws(() => {
     key.kid // eslint-disable-line no-unused-expressions
-  }, { instanceOf: TypeError, message: 'reference "oct" keys without "k" cannot have their "kid" calculated' })
+  }, { instanceOf: TypeError, message: 'reference "oct" keys without "k" cannot have their thumbprint calculated' })
 })
 
 test('they may be imported so long as there was no k', t => {
