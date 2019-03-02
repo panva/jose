@@ -1184,7 +1184,7 @@ This error is thrown when
 - multi-recipient JWE decryption fails for each recipient with errors other than `JWEDecryptionFailed (ERR_JWE_DECRYPTION_FAILED)`
 - multi-recipient JWS verification fails for each recipient with errors other than `JWSVerificationFailed (ERR_JWS_VERIFICATION_FAILED)`
 - KeyStore instance is passed to JWT/JWS verify, there are multiple usable keys and all of them fail with errors other than `JWSVerificationFailed (ERR_JWS_VERIFICATION_FAILED)`
-- KeyStore instance is passed to JWE decrypto, there are multiple usable keys and all of them fail with errors other than `JWEDecryptionFailed (ERR_JWE_DECRYPTION_FAILED)`
+- KeyStore instance is passed to JWE decrypt, there are multiple usable keys and all of them fail with errors other than `JWEDecryptionFailed (ERR_JWE_DECRYPTION_FAILED)`
 
 The error is an [Iterable](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Iterators_and_Generators#Iterables)
 and yields every single one of the encountered errors.
