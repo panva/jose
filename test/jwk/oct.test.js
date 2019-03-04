@@ -80,6 +80,52 @@ test('no verify support when `use` is "enc"', t => {
   t.deepEqual([...result], [])
 })
 
+test(`oct keys (odd bits) wrap/unwrap algorithms do not have "dir"`, t => {
+  const key = OctKey.generateSync(136)
+
+  t.false(key.algorithms().has('dir'))
+})
+
+test(`oct keys (odd bits) wrap/unwrap algorithms only have "PBES2"`, t => {
+  const key = OctKey.generateSync(136)
+  const result = key.algorithms('wrapKey')
+  t.is(result.constructor, Set)
+  t.deepEqual([...result], ['PBES2-HS256+A128KW', 'PBES2-HS384+A192KW', 'PBES2-HS512+A256KW'])
+})
+
+;[128, 192, 256].forEach((len) => {
+  test(`oct keys (${len} bits) wrap/unwrap algorithms have "KW / GCMKW"`, t => {
+    const key = OctKey.generateSync(len)
+
+    t.true(key.algorithms().has(`A${len}KW`))
+    t.true(key.algorithms().has(`A${len}GCMKW`))
+  })
+})
+
+Object.entries({
+  128: ['A128GCM'],
+  192: ['A192GCM'],
+  256: ['A128CBC-HS256', 'A256GCM'],
+  384: ['A192CBC-HS384'],
+  512: ['A256CBC-HS512']
+}).forEach(([len, encAlgs]) => {
+  len = parseInt(len)
+
+  test(`oct key (${len} bits) can encrypt`, t => {
+    const key = OctKey.generateSync(len)
+
+    const result = key.algorithms('encrypt')
+    t.is(result.constructor, Set)
+    t.deepEqual([...result], encAlgs)
+  })
+
+  test(`oct keys (${len} bits) wrap/unwrap algorithms have "dir"`, t => {
+    const key = OctKey.generateSync(len)
+
+    t.true(key.algorithms().has('dir'))
+  })
+})
+
 test('oct keys may not be generated as public', t => {
   t.throws(() => {
     OctKey.generateSync(undefined, undefined, false)
@@ -92,10 +138,25 @@ test('they may be imported from', t => {
     kid: '4p9o4_DcKoT6Qg2BI_mSgMP_MsXwFqogKuI26CunKAM'
   })
 
+  t.is(key.kid, '4p9o4_DcKoT6Qg2BI_mSgMP_MsXwFqogKuI26CunKAM')
   t.is(key.k, undefined)
   t.false(key.private)
   t.false(key.public)
   t.deepEqual([...key.algorithms()], [])
+})
+
+test('they may be imported from (no kid)', t => {
+  const key = importKey({
+    kty: 'oct'
+  })
+
+  t.is(key.k, undefined)
+  t.false(key.private)
+  t.false(key.public)
+  t.deepEqual([...key.algorithms()], [])
+  t.throws(() => {
+    key.kid // eslint-disable-line no-unused-expressions
+  }, { instanceOf: TypeError, message: 'reference "oct" keys without "k" cannot have their "kid" calculated' })
 })
 
 test('they may be imported so long as there was no k', t => {
