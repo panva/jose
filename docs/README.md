@@ -24,7 +24,7 @@ I can continue maintaining it and adding new features carefree. You may also don
 ## JWK (JSON Web Key)
 
 <!-- TOC JWK START -->
-- [Class: &lt;JWK.Key&gt; and &lt;JWK.RSAKey&gt; | &lt;JWK.ECKey&gt; | &lt;JWK.OctKey&gt;](#class-jwkkey-and-jwkrsakey--jwkeckey--jwkoctkey)
+- [Class: &lt;JWK.Key&gt; and &lt;JWK.RSAKey&gt; &vert; &lt;JWK.ECKey&gt; &vert; &lt;JWK.OctKey&gt;](#class-jwkkey-and-jwkrsakey--jwkeckey--jwkoctkey)
   - [key.kty](#keykty)
   - [key.alg](#keyalg)
   - [key.use](#keyuse)
@@ -55,7 +55,7 @@ const { JWK } = require('@panva/jose')
 
 ---
 
-#### Class: `<JWK.Key>` and `<JWK.RSAKey>` | `<JWK.ECKey>` | `<JWK.OctKey>`
+#### Class: `<JWK.Key>` and `<JWK.RSAKey>` &vert; `<JWK.ECKey>` &vert; `<JWK.OctKey>`
 
 `<JWK.RSAKey>`, `<JWK.ECKey>` and `<JWK.OctKey>` represent a key usable for JWS and JWE operations.
 The `JWK.importKey()` method is used to retrieve a key representation of an existing key or secret.
@@ -225,19 +225,19 @@ secrets), `pem` and `der` formatted private and public keys, `pem` formatted X.5
 Private keys may also be passphrase protected.
 
 
-- `key`: `<Object>` | `<string>` | `<Buffer>` | `<KeyObject>`
-  - `key`: `<string>` | `<Buffer>`
+- `key`: `<Object>` &vert; `<string>` &vert; `<Buffer>` &vert; `<KeyObject>`
+  - `key`: `<string>` &vert; `<Buffer>`
   - `format`: `<string>` Must be 'pem' or 'der'. **Default:** 'pem'.
   - `type`: `<string>` Must be 'pkcs1', 'pkcs8' or 'sec1'. This option is required only if the
     format is 'der' and ignored if it is 'pem'.
-  - `passphrase`: `<string>` | `<Buffer>` The passphrase to use for decryption.
+  - `passphrase`: `<string>` &vert; `<Buffer>` The passphrase to use for decryption.
 - `options`: `<Object>`
   - `alg`: `<string>` option identifies the algorithm intended for use with the key.
   - `kid`: `<string>` Key ID Parameter. When not provided is computed using the method defined in
     [RFC7638][spec-thumbprint]
   - `use`: `<string>` option indicates whether the key is to be used for encrypting & decrypting
     data or signing & verifying data. Must be 'sig' or 'enc'.
-- Returns: `<JWK.RSAKey>` | `<JWK.ECKey>`
+- Returns: `<JWK.RSAKey>` &vert; `<JWK.ECKey>`
 
 See the underlying Node.js API for details on importing private and public keys in the different
 formats
@@ -270,7 +270,7 @@ const key = importKey(readFileSync('path/to/key/file'))
 
 Imports a symmetric key.
 
-- `secret`: `<string>` | `<Buffer>` | `<KeyObject>`
+- `secret`: `<string>` &vert; `<Buffer>` &vert; `<KeyObject>`
 - `options`: `<Object>`
   - `alg`: `<string>` option identifies the algorithm intended for use with the key.
   - `kid`: `<string>` Key ID Parameter. When not provided is computed using the method defined in
@@ -312,7 +312,7 @@ may be both private and public.
   - `crv`, `x`, `y` properties as `<string>` for EC public keys
   - `crv`, `x`, `y`, `d` properties as `<string>` for EC private keys
   - `k` properties as `<string>` for secret oct keys
-- Returns: `<JWK.RSAKey>` | `<JWK.ECKey>` | `<JWK.OctKey>`
+- Returns: `<JWK.RSAKey>` &vert; `<JWK.ECKey>` &vert; `<JWK.OctKey>`
 
 <details>
 <summary><em><strong>Example</strong></em> (Click to expand)</summary>
@@ -345,7 +345,7 @@ const key = importKey(jwk)
 Securely generates a new RSA, EC or oct key.
 
 - `kty`: `<string>` Key type. Must be 'RSA', 'EC' or 'oct'.
-- `crvOrSize`: `<number>` | `<string>` key's bit size or in case of EC keys the curve
+- `crvOrSize`: `<number>` &vert; `<string>` key's bit size or in case of EC keys the curve
 - `options`: `<Object>`
   - `alg`: `<string>` option identifies the algorithm intended for use with the key.
   - `kid`: `<string>` Key ID Parameter. When not provided is computed using the method defined in
@@ -354,7 +354,7 @@ Securely generates a new RSA, EC or oct key.
     data or signing & verifying data. Must be 'sig' or 'enc'.
 - `private`: `<boolean>` **Default** 'true'. Is the resulting key private or public (when
   asymmetrical)
-- Returns: `Promise<JWK.RSAKey>` | `Promise<JWK.ECKey>` | `Promise<JWK.OctKey>`
+- Returns: `Promise<JWK.RSAKey>` &vert; `Promise<JWK.ECKey>` &vert; `Promise<JWK.OctKey>`
 
 <details>
 <summary><em><strong>Example</strong></em> (Click to expand)</summary>
@@ -383,7 +383,7 @@ const { JWK: { generate } } = require('@panva/jose')
 Synchronous version of `JWK.generate()`
 
 - `kty`: `<string>` Key type. Must be 'RSA', 'EC' or 'oct'.
-- `crvOrSize`: `<number>` | `<string>` key's bit size or in case of EC keys the curve. **Default:**
+- `crvOrSize`: `<number>` &vert; `<string>` key's bit size or in case of EC keys the curve. **Default:**
   2048 for RSA, 'P-256' for EC and 256 for oct.
 - `options`: `<Object>`
   - `alg`: `<string>` option identifies the algorithm intended for use with the key.
@@ -393,7 +393,7 @@ Synchronous version of `JWK.generate()`
     [RFC7638][spec-thumbprint]
 - `private`: `<boolean>` **Default** 'true'. Is the resulting key private or public (when
   asymmetrical)
-- Returns: `<JWK.RSAKey>` | `<JWK.ECKey>` | `<JWK.OctKey>`
+- Returns: `<JWK.RSAKey>` &vert; `<JWK.ECKey>` &vert; `<JWK.OctKey>`
 
 <details>
 <summary><em><strong>Example</strong></em> (Click to expand)</summary>
@@ -499,7 +499,7 @@ parameters is returned.
   - `alg`: `<string>` Key supported algorithm to filter for.
   - `use`: `<string>` Key use to filter for.
   - `kid`: `<string>` Key ID to filter for.
-- Returns: `<JWK.RSAKey>` | `<JWK.ECKey>` | `<JWK.OctKey>` | `<undefined>`
+- Returns: `<JWK.RSAKey>` &vert; `<JWK.ECKey>` &vert; `<JWK.OctKey>` &vert; `<undefined>`
 
 ---
 
@@ -507,7 +507,7 @@ parameters is returned.
 
 Adds a key instance to the store unless it is already included.
 
-- `key`: `<JWK.RSAKey>` | `<JWK.ECKey>` | `<JWK.OctKey>`
+- `key`: `<JWK.RSAKey>` &vert; `<JWK.ECKey>` &vert; `<JWK.OctKey>`
 
 ---
 
@@ -515,7 +515,7 @@ Adds a key instance to the store unless it is already included.
 
 Ensures a key is removed from a store.
 
-- `key`: `<JWK.RSAKey>` | `<JWK.ECKey>` | `<JWK.OctKey>`
+- `key`: `<JWK.RSAKey>` &vert; `<JWK.ECKey>` &vert; `<JWK.OctKey>`
 
 ---
 
@@ -592,7 +592,7 @@ that will be used to sign with is either provided as part of the 'options.algori
 - `key`: `<JWK.Key>` The key to sign with.
 - `options`: `<Object>`
   - `algorithm`: `<string>` The algorithm to use
-  - `audience`: `<string>` | `string[]` JWT Audience, "aud" claim value, if provided it will replace
+  - `audience`: `<string>` &vert; `string[]` JWT Audience, "aud" claim value, if provided it will replace
     "aud" found in the payload
   - `expiresIn`: `<string>` JWT Expiration Time, "exp" claim value, specified as string which is
     added to the current unix epoch timestamp e.g. `24 hours`, `20 m`, `60s`, etc., if provided it
@@ -648,14 +648,14 @@ const token = JWT.sign(payload, key, {
 Verifies the claims and signature of a JSON Web Token.
 
 - `token`: `<String>` JSON Web Token to verify
-- `keyOrStore`: `<JWK.Key>` | `<JWKS.KeyStore>` The key or store to verify with. When
+- `keyOrStore`: `<JWK.Key>` &vert; `<JWKS.KeyStore>` The key or store to verify with. When
   `<JWKS.KeyStore>` instance is provided a selection of possible candidate keys will be done and the
   operation will succeed if just one key matches.
 - `options`: `<Object>`
   - `algorithms`: `string[]` Array of expected signing algorithms. JWT signed with an algorithm not
     found in this option will be rejected. **Default:** accepts all algorithms available on the
     passed key (or keys in the keystore)
-  - `audience`: `<string>` | `string[]` Expected audience value(s). When string an exact match must
+  - `audience`: `<string>` &vert; `string[]` Expected audience value(s). When string an exact match must
     be found in the payload, when array at least one must be matched.
   - `clockTolerance`: `<string>` Clock Tolerance for comparing timestamps, provided as timespan
     string e.g. `120s`, `2 minutes`, etc. **Default:** no clock tolerance
@@ -819,7 +819,7 @@ sig.sign('general')
 
 Creates a new Sign object for the provided payload, intended for one or more recipients.
 
-- `payload`: `<Object>` | `<string>` | `<Buffer>` The payload that will be signed. When `<Object>`
+- `payload`: `<Object>` &vert; `<string>` &vert; `<Buffer>` The payload that will be signed. When `<Object>`
   it will be automatically serialized to JSON before signing
 - Returns: `<JWS.Sign>`
 
@@ -845,7 +845,7 @@ Per-Recipient Header and only the 'general' serialization supports multiple reci
 `<JWS.sign>` and `<JWS.sign.flattened>` for shorthand methods to sign for a single recipient.
 
 - `serialization`: `<string>` JWS Serialization. Must be one of 'general', 'flattened', 'compact'
-- Returns: `<string>` | `<Object>`
+- Returns: `<string>` &vert; `<Object>`
 
 ---
 
@@ -855,7 +855,7 @@ Performs the signing operation and 'compact' JWS serialization of the result. Th
 will be used to sign with is either provided as part of the Protected Header or inferred from the
 provided `<JWK.Key>` instance.
 
-- `payload`: `<Object>` | `<string>` | `<Buffer>` The payload that will be signed. When `<Object>`
+- `payload`: `<Object>` &vert; `<string>` &vert; `<Buffer>` The payload that will be signed. When `<Object>`
   it will be automatically serialized to JSON before signing
 - `key`: `<JWK.Key>` The key to sign with.
 - `protected`: `<Object>` Protected Header
@@ -888,7 +888,7 @@ Performs the signing operation and 'flattened' JWS serialization of the result. 
 will be used to sign with is either provided as part of the Protected or Unprotected Header or
 inferred from the provided `<JWK.Key>` instance.
 
-- `payload`: `<Object>` | `<string>` | `<Buffer>` The payload that will be signed. When `<Object>`
+- `payload`: `<Object>` &vert; `<string>` &vert; `<Buffer>` The payload that will be signed. When `<Object>`
   it will be automatically serialized to JSON before signing
 - `key`: `<JWK.Key>` The key to sign with.
 - `protected`: `<Object>` Protected Header
@@ -923,8 +923,8 @@ JWS.sign.flattened(payload, key)
 
 Verifies the provided JWS in either serialization with a given `<JWK.Key>` or `<JWKS.KeyStore>`
 
-- `jws`: `<Object>` | `<string>` The JWS to verify. This must be a valid JWS.
-- `keyOrStore`: `<JWK.Key>` | `<JWKS.KeyStore>` The key or store to verify with. When
+- `jws`: `<Object>` &vert; `<string>` The JWS to verify. This must be a valid JWS.
+- `keyOrStore`: `<JWK.Key>` &vert; `<JWKS.KeyStore>` The key or store to verify with. When
   `<JWKS.KeyStore>` instance is provided a selection of possible candidate keys will be done and the
   operation will succeed if just one key or signature (in case of General JWS JSON Serialization
   Syntax) matches.
@@ -935,7 +935,7 @@ Verifies the provided JWS in either serialization with a given `<JWK.Key>` or `<
   - `complete`: `<boolean>` When true returns a complete object with the parsed headers and payload
     instead of just the verified payload. **Default:** 'false'
   - `crit`: `string[]` Array of Critical Header Parameter names to recognize. **Default:** '[]'
-- Returns: `<string>` | `<Object>`
+- Returns: `<string>` &vert; `<Object>`
 
 <details>
 <summary><em><strong>Example</strong></em> (Click to expand)</summary>
@@ -1042,10 +1042,10 @@ General JWE JSON Serialization Syntax.
 Creates a new Encrypt object for the provided cleartext with optional Protected and Unprotected
 Headers and Additional Authenticated Data.
 
-- `cleartext`: `<string>` | `<Buffer>` The cleartext that will be encrypted.
+- `cleartext`: `<string>` &vert; `<Buffer>` The cleartext that will be encrypted.
 - `protected`: `<Object>` JWE Protected Header
 - `unprotected`: `<Object>` JWE Shared Unprotected Header
-- `aad`: `<string>` | `<Buffer>` JWE Additional Authenticated Data
+- `aad`: `<string>` &vert; `<Buffer>` JWE Additional Authenticated Data
 - Returns: `<JWE.Encrypt>`
 
 ---
@@ -1071,7 +1071,7 @@ Per-Recipient Header and AAD and only the 'general' serialization supports multi
 recipient.
 
 - `serialization`: `<string>` JWE Serialization. Must be one of 'general', 'flattened', 'compact'
-- Returns: `<string>` | `<Object>`
+- Returns: `<string>` &vert; `<Object>`
 
 ---
 
@@ -1081,7 +1081,7 @@ Performs the encryption operation and 'compact' JWE serialization of the result.
 will be used to wrap or derive the Content Encryption Key (CEK) is either provided as part of the
 Protected Header or inferred from the provided `<JWK.Key>` instance.
 
-- `cleartext`: `<string>` | `<Buffer>` The cleartext that will be encrypted.
+- `cleartext`: `<string>` &vert; `<Buffer>` The cleartext that will be encrypted.
 - `key`: `<JWK.Key>` The key to use for Key Management or Direct Encryption
 - `protected`: `<Object>` JWE Protected Header
 - Returns: `<string>`
@@ -1094,11 +1094,11 @@ Performs the encryption operation and 'flattened' JWE serialization of the resul
 that will be used to wrap or derive the Content Encryption Key (CEK) is either provided as part of
 the combined JWE Header or inferred from the provided `<JWK.Key>` instance.
 
-- `cleartext`: `<string>` | `<Buffer>` The cleartext that will be encrypted.
+- `cleartext`: `<string>` &vert; `<Buffer>` The cleartext that will be encrypted.
 - `key`: `<JWK.Key>` The key to use for Key Management or Direct Encryption
 - `protected`: `<Object>` JWE Protected Header
 - `unprotected`: `<Object>` JWE Shared Unprotected Header
-- `aad`: `<string>` | `<Buffer>` JWE Additional Authenticated Data
+- `aad`: `<string>` &vert; `<Buffer>` JWE Additional Authenticated Data
 - Returns: `<Object>`
 
 ---
@@ -1107,8 +1107,8 @@ the combined JWE Header or inferred from the provided `<JWK.Key>` instance.
 
 Verifies the provided JWE in either serialization with a given `<JWK.Key>` or `<JWKS.KeyStore>`
 
-- `jwe`: `<Object>` | `<string>` The JWE to decrypt. This must be a valid JWE.
-- `keyOrStore`: `<JWK.Key>` | `<JWKS.KeyStore>` The key or store to decrypt with. When
+- `jwe`: `<Object>` &vert; `<string>` The JWE to decrypt. This must be a valid JWE.
+- `keyOrStore`: `<JWK.Key>` &vert; `<JWKS.KeyStore>` The key or store to decrypt with. When
   `<JWKS.KeyStore>` instance is provided a selection of possible candidate keys will be done and the
   operation will succeed if just one key or signature (in case of General JWE JSON Serialization
   Syntax) matches.
@@ -1118,7 +1118,7 @@ Verifies the provided JWE in either serialization with a given `<JWK.Key>` or `<
     accepts all algorithms available on the keys
   - `complete`: `<boolean>` When true returns a complete object with the parsed headers, verified
     AAD and cleartext instead of just the cleartext. **Default:** 'false'
-- Returns: `<string>` | `<Object>`
+- Returns: `<string>` &vert; `<Object>`
 
 ---
 
