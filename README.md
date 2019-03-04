@@ -232,7 +232,7 @@ jose.JWE.encrypt(
 )
 ```
 
-#### JWE Verifying
+#### JWE Decrypting
 
 Decrypt using the private key or a shared symmetrical secret. See the
 [documentation][documentation-jwe] for more.
@@ -268,6 +268,9 @@ in Node.js already, those are often times faster and more reliable.
 
 #### How is it different from [`node-jws`](https://github.com/brianloveswords/node-jws) or [`node-jwa`](https://github.com/brianloveswords/node-jwa)?
 
+- it is not only validating the signatures, it is making sure the JWE/JWS is syntactically correct,
+  e.g. not having duplicated header parameters between protected/unprotected or per-recipient
+  headers, it does the "crit" member check to make sure extensions are handled correctly
 - it is providing Key and KeyStore abstractions
 - there is JSON Web Encryption support
 - there is no asynchronous API since node crypto is ultimately entirely synchronous
