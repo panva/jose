@@ -1,5 +1,12 @@
 language: node_js
 node_js:
+  - 11.8.0 # min
   - stable
 script: npm run coverage
 after_script: npx codecov
+jobs:
+  include:
+    - stage: Lint
+      script: npm run lint
+      node_js: stable
+      after_script: skip
