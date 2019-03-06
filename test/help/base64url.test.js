@@ -5,8 +5,8 @@ const base64url = require('../../lib/help/base64url')
 const testStr = 'fmkIOj+kafqtjMl+iC32a+9YGz0cKj/JT9Jt31uXR1la7FSXkjoBzg/F+huYm0udbM5z5qGlmPBNZASsixJLcA=='
 const testBuf = Buffer.from('fmkIOj+kafqtjMl+iC32a+9YGz0cKj/JT9Jt31uXR1la7FSXkjoBzg/F+huYm0udbM5z5qGlmPBNZASsixJLcA==', 'base64')
 
-test('.encode buffer', t => {
-  t.is(base64url.encode(testBuf), 'fmkIOj-kafqtjMl-iC32a-9YGz0cKj_JT9Jt31uXR1la7FSXkjoBzg_F-huYm0udbM5z5qGlmPBNZASsixJLcA')
+test('.encodeBuffer buffer', t => {
+  t.is(base64url.encodeBuffer(testBuf), 'fmkIOj-kafqtjMl-iC32a-9YGz0cKj_JT9Jt31uXR1la7FSXkjoBzg_F-huYm0udbM5z5qGlmPBNZASsixJLcA')
 })
 
 test('.encode string with default encoding', t => {
