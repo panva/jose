@@ -10,9 +10,9 @@ interface KeyParameters {
 }
 type curve = 'P-256' | 'P-384' | 'P-521'
 type keyType = 'RSA' | 'EC' | 'oct'
+type keyOperation = 'encrypt' | 'decrypt' | 'sign' | 'verify' | 'wrapKey' | 'unwrapKey'
 
 export namespace JWK {
-    type keyOperation = 'encrypt' | 'decrypt' | 'sign' | 'verify' | 'wrapKey' | 'unwrapKey'
 
     class Key {
         kty: keyType
@@ -104,6 +104,7 @@ export namespace JWK {
 export namespace JWKS {
     interface KeyQuery extends KeyParameters {
         kty: keyType
+        operation: keyOperation
     }
 
     class KeyStore {

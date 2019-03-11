@@ -485,6 +485,8 @@ specified by the parameters are first.
   - `alg`: `<string>` Key supported algorithm to filter for.
   - `use`: `<string>` Key use to filter for.
   - `kid`: `<string>` Key ID to filter for.
+  - `operation`: `<string>` Further specify the operation a given alg must be valid for. Must be one
+    of 'encrypt', 'decrypt', 'sign', 'verify', 'wrapKey', 'unwrapKey'
 - Returns: `<Key[]>` Array of key instances or an empty array when none are matching the parameters.
 
 ---
@@ -499,6 +501,8 @@ parameters is returned.
   - `alg`: `<string>` Key supported algorithm to filter for.
   - `use`: `<string>` Key use to filter for.
   - `kid`: `<string>` Key ID to filter for.
+  - `operation`: `<string>` Further specify the operation a given alg must be valid for. Must be one
+    of 'encrypt', 'decrypt', 'sign', 'verify', 'wrapKey', 'unwrapKey'
 - Returns: `<JWK.RSAKey>` &vert; `<JWK.ECKey>` &vert; `<JWK.OctKey>` &vert; `<undefined>`
 
 ---
