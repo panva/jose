@@ -8,16 +8,16 @@ test('constructor', t => {
     new KeyStore() // eslint-disable-line no-new
   })
   t.notThrows(() => {
-    new KeyStore(generateSync('ec')) // eslint-disable-line no-new
+    new KeyStore(generateSync('EC')) // eslint-disable-line no-new
   })
   t.notThrows(() => {
-    new KeyStore(generateSync('ec'), generateSync('ec')) // eslint-disable-line no-new
+    new KeyStore(generateSync('EC'), generateSync('EC')) // eslint-disable-line no-new
   })
   t.notThrows(() => {
-    new KeyStore([generateSync('ec')], generateSync('ec')) // eslint-disable-line no-new
+    new KeyStore([generateSync('EC')], generateSync('EC')) // eslint-disable-line no-new
   })
   t.notThrows(() => {
-    new KeyStore([[generateSync('ec')], generateSync('ec')]) // eslint-disable-line no-new
+    new KeyStore([[generateSync('EC')], generateSync('EC')]) // eslint-disable-line no-new
   })
 })
 
@@ -29,19 +29,19 @@ test('constructor only accepts Key instances created through JWK.importKey', t =
 
 test('.generate()', async t => {
   const ks = new KeyStore()
-  await ks.generate('ec')
+  await ks.generate('EC')
   t.is(ks.size, 1)
 })
 
 test('.generateSync()', t => {
   const ks = new KeyStore()
-  ks.generateSync('ec')
+  ks.generateSync('EC')
   t.is(ks.size, 1)
 })
 
 test('.add()', t => {
   const ks = new KeyStore()
-  const k = generateSync('ec')
+  const k = generateSync('EC')
   ks.add(k)
   ks.add(k)
   t.is(ks.size, 1)
@@ -51,7 +51,7 @@ test('.add()', t => {
 })
 
 test('.remove()', t => {
-  const k = generateSync('ec')
+  const k = generateSync('EC')
   const ks = new KeyStore(k)
   ks.remove(k)
   t.is(ks.size, 0)
@@ -62,7 +62,7 @@ test('.remove()', t => {
 })
 
 test('.all() and .get() use filter', t => {
-  const k = generateSync('rsa', undefined, { use: 'sig' })
+  const k = generateSync('RSA', undefined, { use: 'sig' })
   const ks = new KeyStore(k)
   t.deepEqual(ks.all({ use: 'enc' }), [])
   t.deepEqual(ks.all({ use: 'sig' }), [k])
@@ -71,15 +71,15 @@ test('.all() and .get() use filter', t => {
 })
 
 test('.all() and .get() use sort', t => {
-  const k = generateSync('rsa')
-  const k2 = generateSync('rsa', undefined, { use: 'sig' })
+  const k = generateSync('RSA')
+  const k2 = generateSync('RSA', undefined, { use: 'sig' })
   const ks = new KeyStore(k, k2)
   t.deepEqual(ks.all({ use: 'sig' }), [k2, k])
   t.is(ks.get({ use: 'sig' }), k2)
 })
 
 test('.all() and .get() kid filter', t => {
-  const k = generateSync('rsa', undefined, { kid: 'foobar' })
+  const k = generateSync('RSA', undefined, { kid: 'foobar' })
   const ks = new KeyStore(k)
   t.deepEqual(ks.all({ kid: 'baz' }), [])
   t.deepEqual(ks.all({ kid: 'foobar' }), [k])
@@ -89,8 +89,8 @@ test('.all() and .get() kid filter', t => {
 
 test('.all() and .get() kty filter', t => {
   const ks = new KeyStore()
-  ks.generateSync('rsa')
-  ks.generateSync('ec')
+  ks.generateSync('RSA')
+  ks.generateSync('EC')
   ks.generateSync('oct')
   t.is(ks.all({ kty: 'oct' }).length, 1)
   t.is(ks.all({ kty: 'RSA' }).length, 1)
@@ -98,7 +98,7 @@ test('.all() and .get() kty filter', t => {
 })
 
 test('.all() and .get() alg filter', t => {
-  const k = generateSync('rsa')
+  const k = generateSync('RSA')
   const ks = new KeyStore(k)
   t.deepEqual(ks.all({ alg: 'HS256' }), [])
   t.deepEqual(ks.all({ alg: 'RS256' }), [k])
@@ -107,8 +107,8 @@ test('.all() and .get() alg filter', t => {
 })
 
 test('.all() and .get() alg sort', t => {
-  const k = generateSync('rsa')
-  const k2 = generateSync('rsa', undefined, { alg: 'RS256' })
+  const k = generateSync('RSA')
+  const k2 = generateSync('RSA', undefined, { alg: 'RS256' })
   const ks = new KeyStore(k, k2)
   t.deepEqual(ks.all({ alg: 'HS256' }), [])
   t.deepEqual(ks.all({ alg: 'RS256' }), [k2, k])
@@ -118,8 +118,8 @@ test('.all() and .get() alg sort', t => {
 
 test('.fromJWKS()', t => {
   const ks = new KeyStore()
-  ks.generateSync('ec')
-  ks.generateSync('rsa')
+  ks.generateSync('EC')
+  ks.generateSync('RSA')
 
   const ks2 = KeyStore.fromJWKS(ks.toJWKS())
   t.is(ks2.size, 2)

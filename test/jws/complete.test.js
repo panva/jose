@@ -3,7 +3,7 @@ const test = require('ava')
 const { JWKS, JWK: { generateSync }, JWS } = require('../..')
 const Key = require('../../lib/jwk/key/base')
 const key = generateSync('oct')
-const ks = new JWKS.KeyStore(generateSync('ec'), key)
+const ks = new JWKS.KeyStore(generateSync('EC'), key)
 
 const complete = (t, jws, k, ...keys) => {
   if (typeof k === 'string') {

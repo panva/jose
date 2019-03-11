@@ -122,7 +122,7 @@ test('JWS valid serialization must be provided', t => {
 
 test('JWS compact does not support multiple recipients', t => {
   const k = generateSync('oct')
-  const k2 = generateSync('ec')
+  const k2 = generateSync('EC')
   const sign = new JWS.Sign('foo')
   sign.recipient(k)
   sign.recipient(k2)
@@ -142,7 +142,7 @@ test('JWS compact does not support unprotected header', t => {
 
 test('JWS flattened does not support multiple recipients', t => {
   const k = generateSync('oct')
-  const k2 = generateSync('ec')
+  const k2 = generateSync('EC')
   const sign = new JWS.Sign('foo')
   sign.recipient(k)
   sign.recipient(k2)
@@ -152,7 +152,7 @@ test('JWS flattened does not support multiple recipients', t => {
 })
 
 test('JWS no alg specified but cannot resolve', t => {
-  const k1 = generateSync('rsa', undefined, { alg: 'foo' })
+  const k1 = generateSync('RSA', undefined, { alg: 'foo' })
   t.throws(() => {
     JWS.sign({}, k1)
   }, { instanceOf: errors.JWSInvalid, code: 'ERR_JWS_INVALID', message: 'could not resolve a usable "alg" for a recipient' })
@@ -180,8 +180,8 @@ test('JWS verify must have disjoint header members', t => {
 
 test('JWS no alg specified (multi recipient)', t => {
   const sign = new JWS.Sign({})
-  sign.recipient(generateSync('rsa'))
-  sign.recipient(generateSync('ec'))
+  sign.recipient(generateSync('RSA'))
+  sign.recipient(generateSync('EC'))
   sign.recipient(generateSync('oct', 256))
 
   const jws = sign.sign('general')
@@ -192,9 +192,9 @@ test('JWS no alg specified (multi recipient)', t => {
 
 test('JWS no alg specified (multi recipient) with per-recipient protected headers', t => {
   const sign = new JWS.Sign({})
-  let k1 = generateSync('rsa', undefined, { kid: 'kid_1' })
+  let k1 = generateSync('RSA', undefined, { kid: 'kid_1' })
   sign.recipient(k1, { kid: k1.kid })
-  let k2 = generateSync('ec', undefined, { kid: 'kid_2' })
+  let k2 = generateSync('EC', undefined, { kid: 'kid_2' })
   sign.recipient(k2, { kid: k2.kid })
   let k3 = generateSync('oct', undefined, { kid: 'kid_3' })
   sign.recipient(k3, { kid: k3.kid })

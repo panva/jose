@@ -15,7 +15,7 @@ const key = importKey(Buffer.from(pwd))
 const keystoreEmpty = new KeyStore()
 const keystoreMatchOne = new KeyStore(generateSync(key.kty, key.length, { alg: key.alg, use: key.use }), key)
 const keystoreMatchMore = new KeyStore(generateSync(key.kty, key.length, { alg: key.alg, use: key.use, kid: key.kid }), key, importKey(key))
-const keystoreMatchNone = new KeyStore(generateSync('ec'), generateSync('rsa'))
+const keystoreMatchNone = new KeyStore(generateSync('EC'), generateSync('RSA'))
 
 test(`${recipe.title} - compact encrypt`, t => {
   const res = JWE.encrypt(plaintext, key, prot)

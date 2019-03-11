@@ -1,9 +1,8 @@
 const test = require('ava')
 
-const { JWK: { generate, generateSync } } = require('../..')
+const { JWK: { generate, generateSync }, errors } = require('../..')
 
 ;[
-  ['rsa'],
   ['RSA'],
   ['RSA', undefined, undefined, true],
   ['RSA', undefined, undefined, false],
@@ -14,7 +13,6 @@ const { JWK: { generate, generateSync } } = require('../..')
   ['RSA', 2048, { use: 'enc', alg: 'RSA-OAEP' }],
   ['RSA', 2048, { alg: 'PS256' }],
   ['RSA', 2048, { alg: 'RSA-OAEP' }],
-  ['ec'],
   ['EC'],
   ['EC', undefined, undefined, true],
   ['EC', undefined, undefined, false],
@@ -112,36 +110,36 @@ const { JWK: { generate, generateSync } } = require('../..')
 test('fails to generateSync unsupported kty', t => {
   t.throws(() => {
     generateSync('OKP')
-  }, { instanceOf: TypeError, message: 'invalid key type' })
+  }, { instanceOf: errors.JOSENotSupported, message: 'unsupported key type: OKP' })
 })
 
 test('fails to generate unsupported kty', async t => {
   await t.throwsAsync(() => {
     return generate('OKP')
-  }, { instanceOf: TypeError, message: 'invalid key type' })
+  }, { instanceOf: errors.JOSENotSupported, message: 'unsupported key type: OKP' })
 })
 
 test('fails to generateSync RSA with invalid bit lengths', t => {
   t.throws(() => {
-    generateSync('rsa', 2048 + 1)
+    generateSync('RSA', 2048 + 1)
   }, { instanceOf: TypeError, message: 'invalid bit length' })
 })
 
 test('fails to generate RSA with invalid bit lengths', async t => {
   await t.throwsAsync(() => {
-    return generate('rsa', 2048 + 1)
+    return generate('RSA', 2048 + 1)
   }, { instanceOf: TypeError, message: 'invalid bit length' })
 })
 
 test('fails to generateSync RSA with less than 512 bits', t => {
   t.throws(() => {
-    generateSync('rsa', 512 - 8)
+    generateSync('RSA', 512 - 8)
   }, { instanceOf: TypeError, message: 'invalid bit length' })
 })
 
 test('fails to generate RSA with less than 512 bits', async t => {
   await t.throwsAsync(() => {
-    return generate('rsa', 512 - 8)
+    return generate('RSA', 512 - 8)
   }, { instanceOf: TypeError, message: 'invalid bit length' })
 })
 

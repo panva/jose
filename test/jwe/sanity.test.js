@@ -43,7 +43,7 @@ test('verify key or store argument', t => {
 })
 
 test('JWE no alg specified but cannot resolve', t => {
-  const k1 = generateSync('rsa', undefined, { alg: 'foo' })
+  const k1 = generateSync('RSA', undefined, { alg: 'foo' })
   t.throws(() => {
     JWE.encrypt('foo', k1)
   }, { instanceOf: errors.JWEInvalid, code: 'ERR_JWE_INVALID', message: 'could not resolve a usable "alg" for a recipient' })
@@ -51,8 +51,8 @@ test('JWE no alg specified but cannot resolve', t => {
 
 test('JWE no alg/enc specified (multi recipient)', t => {
   const encrypt = new JWE.Encrypt('foo')
-  encrypt.recipient(generateSync('rsa'))
-  encrypt.recipient(generateSync('ec'))
+  encrypt.recipient(generateSync('RSA'))
+  encrypt.recipient(generateSync('EC'))
   encrypt.recipient(generateSync('oct', 256))
 
   const jwe = encrypt.encrypt('general')
@@ -66,9 +66,9 @@ test('JWE no alg/enc specified (multi recipient)', t => {
 
 test('JWE no alg/enc specified (multi recipient) with per-recipient headers', t => {
   const encrypt = new JWE.Encrypt('foo')
-  let k1 = generateSync('rsa', undefined, { kid: 'kid_1' })
+  let k1 = generateSync('RSA', undefined, { kid: 'kid_1' })
   encrypt.recipient(k1, { kid: k1.kid })
-  let k2 = generateSync('ec', undefined, { kid: 'kid_2' })
+  let k2 = generateSync('EC', undefined, { kid: 'kid_2' })
   encrypt.recipient(k2, { kid: k2.kid })
   let k3 = generateSync('oct', 256, { kid: 'kid_3' })
   encrypt.recipient(k3, { kid: k3.kid })
@@ -84,7 +84,7 @@ test('JWE no alg/enc specified (multi recipient) with per-recipient headers', t 
 
 test('JWE no alg/enc specified (single rsa), no protected header', t => {
   const encrypt = new JWE.Encrypt('foo')
-  encrypt.recipient(generateSync('rsa'))
+  encrypt.recipient(generateSync('RSA'))
 
   const jwe = encrypt.encrypt('flattened')
   t.is(jwe.unprotected, undefined)
@@ -93,7 +93,7 @@ test('JWE no alg/enc specified (single rsa), no protected header', t => {
 })
 
 test('JWE no alg/enc specified (single rsa), with protected header', t => {
-  const k = generateSync('rsa', undefined, { kid: 'jwk key id' })
+  const k = generateSync('RSA', undefined, { kid: 'jwk key id' })
   const encrypt = new JWE.Encrypt('foo', { kid: k.kid })
   encrypt.recipient(k)
 
@@ -104,7 +104,7 @@ test('JWE no alg/enc specified (single rsa), with protected header', t => {
 })
 
 test('JWE no alg specified (single rsa), with protected header', t => {
-  const k = generateSync('rsa')
+  const k = generateSync('RSA')
   const encrypt = new JWE.Encrypt('foo', { enc: 'A256CBC-HS512' })
   encrypt.recipient(k)
 
@@ -115,7 +115,7 @@ test('JWE no alg specified (single rsa), with protected header', t => {
 })
 
 test('JWE no alg specified (single rsa), with unprotected header', t => {
-  const k = generateSync('rsa')
+  const k = generateSync('RSA')
   const encrypt = new JWE.Encrypt('foo', undefined, { enc: 'A256CBC-HS512' })
   encrypt.recipient(k)
 
@@ -137,7 +137,7 @@ test('JWE no alg/enc specified (single oct)', t => {
 
 test('JWE no alg/enc specified (single ec)', t => {
   const encrypt = new JWE.Encrypt('foo')
-  encrypt.recipient(generateSync('ec'))
+  encrypt.recipient(generateSync('EC'))
 
   const jwe = encrypt.encrypt('flattened')
   t.is(jwe.unprotected, undefined)
@@ -148,7 +148,7 @@ test('JWE no alg/enc specified (single ec)', t => {
 
 test('JWE no alg/enc specified (only on a key)', t => {
   const encrypt = new JWE.Encrypt('foo')
-  encrypt.recipient(generateSync('rsa', undefined, { alg: 'RSA1_5', use: 'enc' }))
+  encrypt.recipient(generateSync('RSA', undefined, { alg: 'RSA1_5', use: 'enc' }))
 
   const jwe = encrypt.encrypt('flattened')
   t.is(jwe.unprotected, undefined)
@@ -310,7 +310,7 @@ test('JWE valid serialization must be provided', t => {
 
 test('JWE compact does not support multiple recipients', t => {
   const k = generateSync('oct')
-  const k2 = generateSync('ec')
+  const k2 = generateSync('EC')
   const encrypt = new JWE.Encrypt('foo')
   encrypt.recipient(k)
   encrypt.recipient(k2)
@@ -335,7 +335,7 @@ test('JWE compact does not support aad', t => {
 
 test('JWE flattened does not support multiple recipients', t => {
   const k = generateSync('oct')
-  const k2 = generateSync('ec')
+  const k2 = generateSync('EC')
   const encrypt = new JWE.Encrypt('foo')
   encrypt.recipient(k)
   encrypt.recipient(k2)
@@ -346,7 +346,7 @@ test('JWE flattened does not support multiple recipients', t => {
 
 test('JWE must only have one Content Encryption algorithm (encrypt)', t => {
   const k = generateSync('oct')
-  const k2 = generateSync('rsa')
+  const k2 = generateSync('RSA')
   const encrypt = new JWE.Encrypt('foo')
   encrypt.recipient(k, { enc: 'A128CBC-HS256' })
   encrypt.recipient(k2, { enc: 'A128GCM' })
@@ -357,7 +357,7 @@ test('JWE must only have one Content Encryption algorithm (encrypt)', t => {
 
 test('JWE must only have one Content Encryption algorithm (decrypt)', t => {
   const k = generateSync('oct')
-  const k2 = generateSync('rsa')
+  const k2 = generateSync('RSA')
   const encrypt = new JWE.Encrypt('foo')
   encrypt.recipient(k, { enc: 'A128GCM' })
   encrypt.recipient(k2, { enc: 'A128GCM' })
@@ -370,7 +370,7 @@ test('JWE must only have one Content Encryption algorithm (decrypt)', t => {
 
 test('JWE must have a Content Encryption algorithm (decrypt)', t => {
   const k = generateSync('oct')
-  const k2 = generateSync('rsa')
+  const k2 = generateSync('RSA')
   const encrypt = new JWE.Encrypt('foo')
   encrypt.recipient(k, { enc: 'A128GCM' })
   encrypt.recipient(k2, { enc: 'A128GCM' })
@@ -384,7 +384,7 @@ test('JWE must have a Content Encryption algorithm (decrypt)', t => {
 
 test('JWE oct dir is only usable with a single recipient', t => {
   const k = generateSync('oct', undefined, { alg: 'A128CBC-HS256', use: 'enc' })
-  const k2 = generateSync('rsa')
+  const k2 = generateSync('RSA')
   const encrypt = new JWE.Encrypt('foo')
   encrypt.recipient(k, { alg: 'dir' })
   encrypt.recipient(k2)
@@ -394,8 +394,8 @@ test('JWE oct dir is only usable with a single recipient', t => {
 })
 
 test('JWE EC ECDH-ES is only usable with a single recipient', t => {
-  const k = generateSync('ec', undefined, { alg: 'ECDH-ES', use: 'enc' })
-  const k2 = generateSync('rsa')
+  const k = generateSync('EC', undefined, { alg: 'ECDH-ES', use: 'enc' })
+  const k2 = generateSync('RSA')
   const encrypt = new JWE.Encrypt('foo')
   encrypt.recipient(k, { alg: 'ECDH-ES' })
   encrypt.recipient(k2)

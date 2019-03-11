@@ -1,14 +1,15 @@
 const test = require('ava')
 const { createPublicKey, createPrivateKey } = require('crypto')
 
+const { errors } = require('../..')
 const { keyObjectToJWK, jwkToPem } = require('../../lib/help/key_utils')
 const { JWK: fixtures } = require('../fixtures')
 const clone = obj => JSON.parse(JSON.stringify(obj))
 
 test('jwkToPem only works for EC and RSA', t => {
   t.throws(() => {
-    jwkToPem({ kty: 'oct' })
-  }, { instanceOf: TypeError, message: 'unsupported kty' })
+    jwkToPem({ kty: 'OKP' })
+  }, { instanceOf: errors.JOSENotSupported, message: 'unsupported key type: OKP' })
 })
 
 test('RSA Public key', t => {
