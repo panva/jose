@@ -65,14 +65,13 @@ test('failed to import throws an error', t => {
 })
 
 ;[
-  `-----BEGIN PRIVATE KEY-----\nMC4CAQAwBQYDK2VwBCIEIHXLsXm1lsq5HtyqJwQyFmpfEluuf0KOqP6DqMgGxxDL\n-----END PRIVATE KEY-----`,
-  `-----BEGIN PUBLIC KEY-----\nMCowBQYDK2VwAyEAEXRYV3v5ucrHVR3mKqyPXxXqU34lASwc7Y7MoOvaqcs=\n-----END PUBLIC KEY-----`,
-  `-----BEGIN PRIVATE KEY-----\nMEcCAQAwBQYDK2VxBDsEObxytD95dGN3Hxk7kVk+Lig1rGYTRr3YdaHjRog++Sgk\nQD7KwKmxroBURtkE2N0JbQ3ctdrpGRB5DQ==\n-----END PRIVATE KEY-----`,
-  `-----BEGIN PUBLIC KEY-----\nMEMwBQYDK2VxAzoAIESY3jnpGdB5UVJDCznrv0vmBFIzgSMu+gafsbCX1rFtsJwR\nM6XUDQiEY7dk6rmm/Fktyawna5EA\n-----END PUBLIC KEY-----`
+  `-----BEGIN PUBLIC KEY-----\nMIIBtjCCASsGByqGSM44BAEwggEeAoGBANuHjLdqQcKozzWf9fUfe/mw4i5NLT8k\nCIA75k+GNYNbBaGZ2lGNeKsrjHzM8w7mE5k6qx5hDB4n88qFoauqCsUZ4knbTybn\nYV08gfWS375l/EGSpt3c/1dezVZuT/FmEeXbMhOIDORf/9f/6PpEMFN3eghszLvN\ng+L/19HVpWAXAhUAnOFG9vvOiZIz/ZxdpR+EVv8o4T8CgYBDk/ChY3fo4DrxzLZT\n7AjsAiJOzO8QnsV07Gh8gSzUCBsb+Hb4GvMs2U6rB5mxOMib3S2HGbs791uBva2a\nA6pzNzRmgV/w6CyOcxhCkZdVL7MwO9y5iq6V65R4GgfkCrIAYi/BW6XdXOyw/7J0\nt/4wB0/wKtsXf541NLfmUprJ+QOBhAACgYBGbXflbrGGg02+w8Xo6RO+tHoekREZ\nlJA0KKBN4jT0S3/OsLQeHtO7k/gkdMMbXD1J1fae9tIxy1SwYVTR6csgydGuvuyG\nB4A/ZtXEb+dumCBbtw8dyred4Okhl44Fdrs79F1rjSWEcwKqJghxS+GsbA0vcTaf\nAHDL6OblN04uzg==\n-----END PUBLIC KEY-----`,
+  crypto.generateKeyPairSync('dsa', { modulusLength: 1024 }).publicKey,
+  crypto.generateKeyPairSync('dsa', { modulusLength: 1024 }).privateKey
 ].forEach((unsupported, i) => {
-  test.skip(`fails to import unsupported PEM ${i + 1}/4`, t => {
+  test(`fails to import unsupported PEM ${i + 1}/4`, t => {
     t.throws(() => {
       importKey(unsupported)
-    }, { instanceOf: errors.JWKImportFailed, code: 'ERR_JWK_IMPORT_FAILED' })
+    }, { instanceOf: errors.JOSENotSupported, code: 'ERR_JOSE_NOT_SUPPORTED', message: 'only RSA and EC asymmetric keys are supported' })
   })
 })
