@@ -169,13 +169,13 @@ jose.JWT.sign(
   { 'urn:example:claim': 'foo' },
   privateKey,
   {
-    expiresIn: '1 hour',
-    issuer: 'https://op.example.com',
+    algorithm: 'PS256',
     audience: 'urn:example:client_id',
+    expiresIn: '1 hour',
     header: {
       typ: 'JWT'
     },
-    algorithm: 'PS256'
+    issuer: 'https://op.example.com'
   }
 )
 ```
@@ -205,7 +205,8 @@ Sign with a private or symmetric key using compact serialization. See the
 ```js
 jose.JWS.sign(
   { sub: 'johndoe' },
-  privateKey
+  privateKey,
+  { kid: privateKey.kid }
 )
 ```
 
@@ -228,7 +229,8 @@ Encrypt using the recipient's public key or a shared symmetrical secret. See the
 ```js
 jose.JWE.encrypt(
   'eyJhbGciOiJFUzI1NiJ9.eyJzdWIiOiJqb2huZG9lIn0.T_SYLQV3A5_kFDDVNuoadoURSEtuSOR-dG2CMmrP-ULK9xbIf2vYeiHOkvTrnqGlWEGBGxYtsP1VkXmNsi1uOw',
-  publicKey
+  publicKey,
+  { kid: publicKey.kid }
 )
 ```
 
