@@ -80,12 +80,6 @@ test('no verify support when `use` is "enc"', t => {
   t.deepEqual([...result], [])
 })
 
-test(`oct keys (odd bits) wrap/unwrap algorithms do not have "dir"`, t => {
-  const key = OctKey.generateSync(136)
-
-  t.false(key.algorithms().has('dir'))
-})
-
 test(`oct keys (odd bits) wrap/unwrap algorithms only have "PBES2"`, t => {
   const key = OctKey.generateSync(136)
   const result = key.algorithms('wrapKey')
@@ -99,30 +93,6 @@ test(`oct keys (odd bits) wrap/unwrap algorithms only have "PBES2"`, t => {
 
     t.true(key.algorithms().has(`A${len}KW`))
     t.true(key.algorithms().has(`A${len}GCMKW`))
-  })
-})
-
-Object.entries({
-  128: ['A128GCM'],
-  192: ['A192GCM'],
-  256: ['A128CBC-HS256', 'A256GCM'],
-  384: ['A192CBC-HS384'],
-  512: ['A256CBC-HS512']
-}).forEach(([len, encAlgs]) => {
-  len = parseInt(len)
-
-  test(`oct key (${len} bits) can encrypt`, t => {
-    const key = OctKey.generateSync(len)
-
-    const result = key.algorithms('encrypt')
-    t.is(result.constructor, Set)
-    t.deepEqual([...result], encAlgs)
-  })
-
-  test(`oct keys (${len} bits) wrap/unwrap algorithms have "dir"`, t => {
-    const key = OctKey.generateSync(len)
-
-    t.true(key.algorithms().has('dir'))
   })
 })
 
