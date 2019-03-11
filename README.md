@@ -64,10 +64,7 @@ Legend:
 ---
 
 Pending Node.js Support 🤞:
-- [RFC8037][spec-cfrg] (EdDSA, OKP kty, etc)
-  - `crypto.getCurves().includes('Curve25519')` // => 😢
-  - `crypto.getCurves().includes('Curve448')` // => 😢
-  - `openssl ecparam -list_curves` // => 😢
+- [RFC8037][spec-cfrg] (EdDSA, OKP kty, etc). See [#12](https://github.com/panva/jose/issues/12)
 
 Won't implement:
 - ✕ JWS embedded key / referenced verification
