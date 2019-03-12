@@ -2,6 +2,26 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+# [0.10.0](https://github.com/panva/jose/compare/v0.9.2...v0.10.0) (2019-03-12)
+
+
+### Bug Fixes
+
+* do not list "dir" under wrap/unwrapKey operations ([17b37d3](https://github.com/panva/jose/commit/17b37d3))
+
+
+### Features
+
+* keystore .all and .get operation option ([d349ba9](https://github.com/panva/jose/commit/d349ba9))
+
+
+### BREAKING CHANGES
+
+* "dir" is no longer returned as wrap/unwrapKey key
+operation
+
+
+
 ## [0.9.2](https://github.com/panva/jose/compare/v0.9.1...v0.9.2) (2019-03-05)
 
 
