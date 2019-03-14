@@ -3,6 +3,8 @@ name: Bug report
 about: There's a bug in @panva/jose I want to report
 title: 'bug: '
 labels: bug
+assignees: ''
+
 ---
 
 **Describe the bug**

@@ -2,7 +2,9 @@
 name: Feature proposal
 about: I have an idea for a new @panva/jose feature
 title: 'proposal: '
-labels: enhancement
+labels: enhancement, good first issue
+assignees: ''
+
 ---
 
 **Is your feature request related to a problem? Please describe.**
