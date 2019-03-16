@@ -34,6 +34,14 @@ test(`RSA key .algorithms invalid operation`, t => {
     t.deepEqual([...result], ['PS256', 'RS256', 'PS384', 'RS384', 'PS512', 'RS512', 'RSA-OAEP', 'RSA1_5'])
   })
 
+  test('RSA < 2048 bits does not support any algorithms', t => {
+    const keyObject = createPublicKey(fixtures.RSA_512)
+    const key = new RSAKey(keyObject)
+    const result = key.algorithms()
+    t.is(result.constructor, Set)
+    t.deepEqual([...result], [])
+  })
+
   test('RSA Private key algorithms (no operation, w/ alg)', t => {
     const key = new RSAKey(keyObject, { alg: 'RS256' })
     const result = key.algorithms()

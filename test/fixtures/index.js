@@ -45,6 +45,8 @@ module.exports.JWK = {
   }
 }
 
+module.exports.RSA_512 = readFileSync(join(__dirname, 'rsa_512.pem'))
+
 module.exports.PEM = {
   RSA: {
     private: readFileSync(join(__dirname, 'rsa.key')),
