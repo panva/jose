@@ -2,6 +2,22 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+# [0.11.0](https://github.com/panva/jose/compare/v0.10.0...v0.11.0) (2019-03-16)
+
+
+### Bug Fixes
+
+* all JWA defined RSA operations require key of 2048 or more ([cc70c5d](https://github.com/panva/jose/commit/cc70c5d))
+* use correct salt length for RSASSA-PSS ([e936d54](https://github.com/panva/jose/commit/e936d54))
+
+
+### BREAKING CHANGES
+
+* all [JWA](https://tools.ietf.org/html/rfc7518) defined
+RSA based operations require key size of 2048 bits or more.
+
+
+
 # [0.10.0](https://github.com/panva/jose/compare/v0.9.2...v0.10.0) (2019-03-12)
 
 
