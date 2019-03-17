@@ -34,14 +34,6 @@ test(`RSA key .algorithms invalid operation`, t => {
     t.deepEqual([...result], ['PS256', 'RS256', 'PS384', 'RS384', 'PS512', 'RS512', 'RSA-OAEP', 'RSA1_5'])
   })
 
-  test('RSA < 2048 bits does not support any algorithms', t => {
-    const keyObject = createPublicKey(fixtures.RSA_512)
-    const key = new RSAKey(keyObject)
-    const result = key.algorithms()
-    t.is(result.constructor, Set)
-    t.deepEqual([...result], [])
-  })
-
   test('RSA Private key algorithms (no operation, w/ alg)', t => {
     const key = new RSAKey(keyObject, { alg: 'RS256' })
     const result = key.algorithms()
@@ -256,5 +248,42 @@ test(`RSA key .algorithms invalid operation`, t => {
     const result = key.algorithms('unwrapKey')
     t.is(result.constructor, Set)
     t.deepEqual([...result], [])
+  })
+
+  test('any RSA key can do RS256 and RSA1_5', t => {
+    const k = RSAKey.generateSync(512)
+    const result = k.algorithms()
+    t.is(result.constructor, Set)
+    t.deepEqual([...result], ['RS256', 'RSA1_5'])
+  })
+
+  test('RSA key >= 528 bits can do PS256', t => {
+    const k = RSAKey.generateSync(528)
+    t.true(k.algorithms().has('PS256'))
+  })
+
+  test('RSA key >= 592 bits can do RSA-OAEP', t => {
+    const k = RSAKey.generateSync(592)
+    t.true(k.algorithms().has('RSA-OAEP'))
+  })
+
+  test('RSA key >= 624 bits can do RS384', t => {
+    const k = RSAKey.generateSync(624)
+    t.true(k.algorithms().has('RS384'))
+  })
+
+  test('RSA key >= 752 bits can do RS512', t => {
+    const k = RSAKey.generateSync(752)
+    t.true(k.algorithms().has('RS512'))
+  })
+
+  test('RSA key >= 784 bits can do PS384', t => {
+    const k = RSAKey.generateSync(784)
+    t.true(k.algorithms().has('PS384'))
+  })
+
+  test('RSA key >= 1040 bits can do PS512', t => {
+    const k = RSAKey.generateSync(1040)
+    t.true(k.algorithms().has('PS512'))
   })
 })()
