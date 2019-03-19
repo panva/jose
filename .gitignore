@@ -22,6 +22,7 @@ coverage
 .lock-wscript
 
 # Compiled binary addons (http://nodejs.org/api/addons.html)
+node
 build/Release
 
 # Dependency directory and lockfiles
