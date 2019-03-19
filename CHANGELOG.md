@@ -12,18 +12,12 @@ All notable changes to this project will be documented in this file. See [standa
 * key.toJWK() fixed on windows ([57f1692](https://github.com/panva/jose/commit/57f1692)), closes [#17](https://github.com/panva/jose/issues/17)
 
 
-
-# Change Log
-
-All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
-
 ## [0.11.1](https://github.com/panva/jose/compare/v0.11.0...v0.11.1) (2019-03-17)
 
 
 ### Bug Fixes
 
 * restrict RS key algorithms by the key's bit size ([9af295b](https://github.com/panva/jose/commit/9af295b))
-
 
 
 # [0.11.0](https://github.com/panva/jose/compare/v0.10.0...v0.11.0) (2019-03-16)
