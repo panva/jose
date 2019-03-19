@@ -6,7 +6,15 @@ script: npm run coverage
 after_script: npx codecov
 jobs:
   include:
+    - stage: macOS
+      os: osx
+      script: npm run coverage
+      node_js: stable
+    - stage: windows
+      os: windows
+      script: npm run coverage
+      node_js: node
     - stage: Lint
       script: npm run lint
-      node_js: stable
+      node_js: node
       after_script: skip
