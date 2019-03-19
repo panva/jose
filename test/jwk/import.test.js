@@ -72,6 +72,6 @@ test('failed to import throws an error', t => {
   test(`fails to import unsupported PEM ${i + 1}/4`, t => {
     t.throws(() => {
       importKey(unsupported)
-    }, { instanceOf: errors.JOSENotSupported, code: 'ERR_JOSE_NOT_SUPPORTED', message: 'only RSA and EC asymmetric keys are supported' })
+    }, { instanceOf: errors.JOSENotSupported, code: 'ERR_JOSE_NOT_SUPPORTED', message: 'only RSA, EC and OKP asymmetric keys are supported' })
   })
 })

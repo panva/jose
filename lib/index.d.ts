@@ -8,8 +8,9 @@ interface KeyParameters {
     use?: use
     kid?: string
 }
-type curve = 'P-256' | 'P-384' | 'P-521'
-type keyType = 'RSA' | 'EC' | 'oct'
+type ECCurve = 'P-256' | 'P-384' | 'P-521'
+type OKPCurve = 'Ed25519' | 'Ed448' | 'X25519' | 'X448'
+type keyType = 'RSA' | 'EC' | 'OKP' | 'oct'
 type keyOperation = 'encrypt' | 'decrypt' | 'sign' | 'verify' | 'wrapKey' | 'unwrapKey'
 type asymmetricKeyObjectTypes = 'private' | 'public'
 type keyObjectTypes = asymmetricKeyObjectTypes | 'secret'
@@ -38,9 +39,16 @@ export namespace JWK {
 
     interface JWKECKey extends KeyParameters {
         kty: 'EC'
-        crv: curve
+        crv: ECCurve
         x: string
         y: string
+        d?: string
+    }
+
+    interface JWKOKPKey extends KeyParameters {
+        kty: 'OKP'
+        crv: OKPCurve
+        x: string
         d?: string
     }
 
@@ -76,12 +84,23 @@ export namespace JWK {
         kty: 'EC'
         secret: false
         type: asymmetricKeyObjectTypes
-        crv: curve
+        crv: ECCurve
         x: string
         y: string
         d?: string
 
         toJWK(private?: boolean): JWKECKey
+    }
+
+    class OKPKey extends Key {
+        kty: 'OKP'
+        secret: false
+        type: asymmetricKeyObjectTypes
+        crv: OKPCurve
+        x: string
+        d?: string
+
+        toJWK(private?: boolean): JWKOKPKey
     }
 
     class OctKey extends Key {
@@ -97,17 +116,20 @@ export namespace JWK {
 
     export function isKey(object: any): boolean
 
-    export function importKey(keyObject: KeyObject, parameters?: KeyParameters): RSAKey | ECKey | OctKey
-    export function importKey(key: PrivateKeyInput | PublicKeyInput | string | Buffer, parameters?: KeyParameters): RSAKey | ECKey | OctKey
+    export function importKey(keyObject: KeyObject, parameters?: KeyParameters): RSAKey | ECKey | OKPKey | OctKey
+    export function importKey(key: PrivateKeyInput | PublicKeyInput | string | Buffer, parameters?: KeyParameters): RSAKey | ECKey | OKPKey | OctKey
     export function importKey(jwk: JWKOctKey): OctKey
     export function importKey(jwk: JWKRSAKey): RSAKey
     export function importKey(jwk: JWKECKey): ECKey
+    export function importKey(jwk: JWKOKPKey): OKPKey
 
-    export function generate(kty: 'EC', crv?: curve, parameters?: KeyParameters, private?: boolean): Promise<ECKey>
+    export function generate(kty: 'EC', crv?: ECCurve, parameters?: KeyParameters, private?: boolean): Promise<ECKey>
+    export function generate(kty: 'OKP', crv?: OKPCurve, parameters?: KeyParameters, private?: boolean): Promise<OKPKey>
     export function generate(kty: 'RSA', bitlength?: number, parameters?: KeyParameters, private?: boolean): Promise<RSAKey>
     export function generate(kty: 'oct', bitlength?: number, parameters?: KeyParameters): Promise<OctKey>
 
-    export function generateSync(kty: 'EC', crv?: curve, parameters?: KeyParameters, private?: boolean): ECKey
+    export function generateSync(kty: 'EC', crv?: ECCurve, parameters?: KeyParameters, private?: boolean): ECKey
+    export function generateSync(kty: 'OKP', crv?: OKPCurve, parameters?: KeyParameters, private?: boolean): OKPKey
     export function generateSync(kty: 'RSA', bitlength?: number, parameters?: KeyParameters, private?: boolean): RSAKey
     export function generateSync(kty: 'oct', bitlength?: number, parameters?: KeyParameters): OctKey
 }
@@ -128,11 +150,13 @@ export namespace JWKS {
         all(parameters?: KeyQuery): JWK.Key[]
         get(parameters?: KeyQuery): JWK.Key
 
-        generate(kty: 'EC', crv?: curve, parameters?: KeyParameters, private?: boolean): void
+        generate(kty: 'EC', crv?: ECCurve, parameters?: KeyParameters, private?: boolean): void
+        generate(kty: 'OKP', crv?: OKPCurve, parameters?: KeyParameters, private?: boolean): void
         generate(kty: 'RSA', bitlength?: number, parameters?: KeyParameters, private?: boolean): void
         generate(kty: 'oct', bitlength?: number, parameters?: KeyParameters): void
 
-        generateSync(kty: 'EC', crv?: curve, parameters?: KeyParameters, private?: boolean): void
+        generateSync(kty: 'EC', crv?: ECCurve, parameters?: KeyParameters, private?: boolean): void
+        generateSync(kty: 'OKP', crv?: OKPCurve, parameters?: KeyParameters, private?: boolean): void
         generateSync(kty: 'RSA', bitlength?: number, parameters?: KeyParameters, private?: boolean): void
         generateSync(kty: 'oct', bitlength?: number, parameters?: KeyParameters): void
     }

@@ -24,7 +24,7 @@ I can continue maintaining it and adding new features carefree. You may also don
 ## JWK (JSON Web Key)
 
 <!-- TOC JWK START -->
-- [Class: &lt;JWK.Key&gt; and &lt;JWK.RSAKey&gt; &vert; &lt;JWK.ECKey&gt; &vert; &lt;JWK.OctKey&gt;](#class-jwkkey-and-jwkrsakey--jwkeckey--jwkoctkey)
+- [Class: &lt;JWK.Key&gt; and &lt;JWK.RSAKey&gt; &vert; &lt;JWK.ECKey&gt; &vert; &lt;JWK.OKPKey&gt; &vert; &lt;JWK.OctKey&gt;](#class-jwkkey-and-jwkrsakey--jwkeckey--jwkokpkey--jwkoctkey)
   - [key.kty](#keykty)
   - [key.alg](#keyalg)
   - [key.use](#keyuse)
@@ -58,13 +58,13 @@ const { JWK } = require('@panva/jose')
 
 ---
 
-#### Class: `<JWK.Key>` and `<JWK.RSAKey>` &vert; `<JWK.ECKey>` &vert; `<JWK.OctKey>`
+#### Class: `<JWK.Key>` and `<JWK.RSAKey>` &vert; `<JWK.ECKey>` &vert; `<JWK.OKPKey>` &vert; `<JWK.OctKey>`
 
-`<JWK.RSAKey>`, `<JWK.ECKey>` and `<JWK.OctKey>` represent a key usable for JWS and JWE operations.
+`<JWK.RSAKey>`, `<JWK.ECKey>`, `<JWK.OKPKey>` and `<JWK.OctKey>` represent a key usable for JWS and JWE operations.
 The `JWK.importKey()` method is used to retrieve a key representation of an existing key or secret.
 `JWK.generate()` method is used to generate a new random key.
 
-`<JWK.RSAKey>`, `<JWK.ECKey>` and `<JWK.OctKey>` inherit methods from `<JWK.Key>` and in addition
+`<JWK.RSAKey>`, `<JWK.ECKey>`, `<JWK.OKPKey>` and `<JWK.OctKey>` inherit methods from `<JWK.Key>` and in addition
 to the properties documented below have the respective key component properties exported as
 `<string>` in their format defined by the specifications.
 
@@ -72,14 +72,16 @@ to the properties documented below have the respective key component properties 
 - `e, n, d, p, q, dp, dq, qi` for Private RSA Keys
 - `crv, x, y` for Public EC Keys
 - `crv, x, y, n` for Private EC Keys
+- `crv, x` for Public OKP Keys
+- `crv, x, n` for Private OKP Keys
 - `k` for Symmetric keys
 
 ---
 
 #### `key.kty`
 
-Returns the key's JWK Key Type Parameter. 'EC', 'RSA' or 'oct' for the respective supported key
-types.
+Returns the key's JWK Key Type Parameter. 'EC', 'RSA', 'OKP' or 'oct' for the respective supported
+key types.
 
 - `<string>`
 
@@ -262,7 +264,7 @@ Private keys may also be passphrase protected.
     [RFC7638][spec-thumbprint]
   - `use`: `<string>` option indicates whether the key is to be used for encrypting & decrypting
     data or signing & verifying data. Must be 'sig' or 'enc'.
-- Returns: `<JWK.RSAKey>` &vert; `<JWK.ECKey>`
+- Returns: `<JWK.RSAKey>` &vert; `<JWK.ECKey>` &vert; `<JWK.OKPKey>`
 
 See the underlying Node.js API for details on importing private and public keys in the different
 formats
@@ -321,11 +323,11 @@ const key = importKey(Buffer.from('8yHym6h5CG5FylbzrCn8fhxEbp3kOaTsgLaawaaJ'))
 
 #### `JWK.importKey(jwk)` JWK-formatted key import
 
-Imports a JWK formatted key. This supports JWK formatted EC, RSA and oct keys. Asymmetrical keys
-may be both private and public.
+Imports a JWK formatted key. This supports JWK formatted RSA, EC, OKP and oct keys. Asymmetrical
+keys may be both private and public.
 
 - `jwk`: `<Object>`
-  - `kty`: `<string>` Key type. Must be 'RSA', 'EC' or 'oct'.
+  - `kty`: `<string>` Key type. Must be 'RSA', 'EC', 'OKP' or 'oct'.
   - `alg`: `<string>` option identifies the algorithm intended for use with the key.
   - `use`: `<string>` option indicates whether the key is to be used for encrypting & decrypting
     data or signing & verifying data. Must be 'sig' or 'enc'.
@@ -335,8 +337,10 @@ may be both private and public.
   - `e`, `n`, `d`, `p`, `q`, `dp`, `dq`, `qi` properties as `<string>` for RSA private keys
   - `crv`, `x`, `y` properties as `<string>` for EC public keys
   - `crv`, `x`, `y`, `d` properties as `<string>` for EC private keys
+  - `crv`, `x`, properties as `<string>` for OKP public keys
+  - `crv`, `x`, `d` properties as `<string>` for OKP private keys
   - `k` properties as `<string>` for secret oct keys
-- Returns: `<JWK.RSAKey>` &vert; `<JWK.ECKey>` &vert; `<JWK.OctKey>`
+- Returns: `<JWK.RSAKey>` &vert; `<JWK.ECKey>` &vert; `<JWK.OKPKey>` &vert; `<JWK.OctKey>`
 
 <details>
 <summary><em><strong>Example</strong></em> (Click to expand)</summary>
@@ -366,10 +370,11 @@ const key = importKey(jwk)
 
 #### `JWK.generate(kty[, crvOrSize[, options[, private]]])` generating new keys
 
-Securely generates a new RSA, EC or oct key.
+Securely generates a new RSA, EC, OKP or oct key.
 
-- `kty`: `<string>` Key type. Must be 'RSA', 'EC' or 'oct'.
-- `crvOrSize`: `<number>` &vert; `<string>` key's bit size or in case of EC keys the curve
+- `kty`: `<string>` Key type. Must be 'RSA', 'EC', 'OKP' or 'oct'.
+- `crvOrSize`: `<number>` &vert; `<string>` key's bit size or in case of OKP and EC keys the curve
+  **Default:** 2048 for RSA, 'P-256' for EC, 'Ed25519' for OKP and 256 for oct.
 - `options`: `<Object>`
   - `alg`: `<string>` option identifies the algorithm intended for use with the key.
   - `kid`: `<string>` Key ID Parameter. When not provided is computed using the method defined in
@@ -378,7 +383,7 @@ Securely generates a new RSA, EC or oct key.
     data or signing & verifying data. Must be 'sig' or 'enc'.
 - `private`: `<boolean>` **Default** 'true'. Is the resulting key private or public (when
   asymmetrical)
-- Returns: `Promise<JWK.RSAKey>` &vert; `Promise<JWK.ECKey>` &vert; `Promise<JWK.OctKey>`
+- Returns: `Promise<JWK.RSAKey>` &vert; `Promise<JWK.ECKey>` &vert; `Promise<JWK.OKPKey>` &vert; `Promise<JWK.OctKey>`
 
 <details>
 <summary><em><strong>Example</strong></em> (Click to expand)</summary>
@@ -406,9 +411,9 @@ const { JWK: { generate } } = require('@panva/jose')
 
 Synchronous version of `JWK.generate()`
 
-- `kty`: `<string>` Key type. Must be 'RSA', 'EC' or 'oct'.
-- `crvOrSize`: `<number>` &vert; `<string>` key's bit size or in case of EC keys the curve. **Default:**
-  2048 for RSA, 'P-256' for EC and 256 for oct.
+- `kty`: `<string>` Key type. Must be 'RSA', 'EC', 'OKP' or 'oct'.
+- `crvOrSize`: `<number>` &vert; `<string>` key's bit size or in case of OKP and EC keys the curve.
+  **Default:** 2048 for RSA, 'P-256' for EC, 'Ed25519' for OKP and 256 for oct.
 - `options`: `<Object>`
   - `alg`: `<string>` option identifies the algorithm intended for use with the key.
   - `use`: `<string>` option indicates whether the key is to be used for encrypting & decrypting
@@ -417,7 +422,7 @@ Synchronous version of `JWK.generate()`
     [RFC7638][spec-thumbprint]
 - `private`: `<boolean>` **Default** 'true'. Is the resulting key private or public (when
   asymmetrical)
-- Returns: `<JWK.RSAKey>` &vert; `<JWK.ECKey>` &vert; `<JWK.OctKey>`
+- Returns: `<JWK.RSAKey>` &vert; `<JWK.ECKey>` &vert; `<JWK.OKPKey>` &vert; `<JWK.OctKey>`
 
 <details>
 <summary><em><strong>Example</strong></em> (Click to expand)</summary>
@@ -527,7 +532,7 @@ parameters is returned.
   - `kid`: `<string>` Key ID to filter for.
   - `operation`: `<string>` Further specify the operation a given alg must be valid for. Must be one
     of 'encrypt', 'decrypt', 'sign', 'verify', 'wrapKey', 'unwrapKey'
-- Returns: `<JWK.RSAKey>` &vert; `<JWK.ECKey>` &vert; `<JWK.OctKey>` &vert; `<undefined>`
+- Returns: `<JWK.RSAKey>` &vert; `<JWK.ECKey>` &vert; `<JWK.OKPKey>` &vert; `<JWK.OctKey>` &vert; `<undefined>`
 
 ---
 
@@ -535,7 +540,7 @@ parameters is returned.
 
 Adds a key instance to the store unless it is already included.
 
-- `key`: `<JWK.RSAKey>` &vert; `<JWK.ECKey>` &vert; `<JWK.OctKey>`
+- `key`: `<JWK.RSAKey>` &vert; `<JWK.ECKey>` &vert; `<JWK.OKPKey>` &vert; `<JWK.OctKey>`
 
 ---
 
@@ -543,7 +548,7 @@ Adds a key instance to the store unless it is already included.
 
 Ensures a key is removed from a store.
 
-- `key`: `<JWK.RSAKey>` &vert; `<JWK.ECKey>` &vert; `<JWK.OctKey>`
+- `key`: `<JWK.RSAKey>` &vert; `<JWK.ECKey>` &vert; `<JWK.OKPKey>` &vert; `<JWK.OctKey>`
 
 ---
 

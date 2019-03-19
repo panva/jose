@@ -13,6 +13,25 @@ const { JWK: { generate, generateSync }, errors } = require('../..')
   ['RSA', 2048, { use: 'enc', alg: 'RSA-OAEP' }],
   ['RSA', 2048, { alg: 'PS256' }],
   ['RSA', 2048, { alg: 'RSA-OAEP' }],
+  ['OKP'],
+  ['OKP', undefined, undefined, true],
+  ['OKP', undefined, undefined, false],
+  ['OKP', 'Ed25519'],
+  ['OKP', 'Ed25519', { use: 'sig' }],
+  // ['OKP', 'Ed25519', { use: 'sig', alg: 'EdDSA' }],
+  // ['OKP', 'Ed25519', { alg: 'EdDSA' }],
+  ['OKP', 'Ed448'],
+  ['OKP', 'Ed448', { use: 'sig' }],
+  // ['OKP', 'Ed448', { use: 'sig', alg: 'EdDSA' }],
+  // ['OKP', 'Ed448', { alg: 'EdDSA' }],
+  ['OKP', 'X25519'],
+  ['OKP', 'X25519', { use: 'enc' }],
+  // ['OKP', 'X25519', { use: 'enc', alg: 'ECDH-ES' }],
+  // ['OKP', 'X25519', { alg: 'ECDH-ES' }],
+  ['OKP', 'X448'],
+  ['OKP', 'X448', { use: 'enc' }],
+  // ['OKP', 'X448', { use: 'enc', alg: 'ECDH-ES' }],
+  // ['OKP', 'X448', { alg: 'ECDH-ES' }],
   ['EC'],
   ['EC', undefined, undefined, true],
   ['EC', undefined, undefined, false],
@@ -109,14 +128,26 @@ const { JWK: { generate, generateSync }, errors } = require('../..')
 
 test('fails to generateSync unsupported kty', t => {
   t.throws(() => {
-    generateSync('OKP')
-  }, { instanceOf: errors.JOSENotSupported, message: 'unsupported key type: OKP' })
+    generateSync('foo')
+  }, { instanceOf: errors.JOSENotSupported, message: 'unsupported key type: foo' })
 })
 
 test('fails to generate unsupported kty', async t => {
   await t.throwsAsync(() => {
-    return generate('OKP')
-  }, { instanceOf: errors.JOSENotSupported, message: 'unsupported key type: OKP' })
+    return generate('foo')
+  }, { instanceOf: errors.JOSENotSupported, message: 'unsupported key type: foo' })
+})
+
+test('fails to generate unsupported OKP crv', async t => {
+  await t.throwsAsync(() => {
+    return generate('OKP', 'foo')
+  }, { instanceOf: errors.JOSENotSupported, message: 'unsupported OKP key curve: foo' })
+})
+
+test('fails to generateSync unsupported OKP crv', async t => {
+  await t.throws(() => {
+    return generateSync('OKP', 'foo')
+  }, { instanceOf: errors.JOSENotSupported, message: 'unsupported OKP key curve: foo' })
 })
 
 test('fails to generateSync unsupported EC crv', t => {

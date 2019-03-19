@@ -15,6 +15,7 @@ The following specifications are implemented by @panva/jose
 - JSON Web Token (JWT) - [RFC7519][spec-jwt]
 - JSON Web Key (JWK) Thumbprint - [RFC7638][spec-thumbprint]
 - JWS Unencoded Payload Option - [RFC7797][spec-b64]
+- CFRG Elliptic Curve Signatures (EdDSA) - [RFC8037][spec-okp]
 
 The test suite utilizes examples defined in [RFC7520][spec-cookbook] to confirm its JOSE
 implementation is correct.
@@ -31,6 +32,7 @@ Legend:
 | -- | -- | -- |
 | RSA | ✓ | RSA |
 | Elliptic Curve | ✓ | EC |
+| Octet Key Pair | ✓ | OKP |
 | Octet sequence | ✓ | oct |
 
 | Serialization | JWS Sign | JWS Verify | JWE Encrypt | JWE Decrypt |
@@ -44,6 +46,7 @@ Legend:
 | RSASSA-PKCS1-v1_5 | ✓ | RS256, RS384, RS512 |
 | RSASSA-PSS | ✓ | PS256, PS384, PS512 |
 | ECDSA | ✓ | ES256, ES384, ES512 |
+| Edwards-curve DSA | ✓ | EdDSA |
 | HMAC with SHA-2 | ✓ | HS256, HS384, HS512 |
 
 | JWE Key Management Algorithms | Supported ||
@@ -64,7 +67,7 @@ Legend:
 ---
 
 Pending Node.js Support 🤞:
-- [RFC8037][spec-cfrg] (EdDSA, OKP kty, etc). See [#12](https://github.com/panva/jose/issues/12)
+- ECDH-ES with X25519 and X448
 
 Won't implement:
 - ✕ JWS embedded key / referenced verification
@@ -107,8 +110,7 @@ If you or your business use @panva/jose, please consider becoming a [Patron][sup
 
 ## Usage
 
-⚠️ Minimal Node.js version required is **v11.8.0** ⚠️ The plan is to release v1.0.0 when Node.js
-v12.0.0 releases in April 2019
+For its improvements in the crypto module ⚠️ the minimal Node.js version required is **v12.0.0** ⚠️
 
 Installing @panva/jose
 
@@ -255,7 +257,7 @@ private API and is subject to change between any versions.
 #### How do I use it outside of Node.js
 
 It is **only built for Node.js** environment - it builds on top of the `crypto` module and requires
-the KeyObject API that was added in Node.js v11.6.0.
+the KeyObject API that was added in Node.js v11.6.0 and one-shot sign/verify API added in v12.0.0
 
 #### How is it different from [`node-jose`][node-jose]
 
@@ -304,13 +306,13 @@ in terms of performance and API (not having well defined errors). When Node.js v
 [node-jose]: https://github.com/cisco/node-jose
 [security-vulnerability]: https://github.com/panva/jose/issues/new?template=security-vulnerability.md
 [spec-b64]: https://tools.ietf.org/html/rfc7797
-[spec-cfrg]: https://tools.ietf.org/html/rfc8037
 [spec-cookbook]: https://tools.ietf.org/html/rfc7520
 [spec-jwa]: https://tools.ietf.org/html/rfc7518
 [spec-jwe]: https://tools.ietf.org/html/rfc7516
 [spec-jwk]: https://tools.ietf.org/html/rfc7517
 [spec-jws]: https://tools.ietf.org/html/rfc7515
 [spec-jwt]: https://tools.ietf.org/html/rfc7519
+[spec-okp]: https://tools.ietf.org/html/rfc8037
 [spec-thumbprint]: https://tools.ietf.org/html/rfc7638
 [suggest-feature]: https://github.com/panva/jose/issues/new?labels=enhancement&template=feature-request.md&title=proposal%3A+
 [support-patreon]: https://www.patreon.com/panva

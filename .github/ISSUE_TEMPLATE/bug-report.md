@@ -22,7 +22,7 @@ A clear and concise description of what you expected to happen.
 
 **Environment:**
  - @panva/jose version: [e.g. v1.0.0]
- - node version: [e.g. v11.9.0]
+ - node version: [e.g. v12.0.0]
 
 **Additional context**
 Add any other context about the problem here.

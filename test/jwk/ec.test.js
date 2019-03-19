@@ -24,12 +24,10 @@ test('Unusable with unsupported curves', t => {
 })
 
 Object.entries({
-  'P-256': [256, 'rDd6H6t9-nJUoz72nTpz8tInvypVWhE2iQoPznj8ZY8'],
-  'P-384': [384, '5gebayAhpztJCs4Pxo-z1hhsN0upoyG2NAoKpiiH2b0'],
-  'P-521': [512, 'BQtkbSY3xgN4M2ZP3IHMLG7-Rp1L29teCMfNqgJHtTY']
-}).forEach(([crv, [len, kid]]) => {
-  const alg = `ES${len}`
-
+  'P-256': ['ES256', 'rDd6H6t9-nJUoz72nTpz8tInvypVWhE2iQoPznj8ZY8'],
+  'P-384': ['ES384', '5gebayAhpztJCs4Pxo-z1hhsN0upoyG2NAoKpiiH2b0'],
+  'P-521': ['ES512', 'BQtkbSY3xgN4M2ZP3IHMLG7-Rp1L29teCMfNqgJHtTY']
+}).forEach(([crv, [alg, kid]]) => {
   // private
   ;(() => {
     const keyObject = createPrivateKey(fixtures.PEM[crv].private)

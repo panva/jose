@@ -26,5 +26,6 @@ module.exports = new Map([
   ['5.12', require('./5_12.protecting_content_only')],
   ['5.13', require('./5_13.encrypting_to_multiple_recipients')],
   ['4.1 rfc7797', require('./rfc7797.4_1.hmac-sha2_b64_false')],
-  ['4.2 rfc7797', require('./rfc7797.4_2.hmac-sha2_b64_false')]
+  ['4.2 rfc7797', require('./rfc7797.4_2.hmac-sha2_b64_false')],
+  ['A.4 rfc8037', require('./rfc8037.a4.ed25519')]
 ])

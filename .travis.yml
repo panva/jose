@@ -6,9 +6,9 @@ matrix:
       language: node_js
       node_js: stable
       script: npm run lint
-    - name: "Test Suite + coverage - 11.8.0" #min
+    - name: "Test Suite + coverage - 12.0.0" #min
       language: node_js
-      node_js: 11.8.0
+      node_js: 12.0.0
       script: npm run coverage
       after_script: npx codecov
     - name: "Test Suite + coverage - stable"

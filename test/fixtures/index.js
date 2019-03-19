@@ -20,6 +20,34 @@ module.exports.JWK = {
     qi: 'QrCoyZm-rco2Mziyfxdziaw2S8_rofiKXi7Qz6O5loSslYJtrIXq7w8MX-TVSt6r03lLbK9gthslPRPdp68wmH-By0mfw66JtuSKOAHdHWotFOwYvkkE76O4-eY78pTE9oEzu-lu309NSPSpADd58DIRYMqwuFhbLa35Yrw3TxU'
   },
 
+  Ed25519: {
+    kty: 'OKP',
+    crv: 'Ed25519',
+    d: 'nWGxne_9WmC6hEr0kuwsxERJxWl7MmkZcDusAxyuf2A',
+    x: '11qYAYKxCrfVS_7TyWQHOg7hcvPapiMlrwIaaPcHURo'
+  },
+
+  Ed448: {
+    kty: 'OKP',
+    crv: 'Ed448',
+    d: 'wdwf3Gu5aZCJufcUrSkkvqJjqPCgyd6R5Cmx3zkNNh90JYYzOoXC7ptuxTTGWQumHeUjohkQyPT_',
+    x: 'NAh0EO9nwdXZkR_2KrY_2A66oH_654oEcoFbtUprlF8AvrXnQ0rlcg1VxJvlp85lR23CuX8jNnKA'
+  },
+
+  X25519: {
+    kty: 'OKP',
+    crv: 'X25519',
+    d: 'sP_XdjlH-2ZwKNlVKighyl8a9nF_6q3p0y7kVho4LVo',
+    x: 'YHCXnz085FKclfnx-gdiGXAyy7BhJjx0pxyE4wbXF0A'
+  },
+
+  X448: {
+    kty: 'OKP',
+    crv: 'X448',
+    d: 'bceBBM-LkveTK09QojZdnHokCh7lOWxyVZrlbH3Ny3WorprDIir5A6heZzlRnz1elOHp7ZpPfWk',
+    x: 'rmZOFmJPUVLlQDeG2_V4pgMmTidTtD_GGTq1gMKx9hJfAqTlC9K-qaJBhSYQtS1xHBkfUREKa3I'
+  },
+
   'P-256': {
     kty: 'EC',
     crv: 'P-256',
@@ -51,6 +79,22 @@ module.exports.PEM = {
   RSA: {
     private: readFileSync(join(__dirname, 'rsa.key')),
     public: readFileSync(join(__dirname, 'rsa.pem'))
+  },
+  'Ed25519': {
+    private: readFileSync(join(__dirname, 'Ed25519.key')),
+    public: readFileSync(join(__dirname, 'Ed25519.pem'))
+  },
+  'Ed448': {
+    private: readFileSync(join(__dirname, 'Ed448.key')),
+    public: readFileSync(join(__dirname, 'Ed448.pem'))
+  },
+  'X25519': {
+    private: readFileSync(join(__dirname, 'X25519.key')),
+    public: readFileSync(join(__dirname, 'X25519.pem'))
+  },
+  'X448': {
+    private: readFileSync(join(__dirname, 'X448.key')),
+    public: readFileSync(join(__dirname, 'X448.pem'))
   },
   'P-256': {
     private: readFileSync(join(__dirname, 'P-256.key')),
