@@ -5,6 +5,7 @@ const { hasProperty, hasNoProperties } = require('../macros')
 const errors = require('../../lib/errors')
 const OctKey = require('../../lib/jwk/key/oct')
 const { JWK: { importKey } } = require('../..')
+const { generateSync } = require('../../lib/jwk/generate')
 
 const keyObject = createSecretKey(Buffer.from('secret'))
 const key = new OctKey(keyObject)
@@ -81,7 +82,7 @@ test('no verify support when `use` is "enc"', t => {
 })
 
 test(`oct keys (odd bits) wrap/unwrap algorithms only have "PBES2"`, t => {
-  const key = OctKey.generateSync(136)
+  const key = generateSync('oct', 136)
   const result = key.algorithms('wrapKey')
   t.is(result.constructor, Set)
   t.deepEqual([...result], ['PBES2-HS256+A128KW', 'PBES2-HS384+A192KW', 'PBES2-HS512+A256KW'])
@@ -89,7 +90,7 @@ test(`oct keys (odd bits) wrap/unwrap algorithms only have "PBES2"`, t => {
 
 ;[128, 192, 256].forEach((len) => {
   test(`oct keys (${len} bits) wrap/unwrap algorithms have "KW / GCMKW"`, t => {
-    const key = OctKey.generateSync(len)
+    const key = generateSync('oct', len)
 
     t.true(key.algorithms().has(`A${len}KW`))
     t.true(key.algorithms().has(`A${len}GCMKW`))
@@ -98,7 +99,7 @@ test(`oct keys (odd bits) wrap/unwrap algorithms only have "PBES2"`, t => {
 
 test('oct keys may not be generated as public', t => {
   t.throws(() => {
-    OctKey.generateSync(undefined, undefined, false)
+    generateSync('oct', undefined, undefined, false)
   }, { instanceOf: TypeError, message: '"oct" keys cannot be generated as public' })
 })
 

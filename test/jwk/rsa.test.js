@@ -3,6 +3,7 @@ const { createPrivateKey, createPublicKey } = require('crypto')
 const { hasProperty, hasNoProperties, hasProperties } = require('../macros')
 const fixtures = require('../fixtures')
 
+const { generateSync } = require('../../lib/jwk/generate')
 const RSAKey = require('../../lib/jwk/key/rsa')
 
 test(`RSA key .algorithms invalid operation`, t => {
@@ -251,39 +252,39 @@ test(`RSA key .algorithms invalid operation`, t => {
   })
 
   test('any RSA key can do RS256 and RSA1_5', t => {
-    const k = RSAKey.generateSync(512)
+    const k = generateSync('RSA', 512)
     const result = k.algorithms()
     t.is(result.constructor, Set)
     t.deepEqual([...result], ['RS256', 'RSA1_5'])
   })
 
   test('RSA key >= 528 bits can do PS256', t => {
-    const k = RSAKey.generateSync(528)
+    const k = generateSync('RSA', 528)
     t.true(k.algorithms().has('PS256'))
   })
 
   test('RSA key >= 592 bits can do RSA-OAEP', t => {
-    const k = RSAKey.generateSync(592)
+    const k = generateSync('RSA', 592)
     t.true(k.algorithms().has('RSA-OAEP'))
   })
 
   test('RSA key >= 624 bits can do RS384', t => {
-    const k = RSAKey.generateSync(624)
+    const k = generateSync('RSA', 624)
     t.true(k.algorithms().has('RS384'))
   })
 
   test('RSA key >= 752 bits can do RS512', t => {
-    const k = RSAKey.generateSync(752)
+    const k = generateSync('RSA', 752)
     t.true(k.algorithms().has('RS512'))
   })
 
   test('RSA key >= 784 bits can do PS384', t => {
-    const k = RSAKey.generateSync(784)
+    const k = generateSync('RSA', 784)
     t.true(k.algorithms().has('PS384'))
   })
 
   test('RSA key >= 1040 bits can do PS512', t => {
-    const k = RSAKey.generateSync(1040)
+    const k = generateSync('RSA', 1040)
     t.true(k.algorithms().has('PS512'))
   })
 })()

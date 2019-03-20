@@ -52,6 +52,7 @@
   },
   "ava": {
     "babel": false,
+    "compileEnhancements": false,
     "files": [
       "test/**/*.test.js"
     ]
