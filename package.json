@@ -37,7 +37,7 @@
     "watch": "ava --watch"
   },
   "dependencies": {
-    "@trust/keyto": "^0.3.5"
+    "@trust/keyto": "^0.3.7"
   },
   "devDependencies": {
     "@commitlint/cli": "^7.5.2",
