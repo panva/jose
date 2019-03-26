@@ -12,10 +12,10 @@ test('jwkToPem only works for EC and RSA', t => {
   }, { instanceOf: errors.JOSENotSupported, message: 'unsupported key type: OKP' })
 })
 
-test('jwkToPem only does rfc7518 EC', t => {
+test('jwkToPem only handles known curves', t => {
   t.throws(() => {
-    jwkToPem({ kty: 'EC', crv: 'P-256K' })
-  }, { instanceOf: errors.JOSENotSupported, message: 'unsupported EC key curve: P-256K' })
+    jwkToPem({ kty: 'EC', crv: 'foo' })
+  }, { instanceOf: errors.JOSENotSupported, message: 'unsupported EC key curve: foo' })
 })
 
 test('RSA Public key', t => {

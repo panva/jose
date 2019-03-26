@@ -8,7 +8,7 @@ interface KeyParameters {
     use?: use
     kid?: string
 }
-type curve = 'P-256' | 'P-384' | 'P-521'
+type curve = 'P-256' | 'P-256K' | 'P-384' | 'P-521'
 type keyType = 'RSA' | 'EC' | 'oct'
 type keyOperation = 'encrypt' | 'decrypt' | 'sign' | 'verify' | 'wrapKey' | 'unwrapKey'
 

@@ -12,10 +12,16 @@ test(`EC key .algorithms invalid operation`, t => {
 
 Object.entries({
   'P-256': [256, 'rDd6H6t9-nJUoz72nTpz8tInvypVWhE2iQoPznj8ZY8'],
+  'P-256K': [256, 'zZYrH69YCAAihM7ZCoRj90VI55H5MmQscSpf-JuUS50'],
   'P-384': [384, '5gebayAhpztJCs4Pxo-z1hhsN0upoyG2NAoKpiiH2b0'],
   'P-521': [512, 'BQtkbSY3xgN4M2ZP3IHMLG7-Rp1L29teCMfNqgJHtTY']
 }).forEach(([crv, [len, kid]]) => {
-  const alg = `ES${len}`
+  let alg
+  if (crv === 'P-256K') {
+    alg = 'ES256K'
+  } else {
+    alg = `ES${len}`
+  }
 
   // private
   ;(() => {
