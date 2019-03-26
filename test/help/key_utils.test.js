@@ -12,6 +12,12 @@ test('jwkToPem only works for EC and RSA', t => {
   }, { instanceOf: errors.JOSENotSupported, message: 'unsupported key type: OKP' })
 })
 
+test('jwkToPem only does rfc7518 EC', t => {
+  t.throws(() => {
+    jwkToPem({ kty: 'EC', crv: 'P-256K' })
+  }, { instanceOf: errors.JOSENotSupported, message: 'unsupported EC key curve: P-256K' })
+})
+
 test('RSA Public key', t => {
   const expected = fixtures.RSA_PUBLIC
   const pem = createPublicKey(jwkToPem(expected))
