@@ -1,13 +1,26 @@
 const test = require('ava')
-const { createPrivateKey, createPublicKey } = require('crypto')
+const { createPrivateKey, createPublicKey, generateKeyPairSync } = require('crypto')
 const { hasProperty, hasNoProperties, hasProperties } = require('../macros')
 const fixtures = require('../fixtures')
+const errors = require('../../lib/errors')
 
 const ECKey = require('../../lib/jwk/key/ec')
 
 test(`EC key .algorithms invalid operation`, t => {
   const key = new ECKey(createPrivateKey(fixtures.PEM['P-256'].private))
   t.throws(() => key.algorithms('foo'), { instanceOf: TypeError, message: 'invalid key operation' })
+})
+
+test('Unusable with unsupported curves', t => {
+  const kp = generateKeyPairSync('ec', { namedCurve: 'secp224k1' })
+  t.throws(
+    () => new ECKey(kp.privateKey),
+    { instanceOf: errors.JOSENotSupported, code: 'ERR_JOSE_NOT_SUPPORTED', message: 'unsupported EC key curve' }
+  )
+  t.throws(
+    () => new ECKey(kp.publicKey),
+    { instanceOf: errors.JOSENotSupported, code: 'ERR_JOSE_NOT_SUPPORTED', message: 'unsupported EC key curve' }
+  )
 })
 
 Object.entries({
