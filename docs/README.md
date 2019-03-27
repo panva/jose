@@ -244,7 +244,6 @@ formats
 
 - [crypto.createPrivateKey(key)](https://nodejs.org/api/crypto.html#crypto_crypto_createprivatekey_key)
 - [crypto.createPublicKey(key)](https://nodejs.org/api/crypto.html#crypto_crypto_createpublickey_key)
-- [crypto.createSecretKey(key)](https://nodejs.org/api/crypto.html#crypto_crypto_createsecretkey_key)
 
 <details>
   <summary><em><strong>Example</strong></em> (Click to expand)</summary>
