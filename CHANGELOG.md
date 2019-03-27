@@ -2,6 +2,21 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="0.11.3"></a>
+## [0.11.3](https://github.com/panva/jose/compare/v0.11.2...v0.11.3) (2019-03-27)
+
+
+### Bug Fixes
+
+* throw on unsupported EC curves ([cfa4222](https://github.com/panva/jose/commit/cfa4222))
+
+
+### Features
+
+* add EC P-256K JWK and ES256K sign/verify support ([2e33e1c](https://github.com/panva/jose/commit/2e33e1c))
+
+
+
 <a name="0.11.2"></a>
 ## [0.11.2](https://github.com/panva/jose/compare/v0.11.1...v0.11.2) (2019-03-19)
 
