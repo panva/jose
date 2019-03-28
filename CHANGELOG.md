@@ -2,6 +2,17 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="0.11.4"></a>
+## [0.11.4](https://github.com/panva/jose/compare/v0.11.3...v0.11.4) (2019-03-28)
+
+
+### Bug Fixes
+
+* properly restrict EC curves in generate(Sync) ([764b863](https://github.com/panva/jose/commit/764b863))
+* remove unintended exposure of private material via enumerables ([946d9df](https://github.com/panva/jose/commit/946d9df))
+
+
+
 <a name="0.11.3"></a>
 ## [0.11.3](https://github.com/panva/jose/compare/v0.11.2...v0.11.3) (2019-03-27)
 
