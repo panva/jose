@@ -126,6 +126,18 @@ test('fails to generate unsupported kty', async t => {
   }, { instanceOf: errors.JOSENotSupported, message: 'unsupported key type: OKP' })
 })
 
+test('fails to generateSync unsupported EC crv', t => {
+  t.throws(() => {
+    generateSync('EC', 'foo')
+  }, { instanceOf: errors.JOSENotSupported, message: 'unsupported EC key curve: foo' })
+})
+
+test('fails to generate unsupported EC crv', async t => {
+  await t.throwsAsync(() => {
+    return generate('EC', 'foo')
+  }, { instanceOf: errors.JOSENotSupported, message: 'unsupported EC key curve: foo' })
+})
+
 test('fails to generateSync RSA with invalid bit lengths', t => {
   t.throws(() => {
     generateSync('RSA', 2048 + 1)
