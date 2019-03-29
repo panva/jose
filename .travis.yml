@@ -1,20 +1,30 @@
-language: node_js
-node_js:
-  - 11.8.0 # min
-  - stable
-script: npm run coverage
-after_script: npx codecov
-jobs:
+matrix:
+  allow_failures:
+    - name: "Test Suite - Nightly build"
   include:
-    - stage: macOS
-      os: osx
-      script: npm run coverage
+    - name: Linter
+      language: node_js
       node_js: stable
-    - stage: windows
-      os: windows
-      script: npm run coverage
-      node_js: node
-    - stage: Lint
       script: npm run lint
+    - name: "Test Suite + coverage - 11.8.0" #min
+      language: node_js
+      node_js: 11.8.0
+      script: npm run coverage
+      after_script: npx codecov
+    - name: "Test Suite + coverage - stable"
+      language: node_js
+      node_js: stable
+      script: npm run coverage
+      after_script: npx codecov
+    - name: "Test Suite - Windows"
+      language: node_js
+      os: windows
+      script: npm test
       node_js: node
-      after_script: skip
+    - name: "Test Suite - Nightly build"
+      language: minimal
+      env: NVM_NODEJS_ORG_MIRROR=https://nodejs.org/download/nightly/
+      install:
+        - nvm i node
+        - npm i
+      script: npm test
