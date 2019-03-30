@@ -11,13 +11,17 @@ interface KeyParameters {
 type curve = 'P-256' | 'P-256K' | 'P-384' | 'P-521'
 type keyType = 'RSA' | 'EC' | 'oct'
 type keyOperation = 'encrypt' | 'decrypt' | 'sign' | 'verify' | 'wrapKey' | 'unwrapKey'
+type asymmetricKeyObjectTypes = 'private' | 'public'
+type keyObjectTypes = asymmetricKeyObjectTypes | 'secret'
 
 export namespace JWK {
 
     class Key {
         kty: keyType
+        type: keyObjectTypes
         private: boolean
         public: boolean
+        secret: boolean
         alg?: string
         use?: use
         kid: string
@@ -53,6 +57,8 @@ export namespace JWK {
 
     class RSAKey extends Key {
         kty: 'RSA'
+        type: asymmetricKeyObjectTypes
+        secret: false
         e: string
         n: string
         d?: string
@@ -67,6 +73,8 @@ export namespace JWK {
 
     class ECKey extends Key {
         kty: 'EC'
+        secret: false
+        type: asymmetricKeyObjectTypes
         crv: curve
         x: string
         y: string
@@ -77,8 +85,10 @@ export namespace JWK {
 
     class OctKey extends Key {
         kty: 'oct'
+        type: 'secret'
         private: false
         public: false
+        secret: true
         k: string
 
         toJWK(private?: boolean): JWKOctKey

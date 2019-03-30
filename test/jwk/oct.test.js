@@ -24,7 +24,9 @@ test('oct key', hasProperty, key, 'kid', 'DWBh0SEIAPYh1x5uvot4z3AhaikHkxNJa3Ada2
 test('oct key', hasProperty, key, 'kty', 'oct')
 test('oct key', hasProperty, key, 'length', 48)
 test('oct key', hasProperty, key, 'private', false)
+test('oct key', hasProperty, key, 'type', 'secret')
 test('oct key', hasProperty, key, 'public', false)
+test('oct key', hasProperty, key, 'secret', true)
 test('oct key', hasProperty, key, 'use', undefined)
 
 test('supports all sign algs (no use)', t => {

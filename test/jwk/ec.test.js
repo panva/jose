@@ -51,6 +51,8 @@ Object.entries({
     test(`${crv} EC Private key`, hasProperty, key, 'kty', 'EC')
     test(`${crv} EC Private key`, hasProperty, key, 'private', true)
     test(`${crv} EC Private key`, hasProperty, key, 'public', false)
+    test(`${crv} EC Private key`, hasProperty, key, 'secret', false)
+    test(`${crv} EC Private key`, hasProperty, key, 'type', 'private')
     test(`${crv} EC Private key`, hasProperty, key, 'use', undefined)
 
     test(`${crv} EC Private key algorithms (no operation)`, t => {
@@ -174,6 +176,8 @@ Object.entries({
     test(`${crv} EC Public key`, hasProperty, key, 'kty', 'EC')
     test(`${crv} EC Public key`, hasProperty, key, 'private', false)
     test(`${crv} EC Public key`, hasProperty, key, 'public', true)
+    test(`${crv} EC Public key`, hasProperty, key, 'secret', false)
+    test(`${crv} EC Public key`, hasProperty, key, 'type', 'public')
     test(`${crv} EC Public key`, hasProperty, key, 'use', undefined)
 
     test(`${crv} EC Public key algorithms (no operation)`, t => {

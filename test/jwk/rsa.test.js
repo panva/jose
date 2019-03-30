@@ -27,6 +27,8 @@ test(`RSA key .algorithms invalid operation`, t => {
   test(`RSA Private key`, hasProperty, key, 'length', 2048)
   test(`RSA Private key`, hasProperty, key, 'private', true)
   test(`RSA Private key`, hasProperty, key, 'public', false)
+  test(`RSA Private key`, hasProperty, key, 'secret', false)
+  test(`RSA Private key`, hasProperty, key, 'type', 'private')
   test(`RSA Private key`, hasProperty, key, 'use', undefined)
 
   test('RSA Private key algorithms (no operation)', t => {
@@ -151,6 +153,8 @@ test(`RSA key .algorithms invalid operation`, t => {
   test(`RSA Public key`, hasProperty, key, 'length', 2048)
   test(`RSA Public key`, hasProperty, key, 'private', false)
   test(`RSA Public key`, hasProperty, key, 'public', true)
+  test(`RSA Public key`, hasProperty, key, 'secret', false)
+  test(`RSA Public key`, hasProperty, key, 'type', 'public')
   test(`RSA Public key`, hasProperty, key, 'use', undefined)
 
   test('RSA EC Public key algorithms (no operation)', t => {

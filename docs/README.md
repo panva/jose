@@ -29,8 +29,10 @@ I can continue maintaining it and adding new features carefree. You may also don
   - [key.alg](#keyalg)
   - [key.use](#keyuse)
   - [key.kid](#keykid)
+  - [key.type](#keytype)
   - [key.public](#keypublic)
   - [key.private](#keyprivate)
+  - [key.secret](#keysecret)
   - [key.algorithms([operation])](#keyalgorithmsoperation)
   - [key.toJWK([private])](#keytojwkprivate)
 - JWK.importKey
@@ -110,6 +112,14 @@ defined in [RFC7638][spec-thumbprint].
 
 ---
 
+#### `key.type`
+
+Returns the type of key. One of 'private', 'public' or 'secret'
+
+- `<string>`
+
+---
+
 #### `key.public`
 
 Returns true/false if the key is asymmetric and public. Returns false for symmetric keys.
@@ -121,6 +131,12 @@ Returns true/false if the key is asymmetric and public. Returns false for symmet
 #### `key.private`
 
 Returns true/false if the key is asymmetric and private. Returns false for symmetric keys.
+
+- `<boolean>`
+
+#### `key.secret`
+
+Returns true/false if the key is symmetric. Returns false for asymmetric keys.
 
 - `<boolean>`
 
