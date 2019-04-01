@@ -17,6 +17,12 @@ type keyObjectTypes = asymmetricKeyObjectTypes | 'secret'
 
 export namespace JWK {
 
+    interface pemEncodingOptions {
+      type?: string
+      cipher?: string
+      passphrase?: string
+    }
+
     class Key {
         kty: keyType
         type: keyObjectTypes
@@ -28,6 +34,7 @@ export namespace JWK {
         kid: string
         thumbprint: string
 
+        toPEM(private?: boolean, encoding?: pemEncodingOptions): string
 
         algorithms(operation?: keyOperation): Set<string>
     }

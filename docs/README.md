@@ -36,6 +36,7 @@ I can continue maintaining it and adding new features carefree. You may also don
   - [key.secret](#keysecret)
   - [key.algorithms([operation])](#keyalgorithmsoperation)
   - [key.toJWK([private])](#keytojwkprivate)
+  - [key.toPEM([private[, encoding]])](#keytopemprivate-encoding)
 - JWK.importKey
   - [JWK.importKey(key[, options]) asymmetric key import](#jwkimportkeykey-options-asymmetric-key-import)
   - [JWK.importKey(secret[, options]) secret key import](#jwkimportkeysecret-options-secret-key-import)
@@ -240,6 +241,44 @@ key.toJWK(true)
 //    'jbZrzP8f3y0-ZAjqSQAPbKnQI0Vli952nQTUgffF2Bh2q0dB719PHjmIV7NjwCFOMcNx-2usJFwI9VikgN9GTGauakvG7SFzXD8yHiRzFwcjYvXDuJ-4Q1Yjo1m4JUIW_BLVnzauSg0P9qnxT1dxvchEQRIIfF72FW80BsJD4LQ',
 //   alg: 'PS256',
 //   use: 'sig' }
+```
+</details>
+
+---
+
+#### `key.toPEM([private[, encoding]])`
+
+Exports an asymmetric key as a PEM string with specified encoding and optional encryption for private keys.
+
+- `private`: `<boolean>` When true exports keys as private. **Default:** 'false'
+- `encoding`: `<Object>` See below
+- Returns: `<string>`
+
+For public key export, the following encoding options can be used:
+
+- `type`: `<string>` Must be one of 'pkcs1' (RSA only) or 'spki'. **Default:** 'spki'
+
+
+For private key export, the following encoding options can be used:
+
+- `type`: `<string>` Must be one of 'pkcs1' (RSA only), 'pkcs8' or 'sec1' (EC only). **Default:** 'pkcs8'
+- `cipher`: `<string>` If specified, the private key will be encrypted with the given cipher and
+  passphrase using PKCS#5 v2.0 password based encryption. **Default**: 'undefined' (no encryption)
+- `passphrase`: `<string>` &vert; `<Buffer>` The passphrase to use for encryption. **Default**: 'undefined' (no encryption)
+
+<details>
+  <summary><em><strong>Example</strong></em> (Click to expand)</summary>
+
+```js
+const { JWK: { generateSync } } = require('@panva/jose')
+
+const key = generateSync('RSA', 2048)
+key.toPEM()
+// -----BEGIN PUBLIC KEY-----\nMFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAEATPpxgDY7XU8cYX9Rb44xxXDO6zP\nzELVOHTcutCiXS9HZvUrZsnG7U/SPj0AT1hsH6lTUK4uFr7GG7KWgsf1Aw==\n-----END PUBLIC KEY-----\n
+key.toPEM(true)
+// -----BEGIN PRIVATE KEY-----\nMIGHAgEAMBMGByqGSM49AgEGCCqGSM49AwEHBG0wawIBAQQgUdAzlvX4i+RJS2BL\nQrqRj/ndTbpqugX61Ih9X+rvAcShRANCAAQBM+nGANjtdTxxhf1FvjjHFcM7rM/M\nQtU4dNy60KJdL0dm9StmycbtT9I+PQBPWGwfqVNQri4WvsYbspaCx/UD\n-----END PRIVATE KEY-----\n
+key.toPEM(true, { passphrase: 'super-strong', cipher: 'aes-256-cbc' })
+// -----BEGIN ENCRYPTED PRIVATE KEY-----\nMIHsMFcGCSqGSIb3DQEFDTBKMCkGCSqGSIb3DQEFDDAcBAjjeqsgorjSqwICCAAw\nDAYIKoZIhvcNAgkFADAdBglghkgBZQMEASoEEJFcyG1ZBe2FZuvXIqiRFUcEgZD5\nWzt2XIUGIEZQIUUpJ1naaIFKiZvBcFAXhqG5KJ6PgaohgcmRUK8OZTA9Ome+uXB+\n9PLLfKscOsyr0gkd45gYYNRDLYwbQSqDQ4g8pHrCVjR+R3mh1nk8jIkOxSppwzmF\n7aoCmnQo7oXRy1+kRZL7OfwAD5gAXnsIA42D9RgOG1XIiBYTvAITcFVX0UPh0zM=\n-----END ENCRYPTED PRIVATE KEY-----\n
 ```
 </details>
 
