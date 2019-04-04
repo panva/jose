@@ -29,6 +29,7 @@ I can continue maintaining it and adding new features carefree. You may also don
   - [key.alg](#keyalg)
   - [key.use](#keyuse)
   - [key.kid](#keykid)
+  - [key.thumbprint](#keythumbprint)
   - [key.type](#keytype)
   - [key.public](#keypublic)
   - [key.private](#keyprivate)
@@ -107,6 +108,14 @@ related operations (key management or encryption).
 
 Returns the key's JWK Key ID Parameter if set, if not set it will be calculated using the method
 defined in [RFC7638][spec-thumbprint].
+
+- `<string>`
+
+---
+
+#### `key.thumbprint`
+
+Returns the key's JWK Key thumbprint calculated using the method defined in [RFC7638][spec-thumbprint].
 
 - `<string>`
 

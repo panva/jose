@@ -25,6 +25,7 @@ export namespace JWK {
         alg?: string
         use?: use
         kid: string
+        thumbprint: string
 
 
         algorithms(operation?: keyOperation): Set<string>
