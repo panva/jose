@@ -2,6 +2,22 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="0.12.0"></a>
+# [0.12.0](https://github.com/panva/jose/compare/v0.11.5...v0.12.0) (2019-04-07)
+
+
+### Reverts
+
+* add EC P-256K JWK and ES256K sign/verify support ([e21fea1](https://github.com/panva/jose/commit/e21fea1))
+
+
+### BREAKING CHANGES
+
+* removing ES256K alg and EC P-256K crv support until the
+IETF WG decides on what the final names will be.
+
+
+
 <a name="0.11.5"></a>
 ## [0.11.5](https://github.com/panva/jose/compare/v0.11.4...v0.11.5) (2019-04-04)
 
