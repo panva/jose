@@ -43,7 +43,7 @@ Legend:
 | -- | -- | -- |
 | RSASSA-PKCS1-v1_5 | ✓ | RS256, RS384, RS512 |
 | RSASSA-PSS | ✓ | PS256, PS384, PS512 |
-| ECDSA | ✓ | ES256, ES256K, ES384, ES512 |
+| ECDSA | ✓ | ES256, ES384, ES512 |
 | HMAC with SHA-2 | ✓ | HS256, HS384, HS512 |
 
 | JWE Key Management Algorithms | Supported ||
