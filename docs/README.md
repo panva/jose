@@ -29,6 +29,7 @@ I can continue maintaining it and adding new features carefree. You may also don
   - [key.alg](#keyalg)
   - [key.use](#keyuse)
   - [key.kid](#keykid)
+  - [key.key_ops](#keykey_ops)
   - [key.thumbprint](#keythumbprint)
   - [key.type](#keytype)
   - [key.public](#keypublic)
@@ -113,6 +114,16 @@ Returns the key's JWK Key ID Parameter if set, if not set it will be calculated 
 defined in [RFC7638][spec-thumbprint].
 
 - `<string>`
+
+---
+
+#### `key.key_ops`
+
+Returns the key's JWK Key Operations Parameter if set. If set the key can only be used for the
+specified operations. Supported values are 'sign', 'verify', 'encrypt', 'decrypt', 'wrapKey',
+'unwrapKey' and 'deriveKey'.
+
+- `string[]`
 
 ---
 
@@ -415,11 +426,15 @@ Securely generates a new RSA, EC, OKP or oct key.
 - `crvOrSize`: `<number>` &vert; `<string>` key's bit size or in case of OKP and EC keys the curve
   **Default:** 2048 for RSA, 'P-256' for EC, 'Ed25519' for OKP and 256 for oct.
 - `options`: `<Object>`
-  - `alg`: `<string>` option identifies the algorithm intended for use with the key.
+  - `alg`: `<string>` Key Algorithm Parameter. It identifies the algorithm intended for use with the
+    key.
   - `kid`: `<string>` Key ID Parameter. When not provided is computed using the method defined in
-    [RFC7638][spec-thumbprint]
-  - `use`: `<string>` option indicates whether the key is to be used for encrypting & decrypting
-    data or signing & verifying data. Must be 'sig' or 'enc'.
+    [RFC7638][spec-thumbprint].
+  - `use`: `<string>` Public Key Use Parameter. Indicates whether the key is to be used for
+    encrypting & decrypting data or signing & verifying data. Must be 'sig' or 'enc'.
+  - `key_ops`: `string[]` Key Operations Parameter. If set, the key can only be used for the
+    specified operations. Supported values are 'sign', 'verify', 'encrypt', 'decrypt', 'wrapKey',
+    'unwrapKey' and 'deriveKey'.
 - `private`: `<boolean>` **Default** 'true'. Is the resulting key private or public (when
   asymmetrical)
 - Returns: `Promise<JWK.RSAKey>` &vert; `Promise<JWK.ECKey>` &vert; `Promise<JWK.OKPKey>` &vert; `Promise<JWK.OctKey>`
@@ -454,11 +469,15 @@ Synchronous version of `JWK.generate()`
 - `crvOrSize`: `<number>` &vert; `<string>` key's bit size or in case of OKP and EC keys the curve.
   **Default:** 2048 for RSA, 'P-256' for EC, 'Ed25519' for OKP and 256 for oct.
 - `options`: `<Object>`
-  - `alg`: `<string>` option identifies the algorithm intended for use with the key.
-  - `use`: `<string>` option indicates whether the key is to be used for encrypting & decrypting
-    data or signing & verifying data. Must be 'sig' or 'enc'.
+  - `alg`: `<string>` Key Algorithm Parameter. It identifies the algorithm intended for use with the
+    key.
   - `kid`: `<string>` Key ID Parameter. When not provided is computed using the method defined in
-    [RFC7638][spec-thumbprint]
+    [RFC7638][spec-thumbprint].
+  - `use`: `<string>` Public Key Use Parameter. Indicates whether the key is to be used for
+    encrypting & decrypting data or signing & verifying data. Must be 'sig' or 'enc'.
+  - `key_ops`: `string[]` Key Operations Parameter. If set, the key can only be used for the
+    specified operations. Supported values are 'sign', 'verify', 'encrypt', 'decrypt', 'wrapKey',
+    'unwrapKey' and 'deriveKey'.
 - `private`: `<boolean>` **Default** 'true'. Is the resulting key private or public (when
   asymmetrical)
 - Returns: `<JWK.RSAKey>` &vert; `<JWK.ECKey>` &vert; `<JWK.OKPKey>` &vert; `<JWK.OctKey>`
@@ -551,10 +570,12 @@ specified by the parameters are first.
 - `parameters`: `<Object>`
   - `kty`: `<string>` Key Type to filter for.
   - `alg`: `<string>` Key supported algorithm to filter for.
-  - `use`: `<string>` Key use to filter for.
   - `kid`: `<string>` Key ID to filter for.
-  - `operation`: `<string>` Further specify the operation a given alg must be valid for. Must be one
-    of 'encrypt', 'decrypt', 'sign', 'verify', 'wrapKey', 'unwrapKey'
+  - `use`: `<string>` Filter keys with the specified use defined. Keys missing "use" parameter will
+    be matched but rank lower then ones with an exact match.
+  - `key_ops`: `string[]` Filter keys with specified key_ops defined (if key_ops is defined on the
+    key). Keys missing "key_ops" parameter will be matched but rank lower then ones with matching
+    entries.
 - Returns: `<Key[]>` Array of key instances or an empty array when none are matching the parameters.
 
 ---
@@ -567,10 +588,12 @@ parameters is returned.
 - `parameters`: `<Object>`
   - `kty`: `<string>` Key Type to filter for.
   - `alg`: `<string>` Key supported algorithm to filter for.
-  - `use`: `<string>` Key use to filter for.
   - `kid`: `<string>` Key ID to filter for.
-  - `operation`: `<string>` Further specify the operation a given alg must be valid for. Must be one
-    of 'encrypt', 'decrypt', 'sign', 'verify', 'wrapKey', 'unwrapKey'
+  - `use`: `<string>` Filter keys with the specified use defined. Keys missing "use" parameter will
+    be matched but rank lower then ones with an exact match.
+  - `key_ops`: `string[]` Filter keys with specified key_ops defined (if key_ops is defined on the
+    key). Keys missing "key_ops" parameter will be matched but rank lower then ones with matching
+    entries.
 - Returns: `<JWK.RSAKey>` &vert; `<JWK.ECKey>` &vert; `<JWK.OKPKey>` &vert; `<JWK.OctKey>` &vert; `<undefined>`
 
 ---
@@ -1206,6 +1229,7 @@ Verifies the provided JWE in either serialization with a given `<JWK.Key>` or `<
 - [Class: &lt;JWEDecryptionFailed&gt;](#class-jwedecryptionfailed)
 - [Class: &lt;JWEInvalid&gt;](#class-jweinvalid)
 - [Class: &lt;JWKImportFailed&gt;](#class-jwkimportfailed)
+- [Class: &lt;JWKKeyInvalid&gt;](#class-jwkkeyinvalid)
 - [Class: &lt;JWKKeySupport&gt;](#class-jwkkeysupport)
 - [Class: &lt;JWKSNoMatchingKey&gt;](#class-jwksnomatchingkey)
 - [Class: &lt;JWSInvalid&gt;](#class-jwsinvalid)
@@ -1307,6 +1331,16 @@ Thrown when a key failed to import as `<JWK.Key>`
 
 ```js
 if (err.code === 'ERR_JWK_IMPORT_FAILED') {
+  // ...
+}
+```
+
+#### Class: `JWKKeyInvalid`
+
+Thrown when key's parameters are invalid, e.g. key_ops and use values are inconsistent.
+
+```js
+if (err.code === 'ERR_JWK_INVALID') {
   // ...
 }
 ```

@@ -129,6 +129,12 @@ Object.entries({
     test(`${crv} EC Private key .algorithms("wrapKey")`, t => {
       const result = key.algorithms('wrapKey')
       t.is(result.constructor, Set)
+      t.deepEqual([...result], [])
+    })
+
+    test(`${crv} EC Private key .algorithms("deriveKey")`, t => {
+      const result = key.algorithms('deriveKey')
+      t.is(result.constructor, Set)
       t.deepEqual([...result], ['ECDH-ES', 'ECDH-ES+A128KW', 'ECDH-ES+A192KW', 'ECDH-ES+A256KW'])
     })
 
@@ -142,12 +148,12 @@ Object.entries({
     test(`${crv} EC Private key .algorithms("unwrapKey")`, t => {
       const result = key.algorithms('unwrapKey')
       t.is(result.constructor, Set)
-      t.deepEqual([...result], ['ECDH-ES', 'ECDH-ES+A128KW', 'ECDH-ES+A192KW', 'ECDH-ES+A256KW'])
+      t.deepEqual([...result], [])
     })
 
-    test(`${crv} EC Private key .algorithms("unwrapKey") when use is sig`, t => {
+    test(`${crv} EC Private key .algorithms("deriveKey") when use is sig`, t => {
       const sigKey = new ECKey(keyObject, { use: 'sig' })
-      const result = sigKey.algorithms('unwrapKey')
+      const result = sigKey.algorithms('deriveKey')
       t.is(result.constructor, Set)
       t.deepEqual([...result], [])
     })
@@ -253,6 +259,12 @@ Object.entries({
 
     test(`${crv} EC Public key .algorithms("wrapKey")`, t => {
       const result = key.algorithms('wrapKey')
+      t.is(result.constructor, Set)
+      t.deepEqual([...result], [])
+    })
+
+    test(`${crv} EC Public key .algorithms("deriveKey")`, t => {
+      const result = key.algorithms('deriveKey')
       t.is(result.constructor, Set)
       t.deepEqual([...result], ['ECDH-ES', 'ECDH-ES+A128KW', 'ECDH-ES+A192KW', 'ECDH-ES+A256KW'])
     })

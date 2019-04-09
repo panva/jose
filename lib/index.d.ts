@@ -3,15 +3,16 @@
 import { KeyObject, PrivateKeyInput, PublicKeyInput } from 'crypto'
 
 type use = 'sig' | 'enc'
+type keyOperation = 'sign' | 'verify' | 'encrypt' | 'decrypt' | 'wrapKey' | 'unwrapKey' | 'deriveKey'
 interface KeyParameters {
     alg?: string
     use?: use
     kid?: string
+    key_ops?: keyOperation[]
 }
 type ECCurve = 'P-256' | 'P-384' | 'P-521'
 type OKPCurve = 'Ed25519' | 'Ed448' | 'X25519' | 'X448'
 type keyType = 'RSA' | 'EC' | 'OKP' | 'oct'
-type keyOperation = 'encrypt' | 'decrypt' | 'sign' | 'verify' | 'wrapKey' | 'unwrapKey'
 type asymmetricKeyObjectTypes = 'private' | 'public'
 type keyObjectTypes = asymmetricKeyObjectTypes | 'secret'
 
@@ -31,6 +32,7 @@ export namespace JWK {
         secret: boolean
         alg?: string
         use?: use
+        key_ops?: keyOperation[]
         kid: string
         thumbprint: string
 
@@ -144,7 +146,6 @@ export namespace JWK {
 export namespace JWKS {
     interface KeyQuery extends KeyParameters {
         kty: keyType
-        operation: keyOperation
     }
 
     class KeyStore {
@@ -341,6 +342,7 @@ export namespace errors {
     export class JWEInvalid extends JOSEError {}
 
     export class JWKImportFailed extends JOSEError {}
+    export class JWKInvalid extends JOSEError {}
     export class JWKKeySupport extends JOSEError {}
 
     export class JWKSNoMatchingKey extends JOSEError {}

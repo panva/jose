@@ -83,11 +83,18 @@ test('no verify support when `use` is "enc"', t => {
   t.deepEqual([...result], [])
 })
 
-test(`oct keys (odd bits) wrap/unwrap algorithms only have "PBES2"`, t => {
+test(`oct keys (odd bits) deriveKey algorithms only have "PBES2"`, t => {
+  const key = generateSync('oct', 136)
+  const result = key.algorithms('deriveKey')
+  t.is(result.constructor, Set)
+  t.deepEqual([...result], ['PBES2-HS256+A128KW', 'PBES2-HS384+A192KW', 'PBES2-HS512+A256KW'])
+})
+
+test(`oct keys (odd bits) wrap/unwrap algorithms cant wrap`, t => {
   const key = generateSync('oct', 136)
   const result = key.algorithms('wrapKey')
   t.is(result.constructor, Set)
-  t.deepEqual([...result], ['PBES2-HS256+A128KW', 'PBES2-HS384+A192KW', 'PBES2-HS512+A256KW'])
+  t.deepEqual([...result], [])
 })
 
 ;[128, 192, 256].forEach((len) => {

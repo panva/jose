@@ -101,7 +101,7 @@ Object.entries(fixtures.PEM).forEach(([type, { private: key, public: pub }]) => 
   const eKey = importKey(pub)
   const dKey = importKey(key)
 
-  eKey.algorithms('wrapKey').forEach((alg) => {
+  ;[...eKey.algorithms('wrapKey'), ...eKey.algorithms('deriveKey')].forEach((alg) => {
     ENCS.forEach((enc) => {
       if (alg === 'ECDH-ES' && ['A192CBC-HS384', 'A256CBC-HS512'].includes(enc)) return
       test(`key ${type} > alg ${alg} > ${enc}`, success, eKey, dKey, alg, enc)
@@ -112,7 +112,7 @@ Object.entries(fixtures.PEM).forEach(([type, { private: key, public: pub }]) => 
 
 ;[16, 24, 32, 48, 64].forEach((len) => {
   const sym = importKey(randomBytes(len))
-  sym.algorithms('wrapKey').forEach((alg) => {
+  ;[...sym.algorithms('wrapKey'), ...sym.algorithms('deriveKey')].forEach((alg) => {
     sym.algorithms('encrypt').forEach((enc) => {
       test(`key ${sym.kty} > alg ${alg} > ${enc}`, success, sym, sym, alg, enc)
       test(`key ${sym.kty} > alg ${alg} > ${enc} (negative cases)`, failure, sym, sym, alg, enc)

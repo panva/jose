@@ -104,6 +104,12 @@ test(`RSA key .algorithms invalid operation`, t => {
     t.deepEqual([...result], [])
   })
 
+  test('RSA Private key .algorithms("deriveKey")', t => {
+    const result = key.algorithms('deriveKey')
+    t.is(result.constructor, Set)
+    t.deepEqual([...result], [])
+  })
+
   test('RSA Private key .algorithms("decrypt")', t => {
     const result = key.algorithms('decrypt')
     t.is(result.constructor, Set)
@@ -226,6 +232,12 @@ test(`RSA key .algorithms invalid operation`, t => {
 
   test('RSA Public key .algorithms("encrypt")', t => {
     const result = key.algorithms('encrypt')
+    t.is(result.constructor, Set)
+    t.deepEqual([...result], [])
+  })
+
+  test('RSA Public key .algorithms("deriveKey")', t => {
+    const result = key.algorithms('deriveKey')
     t.is(result.constructor, Set)
     t.deepEqual([...result], [])
   })

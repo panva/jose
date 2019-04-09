@@ -81,7 +81,6 @@ Won't implement:
   - no crypto, no use
 
 Not Planned / PR | Use-Case | Discussion Welcome:
-- ◯ automatically adding `kid` reference to JWS / JWE Headers
 - ◯ `x5c`, `x5t`, `x5t#S256`, `x5u` etc `JWK.Key` fields
 
 </details>

@@ -61,6 +61,67 @@ test('.remove()', t => {
   }, { instanceOf: TypeError, message: 'key must be an instance of a key instantiated by JWK.importKey' })
 })
 
+test('.all() key_ops must be an array', t => {
+  const ks = new KeyStore()
+  t.throws(() => {
+    ks.all({ key_ops: 'wrapKey' })
+  }, { instanceOf: TypeError, message: '`key_ops` must be a non-empty array of strings' })
+})
+
+test('.all() key_ops must not be empty', t => {
+  const ks = new KeyStore()
+  t.throws(() => {
+    ks.all({ key_ops: [] })
+  }, { instanceOf: TypeError, message: '`key_ops` must be a non-empty array of strings' })
+})
+
+test('.all() key_ops must only contain strings', t => {
+  const ks = new KeyStore()
+  t.throws(() => {
+    ks.all({ key_ops: ['wrapKey', true] })
+  }, { instanceOf: TypeError, message: '`key_ops` must be a non-empty array of strings' })
+})
+
+test('.all() with key_ops when keys have key_ops', t => {
+  const k = generateSync('RSA', undefined, { key_ops: ['sign', 'verify'] })
+  const ks = new KeyStore(k)
+  t.deepEqual(ks.all({ key_ops: ['wrapKey'] }), [])
+  t.deepEqual(ks.all({ key_ops: ['sign', 'wrapKey'] }), [])
+  t.deepEqual(ks.all({ key_ops: ['sign'] }), [k])
+  t.deepEqual(ks.all({ key_ops: ['verify'] }), [k])
+  t.deepEqual(ks.all({ key_ops: ['sign', 'verify'] }), [k])
+  t.is(ks.get({ key_ops: ['wrapKey'] }), undefined)
+  t.is(ks.get({ key_ops: ['sign', 'wrapKey'] }), undefined)
+  t.is(ks.get({ key_ops: ['sign'] }), k)
+  t.is(ks.get({ key_ops: ['verify'] }), k)
+  t.is(ks.get({ key_ops: ['sign', 'verify'] }), k)
+})
+
+test('.all() with key_ops when keys have derived key_ops from use', t => {
+  const k = generateSync('RSA', undefined, { use: 'sig' })
+  const ks = new KeyStore(k)
+  t.deepEqual(ks.all({ key_ops: ['wrapKey'] }), [])
+  t.deepEqual(ks.all({ key_ops: ['sign', 'wrapKey'] }), [])
+  t.deepEqual(ks.all({ key_ops: ['sign'] }), [k])
+  t.deepEqual(ks.all({ key_ops: ['verify'] }), [k])
+  t.deepEqual(ks.all({ key_ops: ['sign', 'verify'] }), [k])
+  t.is(ks.get({ key_ops: ['wrapKey'] }), undefined)
+  t.is(ks.get({ key_ops: ['sign', 'wrapKey'] }), undefined)
+  t.is(ks.get({ key_ops: ['sign'] }), k)
+  t.is(ks.get({ key_ops: ['verify'] }), k)
+  t.is(ks.get({ key_ops: ['sign', 'verify'] }), k)
+})
+
+test('.get() with key_ops ranks keys with defined key_ops higher', t => {
+  const k = generateSync('RSA')
+  const k2 = generateSync('RSA', undefined, { use: 'sig' })
+  const k3 = generateSync('RSA', undefined, { key_ops: ['sign', 'verify'] })
+  const ks = new KeyStore(k, k2, k3)
+
+  t.deepEqual(ks.all({ key_ops: ['sign'] }), [k3, k, k2])
+  t.deepEqual(ks.get({ key_ops: ['sign'] }), k3)
+})
+
 test('.all() and .get() use filter', t => {
   const k = generateSync('RSA', undefined, { use: 'sig' })
   const ks = new KeyStore(k)
