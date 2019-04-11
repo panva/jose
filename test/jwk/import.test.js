@@ -37,6 +37,16 @@ test('parameters must be a plain object', t => {
 })
 
 Object.entries(fixtures.PEM).forEach(([type, { private: priv, public: pub }]) => {
+  test(`fails to import ${type} as invalid string`, t => {
+    t.throws(() => {
+      importKey(priv.toString('ascii').replace(/\n/g, ''))
+    }, { instanceOf: errors.JWKImportFailed, code: 'ERR_JWK_IMPORT_FAILED' })
+  })
+  test(`fails to import ${type} as invalid buffer`, t => {
+    t.throws(() => {
+      importKey(Buffer.from(priv.toString('ascii').replace(/\n/g, '')))
+    }, { instanceOf: errors.JWKImportFailed, code: 'ERR_JWK_IMPORT_FAILED' })
+  })
   test(`${type} private can be imported as a string`, t => {
     const k = importKey(priv.toString('ascii'))
     t.true(k.private)
