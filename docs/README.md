@@ -563,7 +563,7 @@ Returns the number of keys in the keystore.
 
 #### `keystore.all([parameters])`
 
-Retrieves an array of keys matching the provider parameters, returns all if none are provided. The
+Retrieves an array of keys matching the provided parameters, returns all if none are provided. The
 returned array is sorted by relevance based on the parameters. Keys with the exact algorithm or use
 specified by the parameters are first.
 
@@ -582,7 +582,7 @@ specified by the parameters are first.
 
 #### `keystore.get([parameters])`
 
-Retrieves a single key matching the provider parameters. The most relevant Key based on the
+Retrieves a single key matching the provided parameters. The most relevant Key based on the
 parameters is returned.
 
 - `parameters`: `<Object>`
@@ -666,11 +666,11 @@ ks.size
 
 ## JWT (JSON Web Token)
 
-<!-- TOC JWKS START -->
+<!-- TOC JWT START -->
 - [JWT.sign(payload, key[, options])](#jwtsignpayload-key-options)
 - [JWT.verify(token, keyOrStore[, options])](#jwtverifytoken-keyorstore-options)
 - [JWT.decode(token[, options])](#jwtdecodetoken-options)
-<!-- TOC JWKS END -->
+<!-- TOC JWT END -->
 
 ```js
 const { JWT } = require('@panva/jose')
@@ -1219,7 +1219,7 @@ Verifies the provided JWE in either serialization with a given `<JWK.Key>` or `<
 
 ## Errors
 
-<!-- TOC JWE START -->
+<!-- TOC Errors START -->
 - [Class: &lt;TypeError&gt;](#class-typeerror)
 - [Class: &lt;JOSEError&gt;](#class-joseerror)
 - [Class: &lt;JOSEAlgNotWhitelisted&gt;](#class-josealgnotwhitelisted)
@@ -1236,7 +1236,7 @@ Verifies the provided JWE in either serialization with a given `<JWK.Key>` or `<
 - [Class: &lt;JWSVerificationFailed&gt;](#class-jwsverificationfailed)
 - [Class: &lt;JWTClaimInvalid&gt;](#class-jwtclaiminvalid)
 - [Class: &lt;JWTMalformed&gt;](#class-jwtmalformed)
-<!-- TOC JWE END -->
+<!-- TOC Errors END -->
 
 
 The following errors are expected to be thrown by @panva/jose runtime and have their prototypes
