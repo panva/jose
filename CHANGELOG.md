@@ -2,6 +2,33 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="1.0.0"></a>
+# [1.0.0](https://github.com/panva/jose/compare/v0.12.0...v1.0.0) (2019-04-23)
+
+
+### Bug Fixes
+
+* fail to import invalid PEM formatted strings and buffers ([857dc2b](https://github.com/panva/jose/commit/857dc2b))
+
+
+### Features
+
+* add JWK key_ops support, fix .algorithms() op returns ([23b874c](https://github.com/panva/jose/commit/23b874c))
+* add key.toPEM() export function with optional encryption ([1159b0d](https://github.com/panva/jose/commit/1159b0d))
+* add OKP Key and EdDSA sign/verify support ([2dbd3ed](https://github.com/panva/jose/commit/2dbd3ed)), closes [#12](https://github.com/panva/jose/issues/12)
+
+
+### BREAKING CHANGES
+
+* key.algorithms(op) un+wrapKey was split into correct
+wrapKey/unwrapKey/deriveKey returns
+* keystore.all and keystore.get `operation` option was
+removed, `key_ops: string[]` supersedes it
+* node.js minimal version is now v12.0.0 due to its
+added EdDSA support (crypto.sign, crypto.verify and eddsa key objects)
+
+
+
 <a name="0.12.0"></a>
 # [0.12.0](https://github.com/panva/jose/compare/v0.11.5...v0.12.0) (2019-04-07)
 
