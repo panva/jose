@@ -1,6 +1,7 @@
 matrix:
   allow_failures:
     - name: "Test Suite - Nightly build"
+    - name: "Linter"
   include:
     - name: Linter
       language: node_js
