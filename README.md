@@ -2,7 +2,9 @@
 
 [![build][travis-image]][travis-url] [![codecov][codecov-image]][codecov-url]
 
-"JSON Web Almost Everything" - JWA, JWS, JWE, JWT, JWK, JWKS for Node.js with minimal dependencies
+> "JSON Web Almost Everything" - JWA, JWS, JWE, JWT, JWK, JWKS for Node.js with minimal dependencies
+
+<p align="center"><img src="/img/demo.gif?raw=true"/></p>
 
 ## Implemented specs & features
 
@@ -258,6 +260,17 @@ private API and is subject to change between any versions.
 It is **only built for Node.js** environment - it builds on top of the `crypto` module and requires
 the KeyObject API that was added in Node.js v11.6.0 and one-shot sign/verify API added in v12.0.0
 
+#### How is it different from [`jws`](https://github.com/brianloveswords/node-jws), [`jwa`](https://github.com/brianloveswords/node-jwa) or [`jsonwebtoken`](https://github.com/auth0/node-jsonwebtoken)?
+
+- it supports JWK Key Format for all four key types (oct, RSA, EC and OKP)
+- it is providing Key and KeyStore abstractions
+- there is JSON Web Encryption support
+- it supports all JWS / JWE Serialization Syntaxes
+- it supports the "crit" member validations to make sure extensions are handled correctly
+- it is not only validating the signatures, it is making sure the JWE/JWS is syntactically correct,
+  e.g. not having duplicated header parameters between protected/unprotected or per-recipient
+  headers
+
 #### How is it different from [`node-jose`][node-jose]
 
 `node-jose` is built to work in any javascript runtime, to be able to do that it packs a lot of
@@ -265,16 +278,6 @@ backfill and javascript implementation code in the form of
 [`node-forge`](https://github.com/digitalbazaar/forge), this significantly increases the footprint
 of the module with dependencies that either aren't ever used or have native implementation available
 in Node.js already, those are often times faster and more reliable.
-
-#### How is it different from [`node-jws`](https://github.com/brianloveswords/node-jws) or [`node-jwa`](https://github.com/brianloveswords/node-jwa)?
-
-- it is not only validating the signatures, it is making sure the JWE/JWS is syntactically correct,
-  e.g. not having duplicated header parameters between protected/unprotected or per-recipient
-  headers, it does the "crit" member check to make sure extensions are handled correctly
-- it is providing Key and KeyStore abstractions
-- there is JSON Web Encryption support
-- there is no asynchronous API since node crypto is ultimately entirely synchronous
-- it supports all JWS / JWE Serialization Syntaxes
 
 #### What is the ultimate goal?
 
@@ -284,11 +287,10 @@ dependency count will go down from 1 to 0. 🚀
 
 #### Why? Just, why?
 
-I was / (still am) using [`node-jose`][node-jose] for
+I was using [`node-jose`][node-jose] for
 [`openid-client`](https://github.com/panva/node-openid-client) and
 [`oidc-provider`](https://github.com/panva/node-oidc-provider) and came to realize its shortcomings
-in terms of performance and API (not having well defined errors). When Node.js v12 lands in April
-2019 I will be releasing new major versions of both those libraries using @panva/jose.
+in terms of performance and API (not having well defined errors).
 
 &plus; this was an amazing opportunity to learn JOSE as a whole
 
