@@ -43,7 +43,7 @@ export namespace JWK {
 
     interface JWKOctKey extends KeyParameters {
         kty: 'oct',
-        k: string
+        k?: string
     }
 
     interface JWKECKey extends KeyParameters {
@@ -118,7 +118,7 @@ export namespace JWK {
         private: false
         public: false
         secret: true
-        k: string
+        k?: string
 
         toJWK(private?: boolean): JWKOctKey
     }
