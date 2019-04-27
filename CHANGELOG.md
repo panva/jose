@@ -2,6 +2,15 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.0.1](https://github.com/panva/jose/compare/v1.0.0...v1.0.1) (2019-04-27)
+
+
+### Bug Fixes
+
+* oct key ts "k" type fix ([0750d2c](https://github.com/panva/jose/commit/0750d2c))
+
+
+
 <a name="1.0.0"></a>
 # [1.0.0](https://github.com/panva/jose/compare/v0.12.0...v1.0.0) (2019-04-23)
 
