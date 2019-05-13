@@ -16,6 +16,44 @@ type keyType = 'RSA' | 'EC' | 'OKP' | 'oct'
 type asymmetricKeyObjectTypes = 'private' | 'public'
 type keyObjectTypes = asymmetricKeyObjectTypes | 'secret'
 
+interface JWKOctKey extends KeyParameters {
+    kty: 'oct',
+    k?: string
+}
+
+interface JWKECKey extends KeyParameters {
+    kty: 'EC'
+    crv: ECCurve
+    x: string
+    y: string
+    d?: string
+}
+
+interface JWKOKPKey extends KeyParameters {
+    kty: 'OKP'
+    crv: OKPCurve
+    x: string
+    d?: string
+}
+
+interface JWKRSAKey extends KeyParameters {
+    kty: 'RSA'
+    e: string
+    n: string
+    d?: string
+    p?: string
+    q?: string
+    dp?: string
+    dq?: string
+    qi?: string
+}
+
+type JSONWebKey = JWKRSAKey | JWKOKPKey | JWKECKey | JWKOctKey
+
+interface JSONWebKeySet {
+    keys: JSONWebKey[]
+}
+
 export namespace JWK {
 
     interface pemEncodingOptions {
@@ -39,38 +77,6 @@ export namespace JWK {
         toPEM(private?: boolean, encoding?: pemEncodingOptions): string
 
         algorithms(operation?: keyOperation): Set<string>
-    }
-
-    interface JWKOctKey extends KeyParameters {
-        kty: 'oct',
-        k?: string
-    }
-
-    interface JWKECKey extends KeyParameters {
-        kty: 'EC'
-        crv: ECCurve
-        x: string
-        y: string
-        d?: string
-    }
-
-    interface JWKOKPKey extends KeyParameters {
-        kty: 'OKP'
-        crv: OKPCurve
-        x: string
-        d?: string
-    }
-
-    interface JWKRSAKey extends KeyParameters {
-        kty: 'RSA'
-        e: string
-        n: string
-        d?: string
-        p?: string
-        q?: string
-        dp?: string
-        dq?: string
-        qi?: string
     }
 
     class RSAKey extends Key {
@@ -157,6 +163,8 @@ export namespace JWKS {
         remove(key: JWK.Key): void
         all(parameters?: KeyQuery): JWK.Key[]
         get(parameters?: KeyQuery): JWK.Key
+
+        toJWKS(private?: boolean): JSONWebKeySet
 
         generate(kty: 'EC', crv?: ECCurve, parameters?: KeyParameters, private?: boolean): void
         generate(kty: 'OKP', crv?: OKPCurve, parameters?: KeyParameters, private?: boolean): void
