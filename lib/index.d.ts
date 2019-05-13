@@ -208,8 +208,8 @@ export namespace JWS {
 
     export function sign(payload: string | Buffer | object, key: JWK.Key, protected?: object): string
     namespace sign {
-      export function flattened(payload: string | Buffer | object, key: JWK.Key, protected?: object, header?: object): FlattenedJWS
-      export function general(payload: string | Buffer | object, key: JWK.Key, protected?: object, header?: object): GeneralJWS
+        export function flattened(payload: string | Buffer | object, key: JWK.Key, protected?: object, header?: object): FlattenedJWS
+        export function general(payload: string | Buffer | object, key: JWK.Key, protected?: object, header?: object): GeneralJWS
     }
 
     interface VerifyOptions<komplet> {
@@ -263,8 +263,8 @@ export namespace JWE {
 
     export function encrypt(payload: string | Buffer, key: JWK.Key, protected?: object): string
     namespace encrypt {
-      export function flattened(payload: string | Buffer, key: JWK.Key, protected?: object, header?: object, aad?: string): FlattenedJWE
-      export function general(payload: string | Buffer, key: JWK.Key, protected?: object, header?: object, aad?: string): GeneralJWE
+        export function flattened(payload: string | Buffer, key: JWK.Key, protected?: object, header?: object, aad?: string): FlattenedJWE
+        export function general(payload: string | Buffer, key: JWK.Key, protected?: object, header?: object, aad?: string): GeneralJWE
     }
 
     interface DecryptOptions<komplet> {
