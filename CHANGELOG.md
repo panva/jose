@@ -30,7 +30,7 @@ calculation loop when the private key's private exponent was outright
 invalid or tampered with.
 
 The new methods still allow to import private RSA keys with these
-optimization key parameters missing but its disabled by default and one
+optimization key parameters missing but it is disabled by default and one
 should choose to enable it when working with keys from trusted sources
 
 It is recommended not to use @panva/jose versions with this feature in

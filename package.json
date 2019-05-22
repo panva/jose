@@ -19,6 +19,7 @@
     "jwks",
     "jws",
     "jwt",
+    "secp256k1",
     "sign",
     "verify"
   ],

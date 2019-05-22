@@ -1,33 +1,15 @@
+// require 'secp256k1' renamed to 'P-256K'
+require('../../P-256K')
+
 const test = require('ava')
-const { createPrivateKey, createPublicKey, generateKeyPairSync } = require('crypto')
+const { createPrivateKey, createPublicKey } = require('crypto')
 const { hasProperty, hasNoProperties, hasProperties } = require('../macros')
 const fixtures = require('../fixtures')
-const errors = require('../../lib/errors')
 
 const ECKey = require('../../lib/jwk/key/ec')
 
-test(`EC key .algorithms invalid operation`, t => {
-  const key = new ECKey(createPrivateKey(fixtures.PEM['P-256'].private))
-  t.throws(() => key.algorithms('foo'), { instanceOf: TypeError, message: 'invalid key operation' })
-})
-
-test('Unusable with unsupported curves', t => {
-  const kp = generateKeyPairSync('ec', { namedCurve: 'secp224k1' })
-  t.throws(
-    () => new ECKey(kp.privateKey),
-    { instanceOf: errors.JOSENotSupported, code: 'ERR_JOSE_NOT_SUPPORTED', message: 'unsupported EC key curve' }
-  )
-  t.throws(
-    () => new ECKey(kp.publicKey),
-    { instanceOf: errors.JOSENotSupported, code: 'ERR_JOSE_NOT_SUPPORTED', message: 'unsupported EC key curve' }
-  )
-})
-
 Object.entries({
-  'P-256': ['ES256', 'rDd6H6t9-nJUoz72nTpz8tInvypVWhE2iQoPznj8ZY8'],
-  'secp256k1': ['ES256K', 'kWx_DzFzKNHUQz1FkNzj8KmSRingv9EQQzdVY3td21w'],
-  'P-384': ['ES384', '5gebayAhpztJCs4Pxo-z1hhsN0upoyG2NAoKpiiH2b0'],
-  'P-521': ['ES512', 'BQtkbSY3xgN4M2ZP3IHMLG7-Rp1L29teCMfNqgJHtTY']
+  'P-256K': ['ES256K', 'zZYrH69YCAAihM7ZCoRj90VI55H5MmQscSpf-JuUS50']
 }).forEach(([crv, [alg, kid]]) => {
   // private
   ;(() => {

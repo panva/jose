@@ -37,6 +37,8 @@ test('parameters must be a plain object', t => {
 })
 
 Object.entries(fixtures.PEM).forEach(([type, { private: priv, public: pub }]) => {
+  if (type === 'P-256K') return
+
   test(`fails to import ${type} as invalid string`, t => {
     t.throws(() => {
       asKey(priv.toString('ascii').replace(/\n/g, ''))

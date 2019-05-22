@@ -18,6 +18,7 @@ The following specifications are implemented by @panva/jose
 - JSON Web Key Thumbprint - [RFC7638][spec-thumbprint]
 - JWS Unencoded Payload Option - [RFC7797][spec-b64]
 - CFRG Elliptic Curve Signatures (EdDSA) - [RFC8037][spec-okp]
+- secp256k1 curve EC Key support - [JOSE Registrations for WebAuthn Algorithms][draft-secp256k1]
 
 The test suite utilizes examples defined in [RFC7520][spec-cookbook] to confirm its JOSE
 implementation is correct.
@@ -47,7 +48,7 @@ Legend:
 | -- | -- | -- |
 | RSASSA-PKCS1-v1_5 | ✓ | RS256, RS384, RS512 |
 | RSASSA-PSS | ✓ | PS256, PS384, PS512 |
-| ECDSA | ✓ | ES256, ES384, ES512 |
+| ECDSA | ✓ | ES256, ES256K, ES384, ES512 |
 | Edwards-curve DSA | ✓ | EdDSA |
 | HMAC with SHA-2 | ✓ | HS256, HS384, HS512 |
 
@@ -247,6 +248,32 @@ jose.JWE.decrypt(
 )
 ```
 
+#### secp256k1
+
+Note: the secp256k1 JOSE parameters registration and the RFC is still in a draft state. If the WG
+draft changes its mind about the parameter names again the new values will be propagated as a MINOR
+library version.
+
+When you require `@panva/jose` you can work with `secp256k1` EC keys right away, the EC JWK `crv`
+used is as per the specification `secp256k1`.
+
+```js
+const jose = require('@panva/jose')
+let key = jose.JWK.generateSync('EC', 'secp256k1')
+key = jose.JWK.asKey(fs.readFileSync('path/to/key/file'))
+key.crv === 'secp256k1'
+```
+
+For legacy reasons the unregistered EC JWK `crv` value `P-256K` is also supported but you must
+require `@panva/jose` like so to use it:
+
+```js
+const jose = require('@panva/jose/P-256K')
+let key = jose.JWK.generateSync('EC', 'P-256K')
+key = jose.JWK.asKey(fs.readFileSync('path/to/key/file'))
+key.crv === 'P-256K'
+```
+
 ## FAQ
 
 #### Semver?
@@ -315,6 +342,7 @@ in terms of performance and API (not having well defined errors).
 [spec-jws]: https://tools.ietf.org/html/rfc7515
 [spec-jwt]: https://tools.ietf.org/html/rfc7519
 [spec-okp]: https://tools.ietf.org/html/rfc8037
+[draft-secp256k1]: https://tools.ietf.org/html/draft-ietf-cose-webauthn-algorithms-01
 [spec-thumbprint]: https://tools.ietf.org/html/rfc7638
 [suggest-feature]: https://github.com/panva/jose/issues/new?labels=enhancement&template=feature-request.md&title=proposal%3A+
 [support-patreon]: https://www.patreon.com/panva

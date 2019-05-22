@@ -15,7 +15,7 @@ interface KeyParameters extends BasicParameters {
     x5t?: string
     'x5t#S256'?: string
 }
-type ECCurve = 'P-256' | 'P-384' | 'P-521'
+type ECCurve = 'P-256' | 'secp256k1' | 'P-384' | 'P-521'
 type OKPCurve = 'Ed25519' | 'Ed448' | 'X25519' | 'X448'
 type keyType = 'RSA' | 'EC' | 'OKP' | 'oct'
 type asymmetricKeyObjectTypes = 'private' | 'public'
