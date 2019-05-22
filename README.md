@@ -94,6 +94,10 @@ Found a bug? - [report it][bug].
 Missing a feature? - If it wasn't already discussed before, [ask for it][suggest-feature].  
 Found a vulnerability? - Reach out to us via email first, see [security vulnerability disclosure][security-vulnerability].  
 
+## Sponsor
+
+[<img width="65" height="65" align="left" src="https://avatars.githubusercontent.com/u/2824157?s=75&v=4" alt="auth0-logo">][sponsor-auth0] If you want to quickly add secure token-based authentication to Node.js projects, feel free to check Auth0’s free plan at [auth0.com/overview][sponsor-auth0].<br><br>
+
 ## Support
 
 [<img src="https://c5.patreon.com/external/logo/become_a_patron_button@2x.png" width="160" align="right">][support-patreon]
@@ -320,3 +324,4 @@ in terms of performance and API (not having well defined errors).
 [support-paypal]: https://www.paypal.me/panva
 [travis-image]: https://api.travis-ci.com/panva/jose.svg?branch=master
 [travis-url]: https://travis-ci.com/panva/jose
+[sponsor-auth0]: https://auth0.com/overview?utm_source=GHsponsor&utm_medium=GHsponsor&utm_campaign=%40panva%2Fjose&utm_content=auth

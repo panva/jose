@@ -9,6 +9,10 @@
 - [JWE (JSON Web Encryption)](#jwe-json-web-encryption)
 - [errors](#errors)
 
+## Sponsor
+
+[<img width="65" height="65" align="left" src="https://avatars.githubusercontent.com/u/2824157?s=75&v=4" alt="auth0-logo">][sponsor-auth0] If you want to quickly add secure token-based authentication to Node.js projects, feel free to check Auth0’s free plan at [auth0.com/overview][sponsor-auth0].<br><br>
+
 ## Support
 
 [<img src="https://c5.patreon.com/external/logo/become_a_patron_button@2x.png" width="160" align="right">][support-patreon]
@@ -1414,3 +1418,4 @@ if (err.code === 'ERR_JWT_MALFORMED') {
 [support-paypal]: https://www.paypal.me/panva
 [connect-core]: https://openid.net/specs/openid-connect-core-1_0.html
 [bug]: https://github.com/panva/jose/issues/new?labels=bug&template=bug-report.md&title=bug%3A+
+[sponsor-auth0]: https://auth0.com/overview?utm_source=GHsponsor&utm_medium=GHsponsor&utm_campaign=%40panva%2Fjose&utm_content=auth
