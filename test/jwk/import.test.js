@@ -1,7 +1,7 @@
 const test = require('ava')
 const crypto = require('crypto')
 
-const { JWK: { importKey }, errors } = require('../..')
+const { JWK: { importKey, generate }, errors } = require('../..')
 
 const fixtures = require('../fixtures')
 
@@ -84,4 +84,25 @@ test('failed to import throws an error', t => {
       importKey(unsupported)
     }, { instanceOf: errors.JOSENotSupported, code: 'ERR_JOSE_NOT_SUPPORTED', message: 'only RSA, EC and OKP asymmetric keys are supported' })
   })
+})
+
+
+test('fails to import RSA without all optimization parameters', async t => {
+  const full = (await generate('RSA')).toJWK(true)
+  for (const param of ['p', 'q', 'dp', 'dq', 'qi']) {
+    const { [param]: omit, ...jwk } = full
+    t.throws(() => {
+      importKey(jwk)
+    }, { instanceOf: errors.JWKImportFailed, code: 'ERR_JWK_IMPORT_FAILED', message: 'all other private key parameters must be present when any one of them is present' })
+  }
+})
+
+test('fails to import JWK RSA with oth', async t => {
+  const jwk = (await generate('RSA')).toJWK(true)
+  t.throws(() => {
+    importKey({
+      ...jwk,
+      oth: []
+    })
+  }, { instanceOf: errors.JOSENotSupported, code: 'ERR_JOSE_NOT_SUPPORTED', message: 'Private RSA keys with more than two primes are not supported' })
 })
