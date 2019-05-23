@@ -3,7 +3,7 @@ const test = require('ava')
 const { randomBytes } = require('crypto')
 
 const { encrypt, decrypt } = require('../../lib/jwe')
-const { JWK: { importKey }, errors } = require('../..')
+const { JWK: { importKey, generateSync }, errors } = require('../..')
 
 const PAYLOAD = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c'
 const ENCS = [
@@ -119,3 +119,16 @@ Object.entries(fixtures.PEM).forEach(([type, { private: key, public: pub }]) => 
     })
   })
 })
+
+{
+  const rsa = generateSync('RSA')
+  const dKey = importKey({ kty: 'RSA', e: rsa.e, n: rsa.n, d: rsa.d })
+  const eKey = importKey({ kty: 'RSA', e: rsa.e, n: rsa.n })
+  eKey.algorithms('wrapKey').forEach((alg) => {
+    ENCS.forEach((enc) => {
+      if (alg === 'ECDH-ES' && ['A192CBC-HS384', 'A256CBC-HS512'].includes(enc)) return
+      test(`key RSA (min) > alg ${alg} > ${enc}`, success, eKey, dKey, alg, enc)
+      test(`key RSA (min) > alg ${alg} > ${enc} (negative cases)`, failure, eKey, dKey, alg, enc)
+    })
+  })
+}

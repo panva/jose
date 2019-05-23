@@ -75,3 +75,13 @@ sym.algorithms('sign').forEach((alg) => {
   test(`key ${sym.kty} > alg ${alg}`, success, sym, sym, alg)
   test(`key ${sym.kty} > alg ${alg} (negative cases)`, failure, sym, sym, alg)
 })
+
+{
+  const rsa = generateSync('RSA')
+  const sKey = importKey({ kty: 'RSA', e: rsa.e, n: rsa.n, d: rsa.d })
+  const vKey = importKey({ kty: 'RSA', e: rsa.e, n: rsa.n })
+  sKey.algorithms('sign').forEach((alg) => {
+    test(`key RSA (min) > alg ${alg}`, success, sKey, vKey, alg)
+    test(`key RSA (min) > alg ${alg} (negative cases)`, failure, sKey, vKey, alg)
+  })
+}

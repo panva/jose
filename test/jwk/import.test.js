@@ -1,7 +1,7 @@
 const test = require('ava')
 const crypto = require('crypto')
 
-const { JWK: { importKey, generate }, errors } = require('../..')
+const { JWS, JWE, JWK: { importKey, generate }, errors } = require('../..')
 
 const fixtures = require('../fixtures')
 
@@ -86,6 +86,20 @@ test('failed to import throws an error', t => {
   })
 })
 
+test('minimal RSA test', async t => {
+  const key = await generate('RSA')
+  const { d, e, n } = key.toJWK(true)
+  const minKey = importKey({ kty: 'RSA', d, e, n })
+  key.algorithms('sign').forEach((alg) => {
+    JWS.verify(JWS.sign({}, key), minKey, { alg })
+    JWS.verify(JWS.sign({}, minKey), key, { alg })
+  })
+  key.algorithms('wrapKey').forEach((alg) => {
+    JWE.decrypt(JWE.encrypt('foo', key), minKey, { alg })
+    JWE.decrypt(JWE.encrypt('foo', minKey), key, { alg })
+  })
+  t.pass()
+})
 
 test('fails to import RSA without all optimization parameters', async t => {
   const full = (await generate('RSA')).toJWK(true)
