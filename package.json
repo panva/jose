@@ -6,18 +6,18 @@
     "compact",
     "decode",
     "decrypt",
+    "eddsa",
     "encrypt",
     "flattened",
     "general",
     "jose",
+    "jsonwebtoken",
     "jwa",
     "jwe",
     "jwk",
     "jwks",
     "jws",
     "jwt",
-    "jsonwebtoken",
-    "eddsa",
     "sign",
     "verify"
   ],
@@ -32,11 +32,21 @@
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
   "scripts": {
-    "coverage": "nyc ava",
+    "coverage": "c8 -r lcov -r text-summary ava",
     "lint": "standard",
     "lint-fix": "standard --fix",
     "test": "ava",
     "watch": "ava --watch"
+  },
+  "husky": {
+    "hooks": {
+      "commit-msg": "commitlint -E HUSKY_GIT_PARAMS"
+    }
+  },
+  "commitlint": {
+    "extends": [
+      "@commitlint/config-conventional"
+    ]
   },
   "dependencies": {
     "asn1.js": "^5.0.1"
@@ -45,8 +55,8 @@
     "@commitlint/cli": "^7.5.2",
     "@commitlint/config-conventional": "^7.5.0",
     "ava": "^1.2.1",
+    "c8": "^5.0.0",
     "husky": "^2.1.0",
-    "nyc": "^14.0.0",
     "standard": "^12.0.1"
   },
   "engines": {
@@ -57,24 +67,6 @@
     "compileEnhancements": false,
     "files": [
       "test/**/*.test.js"
-    ]
-  },
-  "commitlint": {
-    "extends": [
-      "@commitlint/config-conventional"
-    ]
-  },
-  "husky": {
-    "hooks": {
-      "commit-msg": "commitlint -E HUSKY_GIT_PARAMS"
-    }
-  },
-  "nyc": {
-    "all": true,
-    "cache": false,
-    "reporter": [
-      "lcov",
-      "text-summary"
     ]
   }
 }
