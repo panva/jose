@@ -75,15 +75,11 @@ Won't implement:
 - ✕ JWS embedded key / referenced verification
   - one can decode the header and pass the (`x5c`, `jwk`) to `JWK.importKey` and validate with that
     key, similarly the application can handle fetching and then instantiating the referenced `x5u`
-    or `jku` in its own code. This way you opt-in to these behaviours and for `x5c` specifically
-    the recipient is responsible for validating the certificate chain is trusted
+    or `jku` in its own code. This way you opt-in to these behaviours.
 - ✕ JWS detached content
   - one can remove/attach the payload after/before the respective operation
 - ✕ "none" alg support
   - no crypto, no use
-
-Not Planned / PR | Use-Case | Discussion Welcome:
-- ◯ `x5c`, `x5t`, `x5t#S256`, `x5u` etc `JWK.Key` fields
 
 </details>
 

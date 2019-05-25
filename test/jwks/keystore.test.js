@@ -1,7 +1,16 @@
 const test = require('ava')
 
 const KeyStore = require('../../lib/jwks/keystore')
-const { generateSync } = require('../../lib/jwk')
+const { importKey, generateSync } = require('../../lib/jwk')
+
+const withX5C = {
+  kty: 'RSA',
+  n: 'vrjOfz9Ccdgx5nQudyhdoR17V-IubWMeOZCwX_jj0hgAsz2J_pqYW08PLbK_PdiVGKPrqzmDIsLI7sA25VEnHU1uCLNwBuUiCO11_-7dYbsr4iJmG0Qu2j8DsVyT1azpJC_NG84Ty5KKthuCaPod7iI7w0LK9orSMhBEwwZDCxTWq4aYWAchc8t-emd9qOvWtVMDC2BXksRngh6X5bUYLy6AyHKvj-nUy1wgzjYQDwHMTplCoLtU-o-8SNnZ1tmRoGE9uJkBLdh5gFENabWnU5m1ZqZPdwS-qo-meMvVfJb6jJVWRpl2SUtCnYG2C32qvbWbjZ_jBPD5eunqsIo1vQ',
+  e: 'AQAB',
+  x5c: [
+    'MIIDQjCCAiqgAwIBAgIGATz/FuLiMA0GCSqGSIb3DQEBBQUAMGIxCzAJBgNVBAYTAlVTMQswCQYDVQQIEwJDTzEPMA0GA1UEBxMGRGVudmVyMRwwGgYDVQQKExNQaW5nIElkZW50aXR5IENvcnAuMRcwFQYDVQQDEw5CcmlhbiBDYW1wYmVsbDAeFw0xMzAyMjEyMzI5MTVaFw0xODA4MTQyMjI5MTVaMGIxCzAJBgNVBAYTAlVTMQswCQYDVQQIEwJDTzEPMA0GA1UEBxMGRGVudmVyMRwwGgYDVQQKExNQaW5nIElkZW50aXR5IENvcnAuMRcwFQYDVQQDEw5CcmlhbiBDYW1wYmVsbDCCASIwDQYJKoZIhvcNAQEBBQADggEPADCCAQoCggEBAL64zn8/QnHYMeZ0LncoXaEde1fiLm1jHjmQsF/449IYALM9if6amFtPDy2yvz3YlRij66s5gyLCyO7ANuVRJx1NbgizcAblIgjtdf/u3WG7K+IiZhtELto/A7Fck9Ws6SQvzRvOE8uSirYbgmj6He4iO8NCyvaK0jIQRMMGQwsU1quGmFgHIXPLfnpnfajr1rVTAwtgV5LEZ4Iel+W1GC8ugMhyr4/p1MtcIM42EA8BzE6ZQqC7VPqPvEjZ2dbZkaBhPbiZAS3YeYBRDWm1p1OZtWamT3cEvqqPpnjL1XyW+oyVVkaZdklLQp2Btgt9qr21m42f4wTw+Xrp6rCKNb0CAwEAATANBgkqhkiG9w0BAQUFAAOCAQEAh8zGlfSlcI0o3rYDPBB07aXNswb4ECNIKG0CETTUxmXl9KUL+9gGlqCz5iWLOgWsnrcKcY0vXPG9J1r9AqBNTqNgHq2G03X09266X5CpOe1zFo+Owb1zxtp3PehFdfQJ610CDLEaS9V9Rqp17hCyybEpOGVwe8fnk+fbEL2Bo3UPGrpsHzUoaGpDftmWssZkhpBJKVMJyf/RuP2SmmaIzmnw9JiSlYhzo4tpzd5rFXhjRbg4zW9C+2qok+2+qDM1iJ684gPHMIY8aLWrdgQTxkumGmTqgawR+N5MDtdPTEQ0XfIBc2cJEUyMTY5MPvACWpkA6SdS4xSvdXK3IVfOWA=='
+  ]
+}
 
 test('constructor', t => {
   t.notThrows(() => {
@@ -146,6 +155,30 @@ test('.all() and .get() kid filter', t => {
   t.deepEqual(ks.all({ kid: 'foobar' }), [k])
   t.is(ks.get({ kid: 'baz' }), undefined)
   t.is(ks.get({ kid: 'foobar' }), k)
+})
+
+test('.all() and .get() x5t filter and sort', t => {
+  const k = importKey(withX5C)
+  const ks = new KeyStore(k)
+  t.deepEqual(ks.all({ x5t: 'baz' }), [])
+  t.deepEqual(ks.all({ x5t: '4pNenEBLv0JpLIdugWxQkOsZcK0' }), [k])
+  t.is(ks.get({ x5t: 'baz' }), undefined)
+  t.is(ks.get({ x5t: '4pNenEBLv0JpLIdugWxQkOsZcK0' }), k)
+  const k2 = importKey({ ...withX5C, alg: 'RS256' })
+  ks.add(k2)
+  t.is(ks.get({ x5t: '4pNenEBLv0JpLIdugWxQkOsZcK0', alg: 'RS256' }), k2)
+})
+
+test('.all() and .get() x5t#S256 filter and sort', t => {
+  const k = importKey(withX5C)
+  const ks = new KeyStore(k)
+  t.deepEqual(ks.all({ 'x5t#S256': 'baz' }), [])
+  t.deepEqual(ks.all({ 'x5t#S256': 'pJm2BBpkB8y7tCqrWM0X37WOmQTO8zQw-VpxVgBb21I' }), [k])
+  t.is(ks.get({ 'x5t#S256': 'baz' }), undefined)
+  t.is(ks.get({ 'x5t#S256': 'pJm2BBpkB8y7tCqrWM0X37WOmQTO8zQw-VpxVgBb21I' }), k)
+  const k2 = importKey({ ...withX5C, alg: 'RS256' })
+  ks.add(k2)
+  t.is(ks.get({ 'x5t#S256': 'pJm2BBpkB8y7tCqrWM0X37WOmQTO8zQw-VpxVgBb21I', alg: 'RS256' }), k2)
 })
 
 test('.all() and .get() kty filter', t => {

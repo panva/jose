@@ -33,6 +33,9 @@ I can continue maintaining it and adding new features carefree. You may also don
   - [key.alg](#keyalg)
   - [key.use](#keyuse)
   - [key.kid](#keykid)
+  - [key.x5c](#keyx5c)
+  - [key.x5t](#keyx5t)
+  - [key['x5t#S256']](#keyx5ts256)
   - [key.key_ops](#keykey_ops)
   - [key.thumbprint](#keythumbprint)
   - [key.type](#keytype)
@@ -116,6 +119,34 @@ related operations (key management or encryption).
 
 Returns the key's JWK Key ID Parameter if set, if not set it will be calculated using the method
 defined in [RFC7638][spec-thumbprint].
+
+- `<string>`
+
+---
+
+#### `key.x5c`
+
+Returns the key's X.509 Certificate Chain Parameter if set
+
+- `string[]`
+
+---
+
+#### `key.x5t`
+
+Returns the key's X.509 Certificate SHA-1 Thumbprint Parameter if set. This
+property can be either be set manually by the JWK producer or left to @panva/jose to compute based
+on the first certificate in the key's `x5c`.
+
+- `<string>`
+
+---
+
+#### `key['x5t#S256']`
+
+Returns the key's X.509 Certificate SHA-256 Thumbprint Parameter if set. This
+property can be either be set manually by the JWK producer or left to @panva/jose to compute based
+on the first certificate in the key's `x5c`.
 
 - `<string>`
 
