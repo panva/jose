@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+# [1.2.0](https://github.com/panva/jose/compare/v1.1.0...v1.2.0) (2019-05-25)
+
+
+### Features
+
+* add support for JWK x5c, x5t and x5t#S256 ([9d46c48](https://github.com/panva/jose/commit/9d46c48)), closes [x5t#S256](https://github.com/x5t/issues/S256)
+* instances of JWKS.KeyStore are now iterable (e.g. for ... of) ([2eae293](https://github.com/panva/jose/commit/2eae293))
+
+
+
 # [1.1.0](https://github.com/panva/jose/compare/v1.0.2...v1.1.0) (2019-05-23)
 
 
