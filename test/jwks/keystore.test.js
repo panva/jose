@@ -199,3 +199,13 @@ test('.fromJWKS() input validation', t => {
     }, { instanceOf: TypeError, message: 'jwks must be a JSON Web Key Set formatted object' })
   })
 })
+
+test('keystore instance is an iterator', t => {
+  const ks = new KeyStore()
+  ks.generateSync('EC')
+  ks.generateSync('RSA')
+  for (const key of ks) {
+    t.truthy(key)
+  }
+  t.pass()
+})
