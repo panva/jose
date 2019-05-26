@@ -135,8 +135,8 @@ Returns the key's X.509 Certificate Chain Parameter if set
 #### `key.x5t`
 
 Returns the key's X.509 Certificate SHA-1 Thumbprint Parameter if set. This
-property can be either be set manually by the JWK producer or left to @panva/jose to compute based
-on the first certificate in the key's `x5c`.
+property can be either set manually by the JWK producer or left to the library to compute based
+on the first certificate in the key's `x5c`, the latter is preferred.
 
 - `<string>`
 
@@ -145,8 +145,8 @@ on the first certificate in the key's `x5c`.
 #### `key['x5t#S256']`
 
 Returns the key's X.509 Certificate SHA-256 Thumbprint Parameter if set. This
-property can be either be set manually by the JWK producer or left to @panva/jose to compute based
-on the first certificate in the key's `x5c`.
+property can be either set manually by the JWK producer or left to the library to compute based
+on the first certificate in the key's `x5c`, the latter is preferred.
 
 - `<string>`
 
