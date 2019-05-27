@@ -11,6 +11,7 @@
     "flattened",
     "general",
     "jose",
+    "json web token",
     "jsonwebtoken",
     "jwa",
     "jwe",
@@ -32,7 +33,7 @@
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
   "scripts": {
-    "coverage": "c8 -r lcov -r text-summary ava",
+    "coverage": "c8 ava",
     "lint": "standard",
     "lint-fix": "standard --fix",
     "test": "ava",
@@ -55,6 +56,7 @@
     "@commitlint/cli": "^7.5.2",
     "@commitlint/config-conventional": "^7.5.0",
     "ava": "^1.2.1",
+    "babel-eslint": "^10.0.1",
     "c8": "^5.0.0",
     "husky": "^2.1.0",
     "standard": "^12.0.1"
@@ -68,5 +70,8 @@
     "files": [
       "test/**/*.test.js"
     ]
+  },
+  "standard": {
+    "parser": "babel-eslint"
   }
 }
