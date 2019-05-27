@@ -15,7 +15,7 @@ The following specifications are implemented by @panva/jose
 - JSON Web Key (JWK) - [RFC7517][spec-jwk]
 - JSON Web Algorithms (JWA) - [RFC7518][spec-jwa]
 - JSON Web Token (JWT) - [RFC7519][spec-jwt]
-- JSON Web Key (JWK) Thumbprint - [RFC7638][spec-thumbprint]
+- JSON Web Key Thumbprint - [RFC7638][spec-thumbprint]
 - JWS Unencoded Payload Option - [RFC7797][spec-b64]
 - CFRG Elliptic Curve Signatures (EdDSA) - [RFC8037][spec-okp]
 
