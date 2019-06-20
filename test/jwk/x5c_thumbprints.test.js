@@ -2,7 +2,7 @@ const test = require('ava')
 
 const errors = require('../../lib/errors')
 
-const { JWK: { importKey } } = require('../..')
+const { JWK: { asKey } } = require('../..')
 
 const jwk = {
   kty: 'RSA',
@@ -17,7 +17,7 @@ const jwk = {
 
 test('x5c can be imported and have their X.509 cert thumbprints calculated', t => {
   let key
-  t.notThrows(() => { key = importKey(jwk) })
+  t.notThrows(() => { key = asKey(jwk) })
   t.deepEqual(key.x5c, jwk.x5c)
   const asJWK = key.toJWK()
   t.deepEqual(asJWK.x5c, jwk.x5c)
@@ -30,13 +30,13 @@ test('x5c can be imported and have their X.509 cert thumbprints calculated', t =
 test('checks that x5c is an array of valid PKIX certificates', t => {
   ;[[], {}, false, 1].forEach((value) => {
     t.throws(() => {
-      importKey({
+      asKey({
         ...jwk,
         x5c: value
       })
     }, { instanceOf: TypeError, message: '`x5c` must be an array of one or more PKIX certificates when provided' })
     t.throws(() => {
-      importKey({
+      asKey({
         ...jwk,
         x5c: [value]
       })
@@ -46,7 +46,7 @@ test('checks that x5c is an array of valid PKIX certificates', t => {
 
 test('checks that first x5c member must represent the key', t => {
   t.throws(() => {
-    importKey({
+    asKey({
       ...jwk,
       x5c: [
         'MIIC/zCCAeegAwIBAgIJYdZUZz2rikftMA0GCSqGSIb3DQEBCwUAMB0xGzAZBgNVBAMTEnBhbnZhLmV1LmF1dGgwLmNvbTAeFw0xNzEwMTgxNTExMjBaFw0zMTA2MjcxNTExMjBaMB0xGzAZBgNVBAMTEnBhbnZhLmV1LmF1dGgwLmNvbTCCASIwDQYJKoZIhvcNAQEBBQADggEPADCCAQoCggEBAKROvB+A+ZlFV1AXl75tVegjaCuBE7CiXHNstVZ/F6fKl6OvIRhAW3YKnJEglzVvHw0q46Nw48yBdbbKjdwGo1jbrI15D2+MYPy8xlMfDzEqNWBjOsgnA1nhFFDXD7wITwFRMtlRKVvKMa19QCmMFrpQ2qcloMne/DzSvxlEnVA6DG1SYqHR/gdK5hoRATJkwHXQ5F/nUxD3BOAyyjsU5RsGJAeVVS4Yf532xmziIbda3iV4LMUiHUb1v8Oy2sDncYF+imq/sbHGgE7dyv5R5AsYHGANgvIPMHJ1QTFSQVU0lxPy+EWnLk9abVOZYzD6O5YRdJ29UWVtQ1q5UcyrF18CAwEAAaNCMEAwDwYDVR0TAQH/BAUwAwEB/zAdBgNVHQ4EFgQUSUcoPFHi/vm7dw1rt/IRmxvLMyowDgYDVR0PAQH/BAQDAgKEMA0GCSqGSIb3DQEBCwUAA4IBAQBcBXXBcbqliVOHkTgxocSYNUajcgIKjgeqG9RKFkbHfPuK/Hn80vQhd6mBKJTIyM7fY7DPh1/PjRsAyDQEwouHWItcM6iJBSdAkPq2DPfCkpUOi7MHrhXSouU1X4IOBvAl94k9Z8oj5k12KWVH8jZn5G03lwkWUgSfkLJ0Dh86+4sF2W4Dz2qZUXZuQbUL5eJcWRpfEZowff+T8xsiRjcIEpgfLz4nWonijtvEWESEa3bYpI9pI5OXLImgVJLGxVaUktsGIexQ6eM1AoxBYE7E+nbN/rwo30XWGbTkYecisySSYuzVn2c0xnC/8ZvW+gJ4SkzRDjlOAbm3R0r5j7b1'
@@ -54,7 +54,7 @@ test('checks that first x5c member must represent the key', t => {
     })
   }, { instanceOf: errors.JWKInvalid, code: 'ERR_JWK_INVALID', message: 'The key in the first `x5c` certificate MUST match the public key represented by the JWK' })
   t.throws(() => {
-    importKey({
+    asKey({
       ...jwk,
       x5c: [
         jwk.x5c[0],

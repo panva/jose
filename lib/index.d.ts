@@ -59,6 +59,10 @@ interface JSONWebKeySet {
     keys: JSONWebKey[]
 }
 
+interface ImportOptions {
+    calculateMissingRSAPrimes?: boolean
+}
+
 export namespace JWK {
 
     interface pemEncodingOptions {
@@ -139,6 +143,17 @@ export namespace JWK {
 
     export function isKey(object: any): boolean
 
+    export function asKey(keyObject: KeyObject, parameters?: KeyParameters): RSAKey | ECKey | OKPKey | OctKey
+    export function asKey(key: PrivateKeyInput | PublicKeyInput | string | Buffer, parameters?: KeyParameters): RSAKey | ECKey | OKPKey | OctKey
+    export function asKey(jwk: JWKOctKey): OctKey
+    export function asKey(jwk: JWKRSAKey, options?: ImportOptions): RSAKey
+    export function asKey(jwk: JWKECKey): ECKey
+    export function asKey(jwk: JWKOKPKey): OKPKey
+
+
+    /*
+     * @deprecated in favor of asKey
+     */
     export function importKey(keyObject: KeyObject, parameters?: KeyParameters): RSAKey | ECKey | OKPKey | OctKey
     export function importKey(key: PrivateKeyInput | PublicKeyInput | string | Buffer, parameters?: KeyParameters): RSAKey | ECKey | OKPKey | OctKey
     export function importKey(jwk: JWKOctKey): OctKey
@@ -185,7 +200,14 @@ export namespace JWKS {
         generateSync(kty: 'OKP', crv?: OKPCurve, parameters?: BasicParameters, private?: boolean): void
         generateSync(kty: 'RSA', bitlength?: number, parameters?: BasicParameters, private?: boolean): void
         generateSync(kty: 'oct', bitlength?: number, parameters?: BasicParameters): void
+
+        /*
+         * @deprecated in favor of JWKS.asKeyStore
+         */
+        static fromJWKS(jwks: JSONWebKeySet): KeyStore
     }
+
+    export function asKeyStore(jwks: JSONWebKeySet, options?: ImportOptions): KeyStore
 }
 
 export namespace JWS {

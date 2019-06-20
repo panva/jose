@@ -4,7 +4,7 @@ const { hasProperty, hasNoProperties } = require('../macros')
 
 const errors = require('../../lib/errors')
 const OctKey = require('../../lib/jwk/key/oct')
-const { JWK: { importKey } } = require('../..')
+const { JWK: { asKey } } = require('../..')
 const { generateSync } = require('../../lib/jwk/generate')
 
 const keyObject = createSecretKey(Buffer.from('secret'))
@@ -113,7 +113,7 @@ test('oct keys may not be generated as public', t => {
 })
 
 test('they may be imported from', t => {
-  const key = importKey({
+  const key = asKey({
     kty: 'oct',
     kid: '4p9o4_DcKoT6Qg2BI_mSgMP_MsXwFqogKuI26CunKAM'
   })
@@ -126,7 +126,7 @@ test('they may be imported from', t => {
 })
 
 test('they may be imported from (no kid)', t => {
-  const key = importKey({
+  const key = asKey({
     kty: 'oct'
   })
 
@@ -141,7 +141,7 @@ test('they may be imported from (no kid)', t => {
 
 test('they may be imported so long as there was no k', t => {
   t.throws(() => {
-    importKey({
+    asKey({
       kty: 'oct',
       kid: '4p9o4_DcKoT6Qg2BI_mSgMP_MsXwFqogKuI26CunKAM',
       k: undefined

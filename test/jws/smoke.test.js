@@ -1,7 +1,7 @@
 const test = require('ava')
 
 const { sign, verify } = require('../../lib/jws')
-const { JWK: { importKey, generateSync }, errors } = require('../..')
+const { JWK: { asKey, generateSync }, errors } = require('../..')
 
 const PAYLOAD = {}
 
@@ -61,8 +61,8 @@ const failure = (t, sKey, vKey, alg) => {
 }
 
 Object.entries(fixtures.PEM).forEach(([type, { private: key, public: pub }]) => {
-  const sKey = importKey(key)
-  const vKey = importKey(pub)
+  const sKey = asKey(key)
+  const vKey = asKey(pub)
 
   sKey.algorithms('sign').forEach((alg) => {
     test(`key ${type} > alg ${alg}`, success, sKey, vKey, alg)
@@ -78,8 +78,8 @@ sym.algorithms('sign').forEach((alg) => {
 
 {
   const rsa = generateSync('RSA')
-  const sKey = importKey({ kty: 'RSA', e: rsa.e, n: rsa.n, d: rsa.d })
-  const vKey = importKey({ kty: 'RSA', e: rsa.e, n: rsa.n })
+  const sKey = asKey({ kty: 'RSA', e: rsa.e, n: rsa.n, d: rsa.d }, { calculateMissingRSAPrimes: true })
+  const vKey = asKey({ kty: 'RSA', e: rsa.e, n: rsa.n })
   sKey.algorithms('sign').forEach((alg) => {
     test(`key RSA (min) > alg ${alg}`, success, sKey, vKey, alg)
     test(`key RSA (min) > alg ${alg} (negative cases)`, failure, sKey, vKey, alg)

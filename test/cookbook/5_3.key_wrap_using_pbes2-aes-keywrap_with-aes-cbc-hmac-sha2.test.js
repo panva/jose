@@ -3,18 +3,18 @@ const test = require('ava')
 const recipe = require('./recipes').get('5.3')
 const { enc: verifiers } = require('./verifiers')
 
-const { JWE, JWK: { importKey, generateSync }, JWKS: { KeyStore }, errors } = require('../..')
+const { JWE, JWK: { asKey, generateSync }, JWKS: { KeyStore }, errors } = require('../..')
 
 const {
   input: { plaintext, pwd },
   encrypting_content: { protected: prot }
 } = recipe
 
-const key = importKey(Buffer.from(pwd))
+const key = asKey(Buffer.from(pwd))
 
 const keystoreEmpty = new KeyStore()
 const keystoreMatchOne = new KeyStore(generateSync(key.kty, key.length, { alg: key.alg, use: key.use }), key)
-const keystoreMatchMore = new KeyStore(generateSync(key.kty, key.length, { alg: key.alg, use: key.use, kid: key.kid }), key, importKey(key))
+const keystoreMatchMore = new KeyStore(generateSync(key.kty, key.length, { alg: key.alg, use: key.use, kid: key.kid }), key, asKey(key))
 const keystoreMatchNone = new KeyStore(generateSync('EC'), generateSync('RSA'))
 
 test(`${recipe.title} - compact encrypt`, t => {

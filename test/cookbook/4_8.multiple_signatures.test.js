@@ -2,11 +2,11 @@ const test = require('ava')
 
 const recipe = require('./recipes').get('4.8')
 
-const { JWS, JWK: { importKey }, JWKS: { KeyStore }, errors } = require('../..')
+const { JWS, JWK: { asKey }, JWKS: { KeyStore }, errors } = require('../..')
 
 const { input: { payload, key: jwks }, signing: recipients } = recipe
 
-const keys = jwks.map((jwk) => importKey(jwk))
+const keys = jwks.map((jwk) => asKey(jwk))
 
 const keystoreEmpty = new KeyStore()
 const keystore = new KeyStore(...keys)

@@ -45,10 +45,10 @@ I can continue maintaining it and adding new features carefree. You may also don
   - [key.algorithms([operation])](#keyalgorithmsoperation)
   - [key.toJWK([private])](#keytojwkprivate)
   - [key.toPEM([private[, encoding]])](#keytopemprivate-encoding)
-- JWK.importKey
-  - [JWK.importKey(key[, options]) asymmetric key import](#jwkimportkeykey-options-asymmetric-key-import)
-  - [JWK.importKey(secret[, options]) secret key import](#jwkimportkeysecret-options-secret-key-import)
-  - [JWK.importKey(jwk) JWK-formatted key import](#jwkimportkeyjwk-jwk-formatted-key-import)
+- JWK.asKey
+  - [JWK.asKey(key[, options]) asymmetric key import](#jwkaskeykey-options-asymmetric-key-import)
+  - [JWK.asKey(secret[, options]) secret key import](#jwkaskeysecret-options-secret-key-import)
+  - [JWK.asKey(jwk[, options]) JWK-formatted key import](#jwkaskeyjwk-options-jwk-formatted-key-import)
 - [JWK.generate(kty[, crvOrSize[, options[, private]]]) generating new keys](#jwkgeneratekty-crvorsize-options-private-generating-new-keys)
 - [JWK.generateSync(kty[, crvOrSize[, options[, private]]])](#jwkgeneratesynckty-crvorsize-options-private)
 - [JWK.isKey(object)](#jwkiskeyobject)
@@ -60,7 +60,7 @@ how to get a `<JWK.Key>` instances generated or instantiated from existing key m
 
 ```js
 const { JWK } = require('@panva/jose')
-// { importKey: [Function: importKey],
+// { asKey: [Function: asKey],
 //   generate: [AsyncFunction: generate],
 //   generateSync: [Function: generateSync] }
 ```
@@ -70,7 +70,7 @@ const { JWK } = require('@panva/jose')
 #### Class: `<JWK.Key>` and `<JWK.RSAKey>` &vert; `<JWK.ECKey>` &vert; `<JWK.OKPKey>` &vert; `<JWK.OctKey>`
 
 `<JWK.RSAKey>`, `<JWK.ECKey>`, `<JWK.OKPKey>` and `<JWK.OctKey>` represent a key usable for JWS and JWE operations.
-The `JWK.importKey()` method is used to retrieve a key representation of an existing key or secret.
+The `JWK.asKey()` method is used to retrieve a key representation of an existing key or secret.
 `JWK.generate()` method is used to generate a new random key.
 
 `<JWK.RSAKey>`, `<JWK.ECKey>`, `<JWK.OKPKey>` and `<JWK.OctKey>` inherit methods from `<JWK.Key>` and in addition
@@ -330,7 +330,7 @@ key.toPEM(true, { passphrase: 'super-strong', cipher: 'aes-256-cbc' })
 
 ---
 
-#### `JWK.importKey(key[, options])` asymmetric key import
+#### `JWK.asKey(key[, options])` asymmetric key import
 
 Imports an asymmetric private or public key. Supports importing JWK formatted keys (private, public,
 secrets), `pem` and `der` formatted private and public keys, `pem` formatted X.509 certificates.
@@ -362,9 +362,9 @@ formats
 
 ```js
 const { readFileSync } = require('fs')
-const { JWK: { importKey } } = require('@panva/jose')
+const { JWK: { asKey } } = require('@panva/jose')
 
-const key = importKey(readFileSync('path/to/key/file'))
+const key = asKey(readFileSync('path/to/key/file'))
 // ECKey {
 //   kty: 'EC',
 //   public: true,
@@ -377,7 +377,7 @@ const key = importKey(readFileSync('path/to/key/file'))
 
 ---
 
-#### `JWK.importKey(secret[, options])` secret key import
+#### `JWK.asKey(secret[, options])` secret key import
 
 Imports a symmetric key.
 
@@ -394,9 +394,9 @@ Imports a symmetric key.
   <summary><em><strong>Example</strong></em> (Click to expand)</summary>
 
 ```js
-const { JWK: { importKey } } = require('@panva/jose')
+const { JWK: { asKey } } = require('@panva/jose')
 
-const key = importKey(Buffer.from('8yHym6h5CG5FylbzrCn8fhxEbp3kOaTsgLaawaaJ'))
+const key = asKey(Buffer.from('8yHym6h5CG5FylbzrCn8fhxEbp3kOaTsgLaawaaJ'))
 // OctKey {
 //   kty: 'oct',
 //   kid: [Getter],
@@ -406,7 +406,7 @@ const key = importKey(Buffer.from('8yHym6h5CG5FylbzrCn8fhxEbp3kOaTsgLaawaaJ'))
 
 ---
 
-#### `JWK.importKey(jwk)` JWK-formatted key import
+#### `JWK.asKey(jwk[, options])` JWK-formatted key import
 
 Imports a JWK formatted key. This supports JWK formatted RSA, EC, OKP and oct keys. Asymmetrical
 keys may be both private and public.
@@ -420,18 +420,28 @@ keys may be both private and public.
     [RFC7638][spec-thumbprint]
   - `e`, `n` properties as `<string>` for RSA public keys
   - `e`, `n`, `d`, `p`, `q`, `dp`, `dq`, `qi` properties as `<string>` for RSA private keys
+  - `e`, `n`, `d` properties as `<string>` for RSA private keys without optimization parametes (only
+    with `calculateMissingRSAPrimes` option, see below)
   - `crv`, `x`, `y` properties as `<string>` for EC public keys
   - `crv`, `x`, `y`, `d` properties as `<string>` for EC private keys
   - `crv`, `x`, properties as `<string>` for OKP public keys
   - `crv`, `x`, `d` properties as `<string>` for OKP private keys
   - `k` properties as `<string>` for secret oct keys
+- `options`: `<Object>`
+  - `calculateMissingRSAPrimes`: `<boolean>` **Default** 'false'. This option is really only in
+    effect when importing private RSA JWK keys, by default, keys without the optimization private
+    key parameters (p, q, dp, dq, qi) won't imported because their calculation is heavy and prone
+    to blocking the process. Setting this option to true will enable these keys to be imported,
+    albeit at your own risk. Depending on the key size the calculation takes long and it should
+    only be used for JWK keys from trusted sources.
 - Returns: `<JWK.RSAKey>` &vert; `<JWK.ECKey>` &vert; `<JWK.OKPKey>` &vert; `<JWK.OctKey>`
+
 
 <details>
 <summary><em><strong>Example</strong></em> (Click to expand)</summary>
 
 ```js
-const { JWK: { importKey } } = require('@panva/jose')
+const { JWK: { asKey } } = require('@panva/jose')
 const jwk = {
   kty: 'RSA',
   kid: 'r1LkbBo3925Rb2ZFFrKyU3MVex9T2817Kx0vbi6i_Kc',
@@ -440,7 +450,7 @@ const jwk = {
   n: 'xwQ72P9z9OYshiQ-ntDYaPnnfwG6u9JAdLMZ5o0dmjlcyrvwQRdoFIKPnO65Q8mh6F_LDSxjxa2Yzo_wdjhbPZLjfUJXgCzm54cClXzT5twzo7lzoAfaJlkTsoZc2HFWqmcri0BuzmTFLZx2Q7wYBm0pXHmQKF0V-C1O6NWfd4mfBhbM-I1tHYSpAMgarSm22WDMDx-WWI7TEzy2QhaBVaENW9BKaKkJklocAZCxk18WhR0fckIGiWiSM5FcU1PY2jfGsTmX505Ub7P5Dz75Ygqrutd5tFrcqyPAtPTFDk8X1InxkkUwpP3nFU5o50DGhwQolGYKPGtQ-ZtmbOfcWQ'
 }
 
-const key = importKey(jwk)
+const key = asKey(jwk)
 // RSAKey {
 //   kty: 'RSA',
 //   public: true,
@@ -563,7 +573,7 @@ Returns 'true' if the value is an instance of `<JWK.Key>`.
     - [keystore.generate(...)](#keystoregenerate)
     - [keystore.generateSync(...)](#keystoregeneratesync)
     - [keystore.toJWKS([private])](#keystoretojwksprivate)
-  - [JWKS.KeyStore.fromJWKS(jwks)](#jwkskeystorefromjwksjwks)
+  - [JWKS.asKeyStore(jwks[, options])](#jwksaskeystorejwks-options)
 <!-- TOC JWKS END -->
 
 ```js
@@ -584,7 +594,7 @@ an existing store.
 
 Creates a new KeyStore, either empty or populated.
 
-- `keys`: `<JWK.Key[]>` Array of key keys instantiated by `JWK.importKey()`
+- `keys`: `<JWK.Key[]>` Array of key keys instantiated by `JWK.asKey()`
 - Returns: `<JWKS.KeyStore>`
 
 ---
@@ -671,29 +681,41 @@ Exports the keystore to a JSON Web Key Set formatted object.
 
 ---
 
-#### `JWKS.KeyStore.fromJWKS(jwks)`
+#### `JWKS.asKeyStore(jwks[, options])`
 
 Creates a new KeyStore from a JSON Web Key Set.
 
 - `jwks`: `<Object>` JWKS formatted object (`{ keys: [{ kty: '...', ... }, ...] }`)
+- `options`: `<Object>`
+  - `calculateMissingRSAPrimes`: `<boolean>` **Default** 'false'. This option is really only in
+    effect when the JWKS contains private RSA JWK keys, by default, keys without the optimization
+    private key parameters (p, q, dp, dq, qi) won't imported because their calculation is heavy and
+    prone to blocking the process. Setting this option to true will enable these keys to be
+    imported, albeit at your own risk. Depending on the key size the calculation takes long and it
+    should only be used for JWKS from trusted sources.
 - Returns: `<JWKS.KeyStore>`
 
 <details>
 <summary><em><strong>Example</strong></em> (Click to expand)</summary>
 
 ```js
-const { JWKS: { KeyStore } } = require('@panva/jose')
-const jwks = { keys:
-   [ { kty: 'RSA',
-       kid: 'gqUcZ2TjhmNrVOd1d27tedkabhOTs9WghMHIyjIBn7Y',
-       e: 'AQAB',
-       n:
-        'vi1Aui6R0rUL_7pdcFKKMhBF25h4x8WiTZ4w66eNZhwIp48lz-vBuyUUrSR-RwcuvnxlXdjBdSaN-PZkNRDv2bXE3mVtjZgoYyzQlGLJ1wduQaBXIkrQWxc7yzL91MvtP1kWwFHHrQHZRlpiFQQm9gNCy2wXCTbWGT9kjrR1W1bkwhmOKK4rF-hMgaCNDrtEQ6xWknxV8aXW4itouJ0pJv8xplc6J14f_SNq6arVUcAZ26EzJYC2fcvqwsrnKzvW7QxQGQzh-u9Tn82Tl14Omh1KDV8C7Vb_m8XClv_9zOrKBGdaTl1zgINyMEaa_IMophnBgK_kAXvtVvEThQ93GQ',
-       use: 'enc' } ] }
-const ks = KeyStore.fromJWKS(jwks)
+const { JWKS: { KeyStore, asKeyStore } } = require('@panva/jose')
+const jwks = {
+  keys: [
+    { kty: 'RSA',
+      kid: 'gqUcZ2TjhmNrVOd1d27tedkabhOTs9WghMHIyjIBn7Y',
+      e: 'AQAB',
+      n:
+      'vi1Aui6R0rUL_7pdcFKKMhBF25h4x8WiTZ4w66eNZhwIp48lz-vBuyUUrSR-RwcuvnxlXdjBdSaN-PZkNRDv2bXE3mVtjZgoYyzQlGLJ1wduQaBXIkrQWxc7yzL91MvtP1kWwFHHrQHZRlpiFQQm9gNCy2wXCTbWGT9kjrR1W1bkwhmOKK4rF-hMgaCNDrtEQ6xWknxV8aXW4itouJ0pJv8xplc6J14f_SNq6arVUcAZ26EzJYC2fcvqwsrnKzvW7QxQGQzh-u9Tn82Tl14Omh1KDV8C7Vb_m8XClv_9zOrKBGdaTl1zgINyMEaa_IMophnBgK_kAXvtVvEThQ93GQ',
+      use: 'enc' }
+  ]
+}
+const ks = asKeyStore(jwks)
 // KeyStore {}
 ks.size
 // 1
+ks instanceof KeyStore
+// true
 ```
 </details>
 
@@ -750,7 +772,7 @@ that will be used to sign with is either provided as part of the 'options.algori
 
 ```js
 const { JWT, JWK } = require('@panva/jose')
-const key = JWK.importKey({
+const key = JWK.asKey({
   kty: 'oct',
   k: 'hJtXIZ2uSN5kbQfbtTNWbpdmhkV8FJG-Onbc6mxCcYg'
 })
@@ -820,7 +842,7 @@ Verifies the claims and signature of a JSON Web Token.
 ```js
 const { JWK, JWT } = require('@panva/jose')
 
-const key = JWK.importKey({
+const key = JWK.asKey({
   kty: 'oct',
   k: 'hJtXIZ2uSN5kbQfbtTNWbpdmhkV8FJG-Onbc6mxCcYg'
 })
@@ -914,11 +936,11 @@ signatures of the same payload) using the General JWS JSON Serialization Syntax.
 ```js
 const { JWK, JWS } = require('@panva/jose')
 
-const key = JWK.importKey({
+const key = JWK.asKey({
   kty: 'oct',
   k: 'hJtXIZ2uSN5kbQfbtTNWbpdmhkV8FJG-Onbc6mxCcYg'
 })
-const key2 = JWK.importKey({
+const key2 = JWK.asKey({
   kty: 'oct',
   k: 'AAPapAv4LbFbiVawEjagUBluYqN5rhna-8nuldDvOx8'
 })
@@ -997,7 +1019,7 @@ provided `<JWK.Key>` instance.
 ```js
 const { JWK, JWS } = require('@panva/jose')
 
-const key = JWK.importKey({
+const key = JWK.asKey({
   kty: 'oct',
   k: 'hJtXIZ2uSN5kbQfbtTNWbpdmhkV8FJG-Onbc6mxCcYg'
 })
@@ -1031,7 +1053,7 @@ inferred from the provided `<JWK.Key>` instance.
 ```js
 const { JWK, JWS } = require('@panva/jose')
 
-const key = JWK.importKey({
+const key = JWK.asKey({
   kty: 'oct',
   k: 'hJtXIZ2uSN5kbQfbtTNWbpdmhkV8FJG-Onbc6mxCcYg'
 })
@@ -1073,11 +1095,11 @@ Verifies the provided JWS in either serialization with a given `<JWK.Key>` or `<
 ```js
 const { JWK, JWS, JWKS } = require('@panva/jose')
 
-const key = JWK.importKey({
+const key = JWK.asKey({
   kty: 'oct',
   k: 'hJtXIZ2uSN5kbQfbtTNWbpdmhkV8FJG-Onbc6mxCcYg'
 })
-const key2 = JWK.importKey({
+const key2 = JWK.asKey({
   kty: 'oct',
   k: 'AAPapAv4LbFbiVawEjagUBluYqN5rhna-8nuldDvOx8'
 })

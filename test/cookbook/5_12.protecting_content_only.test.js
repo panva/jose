@@ -3,18 +3,18 @@ const test = require('ava')
 const recipe = require('./recipes').get('5.12')
 const { enc: verifiers } = require('./verifiers')
 
-const { JWE, JWK: { importKey, generateSync }, JWKS: { KeyStore }, errors } = require('../..')
+const { JWE, JWK: { asKey, generateSync }, JWKS: { KeyStore }, errors } = require('../..')
 
 const {
   input: { plaintext, key: jwk },
   encrypting_content: { unprotected }
 } = recipe
 
-const key = importKey(jwk)
+const key = asKey(jwk)
 
 const keystoreEmpty = new KeyStore()
 const keystoreMatchOne = new KeyStore(generateSync(key.kty, key.length, { alg: key.alg, use: key.use }), key)
-const keystoreMatchMore = new KeyStore(generateSync(key.kty, key.length, { alg: key.alg, use: key.use, kid: key.kid }), key, importKey(key))
+const keystoreMatchMore = new KeyStore(generateSync(key.kty, key.length, { alg: key.alg, use: key.use, kid: key.kid }), key, asKey(key))
 const keystoreMatchNone = new KeyStore(generateSync(key.kty), generateSync(key.kty))
 
 test(`${recipe.title} - flattened encrypt`, t => {

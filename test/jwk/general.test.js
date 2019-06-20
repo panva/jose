@@ -1,6 +1,6 @@
 const test = require('ava')
 
-const { JWK: { generateSync, isKey, importKey } } = require('../..')
+const { JWK: { generateSync, isKey, asKey } } = require('../..')
 
 test('.isKey() only key objects return true', t => {
   ;[[], false, true, null, Infinity, 0].forEach((val) => {
@@ -40,7 +40,7 @@ test('"kid" must be a non-empty string', t => {
 
 test('"kid" from JWK is used when available and its different from thumbprint', t => {
   const { kid: generatedThumbprint, ...jwk } = generateSync('oct').toJWK(true)
-  const key = importKey({ ...jwk, kid: 'foo' })
+  const key = asKey({ ...jwk, kid: 'foo' })
   t.is(key.kid, 'foo')
   t.is(key.thumbprint, generatedThumbprint)
 })

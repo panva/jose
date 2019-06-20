@@ -152,7 +152,7 @@ test('.joseToDer non buffer or base64 signature', t => {
 })
 
 test('.joseToDer unknown algorithm', t => {
-  t.throws(() => joseToDer(decodeToBuffer('Zm9vLmJhci5iYXo='), 'foobar'), { instanceOf: Error, message: /"foobar"/ })
+  t.throws(() => joseToDer(decodeToBuffer('Zm9vLmJhci5iYXo'), 'foobar'), { instanceOf: Error, message: /"foobar"/ })
 })
 
 test('.joseToDer incorrect signature length (ES256)', t => {
@@ -176,7 +176,7 @@ test('ES256 should jose -> der -> jose', t => {
 })
 
 test('ES256 should der -> jose -> der', t => {
-  const expected = decodeToBuffer('MEUCIQD0nDQE4uBS6JuklnyACfPQRB/LMEh5Stq6sAfp38k6ewIgHvhX59iuruBiFpVkg3dQKJ3+Wk29lJmXfxp6ciRdj+Q=')
+  const expected = decodeToBuffer('MEUCIQD0nDQE4uBS6JuklnyACfPQRB_LMEh5Stq6sAfp38k6ewIgHvhX59iuruBiFpVkg3dQKJ3-Wk29lJmXfxp6ciRdj-Q')
   const jose = derToJose(expected, 'ES256')
   const actual = joseToDer(jose, 'ES256')
 
@@ -192,7 +192,7 @@ test('ES384 should jose -> der -> jose', t => {
 })
 
 test('ES384 should der -> jose -> der', t => {
-  const expected = decodeToBuffer('MGUCMADcY5icKo+sLF0YCh5eVzju55Elt3Dfu4geMMDnUlLNaEO8NiCFzCHeqMx7mW5GMwIxAI6sp8ihHjRJ0sn/WV6mZCxN6/5lEg1QZJ5eiUHYv2kBgmiJ/Yv1pnqqFY3gVDBp/g==')
+  const expected = decodeToBuffer('MGUCMADcY5icKo-sLF0YCh5eVzju55Elt3Dfu4geMMDnUlLNaEO8NiCFzCHeqMx7mW5GMwIxAI6sp8ihHjRJ0sn_WV6mZCxN6_5lEg1QZJ5eiUHYv2kBgmiJ_Yv1pnqqFY3gVDBp_g')
   const jose = derToJose(expected, 'ES384')
   const actual = joseToDer(jose, 'ES384')
 
@@ -208,7 +208,7 @@ test('ES512 should jose -> der -> jose', t => {
 })
 
 test('ES512 should der -> jose -> der', t => {
-  const expected = decodeToBuffer('MIGHAkFgiYpVsYxx6XiQp2OXscRW/PrbEcoime/FftP+B7x4QVa+M3KZzXlfP66zKqjo7O3nwK2s8GbTftW8H4HwojzimwJCAYQNsozTpCo5nwIkBgelcfIQ0y/U/60TbNH1+rlKpFDCFs6Q1ro7R1tjtXoAUb9aPIOVyXGiSQX/+fcmmWs1rkJU')
+  const expected = decodeToBuffer('MIGHAkFgiYpVsYxx6XiQp2OXscRW_PrbEcoime_FftP-B7x4QVa-M3KZzXlfP66zKqjo7O3nwK2s8GbTftW8H4HwojzimwJCAYQNsozTpCo5nwIkBgelcfIQ0y_U_60TbNH1-rlKpFDCFs6Q1ro7R1tjtXoAUb9aPIOVyXGiSQX_-fcmmWs1rkJU')
   const jose = derToJose(expected, 'ES512')
   const actual = joseToDer(jose, 'ES512')
 

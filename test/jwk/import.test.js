@@ -1,29 +1,29 @@
 const test = require('ava')
 const crypto = require('crypto')
 
-const { JWS, JWE, JWK: { importKey, generate }, errors } = require('../..')
+const { JWS, JWE, JWK: { asKey, importKey, generate }, errors } = require('../..')
 
 const fixtures = require('../fixtures')
 
 test('imports PrivateKeyObject and then its Key instance', t => {
-  const k = importKey(crypto.generateKeyPairSync('ec', { namedCurve: 'P-256' }).privateKey)
-  t.deepEqual(importKey(k).toJWK(), k.toJWK())
+  const k = asKey(crypto.generateKeyPairSync('ec', { namedCurve: 'P-256' }).privateKey)
+  t.deepEqual(asKey(k).toJWK(), k.toJWK())
 })
 
 test('imports PublicKeyObject and then its Key instance', t => {
-  const k = importKey(crypto.generateKeyPairSync('ec', { namedCurve: 'P-256' }).publicKey)
-  t.deepEqual(importKey(k).toJWK(), k.toJWK())
+  const k = asKey(crypto.generateKeyPairSync('ec', { namedCurve: 'P-256' }).publicKey)
+  t.deepEqual(asKey(k).toJWK(), k.toJWK())
 })
 
 test('imports SecretKeyObject and then its Key instance', t => {
-  const k = importKey(crypto.createSecretKey(Buffer.from('foo')))
-  t.deepEqual(importKey(k).toJWK(), k.toJWK())
+  const k = asKey(crypto.createSecretKey(Buffer.from('foo')))
+  t.deepEqual(asKey(k).toJWK(), k.toJWK())
 })
 
 test('only imports string, object or buffer', t => {
   ;[Buffer, () => {}, async () => {}, true, Infinity, 1].forEach((val) => {
     t.throws(() => {
-      importKey(val)
+      asKey(val)
     }, { instanceOf: TypeError, message: 'key argument must be a string, buffer or an object' })
   })
 })
@@ -31,7 +31,7 @@ test('only imports string, object or buffer', t => {
 test('parameters must be a plain object', t => {
   ;[Buffer, () => {}, async () => {}, true, Infinity, 1, [], Buffer.from('foo')].forEach((val) => {
     t.throws(() => {
-      importKey('foo', val)
+      asKey('foo', val)
     }, { instanceOf: TypeError, message: 'parameters argument must be a plain object when provided' })
   })
 })
@@ -39,35 +39,35 @@ test('parameters must be a plain object', t => {
 Object.entries(fixtures.PEM).forEach(([type, { private: priv, public: pub }]) => {
   test(`fails to import ${type} as invalid string`, t => {
     t.throws(() => {
-      importKey(priv.toString('ascii').replace(/\n/g, ''))
+      asKey(priv.toString('ascii').replace(/\n/g, ''))
     }, { instanceOf: errors.JWKImportFailed, code: 'ERR_JWK_IMPORT_FAILED' })
   })
   test(`fails to import ${type} as invalid buffer`, t => {
     t.throws(() => {
-      importKey(Buffer.from(priv.toString('ascii').replace(/\n/g, '')))
+      asKey(Buffer.from(priv.toString('ascii').replace(/\n/g, '')))
     }, { instanceOf: errors.JWKImportFailed, code: 'ERR_JWK_IMPORT_FAILED' })
   })
   test(`${type} private can be imported as a string`, t => {
-    const k = importKey(priv.toString('ascii'))
+    const k = asKey(priv.toString('ascii'))
     t.true(k.private)
   })
   test(`${type} public can be imported as a string`, t => {
-    const k = importKey(pub.toString('ascii'))
+    const k = asKey(pub.toString('ascii'))
     t.true(k.public)
   })
   test(`${type} private can be imported as a buffer`, t => {
-    const k = importKey(priv)
+    const k = asKey(priv)
     t.true(k.private)
   })
   test(`${type} public can be imported as a buffer`, t => {
-    const k = importKey(pub)
+    const k = asKey(pub)
     t.true(k.public)
   })
 })
 
 test('failed to import throws an error', t => {
   t.throws(() => {
-    importKey({
+    asKey({
       key: fixtures.PEM.RSA.public,
       format: 'der'
     })
@@ -81,7 +81,7 @@ test('failed to import throws an error', t => {
 ].forEach((unsupported, i) => {
   test(`fails to import unsupported PEM ${i + 1}/4`, t => {
     t.throws(() => {
-      importKey(unsupported)
+      asKey(unsupported)
     }, { instanceOf: errors.JOSENotSupported, code: 'ERR_JOSE_NOT_SUPPORTED', message: 'only RSA, EC and OKP asymmetric keys are supported' })
   })
 })
@@ -89,7 +89,8 @@ test('failed to import throws an error', t => {
 test('minimal RSA test', async t => {
   const key = await generate('RSA')
   const { d, e, n } = key.toJWK(true)
-  const minKey = importKey({ kty: 'RSA', d, e, n })
+  const minKey = asKey({ kty: 'RSA', d, e, n }, { calculateMissingRSAPrimes: true })
+  importKey({ kty: 'RSA', d, e, n }) // deprecated
   key.algorithms('sign').forEach((alg) => {
     JWS.verify(JWS.sign({}, key), minKey, { alg })
     JWS.verify(JWS.sign({}, minKey), key, { alg })
@@ -98,7 +99,15 @@ test('minimal RSA test', async t => {
     JWE.decrypt(JWE.encrypt('foo', key), minKey, { alg })
     JWE.decrypt(JWE.encrypt('foo', minKey), key, { alg })
   })
-  t.pass()
+  t.throws(() => {
+    asKey({ kty: 'RSA', d: d.substr(1), e, n }, { calculateMissingRSAPrimes: true })
+  }, { instanceOf: errors.JWKImportFailed, code: 'ERR_JWK_IMPORT_FAILED', message: 'failed to calculate missing primes' })
+  t.throws(() => {
+    asKey({ kty: 'RSA', d, e, n })
+  }, { instanceOf: errors.JOSENotSupported, code: 'ERR_JOSE_NOT_SUPPORTED', message: 'importing private RSA keys without all other private key parameters is not enabled, see documentation and its advisory on how and when its ok to enable it' })
+  t.throws(() => {
+    asKey({ kty: 'RSA', d: `${d}F`, e, n }, { calculateMissingRSAPrimes: true })
+  }, { instanceOf: errors.JWKInvalid, code: 'ERR_JWK_INVALID', message: 'invalid RSA private exponent' })
 })
 
 test('fails to import RSA without all optimization parameters', async t => {
@@ -106,15 +115,15 @@ test('fails to import RSA without all optimization parameters', async t => {
   for (const param of ['p', 'q', 'dp', 'dq', 'qi']) {
     const { [param]: omit, ...jwk } = full
     t.throws(() => {
-      importKey(jwk)
-    }, { instanceOf: errors.JWKImportFailed, code: 'ERR_JWK_IMPORT_FAILED', message: 'all other private key parameters must be present when any one of them is present' })
+      asKey(jwk)
+    }, { instanceOf: errors.JWKInvalid, code: 'ERR_JWK_INVALID', message: 'all other private key parameters must be present when any one of them is present' })
   }
 })
 
 test('fails to import JWK RSA with oth', async t => {
   const jwk = (await generate('RSA')).toJWK(true)
   t.throws(() => {
-    importKey({
+    asKey({
       ...jwk,
       oth: []
     })

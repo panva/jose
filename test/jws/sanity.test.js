@@ -38,7 +38,7 @@ test('verify key or store argument', t => {
   ;[{}, new Object(), false, null, Infinity, 0, Buffer.from('foo')].forEach((val) => { // eslint-disable-line no-new-object
     t.throws(() => {
       JWS.verify('..', val)
-    }, { instanceOf: TypeError, message: 'key must be an instance of a key instantiated by JWK.importKey or a JWKS.KeyStore' })
+    }, { instanceOf: TypeError, message: 'key must be an instance of a key instantiated by JWK.asKey or a JWKS.KeyStore' })
   })
 })
 
@@ -73,7 +73,7 @@ test('JWS sign rejects non keys', t => {
   ;[[], false, true, undefined, null, Infinity, 0].forEach((val) => {
     t.throws(() => {
       JWS.sign('foo', val)
-    }, { instanceOf: TypeError, message: 'key must be an instance of a key instantiated by JWK.importKey' })
+    }, { instanceOf: TypeError, message: 'key must be an instance of a key instantiated by JWK.asKey' })
   })
 })
 

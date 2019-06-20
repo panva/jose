@@ -2,77 +2,77 @@ const test = require('ava')
 
 const crypto = require('crypto')
 const errors = require('../../lib/errors')
-const importKey = require('../../lib/jwk/import')
+const asKey = require('../../lib/jwk/import')
 const { generateSync } = require('../../lib/jwk/generate')
 
-const jwk = importKey('foo').toJWK(true)
+const jwk = asKey('foo').toJWK(true)
 
 test('key_ops ignores unrecognized values', t => {
-  importKey({ ...jwk, key_ops: ['sign', 'verify', 'foo'] })
+  asKey({ ...jwk, key_ops: ['sign', 'verify', 'foo'] })
   t.pass()
 })
 
 test('key_ops ignores duplicate values', t => {
-  const k = importKey({ ...jwk, key_ops: ['sign', 'verify', 'sign'] })
+  const k = asKey({ ...jwk, key_ops: ['sign', 'verify', 'sign'] })
   t.deepEqual(k.key_ops, ['sign', 'verify'])
 })
 
 test('key_ops can be combined with use if consistent', t => {
-  importKey({ ...jwk, key_ops: ['sign', 'verify'], use: 'sig' })
+  asKey({ ...jwk, key_ops: ['sign', 'verify'], use: 'sig' })
   t.pass()
 })
 
 test('key_ops are part of toJWK', t => {
-  const k = importKey({ ...jwk, key_ops: ['sign', 'verify'], use: 'sig' })
+  const k = asKey({ ...jwk, key_ops: ['sign', 'verify'], use: 'sig' })
   t.deepEqual(k.toJWK().key_ops, ['sign', 'verify'])
   t.deepEqual(k.toJWK(true).key_ops, ['sign', 'verify'])
 })
 
 test('key_ops must be an array', t => {
   t.throws(() => {
-    importKey({ ...jwk, key_ops: 'wrapKey' })
+    asKey({ ...jwk, key_ops: 'wrapKey' })
   }, { instanceOf: TypeError, message: '`key_ops` must be a non-empty array of strings when provided' })
 })
 
 test('key_ops must not be empty', t => {
   t.throws(() => {
-    importKey({ ...jwk, key_ops: [] })
+    asKey({ ...jwk, key_ops: [] })
   }, { instanceOf: TypeError, message: '`key_ops` must be a non-empty array of strings when provided' })
 })
 
 test('key_ops must only contain strings', t => {
   t.throws(() => {
-    importKey({ ...jwk, key_ops: ['wrapKey', true] })
+    asKey({ ...jwk, key_ops: ['wrapKey', true] })
   }, { instanceOf: TypeError, message: '`key_ops` must be a non-empty array of strings when provided' })
 })
 
-test('JWK importKey with invalid use / key_ops throws', t => {
+test('JWK asKey with invalid use / key_ops throws', t => {
   t.throws(() => {
-    importKey({ ...jwk, use: 'sig', key_ops: ['wrapKey'] })
+    asKey({ ...jwk, use: 'sig', key_ops: ['wrapKey'] })
   }, { instanceOf: errors.JWKInvalid, code: 'ERR_JWK_INVALID' })
 })
 
-test('keyObject importKey with invalid use / key_ops throws 1/2', t => {
+test('keyObject asKey with invalid use / key_ops throws 1/2', t => {
   const { publicKey } = crypto.generateKeyPairSync('ed25519')
 
   t.throws(() => {
-    importKey(publicKey, { use: 'sig', key_ops: ['wrapKey'] })
+    asKey(publicKey, { use: 'sig', key_ops: ['wrapKey'] })
   }, { instanceOf: errors.JWKInvalid, code: 'ERR_JWK_INVALID' })
 })
 
-test('keyObject importKey with invalid use / key_ops throws 2/2', t => {
+test('keyObject asKey with invalid use / key_ops throws 2/2', t => {
   const { publicKey } = crypto.generateKeyPairSync('ed25519')
 
   t.throws(() => {
-    importKey(publicKey, { use: 'enc', key_ops: ['sign'] })
+    asKey(publicKey, { use: 'enc', key_ops: ['sign'] })
   }, { instanceOf: errors.JWKInvalid, code: 'ERR_JWK_INVALID' })
 })
 
-test('PEM importKey with invalid use / key_ops throws', t => {
+test('PEM asKey with invalid use / key_ops throws', t => {
   const { publicKey } = crypto.generateKeyPairSync('ed25519')
 
   t.throws(() => {
-    importKey(publicKey.export({ type: 'spki', format: 'pem' }), { use: 'sig', key_ops: ['wrapKey'] })
+    asKey(publicKey.export({ type: 'spki', format: 'pem' }), { use: 'sig', key_ops: ['wrapKey'] })
   }, { instanceOf: errors.JWKInvalid, code: 'ERR_JWK_INVALID' })
 })
 

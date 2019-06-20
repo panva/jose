@@ -73,7 +73,7 @@ Pending Node.js Support 🤞:
 
 Won't implement:
 - ✕ JWS embedded key / referenced verification
-  - one can decode the header and pass the (`x5c`, `jwk`) to `JWK.importKey` and validate with that
+  - one can decode the header and pass the (`x5c`, `jwk`) to `JWK.asKey` and validate with that
     key, similarly the application can handle fetching and then instantiating the referenced `x5u`
     or `jku` in its own code. This way you opt-in to these behaviours.
 - ✕ JWS detached content
@@ -137,14 +137,14 @@ const {
 Prepare your Keys and KeyStores. See the [documentation][documentation-jwk] for more.
 
 ```js
-const key = jose.JWK.importKey(fs.readFileSync('path/to/key/file'))
+const key = jose.JWK.asKey(fs.readFileSync('path/to/key/file'))
 
 const jwk = { kty: 'EC',
   kid: 'dl4M_fcI7XoFCsQ22PYrQBkuxZ2pDcbDimcdFmmXM98',
   crv: 'P-256',
   x: 'v37avifcL-xgh8cy6IFzcINqqmFLc2JF20XUpn4Y2uQ',
   y: 'QTwy27XgP7ZMOdGOSopAHB-FU1JMQn3J9GEWGtUXreQ' }
-const anotherKey = jose.JWK.importKey(jwk)
+const anotherKey = jose.JWK.asKey(jwk)
 
 const keystore = new jose.JWK.KeyStore(key, key2)
 ```

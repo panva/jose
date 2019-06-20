@@ -3,7 +3,7 @@ const test = require('ava')
 const recipe = require('./recipes').get('5.13')
 const { enc: verifiers } = require('./verifiers')
 
-const { JWE, JWK: { importKey }, JWKS: { KeyStore }, errors } = require('../..')
+const { JWE, JWK: { asKey }, JWKS: { KeyStore }, errors } = require('../..')
 
 const {
   input: { plaintext, key: jwks },
@@ -11,7 +11,7 @@ const {
   encrypting_key: recipients
 } = recipe
 
-const keys = jwks.map((jwk) => importKey(jwk))
+const keys = jwks.map((jwk) => asKey(jwk))
 
 const keystoreEmpty = new KeyStore()
 const keystore = new KeyStore(...keys)

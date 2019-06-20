@@ -2,7 +2,7 @@ const test = require('ava')
 
 const { JWK, JWS, errors } = require('../..')
 
-const k = JWK.importKey({
+const k = JWK.asKey({
   kty: 'oct',
   k: 'AyM1SysPpbyDfgZld3umj1qzKObwVMkoqQ-EstJQLr_T-1qS0gZH75aKtMN3Yj0iPS4hcgUuTwjAzZr1Z9CAow'
 })

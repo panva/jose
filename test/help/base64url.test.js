@@ -21,10 +21,6 @@ test('.decode with default encoding', t => {
   t.is(base64url.decode('Zm9v'), 'foo')
 })
 
-test('.decode with non-default encoding', t => {
-  t.is(base64url.decode('Zm9v', 'hex'), '666f6f')
-})
-
 test('.decodeToBuffer', t => {
   t.deepEqual(base64url.decodeToBuffer('fmkIOj-kafqtjMl-iC32a-9YGz0cKj_JT9Jt31uXR1la7FSXkjoBzg_F-huYm0udbM5z5qGlmPBNZASsixJLcA'), testBuf)
 })
