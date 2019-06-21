@@ -2,27 +2,12 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
-# YANKED [1.2.0](https://github.com/panva/jose/compare/v1.1.0...v1.2.0) (2019-05-25)
-
-
-### Features
-
-* add support for JWK x5c, x5t and x5t#S256 ([9d46c48](https://github.com/panva/jose/commit/9d46c48))
-* instances of JWKS.KeyStore are now iterable (e.g. for ... of) ([2eae293](https://github.com/panva/jose/commit/2eae293))
-
-
-
-# YANKED [1.1.0](https://github.com/panva/jose/compare/v1.0.2...v1.1.0) (2019-05-23)
+# [1.3.0](https://github.com/panva/jose/compare/v1.2.0...v1.3.0) (2019-06-21)
 
 
 ### Bug Fixes
 
-* reject rsa keys without all factors and exponents with a specific message ([b0ff436](https://github.com/panva/jose/commit/b0ff436))
-
-
-### Features
-
-* compute private RSA key p, q, dp, dq, qi when omitted ([6e3d6fd](https://github.com/panva/jose/commit/6e3d6fd)), closes [#26](https://github.com/panva/jose/issues/26)
+* limit calculation of missing RSA private components ([5b53cb0](https://github.com/panva/jose/commit/5b53cb0))
 
 
 
