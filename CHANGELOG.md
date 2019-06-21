@@ -2,12 +2,39 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
-# [1.3.0](https://github.com/panva/jose/compare/v1.2.0...v1.3.0) (2019-06-21)
+# [1.3.0](https://github.com/panva/jose/compare/v1.0.2...v1.3.0) (2019-06-21)
 
+
+### Features
+
+* compute private RSA key p, q, dp, dq, qi when omitted ([6e3d6fd](https://github.com/panva/jose/commit/6e3d6fd)), closes [#26](https://github.com/panva/jose/issues/26)
+* add support for JWK x5c, x5t and x5t#S256 ([9d46c48](https://github.com/panva/jose/commit/9d46c48))
+* instances of JWKS.KeyStore are now iterable (e.g. for ... of) ([2eae293](https://github.com/panva/jose/commit/2eae293))
 
 ### Bug Fixes
 
 * limit calculation of missing RSA private components ([5b53cb0](https://github.com/panva/jose/commit/5b53cb0))
+* reject rsa keys without all factors and exponents with a specific message ([b0ff436](https://github.com/panva/jose/commit/b0ff436))
+
+### Deprecations
+
+- this deprecates the use of `JWK.importKey` in favor of
+`JWK.asKey`
+- this deprecates the use of `JWKS.KeyStore.fromJWKS` in favor of
+`JWKS.asKeyStore`
+
+Both `JWK.importKey` and `JWKS.KeyStore.fromJWKS` could have resulted
+in the process getting blocked when large bitsize RSA private keys
+were missing their components and could also result in an endless
+calculation loop when the private key's private exponent was outright
+invalid or tampered with.
+
+The new methods still allow to import private RSA keys with these
+optimization key parameters missing but its disabled by default and one
+should choose to enable it when working with keys from trusted sources
+
+It is recommended not to use @panva/jose versions with this feature in
+its original on-by-default form - v1.1.0 and v1.2.0
 
 
 
