@@ -2,7 +2,7 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
-# [1.3.0](https://github.com/panva/jose/compare/v1.0.2...v1.3.0) (2019-06-21)
+# [1.3.0](https://github.com/panva/jose/compare/v1.0.2...c51dc28) (2019-06-21)
 
 
 ### Features
