@@ -227,10 +227,12 @@ privateKey.algorithms()
 //  'PS512',
 //  'RS512',
 //  'RSA-OAEP',
+//  'RSA-OAEP-256',
 //  'RSA1_5' }
 privateKey.algorithms('wrapKey')
 // Set {
 //  'RSA-OAEP',
+//  'RSA-OAEP-256',
 //  'RSA1_5' }
 
 const publicKey = generateSync('RSA', 2048, { use: 'enc' }, false)
@@ -241,6 +243,7 @@ publicKey.algorithms('unwrapKey')
 publicKey.algorithms('wrapKey')
 // Set {
 //  'RSA-OAEP',
+//  'RSA-OAEP-256',
 //  'RSA1_5' }
 ```
 </details>

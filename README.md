@@ -62,7 +62,7 @@ Legend:
 | AES | ✓ | A128KW, A192KW, A256KW |
 | AES GCM | ✓ | A128GCMKW, A192GCMKW, A256GCMKW |
 | Direct Key Agreement | ✓ | dir |
-| RSAES OAEP | ✓ | RSA-OAEP |
+| RSAES OAEP | ✓ | RSA-OAEP, RSA-OAEP-256 |
 | RSAES-PKCS1-v1_5 | ✓ | RSA1_5 |
 | PBES2 | ✓ | PBES2-HS256+A128KW, PBES2-HS384+A192KW, PBES2-HS512+A256KW |
 | ECDH-ES | ✓ | ECDH-ES, ECDH-ES+A128KW, ECDH-ES+A192KW, ECDH-ES+A256KW |
@@ -79,10 +79,13 @@ Legend:
 | Logout Token - [OpenID Connect Back-Channel Logout 1.0][spec-oidc-logout_token] | ◯ ||
 | JARM - [JWT Secured Authorization Response Mode for OAuth 2.0][draft-jarm] | ◯ ||
 
+Notes
+- RSA-OAEP-256 is only supported when Node.js >= 12.9.0 runtime is detected
+- See [#electron-support](#electron-support) for electron exceptions
+
 ---
 
 Pending Node.js Support 🤞:
-- RSA-OAEP-256 - see [nodejs/node#28335](https://github.com/nodejs/node/pull/28335)
 - ECDH-ES with X25519 and X448 - see [nodejs/node#26626](https://github.com/nodejs/node/pull/26626)
 
 Won't implement:
