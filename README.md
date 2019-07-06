@@ -56,7 +56,7 @@ Legend:
 | AES | ✓ | A128KW, A192KW, A256KW |
 | AES GCM | ✓ | A128GCMKW, A192GCMKW, A256GCMKW |
 | Direct Key Agreement | ✓ | dir |
-| RSAES OAEP | ✓<sup>*</sup> | RSA-OAEP <sub>(<sup>*</sup>RSA-OAEP-256 is not supported due to its lack of support in Node.JS)</sub> |
+| RSAES OAEP | ✓ | RSA-OAEP |
 | RSAES-PKCS1-v1_5 | ✓ | RSA1_5 |
 | PBES2 | ✓ | PBES2-HS256+A128KW, PBES2-HS384+A192KW, PBES2-HS512+A256KW |
 | ECDH-ES | ✓ | ECDH-ES, ECDH-ES+A128KW, ECDH-ES+A192KW, ECDH-ES+A256KW |
@@ -69,7 +69,8 @@ Legend:
 ---
 
 Pending Node.js Support 🤞:
-- ECDH-ES with X25519 and X448
+- RSA-OAEP-256 - see [nodejs/node#28335](https://github.com/nodejs/node/pull/28335)
+- ECDH-ES with X25519 and X448 - [nodejs/node#26626](https://github.com/nodejs/node/pull/26626)
 
 Won't implement:
 - ✕ JWS embedded key / referenced verification

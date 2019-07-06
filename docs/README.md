@@ -1,5 +1,7 @@
 # @panva/jose API Documentation
 
+> "JSON Web Almost Everything" - JWA, JWS, JWE, JWT, JWK, JWKS for Node.js with minimal dependencies
+
 **Table of Contents**
 
 - [JWK (JSON Web Key)](#jwk-json-web-key)
