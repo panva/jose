@@ -70,7 +70,7 @@ Legend:
 
 Pending Node.js Support 🤞:
 - RSA-OAEP-256 - see [nodejs/node#28335](https://github.com/nodejs/node/pull/28335)
-- ECDH-ES with X25519 and X448 - [nodejs/node#26626](https://github.com/nodejs/node/pull/26626)
+- ECDH-ES with X25519 and X448 - see [nodejs/node#26626](https://github.com/nodejs/node/pull/26626)
 
 Won't implement:
 - ✕ JWS embedded key / referenced verification
