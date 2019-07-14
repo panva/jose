@@ -102,6 +102,12 @@ test('options.issuer', t => {
   t.is(iss, issuer)
 })
 
+test('options.jti', t => {
+  const jti = 'foo'
+  const decoded = JWT.decode(JWT.sign({}, key, { jti }))
+  t.is(decoded.jti, jti)
+})
+
 test('options.iat false', t => {
   const iat = false
   t.deepEqual(JWT.decode(JWT.sign({}, key, { iat })), {})
