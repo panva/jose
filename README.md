@@ -349,4 +349,4 @@ in terms of performance and API (not having well defined errors).
 [support-paypal]: https://www.paypal.me/panva
 [travis-image]: https://api.travis-ci.com/panva/jose.svg?branch=master
 [travis-url]: https://travis-ci.com/panva/jose
-[sponsor-auth0]: https://auth0.com/overview?utm_source=GHsponsor&utm_medium=GHsponsor&utm_campaign=%40panva%2Fjose&utm_content=auth
+[sponsor-auth0]: https://auth0.com/overview?utm_source=GHsponsor&utm_medium=GHsponsor&utm_campaign=panva-jose&utm_content=auth

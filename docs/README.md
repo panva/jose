@@ -1473,4 +1473,4 @@ if (err.code === 'ERR_JWT_MALFORMED') {
 [support-paypal]: https://www.paypal.me/panva
 [connect-core]: https://openid.net/specs/openid-connect-core-1_0.html
 [bug]: https://github.com/panva/jose/issues/new?labels=bug&template=bug-report.md&title=bug%3A+
-[sponsor-auth0]: https://auth0.com/overview?utm_source=GHsponsor&utm_medium=GHsponsor&utm_campaign=%40panva%2Fjose&utm_content=auth
+[sponsor-auth0]: https://auth0.com/overview?utm_source=GHsponsor&utm_medium=GHsponsor&utm_campaign=panva-jose&utm_content=auth
