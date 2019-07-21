@@ -56,7 +56,7 @@ module.exports.JWK = {
     d: '_i_1Ac5oVmbBxGvEvOEFHMpzMXKZi8voUx8I3Gl6IxY'
   },
 
-  'secp256k1': {
+  secp256k1: {
     kty: 'EC',
     crv: 'secp256k1',
     x: 'VRaLqtMjg_JRaDzkbfit7zonkOGDZ42qbZyljhqsg3U',
@@ -96,19 +96,19 @@ module.exports.PEM = {
     private: readFileSync(join(__dirname, 'rsa.key')),
     public: readFileSync(join(__dirname, 'rsa.pem'))
   },
-  'Ed25519': {
+  Ed25519: {
     private: readFileSync(join(__dirname, 'Ed25519.key')),
     public: readFileSync(join(__dirname, 'Ed25519.pem'))
   },
-  'Ed448': {
+  Ed448: {
     private: readFileSync(join(__dirname, 'Ed448.key')),
     public: readFileSync(join(__dirname, 'Ed448.pem'))
   },
-  'X25519': {
+  X25519: {
     private: readFileSync(join(__dirname, 'X25519.key')),
     public: readFileSync(join(__dirname, 'X25519.pem'))
   },
-  'X448': {
+  X448: {
     private: readFileSync(join(__dirname, 'X448.key')),
     public: readFileSync(join(__dirname, 'X448.pem'))
   },
@@ -116,7 +116,7 @@ module.exports.PEM = {
     private: readFileSync(join(__dirname, 'P-256.key')),
     public: readFileSync(join(__dirname, 'P-256.pem'))
   },
-  'secp256k1': {
+  secp256k1: {
     private: readFileSync(join(__dirname, 'secp256k1.key')),
     public: readFileSync(join(__dirname, 'secp256k1.pem'))
   },

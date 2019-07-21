@@ -25,7 +25,7 @@ test('Unusable with unsupported curves', t => {
 
 Object.entries({
   'P-256': ['ES256', 'rDd6H6t9-nJUoz72nTpz8tInvypVWhE2iQoPznj8ZY8'],
-  'secp256k1': ['ES256K', 'kWx_DzFzKNHUQz1FkNzj8KmSRingv9EQQzdVY3td21w'],
+  secp256k1: ['ES256K', 'kWx_DzFzKNHUQz1FkNzj8KmSRingv9EQQzdVY3td21w'],
   'P-384': ['ES384', '5gebayAhpztJCs4Pxo-z1hhsN0upoyG2NAoKpiiH2b0'],
   'P-521': ['ES512', 'BQtkbSY3xgN4M2ZP3IHMLG7-Rp1L29teCMfNqgJHtTY']
 }).forEach(([crv, [alg, kid]]) => {

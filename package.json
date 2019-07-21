@@ -54,13 +54,13 @@
     "asn1.js": "^5.1.1"
   },
   "devDependencies": {
-    "@commitlint/cli": "^8.0.0",
-    "@commitlint/config-conventional": "^8.0.0",
-    "ava": "^2.1.0",
+    "@commitlint/cli": "^8.1.0",
+    "@commitlint/config-conventional": "^8.1.0",
+    "ava": "^2.2.0",
     "babel-eslint": "^10.0.2",
     "c8": "^5.0.1",
-    "husky": "^2.4.1",
-    "standard": "^12.0.1"
+    "husky": "^3.0.1",
+    "standard": "^13.1.0"
   },
   "engines": {
     "node": ">=12.0.0"

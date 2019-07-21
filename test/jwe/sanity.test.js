@@ -66,11 +66,11 @@ test('JWE no alg/enc specified (multi recipient)', t => {
 
 test('JWE no alg/enc specified (multi recipient) with per-recipient headers', t => {
   const encrypt = new JWE.Encrypt('foo')
-  let k1 = generateSync('RSA', undefined, { kid: 'kid_1' })
+  const k1 = generateSync('RSA', undefined, { kid: 'kid_1' })
   encrypt.recipient(k1, { kid: k1.kid })
-  let k2 = generateSync('EC', undefined, { kid: 'kid_2' })
+  const k2 = generateSync('EC', undefined, { kid: 'kid_2' })
   encrypt.recipient(k2, { kid: k2.kid })
-  let k3 = generateSync('oct', 256, { kid: 'kid_3' })
+  const k3 = generateSync('oct', 256, { kid: 'kid_3' })
   encrypt.recipient(k3, { kid: k3.kid })
 
   const jwe = encrypt.encrypt('general')

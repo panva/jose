@@ -192,11 +192,11 @@ test('JWS no alg specified (multi recipient)', t => {
 
 test('JWS no alg specified (multi recipient) with per-recipient protected headers', t => {
   const sign = new JWS.Sign({})
-  let k1 = generateSync('RSA', undefined, { kid: 'kid_1' })
+  const k1 = generateSync('RSA', undefined, { kid: 'kid_1' })
   sign.recipient(k1, { kid: k1.kid })
-  let k2 = generateSync('EC', undefined, { kid: 'kid_2' })
+  const k2 = generateSync('EC', undefined, { kid: 'kid_2' })
   sign.recipient(k2, { kid: k2.kid })
-  let k3 = generateSync('oct', undefined, { kid: 'kid_3' })
+  const k3 = generateSync('oct', undefined, { kid: 'kid_3' })
   sign.recipient(k3, { kid: k3.kid })
 
   const jws = sign.sign('general')
