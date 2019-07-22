@@ -66,9 +66,9 @@ interface ImportOptions {
 export namespace JWK {
 
     interface pemEncodingOptions {
-      type?: string
-      cipher?: string
-      passphrase?: string
+        type?: string
+        cipher?: string
+        passphrase?: string
     }
 
     class Key {
