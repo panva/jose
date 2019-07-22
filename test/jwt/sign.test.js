@@ -92,21 +92,24 @@ test('options.kid', t => {
 
 test('options.subject', t => {
   const subject = 'foo'
-  const { sub } = JWT.decode(JWT.sign({}, key, { subject }))
+  const { sub } = JWT.decode(JWT.sign({ sub: 'bar' }, key, { subject }))
   t.is(sub, subject)
 })
 
 test('options.issuer', t => {
   const issuer = 'foo'
-  const { iss } = JWT.decode(JWT.sign({}, key, { issuer }))
+  const { iss } = JWT.decode(JWT.sign({ iss: 'bar' }, key, { issuer }))
   t.is(iss, issuer)
 })
 
 test('options.jti', t => {
   const jti = 'foo'
-  const decoded = JWT.decode(JWT.sign({}, key, { jti }))
+  const decoded = JWT.decode(JWT.sign({ jti: 'bar' }, key, { jti }))
   t.is(decoded.jti, jti)
 })
+
+const epoch = 1265328501
+const now = new Date(epoch * 1000)
 
 test('options.iat false', t => {
   const iat = false
@@ -114,12 +117,13 @@ test('options.iat false', t => {
 })
 
 test('options.iat', t => {
-  t.true(Object.keys(JWT.decode(JWT.sign({}, key))).includes('iat'))
+  const decoded = JWT.decode(JWT.sign({ iat: 'bar' }, key, { iat: true, now }))
+  t.is(decoded.iat, epoch)
 })
 
 test('options.nonce', t => {
   const nonce = 'foo'
-  const { nonce: pNonce } = JWT.decode(JWT.sign({}, key, { nonce }))
+  const { nonce: pNonce } = JWT.decode(JWT.sign({ nonce: 'bar' }, key, { nonce }))
   t.is(pNonce, nonce)
 })
 
@@ -131,12 +135,9 @@ test('options.audience', t => {
 
 test('options.audience (array)', t => {
   const audience = ['foo']
-  const { aud } = JWT.decode(JWT.sign({}, key, { audience }))
+  const { aud } = JWT.decode(JWT.sign({ aud: 'bar' }, key, { audience }))
   t.deepEqual(aud, audience)
 })
-
-const epoch = 1265328501
-const now = new Date(epoch * 1000)
 
 test('options.now', t => {
   const { iat } = JWT.decode(JWT.sign({}, key, { now }))
@@ -144,12 +145,12 @@ test('options.now', t => {
 })
 
 test('options.expiresIn', t => {
-  const { exp } = JWT.decode(JWT.sign({}, key, { now, expiresIn: '20s' }))
+  const { exp } = JWT.decode(JWT.sign({ exp: 'bar' }, key, { now, expiresIn: '20s' }))
   t.deepEqual(exp, epoch + 20)
 })
 
 test('options.notBefore', t => {
-  const { nbf } = JWT.decode(JWT.sign({}, key, { now, notBefore: '20m' }))
+  const { nbf } = JWT.decode(JWT.sign({ nbf: 'bar' }, key, { now, notBefore: '20m' }))
   t.deepEqual(nbf, epoch + 20 * 60)
 })
 
