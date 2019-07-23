@@ -23,6 +23,7 @@
     "jwt",
     "secp256k1",
     "sign",
+    "validate",
     "verify"
   ],
   "homepage": "https://github.com/panva/jose",
