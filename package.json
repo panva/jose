@@ -10,6 +10,8 @@
     "encrypt",
     "flattened",
     "general",
+    "id token",
+    "id_token",
     "jose",
     "json web token",
     "jsonwebtoken",

@@ -23,13 +23,18 @@ The following specifications are implemented by @panva/jose
 The test suite utilizes examples defined in [RFC7520][spec-cookbook] to confirm its JOSE
 implementation is correct.
 
+Available JWT validation profiles
+
+- Generic JWT
+- ID Token (id_token) - [OpenID Connect Core 1.0][spec-oidc-id_token]
+
 <details>
   <summary><em><strong>Detailed feature matrix</strong></em> (Click to expand)</summary><br>
 
 Legend:
 - **✓** Implemented
 - **✕** Missing node crypto support / won't implement
-- **◯** not planned (yet?) / PR / Use-Case first welcome
+- **◯** TBD
 
 | JWK Key Types | Supported ||
 | -- | -- | -- |
@@ -66,6 +71,13 @@ Legend:
 | -- | -- | -- |
 | AES GCM | ✓ | A128GCM, A192GCM, A256GCM |
 | AES_CBC_HMAC_SHA2 | ✓ |  A128CBC-HS256, A192CBC-HS384, A256CBC-HS512 |
+
+| JWT profile validation | Supported | profile option value |
+| -- | -- | -- |
+| ID Token - [OpenID Connect Core 1.0][spec-oidc-id_token] | ✓ | `id_token` |
+| JWT Access Tokens [JWT Profile for OAuth 2.0 Access Tokens][draft-ietf-oauth-access-token-jwt] | ◯ ||
+| Logout Token - [OpenID Connect Back-Channel Logout 1.0][spec-oidc-logout_token] | ◯ ||
+| JARM - [JWT Secured Authorization Response Mode for OAuth 2.0][draft-jarm] | ◯ ||
 
 ---
 
@@ -182,7 +194,7 @@ jose.JWT.sign(
 )
 ```
 
-#### JWT Verification
+#### JWT Verifying
 
 Verify with a public or symmetric key with plethora of convenience options. See the
 [documentation][documentation-jwt] for more.
@@ -198,6 +210,31 @@ jose.JWT.verify(
   }
 )
 ```
+
+#### ID Token Verifying
+
+ID Token is a JWT, but profiled, there are additional requirements to a JWT to be accepted as an
+ID Token and it is pretty easy to omit some, use the `profile` option of `JWT.verify` to make sure
+what you're accepting is really an ID Token meant to your Client. This will then perform all
+doable validations given the input. See the [documentation][documentation-jwt] for more.
+
+```js
+jose.JWT.verify(
+  'eyJhbGciOiJQUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6InIxTGtiQm8zOTI1UmIyWkZGckt5VTNNVmV4OVQyODE3S3gwdmJpNmlfS2MifQ.eyJzdWIiOiJmb28iLCJub25jZSI6ImE1MWNjZjA4ZjRiYmIwNmU4ODcxNWRkYzRiYmI0MWQ4IiwiYXVkIjoidXJuOmV4YW1wbGU6Y2xpZW50X2lkIiwiZXhwIjoxNTYzODg4ODMwLCJpYXQiOjE1NjM4ODUyMzAsImlzcyI6Imh0dHBzOi8vb3AuZXhhbXBsZS5jb20ifQ.RKCZczgICF5G9XdNDSwe4dolGauQHptpFKPzahA2wYGG2HKrKhyC8ZzqpeVc8cbntuqFBgABJVv6_9YICRx_dgwPYydTpZfZYjHnxrdWF9QsIPEGs672mrnhqIXUnXoseZ0TF6GOq6P7Qbf6gk1ru7TAbr_ieyJnNWcJhh5iHpz1k3mFz0TyTh7UNXshtQXftPUipqz4OBni5r9UaZXHw8B3QYOnms8__GJ3owOxaqkr1jgRs_EWqMlBNjPaj7ElVaeBWljDKuoK673tH0heSpgzUmUX_W8IDUVqs33uglpZwAQC7cAA5mGEg2odcRpvpP5M-WaP4RE9dl9jzcYmrw',
+  keystore,
+  {
+    profile: 'id_token',
+    issuer: 'https://op.example.com',
+    audience: 'urn:example:client_id',
+    nonce: 'a51ccf08f4bbb06e88715ddc4bbb41d8',
+    algorithms: ['PS256']
+  }
+)
+```
+
+Note: Depending on the channel you receive an ID Token from the following claims may be required
+and must also be checked: `at_hash`, `c_hash` or `s_hash`. Use e.g. [`oidc-token-hash`][oidc-token-hash]
+to validate those hashes after getting the ID Token payload and signature validated by @panva/jose.
 
 #### JWS Signing
 
@@ -343,7 +380,12 @@ in terms of performance and API (not having well defined errors).
 [spec-jwt]: https://tools.ietf.org/html/rfc7519
 [spec-okp]: https://tools.ietf.org/html/rfc8037
 [draft-secp256k1]: https://tools.ietf.org/html/draft-ietf-cose-webauthn-algorithms-01
+[draft-ietf-oauth-access-token-jwt]: https://tools.ietf.org/html/draft-ietf-oauth-access-token-jwt
+[draft-jarm]: https://openid.net/specs/openid-financial-api-jarm.html
 [spec-thumbprint]: https://tools.ietf.org/html/rfc7638
+[spec-oidc-id_token]: https://openid.net/specs/openid-connect-core-1_0.html#IDToken
+[spec-oidc-logout_token]: https://openid.net/specs/openid-connect-backchannel-1_0.html#LogoutToken
+[oidc-token-hash]: https://www.npmjs.com/package/oidc-token-hash
 [suggest-feature]: https://github.com/panva/jose/issues/new?labels=enhancement&template=feature-request.md&title=proposal%3A+
 [support-patreon]: https://www.patreon.com/panva
 [support-paypal]: https://www.paypal.me/panva

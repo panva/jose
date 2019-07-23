@@ -20,6 +20,7 @@ type OKPCurve = 'Ed25519' | 'Ed448' | 'X25519' | 'X448'
 type keyType = 'RSA' | 'EC' | 'OKP' | 'oct'
 type asymmetricKeyObjectTypes = 'private' | 'public'
 type keyObjectTypes = asymmetricKeyObjectTypes | 'secret'
+type JWTProfiles = 'id_token'
 
 interface JWKOctKey extends BasicParameters { // no x5c
     kty: 'oct',
@@ -348,7 +349,8 @@ export namespace JWT {
         algorithms?: string[],
         nonce?: string,
         now?: Date,
-        crit?: string[]
+        crit?: string[],
+        profile?: JWTProfiles
     }
     export function verify(jwt: string, key: JWK.Key | JWKS.KeyStore, options?: VerifyOptions<false>): object
     export function verify(jwt: string, key: JWK.Key | JWKS.KeyStore, options?: VerifyOptions<true>): completeResult

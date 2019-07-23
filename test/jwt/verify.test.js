@@ -38,6 +38,7 @@ test('options must be an object', t => {
 test('options.clockTolerance must be a string', string, 'clockTolerance')
 test('options.issuer must be a string', string, 'issuer')
 test('options.jti must be a string', string, 'jti')
+test('options.profile must be a string', string, 'profile')
 test('options.maxAuthAge must be a string', string, 'maxAuthAge')
 test('options.maxTokenAge must be a string', string, 'maxTokenAge')
 test('options.nonce must be a string', string, 'nonce')
@@ -329,3 +330,106 @@ test('nbf check (passed because of ignoreIat)', t => {
   JWT.verify(token, key, { now, ignoreNbf: true })
   t.pass()
 })
+
+{
+  // JWT options.profile
+  test('must be a supported value', t => {
+    t.throws(() => {
+      JWT.verify('foo', key, { profile: 'foo' })
+    }, { instanceOf: TypeError, message: 'unsupported options.profile value "foo"' })
+  })
+
+  const token = JWT.sign({ }, key, { expiresIn: '10m', subject: 'subject', issuer: 'issuer', audience: 'client_id' })
+
+  test('profile=id_token requires issuer option too', t => {
+    t.throws(() => {
+      JWT.verify(token, key, { profile: 'id_token' })
+    }, { instanceOf: TypeError, message: '"issuer" option is required to validate an ID Token' })
+  })
+
+  test('profile=id_token requires audience option too', t => {
+    t.throws(() => {
+      JWT.verify(token, key, { profile: 'id_token', issuer: 'issuer' })
+    }, { instanceOf: TypeError, message: '"audience" option is required to validate an ID Token' })
+  })
+
+  test('profile=id_token mandates exp to be present', t => {
+    t.throws(() => {
+      JWT.verify(
+        JWT.sign({ }, key, { subject: 'subject', issuer: 'issuer', audience: 'client_id' }),
+        key,
+        { profile: 'id_token', issuer: 'issuer', audience: 'client_id' }
+      )
+    }, { instanceOf: errors.JWTClaimInvalid, message: '"exp" claim is missing' })
+  })
+
+  test('profile=id_token mandates iat to be present', t => {
+    t.throws(() => {
+      JWT.verify(
+        JWT.sign({ }, key, { expiresIn: '10m', iat: false, subject: 'subject', issuer: 'issuer', audience: 'client_id' }),
+        key,
+        { profile: 'id_token', issuer: 'issuer', audience: 'client_id' }
+      )
+    }, { instanceOf: errors.JWTClaimInvalid, message: '"iat" claim is missing' })
+  })
+
+  test('profile=id_token mandates sub to be present', t => {
+    t.throws(() => {
+      JWT.verify(
+        JWT.sign({ }, key, { expiresIn: '10m', issuer: 'issuer', audience: 'client_id' }),
+        key,
+        { profile: 'id_token', issuer: 'issuer', audience: 'client_id' }
+      )
+    }, { instanceOf: errors.JWTClaimInvalid, message: '"sub" claim is missing' })
+  })
+
+  test('profile=id_token mandates iss to be present', t => {
+    t.throws(() => {
+      JWT.verify(
+        JWT.sign({ }, key, { expiresIn: '10m', subject: 'subject', audience: 'client_id' }),
+        key,
+        { profile: 'id_token', issuer: 'issuer', audience: 'client_id' }
+      )
+    }, { instanceOf: errors.JWTClaimInvalid, message: '"iss" claim is missing' })
+  })
+
+  test('profile=id_token mandates aud to be present', t => {
+    t.throws(() => {
+      JWT.verify(
+        JWT.sign({ }, key, { expiresIn: '10m', subject: 'subject', issuer: 'issuer' }),
+        key,
+        { profile: 'id_token', issuer: 'issuer', audience: 'client_id' }
+      )
+    }, { instanceOf: errors.JWTClaimInvalid, message: '"aud" claim is missing' })
+  })
+
+  test('profile=id_token mandates azp to be present when multiple audiences are used', t => {
+    t.throws(() => {
+      JWT.verify(
+        JWT.sign({ }, key, { expiresIn: '10m', subject: 'subject', issuer: 'issuer', audience: ['client_id', 'another audience'] }),
+        key,
+        { profile: 'id_token', issuer: 'issuer', audience: 'client_id' }
+      )
+    }, { instanceOf: errors.JWTClaimInvalid, message: '"azp" claim is missing' })
+  })
+
+  test('profile=id_token mandates azp to match the audience when required', t => {
+    t.throws(() => {
+      JWT.verify(
+        JWT.sign({ azp: 'mismatched' }, key, { expiresIn: '10m', subject: 'subject', issuer: 'issuer', audience: ['client_id', 'another audience'] }),
+        key,
+        { profile: 'id_token', issuer: 'issuer', audience: 'client_id' }
+      )
+    }, { instanceOf: errors.JWTClaimInvalid, message: 'azp mismatch' })
+  })
+
+  test('profile=id_token validates full id tokens', t => {
+    t.notThrows(() => {
+      JWT.verify(
+        JWT.sign({ azp: 'client_id' }, key, { expiresIn: '10m', subject: 'subject', issuer: 'issuer', audience: ['client_id', 'another audience'] }),
+        key,
+        { profile: 'id_token', issuer: 'issuer', audience: 'client_id' }
+      )
+    })
+  })
+}
