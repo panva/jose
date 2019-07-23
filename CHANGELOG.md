@@ -2,6 +2,15 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+# [1.5.0](https://github.com/panva/jose/compare/v1.4.1...v1.5.0) (2019-07-23)
+
+
+### Features
+
+* validate JWTs according to a JWT profile - ID Token ([6c98b61](https://github.com/panva/jose/commit/6c98b61))
+
+
+
 ## [1.4.1](https://github.com/panva/jose/compare/v1.4.0...v1.4.1) (2019-07-14)
 
 

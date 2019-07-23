@@ -1,6 +1,6 @@
 {
   "name": "@panva/jose",
-  "version": "1.4.1",
+  "version": "1.5.0",
   "description": "JSON Web Almost Everything - JWA, JWS, JWE, JWK, JWT, JWKS for Node.js with minimal dependencies",
   "keywords": [
     "compact",
