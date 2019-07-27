@@ -251,7 +251,7 @@ test('minimal RSA test', async t => {
     d: 'YN1ucKFpCsgMuIfTynTbNwEXp2lBkrJYfsVOIGdK3bZMblZqxWElm8HTE06-JH_BC5drAAv1Hu-6SE6-sehq9blG-vMJ0wi-jBYfkhlOLEZJXHPb4aJyS8oWKhVO14qyfS_m2BtAW9Wh5vEOXy7HLgrZWjctm0t1Ipb-b_nfNfisGIMjPdWzu_nTfbzIIwM7wQBGnHLqfQq6iD7I8nSPjsc_gZUeeKYkU_Q6K8tIY0gr850-6wk-Nh9JsPA93lR0woTqqMG6UiFE4Y4Jj3M6puBUSU-R3n-gL35I1Cwa5m0IREG8Bz0RPpAEcRQB1xRuM22xD4yE0I4LDegtH056lw',
     e: 'AQAB',
     n: '1hZ73O4axgytljzb8gCXxdk3Uov_f7U6c_hKH5EtGtr8XdWce1XLLjARqAQfOpbYqkm1ONiIvhQvxvW0a7gXgEw4no9c_Gi8a803O9LZmYAYDxErlvPQPg9KC5cLPChM-Uyxy4TOakjw1ysUKBX7zXpb_1TIOnlhOYeDbejLkp8sR7BJIsDNxqtkV4KHLWQ9pKsMU28itblQ8nN8UJI5Js4UbR-b417uQ9jIVRhWlDjp11sXYqfnqShCDYGYmLL2IHTVf8tTmEOWsNWcE2nT-qMTGMOq2DBkyr31lxc-4eQXZuwcrk_58xQ69xSrdrsy8J11O50nbvwcqFhjeMV2VQ'
-  };
+  }
   KeyStore.fromJWKS({ keys: [jwk] }) // deprecated
   asKeyStore({ keys: [jwk] }, { calculateMissingRSAPrimes: true })
   t.throws(() => {
