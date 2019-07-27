@@ -2,6 +2,20 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+# [1.6.0](https://github.com/panva/jose/compare/v1.5.2...v1.6.0) (2019-07-27)
+
+
+### Bug Fixes
+
+* use the correct ECPrivateKey version when importing EC JWK ([24acd20](https://github.com/panva/jose/commit/24acd20))
+
+
+### Features
+
+* electron v6.x support ([e7ad82c](https://github.com/panva/jose/commit/e7ad82c))
+
+
+
 ## [1.5.2](https://github.com/panva/jose/compare/v1.5.1...v1.5.2) (2019-07-27)
 
 
