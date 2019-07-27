@@ -2,6 +2,15 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.5.1](https://github.com/panva/jose/compare/v1.5.0...v1.5.1) (2019-07-27)
+
+
+### Bug Fixes
+
+* correctly pad integers when importing RSA JWK ([1dc7f35](https://github.com/panva/jose/commit/1dc7f35))
+
+
+
 # [1.5.0](https://github.com/panva/jose/compare/v1.4.1...v1.5.0) (2019-07-23)
 
 
