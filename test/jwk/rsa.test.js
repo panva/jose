@@ -274,33 +274,57 @@ test(`RSA key .algorithms invalid operation`, t => {
     t.deepEqual([...result], ['RS256', 'RSA1_5'])
   })
 
-  test('RSA key >= 528 bits can do PS256', t => {
-    const k = generateSync('RSA', 528)
-    t.true(k.algorithms().has('PS256'))
-  })
+  if (!('electron' in process.versions)) {
+    test('RSA key >= 528 bits can do PS256', t => {
+      const k = generateSync('RSA', 528)
+      t.true(k.algorithms().has('PS256'))
+    })
 
-  test('RSA key >= 592 bits can do RSA-OAEP', t => {
-    const k = generateSync('RSA', 592)
-    t.true(k.algorithms().has('RSA-OAEP'))
-  })
+    test('RSA key >= 592 bits can do RSA-OAEP', t => {
+      const k = generateSync('RSA', 592)
+      t.true(k.algorithms().has('RSA-OAEP'))
+    })
 
-  test('RSA key >= 624 bits can do RS384', t => {
-    const k = generateSync('RSA', 624)
-    t.true(k.algorithms().has('RS384'))
-  })
+    test('RSA key >= 624 bits can do RS384', t => {
+      const k = generateSync('RSA', 624)
+      t.true(k.algorithms().has('RS384'))
+    })
 
-  test('RSA key >= 752 bits can do RS512', t => {
-    const k = generateSync('RSA', 752)
-    t.true(k.algorithms().has('RS512'))
-  })
+    test('RSA key >= 752 bits can do RS512', t => {
+      const k = generateSync('RSA', 752)
+      t.true(k.algorithms().has('RS512'))
+    })
 
-  test('RSA key >= 784 bits can do PS384', t => {
-    const k = generateSync('RSA', 784)
-    t.true(k.algorithms().has('PS384'))
-  })
+    test('RSA key >= 784 bits can do PS384', t => {
+      const k = generateSync('RSA', 784)
+      t.true(k.algorithms().has('PS384'))
+    })
 
-  test('RSA key >= 1040 bits can do PS512', t => {
-    const k = generateSync('RSA', 1040)
-    t.true(k.algorithms().has('PS512'))
-  })
+    test('RSA key >= 1040 bits can do PS512', t => {
+      const k = generateSync('RSA', 1040)
+      t.true(k.algorithms().has('PS512'))
+    })
+  } else {
+    test('RSA key >= 640 bits can do RS384, RSA-OAEP and PS256', t => {
+      const k = generateSync('RSA', 640)
+      t.true(k.algorithms().has('RS384'))
+      t.true(k.algorithms().has('PS256'))
+      t.true(k.algorithms().has('RSA-OAEP'))
+    })
+
+    test('RSA key >= 768 bits can do RS512', t => {
+      const k = generateSync('RSA', 768)
+      t.true(k.algorithms().has('RS512'))
+    })
+
+    test('RSA key >= 896 bits can do PS384', t => {
+      const k = generateSync('RSA', 896)
+      t.true(k.algorithms().has('PS384'))
+    })
+
+    test('RSA key >= 1152 bits can do PS512', t => {
+      const k = generateSync('RSA', 1152)
+      t.true(k.algorithms().has('PS512'))
+    })
+  }
 })()

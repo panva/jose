@@ -52,34 +52,53 @@ test('JWE no alg specified but cannot resolve', t => {
 test('JWE no alg/enc specified (multi recipient)', t => {
   const encrypt = new JWE.Encrypt('foo')
   encrypt.recipient(generateSync('RSA'))
-  encrypt.recipient(generateSync('EC'))
   encrypt.recipient(generateSync('oct', 256))
+  if (!('electron' in process.versions)) {
+    encrypt.recipient(generateSync('EC'))
+  }
 
   const jwe = encrypt.encrypt('general')
   t.is(jwe.unprotected, undefined)
   t.deepEqual(base64url.JSON.decode(jwe.protected), { enc: 'A128CBC-HS256' })
   t.deepEqual(jwe.recipients[0].header, { alg: 'RSA-OAEP' })
-  const { epk, ...rest } = jwe.recipients[1].header
-  t.deepEqual(rest, { alg: 'ECDH-ES+A128KW' })
-  t.deepEqual(jwe.recipients[2].header, { alg: 'A256KW' })
+  if (!('electron' in process.versions)) {
+    t.deepEqual(jwe.recipients[1].header, { alg: 'A256KW' })
+    const { epk, ...rest } = jwe.recipients[2].header
+    t.deepEqual(rest, { alg: 'ECDH-ES+A128KW' })
+  } else {
+    const { alg, ...rest } = jwe.recipients[1].header
+    t.is(alg, 'A256GCMKW')
+    t.true('iv' in rest)
+    t.true('tag' in rest)
+  }
 })
 
 test('JWE no alg/enc specified (multi recipient) with per-recipient headers', t => {
   const encrypt = new JWE.Encrypt('foo')
   const k1 = generateSync('RSA', undefined, { kid: 'kid_1' })
   encrypt.recipient(k1, { kid: k1.kid })
-  const k2 = generateSync('EC', undefined, { kid: 'kid_2' })
+  const k2 = generateSync('oct', 256, { kid: 'kid_3' })
   encrypt.recipient(k2, { kid: k2.kid })
-  const k3 = generateSync('oct', 256, { kid: 'kid_3' })
-  encrypt.recipient(k3, { kid: k3.kid })
+  if (!('electron' in process.versions)) {
+    const k3 = generateSync('EC', undefined, { kid: 'kid_2' })
+    encrypt.recipient(k3, { kid: k3.kid })
+  }
 
   const jwe = encrypt.encrypt('general')
   t.is(jwe.unprotected, undefined)
   t.deepEqual(base64url.JSON.decode(jwe.protected), { enc: 'A128CBC-HS256' })
   t.deepEqual(jwe.recipients[0].header, { alg: 'RSA-OAEP', kid: 'kid_1' })
-  const { epk, ...rest } = jwe.recipients[1].header
-  t.deepEqual(rest, { alg: 'ECDH-ES+A128KW', kid: 'kid_2' })
-  t.deepEqual(jwe.recipients[2].header, { alg: 'A256KW', kid: 'kid_3' })
+  if (!('electron' in process.versions)) {
+    t.deepEqual(jwe.recipients[1].header, { alg: 'A256KW', kid: 'kid_3' })
+    const { epk, ...rest } = jwe.recipients[2].header
+    t.deepEqual(rest, { alg: 'ECDH-ES+A128KW', kid: 'kid_2' })
+  } else {
+    const { alg, kid, ...rest } = jwe.recipients[1].header
+    t.is(alg, 'A256GCMKW')
+    t.is(kid, 'kid_3')
+    t.true('iv' in rest)
+    t.true('tag' in rest)
+  }
 })
 
 test('JWE no alg/enc specified (single rsa), no protected header', t => {
@@ -132,7 +151,14 @@ test('JWE no alg/enc specified (single oct)', t => {
   const jwe = encrypt.encrypt('flattened')
   t.is(jwe.unprotected, undefined)
   t.is(jwe.header, undefined)
-  t.deepEqual(base64url.JSON.decode(jwe.protected), { alg: 'A128KW', enc: 'A128CBC-HS256' })
+  if (!('electron' in process.versions)) {
+    t.deepEqual(base64url.JSON.decode(jwe.protected), { alg: 'A128KW', enc: 'A128CBC-HS256' })
+  } else {
+    const { iv, tag, ...rest } = base64url.JSON.decode(jwe.protected)
+    t.deepEqual(rest, { alg: 'A128GCMKW', enc: 'A128CBC-HS256' })
+    t.truthy(iv)
+    t.truthy(tag)
+  }
 })
 
 test('JWE no alg/enc specified (single ec)', t => {
@@ -423,28 +449,30 @@ test('JWE prot, unprot and per-recipient headers must be disjoint', t => {
   }, { instanceOf: errors.JWEInvalid, code: 'ERR_JWE_INVALID', message: 'JWE Shared Protected, JWE Shared Unprotected and JWE Per-Recipient Header Parameter names must be disjoint' })
 })
 
-test('JWE decrypt algorithms whitelist', t => {
-  const k = generateSync('oct')
-  const jwe = JWE.encrypt('foo', k, { alg: 'PBES2-HS256+A128KW' })
-  JWE.decrypt(jwe, k, { algorithms: ['PBES2-HS256+A128KW', 'PBES2-HS384+A192KW'] })
+if (!('electron' in process.versions)) {
+  test('JWE decrypt algorithms whitelist', t => {
+    const k = generateSync('oct')
+    const jwe = JWE.encrypt('foo', k, { alg: 'PBES2-HS256+A128KW' })
+    JWE.decrypt(jwe, k, { algorithms: ['PBES2-HS256+A128KW', 'PBES2-HS384+A192KW'] })
 
-  t.throws(() => {
-    JWE.decrypt(jwe, k, { algorithms: ['PBES2-HS384+A192KW'] })
-  }, { instanceOf: errors.JOSEAlgNotWhitelisted, code: 'ERR_JOSE_ALG_NOT_WHITELISTED', message: 'alg not whitelisted' })
-})
+    t.throws(() => {
+      JWE.decrypt(jwe, k, { algorithms: ['PBES2-HS384+A192KW'] })
+    }, { instanceOf: errors.JOSEAlgNotWhitelisted, code: 'ERR_JOSE_ALG_NOT_WHITELISTED', message: 'alg not whitelisted' })
+  })
 
-test('JWE decrypt algorithms whitelist with a keystore', t => {
-  const k = generateSync('oct')
-  const k2 = generateSync('oct')
-  const ks = new JWKS.KeyStore(k, k2)
+  test('JWE decrypt algorithms whitelist with a keystore', t => {
+    const k = generateSync('oct')
+    const k2 = generateSync('oct')
+    const ks = new JWKS.KeyStore(k, k2)
 
-  const jwe = JWE.encrypt('foo', k2, { alg: 'PBES2-HS256+A128KW' })
-  JWE.decrypt(jwe, ks, { algorithms: ['PBES2-HS256+A128KW', 'PBES2-HS384+A192KW'] })
+    const jwe = JWE.encrypt('foo', k2, { alg: 'PBES2-HS256+A128KW' })
+    JWE.decrypt(jwe, ks, { algorithms: ['PBES2-HS256+A128KW', 'PBES2-HS384+A192KW'] })
 
-  t.throws(() => {
-    JWE.decrypt(jwe, ks, { algorithms: ['PBES2-HS384+A192KW'] })
-  }, { instanceOf: errors.JOSEAlgNotWhitelisted, code: 'ERR_JOSE_ALG_NOT_WHITELISTED' })
-})
+    t.throws(() => {
+      JWE.decrypt(jwe, ks, { algorithms: ['PBES2-HS384+A192KW'] })
+    }, { instanceOf: errors.JOSEAlgNotWhitelisted, code: 'ERR_JOSE_ALG_NOT_WHITELISTED' })
+  })
+}
 
 test('JWE decrypt algorithms whitelist with direct encryption', t => {
   const k = generateSync('oct')
@@ -465,7 +493,7 @@ test('JWE decrypt algorithms whitelist (multi-recipient)', t => {
   encrypt.recipient(k2)
   const jwe = encrypt.encrypt('general')
 
-  JWE.decrypt(jwe, k, { algorithms: ['A256KW'] })
+  JWE.decrypt(jwe, k, { algorithms: ['electron' in process.versions ? 'A256GCMKW' : 'A256KW'] })
   JWE.decrypt(jwe, k2, { algorithms: ['RSA-OAEP'] })
   let err
 
@@ -481,7 +509,7 @@ test('JWE decrypt algorithms whitelist (multi-recipient)', t => {
   })
 
   err = t.throws(() => {
-    JWE.decrypt(jwe, k2, { algorithms: ['A256KW'] })
+    JWE.decrypt(jwe, k2, { algorithms: ['electron' in process.versions ? 'A256GCMKW' : 'A256KW'] })
   }, { instanceOf: errors.JOSEMultiError, code: 'ERR_JOSE_MULTIPLE_ERRORS' })
   ;[...err].forEach((e, i) => {
     if (i === 0) {

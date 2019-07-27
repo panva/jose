@@ -57,56 +57,58 @@ test('Ed25519 Private key', t => {
   t.deepEqual(actual, expected)
 })
 
-test('Ed448 Public key', t => {
-  const expected = clone(fixtures.Ed448)
-  delete expected.d
-  const pem = createPublicKey(jwkToPem(expected))
-  const actual = keyObjectToJWK(pem)
+if (!('electron' in process.versions)) {
+  test('Ed448 Public key', t => {
+    const expected = clone(fixtures.Ed448)
+    delete expected.d
+    const pem = createPublicKey(jwkToPem(expected))
+    const actual = keyObjectToJWK(pem)
 
-  t.deepEqual(actual, expected)
-})
+    t.deepEqual(actual, expected)
+  })
 
-test('Ed448 Private key', t => {
-  const expected = fixtures.Ed448
-  const pem = createPrivateKey(jwkToPem(expected))
-  const actual = keyObjectToJWK(pem)
+  test('Ed448 Private key', t => {
+    const expected = fixtures.Ed448
+    const pem = createPrivateKey(jwkToPem(expected))
+    const actual = keyObjectToJWK(pem)
 
-  t.deepEqual(actual, expected)
-})
+    t.deepEqual(actual, expected)
+  })
 
-test('X25519 Public key', t => {
-  const expected = clone(fixtures.X25519)
-  delete expected.d
-  const pem = createPublicKey(jwkToPem(expected))
-  const actual = keyObjectToJWK(pem)
+  test('X25519 Public key', t => {
+    const expected = clone(fixtures.X25519)
+    delete expected.d
+    const pem = createPublicKey(jwkToPem(expected))
+    const actual = keyObjectToJWK(pem)
 
-  t.deepEqual(actual, expected)
-})
+    t.deepEqual(actual, expected)
+  })
 
-test('X25519 Private key', t => {
-  const expected = fixtures.X25519
-  const pem = createPrivateKey(jwkToPem(expected))
-  const actual = keyObjectToJWK(pem)
+  test('X25519 Private key', t => {
+    const expected = fixtures.X25519
+    const pem = createPrivateKey(jwkToPem(expected))
+    const actual = keyObjectToJWK(pem)
 
-  t.deepEqual(actual, expected)
-})
+    t.deepEqual(actual, expected)
+  })
 
-test('X448 Public key', t => {
-  const expected = clone(fixtures.X448)
-  delete expected.d
-  const pem = createPublicKey(jwkToPem(expected))
-  const actual = keyObjectToJWK(pem)
+  test('X448 Public key', t => {
+    const expected = clone(fixtures.X448)
+    delete expected.d
+    const pem = createPublicKey(jwkToPem(expected))
+    const actual = keyObjectToJWK(pem)
 
-  t.deepEqual(actual, expected)
-})
+    t.deepEqual(actual, expected)
+  })
 
-test('X448 Private key', t => {
-  const expected = fixtures.X448
-  const pem = createPrivateKey(jwkToPem(expected))
-  const actual = keyObjectToJWK(pem)
+  test('X448 Private key', t => {
+    const expected = fixtures.X448
+    const pem = createPrivateKey(jwkToPem(expected))
+    const actual = keyObjectToJWK(pem)
 
-  t.deepEqual(actual, expected)
-})
+    t.deepEqual(actual, expected)
+  })
+}
 
 test('EC P-256 Public key', t => {
   const expected = clone(fixtures['P-256'])

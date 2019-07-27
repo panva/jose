@@ -38,6 +38,7 @@ test('parameters must be a plain object', t => {
 
 Object.entries(fixtures.PEM).forEach(([type, { private: priv, public: pub }]) => {
   if (type === 'P-256K') return
+  if ('electron' in process.versions && (type.startsWith('X') || type === 'Ed448' || type === 'secp256k1')) return
 
   test(`fails to import ${type} as invalid string`, t => {
     t.throws(() => {
@@ -76,17 +77,19 @@ test('failed to import throws an error', t => {
   }, { instanceOf: errors.JWKImportFailed, code: 'ERR_JWK_IMPORT_FAILED' })
 })
 
-;[
-  `-----BEGIN PUBLIC KEY-----\nMIIBtjCCASsGByqGSM44BAEwggEeAoGBANuHjLdqQcKozzWf9fUfe/mw4i5NLT8k\nCIA75k+GNYNbBaGZ2lGNeKsrjHzM8w7mE5k6qx5hDB4n88qFoauqCsUZ4knbTybn\nYV08gfWS375l/EGSpt3c/1dezVZuT/FmEeXbMhOIDORf/9f/6PpEMFN3eghszLvN\ng+L/19HVpWAXAhUAnOFG9vvOiZIz/ZxdpR+EVv8o4T8CgYBDk/ChY3fo4DrxzLZT\n7AjsAiJOzO8QnsV07Gh8gSzUCBsb+Hb4GvMs2U6rB5mxOMib3S2HGbs791uBva2a\nA6pzNzRmgV/w6CyOcxhCkZdVL7MwO9y5iq6V65R4GgfkCrIAYi/BW6XdXOyw/7J0\nt/4wB0/wKtsXf541NLfmUprJ+QOBhAACgYBGbXflbrGGg02+w8Xo6RO+tHoekREZ\nlJA0KKBN4jT0S3/OsLQeHtO7k/gkdMMbXD1J1fae9tIxy1SwYVTR6csgydGuvuyG\nB4A/ZtXEb+dumCBbtw8dyred4Okhl44Fdrs79F1rjSWEcwKqJghxS+GsbA0vcTaf\nAHDL6OblN04uzg==\n-----END PUBLIC KEY-----`,
-  crypto.generateKeyPairSync('dsa', { modulusLength: 1024 }).publicKey,
-  crypto.generateKeyPairSync('dsa', { modulusLength: 1024 }).privateKey
-].forEach((unsupported, i) => {
-  test(`fails to import unsupported PEM ${i + 1}/4`, t => {
-    t.throws(() => {
-      asKey(unsupported)
-    }, { instanceOf: errors.JOSENotSupported, code: 'ERR_JOSE_NOT_SUPPORTED', message: 'only RSA, EC and OKP asymmetric keys are supported' })
+if (!('electron' in process.versions)) {
+  ;[
+    `-----BEGIN PUBLIC KEY-----\nMIIBtjCCASsGByqGSM44BAEwggEeAoGBANuHjLdqQcKozzWf9fUfe/mw4i5NLT8k\nCIA75k+GNYNbBaGZ2lGNeKsrjHzM8w7mE5k6qx5hDB4n88qFoauqCsUZ4knbTybn\nYV08gfWS375l/EGSpt3c/1dezVZuT/FmEeXbMhOIDORf/9f/6PpEMFN3eghszLvN\ng+L/19HVpWAXAhUAnOFG9vvOiZIz/ZxdpR+EVv8o4T8CgYBDk/ChY3fo4DrxzLZT\n7AjsAiJOzO8QnsV07Gh8gSzUCBsb+Hb4GvMs2U6rB5mxOMib3S2HGbs791uBva2a\nA6pzNzRmgV/w6CyOcxhCkZdVL7MwO9y5iq6V65R4GgfkCrIAYi/BW6XdXOyw/7J0\nt/4wB0/wKtsXf541NLfmUprJ+QOBhAACgYBGbXflbrGGg02+w8Xo6RO+tHoekREZ\nlJA0KKBN4jT0S3/OsLQeHtO7k/gkdMMbXD1J1fae9tIxy1SwYVTR6csgydGuvuyG\nB4A/ZtXEb+dumCBbtw8dyred4Okhl44Fdrs79F1rjSWEcwKqJghxS+GsbA0vcTaf\nAHDL6OblN04uzg==\n-----END PUBLIC KEY-----`,
+    crypto.generateKeyPairSync('dsa', { modulusLength: 1024 }).publicKey,
+    crypto.generateKeyPairSync('dsa', { modulusLength: 1024 }).privateKey
+  ].forEach((unsupported, i) => {
+    test(`fails to import unsupported PEM ${i + 1}/4`, t => {
+      t.throws(() => {
+        asKey(unsupported)
+      }, { instanceOf: errors.JOSENotSupported, code: 'ERR_JOSE_NOT_SUPPORTED', message: 'only RSA, EC and OKP asymmetric keys are supported' })
+    })
   })
-})
+}
 
 test('minimal RSA test', async t => {
   const key = await generate('RSA')

@@ -311,6 +311,18 @@ key = jose.JWK.asKey(fs.readFileSync('path/to/key/file'))
 key.crv === 'P-256K'
 ```
 
+#### Electron Support
+
+Electron v6.x runtime is supported to the extent of the crypto engine BoringSSL feature parity with
+standard Node.js OpenSSL. The following is disabled in Electron runtime because of its lack of
+[support](https://github.com/panva/jose/blob/master/test/electron/electron.test.js).
+
+- JWE `A128KW`, `A192KW` and `A256KW` algs are not available, this also means that other JWAs
+  depending on those are not working, those are `ECDH-ES+A128KW`, `ECDH-ES+A192KW`,
+  `ECDH-ES+A256KW`, `PBES2-HS256+A128KW`, `PBES2-HS384+A192KW`, `PBES2-HS512+A256KW`)
+- OKP curves `Ed448`, `X25519` and `X448` are not supported
+- EC curve `secp256k1` is not supported
+
 ## FAQ
 
 #### Semver?

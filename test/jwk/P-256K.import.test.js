@@ -2,6 +2,9 @@
 require('../../P-256K')
 
 const test = require('ava')
+
+if ('electron' in process.versions) return
+
 const { createPrivateKey, createPublicKey } = require('crypto')
 const { hasProperty, hasNoProperties, hasProperties } = require('../macros')
 const fixtures = require('../fixtures')

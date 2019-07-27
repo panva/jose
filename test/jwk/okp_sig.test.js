@@ -14,6 +14,7 @@ Object.entries({
   Ed25519: 'YeOxXoX_a0317nVDSwtlinj0RuJnSI0lYnxCM6qSC4c',
   Ed448: 'eaEfshTya3PWdLWK4CfotnZcHKNJbpQviiTOqwOyFfE'
 }).forEach(([crv, kid]) => {
+  if ('electron' in process.versions && crv === 'Ed448') return
   const alg = 'EdDSA'
 
   // private

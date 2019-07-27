@@ -11,17 +11,19 @@ test(`EC key .algorithms invalid operation`, t => {
   t.throws(() => key.algorithms('foo'), { instanceOf: TypeError, message: 'invalid key operation' })
 })
 
-test('Unusable with unsupported curves', t => {
-  const kp = generateKeyPairSync('ec', { namedCurve: 'secp224k1' })
-  t.throws(
-    () => new ECKey(kp.privateKey),
-    { instanceOf: errors.JOSENotSupported, code: 'ERR_JOSE_NOT_SUPPORTED', message: 'unsupported EC key curve' }
-  )
-  t.throws(
-    () => new ECKey(kp.publicKey),
-    { instanceOf: errors.JOSENotSupported, code: 'ERR_JOSE_NOT_SUPPORTED', message: 'unsupported EC key curve' }
-  )
-})
+if (!('electron' in process.versions)) {
+  test('Unusable with unsupported curves', t => {
+    const kp = generateKeyPairSync('ec', { namedCurve: 'secp224k1' })
+    t.throws(
+      () => new ECKey(kp.privateKey),
+      { instanceOf: errors.JOSENotSupported, code: 'ERR_JOSE_NOT_SUPPORTED', message: 'unsupported EC key curve' }
+    )
+    t.throws(
+      () => new ECKey(kp.publicKey),
+      { instanceOf: errors.JOSENotSupported, code: 'ERR_JOSE_NOT_SUPPORTED', message: 'unsupported EC key curve' }
+    )
+  })
+}
 
 Object.entries({
   'P-256': ['ES256', 'rDd6H6t9-nJUoz72nTpz8tInvypVWhE2iQoPznj8ZY8'],
@@ -29,6 +31,12 @@ Object.entries({
   'P-384': ['ES384', '5gebayAhpztJCs4Pxo-z1hhsN0upoyG2NAoKpiiH2b0'],
   'P-521': ['ES512', 'BQtkbSY3xgN4M2ZP3IHMLG7-Rp1L29teCMfNqgJHtTY']
 }).forEach(([crv, [alg, kid]]) => {
+  const ECDH = ['ECDH-ES', 'ECDH-ES+A128KW', 'ECDH-ES+A192KW', 'ECDH-ES+A256KW']
+  if ('electron' in process.versions) {
+    if (crv === 'secp256k1') return
+    ECDH.splice(1, ECDH.length - 1)
+  }
+  if (crv === 'secp256k1' && 'electron' in process.versions) return
   // private
   ;(() => {
     const keyObject = createPrivateKey(fixtures.PEM[crv].private)
@@ -52,7 +60,7 @@ Object.entries({
     test(`${crv} EC Private key algorithms (no operation)`, t => {
       const result = key.algorithms()
       t.is(result.constructor, Set)
-      t.deepEqual([...result], [alg, 'ECDH-ES', 'ECDH-ES+A128KW', 'ECDH-ES+A192KW', 'ECDH-ES+A256KW'])
+      t.deepEqual([...result], [alg, ...ECDH])
     })
 
     test(`${crv} EC Private key algorithms (no operation, w/ alg)`, t => {
@@ -137,7 +145,7 @@ Object.entries({
     test(`${crv} EC Private key .algorithms("deriveKey")`, t => {
       const result = key.algorithms('deriveKey')
       t.is(result.constructor, Set)
-      t.deepEqual([...result], ['ECDH-ES', 'ECDH-ES+A128KW', 'ECDH-ES+A192KW', 'ECDH-ES+A256KW'])
+      t.deepEqual([...result], ECDH)
     })
 
     test(`${crv} EC Private key .algorithms("wrapKey") when use is sig`, t => {
@@ -184,7 +192,7 @@ Object.entries({
     test(`${crv} EC Public key algorithms (no operation)`, t => {
       const result = key.algorithms()
       t.is(result.constructor, Set)
-      t.deepEqual([...result], [alg, 'ECDH-ES', 'ECDH-ES+A128KW', 'ECDH-ES+A192KW', 'ECDH-ES+A256KW'])
+      t.deepEqual([...result], [alg, ...ECDH])
     })
 
     test(`${crv} EC Public key algorithms (no operation, w/ alg)`, t => {
@@ -269,7 +277,7 @@ Object.entries({
     test(`${crv} EC Public key .algorithms("deriveKey")`, t => {
       const result = key.algorithms('deriveKey')
       t.is(result.constructor, Set)
-      t.deepEqual([...result], ['ECDH-ES', 'ECDH-ES+A128KW', 'ECDH-ES+A192KW', 'ECDH-ES+A256KW'])
+      t.deepEqual([...result], ECDH)
     })
 
     test(`${crv} EC Public key .algorithms("wrapKey") when use is sig`, t => {

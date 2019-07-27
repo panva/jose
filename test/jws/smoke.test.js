@@ -8,6 +8,7 @@ const { JWS: { success, failure } } = require('../macros')
 
 Object.entries(fixtures.PEM).forEach(([type, { private: key, public: pub }]) => {
   if (type === 'P-256K') return
+  if ('electron' in process.versions && (type.startsWith('X') || type === 'Ed448' || type === 'secp256k1')) return
 
   const sKey = asKey(key)
   const vKey = asKey(pub)

@@ -72,6 +72,10 @@ const { JWK: { generate, generateSync }, errors } = require('../..')
   ['oct', 192, { alg: 'HS256' }],
   ['oct', 192, { alg: 'A192GCM' }]
 ].forEach((args) => {
+  if ('electron' in process.versions) {
+    const [, crv] = args
+    if (crv === 'secp256k1' || String(crv).startsWith('X') || crv === 'Ed448') return
+  }
   test(`sync generates ${args[0]}(${args[1]}) with options ${JSON.stringify(args[2])}${typeof args[3] === 'boolean' ? ` and private=${args[3]}` : ''}`, t => {
     const key = generateSync(args[0], args[1], args[2], args[3])
     t.truthy(key)

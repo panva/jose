@@ -1,5 +1,7 @@
 const test = require('ava')
 
+if ('electron' in process.versions) return
+
 const recipe = require('./recipes').get('5.12')
 const { enc: verifiers } = require('./verifiers')
 

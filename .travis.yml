@@ -1,12 +1,8 @@
 matrix:
   allow_failures:
-    - name: "Test Suite - Nightly build"
+    - name: "Test Suite - Node.js Nightly build"
     - name: "Linter"
   include:
-    - name: Linter
-      language: node_js
-      node_js: stable
-      script: npm run lint
     - name: "Test Suite + coverage - 12.0.0" #min
       language: node_js
       node_js: 12.0.0
@@ -22,10 +18,18 @@ matrix:
       os: windows
       script: npm test
       node_js: node
-    - name: "Test Suite - Nightly build"
+    - name: "Test Suite - Electron build"
+      language: node_js
+      node_js: stable
+      script: xvfb-run npx electron@beta ./test/electron
+    - name: "Test Suite - Node.js Nightly build"
       language: minimal
       env: NVM_NODEJS_ORG_MIRROR=https://nodejs.org/download/nightly/
       install:
         - nvm i node
         - npm i
       script: npm test
+    - name: Linter
+      language: node_js
+      node_js: stable
+      script: npm run lint

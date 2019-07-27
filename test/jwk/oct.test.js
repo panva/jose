@@ -83,12 +83,21 @@ test('no verify support when `use` is "enc"', t => {
   t.deepEqual([...result], [])
 })
 
-test(`oct keys (odd bits) deriveKey algorithms only have "PBES2"`, t => {
-  const key = generateSync('oct', 136)
-  const result = key.algorithms('deriveKey')
-  t.is(result.constructor, Set)
-  t.deepEqual([...result], ['PBES2-HS256+A128KW', 'PBES2-HS384+A192KW', 'PBES2-HS512+A256KW'])
-})
+if (!('electron' in process.versions)) {
+  test(`oct keys (odd bits) deriveKey algorithms only have "PBES2"`, t => {
+    const key = generateSync('oct', 136)
+    const result = key.algorithms('deriveKey')
+    t.is(result.constructor, Set)
+    t.deepEqual([...result], ['PBES2-HS256+A128KW', 'PBES2-HS384+A192KW', 'PBES2-HS512+A256KW'])
+  })
+} else {
+  test(`oct keys (odd bits) deriveKey don't even have "PBES2"`, t => {
+    const key = generateSync('oct', 136)
+    const result = key.algorithms('deriveKey')
+    t.is(result.constructor, Set)
+    t.deepEqual([...result], [])
+  })
+}
 
 test(`oct keys (odd bits) wrap/unwrap algorithms cant wrap`, t => {
   const key = generateSync('oct', 136)
@@ -98,12 +107,22 @@ test(`oct keys (odd bits) wrap/unwrap algorithms cant wrap`, t => {
 })
 
 ;[128, 192, 256].forEach((len) => {
-  test(`oct keys (${len} bits) wrap/unwrap algorithms have "KW / GCMKW"`, t => {
+  test(`oct keys (${len} bits) wrap/unwrap algorithms have "GCMKW"`, t => {
     const key = generateSync('oct', len)
-
-    t.true(key.algorithms().has(`A${len}KW`))
     t.true(key.algorithms().has(`A${len}GCMKW`))
   })
+
+  if (!('electron' in process.versions)) {
+    test(`oct keys (${len} bits) wrap/unwrap algorithms have "KW"`, t => {
+      const key = generateSync('oct', len)
+      t.true(key.algorithms().has(`A${len}KW`))
+    })
+  } else {
+    test(`oct keys (${len} bits) wrap/unwrap algorithms dont have "KW"`, t => {
+      const key = generateSync('oct', len)
+      t.false(key.algorithms().has(`A${len}KW`))
+    })
+  }
 })
 
 test('oct keys may not be generated as public', t => {
