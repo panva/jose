@@ -246,21 +246,23 @@ test('keystore instance is an iterator', t => {
 })
 
 test('minimal RSA test', async t => {
+  const key = generateSync('RSA')
+  const { d, e, n } = key.toJWK(true)
+  asKeyStore({ keys: [{ kty: 'RSA', d, e, n }] }, { calculateMissingRSAPrimes: true })
+  KeyStore.fromJWKS({ keys: [{ kty: 'RSA', d, e, n }] }) // deprecated
+  t.throws(() => {
+    asKeyStore({ keys: [{ kty: 'RSA', d: d.substr(1), e, n }] }, { calculateMissingRSAPrimes: true })
+  }, { instanceOf: errors.JWKImportFailed, code: 'ERR_JWK_IMPORT_FAILED', message: 'failed to calculate missing primes' })
+  t.throws(() => {
+    asKeyStore({ keys: [{ kty: 'RSA', d, e, n }] })
+  }, { instanceOf: errors.JOSENotSupported, code: 'ERR_JOSE_NOT_SUPPORTED', message: 'importing private RSA keys without all other private key parameters is not enabled, see documentation and its advisory on how and when its ok to enable it' })
   const jwk = {
     kty: 'RSA',
     d: 'YN1ucKFpCsgMuIfTynTbNwEXp2lBkrJYfsVOIGdK3bZMblZqxWElm8HTE06-JH_BC5drAAv1Hu-6SE6-sehq9blG-vMJ0wi-jBYfkhlOLEZJXHPb4aJyS8oWKhVO14qyfS_m2BtAW9Wh5vEOXy7HLgrZWjctm0t1Ipb-b_nfNfisGIMjPdWzu_nTfbzIIwM7wQBGnHLqfQq6iD7I8nSPjsc_gZUeeKYkU_Q6K8tIY0gr850-6wk-Nh9JsPA93lR0woTqqMG6UiFE4Y4Jj3M6puBUSU-R3n-gL35I1Cwa5m0IREG8Bz0RPpAEcRQB1xRuM22xD4yE0I4LDegtH056lw',
     e: 'AQAB',
     n: '1hZ73O4axgytljzb8gCXxdk3Uov_f7U6c_hKH5EtGtr8XdWce1XLLjARqAQfOpbYqkm1ONiIvhQvxvW0a7gXgEw4no9c_Gi8a803O9LZmYAYDxErlvPQPg9KC5cLPChM-Uyxy4TOakjw1ysUKBX7zXpb_1TIOnlhOYeDbejLkp8sR7BJIsDNxqtkV4KHLWQ9pKsMU28itblQ8nN8UJI5Js4UbR-b417uQ9jIVRhWlDjp11sXYqfnqShCDYGYmLL2IHTVf8tTmEOWsNWcE2nT-qMTGMOq2DBkyr31lxc-4eQXZuwcrk_58xQ69xSrdrsy8J11O50nbvwcqFhjeMV2VQ'
   }
-  KeyStore.fromJWKS({ keys: [jwk] }) // deprecated
-  asKeyStore({ keys: [jwk] }, { calculateMissingRSAPrimes: true })
   t.throws(() => {
-    asKeyStore({ keys: [{ ...jwk, d: jwk.d.substr(1) }] }, { calculateMissingRSAPrimes: true })
-  }, { instanceOf: errors.JWKImportFailed, code: 'ERR_JWK_IMPORT_FAILED', message: 'failed to calculate missing primes' })
-  t.throws(() => {
-    asKeyStore({ keys: [jwk] })
-  }, { instanceOf: errors.JOSENotSupported, code: 'ERR_JOSE_NOT_SUPPORTED', message: 'importing private RSA keys without all other private key parameters is not enabled, see documentation and its advisory on how and when its ok to enable it' })
-  t.throws(() => {
-    asKeyStore({ keys: [{ ...jwk, d: `${jwk.d}F` }] }, { calculateMissingRSAPrimes: true })
+    asKeyStore({ keys: [{ kty: 'RSA', d: `${jwk.d}F`, e: jwk.e, n: jwk.n }] }, { calculateMissingRSAPrimes: true })
   }, { instanceOf: errors.JWKInvalid, code: 'ERR_JWK_INVALID', message: 'invalid RSA private exponent' })
 })
