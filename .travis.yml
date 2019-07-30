@@ -18,10 +18,14 @@ matrix:
       os: windows
       script: npm test
       node_js: node
-    - name: "Test Suite - Electron build"
+    - name: "Test Suite - Electron - 6.0.0"
       language: node_js
       node_js: stable
-      script: xvfb-run npx electron@beta ./test/electron
+      script: xvfb-run npx electron@6.0.0 ./test/electron
+    - name: "Test Suite - Electron - ^6.0.0"
+      language: node_js
+      node_js: stable
+      script: xvfb-run npx electron@6 ./test/electron
     - name: "Test Suite - Node.js Nightly build"
       language: minimal
       env: NVM_NODEJS_ORG_MIRROR=https://nodejs.org/download/nightly/
