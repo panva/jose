@@ -1,0 +1,76 @@
+name: Continuous Integration
+
+on:
+  push:
+  pull_request:
+  schedule:
+    - cron:  0 9 * * 1-5
+
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@master
+      - uses: actions/setup-node@v1
+        with:
+          version: 12
+      - run: npm install
+      - run: npm run lint
+
+  test:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        node-version:
+          - 12.0.0
+          - 12
+        os:
+          - ubuntu-latest
+          - windows-latest
+          - macOS-latest
+    steps:
+      - uses: actions/checkout@master
+      - uses: actions/setup-node@v1
+        with:
+          version: ${{ matrix.node-version }}
+      - run: npm install
+      - run: npm run coverage
+      - env:
+          CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
+        run: npx codecov
+
+  test-nightly:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@master
+      - name: npm run coverage
+        env:
+          CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
+        run: |
+          curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.34.0/install.sh | bash
+          export NVM_DIR=~/.nvm
+          source ~/.nvm/nvm.sh
+          NVM_NODEJS_ORG_MIRROR=https://nodejs.org/download/nightly/ nvm install node
+          npm install
+          npm run coverage
+          npx codecov
+
+  test-electron:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        electron-version:
+          - 6.0.0
+          - 6
+        os:
+          - ubuntu-latest
+          - windows-latest
+          - macOS-latest
+    steps:
+      - uses: actions/checkout@master
+      - uses: actions/setup-node@v1
+        with:
+          version: 12
+      - run: npm install --global xvfb-maybe electron@${{ matrix.electron-version }}
+      - run: npm install
+      - run: xvfb-maybe electron ./test/electron
