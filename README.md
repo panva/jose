@@ -1,6 +1,6 @@
 # @panva/jose
 
-![build][actions-image] [![codecov][codecov-image]][codecov-url]
+[![codecov][codecov-image]][codecov-url]
 
 > "JSON Web Almost Everything" - JWA, JWS, JWE, JWT, JWK, JWKS for Node.js with minimal dependencies
 
@@ -371,6 +371,7 @@ in terms of performance and API (not having well defined errors).
 
 &plus; this was an amazing opportunity to learn JOSE as a whole
 
+
 [ask]: https://github.com/panva/jose/issues/new?labels=question&template=question.md&title=question%3A+
 [bug]: https://github.com/panva/jose/issues/new?labels=bug&template=bug-report.md&title=bug%3A+
 [codecov-image]: https://img.shields.io/codecov/c/github/panva/jose/master.svg
@@ -401,5 +402,4 @@ in terms of performance and API (not having well defined errors).
 [suggest-feature]: https://github.com/panva/jose/issues/new?labels=enhancement&template=feature-request.md&title=proposal%3A+
 [support-patreon]: https://www.patreon.com/panva
 [support-paypal]: https://www.paypal.me/panva
-[actions-image]: https://action-badges.now.sh/panva/jose
 [sponsor-auth0]: https://auth0.com/overview?utm_source=GHsponsor&utm_medium=GHsponsor&utm_campaign=panva-jose&utm_content=auth
