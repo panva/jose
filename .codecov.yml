@@ -11,3 +11,4 @@ comment:
 ignore:
   - package.json
   - **/*.md
+  - **/*.yml
