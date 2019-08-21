@@ -7,3 +7,7 @@ coverage:
 comment:
   layout: diff
   behavior: once
+
+ignore:
+  - package.json
+  - **/*.md
