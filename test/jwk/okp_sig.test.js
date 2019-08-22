@@ -10,8 +10,8 @@ const fixtures = require('../fixtures')
 
 const OKPKey = require('../../lib/jwk/key/okp')
 
-test(`OKP key .algorithms invalid operation`, t => {
-  const key = new OKPKey(createPrivateKey(fixtures.PEM['Ed25519'].private))
+test('OKP key .algorithms invalid operation', t => {
+  const key = new OKPKey(createPrivateKey(fixtures.PEM.Ed25519.private))
   t.throws(() => key.algorithms('foo'), { instanceOf: TypeError, message: 'invalid key operation' })
 })
 

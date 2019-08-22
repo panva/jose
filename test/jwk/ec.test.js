@@ -7,7 +7,7 @@ const errors = require('../../lib/errors')
 
 const ECKey = require('../../lib/jwk/key/ec')
 
-test(`EC key .algorithms invalid operation`, t => {
+test('EC key .algorithms invalid operation', t => {
   const key = new ECKey(createPrivateKey(fixtures.PEM['P-256'].private))
   t.throws(() => key.algorithms('foo'), { instanceOf: TypeError, message: 'invalid key operation' })
 })

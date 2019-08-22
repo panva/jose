@@ -11,7 +11,7 @@ const { generateSync } = require('../../lib/jwk/generate')
 const keyObject = createSecretKey(Buffer.from('secret'))
 const key = new OctKey(keyObject)
 
-test(`RSA key .algorithms invalid operation`, t => {
+test('RSA key .algorithms invalid operation', t => {
   t.throws(() => key.algorithms('foo'), { instanceOf: TypeError, message: 'invalid key operation' })
 })
 
@@ -85,14 +85,14 @@ test('no verify support when `use` is "enc"', t => {
 })
 
 if (!('electron' in process.versions)) {
-  test(`oct keys (odd bits) deriveKey algorithms only have "PBES2"`, t => {
+  test('oct keys (odd bits) deriveKey algorithms only have "PBES2"', t => {
     const key = generateSync('oct', 136)
     const result = key.algorithms('deriveKey')
     t.is(result.constructor, Set)
     t.deepEqual([...result], ['PBES2-HS256+A128KW', 'PBES2-HS384+A192KW', 'PBES2-HS512+A256KW'])
   })
 } else {
-  test(`oct keys (odd bits) deriveKey don't even have "PBES2"`, t => {
+  test('oct keys (odd bits) deriveKey don\'t even have "PBES2"', t => {
     const key = generateSync('oct', 136)
     const result = key.algorithms('deriveKey')
     t.is(result.constructor, Set)
@@ -100,7 +100,7 @@ if (!('electron' in process.versions)) {
   })
 }
 
-test(`oct keys (odd bits) wrap/unwrap algorithms cant wrap`, t => {
+test('oct keys (odd bits) wrap/unwrap algorithms cant wrap', t => {
   const key = generateSync('oct', 136)
   const result = key.algorithms('wrapKey')
   t.is(result.constructor, Set)
