@@ -2,6 +2,15 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+# [1.8.0](https://github.com/panva/jose/compare/v1.7.0...v1.8.0) (2019-08-22)
+
+
+### Features
+
+* added Node.js lts/dubnium support for runtime supported features ([67a8601](https://github.com/panva/jose/commit/67a8601))
+
+
+
 # [1.7.0](https://github.com/panva/jose/compare/v1.6.1...v1.7.0) (2019-08-20)
 
 
