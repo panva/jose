@@ -1,5 +1,9 @@
 const test = require('ava')
 
+const { edDSASupported } = require('../../lib/help/node_support')
+
+if (!edDSASupported) return
+
 const recipe = require('./recipes').get('A.4 rfc8037')
 
 const { JWS, JWK: { asKey, generateSync }, JWKS: { KeyStore }, errors } = require('../..')

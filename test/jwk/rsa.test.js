@@ -1,9 +1,9 @@
 const test = require('ava')
-const { createPrivateKey, createPublicKey } = require('crypto')
+const { createPrivateKey, createPublicKey } = require('../../lib/help/key_object')
 const { hasProperty, hasNoProperties, hasProperties } = require('../macros')
 const fixtures = require('../fixtures')
 
-const { oaepHash } = require('../../lib/help/node_support')
+const { oaepHashSupported } = require('../../lib/help/node_support')
 const { generateSync } = require('../../lib/jwk/generate')
 const RSAKey = require('../../lib/jwk/key/rsa')
 
@@ -32,7 +32,7 @@ test(`RSA key .algorithms invalid operation`, t => {
   test(`RSA Private key`, hasProperty, key, 'type', 'private')
   test(`RSA Private key`, hasProperty, key, 'use', undefined)
 
-  if (oaepHash) {
+  if (oaepHashSupported) {
     test('RSA Private key algorithms (no operation)', t => {
       const result = key.algorithms()
       t.is(result.constructor, Set)
@@ -125,7 +125,7 @@ test(`RSA key .algorithms invalid operation`, t => {
     t.deepEqual([...result], [])
   })
 
-  if (oaepHash) {
+  if (oaepHashSupported) {
     test('RSA Private key .algorithms("wrapKey")', t => {
       const result = key.algorithms('wrapKey')
       t.is(result.constructor, Set)
@@ -146,7 +146,7 @@ test(`RSA key .algorithms invalid operation`, t => {
     t.deepEqual([...result], [])
   })
 
-  if (oaepHash) {
+  if (oaepHashSupported) {
     test('RSA Private key .algorithms("unwrapKey")', t => {
       const result = key.algorithms('unwrapKey')
       t.is(result.constructor, Set)
@@ -188,7 +188,7 @@ test(`RSA key .algorithms invalid operation`, t => {
   test(`RSA Public key`, hasProperty, key, 'type', 'public')
   test(`RSA Public key`, hasProperty, key, 'use', undefined)
 
-  if (oaepHash) {
+  if (oaepHashSupported) {
     test('RSA EC Public key algorithms (no operation)', t => {
       const result = key.algorithms()
       t.is(result.constructor, Set)
@@ -281,7 +281,7 @@ test(`RSA key .algorithms invalid operation`, t => {
     t.deepEqual([...result], [])
   })
 
-  if (oaepHash) {
+  if (oaepHashSupported) {
     test('RSA Public key .algorithms("wrapKey")', t => {
       const result = key.algorithms('wrapKey')
       t.is(result.constructor, Set)
@@ -336,7 +336,7 @@ test(`RSA key .algorithms invalid operation`, t => {
       t.true(k.algorithms().has('RS512'))
     })
 
-    if (oaepHash) {
+    if (oaepHashSupported) {
       test('RSA key >= 784 bits can do RSA-OAEP-256', t => {
         const k = generateSync('RSA', 784)
         t.true(k.algorithms().has('RSA-OAEP-256'))
@@ -370,7 +370,7 @@ test(`RSA key .algorithms invalid operation`, t => {
       t.true(k.algorithms().has('PS384'))
     })
 
-    if (oaepHash) {
+    if (oaepHashSupported) {
       test('RSA key >= 896 bits can do RSA-OAEP-256', t => {
         const k = generateSync('RSA', 896)
         t.true(k.algorithms().has('RSA-OAEP-256'))

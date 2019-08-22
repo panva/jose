@@ -1,5 +1,7 @@
 const test = require('ava')
 
+const { edDSASupported } = require('../../lib/help/node_support')
+
 const { JWK: { generate, generateSync }, errors } = require('../..')
 
 ;[
@@ -13,23 +15,23 @@ const { JWK: { generate, generateSync }, errors } = require('../..')
   ['RSA', 2048, { use: 'enc', alg: 'RSA-OAEP' }],
   ['RSA', 2048, { alg: 'PS256' }],
   ['RSA', 2048, { alg: 'RSA-OAEP' }],
-  ['OKP'],
-  ['OKP', undefined, undefined, true],
-  ['OKP', undefined, undefined, false],
-  ['OKP', 'Ed25519'],
-  ['OKP', 'Ed25519', { use: 'sig' }],
+  edDSASupported ? ['OKP'] : undefined,
+  edDSASupported ? ['OKP', undefined, undefined, true] : undefined,
+  edDSASupported ? ['OKP', undefined, undefined, false] : undefined,
+  edDSASupported ? ['OKP', 'Ed25519'] : undefined,
+  edDSASupported ? ['OKP', 'Ed25519', { use: 'sig' }] : undefined,
   // ['OKP', 'Ed25519', { use: 'sig', alg: 'EdDSA' }],
   // ['OKP', 'Ed25519', { alg: 'EdDSA' }],
-  ['OKP', 'Ed448'],
-  ['OKP', 'Ed448', { use: 'sig' }],
+  edDSASupported ? ['OKP', 'Ed448'] : undefined,
+  edDSASupported ? ['OKP', 'Ed448', { use: 'sig' }] : undefined,
   // ['OKP', 'Ed448', { use: 'sig', alg: 'EdDSA' }],
   // ['OKP', 'Ed448', { alg: 'EdDSA' }],
-  ['OKP', 'X25519'],
-  ['OKP', 'X25519', { use: 'enc' }],
+  edDSASupported ? ['OKP', 'X25519'] : undefined,
+  edDSASupported ? ['OKP', 'X25519', { use: 'enc' }] : undefined,
   // ['OKP', 'X25519', { use: 'enc', alg: 'ECDH-ES' }],
   // ['OKP', 'X25519', { alg: 'ECDH-ES' }],
-  ['OKP', 'X448'],
-  ['OKP', 'X448', { use: 'enc' }],
+  edDSASupported ? ['OKP', 'X448'] : undefined,
+  edDSASupported ? ['OKP', 'X448', { use: 'enc' }] : undefined,
   // ['OKP', 'X448', { use: 'enc', alg: 'ECDH-ES' }],
   // ['OKP', 'X448', { alg: 'ECDH-ES' }],
   ['EC'],
@@ -71,7 +73,7 @@ const { JWK: { generate, generateSync }, errors } = require('../..')
   ['oct', 192, { use: 'enc', alg: 'A192GCM' }],
   ['oct', 192, { alg: 'HS256' }],
   ['oct', 192, { alg: 'A192GCM' }]
-].forEach((args) => {
+].filter(Boolean).forEach((args) => {
   if ('electron' in process.versions) {
     const [, crv] = args
     if (crv === 'secp256k1' || String(crv).startsWith('X') || crv === 'Ed448') return

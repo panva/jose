@@ -1,5 +1,9 @@
 const test = require('ava')
 
+const { keyObjectSupported } = require('../../lib/help/node_support')
+
+if (!keyObjectSupported) return
+
 const errors = require('../../lib/errors')
 
 const { JWK: { asKey } } = require('../..')

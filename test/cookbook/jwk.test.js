@@ -1,8 +1,11 @@
 const test = require('ava')
 
+const { keyObjectSupported } = require('../../lib/help/node_support')
+
 const recipes = require('./recipes')
 
 const { JWK: { asKey }, JWKS: { KeyStore } } = require('../..')
+const errors = require('../../lib/errors')
 
 test('public EC', t => {
   const jwk = recipes.get('3.1')
@@ -27,9 +30,15 @@ test('public EC', t => {
 test('private EC', t => {
   const jwk = recipes.get('3.2')
   const key = asKey(jwk)
-  t.true(key.toPEM(true, { cipher: 'aes-256-cbc', passphrase: 'top secret' }).includes('BEGIN ENCRYPTED PRIVATE KEY'))
   t.true(key.toPEM(true, { type: 'sec1' }).includes('BEGIN EC PRIVATE KEY'))
-  t.true(key.toPEM(true, { type: 'sec1', cipher: 'aes-256-cbc', passphrase: 'top secret' }).includes('ENCRYPTED'))
+  if (keyObjectSupported) {
+    t.true(key.toPEM(true, { cipher: 'aes-256-cbc', passphrase: 'top secret' }).includes('BEGIN ENCRYPTED PRIVATE KEY'))
+    t.true(key.toPEM(true, { type: 'sec1', cipher: 'aes-256-cbc', passphrase: 'top secret' }).includes('ENCRYPTED'))
+  } else {
+    t.throws(() => {
+      key.toPEM(true, { cipher: 'aes-256-cbc', passphrase: 'top secret' }).includes('BEGIN ENCRYPTED PRIVATE KEY')
+    }, { instanceOf: errors.JOSENotSupported, code: 'ERR_JOSE_NOT_SUPPORTED', message: 'encrypted private keys are not supported in your Node.js runtime version' })
+  }
   t.true(key.toPEM(true).includes('BEGIN PRIVATE KEY'))
   t.true(key.toPEM().includes('BEGIN PUBLIC KEY'))
   t.deepEqual(key.toJWK(true), jwk)
@@ -62,9 +71,15 @@ test('private RSA', t => {
   const jwk = recipes.get('3.4')
   const key = asKey(jwk)
   t.true(key.toPEM(true, { type: 'pkcs1' }).includes('BEGIN RSA PRIVATE KEY'))
-  t.true(key.toPEM(true, { cipher: 'aes-256-cbc', passphrase: 'top secret', type: 'pkcs1' }).includes('ENCRYPTED'))
-  t.true(key.toPEM(true, { type: 'pkcs1', cipher: 'aes-256-cbc', passphrase: 'top secret' }).includes('BEGIN RSA PRIVATE KEY'))
-  t.true(key.toPEM(true, { cipher: 'aes-256-cbc', passphrase: 'top secret' }).includes('BEGIN ENCRYPTED PRIVATE KEY'))
+  if (keyObjectSupported) {
+    t.true(key.toPEM(true, { cipher: 'aes-256-cbc', passphrase: 'top secret', type: 'pkcs1' }).includes('ENCRYPTED'))
+    t.true(key.toPEM(true, { type: 'pkcs1', cipher: 'aes-256-cbc', passphrase: 'top secret' }).includes('BEGIN RSA PRIVATE KEY'))
+    t.true(key.toPEM(true, { cipher: 'aes-256-cbc', passphrase: 'top secret' }).includes('BEGIN ENCRYPTED PRIVATE KEY'))
+  } else {
+    t.throws(() => {
+      key.toPEM(true, { cipher: 'aes-256-cbc', passphrase: 'top secret' }).includes('BEGIN ENCRYPTED PRIVATE KEY')
+    }, { instanceOf: errors.JOSENotSupported, code: 'ERR_JOSE_NOT_SUPPORTED', message: 'encrypted private keys are not supported in your Node.js runtime version' })
+  }
   t.true(key.toPEM(true).includes('BEGIN PRIVATE KEY'))
   t.true(key.toPEM().includes('BEGIN PUBLIC KEY'))
   t.deepEqual(key.toJWK(true), jwk)

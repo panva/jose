@@ -1,6 +1,7 @@
 const test = require('ava')
-const { createPrivateKey, createPublicKey, generateKeyPairSync } = require('crypto')
+const { createPrivateKey, createPublicKey } = require('../../lib/help/key_object')
 const { hasProperty, hasNoProperties, hasProperties } = require('../macros')
+const { generateKeyPairSync } = require('../macros/generate')
 const fixtures = require('../fixtures')
 const errors = require('../../lib/errors')
 

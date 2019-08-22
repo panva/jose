@@ -1,9 +1,11 @@
 const test = require('ava')
 
-const crypto = require('crypto')
 const errors = require('../../lib/errors')
 const asKey = require('../../lib/jwk/import')
 const { generateSync } = require('../../lib/jwk/generate')
+const { generateKeyPairSync } = require('../macros/generate')
+
+const { edDSASupported } = require('../../lib/help/node_support')
 
 const jwk = asKey('foo').toJWK(true)
 
@@ -53,7 +55,7 @@ test('JWK asKey with invalid use / key_ops throws', t => {
 })
 
 test('keyObject asKey with invalid use / key_ops throws 1/2', t => {
-  const { publicKey } = crypto.generateKeyPairSync('ed25519')
+  const { publicKey } = generateKeyPairSync('ec', { namedCurve: 'P-256' })
 
   t.throws(() => {
     asKey(publicKey, { use: 'sig', key_ops: ['wrapKey'] })
@@ -61,7 +63,7 @@ test('keyObject asKey with invalid use / key_ops throws 1/2', t => {
 })
 
 test('keyObject asKey with invalid use / key_ops throws 2/2', t => {
-  const { publicKey } = crypto.generateKeyPairSync('ed25519')
+  const { publicKey } = generateKeyPairSync('ec', { namedCurve: 'P-256' })
 
   t.throws(() => {
     asKey(publicKey, { use: 'enc', key_ops: ['sign'] })
@@ -69,7 +71,7 @@ test('keyObject asKey with invalid use / key_ops throws 2/2', t => {
 })
 
 test('PEM asKey with invalid use / key_ops throws', t => {
-  const { publicKey } = crypto.generateKeyPairSync('ed25519')
+  const { publicKey } = generateKeyPairSync('ec', { namedCurve: 'P-256' })
 
   t.throws(() => {
     asKey(publicKey.export({ type: 'spki', format: 'pem' }), { use: 'sig', key_ops: ['wrapKey'] })
@@ -97,9 +99,11 @@ test('oct key key_ops', t => {
   t.deepEqual([...k.algorithms('sign')], [])
 })
 
-test('OKP key key_ops', t => {
-  const k = generateSync('OKP', 'Ed25519', { key_ops: ['verify'] })
-  t.deepEqual([...k.algorithms()], ['EdDSA'])
-  t.deepEqual([...k.algorithms('verify')], ['EdDSA'])
-  t.deepEqual([...k.algorithms('sign')], [])
-})
+if (edDSASupported) {
+  test('OKP key key_ops', t => {
+    const k = generateSync('OKP', 'Ed25519', { key_ops: ['verify'] })
+    t.deepEqual([...k.algorithms()], ['EdDSA'])
+    t.deepEqual([...k.algorithms('verify')], ['EdDSA'])
+    t.deepEqual([...k.algorithms('sign')], [])
+  })
+}

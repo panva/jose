@@ -1,4 +1,9 @@
 const test = require('ava')
+
+const { keyObjectSupported } = require('../../lib/help/node_support')
+
+if (!keyObjectSupported) return
+
 const { createPrivateKey, createPublicKey } = require('crypto')
 const { hasProperty, hasNoProperties, hasProperties } = require('../macros')
 const fixtures = require('../fixtures')

@@ -1,6 +1,7 @@
 const test = require('ava')
-const { createPublicKey, createPrivateKey } = require('crypto')
 
+const { edDSASupported } = require('../../lib/help/node_support')
+const { createPublicKey, createPrivateKey } = require('../../lib/help/key_object')
 const { errors } = require('../..')
 const { keyObjectToJWK, jwkToPem } = require('../../lib/help/key_utils')
 const { JWK: fixtures } = require('../fixtures')
@@ -40,24 +41,26 @@ test('RSA Private key', t => {
   t.deepEqual(actual, expected)
 })
 
-test('Ed25519 Public key', t => {
-  const expected = clone(fixtures.Ed25519)
-  delete expected.d
-  const pem = createPublicKey(jwkToPem(expected))
-  const actual = keyObjectToJWK(pem)
+if (edDSASupported) {
+  test('Ed25519 Public key', t => {
+    const expected = clone(fixtures.Ed25519)
+    delete expected.d
+    const pem = createPublicKey(jwkToPem(expected))
+    const actual = keyObjectToJWK(pem)
 
-  t.deepEqual(actual, expected)
-})
+    t.deepEqual(actual, expected)
+  })
 
-test('Ed25519 Private key', t => {
-  const expected = fixtures.Ed25519
-  const pem = createPrivateKey(jwkToPem(expected))
-  const actual = keyObjectToJWK(pem)
+  test('Ed25519 Private key', t => {
+    const expected = fixtures.Ed25519
+    const pem = createPrivateKey(jwkToPem(expected))
+    const actual = keyObjectToJWK(pem)
 
-  t.deepEqual(actual, expected)
-})
+    t.deepEqual(actual, expected)
+  })
+}
 
-if (!('electron' in process.versions)) {
+if (!('electron' in process.versions) && edDSASupported) {
   test('Ed448 Public key', t => {
     const expected = clone(fixtures.Ed448)
     delete expected.d

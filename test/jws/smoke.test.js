@@ -1,5 +1,6 @@
 const test = require('ava')
 
+const { edDSASupported } = require('../../lib/help/node_support')
 const { JWK: { asKey, generateSync } } = require('../..')
 
 const fixtures = require('../fixtures')
@@ -9,6 +10,7 @@ const { JWS: { success, failure } } = require('../macros')
 Object.entries(fixtures.PEM).forEach(([type, { private: key, public: pub }]) => {
   if (type === 'P-256K') return
   if ('electron' in process.versions && (type.startsWith('X') || type === 'Ed448' || type === 'secp256k1')) return
+  if (!edDSASupported && (type.startsWith('Ed') || type.startsWith('X'))) return
 
   const sKey = asKey(key)
   const vKey = asKey(pub)

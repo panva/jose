@@ -155,7 +155,7 @@ its original on-by-default form - v1.1.0 and v1.2.0
 wrapKey/unwrapKey/deriveKey returns
 * keystore.all and keystore.get `operation` option was
 removed, `key_ops: string[]` supersedes it
-* node.js minimal version is now v12.0.0 due to its
+* Node.js minimal version is now v12.0.0 due to its
 added EdDSA support (crypto.sign, crypto.verify and eddsa key objects)
 
 
@@ -323,7 +323,7 @@ Initial release
 | AES | ✓ | A128KW, A192KW, A256KW |
 | AES GCM | ✓ | A128GCMKW, A192GCMKW, A256GCMKW |
 | Direct Key Agreement | ✓ | dir |
-| RSAES OAEP | ✓<sup>*</sup> | RSA-OAEP <sub>(<sup>*</sup>RSA-OAEP-256 is not supported due to its lack of support in Node.JS)</sub> |
+| RSAES OAEP | ✓<sup>*</sup> | RSA-OAEP <sub>(<sup>*</sup>RSA-OAEP-256 is not supported due to its lack of support in Node.js)</sub> |
 | RSAES-PKCS1-v1_5 | ✓ | RSA1_5 |
 | PBES2 | ✓ | PBES2-HS256+A128KW, PBES2-HS384+A192KW, PBES2-HS512+A256KW |
 | ECDH-ES | ✓ | ECDH-ES, ECDH-ES+A128KW, ECDH-ES+A192KW, ECDH-ES+A256KW |

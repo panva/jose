@@ -80,7 +80,9 @@ Legend:
 | JARM - [JWT Secured Authorization Response Mode for OAuth 2.0][draft-jarm] | ◯ ||
 
 Notes
-- RSA-OAEP-256 is only supported when Node.js >= 12.9.0 runtime is detected
+- RSA-OAEP-256 JWE algorithm is only supported when Node.js >= 12.9.0 runtime is detected
+- Importing X.509 certificates and handling `x5c` is only supported when Node.js >= 12.0.0 runtime is detected
+- OKP keys are only supported when Node.js >= 12.0.0 runtime is detected
 - See [#electron-support](#electron-support) for electron exceptions
 
 ---
@@ -126,7 +128,8 @@ If you or your business use @panva/jose, please consider becoming a [sponsor][su
 
 ## Usage
 
-For its improvements in the crypto module ⚠️ the minimal Node.js version required is **v12.0.0** ⚠️
+For the best performance Node.js version **>=12.0.0** is recommended, but **^10.13.0** lts/dubnium
+is also supported.
 
 Installing @panva/jose
 
@@ -318,7 +321,7 @@ Electron v6.x runtime is supported to the extent of the crypto engine BoringSSL 
 standard Node.js OpenSSL. The following is disabled in Electron runtime because of its lack of
 [support](https://github.com/panva/jose/blob/master/test/electron/electron.test.js).
 
-- JWE `A128KW`, `A192KW` and `A256KW` algs are not available, this also means that other JWAs
+- JWE `A128KW`, `A192KW` and `A256KW` algorithms are not available, this also means that other JWAs
   depending on those are not working, those are `ECDH-ES+A128KW`, `ECDH-ES+A192KW`,
   `ECDH-ES+A256KW`, `PBES2-HS256+A128KW`, `PBES2-HS384+A192KW`, `PBES2-HS512+A256KW`)
 - OKP curves `Ed448`, `X25519` and `X448` are not supported
@@ -335,8 +338,9 @@ private API and is subject to change between any versions.
 
 #### How do I use it outside of Node.js
 
-It is **only built for Node.js** environment - it builds on top of the `crypto` module and requires
-the KeyObject API that was added in Node.js v11.6.0 and one-shot sign/verify API added in v12.0.0
+It is **only built for ^10.13.0 || >=12.0.0 Node.js** environment - including @panva/jose in
+transpiled browser-environment targetted projects is not supported and may result in unexpected
+results.
 
 #### How is it different from [`jws`](https://github.com/brianloveswords/node-jws), [`jwa`](https://github.com/brianloveswords/node-jwa) or [`jsonwebtoken`](https://github.com/auth0/node-jsonwebtoken)?
 

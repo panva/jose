@@ -5,7 +5,7 @@ const test = require('ava')
 
 if ('electron' in process.versions) return
 
-const { createPublicKey, createPrivateKey } = require('crypto')
+const { createPublicKey, createPrivateKey } = require('../../lib/help/key_object')
 
 const { keyObjectToJWK, jwkToPem } = require('../../lib/help/key_utils')
 const { JWK: fixtures } = require('../fixtures')

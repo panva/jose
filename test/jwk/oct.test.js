@@ -1,5 +1,6 @@
 const test = require('ava')
-const { createSecretKey } = require('crypto')
+
+const { createSecretKey } = require('../../lib/help/key_object')
 const { hasProperty, hasNoProperties } = require('../macros')
 
 const errors = require('../../lib/errors')

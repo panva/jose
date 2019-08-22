@@ -1,6 +1,8 @@
 const test = require('ava')
 
-if ('electron' in process.versions) return
+const { keyObjectSupported } = require('../../lib/help/node_support')
+
+if ('electron' in process.versions || !keyObjectSupported) return
 
 const { createPrivateKey, createPublicKey } = require('crypto')
 const { hasProperty, hasNoProperties, hasProperties } = require('../macros')
