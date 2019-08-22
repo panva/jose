@@ -22,15 +22,15 @@ module.exports = {
       payload: '$.02',
       signatures: [
         {
-          protected: 'eyJhbGciOiJIUzI1NiIsImI2NCI6ZmFsc2V9',
-          signature: 'GsyM6AQJbQHY8aQKCbZSPJHzMRWo3HKIlcDuXof7nqs'
+          protected: 'eyJhbGciOiJIUzI1NiIsImI2NCI6ZmFsc2UsImNyaXQiOlsiYjY0Il19',
+          signature: 'A5dxf2s96_n5FLueVuW1Z_vh161FwXZC4YLPff6dmDY'
         }
       ]
     },
     json_flat: {
       payload: '$.02',
-      protected: 'eyJhbGciOiJIUzI1NiIsImI2NCI6ZmFsc2V9',
-      signature: 'GsyM6AQJbQHY8aQKCbZSPJHzMRWo3HKIlcDuXof7nqs'
+      protected: 'eyJhbGciOiJIUzI1NiIsImI2NCI6ZmFsc2UsImNyaXQiOlsiYjY0Il19',
+      signature: 'A5dxf2s96_n5FLueVuW1Z_vh161FwXZC4YLPff6dmDY'
     }
   }
 }
