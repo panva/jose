@@ -208,7 +208,11 @@ export namespace JWKS {
         static fromJWKS(jwks: JSONWebKeySet): KeyStore
     }
 
-    export function asKeyStore(jwks: JSONWebKeySet, options?: ImportOptions): KeyStore
+    interface JWKSImportOptions extends ImportOptions {
+        ignoreErrors?: boolean
+    }
+
+    export function asKeyStore(jwks: JSONWebKeySet, options?: JWKSImportOptions): KeyStore
 }
 
 export namespace JWS {

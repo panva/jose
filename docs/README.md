@@ -692,6 +692,8 @@ Creates a new KeyStore from a JSON Web Key Set.
 
 - `jwks`: `<Object>` JWKS formatted object (`{ keys: [{ kty: '...', ... }, ...] }`)
 - `options`: `<Object>`
+  - `ignoreErrors`: `<boolean>` **Default** 'false'. This will make it so that keys
+    unsupported by your Node.js runtime version (or otherwise faulty keys) get swallowed.
   - `calculateMissingRSAPrimes`: `<boolean>` **Default** 'false'. This option is really only in
     effect when the JWKS contains private RSA JWK keys, by default, keys without the optimization
     private key parameters (p, q, dp, dq, qi) won't imported because their calculation is heavy and
