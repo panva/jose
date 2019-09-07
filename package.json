@@ -33,10 +33,11 @@
   "author": "Filip Skokan <panva.ip@gmail.com>",
   "files": [
     "lib",
-    "LICENSE_THIRD_PARTY"
+    "LICENSE_THIRD_PARTY",
+    "types/index.d.ts"
   ],
   "main": "lib/index.js",
-  "types": "lib/index.d.ts",
+  "types": "types/index.d.ts",
   "scripts": {
     "coverage": "c8 ava",
     "lint": "standard",
