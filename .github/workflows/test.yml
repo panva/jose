@@ -43,22 +43,6 @@ jobs:
           CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
         run: npx codecov
 
-  test-nightly:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@master
-      - name: npm run coverage
-        env:
-          CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
-        run: |
-          curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.34.0/install.sh | bash
-          export NVM_DIR=~/.nvm
-          source ~/.nvm/nvm.sh
-          NVM_NODEJS_ORG_MIRROR=https://nodejs.org/download/nightly/ nvm install node
-          npm install
-          npm run coverage
-          npx codecov
-
   test-electron:
     runs-on: ${{ matrix.os }}
     strategy:
