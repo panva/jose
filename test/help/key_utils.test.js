@@ -1,6 +1,6 @@
 const test = require('ava')
 
-const { edDSASupported } = require('../../lib/help/node_support')
+const { edDSASupported } = require('../../lib/help/runtime_support')
 const { createPublicKey, createPrivateKey } = require('../../lib/help/key_object')
 const { errors } = require('../..')
 const { keyObjectToJWK, jwkToPem } = require('../../lib/help/key_utils')

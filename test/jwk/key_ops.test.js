@@ -5,7 +5,7 @@ const asKey = require('../../lib/jwk/import')
 const { generateSync } = require('../../lib/jwk/generate')
 const { generateKeyPairSync } = require('../macros/generate')
 
-const { edDSASupported } = require('../../lib/help/node_support')
+const { edDSASupported } = require('../../lib/help/runtime_support')
 
 const jwk = asKey('foo').toJWK(true)
 

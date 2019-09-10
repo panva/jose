@@ -1,6 +1,6 @@
 const test = require('ava')
 
-const { keyObjectSupported } = require('../../lib/help/node_support')
+const { keyObjectSupported } = require('../../lib/help/runtime_support')
 
 const recipes = require('./recipes')
 

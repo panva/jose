@@ -3,7 +3,7 @@ const { createPrivateKey, createPublicKey } = require('../../lib/help/key_object
 const { hasProperty, hasNoProperties, hasProperties } = require('../macros')
 const fixtures = require('../fixtures')
 
-const { oaepHashSupported } = require('../../lib/help/node_support')
+const { oaepHashSupported } = require('../../lib/help/runtime_support')
 const { generateSync } = require('../../lib/jwk/generate')
 const RSAKey = require('../../lib/jwk/key/rsa')
 

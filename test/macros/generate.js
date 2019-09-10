@@ -1,6 +1,6 @@
 const { generateKeyPairSync } = require('crypto')
 
-const { keyObjectSupported } = require('../../lib/help/node_support')
+const { keyObjectSupported } = require('../../lib/help/runtime_support')
 const { createPublicKey, createPrivateKey } = require('../../lib/help/key_object')
 
 module.exports = {

@@ -1,6 +1,6 @@
 const test = require('ava')
 
-const { edDSASupported } = require('../../lib/help/node_support')
+const { edDSASupported } = require('../../lib/help/runtime_support')
 
 const { JWK: { generate, generateSync }, errors } = require('../..')
 

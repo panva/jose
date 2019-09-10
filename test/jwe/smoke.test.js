@@ -2,7 +2,7 @@ const test = require('ava')
 
 const { randomBytes } = require('crypto')
 
-const { edDSASupported } = require('../../lib/help/node_support')
+const { edDSASupported } = require('../../lib/help/runtime_support')
 const { JWK: { asKey, generateSync } } = require('../..')
 
 const ENCS = [

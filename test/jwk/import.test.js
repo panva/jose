@@ -2,7 +2,7 @@ const test = require('ava')
 
 const { JWS, JWE, JWK: { asKey, importKey, generate }, errors } = require('../..')
 
-const { edDSASupported, keyObjectSupported } = require('../../lib/help/node_support')
+const { edDSASupported, keyObjectSupported } = require('../../lib/help/runtime_support')
 const { createSecretKey } = require('../../lib/help/key_object')
 const { generateKeyPairSync } = require('../macros/generate')
 const fixtures = require('../fixtures')
