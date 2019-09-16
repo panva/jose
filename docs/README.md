@@ -681,7 +681,7 @@ Synchronous version of `keystore.generate()`.
 
 Exports the keystore to a JSON Web Key Set formatted object.
 
-- `private`: `<boolean>` When true exports keys with their private components. **Default:** 'false'
+- `private`: `<boolean>` When true exports private keys with their private components. **Default:** 'false'
 - Returns: `<Object>`
 
 ---

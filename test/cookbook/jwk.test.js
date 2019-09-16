@@ -121,7 +121,5 @@ test('keystore .toJWKS()', t => {
   t.deepEqual(ks.toJWKS(), { keys: [pubEc, pubRsa, pubOct] })
   t.deepEqual(ks.toJWKS(false), { keys: [pubEc, pubRsa, pubOct] })
   ks.add(asKey(pubRsa))
-  t.throws(() => {
-    ks.toJWKS(true)
-  }, { instanceOf: TypeError, message: 'public key cannot be exported as private' })
+  t.deepEqual(ks.toJWKS(true), { keys: [ec, rsa, oct, pubRsa] })
 })
