@@ -17,11 +17,7 @@
 
 ## Support
 
-[<img src="https://c5.patreon.com/external/logo/become_a_patron_button@2x.png" width="160" align="right">][support-patreon]
-If you or your business use @panva/jose, please consider becoming a [Patron][support-patreon] so
-I can continue maintaining it and adding new features carefree. You may also donate one-time via
-[PayPal][support-paypal].
-[<img src="https://cdn.jsdelivr.net/gh/gregoiresgt/payment-icons@183140a5ff8f39b5a19d59ebeb2c77f03c3a24d3/Assets/Payment/PayPal/Paypal@2x.png" width="100" align="right">][support-paypal]
+If you or your business use @panva/jose, please consider becoming a [sponsor][support-sponsor] so I can continue maintaining it and adding new features carefree.
 
 <br>
 
@@ -1478,8 +1474,7 @@ if (err.code === 'ERR_JWT_MALFORMED') {
 
 
 [spec-thumbprint]: https://tools.ietf.org/html/rfc7638
-[support-patreon]: https://www.patreon.com/panva
-[support-paypal]: https://www.paypal.me/panva
+[support-sponsor]: https://github.com/users/panva/sponsorship
 [connect-core]: https://openid.net/specs/openid-connect-core-1_0.html
 [bug]: https://github.com/panva/jose/issues/new?labels=bug&template=bug-report.md&title=bug%3A+
 [sponsor-auth0]: https://auth0.com/overview?utm_source=GHsponsor&utm_medium=GHsponsor&utm_campaign=panva-jose&utm_content=auth
