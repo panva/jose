@@ -251,7 +251,7 @@ test('minimal RSA test', async t => {
   asKeyStore({ keys: [{ kty: 'RSA', d, e, n }] }, { calculateMissingRSAPrimes: true })
   KeyStore.fromJWKS({ keys: [{ kty: 'RSA', d, e, n }] }) // deprecated
   t.throws(() => {
-    asKeyStore({ keys: [{ kty: 'RSA', d: d.substr(1), e, n }] }, { calculateMissingRSAPrimes: true })
+    asKeyStore({ keys: [{ kty: 'RSA', d: d.substr(3), e, n }] }, { calculateMissingRSAPrimes: true })
   }, { instanceOf: errors.JWKImportFailed, code: 'ERR_JWK_IMPORT_FAILED', message: 'failed to calculate missing primes' })
   t.throws(() => {
     asKeyStore({ keys: [{ kty: 'RSA', d, e, n }] })
@@ -263,6 +263,6 @@ test('minimal RSA test', async t => {
     n: '1hZ73O4axgytljzb8gCXxdk3Uov_f7U6c_hKH5EtGtr8XdWce1XLLjARqAQfOpbYqkm1ONiIvhQvxvW0a7gXgEw4no9c_Gi8a803O9LZmYAYDxErlvPQPg9KC5cLPChM-Uyxy4TOakjw1ysUKBX7zXpb_1TIOnlhOYeDbejLkp8sR7BJIsDNxqtkV4KHLWQ9pKsMU28itblQ8nN8UJI5Js4UbR-b417uQ9jIVRhWlDjp11sXYqfnqShCDYGYmLL2IHTVf8tTmEOWsNWcE2nT-qMTGMOq2DBkyr31lxc-4eQXZuwcrk_58xQ69xSrdrsy8J11O50nbvwcqFhjeMV2VQ'
   }
   t.throws(() => {
-    asKeyStore({ keys: [{ kty: 'RSA', d: `${jwk.d}F`, e: jwk.e, n: jwk.n }] }, { calculateMissingRSAPrimes: true })
+    asKeyStore({ keys: [{ kty: 'RSA', d: `${jwk.d}FF`, e: jwk.e, n: jwk.n }] }, { calculateMissingRSAPrimes: true })
   }, { instanceOf: errors.JWKInvalid, code: 'ERR_JWK_INVALID', message: 'invalid RSA private exponent' })
 })

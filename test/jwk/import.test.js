@@ -6,6 +6,7 @@ const { edDSASupported, keyObjectSupported } = require('../../lib/help/runtime_s
 const { createSecretKey } = require('../../lib/help/key_object')
 const { generateKeyPairSync } = require('../macros/generate')
 const fixtures = require('../fixtures')
+const base64url = require('../../lib/help/base64url')
 
 test('imports PrivateKeyObject and then its Key instance', t => {
   const k = asKey(generateKeyPairSync('ec', { namedCurve: 'P-256' }).privateKey)
@@ -108,7 +109,7 @@ test('minimal RSA test', async t => {
     JWE.decrypt(JWE.encrypt('foo', minKey), key, { alg })
   })
   t.throws(() => {
-    asKey({ kty: 'RSA', d: d.substr(1), e, n }, { calculateMissingRSAPrimes: true })
+    asKey({ kty: 'RSA', d: d.substr(3), e, n }, { calculateMissingRSAPrimes: true })
   }, { instanceOf: errors.JWKImportFailed, code: 'ERR_JWK_IMPORT_FAILED', message: 'failed to calculate missing primes' })
   t.throws(() => {
     asKey({ kty: 'RSA', d, e, n })
@@ -120,7 +121,7 @@ test('minimal RSA test', async t => {
     n: '1hZ73O4axgytljzb8gCXxdk3Uov_f7U6c_hKH5EtGtr8XdWce1XLLjARqAQfOpbYqkm1ONiIvhQvxvW0a7gXgEw4no9c_Gi8a803O9LZmYAYDxErlvPQPg9KC5cLPChM-Uyxy4TOakjw1ysUKBX7zXpb_1TIOnlhOYeDbejLkp8sR7BJIsDNxqtkV4KHLWQ9pKsMU28itblQ8nN8UJI5Js4UbR-b417uQ9jIVRhWlDjp11sXYqfnqShCDYGYmLL2IHTVf8tTmEOWsNWcE2nT-qMTGMOq2DBkyr31lxc-4eQXZuwcrk_58xQ69xSrdrsy8J11O50nbvwcqFhjeMV2VQ'
   }
   t.throws(() => {
-    asKey({ kty: 'RSA', d: `${jwk.d}F`, e: jwk.e, n: jwk.n }, { calculateMissingRSAPrimes: true })
+    asKey({ kty: 'RSA', d: `${jwk.d}FF`, e: jwk.e, n: jwk.n }, { calculateMissingRSAPrimes: true })
   }, { instanceOf: errors.JWKInvalid, code: 'ERR_JWK_INVALID', message: 'invalid RSA private exponent' })
 })
 
@@ -142,4 +143,24 @@ test('fails to import JWK RSA with oth', async t => {
       oth: []
     })
   }, { instanceOf: errors.JOSENotSupported, code: 'ERR_JOSE_NOT_SUPPORTED', message: 'Private RSA keys with more than two primes are not supported' })
+})
+
+test('invalid encoded jwk import', async t => {
+  const jwk = (await generate('oct')).toJWK(true)
+
+  jwk.k = base64url.decodeToBuffer(jwk.k).toString('base64')
+
+  t.throws(() => {
+    asKey(jwk)
+  }, { instanceOf: errors.JOSEInvalidEncoding, code: 'ERR_JOSE_INVALID_ENCODING', message: 'input is not a valid base64url encoded string' })
+})
+
+test('invalid encoded oct jwk import', async t => {
+  const jwk = (await generate('EC')).toJWK(true)
+
+  jwk.d = base64url.decodeToBuffer(jwk.d).toString('base64')
+
+  t.throws(() => {
+    asKey(jwk)
+  }, { instanceOf: errors.JOSEInvalidEncoding, code: 'ERR_JOSE_INVALID_ENCODING', message: 'input is not a valid base64url encoded string' })
 })

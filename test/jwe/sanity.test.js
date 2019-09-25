@@ -194,7 +194,7 @@ test('aes_cbc_hmac_sha2 decrypt iv check (missing)', t => {
 test('aes_cbc_hmac_sha2 decrypt iv check (invalid length)', t => {
   const k = generateSync('oct', undefined, { alg: 'A128CBC-HS256' })
   const encrypted = JWE.encrypt.flattened('foo', k, { alg: 'dir', enc: k.alg })
-  encrypted.iv = encrypted.iv.substr(0, 15)
+  encrypted.iv = base64url.encode(base64url.decodeToBuffer(encrypted.iv).slice(1))
   t.throws(() => {
     JWE.decrypt(encrypted, k)
   }, { instanceOf: errors.JWEInvalid, code: 'ERR_JWE_INVALID', message: 'invalid iv' })
@@ -212,7 +212,7 @@ test('aes_cbc_hmac_sha2 decrypt tag check (missing)', t => {
 test('aes_cbc_hmac_sha2 decrypt tag check (invalid length)', t => {
   const k = generateSync('oct', undefined, { alg: 'A128CBC-HS256' })
   const encrypted = JWE.encrypt.flattened('foo', k, { alg: 'dir', enc: k.alg })
-  encrypted.tag = encrypted.tag.substr(0, 15)
+  encrypted.tag = base64url.encode(base64url.decodeToBuffer(encrypted.tag).slice(1))
   t.throws(() => {
     JWE.decrypt(encrypted, k)
   }, { instanceOf: errors.JWEInvalid, code: 'ERR_JWE_INVALID', message: 'invalid tag' })
@@ -230,7 +230,7 @@ test('aes_gcm decrypt iv check (missing)', t => {
 test('aes_gcm decrypt iv check (invalid length)', t => {
   const k = generateSync('oct', 128, { alg: 'A128GCM' })
   const encrypted = JWE.encrypt.flattened('foo', k, { alg: 'dir', enc: k.alg })
-  encrypted.iv = encrypted.iv.substr(0, 15)
+  encrypted.iv = base64url.encode(base64url.decodeToBuffer(encrypted.iv).slice(1))
   t.throws(() => {
     JWE.decrypt(encrypted, k)
   }, { instanceOf: errors.JWEInvalid, code: 'ERR_JWE_INVALID', message: 'invalid iv' })
@@ -248,7 +248,7 @@ test('aes_gcm decrypt tag check (missing)', t => {
 test('aes_gcm decrypt tag check (invalid length)', t => {
   const k = generateSync('oct', 128, { alg: 'A128GCM' })
   const encrypted = JWE.encrypt.flattened('foo', k, { alg: 'dir', enc: k.alg })
-  encrypted.tag = encrypted.tag.substr(0, 15)
+  encrypted.tag = base64url.encode(base64url.decodeToBuffer(encrypted.tag).slice(1))
   t.throws(() => {
     JWE.decrypt(encrypted, k)
   }, { instanceOf: errors.JWEInvalid, code: 'ERR_JWE_INVALID', message: 'invalid tag' })

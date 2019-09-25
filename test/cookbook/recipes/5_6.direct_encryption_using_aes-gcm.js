@@ -1,5 +1,5 @@
 module.exports = {
-  title: 'Direction Encryption using AES-GCM',
+  title: 'Direct Encryption using AES-GCM',
   input: {
     plaintext: 'You can trust us to stick with you through thick and thin–to the bitter end. And you can trust us to keep any secret of yours–closer than you keep it yourself. But you cannot trust us to let you face trouble alone, and go off without a word. We are your friends, Frodo.',
     key: {
