@@ -164,7 +164,7 @@ const jwk = { kty: 'EC',
   y: 'QTwy27XgP7ZMOdGOSopAHB-FU1JMQn3J9GEWGtUXreQ' }
 const anotherKey = jose.JWK.asKey(jwk)
 
-const keystore = new jose.JWK.KeyStore(key, key2)
+const keystore = new jose.JWKS.KeyStore(key, key2)
 ```
 
 ### JWT vs JWS
