@@ -48,7 +48,7 @@ jobs:
       fail-fast: false
       matrix:
         electron-version:
-          - 6.0.0
+          - 6.0.8 # NODE_V8_COVERAGE doesn't work prior to 6.0.8
           - 6
         os:
           - ubuntu-latest
@@ -60,4 +60,10 @@ jobs:
           version: 12
       - run: npm install --global xvfb-maybe electron@${{ matrix.electron-version }}
       - run: npm install
-      - run: xvfb-maybe electron ./test/electron
+      - env:
+          NODE_V8_COVERAGE: ./coverage/tmp
+        run: xvfb-maybe electron ./test/electron
+      - run: npx c8 report
+      - env:
+          CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
+        run: npx codecov
