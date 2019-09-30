@@ -16,7 +16,6 @@ jobs:
           version: 12
       - run: npm install
       - run: npm run lint
-      - run: npx dtslint --onlyTestTsNext types
 
   test:
     runs-on: ${{ matrix.os }}
