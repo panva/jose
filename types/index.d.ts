@@ -1,4 +1,5 @@
 /// <reference types="node" />
+// TypeScript Version: 3.6
 
 import { KeyObject, PrivateKeyInput, PublicKeyInput } from 'crypto';
 

@@ -40,7 +40,7 @@
   "types": "types/index.d.ts",
   "scripts": {
     "coverage": "c8 ava",
-    "lint": "standard",
+    "lint": "standard && dtslint types",
     "lint-fix": "standard --fix",
     "test": "ava",
     "watch": "ava --watch"
@@ -56,16 +56,18 @@
     ]
   },
   "dependencies": {
-    "asn1.js": "^5.1.1"
+    "asn1.js": "^5.2.0"
   },
   "devDependencies": {
-    "@commitlint/cli": "^8.1.0",
-    "@commitlint/config-conventional": "^8.1.0",
-    "ava": "^2.3.0",
+    "@commitlint/cli": "^8.2.0",
+    "@commitlint/config-conventional": "^8.2.0",
+    "ava": "^2.4.0",
     "babel-eslint": "^10.0.3",
     "c8": "^5.0.4",
-    "husky": "^3.0.5",
-    "standard": "^14.1.0"
+    "dtslint": "^0.9.8",
+    "husky": "^3.0.7",
+    "standard": "^14.3.1",
+    "typescript": "^3.6.3"
   },
   "engines": {
     "node": "^10.13.0 || >=12.0.0"
