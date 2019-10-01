@@ -2,6 +2,15 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+# [1.10.0](https://github.com/panva/jose/compare/v1.9.2...v1.10.0) (2019-10-01)
+
+
+### Features
+
+* rename package ([26f4cf2](https://github.com/panva/jose/commit/26f4cf2))
+
+
+
 ## [1.9.2](https://github.com/panva/jose/compare/v1.9.1...v1.9.2) (2019-09-16)
 
 
