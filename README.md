@@ -1,4 +1,4 @@
-# @panva/jose
+# jose
 
 ![build][actions-image] [![codecov][codecov-image]][codecov-url]
 
@@ -8,7 +8,7 @@
 
 ## Implemented specs & features
 
-The following specifications are implemented by @panva/jose
+The following specifications are implemented by `jose`
 
 - JSON Web Signature (JWS) - [RFC7515][spec-jws]
 - JSON Web Encryption (JWE) - [RFC7516][spec-jwe]
@@ -104,7 +104,7 @@ Won't implement:
 
 <br>
 
-Have a question about using @panva/jose? - [ask][ask].  
+Have a question about using `jose`? - [ask][ask].  
 Found a bug? - [report it][bug].  
 Missing a feature? - If it wasn't already discussed before, [ask for it][suggest-feature].  
 Found a vulnerability? - Reach out to us via email first, see [security vulnerability disclosure][security-vulnerability].  
@@ -115,11 +115,11 @@ Found a vulnerability? - Reach out to us via email first, see [security vulnerab
 
 ## Support
 
-If you or your business use @panva/jose, please consider becoming a [sponsor][support-sponsor] so I can continue maintaining it and adding new features carefree.
+If you or your business use `jose`, please consider becoming a [sponsor][support-sponsor] so I can continue maintaining it and adding new features carefree.
 
 ## Documentation
 
-- [@panva/jose API Documentation][documentation]
+- [jose API Documentation][documentation]
   - [JWK (JSON Web Key)][documentation-jwk]
   - [JWKS (JSON Web Key Set)][documentation-jwks]
   - [JWT (JSON Web Token)][documentation-jwt]
@@ -131,22 +131,22 @@ If you or your business use @panva/jose, please consider becoming a [sponsor][su
 For the best performance Node.js version **>=12.0.0** is recommended, but **^10.13.0** lts/dubnium
 is also supported.
 
-Installing @panva/jose
+Installing `jose`
 
 ```console
-npm install @panva/jose
+npm install jose
 ```
 
 Usage
 ```js
-const jose = require('@panva/jose')
+const jose = require('jose')
 const {
   JWE,   // JSON Web Encryption (JWE)
   JWK,   // JSON Web Key (JWK)
   JWKS,  // JSON Web Key Set (JWKS)
   JWS,   // JSON Web Signature (JWS)
   JWT,   // JSON Web Token (JWT)
-  errors // errors utilized by @panva/jose
+  errors // errors utilized by jose
 } = jose
 ```
 
@@ -238,7 +238,7 @@ jose.JWT.verify(
 
 Note: Depending on the channel you receive an ID Token from the following claims may be required
 and must also be checked: `at_hash`, `c_hash` or `s_hash`. Use e.g. [`oidc-token-hash`][oidc-token-hash]
-to validate those hashes after getting the ID Token payload and signature validated by @panva/jose.
+to validate those hashes after getting the ID Token payload and signature validated by `jose`
 
 #### JWS Signing
 
@@ -295,21 +295,21 @@ Note: the secp256k1 JOSE parameters registration and the RFC is still in a draft
 draft changes its mind about the parameter names again the new values will be propagated as a MINOR
 library version.
 
-When you require `@panva/jose` you can work with `secp256k1` EC keys right away, the EC JWK `crv`
+When you require `jose` you can work with `secp256k1` EC keys right away, the EC JWK `crv`
 used is as per the specification `secp256k1`.
 
 ```js
-const jose = require('@panva/jose')
+const jose = require('jose')
 let key = jose.JWK.generateSync('EC', 'secp256k1')
 key = jose.JWK.asKey(fs.readFileSync('path/to/key/file'))
 key.crv === 'secp256k1'
 ```
 
 For legacy reasons the unregistered EC JWK `crv` value `P-256K` is also supported but you must
-require `@panva/jose` like so to use it:
+require `jose` like so to use it:
 
 ```js
-const jose = require('@panva/jose/P-256K')
+const jose = require('jose/P-256K')
 let key = jose.JWK.generateSync('EC', 'P-256K')
 key = jose.JWK.asKey(fs.readFileSync('path/to/key/file'))
 key.crv === 'P-256K'
@@ -338,7 +338,7 @@ private API and is subject to change between any versions.
 
 #### How do I use it outside of Node.js
 
-It is **only built for ^10.13.0 || >=12.0.0 Node.js** environment - including @panva/jose in
+It is **only built for ^10.13.0 || >=12.0.0 Node.js** environment - including `jose` in
 transpiled browser-environment targeted projects is not supported and may result in unexpected
 results.
 

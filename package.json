@@ -1,5 +1,5 @@
 {
-  "name": "@panva/jose",
+  "name": "jose",
   "version": "1.9.2",
   "description": "JSON Web Almost Everything - JWA, JWS, JWE, JWK, JWT, JWKS for Node.js with minimal dependencies",
   "keywords": [

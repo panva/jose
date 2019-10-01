@@ -141,7 +141,7 @@ The new methods still allow to import private RSA keys with these
 optimization key parameters missing but it is disabled by default and one
 should choose to enable it when working with keys from trusted sources
 
-It is recommended not to use @panva/jose versions with this feature in
+It is recommended not to use `jose` versions with this feature in
 its original on-by-default form - v1.1.0 and v1.2.0
 
 

@@ -1,4 +1,4 @@
-# Contributing to @panva/jose
+# Contributing to `jose`
 
 Please note we have a [code of conduct][coc], please follow it in all your interactions with the
 project.

@@ -1,4 +1,4 @@
-# @panva/jose API Documentation
+# `jose` API Documentation
 
 > "JSON Web Almost Everything" - JWA, JWS, JWE, JWT, JWK, JWKS for Node.js with minimal dependencies
 
@@ -17,7 +17,7 @@
 
 ## Support
 
-If you or your business use @panva/jose, please consider becoming a [sponsor][support-sponsor] so I can continue maintaining it and adding new features carefree.
+If you or your business use `jose`, please consider becoming a [sponsor][support-sponsor] so I can continue maintaining it and adding new features carefree.
 
 <br>
 
@@ -52,12 +52,12 @@ If you or your business use @panva/jose, please consider becoming a [sponsor][su
 - [JWK.isKey(object)](#jwkiskeyobject)
 <!-- TOC JWK END -->
 
-All @panva/jose operations require `<JWK.Key>` or `<JWKS.KeyStore>` as arguments. Here's
+All `jose` operations require `<JWK.Key>` or `<JWKS.KeyStore>` as arguments. Here's
 how to get a `<JWK.Key>` instances generated or instantiated from existing key material.
 
 
 ```js
-const { JWK } = require('@panva/jose')
+const { JWK } = require('jose')
 // { asKey: [Function: asKey],
 //   generate: [AsyncFunction: generate],
 //   generateSync: [Function: generateSync] }
@@ -211,7 +211,7 @@ of algorithms the key may perform.
   <summary><em><strong>Example</strong></em> (Click to expand)</summary>
 
 ```js
-const { JWK: { generateSync } } = require('@panva/jose')
+const { JWK: { generateSync } } = require('jose')
 
 const privateKey = generateSync('RSA')
 privateKey.algorithms()
@@ -257,7 +257,7 @@ Exports the key to a JSON Web Key formatted object.
   <summary><em><strong>Example</strong></em> (Click to expand)</summary>
 
 ```js
-const { JWK: { generateSync } } = require('@panva/jose')
+const { JWK: { generateSync } } = require('jose')
 
 const key = generateSync('RSA', 2048, { use: 'sig', alg: 'PS256' })
 key.toJWK()
@@ -317,7 +317,7 @@ For private key export, the following encoding options can be used:
   <summary><em><strong>Example</strong></em> (Click to expand)</summary>
 
 ```js
-const { JWK: { generateSync } } = require('@panva/jose')
+const { JWK: { generateSync } } = require('jose')
 
 const key = generateSync('RSA', 2048)
 key.toPEM()
@@ -363,7 +363,7 @@ formats
 
 ```js
 const { readFileSync } = require('fs')
-const { JWK: { asKey } } = require('@panva/jose')
+const { JWK: { asKey } } = require('jose')
 
 const key = asKey(readFileSync('path/to/key/file'))
 // ECKey {
@@ -395,7 +395,7 @@ Imports a symmetric key.
   <summary><em><strong>Example</strong></em> (Click to expand)</summary>
 
 ```js
-const { JWK: { asKey } } = require('@panva/jose')
+const { JWK: { asKey } } = require('jose')
 
 const key = asKey(Buffer.from('8yHym6h5CG5FylbzrCn8fhxEbp3kOaTsgLaawaaJ'))
 // OctKey {
@@ -442,7 +442,7 @@ keys may be both private and public.
 <summary><em><strong>Example</strong></em> (Click to expand)</summary>
 
 ```js
-const { JWK: { asKey } } = require('@panva/jose')
+const { JWK: { asKey } } = require('jose')
 const jwk = {
   kty: 'RSA',
   kid: 'r1LkbBo3925Rb2ZFFrKyU3MVex9T2817Kx0vbi6i_Kc',
@@ -489,7 +489,7 @@ Securely generates a new RSA, EC, OKP or oct key.
 <summary><em><strong>Example</strong></em> (Click to expand)</summary>
 
 ```js
-const { JWK: { generate } } = require('@panva/jose')
+const { JWK: { generate } } = require('jose')
 (async () => {
   const key = await generate('EC', 'P-384', { use: 'sig' })
   // ECKey {
@@ -532,7 +532,7 @@ Synchronous version of `JWK.generate()`
 <summary><em><strong>Example</strong></em> (Click to expand)</summary>
 
 ```js
-const { JWK: { generateSync } } = require('@panva/jose')
+const { JWK: { generateSync } } = require('jose')
 const key = generateSync('RSA', 2048, { use: 'enc' })
 // RSAKey {
 //   kty: 'RSA',
@@ -578,7 +578,7 @@ Returns 'true' if the value is an instance of `<JWK.Key>`.
 <!-- TOC JWKS END -->
 
 ```js
-const { JWKS } = require('@panva/jose')
+const { JWKS } = require('jose')
 // { KeyStore: [Function: KeyStore] }
 ```
 
@@ -702,7 +702,7 @@ Creates a new KeyStore from a JSON Web Key Set.
 <summary><em><strong>Example</strong></em> (Click to expand)</summary>
 
 ```js
-const { JWKS: { KeyStore, asKeyStore } } = require('@panva/jose')
+const { JWKS: { KeyStore, asKeyStore } } = require('jose')
 const jwks = {
   keys: [
     { kty: 'RSA',
@@ -733,7 +733,7 @@ ks instanceof KeyStore
 <!-- TOC JWT END -->
 
 ```js
-const { JWT } = require('@panva/jose')
+const { JWT } = require('jose')
 // { decode: [Function], sign: [Function], verify: [Function] }
 ```
 
@@ -774,7 +774,7 @@ that will be used to sign with is either provided as part of the 'options.algori
 <summary><em><strong>Example</strong></em> (Click to expand)</summary>
 
 ```js
-const { JWT, JWK } = require('@panva/jose')
+const { JWT, JWK } = require('jose')
 const key = JWK.asKey({
   kty: 'oct',
   k: 'hJtXIZ2uSN5kbQfbtTNWbpdmhkV8FJG-Onbc6mxCcYg'
@@ -847,7 +847,7 @@ Verifies the claims and signature of a JSON Web Token.
 <summary><em><strong>Example</strong></em> (Click to expand)</summary>
 
 ```js
-const { JWK, JWT } = require('@panva/jose')
+const { JWK, JWT } = require('jose')
 
 const key = JWK.asKey({
   kty: 'oct',
@@ -881,7 +881,7 @@ ever.
 <summary><em><strong>Example</strong></em> (Click to expand)</summary>
 
 ```js
-const { JWT } = require('@panva/jose')
+const { JWT } = require('jose')
 
 const token = 'eyJ0eXAiOiJKV1QiLCJraWQiOiJSdG9SdXJfMURpcjVNNHd1T2ZxTmtEWU9mOU9fNFJKLWFIa1RBNzVSTEE4IiwiYWxnIjoiSFMyNTYifQ.eyJ1cm46ZXhhbXBsZTpjbGFpbSI6ImZvbyIsImF1ZCI6WyJ1cm46ZXhhbXBsZTpjbGllbnQiXSwiaXNzIjoiaHR0cHM6Ly9vcC5leGFtcGxlLmNvbSIsImlhdCI6MTU1MTI5NDEzNywiZXhwIjoxNTUxMzAxMzM3fQ.YmtApwaGRBWlL9O8avbmpYcJ5UwNy0R8rpbxZqHxNd4'
 
@@ -924,7 +924,7 @@ The `<JWS>` module provides methods required to sign or verify JSON Web Signatur
 the defined serializations.
 
 ```js
-const { JWS } = require('@panva/jose')
+const { JWS } = require('jose')
 // { Sign: [Function: Sign],
 //   sign:
 //    { [Function: bound single]
@@ -941,7 +941,7 @@ signatures of the same payload) using the General JWS JSON Serialization Syntax.
 <summary><em><strong>Example</strong></em> (Click to expand)</summary>
 
 ```js
-const { JWK, JWS } = require('@panva/jose')
+const { JWK, JWS } = require('jose')
 
 const key = JWK.asKey({
   kty: 'oct',
@@ -1024,7 +1024,7 @@ provided `<JWK.Key>` instance.
 <summary><em><strong>Example</strong></em> (Click to expand)</summary>
 
 ```js
-const { JWK, JWS } = require('@panva/jose')
+const { JWK, JWS } = require('jose')
 
 const key = JWK.asKey({
   kty: 'oct',
@@ -1058,7 +1058,7 @@ inferred from the provided `<JWK.Key>` instance.
 <summary><em><strong>Example</strong></em> (Click to expand)</summary>
 
 ```js
-const { JWK, JWS } = require('@panva/jose')
+const { JWK, JWS } = require('jose')
 
 const key = JWK.asKey({
   kty: 'oct',
@@ -1100,7 +1100,7 @@ Verifies the provided JWS in either serialization with a given `<JWK.Key>` or `<
 <summary><em><strong>Example</strong></em> (Click to expand)</summary>
 
 ```js
-const { JWK, JWS, JWKS } = require('@panva/jose')
+const { JWK, JWS, JWKS } = require('jose')
 
 const key = JWK.asKey({
   kty: 'oct',
@@ -1181,7 +1181,7 @@ The `<JWE>` module provides methods required to encrypt or decrypt JSON Web Encr
 one of the defined serializations.
 
 ```js
-const { JWE } = require('@panva/jose')
+const { JWE } = require('jose')
 // { Encrypt: [Function: Encrypt],
 //   encrypt:
 //    { [Function: bound single]
@@ -1303,7 +1303,7 @@ Verifies the provided JWE in either serialization with a given `<JWK.Key>` or `<
 <!-- TOC Errors END -->
 
 
-The following errors are expected to be thrown by @panva/jose runtime and have their prototypes
+The following errors are expected to be thrown by `jose` runtime and have their prototypes
 exported in `jose.errors`. If you encounter an `Error` other then `TypeError` or one that's
 `instanceof jose.errors.JOSEError` please [report it][bug], it is not intended.
 

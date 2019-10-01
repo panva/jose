@@ -1,6 +1,6 @@
 ---
 name: Feature proposal
-about: I have an idea for a new @panva/jose feature
+about: I have an idea for a new feature
 title: 'proposal: '
 labels: enhancement
 ---
