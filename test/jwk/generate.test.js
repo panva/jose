@@ -151,17 +151,31 @@ test('fails to generate unsupported kty', async t => {
   }, { instanceOf: errors.JOSENotSupported, message: 'unsupported key type: foo' })
 })
 
-test('fails to generate unsupported OKP crv', async t => {
-  await t.throwsAsync(() => {
-    return generate('OKP', 'foo')
-  }, { instanceOf: errors.JOSENotSupported, message: 'unsupported OKP key curve: foo' })
-})
+if (edDSASupported) {
+  test('fails to generate unsupported OKP crv', async t => {
+    await t.throwsAsync(() => {
+      return generate('OKP', 'foo')
+    }, { instanceOf: errors.JOSENotSupported, message: 'unsupported OKP key curve: foo' })
+  })
 
-test('fails to generateSync unsupported OKP crv', async t => {
-  await t.throws(() => {
-    return generateSync('OKP', 'foo')
-  }, { instanceOf: errors.JOSENotSupported, message: 'unsupported OKP key curve: foo' })
-})
+  test('fails to generateSync unsupported OKP crv', async t => {
+    await t.throws(() => {
+      return generateSync('OKP', 'foo')
+    }, { instanceOf: errors.JOSENotSupported, message: 'unsupported OKP key curve: foo' })
+  })
+} else {
+  test('fails to generate OKP when not supported', async t => {
+    await t.throwsAsync(() => {
+      return generate('OKP')
+    }, { instanceOf: errors.JOSENotSupported, message: 'OKP keys are not supported in your Node.js runtime version' })
+  })
+
+  test('fails to generateSync OKP when not supported', async t => {
+    await t.throws(() => {
+      return generateSync('OKP')
+    }, { instanceOf: errors.JOSENotSupported, message: 'OKP keys are not supported in your Node.js runtime version' })
+  })
+}
 
 test('fails to generateSync unsupported EC crv', t => {
   t.throws(() => {
