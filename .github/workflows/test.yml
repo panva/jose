@@ -2,7 +2,13 @@ name: Continuous Integration
 
 on:
   push:
+    paths-ignore:
+      - '**.yml'
+      - '**.md'
   pull_request:
+    paths-ignore:
+      - '**.yml'
+      - '**.md'
   schedule:
     - cron:  0 9 * * 1-5
 
