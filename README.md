@@ -404,6 +404,6 @@ in terms of performance and API (not having well defined errors).
 [spec-oidc-logout_token]: https://openid.net/specs/openid-connect-backchannel-1_0.html#LogoutToken
 [oidc-token-hash]: https://www.npmjs.com/package/oidc-token-hash
 [suggest-feature]: https://github.com/panva/jose/issues/new?labels=enhancement&template=feature-request.md&title=proposal%3A+
-[support-sponsor]: https://github.com/users/panva/sponsorship
+[support-sponsor]: https://github.com/sponsors/panva
 [actions-image]: https://github.com/panva/jose/workflows/Continuous%20Integration/badge.svg
 [sponsor-auth0]: https://auth0.com/overview?utm_source=GHsponsor&utm_medium=GHsponsor&utm_campaign=panva-jose&utm_content=auth
