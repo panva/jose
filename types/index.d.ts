@@ -89,6 +89,8 @@ export namespace JWK {
     x5t?: string;
     'x5t#S256'?: string;
 
+    custom: boolean;
+
     toPEM(private?: boolean, encoding?: pemEncodingOptions): string;
 
     algorithms(operation?: keyOperation): Set<string>;
@@ -142,6 +144,11 @@ export namespace JWK {
     k?: string;
 
     toJWK(private?: boolean): JWKOctKey;
+  }
+
+  class CustomKey extends Key {
+    sign(alg: string, buffer: Buffer): Buffer;
+    verify(alg: string, buffer: Buffer): boolean;
   }
 
   type KeyInput = PrivateKeyInput | PublicKeyInput | string | Buffer;
