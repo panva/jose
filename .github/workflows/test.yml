@@ -33,9 +33,12 @@ jobs:
           - 10
           - 12.0.0
           - 12
+          - 13.0.0
+          - 13
         os:
           - ubuntu-latest
           - windows-latest
+          - macOS-latest
     steps:
       - uses: actions/checkout@master
       - uses: actions/setup-node@v1
