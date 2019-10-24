@@ -19,7 +19,7 @@ jobs:
       - uses: actions/checkout@master
       - uses: actions/setup-node@v1
         with:
-          version: 12
+          node-version: 12
       - run: npx npm-install-retry
       - run: npm run lint
 
@@ -65,7 +65,7 @@ jobs:
       - uses: actions/checkout@master
       - uses: actions/setup-node@v1
         with:
-          version: 12
+          node-version: 12
       - run: npm install --global xvfb-maybe electron@${{ matrix.electron-version }}
       - run: npx npm-install-retry
       - env:
