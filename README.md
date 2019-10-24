@@ -315,8 +315,8 @@ key.crv === 'P-256K'
 
 #### Electron Support
 
-Electron v6.x runtime is supported to the extent of the crypto engine BoringSSL feature parity with
-standard Node.js OpenSSL. The following is disabled in Electron runtime because of its lack of
+Electron >=6.0.0 runtime is supported to the extent of the crypto engine BoringSSL feature parity
+with standard Node.js OpenSSL. The following is disabled in Electron runtime because of its lack of
 [support](https://github.com/panva/jose/blob/master/test/electron/electron.test.js).
 
 - JWE `A128KW`, `A192KW` and `A256KW` algorithms are not available, this also means that other JWAs
