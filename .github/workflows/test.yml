@@ -20,7 +20,7 @@ jobs:
       - uses: actions/setup-node@v1
         with:
           version: 12
-      - run: npm install
+      - run: npx npm-install-retry
       - run: npm run lint
 
   test:
@@ -44,7 +44,7 @@ jobs:
       - uses: actions/setup-node@v1
         with:
           node-version: ${{ matrix.node-version }}
-      - run: npm install
+      - run: npx npm-install-retry
       - run: npm run coverage
       - env:
           CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
@@ -67,7 +67,7 @@ jobs:
         with:
           version: 12
       - run: npm install --global xvfb-maybe electron@${{ matrix.electron-version }}
-      - run: npm install
+      - run: npx npm-install-retry
       - env:
           NODE_V8_COVERAGE: ./coverage/tmp
         run: xvfb-maybe electron ./test/electron
