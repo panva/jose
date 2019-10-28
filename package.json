@@ -63,7 +63,7 @@
     "@commitlint/config-conventional": "^8.2.0",
     "ava": "^2.4.0",
     "babel-eslint": "^10.0.3",
-    "c8": "^5.0.4",
+    "c8": "^6.0.1",
     "dtslint": "^0.9.8",
     "husky": "^3.0.7",
     "standard": "^14.3.1",
