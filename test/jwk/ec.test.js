@@ -35,6 +35,9 @@ Object.entries({
   let ECDH = ['ECDH-ES', 'ECDH-ES+A128KW', 'ECDH-ES+A192KW', 'ECDH-ES+A256KW']
   if ('electron' in process.versions) {
     if (crv === 'secp256k1') return
+    ECDH.splice(1, ECDH.length - 1)
+  }
+  if (crv === 'secp256k1') {
     ECDH = []
   }
   if (crv === 'secp256k1' && 'electron' in process.versions) return
