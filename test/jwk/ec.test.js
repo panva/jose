@@ -32,10 +32,10 @@ Object.entries({
   'P-384': ['ES384', '5gebayAhpztJCs4Pxo-z1hhsN0upoyG2NAoKpiiH2b0'],
   'P-521': ['ES512', 'BQtkbSY3xgN4M2ZP3IHMLG7-Rp1L29teCMfNqgJHtTY']
 }).forEach(([crv, [alg, kid]]) => {
-  const ECDH = ['ECDH-ES', 'ECDH-ES+A128KW', 'ECDH-ES+A192KW', 'ECDH-ES+A256KW']
+  let ECDH = ['ECDH-ES', 'ECDH-ES+A128KW', 'ECDH-ES+A192KW', 'ECDH-ES+A256KW']
   if ('electron' in process.versions) {
     if (crv === 'secp256k1') return
-    ECDH.splice(1, ECDH.length - 1)
+    ECDH = []
   }
   if (crv === 'secp256k1' && 'electron' in process.versions) return
   // private
@@ -58,11 +58,19 @@ Object.entries({
     test(`${crv} EC Private key`, hasProperty, key, 'type', 'private')
     test(`${crv} EC Private key`, hasProperty, key, 'use', undefined)
 
-    test(`${crv} EC Private key algorithms (no operation)`, t => {
-      const result = key.algorithms()
-      t.is(result.constructor, Set)
-      t.deepEqual([...result], [alg, ...ECDH])
-    })
+    if (crv === 'secp256k1') {
+      test(`${crv} EC Private key algorithms (no operation)`, t => {
+        const result = key.algorithms()
+        t.is(result.constructor, Set)
+        t.deepEqual([...result], [alg])
+      })
+    } else {
+      test(`${crv} EC Private key algorithms (no operation)`, t => {
+        const result = key.algorithms()
+        t.is(result.constructor, Set)
+        t.deepEqual([...result], [alg, ...ECDH])
+      })
+    }
 
     test(`${crv} EC Private key algorithms (no operation, w/ alg)`, t => {
       const key = new ECKey(keyObject, { alg })
@@ -143,11 +151,19 @@ Object.entries({
       t.deepEqual([...result], [])
     })
 
-    test(`${crv} EC Private key .algorithms("deriveKey")`, t => {
-      const result = key.algorithms('deriveKey')
-      t.is(result.constructor, Set)
-      t.deepEqual([...result], ECDH)
-    })
+    if (crv === 'secp256k1') {
+      test(`${crv} EC Private key .algorithms("deriveKey")`, t => {
+        const result = key.algorithms('deriveKey')
+        t.is(result.constructor, Set)
+        t.deepEqual([...result], [])
+      })
+    } else {
+      test(`${crv} EC Private key .algorithms("deriveKey")`, t => {
+        const result = key.algorithms('deriveKey')
+        t.is(result.constructor, Set)
+        t.deepEqual([...result], ECDH)
+      })
+    }
 
     test(`${crv} EC Private key .algorithms("wrapKey") when use is sig`, t => {
       const sigKey = new ECKey(keyObject, { use: 'sig' })
@@ -190,11 +206,19 @@ Object.entries({
     test(`${crv} EC Public key`, hasProperty, key, 'type', 'public')
     test(`${crv} EC Public key`, hasProperty, key, 'use', undefined)
 
-    test(`${crv} EC Public key algorithms (no operation)`, t => {
-      const result = key.algorithms()
-      t.is(result.constructor, Set)
-      t.deepEqual([...result], [alg, ...ECDH])
-    })
+    if (crv === 'secp256k1') {
+      test(`${crv} EC Public key algorithms (no operation)`, t => {
+        const result = key.algorithms()
+        t.is(result.constructor, Set)
+        t.deepEqual([...result], [alg])
+      })
+    } else {
+      test(`${crv} EC Public key algorithms (no operation)`, t => {
+        const result = key.algorithms()
+        t.is(result.constructor, Set)
+        t.deepEqual([...result], [alg, ...ECDH])
+      })
+    }
 
     test(`${crv} EC Public key algorithms (no operation, w/ alg)`, t => {
       const key = new ECKey(keyObject, { alg })
@@ -275,11 +299,19 @@ Object.entries({
       t.deepEqual([...result], [])
     })
 
-    test(`${crv} EC Public key .algorithms("deriveKey")`, t => {
-      const result = key.algorithms('deriveKey')
-      t.is(result.constructor, Set)
-      t.deepEqual([...result], ECDH)
-    })
+    if (crv === 'secp256k1') {
+      test(`${crv} EC Public key .algorithms("deriveKey")`, t => {
+        const result = key.algorithms('deriveKey')
+        t.is(result.constructor, Set)
+        t.deepEqual([...result], [])
+      })
+    } else {
+      test(`${crv} EC Public key .algorithms("deriveKey")`, t => {
+        const result = key.algorithms('deriveKey')
+        t.is(result.constructor, Set)
+        t.deepEqual([...result], ECDH)
+      })
+    }
 
     test(`${crv} EC Public key .algorithms("wrapKey") when use is sig`, t => {
       const sigKey = new ECKey(keyObject, { use: 'sig' })

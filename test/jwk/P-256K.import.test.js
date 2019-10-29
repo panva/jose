@@ -37,7 +37,7 @@ Object.entries({
     test(`${crv} EC Private key algorithms (no operation)`, t => {
       const result = key.algorithms()
       t.is(result.constructor, Set)
-      t.deepEqual([...result], [alg, 'ECDH-ES', 'ECDH-ES+A128KW', 'ECDH-ES+A192KW', 'ECDH-ES+A256KW'])
+      t.deepEqual([...result], [alg])
     })
 
     test(`${crv} EC Private key algorithms (no operation, w/ alg)`, t => {
@@ -122,7 +122,7 @@ Object.entries({
     test(`${crv} EC Private key .algorithms("deriveKey")`, t => {
       const result = key.algorithms('deriveKey')
       t.is(result.constructor, Set)
-      t.deepEqual([...result], ['ECDH-ES', 'ECDH-ES+A128KW', 'ECDH-ES+A192KW', 'ECDH-ES+A256KW'])
+      t.deepEqual([...result], [])
     })
 
     test(`${crv} EC Private key .algorithms("wrapKey") when use is sig`, t => {
@@ -169,7 +169,7 @@ Object.entries({
     test(`${crv} EC Public key algorithms (no operation)`, t => {
       const result = key.algorithms()
       t.is(result.constructor, Set)
-      t.deepEqual([...result], [alg, 'ECDH-ES', 'ECDH-ES+A128KW', 'ECDH-ES+A192KW', 'ECDH-ES+A256KW'])
+      t.deepEqual([...result], [alg])
     })
 
     test(`${crv} EC Public key algorithms (no operation, w/ alg)`, t => {
@@ -254,7 +254,7 @@ Object.entries({
     test(`${crv} EC Public key .algorithms("deriveKey")`, t => {
       const result = key.algorithms('deriveKey')
       t.is(result.constructor, Set)
-      t.deepEqual([...result], ['ECDH-ES', 'ECDH-ES+A128KW', 'ECDH-ES+A192KW', 'ECDH-ES+A256KW'])
+      t.deepEqual([...result], [])
     })
 
     test(`${crv} EC Public key .algorithms("wrapKey") when use is sig`, t => {
