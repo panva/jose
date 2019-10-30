@@ -26,7 +26,6 @@ jobs:
   test:
     runs-on: ${{ matrix.os }}
     strategy:
-      fail-fast: false
       matrix:
         node-version:
           - 10.13.0
@@ -53,7 +52,6 @@ jobs:
   test-electron:
     runs-on: ${{ matrix.os }}
     strategy:
-      fail-fast: false
       matrix:
         electron-version:
           - 6.0.8 # NODE_V8_COVERAGE doesn't work prior to 6.0.8
