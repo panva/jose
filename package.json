@@ -64,7 +64,7 @@
     "ava": "^2.4.0",
     "babel-eslint": "^10.0.3",
     "c8": "^6.0.1",
-    "dtslint": "^0.9.9",
+    "dtslint": "^1.0.2",
     "husky": "^3.0.9",
     "standard": "^14.3.1",
     "typescript": "^3.6.4"
