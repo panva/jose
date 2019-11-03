@@ -1,6 +1,8 @@
 const test = require('ava')
 
-const { edDSASupported } = require('../../lib/help/runtime_support')
+const crypto = require('crypto')
+
+const { edDSASupported, keyObjectSupported } = require('../../lib/help/runtime_support')
 
 const { JWK: { generate, generateSync }, errors } = require('../..')
 
@@ -80,6 +82,14 @@ const { JWK: { generate, generateSync }, errors } = require('../..')
     const key = generateSync(args[0], args[1], args[2], args[3])
     t.truthy(key)
 
+    if (keyObjectSupported) {
+      t.true(key.keyObject instanceof crypto.KeyObject)
+    } else {
+      t.throws(() => {
+        return key.keyObject
+      }, { instanceOf: errors.JOSENotSupported, code: 'ERR_JOSE_NOT_SUPPORTED', message: 'KeyObject class is not supported in your Node.js runtime version' })
+    }
+
     if (key.kty !== 'oct') {
       if (args.length === 4) {
         if (args[3] === true) {
@@ -109,6 +119,14 @@ const { JWK: { generate, generateSync }, errors } = require('../..')
   test(`async generates ${args[0]}(${args[1]}) with options ${JSON.stringify(args[2])}${typeof args[3] === 'boolean' ? ` and private=${args[3]}` : ''}`, async t => {
     const key = await generate(args[0], args[1], args[2], args[3])
     t.truthy(key)
+
+    if (keyObjectSupported) {
+      t.true(key.keyObject instanceof crypto.KeyObject)
+    } else {
+      t.throws(() => {
+        return key.keyObject
+      }, { instanceOf: errors.JOSENotSupported, code: 'ERR_JOSE_NOT_SUPPORTED', message: 'KeyObject class is not supported in your Node.js runtime version' })
+    }
 
     if (key.kty !== 'oct') {
       if (args.length === 4) {
@@ -140,51 +158,51 @@ const { JWK: { generate, generateSync }, errors } = require('../..')
 test('fails to generateSync unsupported kty', t => {
   t.throws(() => {
     generateSync('foo')
-  }, { instanceOf: errors.JOSENotSupported, message: 'unsupported key type: foo' })
+  }, { instanceOf: errors.JOSENotSupported, code: 'ERR_JOSE_NOT_SUPPORTED', message: 'unsupported key type: foo' })
 })
 
 test('fails to generate unsupported kty', async t => {
   await t.throwsAsync(() => {
     return generate('foo')
-  }, { instanceOf: errors.JOSENotSupported, message: 'unsupported key type: foo' })
+  }, { instanceOf: errors.JOSENotSupported, code: 'ERR_JOSE_NOT_SUPPORTED', message: 'unsupported key type: foo' })
 })
 
 if (edDSASupported) {
   test('fails to generate unsupported OKP crv', async t => {
     await t.throwsAsync(() => {
       return generate('OKP', 'foo')
-    }, { instanceOf: errors.JOSENotSupported, message: 'unsupported OKP key curve: foo' })
+    }, { instanceOf: errors.JOSENotSupported, code: 'ERR_JOSE_NOT_SUPPORTED', message: 'unsupported OKP key curve: foo' })
   })
 
   test('fails to generateSync unsupported OKP crv', async t => {
     await t.throws(() => {
       return generateSync('OKP', 'foo')
-    }, { instanceOf: errors.JOSENotSupported, message: 'unsupported OKP key curve: foo' })
+    }, { instanceOf: errors.JOSENotSupported, code: 'ERR_JOSE_NOT_SUPPORTED', message: 'unsupported OKP key curve: foo' })
   })
 } else {
   test('fails to generate OKP when not supported', async t => {
     await t.throwsAsync(() => {
       return generate('OKP')
-    }, { instanceOf: errors.JOSENotSupported, message: 'OKP keys are not supported in your Node.js runtime version' })
+    }, { instanceOf: errors.JOSENotSupported, code: 'ERR_JOSE_NOT_SUPPORTED', message: 'OKP keys are not supported in your Node.js runtime version' })
   })
 
   test('fails to generateSync OKP when not supported', async t => {
     await t.throws(() => {
       return generateSync('OKP')
-    }, { instanceOf: errors.JOSENotSupported, message: 'OKP keys are not supported in your Node.js runtime version' })
+    }, { instanceOf: errors.JOSENotSupported, code: 'ERR_JOSE_NOT_SUPPORTED', message: 'OKP keys are not supported in your Node.js runtime version' })
   })
 }
 
 test('fails to generateSync unsupported EC crv', t => {
   t.throws(() => {
     generateSync('EC', 'foo')
-  }, { instanceOf: errors.JOSENotSupported, message: 'unsupported EC key curve: foo' })
+  }, { instanceOf: errors.JOSENotSupported, code: 'ERR_JOSE_NOT_SUPPORTED', message: 'unsupported EC key curve: foo' })
 })
 
 test('fails to generate unsupported EC crv', async t => {
   await t.throwsAsync(() => {
     return generate('EC', 'foo')
-  }, { instanceOf: errors.JOSENotSupported, message: 'unsupported EC key curve: foo' })
+  }, { instanceOf: errors.JOSENotSupported, code: 'ERR_JOSE_NOT_SUPPORTED', message: 'unsupported EC key curve: foo' })
 })
 
 test('fails to generateSync RSA with invalid bit lengths', t => {

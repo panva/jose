@@ -2,6 +2,7 @@ const test = require('ava')
 
 const { createSecretKey } = require('../../lib/help/key_object')
 const { hasProperty, hasNoProperties } = require('../macros')
+const { keyObjectSupported } = require('../../lib/help/runtime_support')
 
 const errors = require('../../lib/errors')
 const OctKey = require('../../lib/jwk/key/oct')
@@ -151,6 +152,9 @@ test('they may be imported from (no kid)', t => {
   })
 
   t.is(key.k, undefined)
+  if (keyObjectSupported) {
+    t.is(key.keyObject, undefined)
+  }
   t.false(key.private)
   t.false(key.public)
   t.deepEqual([...key.algorithms()], [])

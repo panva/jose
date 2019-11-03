@@ -40,6 +40,7 @@ If you or your business use `jose`, please consider becoming a [sponsor][support
   - [key.public](#keypublic)
   - [key.private](#keyprivate)
   - [key.secret](#keysecret)
+  - [key.keyObject](#keykeyobject)
   - [key.algorithms([operation])](#keyalgorithmsoperation)
   - [key.toJWK([private])](#keytojwkprivate)
   - [key.toPEM([private[, encoding]])](#keytopemprivate-encoding)
@@ -195,6 +196,15 @@ Returns true/false if the key is asymmetric and private. Returns false for symme
 Returns true/false if the key is symmetric. Returns false for asymmetric keys.
 
 - `<boolean>`
+
+---
+
+#### `key.keyObject`
+
+Returns the underlying [`KeyObject`](https://nodejs.org/api/crypto.html#crypto_class_keyobject)
+instance. Throws `JOSENotSupported` when KeyObject API is not supported in the Node.js runtime.
+
+- `<KeyObject>`
 
 ---
 

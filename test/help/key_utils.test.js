@@ -10,19 +10,19 @@ const clone = obj => JSON.parse(JSON.stringify(obj))
 test('jwkToPem only works for EC, RSA and OKP', t => {
   t.throws(() => {
     jwkToPem({ kty: 'foo' })
-  }, { instanceOf: errors.JOSENotSupported, message: 'unsupported key type: foo' })
+  }, { instanceOf: errors.JOSENotSupported, code: 'ERR_JOSE_NOT_SUPPORTED', message: 'unsupported key type: foo' })
 })
 
 test('jwkToPem only handles known EC curves', t => {
   t.throws(() => {
     jwkToPem({ kty: 'EC', crv: 'foo' })
-  }, { instanceOf: errors.JOSENotSupported, message: 'unsupported EC key curve: foo' })
+  }, { instanceOf: errors.JOSENotSupported, code: 'ERR_JOSE_NOT_SUPPORTED', message: 'unsupported EC key curve: foo' })
 })
 
 test('jwkToPem only handles known OKP curves', t => {
   t.throws(() => {
     jwkToPem({ kty: 'OKP', crv: 'foo' })
-  }, { instanceOf: errors.JOSENotSupported, message: 'unsupported OKP key curve: foo' })
+  }, { instanceOf: errors.JOSENotSupported, code: 'ERR_JOSE_NOT_SUPPORTED', message: 'unsupported OKP key curve: foo' })
 })
 
 test('RSA Public key', t => {
