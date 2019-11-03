@@ -2,6 +2,15 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+# [1.11.0](https://github.com/panva/jose/compare/v1.10.2...v1.11.0) (2019-11-03)
+
+
+### Features
+
+* expose crypto.KeyObject instances in supported runtimes ([8ea9683](https://github.com/panva/jose/commit/8ea968312e97ed0f992fab909a20e7993159ec45))
+
+
+
 ## [1.10.2](https://github.com/panva/jose/compare/v1.10.1...v1.10.2) (2019-10-29)
 
 
