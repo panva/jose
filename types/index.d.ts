@@ -250,21 +250,25 @@ export namespace JWS {
     function general(payload: string | Buffer | object, key: JWK.Key, protected?: object, header?: object): GeneralJWS;
   }
 
-  interface VerifyOptions<komplet> {
+  interface VerifyOptions<komplet = false, parse = true> {
     complete?: komplet;
+    parse?: parse;
+    encoding?: BufferEncoding;
     crit?: string[];
     algorithms?: string[];
   }
 
-  interface completeVerification {
-    payload: string | object;
+  interface completeVerification<T> {
+    payload: T;
     key: JWK.Key;
     protected?: object;
     header?: object;
   }
 
-  function verify(jws: string | FlattenedJWS | GeneralJWS, key: JWK.Key | JWKS.KeyStore, options?: VerifyOptions<false>): string | object;
-  function verify(jws: string | FlattenedJWS | GeneralJWS, key: JWK.Key | JWKS.KeyStore, options?: VerifyOptions<true>): completeVerification;
+  function verify(jws: string | FlattenedJWS | GeneralJWS, key: JWK.Key | JWKS.KeyStore, options?: VerifyOptions): string | object;
+  function verify(jws: string | FlattenedJWS | GeneralJWS, key: JWK.Key | JWKS.KeyStore, options?: VerifyOptions<false, false>): Buffer;
+  function verify(jws: string | FlattenedJWS | GeneralJWS, key: JWK.Key | JWKS.KeyStore, options?: VerifyOptions<true>): completeVerification<string | object>;
+  function verify(jws: string | FlattenedJWS | GeneralJWS, key: JWK.Key | JWKS.KeyStore, options?: VerifyOptions<true, false>): completeVerification<Buffer>;
 }
 
 export namespace JWE {

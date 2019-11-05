@@ -1103,6 +1103,10 @@ Verifies the provided JWS in either serialization with a given `<JWK.Key>` or `<
     algorithms available on the keys
   - `complete`: `<boolean>` When true returns a complete object with the parsed headers and payload
     instead of just the verified payload. **Default:** 'false'
+  - `parse`: `<boolean>` When true attempts to JSON.parse the payload and falls back to returning
+    the payload encoded using the specified encoding. When false returns the payload as a Buffer.
+    **Default:** 'true'
+  - `encoding`: `string` The encoding to use for the payload. **Default:** 'utf8'
   - `crit`: `string[]` Array of Critical Header Parameter names to recognize. **Default:** '[]'
 - Returns: `<string>` &vert; `<Object>`
 
