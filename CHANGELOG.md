@@ -2,6 +2,15 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+# [1.12.0](https://github.com/panva/jose/compare/v1.11.0...v1.12.0) (2019-11-05)
+
+
+### Features
+
+* add JWS.verify encoding and parsing options ([6bb66d4](https://github.com/panva/jose/commit/6bb66d4f0b4c96f2da8ac5f14fda6bc4f53f2994))
+
+
+
 # [1.11.0](https://github.com/panva/jose/compare/v1.10.2...v1.11.0) (2019-11-03)
 
 
