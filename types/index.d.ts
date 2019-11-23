@@ -317,6 +317,7 @@ export namespace JWE {
   interface completeDecrypt {
     cleartext: Buffer;
     key: JWK.Key;
+    cek: JWK.OctKey;
     aad?: string;
     header?: object;
     unprotected?: object;

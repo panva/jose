@@ -392,7 +392,7 @@ in terms of performance and API (not having well defined errors).
 [spec-jws]: https://tools.ietf.org/html/rfc7515
 [spec-jwt]: https://tools.ietf.org/html/rfc7519
 [spec-okp]: https://tools.ietf.org/html/rfc8037
-[draft-secp256k1]: https://tools.ietf.org/html/draft-ietf-cose-webauthn-algorithms-01
+[draft-secp256k1]: https://tools.ietf.org/html/draft-ietf-cose-webauthn-algorithms-03
 [draft-ietf-oauth-access-token-jwt]: https://tools.ietf.org/html/draft-ietf-oauth-access-token-jwt
 [draft-jarm]: https://openid.net/specs/openid-financial-api-jarm.html
 [spec-thumbprint]: https://tools.ietf.org/html/rfc7638

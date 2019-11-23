@@ -829,7 +829,8 @@ Verifies the claims and signature of a JSON Web Token.
   - `clockTolerance`: `<string>` Clock Tolerance for comparing timestamps, provided as timespan
     string e.g. `120s`, `2 minutes`, etc. **Default:** no clock tolerance
   - `complete`: `<Boolean>` When false only the parsed payload is returned, otherwise an object with
-    a parsed header, payload, the matched key and the base64url encoded signature will be returned
+    a parsed header, payload, the key that verified and the base64url encoded signature will be
+    returned
     **Default:** 'false'
   - `crit`: `string[]` Array of Critical Header Parameter names to recognize. **Default:** '[]'
   - `ignoreExp`: `<Boolean>` When true will not be validating the "exp" claim value to be in the
@@ -1289,9 +1290,11 @@ Verifies the provided JWE in either serialization with a given `<JWK.Key>` or `<
   - `algorithms`: `string[]` Array of Algorithms to accept, when the JWE does not use an
     Key Management algorithm from this list the decryption will fail. **Default:** 'undefined' -
     accepts all algorithms available on the keys
-  - `complete`: `<boolean>` When true returns a complete object with the parsed headers, verified
-    AAD and cleartext instead of just the cleartext. **Default:** 'false'
-- Returns: `<string>` &vert; `<Object>`
+  - `complete`: `<boolean>` When true returns an object with the parsed headers, verified
+    AAD, the content encryption key, the key that was used to unwrap or derive the content
+    encryption key, and cleartext instead of just the cleartext.
+    **Default:** 'false'
+- Returns: `<Buffer>` &vert; `<Object>`
 
 ---
 
