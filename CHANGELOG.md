@@ -2,6 +2,15 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+# [1.13.0](https://github.com/panva/jose/compare/v1.12.1...v1.13.0) (2019-11-23)
+
+
+### Features
+
+* return the CEK from JWE.decrypt operation with { complete: true } ([c3eb845](https://github.com/panva/jose/commit/c3eb8450b98b2f5ecc127d69afe85a7ae2cc5aaa))
+
+
+
 ## [1.12.1](https://github.com/panva/jose/compare/v1.12.0...v1.12.1) (2019-11-14)
 
 
