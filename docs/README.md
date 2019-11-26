@@ -625,6 +625,7 @@ specified by the parameters are first.
 
 - `parameters`: `<Object>`
   - `kty`: `<string>` Key Type to filter for.
+  - `crv`: `<string>` Key Curve to filter for. (for EC and OKP keys)
   - `alg`: `<string>` Key supported algorithm to filter for.
   - `kid`: `<string>` Key ID to filter for.
   - `use`: `<string>` Filter keys with the specified use defined. Keys missing "use" parameter will
@@ -643,6 +644,7 @@ parameters is returned.
 
 - `parameters`: `<Object>`
   - `kty`: `<string>` Key Type to filter for.
+  - `crv`: `<string>` Key Curve to filter for. (for EC and OKP keys)
   - `alg`: `<string>` Key supported algorithm to filter for.
   - `kid`: `<string>` Key ID to filter for.
   - `use`: `<string>` Filter keys with the specified use defined. Keys missing "use" parameter will

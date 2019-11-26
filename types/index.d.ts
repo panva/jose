@@ -180,6 +180,7 @@ export namespace JWKS {
     kty?: keyType;
     x5t?: string;
     'x5t#S256'?: string;
+    crv?: string;
   }
 
   class KeyStore {

@@ -149,6 +149,18 @@ test('.all() and .get() use sort', t => {
   t.is(ks.get({ use: 'sig' }), k2)
 })
 
+test('.all() and .get() crv filter', t => {
+  const k = generateSync('EC', 'P-256')
+  const k2 = generateSync('EC', 'P-384')
+  const ks = new KeyStore(k, k2)
+  t.deepEqual(ks.all({ crv: 'P-256' }), [k])
+  t.deepEqual(ks.all({ crv: 'P-384' }), [k2])
+  t.deepEqual(ks.all({ crv: 'P-521' }), [])
+  t.is(ks.get({ crv: 'P-256' }), k)
+  t.is(ks.get({ crv: 'P-384' }), k2)
+  t.is(ks.get({ crv: 'P-521' }), undefined)
+})
+
 test('.all() and .get() kid filter', t => {
   const k = generateSync('RSA', undefined, { kid: 'foobar' })
   const ks = new KeyStore(k)
