@@ -53,8 +53,11 @@ If you or your business use `jose`, please consider becoming a [sponsor][support
 - [JWK.isKey(object)](#jwkiskeyobject)
 <!-- TOC JWK END -->
 
-All `jose` operations require `<JWK.Key>` or `<JWKS.KeyStore>` as arguments. Here's
-how to get a `<JWK.Key>` instances generated or instantiated from existing key material.
+All sign and encrypt operations require `<JWK.Key>` or `JWK.asKey()` compatible input.  
+All verify and decrypt operations require `<JWK.Key>`, `<JWKS.KeyStore>`, or `JWK.asKey()` compatible input.  
+
+Whenever you're re-using the same key input for an operation it is recommended that you instantiate
+the  `<JWK.Key>` instance. Here's how to get a `<JWK.Key>` instances generated or instantiated from existing key material.
 
 
 ```js
@@ -756,7 +759,9 @@ that will be used to sign with is either provided as part of the 'options.algori
 'options.header.alg' or inferred from the provided `<JWK.Key>` instance.
 
 - `payload`: `<Object>` JWT Claims Set
-- `key`: `<JWK.Key>` The key to sign with.
+- `key`: `<JWK.Key>` The key to sign with. Any `JWK.asKey()` compatible input also works.
+  `<JWK.Key>` instances are recommended for performance purposes when re-using the same key for
+  every operation.
 - `options`: `<Object>`
   - `algorithm`: `<string>` The algorithm to use
   - `audience`: `<string>` &vert; `string[]` JWT Audience, "aud" claim value, if provided it will replace
@@ -817,7 +822,9 @@ Verifies the claims and signature of a JSON Web Token.
 - `token`: `<String>` JSON Web Token to verify
 - `keyOrStore`: `<JWK.Key>` &vert; `<JWKS.KeyStore>` The key or store to verify with. When
   `<JWKS.KeyStore>` instance is provided a selection of possible candidate keys will be done and the
-  operation will succeed if just one key matches.
+  operation will succeed if just one key matches. Any `JWK.asKey()` compatible input also works.
+  `<JWK.Key>` instances are recommended for performance purposes when re-using the same key for
+  every operation.
 - `options`: `<Object>`
   - `algorithms`: `string[]` Array of expected signing algorithms. JWT signed with an algorithm not
     found in this option will be rejected. **Default:** accepts all algorithms available on the
@@ -1002,7 +1009,9 @@ Creates a new Sign object for the provided payload, intended for one or more rec
 Adds a recipient to the JWS, the Algorithm that will be used to sign with is either provided as part
 of the Protected or Unprotected Header or inferred from the provided `<JWK.Key>` instance.
 
-- `key`: `<JWK.Key>` The key to sign with.
+- `key`: `<JWK.Key>` The key to sign with. Any `JWK.asKey()` compatible input also works.
+  `<JWK.Key>` instances are recommended for performance purposes when re-using the same key for
+  every operation.
 - `protected`: `<Object>` Protected Header for this recipient
 - `header`: `<Object>` Unprotected Header for this recipient
 
@@ -1029,7 +1038,9 @@ provided `<JWK.Key>` instance.
 
 - `payload`: `<Object>` &vert; `<string>` &vert; `<Buffer>` The payload that will be signed. When `<Object>`
   it will be automatically serialized to JSON before signing
-- `key`: `<JWK.Key>` The key to sign with.
+- `key`: `<JWK.Key>` The key to sign with. Any `JWK.asKey()` compatible input also works.
+  `<JWK.Key>` instances are recommended for performance purposes when re-using the same key for
+  every operation.
 - `protected`: `<Object>` Protected Header
 - Returns: `<string>`
 
@@ -1062,7 +1073,9 @@ inferred from the provided `<JWK.Key>` instance.
 
 - `payload`: `<Object>` &vert; `<string>` &vert; `<Buffer>` The payload that will be signed. When `<Object>`
   it will be automatically serialized to JSON before signing
-- `key`: `<JWK.Key>` The key to sign with.
+- `key`: `<JWK.Key>` The key to sign with. Any `JWK.asKey()` compatible input also works.
+  `<JWK.Key>` instances are recommended for performance purposes when re-using the same key for
+  every operation.
 - `protected`: `<Object>` Protected Header
 - `header`: `<Object>` Unprotected Header
 - Returns: `<Object>`
@@ -1099,7 +1112,8 @@ Verifies the provided JWS in either serialization with a given `<JWK.Key>` or `<
 - `keyOrStore`: `<JWK.Key>` &vert; `<JWKS.KeyStore>` The key or store to verify with. When
   `<JWKS.KeyStore>` instance is provided a selection of possible candidate keys will be done and the
   operation will succeed if just one key or signature (in case of General JWS JSON Serialization
-  Syntax) matches.
+  Syntax) matches. Any `JWK.asKey()` compatible input also works. `<JWK.Key>` instances are
+  recommended for performance purposes when re-using the same key for every operation.
 - `options`: `<Object>`
   - `algorithms`: `string[]` Array of Algorithms to accept, when the signature does not use an
     algorithm from this list the verification will fail. **Default:** 'undefined' - accepts all
@@ -1232,7 +1246,9 @@ Adds a recipient to the JWE, the Algorithm that will be used to wrap or derive t
 Encryption Key (CEK) is either provided as part of the combined JWE Header for the recipient or
 inferred from the provided `<JWK.Key>` instance.
 
-- `key`: `<JWK.Key>` The key to use for Key Management or Direct Encryption
+- `key`: `<JWK.Key>` The key to use for Key Management or Direct Encryption. Any `JWK.asKey()`
+  compatible input also works. `<JWK.Key>` instances are recommended for performance purposes when
+  re-using the same key for every operation.
 - `header`: `<Object>` JWE Per-Recipient Unprotected Header
 
 ---
@@ -1258,7 +1274,9 @@ will be used to wrap or derive the Content Encryption Key (CEK) is either provid
 Protected Header or inferred from the provided `<JWK.Key>` instance.
 
 - `cleartext`: `<string>` &vert; `<Buffer>` The cleartext that will be encrypted.
-- `key`: `<JWK.Key>` The key to use for Key Management or Direct Encryption
+- `key`: `<JWK.Key>` The key to use for Key Management or Direct Encryption. Any `JWK.asKey()`
+  compatible input also works. `<JWK.Key>` instances are recommended for performance purposes when
+  re-using the same key for every operation.
 - `protected`: `<Object>` JWE Protected Header
 - Returns: `<string>`
 
@@ -1271,7 +1289,9 @@ that will be used to wrap or derive the Content Encryption Key (CEK) is either p
 the combined JWE Header or inferred from the provided `<JWK.Key>` instance.
 
 - `cleartext`: `<string>` &vert; `<Buffer>` The cleartext that will be encrypted.
-- `key`: `<JWK.Key>` The key to use for Key Management or Direct Encryption
+- `key`: `<JWK.Key>` The key to use for Key Management or Direct Encryption. Any `JWK.asKey()`
+  compatible input also works. `<JWK.Key>` instances are recommended for performance purposes when
+  re-using the same key for every operation.
 - `protected`: `<Object>` JWE Protected Header
 - `unprotected`: `<Object>` JWE Shared Unprotected Header
 - `aad`: `<string>` &vert; `<Buffer>` JWE Additional Authenticated Data
@@ -1287,7 +1307,8 @@ Verifies the provided JWE in either serialization with a given `<JWK.Key>` or `<
 - `keyOrStore`: `<JWK.Key>` &vert; `<JWKS.KeyStore>` The key or store to decrypt with. When
   `<JWKS.KeyStore>` instance is provided a selection of possible candidate keys will be done and the
   operation will succeed if just one key or signature (in case of General JWE JSON Serialization
-  Syntax) matches.
+  Syntax) matches. Any `JWK.asKey()` compatible input also works. `<JWK.Key>` instances are
+  recommended for performance purposes when re-using the same key for every operation.
 - `options`: `<Object>`
   - `algorithms`: `string[]` Array of Algorithms to accept, when the JWE does not use an
     Key Management algorithm from this list the decryption will fail. **Default:** 'undefined' -

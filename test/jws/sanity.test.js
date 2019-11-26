@@ -34,14 +34,6 @@ test('compact parts length check', t => {
   }, { instanceOf: errors.JWSInvalid, code: 'ERR_JWS_INVALID', message: 'JWS malformed or invalid serialization' })
 })
 
-test('verify key or store argument', t => {
-  ;[{}, new Object(), false, null, Infinity, 0, Buffer.from('foo')].forEach((val) => { // eslint-disable-line no-new-object
-    t.throws(() => {
-      JWS.verify('..', val)
-    }, { instanceOf: TypeError, message: 'key must be an instance of a key instantiated by JWK.asKey or a JWKS.KeyStore' })
-  })
-})
-
 test('JWS sign accepts buffer', t => {
   const k = generateSync('oct')
   JWS.sign(Buffer.from('foo'), k)
@@ -66,14 +58,6 @@ test('JWS sign rejects other', t => {
     t.throws(() => {
       JWS.sign(val, k)
     }, { instanceOf: TypeError, message: 'payload argument must be a Buffer, string or an object' })
-  })
-})
-
-test('JWS sign rejects non keys', t => {
-  ;[[], false, true, undefined, null, Infinity, 0].forEach((val) => {
-    t.throws(() => {
-      JWS.sign('foo', val)
-    }, { instanceOf: TypeError, message: 'key must be an instance of a key instantiated by JWK.asKey' })
   })
 })
 

@@ -34,14 +34,6 @@ test('compact parts length check', t => {
   }, { instanceOf: errors.JWEInvalid, code: 'ERR_JWE_INVALID', message: 'JWE malformed or invalid serialization' })
 })
 
-test('verify key or store argument', t => {
-  ;[{}, new Object(), false, null, Infinity, 0, Buffer.from('foo')].forEach((val) => { // eslint-disable-line no-new-object
-    t.throws(() => {
-      JWE.decrypt('....', val)
-    }, { instanceOf: TypeError, message: 'key must be an instance of a key instantiated by JWK.asKey or a JWKS.KeyStore' })
-  })
-})
-
 test('JWE no alg specified but cannot resolve', t => {
   const k1 = generateSync('RSA', undefined, { alg: 'foo' })
   t.throws(() => {
@@ -307,14 +299,6 @@ test('JWE encrypt aad rejects non buffers and non strings', t => {
     t.throws(() => {
       new JWE.Encrypt('foo', undefined, undefined, val) // eslint-disable-line no-new
     }, { instanceOf: TypeError, message: 'aad argument must be a Buffer or a string when provided' })
-  })
-})
-
-test('JWE encrypt rejects non keys', t => {
-  ;[[], false, true, undefined, null, Infinity, 0].forEach((val) => {
-    t.throws(() => {
-      JWE.encrypt('foo', val)
-    }, { instanceOf: TypeError, message: 'key must be an instance of a key instantiated by JWK.asKey' })
   })
 })
 

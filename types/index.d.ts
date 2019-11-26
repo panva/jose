@@ -24,6 +24,10 @@ export type keyType = 'RSA' | 'EC' | 'OKP' | 'oct';
 export type asymmetricKeyObjectTypes = 'private' | 'public';
 export type keyObjectTypes = asymmetricKeyObjectTypes | 'secret';
 export type JWTProfiles = 'id_token';
+export type KeyInput = PrivateKeyInput | PublicKeyInput | string | Buffer;
+
+type ProduceKeyInput = JWK.Key | KeyObject | KeyInput | JWKOctKey | JWKRSAKey | JWKECKey | JWKOKPKey;
+type ConsumeKeyInput = ProduceKeyInput | JWKS.KeyStore;
 
 export interface JWKOctKey extends BasicParameters { // no x5c
   kty: 'oct';
@@ -145,8 +149,6 @@ export namespace JWK {
     toJWK(private?: boolean): JWKOctKey;
   }
 
-  type KeyInput = PrivateKeyInput | PublicKeyInput | string | Buffer;
-
   function isKey(object: any): boolean;
 
   function asKey(key: KeyObject | KeyInput, parameters?: KeyParameters): RSAKey | ECKey | OKPKey | OctKey;
@@ -238,17 +240,17 @@ export namespace JWS {
   class Sign {
     constructor(payload: string | Buffer | object);
 
-    recipient(key: JWK.Key, protected?: object, header?: object): void;
+    recipient(key: ProduceKeyInput, protected?: object, header?: object): void;
 
     sign(serialization: 'compact'): string;
     sign(serialization: 'flattened'): FlattenedJWS;
     sign(serialization: 'general'): GeneralJWS;
   }
 
-  function sign(payload: string | Buffer | object, key: JWK.Key, protected?: object): string;
+  function sign(payload: string | Buffer | object, key: ProduceKeyInput, protected?: object): string;
   namespace sign {
-    function flattened(payload: string | Buffer | object, key: JWK.Key, protected?: object, header?: object): FlattenedJWS;
-    function general(payload: string | Buffer | object, key: JWK.Key, protected?: object, header?: object): GeneralJWS;
+    function flattened(payload: string | Buffer | object, key: ProduceKeyInput, protected?: object, header?: object): FlattenedJWS;
+    function general(payload: string | Buffer | object, key: ProduceKeyInput, protected?: object, header?: object): GeneralJWS;
   }
 
   interface VerifyOptions<komplet = false, parse = true> {
@@ -266,10 +268,10 @@ export namespace JWS {
     header?: object;
   }
 
-  function verify(jws: string | FlattenedJWS | GeneralJWS, key: JWK.Key | JWKS.KeyStore, options?: VerifyOptions): string | object;
-  function verify(jws: string | FlattenedJWS | GeneralJWS, key: JWK.Key | JWKS.KeyStore, options?: VerifyOptions<false, false>): Buffer;
-  function verify(jws: string | FlattenedJWS | GeneralJWS, key: JWK.Key | JWKS.KeyStore, options?: VerifyOptions<true>): completeVerification<string | object>;
-  function verify(jws: string | FlattenedJWS | GeneralJWS, key: JWK.Key | JWKS.KeyStore, options?: VerifyOptions<true, false>): completeVerification<Buffer>;
+  function verify(jws: string | FlattenedJWS | GeneralJWS, key: ConsumeKeyInput, options?: VerifyOptions): string | object;
+  function verify(jws: string | FlattenedJWS | GeneralJWS, key: ConsumeKeyInput, options?: VerifyOptions<false, false>): Buffer;
+  function verify(jws: string | FlattenedJWS | GeneralJWS, key: ConsumeKeyInput, options?: VerifyOptions<true>): completeVerification<string | object>;
+  function verify(jws: string | FlattenedJWS | GeneralJWS, key: ConsumeKeyInput, options?: VerifyOptions<true, false>): completeVerification<Buffer>;
 }
 
 export namespace JWE {
@@ -296,17 +298,17 @@ export namespace JWE {
   class Encrypt {
     constructor(cleartext: string | Buffer, protected?: object, unprotected?: object, aad?: string);
 
-    recipient(key: JWK.Key, header?: object): void;
+    recipient(key: ProduceKeyInput, header?: object): void;
 
     encrypt(serialization: 'compact'): string;
     encrypt(serialization: 'flattened'): FlattenedJWE;
     encrypt(serialization: 'general'): GeneralJWE;
   }
 
-  function encrypt(payload: string | Buffer, key: JWK.Key, protected?: object): string;
+  function encrypt(payload: string | Buffer, key: ProduceKeyInput, protected?: object): string;
   namespace encrypt {
-    function flattened(payload: string | Buffer, key: JWK.Key, protected?: object, header?: object, aad?: string): FlattenedJWE;
-    function general(payload: string | Buffer, key: JWK.Key, protected?: object, header?: object, aad?: string): GeneralJWE;
+    function flattened(payload: string | Buffer, key: ProduceKeyInput, protected?: object, header?: object, aad?: string): FlattenedJWE;
+    function general(payload: string | Buffer, key: ProduceKeyInput, protected?: object, header?: object, aad?: string): GeneralJWE;
   }
 
   interface DecryptOptions<komplet> {
@@ -325,8 +327,8 @@ export namespace JWE {
     protected?: object;
   }
 
-  function decrypt(jwe: string | FlattenedJWE | GeneralJWE, key: JWK.Key | JWKS.KeyStore, options?: DecryptOptions<false>): Buffer;
-  function decrypt(jwe: string | FlattenedJWE | GeneralJWE, key: JWK.Key | JWKS.KeyStore, options?: DecryptOptions<true>): completeDecrypt;
+  function decrypt(jwe: string | FlattenedJWE | GeneralJWE, key: ConsumeKeyInput, options?: DecryptOptions<false>): Buffer;
+  function decrypt(jwe: string | FlattenedJWE | GeneralJWE, key: ConsumeKeyInput, options?: DecryptOptions<true>): completeDecrypt;
 }
 
 export namespace JWT {
@@ -362,8 +364,9 @@ export namespace JWT {
     crit?: string[];
     profile?: JWTProfiles;
   }
-  function verify(jwt: string, key: JWK.Key | JWKS.KeyStore, options?: VerifyOptions<false>): object;
-  function verify(jwt: string, key: JWK.Key | JWKS.KeyStore, options?: VerifyOptions<true>): completeResult;
+
+  function verify(jwt: string, key: ConsumeKeyInput, options?: VerifyOptions<false>): object;
+  function verify(jwt: string, key: ConsumeKeyInput, options?: VerifyOptions<true>): completeResult;
 
   interface SignOptions {
     iat?: boolean;
@@ -379,7 +382,7 @@ export namespace JWT {
     nonce?: string;
     now?: Date;
   }
-  function sign(payload: object, key: JWK.Key, options?: SignOptions): string;
+  function sign(payload: object, key: ProduceKeyInput, options?: SignOptions): string;
 }
 
 export namespace errors {

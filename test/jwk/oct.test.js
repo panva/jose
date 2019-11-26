@@ -170,5 +170,5 @@ test('they may be imported so long as there was no k', t => {
       kid: '4p9o4_DcKoT6Qg2BI_mSgMP_MsXwFqogKuI26CunKAM',
       k: undefined
     })
-  }, { instanceOf: errors.JWKImportFailed, message: 'import failed' })
+  }, { instanceOf: errors.JWKImportFailed, message: 'key import failed' })
 })
