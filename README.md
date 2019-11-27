@@ -336,9 +336,8 @@ private API and is subject to change between any versions.
 
 #### How do I use it outside of Node.js
 
-It is **only built for ^10.13.0 || >=12.0.0 Node.js** environment - including `jose` in
-transpiled browser-environment targeted projects is not supported and may result in unexpected
-results.
+It is **only built for >=10.13.0 Node.js** environment - including `jose` in transpiled
+browser-environment targeted projects is not supported and may result in unexpected results.
 
 #### How is it different from [`jws`](https://github.com/brianloveswords/node-jws), [`jwa`](https://github.com/brianloveswords/node-jwa) or [`jsonwebtoken`](https://github.com/auth0/node-jsonwebtoken)?
 
