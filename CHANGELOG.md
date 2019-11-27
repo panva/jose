@@ -2,6 +2,20 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+# [1.15.0](https://github.com/panva/jose/compare/v1.14.0...v1.15.0) (2019-11-27)
+
+
+### Bug Fixes
+
+* default JWT.sign `kid` option value is false for HMAC signatures ([ce77388](https://github.com/panva/jose/commit/ce7738825403f8cdb8f99cb51c096baf0dfa3af7))
+
+
+### Features
+
+* allow JWK.asKey inputs for sign/verify/encrypt/decrypt operations ([5e1009a](https://github.com/panva/jose/commit/5e1009a63e4bc829009cc46d6295c00f8431024c))
+
+
+
 # [1.14.0](https://github.com/panva/jose/compare/v1.13.0...v1.14.0) (2019-11-26)
 
 
