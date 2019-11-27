@@ -80,14 +80,35 @@ test('payload is used', t => {
 
 test('options.header is used', t => {
   const { header: { alg, kid, ...header } } = JWT.decode(JWT.sign({}, key, { header: { typ: 'JWT' } }), { complete: true })
-  t.is(kid, key.kid)
   t.is(alg, 'HS256')
   t.deepEqual(header, { typ: 'JWT' })
 })
 
-test('options.kid', t => {
-  const { header: { kid } } = JWT.decode(JWT.sign({}, key, { kid: false }), { complete: true })
+test('options.kid for symmetric keys', t => {
+  let kid
+
+  ;({ header: { kid } } = JWT.decode(JWT.sign({}, key), { complete: true }))
   t.is(kid, undefined)
+
+  ;({ header: { kid } } = JWT.decode(JWT.sign({}, key, { kid: false }), { complete: true }))
+  t.is(kid, undefined)
+
+  ;({ header: { kid } } = JWT.decode(JWT.sign({}, key, { kid: true }), { complete: true }))
+  t.is(kid, key.kid)
+})
+
+test('options.kid for asymmetric keys', t => {
+  const key = JWK.generateSync('EC')
+  let kid
+
+  ;({ header: { kid } } = JWT.decode(JWT.sign({}, key), { complete: true }))
+  t.is(kid, key.kid)
+
+  ;({ header: { kid } } = JWT.decode(JWT.sign({}, key, { kid: false }), { complete: true }))
+  t.is(kid, undefined)
+
+  ;({ header: { kid } } = JWT.decode(JWT.sign({}, key, { kid: true }), { complete: true }))
+  t.is(kid, key.kid)
 })
 
 test('options.subject', t => {
