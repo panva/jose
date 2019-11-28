@@ -25,9 +25,8 @@ export type asymmetricKeyObjectTypes = 'private' | 'public';
 export type keyObjectTypes = asymmetricKeyObjectTypes | 'secret';
 export type JWTProfiles = 'id_token';
 export type KeyInput = PrivateKeyInput | PublicKeyInput | string | Buffer;
-
-type ProduceKeyInput = JWK.Key | KeyObject | KeyInput | JWKOctKey | JWKRSAKey | JWKECKey | JWKOKPKey;
-type ConsumeKeyInput = ProduceKeyInput | JWKS.KeyStore;
+export type ProduceKeyInput = JWK.Key | KeyObject | KeyInput | JWKOctKey | JWKRSAKey | JWKECKey | JWKOKPKey;
+export type ConsumeKeyInput = ProduceKeyInput | JWKS.KeyStore;
 
 export interface JWKOctKey extends BasicParameters { // no x5c
   kty: 'oct';
