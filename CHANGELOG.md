@@ -2,6 +2,15 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.15.1](https://github.com/panva/jose/compare/v1.15.0...v1.15.1) (2019-11-30)
+
+
+### Bug Fixes
+
+* **typescript:** export Key Input types ([0277fcd](https://github.com/panva/jose/commit/0277fcd1896af497e79190212b0719f7e62366c1))
+
+
+
 # [1.15.0](https://github.com/panva/jose/compare/v1.14.0...v1.15.0) (2019-11-27)
 
 
