@@ -1,7 +1,6 @@
 const test = require('ava')
 
-const { KeyStore, asKeyStore } = require('../../lib/jwks')
-const { asKey, generateSync } = require('../../lib/jwk')
+const { JWK: { asKey, generateSync }, JWKS: { KeyStore, asKeyStore } } = require('../../lib')
 const errors = require('../../lib/errors')
 
 const withX5C = {

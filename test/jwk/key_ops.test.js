@@ -1,8 +1,6 @@
 const test = require('ava')
 
-const errors = require('../../lib/errors')
-const asKey = require('../../lib/jwk/import')
-const { generateSync } = require('../../lib/jwk/generate')
+const { errors, JWK: { asKey, generateSync } } = require('../../lib')
 const { generateKeyPairSync } = require('../macros/generate')
 
 const { edDSASupported } = require('../../lib/help/runtime_support')
@@ -80,8 +78,8 @@ test('PEM asKey with invalid use / key_ops throws', t => {
 
 test('RSA key key_ops', t => {
   const k = generateSync('RSA', 2048, { key_ops: ['sign'] })
-  t.deepEqual([...k.algorithms()], ['PS256', 'RS256', 'PS384', 'RS384', 'PS512', 'RS512'])
-  t.deepEqual([...k.algorithms('sign')], ['PS256', 'RS256', 'PS384', 'RS384', 'PS512', 'RS512'])
+  t.deepEqual([...k.algorithms()], ['PS256', 'PS384', 'PS512', 'RS256', 'RS384', 'RS512'])
+  t.deepEqual([...k.algorithms('sign')], ['PS256', 'PS384', 'PS512', 'RS256', 'RS384', 'RS512'])
   t.deepEqual([...k.algorithms('verify')], [])
 })
 

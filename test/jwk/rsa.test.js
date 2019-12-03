@@ -36,13 +36,13 @@ test('RSA key .algorithms invalid operation', t => {
     test('RSA Private key algorithms (no operation)', t => {
       const result = key.algorithms()
       t.is(result.constructor, Set)
-      t.deepEqual([...result], ['PS256', 'RS256', 'PS384', 'RS384', 'PS512', 'RS512', 'RSA-OAEP', 'RSA-OAEP-256', 'RSA1_5'])
+      t.deepEqual([...result], ['PS256', 'PS384', 'PS512', 'RS256', 'RS384', 'RS512', 'RSA-OAEP', 'RSA-OAEP-256', 'RSA1_5'])
     })
   } else {
     test('RSA Private key algorithms (no operation)', t => {
       const result = key.algorithms()
       t.is(result.constructor, Set)
-      t.deepEqual([...result], ['PS256', 'RS256', 'PS384', 'RS384', 'PS512', 'RS512', 'RSA-OAEP', 'RSA1_5'])
+      t.deepEqual([...result], ['PS256', 'PS384', 'PS512', 'RS256', 'RS384', 'RS512', 'RSA-OAEP', 'RSA1_5'])
     })
   }
 
@@ -56,27 +56,27 @@ test('RSA key .algorithms invalid operation', t => {
   test('RSA Private key supports sign alg (no use)', t => {
     const result = key.algorithms('sign')
     t.is(result.constructor, Set)
-    t.deepEqual([...result], ['PS256', 'RS256', 'PS384', 'RS384', 'PS512', 'RS512'])
+    t.deepEqual([...result], ['PS256', 'PS384', 'PS512', 'RS256', 'RS384', 'RS512'])
   })
 
   test('RSA Private key supports verify alg (no use)', t => {
     const result = key.algorithms('verify')
     t.is(result.constructor, Set)
-    t.deepEqual([...result], ['PS256', 'RS256', 'PS384', 'RS384', 'PS512', 'RS512'])
+    t.deepEqual([...result], ['PS256', 'PS384', 'PS512', 'RS256', 'RS384', 'RS512'])
   })
 
   test('RSA Private key supports sign alg when `use` is "sig")', t => {
     const sigKey = new RSAKey(keyObject, { use: 'sig' })
     const result = sigKey.algorithms('sign')
     t.is(result.constructor, Set)
-    t.deepEqual([...result], ['PS256', 'RS256', 'PS384', 'RS384', 'PS512', 'RS512'])
+    t.deepEqual([...result], ['PS256', 'PS384', 'PS512', 'RS256', 'RS384', 'RS512'])
   })
 
   test('RSA Private key supports verify alg when `use` is "sig")', t => {
     const sigKey = new RSAKey(keyObject, { use: 'sig' })
     const result = sigKey.algorithms('verify')
     t.is(result.constructor, Set)
-    t.deepEqual([...result], ['PS256', 'RS256', 'PS384', 'RS384', 'PS512', 'RS512'])
+    t.deepEqual([...result], ['PS256', 'PS384', 'PS512', 'RS256', 'RS384', 'RS512'])
   })
 
   test('RSA Private key supports single sign alg when `alg` is set)', t => {
@@ -192,13 +192,13 @@ test('RSA key .algorithms invalid operation', t => {
     test('RSA EC Public key algorithms (no operation)', t => {
       const result = key.algorithms()
       t.is(result.constructor, Set)
-      t.deepEqual([...result], ['PS256', 'RS256', 'PS384', 'RS384', 'PS512', 'RS512', 'RSA-OAEP', 'RSA-OAEP-256', 'RSA1_5'])
+      t.deepEqual([...result], ['PS256', 'PS384', 'PS512', 'RS256', 'RS384', 'RS512', 'RSA-OAEP', 'RSA-OAEP-256', 'RSA1_5'])
     })
   } else {
     test('RSA EC Public key algorithms (no operation)', t => {
       const result = key.algorithms()
       t.is(result.constructor, Set)
-      t.deepEqual([...result], ['PS256', 'RS256', 'PS384', 'RS384', 'PS512', 'RS512', 'RSA-OAEP', 'RSA1_5'])
+      t.deepEqual([...result], ['PS256', 'PS384', 'PS512', 'RS256', 'RS384', 'RS512', 'RSA-OAEP', 'RSA1_5'])
     })
   }
 
@@ -218,7 +218,7 @@ test('RSA key .algorithms invalid operation', t => {
   test('RSA Public key supports verify alg (no use)', t => {
     const result = key.algorithms('verify')
     t.is(result.constructor, Set)
-    t.deepEqual([...result], ['PS256', 'RS256', 'PS384', 'RS384', 'PS512', 'RS512'])
+    t.deepEqual([...result], ['PS256', 'PS384', 'PS512', 'RS256', 'RS384', 'RS512'])
   })
 
   test('RSA Public key cannot sign even when `use` is "sig")', t => {
@@ -232,7 +232,7 @@ test('RSA key .algorithms invalid operation', t => {
     const sigKey = new RSAKey(keyObject, { use: 'sig' })
     const result = sigKey.algorithms('verify')
     t.is(result.constructor, Set)
-    t.deepEqual([...result], ['PS256', 'RS256', 'PS384', 'RS384', 'PS512', 'RS512'])
+    t.deepEqual([...result], ['PS256', 'PS384', 'PS512', 'RS256', 'RS384', 'RS512'])
   })
 
   test('RSA Public key cannot sign even when `alg` is set)', t => {
