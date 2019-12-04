@@ -15,7 +15,7 @@ The following specifications are implemented by `jose`
 - JSON Web Token (JWT) - [RFC7519][spec-jwt]
 - JSON Web Key Thumbprint - [RFC7638][spec-thumbprint]
 - JWS Unencoded Payload Option - [RFC7797][spec-b64]
-- CFRG Elliptic Curve Signatures (EdDSA) - [RFC8037][spec-okp]
+- CFRG Elliptic Curve ECDH and Signatures - [RFC8037][spec-okp]
 - secp256k1 curve EC Key support - [JOSE Registrations for WebAuthn Algorithms][draft-secp256k1]
 
 The test suite utilizes examples defined in [RFC7520][spec-cookbook] to confirm its JOSE
@@ -34,11 +34,11 @@ Legend:
 - **✕** Missing node crypto support / won't implement
 - **◯** TBD
 
-| JWK Key Types | Supported ||
+| JWK Key Types | Supported | `kty` |
 | -- | -- | -- |
 | RSA | ✓ | RSA |
-| Elliptic Curve | ✓ | EC |
-| Octet Key Pair | ✓ | OKP |
+| Elliptic Curve | ✓ | EC (P-256, secp256k1, P-384, P-521) |
+| Octet Key Pair | ✓ | OKP (Ed25519, Ed448, X25519, X448) |
 | Octet sequence | ✓ | oct |
 
 | Serialization | JWS Sign | JWS Verify | JWE Encrypt | JWE Decrypt |
@@ -63,12 +63,16 @@ Legend:
 | RSAES OAEP | ✓ | RSA-OAEP, RSA-OAEP-256 |
 | RSAES-PKCS1-v1_5 | ✓ | RSA1_5 |
 | PBES2 | ✓ | PBES2-HS256+A128KW, PBES2-HS384+A192KW, PBES2-HS512+A256KW |
-| ECDH-ES | ✓ | ECDH-ES, ECDH-ES+A128KW, ECDH-ES+A192KW, ECDH-ES+A256KW |
+| ECDH-ES (for all EC keys) | ✓ | ECDH-ES, ECDH-ES+A128KW, ECDH-ES+A192KW, ECDH-ES+A256KW |
+| ECDH-ES (for OKP X25519) | ✓ via [plugin][plugin-x25519] | ECDH-ES, ECDH-ES+A128KW, ECDH-ES+A192KW, ECDH-ES+A256KW |
+| ECDH-ES (for OKP X449) | ✕ ||
+| (X)ChaCha | ✓ via [plugin][plugin-chacha] | C20PKW, X20CPKW, ECDH-ES+C20PKW, ECDH-ES+XC20PKW |
 
 | JWE Content Encryption Algorithms | Supported ||
 | -- | -- | -- |
 | AES GCM | ✓ | A128GCM, A192GCM, A256GCM |
 | AES_CBC_HMAC_SHA2 | ✓ |  A128CBC-HS256, A192CBC-HS384, A256CBC-HS512 |
+| (X)ChaCha | ✓ via [plugin][plugin-chacha] | C20P, X20CP |
 
 | JWT profile validation | Supported | profile option value |
 | -- | -- | -- |
@@ -123,6 +127,15 @@ If you or your business use `jose`, please consider becoming a [sponsor][support
   - [JWT (JSON Web Token)][documentation-jwt]
   - [JWS (JSON Web Signature)][documentation-jws]
   - [JWE (JSON Web Encryption)][documentation-jwe]
+
+## Plugins
+
+There are two plugin extensions with functionality which is either not available in Node.js `crypto`
+module yet and therefore needs a crypto polyfill (libsodium), or are not IETF WG standards/drafts
+"worthy" of landing in the core library.
+
+- [jose-chacha][plugin-chacha] adds aead_chacha20_poly1305 and aead_xchacha20_poly1305 based algorithms
+- [jose-x25519-ecdh][plugin-x25519] adds OKP X25519 curve keys ECDH-ES support
 
 ## Usage
 
@@ -401,3 +414,5 @@ in terms of performance and API (not having well defined errors).
 [suggest-feature]: https://github.com/panva/jose/issues/new?labels=enhancement&template=feature-request.md&title=proposal%3A+
 [support-sponsor]: https://github.com/sponsors/panva
 [sponsor-auth0]: https://auth0.com/overview?utm_source=GHsponsor&utm_medium=GHsponsor&utm_campaign=panva-jose&utm_content=auth
+[plugin-x25519]: https://github.com/panva/jose-x25519-ecdh
+[plugin-chacha]: https://github.com/panva/jose-chacha
