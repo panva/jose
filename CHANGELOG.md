@@ -2,6 +2,15 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+# [1.16.0](https://github.com/panva/jose/compare/v1.15.1...v1.16.0) (2019-12-04)
+
+
+### Features
+
+* two official jose plugins/extensions for those living on the edge ([5b27c97](https://github.com/panva/jose/commit/5b27c97ac8836ffa9f3880e009c8db5afbfbaa2c)), closes [#56](https://github.com/panva/jose/issues/56)
+
+
+
 ## [1.15.1](https://github.com/panva/jose/compare/v1.15.0...v1.15.1) (2019-11-30)
 
 
