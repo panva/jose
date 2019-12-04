@@ -65,7 +65,7 @@ Legend:
 | PBES2 | ✓ | PBES2-HS256+A128KW, PBES2-HS384+A192KW, PBES2-HS512+A256KW |
 | ECDH-ES (for all EC keys) | ✓ | ECDH-ES, ECDH-ES+A128KW, ECDH-ES+A192KW, ECDH-ES+A256KW |
 | ECDH-ES (for OKP X25519) | ✓ via [plugin][plugin-x25519] | ECDH-ES, ECDH-ES+A128KW, ECDH-ES+A192KW, ECDH-ES+A256KW |
-| ECDH-ES (for OKP X449) | ✕ ||
+| ECDH-ES (for OKP X448) | ✕ ||
 | (X)ChaCha | ✓ via [plugin][plugin-chacha] | C20PKW, X20CPKW, ECDH-ES+C20PKW, ECDH-ES+XC20PKW |
 
 | JWE Content Encryption Algorithms | Supported ||
