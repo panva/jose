@@ -2,6 +2,15 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.16.2](https://github.com/panva/jose/compare/v1.16.1...v1.16.2) (2019-12-05)
+
+
+### Bug Fixes
+
+* handle Unencoded Payload (b64:false) with arbitrary buffer payloads ([daabedc](https://github.com/panva/jose/commit/daabedc776617f4fde427b3a5e79d8c176293132)), closes [#57](https://github.com/panva/jose/issues/57)
+
+
+
 ## [1.16.1](https://github.com/panva/jose/compare/v1.16.0...v1.16.1) (2019-12-05)
 
 
