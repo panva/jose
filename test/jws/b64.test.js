@@ -1,5 +1,6 @@
 const test = require('ava')
 
+const { randomBytes } = require('crypto')
 const { JWK, JWS, errors } = require('../..')
 
 const k = JWK.asKey({
@@ -20,6 +21,13 @@ test('b64=false is supported for JWS', t => {
   )
 
   t.is(JWS.verify(FIXTURE, k, { crit: ['b64'] }), FIXTURE.payload)
+})
+
+test('b64=false with buffers', t => {
+  const payload = randomBytes(32)
+  const { payload: _, ...detached } = JWS.sign.flattened(payload, k, { alg: 'HS256', b64: false, crit: ['b64'] })
+
+  t.is(JWS.verify({ ...detached, payload }, k, { crit: ['b64'] }), payload)
 })
 
 test('b64=true is also allowed', t => {
