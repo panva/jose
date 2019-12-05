@@ -2,6 +2,15 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.16.1](https://github.com/panva/jose/compare/v1.16.0...v1.16.1) (2019-12-05)
+
+
+### Bug Fixes
+
+* allow PBES2 for the correct JWK `use` values ([f0d7194](https://github.com/panva/jose/commit/f0d719416ec9ca041ea88b8a983b5d899a6aa107))
+
+
+
 # [1.16.0](https://github.com/panva/jose/compare/v1.15.1...v1.16.0) (2019-12-04)
 
 
