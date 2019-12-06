@@ -281,3 +281,10 @@ test('invalid tokens', t => {
     )
   }, { instanceOf: errors.JOSEInvalidEncoding, code: 'ERR_JOSE_INVALID_ENCODING', message: 'input is not a valid base64url encoded string' })
 })
+
+test('"enc" key is not usable for signing', t => {
+  const k = generateSync('oct', 256, { use: 'enc' })
+  t.throws(() => {
+    JWS.sign({}, k)
+  }, { instanceOf: TypeError, message: 'a key with "use":"enc" is not usable for signing' })
+})

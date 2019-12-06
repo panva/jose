@@ -568,3 +568,10 @@ test('JWE general fails with decryption error', t => {
     JWE.decrypt(jwe, k3)
   }, { instanceOf: errors.JWEDecryptionFailed, code: 'ERR_JWE_DECRYPTION_FAILED' })
 })
+
+test('"sig" key is not usable for signing', t => {
+  const k = generateSync('oct', 256, { use: 'sig' })
+  t.throws(() => {
+    JWE.encrypt('foo', k)
+  }, { instanceOf: TypeError, message: 'a key with "use":"sig" is not usable for encryption' })
+})

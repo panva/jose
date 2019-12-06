@@ -187,3 +187,10 @@ test('when options arent in effect', t => {
   }
   t.deepEqual(payload, JWT.decode(JWT.sign(payload, key, { iat: false })))
 })
+
+test('"enc" key is not usable for signing', t => {
+  const k = JWK.generateSync('oct', 256, { use: 'enc' })
+  t.throws(() => {
+    JWT.sign({}, k)
+  }, { instanceOf: TypeError, message: 'a key with "use":"enc" is not usable for signing' })
+})
