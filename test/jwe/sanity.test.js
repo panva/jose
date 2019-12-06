@@ -575,3 +575,17 @@ test('"sig" key is not usable for signing', t => {
     JWE.encrypt('foo', k)
   }, { instanceOf: TypeError, message: 'a key with "use":"sig" is not usable for encryption' })
 })
+
+test('"enc" value must be supported error', t => {
+  const k = generateSync('oct', 256)
+  t.throws(() => {
+    JWE.encrypt('foo', k, { alg: 'dir', enc: 'foo' })
+  }, { instanceOf: errors.JOSENotSupported, message: 'unsupported encrypt alg: foo' })
+})
+
+test('"enc" value must be supported error (when no alg was specified)', t => {
+  const k = generateSync('oct', 256)
+  t.throws(() => {
+    JWE.encrypt('foo', k, { enc: 'foo' })
+  }, { instanceOf: errors.JOSENotSupported, message: 'unsupported encrypt alg: foo' })
+})
