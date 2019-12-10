@@ -2,6 +2,15 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+# [1.17.0](https://github.com/panva/jose/compare/v1.16.2...v1.17.0) (2019-12-10)
+
+
+### Features
+
+* importing a certificate populates x5c and x5t thumbprints ([25a7a71](https://github.com/panva/jose/commit/25a7a71915c4f7514536cec9e7e162d0ad3b670c)), closes [#59](https://github.com/panva/jose/issues/59)
+
+
+
 ## [1.16.2](https://github.com/panva/jose/compare/v1.16.1...v1.16.2) (2019-12-05)
 
 
