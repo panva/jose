@@ -2,6 +2,15 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.17.1](https://github.com/panva/jose/compare/v1.17.0...v1.17.1) (2019-12-10)
+
+
+### Bug Fixes
+
+* properly fail to import unsupported openssh keys ([bee5744](https://github.com/panva/jose/commit/bee574457f29597ccab09d51ac61b85dd7a7146a))
+
+
+
 # [1.17.0](https://github.com/panva/jose/compare/v1.16.2...v1.17.0) (2019-12-10)
 
 

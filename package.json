@@ -1,6 +1,6 @@
 {
   "name": "jose",
-  "version": "1.17.0",
+  "version": "1.17.1",
   "description": "JSON Web Almost Everything - JWA, JWS, JWE, JWK, JWT, JWKS for Node.js with minimal dependencies",
   "keywords": [
     "compact",
