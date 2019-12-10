@@ -354,8 +354,8 @@ Private keys may also be passphrase protected.
 - `key`: `<Object>` &vert; `<string>` &vert; `<Buffer>` &vert; `<KeyObject>`
   - `key`: `<string>` &vert; `<Buffer>`
   - `format`: `<string>` Must be 'pem' or 'der'. **Default:** 'pem'.
-  - `type`: `<string>` Must be 'pkcs1', 'pkcs8' or 'sec1'. This option is required only if the
-    format is 'der' and ignored if it is 'pem'.
+  - `type`: `<string>` Must be 'pkcs1', 'pkcs8', or 'sec1' for private keys, 'pkcs1', 'spki' for
+    public keys. This option is required only if the format is 'der' and ignored if it is 'pem'.
   - `passphrase`: `<string>` &vert; `<Buffer>` The passphrase to use for decryption.
 - `options`: `<Object>`
   - `alg`: `<string>` option identifies the algorithm intended for use with the key.
