@@ -1,4 +1,5 @@
 const test = require('ava')
+const { EOL } = require('os')
 
 const { createSecretKey } = require('../../lib/help/key_object')
 const { hasProperty, hasNoProperties } = require('../macros')
@@ -171,4 +172,35 @@ test('they may be imported so long as there was no k', t => {
       k: undefined
     })
   }, { instanceOf: errors.JWKImportFailed, message: 'key import failed' })
+})
+
+;[
+  'ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQC6ZsprTWFF+fOG0mrdIQ+HxXnb5pAazkvSff1d49tgc73VKkrStsNSq9ss3j65p6gn6un8DZht0zP58iMqgK9YjfTC1OOGKFCtXzJsY9XwhFoSvhaI0iC2NH+aGu8OFfYXiQs/UZGe9acvFgViTSa/qYvh3NYTVPPf4EaaUndMIVz6scwuPji4w/n5dYXk5PF58k0Dq52ID6yQVk2QBRf8JcL+dPy3YztPTB2kcu7e0N9VopC5Qq2TsCb2H9ooHlgMerJ0WjlCv1ADC/8I+Cj7K1dj/3dcrMK/YR+2Muey5aQufPWoxtFpUv/2ieIAi19hhLeUOZbOlkwD/k/DO9Ht panva@local',
+  'ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBJS61dYMKR7grCcg2wLzkQZs4ok5VVZ6Oc+TlOSrz6s5WLl4WdN2hPCpYs/PtbyGcW0a8CAEKik3guStuMGCN1I= panva@local',
+  'ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIL5wJKRxgAdYUPm7gfP9eP4MKnWahgALTRDgMHt0VMj7 panva@local',
+  `-----BEGIN OPENSSH PRIVATE KEY-----
+b3BlbnNzaC1rZXktdjEAAAAABG5vbmUAAAAEbm9uZQAAAAAAAAABAAAAMwAAAAtzc2gtZW`
+].forEach((openSSH, i, { length }) => {
+  test(`openssh keys do not fall through to oct keys ${i + 1}/${length}`, t => {
+    // strings
+    t.throws(() => {
+      asKey(openSSH)
+    }, { instanceOf: errors.JWKImportFailed, message: 'key import failed' })
+    t.throws(() => {
+      asKey(openSSH.replace(' panva@local', ''))
+    }, { instanceOf: errors.JWKImportFailed, message: 'key import failed' })
+    t.throws(() => {
+      asKey(openSSH.match(/.{1,64}/g).join(EOL))
+    }, { instanceOf: errors.JWKImportFailed, message: 'key import failed' })
+    // buffers
+    t.throws(() => {
+      asKey(Buffer.from(openSSH))
+    }, { instanceOf: errors.JWKImportFailed, message: 'key import failed' })
+    t.throws(() => {
+      asKey(Buffer.from(openSSH.replace(' panva@local', '')))
+    }, { instanceOf: errors.JWKImportFailed, message: 'key import failed' })
+    t.throws(() => {
+      asKey(Buffer.from(openSSH.match(/.{1,64}/g).join(EOL)))
+    }, { instanceOf: errors.JWKImportFailed, message: 'key import failed' })
+  })
 })
