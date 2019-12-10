@@ -164,3 +164,29 @@ test('invalid encoded oct jwk import', async t => {
     asKey(jwk)
   }, { instanceOf: errors.JOSEInvalidEncoding, code: 'ERR_JOSE_INVALID_ENCODING', message: 'input is not a valid base64url encoded string' })
 })
+
+if (keyObjectSupported) {
+  test('importing a certificate file populates the certificate properties', t => {
+    const key = asKey(`-----BEGIN CERTIFICATE-----
+MIIC4DCCAcgCCQDO8JBSH914NDANBgkqhkiG9w0BAQsFADAyMQswCQYDVQQGEwJD
+WjEPMA0GA1UEBwwGUHJhZ3VlMRIwEAYDVQQDDAlwa210bHN0d28wHhcNMTkwNjE4
+MTIzMjAxWhcNMjAwNjE3MTIzMjAxWjAyMQswCQYDVQQGEwJDWjEPMA0GA1UEBwwG
+UHJhZ3VlMRIwEAYDVQQDDAlwa210bHN0d28wggEiMA0GCSqGSIb3DQEBAQUAA4IB
+DwAwggEKAoIBAQDhqVAaMsvnCETzDtKwfKxZC1jwIOhIyUp8xp+2oN+pJwtqP0Up
+kLlTV7MD94HZSL3n3f9hsG6appRQGGAJ2ThOw1N9zlAr7Sk9YH6Gtu3bYSDvS6wa
+KjVoxGrrmLfyuoEbv3PDqMWuOjE3MT/G1nwUBgIEKYAr8hizY8dUE0Z2qWvKFZJj
+6etjCXEppjXuwlSusHWw/tj/ePMMxMAJMPPhzJeh6AL7iUKBisJysPuaWrS9ntdP
+xv9PS40sv6cZT4woxmE6tpTCkAxabXqA25SgJOyKOjnvg+BPNlrucLqHw3ErWrxY
+TL99cHqhexO6K4FaspW3+1kuWd3fY4Cm+zkTAgMBAAEwDQYJKoZIhvcNAQELBQAD
+ggEBALsB6MGWke5vS1TB3Z+NJkC29bEIb3XGC9WaxRovH0jqaaua2AfAF7VZzUyW
+S/+r6hvWOtqUVy7YF1ThnEJXuXJG9ra2B2+F5RYNCtrVj6Bi+zDTSJ4IvQfrF0XB
+KwwOdRu7VJpAxvweA/3woKl6Cjfy20ZupPH9mxr1R78BMKgEtdFsiLwbB7MOdDbT
+LsrUcEcupXv+gZek22upQKrAk/XFP067KIqKmCEhDidxhP251SloUaruv9cHEx0a
+DKol9eR465FAiBLvg2N7qJHCKlWdn99SgN4Y3kINsuFR7Tj4QIJZNubOjV0YeOgn
+AWzRJlZD89KZAQgjj4Z215QeLxA=
+-----END CERTIFICATE-----`)
+    t.truthy(key.x5c)
+    t.truthy(key.x5t)
+    t.truthy(key['x5t#S256'])
+  })
+}
