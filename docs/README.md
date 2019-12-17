@@ -636,6 +636,8 @@ specified by the parameters are first.
   - `key_ops`: `string[]` Filter keys with specified key_ops defined (if key_ops is defined on the
     key). Keys missing "key_ops" parameter will be matched but rank lower then ones with matching
     entries.
+  - `x5t`: `<string>` Key X.509 Certificate SHA-1 Thumbprint to filter for.
+  - `x5t#S256`: `<string>` Key X.509 Certificate SHA-256 Thumbprint to filter for.
 - Returns: `<Key[]>` Array of key instances or an empty array when none are matching the parameters.
 
 ---
@@ -655,7 +657,9 @@ parameters is returned.
   - `key_ops`: `string[]` Filter keys with specified key_ops defined (if key_ops is defined on the
     key). Keys missing "key_ops" parameter will be matched but rank lower then ones with matching
     entries.
-- Returns: `<JWK.RSAKey>` &vert; `<JWK.ECKey>` &vert; `<JWK.OKPKey>` &vert; `<JWK.OctKey>` &vert; `<undefined>`
+  - `x5t`: `<string>` Key X.509 Certificate SHA-1 Thumbprint to filter for.
+  - `x5t#S256`: `<string>` Key X.509 Certificate SHA-256 Thumbprint to filter for.
+- Returns: `<JWK.RSAKey>` &vert; `<JWK.ECKey>` &vert; `<JWK.OKPKey>` &vert; `<JWK.OctKey>` &vert; `undefined`
 
 ---
 

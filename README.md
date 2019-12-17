@@ -16,7 +16,7 @@ The following specifications are implemented by `jose`
 - JSON Web Key Thumbprint - [RFC7638][spec-thumbprint]
 - JWS Unencoded Payload Option - [RFC7797][spec-b64]
 - CFRG Elliptic Curve ECDH and Signatures - [RFC8037][spec-okp]
-- secp256k1 curve EC Key support - [JOSE Registrations for WebAuthn Algorithms][draft-secp256k1]
+- secp256k1 EC Key curve support - [JOSE Registrations for WebAuthn Algorithms][draft-secp256k1]
 
 The test suite utilizes examples defined in [RFC7520][spec-cookbook] to confirm its JOSE
 implementation is correct.
@@ -97,8 +97,6 @@ Won't implement:
   - one can decode the header and pass the (`x5c`, `jwk`) to `JWK.asKey` and validate with that
     key, similarly the application can handle fetching and then instantiating the referenced `x5u`
     or `jku` in its own code. This way you opt-in to these behaviours.
-- ✕ JWS detached content
-  - one can remove/attach the payload after/before the respective operation
 - ✕ "none" alg support
   - no crypto, no use
 
@@ -134,8 +132,8 @@ There are two plugin extensions with functionality which is either not available
 module yet and therefore needs a crypto polyfill (libsodium), or are not IETF WG standards/drafts
 "worthy" of landing in the core library.
 
-- [jose-chacha][plugin-chacha] adds aead_chacha20_poly1305 and aead_xchacha20_poly1305 based algorithms
-- [jose-x25519-ecdh][plugin-x25519] adds OKP X25519 curve keys ECDH-ES support
+- [jose-chacha][plugin-chacha] adds aead_chacha20_poly1305 and aead_xchacha20_poly1305 based algorithms (individual draft)
+- [jose-x25519-ecdh][plugin-x25519] adds OKP X25519 curve keys ECDH-ES support (missing Node.js `crypto` support)
 
 ## Usage
 
@@ -175,7 +173,7 @@ const jwk = { kty: 'EC',
   y: 'QTwy27XgP7ZMOdGOSopAHB-FU1JMQn3J9GEWGtUXreQ' }
 const anotherKey = jose.JWK.asKey(jwk)
 
-const keystore = new jose.JWKS.KeyStore(key, key2)
+const keystore = new jose.JWKS.KeyStore(key, anotherKey)
 ```
 
 ### JWT vs JWS
@@ -298,32 +296,6 @@ jose.JWE.decrypt(
   'eyJlbmMiOiJBMTI4Q0JDLUhTMjU2IiwiYWxnIjoiRUNESC1FUyIsImVwayI6eyJrdHkiOiJFQyIsImNydiI6IlAtMjU2IiwieCI6IkVsUGhsN1ljTVZsWkhHM0daSkRoOVJhemNYYlN2VFNheUF6aTBINFFtRUEiLCJ5IjoiM0hDREJTRy12emd6cGtLWmJqMU05UzVuUEJrTDBBdFM4U29ORUxMWE1SayJ9fQ..FhmidRo0twvFA7jcfKFNJw.o112vgiG_qUL1JR5WHpsErcxxgaK_FAa7vCWJ--WulndLpdwdRXHd9k3aL_k8K67xoAThrt10d7dSY2TlPpHdYkw979u0V-C4TNrpzNkv5jpBjU6hHyKpoGZfEsiTD1ivHaFy3ZLCTS69kN_eVKsZGLVf_dkq6Sz6bWE4-ln_fuwukPyMvjTyaTreLjPLBZW.ocKwptCm4Zn437L5hWFnHg',
   privateKey
 )
-```
-
-#### secp256k1
-
-Note: the secp256k1 JOSE parameters registration and the RFC is still in a draft state. If the WG
-draft changes its mind about the parameter names again the new values will be propagated as a MINOR
-library version.
-
-When you require `jose` you can work with `secp256k1` EC keys right away, the EC JWK `crv`
-used is as per the specification `secp256k1`.
-
-```js
-const jose = require('jose')
-let key = jose.JWK.generateSync('EC', 'secp256k1')
-key = jose.JWK.asKey(fs.readFileSync('path/to/key/file'))
-key.crv === 'secp256k1'
-```
-
-For legacy reasons the unregistered EC JWK `crv` value `P-256K` is also supported but you must
-require `jose` like so to use it:
-
-```js
-const jose = require('jose/P-256K')
-let key = jose.JWK.generateSync('EC', 'P-256K')
-key = jose.JWK.asKey(fs.readFileSync('path/to/key/file'))
-key.crv === 'P-256K'
 ```
 
 #### Electron Support
