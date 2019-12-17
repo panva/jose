@@ -849,7 +849,7 @@ Verifies the claims and signature of a JSON Web Token.
   - `ignoreExp`: `<Boolean>` When true will not be validating the "exp" claim value to be in the
     future from now. **Default:** 'false'
   - `ignoreIat`: `<Boolean>` When true will not be validating the "iat" claim value to be in the
-    past from now. **Default:** 'false'
+    past from now if expiration is not present. **Default:** 'false'
   - `ignoreNbf`: `<Boolean>` When true will not be validating the "nbf" claim value to be in the
     past from now. **Default:** 'false'
   - `issuer`: `<string>` Expected issuer value. An exact match must be found in the payload.

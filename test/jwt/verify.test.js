@@ -256,6 +256,12 @@ test('iat check (failed)', t => {
   }, { instanceOf: errors.JWTClaimInvalid, message: 'token issued in the future' })
 })
 
+test('iat check (ignored since exp is also present)', t => {
+  const token = JWT.sign({}, key, { now: new Date((epoch + 1) * 1000), expiresIn: '2h' })
+  JWT.verify(token, key, { now })
+  t.pass()
+})
+
 test('iat check (passed because of ignoreIat)', t => {
   const token = JWT.sign({}, key, { now: new Date((epoch + 1) * 1000) })
   JWT.verify(token, key, { now, ignoreIat: true })
