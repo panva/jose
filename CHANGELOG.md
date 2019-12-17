@@ -2,6 +2,15 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.17.2](https://github.com/panva/jose/compare/v1.17.1...v1.17.2) (2019-12-17)
+
+
+### Bug Fixes
+
+* skip validating iat is in the past when exp is present ([0ed5025](https://github.com/panva/jose/commit/0ed5025de30a754de95ae2587ce0f4573909b006))
+
+
+
 ## [1.17.1](https://github.com/panva/jose/compare/v1.17.0...v1.17.1) (2019-12-10)
 
 
