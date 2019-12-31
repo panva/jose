@@ -2,6 +2,15 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+# [1.18.0](https://github.com/panva/jose/compare/v1.17.2...v1.18.0) (2019-12-31)
+
+
+### Features
+
+* add JWT validation profiles for Access Tokens and Logout Tokens ([7bb5c95](https://github.com/panva/jose/commit/7bb5c953a9c6d9bd915e8ebc0608bc0649427745))
+
+
+
 ## [1.17.2](https://github.com/panva/jose/compare/v1.17.1...v1.17.2) (2019-12-17)
 
 
