@@ -22,6 +22,10 @@
     "jwks",
     "jws",
     "jwt",
+    "access_token",
+    "access token",
+    "logout_token",
+    "logout token",
     "secp256k1",
     "sign",
     "validate",
@@ -29,6 +33,7 @@
   ],
   "homepage": "https://github.com/panva/jose",
   "repository": "panva/jose",
+  "funding": "https://github.com/sponsors/panva",
   "license": "MIT",
   "author": "Filip Skokan <panva.ip@gmail.com>",
   "files": [
@@ -36,7 +41,6 @@
     "LICENSE_THIRD_PARTY",
     "types/index.d.ts"
   ],
-  "funding": "https://github.com/sponsors/panva",
   "main": "lib/index.js",
   "types": "types/index.d.ts",
   "scripts": {
@@ -56,6 +60,13 @@
       "@commitlint/config-conventional"
     ]
   },
+  "ava": {
+    "babel": false,
+    "compileEnhancements": false,
+    "files": [
+      "test/**/*.test.js"
+    ]
+  },
   "dependencies": {
     "asn1.js": "^5.2.0"
   },
@@ -71,13 +82,6 @@
   },
   "engines": {
     "node": ">=10.13.0"
-  },
-  "ava": {
-    "babel": false,
-    "compileEnhancements": false,
-    "files": [
-      "test/**/*.test.js"
-    ]
   },
   "standard": {
     "parser": "babel-eslint"

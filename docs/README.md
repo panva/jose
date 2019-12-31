@@ -834,9 +834,9 @@ Verifies the claims and signature of a JSON Web Token.
     found in this option will be rejected. **Default:** accepts all algorithms available on the
     passed key (or keys in the keystore)
   - `profile`: `<string>` To validate a JWT according to a specific profile, e.g. as an ID Token.
-    Supported values are 'id_token' for now. **Default:** 'undefined' (generic JWT). Combine this
-    option with the other ones like `maxAuthAge` and `nonce` or `subject` depending on the
-    use-case.
+    Supported values are 'id_token', 'at+JWT', and 'logout_token'. **Default:** 'undefined'
+    (generic JWT). Combine this option with the other ones like `maxAuthAge` and `nonce` or
+    `subject` depending on the use-case.
   - `audience`: `<string>` &vert; `string[]` Expected audience value(s). When string an exact match must
     be found in the payload, when array at least one must be matched.
   - `clockTolerance`: `<string>` Clock Tolerance for comparing timestamps, provided as timespan

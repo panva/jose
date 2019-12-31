@@ -24,7 +24,9 @@ implementation is correct.
 Available JWT validation profiles
 
 - Generic JWT
-- ID Token (id_token) - [OpenID Connect Core 1.0][spec-oidc-id_token]
+- OIDC ID Token (`id_token`) - [OpenID Connect Core 1.0][spec-oidc-id_token]
+- OAuth 2.0 JWT Access Tokens (`at+JWT`) - [JWT Profile for OAuth 2.0 Access Tokens][draft-ietf-oauth-access-token-jwt]
+- OIDC Logout Token (`logout_token`) - [OpenID Connect Back-Channel Logout 1.0][spec-oidc-logout_token]
 
 <details>
   <summary><em><strong>Detailed feature matrix</strong></em> (Click to expand)</summary><br>
@@ -77,8 +79,8 @@ Legend:
 | JWT profile validation | Supported | profile option value |
 | -- | -- | -- |
 | ID Token - [OpenID Connect Core 1.0][spec-oidc-id_token] | ✓ | `id_token` |
-| JWT Access Tokens [JWT Profile for OAuth 2.0 Access Tokens][draft-ietf-oauth-access-token-jwt] | ◯ ||
-| Logout Token - [OpenID Connect Back-Channel Logout 1.0][spec-oidc-logout_token] | ◯ ||
+| JWT Access Tokens [JWT Profile for OAuth 2.0 Access Tokens][draft-ietf-oauth-access-token-jwt] | ✓ | `at+JWT` |
+| Logout Token - [OpenID Connect Back-Channel Logout 1.0][spec-oidc-logout_token] | ✓ | `logout_token` |
 | JARM - [JWT Secured Authorization Response Mode for OAuth 2.0][draft-jarm] | ◯ ||
 
 Notes
@@ -224,6 +226,9 @@ jose.JWT.verify(
 )
 ```
 
+<details>
+  <summary><em><strong>Verifying OIDC ID Tokens</strong></em> (Click to expand)</summary><br>
+
 #### ID Token Verifying
 
 ID Token is a JWT, but profiled, there are additional requirements to a JWT to be accepted as an
@@ -248,6 +253,59 @@ jose.JWT.verify(
 Note: Depending on the channel you receive an ID Token from the following claims may be required
 and must also be checked: `at_hash`, `c_hash` or `s_hash`. Use e.g. [`oidc-token-hash`][oidc-token-hash]
 to validate those hashes after getting the ID Token payload and signature validated by `jose`
+
+</details>
+
+<details>
+  <summary><em><strong>Verifying OAuth 2.0 JWT Access Tokens</strong></em> (Click to expand)</summary><br>
+
+#### JWT Access Token Verifying
+
+When accepting a JWT-formatted OAuth 2.0 Access Token there are additional requirements for the JWT
+to be accepted as an Access Token according to the [specification][draft-ietf-oauth-access-token-jwt]
+and it is pretty easy to omit some. Use the `profile` option of `JWT.verify` to make sure
+what you're accepting is really a JWT Access Token meant for your Resource Server. This will then
+perform all doable validations given the input. See the [documentation][documentation-jwt] for more.
+
+```js
+jose.JWT.verify(
+  'eyJhbGciOiJQUzI1NiIsInR5cCI6ImF0K0pXVCIsImtpZCI6InIxTGtiQm8zOTI1UmIyWkZGckt5VTNNVmV4OVQyODE3S3gwdmJpNmlfS2MifQ.eyJzdWIiOiJmb28iLCJjbGllbnRfaWQiOiJ1cm46ZXhhbXBsZTpjbGllbnRfaWQiLCJhdWQiOiJ1cm46ZXhhbXBsZTpyZXNvdXJjZS1zZXJ2ZXIiLCJleHAiOjE1NjM4ODg4MzAsImlzcyI6Imh0dHBzOi8vb3AuZXhhbXBsZS5jb20iLCJzY29wZSI6ImFwaTpyZWFkIn0.UYy8vEGWS0cS24giCYobMMy9-bqI45p807yV1l-2WXX2J4UO-eohV_R58LE2oM88gl414c6XydO6QSYXul5roNPoOs41jpEvreQIP-HmegjbWGutktWJKfvoOblE5FjYwjrwStjLQGUzkq6KWcnDLPGmpFy7n6gZ4LF8YVz4dLEaO335hMNVNrmSPSXYqr7bAWybnLVpLxjDYwNfCO1g0_TlFx8fHh2OftHoOOmJFltFwb8JypkSB-JXVVSEh43IOEjeeMJIG_ylWIOxfLLi5Q7vPWgub83ZTkuGNe4KmlQJKIsH5k0yZSshsLYUOOH0RiXqQ-SA4Ubh3Fowigdu-g',
+  keystore,
+  {
+    profile: 'at+JWT',
+    issuer: 'https://op.example.com',
+    audience: 'urn:example:resource-server',
+    algorithms: ['PS256']
+  }
+)
+```
+
+</details>
+
+<details>
+  <summary><em><strong>Verifying OIDC Logout Token</strong></em> (Click to expand)</summary><br>
+
+#### Logout Token Verifying
+
+Logout Token is a JWT, but profiled, there are additional requirements to a JWT to be accepted as an
+Logout Token and it is pretty easy to omit some, use the `profile` option of `JWT.verify` to make sure
+what you're accepting is really an Logout Token meant to your Client. This will then perform all
+doable validations given the input. See the [documentation][documentation-jwt] for more.
+
+```js
+jose.JWT.verify(
+  'eyJhbGciOiJQUzI1NiJ9.eyJzdWIiOiJmb28iLCJhdWQiOiJ1cm46ZXhhbXBsZTpjbGllbnRfaWQiLCJpYXQiOjE1NjM4ODg4MzAsImp0aSI6ImhqazMyN2RzYSIsImlzcyI6Imh0dHBzOi8vb3AuZXhhbXBsZS5jb20iLCJldmVudHMiOnsiaHR0cDovL3NjaGVtYXMub3BlbmlkLm5ldC9ldmVudC9iYWNrY2hhbm5lbC1sb2dvdXQiOnt9fX0.SBi7uNUvjHL9TFoFzautGgTQ1MjyeGUNYHL7inpgq3XgTv6xc9EAKuPRtpixmhdNhmInGwUvAeqDSJxomwv1KK1cTndrC9zAMZ7h657BGQAwGhu7nTm41fWMpKQdiLa9sqp3yit5_FNBmqUNeOoMPrYT_Vl9ytsoNO89MUQy2aqCd-Z7BrNJZH0QycdW6dmYlrmZL7w3t3TaAXoJDJ4Hgl2Itkkkb6_6gO-VoPIdVD8sDuf1zQzGhIkmcFrk0fXczVYOkeF2hNYBuvsM8LuO-EPA3oyE2In9djai3M7yceTQetRa1vwlqWkg_xmYS59ry-6wT44aN7-Y6p0TdXm-Zg',
+  keystore,
+  {
+    profile: 'logout_token',
+    issuer: 'https://op.example.com',
+    audience: 'urn:example:client_id',
+    algorithms: ['PS256']
+  }
+)
+```
+
+</details>
 
 #### JWS Signing
 
