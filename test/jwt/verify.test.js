@@ -150,7 +150,11 @@ Object.entries({
     t.throws(() => {
       const invalid = `eyJhbGciOiJub25lIn0.${base64url.JSON.encode({ [claim]: 'foo' })}.`
       JWT.verify(invalid, key, { [option]: 'bar' })
-    }, { instanceOf: errors.JWTClaimInvalid, message: `${option} mismatch` })
+    }, { instanceOf: errors.JWTClaimInvalid, message: `unexpected "${claim}" claim value` })
+    t.throws(() => {
+      const invalid = `eyJhbGciOiJub25lIn0.${base64url.JSON.encode({ [claim]: undefined })}.`
+      JWT.verify(invalid, key, { [option]: 'bar' })
+    }, { instanceOf: errors.JWTClaimInvalid, message: `"${claim}" claim is missing` })
   })
 
   test(`option.${option} validation success`, t => {
@@ -164,11 +168,11 @@ test('option.audience validation fails', t => {
   t.throws(() => {
     const invalid = `eyJhbGciOiJub25lIn0.${base64url.JSON.encode({ aud: 'foo' })}.`
     JWT.verify(invalid, key, { audience: 'bar' })
-  }, { instanceOf: errors.JWTClaimInvalid, message: 'audience mismatch' })
+  }, { instanceOf: errors.JWTClaimInvalid, message: 'unexpected "aud" claim value' })
   t.throws(() => {
     const invalid = `eyJhbGciOiJub25lIn0.${base64url.JSON.encode({ aud: ['foo'] })}.`
     JWT.verify(invalid, key, { audience: 'bar' })
-  }, { instanceOf: errors.JWTClaimInvalid, message: 'audience mismatch' })
+  }, { instanceOf: errors.JWTClaimInvalid, message: 'unexpected "aud" claim value' })
 })
 
 test('option.audience validation success', t => {
@@ -192,7 +196,7 @@ test('option.maxAuthAge requires iat to be in the payload', t => {
   t.throws(() => {
     const invalid = `eyJhbGciOiJub25lIn0.${base64url.JSON.encode({})}.`
     JWT.verify(invalid, key, { maxAuthAge: '30s' })
-  }, { instanceOf: errors.JWTClaimInvalid, message: 'missing auth_time' })
+  }, { instanceOf: errors.JWTClaimInvalid, message: '"auth_time" claim is missing' })
 })
 
 const epoch = 1265328501
@@ -202,7 +206,7 @@ test('option.maxAuthAge checks auth_time', t => {
   t.throws(() => {
     const invalid = `eyJhbGciOiJub25lIn0.${base64url.JSON.encode({ auth_time: epoch - 31 })}.`
     JWT.verify(invalid, key, { maxAuthAge: '30s', now })
-  }, { instanceOf: errors.JWTClaimInvalid, message: 'too much time has elapsed since the last End-User authentication' })
+  }, { instanceOf: errors.JWTClaimInvalid, message: '"auth_time" claim timestamp check failed (too much time has elapsed since the last End-User authentication)' })
 })
 
 test('option.maxAuthAge checks auth_time (with tolerance)', t => {
@@ -215,14 +219,14 @@ test('option.maxTokenAge requires iat to be in the payload', t => {
   t.throws(() => {
     const invalid = `eyJhbGciOiJub25lIn0.${base64url.JSON.encode({})}.`
     JWT.verify(invalid, key, { maxTokenAge: '30s' })
-  }, { instanceOf: errors.JWTClaimInvalid, message: 'missing iat claim' })
+  }, { instanceOf: errors.JWTClaimInvalid, message: '"iat" claim is missing' })
 })
 
 test('option.maxTokenAge checks iat elapsed time', t => {
   t.throws(() => {
     const invalid = `eyJhbGciOiJub25lIn0.${base64url.JSON.encode({ iat: epoch - 31 })}.`
     JWT.verify(invalid, key, { maxTokenAge: '30s', now })
-  }, { instanceOf: errors.JWTClaimInvalid, message: 'maxTokenAge exceeded' })
+  }, { instanceOf: errors.JWTClaimInvalid, message: '"iat" claim timestamp check failed (too far in the past)' })
 })
 
 test('option.maxTokenAge checks iat (with tolerance)', t => {
@@ -253,12 +257,25 @@ test('iat check (failed)', t => {
   const token = JWT.sign({}, key, { now: new Date((epoch + 1) * 1000) })
   t.throws(() => {
     JWT.verify(token, key, { now })
-  }, { instanceOf: errors.JWTClaimInvalid, message: 'token issued in the future' })
+  }, { instanceOf: errors.JWTClaimInvalid, message: '"iat" claim timestamp check failed (it should be in the past)' })
 })
 
-test('iat check (ignored since exp is also present)', t => {
+test('iat future check (ignored since exp is also present)', t => {
   const token = JWT.sign({}, key, { now: new Date((epoch + 1) * 1000), expiresIn: '2h' })
   JWT.verify(token, key, { now })
+  t.pass()
+})
+
+test('iat future check (part of maxTokenAge)', t => {
+  const token = JWT.sign({}, key, { now: new Date((epoch + 1) * 1000), expiresIn: '2h' })
+  t.throws(() => {
+    JWT.verify(token, key, { now, maxTokenAge: '30s' })
+  }, { instanceOf: errors.JWTClaimInvalid, message: '"iat" claim timestamp check failed (it should be in the past)' })
+})
+
+test('iat future check with tolerance (part of maxTokenAge)', t => {
+  const token = JWT.sign({}, key, { now: new Date((epoch + 1) * 1000), expiresIn: '2h' })
+  JWT.verify(token, key, { now, maxTokenAge: '30s', clockTolerance: '1s' })
   t.pass()
 })
 
@@ -290,14 +307,14 @@ test('exp check (failed equal)', t => {
   const token = JWT.sign({ exp: epoch }, key, { iat: false })
   t.throws(() => {
     JWT.verify(token, key, { now })
-  }, { instanceOf: errors.JWTClaimInvalid, message: 'token is expired' })
+  }, { instanceOf: errors.JWTClaimInvalid, message: '"exp" claim timestamp check failed' })
 })
 
 test('exp check (failed normal)', t => {
   const token = JWT.sign({ exp: epoch - 1 }, key, { iat: false })
   t.throws(() => {
     JWT.verify(token, key, { now })
-  }, { instanceOf: errors.JWTClaimInvalid, message: 'token is expired' })
+  }, { instanceOf: errors.JWTClaimInvalid, message: '"exp" claim timestamp check failed' })
 })
 
 test('exp check (passed because of ignoreExp)', t => {
@@ -328,7 +345,7 @@ test('nbf check (failed)', t => {
   const token = JWT.sign({ nbf: epoch + 10 }, key, { iat: false })
   t.throws(() => {
     JWT.verify(token, key, { now })
-  }, { instanceOf: errors.JWTClaimInvalid, message: 'token is not active yet' })
+  }, { instanceOf: errors.JWTClaimInvalid, message: '"nbf" claim timestamp check failed' })
 })
 
 test('nbf check (passed because of ignoreIat)', t => {
@@ -428,7 +445,7 @@ test('must be a supported value', t => {
         key,
         { profile: 'id_token', issuer: 'issuer', audience: 'client_id' }
       )
-    }, { instanceOf: errors.JWTClaimInvalid, message: 'azp mismatch' })
+    }, { instanceOf: errors.JWTClaimInvalid, message: 'unexpected "azp" claim value' })
   })
 
   test('profile=id_token validates full id tokens', t => {
@@ -616,7 +633,7 @@ test('must be a supported value', t => {
         key,
         { profile: 'at+JWT', issuer: 'issuer', audience: ['RS-alias1'] }
       )
-    }, { instanceOf: errors.JWTClaimInvalid, message: 'audience mismatch' })
+    }, { instanceOf: errors.JWTClaimInvalid, message: 'unexpected "aud" claim value' })
     JWT.verify(
       JWT.sign({ client_id: 'client_id' }, key, { expiresIn: '10m', subject: 'subject', issuer: 'issuer', audience: ['RS-alias1', 'RS-alias2'], header: { typ: 'at+JWT' } }),
       key,
