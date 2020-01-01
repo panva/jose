@@ -2,6 +2,15 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.18.1](https://github.com/panva/jose/compare/v1.18.0...v1.18.1) (2020-01-01)
+
+
+### Bug Fixes
+
+* force iat past check when maxTokenAge option is used + JWT refactor ([828ad5a](https://github.com/panva/jose/commit/828ad5a33dc0cc0049923b69f43f97463295456e))
+
+
+
 # [1.18.0](https://github.com/panva/jose/compare/v1.17.2...v1.18.0) (2019-12-31)
 
 
