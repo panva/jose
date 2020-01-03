@@ -303,9 +303,7 @@ jose.JWE.decrypt(
 | RSAES OAEP | ✓ | RSA-OAEP, RSA-OAEP-256<sup>[3]</sup>, RSA-OAEP-384<sup>[3]</sup>, RSA-OAEP-512<sup>[3]</sup> |
 | RSAES-PKCS1-v1_5 | ✓ | RSA1_5 |
 | PBES2 | ✓ | PBES2-HS256+A128KW<sup>[1]</sup>, PBES2-HS384+A192KW<sup>[1]</sup>, PBES2-HS512+A256KW<sup>[1]</sup> |
-| ECDH-ES (for all EC keys) | ✓ | ECDH-ES, ECDH-ES+A128KW<sup>[1]</sup>, ECDH-ES+A192KW<sup>[1]</sup>, ECDH-ES+A256KW<sup>[1]</sup> |
-| ECDH-ES (for OKP X25519) | ✓ <sup>via [plugin][plugin-x25519]</sup> | ECDH-ES, ECDH-ES+A128KW, ECDH-ES+A192KW, ECDH-ES+A256KW |
-| ECDH-ES (for OKP X448) | ✕ ||
+| ECDH-ES | ✓<sup>[4]</sup> | ECDH-ES, ECDH-ES+A128KW<sup>[1]</sup>, ECDH-ES+A192KW<sup>[1]</sup>, ECDH-ES+A256KW<sup>[1]</sup> |
 | (X)ChaCha | ✓ <sup>via [plugin][plugin-chacha]</sup> | C20PKW, XC20PKW, ECDH-ES+C20PKW, ECDH-ES+XC20PKW |
 
 | JWE Content Encryption Algorithms | Supported ||
@@ -330,7 +328,8 @@ Legend:
 <sup>2</sup> Unsecured JWS is [supported][documentation-none] for the JWS and JWT sign and verify
 operations but it is an entirely opt-in behaviour, downgrade attacks are prevented by the required
 use of a special `JWK.Key`-like object that cannot be instantiated through the key import API  
-<sup>3</sup> RSAES OAEP using SHA-2 and MGF1 with SHA-2 is only supported when Node.js >= 12.9.0 runtime is detected
+<sup>3</sup> RSAES OAEP using SHA-2 and MGF1 with SHA-2 is only supported when Node.js >= 12.9.0 runtime is detected  
+<sup>4</sup> ECDH-ES with X25519 and X448 keys is only supported when Node.js >= 13.9.0 runtime is detected
 
 ## FAQ
 
@@ -409,5 +408,4 @@ in terms of performance and API (not having well defined errors).
 [suggest-feature]: https://github.com/panva/jose/issues/new?labels=enhancement&template=feature-request.md&title=proposal%3A+
 [support-sponsor]: https://github.com/sponsors/panva
 [sponsor-auth0]: https://auth0.com/overview?utm_source=GHsponsor&utm_medium=GHsponsor&utm_campaign=panva-jose&utm_content=auth
-[plugin-x25519]: https://github.com/panva/jose-x25519-ecdh
 [plugin-chacha]: https://github.com/panva/jose-chacha
