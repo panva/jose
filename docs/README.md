@@ -1208,7 +1208,7 @@ JWS.verify(general, keystore, { complete: true })
   - [encrypt.recipient(key[, header])](#encryptrecipientkey-header)
   - [encrypt.encrypt(serialization)](#encryptencryptserialization)
 - [JWE.encrypt(cleartext, key[, protected])](#jweencryptcleartext-key-protected)
-- [JWE.encrypt.flattened(cleartext, key[, protected[, header[, aad]]])](#jweencryptflattenedcleartext-key-protected-header-aad)
+- [JWE.encrypt.flattened(cleartext, key[, protected[, unprotected[, aad]]])](#jweencryptflattenedcleartext-key-protected-unprotected-aad)
 - [JWE.decrypt(jwe, keyOrStore[, options])](#jwedecryptjwe-keyorstore-options)
 <!-- TOC JWE END -->
 
@@ -1286,7 +1286,7 @@ Protected Header or inferred from the provided `<JWK.Key>` instance.
 
 ---
 
-#### `JWE.encrypt.flattened(cleartext, key[, protected[, header[, aad]]])`
+#### `JWE.encrypt.flattened(cleartext, key[, protected[, unprotected[, aad]]])`
 
 Performs the encryption operation and 'flattened' JWE serialization of the result. The Algorithm
 that will be used to wrap or derive the Content Encryption Key (CEK) is either provided as part of
