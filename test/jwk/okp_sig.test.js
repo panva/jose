@@ -1,12 +1,41 @@
 const test = require('ava')
 
 const { keyObjectSupported } = require('../../lib/help/runtime_support')
+const errors = require('../../lib/errors')
 
-if (!keyObjectSupported) return
+const fixtures = require('../fixtures')
+
+if (!keyObjectSupported) {
+  const JWK = require('../../lib/jwk')
+  ;[
+    [fixtures.PEM.Ed25519.public, 'Ed25519'],
+    [fixtures.PEM.Ed25519.private, 'Ed25519'],
+    [fixtures.PEM.Ed448.public, 'Ed448'],
+    [fixtures.PEM.Ed448.private, 'Ed448'],
+    [fixtures.PEM.X25519.public, 'X25519'],
+    [fixtures.PEM.X25519.private, 'X25519'],
+    [fixtures.PEM.X448.public, 'X448'],
+    [fixtures.PEM.X448.private, 'X448'],
+    [fixtures.JWK.Ed25519, 'Ed25519'],
+    [fixtures.JWK.Ed448, 'Ed448'],
+    [fixtures.JWK.X25519, 'X25519'],
+    [fixtures.JWK.X448, 'X448'],
+    [{ ...fixtures.JWK.Ed25519, d: undefined }, 'Ed25519'],
+    [{ ...fixtures.JWK.Ed448, d: undefined }, 'Ed448'],
+    [{ ...fixtures.JWK.X25519, d: undefined }, 'X25519'],
+    [{ ...fixtures.JWK.X448, d: undefined }, 'X448']
+  ].forEach(([input, label], i, { length }) => {
+    test(`OKP ${i + 1} / ${length}`, t => {
+      t.throws(() => {
+        JWK.asKey(input)
+      }, { instanceOf: errors.JOSENotSupported, code: 'ERR_JOSE_NOT_SUPPORTED', message: `${label} is not supported in your Node.js runtime version` })
+    })
+  })
+  return
+}
 
 const { createPrivateKey, createPublicKey } = require('crypto')
 const { hasProperty, hasNoProperties, hasProperties } = require('../macros')
-const fixtures = require('../fixtures')
 
 const OKPKey = require('../../lib/jwk/key/okp')
 

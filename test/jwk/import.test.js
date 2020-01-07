@@ -165,9 +165,7 @@ test('invalid encoded oct jwk import', async t => {
   }, { instanceOf: errors.JOSEInvalidEncoding, code: 'ERR_JOSE_INVALID_ENCODING', message: 'input is not a valid base64url encoded string' })
 })
 
-if (keyObjectSupported) {
-  test('importing a certificate file populates the certificate properties', t => {
-    const key = asKey(`-----BEGIN CERTIFICATE-----
+const cert = `-----BEGIN CERTIFICATE-----
 MIIC4DCCAcgCCQDO8JBSH914NDANBgkqhkiG9w0BAQsFADAyMQswCQYDVQQGEwJD
 WjEPMA0GA1UEBwwGUHJhZ3VlMRIwEAYDVQQDDAlwa210bHN0d28wHhcNMTkwNjE4
 MTIzMjAxWhcNMjAwNjE3MTIzMjAxWjAyMQswCQYDVQQGEwJDWjEPMA0GA1UEBwwG
@@ -184,9 +182,19 @@ KwwOdRu7VJpAxvweA/3woKl6Cjfy20ZupPH9mxr1R78BMKgEtdFsiLwbB7MOdDbT
 LsrUcEcupXv+gZek22upQKrAk/XFP067KIqKmCEhDidxhP251SloUaruv9cHEx0a
 DKol9eR465FAiBLvg2N7qJHCKlWdn99SgN4Y3kINsuFR7Tj4QIJZNubOjV0YeOgn
 AWzRJlZD89KZAQgjj4Z215QeLxA=
------END CERTIFICATE-----`)
+-----END CERTIFICATE-----`
+
+if (keyObjectSupported) {
+  test('importing a certificate file populates the certificate properties', t => {
+    const key = asKey(cert)
     t.truthy(key.x5c)
     t.truthy(key.x5t)
     t.truthy(key['x5t#S256'])
+  })
+} else {
+  test('cannot import a certificate', t => {
+    t.throws(() => {
+      asKey(cert)
+    }, { instanceOf: errors.JOSENotSupported, code: 'ERR_JOSE_NOT_SUPPORTED', message: 'X.509 certificates are not supported in your Node.js runtime version' })
   })
 }
