@@ -2,6 +2,17 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.18.2](https://github.com/panva/jose/compare/v1.18.1...v1.18.2) (2020-01-08)
+
+
+### Bug Fixes
+
+* ensure asn1.js version to remove Buffer deprecation notice ([13b1106](https://github.com/panva/jose/commit/13b1106048fdeae00b09d54f05245dded85b14a7))
+* expose JOSENotSupported key import errors on unsupported runtimes ([bc81e5d](https://github.com/panva/jose/commit/bc81e5dec2987f6ce6dc3fa5daa23dfe620c0a34))
+* typo in JOSENotSupported error when x509 certs are not supported ([bb58c9c](https://github.com/panva/jose/commit/bb58c9ce52e807ca4cfad6bcbf1ab96b91778b1f))
+
+
+
 ## [1.18.1](https://github.com/panva/jose/compare/v1.18.0...v1.18.1) (2020-01-01)
 
 
