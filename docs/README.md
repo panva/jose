@@ -749,6 +749,9 @@ ks instanceof KeyStore
 - [JWT.sign(payload, key[, options])](#jwtsignpayload-key-options)
 - [JWT.verify(token, keyOrStore[, options])](#jwtverifytoken-keyorstore-options)
 - [JWT.decode(token[, options])](#jwtdecodetoken-options)
+- [JWT.AccessToken.verify(token, keyOrStore, options)](#jwtaccesstokenverifytoken-keyorstore-options)
+- [JWT.IdToken.verify(token, keyOrStore, options)](#jwtidtokenverifytoken-keyorstore-options)
+- [JWT.LogoutToken.verify(token, keyOrStore, options)](#jwtlogouttokenverifytoken-keyorstore-options)
 <!-- TOC JWT END -->
 
 ```js
@@ -927,6 +930,73 @@ JWT.decode(token, { complete: true })
 //      iat: 1551294137,
 //      exp: 1551301337 },
 //   signature: 'YmtApwaGRBWlL9O8avbmpYcJ5UwNy0R8rpbxZqHxNd4' }
+```
+</details>
+
+---
+
+#### `JWT.AccessToken.verify(token, keyOrStore, options])`
+
+A shorthand for [`JWT.verify`](#jwtverifytoken-keyorstore-options) with the `profile` option set to `access_token`.
+
+<details>
+<summary><em><strong>Example</strong></em> (Click to expand)</summary>
+
+```js
+jose.JWT.AccessToken.verify(
+  'eyJhbGciOiJQUzI1NiIsInR5cCI6ImF0K0pXVCIsImtpZCI6InIxTGtiQm8zOTI1UmIyWkZGckt5VTNNVmV4OVQyODE3S3gwdmJpNmlfS2MifQ.eyJzdWIiOiJmb28iLCJjbGllbnRfaWQiOiJ1cm46ZXhhbXBsZTpjbGllbnRfaWQiLCJhdWQiOiJ1cm46ZXhhbXBsZTpyZXNvdXJjZS1zZXJ2ZXIiLCJleHAiOjE1NjM4ODg4MzAsImlzcyI6Imh0dHBzOi8vb3AuZXhhbXBsZS5jb20iLCJzY29wZSI6ImFwaTpyZWFkIn0.UYy8vEGWS0cS24giCYobMMy9-bqI45p807yV1l-2WXX2J4UO-eohV_R58LE2oM88gl414c6XydO6QSYXul5roNPoOs41jpEvreQIP-HmegjbWGutktWJKfvoOblE5FjYwjrwStjLQGUzkq6KWcnDLPGmpFy7n6gZ4LF8YVz4dLEaO335hMNVNrmSPSXYqr7bAWybnLVpLxjDYwNfCO1g0_TlFx8fHh2OftHoOOmJFltFwb8JypkSB-JXVVSEh43IOEjeeMJIG_ylWIOxfLLi5Q7vPWgub83ZTkuGNe4KmlQJKIsH5k0yZSshsLYUOOH0RiXqQ-SA4Ubh3Fowigdu-g',
+  keyOrStore,
+  {
+    issuer: 'https://op.example.com',
+    audience: 'urn:example:resource-server',
+    algorithms: ['PS256']
+  }
+)
+```
+</details>
+
+---
+
+#### `JWT.IdToken.verify(token, keyOrStore, options])`
+
+A shorthand for [`JWT.verify`](#jwtverifytoken-keyorstore-options) with the `profile` option set to `id_token`.
+
+<details>
+<summary><em><strong>Example</strong></em> (Click to expand)</summary>
+
+```js
+jose.JWT.IdToken.verify(
+  'eyJhbGciOiJQUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6InIxTGtiQm8zOTI1UmIyWkZGckt5VTNNVmV4OVQyODE3S3gwdmJpNmlfS2MifQ.eyJzdWIiOiJmb28iLCJub25jZSI6ImE1MWNjZjA4ZjRiYmIwNmU4ODcxNWRkYzRiYmI0MWQ4IiwiYXVkIjoidXJuOmV4YW1wbGU6Y2xpZW50X2lkIiwiZXhwIjoxNTYzODg4ODMwLCJpYXQiOjE1NjM4ODUyMzAsImlzcyI6Imh0dHBzOi8vb3AuZXhhbXBsZS5jb20ifQ.RKCZczgICF5G9XdNDSwe4dolGauQHptpFKPzahA2wYGG2HKrKhyC8ZzqpeVc8cbntuqFBgABJVv6_9YICRx_dgwPYydTpZfZYjHnxrdWF9QsIPEGs672mrnhqIXUnXoseZ0TF6GOq6P7Qbf6gk1ru7TAbr_ieyJnNWcJhh5iHpz1k3mFz0TyTh7UNXshtQXftPUipqz4OBni5r9UaZXHw8B3QYOnms8__GJ3owOxaqkr1jgRs_EWqMlBNjPaj7ElVaeBWljDKuoK673tH0heSpgzUmUX_W8IDUVqs33uglpZwAQC7cAA5mGEg2odcRpvpP5M-WaP4RE9dl9jzcYmrw',
+  keyOrStore,
+  {
+    issuer: 'https://op.example.com',
+    audience: 'urn:example:client_id',
+    nonce: 'a51ccf08f4bbb06e88715ddc4bbb41d8',
+    algorithms: ['PS256']
+  }
+)
+```
+</details>
+
+---
+
+#### `JWT.LogoutToken.verify(token, keyOrStore, options])`
+
+A shorthand for [`JWT.verify`](#jwtverifytoken-keyorstore-options) with the `profile` option set to `logout_token`.
+
+<details>
+<summary><em><strong>Example</strong></em> (Click to expand)</summary>
+
+```js
+jose.JWT.LogoutToken.verify(
+  'eyJhbGciOiJQUzI1NiJ9.eyJzdWIiOiJmb28iLCJhdWQiOiJ1cm46ZXhhbXBsZTpjbGllbnRfaWQiLCJpYXQiOjE1NjM4ODg4MzAsImp0aSI6ImhqazMyN2RzYSIsImlzcyI6Imh0dHBzOi8vb3AuZXhhbXBsZS5jb20iLCJldmVudHMiOnsiaHR0cDovL3NjaGVtYXMub3BlbmlkLm5ldC9ldmVudC9iYWNrY2hhbm5lbC1sb2dvdXQiOnt9fX0.SBi7uNUvjHL9TFoFzautGgTQ1MjyeGUNYHL7inpgq3XgTv6xc9EAKuPRtpixmhdNhmInGwUvAeqDSJxomwv1KK1cTndrC9zAMZ7h657BGQAwGhu7nTm41fWMpKQdiLa9sqp3yit5_FNBmqUNeOoMPrYT_Vl9ytsoNO89MUQy2aqCd-Z7BrNJZH0QycdW6dmYlrmZL7w3t3TaAXoJDJ4Hgl2Itkkkb6_6gO-VoPIdVD8sDuf1zQzGhIkmcFrk0fXczVYOkeF2hNYBuvsM8LuO-EPA3oyE2In9djai3M7yceTQetRa1vwlqWkg_xmYS59ry-6wT44aN7-Y6p0TdXm-Zg',
+  keyOrStore,
+  {
+    issuer: 'https://op.example.com',
+    audience: 'urn:example:client_id',
+    algorithms: ['PS256']
+  }
+)
 ```
 </details>
 

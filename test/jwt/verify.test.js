@@ -364,18 +364,28 @@ test('must be a supported value', t => {
 {
   const token = JWT.sign({ }, key, { expiresIn: '10m', subject: 'subject', issuer: 'issuer', audience: 'client_id' })
 
+  test('profile=id_token', t => {
+    JWT.verify(token, key, { profile: 'id_token', issuer: 'issuer', audience: 'client_id' })
+    JWT.IdToken.verify(token, key, { issuer: 'issuer', audience: 'client_id' })
+    t.pass()
+  })
+
   test('profile=id_token requires issuer option too', t => {
     t.throws(() => {
       JWT.verify(token, key, { profile: 'id_token' })
     }, { instanceOf: TypeError, message: '"issuer" option is required to validate an ID Token' })
-    JWT.verify(token, key, { profile: 'id_token', issuer: 'issuer', audience: 'client_id' })
+    t.throws(() => {
+      JWT.IdToken.verify(token, key)
+    }, { instanceOf: TypeError, message: '"issuer" option is required to validate an ID Token' })
   })
 
   test('profile=id_token requires audience option too', t => {
     t.throws(() => {
       JWT.verify(token, key, { profile: 'id_token', issuer: 'issuer' })
     }, { instanceOf: TypeError, message: '"audience" option is required to validate an ID Token' })
-    JWT.verify(token, key, { profile: 'id_token', issuer: 'issuer', audience: 'client_id' })
+    t.throws(() => {
+      JWT.IdToken.verify(token, key, { issuer: 'issuer' })
+    }, { instanceOf: TypeError, message: '"audience" option is required to validate an ID Token' })
   })
 
   test('profile=id_token mandates exp to be present', t => {
@@ -466,18 +476,28 @@ test('must be a supported value', t => {
     }
   }, key, { jti: 'foo', subject: 'subject', issuer: 'issuer', audience: 'client_id' })
 
+  test('profile=logout_token', t => {
+    JWT.verify(token, key, { profile: 'logout_token', issuer: 'issuer', audience: 'client_id' })
+    JWT.LogoutToken.verify(token, key, { issuer: 'issuer', audience: 'client_id' })
+    t.pass()
+  })
+
   test('profile=logout_token requires issuer option too', t => {
     t.throws(() => {
       JWT.verify(token, key, { profile: 'logout_token' })
     }, { instanceOf: TypeError, message: '"issuer" option is required to validate a Logout Token' })
-    JWT.verify(token, key, { profile: 'logout_token', issuer: 'issuer', audience: 'client_id' })
+    t.throws(() => {
+      JWT.LogoutToken.verify(token, key)
+    }, { instanceOf: TypeError, message: '"issuer" option is required to validate a Logout Token' })
   })
 
   test('profile=logout_token requires audience option too', t => {
     t.throws(() => {
       JWT.verify(token, key, { profile: 'logout_token', issuer: 'issuer' })
     }, { instanceOf: TypeError, message: '"audience" option is required to validate a Logout Token' })
-    JWT.verify(token, key, { profile: 'logout_token', issuer: 'issuer', audience: 'client_id' })
+    t.throws(() => {
+      JWT.LogoutToken.verify(token, key, { issuer: 'issuer' })
+    }, { instanceOf: TypeError, message: '"audience" option is required to validate a Logout Token' })
   })
 
   test('profile=logout_token mandates jti to be present', t => {
@@ -602,18 +622,28 @@ test('must be a supported value', t => {
 {
   const token = JWT.sign({ client_id: 'client_id' }, key, { expiresIn: '10m', subject: 'subject', issuer: 'issuer', audience: 'RS', header: { typ: 'at+JWT' } })
 
+  test('profile=at+JWT', t => {
+    JWT.verify(token, key, { profile: 'at+JWT', issuer: 'issuer', audience: 'RS' })
+    JWT.AccessToken.verify(token, key, { issuer: 'issuer', audience: 'RS' })
+    t.pass()
+  })
+
   test('profile=at+JWT requires issuer option too', t => {
     t.throws(() => {
       JWT.verify(token, key, { profile: 'at+JWT' })
     }, { instanceOf: TypeError, message: '"issuer" option is required to validate a JWT Access Token' })
-    JWT.verify(token, key, { profile: 'at+JWT', issuer: 'issuer', audience: 'RS' })
+    t.throws(() => {
+      JWT.AccessToken.verify(token, key)
+    }, { instanceOf: TypeError, message: '"issuer" option is required to validate a JWT Access Token' })
   })
 
   test('profile=at+JWT requires audience option too', t => {
     t.throws(() => {
       JWT.verify(token, key, { profile: 'at+JWT', issuer: 'issuer' })
     }, { instanceOf: TypeError, message: '"audience" option is required to validate a JWT Access Token' })
-    JWT.verify(token, key, { profile: 'at+JWT', issuer: 'issuer', audience: 'RS' })
+    t.throws(() => {
+      JWT.AccessToken.verify(token, key, { issuer: 'issuer' })
+    }, { instanceOf: TypeError, message: '"audience" option is required to validate a JWT Access Token' })
   })
 
   test('profile=at+JWT mandates exp to be present', t => {

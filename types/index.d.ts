@@ -381,7 +381,29 @@ export namespace JWT {
     nonce?: string;
     now?: Date;
   }
+
   function sign(payload: object, key: ProduceKeyInput, options?: SignOptions): string;
+
+  interface VerifyProfileOptions<profile> {
+    issuer: string;
+    audience: string | string[];
+    profile?: profile;
+  }
+
+  namespace IdToken {
+    function verify(jwt: string, key: ConsumeKeyInput, options: VerifyOptions<false> & VerifyProfileOptions<'id_token'>): object;
+    function verify(jwt: string, key: ConsumeKeyInput, options: VerifyOptions<true> & VerifyProfileOptions<'id_token'>): completeResult;
+  }
+
+  namespace LogoutToken {
+    function verify(jwt: string, key: ConsumeKeyInput, options: VerifyOptions<false> & VerifyProfileOptions<'logout_token'>): object;
+    function verify(jwt: string, key: ConsumeKeyInput, options: VerifyOptions<true> & VerifyProfileOptions<'logout_token'>): completeResult;
+  }
+
+  namespace AccessToken {
+    function verify(jwt: string, key: ConsumeKeyInput, options: VerifyOptions<false> & VerifyProfileOptions<'at+JWT'>): object;
+    function verify(jwt: string, key: ConsumeKeyInput, options: VerifyOptions<true> & VerifyProfileOptions<'at+JWT'>): completeResult;
+  }
 }
 
 export namespace errors {
