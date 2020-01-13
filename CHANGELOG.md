@@ -2,6 +2,15 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+# [1.19.0](https://github.com/panva/jose/compare/v1.18.2...v1.19.0) (2020-01-13)
+
+
+### Features
+
+* exposed shorthands for JWT verification profiles ([b1864e3](https://github.com/panva/jose/commit/b1864e319d1a7a42eadfa0c4b0145952e7814726))
+
+
+
 ## [1.18.2](https://github.com/panva/jose/compare/v1.18.1...v1.18.2) (2020-01-08)
 
 
