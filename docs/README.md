@@ -1403,6 +1403,7 @@ Verifies the provided JWE in either serialization with a given `<JWK.Key>` or `<
 - [Class: &lt;JOSEAlgNotWhitelisted&gt;](#class-josealgnotwhitelisted)
 - [Class: &lt;JOSECritNotUnderstood&gt;](#class-josecritnotunderstood)
 - [Class: &lt;JOSEMultiError&gt;](#class-josemultierror)
+- [Class: &lt;JOSEInvalidEncoding&gt;](#class-joseinvalidencoding)
 - [Class: &lt;JOSENotSupported&gt;](#class-josenotsupported)
 - [Class: &lt;JWEDecryptionFailed&gt;](#class-jwedecryptionfailed)
 - [Class: &lt;JWEInvalid&gt;](#class-jweinvalid)
@@ -1413,6 +1414,7 @@ Verifies the provided JWE in either serialization with a given `<JWK.Key>` or `<
 - [Class: &lt;JWSInvalid&gt;](#class-jwsinvalid)
 - [Class: &lt;JWSVerificationFailed&gt;](#class-jwsverificationfailed)
 - [Class: &lt;JWTClaimInvalid&gt;](#class-jwtclaiminvalid)
+- [Class: &lt;JWTExpired&gt;](#class-jwtexpired)
 - [Class: &lt;JWTMalformed&gt;](#class-jwtmalformed)
 <!-- TOC Errors END -->
 
@@ -1435,7 +1437,7 @@ Base Error the others inherit from.
 Thrown when an algorithm whitelist is provided but the validated JWE/JWS does not use one from it.
 
 ```js
-if (err.code === 'ERR_JOSE_ALG_NOT_WHITELISTED') {
+if (err instanceof jose.errors.JOSEError && err.code === 'ERR_JOSE_ALG_NOT_WHITELISTED') {
   // ...
 }
 ```
@@ -1446,7 +1448,7 @@ Thrown when a Critical member is encountered that's not acknowledged. The only b
 handler is for "b64", it must still be acknowledged though.
 
 ```js
-if (err.code === 'ERR_JOSE_CRIT_NOT_UNDERSTOOD') {
+if (err instanceof jose.errors.JOSEError && err.code === 'ERR_JOSE_CRIT_NOT_UNDERSTOOD') {
   // ...
 }
 ```
@@ -1464,11 +1466,21 @@ The error is an [Iterable](https://developer.mozilla.org/en-US/docs/Web/JavaScri
 and yields every single one of the encountered errors.
 
 ```js
-if (err.code === 'ERR_JOSE_MULTIPLE_ERRORS') {
+if (err instanceof jose.errors.JOSEError && err.code === 'ERR_JOSE_MULTIPLE_ERRORS') {
   for (const e of err) {
     console.log(e)
     // ...
   }
+}
+```
+
+#### Class: `JOSEInvalidEncoding`
+
+Thrown when invalid base64url encoding is detected.
+
+```js
+if (err instanceof jose.errors.JOSEError && err.code === 'ERR_JOSE_INVALID_ENCODING') {
+  // ...
 }
 ```
 
@@ -1477,7 +1489,7 @@ if (err.code === 'ERR_JOSE_MULTIPLE_ERRORS') {
 Thrown when an unsupported "alg", "kty" or specific header value like "zip" is encountered.
 
 ```js
-if (err.code === 'ERR_JOSE_NOT_SUPPORTED') {
+if (err instanceof jose.errors.JOSEError && err.code === 'ERR_JOSE_NOT_SUPPORTED') {
   // ...
 }
 ```
@@ -1488,7 +1500,7 @@ Thrown when JWE decrypt operations are started but fail to decrypt. Only generic
 provided.
 
 ```js
-if (err.code === 'ERR_JWE_DECRYPTION_FAILED') {
+if (err instanceof jose.errors.JOSEError && err.code === 'ERR_JWE_DECRYPTION_FAILED') {
   // ...
 }
 ```
@@ -1498,7 +1510,7 @@ if (err.code === 'ERR_JWE_DECRYPTION_FAILED') {
 Thrown when syntactically incorrect JWE is either requested to be encrypted or decrypted
 
 ```js
-if (err.code === 'ERR_JWE_INVALID') {
+if (err instanceof jose.errors.JOSEError && err.code === 'ERR_JWE_INVALID') {
   // ...
 }
 ```
@@ -1508,7 +1520,7 @@ if (err.code === 'ERR_JWE_INVALID') {
 Thrown when a key failed to import as `<JWK.Key>`
 
 ```js
-if (err.code === 'ERR_JWK_IMPORT_FAILED') {
+if (err instanceof jose.errors.JOSEError && err.code === 'ERR_JWK_IMPORT_FAILED') {
   // ...
 }
 ```
@@ -1518,7 +1530,7 @@ if (err.code === 'ERR_JWK_IMPORT_FAILED') {
 Thrown when key's parameters are invalid, e.g. key_ops and use values are inconsistent.
 
 ```js
-if (err.code === 'ERR_JWK_INVALID') {
+if (err instanceof jose.errors.JOSEError && err.code === 'ERR_JWK_INVALID') {
   // ...
 }
 ```
@@ -1528,7 +1540,7 @@ if (err.code === 'ERR_JWK_INVALID') {
 Thrown when a key does not support the request algorithm.
 
 ```js
-if (err.code === 'ERR_JWK_KEY_SUPPORT') {
+if (err instanceof jose.errors.JOSEError && err.code === 'ERR_JWK_KEY_SUPPORT') {
   // ...
 }
 ```
@@ -1539,7 +1551,7 @@ Thrown when `<JWKS.KeyStore>` is used as argument for decrypt / verify operation
 for the crypto operation is found in it
 
 ```js
-if (err.code === 'ERR_JWKS_NO_MATCHING_KEY') {
+if (err instanceof jose.errors.JOSEError && err.code === 'ERR_JWKS_NO_MATCHING_KEY') {
   // ...
 }
 ```
@@ -1550,7 +1562,7 @@ Thrown when syntactically incorrect JWS is either requested to be signed or
   verified
 
 ```js
-if (err.code === 'ERR_JWS_INVALID') {
+if (err instanceof jose.errors.JOSEError && err.code === 'ERR_JWS_INVALID') {
   // ...
 }
 ```
@@ -1561,7 +1573,7 @@ Thrown when JWS verify operations are started but fail to verify. Only generic e
 provided.
 
 ```js
-if (err.code === 'ERR_JWS_VERIFICATION_FAILED') {
+if (err instanceof jose.errors.JOSEError && err.code === 'ERR_JWS_VERIFICATION_FAILED') {
   // ...
 }
 ```
@@ -1569,9 +1581,22 @@ if (err.code === 'ERR_JWS_VERIFICATION_FAILED') {
 #### Class: `JWTClaimInvalid`
 
 Thrown when JWT Claim is either of incorrect type or fails to validate by the provided options.
+Instances of `<JWTClaimInvalid>` have a `claim<string>` property with the name of the claim as well as
+`reason<string>` property with one of the following values `'prohibited' | 'missing' | 'invalid' | 'check_failed' | 'unspecified'`.
 
 ```js
-if (err.code === 'ERR_JWT_CLAIM_INVALID') {
+if (err instanceof jose.errors.JOSEError && err.code === 'ERR_JWT_CLAIM_INVALID') {
+  // ...
+}
+```
+
+#### Class: `JWTExpired`
+
+Thrown when the JWT Claims indicate the JWT is expired by the provided options. `<JWTExpired>`
+is a descendant of `<JWTClaimInvalid>` with a unique `code` property.
+
+```js
+if (err instanceof jose.errors.JOSEError && err.code === 'ERR_JWT_EXPIRED') {
   // ...
 }
 ```
@@ -1581,7 +1606,7 @@ if (err.code === 'ERR_JWT_CLAIM_INVALID') {
 Thrown when malformed JWT is either being decoded or verified.
 
 ```js
-if (err.code === 'ERR_JWT_MALFORMED') {
+if (err instanceof jose.errors.JOSEError && err.code === 'ERR_JWT_MALFORMED') {
   // ...
 }
 ```

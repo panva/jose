@@ -407,25 +407,35 @@ export namespace JWT {
 }
 
 export namespace errors {
-  class JOSEError extends Error {}
-  class JOSEMultiError extends JOSEError {}
+  class JOSEError<T = string> extends Error {
+    code: T;
+  }
 
-  class JOSEAlgNotWhitelisted extends JOSEError {}
-  class JOSECritNotUnderstood extends JOSEError {}
-  class JOSENotSupported extends JOSEError {}
+  class JOSEInvalidEncoding extends JOSEError<'ERR_JOSE_INVALID_ENCODING'> {}
+  class JOSEMultiError extends JOSEError<'ERR_JOSE_MULTIPLE_ERRORS'> {}
 
-  class JWEDecryptionFailed extends JOSEError {}
-  class JWEInvalid extends JOSEError {}
+  class JOSEAlgNotWhitelisted extends JOSEError<'ERR_JOSE_ALG_NOT_WHITELISTED'> {}
+  class JOSECritNotUnderstood extends JOSEError<'ERR_JOSE_CRIT_NOT_UNDERSTOOD'> {}
+  class JOSENotSupported extends JOSEError<'ERR_JOSE_NOT_SUPPORTED'> {}
 
-  class JWKImportFailed extends JOSEError {}
-  class JWKInvalid extends JOSEError {}
-  class JWKKeySupport extends JOSEError {}
+  class JWEDecryptionFailed extends JOSEError<'ERR_JWE_DECRYPTION_FAILED'> {}
+  class JWEInvalid extends JOSEError<'ERR_JWE_INVALID'> {}
 
-  class JWKSNoMatchingKey extends JOSEError {}
+  class JWKImportFailed extends JOSEError<'ERR_JWK_IMPORT_FAILED'> {}
+  class JWKInvalid extends JOSEError<'ERR_JWK_INVALID'> {}
+  class JWKKeySupport extends JOSEError<'ERR_JWK_KEY_SUPPORT'> {}
 
-  class JWSInvalid extends JOSEError {}
-  class JWSVerificationFailed extends JOSEError {}
+  class JWKSNoMatchingKey extends JOSEError<'ERR_JWKS_NO_MATCHING_KEY'> {}
 
-  class JWTClaimInvalid extends JOSEError {}
-  class JWTMalformed extends JOSEError {}
+  class JWSInvalid extends JOSEError<'ERR_JWS_INVALID'> {}
+  class JWSVerificationFailed extends JOSEError<'ERR_JWS_VERIFICATION_FAILED'> {}
+
+  class JWTClaimInvalid<T = 'ERR_JWT_CLAIM_INVALID'> extends JOSEError<T> {
+    constructor(message?: string, claim?: string, reason?: string);
+
+    claim: string;
+    reason: 'prohibited' | 'missing' | 'invalid' | 'check_failed' | 'unspecified';
+  }
+  class JWTExpired extends JWTClaimInvalid<'ERR_JWT_EXPIRED'> {}
+  class JWTMalformed extends JOSEError<'ERR_JWT_MALFORMED'> {}
 }
