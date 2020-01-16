@@ -2,6 +2,15 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+# [1.20.0](https://github.com/panva/jose/compare/v1.19.0...v1.20.0) (2020-01-16)
+
+
+### Features
+
+* add JWTExpired error and JWTClaimInvalid claim and reason props ([a0c0c7a](https://github.com/panva/jose/commit/a0c0c7ad70f42d9b23b3e71de43599a8ac6fe1ff)), closes [#62](https://github.com/panva/jose/issues/62)
+
+
+
 # [1.19.0](https://github.com/panva/jose/compare/v1.18.2...v1.19.0) (2020-01-13)
 
 
