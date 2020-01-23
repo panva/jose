@@ -33,7 +33,7 @@ test('constructor', t => {
 test('constructor only accepts Key instances created through JWK.asKey', t => {
   t.throws(() => {
     new KeyStore({}) // eslint-disable-line no-new
-  }, { instanceOf: TypeError, message: 'all keys must be an instances of a key instantiated by JWK.asKey' })
+  }, { instanceOf: TypeError, message: 'all keys must be instances of a key instantiated by JWK.asKey' })
 })
 
 test('.generate()', async t => {

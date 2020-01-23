@@ -28,82 +28,6 @@ Available JWT validation profiles
 - OAuth 2.0 JWT Access Tokens (`at+JWT`) - [JWT Profile for OAuth 2.0 Access Tokens][draft-ietf-oauth-access-token-jwt]
 - OIDC Logout Token (`logout_token`) - [OpenID Connect Back-Channel Logout 1.0][spec-oidc-logout_token]
 
-<details>
-  <summary><em><strong>Detailed feature matrix</strong></em> (Click to expand)</summary><br>
-
-Legend:
-- **✓** Implemented
-- **✕** Missing node crypto support / won't implement
-- **◯** TBD
-
-| JWK Key Types | Supported | `kty` |
-| -- | -- | -- |
-| RSA | ✓ | RSA |
-| Elliptic Curve | ✓ | EC (P-256, secp256k1, P-384, P-521) |
-| Octet Key Pair | ✓ | OKP (Ed25519, Ed448, X25519, X448) |
-| Octet sequence | ✓ | oct |
-
-| Serialization | JWS Sign | JWS Verify | JWE Encrypt | JWE Decrypt |
-| -- | -- | -- | -- | -- |
-| Compact | ✓ | ✓ | ✓ | ✓ |
-| General JSON | ✓ | ✓ | ✓ | ✓ |
-| Flattened JSON  | ✓ | ✓ | ✓ | ✓ |
-
-| JWS Algorithms | Supported ||
-| -- | -- | -- |
-| RSASSA-PKCS1-v1_5 | ✓ | RS256, RS384, RS512 |
-| RSASSA-PSS | ✓ | PS256, PS384, PS512 |
-| ECDSA | ✓ | ES256, ES256K, ES384, ES512 |
-| Edwards-curve DSA | ✓ | EdDSA |
-| HMAC with SHA-2 | ✓ | HS256, HS384, HS512 |
-
-| JWE Key Management Algorithms | Supported ||
-| -- | -- | -- |
-| AES | ✓ | A128KW, A192KW, A256KW |
-| AES GCM | ✓ | A128GCMKW, A192GCMKW, A256GCMKW |
-| Direct Key Agreement | ✓ | dir |
-| RSAES OAEP | ✓ | RSA-OAEP, RSA-OAEP-256 |
-| RSAES-PKCS1-v1_5 | ✓ | RSA1_5 |
-| PBES2 | ✓ | PBES2-HS256+A128KW, PBES2-HS384+A192KW, PBES2-HS512+A256KW |
-| ECDH-ES (for all EC keys) | ✓ | ECDH-ES, ECDH-ES+A128KW, ECDH-ES+A192KW, ECDH-ES+A256KW |
-| ECDH-ES (for OKP X25519) | ✓ via [plugin][plugin-x25519] | ECDH-ES, ECDH-ES+A128KW, ECDH-ES+A192KW, ECDH-ES+A256KW |
-| ECDH-ES (for OKP X448) | ✕ ||
-| (X)ChaCha | ✓ via [plugin][plugin-chacha] | C20PKW, X20CPKW, ECDH-ES+C20PKW, ECDH-ES+XC20PKW |
-
-| JWE Content Encryption Algorithms | Supported ||
-| -- | -- | -- |
-| AES GCM | ✓ | A128GCM, A192GCM, A256GCM |
-| AES_CBC_HMAC_SHA2 | ✓ |  A128CBC-HS256, A192CBC-HS384, A256CBC-HS512 |
-| (X)ChaCha | ✓ via [plugin][plugin-chacha] | C20P, X20CP |
-
-| JWT profile validation | Supported | profile option value |
-| -- | -- | -- |
-| ID Token - [OpenID Connect Core 1.0][spec-oidc-id_token] | ✓ | `id_token` |
-| JWT Access Tokens [JWT Profile for OAuth 2.0 Access Tokens][draft-ietf-oauth-access-token-jwt] | ✓ | `at+JWT` |
-| Logout Token - [OpenID Connect Back-Channel Logout 1.0][spec-oidc-logout_token] | ✓ | `logout_token` |
-| JARM - [JWT Secured Authorization Response Mode for OAuth 2.0][draft-jarm] | ◯ ||
-
-Notes
-- RSA-OAEP-256 JWE algorithm is only supported when Node.js >= 12.9.0 runtime is detected
-- Importing X.509 certificates and handling `x5c` is only supported when Node.js >= 12.0.0 runtime is detected
-- OKP keys are only supported when Node.js >= 12.0.0 runtime is detected
-- See [#electron-support](#electron-support) for electron exceptions
-
----
-
-Pending Node.js Support 🤞:
-- ECDH-ES with X25519 and X448 - see [nodejs/node#26626](https://github.com/nodejs/node/pull/26626)
-
-Won't implement:
-- ✕ JWS embedded key / referenced verification
-  - one can decode the header and pass the (`x5c`, `jwk`) to `JWK.asKey` and validate with that
-    key, similarly the application can handle fetching and then instantiating the referenced `x5u`
-    or `jku` in its own code. This way you opt-in to these behaviours.
-- ✕ "none" alg support
-  - no crypto, no use
-
-</details>
-
 <br>
 
 Have a question about using `jose`? - [ask][ask].  
@@ -127,15 +51,6 @@ If you or your business use `jose`, please consider becoming a [sponsor][support
   - [JWT (JSON Web Token)][documentation-jwt]
   - [JWS (JSON Web Signature)][documentation-jws]
   - [JWE (JSON Web Encryption)][documentation-jwe]
-
-## Plugins
-
-There are two plugin extensions with functionality which is either not available in Node.js `crypto`
-module yet and therefore needs a crypto polyfill (libsodium), or are not IETF WG standards/drafts
-"worthy" of landing in the core library.
-
-- [jose-chacha][plugin-chacha] adds aead_chacha20_poly1305 and aead_xchacha20_poly1305 based algorithms (individual draft)
-- [jose-x25519-ecdh][plugin-x25519] adds OKP X25519 curve keys ECDH-ES support (missing Node.js `crypto` support)
 
 ## Usage
 
@@ -356,17 +271,66 @@ jose.JWE.decrypt(
 )
 ```
 
-#### Electron Support
+## Detailed Support Matrix
 
-Electron >=6.0.0 runtime is supported to the extent of the crypto engine BoringSSL feature parity
-with standard Node.js OpenSSL. The following is disabled in Electron runtime because of its lack of
-[support](https://github.com/panva/jose/blob/master/test/electron/electron.test.js).
+| JWK Key Types | Supported | `kty` value | `crv` values |
+| -- | -- | -- | -- |
+| RSA | ✓ | RSA ||
+| Elliptic Curve | ✓ | EC | P-256, secp256k1<sup>[1]</sup>, P-384, P-521 |
+| Octet Key Pair | ✓ | OKP | Ed25519, Ed448<sup>[1]</sup>, X25519<sup>[1]</sup>, X448<sup>[1]</sup> |
+| Octet sequence | ✓ | oct ||
 
-- JWE `A128KW`, `A192KW` and `A256KW` algorithms are not available, this also means that other JWAs
-  depending on those are not working, those are `ECDH-ES+A128KW`, `ECDH-ES+A192KW`,
-  `ECDH-ES+A256KW`, `PBES2-HS256+A128KW`, `PBES2-HS384+A192KW`, `PBES2-HS512+A256KW`)
-- OKP curves `Ed448`, `X25519` and `X448` are not supported
-- EC curve `secp256k1` is not supported
+| Serialization | JWS Sign | JWS Verify | JWE Encrypt | JWE Decrypt |
+| -- | -- | -- | -- | -- |
+| Compact | ✓ | ✓ | ✓ | ✓ |
+| General JSON | ✓ | ✓ | ✓ | ✓ |
+| Flattened JSON  | ✓ | ✓ | ✓ | ✓ |
+
+| JWS Algorithms | Supported ||
+| -- | -- | -- |
+| RSASSA-PKCS1-v1_5 | ✓ | RS256, RS384, RS512 |
+| RSASSA-PSS | ✓ | PS256, PS384, PS512 |
+| ECDSA | ✓ | ES256, ES256K<sup>[1]</sup>, ES384, ES512 |
+| Edwards-curve DSA | ✓ | EdDSA |
+| HMAC with SHA-2 | ✓ | HS256, HS384, HS512 |
+| Unsecured JWS | ✓ | none<sup>[2]</sup> |
+
+| JWE Key Management Algorithms | Supported ||
+| -- | -- | -- |
+| AES | ✓ | A128KW<sup>[1]</sup>, A192KW<sup>[1]</sup>, A256KW<sup>[1]</sup> |
+| AES GCM | ✓ | A128GCMKW, A192GCMKW, A256GCMKW |
+| Direct Key Agreement | ✓ | dir |
+| RSAES OAEP | ✓ | RSA-OAEP, RSA-OAEP-256<sup>[3]</sup> |
+| RSAES-PKCS1-v1_5 | ✓ | RSA1_5 |
+| PBES2 | ✓ | PBES2-HS256+A128KW<sup>[1]</sup>, PBES2-HS384+A192KW<sup>[1]</sup>, PBES2-HS512+A256KW<sup>[1]</sup> |
+| ECDH-ES (for all EC keys) | ✓ | ECDH-ES, ECDH-ES+A128KW<sup>[1]</sup>, ECDH-ES+A192KW<sup>[1]</sup>, ECDH-ES+A256KW<sup>[1]</sup> |
+| ECDH-ES (for OKP X25519) | ✓ <sup>via [plugin][plugin-x25519]</sup> | ECDH-ES, ECDH-ES+A128KW, ECDH-ES+A192KW, ECDH-ES+A256KW |
+| ECDH-ES (for OKP X448) | ✕ ||
+| (X)ChaCha | ✓ <sup>via [plugin][plugin-chacha]</sup> | C20PKW, XC20PKW, ECDH-ES+C20PKW, ECDH-ES+XC20PKW |
+
+| JWE Content Encryption Algorithms | Supported ||
+| -- | -- | -- |
+| AES GCM | ✓ | A128GCM, A192GCM, A256GCM |
+| AES_CBC_HMAC_SHA2 | ✓ |  A128CBC-HS256, A192CBC-HS384, A256CBC-HS512 |
+| (X)ChaCha | ✓ <sup>via [plugin][plugin-chacha]</sup> | C20P, X20CP |
+
+| JWT profile validation | Supported | profile option value |
+| -- | -- | -- |
+| ID Token - [OpenID Connect Core 1.0][spec-oidc-id_token] | ✓ | `id_token` |
+| JWT Access Tokens [JWT Profile for OAuth 2.0 Access Tokens][draft-ietf-oauth-access-token-jwt] | ✓ | `at+JWT` |
+| Logout Token - [OpenID Connect Back-Channel Logout 1.0][spec-oidc-logout_token] | ✓ | `logout_token` |
+| JARM - [JWT Secured Authorization Response Mode for OAuth 2.0][draft-jarm] | ◯ ||
+
+Legend:
+- **✓** Implemented
+- **✕** Missing node crypto support / won't implement
+- **◯** TBD
+
+<sup>1</sup> Not supported in Electron due to Electron's use of BoringSSL  
+<sup>2</sup> Unsecured JWS is [supported][documentation-none] for the JWS and JWT sign and verify
+operations but it is an entirely opt-in behaviour, downgrade attacks are prevented by the required
+use of a special `JWK.Key` instance that cannot be instantiated through the key import API.
+<sup>3</sup> RSA-OAEP-256 is only supported when Node.js >= 12.9.0 runtime is detected
 
 ## FAQ
 
@@ -418,12 +382,13 @@ in terms of performance and API (not having well defined errors).
 
 [ask]: https://github.com/panva/jose/issues/new?labels=question&template=question.md&title=question%3A+
 [bug]: https://github.com/panva/jose/issues/new?labels=bug&template=bug-report.md&title=bug%3A+
-[documentation-jwe]: https://github.com/panva/jose/blob/master/docs/README.md#jwe-json-web-encryption
-[documentation-jwk]: https://github.com/panva/jose/blob/master/docs/README.md#jwk-json-web-key
-[documentation-jwks]: https://github.com/panva/jose/blob/master/docs/README.md#jwks-json-web-key-set
-[documentation-jws]: https://github.com/panva/jose/blob/master/docs/README.md#jws-json-web-signature
-[documentation-jwt]: https://github.com/panva/jose/blob/master/docs/README.md#jwt-json-web-token
-[documentation]: https://github.com/panva/jose/blob/master/docs/README.md
+[documentation-jwe]: /docs/README.md#jwe-json-web-encryption
+[documentation-jwk]: /docs/README.md#jwk-json-web-key
+[documentation-jwks]: /docs/README.md#jwks-json-web-key-set
+[documentation-jws]: /docs/README.md#jws-json-web-signature
+[documentation-jwt]: /docs/README.md#jwt-json-web-token
+[documentation-none]: /docs/README.md#jwknone
+[documentation]: /docs/README.md
 [node-jose]: https://github.com/cisco/node-jose
 [security-vulnerability]: https://github.com/panva/jose/issues/new?template=security-vulnerability.md
 [spec-b64]: https://tools.ietf.org/html/rfc7797

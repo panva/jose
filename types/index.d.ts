@@ -27,6 +27,9 @@ export type JWTProfiles = 'id_token' | 'at+JWT' | 'logout_token';
 export type KeyInput = PrivateKeyInput | PublicKeyInput | string | Buffer;
 export type ProduceKeyInput = JWK.Key | KeyObject | KeyInput | JWKOctKey | JWKRSAKey | JWKECKey | JWKOKPKey;
 export type ConsumeKeyInput = ProduceKeyInput | JWKS.KeyStore;
+export type NoneKey = JWK.NoneKey;
+export type ProduceKeyInputWithNone = ProduceKeyInput | NoneKey;
+export type ConsumeKeyInputWithNone = ConsumeKeyInput | NoneKey;
 
 export interface JWKOctKey extends BasicParameters { // no x5c
   kty: 'oct';
@@ -148,6 +151,14 @@ export namespace JWK {
     toJWK(private?: boolean): JWKOctKey;
   }
 
+  interface NoneKey {
+    type: 'unsecured';
+    alg: 'none';
+    algorithms(operation?: keyOperation): Set<string>;
+  }
+
+  const None: NoneKey;
+
   function isKey(object: any): boolean;
 
   function asKey(key: KeyObject | KeyInput, parameters?: KeyParameters): RSAKey | ECKey | OKPKey | OctKey;
@@ -239,17 +250,17 @@ export namespace JWS {
   class Sign {
     constructor(payload: string | Buffer | object);
 
-    recipient(key: ProduceKeyInput, protected?: object, header?: object): void;
+    recipient(key: ProduceKeyInputWithNone, protected?: object, header?: object): void;
 
     sign(serialization: 'compact'): string;
     sign(serialization: 'flattened'): FlattenedJWS;
     sign(serialization: 'general'): GeneralJWS;
   }
 
-  function sign(payload: string | Buffer | object, key: ProduceKeyInput, protected?: object): string;
+  function sign(payload: string | Buffer | object, key: ProduceKeyInputWithNone, protected?: object): string;
   namespace sign {
-    function flattened(payload: string | Buffer | object, key: ProduceKeyInput, protected?: object, header?: object): FlattenedJWS;
-    function general(payload: string | Buffer | object, key: ProduceKeyInput, protected?: object, header?: object): GeneralJWS;
+    function flattened(payload: string | Buffer | object, key: ProduceKeyInputWithNone, protected?: object, header?: object): FlattenedJWS;
+    function general(payload: string | Buffer | object, key: ProduceKeyInputWithNone, protected?: object, header?: object): GeneralJWS;
   }
 
   interface VerifyOptions<komplet = false, parse = true> {
@@ -260,17 +271,19 @@ export namespace JWS {
     algorithms?: string[];
   }
 
-  interface completeVerification<T> {
+  interface completeVerification<T, T2> {
     payload: T;
-    key: JWK.Key;
+    key: T2;
     protected?: object;
     header?: object;
   }
 
-  function verify(jws: string | FlattenedJWS | GeneralJWS, key: ConsumeKeyInput, options?: VerifyOptions): string | object;
-  function verify(jws: string | FlattenedJWS | GeneralJWS, key: ConsumeKeyInput, options?: VerifyOptions<false, false>): Buffer;
-  function verify(jws: string | FlattenedJWS | GeneralJWS, key: ConsumeKeyInput, options?: VerifyOptions<true>): completeVerification<string | object>;
-  function verify(jws: string | FlattenedJWS | GeneralJWS, key: ConsumeKeyInput, options?: VerifyOptions<true, false>): completeVerification<Buffer>;
+  function verify(jws: string | FlattenedJWS | GeneralJWS, key: ConsumeKeyInputWithNone, options?: VerifyOptions): string | object;
+  function verify(jws: string | FlattenedJWS | GeneralJWS, key: ConsumeKeyInputWithNone, options?: VerifyOptions<false, false>): Buffer;
+  function verify(jws: string | FlattenedJWS | GeneralJWS, key: ConsumeKeyInput, options?: VerifyOptions<true>): completeVerification<string | object, JWK.Key>;
+  function verify(jws: string | FlattenedJWS | GeneralJWS, key: ConsumeKeyInput, options?: VerifyOptions<true, false>): completeVerification<Buffer, JWK.Key>;
+  function verify(jws: string | FlattenedJWS | GeneralJWS, key: NoneKey, options?: VerifyOptions<true>): completeVerification<string | object, NoneKey>;
+  function verify(jws: string | FlattenedJWS | GeneralJWS, key: NoneKey, options?: VerifyOptions<true, false>): completeVerification<Buffer, NoneKey>;
 }
 
 export namespace JWE {
@@ -364,8 +377,9 @@ export namespace JWT {
     profile?: JWTProfiles;
   }
 
-  function verify(jwt: string, key: ConsumeKeyInput, options?: VerifyOptions<false>): object;
+  function verify(jwt: string, key: ConsumeKeyInputWithNone, options?: VerifyOptions<false>): object;
   function verify(jwt: string, key: ConsumeKeyInput, options?: VerifyOptions<true>): completeResult;
+  function verify(jwt: string, key: NoneKey, options?: VerifyOptions<true>): completeResult<NoneKey>;
 
   interface SignOptions {
     iat?: boolean;
@@ -382,7 +396,7 @@ export namespace JWT {
     now?: Date;
   }
 
-  function sign(payload: object, key: ProduceKeyInput, options?: SignOptions): string;
+  function sign(payload: object, key: ProduceKeyInputWithNone, options?: SignOptions): string;
 
   interface VerifyProfileOptions<profile> {
     issuer: string;
@@ -391,18 +405,21 @@ export namespace JWT {
   }
 
   namespace IdToken {
-    function verify(jwt: string, key: ConsumeKeyInput, options: VerifyOptions<false> & VerifyProfileOptions<'id_token'>): object;
+    function verify(jwt: string, key: ConsumeKeyInputWithNone, options: VerifyOptions<false> & VerifyProfileOptions<'id_token'>): object;
     function verify(jwt: string, key: ConsumeKeyInput, options: VerifyOptions<true> & VerifyProfileOptions<'id_token'>): completeResult;
+    function verify(jwt: string, key: NoneKey, options: VerifyOptions<true> & VerifyProfileOptions<'id_token'>): completeResult<NoneKey>;
   }
 
   namespace LogoutToken {
-    function verify(jwt: string, key: ConsumeKeyInput, options: VerifyOptions<false> & VerifyProfileOptions<'logout_token'>): object;
+    function verify(jwt: string, key: ConsumeKeyInputWithNone, options: VerifyOptions<false> & VerifyProfileOptions<'logout_token'>): object;
     function verify(jwt: string, key: ConsumeKeyInput, options: VerifyOptions<true> & VerifyProfileOptions<'logout_token'>): completeResult;
+    function verify(jwt: string, key: NoneKey, options: VerifyOptions<true> & VerifyProfileOptions<'logout_token'>): completeResult<NoneKey>;
   }
 
   namespace AccessToken {
-    function verify(jwt: string, key: ConsumeKeyInput, options: VerifyOptions<false> & VerifyProfileOptions<'at+JWT'>): object;
+    function verify(jwt: string, key: ConsumeKeyInputWithNone, options: VerifyOptions<false> & VerifyProfileOptions<'at+JWT'>): object;
     function verify(jwt: string, key: ConsumeKeyInput, options: VerifyOptions<true> & VerifyProfileOptions<'at+JWT'>): completeResult;
+    function verify(jwt: string, key: NoneKey, options: VerifyOptions<true> & VerifyProfileOptions<'at+JWT'>): completeResult<NoneKey>;
   }
 }
 

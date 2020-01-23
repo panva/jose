@@ -51,6 +51,7 @@ If you or your business use `jose`, please consider becoming a [sponsor][support
 - [JWK.generate(kty[, crvOrSize[, options[, private]]]) generating new keys](#jwkgeneratekty-crvorsize-options-private-generating-new-keys)
 - [JWK.generateSync(kty[, crvOrSize[, options[, private]]])](#jwkgeneratesynckty-crvorsize-options-private)
 - [JWK.isKey(object)](#jwkiskeyobject)
+- [JWK.None](#jwknone)
 <!-- TOC JWK END -->
 
 All sign and encrypt operations require `<JWK.Key>` or `JWK.asKey()` compatible input.  
@@ -571,6 +572,54 @@ Returns 'true' if the value is an instance of `<JWK.Key>`.
 
 - `object`: `<any>`
 - Returns: `<boolean>`
+
+---
+
+#### `JWK.None`
+
+`JWK.None` is a special key object that can be used with JWS/JWT sign and verify whenever you want
+to opt-in for the `none` Unsecured JWS algorithm. Using this key fulfills the requirements given by
+the [specification](https://tools.ietf.org/html/rfc7518#section-3.6), namely:
+
+- Implementations MUST NOT accept Unsecured JWSs by default.
+- Implementations that support Unsecured JWSs MUST NOT accept such objects as valid unless the
+application specifies that it is acceptable for a specific object to not be integrity protected.
+
+```js
+const { JWK: { None, generateSync }, JWT, JWS } = require('jose')
+const anActualKey = generateSync('RSA')
+
+const signedJWT = JWT.sign({ sub: 'John Doe' }, anActualKey)
+JWT.verify(signedJWT, None)
+// Thrown:
+// JWKKeySupport: the key does not support PS256 verify algorithm
+//   name: 'JWKKeySupport',
+//   code: 'ERR_JWK_KEY_SUPPORT'
+
+const unsecuredJWT = JWT.sign({ sub: 'John Doe' }, None)
+// eyJhbGciOiJub25lIn0.eyJzdWIiOiJKb2huIERvZSIsImlhdCI6MTU3OTc5NDM2Mn0.
+
+JWT.verify(unsecuredJWT, anActualKey)
+// Thrown:
+// JWKKeySupport: the key does not support none verify algorithm
+//   name: 'JWKKeySupport',
+//   code: 'ERR_JWK_KEY_SUPPORT'
+
+JWT.verify(unsecuredJWT, None)
+// { sub: 'John Doe', iat: 1579794362 }
+
+const unsecuredJWS = JWS.sign('foobar', None)
+// eyJhbGciOiJub25lIn0.Zm9vYmFy.
+
+JWS.verify(unsecuredJWS, anActualKey)
+// Thrown:
+// JWKKeySupport: the key does not support none verify algorithm
+//   name: 'JWKKeySupport',
+//   code: 'ERR_JWK_KEY_SUPPORT'
+
+JWS.verify(unsecuredJWS, None)
+// foobar
+```
 
 ---
 
