@@ -77,7 +77,7 @@ export namespace JWK {
     passphrase?: string;
   }
 
-  class Key {
+  interface Key {
     kty: keyType;
     type: keyObjectTypes;
     private: boolean;
@@ -98,7 +98,7 @@ export namespace JWK {
     algorithms(operation?: keyOperation): Set<string>;
   }
 
-  class RSAKey extends Key {
+  interface RSAKey extends Key {
     kty: 'RSA';
     type: asymmetricKeyObjectTypes;
     secret: false;
@@ -114,7 +114,7 @@ export namespace JWK {
     toJWK(private?: boolean): JWKRSAKey;
   }
 
-  class ECKey extends Key {
+  interface ECKey extends Key {
     kty: 'EC';
     secret: false;
     type: asymmetricKeyObjectTypes;
@@ -126,7 +126,7 @@ export namespace JWK {
     toJWK(private?: boolean): JWKECKey;
   }
 
-  class OKPKey extends Key {
+  interface OKPKey extends Key {
     kty: 'OKP';
     secret: false;
     type: asymmetricKeyObjectTypes;
@@ -137,7 +137,7 @@ export namespace JWK {
     toJWK(private?: boolean): JWKOKPKey;
   }
 
-  class OctKey extends Key {
+  interface OctKey extends Key {
     kty: 'oct';
     type: 'secret';
     private: false;
@@ -331,11 +331,11 @@ export namespace JWE {
 }
 
 export namespace JWT {
-  interface completeResult {
+  interface completeResult<T = JWK.Key> {
     payload: object;
     header: object;
     signature: string;
-    key: JWK.Key;
+    key: T;
   }
 
   interface DecodeOptions<komplet> {
@@ -343,7 +343,7 @@ export namespace JWT {
   }
 
   function decode(jwt: string, options?: DecodeOptions<false>): object;
-  function decode(jwt: string, options?: DecodeOptions<true>): completeResult;
+  function decode(jwt: string, options?: DecodeOptions<true>): completeResult<undefined>;
 
   interface VerifyOptions<komplet> {
     complete?: komplet;
