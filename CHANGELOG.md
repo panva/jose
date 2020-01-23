@@ -2,6 +2,20 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+# [1.21.0](https://github.com/panva/jose/compare/v1.20.0...v1.21.0) (2020-01-23)
+
+
+### Bug Fixes
+
+* **typescript:** don't expose non existant classes, fix decode key ([0f8bf88](https://github.com/panva/jose/commit/0f8bf886da1b5d02cd0d968d0ec02a58673df258))
+
+
+### Features
+
+* add opt-in support for Unsecured JWS algorithm "none" ([3a6d17f](https://github.com/panva/jose/commit/3a6d17fdd18d8bbd074c07c2dd08f0406c16a8f1))
+
+
+
 # [1.20.0](https://github.com/panva/jose/compare/v1.19.0...v1.20.0) (2020-01-16)
 
 
