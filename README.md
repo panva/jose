@@ -312,7 +312,7 @@ jose.JWE.decrypt(
 | -- | -- | -- |
 | AES GCM | ✓ | A128GCM, A192GCM, A256GCM |
 | AES_CBC_HMAC_SHA2 | ✓ |  A128CBC-HS256, A192CBC-HS384, A256CBC-HS512 |
-| (X)ChaCha | ✓ <sup>via [plugin][plugin-chacha]</sup> | C20P, X20CP |
+| (X)ChaCha | ✓ <sup>via [plugin][plugin-chacha]</sup> | C20P, XC20P |
 
 | JWT profile validation | Supported | profile option value |
 | -- | -- | -- |
@@ -329,7 +329,7 @@ Legend:
 <sup>1</sup> Not supported in Electron due to Electron's use of BoringSSL  
 <sup>2</sup> Unsecured JWS is [supported][documentation-none] for the JWS and JWT sign and verify
 operations but it is an entirely opt-in behaviour, downgrade attacks are prevented by the required
-use of a special `JWK.Key` instance that cannot be instantiated through the key import API.
+use of a special `JWK.Key` instance that cannot be instantiated through the key import API  
 <sup>3</sup> RSA-OAEP-256 is only supported when Node.js >= 12.9.0 runtime is detected
 
 ## FAQ
