@@ -2,6 +2,15 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.21.1](https://github.com/panva/jose/compare/v1.21.0...v1.21.1) (2020-01-25)
+
+
+### Bug Fixes
+
+* contactKDF iteration count fixed for key sizes larger than 256 bits ([70ff222](https://github.com/panva/jose/commit/70ff22227ad303e57228dc8351688531499a833a))
+
+
+
 # [1.21.0](https://github.com/panva/jose/compare/v1.20.0...v1.21.0) (2020-01-23)
 
 
