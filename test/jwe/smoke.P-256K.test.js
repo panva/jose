@@ -26,7 +26,6 @@ const dKey = asKey(key)
 
 ;[...eKey.algorithms('wrapKey'), ...eKey.algorithms('deriveKey')].forEach((alg) => {
   ENCS.forEach((enc) => {
-    if (alg === 'ECDH-ES' && ['A192CBC-HS384', 'A256CBC-HS512'].includes(enc)) return
     test(`key ${type} > alg ${alg} > ${enc}`, success, eKey, dKey, alg, enc)
     test(`key ${type} > alg ${alg} > ${enc} (negative cases)`, failure, eKey, dKey, alg, enc)
   })

@@ -28,7 +28,6 @@ Object.entries(fixtures.PEM).forEach(([type, { private: key, public: pub }]) => 
 
   ;[...eKey.algorithms('wrapKey'), ...eKey.algorithms('deriveKey')].forEach((alg) => {
     ENCS.forEach((enc) => {
-      if (alg === 'ECDH-ES' && ['A192CBC-HS384', 'A256CBC-HS512'].includes(enc)) return
       test(`key ${type} > alg ${alg} > ${enc}`, success, eKey, dKey, alg, enc)
       test(`key ${type} > alg ${alg} > ${enc} (key as bare input)`, success, pub, key, alg, enc)
       if (keyObjectSupported) {
@@ -71,7 +70,6 @@ Object.entries(fixtures.PEM).forEach(([type, { private: key, public: pub }]) => 
   const eKey = asKey({ kty: 'RSA', e: rsa.e, n: rsa.n })
   eKey.algorithms('wrapKey').forEach((alg) => {
     ENCS.forEach((enc) => {
-      if (alg === 'ECDH-ES' && ['A192CBC-HS384', 'A256CBC-HS512'].includes(enc)) return
       test(`key RSA (min) > alg ${alg} > ${enc}`, success, eKey, dKey, alg, enc)
       test(`key RSA (min) > alg ${alg} > ${enc} (negative cases)`, failure, eKey, dKey, alg, enc)
     })
