@@ -680,6 +680,7 @@ specified by the parameters are first.
   - `crv`: `<string>` Key Curve to filter for. (for EC and OKP keys)
   - `alg`: `<string>` Key supported algorithm to filter for.
   - `kid`: `<string>` Key ID to filter for.
+  - `thumbprint`: `<string>` JWK Key thumbprint to filter for.
   - `use`: `<string>` Filter keys with the specified use defined. Keys missing "use" parameter will
     be matched but rank lower then ones with an exact match.
   - `key_ops`: `string[]` Filter keys with specified key_ops defined (if key_ops is defined on the
@@ -701,6 +702,7 @@ parameters is returned.
   - `crv`: `<string>` Key Curve to filter for. (for EC and OKP keys)
   - `alg`: `<string>` Key supported algorithm to filter for.
   - `kid`: `<string>` Key ID to filter for.
+  - `thumbprint`: `<string>` JWK Key thumbprint to filter for.
   - `use`: `<string>` Filter keys with the specified use defined. Keys missing "use" parameter will
     be matched but rank lower then ones with an exact match.
   - `key_ops`: `string[]` Filter keys with specified key_ops defined (if key_ops is defined on the

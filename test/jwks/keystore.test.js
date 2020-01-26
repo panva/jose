@@ -169,6 +169,15 @@ test('.all() and .get() kid filter', t => {
   t.is(ks.get({ kid: 'foobar' }), k)
 })
 
+test('.all() and .get() thumbprint filter', t => {
+  const k = generateSync('RSA')
+  const ks = new KeyStore(k)
+  t.deepEqual(ks.all({ thumbprint: 'baz' }), [])
+  t.deepEqual(ks.all({ thumbprint: k.thumbprint }), [k])
+  t.is(ks.get({ thumbprint: 'baz' }), undefined)
+  t.is(ks.get({ thumbprint: k.thumbprint }), k)
+})
+
 test('.all() and .get() x5t filter and sort', t => {
   const k = asKey(withX5C)
   const ks = new KeyStore(k)

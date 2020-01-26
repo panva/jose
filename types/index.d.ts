@@ -193,6 +193,7 @@ export namespace JWKS {
     x5t?: string;
     'x5t#S256'?: string;
     crv?: string;
+    thumbprint?: string;
   }
 
   class KeyStore {
