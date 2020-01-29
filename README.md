@@ -329,7 +329,7 @@ Legend:
 <sup>1</sup> Not supported in Electron due to Electron's use of BoringSSL  
 <sup>2</sup> Unsecured JWS is [supported][documentation-none] for the JWS and JWT sign and verify
 operations but it is an entirely opt-in behaviour, downgrade attacks are prevented by the required
-use of a special `JWK.Key` instance that cannot be instantiated through the key import API  
+use of a special `JWK.Key`-like object that cannot be instantiated through the key import API  
 <sup>3</sup> RSA-OAEP-256 is only supported when Node.js >= 12.9.0 runtime is detected
 
 ## FAQ
