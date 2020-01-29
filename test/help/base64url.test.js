@@ -41,9 +41,3 @@ test('.JSON.decode.try (valid json)', t => {
 test('.JSON.decode.try (invalid json)', t => {
   t.is(base64url.JSON.decode.try('Zm9v'), 'foo')
 })
-
-test('decode input with invalid encoding throws', t => {
-  t.throws(() => {
-    base64url.decode(testStr)
-  }, { instanceOf: errors.JOSEInvalidEncoding, code: 'ERR_JOSE_INVALID_ENCODING', message: 'input is not a valid base64url encoded string' })
-})

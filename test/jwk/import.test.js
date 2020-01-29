@@ -145,26 +145,6 @@ test('fails to import JWK RSA with oth', async t => {
   }, { instanceOf: errors.JOSENotSupported, code: 'ERR_JOSE_NOT_SUPPORTED', message: 'Private RSA keys with more than two primes are not supported' })
 })
 
-test('invalid encoded jwk import', async t => {
-  const jwk = (await generate('oct')).toJWK(true)
-
-  jwk.k = base64url.decodeToBuffer(jwk.k).toString('base64')
-
-  t.throws(() => {
-    asKey(jwk)
-  }, { instanceOf: errors.JOSEInvalidEncoding, code: 'ERR_JOSE_INVALID_ENCODING', message: 'input is not a valid base64url encoded string' })
-})
-
-test('invalid encoded oct jwk import', async t => {
-  const jwk = (await generate('EC')).toJWK(true)
-
-  jwk.d = base64url.decodeToBuffer(jwk.d).toString('base64')
-
-  t.throws(() => {
-    asKey(jwk)
-  }, { instanceOf: errors.JOSEInvalidEncoding, code: 'ERR_JOSE_INVALID_ENCODING', message: 'input is not a valid base64url encoded string' })
-})
-
 const cert = `-----BEGIN CERTIFICATE-----
 MIIC4DCCAcgCCQDO8JBSH914NDANBgkqhkiG9w0BAQsFADAyMQswCQYDVQQGEwJD
 WjEPMA0GA1UEBwwGUHJhZ3VlMRIwEAYDVQQDDAlwa210bHN0d28wHhcNMTkwNjE4

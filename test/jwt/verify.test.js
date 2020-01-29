@@ -1,7 +1,6 @@
 const test = require('ava')
 
-const { JWT, JWK, JWKS, errors } = require('../..')
-const base64url = require('../../lib/help/base64url')
+const { JWS, JWT, JWK, JWKS, errors } = require('../..')
 
 const key = JWK.generateSync('oct')
 const token = JWT.sign({}, key, { iat: false })
@@ -107,7 +106,7 @@ test('options.ignoreIat & options.maxTokenAge may not be used together', t => {
   test(`"${claim} must be a timestamp when provided"`, t => {
     ;['', 'foo', true, null, [], {}].forEach((val) => {
       const err = t.throws(() => {
-        const invalid = `eyJhbGciOiJub25lIn0.${base64url.JSON.encode({ [claim]: val })}.`
+        const invalid = JWS.sign({ [claim]: val }, key)
         JWT.verify(invalid, key)
       }, { instanceOf: errors.JWTClaimInvalid, message: `"${claim}" claim must be a unix timestamp` })
 
@@ -121,7 +120,7 @@ test('options.ignoreIat & options.maxTokenAge may not be used together', t => {
   test(`"${claim} must be a string when provided"`, t => {
     ;['', 0, 1, true, null, [], {}].forEach((val) => {
       const err = t.throws(() => {
-        const invalid = `eyJhbGciOiJub25lIn0.${base64url.JSON.encode({ [claim]: val })}.`
+        const invalid = JWS.sign({ [claim]: val }, key)
         JWT.verify(invalid, key)
       }, { instanceOf: errors.JWTClaimInvalid, message: `"${claim}" claim must be a string` })
 
@@ -136,14 +135,14 @@ test('options.ignoreIat & options.maxTokenAge may not be used together', t => {
     ;['', 0, 1, true, null, [], {}].forEach((val) => {
       let err
       err = t.throws(() => {
-        const invalid = `eyJhbGciOiJub25lIn0.${base64url.JSON.encode({ [claim]: val })}.`
+        const invalid = JWS.sign({ [claim]: val }, key)
         JWT.verify(invalid, key)
       }, { instanceOf: errors.JWTClaimInvalid, message: `"${claim}" claim must be a string or array of strings` })
       t.is(err.claim, claim)
       t.is(err.reason, 'invalid')
 
       err = t.throws(() => {
-        const invalid = `eyJhbGciOiJub25lIn0.${base64url.JSON.encode({ [claim]: [val] })}.`
+        const invalid = JWS.sign({ [claim]: [val] }, key)
         JWT.verify(invalid, key)
       }, { instanceOf: errors.JWTClaimInvalid, message: `"${claim}" claim must be a string or array of strings` })
       t.is(err.claim, claim)
@@ -161,14 +160,14 @@ Object.entries({
   test(`option.${option} validation fails`, t => {
     let err
     err = t.throws(() => {
-      const invalid = `eyJhbGciOiJub25lIn0.${base64url.JSON.encode({ [claim]: 'foo' })}.`
+      const invalid = JWS.sign({ [claim]: 'foo' }, key)
       JWT.verify(invalid, key, { [option]: 'bar' })
     }, { instanceOf: errors.JWTClaimInvalid, message: `unexpected "${claim}" claim value` })
     t.is(err.claim, claim)
     t.is(err.reason, 'check_failed')
 
     err = t.throws(() => {
-      const invalid = `eyJhbGciOiJub25lIn0.${base64url.JSON.encode({ [claim]: undefined })}.`
+      const invalid = JWS.sign({ [claim]: undefined }, key)
       JWT.verify(invalid, key, { [option]: 'bar' })
     }, { instanceOf: errors.JWTClaimInvalid, message: `"${claim}" claim is missing` })
     t.is(err.claim, claim)
@@ -185,14 +184,14 @@ Object.entries({
 test('option.audience validation fails', t => {
   let err
   err = t.throws(() => {
-    const invalid = `eyJhbGciOiJub25lIn0.${base64url.JSON.encode({ aud: 'foo' })}.`
+    const invalid = JWS.sign({ aud: 'foo' }, key)
     JWT.verify(invalid, key, { audience: 'bar' })
   }, { instanceOf: errors.JWTClaimInvalid, message: 'unexpected "aud" claim value' })
   t.is(err.claim, 'aud')
   t.is(err.reason, 'check_failed')
 
   err = t.throws(() => {
-    const invalid = `eyJhbGciOiJub25lIn0.${base64url.JSON.encode({ aud: ['foo'] })}.`
+    const invalid = JWS.sign({ aud: ['foo'] }, key)
     JWT.verify(invalid, key, { audience: 'bar' })
   }, { instanceOf: errors.JWTClaimInvalid, message: 'unexpected "aud" claim value' })
   t.is(err.claim, 'aud')
@@ -218,7 +217,7 @@ test('option.audience validation success', t => {
 
 test('option.maxAuthAge requires iat to be in the payload', t => {
   const err = t.throws(() => {
-    const invalid = `eyJhbGciOiJub25lIn0.${base64url.JSON.encode({})}.`
+    const invalid = JWS.sign({}, key)
     JWT.verify(invalid, key, { maxAuthAge: '30s' })
   }, { instanceOf: errors.JWTClaimInvalid, message: '"auth_time" claim is missing' })
   t.is(err.claim, 'auth_time')
@@ -230,7 +229,7 @@ const now = new Date(epoch * 1000)
 
 test('option.maxAuthAge checks auth_time', t => {
   const err = t.throws(() => {
-    const invalid = `eyJhbGciOiJub25lIn0.${base64url.JSON.encode({ auth_time: epoch - 31 })}.`
+    const invalid = JWS.sign({ auth_time: epoch - 31 }, key)
     JWT.verify(invalid, key, { maxAuthAge: '30s', now })
   }, { instanceOf: errors.JWTClaimInvalid, message: '"auth_time" claim timestamp check failed (too much time has elapsed since the last End-User authentication)' })
   t.is(err.claim, 'auth_time')
@@ -245,7 +244,7 @@ test('option.maxAuthAge checks auth_time (with tolerance)', t => {
 
 test('option.maxTokenAge requires iat to be in the payload', t => {
   const err = t.throws(() => {
-    const invalid = `eyJhbGciOiJub25lIn0.${base64url.JSON.encode({})}.`
+    const invalid = JWS.sign({}, key)
     JWT.verify(invalid, key, { maxTokenAge: '30s' })
   }, { instanceOf: errors.JWTClaimInvalid, message: '"iat" claim is missing' })
   t.is(err.claim, 'iat')
@@ -254,7 +253,7 @@ test('option.maxTokenAge requires iat to be in the payload', t => {
 
 test('option.maxTokenAge checks iat elapsed time', t => {
   const err = t.throws(() => {
-    const invalid = `eyJhbGciOiJub25lIn0.${base64url.JSON.encode({ iat: epoch - 31 })}.`
+    const invalid = JWS.sign({ iat: epoch - 31 }, key)
     JWT.verify(invalid, key, { maxTokenAge: '30s', now })
   }, { instanceOf: errors.JWTExpired, code: 'ERR_JWT_EXPIRED', message: '"iat" claim timestamp check failed (too far in the past)' })
   t.true(err instanceof errors.JWTClaimInvalid)
@@ -828,12 +827,3 @@ test('must be a supported value', t => {
     t.is(err.reason, 'check_failed')
   })
 }
-
-test('invalid tokens', t => {
-  t.throws(() => {
-    JWT.verify(
-      'eyJ0eXAiOiJKV1QiLCJraWQiOiIyZTFkYjRmMC1mYmY5LTQxZjYtOGMxYi1hMzczYjgwZmNhYTEiLCJhbGciOiJFUzI1NiIsImlzcyI6Imh0dHBzOi8vaWRlbnRpdHktc3RhZ2luZy5kZWxpdmVyb28uY29tLyIsImNsaWVudCI6ImIyM2I0ZjM1YzIyMTI5NDQxZjMwZDMyYmI5ZmM4ZWYyIiwic2lnbmVyIjoiYXJuOmF3czplbGFzdGljbG9hZGJhbGFuY2luZzpldS13ZXN0LTE6NTE3OTAyNjYzOTE1OmxvYWRiYWxhbmNlci9hcHAvcGF5bWVudHMtZGFzaGJvYXJkLXdlYi80YzA4ZGI2NDMyMDIyOWEyIiwiZXhwIjoxNTYyNjkxNTg1fQ==.eyJlbWFpbCI6ImpvYW8udmllaXJhQGRlbGl2ZXJvby5jby51ayIsImVtYWlsX3ZlcmlmaWVkIjp0cnVlLCJmYW1pbHlfbmFtZSI6Ikd1ZXJyYSBWaWVpcmEiLCJnaXZlbl9uYW1lIjoiSm9hbyIsIm5hbWUiOiJKb2FvIEd1ZXJyYSBWaWVpcmEiLCJwaWN0dXJlIjoiaHR0cHM6Ly9saDMuZ29vZ2xldXNlcmNvbnRlbnQuY29tLy1sTUpXTXV3R1dpYy9BQUFBQUFBQUFBSS9BQUFBQUFBQUFCVS9lNGtkTDg5UjlqZy9zOTYtYy9waG90by5qcGciLCJzdWIiOiIxMWE1YmFmMGRjNzcwNWRmMzk1ZTMzYWFkZjU2MDk4OCIsImV4cCI6MTU2MjY5MTU4NSwiaXNzIjoiaHR0cHM6Ly9pZGVudGl0eS1zdGFnaW5nLmRlbGl2ZXJvby5jb20vIn0=.DSHLJXLOfLJ-ZYcX0Vlii6Ak_jcDSkKOvNRj_rvtAyY9uYXtwo798ZrR35fgut-LuCdx0aKz2SgK0KJqw5q6dA==',
-      key
-    )
-  }, { instanceOf: errors.JOSEInvalidEncoding, code: 'ERR_JOSE_INVALID_ENCODING', message: 'input is not a valid base64url encoded string' })
-})
