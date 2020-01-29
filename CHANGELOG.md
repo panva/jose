@@ -2,6 +2,20 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+# [1.22.0](https://github.com/panva/jose/compare/v1.21.1...v1.22.0) (2020-01-29)
+
+
+### Features
+
+* keystore filtering by JWK Key thumbprint ([a9f6f71](https://github.com/panva/jose/commit/a9f6f7135005d6231d6f42d95c02414139a89d17))
+
+
+### Performance Improvements
+
+* base64url decode, JWT.verify, JWK.Key instance re-use ([470b4c7](https://github.com/panva/jose/commit/470b4c73154e1fcf8b92726d521940e5e11c9d94))
+
+
+
 ## [1.21.1](https://github.com/panva/jose/compare/v1.21.0...v1.21.1) (2020-01-25)
 
 
