@@ -1,6 +1,5 @@
 const test = require('ava')
 
-const errors = require('../../lib/errors')
 const base64url = require('../../lib/help/base64url')
 
 const testStr = 'fmkIOj+kafqtjMl+iC32a+9YGz0cKj/JT9Jt31uXR1la7FSXkjoBzg/F+huYm0udbM5z5qGlmPBNZASsixJLcA=='

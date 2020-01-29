@@ -6,7 +6,6 @@ const { edDSASupported, keyObjectSupported } = require('../../lib/help/runtime_s
 const { createSecretKey } = require('../../lib/help/key_object')
 const { generateKeyPairSync } = require('../macros/generate')
 const fixtures = require('../fixtures')
-const base64url = require('../../lib/help/base64url')
 
 test('imports PrivateKeyObject and then its Key instance', t => {
   const k = asKey(generateKeyPairSync('ec', { namedCurve: 'P-256' }).privateKey)
