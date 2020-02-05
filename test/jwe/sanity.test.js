@@ -35,7 +35,7 @@ test('compact parts length check', t => {
 })
 
 test('JWE no alg specified but cannot resolve', t => {
-  const k1 = generateSync('RSA', undefined, { alg: 'foo' })
+  const k1 = generateSync('oct', undefined, { key_ops: ['sign'] })
   t.throws(() => {
     JWE.encrypt('foo', k1)
   }, { instanceOf: errors.JWEInvalid, code: 'ERR_JWE_INVALID', message: 'could not resolve a usable "alg" for a recipient' })

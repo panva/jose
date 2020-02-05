@@ -136,7 +136,7 @@ test('JWS flattened does not support multiple recipients', t => {
 })
 
 test('JWS no alg specified but cannot resolve', t => {
-  const k1 = generateSync('RSA', undefined, { alg: 'foo' })
+  const k1 = generateSync('oct', undefined, { key_ops: ['encrypt'] })
   t.throws(() => {
     JWS.sign({}, k1)
   }, { instanceOf: errors.JWSInvalid, code: 'ERR_JWS_INVALID', message: 'could not resolve a usable "alg" for a recipient' })
