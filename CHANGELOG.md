@@ -2,6 +2,15 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.22.2](https://github.com/panva/jose/compare/v1.22.1...v1.22.2) (2020-02-06)
+
+
+### Performance Improvements
+
+* various codepaths refactored ([3e3d7dd](https://github.com/panva/jose/commit/3e3d7dd38168159e188e54c48a9f83e3a02a8fe1))
+
+
+
 ## [1.22.1](https://github.com/panva/jose/compare/v1.22.0...v1.22.1) (2020-02-03)
 
 
