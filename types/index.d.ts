@@ -81,20 +81,34 @@ export namespace JWK {
   }
 
   interface Key {
-    kty: keyType;
-    type: keyObjectTypes;
-    private: boolean;
-    public: boolean;
-    secret: boolean;
-    alg?: string;
-    use?: use;
-    key_ops?: keyOperation[];
-    kid: string;
-    thumbprint: string;
-    x5c?: string[];
-    x5t?: string;
-    'x5t#S256'?: string;
-    keyObject: KeyObject;
+    readonly private: boolean;
+    readonly public: boolean;
+    readonly secret: boolean;
+    readonly type: keyObjectTypes;
+
+    readonly kty: keyType;
+    readonly alg?: string;
+    readonly use?: use;
+    readonly key_ops?: ReadonlyArray<keyOperation>;
+    readonly kid: string;
+    readonly thumbprint: string;
+    readonly x5c?: ReadonlyArray<string>;
+    readonly x5t?: string;
+    readonly 'x5t#S256'?: string;
+    readonly keyObject: KeyObject;
+
+    readonly crv?: ECCurve | OKPCurve;
+    readonly d?: string;
+    readonly dp?: string;
+    readonly dq?: string;
+    readonly e?: string;
+    readonly k?: string;
+    readonly n?: string;
+    readonly p?: string;
+    readonly q?: string;
+    readonly qi?: string;
+    readonly x?: string;
+    readonly y?: string;
 
     toPEM(private?: boolean, encoding?: pemEncodingOptions): string;
 
@@ -102,58 +116,102 @@ export namespace JWK {
   }
 
   interface RSAKey extends Key {
-    kty: 'RSA';
-    type: asymmetricKeyObjectTypes;
-    secret: false;
-    e: string;
-    n: string;
-    d?: string;
-    p?: string;
-    q?: string;
-    dp?: string;
-    dq?: string;
-    qi?: string;
+    readonly secret: false;
+    readonly type: asymmetricKeyObjectTypes;
+
+    readonly kty: 'RSA';
+
+    readonly e: string;
+    readonly n: string;
+    readonly d?: string;
+    readonly p?: string;
+    readonly q?: string;
+    readonly dp?: string;
+    readonly dq?: string;
+    readonly qi?: string;
+
+    readonly crv: undefined;
+    readonly k: undefined;
+    readonly x: undefined;
+    readonly y: undefined;
 
     toJWK(private?: boolean): JWKRSAKey;
   }
 
   interface ECKey extends Key {
-    kty: 'EC';
-    secret: false;
-    type: asymmetricKeyObjectTypes;
-    crv: ECCurve;
-    x: string;
-    y: string;
-    d?: string;
+    readonly secret: false;
+    readonly type: asymmetricKeyObjectTypes;
+
+    readonly kty: 'EC';
+
+    readonly crv: ECCurve;
+    readonly x: string;
+    readonly y: string;
+    readonly d?: string;
+
+    readonly dp: undefined;
+    readonly dq: undefined;
+    readonly e: undefined;
+    readonly k: undefined;
+    readonly n: undefined;
+    readonly p: undefined;
+    readonly q: undefined;
+    readonly qi: undefined;
 
     toJWK(private?: boolean): JWKECKey;
   }
 
   interface OKPKey extends Key {
-    kty: 'OKP';
-    secret: false;
-    type: asymmetricKeyObjectTypes;
-    crv: OKPCurve;
-    x: string;
-    d?: string;
+    readonly secret: false;
+    readonly type: asymmetricKeyObjectTypes;
+
+    readonly kty: 'OKP';
+
+    readonly crv: OKPCurve;
+    readonly x: string;
+    readonly d?: string;
+
+    readonly dp: undefined;
+    readonly dq: undefined;
+    readonly e: undefined;
+    readonly k: undefined;
+    readonly n: undefined;
+    readonly p: undefined;
+    readonly q: undefined;
+    readonly qi: undefined;
+    readonly y: undefined;
 
     toJWK(private?: boolean): JWKOKPKey;
   }
 
   interface OctKey extends Key {
-    kty: 'oct';
-    type: 'secret';
-    private: false;
-    public: false;
-    secret: true;
-    k?: string;
+    readonly private: false;
+    readonly public: false;
+    readonly secret: true;
+    readonly type: 'secret';
+
+    readonly kty: 'oct';
+
+    readonly k?: string;
+
+    readonly crv: undefined;
+    readonly d: undefined;
+    readonly dp: undefined;
+    readonly dq: undefined;
+    readonly e: undefined;
+    readonly n: undefined;
+    readonly p: undefined;
+    readonly q: undefined;
+    readonly qi: undefined;
+    readonly x: undefined;
+    readonly y: undefined;
 
     toJWK(private?: boolean): JWKOctKey;
   }
 
   interface NoneKey {
-    type: 'unsecured';
-    alg: 'none';
+    readonly type: 'unsecured';
+    readonly alg: 'none';
     algorithms(operation?: keyOperation): Set<string>;
   }
 
@@ -199,7 +257,7 @@ export namespace JWKS {
   class KeyStore {
     constructor(keys?: JWK.Key[]);
 
-    size: number;
+    readonly size: number;
 
     add(key: JWK.Key): void;
     remove(key: JWK.Key): void;
