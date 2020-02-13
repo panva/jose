@@ -300,7 +300,7 @@ jose.JWE.decrypt(
 | AES | ✓ | A128KW<sup>[1]</sup>, A192KW<sup>[1]</sup>, A256KW<sup>[1]</sup> |
 | AES GCM | ✓ | A128GCMKW, A192GCMKW, A256GCMKW |
 | Direct Key Agreement | ✓ | dir |
-| RSAES OAEP | ✓ | RSA-OAEP, RSA-OAEP-256<sup>[3]</sup> |
+| RSAES OAEP | ✓ | RSA-OAEP, RSA-OAEP-256<sup>[3]</sup>, RSA-OAEP-384<sup>[3]</sup>, RSA-OAEP-512<sup>[3]</sup> |
 | RSAES-PKCS1-v1_5 | ✓ | RSA1_5 |
 | PBES2 | ✓ | PBES2-HS256+A128KW<sup>[1]</sup>, PBES2-HS384+A192KW<sup>[1]</sup>, PBES2-HS512+A256KW<sup>[1]</sup> |
 | ECDH-ES (for all EC keys) | ✓ | ECDH-ES, ECDH-ES+A128KW<sup>[1]</sup>, ECDH-ES+A192KW<sup>[1]</sup>, ECDH-ES+A256KW<sup>[1]</sup> |
@@ -330,7 +330,7 @@ Legend:
 <sup>2</sup> Unsecured JWS is [supported][documentation-none] for the JWS and JWT sign and verify
 operations but it is an entirely opt-in behaviour, downgrade attacks are prevented by the required
 use of a special `JWK.Key`-like object that cannot be instantiated through the key import API  
-<sup>3</sup> RSA-OAEP-256 is only supported when Node.js >= 12.9.0 runtime is detected
+<sup>3</sup> RSAES OAEP using SHA-2 and MGF1 with SHA-2 is only supported when Node.js >= 12.9.0 runtime is detected
 
 ## FAQ
 

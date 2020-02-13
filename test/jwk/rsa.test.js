@@ -36,7 +36,7 @@ test('RSA key .algorithms invalid operation', t => {
     test('RSA Private key algorithms (no operation)', t => {
       const result = key.algorithms()
       t.is(result.constructor, Set)
-      t.deepEqual([...result], ['PS256', 'PS384', 'PS512', 'RS256', 'RS384', 'RS512', 'RSA-OAEP', 'RSA-OAEP-256', 'RSA1_5'])
+      t.deepEqual([...result], ['PS256', 'PS384', 'PS512', 'RS256', 'RS384', 'RS512', 'RSA-OAEP', 'RSA-OAEP-256', 'RSA-OAEP-384', 'RSA-OAEP-512', 'RSA1_5'])
     })
   } else {
     test('RSA Private key algorithms (no operation)', t => {
@@ -129,7 +129,7 @@ test('RSA key .algorithms invalid operation', t => {
     test('RSA Private key .algorithms("wrapKey")', t => {
       const result = key.algorithms('wrapKey')
       t.is(result.constructor, Set)
-      t.deepEqual([...result], ['RSA-OAEP', 'RSA-OAEP-256', 'RSA1_5'])
+      t.deepEqual([...result], ['RSA-OAEP', 'RSA-OAEP-256', 'RSA-OAEP-384', 'RSA-OAEP-512', 'RSA1_5'])
     })
   } else {
     test('RSA Private key .algorithms("wrapKey")', t => {
@@ -150,7 +150,7 @@ test('RSA key .algorithms invalid operation', t => {
     test('RSA Private key .algorithms("unwrapKey")', t => {
       const result = key.algorithms('unwrapKey')
       t.is(result.constructor, Set)
-      t.deepEqual([...result], ['RSA-OAEP', 'RSA-OAEP-256', 'RSA1_5'])
+      t.deepEqual([...result], ['RSA-OAEP', 'RSA-OAEP-256', 'RSA-OAEP-384', 'RSA-OAEP-512', 'RSA1_5'])
     })
   } else {
     test('RSA Private key .algorithms("unwrapKey")', t => {
@@ -192,7 +192,7 @@ test('RSA key .algorithms invalid operation', t => {
     test('RSA EC Public key algorithms (no operation)', t => {
       const result = key.algorithms()
       t.is(result.constructor, Set)
-      t.deepEqual([...result], ['PS256', 'PS384', 'PS512', 'RS256', 'RS384', 'RS512', 'RSA-OAEP', 'RSA-OAEP-256', 'RSA1_5'])
+      t.deepEqual([...result], ['PS256', 'PS384', 'PS512', 'RS256', 'RS384', 'RS512', 'RSA-OAEP', 'RSA-OAEP-256', 'RSA-OAEP-384', 'RSA-OAEP-512', 'RSA1_5'])
     })
   } else {
     test('RSA EC Public key algorithms (no operation)', t => {
@@ -285,7 +285,7 @@ test('RSA key .algorithms invalid operation', t => {
     test('RSA Public key .algorithms("wrapKey")', t => {
       const result = key.algorithms('wrapKey')
       t.is(result.constructor, Set)
-      t.deepEqual([...result], ['RSA-OAEP', 'RSA-OAEP-256', 'RSA1_5'])
+      t.deepEqual([...result], ['RSA-OAEP', 'RSA-OAEP-256', 'RSA-OAEP-384', 'RSA-OAEP-512', 'RSA1_5'])
     })
   } else {
     test('RSA Public key .algorithms("wrapKey")', t => {
@@ -341,6 +341,16 @@ test('RSA key .algorithms invalid operation', t => {
         const k = generateSync('RSA', 784)
         t.true(k.algorithms().has('RSA-OAEP-256'))
       })
+
+      test('RSA key >= 1040 bits can do RSA-OAEP-256', t => {
+        const k = generateSync('RSA', 1040)
+        t.true(k.algorithms().has('RSA-OAEP-384'))
+      })
+
+      test('RSA key >= 1296 bits can do RSA-OAEP-256', t => {
+        const k = generateSync('RSA', 1296)
+        t.true(k.algorithms().has('RSA-OAEP-512'))
+      })
     }
 
     test('RSA key >= 784 bits can do PS384', t => {
@@ -374,6 +384,16 @@ test('RSA key .algorithms invalid operation', t => {
       test('RSA key >= 896 bits can do RSA-OAEP-256', t => {
         const k = generateSync('RSA', 896)
         t.true(k.algorithms().has('RSA-OAEP-256'))
+      })
+
+      test('RSA key >= 1040 bits can do RSA-OAEP-256', t => {
+        const k = generateSync('RSA', 1152)
+        t.true(k.algorithms().has('RSA-OAEP-384'))
+      })
+
+      test('RSA key >= 1408 bits can do RSA-OAEP-256', t => {
+        const k = generateSync('RSA', 1408)
+        t.true(k.algorithms().has('RSA-OAEP-512'))
       })
     }
 
