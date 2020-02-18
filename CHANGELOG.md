@@ -2,6 +2,21 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+# [1.23.0](https://github.com/panva/jose/compare/v1.22.2...v1.23.0) (2020-02-18)
+
+
+### Bug Fixes
+
+* **typescript:** add optional JWK.Key props and make them readonly ([b92079c](https://github.com/panva/jose/commit/b92079cb64216b8ea91082adc07ac03972dbbb0e)), closes [#67](https://github.com/panva/jose/issues/67)
+
+
+### Features
+
+* add ECDH-ES with X25519 and X448 OKP keys ([38369ea](https://github.com/panva/jose/commit/38369ea3d72812abe7ecebd6dc7da164b0a2e29d))
+* add RSA-OAEP-384 and RSA-OAEP-512 JWE Key Management Algorithms ([7477f08](https://github.com/panva/jose/commit/7477f0831b38765a9a916b35b1d40aaf11f0e6b8))
+
+
+
 ## [1.22.2](https://github.com/panva/jose/compare/v1.22.1...v1.22.2) (2020-02-06)
 
 
