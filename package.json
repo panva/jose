@@ -76,7 +76,7 @@
     ]
   },
   "dependencies": {
-    "asn1.js": "^5.3.0"
+    "@panva/asn1.js": "^1.0.0"
   },
   "devDependencies": {
     "@commitlint/cli": "^8.3.4",
