@@ -3,11 +3,9 @@ name: Continuous Integration
 on:
   push:
     paths-ignore:
-      - '**.yml'
       - '**.md'
   pull_request:
     paths-ignore:
-      - '**.yml'
       - '**.md'
   schedule:
     - cron:  0 9 * * 1-5
@@ -56,7 +54,7 @@ jobs:
     strategy:
       matrix:
         electron-version:
-          - 6.0.8 # NODE_V8_COVERAGE doesn't work prior to 6.0.8
+          - 6.0.0
           - 6
           - 7.0.0
           - 7
@@ -73,10 +71,4 @@ jobs:
           node-version: 12
       - run: npm install --global xvfb-maybe electron@${{ matrix.electron-version }}
       - run: npx panva/npm-install-retry
-      - env:
-          NODE_V8_COVERAGE: ./coverage/tmp
-        run: xvfb-maybe electron ./test/electron
-      - run: npx c8 report
-      - env:
-          CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
-        run: npx codecov
+      - run: xvfb-maybe electron ./test/electron
