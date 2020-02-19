@@ -1,5 +1,6 @@
 const { readFileSync } = require('fs')
 const { join } = require('path')
+const { improvedDH } = require('../../lib/help/runtime_support')
 
 module.exports.JWK = {
   RSA_PUBLIC: {
@@ -89,26 +90,28 @@ module.exports.JWK = {
   }
 }
 
-module.exports.RSA_512 = readFileSync(join(__dirname, 'rsa_512.pem'))
-
 module.exports.PEM = {
   RSA: {
     private: readFileSync(join(__dirname, 'rsa.key')),
     public: readFileSync(join(__dirname, 'rsa.pem'))
   },
   Ed25519: {
+    testEnc: false,
     private: readFileSync(join(__dirname, 'Ed25519.key')),
     public: readFileSync(join(__dirname, 'Ed25519.pem'))
   },
   Ed448: {
+    testEnc: false,
     private: readFileSync(join(__dirname, 'Ed448.key')),
     public: readFileSync(join(__dirname, 'Ed448.pem'))
   },
   X25519: {
+    testEnc: improvedDH && !('electron' in process.versions),
     private: readFileSync(join(__dirname, 'X25519.key')),
     public: readFileSync(join(__dirname, 'X25519.pem'))
   },
   X448: {
+    testEnc: improvedDH && !('electron' in process.versions),
     private: readFileSync(join(__dirname, 'X448.key')),
     public: readFileSync(join(__dirname, 'X448.pem'))
   },
@@ -117,10 +120,12 @@ module.exports.PEM = {
     public: readFileSync(join(__dirname, 'P-256.pem'))
   },
   secp256k1: {
+    testEnc: false,
     private: readFileSync(join(__dirname, 'secp256k1.key')),
     public: readFileSync(join(__dirname, 'secp256k1.pem'))
   },
   'P-256K': {
+    testEnc: false,
     private: readFileSync(join(__dirname, 'secp256k1.key')),
     public: readFileSync(join(__dirname, 'secp256k1.pem'))
   },
