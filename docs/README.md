@@ -1244,7 +1244,7 @@ Verifies the provided JWS in either serialization with a given `<JWK.Key>` or `<
     algorithm from this list the verification will fail. **Default:** 'undefined' - accepts all
     algorithms available on the keys
   - `complete`: `<boolean>` When true returns a complete object with the parsed headers and payload
-    instead of just the verified payload. **Default:** 'false'
+    instead of only the verified payload. **Default:** 'false'
   - `parse`: `<boolean>` When true attempts to JSON.parse the payload and falls back to returning
     the payload encoded using the specified encoding. When false returns the payload as a Buffer.
     **Default:** 'true'
@@ -1426,7 +1426,11 @@ the combined JWE Header or inferred from the provided `<JWK.Key>` instance.
 
 #### `JWE.decrypt(jwe, keyOrStore[, options])`
 
-Verifies the provided JWE in either serialization with a given `<JWK.Key>` or `<JWKS.KeyStore>`
+Decrypts the provided JWE in either serialization with a given `<JWK.Key>` or `<JWKS.KeyStore>`
+
+Note: This performs only the authenticated decryption, it does not process the resulting cleartext
+in any way. If the resulting cleartext is a signed JWS/JWT, you must run it through a JWS/JWT verify
+operation.
 
 - `jwe`: `<Object>` &vert; `<string>` The JWE to decrypt. This must be a valid JWE.
 - `keyOrStore`: `<JWK.Key>` &vert; `<JWKS.KeyStore>` The key or store to decrypt with. When
@@ -1440,7 +1444,7 @@ Verifies the provided JWE in either serialization with a given `<JWK.Key>` or `<
     accepts all algorithms available on the keys
   - `complete`: `<boolean>` When true returns an object with the parsed headers, verified
     AAD, the content encryption key, the key that was used to unwrap or derive the content
-    encryption key, and cleartext instead of just the cleartext.
+    encryption key, and cleartext instead of only the cleartext.
     **Default:** 'false'
 - Returns: `<Buffer>` &vert; `<Object>`
 
