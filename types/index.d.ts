@@ -431,6 +431,7 @@ export namespace JWT {
     audience?: string | string[];
     algorithms?: string[];
     nonce?: string;
+    typ?: string;
     now?: Date;
     crit?: string[];
     profile?: JWTProfiles;

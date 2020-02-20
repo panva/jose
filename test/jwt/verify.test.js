@@ -153,9 +153,9 @@ test('options.ignoreIat & options.maxTokenAge may not be used together', t => {
 
 Object.entries({
   issuer: 'iss',
+  jti: 'jti',
   nonce: 'nonce',
-  subject: 'sub',
-  jti: 'jti'
+  subject: 'sub'
 }).forEach(([option, claim]) => {
   test(`option.${option} validation fails`, t => {
     let err
@@ -179,6 +179,29 @@ Object.entries({
     JWT.verify(token, key, { [option]: 'foo' })
     t.pass()
   })
+})
+
+test('option.typ validation fails', t => {
+  let err
+  err = t.throws(() => {
+    const invalid = JWT.sign({}, key, { header: { typ: 'foo' } })
+    JWT.verify(invalid, key, { typ: 'bar' })
+  }, { instanceOf: errors.JWTClaimInvalid, message: 'unexpected "typ" JWT header value' })
+  t.is(err.claim, 'typ')
+  t.is(err.reason, 'check_failed')
+
+  err = t.throws(() => {
+    const invalid = JWS.sign({}, key, { header: { typ: undefined } })
+    JWT.verify(invalid, key, { typ: 'bar' })
+  }, { instanceOf: errors.JWTClaimInvalid, message: '"typ" header parameter is missing' })
+  t.is(err.claim, 'typ')
+  t.is(err.reason, 'missing')
+})
+
+test('option.typ validation success', t => {
+  const token = JWT.sign({}, key, { header: { typ: 'foo' } })
+  JWT.verify(token, key, { typ: 'foo' })
+  t.pass()
 })
 
 test('option.audience validation fails', t => {
@@ -822,7 +845,7 @@ test('must be a supported value', t => {
         key,
         { profile: 'at+JWT', issuer: 'issuer', audience: 'RS' }
       )
-    }, { instanceOf: errors.JWTClaimInvalid, message: 'invalid JWT typ header value for the used validation profile' })
+    }, { instanceOf: errors.JWTClaimInvalid, message: 'unexpected "typ" JWT header value' })
     t.is(err.claim, 'typ')
     t.is(err.reason, 'check_failed')
   })

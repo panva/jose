@@ -893,6 +893,9 @@ Verifies the claims and signature of a JSON Web Token.
     `subject` depending on the use-case.
   - `audience`: `<string>` &vert; `string[]` Expected audience value(s). When string an exact match must
     be found in the payload, when array at least one must be matched.
+  - `typ`: `<string>` Expected JWT "typ" Header Parameter value. An exact match must be found in the
+    JWT header. **Default:** 'undefined' unless a `profile` with a specific value is used, in which
+    case this option will be ignored.
   - `clockTolerance`: `<string>` Clock Tolerance for comparing timestamps, provided as timespan
     string e.g. `120s`, `2 minutes`, etc. **Default:** no clock tolerance
   - `complete`: `<Boolean>` When false only the parsed payload is returned, otherwise an object with
