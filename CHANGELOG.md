@@ -2,6 +2,15 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+# [1.24.0](https://github.com/panva/jose/compare/v1.23.0...v1.24.0) (2020-02-25)
+
+
+### Features
+
+* add JWT.verify "typ" option for checking JWT Type Header parameter ([fc08426](https://github.com/panva/jose/commit/fc08426466233709b442ba21232768ddeeb94e56))
+
+
+
 # [1.23.0](https://github.com/panva/jose/compare/v1.22.2...v1.23.0) (2020-02-18)
 
 
