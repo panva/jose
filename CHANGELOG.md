@@ -2,6 +2,15 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.24.1](https://github.com/panva/jose/compare/v1.24.0...v1.24.1) (2020-03-05)
+
+
+### Bug Fixes
+
+* allow importing simpler passphrases as `oct` keys ([f86bda3](https://github.com/panva/jose/commit/f86bda3bb709f29e4264fb8de45242f518128744))
+
+
+
 # [1.24.0](https://github.com/panva/jose/compare/v1.23.0...v1.24.0) (2020-02-25)
 
 
