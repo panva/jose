@@ -53,7 +53,8 @@
   "types": "types/index.d.ts",
   "scripts": {
     "coverage": "c8 ava",
-    "lint": "standard && dtslint types",
+    "lint": "standard",
+    "lint-ts": "npx typescript@~3.6.0 --build types",
     "lint-fix": "standard --fix",
     "test": "ava",
     "watch": "ava --watch"
@@ -84,7 +85,6 @@
     "ava": "^2.4.0",
     "babel-eslint": "^10.0.3",
     "c8": "^7.0.0",
-    "dtslint": "^3.0.0",
     "husky": "^4.0.0",
     "standard": "^14.3.1"
   },

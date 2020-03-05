@@ -1,8 +1,6 @@
 /// <reference types="node" />
 // TypeScript Version: 3.6
 
-/* tslint:disable:strict-export-declare-modifiers */
-
 import { KeyObject, PrivateKeyInput, PublicKeyInput } from 'crypto';
 
 export type use = 'sig' | 'enc';
