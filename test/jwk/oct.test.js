@@ -204,3 +204,11 @@ b3BlbnNzaC1rZXktdjEAAAAABG5vbmUAAAAEbm9uZQAAAAAAAAABAAAAMwAAAAtzc2gtZW`
     }, { instanceOf: errors.JWKImportFailed, message: 'key import failed' })
   })
 })
+
+test('some phrases do not fall through to openssh check', t => {
+  asKey('secret')
+  asKey('secret phrase')
+  asKey('longer secret phrase')
+  asKey('very long secret phrase')
+  t.pass()
+})
