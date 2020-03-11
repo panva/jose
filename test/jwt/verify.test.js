@@ -761,23 +761,6 @@ test('must be a supported value', t => {
     t.is(err.reason, 'missing')
   })
 
-  test('profile=at+JWT mandates that all known aliases of the current RS are provided as the audience option', t => {
-    const err = t.throws(() => {
-      JWT.verify(
-        JWT.sign({ client_id: 'client_id' }, key, { expiresIn: '10m', subject: 'subject', issuer: 'issuer', audience: ['RS-alias1', 'RS-alias2'], header: { typ: 'at+JWT' } }),
-        key,
-        { profile: 'at+JWT', issuer: 'issuer', audience: ['RS-alias1'] }
-      )
-    }, { instanceOf: errors.JWTClaimInvalid, message: 'unexpected "aud" claim value' })
-    t.is(err.claim, 'aud')
-    t.is(err.reason, 'check_failed')
-    JWT.verify(
-      JWT.sign({ client_id: 'client_id' }, key, { expiresIn: '10m', subject: 'subject', issuer: 'issuer', audience: ['RS-alias1', 'RS-alias2'], header: { typ: 'at+JWT' } }),
-      key,
-      { profile: 'at+JWT', issuer: 'issuer', audience: ['RS-alias1', 'RS-alias2'] }
-    )
-  })
-
   test('profile=at+JWT mandates client_id to be present', t => {
     const err = t.throws(() => {
       JWT.verify(
