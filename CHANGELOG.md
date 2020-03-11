@@ -2,6 +2,15 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+# [1.25.0](https://github.com/panva/jose/compare/v1.24.1...v1.25.0) (2020-03-11)
+
+
+### Features
+
+* update JWT Profile for OAuth 2.0 Access Tokens to latest draft ([bc77a15](https://github.com/panva/jose/commit/bc77a15fab10f8a29561ef667a923b2f074fa9b3))
+
+
+
 ## [1.24.1](https://github.com/panva/jose/compare/v1.24.0...v1.24.1) (2020-03-05)
 
 
