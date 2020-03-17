@@ -1,5 +1,5 @@
 module.exports = {
-  title: 'Key Encryption using RSA-OAEP with AES_CBC_HMAC_SHA2',
+  title: 'Key Encryption using RSA-OAEP-256 with AES_CBC_HMAC_SHA2',
   input: {
     plaintext: "Well, as of this moment, they're on DOUBLE SECRET PROBATION!",
     key: {
