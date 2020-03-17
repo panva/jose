@@ -63,37 +63,37 @@ test(`${recipe.title} - general decrypt`, t => {
   })
 })
 
-test(`${recipe.title} - compact verify (failing)`, t => {
+test(`${recipe.title} - compact decrypt (failing)`, t => {
   t.throws(() => {
     JWE.decrypt(recipe.output.compact, keystoreMatchNone)
   }, { instanceOf: errors.JWKSNoMatchingKey, code: 'ERR_JWKS_NO_MATCHING_KEY', message: 'no matching key found in the KeyStore' })
 })
 
-test(`${recipe.title} - flattened verify (failing)`, t => {
+test(`${recipe.title} - flattened decrypt (failing)`, t => {
   t.throws(() => {
     JWE.decrypt(recipe.output.json_flat, keystoreMatchNone)
   }, { instanceOf: errors.JWKSNoMatchingKey, code: 'ERR_JWKS_NO_MATCHING_KEY', message: 'no matching key found in the KeyStore' })
 })
 
-test(`${recipe.title} - general verify (failing)`, t => {
+test(`${recipe.title} - general decrypt (failing)`, t => {
   t.throws(() => {
     JWE.decrypt(recipe.output.json, keystoreMatchNone)
   }, { instanceOf: errors.JWKSNoMatchingKey, code: 'ERR_JWKS_NO_MATCHING_KEY', message: 'no matching key found in the KeyStore' })
 })
 
-test(`${recipe.title} - compact verify (using empty keystore)`, t => {
+test(`${recipe.title} - compact decrypt (using empty keystore)`, t => {
   t.throws(() => {
     JWE.decrypt(recipe.output.compact, keystoreEmpty)
   }, { instanceOf: errors.JWKSNoMatchingKey, code: 'ERR_JWKS_NO_MATCHING_KEY', message: 'no matching key found in the KeyStore' })
 })
 
-test(`${recipe.title} - flattened verify (using empty keystore)`, t => {
+test(`${recipe.title} - flattened decrypt (using empty keystore)`, t => {
   t.throws(() => {
     JWE.decrypt(recipe.output.json_flat, keystoreEmpty)
   }, { instanceOf: errors.JWKSNoMatchingKey, code: 'ERR_JWKS_NO_MATCHING_KEY', message: 'no matching key found in the KeyStore' })
 })
 
-test(`${recipe.title} - general verify (using empty keystore)`, t => {
+test(`${recipe.title} - general decrypt (using empty keystore)`, t => {
   t.throws(() => {
     JWE.decrypt(recipe.output.json, keystoreEmpty)
   }, { instanceOf: errors.JWKSNoMatchingKey, code: 'ERR_JWKS_NO_MATCHING_KEY', message: 'no matching key found in the KeyStore' })
