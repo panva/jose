@@ -1479,7 +1479,7 @@ operation.
 
 The following errors are expected to be thrown by `jose` runtime and have their prototypes
 exported in `jose.errors`. If you encounter an `Error` other then `TypeError` or one that's
-`instanceof jose.errors.JOSEError` please [report it][bug], it is not intended.
+`instanceof jose.errors.JOSEError` please report it, it is not intended.
 
 #### Class: `TypeError`
 
@@ -1673,5 +1673,4 @@ if (err instanceof jose.errors.JOSEError && err.code === 'ERR_JWT_MALFORMED') {
 [spec-thumbprint]: https://tools.ietf.org/html/rfc7638
 [support-sponsor]: https://github.com/sponsors/panva
 [connect-core]: https://openid.net/specs/openid-connect-core-1_0.html
-[bug]: https://github.com/panva/jose/issues/new?labels=bug&template=bug-report.md&title=bug%3A+
 [sponsor-auth0]: https://auth0.com/overview?utm_source=GHsponsor&utm_medium=GHsponsor&utm_campaign=panva-jose&utm_content=auth

@@ -28,12 +28,6 @@ Available JWT validation profiles
 - OAuth 2.0 JWT Access Tokens (`at+JWT`) - [JWT Profile for OAuth 2.0 Access Tokens][draft-ietf-oauth-access-token-jwt]
 - OIDC Logout Token (`logout_token`) - [OpenID Connect Back-Channel Logout 1.0][spec-oidc-logout_token]
 
-<br>
-
-Have a question about using `jose`? - [ask][ask].  
-Found a bug? - [report it][bug].  
-Missing a feature? - If it wasn't already discussed before, [ask for it][suggest-feature].
-
 ## Sponsor
 
 [<img width="65" height="65" align="left" src="https://avatars.githubusercontent.com/u/2824157?s=75&v=4" alt="auth0-logo">][sponsor-auth0] If you want to quickly add secure token-based authentication to Node.js projects, feel free to check Auth0’s free plan at [auth0.com/overview][sponsor-auth0].<br><br>
@@ -378,8 +372,6 @@ in terms of performance and API (not having well defined errors).
 
 &plus; this was an amazing opportunity to learn JOSE as a whole
 
-[ask]: https://github.com/panva/jose/issues/new?labels=question&template=question.md
-[bug]: https://github.com/panva/jose/issues/new?labels=bug%2C+triage&template=bug-report.md
 [documentation-jwe]: /docs/README.md#jwe-json-web-encryption
 [documentation-jwk]: /docs/README.md#jwk-json-web-key
 [documentation-jwks]: /docs/README.md#jwks-json-web-key-set
@@ -403,7 +395,6 @@ in terms of performance and API (not having well defined errors).
 [spec-oidc-id_token]: https://openid.net/specs/openid-connect-core-1_0.html#IDToken
 [spec-oidc-logout_token]: https://openid.net/specs/openid-connect-backchannel-1_0.html#LogoutToken
 [oidc-token-hash]: https://www.npmjs.com/package/oidc-token-hash
-[suggest-feature]: https://github.com/panva/jose/issues/new?labels=enhancement&template=feature-request.md
 [support-sponsor]: https://github.com/sponsors/panva
 [sponsor-auth0]: https://auth0.com/overview?utm_source=GHsponsor&utm_medium=GHsponsor&utm_campaign=panva-jose&utm_content=auth
 [plugin-chacha]: https://github.com/panva/jose-chacha
