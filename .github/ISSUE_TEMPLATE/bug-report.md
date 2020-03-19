@@ -1,8 +1,7 @@
 ---
 name: Bug report
 about: There's a bug I want to report
-title: 'bug: '
-labels: bug
+labels: bug, triage
 ---
 
 **Describe the bug**
