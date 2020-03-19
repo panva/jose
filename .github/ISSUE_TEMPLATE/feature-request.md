@@ -1,10 +1,10 @@
 ---
-name: Feature proposal
+name: ⭐ Feature proposal
 about: I have an idea for a new feature
 labels: enhancement
 ---
 
-**Is your feature request related to a problem? Please describe.**
+**Is your feature proposal related to a problem? Please describe.**
 A clear and concise description of what the problem is.
 
 **Describe the solution you'd like**

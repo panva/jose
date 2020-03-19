@@ -32,8 +32,7 @@ Available JWT validation profiles
 
 Have a question about using `jose`? - [ask][ask].  
 Found a bug? - [report it][bug].  
-Missing a feature? - If it wasn't already discussed before, [ask for it][suggest-feature].  
-Found a vulnerability? - Reach out to us via email first, see [security vulnerability disclosure][security-vulnerability].  
+Missing a feature? - If it wasn't already discussed before, [ask for it][suggest-feature].
 
 ## Sponsor
 
@@ -379,8 +378,8 @@ in terms of performance and API (not having well defined errors).
 
 &plus; this was an amazing opportunity to learn JOSE as a whole
 
-[ask]: https://github.com/panva/jose/issues/new?labels=question&template=question.md&title=question%3A+
-[bug]: https://github.com/panva/jose/issues/new?labels=bug&template=bug-report.md&title=bug%3A+
+[ask]: https://github.com/panva/jose/issues/new?labels=question&template=question.md
+[bug]: https://github.com/panva/jose/issues/new?labels=bug%2C+triage&template=bug-report.md
 [documentation-jwe]: /docs/README.md#jwe-json-web-encryption
 [documentation-jwk]: /docs/README.md#jwk-json-web-key
 [documentation-jwks]: /docs/README.md#jwks-json-web-key-set
@@ -389,7 +388,6 @@ in terms of performance and API (not having well defined errors).
 [documentation-none]: /docs/README.md#jwknone
 [documentation]: /docs/README.md
 [node-jose]: https://github.com/cisco/node-jose
-[security-vulnerability]: https://github.com/panva/jose/issues/new?template=security-vulnerability.md
 [spec-b64]: https://tools.ietf.org/html/rfc7797
 [spec-cookbook]: https://tools.ietf.org/html/rfc7520
 [spec-jwa]: https://tools.ietf.org/html/rfc7518
@@ -405,7 +403,7 @@ in terms of performance and API (not having well defined errors).
 [spec-oidc-id_token]: https://openid.net/specs/openid-connect-core-1_0.html#IDToken
 [spec-oidc-logout_token]: https://openid.net/specs/openid-connect-backchannel-1_0.html#LogoutToken
 [oidc-token-hash]: https://www.npmjs.com/package/oidc-token-hash
-[suggest-feature]: https://github.com/panva/jose/issues/new?labels=enhancement&template=feature-request.md&title=proposal%3A+
+[suggest-feature]: https://github.com/panva/jose/issues/new?labels=enhancement&template=feature-request.md
 [support-sponsor]: https://github.com/sponsors/panva
 [sponsor-auth0]: https://auth0.com/overview?utm_source=GHsponsor&utm_medium=GHsponsor&utm_campaign=panva-jose&utm_content=auth
 [plugin-chacha]: https://github.com/panva/jose-chacha
