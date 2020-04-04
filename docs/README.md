@@ -888,7 +888,7 @@ Verifies the claims and signature of a JSON Web Token.
     found in this option will be rejected. **Default:** accepts all algorithms available on the
     passed key (or keys in the keystore)
   - `profile`: `<string>` To validate a JWT according to a specific profile, e.g. as an ID Token.
-    Supported values are 'id_token', 'at+JWT', and 'logout_token'. **Default:** 'undefined'
+    Supported values are 'id_token', 'access_token', and 'logout_token'. **Default:** 'undefined'
     (generic JWT). Combine this option with the other ones like `maxAuthAge` and `nonce` or
     `subject` depending on the use-case.
   - `audience`: `<string>` &vert; `string[]` Expected audience value(s). When string an exact match must
