@@ -991,7 +991,7 @@ JWT.decode(token, { complete: true })
 
 #### `JWT.AccessToken.verify(token, keyOrStore, options])`
 
-A shorthand for [`JWT.verify`](#jwtverifytoken-keyorstore-options) with the `profile` option set to `access_token`.
+A shorthand for [`JWT.verify`](#jwtverifytoken-keyorstore-options) with the `profile` option set to `at+JWT`.
 
 <details>
 <summary><em><strong>Example</strong></em> (Click to expand)</summary>
