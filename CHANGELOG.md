@@ -2,6 +2,15 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.25.1](https://github.com/panva/jose/compare/v1.25.0...v1.25.1) (2020-04-15)
+
+
+### Bug Fixes
+
+* use native openssl AES Key Wrap 🤦 ([dcf8d75](https://github.com/panva/jose/commit/dcf8d75a8aca4f05fe04df64fdd2ba50bbc75bc9))
+
+
+
 # [1.25.0](https://github.com/panva/jose/compare/v1.24.1...v1.25.0) (2020-03-11)
 
 
