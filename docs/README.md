@@ -794,6 +794,119 @@ ks instanceof KeyStore
 
 ------
 
+## JWM (JSON Web Message)
+
+<!-- TOC JWT START -->
+- [JWM.sign(attributes, key[, options])](#jwmsignattributes-key-options)
+- [JWM.verify(token, keyOrStore[, options])](#jwmverifytoken-keyorstore-options)
+- [JWM.encrypt(attributes, recipients[, options])](#jwmencryptattributes-recipients-options)
+- [JWM.decrypt(token, keyOrStore, options)](#jwmdecrypt-keyorstore-options)
+
+<!-- TOC JWT END -->
+
+```js
+const { JWM } = require('jose')
+// { sign: [Function], verify: [Function], encrypt: [Function], decrypt: [Function] }
+```
+
+#### `JWM.sign(attributes, key[, options])`
+
+Serializes and signs the attributes as JWM using the provided private or symmetrical key. The Algorithm
+that will be used to sign with is either provided as part of the 'options.algorithm',
+'options.header.alg' or inferred from the provided `<JWK.Key>` instance.
+
+- `attributes`: `<Object>` JWM Attributes Set
+- `key`: `<JWK.Key>` The key to sign with. Any `JWK.asKey()` compatible input also works.
+  `<JWK.Key>` instances are recommended for performance purposes when re-using the same key for
+  every operation.
+- `options`: `<Object>`
+  - TODO: Design Options
+  - Serialization? (compact, json)
+- Returns: `<string>`
+
+<details>
+<summary><em><strong>Example</strong></em> (Click to expand)</summary>
+
+```js
+const { JWM, JWK } = require('jose')
+const key = JWK.asKey({
+  kty: 'oct',
+  k: 'hJtXIZ2uSN5kbQfbtTNWbpdmhkV8FJG-Onbc6mxCcYg'
+})
+
+const attributs = {
+  "id":"urn:uuid:ef5a7369-f0b9-4143-a49d-2b9c7ee51117",
+  "type":"hello-world-message-type",
+  "from":"urn:uuid:8abdf5fb-621e-4cf5-a595-071bc2c91d82",
+  "expires_time":1516239022,
+  "created_time":1516269022,
+  "body":{"message": "Hello world!"}
+}
+
+const token = JWM.sign(attributes, recipients, key, {
+  // what options make sense?
+})
+// eyJ0eXAiOiJKV1QiLCJraWQiOiJSdG9SdXJfMURpcjVNNHd1T2ZxTmtEWU9mOU9fNFJKLWFIa1RBNzVSTEE4IiwiYWxnIjoiSFMyNTYifQ.eyJ1cm46ZXhhbXBsZTpjbGFpbSI6ImZvbyIsImF1ZCI6WyJ1cm46ZXhhbXBsZTpjbGllbnQiXSwiaXNzIjoiaHR0cHM6Ly9vcC5leGFtcGxlLmNvbSIsImlhdCI6MTU1MTI5NDEzNywiZXhwIjoxNTUxMzAxMzM3fQ.YmtApwaGRBWlL9O8avbmpYcJ5UwNy0R8rpbxZqHxNd4
+```
+</details>
+
+---
+#### `JWM.encrypt(attributes, recipients, key[, options])`
+
+Serializes and encrypts the attributes as JWM using the provided private or symmetrical key. The Algorithm
+that will be used to sign with is either provided as part of the 'options.algorithm',
+'options.header.alg' or inferred from the provided `<JWK.Key>` instance.
+
+- `attributes`: `<Object>` JWM Attributes Set
+- `recipients`: `<Array>` of `<JWK.Key>`s for intended message recipients.
+- `key`: `<JWK.Key>` The key to sign with. Any `JWK.asKey()` compatible input also works.
+  `<JWK.Key>` instances are recommended for performance purposes when re-using the same key for
+  every operation. When used, JWM will be authcrypted from the key to the recipients. When omitted, the JWM will be anoncrypted to the recipients.
+- `options`: `<Object>`
+  - TODO: Design Options
+- Returns: `<string>`
+
+<details>
+<summary><em><strong>Example</strong></em> (Click to expand)</summary>
+
+```js
+const { JWM, JWK } = require('jose')
+const key = JWK.asKey({
+  kty: 'oct',
+  k: 'hJtXIZ2uSN5kbQfbtTNWbpdmhkV8FJG-Onbc6mxCcYg'
+})
+
+const attributs = {
+  "id":"urn:uuid:ef5a7369-f0b9-4143-a49d-2b9c7ee51117",
+  "type":"hello-world-message-type",
+  "from":"urn:uuid:8abdf5fb-621e-4cf5-a595-071bc2c91d82",
+  "expires_time":1516239022,
+  "created_time":1516269022,
+  "body":{"message": "Hello world!"}
+}
+
+const recipients = [
+  JWK.asKey({
+    kty: 'oct',
+    k: 'hJtXIZ2uSN5kbQfbtTNWbpdmhkV8FJG-Onbc6mxCcYg'
+  },
+  JWK.asKey({
+    kty: 'oct',
+    k: 'hJtXIZ2uSN5kbQfbtTNWbpdmhkV8FJG-Onbc6mxCcYg'
+  }
+]
+
+const token = JWM.encrypt(attributes, recipients, key, {
+  // what options make sense?
+})
+// eyJ0eXAiOiJKV1QiLCJraWQiOiJSdG9SdXJfMURpcjVNNHd1T2ZxTmtEWU9mOU9fNFJKLWFIa1RBNzVSTEE4IiwiYWxnIjoiSFMyNTYifQ.eyJ1cm46ZXhhbXBsZTpjbGFpbSI6ImZvbyIsImF1ZCI6WyJ1cm46ZXhhbXBsZTpjbGllbnQiXSwiaXNzIjoiaHR0cHM6Ly9vcC5leGFtcGxlLmNvbSIsImlhdCI6MTU1MTI5NDEzNywiZXhwIjoxNTUxMzAxMzM3fQ.YmtApwaGRBWlL9O8avbmpYcJ5UwNy0R8rpbxZqHxNd4
+```
+</details>
+
+---
+
+------
+
 ## JWT (JSON Web Token)
 
 <!-- TOC JWT START -->
