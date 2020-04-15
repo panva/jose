@@ -45,7 +45,7 @@
   "license": "MIT",
   "author": "Filip Skokan <panva.ip@gmail.com>",
   "files": [
-    "lib",
+    "lib/**/*.js",
     "LICENSE_THIRD_PARTY",
     "types/index.d.ts"
   ],
