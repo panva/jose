@@ -2,6 +2,15 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.25.2](https://github.com/panva/jose/compare/v1.25.1...v1.25.2) (2020-04-15)
+
+
+### Bug Fixes
+
+* **build:** don't publish junk files ([6e98c1a](https://github.com/panva/jose/commit/6e98c1a5f994224b9412fc47c4065b468c89fe2c))
+
+
+
 ## [1.25.1](https://github.com/panva/jose/compare/v1.25.0...v1.25.1) (2020-04-15)
 
 
