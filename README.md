@@ -341,6 +341,10 @@ attention to changelog and the drafts themselves.
 [Semantic Versioning 2.0.0](https://semver.org/spec/v2.0.0.html). The rest is to be considered
 private API and is subject to change between any versions.
 
+**Although.** Draft specification profiles are updated as minor versions of the library, therefore,
+since they may have breaking changes use the `~` semver operator when using these and pay close
+attention to changelog and the drafts themselves.
+
 #### How do I use it outside of Node.js
 
 It is **only built for >=10.13.0 Node.js** environment - including `jose` in transpiled
