@@ -2,6 +2,21 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+# [1.26.0](https://github.com/panva/jose/compare/v1.25.2...v1.26.0) (2020-04-16)
+
+
+### Features
+
+* update JWT Profile for OAuth 2.0 Access Tokens to latest draft ([8c0a8a9](https://github.com/panva/jose/commit/8c0a8a950e4503cb7a756589e307286fe1116b05))
+
+
+### BREAKING CHANGES
+
+* `at+JWT` JWT draft profile - in the draft's Section 2.2
+the claims `iat` and `jti` are now REQUIRED (was RECOMMENDED).
+
+
+
 ## [1.25.2](https://github.com/panva/jose/compare/v1.25.1...v1.25.2) (2020-04-15)
 
 
