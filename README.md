@@ -25,8 +25,12 @@ Available JWT validation profiles
 
 - Generic JWT
 - OIDC ID Token (`id_token`) - [OpenID Connect Core 1.0][spec-oidc-id_token]
-- OAuth 2.0 JWT Access Tokens (`at+JWT`) - [JWT Profile for OAuth 2.0 Access Tokens][draft-ietf-oauth-access-token-jwt]
-- OIDC Logout Token (`logout_token`) - [OpenID Connect Back-Channel Logout 1.0][spec-oidc-logout_token]
+- (draft 04) OIDC Logout Token (`logout_token`) - [OpenID Connect Back-Channel Logout 1.0][spec-oidc-logout_token]
+- (draft 06) OAuth 2.0 JWT Access Tokens (`at+JWT`) - [JWT Profile for OAuth 2.0 Access Tokens][draft-ietf-oauth-access-token-jwt]
+
+Draft profiles are updated as minor versions of the library, therefore, since they may have breaking
+changes use the `~` semver operator when using these and pay close attention to changelog and the
+drafts themselves.
 
 ## Sponsor
 
@@ -305,12 +309,13 @@ jose.JWE.decrypt(
 | AES_CBC_HMAC_SHA2 | ✓ |  A128CBC-HS256, A192CBC-HS384, A256CBC-HS512 |
 | (X)ChaCha | ✓ <sup>via [plugin][plugin-chacha]</sup> | C20P, XC20P |
 
-| JWT profile validation | Supported | profile option value |
-| -- | -- | -- |
-| ID Token - [OpenID Connect Core 1.0][spec-oidc-id_token] | ✓ | `id_token` |
-| JWT Access Tokens [JWT Profile for OAuth 2.0 Access Tokens][draft-ietf-oauth-access-token-jwt] | ✓ | `at+JWT` |
-| Logout Token - [OpenID Connect Back-Channel Logout 1.0][spec-oidc-logout_token] | ✓ | `logout_token` |
-| JARM - [JWT Secured Authorization Response Mode for OAuth 2.0][draft-jarm] | ◯ ||
+| JWT profile validation | Supported | Stable profile | profile option value |
+| -- | -- | -- | -- |
+| ID Token - [OpenID Connect Core 1.0][spec-oidc-id_token] | ✓ | ✓ | `id_token` |
+| JWT Access Tokens [JWT Profile for OAuth 2.0 Access Tokens][draft-ietf-oauth-access-token-jwt] | ✓ | ✕<sup>5</sup> | `at+JWT` |
+| Logout Token - [OpenID Connect Back-Channel Logout 1.0][spec-oidc-logout_token] | ✓ | ✕<sup>5</sup> | `logout_token` |
+| JARM - [JWT Secured Authorization Response Mode for OAuth 2.0][draft-jarm] | ◯ |||
+| [JWT Response for OAuth Token Introspection][draft-jwtintrospection] | ◯ |||
 
 Legend:
 - **✓** Implemented
@@ -322,7 +327,10 @@ Legend:
 operations but it is an entirely opt-in behaviour, downgrade attacks are prevented by the required
 use of a special `JWK.Key`-like object that cannot be instantiated through the key import API  
 <sup>3</sup> RSAES OAEP using SHA-2 and MGF1 with SHA-2 is only supported when Node.js >= 12.9.0 runtime is detected  
-<sup>4</sup> ECDH-ES with X25519 and X448 keys is only supported when Node.js >= 13.9.0 runtime is detected
+<sup>4</sup> ECDH-ES with X25519 and X448 keys is only supported when Node.js >= 13.9.0 runtime is detected  
+<sup>5</sup> Draft specification profiles are updated as minor versions of the library, therefore,
+since they may have breaking changes use the `~` semver operator when using these and pay close
+attention to changelog and the drafts themselves.
 
 ## FAQ
 
@@ -389,11 +397,12 @@ in terms of performance and API (not having well defined errors).
 [spec-jwt]: https://tools.ietf.org/html/rfc7519
 [spec-okp]: https://tools.ietf.org/html/rfc8037
 [draft-secp256k1]: https://tools.ietf.org/html/draft-ietf-cose-webauthn-algorithms-04
-[draft-ietf-oauth-access-token-jwt]: https://tools.ietf.org/html/draft-ietf-oauth-access-token-jwt
+[draft-ietf-oauth-access-token-jwt]: https://tools.ietf.org/html/draft-ietf-oauth-access-token-jwt-06
 [draft-jarm]: https://openid.net/specs/openid-financial-api-jarm.html
+[draft-jwtintrospection]: https://tools.ietf.org/html/draft-ietf-oauth-jwt-introspection-response
 [spec-thumbprint]: https://tools.ietf.org/html/rfc7638
 [spec-oidc-id_token]: https://openid.net/specs/openid-connect-core-1_0.html#IDToken
-[spec-oidc-logout_token]: https://openid.net/specs/openid-connect-backchannel-1_0.html#LogoutToken
+[spec-oidc-logout_token]: https://openid.net/specs/openid-connect-backchannel-1_0-04.html#LogoutToken
 [oidc-token-hash]: https://www.npmjs.com/package/oidc-token-hash
 [support-sponsor]: https://github.com/sponsors/panva
 [sponsor-auth0]: https://auth0.com/overview?utm_source=GHsponsor&utm_medium=GHsponsor&utm_campaign=panva-jose&utm_content=auth

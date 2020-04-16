@@ -888,9 +888,11 @@ Verifies the claims and signature of a JSON Web Token.
     found in this option will be rejected. **Default:** accepts all algorithms available on the
     passed key (or keys in the keystore)
   - `profile`: `<string>` To validate a JWT according to a specific profile, e.g. as an ID Token.
-    Supported values are 'id_token', 'at+JWT', and 'logout_token'. **Default:** 'undefined'
+    Supported values are 'id_token', 'at+JWT' (draft), and 'logout_token' (draft). **Default:** 'undefined'
     (generic JWT). Combine this option with the other ones like `maxAuthAge` and `nonce` or
-    `subject` depending on the use-case.
+    `subject` depending on the use-case. Draft profiles are updated as minor versions of the library,
+    therefore, since they may have breaking changes use the `~` semver operator when using these and
+    pay close attention to changelog and the drafts themselves.
   - `audience`: `<string>` &vert; `string[]` Expected audience value(s). When string an exact match must
     be found in the payload, when array at least one must be matched.
   - `typ`: `<string>` Expected JWT "typ" Header Parameter value. An exact match must be found in the

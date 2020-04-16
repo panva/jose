@@ -723,7 +723,7 @@ test('must be a supported value', t => {
 }
 
 {
-  const token = JWT.sign({ client_id: 'client_id' }, key, { expiresIn: '10m', subject: 'subject', issuer: 'issuer', audience: 'RS', header: { typ: 'at+JWT' } })
+  const token = JWT.sign({ client_id: 'client_id' }, key, { expiresIn: '10m', subject: 'subject', issuer: 'issuer', audience: 'RS', jti: 'random', header: { typ: 'at+JWT' } })
 
   test('profile=at+JWT', t => {
     JWT.verify(token, key, { profile: 'at+JWT', issuer: 'issuer', audience: 'RS' })
@@ -752,7 +752,7 @@ test('must be a supported value', t => {
   test('profile=at+JWT mandates exp to be present', t => {
     const err = t.throws(() => {
       JWT.verify(
-        JWT.sign({ client_id: 'client_id' }, key, { subject: 'subject', issuer: 'issuer', audience: 'RS', header: { typ: 'at+JWT' } }),
+        JWT.sign({ client_id: 'client_id' }, key, { subject: 'subject', issuer: 'issuer', audience: 'RS', jti: 'random', header: { typ: 'at+JWT' } }),
         key,
         { profile: 'at+JWT', issuer: 'issuer', audience: 'RS' }
       )
@@ -764,7 +764,7 @@ test('must be a supported value', t => {
   test('profile=at+JWT mandates client_id to be present', t => {
     const err = t.throws(() => {
       JWT.verify(
-        JWT.sign({ }, key, { expiresIn: '10m', subject: 'subject', issuer: 'issuer', audience: 'RS', header: { typ: 'at+JWT' } }),
+        JWT.sign({ }, key, { expiresIn: '10m', subject: 'subject', issuer: 'issuer', audience: 'RS', jti: 'random', header: { typ: 'at+JWT' } }),
         key,
         { profile: 'at+JWT', issuer: 'issuer', audience: 'RS' }
       )
@@ -773,10 +773,34 @@ test('must be a supported value', t => {
     t.is(err.reason, 'missing')
   })
 
+  test('profile=at+JWT mandates jti to be present', t => {
+    const err = t.throws(() => {
+      JWT.verify(
+        JWT.sign({ }, key, { expiresIn: '10m', subject: 'subject', issuer: 'issuer', audience: 'RS' }),
+        key,
+        { profile: 'at+JWT', issuer: 'issuer', audience: 'RS' }
+      )
+    }, { instanceOf: errors.JWTClaimInvalid, message: '"jti" claim is missing' })
+    t.is(err.claim, 'jti')
+    t.is(err.reason, 'missing')
+  })
+
+  test('profile=at+JWT mandates iat to be present', t => {
+    const err = t.throws(() => {
+      JWT.verify(
+        JWT.sign({ }, key, { expiresIn: '10m', subject: 'subject', issuer: 'issuer', audience: 'RS', iat: false }),
+        key,
+        { profile: 'at+JWT', issuer: 'issuer', audience: 'RS' }
+      )
+    }, { instanceOf: errors.JWTClaimInvalid, message: '"iat" claim is missing' })
+    t.is(err.claim, 'iat')
+    t.is(err.reason, 'missing')
+  })
+
   test('profile=at+JWT mandates sub to be present', t => {
     const err = t.throws(() => {
       JWT.verify(
-        JWT.sign({ client_id: 'client_id' }, key, { expiresIn: '10m', issuer: 'issuer', audience: 'RS', header: { typ: 'at+JWT' } }),
+        JWT.sign({ client_id: 'client_id' }, key, { expiresIn: '10m', issuer: 'issuer', audience: 'RS', jti: 'random', header: { typ: 'at+JWT' } }),
         key,
         { profile: 'at+JWT', issuer: 'issuer', audience: 'RS' }
       )
@@ -788,7 +812,7 @@ test('must be a supported value', t => {
   test('profile=at+JWT mandates iss to be present', t => {
     const err = t.throws(() => {
       JWT.verify(
-        JWT.sign({ client_id: 'client_id' }, key, { expiresIn: '10m', subject: 'subject', audience: 'RS', header: { typ: 'at+JWT' } }),
+        JWT.sign({ client_id: 'client_id' }, key, { expiresIn: '10m', subject: 'subject', audience: 'RS', jti: 'random', header: { typ: 'at+JWT' } }),
         key,
         { profile: 'at+JWT', issuer: 'issuer', audience: 'RS' }
       )
@@ -800,7 +824,7 @@ test('must be a supported value', t => {
   test('profile=at+JWT mandates aud to be present', t => {
     const err = t.throws(() => {
       JWT.verify(
-        JWT.sign({ client_id: 'client_id' }, key, { expiresIn: '10m', subject: 'subject', issuer: 'issuer', header: { typ: 'at+JWT' } }),
+        JWT.sign({ client_id: 'client_id' }, key, { expiresIn: '10m', subject: 'subject', issuer: 'issuer', jti: 'random', header: { typ: 'at+JWT' } }),
         key,
         { profile: 'at+JWT', issuer: 'issuer', audience: 'RS' }
       )
@@ -812,7 +836,7 @@ test('must be a supported value', t => {
   test('profile=at+JWT mandates header typ to be present', t => {
     const err = t.throws(() => {
       JWT.verify(
-        JWT.sign({ client_id: 'client_id' }, key, { expiresIn: '10m', subject: 'subject', audience: 'RS', issuer: 'issuer' }),
+        JWT.sign({ client_id: 'client_id' }, key, { expiresIn: '10m', subject: 'subject', audience: 'RS', jti: 'random', issuer: 'issuer' }),
         key,
         { profile: 'at+JWT', issuer: 'issuer', audience: 'RS' }
       )
@@ -824,7 +848,7 @@ test('must be a supported value', t => {
   test('profile=at+JWT mandates header typ to be present and of the right value', t => {
     const err = t.throws(() => {
       JWT.verify(
-        JWT.sign({ client_id: 'client_id' }, key, { expiresIn: '10m', subject: 'subject', audience: 'RS', issuer: 'issuer', header: { typ: 'JWT' } }),
+        JWT.sign({ client_id: 'client_id' }, key, { expiresIn: '10m', subject: 'subject', audience: 'RS', jti: 'random', issuer: 'issuer', header: { typ: 'JWT' } }),
         key,
         { profile: 'at+JWT', issuer: 'issuer', audience: 'RS' }
       )
