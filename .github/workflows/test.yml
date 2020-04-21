@@ -35,6 +35,8 @@ jobs:
           - 12
           - 13.0.0
           - 13
+          - 14.0.0
+          - 14
         os:
           - ubuntu-latest
           - windows-latest
