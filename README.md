@@ -301,13 +301,11 @@ jose.JWE.decrypt(
 | RSAES-PKCS1-v1_5 | ✓ | RSA1_5 |
 | PBES2 | ✓ | PBES2-HS256+A128KW<sup>[1]</sup>, PBES2-HS384+A192KW<sup>[1]</sup>, PBES2-HS512+A256KW<sup>[1]</sup> |
 | ECDH-ES | ✓<sup>[4]</sup> | ECDH-ES, ECDH-ES+A128KW<sup>[1]</sup>, ECDH-ES+A192KW<sup>[1]</sup>, ECDH-ES+A256KW<sup>[1]</sup> |
-| (X)ChaCha | ✓ <sup>via [plugin][plugin-chacha]</sup> | C20PKW, XC20PKW, ECDH-ES+C20PKW, ECDH-ES+XC20PKW |
 
 | JWE Content Encryption Algorithms | Supported ||
 | -- | -- | -- |
 | AES GCM | ✓ | A128GCM, A192GCM, A256GCM |
 | AES_CBC_HMAC_SHA2 | ✓ |  A128CBC-HS256, A192CBC-HS384, A256CBC-HS512 |
-| (X)ChaCha | ✓ <sup>via [plugin][plugin-chacha]</sup> | C20P, XC20P |
 
 | JWT profile validation | Supported | Stable profile | profile option value |
 | -- | -- | -- | -- |
@@ -410,4 +408,3 @@ in terms of performance and API (not having well defined errors).
 [oidc-token-hash]: https://www.npmjs.com/package/oidc-token-hash
 [support-sponsor]: https://github.com/sponsors/panva
 [sponsor-auth0]: https://auth0.com/overview?utm_source=GHsponsor&utm_medium=GHsponsor&utm_campaign=panva-jose&utm_content=auth
-[plugin-chacha]: https://github.com/panva/jose-chacha
