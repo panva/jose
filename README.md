@@ -141,8 +141,6 @@ jose.JWT.verify(
 <details>
   <summary><em><strong>Verifying OIDC ID Tokens</strong></em> (Click to expand)</summary><br>
 
-#### ID Token Verifying
-
 ID Token is a JWT, but profiled, there are additional requirements to a JWT to be accepted as an
 ID Token and it is pretty easy to omit some, use the `profile` option of `JWT.verify` or the
 `JWT.IdToken.verify` shorthand to make sure what you're accepting is really an ID Token meant to
@@ -171,7 +169,9 @@ to validate those hashes after getting the ID Token payload and signature valida
 <details>
   <summary><em><strong>Verifying OAuth 2.0 JWT Access Tokens</strong></em> (Click to expand)</summary><br>
 
-#### JWT Access Token Verifying
+Draft specification profiles are updated as minor versions of the library, therefore,
+since they may have breaking changes use the `~` semver operator when using these and pay close
+attention to changelog and the drafts themselves.
 
 When accepting a JWT-formatted OAuth 2.0 Access Token there are additional requirements for the JWT
 to be accepted as an Access Token according to the [specification][draft-ietf-oauth-access-token-jwt]
@@ -197,7 +197,9 @@ jose.JWT.AccessToken.verify(
 <details>
   <summary><em><strong>Verifying OIDC Logout Token</strong></em> (Click to expand)</summary><br>
 
-#### Logout Token Verifying
+Draft specification profiles are updated as minor versions of the library, therefore,
+since they may have breaking changes use the `~` semver operator when using these and pay close
+attention to changelog and the drafts themselves.
 
 Logout Token is a JWT, but profiled, there are additional requirements to a JWT to be accepted as an
 Logout Token and it is pretty easy to omit some, use the `profile` option of `JWT.verify` or the
@@ -310,7 +312,7 @@ jose.JWE.decrypt(
 | JWT profile validation | Supported | Stable profile | profile option value |
 | -- | -- | -- | -- |
 | ID Token - [OpenID Connect Core 1.0][spec-oidc-id_token] | ✓ | ✓ | `id_token` |
-| JWT Access Tokens [JWT Profile for OAuth 2.0 Access Tokens][draft-ietf-oauth-access-token-jwt] | ✓ | ✕<sup>5</sup> | `at+JWT` |
+| JWT Access Tokens - [JWT Profile for OAuth 2.0 Access Tokens][draft-ietf-oauth-access-token-jwt] | ✓ | ✕<sup>5</sup> | `at+JWT` |
 | Logout Token - [OpenID Connect Back-Channel Logout 1.0][spec-oidc-logout_token] | ✓ | ✕<sup>5</sup> | `logout_token` |
 | JARM - [JWT Secured Authorization Response Mode for OAuth 2.0][draft-jarm] | ◯ |||
 | [JWT Response for OAuth Token Introspection][draft-jwtintrospection] | ◯ |||
