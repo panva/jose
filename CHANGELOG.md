@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.26.1](https://github.com/panva/jose/compare/v1.26.0...v1.26.1) (2020-04-27)
+
+
+### Bug Fixes
+
+* **typescript:** types of key generate functions without overloads ([7e60722](https://github.com/panva/jose/commit/7e60722ae7054f8acf833e015c22679d56fbc0ca)), closes [#80](https://github.com/panva/jose/issues/80)
+* "typ" content-type validation, case insensitive and handled prefix ([0691586](https://github.com/panva/jose/commit/06915861b32c0ae252dcc84791050bc3716ce102))
+
+
+
 # [1.26.0](https://github.com/panva/jose/compare/v1.25.2...v1.26.0) (2020-04-16)
 
 
