@@ -199,8 +199,26 @@ test('option.typ validation fails', t => {
 })
 
 test('option.typ validation success', t => {
-  const token = JWT.sign({}, key, { header: { typ: 'foo' } })
-  JWT.verify(token, key, { typ: 'foo' })
+  {
+    const token = JWT.sign({}, key, { header: { typ: 'foo' } })
+    JWT.verify(token, key, { typ: 'foo' })
+  }
+  {
+    const token = JWT.sign({}, key, { header: { typ: 'application/foo' } })
+    JWT.verify(token, key, { typ: 'foo' })
+  }
+  {
+    const token = JWT.sign({}, key, { header: { typ: 'foo' } })
+    JWT.verify(token, key, { typ: 'application/foo' })
+  }
+  {
+    const token = JWT.sign({}, key, { header: { typ: 'foO' } })
+    JWT.verify(token, key, { typ: 'application/foo' })
+  }
+  {
+    const token = JWT.sign({}, key, { header: { typ: 'application/foo' } })
+    JWT.verify(token, key, { typ: 'fOo' })
+  }
   t.pass()
 })
 
