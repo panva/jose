@@ -2,6 +2,15 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+# [1.27.0](https://github.com/panva/jose/compare/v1.26.1...v1.27.0) (2020-05-05)
+
+
+### Features
+
+* add opt-in objects to verify using embedded JWS Header public keys ([7c1cab1](https://github.com/panva/jose/commit/7c1cab196edc409ec6cc4741bdf7e06c5aaf5dab))
+
+
+
 ## [1.26.1](https://github.com/panva/jose/compare/v1.26.0...v1.26.1) (2020-04-27)
 
 
