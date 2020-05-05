@@ -13,6 +13,7 @@
     "ecdsa",
     "eddsa",
     "electron",
+    "embedded",
     "encrypt",
     "flattened",
     "general",
