@@ -639,11 +639,11 @@ instantiated `JWK.Key` from the token.
 
 `JWK.EmbeddedX5C` is a special key object that can be used with the JWS/JWT verify operations
 whenever you want to opt-in to verify signatures with a public key embedded in the first JWS Header
-`x5c` parameter. It is recommended to combine this with the verify `algorithms` option to whitelist
-JWS algorithms to accept as well as the `complete` option set to `true` if you need to work with the
-instantiated `JWK.Key` from the token. ⚠️ the x5c members are all validated to be certificates but
-their chain or trust is not validated. Unfortunately Node.js does not have any good tools to do that
-reliably.
+`x5c` parameter member. It is recommended to combine this with the verify `algorithms` option to whitelist
+JWS algorithms to accept as well as the `complete` option set to `true` if you need to work with
+the instantiated `JWK.Key` from the token. ⚠️ the x5c members are all validated to be certificates
+but their chain or trust is not validated. Unfortunately Node.js does not have any good tools to do
+that reliably.
 
 ---
 
