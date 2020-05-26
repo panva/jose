@@ -326,8 +326,8 @@ Legend:
 <sup>2</sup> Unsecured JWS is [supported][documentation-none] for the JWS and JWT sign and verify
 operations but it is an entirely opt-in behaviour, downgrade attacks are prevented by the required
 use of a special `JWK.Key`-like object that cannot be instantiated through the key import API  
-<sup>3</sup> RSAES OAEP using SHA-2 and MGF1 with SHA-2 is only supported when Node.js >= 12.9.0 runtime is detected  
-<sup>4</sup> ECDH-ES with X25519 and X448 keys is only supported when Node.js >= 13.9.0 runtime is detected  
+<sup>3</sup> RSAES OAEP using SHA-2 and MGF1 with SHA-2 is only supported when Node.js `>=12.9.0` runtime is detected  
+<sup>4</sup> ECDH-ES with X25519 and X448 keys is only supported when Node.js `^12.17.0 || >=13.9.0` runtime is detected  
 <sup>5</sup> Draft specification profiles are updated as minor versions of the library, therefore,
 since they may have breaking changes use the `~` semver operator when using these and pay close
 attention to changelog and the drafts themselves.
