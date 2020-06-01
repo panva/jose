@@ -108,7 +108,7 @@ test('options.ignoreIat & options.maxTokenAge may not be used together', t => {
       const err = t.throws(() => {
         const invalid = JWS.sign({ [claim]: val }, key)
         JWT.verify(invalid, key)
-      }, { instanceOf: errors.JWTClaimInvalid, message: `"${claim}" claim must be a unix timestamp` })
+      }, { instanceOf: errors.JWTClaimInvalid, message: `"${claim}" claim must be a JSON numeric value` })
 
       t.is(err.claim, claim)
       t.is(err.reason, 'invalid')
