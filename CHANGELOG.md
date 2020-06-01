@@ -2,6 +2,15 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.27.1](https://github.com/panva/jose/compare/v1.27.0...v1.27.1) (2020-06-01)
+
+
+### Bug Fixes
+
+* allow any JSON numeric value for timestamp values ([7ba4922](https://github.com/panva/jose/commit/7ba492237aaf788914166c134d50fb046041efa0))
+
+
+
 # [1.27.0](https://github.com/panva/jose/compare/v1.26.1...v1.27.0) (2020-05-05)
 
 
