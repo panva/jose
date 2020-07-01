@@ -2,6 +2,15 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.27.2](https://github.com/panva/jose/compare/v1.27.1...v1.27.2) (2020-07-01)
+
+
+### Bug Fixes
+
+* handle private EC keys without public component ([#86](https://github.com/panva/jose/issues/86)) ([e8ad389](https://github.com/panva/jose/commit/e8ad38993e29747098f7fd1594dde4ce893ba802)), closes [#85](https://github.com/panva/jose/issues/85)
+
+
+
 ## [1.27.1](https://github.com/panva/jose/compare/v1.27.0...v1.27.1) (2020-06-01)
 
 
