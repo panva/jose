@@ -3,7 +3,7 @@ const test = require('ava')
 const { JWS, JWE, JWK: { asKey, importKey, generate }, errors } = require('../..')
 
 const { edDSASupported, keyObjectSupported } = require('../../lib/help/runtime_support')
-const { createSecretKey } = require('../../lib/help/key_object')
+const { createSecretKey, createPrivateKey } = require('../../lib/help/key_object')
 const { generateKeyPairSync } = require('../macros/generate')
 const fixtures = require('../fixtures')
 
@@ -176,4 +176,29 @@ if (keyObjectSupported) {
       asKey(cert)
     }, { instanceOf: errors.JOSENotSupported, code: 'ERR_JOSE_NOT_SUPPORTED', message: 'X.509 certificates are not supported in your Node.js runtime version' })
   })
+}
+
+// https://github.com/panva/jose/issues/85
+{
+  const pem = `-----BEGIN PRIVATE KEY-----
+MEECAQAwEwYHKoZIzj0CAQYIKoZIzj0DAQcEJzAlAgEBBCCXpUVoM4DfOtMyRVtC
+eGSpVL+1tMBirnUGJHY6Y7mSHg==
+-----END PRIVATE KEY-----`
+
+  if (keyObjectSupported) {
+    test('EC private keys without public one', t => {
+      asKey(createPrivateKey(pem))
+      asKey(pem)
+      t.pass()
+    })
+  } else {
+    test('EC private keys without public one', t => {
+      t.throws(() => {
+        asKey(createPrivateKey(pem))
+      }, { instanceOf: errors.JOSENotSupported, code: 'ERR_JOSE_NOT_SUPPORTED', message: 'Private EC keys without the public key embedded are not supported in your Node.js runtime version' })
+      t.throws(() => {
+        asKey(pem)
+      }, { instanceOf: errors.JOSENotSupported, code: 'ERR_JOSE_NOT_SUPPORTED', message: 'Private EC keys without the public key embedded are not supported in your Node.js runtime version' })
+    })
+  }
 }
