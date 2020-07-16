@@ -8,7 +8,7 @@ on:
     paths-ignore:
       - '**.md'
   schedule:
-    - cron:  0 9 * * 1-5
+    - cron:  0 11 * * 1-5
 
 jobs:
   lint:
