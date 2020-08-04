@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.27.3](https://github.com/panva/jose/compare/v1.27.2...v1.27.3) (2020-08-04)
+
+
+### Bug Fixes
+
+* do not mutate unencoded payload when signing for multiple parties ([1695423](https://github.com/panva/jose/commit/169542363f884e4028db9f80086d631e626eb469)), closes [#89](https://github.com/panva/jose/issues/89)
+* ensure "b64" is the same for all recipients edge cases ([d56ec9f](https://github.com/panva/jose/commit/d56ec9f5ddc2612e5ff21fe35d45a56e7153e0e4))
+
+
+
 ## [1.27.2](https://github.com/panva/jose/compare/v1.27.1...v1.27.2) (2020-07-01)
 
 
