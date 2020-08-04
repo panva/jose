@@ -23,6 +23,40 @@ test('b64=false is supported for JWS', t => {
   t.is(JWS.verify(FIXTURE, k, { crit: ['b64'] }), FIXTURE.payload)
 })
 
+test('b64=false is supported for JWS with multiple recipients (buffer input)', t => {
+  const s = new JWS.Sign(Buffer.from(FIXTURE.payload))
+  s.recipient(k, { alg: 'HS256', b64: false, crit: ['b64'] })
+  s.recipient(k, { alg: 'HS256', b64: false, crit: ['b64'] })
+
+  t.deepEqual(
+    s.sign('general'),
+    {
+      payload: Buffer.from(FIXTURE.payload),
+      signatures: [
+        { protected: FIXTURE.protected, signature: FIXTURE.signature },
+        { protected: FIXTURE.protected, signature: FIXTURE.signature }
+      ]
+    }
+  )
+})
+
+test('b64=false is supported for JWS with multiple recipients (string input)', t => {
+  const s = new JWS.Sign(FIXTURE.payload)
+  s.recipient(k, { alg: 'HS256', b64: false, crit: ['b64'] })
+  s.recipient(k, { alg: 'HS256', b64: false, crit: ['b64'] })
+
+  t.deepEqual(
+    s.sign('general'),
+    {
+      payload: FIXTURE.payload,
+      signatures: [
+        { protected: FIXTURE.protected, signature: FIXTURE.signature },
+        { protected: FIXTURE.protected, signature: FIXTURE.signature }
+      ]
+    }
+  )
+})
+
 test('b64=false with buffers', t => {
   const payload = randomBytes(32)
   const { payload: _, ...detached } = JWS.sign.flattened(payload, k, { alg: 'HS256', b64: false, crit: ['b64'] })
