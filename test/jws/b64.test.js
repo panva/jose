@@ -83,11 +83,49 @@ test('b64 must be a boolean', t => {
 })
 
 test('b64 must be the same for all recipients', t => {
-  const sign = new JWS.Sign('$.02')
-  sign.recipient(k, { crit: ['b64'], b64: false })
-  sign.recipient(k, { crit: ['b64'], b64: true })
+  {
+    const sign = new JWS.Sign('$.02')
+    sign.recipient(k, { crit: ['b64'], b64: false })
+    sign.recipient(k, { crit: ['b64'], b64: true })
 
-  t.throws(() => {
-    sign.sign('general')
-  }, { instanceOf: errors.JWSInvalid, code: 'ERR_JWS_INVALID', message: 'the "b64" Header Parameter value MUST be the same for all recipients' })
+    t.throws(() => {
+      sign.sign('general')
+    }, { instanceOf: errors.JWSInvalid, code: 'ERR_JWS_INVALID', message: 'the "b64" Header Parameter value MUST be the same for all recipients' })
+  }
+
+  {
+    const sign = new JWS.Sign('$.02')
+    sign.recipient(k)
+    sign.recipient(k, { crit: ['b64'], b64: true })
+    t.throws(() => {
+      sign.sign('general')
+    }, { instanceOf: errors.JWSInvalid, code: 'ERR_JWS_INVALID', message: 'the "b64" Header Parameter value MUST be the same for all recipients' })
+  }
+
+  {
+    const sign = new JWS.Sign('$.02')
+    sign.recipient(k, { crit: ['b64'], b64: true })
+    sign.recipient(k)
+    t.throws(() => {
+      sign.sign('general')
+    }, { instanceOf: errors.JWSInvalid, code: 'ERR_JWS_INVALID', message: 'the "b64" Header Parameter value MUST be the same for all recipients' })
+  }
+
+  {
+    const sign = new JWS.Sign('$.02')
+    sign.recipient(k)
+    sign.recipient(k, { crit: ['b64'], b64: false })
+    t.throws(() => {
+      sign.sign('general')
+    }, { instanceOf: errors.JWSInvalid, code: 'ERR_JWS_INVALID', message: 'the "b64" Header Parameter value MUST be the same for all recipients' })
+  }
+
+  {
+    const sign = new JWS.Sign('$.02')
+    sign.recipient(k, { crit: ['b64'], b64: false })
+    sign.recipient(k)
+    t.throws(() => {
+      sign.sign('general')
+    }, { instanceOf: errors.JWSInvalid, code: 'ERR_JWS_INVALID', message: 'the "b64" Header Parameter value MUST be the same for all recipients' })
+  }
 })
