@@ -35,7 +35,6 @@ test('options must be an object', t => {
 })
 
 test('options.clockTolerance must be a string', string, 'clockTolerance')
-test('options.issuer must be a string', string, 'issuer')
 test('options.jti must be a string', string, 'jti')
 test('options.profile must be a string', string, 'profile')
 test('options.maxAuthAge must be a string', string, 'maxAuthAge')
@@ -54,6 +53,17 @@ test('options.complete must be boolean', boolean, 'complete')
 test('options.ignoreExp must be boolean', boolean, 'ignoreExp')
 test('options.ignoreNbf must be boolean', boolean, 'ignoreNbf')
 test('options.ignoreIat must be boolean', boolean, 'ignoreIat')
+
+test('options.issuer must be string or array of strings', t => {
+  ;['', false, [], Buffer, Buffer.from('foo'), 0, Infinity].forEach((val) => {
+    t.throws(() => {
+      JWT.verify(token, key, { issuer: val })
+    }, { instanceOf: TypeError, message: 'options.issuer must be a string or an array of strings' })
+    t.throws(() => {
+      JWT.verify(token, key, { issuer: [val] })
+    }, { instanceOf: TypeError, message: 'options.issuer must be a string or an array of strings' })
+  })
+})
 
 test('options.audience must be string or array of strings', t => {
   ;['', false, [], Buffer, Buffer.from('foo'), 0, Infinity].forEach((val) => {
@@ -116,7 +126,7 @@ test('options.ignoreIat & options.maxTokenAge may not be used together', t => {
   })
 })
 
-;['jti', 'acr', 'iss', 'nonce', 'sub', 'azp'].forEach((claim) => {
+;['jti', 'acr', 'nonce', 'sub', 'azp'].forEach((claim) => {
   test(`"${claim} must be a string when provided"`, t => {
     ;['', 0, 1, true, null, [], {}].forEach((val) => {
       const err = t.throws(() => {
@@ -130,7 +140,7 @@ test('options.ignoreIat & options.maxTokenAge may not be used together', t => {
   })
 })
 
-;['aud', 'amr'].forEach((claim) => {
+;['aud', 'amr', 'iss'].forEach((claim) => {
   test(`"${claim} must be a string when provided"`, t => {
     ;['', 0, 1, true, null, [], {}].forEach((val) => {
       let err
