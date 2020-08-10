@@ -935,7 +935,8 @@ Verifies the claims and signature of a JSON Web Token.
     past from now if expiration is not present. **Default:** 'false'
   - `ignoreNbf`: `<Boolean>` When true will not be validating the "nbf" claim value to be in the
     past from now. **Default:** 'false'
-  - `issuer`: `<string>` Expected issuer value. An exact match must be found in the payload.
+  - `issuer`: `<string>` &vert; `string[]` Expected issuer value(s). When string an exact match must
+    be found in the payload, when array at least one must be matched.
   - `jti`: `<string>` Expected jti value. An exact match must be found in the payload.
   - `maxAuthAge`: `<string>` When provided the payload is checked to have the "auth_time" claim and
     its value is validated, provided as timespan string e.g. `30m`, `24 hours`. See
