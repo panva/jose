@@ -2,6 +2,15 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+# [1.28.0](https://github.com/panva/jose/compare/v1.27.3...v1.28.0) (2020-08-10)
+
+
+### Features
+
+* support for validating issuer from a list of values ([#91](https://github.com/panva/jose/issues/91)) ([ce6836a](https://github.com/panva/jose/commit/ce6836af88c9e73c29560233f15ed1760c7dcc13))
+
+
+
 ## [1.27.3](https://github.com/panva/jose/compare/v1.27.2...v1.27.3) (2020-08-04)
 
 
