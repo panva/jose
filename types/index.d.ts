@@ -444,7 +444,7 @@ export namespace JWT {
     ignoreIat?: boolean;
     maxTokenAge?: string;
     subject?: string;
-    issuer?: string;
+    issuer?: string | string[];
     maxAuthAge?: string;
     jti?: string;
     clockTolerance?: string;
@@ -479,7 +479,7 @@ export namespace JWT {
   function sign(payload: object, key: ProduceKeyInputWithNone, options?: SignOptions): string;
 
   interface VerifyProfileOptions<profile> {
-    issuer: string;
+    issuer: string | string[];
     audience: string | string[];
     profile?: profile;
   }
