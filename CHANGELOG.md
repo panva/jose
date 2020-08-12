@@ -2,7 +2,7 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
-# [1.28.0](https://github.com/panva/jose/compare/v1.27.3...v1.28.0) (2020-08-10)
+## [1.28.0](https://github.com/panva/jose/compare/v1.27.3...v1.28.0) (2020-08-10)
 
 
 ### Features
@@ -39,7 +39,7 @@ All notable changes to this project will be documented in this file. See [standa
 
 
 
-# [1.27.0](https://github.com/panva/jose/compare/v1.26.1...v1.27.0) (2020-05-05)
+## [1.27.0](https://github.com/panva/jose/compare/v1.26.1...v1.27.0) (2020-05-05)
 
 
 ### Features
@@ -58,7 +58,7 @@ All notable changes to this project will be documented in this file. See [standa
 
 
 
-# [1.26.0](https://github.com/panva/jose/compare/v1.25.2...v1.26.0) (2020-04-16)
+## [1.26.0](https://github.com/panva/jose/compare/v1.25.2...v1.26.0) (2020-04-16)
 
 
 ### Features
@@ -91,7 +91,7 @@ the claims `iat` and `jti` are now REQUIRED (was RECOMMENDED).
 
 
 
-# [1.25.0](https://github.com/panva/jose/compare/v1.24.1...v1.25.0) (2020-03-11)
+## [1.25.0](https://github.com/panva/jose/compare/v1.24.1...v1.25.0) (2020-03-11)
 
 
 ### Features
@@ -109,7 +109,7 @@ the claims `iat` and `jti` are now REQUIRED (was RECOMMENDED).
 
 
 
-# [1.24.0](https://github.com/panva/jose/compare/v1.23.0...v1.24.0) (2020-02-25)
+## [1.24.0](https://github.com/panva/jose/compare/v1.23.0...v1.24.0) (2020-02-25)
 
 
 ### Features
@@ -118,7 +118,7 @@ the claims `iat` and `jti` are now REQUIRED (was RECOMMENDED).
 
 
 
-# [1.23.0](https://github.com/panva/jose/compare/v1.22.2...v1.23.0) (2020-02-18)
+## [1.23.0](https://github.com/panva/jose/compare/v1.22.2...v1.23.0) (2020-02-18)
 
 
 ### Bug Fixes
@@ -151,7 +151,7 @@ the claims `iat` and `jti` are now REQUIRED (was RECOMMENDED).
 
 
 
-# [1.22.0](https://github.com/panva/jose/compare/v1.21.1...v1.22.0) (2020-01-29)
+## [1.22.0](https://github.com/panva/jose/compare/v1.21.1...v1.22.0) (2020-01-29)
 
 
 ### Features
@@ -174,7 +174,7 @@ the claims `iat` and `jti` are now REQUIRED (was RECOMMENDED).
 
 
 
-# [1.21.0](https://github.com/panva/jose/compare/v1.20.0...v1.21.0) (2020-01-23)
+## [1.21.0](https://github.com/panva/jose/compare/v1.20.0...v1.21.0) (2020-01-23)
 
 
 ### Bug Fixes
@@ -188,7 +188,7 @@ the claims `iat` and `jti` are now REQUIRED (was RECOMMENDED).
 
 
 
-# [1.20.0](https://github.com/panva/jose/compare/v1.19.0...v1.20.0) (2020-01-16)
+## [1.20.0](https://github.com/panva/jose/compare/v1.19.0...v1.20.0) (2020-01-16)
 
 
 ### Features
@@ -197,7 +197,7 @@ the claims `iat` and `jti` are now REQUIRED (was RECOMMENDED).
 
 
 
-# [1.19.0](https://github.com/panva/jose/compare/v1.18.2...v1.19.0) (2020-01-13)
+## [1.19.0](https://github.com/panva/jose/compare/v1.18.2...v1.19.0) (2020-01-13)
 
 
 ### Features
@@ -226,7 +226,7 @@ the claims `iat` and `jti` are now REQUIRED (was RECOMMENDED).
 
 
 
-# [1.18.0](https://github.com/panva/jose/compare/v1.17.2...v1.18.0) (2019-12-31)
+## [1.18.0](https://github.com/panva/jose/compare/v1.17.2...v1.18.0) (2019-12-31)
 
 
 ### Features
@@ -253,7 +253,7 @@ the claims `iat` and `jti` are now REQUIRED (was RECOMMENDED).
 
 
 
-# [1.17.0](https://github.com/panva/jose/compare/v1.16.2...v1.17.0) (2019-12-10)
+## [1.17.0](https://github.com/panva/jose/compare/v1.16.2...v1.17.0) (2019-12-10)
 
 
 ### Features
@@ -280,7 +280,7 @@ the claims `iat` and `jti` are now REQUIRED (was RECOMMENDED).
 
 
 
-# [1.16.0](https://github.com/panva/jose/compare/v1.15.1...v1.16.0) (2019-12-04)
+## [1.16.0](https://github.com/panva/jose/compare/v1.15.1...v1.16.0) (2019-12-04)
 
 
 ### Features
@@ -298,7 +298,7 @@ the claims `iat` and `jti` are now REQUIRED (was RECOMMENDED).
 
 
 
-# [1.15.0](https://github.com/panva/jose/compare/v1.14.0...v1.15.0) (2019-11-27)
+## [1.15.0](https://github.com/panva/jose/compare/v1.14.0...v1.15.0) (2019-11-27)
 
 
 ### Bug Fixes
@@ -312,7 +312,7 @@ the claims `iat` and `jti` are now REQUIRED (was RECOMMENDED).
 
 
 
-# [1.14.0](https://github.com/panva/jose/compare/v1.13.0...v1.14.0) (2019-11-26)
+## [1.14.0](https://github.com/panva/jose/compare/v1.13.0...v1.14.0) (2019-11-26)
 
 
 ### Features
@@ -321,7 +321,7 @@ the claims `iat` and `jti` are now REQUIRED (was RECOMMENDED).
 
 
 
-# [1.13.0](https://github.com/panva/jose/compare/v1.12.1...v1.13.0) (2019-11-23)
+## [1.13.0](https://github.com/panva/jose/compare/v1.12.1...v1.13.0) (2019-11-23)
 
 
 ### Features
@@ -334,7 +334,7 @@ the claims `iat` and `jti` are now REQUIRED (was RECOMMENDED).
 
 
 
-# [1.12.0](https://github.com/panva/jose/compare/v1.11.0...v1.12.0) (2019-11-05)
+## [1.12.0](https://github.com/panva/jose/compare/v1.11.0...v1.12.0) (2019-11-05)
 
 
 ### Features
@@ -343,7 +343,7 @@ the claims `iat` and `jti` are now REQUIRED (was RECOMMENDED).
 
 
 
-# [1.11.0](https://github.com/panva/jose/compare/v1.10.2...v1.11.0) (2019-11-03)
+## [1.11.0](https://github.com/panva/jose/compare/v1.10.2...v1.11.0) (2019-11-03)
 
 
 ### Features
@@ -370,7 +370,7 @@ the claims `iat` and `jti` are now REQUIRED (was RECOMMENDED).
 
 
 
-# [1.10.0](https://github.com/panva/jose/compare/v1.9.2...v1.10.0) (2019-10-01)
+## [1.10.0](https://github.com/panva/jose/compare/v1.9.2...v1.10.0) (2019-10-01)
 
 
 ### Features
@@ -392,7 +392,7 @@ the claims `iat` and `jti` are now REQUIRED (was RECOMMENDED).
 
 
 
-# [1.9.0](https://github.com/panva/jose/compare/v1.8.0...v1.9.0) (2019-08-24)
+## [1.9.0](https://github.com/panva/jose/compare/v1.8.0...v1.9.0) (2019-08-24)
 
 
 ### Features
@@ -401,7 +401,7 @@ the claims `iat` and `jti` are now REQUIRED (was RECOMMENDED).
 
 
 
-# [1.8.0](https://github.com/panva/jose/compare/v1.7.0...v1.8.0) (2019-08-22)
+## [1.8.0](https://github.com/panva/jose/compare/v1.7.0...v1.8.0) (2019-08-22)
 
 
 ### Features
@@ -410,7 +410,7 @@ the claims `iat` and `jti` are now REQUIRED (was RECOMMENDED).
 
 
 
-# [1.7.0](https://github.com/panva/jose/compare/v1.6.1...v1.7.0) (2019-08-20)
+## [1.7.0](https://github.com/panva/jose/compare/v1.6.1...v1.7.0) (2019-08-20)
 
 
 ### Features
@@ -428,7 +428,7 @@ the claims `iat` and `jti` are now REQUIRED (was RECOMMENDED).
 
 
 
-# [1.6.0](https://github.com/panva/jose/compare/v1.5.2...v1.6.0) (2019-07-27)
+## [1.6.0](https://github.com/panva/jose/compare/v1.5.2...v1.6.0) (2019-07-27)
 
 
 ### Bug Fixes
@@ -460,7 +460,7 @@ the claims `iat` and `jti` are now REQUIRED (was RECOMMENDED).
 
 
 
-# [1.5.0](https://github.com/panva/jose/compare/v1.4.1...v1.5.0) (2019-07-23)
+## [1.5.0](https://github.com/panva/jose/compare/v1.4.1...v1.5.0) (2019-07-23)
 
 
 ### Features
@@ -478,7 +478,7 @@ the claims `iat` and `jti` are now REQUIRED (was RECOMMENDED).
 
 
 
-# [1.4.0](https://github.com/panva/jose/compare/v1.3.0...v1.4.0) (2019-07-08)
+## [1.4.0](https://github.com/panva/jose/compare/v1.3.0...v1.4.0) (2019-07-08)
 
 
 ### Features
@@ -487,7 +487,7 @@ the claims `iat` and `jti` are now REQUIRED (was RECOMMENDED).
 
 
 
-# [1.3.0](https://github.com/panva/jose/compare/v1.0.2...c51dc28) (2019-06-21)
+## [1.3.0](https://github.com/panva/jose/compare/v1.0.2...c51dc28) (2019-06-21)
 
 
 ### Features
@@ -541,8 +541,7 @@ its original on-by-default form - v1.1.0 and v1.2.0
 
 
 
-<a name="1.0.0"></a>
-# [1.0.0](https://github.com/panva/jose/compare/v0.12.0...v1.0.0) (2019-04-23)
+## [1.0.0](https://github.com/panva/jose/compare/v0.12.0...v1.0.0) (2019-04-23)
 
 
 ### Bug Fixes
@@ -568,8 +567,7 @@ added EdDSA support (crypto.sign, crypto.verify and eddsa key objects)
 
 
 
-<a name="0.12.0"></a>
-# [0.12.0](https://github.com/panva/jose/compare/v0.11.5...v0.12.0) (2019-04-07)
+## [0.12.0](https://github.com/panva/jose/compare/v0.11.5...v0.12.0) (2019-04-07)
 
 
 ### Reverts
@@ -584,7 +582,6 @@ IETF WG decides on what the final names will be.
 
 
 
-<a name="0.11.5"></a>
 ## [0.11.5](https://github.com/panva/jose/compare/v0.11.4...v0.11.5) (2019-04-04)
 
 
@@ -595,7 +592,6 @@ IETF WG decides on what the final names will be.
 
 
 
-<a name="0.11.4"></a>
 ## [0.11.4](https://github.com/panva/jose/compare/v0.11.3...v0.11.4) (2019-03-28)
 
 
@@ -606,7 +602,6 @@ IETF WG decides on what the final names will be.
 
 
 
-<a name="0.11.3"></a>
 ## [0.11.3](https://github.com/panva/jose/compare/v0.11.2...v0.11.3) (2019-03-27)
 
 
@@ -621,7 +616,6 @@ IETF WG decides on what the final names will be.
 
 
 
-<a name="0.11.2"></a>
 ## [0.11.2](https://github.com/panva/jose/compare/v0.11.1...v0.11.2) (2019-03-19)
 
 
@@ -639,7 +633,7 @@ IETF WG decides on what the final names will be.
 * restrict RS key algorithms by the key's bit size ([9af295b](https://github.com/panva/jose/commit/9af295b))
 
 
-# [0.11.0](https://github.com/panva/jose/compare/v0.10.0...v0.11.0) (2019-03-16)
+## [0.11.0](https://github.com/panva/jose/compare/v0.10.0...v0.11.0) (2019-03-16)
 
 
 ### Bug Fixes
@@ -655,7 +649,7 @@ RSA based operations require key size of 2048 bits or more.
 
 
 
-# [0.10.0](https://github.com/panva/jose/compare/v0.9.2...v0.10.0) (2019-03-12)
+## [0.10.0](https://github.com/panva/jose/compare/v0.9.2...v0.10.0) (2019-03-12)
 
 
 ### Bug Fixes

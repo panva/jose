@@ -94,5 +94,10 @@
   },
   "standard": {
     "parser": "babel-eslint"
+  },
+  "standard-version": {
+    "scripts": {
+      "postchangelog": "sed -i '' -e 's/### \\[/## [/g' CHANGELOG.md"
+    }
   }
 }
