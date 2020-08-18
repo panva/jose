@@ -16,7 +16,7 @@ The following specifications are implemented by `jose`
 - JSON Web Key Thumbprint - [RFC7638][spec-thumbprint]
 - JWS Unencoded Payload Option - [RFC7797][spec-b64]
 - CFRG Elliptic Curve ECDH and Signatures - [RFC8037][spec-okp]
-- secp256k1 EC Key curve support - [JOSE Registrations for WebAuthn Algorithms][draft-secp256k1]
+- secp256k1 EC Key curve support - [JOSE Registrations for WebAuthn Algorithms][spec-secp256k1]
 
 The test suite utilizes examples defined in [RFC7520][spec-cookbook] to confirm its JOSE
 implementation is correct.
@@ -400,7 +400,7 @@ in terms of performance and API (not having well defined errors).
 [spec-jws]: https://tools.ietf.org/html/rfc7515
 [spec-jwt]: https://tools.ietf.org/html/rfc7519
 [spec-okp]: https://tools.ietf.org/html/rfc8037
-[draft-secp256k1]: https://tools.ietf.org/html/draft-ietf-cose-webauthn-algorithms-04
+[spec-secp256k1]: https://tools.ietf.org/html/rfc8812
 [draft-ietf-oauth-access-token-jwt]: https://tools.ietf.org/html/draft-ietf-oauth-access-token-jwt-06
 [draft-jarm]: https://openid.net/specs/openid-financial-api-jarm.html
 [draft-jwtintrospection]: https://tools.ietf.org/html/draft-ietf-oauth-jwt-introspection-response
