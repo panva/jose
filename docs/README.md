@@ -977,7 +977,8 @@ JWT.verify(token, key, {
 #### `JWT.decode(token[, options])`
 
 Decodes the JWT payload and optionally the header. Does not perform any claim validations what so
-ever.
+ever and also, clearly, **does not verify the token.** For JWT Verification use
+[`JWT.verify`](#jwtverifytoken-keyorstore-options)
 
 - `token`: `<String>` JSON Web Token to decode
 - `options`: `<Object>`
