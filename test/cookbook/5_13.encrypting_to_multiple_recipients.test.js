@@ -23,7 +23,7 @@ keys.forEach(({ kty }) => {
 })
 
 test(`${recipe.title} - general encrypt`, t => {
-  const jwe = new JWE.Encrypt(plaintext, prot, unprotected)
+  const jwe = new JWE.Encrypt(plaintext, prot, undefined, unprotected)
   keys.forEach((key, i) => {
     jwe.recipient(key, recipients[i].header)
   })

@@ -31,7 +31,7 @@ test('crit must be present', t => {
 test('crit must be integrity protected', t => {
   const k = generateSync('oct')
   t.throws(() => {
-    JWE.encrypt.flattened('foo', k, undefined, { crit: [UNDEFINED] })
+    JWE.encrypt.flattened('foo', k, undefined, undefined, { crit: [UNDEFINED] })
   }, { instanceOf: errors.JWEInvalid, code: 'ERR_JWE_INVALID', message: '"crit" Header Parameter MUST be integrity protected when present' })
   const jws = JWE.encrypt.flattened('foo', k)
   jws.header = { crit: [UNDEFINED] }

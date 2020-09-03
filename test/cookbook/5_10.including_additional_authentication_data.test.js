@@ -20,13 +20,13 @@ const keystoreMatchMore = new KeyStore(generateSync(key.kty, key.length, { alg: 
 const keystoreMatchNone = new KeyStore(generateSync(key.kty), generateSync(key.kty))
 
 test(`${recipe.title} - flattened encrypt`, t => {
-  const res = JWE.encrypt.flattened(plaintext, key, prot, undefined, aad)
+  const res = JWE.encrypt.flattened(plaintext, key, prot, aad)
   verifiers.flattened(t, res, recipe.output.json_flat)
   t.deepEqual(JWE.decrypt(res, key), Buffer.from(plaintext))
 })
 
 test(`${recipe.title} - general encrypt`, t => {
-  const res = JWE.encrypt.general(plaintext, key, prot, undefined, aad)
+  const res = JWE.encrypt.general(plaintext, key, prot, aad)
   verifiers.general(t, res, recipe.output.json)
   t.deepEqual(JWE.decrypt(res, key), Buffer.from(plaintext))
 })
