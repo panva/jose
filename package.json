@@ -45,18 +45,22 @@
   "funding": "https://github.com/sponsors/panva",
   "license": "MIT",
   "author": "Filip Skokan <panva.ip@gmail.com>",
+  "exports": {
+    "import": "./lib/index.mjs",
+    "require": "./lib/index.js"
+  },
+  "main": "lib/index.js",
+  "types": "types/index.d.ts",
   "files": [
     "lib/**/*.js",
     "LICENSE_THIRD_PARTY",
     "types/index.d.ts"
   ],
-  "main": "lib/index.js",
-  "types": "types/index.d.ts",
   "scripts": {
     "coverage": "c8 ava",
     "lint": "standard",
-    "lint-ts": "npx typescript@~3.6.0 --build types",
     "lint-fix": "standard --fix",
+    "lint-ts": "npx typescript@~3.6.0 --build types",
     "test": "ava",
     "watch": "ava --watch"
   },
@@ -90,7 +94,7 @@
     "standard": "^14.3.1"
   },
   "engines": {
-    "node": ">=10.13.0"
+    "node": ">=10.13.0 < 13 || >=13.7.0"
   },
   "standard": {
     "parser": "babel-eslint"
