@@ -65,14 +65,6 @@ module.exports.JWK = {
     d: 'xTAmXNRL8ksBlr-F3yXDrUdRDn1gyIvY_PC2e_iUK7c'
   },
 
-  'P-256K': {
-    kty: 'EC',
-    crv: 'P-256K',
-    x: 'VRaLqtMjg_JRaDzkbfit7zonkOGDZ42qbZyljhqsg3U',
-    y: '5qgTxoRAf0hJxcphVg1NE9r0Xv-HHZyVIJxEbo6SAsQ',
-    d: 'xTAmXNRL8ksBlr-F3yXDrUdRDn1gyIvY_PC2e_iUK7c'
-  },
-
   'P-384': {
     kty: 'EC',
     crv: 'P-384',
@@ -120,11 +112,6 @@ module.exports.PEM = {
     public: readFileSync(join(__dirname, 'P-256.pem'))
   },
   secp256k1: {
-    testEnc: false,
-    private: readFileSync(join(__dirname, 'secp256k1.key')),
-    public: readFileSync(join(__dirname, 'secp256k1.pem'))
-  },
-  'P-256K': {
     testEnc: false,
     private: readFileSync(join(__dirname, 'secp256k1.key')),
     public: readFileSync(join(__dirname, 'secp256k1.pem'))

@@ -1,6 +1,6 @@
 const test = require('ava')
 
-const { JWS, JWE, JWK: { asKey, importKey, generate }, errors } = require('../..')
+const { JWS, JWE, JWK: { asKey, generate }, errors } = require('../..')
 
 const { edDSASupported, keyObjectSupported } = require('../../lib/help/runtime_support')
 const { createSecretKey, createPrivateKey } = require('../../lib/help/key_object')
@@ -98,7 +98,6 @@ test('minimal RSA test', async t => {
   const key = await generate('RSA')
   const { d, e, n } = key.toJWK(true)
   const minKey = asKey({ kty: 'RSA', d, e, n }, { calculateMissingRSAPrimes: true })
-  importKey({ kty: 'RSA', d, e, n }) // deprecated
   key.algorithms('sign').forEach((alg) => {
     JWS.verify(JWS.sign({}, key), minKey, { alg })
     JWS.verify(JWS.sign({}, minKey), key, { alg })

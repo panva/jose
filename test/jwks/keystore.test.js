@@ -269,7 +269,6 @@ test('minimal RSA test', async t => {
   const key = generateSync('RSA')
   const { d, e, n } = key.toJWK(true)
   asKeyStore({ keys: [{ kty: 'RSA', d, e, n }] }, { calculateMissingRSAPrimes: true })
-  KeyStore.fromJWKS({ keys: [{ kty: 'RSA', d, e, n }] }) // deprecated
   t.throws(() => {
     asKeyStore({ keys: [{ kty: 'RSA', d: d.substr(3), e, n }] }, { calculateMissingRSAPrimes: true })
   }, { instanceOf: errors.JWKImportFailed, code: 'ERR_JWK_IMPORT_FAILED', message: 'failed to calculate missing primes' })
