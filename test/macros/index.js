@@ -1,4 +1,5 @@
 const { inspect } = require('util')
+const { randomBytes } = require('crypto')
 
 const errors = require('../../lib/errors')
 const base64url = require('../../lib/help/base64url')
@@ -47,13 +48,13 @@ const compactJwt = (t, jwt, eHeader, ePayload) => {
   t.deepEqual(aPayload, ePayload)
 }
 
-const JWSPAYLOAD = {}
+const JWSPAYLOAD = randomBytes(10)
 const JWS = {
   success (t, sKey, vKey, alg) {
     const signed = sign(JWSPAYLOAD, sKey, { alg })
     t.truthy(signed)
     const verified = verify(signed, vKey)
-    t.deepEqual(verified, {})
+    t.deepEqual(verified, JWSPAYLOAD)
   },
   failure (t, sKey, vKey, alg) {
     const signed = sign.flattened(JWSPAYLOAD, sKey, { alg })
@@ -102,7 +103,7 @@ const JWS = {
   }
 }
 
-const JWEPAYLOAD = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c'
+const JWEPAYLOAD = randomBytes(10)
 const JWE = {
   success (t, eKey, dKey, alg, enc) {
     const encrypted = encrypt(JWEPAYLOAD, eKey, { alg, enc })

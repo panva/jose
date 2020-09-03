@@ -344,25 +344,20 @@ export namespace JWS {
 
   interface VerifyOptions {
     complete?: boolean;
-    parse?: boolean;
-    encoding?: BufferEncoding;
     crit?: string[];
     algorithms?: string[];
   }
 
-  interface completeVerification<T, T2> {
-    payload: T;
-    key: T2;
+  interface completeVerification<T = JWK.Key> {
+    payload: Buffer;
+    key: T;
     protected?: object;
     header?: object;
   }
 
-  function verify(jws: string | FlattenedJWS | GeneralJWS, key: ConsumeKeyInputWithNone | EmbeddedVerifyKeys, options: VerifyOptions & { parse: false }): Buffer;
-  function verify(jws: string | FlattenedJWS | GeneralJWS, key: ConsumeKeyInput | EmbeddedVerifyKeys, options: VerifyOptions & { complete: true }): completeVerification<string | object, JWK.Key>;
-  function verify(jws: string | FlattenedJWS | GeneralJWS, key: ConsumeKeyInput | EmbeddedVerifyKeys, options: VerifyOptions & { complete: true, parse: false }): completeVerification<Buffer, JWK.Key>;
-  function verify(jws: string | FlattenedJWS | GeneralJWS, key: NoneKey, options: VerifyOptions & { complete: true }): completeVerification<string | object, NoneKey>;
-  function verify(jws: string | FlattenedJWS | GeneralJWS, key: NoneKey, options: VerifyOptions & { complete: true, parse: false }): completeVerification<Buffer, NoneKey>;
-  function verify(jws: string | FlattenedJWS | GeneralJWS, key: ConsumeKeyInputWithNone | EmbeddedVerifyKeys, options?: VerifyOptions): string | object;
+  function verify(jws: string | FlattenedJWS | GeneralJWS, key: ConsumeKeyInput | EmbeddedVerifyKeys, options: VerifyOptions & { complete: true }): completeVerification<JWK.Key>;
+  function verify(jws: string | FlattenedJWS | GeneralJWS, key: NoneKey, options: VerifyOptions & { complete: true }): completeVerification<NoneKey>;
+  function verify(jws: string | FlattenedJWS | GeneralJWS, key: ConsumeKeyInputWithNone | EmbeddedVerifyKeys, options?: VerifyOptions): Buffer;
 }
 
 export namespace JWE {

@@ -20,7 +20,7 @@ test('b64=false is supported for JWS', t => {
     FIXTURE
   )
 
-  t.is(JWS.verify(FIXTURE, k, { crit: ['b64'] }), FIXTURE.payload)
+  t.deepEqual(JWS.verify(FIXTURE, k, { crit: ['b64'] }), Buffer.from(FIXTURE.payload))
 })
 
 test('b64=false is supported for JWS with multiple recipients (buffer input)', t => {
@@ -61,13 +61,13 @@ test('b64=false with buffers', t => {
   const payload = randomBytes(32)
   const { payload: _, ...detached } = JWS.sign.flattened(payload, k, { alg: 'HS256', b64: false, crit: ['b64'] })
 
-  t.is(JWS.verify({ ...detached, payload }, k, { crit: ['b64'] }), payload)
+  t.deepEqual(JWS.verify({ ...detached, payload }, k, { crit: ['b64'] }), payload)
 })
 
 test('b64=true is also allowed', t => {
   const jws = JWS.sign.flattened('$.02', k, { alg: 'HS256', b64: true, crit: ['b64'] })
   t.is(jws.payload, 'JC4wMg')
-  t.is(JWS.verify(FIXTURE, k, { crit: ['b64'] }), FIXTURE.payload)
+  t.deepEqual(JWS.verify(FIXTURE, k, { crit: ['b64'] }), Buffer.from(FIXTURE.payload))
 })
 
 test('b64 must be integrity protected', t => {

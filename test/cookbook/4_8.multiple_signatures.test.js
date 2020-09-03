@@ -32,18 +32,18 @@ test(`${recipe.title} - general sign`, t => {
   t.deepEqual(result.signatures[2], recipe.output.json.signatures[2])
 
   keys.forEach((key) => {
-    t.is(JWS.verify(recipe.output.json, key), payload)
+    t.deepEqual(JWS.verify(recipe.output.json, key), payload)
   })
 })
 
 keys.forEach((key, i) => {
   test(`${recipe.title} - general verify - key ${i + 1}`, t => {
-    t.is(JWS.verify(recipe.output.json, key), payload)
+    t.deepEqual(JWS.verify(recipe.output.json, key), payload)
   })
 })
 
 test(`${recipe.title} - general verify - keystore`, t => {
-  t.is(JWS.verify(recipe.output.json, keystore), payload)
+  t.deepEqual(JWS.verify(recipe.output.json, keystore), payload)
 })
 
 test(`${recipe.title} - general verify (failing)`, t => {

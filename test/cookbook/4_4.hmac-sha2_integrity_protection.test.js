@@ -26,28 +26,28 @@ test(`${recipe.title} - general sign`, t => {
 })
 
 test(`${recipe.title} - compact verify`, t => {
-  t.is(JWS.verify(recipe.output.compact, key), payload)
+  t.deepEqual(JWS.verify(recipe.output.compact, key), payload)
 })
 
 test(`${recipe.title} - flattened verify`, t => {
-  t.is(JWS.verify(recipe.output.json_flat, key), payload)
+  t.deepEqual(JWS.verify(recipe.output.json_flat, key), payload)
 })
 
 test(`${recipe.title} - general verify`, t => {
-  t.is(JWS.verify(recipe.output.json, key), payload)
+  t.deepEqual(JWS.verify(recipe.output.json, key), payload)
 })
 
 ;[keystoreMatchOne, keystoreMatchMore].forEach((keystore, i) => {
   test(`${recipe.title} - compact verify (using keystore ${i + 1}/2)`, t => {
-    t.is(JWS.verify(recipe.output.compact, keystore), payload)
+    t.deepEqual(JWS.verify(recipe.output.compact, keystore), payload)
   })
 
   test(`${recipe.title} - flattened verify (using keystore ${i + 1}/2)`, t => {
-    t.is(JWS.verify(recipe.output.json_flat, keystore), payload)
+    t.deepEqual(JWS.verify(recipe.output.json_flat, keystore), payload)
   })
 
   test(`${recipe.title} - general verify (using keystore ${i + 1}/2)`, t => {
-    t.is(JWS.verify(recipe.output.json, keystore), payload)
+    t.deepEqual(JWS.verify(recipe.output.json, keystore), payload)
   })
 })
 
