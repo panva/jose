@@ -36,16 +36,16 @@ const complete = (t, jwe, k, ...keys) => {
 
 test('compact', complete, () => JWE.encrypt('foo', key), 'cleartext', 'protected', 'key', 'cek')
 test('flattened', complete, () => JWE.encrypt.flattened('foo', key), 'cleartext', 'protected', 'key', 'cek')
-test('flattened w/ aad', complete, () => JWE.encrypt.flattened('foo', key, undefined, undefined, 'bar'), 'cleartext', 'protected', 'aad', 'key', 'cek')
-test('flattened w/ unprotected', complete, () => JWE.encrypt.flattened('foo', key, undefined, { foo: 'bar' }), 'cleartext', 'protected', 'unprotected', 'key', 'cek')
+test('flattened w/ aad', complete, () => JWE.encrypt.flattened('foo', key, undefined, 'bar'), 'cleartext', 'protected', 'aad', 'key', 'cek')
+test('flattened w/ unprotected', complete, () => JWE.encrypt.flattened('foo', key, undefined, undefined, { foo: 'bar' }), 'cleartext', 'protected', 'unprotected', 'key', 'cek')
 test('flattened w/ header', complete, () => {
   const enc = new JWE.Encrypt('foo')
   enc.recipient(key, { foo: 'bar' })
   return enc.encrypt('flattened')
 }, 'cleartext', 'protected', 'header', 'key', 'cek')
 test('general', complete, () => JWE.encrypt.general('foo', key), 'cleartext', 'protected', 'key', 'cek')
-test('general w/ aad', complete, () => JWE.encrypt.general('foo', key, undefined, undefined, 'bar'), 'cleartext', 'protected', 'aad', 'key', 'cek')
-test('general w/ unprotected', complete, () => JWE.encrypt.general('foo', key, undefined, { foo: 'bar' }), 'cleartext', 'protected', 'unprotected', 'key', 'cek')
+test('general w/ aad', complete, () => JWE.encrypt.general('foo', key, undefined, 'bar'), 'cleartext', 'protected', 'aad', 'key', 'cek')
+test('general w/ unprotected', complete, () => JWE.encrypt.general('foo', key, undefined, undefined, { foo: 'bar' }), 'cleartext', 'protected', 'unprotected', 'key', 'cek')
 test('general w/ header', complete, () => {
   const enc = new JWE.Encrypt('foo')
   enc.recipient(key, { foo: 'bar' })
@@ -54,16 +54,16 @@ test('general w/ header', complete, () => {
 
 test('with keystore > compact', complete, () => JWE.encrypt('foo', key), ks, 'cleartext', 'protected', 'key', 'cek')
 test('with keystore > flattened', complete, () => JWE.encrypt.flattened('foo', key), ks, 'cleartext', 'protected', 'key', 'cek')
-test('with keystore > flattened w/ aad', complete, () => JWE.encrypt.flattened('foo', key, undefined, undefined, 'bar'), ks, 'cleartext', 'protected', 'aad', 'key', 'cek')
-test('with keystore > flattened w/ unprotected', complete, () => JWE.encrypt.flattened('foo', key, undefined, { foo: 'bar' }), ks, 'cleartext', 'protected', 'unprotected', 'key', 'cek')
+test('with keystore > flattened w/ aad', complete, () => JWE.encrypt.flattened('foo', key, undefined, 'bar'), ks, 'cleartext', 'protected', 'aad', 'key', 'cek')
+test('with keystore > flattened w/ unprotected', complete, () => JWE.encrypt.flattened('foo', key, undefined, undefined, { foo: 'bar' }), ks, 'cleartext', 'protected', 'unprotected', 'key', 'cek')
 test('with keystore > flattened w/ header', complete, () => {
   const enc = new JWE.Encrypt('foo')
   enc.recipient(key, { foo: 'bar' })
   return enc.encrypt('flattened')
 }, ks, 'cleartext', 'protected', 'header', 'key', 'cek')
 test('with keystore > general', complete, () => JWE.encrypt.general('foo', key), ks, 'cleartext', 'protected', 'key', 'cek')
-test('with keystore > general w/ aad', complete, () => JWE.encrypt.general('foo', key, undefined, undefined, 'bar'), ks, 'cleartext', 'protected', 'aad', 'key', 'cek')
-test('with keystore > general w/ unprotected', complete, () => JWE.encrypt.general('foo', key, undefined, { foo: 'bar' }), ks, 'cleartext', 'protected', 'unprotected', 'key', 'cek')
+test('with keystore > general w/ aad', complete, () => JWE.encrypt.general('foo', key, undefined, 'bar'), ks, 'cleartext', 'protected', 'aad', 'key', 'cek')
+test('with keystore > general w/ unprotected', complete, () => JWE.encrypt.general('foo', key, undefined, undefined, { foo: 'bar' }), ks, 'cleartext', 'protected', 'unprotected', 'key', 'cek')
 test('with keystore > general w/ header', complete, () => {
   const enc = new JWE.Encrypt('foo')
   enc.recipient(key, { foo: 'bar' })

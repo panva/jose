@@ -382,7 +382,7 @@ export namespace JWE {
   }
 
   class Encrypt {
-    constructor(cleartext: string | Buffer, protected?: object, unprotected?: object, aad?: string);
+    constructor(cleartext: string | Buffer, protected?: object, aad?: string, unprotected?: object);
 
     recipient(key: ProduceKeyInput, header?: object): void;
 
@@ -393,8 +393,8 @@ export namespace JWE {
 
   function encrypt(payload: string | Buffer, key: ProduceKeyInput, protected?: object): string;
   namespace encrypt {
-    function flattened(payload: string | Buffer, key: ProduceKeyInput, protected?: object, header?: object, aad?: string): FlattenedJWE;
-    function general(payload: string | Buffer, key: ProduceKeyInput, protected?: object, header?: object, aad?: string): GeneralJWE;
+    function flattened(payload: string | Buffer, key: ProduceKeyInput, protected?: object, aad?: string, header?: object): FlattenedJWE;
+    function general(payload: string | Buffer, key: ProduceKeyInput, protected?: object, aad?: string, header?: object): GeneralJWE;
   }
 
   interface DecryptOptions {

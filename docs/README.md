@@ -1350,11 +1350,11 @@ JWS.verify(general, keystore, { complete: true })
 
 <!-- TOC JWE START -->
 - [Class: &lt;JWE.Encrypt&gt;](#class-jweencrypt)
-  - [new JWE.Encrypt(cleartext[, protected[, unprotected[, aad]]])](#new-jweencryptcleartext-protected-unprotected-aad)
+  - [new JWE.Encrypt(cleartext[, protected[, aad[, unprotected]]])](#new-jweencryptcleartext-protected-aad-unprotected)
   - [encrypt.recipient(key[, header])](#encryptrecipientkey-header)
   - [encrypt.encrypt(serialization)](#encryptencryptserialization)
 - [JWE.encrypt(cleartext, key[, protected])](#jweencryptcleartext-key-protected)
-- [JWE.encrypt.flattened(cleartext, key[, protected[, unprotected[, aad]]])](#jweencryptflattenedcleartext-key-protected-unprotected-aad)
+- [JWE.encrypt.flattened(cleartext, key[, protected[, aad[, unprotected]]])](#jweencryptflattenedcleartext-key-protected-aad-unprotected)
 - [JWE.decrypt(jwe, keyOrStore[, options])](#jwedecryptjwe-keyorstore-options)
 <!-- TOC JWE END -->
 
@@ -1377,15 +1377,15 @@ General JWE JSON Serialization Syntax.
 
 ---
 
-#### `new JWE.Encrypt(cleartext[, protected[, unprotected[, aad]]])`
+#### `new JWE.Encrypt(cleartext[, protected[, aad[, unprotected]]])`
 
 Creates a new Encrypt object for the provided cleartext with optional Protected and Unprotected
 Headers and Additional Authenticated Data.
 
 - `cleartext`: `<string>` &vert; `<Buffer>` The cleartext that will be encrypted.
 - `protected`: `<Object>` JWE Protected Header
-- `unprotected`: `<Object>` JWE Shared Unprotected Header
 - `aad`: `<string>` &vert; `<Buffer>` JWE Additional Authenticated Data
+- `unprotected`: `<Object>` JWE Shared Unprotected Header
 - Returns: `<JWE.Encrypt>`
 
 ---
@@ -1432,7 +1432,7 @@ Protected Header or inferred from the provided `<JWK.Key>` instance.
 
 ---
 
-#### `JWE.encrypt.flattened(cleartext, key[, protected[, unprotected[, aad]]])`
+#### `JWE.encrypt.flattened(cleartext, key[, protected[, aad[, unprotected]]])`
 
 Performs the encryption operation and 'flattened' JWE serialization of the result. The Algorithm
 that will be used to wrap or derive the Content Encryption Key (CEK) is either provided as part of
@@ -1443,8 +1443,8 @@ the combined JWE Header or inferred from the provided `<JWK.Key>` instance.
   compatible input also works. `<JWK.Key>` instances are recommended for performance purposes when
   re-using the same key for every operation.
 - `protected`: `<Object>` JWE Protected Header
-- `unprotected`: `<Object>` JWE Shared Unprotected Header
 - `aad`: `<string>` &vert; `<Buffer>` JWE Additional Authenticated Data
+- `unprotected`: `<Object>` JWE Shared Unprotected Header
 - Returns: `<Object>`
 
 ---

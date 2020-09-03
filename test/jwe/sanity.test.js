@@ -127,7 +127,7 @@ test('JWE no alg specified (single rsa), with protected header', t => {
 
 test('JWE no alg specified (single rsa), with unprotected header', t => {
   const k = generateSync('RSA')
-  const encrypt = new JWE.Encrypt('foo', undefined, { enc: 'A256CBC-HS512' })
+  const encrypt = new JWE.Encrypt('foo', undefined, undefined, { enc: 'A256CBC-HS512' })
   encrypt.recipient(k)
 
   const jwe = encrypt.encrypt('flattened')
@@ -279,7 +279,7 @@ test('JWE encrypt protectedHeader rejects non objects if provided', t => {
 test('JWE encrypt unprotectedHeader rejects non objects if provided', t => {
   ;[[], false, true, null, Infinity, 0, Buffer.from('foo')].forEach((val) => {
     t.throws(() => {
-      new JWE.Encrypt('foo', undefined, val) // eslint-disable-line no-new
+      new JWE.Encrypt('foo', undefined, undefined, val) // eslint-disable-line no-new
     }, { instanceOf: TypeError, message: 'unprotectedHeader argument must be a plain object when provided' })
   })
 })
@@ -297,7 +297,7 @@ test('JWE encrypt per-recipient header rejects non objects if provided', t => {
 test('JWE encrypt aad rejects non buffers and non strings', t => {
   ;[[], false, true, null, Infinity, 0].forEach((val) => {
     t.throws(() => {
-      new JWE.Encrypt('foo', undefined, undefined, val) // eslint-disable-line no-new
+      new JWE.Encrypt('foo', undefined, val) // eslint-disable-line no-new
     }, { instanceOf: TypeError, message: 'aad argument must be a Buffer or a string when provided' })
   })
 })
@@ -332,14 +332,14 @@ test('JWE compact does not support multiple recipients', t => {
 test('JWE compact does not support unprotected header', t => {
   const k = generateSync('oct')
   t.throws(() => {
-    JWE.encrypt('foo', k, undefined, { foo: 1 })
+    JWE.encrypt('foo', k, undefined, undefined, { foo: 1 })
   }, { instanceOf: errors.JWEInvalid, code: 'ERR_JWE_INVALID', message: 'JWE Compact Serialization doesn\'t support multiple recipients, JWE unprotected headers or AAD' })
 })
 
 test('JWE compact does not support aad', t => {
   const k = generateSync('oct')
   t.throws(() => {
-    JWE.encrypt('foo', k, undefined, undefined, 'aad')
+    JWE.encrypt('foo', k, undefined, 'aad')
   }, { instanceOf: errors.JWEInvalid, code: 'ERR_JWE_INVALID', message: 'JWE Compact Serialization doesn\'t support multiple recipients, JWE unprotected headers or AAD' })
 })
 
@@ -417,7 +417,7 @@ test('JWE EC ECDH-ES is only usable with a single recipient', t => {
 test('JWE prot, unprot and per-recipient headers must be disjoint', t => {
   const k = generateSync('oct')
   t.throws(() => {
-    const encrypt = new JWE.Encrypt('foo', { foo: 1 }, { foo: 2 })
+    const encrypt = new JWE.Encrypt('foo', { foo: 1 }, undefined, { foo: 2 })
     encrypt.recipient(k)
     encrypt.encrypt('flattened')
   }, { instanceOf: errors.JWEInvalid, code: 'ERR_JWE_INVALID', message: 'JWE Shared Protected, JWE Shared Unprotected and JWE Per-Recipient Header Parameter names must be disjoint' })
@@ -427,7 +427,7 @@ test('JWE prot, unprot and per-recipient headers must be disjoint', t => {
     encrypt.encrypt('flattened')
   }, { instanceOf: errors.JWEInvalid, code: 'ERR_JWE_INVALID', message: 'JWE Shared Protected, JWE Shared Unprotected and JWE Per-Recipient Header Parameter names must be disjoint' })
   t.throws(() => {
-    const encrypt = new JWE.Encrypt('foo', undefined, { foo: 1 })
+    const encrypt = new JWE.Encrypt('foo', undefined, undefined, { foo: 1 })
     encrypt.recipient(k, { foo: 2 })
     encrypt.encrypt('flattened')
   }, { instanceOf: errors.JWEInvalid, code: 'ERR_JWE_INVALID', message: 'JWE Shared Protected, JWE Shared Unprotected and JWE Per-Recipient Header Parameter names must be disjoint' })
@@ -508,7 +508,7 @@ test('JWE "zip" must be integrity protected', t => {
   const k = generateSync('oct')
 
   t.throws(() => {
-    JWE.encrypt.flattened('foo', k, undefined, { zip: 'DEF' })
+    JWE.encrypt.flattened('foo', k, undefined, undefined, { zip: 'DEF' })
   }, { instanceOf: errors.JWEInvalid, code: 'ERR_JWE_INVALID', message: '"zip" Header Parameter MUST be integrity protected' })
 })
 
