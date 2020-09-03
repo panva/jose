@@ -434,6 +434,10 @@ export namespace JWT {
     complete?: komplet;
   }
 
+  /**
+   * Decodes the JWT **without verifying the token**. For JWT verification/validation use
+   * `jose.JWT.verify`.
+   */
   function decode(jwt: string, options?: DecodeOptions<false>): object;
   function decode(jwt: string, options?: DecodeOptions<true>): completeResult<undefined>;
 

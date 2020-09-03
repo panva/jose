@@ -823,7 +823,6 @@ ks instanceof KeyStore
 <!-- TOC JWT START -->
 - [JWT.sign(payload, key[, options])](#jwtsignpayload-key-options)
 - [JWT.verify(token, keyOrStore[, options])](#jwtverifytoken-keyorstore-options)
-- [JWT.decode(token[, options])](#jwtdecodetoken-options)
 - [JWT.AccessToken.verify(token, keyOrStore, options)](#jwtaccesstokenverifytoken-keyorstore-options)
 - [JWT.IdToken.verify(token, keyOrStore, options)](#jwtidtokenverifytoken-keyorstore-options)
 - [JWT.LogoutToken.verify(token, keyOrStore, options)](#jwtlogouttokenverifytoken-keyorstore-options)
@@ -831,7 +830,7 @@ ks instanceof KeyStore
 
 ```js
 const { JWT } = require('jose')
-// { decode: [Function], sign: [Function], verify: [Function] }
+// { sign: [Function], verify: [Function] }
 ```
 
 #### `JWT.sign(payload, key[, options])`
@@ -972,7 +971,8 @@ JWT.verify(token, key, {
 ```
 </details>
 
----
+<details>
+<summary><em></em>Need to peak into a JWT without verifying it? (Click to expand)</summary>
 
 #### `JWT.decode(token[, options])`
 
@@ -985,9 +985,6 @@ ever and also, clearly, **does not verify the token.** For JWT Verification use
   - `complete`: `<Boolean>` When false only the parsed payload is returned, otherwise an object with
     a parsed header, payload and the base64url encoded signature will be returned **Default:** 'false'
 - Returns: `<Object>`
-
-<details>
-<summary><em><strong>Example</strong></em> (Click to expand)</summary>
 
 ```js
 const { JWT } = require('jose')
@@ -1689,7 +1686,7 @@ if (err instanceof jose.errors.JOSEError && err.code === 'ERR_JWT_EXPIRED') {
 
 #### Class: `JWTMalformed`
 
-Thrown when malformed JWT is either being decoded or verified.
+Thrown when malformed JWT is either being verified.
 
 ```js
 if (err instanceof jose.errors.JOSEError && err.code === 'ERR_JWT_MALFORMED') {
