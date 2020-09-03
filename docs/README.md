@@ -620,7 +620,7 @@ JWS.verify(unsecuredJWS, anActualKey)
 //   code: 'ERR_JWK_KEY_SUPPORT'
 
 JWS.verify(unsecuredJWS, None)
-// foobar
+// => verifies
 ```
 
 ---
@@ -1273,12 +1273,8 @@ Verifies the provided JWS in either serialization with a given `<JWK.Key>` or `<
     algorithms available on the keys
   - `complete`: `<boolean>` When true returns a complete object with the parsed headers and payload
     instead of only the verified payload. **Default:** 'false'
-  - `parse`: `<boolean>` When true attempts to JSON.parse the payload and falls back to returning
-    the payload encoded using the specified encoding. When false returns the payload as a Buffer.
-    **Default:** 'true'
-  - `encoding`: `string` The encoding to use for the payload. **Default:** 'utf8'
   - `crit`: `string[]` Array of Critical Header Parameter names to recognize. **Default:** '[]'
-- Returns: `<string>` &vert; `<Object>`
+- Returns: `<Buffer>`
 
 <details>
 <summary><em><strong>Example</strong></em> (Click to expand)</summary>
@@ -1312,35 +1308,36 @@ const general = { payload: 'eyJzdWIiOiJKb2huIERvZSJ9',
         'R7e5ZUkgiZQLh8JagoCbwAY21e9A-Y0rhUGQkhihLOvIU8JG2AyZ9zROOUICaUucf8NQKc2dEaIKdRCXy-fDdQ' } ] }
 
 JWS.verify(compact, key)
-// { sub: 'John Doe' }
+// <Buffer ...>
 
 JWS.verify(flattened, key2)
+// Thrown:
 // JWSVerificationFailed: signature verification failed
 
 JWS.verify(compact, key, { complete: true })
-// { payload: { sub: 'John Doe' }, protected: { alg: 'HS256' }, key: OctKey {} }
+// { payload: <Buffer ...>, protected: { alg: 'HS256' }, key: OctKey {} }
 
 JWS.verify(flattened, key, { algorithms: ['PS256'] })
 // JOSEAlgNotWhitelisted: alg not whitelisted
 
 JWS.verify(general, key)
-// { sub: 'John Doe' }
+// <Buffer ...>
 JWS.verify(general, key2)
-// { sub: 'John Doe' }
+// <Buffer ...>
 
 JWS.verify(general, key, { complete: true })
-// { payload: { sub: 'John Doe' },
+// { payload: <Buffer ...>,
 //   protected: { alg: 'HS256' },
 //   header: { foo: 'bar' },
 //   key: : OctKey {} } <- key
 JWS.verify(general, key2, { complete: true })
-// { payload: { sub: 'John Doe' },
+// { payload: <Buffer ...>,
 //   protected: { alg: 'HS512' },
 //   header: { foo: 'baz' },
 //   key: : OctKey {} } <- key2
 const keystore = new JWKS.KeyStore(key)
 JWS.verify(general, keystore, { complete: true })
-// { payload: { sub: 'John Doe' },
+// { payload: <Buffer ...>,
 //   protected: { alg: 'HS256' },
 //   header: { foo: 'bar' },
 //   key: : OctKey {} } <- key that matched in the keystore

@@ -1,7 +1,7 @@
 module.exports = {
   title: 'RSA v1.5 Signature',
   input: {
-    payload: 'It’s a dangerous business, Frodo, going out your door. You step onto the road, and if you don\'t keep your feet, there’s no knowing where you might be swept off to.',
+    payload: Buffer.from('It’s a dangerous business, Frodo, going out your door. You step onto the road, and if you don\'t keep your feet, there’s no knowing where you might be swept off to.'),
     key: {
       kty: 'RSA',
       kid: 'bilbo.baggins@hobbiton.example',

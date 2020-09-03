@@ -1,7 +1,7 @@
 module.exports = {
   title: 'Ed25519 Signature',
   input: {
-    payload: 'Example of Ed25519 signing',
+    payload: Buffer.from('Example of Ed25519 signing'),
     key: {
       kty: 'OKP',
       crv: 'Ed25519',

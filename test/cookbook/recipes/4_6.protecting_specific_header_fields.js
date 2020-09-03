@@ -1,7 +1,7 @@
 module.exports = {
   title: 'Protecting Specific Header Fields',
   input: {
-    payload: 'It’s a dangerous business, Frodo, going out your door. You step onto the road, and if you don\'t keep your feet, there’s no knowing where you might be swept off to.',
+    payload: Buffer.from('It’s a dangerous business, Frodo, going out your door. You step onto the road, and if you don\'t keep your feet, there’s no knowing where you might be swept off to.'),
     key: {
       kty: 'oct',
       kid: '018c0ae5-4d9b-471b-bfd6-eef314bc7037',

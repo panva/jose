@@ -61,14 +61,22 @@ jose.JWS.sign(Buffer.from('foo'), key)
   sign.sign('compact').substring(0)
   {
     const { header, payload, protected: prot, signature } = sign.sign('flattened')
-    payload.substring(0)
+    if (typeof payload === 'string') {
+      payload.substring(0)
+    } else if (Buffer.isBuffer(payload)) {
+      payload.byteOffset
+    }
     signature.substring(0)
     if (header) Object.entries(header)
     if (prot) Object.entries(prot)
   }
   {
     const { payload, signatures } = sign.sign('general')
-    payload.substring(0)
+    if (typeof payload === 'string') {
+      payload.substring(0)
+    } else if (Buffer.isBuffer(payload)) {
+      payload.byteOffset
+    }
     signatures.forEach(({ header, protected: prot, signature }) => {
       signature.substring(0)
       if (header) Object.entries(header)
@@ -86,8 +94,6 @@ jose.JWS.sign(Buffer.from('foo'), key)
   jose.JWS.verify(jose.JWS.sign.general('', key), key)
   jose.JWS.verify('', keystore)
   jose.JWS.verify('', key, { algorithms: ['PS256'], crit: ['foo'] })
-  jose.JWS.verify('', key, { parse: false }).byteLength
-  jose.JWS.verify('', key, { parse: false, encoding: 'utf-8'})
 }
 
 {

@@ -1,7 +1,7 @@
 module.exports = {
   title: 'Key Wrap using AES-GCM KeyWrap with AES-CBC-HMAC-SHA2',
   input: {
-    plaintext: 'You can trust us to stick with you through thick and thin–to the bitter end. And you can trust us to keep any secret of yours–closer than you keep it yourself. But you cannot trust us to let you face trouble alone, and go off without a word. We are your friends, Frodo.',
+    plaintext: Buffer.from('You can trust us to stick with you through thick and thin–to the bitter end. And you can trust us to keep any secret of yours–closer than you keep it yourself. But you cannot trust us to let you face trouble alone, and go off without a word. We are your friends, Frodo.'),
     key: {
       kty: 'oct',
       kid: '18ec08e1-bfa9-4d95-b205-2b4dd1d4321d',

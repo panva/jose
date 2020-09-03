@@ -1,7 +1,7 @@
 module.exports = {
   title: 'Key Encryption using RSA-OAEP-256 with AES_CBC_HMAC_SHA2',
   input: {
-    plaintext: "Well, as of this moment, they're on DOUBLE SECRET PROBATION!",
+    plaintext: Buffer.from("Well, as of this moment, they're on DOUBLE SECRET PROBATION!"),
     key: {
       e: 'AQAB',
       n: '2cQJH1f6yF9DcGa8Cmbnhn4LHLs5L6kNb2rxkrNFZArJLRaKvaC3tMCKZ8ZgIpO9bVMPx5UMjJoaf7p9O5BSApVqA2J10fUbdSIomCcDwvGo0eyhty0DILLWTMXzGEVM3BXzuJQoeDkuUCXXcCwA4Msyyd2OHVu-pB2OrGv6fcjHwjINty3UoKm08lCvAevBKHsuA-FFwQII9bycvRx5wRqFUjdMAyiOmLYBHBaJSi11g3HVexMcb29v14PSlVzdGUMN8oboa-zcIyaPrIiczLqAkSXQNdEFHrjsJHfFeNMfOblLM7icKN_tyWujYeItt4kqUIimPn5dHjwgcQYE7w',

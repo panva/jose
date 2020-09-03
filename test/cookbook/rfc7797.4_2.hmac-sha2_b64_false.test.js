@@ -22,20 +22,20 @@ test(`${recipe.title} - general sign`, t => {
 })
 
 test(`${recipe.title} - flattened verify`, t => {
-  t.is(JWS.verify(recipe.output.json_flat, key, { crit: ['b64'] }), payload)
+  t.deepEqual(JWS.verify(recipe.output.json_flat, key, { crit: ['b64'] }), Buffer.from(payload))
 })
 
 test(`${recipe.title} - general verify`, t => {
-  t.is(JWS.verify(recipe.output.json, key, { crit: ['b64'] }), payload)
+  t.deepEqual(JWS.verify(recipe.output.json, key, { crit: ['b64'] }), Buffer.from(payload))
 })
 
 ;[keystoreMatchOne, keystoreMatchMore].forEach((keystore, i) => {
   test(`${recipe.title} - flattened verify (using keystore ${i + 1}/2)`, t => {
-    t.is(JWS.verify(recipe.output.json_flat, keystore, { crit: ['b64'] }), payload)
+    t.deepEqual(JWS.verify(recipe.output.json_flat, keystore, { crit: ['b64'] }), Buffer.from(payload))
   })
 
   test(`${recipe.title} - general verify (using keystore ${i + 1}/2)`, t => {
-    t.is(JWS.verify(recipe.output.json, keystore, { crit: ['b64'] }), payload)
+    t.deepEqual(JWS.verify(recipe.output.json, keystore, { crit: ['b64'] }), Buffer.from(payload))
   })
 })
 

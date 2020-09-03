@@ -24,7 +24,7 @@ test('JWS.None "signs"', t => {
     JWS.verify(unsignedJWS, None, { complete: true }),
     {
       key: None,
-      payload: 'foo',
+      payload: Buffer.from('foo'),
       protected: {
         alg: 'none'
       }
@@ -46,7 +46,7 @@ test('JWS.None "signs" flattened', t => {
     JWS.verify(unsignedJWS, None, { complete: true }),
     {
       key: None,
-      payload: 'foo',
+      payload: Buffer.from('foo'),
       protected: {
         alg: 'none'
       }
@@ -80,7 +80,7 @@ test('JWS.None "signs" general', t => {
     JWS.verify(unsignedJWS, None, { complete: true }),
     {
       key: None,
-      payload: 'foo',
+      payload: Buffer.from('foo'),
       protected: {
         alg: 'none'
       }
