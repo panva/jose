@@ -311,7 +311,7 @@ export namespace JWKS {
 
 export namespace JWS {
   interface JWSJSON {
-    payload: string;
+    payload: string | Buffer;
   }
 
   interface JWSRecipient {
