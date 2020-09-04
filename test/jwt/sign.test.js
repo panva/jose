@@ -24,7 +24,6 @@ test('options.algorithm must be string', string, 'algorithm')
 test('options.expiresIn must be string', string, 'expiresIn')
 test('options.issuer must be string', string, 'issuer')
 test('options.jti must be string', string, 'jti')
-test('options.nonce must be string', string, 'nonce')
 test('options.notBefore must be string', string, 'notBefore')
 test('options.subject must be string', string, 'subject')
 
@@ -140,12 +139,6 @@ test('options.iat false', t => {
 test('options.iat', t => {
   const decoded = JWT.decode(JWT.sign({ iat: 'bar' }, key, { iat: true, now }))
   t.is(decoded.iat, epoch)
-})
-
-test('options.nonce', t => {
-  const nonce = 'foo'
-  const { nonce: pNonce } = JWT.decode(JWT.sign({ nonce: 'bar' }, key, { nonce }))
-  t.is(pNonce, nonce)
 })
 
 test('options.audience', t => {

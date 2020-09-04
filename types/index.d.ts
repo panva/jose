@@ -471,7 +471,6 @@ export namespace JWT {
     expiresIn?: string;
     notBefore?: string;
     jti?: string;
-    nonce?: string;
     now?: Date;
   }
 

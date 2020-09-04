@@ -857,8 +857,6 @@ that will be used to sign with is either provided as part of the 'options.algori
   - `jti`: `<string>` JWT ID, "jti" claim value, if provided it will replace "jti" found in the
     payload
   - `kid`: `<Boolean>` When true it pushes the key's "kid" to the JWT Header. **Default:** 'true' for asymmetric keys, 'false' for symmetric keys.
-  - `nonce`: `<string>` ID Token Nonce, "nonce" claim value, if provided it will replace "nonce"
-    found in the payload. See [OpenID Connect Core 1.0][connect-core] for details.
   - `notBefore`: `<string>` JWT Not Before, "nbf" claim value, specified as string which is added to
     the current unix epoch timestamp e.g. `24 hours`, `20 m`, `60s`, etc., if provided it will
     replace Not Before found in the payload
