@@ -312,6 +312,7 @@ jose.JWE.decrypt(
 | Logout Token - [OpenID Connect Back-Channel Logout 1.0][spec-oidc-logout_token] | ✓ | ✕<sup>5</sup> | see [`JWT.LogoutToken.verify`](/docs/README.md#jwtlogouttokenverifytoken-keyorstore-options) |
 | JARM - [JWT Secured Authorization Response Mode for OAuth 2.0][draft-jarm] | ◯ |||
 | [JWT Response for OAuth Token Introspection][draft-jwtintrospection] | ◯ |||
+| [OAuth 2.0 DPoP][draft-dpop] | ◯ |||
 
 Legend:
 - **✓** Implemented
@@ -400,6 +401,7 @@ in terms of performance and API (not having well defined errors).
 [draft-ietf-oauth-access-token-jwt]: https://tools.ietf.org/html/draft-ietf-oauth-access-token-jwt-06
 [draft-jarm]: https://openid.net/specs/openid-financial-api-jarm.html
 [draft-jwtintrospection]: https://tools.ietf.org/html/draft-ietf-oauth-jwt-introspection-response
+[draft-dpop]: https://tools.ietf.org/html/draft-ietf-oauth-dpop
 [spec-thumbprint]: https://tools.ietf.org/html/rfc7638
 [spec-oidc-id_token]: https://openid.net/specs/openid-connect-core-1_0.html#IDToken
 [spec-oidc-logout_token]: https://openid.net/specs/openid-connect-backchannel-1_0-04.html#LogoutToken
