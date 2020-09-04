@@ -24,13 +24,9 @@ implementation is correct.
 Available JWT validation profiles
 
 - Generic JWT
-- OIDC ID Token (`id_token`) - [OpenID Connect Core 1.0][spec-oidc-id_token]
-- (draft 04) OIDC Logout Token (`logout_token`) - [OpenID Connect Back-Channel Logout 1.0][spec-oidc-logout_token]
-- (draft 06) OAuth 2.0 JWT Access Tokens (`at+JWT`) - [JWT Profile for OAuth 2.0 Access Tokens][draft-ietf-oauth-access-token-jwt]
-
-Draft profiles are updated as minor versions of the library, therefore, since they may have breaking
-changes use the `~` semver operator when using these and pay close attention to changelog and the
-drafts themselves.
+- OIDC ID Token - [OpenID Connect Core 1.0][spec-oidc-id_token]
+- (draft 04) OIDC Logout Token - [OpenID Connect Back-Channel Logout 1.0][spec-oidc-logout_token]
+- (draft 06) OAuth 2.0 JWT Access Tokens - [JWT Profile for OAuth 2.0 Access Tokens][draft-ietf-oauth-access-token-jwt]
 
 ## Sponsor
 
@@ -309,11 +305,11 @@ jose.JWE.decrypt(
 | AES GCM | ✓ | A128GCM, A192GCM, A256GCM |
 | AES_CBC_HMAC_SHA2 | ✓ |  A128CBC-HS256, A192CBC-HS384, A256CBC-HS512 |
 
-| JWT profile validation | Supported | Stable profile | profile option value |
+| JWT profile validation | Supported | Stable profile |  |
 | -- | -- | -- | -- |
-| ID Token - [OpenID Connect Core 1.0][spec-oidc-id_token] | ✓ | ✓ | `id_token` |
-| JWT Access Tokens - [JWT Profile for OAuth 2.0 Access Tokens][draft-ietf-oauth-access-token-jwt] | ✓ | ✕<sup>5</sup> | `at+JWT` |
-| Logout Token - [OpenID Connect Back-Channel Logout 1.0][spec-oidc-logout_token] | ✓ | ✕<sup>5</sup> | `logout_token` |
+| JWT Access Tokens - [JWT Profile for OAuth 2.0 Access Tokens][draft-ietf-oauth-access-token-jwt] | ✓ | ✕<sup>5</sup> | see [`JWT.AccessToken.verify`](/docs/README.md#jwtaccesstokenverifytoken-keyorstore-options) |
+| ID Token - [OpenID Connect Core 1.0][spec-oidc-id_token] | ✓ | ✓ | see [`JWT.IdToken.verify`](/docs/README.md#jwtidtokenverifytoken-keyorstore-options) |
+| Logout Token - [OpenID Connect Back-Channel Logout 1.0][spec-oidc-logout_token] | ✓ | ✕<sup>5</sup> | see [`JWT.LogoutToken.verify`](/docs/README.md#jwtlogouttokenverifytoken-keyorstore-options) |
 | JARM - [JWT Secured Authorization Response Mode for OAuth 2.0][draft-jarm] | ◯ |||
 | [JWT Response for OAuth Token Introspection][draft-jwtintrospection] | ◯ |||
 
