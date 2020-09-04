@@ -22,7 +22,6 @@ export type Curves = OKPCurve | ECCurve;
 export type keyType = 'RSA' | 'EC' | 'OKP' | 'oct';
 export type asymmetricKeyObjectTypes = 'private' | 'public';
 export type keyObjectTypes = asymmetricKeyObjectTypes | 'secret';
-export type JWTProfiles = 'id_token' | 'at+JWT' | 'logout_token';
 export type KeyInput = PrivateKeyInput | PublicKeyInput | string | Buffer;
 export type ProduceKeyInput = JWK.Key | KeyObject | KeyInput | JWKOctKey | JWKRSAKey | JWKECKey | JWKOKPKey;
 export type ConsumeKeyInput = ProduceKeyInput | JWKS.KeyStore;
@@ -444,16 +443,13 @@ export namespace JWT {
     maxTokenAge?: string;
     subject?: string;
     issuer?: string | string[];
-    maxAuthAge?: string;
     jti?: string;
     clockTolerance?: string;
     audience?: string | string[];
     algorithms?: string[];
-    nonce?: string;
     typ?: string;
     now?: Date;
     crit?: string[];
-    profile?: JWTProfiles;
   }
 
   function verify(jwt: string, key: NoneKey, options: VerifyOptions & { complete: true }): completeResult<NoneKey>;
@@ -476,28 +472,38 @@ export namespace JWT {
 
   function sign(payload: object, key: ProduceKeyInputWithNone, options?: SignOptions): string;
 
-  interface VerifyProfileOptions<profile> {
+  interface ProfiledVerifyOptions {
     issuer: string | string[];
     audience: string | string[];
-    profile?: profile;
   }
 
+  interface IdTokenVerifyOptions extends ProfiledVerifyOptions {
+    nonce?: string;
+    maxAuthAge?: string;
+  }
+
+  interface AccessTokenVerifyOptions extends ProfiledVerifyOptions {
+    maxAuthAge?: string;
+  }
+
+  interface LogoutTokenVerifyOptions extends ProfiledVerifyOptions {}
+
   namespace IdToken {
-    function verify(jwt: string, key: ConsumeKeyInput | EmbeddedVerifyKeys, options: VerifyOptions & { complete: true } & VerifyProfileOptions<'id_token'>): completeResult;
-    function verify(jwt: string, key: NoneKey, options: VerifyOptions & { complete: true } & VerifyProfileOptions<'id_token'>): completeResult<NoneKey>;
-    function verify(jwt: string, key: ConsumeKeyInputWithNone | EmbeddedVerifyKeys, options: VerifyOptions & VerifyProfileOptions<'id_token'>): object;
+    function verify(jwt: string, key: ConsumeKeyInput | EmbeddedVerifyKeys, options: VerifyOptions & { complete: true } & IdTokenVerifyOptions): completeResult;
+    function verify(jwt: string, key: NoneKey, options: VerifyOptions & { complete: true } & IdTokenVerifyOptions): completeResult<NoneKey>;
+    function verify(jwt: string, key: ConsumeKeyInputWithNone | EmbeddedVerifyKeys, options: VerifyOptions & IdTokenVerifyOptions): object;
   }
 
   namespace LogoutToken {
-    function verify(jwt: string, key: ConsumeKeyInput | EmbeddedVerifyKeys, options: VerifyOptions & { complete: true } & VerifyProfileOptions<'logout_token'>): completeResult;
-    function verify(jwt: string, key: NoneKey, options: VerifyOptions & { complete: true } & VerifyProfileOptions<'logout_token'>): completeResult<NoneKey>;
-    function verify(jwt: string, key: ConsumeKeyInputWithNone | EmbeddedVerifyKeys, options: VerifyOptions & VerifyProfileOptions<'logout_token'>): object;
+    function verify(jwt: string, key: ConsumeKeyInput | EmbeddedVerifyKeys, options: VerifyOptions & { complete: true } & LogoutTokenVerifyOptions): completeResult;
+    function verify(jwt: string, key: NoneKey, options: VerifyOptions & { complete: true } & LogoutTokenVerifyOptions): completeResult<NoneKey>;
+    function verify(jwt: string, key: ConsumeKeyInputWithNone | EmbeddedVerifyKeys, options: VerifyOptions & LogoutTokenVerifyOptions): object;
   }
 
   namespace AccessToken {
-    function verify(jwt: string, key: ConsumeKeyInput | EmbeddedVerifyKeys, options: VerifyOptions & { complete: true } & VerifyProfileOptions<'at+JWT'>): completeResult;
-    function verify(jwt: string, key: NoneKey, options: VerifyOptions & { complete: true } & VerifyProfileOptions<'at+JWT'>): completeResult<NoneKey>;
-    function verify(jwt: string, key: ConsumeKeyInputWithNone | EmbeddedVerifyKeys, options: VerifyOptions & VerifyProfileOptions<'at+JWT'>): object;
+    function verify(jwt: string, key: ConsumeKeyInput | EmbeddedVerifyKeys, options: VerifyOptions & { complete: true } & AccessTokenVerifyOptions): completeResult;
+    function verify(jwt: string, key: NoneKey, options: VerifyOptions & { complete: true } & AccessTokenVerifyOptions): completeResult<NoneKey>;
+    function verify(jwt: string, key: ConsumeKeyInputWithNone | EmbeddedVerifyKeys, options: VerifyOptions & AccessTokenVerifyOptions): object;
   }
 }
 

@@ -5,10 +5,10 @@ const { JWS, JWT, JWK, JWKS, errors } = require('../..')
 const key = JWK.generateSync('oct')
 const token = JWT.sign({}, key, { iat: false })
 
-const string = (t, option) => {
+const string = (t, option, method = JWT.verify, opts) => {
   ;['', false, [], {}, Buffer, Buffer.from('foo'), 0, Infinity].forEach((val) => {
     t.throws(() => {
-      JWT.verify(token, key, { [option]: val })
+      method(token, key, { ...opts, [option]: val })
     }, { instanceOf: TypeError, message: `options.${option} must be a string` })
   })
 }
@@ -36,10 +36,7 @@ test('options must be an object', t => {
 
 test('options.clockTolerance must be a string', string, 'clockTolerance')
 test('options.jti must be a string', string, 'jti')
-test('options.profile must be a string', string, 'profile')
-test('options.maxAuthAge must be a string', string, 'maxAuthAge')
 test('options.maxTokenAge must be a string', string, 'maxTokenAge')
-test('options.nonce must be a string', string, 'nonce')
 test('options.subject must be a string', string, 'subject')
 
 const boolean = (t, option) => {
@@ -112,7 +109,7 @@ test('options.ignoreIat & options.maxTokenAge may not be used together', t => {
   }, { instanceOf: TypeError, message: 'options.ignoreIat and options.maxTokenAge cannot used together' })
 })
 
-;['iat', 'exp', 'auth_time', 'nbf'].forEach((claim) => {
+;['iat', 'exp', 'nbf'].forEach((claim) => {
   test(`"${claim} must be a timestamp when provided"`, t => {
     ;['', 'foo', true, null, [], {}].forEach((val) => {
       const err = t.throws(() => {
@@ -126,7 +123,7 @@ test('options.ignoreIat & options.maxTokenAge may not be used together', t => {
   })
 })
 
-;['jti', 'acr', 'nonce', 'sub', 'azp'].forEach((claim) => {
+;['jti', 'sub'].forEach((claim) => {
   test(`"${claim} must be a string when provided"`, t => {
     ;['', 0, 1, true, null, [], {}].forEach((val) => {
       const err = t.throws(() => {
@@ -140,7 +137,7 @@ test('options.ignoreIat & options.maxTokenAge may not be used together', t => {
   })
 })
 
-;['aud', 'amr', 'iss'].forEach((claim) => {
+;['aud', 'iss'].forEach((claim) => {
   test(`"${claim} must be a string when provided"`, t => {
     ;['', 0, 1, true, null, [], {}].forEach((val) => {
       let err
@@ -164,7 +161,6 @@ test('options.ignoreIat & options.maxTokenAge may not be used together', t => {
 Object.entries({
   issuer: 'iss',
   jti: 'jti',
-  nonce: 'nonce',
   subject: 'sub'
 }).forEach(([option, claim]) => {
   test(`option.${option} validation fails`, t => {
@@ -266,32 +262,8 @@ test('option.audience validation success', t => {
   t.pass()
 })
 
-test('option.maxAuthAge requires iat to be in the payload', t => {
-  const err = t.throws(() => {
-    const invalid = JWS.sign({}, key)
-    JWT.verify(invalid, key, { maxAuthAge: '30s' })
-  }, { instanceOf: errors.JWTClaimInvalid, message: '"auth_time" claim is missing' })
-  t.is(err.claim, 'auth_time')
-  t.is(err.reason, 'missing')
-})
-
 const epoch = 1265328501
 const now = new Date(epoch * 1000)
-
-test('option.maxAuthAge checks auth_time', t => {
-  const err = t.throws(() => {
-    const invalid = JWS.sign({ auth_time: epoch - 31 }, key)
-    JWT.verify(invalid, key, { maxAuthAge: '30s', now })
-  }, { instanceOf: errors.JWTClaimInvalid, message: '"auth_time" claim timestamp check failed (too much time has elapsed since the last End-User authentication)' })
-  t.is(err.claim, 'auth_time')
-  t.is(err.reason, 'check_failed')
-})
-
-test('option.maxAuthAge checks auth_time (with tolerance)', t => {
-  const token = JWT.sign({ auth_time: epoch - 31 }, key, { now })
-  JWT.verify(token, key, { maxAuthAge: '30s', now, clockTolerance: '1s' })
-  t.pass()
-})
 
 test('option.maxTokenAge requires iat to be in the payload', t => {
   const err = t.throws(() => {
@@ -449,132 +421,174 @@ test('nbf check (passed because of ignoreIat)', t => {
   t.pass()
 })
 
-// JWT options.profile
-test('must be a supported value', t => {
-  t.throws(() => {
-    JWT.verify('foo', key, { profile: 'foo' })
-  }, { instanceOf: TypeError, message: 'unsupported options.profile value "foo"' })
-})
-
 {
   const token = JWT.sign({ }, key, { expiresIn: '10m', subject: 'subject', issuer: 'issuer', audience: 'client_id' })
 
-  test('profile=id_token', t => {
-    JWT.verify(token, key, { profile: 'id_token', issuer: 'issuer', audience: 'client_id' })
+  test('IdToken.verify options must be an object', t => {
+    t.throws(() => {
+      JWT.IdToken.verify(token, key, [])
+    }, { instanceOf: TypeError, message: 'options must be an object' })
+  })
+
+  test('IdToken.verify options.maxAuthAge must be a string', string, 'maxAuthAge', JWT.IdToken.verify, { issuer: 'foo', audience: 'bar' })
+  test('IdToken.verify options.nonce must be a string', string, 'nonce', JWT.IdToken.verify, { issuer: 'foo', audience: 'bar' })
+
+  test('IdToken.verify', t => {
     JWT.IdToken.verify(token, key, { issuer: 'issuer', audience: 'client_id' })
     t.pass()
   })
 
-  test('profile=id_token requires issuer option too', t => {
-    t.throws(() => {
-      JWT.verify(token, key, { profile: 'id_token' })
-    }, { instanceOf: TypeError, message: '"issuer" option is required to validate an ID Token' })
+  test('IdToken.verify requires issuer option too', t => {
     t.throws(() => {
       JWT.IdToken.verify(token, key)
     }, { instanceOf: TypeError, message: '"issuer" option is required to validate an ID Token' })
   })
 
-  test('profile=id_token requires audience option too', t => {
-    t.throws(() => {
-      JWT.verify(token, key, { profile: 'id_token', issuer: 'issuer' })
-    }, { instanceOf: TypeError, message: '"audience" option is required to validate an ID Token' })
+  test('IdToken.verify requires audience option too', t => {
     t.throws(() => {
       JWT.IdToken.verify(token, key, { issuer: 'issuer' })
     }, { instanceOf: TypeError, message: '"audience" option is required to validate an ID Token' })
   })
 
-  test('profile=id_token mandates exp to be present', t => {
+  test('IdToken.verify mandates exp to be present', t => {
     const err = t.throws(() => {
-      JWT.verify(
+      JWT.IdToken.verify(
         JWT.sign({ }, key, { subject: 'subject', issuer: 'issuer', audience: 'client_id' }),
         key,
-        { profile: 'id_token', issuer: 'issuer', audience: 'client_id' }
+        { issuer: 'issuer', audience: 'client_id' }
       )
     }, { instanceOf: errors.JWTClaimInvalid, message: '"exp" claim is missing' })
     t.is(err.claim, 'exp')
     t.is(err.reason, 'missing')
   })
 
-  test('profile=id_token mandates iat to be present', t => {
+  test('IdToken.verify mandates iat to be present', t => {
     const err = t.throws(() => {
-      JWT.verify(
+      JWT.IdToken.verify(
         JWT.sign({ }, key, { expiresIn: '10m', iat: false, subject: 'subject', issuer: 'issuer', audience: 'client_id' }),
         key,
-        { profile: 'id_token', issuer: 'issuer', audience: 'client_id' }
+        { issuer: 'issuer', audience: 'client_id' }
       )
     }, { instanceOf: errors.JWTClaimInvalid, message: '"iat" claim is missing' })
     t.is(err.claim, 'iat')
     t.is(err.reason, 'missing')
   })
 
-  test('profile=id_token mandates sub to be present', t => {
+  test('IdToken.verify mandates sub to be present', t => {
     const err = t.throws(() => {
-      JWT.verify(
+      JWT.IdToken.verify(
         JWT.sign({ }, key, { expiresIn: '10m', issuer: 'issuer', audience: 'client_id' }),
         key,
-        { profile: 'id_token', issuer: 'issuer', audience: 'client_id' }
+        { issuer: 'issuer', audience: 'client_id' }
       )
     }, { instanceOf: errors.JWTClaimInvalid, message: '"sub" claim is missing' })
     t.is(err.claim, 'sub')
     t.is(err.reason, 'missing')
   })
 
-  test('profile=id_token mandates iss to be present', t => {
+  test('IdToken.verify mandates iss to be present', t => {
     const err = t.throws(() => {
-      JWT.verify(
+      JWT.IdToken.verify(
         JWT.sign({ }, key, { expiresIn: '10m', subject: 'subject', audience: 'client_id' }),
         key,
-        { profile: 'id_token', issuer: 'issuer', audience: 'client_id' }
+        { issuer: 'issuer', audience: 'client_id' }
       )
     }, { instanceOf: errors.JWTClaimInvalid, message: '"iss" claim is missing' })
     t.is(err.claim, 'iss')
     t.is(err.reason, 'missing')
   })
 
-  test('profile=id_token mandates aud to be present', t => {
+  test('IdToken.verify mandates aud to be present', t => {
     const err = t.throws(() => {
-      JWT.verify(
+      JWT.IdToken.verify(
         JWT.sign({ }, key, { expiresIn: '10m', subject: 'subject', issuer: 'issuer' }),
         key,
-        { profile: 'id_token', issuer: 'issuer', audience: 'client_id' }
+        { issuer: 'issuer', audience: 'client_id' }
       )
     }, { instanceOf: errors.JWTClaimInvalid, message: '"aud" claim is missing' })
     t.is(err.claim, 'aud')
     t.is(err.reason, 'missing')
   })
 
-  test('profile=id_token mandates azp to be present when multiple audiences are used', t => {
+  test('IdToken.verify mandates azp to be present when multiple audiences are used', t => {
     const err = t.throws(() => {
-      JWT.verify(
+      JWT.IdToken.verify(
         JWT.sign({ }, key, { expiresIn: '10m', subject: 'subject', issuer: 'issuer', audience: ['client_id', 'another audience'] }),
         key,
-        { profile: 'id_token', issuer: 'issuer', audience: 'client_id' }
+        { issuer: 'issuer', audience: 'client_id' }
       )
     }, { instanceOf: errors.JWTClaimInvalid, message: '"azp" claim is missing' })
     t.is(err.claim, 'azp')
     t.is(err.reason, 'missing')
   })
 
-  test('profile=id_token mandates azp to match the audience when required', t => {
+  test('IdToken.verify mandates azp to match the audience when required', t => {
     const err = t.throws(() => {
-      JWT.verify(
+      JWT.IdToken.verify(
         JWT.sign({ azp: 'mismatched' }, key, { expiresIn: '10m', subject: 'subject', issuer: 'issuer', audience: ['client_id', 'another audience'] }),
         key,
-        { profile: 'id_token', issuer: 'issuer', audience: 'client_id' }
+        { issuer: 'issuer', audience: 'client_id' }
       )
     }, { instanceOf: errors.JWTClaimInvalid, message: 'unexpected "azp" claim value' })
     t.is(err.claim, 'azp')
     t.is(err.reason, 'check_failed')
   })
 
-  test('profile=id_token validates full id tokens', t => {
+  test('IdToken.verify validates full id tokens', t => {
     t.notThrows(() => {
-      JWT.verify(
+      JWT.IdToken.verify(
         JWT.sign({ azp: 'client_id' }, key, { expiresIn: '10m', subject: 'subject', issuer: 'issuer', audience: ['client_id', 'another audience'] }),
         key,
-        { profile: 'id_token', issuer: 'issuer', audience: 'client_id' }
+        { issuer: 'issuer', audience: 'client_id' }
       )
     })
+  })
+
+  test('IdToken.verify option.maxAuthAge requires auth_time to be in the payload', t => {
+    const err = t.throws(() => {
+      const invalid = JWT.sign({}, key, { expiresIn: '10m', subject: 'subject', issuer: 'issuer', audience: 'client' })
+      JWT.IdToken.verify(invalid, key, { maxAuthAge: '30s', issuer: 'issuer', audience: 'client' })
+    }, { instanceOf: errors.JWTClaimInvalid, message: '"auth_time" claim is missing' })
+    t.is(err.claim, 'auth_time')
+    t.is(err.reason, 'missing')
+  })
+
+  test('IdToken.verify option.maxAuthAge checks auth_time', t => {
+    const err = t.throws(() => {
+      const invalid = JWT.sign({ auth_time: epoch - 31 }, key, { expiresIn: '10m', subject: 'subject', issuer: 'issuer', audience: 'client' })
+      JWT.IdToken.verify(invalid, key, { maxAuthAge: '30s', now, issuer: 'issuer', audience: 'client' })
+    }, { instanceOf: errors.JWTClaimInvalid, message: '"auth_time" claim timestamp check failed (too much time has elapsed since the last End-User authentication)' })
+    t.is(err.claim, 'auth_time')
+    t.is(err.reason, 'check_failed')
+  })
+
+  test('IdToken.verify option.maxAuthAge checks auth_time (with tolerance)', t => {
+    const token = JWT.sign({ auth_time: epoch - 31 }, key, { expiresIn: '10m', subject: 'subject', issuer: 'issuer', audience: 'client' })
+    JWT.IdToken.verify(token, key, { maxAuthAge: '30s', now, clockTolerance: '1s', issuer: 'issuer', audience: 'client' })
+    t.pass()
+  })
+
+  test('IdToken.verify auth_time must be a timestamp when provided', t => {
+    ;['', 'foo', true, null, [], {}].forEach((val) => {
+      const err = t.throws(() => {
+        const invalid = JWT.sign({ auth_time: val }, key, { expiresIn: '10m', subject: 'subject', issuer: 'issuer', audience: 'client' })
+        JWT.IdToken.verify(invalid, key, { issuer: 'issuer', audience: 'client' })
+      }, { instanceOf: errors.JWTClaimInvalid, message: '"auth_time" claim must be a JSON numeric value' })
+
+      t.is(err.claim, 'auth_time')
+      t.is(err.reason, 'invalid')
+    })
+  })
+
+  test('IdToken.verify option.nonce checks nonce value', t => {
+    const token = JWT.sign({ nonce: 'foobar' }, key, { expiresIn: '10m', subject: 'subject', issuer: 'issuer', audience: 'client' })
+    JWT.IdToken.verify(token, key, { now, issuer: 'issuer', audience: 'client', nonce: 'foobar' })
+    const err = t.throws(() => {
+      JWT.IdToken.verify(token, key, { now, issuer: 'issuer', audience: 'client', nonce: 'baz' })
+    }, { instanceOf: errors.JWTClaimInvalid, message: 'unexpected "nonce" claim value' })
+
+    t.is(err.claim, 'nonce')
+    t.is(err.reason, 'check_failed')
   })
 }
 
@@ -585,164 +599,163 @@ test('must be a supported value', t => {
     }
   }, key, { jti: 'foo', subject: 'subject', issuer: 'issuer', audience: 'client_id' })
 
-  test('profile=logout_token', t => {
-    JWT.verify(token, key, { profile: 'logout_token', issuer: 'issuer', audience: 'client_id' })
+  test('LogoutToken.verify options must be an object', t => {
+    t.throws(() => {
+      JWT.LogoutToken.verify(token, key, [])
+    }, { instanceOf: TypeError, message: 'options must be an object' })
+  })
+
+  test('LogoutToken.verify', t => {
     JWT.LogoutToken.verify(token, key, { issuer: 'issuer', audience: 'client_id' })
     t.pass()
   })
 
-  test('profile=logout_token requires issuer option too', t => {
-    t.throws(() => {
-      JWT.verify(token, key, { profile: 'logout_token' })
-    }, { instanceOf: TypeError, message: '"issuer" option is required to validate a Logout Token' })
+  test('LogoutToken.verify requires issuer option too', t => {
     t.throws(() => {
       JWT.LogoutToken.verify(token, key)
     }, { instanceOf: TypeError, message: '"issuer" option is required to validate a Logout Token' })
   })
 
-  test('profile=logout_token requires audience option too', t => {
-    t.throws(() => {
-      JWT.verify(token, key, { profile: 'logout_token', issuer: 'issuer' })
-    }, { instanceOf: TypeError, message: '"audience" option is required to validate a Logout Token' })
+  test('LogoutToken.verify requires audience option too', t => {
     t.throws(() => {
       JWT.LogoutToken.verify(token, key, { issuer: 'issuer' })
     }, { instanceOf: TypeError, message: '"audience" option is required to validate a Logout Token' })
   })
 
-  test('profile=logout_token mandates jti to be present', t => {
+  test('LogoutToken.verify mandates jti to be present', t => {
     const err = t.throws(() => {
-      JWT.verify(
+      JWT.LogoutToken.verify(
         JWT.sign({ }, key, { subject: 'subject', issuer: 'issuer', audience: 'client_id' }),
         key,
-        { profile: 'logout_token', issuer: 'issuer', audience: 'client_id' }
+        { issuer: 'issuer', audience: 'client_id' }
       )
     }, { instanceOf: errors.JWTClaimInvalid, message: '"jti" claim is missing' })
     t.is(err.claim, 'jti')
     t.is(err.reason, 'missing')
   })
 
-  test('profile=logout_token mandates events to be present', t => {
+  test('LogoutToken.verify mandates events to be present', t => {
     const err = t.throws(() => {
-      JWT.verify(
+      JWT.LogoutToken.verify(
         JWT.sign({ }, key, { jti: 'foo', subject: 'subject', issuer: 'issuer', audience: 'client_id' }),
         key,
-        { profile: 'logout_token', issuer: 'issuer', audience: 'client_id' }
+        { issuer: 'issuer', audience: 'client_id' }
       )
     }, { instanceOf: errors.JWTClaimInvalid, message: '"events" claim is missing' })
     t.is(err.claim, 'events')
     t.is(err.reason, 'missing')
   })
 
-  test('profile=logout_token mandates events to be an object', t => {
+  test('LogoutToken.verify mandates events to be an object', t => {
     const err = t.throws(() => {
-      JWT.verify(
+      JWT.LogoutToken.verify(
         JWT.sign({
           events: []
         }, key, { jti: 'foo', subject: 'subject', issuer: 'issuer', audience: 'client_id' }),
         key,
-        { profile: 'logout_token', issuer: 'issuer', audience: 'client_id' }
+        { issuer: 'issuer', audience: 'client_id' }
       )
     }, { instanceOf: errors.JWTClaimInvalid, message: '"events" claim must be an object' })
     t.is(err.claim, 'events')
     t.is(err.reason, 'invalid')
   })
 
-  test('profile=logout_token mandates events to have the backchannel logout member', t => {
+  test('LogoutToken.verify mandates events to have the backchannel logout member', t => {
     const err = t.throws(() => {
-      JWT.verify(
+      JWT.LogoutToken.verify(
         JWT.sign({
           events: {}
         }, key, { jti: 'foo', subject: 'subject', issuer: 'issuer', audience: 'client_id' }),
         key,
-        { profile: 'logout_token', issuer: 'issuer', audience: 'client_id' }
+        { issuer: 'issuer', audience: 'client_id' }
       )
     }, { instanceOf: errors.JWTClaimInvalid, message: '"http://schemas.openid.net/event/backchannel-logout" member is missing in the "events" claim' })
     t.is(err.claim, 'events')
     t.is(err.reason, 'invalid')
   })
 
-  test('profile=logout_token mandates events to have the backchannel logout member thats an object', t => {
+  test('LogoutToken.verify mandates events to have the backchannel logout member thats an object', t => {
     const err = t.throws(() => {
-      JWT.verify(
+      JWT.LogoutToken.verify(
         JWT.sign({
           events: {
             'http://schemas.openid.net/event/backchannel-logout': []
           }
         }, key, { jti: 'foo', subject: 'subject', issuer: 'issuer', audience: 'client_id' }),
         key,
-        { profile: 'logout_token', issuer: 'issuer', audience: 'client_id' }
+        { issuer: 'issuer', audience: 'client_id' }
       )
     }, { instanceOf: errors.JWTClaimInvalid, message: '"http://schemas.openid.net/event/backchannel-logout" member in the "events" claim must be an object' })
     t.is(err.claim, 'events')
     t.is(err.reason, 'invalid')
   })
 
-  test('profile=logout_token mandates iat to be present', t => {
+  test('LogoutToken.verify mandates iat to be present', t => {
     const err = t.throws(() => {
-      JWT.verify(
+      JWT.LogoutToken.verify(
         JWT.sign({ }, key, { jti: 'foo', iat: false, subject: 'subject', issuer: 'issuer', audience: 'client_id' }),
         key,
-        { profile: 'logout_token', issuer: 'issuer', audience: 'client_id' }
+        { issuer: 'issuer', audience: 'client_id' }
       )
     }, { instanceOf: errors.JWTClaimInvalid, message: '"iat" claim is missing' })
     t.is(err.claim, 'iat')
     t.is(err.reason, 'missing')
   })
 
-  test('profile=logout_token mandates sub or sid to be present', t => {
+  test('LogoutToken.verify mandates sub or sid to be present', t => {
     const err = t.throws(() => {
-      JWT.verify(
+      JWT.LogoutToken.verify(
         JWT.sign({ }, key, { jti: 'foo', issuer: 'issuer', audience: 'client_id' }),
         key,
-        { profile: 'logout_token', issuer: 'issuer', audience: 'client_id' }
+        { issuer: 'issuer', audience: 'client_id' }
       )
     }, { instanceOf: errors.JWTClaimInvalid, message: 'either "sid" or "sub" (or both) claims must be present' })
     t.is(err.claim, 'unspecified')
     t.is(err.reason, 'unspecified')
   })
 
-  test('profile=logout_token mandates sid to be a string when present', t => {
+  test('LogoutToken.verify mandates sid to be a string when present', t => {
     const err = t.throws(() => {
-      JWT.verify(
+      JWT.LogoutToken.verify(
         JWT.sign({ sid: true }, key, { jti: 'foo', issuer: 'issuer', audience: 'client_id' }),
         key,
-        { profile: 'logout_token', issuer: 'issuer', audience: 'client_id' }
+        { issuer: 'issuer', audience: 'client_id' }
       )
     }, { instanceOf: errors.JWTClaimInvalid, message: '"sid" claim must be a string' })
     t.is(err.claim, 'sid')
     t.is(err.reason, 'invalid')
   })
 
-  test('profile=logout_token prohibits nonce', t => {
+  test('LogoutToken.verify prohibits nonce', t => {
     const err = t.throws(() => {
-      JWT.verify(
+      JWT.LogoutToken.verify(
         JWT.sign({ nonce: 'foo' }, key, { subject: 'subject', jti: 'foo', issuer: 'issuer', audience: 'client_id' }),
         key,
-        { profile: 'logout_token', issuer: 'issuer', audience: 'client_id' }
+        { issuer: 'issuer', audience: 'client_id' }
       )
     }, { instanceOf: errors.JWTClaimInvalid, message: '"nonce" claim is prohibited' })
     t.is(err.claim, 'nonce')
     t.is(err.reason, 'prohibited')
   })
 
-  test('profile=logout_token mandates iss to be present', t => {
+  test('LogoutToken.verify mandates iss to be present', t => {
     const err = t.throws(() => {
-      JWT.verify(
+      JWT.LogoutToken.verify(
         JWT.sign({ }, key, { jti: 'foo', subject: 'subject', audience: 'client_id' }),
         key,
-        { profile: 'logout_token', issuer: 'issuer', audience: 'client_id' }
+        { issuer: 'issuer', audience: 'client_id' }
       )
     }, { instanceOf: errors.JWTClaimInvalid, message: '"iss" claim is missing' })
     t.is(err.claim, 'iss')
     t.is(err.reason, 'missing')
   })
 
-  test('profile=logout_token mandates aud to be present', t => {
+  test('LogoutToken.verify mandates aud to be present', t => {
     const err = t.throws(() => {
-      JWT.verify(
+      JWT.LogoutToken.verify(
         JWT.sign({ }, key, { jti: 'foo', subject: 'subject', issuer: 'issuer' }),
         key,
-        { profile: 'logout_token', issuer: 'issuer', audience: 'client_id' }
+        { issuer: 'issuer', audience: 'client_id' }
       )
     }, { instanceOf: errors.JWTClaimInvalid, message: '"aud" claim is missing' })
     t.is(err.claim, 'aud')
@@ -753,135 +766,172 @@ test('must be a supported value', t => {
 {
   const token = JWT.sign({ client_id: 'client_id' }, key, { expiresIn: '10m', subject: 'subject', issuer: 'issuer', audience: 'RS', jti: 'random', header: { typ: 'at+JWT' } })
 
-  test('profile=at+JWT', t => {
-    JWT.verify(token, key, { profile: 'at+JWT', issuer: 'issuer', audience: 'RS' })
+  test('AccessToken.verify options must be an object', t => {
+    t.throws(() => {
+      JWT.AccessToken.verify(token, key, [])
+    }, { instanceOf: TypeError, message: 'options must be an object' })
+  })
+
+  test('AccessToken.verify options.maxAuthAge must be a string', string, 'maxAuthAge', JWT.AccessToken.verify, { issuer: 'foo', audience: 'bar' })
+
+  test('AccessToken.verify', t => {
     JWT.AccessToken.verify(token, key, { issuer: 'issuer', audience: 'RS' })
     t.pass()
   })
 
-  test('profile=at+JWT requires issuer option too', t => {
-    t.throws(() => {
-      JWT.verify(token, key, { profile: 'at+JWT' })
-    }, { instanceOf: TypeError, message: '"issuer" option is required to validate a JWT Access Token' })
+  test('AccessToken.verify requires issuer option too', t => {
     t.throws(() => {
       JWT.AccessToken.verify(token, key)
     }, { instanceOf: TypeError, message: '"issuer" option is required to validate a JWT Access Token' })
   })
 
-  test('profile=at+JWT requires audience option too', t => {
-    t.throws(() => {
-      JWT.verify(token, key, { profile: 'at+JWT', issuer: 'issuer' })
-    }, { instanceOf: TypeError, message: '"audience" option is required to validate a JWT Access Token' })
+  test('AccessToken.verify requires audience option too', t => {
     t.throws(() => {
       JWT.AccessToken.verify(token, key, { issuer: 'issuer' })
     }, { instanceOf: TypeError, message: '"audience" option is required to validate a JWT Access Token' })
   })
 
-  test('profile=at+JWT mandates exp to be present', t => {
+  test('AccessToken.verify mandates exp to be present', t => {
     const err = t.throws(() => {
-      JWT.verify(
+      JWT.AccessToken.verify(
         JWT.sign({ client_id: 'client_id' }, key, { subject: 'subject', issuer: 'issuer', audience: 'RS', jti: 'random', header: { typ: 'at+JWT' } }),
         key,
-        { profile: 'at+JWT', issuer: 'issuer', audience: 'RS' }
+        { issuer: 'issuer', audience: 'RS' }
       )
     }, { instanceOf: errors.JWTClaimInvalid, message: '"exp" claim is missing' })
     t.is(err.claim, 'exp')
     t.is(err.reason, 'missing')
   })
 
-  test('profile=at+JWT mandates client_id to be present', t => {
+  test('AccessToken.verify mandates client_id to be present', t => {
     const err = t.throws(() => {
-      JWT.verify(
+      JWT.AccessToken.verify(
         JWT.sign({ }, key, { expiresIn: '10m', subject: 'subject', issuer: 'issuer', audience: 'RS', jti: 'random', header: { typ: 'at+JWT' } }),
         key,
-        { profile: 'at+JWT', issuer: 'issuer', audience: 'RS' }
+        { issuer: 'issuer', audience: 'RS' }
       )
     }, { instanceOf: errors.JWTClaimInvalid, message: '"client_id" claim is missing' })
     t.is(err.claim, 'client_id')
     t.is(err.reason, 'missing')
   })
 
-  test('profile=at+JWT mandates jti to be present', t => {
+  test('AccessToken.verify mandates jti to be present', t => {
     const err = t.throws(() => {
-      JWT.verify(
-        JWT.sign({ }, key, { expiresIn: '10m', subject: 'subject', issuer: 'issuer', audience: 'RS' }),
+      JWT.AccessToken.verify(
+        JWT.sign({ }, key, { expiresIn: '10m', subject: 'subject', issuer: 'issuer', audience: 'RS', header: { typ: 'at+JWT' } }),
         key,
-        { profile: 'at+JWT', issuer: 'issuer', audience: 'RS' }
+        { issuer: 'issuer', audience: 'RS' }
       )
     }, { instanceOf: errors.JWTClaimInvalid, message: '"jti" claim is missing' })
     t.is(err.claim, 'jti')
     t.is(err.reason, 'missing')
   })
 
-  test('profile=at+JWT mandates iat to be present', t => {
+  test('AccessToken.verify mandates iat to be present', t => {
     const err = t.throws(() => {
-      JWT.verify(
-        JWT.sign({ }, key, { expiresIn: '10m', subject: 'subject', issuer: 'issuer', audience: 'RS', iat: false }),
+      JWT.AccessToken.verify(
+        JWT.sign({ }, key, { expiresIn: '10m', subject: 'subject', issuer: 'issuer', audience: 'RS', iat: false, header: { typ: 'at+JWT' } }),
         key,
-        { profile: 'at+JWT', issuer: 'issuer', audience: 'RS' }
+        { issuer: 'issuer', audience: 'RS' }
       )
     }, { instanceOf: errors.JWTClaimInvalid, message: '"iat" claim is missing' })
     t.is(err.claim, 'iat')
     t.is(err.reason, 'missing')
   })
 
-  test('profile=at+JWT mandates sub to be present', t => {
+  test('AccessToken.verify mandates sub to be present', t => {
     const err = t.throws(() => {
-      JWT.verify(
+      JWT.AccessToken.verify(
         JWT.sign({ client_id: 'client_id' }, key, { expiresIn: '10m', issuer: 'issuer', audience: 'RS', jti: 'random', header: { typ: 'at+JWT' } }),
         key,
-        { profile: 'at+JWT', issuer: 'issuer', audience: 'RS' }
+        { issuer: 'issuer', audience: 'RS' }
       )
     }, { instanceOf: errors.JWTClaimInvalid, message: '"sub" claim is missing' })
     t.is(err.claim, 'sub')
     t.is(err.reason, 'missing')
   })
 
-  test('profile=at+JWT mandates iss to be present', t => {
+  test('AccessToken.verify mandates iss to be present', t => {
     const err = t.throws(() => {
-      JWT.verify(
+      JWT.AccessToken.verify(
         JWT.sign({ client_id: 'client_id' }, key, { expiresIn: '10m', subject: 'subject', audience: 'RS', jti: 'random', header: { typ: 'at+JWT' } }),
         key,
-        { profile: 'at+JWT', issuer: 'issuer', audience: 'RS' }
+        { issuer: 'issuer', audience: 'RS' }
       )
     }, { instanceOf: errors.JWTClaimInvalid, message: '"iss" claim is missing' })
     t.is(err.claim, 'iss')
     t.is(err.reason, 'missing')
   })
 
-  test('profile=at+JWT mandates aud to be present', t => {
+  test('AccessToken.verify mandates aud to be present', t => {
     const err = t.throws(() => {
-      JWT.verify(
+      JWT.AccessToken.verify(
         JWT.sign({ client_id: 'client_id' }, key, { expiresIn: '10m', subject: 'subject', issuer: 'issuer', jti: 'random', header: { typ: 'at+JWT' } }),
         key,
-        { profile: 'at+JWT', issuer: 'issuer', audience: 'RS' }
+        { issuer: 'issuer', audience: 'RS' }
       )
     }, { instanceOf: errors.JWTClaimInvalid, message: '"aud" claim is missing' })
     t.is(err.claim, 'aud')
     t.is(err.reason, 'missing')
   })
 
-  test('profile=at+JWT mandates header typ to be present', t => {
+  test('AccessToken.verify mandates header typ to be present', t => {
     const err = t.throws(() => {
-      JWT.verify(
+      JWT.AccessToken.verify(
         JWT.sign({ client_id: 'client_id' }, key, { expiresIn: '10m', subject: 'subject', audience: 'RS', jti: 'random', issuer: 'issuer' }),
         key,
-        { profile: 'at+JWT', issuer: 'issuer', audience: 'RS' }
+        { issuer: 'issuer', audience: 'RS' }
       )
     }, { instanceOf: errors.JWTClaimInvalid, message: '"typ" header parameter is missing' })
     t.is(err.claim, 'typ')
     t.is(err.reason, 'missing')
   })
 
-  test('profile=at+JWT mandates header typ to be present and of the right value', t => {
+  test('AccessToken.verify mandates header typ to be present and of the right value', t => {
     const err = t.throws(() => {
-      JWT.verify(
+      JWT.AccessToken.verify(
         JWT.sign({ client_id: 'client_id' }, key, { expiresIn: '10m', subject: 'subject', audience: 'RS', jti: 'random', issuer: 'issuer', header: { typ: 'JWT' } }),
         key,
-        { profile: 'at+JWT', issuer: 'issuer', audience: 'RS' }
+        { issuer: 'issuer', audience: 'RS' }
       )
     }, { instanceOf: errors.JWTClaimInvalid, message: 'unexpected "typ" JWT header value' })
     t.is(err.claim, 'typ')
     t.is(err.reason, 'check_failed')
+  })
+
+  test('AccessToken.verify option.maxAuthAge requires auth_time to be in the payload', t => {
+    const err = t.throws(() => {
+      const invalid = JWT.sign({ client_id: 'client' }, key, { expiresIn: '10m', subject: 'subject', issuer: 'issuer', audience: 'RS', jti: 'random', header: { typ: 'at+JWT' } })
+      JWT.AccessToken.verify(invalid, key, { maxAuthAge: '30s', issuer: 'issuer', audience: 'RS' })
+    }, { instanceOf: errors.JWTClaimInvalid, message: '"auth_time" claim is missing' })
+    t.is(err.claim, 'auth_time')
+    t.is(err.reason, 'missing')
+  })
+
+  test('AccessToken.verify option.maxAuthAge checks auth_time', t => {
+    const err = t.throws(() => {
+      const invalid = JWT.sign({ auth_time: epoch - 31, client_id: 'client' }, key, { expiresIn: '10m', subject: 'subject', issuer: 'issuer', audience: 'RS', jti: 'random', header: { typ: 'at+JWT' } })
+      JWT.AccessToken.verify(invalid, key, { maxAuthAge: '30s', now, issuer: 'issuer', audience: 'RS' })
+    }, { instanceOf: errors.JWTClaimInvalid, message: '"auth_time" claim timestamp check failed (too much time has elapsed since the last End-User authentication)' })
+    t.is(err.claim, 'auth_time')
+    t.is(err.reason, 'check_failed')
+  })
+
+  test('AccessToken.verify option.maxAuthAge checks auth_time (with tolerance)', t => {
+    const token = JWT.sign({ auth_time: epoch - 31, client_id: 'client' }, key, { expiresIn: '10m', subject: 'subject', issuer: 'issuer', audience: 'RS', jti: 'random', header: { typ: 'at+JWT' } })
+    JWT.AccessToken.verify(token, key, { maxAuthAge: '30s', now, clockTolerance: '1s', issuer: 'issuer', audience: 'RS' })
+    t.pass()
+  })
+
+  test('AccessToken.verify auth_time must be a timestamp when provided', t => {
+    ;['', 'foo', true, null, [], {}].forEach((val) => {
+      const err = t.throws(() => {
+        const invalid = JWT.sign({ auth_time: val, client_id: 'client' }, key, { expiresIn: '10m', subject: 'subject', issuer: 'issuer', audience: 'RS', jti: 'random', header: { typ: 'at+JWT' } })
+        JWT.AccessToken.verify(invalid, key, { issuer: 'issuer', audience: 'RS' })
+      }, { instanceOf: errors.JWTClaimInvalid, message: '"auth_time" claim must be a JSON numeric value' })
+
+      t.is(err.claim, 'auth_time')
+      t.is(err.reason, 'invalid')
+    })
   })
 }

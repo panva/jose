@@ -908,12 +908,6 @@ Verifies the claims and signature of a JSON Web Token.
   - `algorithms`: `string[]` Array of expected signing algorithms. JWT signed with an algorithm not
     found in this option will be rejected. **Default:** accepts all algorithms available on the
     passed key (or keys in the keystore)
-  - `profile`: `<string>` To validate a JWT according to a specific profile, e.g. as an ID Token.
-    Supported values are 'id_token', 'at+JWT' (draft), and 'logout_token' (draft). **Default:** 'undefined'
-    (generic JWT). Combine this option with the other ones like `maxAuthAge` and `nonce` or
-    `subject` depending on the use-case. Draft profiles are updated as minor versions of the library,
-    therefore, since they may have breaking changes use the `~` semver operator when using these and
-    pay close attention to changelog and the drafts themselves.
   - `audience`: `<string>` &vert; `string[]` Expected audience value(s). When string an exact match must
     be found in the payload, when array at least one must be matched.
   - `typ`: `<string>` Expected JWT "typ" Header Parameter value. An exact match must be found in the
@@ -935,14 +929,9 @@ Verifies the claims and signature of a JSON Web Token.
   - `issuer`: `<string>` &vert; `string[]` Expected issuer value(s). When string an exact match must
     be found in the payload, when array at least one must be matched.
   - `jti`: `<string>` Expected jti value. An exact match must be found in the payload.
-  - `maxAuthAge`: `<string>` When provided the payload is checked to have the "auth_time" claim and
-    its value is validated, provided as timespan string e.g. `30m`, `24 hours`. See
-    [OpenID Connect Core 1.0][connect-core] for details. Do not confuse with maxTokenAge option.
   - `maxTokenAge`: `<string>` When provided the payload is checked to have the "iat" claim and its
     value is validated not to be older than the provided timespan string e.g. `30m`, `24 hours`.
     Do not confuse with maxAuthAge option.
-  - `nonce`: `<string>` Expected nonce value. An exact match must be found in the payload. See
-    [OpenID Connect Core 1.0][connect-core] for details.
   - `now`: `<Date>` Date object to be used instead of the current unix epoch timestamp.
     **Default:** 'new Date()'
   - `subject`: `<string>` Expected subject value. An exact match must be found in the payload.
@@ -1014,7 +1003,22 @@ JWT.decode(token, { complete: true })
 
 #### `JWT.AccessToken.verify(token, keyOrStore, options])`
 
-A shorthand for [`JWT.verify`](#jwtverifytoken-keyorstore-options) with the `profile` option set to `at+JWT`.
+A shorthand for [`JWT.verify`](#jwtverifytoken-keyorstore-options) with additional constraints and options
+to verify an Access Token according to 
+[JWT Profile for OAuth 2.0 Access Tokens](https://tools.ietf.org/html/draft-ietf-oauth-access-token-jwt-06).
+This is an IETF **draft** implementation. Breaking draft implementations are included as minor versions of
+the jose library, therefore, the ~ semver operator should be used and close attention be payed to library 
+changelog as well as the drafts themselves.
+
+The function arguments are the same as for [`JWT.verify`](#jwtverifytoken-keyorstore-options), only difference
+is that `issuer` and `audience` options are required and the additional option:
+
+- see [`JWT.verify`](#jwtverifytoken-keyorstore-options)
+- `issuer`: `<string>` REQUIRED
+- `audience`: `<string>` REQUIRED
+- `maxAuthAge`: `<string>` When provided the payload is checked to have the "auth_time" claim and
+  its value is validated, provided as timespan string e.g. `30m`, `24 hours`. See
+  [OpenID Connect Core 1.0][connect-core] for details. Do not confuse with maxTokenAge option.
 
 <details>
 <summary><em><strong>Example</strong></em> (Click to expand)</summary>
@@ -1038,6 +1042,18 @@ jose.JWT.AccessToken.verify(
 
 A shorthand for [`JWT.verify`](#jwtverifytoken-keyorstore-options) with the `profile` option set to `id_token`.
 
+The function arguments are the same as for [`JWT.verify`](#jwtverifytoken-keyorstore-options), only difference
+is that `issuer` and `audience` options are required and the additional options:
+
+- see [`JWT.verify`](#jwtverifytoken-keyorstore-options)
+- `issuer`: `<string>` REQUIRED
+- `audience`: `<string>` REQUIRED
+- `maxAuthAge`: `<string>` When provided the payload is checked to have the "auth_time" claim and
+  its value is validated, provided as timespan string e.g. `30m`, `24 hours`. See
+  [OpenID Connect Core 1.0][connect-core] for details. Do not confuse with maxTokenAge option.
+- `nonce`: `<string>` Expected nonce value. An exact match must be found in the payload. See
+  [OpenID Connect Core 1.0][connect-core] for details.
+
 <details>
 <summary><em><strong>Example</strong></em> (Click to expand)</summary>
 
@@ -1060,6 +1076,16 @@ jose.JWT.IdToken.verify(
 #### `JWT.LogoutToken.verify(token, keyOrStore, options])`
 
 A shorthand for [`JWT.verify`](#jwtverifytoken-keyorstore-options) with the `profile` option set to `logout_token`.
+This is an OIDF **draft** implementation. Breaking draft implementations are included as minor versions of
+the jose library, therefore, the ~ semver operator should be used and close attention be payed to library 
+changelog as well as the drafts themselves.
+
+The function arguments are the same as for [`JWT.verify`](#jwtverifytoken-keyorstore-options), only difference
+is that `issuer` and `audience` options are required.
+
+- see [`JWT.verify`](#jwtverifytoken-keyorstore-options)
+- `issuer`: `<string>` REQUIRED
+- `audience`: `<string>` REQUIRED
 
 <details>
 <summary><em><strong>Example</strong></em> (Click to expand)</summary>

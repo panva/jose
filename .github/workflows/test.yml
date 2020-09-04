@@ -38,6 +38,8 @@ jobs:
       - run: npm run lint-ts
 
   test:
+    env:
+      NODE_NO_WARNINGS: 1
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
@@ -81,6 +83,8 @@ jobs:
         run: npx codecov
 
   test-electron:
+    env:
+      NODE_NO_WARNINGS: 1
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
