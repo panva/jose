@@ -142,8 +142,8 @@ jose.JWT.verify(
   <summary><em><strong>Verifying OIDC ID Tokens</strong></em> (Click to expand)</summary><br>
 
 ID Token is a JWT, but profiled, there are additional requirements to a JWT to be accepted as an
-ID Token and it is pretty easy to omit some, use the `profile` option of `JWT.verify` or the
-`JWT.IdToken.verify` shorthand to make sure what you're accepting is really an ID Token meant to
+ID Token and it is pretty easy to omit some, use the
+`JWT.IdToken.verify` API to make sure what you're accepting is really an ID Token meant to
 your Client. This will then perform all doable validations given the input. See the
 [documentation][documentation-jwt] for more.
 
@@ -175,8 +175,8 @@ attention to changelog and the drafts themselves.
 
 When accepting a JWT-formatted OAuth 2.0 Access Token there are additional requirements for the JWT
 to be accepted as an Access Token according to the [specification][draft-ietf-oauth-access-token-jwt]
-and it is pretty easy to omit some. Use the `profile` option of `JWT.verify` or the
-`JWT.AccessToken.verify` shorthand to make sure what you're accepting is really a JWT Access Token
+and it is pretty easy to omit some. Use the
+`JWT.AccessToken.verify` API to make sure what you're accepting is really a JWT Access Token
 meant for your Resource Server. This will then perform all doable validations given the input. See
 the [documentation][documentation-jwt] for more.
 
@@ -202,8 +202,8 @@ since they may have breaking changes use the `~` semver operator when using thes
 attention to changelog and the drafts themselves.
 
 Logout Token is a JWT, but profiled, there are additional requirements to a JWT to be accepted as an
-Logout Token and it is pretty easy to omit some, use the `profile` option of `JWT.verify` or the
-`JWT.LogoutToken.verify` to make sure what you're accepting is really an Logout Token meant to your
+Logout Token and it is pretty easy to omit some, use the
+`JWT.LogoutToken.verify` API to make sure what you're accepting is really an Logout Token meant to your
 Client. This will then perform all doable validations given the input. See the
 [documentation][documentation-jwt] for more.
 
