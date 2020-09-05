@@ -399,7 +399,8 @@ export namespace JWE {
   interface DecryptOptions {
     complete?: boolean;
     crit?: string[];
-    algorithms?: string[];
+    contentEncryptionAlgorithms?: string[];
+    keyManagementAlgorithms?: string[];
   }
 
   interface completeDecrypt {

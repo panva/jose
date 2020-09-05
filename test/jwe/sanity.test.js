@@ -3,22 +3,41 @@ const test = require('ava')
 const base64url = require('../../lib/help/base64url')
 const { JWKS, JWK: { generateSync }, JWE, errors } = require('../..')
 
-test('algorithms option be an array of strings', t => {
+test('keyManagementAlgorithms option be an array of strings', t => {
   ;[{}, new Object(), false, null, Infinity, 0, '', Buffer.from('foo')].forEach((val) => { // eslint-disable-line no-new-object
     t.throws(() => {
       JWE.decrypt({
         header: { alg: 'HS256' },
         payload: 'foo',
         ciphertext: 'bar'
-      }, generateSync('oct'), { algorithms: val })
-    }, { instanceOf: TypeError, message: '"algorithms" option must be an array of non-empty strings' })
+      }, generateSync('oct'), { keyManagementAlgorithms: val })
+    }, { instanceOf: TypeError, message: '"keyManagementAlgorithms" option must be an array of non-empty strings' })
     t.throws(() => {
       JWE.decrypt({
         header: { alg: 'HS256' },
         payload: 'foo',
         ciphertext: 'bar'
-      }, generateSync('oct'), { algorithms: [val] })
-    }, { instanceOf: TypeError, message: '"algorithms" option must be an array of non-empty strings' })
+      }, generateSync('oct'), { keyManagementAlgorithms: [val] })
+    }, { instanceOf: TypeError, message: '"keyManagementAlgorithms" option must be an array of non-empty strings' })
+  })
+})
+
+test('contentEncryptionAlgorithms option be an array of strings', t => {
+  ;[{}, new Object(), false, null, Infinity, 0, '', Buffer.from('foo')].forEach((val) => { // eslint-disable-line no-new-object
+    t.throws(() => {
+      JWE.decrypt({
+        header: { alg: 'HS256' },
+        payload: 'foo',
+        ciphertext: 'bar'
+      }, generateSync('oct'), { contentEncryptionAlgorithms: val })
+    }, { instanceOf: TypeError, message: '"contentEncryptionAlgorithms" option must be an array of non-empty strings' })
+    t.throws(() => {
+      JWE.decrypt({
+        header: { alg: 'HS256' },
+        payload: 'foo',
+        ciphertext: 'bar'
+      }, generateSync('oct'), { contentEncryptionAlgorithms: [val] })
+    }, { instanceOf: TypeError, message: '"contentEncryptionAlgorithms" option must be an array of non-empty strings' })
   })
 })
 
@@ -433,42 +452,40 @@ test('JWE prot, unprot and per-recipient headers must be disjoint', t => {
   }, { instanceOf: errors.JWEInvalid, code: 'ERR_JWE_INVALID', message: 'JWE Shared Protected, JWE Shared Unprotected and JWE Per-Recipient Header Parameter names must be disjoint' })
 })
 
-if (!('electron' in process.versions)) {
-  test('JWE decrypt algorithms whitelist', t => {
-    const k = generateSync('oct')
-    const jwe = JWE.encrypt('foo', k, { alg: 'PBES2-HS256+A128KW' })
-    JWE.decrypt(jwe, k, { algorithms: ['PBES2-HS256+A128KW', 'PBES2-HS384+A192KW'] })
-
-    t.throws(() => {
-      JWE.decrypt(jwe, k, { algorithms: ['PBES2-HS384+A192KW'] })
-    }, { instanceOf: errors.JOSEAlgNotWhitelisted, code: 'ERR_JOSE_ALG_NOT_WHITELISTED', message: 'alg not whitelisted' })
-  })
-
-  test('JWE decrypt algorithms whitelist with a keystore', t => {
-    const k = generateSync('oct')
-    const k2 = generateSync('oct')
-    const ks = new JWKS.KeyStore(k, k2)
-
-    const jwe = JWE.encrypt('foo', k2, { alg: 'PBES2-HS256+A128KW' })
-    JWE.decrypt(jwe, ks, { algorithms: ['PBES2-HS256+A128KW', 'PBES2-HS384+A192KW'] })
-
-    t.throws(() => {
-      JWE.decrypt(jwe, ks, { algorithms: ['PBES2-HS384+A192KW'] })
-    }, { instanceOf: errors.JOSEAlgNotWhitelisted, code: 'ERR_JOSE_ALG_NOT_WHITELISTED' })
-  })
-}
-
-test('JWE decrypt algorithms whitelist with direct encryption', t => {
-  const k = generateSync('oct')
-  const jwe = JWE.encrypt('foo', k, { alg: 'dir' })
-  JWE.decrypt(jwe, k, { algorithms: ['A128CBC-HS256'] })
+test('JWE decrypt keyManagementAlgorithms whitelist', t => {
+  const k = generateSync('oct', 128)
+  const jwe = JWE.encrypt('foo', k, { alg: 'A128GCMKW' })
+  JWE.decrypt(jwe, k, { keyManagementAlgorithms: ['A128GCMKW', 'A192GCMKW'] })
 
   t.throws(() => {
-    JWE.decrypt(jwe, k, { algorithms: ['PBES2-HS384+A192KW'] })
+    JWE.decrypt(jwe, k, { keyManagementAlgorithms: ['A192GCMKW'] })
+  }, { instanceOf: errors.JOSEAlgNotWhitelisted, code: 'ERR_JOSE_ALG_NOT_WHITELISTED', message: 'key management algorithm not whitelisted' })
+})
+
+test('JWE decrypt keyManagementAlgorithms whitelist with a keystore', t => {
+  const k = generateSync('oct')
+  const k2 = generateSync('oct', 128)
+  const ks = new JWKS.KeyStore(k, k2)
+
+  const jwe = JWE.encrypt('foo', k2, { alg: 'A128GCMKW' })
+  JWE.decrypt(jwe, ks, { keyManagementAlgorithms: ['A128GCMKW', 'A192GCMKW'] })
+
+  t.throws(() => {
+    JWE.decrypt(jwe, ks, { keyManagementAlgorithms: ['A192GCMKW'] })
   }, { instanceOf: errors.JOSEAlgNotWhitelisted, code: 'ERR_JOSE_ALG_NOT_WHITELISTED' })
 })
 
-test('JWE decrypt algorithms whitelist (multi-recipient)', t => {
+test('JWE decrypt contentEncryptionAlgorithms whitelist', t => {
+  const k = generateSync('oct')
+  const jwe = JWE.encrypt('foo', k, { alg: 'dir' })
+  JWE.decrypt(jwe, k, { contentEncryptionAlgorithms: ['A128CBC-HS256'] })
+
+  t.throws(() => {
+    JWE.decrypt(jwe, k, { contentEncryptionAlgorithms: ['PBES2-HS384+A192KW'] })
+  }, { instanceOf: errors.JOSEAlgNotWhitelisted, code: 'ERR_JOSE_ALG_NOT_WHITELISTED' })
+})
+
+test('JWE decrypt keyManagementAlgorithms whitelist (multi-recipient)', t => {
   const k = generateSync('oct')
   const k2 = generateSync('RSA')
 
@@ -477,12 +494,12 @@ test('JWE decrypt algorithms whitelist (multi-recipient)', t => {
   encrypt.recipient(k2)
   const jwe = encrypt.encrypt('general')
 
-  JWE.decrypt(jwe, k, { algorithms: ['electron' in process.versions ? 'A256GCMKW' : 'A256KW'] })
-  JWE.decrypt(jwe, k2, { algorithms: ['RSA-OAEP'] })
+  JWE.decrypt(jwe, k, { keyManagementAlgorithms: ['electron' in process.versions ? 'A256GCMKW' : 'A256KW'] })
+  JWE.decrypt(jwe, k2, { keyManagementAlgorithms: ['RSA-OAEP'] })
   let err
 
   err = t.throws(() => {
-    JWE.decrypt(jwe, k, { algorithms: ['RSA-OAEP'] })
+    JWE.decrypt(jwe, k, { keyManagementAlgorithms: ['RSA-OAEP'] })
   }, { instanceOf: errors.JOSEMultiError, code: 'ERR_JOSE_MULTIPLE_ERRORS' })
   ;[...err].forEach((e, i) => {
     if (i === 0) {
@@ -493,7 +510,7 @@ test('JWE decrypt algorithms whitelist (multi-recipient)', t => {
   })
 
   err = t.throws(() => {
-    JWE.decrypt(jwe, k2, { algorithms: ['electron' in process.versions ? 'A256GCMKW' : 'A256KW'] })
+    JWE.decrypt(jwe, k2, { keyManagementAlgorithms: ['electron' in process.versions ? 'A256GCMKW' : 'A256KW'] })
   }, { instanceOf: errors.JOSEMultiError, code: 'ERR_JOSE_MULTIPLE_ERRORS' })
   ;[...err].forEach((e, i) => {
     if (i === 0) {
