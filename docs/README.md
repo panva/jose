@@ -447,7 +447,7 @@ keys may be both private and public.
 - `options`: `<Object>`
   - `calculateMissingRSAPrimes`: `<boolean>` **Default** 'false'. This option is really only in
     effect when importing private RSA JWK keys, by default, keys without the optimization private
-    key parameters (p, q, dp, dq, qi) won't imported because their calculation is heavy and prone
+    key parameters (p, q, dp, dq, qi) won't be imported because their calculation is heavy and prone
     to blocking the process. Setting this option to true will enable these keys to be imported,
     albeit at your own risk. Depending on the key size the calculation takes long and it should
     only be used for JWK keys from trusted sources.
@@ -786,7 +786,7 @@ Creates a new KeyStore from a JSON Web Key Set.
     unsupported by your Node.js runtime version (or otherwise faulty keys) get swallowed.
   - `calculateMissingRSAPrimes`: `<boolean>` **Default** 'false'. This option is really only in
     effect when the JWKS contains private RSA JWK keys, by default, keys without the optimization
-    private key parameters (p, q, dp, dq, qi) won't imported because their calculation is heavy and
+    private key parameters (p, q, dp, dq, qi) won't be imported because their calculation is heavy and
     prone to blocking the process. Setting this option to true will enable these keys to be
     imported, albeit at your own risk. Depending on the key size the calculation takes long and it
     should only be used for JWKS from trusted sources.
