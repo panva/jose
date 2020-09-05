@@ -1488,9 +1488,12 @@ operation.
   Syntax) matches. Any `JWK.asKey()` compatible input also works. `<JWK.Key>` instances are
   recommended for performance purposes when re-using the same key for every operation.
 - `options`: `<Object>`
-  - `algorithms`: `string[]` Array of Algorithms to accept, when the JWE does not use an
-    Key Management algorithm from this list the decryption will fail. **Default:** 'undefined' -
-    accepts all algorithms available on the keys
+  - `contentEncryptionAlgorithms`: `string[]` Array of algorithms to accept as the `enc` (content 
+    encryption), when the JWE does not use an Key Management algorithm from this list the decryption 
+    will fail.  **Default:** 'undefined' - accepts all content encryption algorithms.
+  - `keyManagementAlgorithms`: `string[]` Array of algorithms to accept as the `alg` (key management),
+    when the JWE does not use an Key Management algorithm from this list the decryption will fail. 
+    **Default:** 'undefined' - accepts all algorithms available on the key or key store.
   - `complete`: `<boolean>` When true returns an object with the parsed headers, verified
     AAD, the content encryption key, the key that was used to unwrap or derive the content
     encryption key, and cleartext instead of only the cleartext.
