@@ -13,7 +13,7 @@ test('token must be a string', t => {
 test('token must not be encrypted', t => {
   t.throws(() => {
     JWT.decode('....')
-  }, { instanceOf: TypeError, message: 'JWTs must be decrypted first' })
+  }, { instanceOf: TypeError, message: 'encrypted JWTs cannot be decoded' })
 })
 
 test('token must have three components', t => {
