@@ -1,6 +1,67 @@
-# Change Log
+# Changelog
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
+
+## [2.0.0](https://github.com/panva/jose/compare/v1.28.0...v2.0.0) (2020-09-08)
+
+
+### ⚠ BREAKING CHANGES
+
+* the `JWE.decrypt` option `algorithms` was removed and
+replaced with contentEncryptionAlgorithms (handles `enc` allowlist) and
+keyManagementAlgorithms (handles `alg` allowlist)
+* the `JWT.verify` profile option was removed, use e.g.
+`JWT.IdToken.verify` instead.
+* removed the `maxAuthAge` `JWT.verify` option, this
+option is now only present at the specific JWT profile APIs where the
+`auth_time` property applies.
+* removed the `nonce` `JWT.verify` option, this
+option is now only present at the specific JWT profile APIs where the
+`nonce` property applies.
+* the `acr`, `amr`, `nonce` and `azp` claim value types
+will only be checked when verifying a specific JWT profile using its
+dedicated API.
+* using the draft implementing APIs will emit a one-time
+warning per process using `process.emitWarning`
+* `JWT.sign` function options no longer accept a `nonce`
+property. To create a JWT with a `nonce` just pass the value to the
+payload.
+* due to added ESM module support Node.js version with
+ESM implementation bugs are no longer supported, this only affects early
+v13.x versions. The resulting Node.js semver range is
+`>=10.13.0 < 13 || >=13.7.0`
+* deprecated method `JWK.importKey` was removed
+* deprecated method `JWKS.KeyStore.fromJWKS` was removed
+* the use of unregistered curve name P-256K for secp256k1
+was removed
+* jose.JWE.Encrypt constructor aad and unprotectedHeader
+arguments swapped places
+* jose.JWE.encrypt.flattened header (unprotectedHeader)
+and aad arguments swapped places
+* jose.JWE.encrypt.general header (unprotectedHeader)
+and aad arguments swapped places
+* JWS.verify returned payloads are now always buffers
+* JWS.verify options `encoding` and `parse` were removed
+
+### Features
+
+* added support for ESM (ECMAScript modules) ([1aa9035](https://github.com/panva/jose/commit/1aa9035552bbcb34b95e092d0f082cc6d94465ab))
+* decrypt allowlists for both key management and content encryption ([30e5c46](https://github.com/panva/jose/commit/30e5c46ecf00a498e65a551ced88bc897531c2a4))
+
+
+### Bug Fixes
+
+* **typescript:** allow Buffer when verifying detached signature ([cadbd04](https://github.com/panva/jose/commit/cadbd047ca953d6d8171439f2efd7bb98a5d8e73))
+* **typescript:** properly type all decode/verify/decrypt fn options ([4c23bd6](https://github.com/panva/jose/commit/4c23bd65fe6fa634726a5eb73c6d590f7348a97e))
+
+
+### Refactor
+
+* encrypt APIs unprotectedHeader and aad arguments swapped ([70bd4ae](https://github.com/panva/jose/commit/70bd4ae6b2e6ba94bbe0b3dc1a17b2990af3a18b))
+* move JWT profile specifics outside of generic JWT ([fd69d7f](https://github.com/panva/jose/commit/fd69d7f5093d0b3a231d7d79aa3bca3a8a64464c))
+* removed `nonce` option from `JWT.sign` ([c4267cc](https://github.com/panva/jose/commit/c4267cc655bc2721d846c98f8a40640d1a12e9ad))
+* removed deprecated methods and utilities ([6c35c51](https://github.com/panva/jose/commit/6c35c519c9181f8246b36ad02572adb609d6de1d))
+* removed payload parsing from JWS.verify ([ba5c897](https://github.com/panva/jose/commit/ba5c89791915a2a3cd56b3dab1f3328778152d33))
 
 ## [1.28.0](https://github.com/panva/jose/compare/v1.27.3...v1.28.0) (2020-08-10)
 
