@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [2.0.1](https://github.com/panva/jose/compare/v2.0.0...v2.0.1) (2020-09-10)
+
+
+### Bug Fixes
+
+* allow plugins such as jose-chacha to work in newer node runtime ([30f1dc2](https://github.com/panva/jose/commit/30f1dc2c41e5554d322167b84b610a99bf5e69c5))
+
 ## [2.0.0](https://github.com/panva/jose/compare/v1.28.0...v2.0.0) (2020-09-08)
 
 
