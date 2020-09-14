@@ -89,12 +89,12 @@
     "@panva/asn1.js": "^1.0.0"
   },
   "devDependencies": {
-    "@commitlint/cli": "^9.1.1",
-    "@commitlint/config-conventional": "^9.1.1",
+    "@commitlint/cli": "^11.0.0",
+    "@commitlint/config-conventional": "^11.0.0",
     "ava": "^2.4.0",
     "babel-eslint": "^10.0.3",
     "c8": "^7.2.1",
-    "husky": "^4.0.0",
+    "husky": "^4.3.0",
     "standard": "^14.3.1"
   },
   "engines": {
