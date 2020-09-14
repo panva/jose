@@ -56,6 +56,7 @@
   "types": "types/index.d.ts",
   "files": [
     "lib/**/*.js",
+    "lib/**/*.mjs",
     "LICENSE_THIRD_PARTY",
     "types/index.d.ts"
   ],
