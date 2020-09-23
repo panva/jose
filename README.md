@@ -28,10 +28,6 @@ Available JWT validation profiles
 - (draft 04) OIDC Logout Token - [OpenID Connect Back-Channel Logout 1.0][spec-oidc-logout_token]
 - (draft 06) OAuth 2.0 JWT Access Tokens - [JWT Profile for OAuth 2.0 Access Tokens][draft-ietf-oauth-access-token-jwt]
 
-## Sponsor
-
-[<img width="65" height="65" align="left" src="https://avatars.githubusercontent.com/u/2824157?s=75&v=4" alt="auth0-logo">][sponsor-auth0] If you want to quickly add secure token-based authentication to Node.js projects, feel free to check Auth0’s free plan at [auth0.com/overview][sponsor-auth0].<br><br>
-
 ## Support
 
 If you or your business use `jose`, please consider becoming a [sponsor][support-sponsor] so I can continue maintaining it and adding new features carefree.
@@ -407,4 +403,3 @@ in terms of performance and API (not having well defined errors).
 [spec-oidc-logout_token]: https://openid.net/specs/openid-connect-backchannel-1_0-04.html#LogoutToken
 [oidc-token-hash]: https://www.npmjs.com/package/oidc-token-hash
 [support-sponsor]: https://github.com/sponsors/panva
-[sponsor-auth0]: https://auth0.com/overview?utm_source=GHsponsor&utm_medium=GHsponsor&utm_campaign=panva-jose&utm_content=auth

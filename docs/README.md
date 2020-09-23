@@ -11,10 +11,6 @@
 - [JWE (JSON Web Encryption)](#jwe-json-web-encryption)
 - [errors](#errors)
 
-## Sponsor
-
-[<img width="65" height="65" align="left" src="https://avatars.githubusercontent.com/u/2824157?s=75&v=4" alt="auth0-logo">][sponsor-auth0] If you want to quickly add secure token-based authentication to Node.js projects, feel free to check Auth0’s free plan at [auth0.com/overview][sponsor-auth0].<br><br>
-
 ## Support
 
 If you or your business use `jose`, please consider becoming a [sponsor][support-sponsor] so I can continue maintaining it and adding new features carefree.
@@ -1722,4 +1718,3 @@ if (err instanceof jose.errors.JOSEError && err.code === 'ERR_JWT_MALFORMED') {
 [spec-thumbprint]: https://tools.ietf.org/html/rfc7638
 [support-sponsor]: https://github.com/sponsors/panva
 [connect-core]: https://openid.net/specs/openid-connect-core-1_0.html
-[sponsor-auth0]: https://auth0.com/overview?utm_source=GHsponsor&utm_medium=GHsponsor&utm_campaign=panva-jose&utm_content=auth
