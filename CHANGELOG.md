@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [2.0.3](https://github.com/panva/jose/compare/v2.0.2...v2.0.3) (2020-10-29)
+
+
+### Bug Fixes
+
+* allow stubbing of the JWT.decode function ([6c3b92f](https://github.com/panva/jose/commit/6c3b92f4394a5d7092d7336922eda61e311e6f8c))
+
 ## [2.0.2](https://github.com/panva/jose/compare/v2.0.1...v2.0.2) (2020-09-14)
 
 
