@@ -13,7 +13,7 @@ const hasProperty = (t, obj, property, value, assertion = 'is') => {
   }
 }
 
-hasProperty.title = (title = '', obj, property, value) => `${title} has property \`${property}\` with value ${inspect(value)}`
+hasProperty.title = (title, obj, property, value) => `${title} has property \`${property}\` with value ${inspect(value)}`
 
 const hasNoProperties = (t, obj, ...properties) => {
   t.plan(properties.length)
@@ -25,7 +25,7 @@ const hasNoProperties = (t, obj, ...properties) => {
     }
   }
 }
-hasNoProperties.title = (title = '', obj, ...properties) => `${title} does not have properties ${properties.map(x => `\`${x}\``).join(', ')}`
+hasNoProperties.title = (title, obj, ...properties) => `${title} does not have properties ${properties.map(x => `\`${x}\``).join(', ')}`
 
 const hasProperties = (t, obj, ...properties) => {
   t.plan(properties.length)
@@ -37,7 +37,7 @@ const hasProperties = (t, obj, ...properties) => {
     }
   }
 }
-hasProperties.title = (title = '', obj, ...properties) => `${title} has properties ${properties.map(x => `\`${x}\``).join(', ')}`
+hasProperties.title = (title, obj, ...properties) => `${title} has properties ${properties.map(x => `\`${x}\``).join(', ')}`
 
 const compactJwt = (t, jwt, eHeader, ePayload) => {
   let [aHeader, aPayload] = jwt().split('.')

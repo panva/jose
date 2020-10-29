@@ -92,16 +92,12 @@
     "@commitlint/cli": "^11.0.0",
     "@commitlint/config-conventional": "^11.0.0",
     "ava": "^2.4.0",
-    "babel-eslint": "^10.0.3",
-    "c8": "^7.2.1",
+    "c8": "^7.3.5",
     "husky": "^4.3.0",
-    "standard": "^14.3.1"
+    "standard": "^16.0.0"
   },
   "engines": {
     "node": ">=10.13.0 < 13 || >=13.7.0"
-  },
-  "standard": {
-    "parser": "babel-eslint"
   },
   "standard-version": {
     "scripts": {

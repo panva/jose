@@ -5,7 +5,7 @@ const { JWS, JWT, JWK, JWKS, errors } = require('../..')
 const key = JWK.generateSync('oct')
 const token = JWT.sign({}, key, { iat: false })
 
-const string = (t, option, method = JWT.verify, opts) => {
+const string = (t, option, opts, method = JWT.verify) => {
   ;['', false, [], {}, Buffer, Buffer.from('foo'), 0, Infinity].forEach((val) => {
     t.throws(() => {
       method(token, key, { ...opts, [option]: val })
@@ -430,8 +430,8 @@ test('nbf check (passed because of ignoreIat)', t => {
     }, { instanceOf: TypeError, message: 'options must be an object' })
   })
 
-  test('IdToken.verify options.maxAuthAge must be a string', string, 'maxAuthAge', JWT.IdToken.verify, { issuer: 'foo', audience: 'bar' })
-  test('IdToken.verify options.nonce must be a string', string, 'nonce', JWT.IdToken.verify, { issuer: 'foo', audience: 'bar' })
+  test('IdToken.verify options.maxAuthAge must be a string', string, 'maxAuthAge', { issuer: 'foo', audience: 'bar' }, JWT.IdToken.verify)
+  test('IdToken.verify options.nonce must be a string', string, 'nonce', { issuer: 'foo', audience: 'bar' }, JWT.IdToken.verify)
 
   test('IdToken.verify', t => {
     JWT.IdToken.verify(token, key, { issuer: 'issuer', audience: 'client_id' })
@@ -772,7 +772,7 @@ test('nbf check (passed because of ignoreIat)', t => {
     }, { instanceOf: TypeError, message: 'options must be an object' })
   })
 
-  test('AccessToken.verify options.maxAuthAge must be a string', string, 'maxAuthAge', JWT.AccessToken.verify, { issuer: 'foo', audience: 'bar' })
+  test('AccessToken.verify options.maxAuthAge must be a string', string, 'maxAuthAge', { issuer: 'foo', audience: 'bar' }, JWT.AccessToken.verify)
 
   test('AccessToken.verify', t => {
     JWT.AccessToken.verify(token, key, { issuer: 'issuer', audience: 'RS' })
