@@ -1,0 +1,33 @@
+{{#if implementationOf}}
+
+*Implementation of {{#with implementationOf}}{{typeAndParent}}{{/with}}*
+
+{{/if}}
+
+{{#if overwrites}}
+
+*Overrides {{#with overwrites}}{{typeAndParent}}{{/with}}*
+
+{{/if}}
+
+{{#ifShowSources}}
+
+{{#if sources}}
+
+{{#each sources}}
+
+{{#if url}}
+
+*Defined in [{{fileName}}:{{line}}]({{url}})*
+
+{{else}}
+
+*Defined in {{fileName}}:{{line}}*
+
+{{/if}}
+
+{{/each}}
+
+{{/if}}
+
+{{/ifShowSources}}

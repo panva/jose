@@ -1,0 +1,121 @@
+import type { KeyObject, PublicKeyInput, PrivateKeyInput } from 'crypto'
+import { createPrivateKey, createPublicKey, createSecretKey } from 'crypto'
+
+import { decode as base64url } from './base64url.js'
+import { JOSENotSupported } from '../../util/errors.js'
+import { setCurve } from './get_named_curve.js'
+import { setModulusLength } from './check_modulus_length.js'
+import Asn1SequenceEncoder from './asn1_sequence_encoder.js'
+import type { JWK } from '../../types.d'
+
+export default async (jwk: JWK): Promise<KeyObject> => {
+  switch (jwk.kty) {
+    case 'oct': {
+      return createSecretKey(base64url(jwk.k!))
+    }
+    case 'RSA': {
+      const enc = new Asn1SequenceEncoder()
+      const isPrivate = jwk.d !== undefined
+
+      const modulus = Buffer.from(jwk.n!, 'base64')
+      const exponent = Buffer.from(jwk.e!, 'base64')
+
+      if (isPrivate) {
+        enc.unsignedInteger(Buffer.from([0x00]))
+        enc.unsignedInteger(modulus)
+        enc.unsignedInteger(exponent)
+        enc.unsignedInteger(Buffer.from(jwk.d!, 'base64'))
+        enc.unsignedInteger(Buffer.from(jwk.p!, 'base64'))
+        enc.unsignedInteger(Buffer.from(jwk.q!, 'base64'))
+        enc.unsignedInteger(Buffer.from(jwk.dp!, 'base64'))
+        enc.unsignedInteger(Buffer.from(jwk.dq!, 'base64'))
+        enc.unsignedInteger(Buffer.from(jwk.qi!, 'base64'))
+      } else {
+        enc.unsignedInteger(modulus)
+        enc.unsignedInteger(exponent)
+      }
+
+      const der = enc.end()
+
+      const createInput: PublicKeyInput & PrivateKeyInput = {
+        key: der,
+        format: 'der',
+        type: 'pkcs1',
+      }
+
+      const keyObject = isPrivate ? createPrivateKey(createInput) : createPublicKey(createInput)
+      setModulusLength(keyObject, modulus.length << 3)
+
+      return keyObject
+    }
+    case 'EC': {
+      const enc = new Asn1SequenceEncoder()
+      const isPrivate = jwk.d !== undefined
+
+      if (isPrivate) {
+        enc.zero()
+        const enc$1 = new Asn1SequenceEncoder()
+        enc$1.oidFor('ecPublicKey')
+        enc$1.oidFor(jwk.crv!)
+        enc.add(enc$1.end())
+        const enc$2 = new Asn1SequenceEncoder()
+        enc$2.one()
+        enc$2.octStr(Buffer.from(jwk.d!, 'base64'))
+        const f = enc$2.end()
+        enc.add(Buffer.from([0x04]))
+        enc.add(Buffer.from([f.length]))
+        enc.add(f)
+        const der = enc.end()
+        const keyObject = createPrivateKey({ key: der, format: 'der', type: 'pkcs8' })
+        setCurve(keyObject, jwk.crv!)
+        return keyObject
+      }
+
+      const enc$1 = new Asn1SequenceEncoder()
+      enc$1.oidFor('ecPublicKey')
+      enc$1.oidFor(jwk.crv!)
+      enc.add(enc$1.end())
+      const pub = Buffer.concat([
+        Buffer.alloc(1, 4),
+        Buffer.from(jwk.x!, 'base64'),
+        Buffer.from(jwk.y!, 'base64'),
+      ])
+      enc.bitStr(pub)
+      const der = enc.end()
+
+      const keyObject = createPublicKey({ key: der, format: 'der', type: 'spki' })
+      setCurve(keyObject, jwk.crv!)
+      return keyObject
+    }
+    case 'OKP': {
+      const enc = new Asn1SequenceEncoder()
+      const isPrivate = jwk.d !== undefined
+
+      if (isPrivate) {
+        enc.zero()
+        const enc$1 = new Asn1SequenceEncoder()
+        enc$1.oidFor(jwk.crv!)
+        enc.add(enc$1.end())
+
+        const enc$2 = new Asn1SequenceEncoder()
+        enc$2.octStr(Buffer.from(jwk.d!, 'base64'))
+        const f = enc$2.end(Buffer.from([0x04]))
+
+        enc.add(f)
+
+        const der = enc.end()
+        return createPrivateKey({ key: der, format: 'der', type: 'pkcs8' })
+      }
+
+      const enc$1 = new Asn1SequenceEncoder()
+      enc$1.oidFor(jwk.crv!)
+      enc.add(enc$1.end())
+      enc.bitStr(Buffer.from(jwk.x!, 'base64'))
+      const der = enc.end()
+
+      return createPublicKey({ key: der, format: 'der', type: 'spki' })
+    }
+    default:
+      throw new JOSENotSupported('unsupported or invalid JWK "kty" (Key Type) Parameter value')
+  }
+}

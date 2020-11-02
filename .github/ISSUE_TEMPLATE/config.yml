@@ -5,6 +5,7 @@ contact_links:
     about: Are you asking your nth question? Consider supporting the project before opening another.
   - name: Report a security vulnerability
     url: https://en.wikipedia.org/wiki/Responsible_disclosure
-    about: Do not disclose vulnerabilities via issues. Reach out to the project team via e.g. email,
+    about:
+      Do not disclose vulnerabilities via issues. Reach out to the project team via e.g. email,
       we'll work together on patching the vulnerability and follow some form of Responsible
       disclosure once fixed. Thank you.

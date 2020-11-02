@@ -3,16 +3,15 @@ name: Continuous Integration
 on:
   push:
     paths-ignore:
-      - '**.md'
+      - "**.md"
   pull_request:
     paths-ignore:
-      - '**.md'
+      - "**.md"
   schedule:
-    - cron:  0 11 * * 1-5
+    - cron: 0 11 * * 1-5
 
 jobs:
-  lint:
-    name: Lint
+  build:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -20,7 +19,7 @@ jobs:
       - name: Setup node
         uses: actions/setup-node@v2-beta
         with:
-          node-version: 12
+          node-version: 14
       - name: Store node version variable
         id: node
         run: |
@@ -30,35 +29,37 @@ jobs:
         id: node_modules
         with:
           path: node_modules
-          key: ${{ runner.os }}-node_modules-${{ hashFiles('**/package.json') }}-${{ steps.node.outputs.version }}
+          key: ${{ runner.os }}-node_modules-${{ hashFiles('package.json') }}-${{ steps.node.outputs.version }}
       - name: Install dependencies
         run: npx panva/npm-install-retry
         if: ${{ steps.node_modules.outputs.cache-hit != 'true' }}
-      - run: npm run lint
-      - run: npm run lint-ts
+      - name: Cache dist
+        uses: actions/cache@v2
+        id: dist
+        with:
+          path: dist
+          key: dist-${{ hashFiles('src/**/*.ts') }}-${{ hashFiles('tsconfig/*.json') }}
+      - run: sed -i -e "s/-i ''/-i/g" package.json
+      - name: Build
+        run: npm run build-all
+        if: ${{ steps.dist.outputs.cache-hit != 'true' }}
+      - run: git reset HEAD --hard
 
   test:
     env:
-      NODE_NO_WARNINGS: 1
-    runs-on: ${{ matrix.os }}
+      NODE_OPTIONS: --enable-source-maps
+    needs:
+      - build
     strategy:
       matrix:
         node-version:
-          - 10.13.0
-          - 10
-          - 11.0.0
-          - 11
-          - 12.0.0
+          - 12.19.0
           - 12
-          - 13.7.0
-          - 13
-          - 14.0.0
+          - 14.15.0
           - 14
           - 15.0.1
           - 15
-        os:
-          - ubuntu-latest
-          - windows-latest
+    runs-on: ubuntu-latest
     steps:
       - name: Checkout
         uses: actions/checkout@master
@@ -75,42 +76,40 @@ jobs:
         id: node_modules
         with:
           path: node_modules
-          key: ${{ runner.os }}-node_modules-${{ hashFiles('**/package.json') }}-${{ steps.node.outputs.version }}
+          key: ${{ runner.os }}-node_modules-${{ hashFiles('package.json') }}-${{ steps.node.outputs.version }}
       - name: Install dependencies
         run: npx panva/npm-install-retry
         if: ${{ steps.node_modules.outputs.cache-hit != 'true' }}
-      - run: npm run coverage
-      - env:
-          CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
-        run: npx codecov
+      - name: Load cached dist
+        uses: actions/cache@v2
+        id: dist
+        with:
+          path: dist
+          key: dist-${{ hashFiles('src/**/*.ts') }}-${{ hashFiles('tsconfig/*.json') }}
+      - run: npm install
+        working-directory: ./test
+      - name: Test Node.js crypto
+        run: npm run test
+      - name: Test Web Cryptography API
+        run: npm run test-webcrypto
+        if: ${{ !startsWith(matrix.node-version, '14') && !startsWith(matrix.node-version, '12')  }}
+      - run: git reset HEAD --hard
 
-  test-electron:
+  browserstack:
     env:
-      NODE_NO_WARNINGS: 1
-    runs-on: ${{ matrix.os }}
-    strategy:
-      matrix:
-        electron-version:
-          - 6.0.0
-          - 6
-          - 7.0.0
-          - 7
-          - 8.0.0
-          - 8
-          - 9.0.0
-          - 9
-          - 10.0.0
-          - 10
-        os:
-          - ubuntu-latest
-          - windows-latest
+      NODE_OPTIONS: --enable-source-maps
+      BROWSERSTACK_USERNAME: ${{ secrets.BROWSERSTACK_USERNAME }}
+      BROWSERSTACK_ACCESS_KEY: ${{ secrets.BROWSERSTACK_ACCESS_KEY }}
+    needs:
+      - build
+    runs-on: ubuntu-latest
     steps:
       - name: Checkout
         uses: actions/checkout@master
       - name: Setup node
         uses: actions/setup-node@v2-beta
         with:
-          node-version: 12
+          node-version: 14
       - name: Store node version variable
         id: node
         run: |
@@ -120,9 +119,15 @@ jobs:
         id: node_modules
         with:
           path: node_modules
-          key: ${{ runner.os }}-node_modules-${{ hashFiles('**/package.json') }}-${{ steps.node.outputs.version }}
+          key: ${{ runner.os }}-node_modules-${{ hashFiles('package.json') }}-${{ steps.node.outputs.version }}
       - name: Install dependencies
         run: npx panva/npm-install-retry
         if: ${{ steps.node_modules.outputs.cache-hit != 'true' }}
-      - run: npm install --global xvfb-maybe electron@${{ matrix.electron-version }}
-      - run: xvfb-maybe electron ./test/electron
+      - name: Load cached dist
+        uses: actions/cache@v2
+        id: dist
+        with:
+          path: dist
+          key: dist-${{ hashFiles('src/**/*.ts') }}-${{ hashFiles('tsconfig/*.json') }}
+      - run: npm run test-browser
+      - run: git reset HEAD --hard

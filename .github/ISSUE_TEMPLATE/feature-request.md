@@ -16,5 +16,5 @@ A clear and concise description of any alternative solutions or features you've 
 **Additional context**
 Add any other context about the problem here.
 
- - [ ] i have searched the configuration section for this feature and couldn't find it
- - [ ] i have searched the issues tracker on github for similar requests and couldn't find anything related.
+- [ ] i have searched the configuration section for this feature and couldn't find it
+- [ ] i have searched the issues tracker on github for similar requests and couldn't find anything related.

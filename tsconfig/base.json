@@ -1,0 +1,39 @@
+{
+  "files": [
+    "../src/jwe/compact/encrypt.ts",
+    "../src/jwe/compact/decrypt.ts",
+    "../src/jwe/flattened/encrypt.ts",
+    "../src/jwe/flattened/decrypt.ts",
+
+    "../src/jws/compact/sign.ts",
+    "../src/jws/compact/verify.ts",
+    "../src/jws/flattened/sign.ts",
+    "../src/jws/flattened/verify.ts",
+
+    "../src/jwk/parse.ts",
+    "../src/jwk/thumbprint.ts",
+    "../src/jwk/embedded.ts",
+
+    "../src/jwks/remote.ts",
+
+    "../src/jwt/sign.ts",
+    "../src/jwt/verify.ts",
+    "../src/jwt/encrypt.ts",
+    "../src/jwt/decrypt.ts",
+    "../src/jwt/unsecured.ts",
+
+    "../src/util/base64url.ts",
+    "../src/util/errors.ts",
+    "../src/util/generate_key_pair.ts",
+    "../src/util/generate_secret.ts",
+    "../src/util/random.ts"
+  ],
+  "compilerOptions": {
+    "strict": true,
+    "forceConsistentCasingInFileNames": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "sourceMap": false,
+    "removeComments": true
+  }
+}

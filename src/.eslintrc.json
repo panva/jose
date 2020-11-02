@@ -1,0 +1,38 @@
+{
+  "plugins": ["jsdoc"],
+  "extends": ["airbnb-typescript/base", "prettier"],
+  "parserOptions": {
+    "project": "./tsconfig/browser.json"
+  },
+  "rules": {
+    "no-underscore-dangle": "off",
+    "no-bitwise": "off",
+    "no-plusplus": "off",
+    "@typescript-eslint/indent": "off",
+    "@typescript-eslint/semi": "off",
+    "@typescript-eslint/no-extra-semi": "off",
+    "import/prefer-default-export": "off",
+    "jsdoc/check-access": 2,
+    "jsdoc/check-alignment": 2,
+    "jsdoc/check-indentation": 2,
+    "jsdoc/check-param-names": 2,
+    "jsdoc/check-property-names": 2,
+    "jsdoc/check-tag-names": 2,
+    "jsdoc/check-types": 2,
+    "jsdoc/empty-tags": 2,
+    "jsdoc/newline-after-description": 2,
+    "jsdoc/no-bad-blocks": 2,
+    "jsdoc/no-types": 2,
+    "jsdoc/require-description-complete-sentence": [1, { "abbreviations": ["e.g.", "i.e."] }],
+    "jsdoc/require-description": [2, { "checkConstructors": false }],
+    "jsdoc/require-hyphen-before-param-description": [2, "never"],
+    "jsdoc/require-param-description": 2,
+    "jsdoc/require-param-name": 2,
+    "jsdoc/require-param": 2,
+    "jsdoc/valid-types": 2
+  },
+  "globals": {
+    "window": "readonly"
+  },
+  "ignorePatterns": ["src/runtime/*/*.ts", "src/runtime/webcrypto.ts", "dist"]
+}
