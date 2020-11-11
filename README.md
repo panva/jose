@@ -4,6 +4,20 @@
 
 <p align="center"><img src="/img/demo.gif?raw=true"/></p>
 
+## New major version is available
+
+`v2.x` continues being supported. It will continue receiving
+bug fixes until 2022-04-30. It will not be receiving any new
+features.
+
+`v3.x` is [available](https://github.com/panva/jose) with
+
+- Revised API
+- No dependencies
+- Browser support
+- Promise-based API
+- experimental (non-blocking 🎉) Node.js libuv thread pool based runtime
+
 ## Implemented specs & features
 
 The following specifications are implemented by `jose`
@@ -49,7 +63,7 @@ is also supported.
 Installing `jose`
 
 ```console
-npm install jose
+npm install jose@2
 ```
 
 Usage
@@ -303,9 +317,9 @@ jose.JWE.decrypt(
 
 | JWT profile validation | Supported | Stable profile |  |
 | -- | -- | -- | -- |
-| JWT Access Tokens - [JWT Profile for OAuth 2.0 Access Tokens][draft-ietf-oauth-access-token-jwt] | ✓ | ✕<sup>5</sup> | see [`JWT.AccessToken.verify`](/docs/README.md#jwtaccesstokenverifytoken-keyorstore-options) |
-| ID Token - [OpenID Connect Core 1.0][spec-oidc-id_token] | ✓ | ✓ | see [`JWT.IdToken.verify`](/docs/README.md#jwtidtokenverifytoken-keyorstore-options) |
-| Logout Token - [OpenID Connect Back-Channel Logout 1.0][spec-oidc-logout_token] | ✓ | ✕<sup>5</sup> | see [`JWT.LogoutToken.verify`](/docs/README.md#jwtlogouttokenverifytoken-keyorstore-options) |
+| JWT Access Tokens - [JWT Profile for OAuth 2.0 Access Tokens][draft-ietf-oauth-access-token-jwt] | ✓ | ✕<sup>5</sup> | see [`JWT.AccessToken.verify`]([/docs/README.md](https://github.com/panva/jose/blob/v2.x/docs/README.md)#jwtaccesstokenverifytoken-keyorstore-options) |
+| ID Token - [OpenID Connect Core 1.0][spec-oidc-id_token] | ✓ | ✓ | see [`JWT.IdToken.verify`]([/docs/README.md](https://github.com/panva/jose/blob/v2.x/docs/README.md)#jwtidtokenverifytoken-keyorstore-options) |
+| Logout Token - [OpenID Connect Back-Channel Logout 1.0][spec-oidc-logout_token] | ✓ | ✕<sup>5</sup> | see [`JWT.LogoutToken.verify`]([/docs/README.md](https://github.com/panva/jose/blob/v2.x/docs/README.md)#jwtlogouttokenverifytoken-keyorstore-options) |
 | JARM - [JWT Secured Authorization Response Mode for OAuth 2.0][draft-jarm] | ◯ |||
 | [JWT Response for OAuth Token Introspection][draft-jwtintrospection] | ◯ |||
 | [OAuth 2.0 DPoP][draft-dpop] | ◯ |||
@@ -326,6 +340,13 @@ since they may have breaking changes use the `~` semver operator when using thes
 attention to changelog and the drafts themselves.
 
 ## FAQ
+
+#### Supported Versions
+
+| Version | Bug Fixes 🐞 | New Features ⭐ |
+| ------- | --------- | -------- |
+| [3.x.x](https://github.com/panva/jose) | ✅ | ✅ |
+| [2.x.x](https://github.com/panva/jose/tree/v2.x) | ✅ until 2022-04-30 | ❌ |
 
 #### Semver?
 
@@ -377,13 +398,13 @@ in terms of performance and API (not having well defined errors).
 
 &plus; this was an amazing opportunity to learn JOSE as a whole
 
-[documentation-jwe]: /docs/README.md#jwe-json-web-encryption
-[documentation-jwk]: /docs/README.md#jwk-json-web-key
-[documentation-jwks]: /docs/README.md#jwks-json-web-key-set
-[documentation-jws]: /docs/README.md#jws-json-web-signature
-[documentation-jwt]: /docs/README.md#jwt-json-web-token
-[documentation-none]: /docs/README.md#jwknone
-[documentation]: /docs/README.md
+[documentation-jwe]: https://github.com/panva/jose/blob/v2.x/docs/README.md#jwe-json-web-encryption
+[documentation-jwk]: https://github.com/panva/jose/blob/v2.x/docs/README.md#jwk-json-web-key
+[documentation-jwks]: https://github.com/panva/jose/blob/v2.x/docs/README.md#jwks-json-web-key-set
+[documentation-jws]: https://github.com/panva/jose/blob/v2.x/docs/README.md#jws-json-web-signature
+[documentation-jwt]: https://github.com/panva/jose/blob/v2.x/docs/README.md#jwt-json-web-token
+[documentation-none]: https://github.com/panva/jose/blob/v2.x/docs/README.md#jwknone
+[documentation]: https://github.com/panva/jose/blob/v2.x/docs/README.md
 [node-jose]: https://github.com/cisco/node-jose
 [spec-b64]: https://tools.ietf.org/html/rfc7797
 [spec-cookbook]: https://tools.ietf.org/html/rfc7520
