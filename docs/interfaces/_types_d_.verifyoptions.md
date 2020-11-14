@@ -14,6 +14,6 @@ JWS Verification options.
 
 • `Optional` **algorithms**: string[]
 
-*Defined in [src/types.d.ts:397](https://github.com/panva/jose/blob/v3.x/src/types.d.ts#L397)*
+*Defined in [src/types.d.ts:397](https://github.com/panva/jose/blob/v3.0.0/src/types.d.ts#L397)*
 
 A list of accepted JWS "alg" (Algorithm) Header Parameter values.

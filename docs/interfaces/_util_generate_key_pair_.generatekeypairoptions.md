@@ -12,7 +12,7 @@
 
 • `Optional` **crv**: string
 
-*Defined in [src/util/generate_key_pair.ts:10](https://github.com/panva/jose/blob/v3.x/src/util/generate_key_pair.ts#L10)*
+*Defined in [src/util/generate_key_pair.ts:10](https://github.com/panva/jose/blob/v3.0.0/src/util/generate_key_pair.ts#L10)*
 
 The EC "crv" (Curve) or OKP "crv" (Subtype of Key Pair) value to generate.
 The curve must be both supported on the runtime as well as applicable for

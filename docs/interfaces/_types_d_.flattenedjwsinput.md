@@ -18,7 +18,7 @@ Uint8Array for detached signature validation.
 
 • `Optional` **header**: [JWSHeaderParameters](_types_d_.jwsheaderparameters.md)
 
-*Defined in [src/types.d.ts:106](https://github.com/panva/jose/blob/v3.x/src/types.d.ts#L106)*
+*Defined in [src/types.d.ts:106](https://github.com/panva/jose/blob/v3.0.0/src/types.d.ts#L106)*
 
 The "header" member MUST be present and contain the value JWS
 Unprotected Header when the JWS Unprotected Header value is non-
@@ -32,7 +32,7 @@ ___
 
 •  **payload**: string \| Uint8Array
 
-*Defined in [src/types.d.ts:113](https://github.com/panva/jose/blob/v3.x/src/types.d.ts#L113)*
+*Defined in [src/types.d.ts:113](https://github.com/panva/jose/blob/v3.0.0/src/types.d.ts#L113)*
 
 The "payload" member MUST be present and contain the value
 BASE64URL(JWS Payload). When RFC7797 "b64": false is used
@@ -44,7 +44,7 @@ ___
 
 • `Optional` **protected**: string
 
-*Defined in [src/types.d.ts:121](https://github.com/panva/jose/blob/v3.x/src/types.d.ts#L121)*
+*Defined in [src/types.d.ts:121](https://github.com/panva/jose/blob/v3.0.0/src/types.d.ts#L121)*
 
 The "protected" member MUST be present and contain the value
 BASE64URL(UTF8(JWS Protected Header)) when the JWS Protected
@@ -57,7 +57,7 @@ ___
 
 •  **signature**: string
 
-*Defined in [src/types.d.ts:127](https://github.com/panva/jose/blob/v3.x/src/types.d.ts#L127)*
+*Defined in [src/types.d.ts:127](https://github.com/panva/jose/blob/v3.0.0/src/types.d.ts#L127)*
 
 The "signature" member MUST be present and contain the value
 BASE64URL(JWS Signature).

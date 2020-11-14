@@ -2,6 +2,21 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [3.0.0](https://github.com/panva/jose/compare/v2.0.3...v3.0.0) (2020-11-14)
+
+
+### ⚠ BREAKING CHANGES
+
+* Revised, Promise-based API
+* No dependencies
+* Browser support (using [Web Cryptography API](https://www.w3.org/TR/WebCryptoAPI/))
+* Support for verification using a remote JWKS endpoint
+* Experimental Node.js libuv thread pool based runtime (non-blocking 🎉)
+
+### Features
+
+* Revised API, No dependencies, Browser Support, Promises ([357fe0b](https://github.com/panva/jose/commit/357fe0b964903e8c84ab49f0f27ddf0447d44c84))
+
 ## [2.0.3](https://github.com/panva/jose/compare/v2.0.2...v2.0.3) (2020-10-29)
 
 
