@@ -2,7 +2,7 @@
 
 ▸ **EmbeddedJWK**(`protectedHeader`: [JWSHeaderParameters](../interfaces/_types_d_.jwsheaderparameters.md), `token`: [FlattenedJWSInput](../interfaces/_types_d_.flattenedjwsinput.md)): Promise\<KeyObject \| CryptoKey>
 
-*Defined in [src/jwk/embedded.ts:43](https://github.com/panva/jose/blob/v3.0.1/src/jwk/embedded.ts#L43)*
+*Defined in [src/jwk/embedded.ts:43](https://github.com/panva/jose/blob/v3.0.2/src/jwk/embedded.ts#L43)*
 
 EmbeddedJWK is an implementation of a GetKeyFunction intended to be used with the
 JWS/JWT verify operations whenever you need to opt-in to verify signatures with

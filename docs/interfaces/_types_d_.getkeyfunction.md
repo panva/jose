@@ -14,7 +14,7 @@ Name |
 
 ▸ (`protectedHeader`: T, `token`: T2): Promise\<[KeyLike](../types/_types_d_.keylike.md)>
 
-*Defined in [src/types.d.ts:75](https://github.com/panva/jose/blob/v3.0.1/src/types.d.ts#L75)*
+*Defined in [src/types.d.ts:75](https://github.com/panva/jose/blob/v3.0.2/src/types.d.ts#L75)*
 
 Generic Interface for consuming operations dynamic key resolution.
 No token components have been verified at the time of this function call.

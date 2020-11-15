@@ -2,7 +2,7 @@
 
 ▸ **compactVerify**(`jws`: string, `key`: [KeyLike](../types/_types_d_.keylike.md) \| [CompactVerifyGetKey](../interfaces/_jws_compact_verify_.compactverifygetkey.md), `options?`: [VerifyOptions](../interfaces/_types_d_.verifyoptions.md)): Promise\<[CompactVerifyResult](../interfaces/_types_d_.compactverifyresult.md)>
 
-*Defined in [src/jws/compact/verify.ts:59](https://github.com/panva/jose/blob/v3.0.1/src/jws/compact/verify.ts#L59)*
+*Defined in [src/jws/compact/verify.ts:59](https://github.com/panva/jose/blob/v3.0.2/src/jws/compact/verify.ts#L59)*
 
 Verifies the signature and format of and afterwards decodes the Compact JWS.
 

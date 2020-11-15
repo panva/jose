@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [3.0.2](https://github.com/panva/jose/compare/v3.0.1...v3.0.2) (2020-11-15)
+
+
+### Bug Fixes
+
+* **build:** publish esm submodules ([7b6364f](https://github.com/panva/jose/commit/7b6364f26f7654368c9e33af58043ee40e77ec77)), closes [#104](https://github.com/panva/jose/issues/104)
+
 ## [3.0.1](https://github.com/panva/jose/compare/v3.0.0...v3.0.1) (2020-11-15)
 
 
