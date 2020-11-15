@@ -129,11 +129,5 @@ jobs:
         with:
           path: dist
           key: dist-${{ hashFiles('src/**/*.ts') }}-${{ hashFiles('tsconfig/*.json') }}
-      - name: Turnstyle
-        uses: softprops/turnstyle@v1
-        with:
-          same-branch-only: false
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - run: npm run test-browser
       - run: git reset HEAD --hard
