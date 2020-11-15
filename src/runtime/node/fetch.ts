@@ -2,6 +2,7 @@ import { get as http } from 'http'
 import type { ClientRequest } from 'http'
 import { get as https, RequestOptions } from 'https'
 
+import type { FetchFunction } from '../interfaces.d'
 import { JOSEError } from '../../util/errors.js'
 import { concat, decoder } from '../../lib/buffer_utils.js'
 
@@ -10,7 +11,7 @@ const protocols: { [protocol: string]: (...args: Parameters<typeof https>) => Cl
   'http:': http,
 }
 
-export default async (url: URL, timeout: number, options?: RequestOptions) => {
+const fetch: FetchFunction = async (url: URL, timeout: number, options?: RequestOptions) => {
   if (!(url.protocol in protocols)) {
     throw new TypeError('Unsupported URL protocol.')
   }
@@ -41,3 +42,5 @@ export default async (url: URL, timeout: number, options?: RequestOptions) => {
     ).on('error', reject)
   }) as Promise<any>
 }
+
+export default fetch

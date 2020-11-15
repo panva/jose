@@ -1,6 +1,7 @@
 import type { KeyObject, PublicKeyInput, PrivateKeyInput } from 'crypto'
 import { createPrivateKey, createPublicKey, createSecretKey } from 'crypto'
 
+import type { JWKParseFunction } from '../interfaces.d'
 import { decode as base64url } from './base64url.js'
 import { JOSENotSupported } from '../../util/errors.js'
 import { setCurve } from './get_named_curve.js'
@@ -8,7 +9,7 @@ import { setModulusLength } from './check_modulus_length.js'
 import Asn1SequenceEncoder from './asn1_sequence_encoder.js'
 import type { JWK } from '../../types.d'
 
-export default async (jwk: JWK): Promise<KeyObject> => {
+const parse: JWKParseFunction = (jwk: JWK): KeyObject => {
   switch (jwk.kty) {
     case 'oct': {
       return createSecretKey(base64url(jwk.k!))
@@ -119,3 +120,4 @@ export default async (jwk: JWK): Promise<KeyObject> => {
       throw new JOSENotSupported('unsupported or invalid JWK "kty" (Key Type) Parameter value')
   }
 }
+export default parse

@@ -1,9 +1,10 @@
 import crypto, { ensureSecureContext } from './webcrypto.js'
+import type { JWKParseFunction } from '../interfaces.d'
 import { JOSENotSupported } from '../../util/errors.js'
 import type { JWK } from '../../types.d'
 import { decode as base64url } from './base64url.js'
 
-function parse(
+function subtleMapping(
   jwk: JWK,
 ): { algorithm: RsaHashedImportParams | EcKeyAlgorithm | Algorithm; keyUsages: KeyUsage[] } {
   let algorithm: RsaHashedImportParams | EcKeyAlgorithm | Algorithm
@@ -101,8 +102,8 @@ function parse(
   return { algorithm, keyUsages }
 }
 
-export default async (jwk: JWK): Promise<CryptoKey> => {
-  const { algorithm, keyUsages } = parse(jwk)
+const parse: JWKParseFunction = async (jwk: JWK): Promise<CryptoKey> => {
+  const { algorithm, keyUsages } = subtleMapping(jwk)
   let format = 'jwk'
   let keyData: JWK | Uint8Array = { ...jwk }
   delete keyData.alg
@@ -119,3 +120,4 @@ export default async (jwk: JWK): Promise<CryptoKey> => {
     (jwk.key_ops as KeyUsage[]) ?? keyUsages,
   )
 }
+export default parse

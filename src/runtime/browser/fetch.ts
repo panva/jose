@@ -1,13 +1,14 @@
+import type { FetchFunction } from '../interfaces.d'
 import { JOSEError } from '../../util/errors.js'
 
-export default async (url: URL, timeout: number) => {
+const fetch: FetchFunction = async (url: URL, timeout: number) => {
   let controller!: AbortController
   if (typeof AbortController === 'function') {
     controller = new AbortController()
     setTimeout(() => controller.abort(), timeout)
   }
 
-  const response = await fetch(url.href, {
+  const response = await window.fetch(url.href, {
     signal: controller ? controller.signal : undefined,
     redirect: 'manual',
     referrerPolicy: 'no-referrer',
@@ -26,3 +27,4 @@ export default async (url: URL, timeout: number) => {
     throw new JOSEError('Failed to parse the JSON Web Key Set HTTP response as JSON')
   }
 }
+export default fetch

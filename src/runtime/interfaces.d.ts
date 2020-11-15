@@ -1,4 +1,4 @@
-import type { KeyLike } from '../types.d'
+import type { JWK, KeyLike } from '../types.d'
 import type { EpkJwk, AsyncOrSync } from '../types.i.d'
 
 /**
@@ -109,11 +109,12 @@ export interface DecryptFunction {
     additionalData: Uint8Array,
   ): Promise<Uint8Array>
 }
-// TODO:
 export interface FetchFunction {
   (url: URL, timeout: number): Promise<any>
 }
-// TODO:
 export interface DigestFunction {
-  (digest: string, data: Uint8Array): AsyncOrSync<Uint8Array>
+  (digest: 'sha256' | 'sha384' | 'sha512', data: Uint8Array): AsyncOrSync<Uint8Array>
+}
+export interface JWKParseFunction {
+  (jwk: JWK): AsyncOrSync<KeyLike>
 }

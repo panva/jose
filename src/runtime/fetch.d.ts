@@ -1,2 +1,3 @@
-declare const _default: (url: URL, timeout: number) => Promise<any>
-export default _default
+import type { FetchFunction } from './interfaces.d'
+declare const fetch: FetchFunction
+export default fetch
