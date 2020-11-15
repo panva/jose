@@ -422,6 +422,7 @@
     }
   },
   "files": [
+    "dist/**/package.json",
     "dist/**/*.js",
     "src/**/*.d.ts",
     "src/**/*.ts",
