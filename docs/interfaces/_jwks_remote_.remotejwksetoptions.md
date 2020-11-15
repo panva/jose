@@ -15,7 +15,7 @@ Options for the remote JSON Web Key Set.
 
 • `Optional` **cooldownDuration**: number
 
-*Defined in [src/jwks/remote.ts:45](https://github.com/panva/jose/blob/v3.0.0/src/jwks/remote.ts#L45)*
+*Defined in [src/jwks/remote.ts:45](https://github.com/panva/jose/blob/v3.0.1/src/jwks/remote.ts#L45)*
 
 Duration for which no more HTTP requests will be triggered
 after a previous successful fetch. Default is 30000.
@@ -26,7 +26,7 @@ ___
 
 • `Optional` **timeoutDuration**: number
 
-*Defined in [src/jwks/remote.ts:39](https://github.com/panva/jose/blob/v3.0.0/src/jwks/remote.ts#L39)*
+*Defined in [src/jwks/remote.ts:39](https://github.com/panva/jose/blob/v3.0.1/src/jwks/remote.ts#L39)*
 
 Timeout for the HTTP request. When reached the request will be
 aborted and the verification will fail. Default is 5000.

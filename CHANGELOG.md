@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [3.0.1](https://github.com/panva/jose/compare/v3.0.0...v3.0.1) (2020-11-15)
+
+
+### Bug Fixes
+
+* **typescript:** fix compiling by adding .d.ts files for runtime modules ([d9cb573](https://github.com/panva/jose/commit/d9cb5734d779df26c3e717a9f4f23d18b856dc5f))
+
 ## [3.0.0](https://github.com/panva/jose/compare/v2.0.3...v3.0.0) (2020-11-14)
 
 

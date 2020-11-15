@@ -2,7 +2,7 @@
 
 ▸ **compactDecrypt**(`jwe`: string, `key`: [KeyLike](../types/_types_d_.keylike.md) \| [CompactDecryptGetKey](../interfaces/_jwe_compact_decrypt_.compactdecryptgetkey.md), `options?`: [DecryptOptions](../interfaces/_types_d_.decryptoptions.md)): Promise\<[CompactDecryptResult](../interfaces/_types_d_.compactdecryptresult.md)>
 
-*Defined in [src/jwe/compact/decrypt.ts:62](https://github.com/panva/jose/blob/v3.0.0/src/jwe/compact/decrypt.ts#L62)*
+*Defined in [src/jwe/compact/decrypt.ts:62](https://github.com/panva/jose/blob/v3.0.1/src/jwe/compact/decrypt.ts#L62)*
 
 Decrypts a Compact JWE.
 

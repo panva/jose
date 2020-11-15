@@ -2,7 +2,7 @@
 
 ▸ **createRemoteJWKSet**(`url`: URL, `options?`: [RemoteJWKSetOptions](../interfaces/_jwks_remote_.remotejwksetoptions.md)): [GetKeyFunction](../interfaces/_types_d_.getkeyfunction.md)\<[JWSHeaderParameters](../interfaces/_types_d_.jwsheaderparameters.md), [FlattenedJWSInput](../interfaces/_types_d_.flattenedjwsinput.md)>
 
-*Defined in [src/jwks/remote.ts:233](https://github.com/panva/jose/blob/v3.0.0/src/jwks/remote.ts#L233)*
+*Defined in [src/jwks/remote.ts:233](https://github.com/panva/jose/blob/v3.0.1/src/jwks/remote.ts#L233)*
 
 Returns a function that resolves to a key object downloaded from a
 remote endpoint returning a JSON Web Key Set, that is, for example,
