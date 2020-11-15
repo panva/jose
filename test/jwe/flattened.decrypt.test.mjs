@@ -182,24 +182,6 @@ Promise.all([
         .encrypt(new Uint8Array(32));
 
       {
-        const secret = new Uint8Array(32);
-        secret[0] += 1;
-        await t.throwsAsync(flattenedDecrypt(jwe, secret), {
-          code: 'ERR_JWE_DECRYPTION_FAILED',
-          message: 'decryption operation failed',
-        });
-      }
-
-      {
-        const secret = new Uint8Array(32);
-        secret[31] += 1;
-        await t.throwsAsync(flattenedDecrypt(jwe, secret), {
-          code: 'ERR_JWE_DECRYPTION_FAILED',
-          message: 'decryption operation failed',
-        });
-      }
-
-      {
         const jweBadTag = { ...jwe };
         jweBadTag.tag = 'foo';
         await t.throwsAsync(flattenedDecrypt(jweBadTag, new Uint8Array(32)), {
@@ -212,6 +194,24 @@ Promise.all([
         const jweBadEnc = { ...jwe };
         jweBadEnc.ciphertext = 'foo';
         await t.throwsAsync(flattenedDecrypt(jweBadEnc, new Uint8Array(32)), {
+          code: 'ERR_JWE_DECRYPTION_FAILED',
+          message: 'decryption operation failed',
+        });
+      }
+
+      {
+        const secret = new Uint8Array(32);
+        secret.fill(1, 0, 16)
+        await t.throwsAsync(flattenedDecrypt(jwe, secret), {
+          code: 'ERR_JWE_DECRYPTION_FAILED',
+          message: 'decryption operation failed',
+        });
+      }
+
+      {
+        const secret = new Uint8Array(32);
+        secret.fill(1, -16)
+        await t.throwsAsync(flattenedDecrypt(jwe, secret), {
           code: 'ERR_JWE_DECRYPTION_FAILED',
           message: 'decryption operation failed',
         });
