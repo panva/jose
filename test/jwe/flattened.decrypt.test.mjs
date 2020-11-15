@@ -5,8 +5,9 @@ const root = !('WEBCRYPTO' in process.env) ? '#dist' : '#dist/webcrypto';
 Promise.all([
   import(`${root}/jwe/flattened/encrypt`),
   import(`${root}/jwe/flattened/decrypt`),
+  import(`${root}/util/random`),
 ]).then(
-  ([{ default: FlattenedEncrypt }, { default: flattenedDecrypt }]) => {
+  ([{ default: FlattenedEncrypt }, { default: flattenedDecrypt }, { default: random }]) => {
     test.before(async (t) => {
       const encode = TextEncoder.prototype.encode.bind(new TextEncoder());
       t.context.plaintext = encode('It’s a dangerous business, Frodo, going out your door.');
@@ -177,14 +178,15 @@ Promise.all([
     });
 
     test('AES CBC + HMAC', async (t) => {
+      const secret = random(new Uint8Array(32));
       const jwe = await new FlattenedEncrypt(t.context.plaintext)
         .setProtectedHeader({ alg: 'dir', enc: 'A128CBC-HS256' })
-        .encrypt(new Uint8Array(32));
+        .encrypt(secret);
 
       {
         const jweBadTag = { ...jwe };
         jweBadTag.tag = 'foo';
-        await t.throwsAsync(flattenedDecrypt(jweBadTag, new Uint8Array(32)), {
+        await t.throwsAsync(flattenedDecrypt(jweBadTag, secret), {
           code: 'ERR_JWE_DECRYPTION_FAILED',
           message: 'decryption operation failed',
         });
@@ -193,25 +195,17 @@ Promise.all([
       {
         const jweBadEnc = { ...jwe };
         jweBadEnc.ciphertext = 'foo';
-        await t.throwsAsync(flattenedDecrypt(jweBadEnc, new Uint8Array(32)), {
+        await t.throwsAsync(flattenedDecrypt(jweBadEnc, secret), {
           code: 'ERR_JWE_DECRYPTION_FAILED',
           message: 'decryption operation failed',
         });
       }
 
       {
-        const secret = new Uint8Array(32);
-        secret.fill(1, 0, 16);
-        await t.throwsAsync(flattenedDecrypt(jwe, secret), {
-          code: 'ERR_JWE_DECRYPTION_FAILED',
-          message: 'decryption operation failed',
-        });
-      }
-
-      {
-        const secret = new Uint8Array(32);
-        secret.fill(1, -16);
-        await t.throwsAsync(flattenedDecrypt(jwe, secret), {
+        const altSecret = new Uint8Array(32)
+        altSecret.set(secret.slice(0, 16), 16)
+        altSecret.set(secret.slice(16), 0)
+        await t.throwsAsync(flattenedDecrypt(jwe, altSecret), {
           code: 'ERR_JWE_DECRYPTION_FAILED',
           message: 'decryption operation failed',
         });
