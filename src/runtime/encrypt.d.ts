@@ -1,3 +1,3 @@
-import type { EncryptFunction } from './interfaces.d';
-declare const encrypt: EncryptFunction;
-export default encrypt;
+import type { EncryptFunction } from './interfaces.d'
+declare const encrypt: EncryptFunction
+export default encrypt
