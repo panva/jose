@@ -1,6 +1,6 @@
 # crypto runtime copies
 src/runtime/*.ts
-+src/runtime/interfaces.d.ts
++src/runtime/*.d.ts
 
 # cjs clone of the test suite
 test/cjs

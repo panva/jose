@@ -425,8 +425,9 @@
     "dist/**/*.js",
     "src/**/*.d.ts",
     "src/**/*.ts",
+    "!src/runtime/*/*.ts",
     "!src/runtime/*.ts",
-    "src/runtime/interfaces.d.ts"
+    "src/runtime/*.d.ts"
   ],
   "scripts": {
     "build": "tsc",
@@ -447,7 +448,7 @@
     "runtime-node-webcrypto": "run-s runtime:clear runtime:browser:* && cp ./src/runtime/node/webcrypto.ts ./src/runtime/ && cp ./src/runtime/node/fetch.ts ./src/runtime/ && cp ./src/runtime/node/base64url.ts ./src/runtime/ && cp ./src/runtime/node/zlib.ts ./src/runtime/ && run-s runtime:refs",
     "runtime:browser:copy": "cp ./src/runtime/browser/*.ts ./src/runtime",
     "runtime:clear": "run-s -s runtime:find | xargs -0 rm -f",
-    "runtime:find": "find src/runtime -not -name 'interfaces.d.ts' -maxdepth 1 -type f -print0",
+    "runtime:find": "find src/runtime -not -name '*.d.ts' -maxdepth 1 -type f -print0",
     "runtime:node:copy": "cp ./src/runtime/node/*.ts ./src/runtime",
     "runtime:refs": "run-s -s runtime:find | xargs -0 sed -i '' -e \"s/'\\.\\.\\//'\\.\\//g\" -e \"s/'\\.\\/\\.\\./'../g\"",
     "test": "npm run-script test-rollup && ava",

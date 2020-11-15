@@ -34,5 +34,5 @@
   "globals": {
     "window": "readonly"
   },
-  "ignorePatterns": ["src/runtime/*/*.ts", "src/runtime/webcrypto.ts", "dist"]
+  "ignorePatterns": ["src/runtime/*/*.ts", "src/runtime/webcrypto.ts", "dist", "src/runtime/*.d.ts"]
 }

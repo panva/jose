@@ -109,3 +109,11 @@ export interface DecryptFunction {
     additionalData: Uint8Array,
   ): Promise<Uint8Array>
 }
+// TODO:
+export interface FetchFunction {
+  (url: URL, timeout: number): Promise<any>
+}
+// TODO:
+export interface DigestFunction {
+  (digest: string, data: Uint8Array): AsyncOrSync<Uint8Array>
+}
