@@ -91,9 +91,9 @@ module.exports = function (config) {
     basePath: "",
     hostname: "localhost",
     frameworks: ["qunit"],
-    plugins: ["karma-qunit", "karma-browserstack-launcher"],
+    plugins: ["karma-qunit", "karma-browserstack-launcher", "karma-brief-reporter"],
     files: ["dist-browser-tests/*.js"],
-    reporters: ["progress", "BrowserStack"],
+    reporters: ["brief", "BrowserStack"],
     port: 9876,
     autoWatch: false,
     browserStack: {
@@ -101,7 +101,7 @@ module.exports = function (config) {
       accessKey: process.env.BROWSERSTACK_ACCESS_KEY,
       video: false,
     },
-    concurrency: 5,
+    concurrency: 3,
     customLaunchers: browsers,
     captureTimeout: 3e5,
     browserDisconnectTolerance: 1,
@@ -110,5 +110,8 @@ module.exports = function (config) {
     browserNoActivityTimeout: 3e5,
     browsers: Object.keys(browsers),
     singleRun: true,
+    briefReporter: {
+      renderOnRunCompleteOnly: 'CI' in process.env
+    }
   });
 };

@@ -481,6 +481,7 @@
     "eslint-plugin-jsdoc": "^30.7.3",
     "glob": "^7.1.6",
     "karma": "^5.2.3",
+    "karma-brief-reporter": "0.2.1",
     "karma-browserstack-launcher": "^1.6.0",
     "karma-qunit": "^4.1.1",
     "nock": "^13.0.4",

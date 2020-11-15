@@ -97,7 +97,6 @@ jobs:
 
   browserstack:
     env:
-      NODE_OPTIONS: --enable-source-maps
       BROWSERSTACK_USERNAME: ${{ secrets.BROWSERSTACK_USERNAME }}
       BROWSERSTACK_ACCESS_KEY: ${{ secrets.BROWSERSTACK_ACCESS_KEY }}
     needs:
@@ -130,4 +129,6 @@ jobs:
           path: dist
           key: dist-${{ hashFiles('src/**/*.ts') }}-${{ hashFiles('tsconfig/*.json') }}
       - run: npm run test-browser
+        env:
+          CI: true
       - run: git reset HEAD --hard
