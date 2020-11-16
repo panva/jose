@@ -21,8 +21,8 @@ async function cbcEncrypt(
     cek = cek.export()
   }
 
-  const encKey = cek.slice(keySize >> 3)
-  const macKey = cek.slice(0, keySize >> 3)
+  const encKey = cek.subarray(keySize >> 3)
+  const macKey = cek.subarray(0, keySize >> 3)
 
   const algorithm = `aes-${keySize}-cbc`
   const cipher = createCipheriv(algorithm, encKey, iv)

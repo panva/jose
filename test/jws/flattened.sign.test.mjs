@@ -98,7 +98,7 @@ import(`${root}/jws/flattened/sign`).then(
           .sign(t.context.secret),
         {
           code: 'ERR_JWS_INVALID',
-          message: 'missing JWS signature algorithm in JWS Header',
+          message: 'JWS "alg" (Algorithm) Header Parameter missing or invalid',
         },
       );
       await t.notThrowsAsync(

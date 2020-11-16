@@ -12,12 +12,16 @@ async function cbcEncrypt(
   aad: Uint8Array,
 ) {
   const keySize = parseInt(enc.substr(1, 3), 10)
-  const encKey = await crypto.subtle.importKey('raw', cek.slice(keySize >> 3), 'AES-CBC', false, [
-    'encrypt',
-  ])
+  const encKey = await crypto.subtle.importKey(
+    'raw',
+    cek.subarray(keySize >> 3),
+    'AES-CBC',
+    false,
+    ['encrypt'],
+  )
   const macKey = await crypto.subtle.importKey(
     'raw',
-    cek.slice(0, keySize >> 3),
+    cek.subarray(0, keySize >> 3),
     {
       hash: `SHA-${keySize << 1}`,
       name: 'HMAC',

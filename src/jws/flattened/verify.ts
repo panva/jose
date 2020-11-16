@@ -81,23 +81,23 @@ export default async function flattenedVerify(
     throw new JWSInvalid('Flattened JWS must be an object')
   }
 
-  if (!('protected' in jws) && !('header' in jws)) {
+  if (jws.protected === undefined && jws.header === undefined) {
     throw new JWSInvalid('Flattened JWS must have either of the "protected" or "header" members')
   }
 
-  if ('protected' in jws && typeof jws.protected !== 'string') {
+  if (jws.protected !== undefined && typeof jws.protected !== 'string') {
     throw new JWSInvalid('JWS Protected Header incorrect type')
   }
 
-  if (!('payload' in jws)) {
+  if (jws.payload === undefined) {
     throw new JWSInvalid('JWS Payload missing')
   }
 
-  if (!('signature' in jws) || typeof jws.signature !== 'string') {
+  if (typeof jws.signature !== 'string') {
     throw new JWSInvalid('JWS Signature missing or incorrect type')
   }
 
-  if ('header' in jws && !isObject(jws.header)) {
+  if (jws.header !== undefined && !isObject(jws.header)) {
     throw new JWSInvalid('JWS Unprotected Header incorrect type')
   }
 
@@ -131,8 +131,8 @@ export default async function flattenedVerify(
 
   const { alg } = joseHeader
 
-  if (!alg) {
-    throw new JWSInvalid('missing JWS signature algorithm in JWS Header')
+  if (typeof alg !== 'string' || !alg) {
+    throw new JWSInvalid('JWS "alg" (Algorithm) Header Parameter missing or invalid')
   }
 
   const algorithms = options && checkAlgOption(options.algorithms)
@@ -179,11 +179,11 @@ export default async function flattenedVerify(
 
   const result: FlattenedVerifyResult = { payload }
 
-  if ('protected' in jws) {
+  if (jws.protected !== undefined) {
     result.protectedHeader = parsedProt
   }
 
-  if ('header' in jws) {
+  if (jws.header !== undefined) {
     result.unprotectedHeader = jws.header
   }
 

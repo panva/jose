@@ -1,6 +1,6 @@
 import * as crypto from 'crypto'
 
-if (!('webcrypto' in crypto)) {
+if (crypto.webcrypto === undefined) {
   throw new Error('Node.js crypto.webcrypto is not available in your runtime')
 }
 

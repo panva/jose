@@ -83,11 +83,11 @@ export default async function compactDecrypt(
 
   const decrypted = await decrypt(
     {
-      ciphertext,
-      iv,
-      protected: protectedHeader,
-      tag,
-      ...(encryptedKey ? { encrypted_key: encryptedKey } : undefined),
+      ciphertext: (ciphertext || undefined) as string,
+      iv: (iv || undefined) as string,
+      protected: protectedHeader || undefined,
+      tag: (tag || undefined) as string,
+      encrypted_key: encryptedKey || undefined,
     },
     key as Parameters<typeof decrypt>[1],
     options,

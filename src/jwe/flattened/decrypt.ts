@@ -98,39 +98,39 @@ export default async function flattenedDecrypt(
     throw new JWEInvalid('Flattened JWE must be an object')
   }
 
-  if (!('protected' in jwe) && !('header' in jwe) && !('unprotected' in jwe)) {
+  if (jwe.protected === undefined && jwe.header === undefined && jwe.unprotected === undefined) {
     throw new JWEInvalid('JOSE Header missing')
   }
 
-  if (!('iv' in jwe) || typeof jwe.iv !== 'string') {
+  if (typeof jwe.iv !== 'string') {
     throw new JWEInvalid('JWE Initialization Vector missing or incorrect type')
   }
 
-  if (!('ciphertext' in jwe) || typeof jwe.ciphertext !== 'string') {
+  if (typeof jwe.ciphertext !== 'string') {
     throw new JWEInvalid('JWE Ciphertext missing or incorrect type')
   }
 
-  if (!('tag' in jwe) || typeof jwe.tag !== 'string') {
+  if (typeof jwe.tag !== 'string') {
     throw new JWEInvalid('JWE Authentication Tag missing or incorrect type')
   }
 
-  if ('protected' in jwe && typeof jwe.protected !== 'string') {
+  if (jwe.protected !== undefined && typeof jwe.protected !== 'string') {
     throw new JWEInvalid('JWE Protected Header incorrect type')
   }
 
-  if ('encrypted_key' in jwe && typeof jwe.encrypted_key !== 'string') {
+  if (jwe.encrypted_key !== undefined && typeof jwe.encrypted_key !== 'string') {
     throw new JWEInvalid('JWE Encrypted Key incorrect type')
   }
 
-  if ('aad' in jwe && typeof jwe.aad !== 'string') {
+  if (jwe.aad !== undefined && typeof jwe.aad !== 'string') {
     throw new JWEInvalid('JWE AAD incorrect type')
   }
 
-  if ('header' in jwe && !isObject(jwe.header)) {
+  if (jwe.header !== undefined && !isObject(jwe.header)) {
     throw new JWEInvalid('JWE Shared Unprotected Header incorrect type')
   }
 
-  if ('unprotected' in jwe && !isObject(jwe.unprotected)) {
+  if (jwe.unprotected !== undefined && !isObject(jwe.unprotected)) {
     throw new JWEInvalid('JWE Per-Recipient Unprotected Header incorrect type')
   }
 
@@ -153,7 +153,7 @@ export default async function flattenedDecrypt(
 
   checkCrit(parsedProt, joseHeader)
 
-  if ('zip' in joseHeader) {
+  if (joseHeader.zip !== undefined) {
     if (!parsedProt || !parsedProt.zip) {
       throw new JWEInvalid('JWE "zip" (Compression Algorithm) Header MUST be integrity protected')
     }
@@ -167,11 +167,11 @@ export default async function flattenedDecrypt(
 
   const { alg, enc } = joseHeader
 
-  if (!alg) {
+  if (typeof alg !== 'string' || !alg) {
     throw new JWEInvalid('missing JWE Algorithm (alg) in JWE Header')
   }
 
-  if (!enc) {
+  if (typeof enc !== 'string' || !enc) {
     throw new JWEInvalid('missing JWE Encryption Algorithm (enc) in JWE Header')
   }
 
@@ -187,7 +187,7 @@ export default async function flattenedDecrypt(
   }
 
   let encryptedKey!: Uint8Array
-  if ('encrypted_key' in jwe) {
+  if (jwe.encrypted_key !== undefined) {
     encryptedKey = base64url(jwe.encrypted_key!)
   }
 
@@ -219,7 +219,7 @@ export default async function flattenedDecrypt(
   const protectedHeader: Uint8Array = encoder.encode(jwe.protected || '')
   let additionalData: Uint8Array
 
-  if ('aad' in jwe) {
+  if (jwe.aad !== undefined) {
     additionalData = concat(protectedHeader, encoder.encode('.'), encoder.encode(jwe.aad))
   } else {
     additionalData = protectedHeader
@@ -233,19 +233,19 @@ export default async function flattenedDecrypt(
 
   const result: FlattenedDecryptResult = { plaintext }
 
-  if ('protected' in jwe) {
+  if (jwe.protected !== undefined) {
     result.protectedHeader = parsedProt
   }
 
-  if ('aad' in jwe) {
+  if (jwe.aad !== undefined) {
     result.additionalAuthenticatedData = base64url(jwe.aad!)
   }
 
-  if ('unprotected' in jwe) {
+  if (jwe.unprotected !== undefined) {
     result.sharedUnprotectedHeader = jwe.unprotected
   }
 
-  if ('header' in jwe) {
+  if (jwe.header !== undefined) {
     result.unprotectedHeader = jwe.header
   }
 

@@ -207,7 +207,7 @@ export default class FlattenedEncrypt {
 
     checkCrit(this._protectedHeader, joseHeader)
 
-    if ('zip' in joseHeader) {
+    if (joseHeader.zip !== undefined) {
       if (!this._protectedHeader || !this._protectedHeader.zip) {
         throw new JWEInvalid('JWE "zip" (Compression Algorithm) Header MUST be integrity protected')
       }
@@ -221,12 +221,12 @@ export default class FlattenedEncrypt {
 
     const { alg, enc } = joseHeader
 
-    if (!alg) {
-      throw new JWEInvalid('JWE "alg" (Algorithm) Header Parameter missing')
+    if (typeof alg !== 'string' || !alg) {
+      throw new JWEInvalid('JWE "alg" (Algorithm) Header Parameter missing or invalid')
     }
 
-    if (!enc) {
-      throw new JWEInvalid('JWE "enc" (Encryption Algorithm) Header Parameter missing')
+    if (typeof enc !== 'string' || !enc) {
+      throw new JWEInvalid('JWE "enc" (Encryption Algorithm) Header Parameter missing or invalid')
     }
 
     let encryptedKey: Uint8Array | undefined

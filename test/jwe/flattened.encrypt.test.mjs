@@ -183,7 +183,7 @@ import(`${root}/jwe/flattened/encrypt`).then(
           .encrypt(t.context.secret),
         {
           code: 'ERR_JWE_INVALID',
-          message: 'JWE "alg" (Algorithm) Header Parameter missing',
+          message: 'JWE "alg" (Algorithm) Header Parameter missing or invalid',
         },
       );
     });
@@ -195,7 +195,7 @@ import(`${root}/jwe/flattened/encrypt`).then(
           .encrypt(t.context.secret),
         {
           code: 'ERR_JWE_INVALID',
-          message: 'JWE "enc" (Encryption Algorithm) Header Parameter missing',
+          message: 'JWE "enc" (Encryption Algorithm) Header Parameter missing or invalid',
         },
       );
     });

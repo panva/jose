@@ -12,7 +12,7 @@ const protocols: { [protocol: string]: (...args: Parameters<typeof https>) => Cl
 }
 
 const fetch: FetchFunction = async (url: URL, timeout: number, options?: RequestOptions) => {
-  if (!(url.protocol in protocols)) {
+  if (protocols[url.protocol] === undefined) {
     throw new TypeError('Unsupported URL protocol.')
   }
   return new Promise((resolve, reject) => {

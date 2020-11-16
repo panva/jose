@@ -52,9 +52,13 @@ export interface AesGcmKwWrapFunction {
   }>
 }
 export interface AesGcmKwUnwrapFunction {
-  (alg: string, key: any, encryptedKey: Uint8Array, iv: Uint8Array, tag: Uint8Array): Promise<
-    Uint8Array
-  >
+  (
+    alg: string,
+    key: any,
+    encryptedKey: Uint8Array,
+    iv: Uint8Array,
+    tag: Uint8Array,
+  ): Promise<Uint8Array>
 }
 export interface Pbes2KWEncryptFunction {
   (alg: string, key: any, cek: Uint8Array, p2c?: number, p2s?: Uint8Array): Promise<{
@@ -64,9 +68,13 @@ export interface Pbes2KWEncryptFunction {
   }>
 }
 export interface Pbes2KWDecryptFunction {
-  (alg: string, key: any, encryptedKey: Uint8Array, p2c: number, p2s: Uint8Array): Promise<
-    Uint8Array
-  >
+  (
+    alg: string,
+    key: any,
+    encryptedKey: Uint8Array,
+    p2c: number,
+    p2s: Uint8Array,
+  ): Promise<Uint8Array>
 }
 export interface EcdhESDeriveKeyFunction {
   (

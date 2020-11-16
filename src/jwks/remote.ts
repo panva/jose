@@ -152,7 +152,7 @@ class RemoteJWKSet {
     }
 
     const cached = this._cached.get(jwk)!
-    if (!(protectedHeader.alg! in cached)) {
+    if (cached[protectedHeader.alg!] === undefined) {
       const keyObject = (await parseJWK({ ...jwk, alg: protectedHeader.alg! })) as
         | KeyObject
         | CryptoKey
@@ -174,7 +174,6 @@ class RemoteJWKSet {
           if (
             typeof json !== 'object' ||
             !json ||
-            !('keys' in json) ||
             !Array.isArray(json.keys) ||
             json.keys.some((key: object) => typeof key !== 'object' || !key)
           ) {

@@ -30,8 +30,9 @@ const checkCekLength = (enc: string, cek: Uint8Array | CryptoKey) => {
   }
 
   // CryptoKey
-  if ('algorithm' in cek) {
-    if ((cek.algorithm as AesKeyAlgorithm).length !== expected) {
+  if (cek.algorithm !== undefined) {
+    const { length } = cek.algorithm as AesKeyAlgorithm
+    if (length !== expected) {
       throw new JWEInvalid('Invalid Content Encryption Key length')
     }
     return

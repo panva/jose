@@ -78,7 +78,7 @@ export default async function parseJwk(
 
       return base64url(jwk.k)
     case 'RSA':
-      if ('oth' in jwk) {
+      if (jwk.oth !== undefined) {
         throw new JOSENotSupported(
           'RSA JWK "oth" (Other Primes Info) Parameter value is unsupported',
         )

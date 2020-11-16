@@ -15,8 +15,12 @@ function assertEnryptedKey(encryptedKey: any) {
   }
 }
 
-function assertHeaderParameter(joseHeader: object, parameter: string, name: string) {
-  if (!(parameter in joseHeader)) {
+function assertHeaderParameter(
+  joseHeader: { [propName: string]: any },
+  parameter: string,
+  name: string,
+) {
+  if (joseHeader[parameter] === undefined) {
     throw new JWEInvalid(`JOSE Header ${name} (${parameter}) missing`)
   }
 }
@@ -47,13 +51,15 @@ async function decryptKeyManagement(
       // Direct Key Agreement
       assertHeaderParameter(joseHeader, 'epk', 'Ephemeral Public Key')
       if (!ECDH.ecdhAllowed(key)) {
-        throw new JOSENotSupported('ECDH not allowed or unsupported by your javascript runtime')
+        throw new JOSENotSupported(
+          'ECDH-ES with the provided key is not allowed or not supported by your javascript runtime',
+        )
       }
       const ephemeralKey = await ECDH.publicJwkToEphemeralKey(joseHeader.epk!)
       let partyUInfo!: Uint8Array
       let partyVInfo!: Uint8Array
-      if (joseHeader.apu) partyUInfo = base64url(joseHeader.apu)
-      if (joseHeader.apv) partyVInfo = base64url(joseHeader.apv)
+      if (joseHeader.apu !== undefined) partyUInfo = base64url(joseHeader.apu)
+      if (joseHeader.apv !== undefined) partyVInfo = base64url(joseHeader.apv)
       const sharedSecret = await ECDH.deriveKey(
         ephemeralKey,
         key,
@@ -111,7 +117,7 @@ async function decryptKeyManagement(
       return aesGcmKw(alg, key, encryptedKey!, iv, tag)
     }
     default: {
-      throw new JOSENotSupported(`alg ${alg} is unsupported`)
+      throw new JOSENotSupported('unsupported or invalid "alg" (JWE Algorithm) header value')
     }
   }
 }

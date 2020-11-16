@@ -24,8 +24,8 @@ async function cbcDecrypt(
     cek = cek.export()
   }
 
-  const encKey = cek.slice(keySize >> 3)
-  const macKey = cek.slice(0, keySize >> 3)
+  const encKey = cek.subarray(keySize >> 3)
+  const macKey = cek.subarray(0, keySize >> 3)
   const macSize = parseInt(enc.substr(-3), 10)
 
   const algorithm = `aes-${keySize}-cbc`

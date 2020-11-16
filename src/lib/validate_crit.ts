@@ -1,11 +1,10 @@
 import { JOSENotSupported, JWEInvalid, JWSInvalid } from '../util/errors.js'
 
-type CritCheckHeader = object & {
+interface CritCheckHeader {
   b64?: boolean
   crit?: string[]
+  [propName: string]: any
 }
-
-const isString = (input: string) => typeof input !== 'string' || input.length === 0
 
 function validateCrit(
   Err: typeof JWEInvalid | typeof JWSInvalid,
@@ -13,18 +12,18 @@ function validateCrit(
   protectedHeader: CritCheckHeader,
   joseHeader: CritCheckHeader,
 ) {
-  if ('crit' in joseHeader && !('crit' in protectedHeader)) {
+  if (joseHeader.crit !== undefined && protectedHeader.crit === undefined) {
     throw new Err('"crit" (Critical) Header Parameter MUST be integrity protected')
   }
 
-  if (!protectedHeader || !('crit' in protectedHeader)) {
-    return new Set([])
+  if (!protectedHeader || protectedHeader.crit === undefined) {
+    return new Set()
   }
 
   if (
     !Array.isArray(protectedHeader.crit) ||
     protectedHeader.crit.length === 0 ||
-    protectedHeader.crit.some(isString)
+    protectedHeader.crit.some((input: string) => typeof input !== 'string' || input.length === 0)
   ) {
     throw new Err(
       '"crit" (Critical) Header Parameter MUST be an array of non-empty strings when present',
@@ -39,9 +38,9 @@ function validateCrit(
       )
     }
 
-    if (!(parameter in joseHeader)) {
+    if (joseHeader[parameter] === undefined) {
       throw new Err(`Extension Header Parameter "${parameter}" is missing`)
-    } else if (supported.get(parameter) && !(parameter in protectedHeader)) {
+    } else if (supported.get(parameter) && protectedHeader[parameter] === undefined) {
       throw new Err(`Extension Header Parameter "${parameter}" MUST be integrity protected`)
     }
   }

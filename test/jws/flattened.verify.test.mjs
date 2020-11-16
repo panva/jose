@@ -96,7 +96,7 @@ Promise.all([
         const jws = { ...fullJws };
         delete jws.header;
         const assertion = {
-          message: 'missing JWS signature algorithm in JWS Header',
+          message: 'JWS "alg" (Algorithm) Header Parameter missing or invalid',
           code: 'ERR_JWS_INVALID',
         };
         await t.throwsAsync(flattenedVerify(jws, t.context.secret), assertion);

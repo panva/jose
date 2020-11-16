@@ -82,11 +82,11 @@ export default (
   const { currentDate } = options
   const now = epoch(currentDate || new Date())
 
-  if ('iat' in payload || options.maxTokenAge) {
+  if (payload.iat !== undefined || options.maxTokenAge) {
     if (typeof payload.iat !== 'number') {
       throw new JWTClaimValidationFailed('"iat" claim must be a number', 'iat', 'invalid')
     }
-    if (!('exp' in payload) && payload.iat > now + tolerance) {
+    if (payload.exp === undefined && payload.iat > now + tolerance) {
       throw new JWTClaimValidationFailed(
         '"iat" claim timestamp check failed (it should be in the past)',
         'iat',
@@ -95,7 +95,7 @@ export default (
     }
   }
 
-  if ('nbf' in payload) {
+  if (payload.nbf !== undefined) {
     if (typeof payload.nbf !== 'number') {
       throw new JWTClaimValidationFailed('"nbf" claim must be a number', 'nbf', 'invalid')
     }
@@ -108,7 +108,7 @@ export default (
     }
   }
 
-  if ('exp' in payload) {
+  if (payload.exp !== undefined) {
     if (typeof payload.exp !== 'number') {
       throw new JWTClaimValidationFailed('"exp" claim must be a number', 'exp', 'invalid')
     }

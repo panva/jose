@@ -125,8 +125,8 @@ export default class FlattenedSign {
 
     const { alg } = joseHeader
 
-    if (!alg) {
-      throw new JWSInvalid('missing JWS signature algorithm in JWS Header')
+    if (typeof alg !== 'string' || !alg) {
+      throw new JWSInvalid('JWS "alg" (Algorithm) Header Parameter missing or invalid')
     }
 
     checkKeyType(alg, key)
