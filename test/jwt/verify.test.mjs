@@ -64,6 +64,17 @@ Promise.all([
       }
     });
 
+    test('incorrect hmac signature lengths', async (t) => {
+      const jwt = await new SignJWT(t.context.payload)
+        .setProtectedHeader({ alg: 'HS256' })
+        .sign(t.context.secret);
+
+      await t.throwsAsync(jwtVerify(jwt.slice(0, -3), t.context.secret), {
+        code: 'ERR_JWS_SIGNATURE_VERIFICATION_FAILED',
+        message: 'signature verification failed',
+      });
+    });
+
     test('Payload must JSON parseable', async (t) => {
       const encode = TextEncoder.prototype.encode.bind(new TextEncoder());
       const token = await new CompactSign(encode('{'))
@@ -87,6 +98,15 @@ Promise.all([
         {
           code: 'ERR_JOSE_ALG_NOT_ALLOWED',
           message: '"alg" (Algorithm) Header Parameter not allowed',
+        },
+      );
+      await t.throwsAsync(
+        jwtVerify(jwt, t.context.secret, {
+          algorithms: [null],
+        }),
+        {
+          instanceOf: TypeError,
+          message: '"algorithms" option must be an array of strings',
         },
       );
     });

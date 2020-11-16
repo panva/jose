@@ -91,11 +91,29 @@ Promise.all([
       );
       await t.throwsAsync(
         jwtDecrypt(jwt, t.context.secret, {
+          keyManagementAlgorithms: [null],
+        }),
+        {
+          instanceOf: TypeError,
+          message: '"keyManagementAlgorithms" option must be an array of strings',
+        },
+      );
+      await t.throwsAsync(
+        jwtDecrypt(jwt, t.context.secret, {
           contentEncryptionAlgorithms: ['A128GCM'],
         }),
         {
           code: 'ERR_JOSE_ALG_NOT_ALLOWED',
           message: '"enc" (Encryption Algorithm) Header Parameter not allowed',
+        },
+      );
+      await t.throwsAsync(
+        jwtDecrypt(jwt, t.context.secret, {
+          contentEncryptionAlgorithms: [null],
+        }),
+        {
+          instanceOf: TypeError,
+          message: '"contentEncryptionAlgorithms" option must be an array of strings',
         },
       );
     });
@@ -277,6 +295,10 @@ Promise.all([
 
       await t.notThrowsAsync(jwtDecrypt(jwt, t.context.secret, { clockTolerance: 1 }));
       await t.notThrowsAsync(jwtDecrypt(jwt, t.context.secret, { clockTolerance: '1s' }));
+      await t.throwsAsync(jwtDecrypt(jwt, t.context.secret, { clockTolerance: null }), {
+        instanceOf: TypeError,
+        message: 'invalid clockTolerance option type',
+      });
     });
 
     async function failingNumericDate(t, claims, assertion, decryptOptions) {

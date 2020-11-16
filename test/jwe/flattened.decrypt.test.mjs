@@ -202,9 +202,9 @@ Promise.all([
       }
 
       {
-        const altSecret = new Uint8Array(32)
-        altSecret.set(secret.slice(0, 16), 16)
-        altSecret.set(secret.slice(16), 0)
+        const altSecret = new Uint8Array(32);
+        altSecret.set(secret.slice(0, 16), 16);
+        altSecret.set(secret.slice(16), 0);
         await t.throwsAsync(flattenedDecrypt(jwe, altSecret), {
           code: 'ERR_JWE_DECRYPTION_FAILED',
           message: 'decryption operation failed',

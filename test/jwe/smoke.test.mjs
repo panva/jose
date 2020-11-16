@@ -28,6 +28,19 @@ Promise.all([
       const { d, p, q, dp, dq, qi, ...publicJwk } = jwk;
       return publicJwk;
     }
+
+    const randomEnc = () => {
+      const encs = [
+        'A128GCM',
+        'A192GCM',
+        'A256GCM',
+        'A128CBC-HS256',
+        'A192CBC-HS384',
+        'A256CBC-HS512',
+      ];
+      return encs[Math.floor(Math.random() * encs.length)];
+    };
+
     test.before(async (t) => {
       const p256 = {
         ext: false,
@@ -205,7 +218,7 @@ Promise.all([
             .setUnprotectedHeader(
               alg.startsWith('A') && !alg.endsWith('KW')
                 ? { enc: alg }
-                : { enc: 'A256GCM', 'urn:example:header': true },
+                : { enc: randomEnc(), 'urn:example:header': true },
             )
             .setSharedUnprotectedHeader(
               alg.startsWith('A') && !alg.endsWith('KW')
@@ -233,7 +246,7 @@ Promise.all([
             .setUnprotectedHeader(
               alg.startsWith('A') && !alg.endsWith('KW')
                 ? { enc: alg }
-                : { enc: 'A256GCM', 'urn:example:header': true },
+                : { enc: randomEnc(), 'urn:example:header': true },
             )
             .setSharedUnprotectedHeader(
               alg.startsWith('A') && !alg.endsWith('KW')
