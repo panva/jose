@@ -49,6 +49,7 @@ Promise.all([
           maxTokenAge: '30s',
         }),
       );
+      await t.notThrowsAsync(jwtDecrypt(new TextEncoder().encode(jwt), t.context.secret));
     });
 
     test('Payload must be an object', async (t) => {

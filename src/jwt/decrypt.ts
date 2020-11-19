@@ -63,7 +63,7 @@ export interface JWTDecryptGetKey extends GetKeyFunction<JWEHeaderParameters, Fl
  * ```
  */
 export default async function jwtDecrypt(
-  jwt: string,
+  jwt: string | Uint8Array,
   key: KeyLike | JWTDecryptGetKey,
   options?: JWTDecryptOptions,
 ): Promise<JWTDecryptResult> {

@@ -6,7 +6,7 @@ import(`${root}/jws/compact/verify`).then(
   ({ default: flattenedVerify }) => {
     test('JWS format validation', async (t) => {
       await t.throwsAsync(flattenedVerify(null, new Uint8Array()), {
-        message: 'Compact JWS must be a string',
+        message: 'Compact JWS must be a string or Uint8Array',
         code: 'ERR_JWS_INVALID',
       });
       await t.throwsAsync(flattenedVerify('.....', new Uint8Array()), {

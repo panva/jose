@@ -64,7 +64,7 @@ export interface JWTVerifyGetKey extends GetKeyFunction<JWSHeaderParameters, Fla
  * ```
  */
 export default async function jwtVerify(
-  jwt: string,
+  jwt: string | Uint8Array,
   key: KeyLike | JWTVerifyGetKey,
   options?: JWTVerifyOptions,
 ): Promise<JWTVerifyResult> {

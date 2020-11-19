@@ -1,5 +1,6 @@
 import verify from '../flattened/verify.js'
 import { JWSInvalid } from '../../util/errors.js'
+import { decoder } from '../../lib/buffer_utils.js'
 import type {
   CompactVerifyResult,
   FlattenedJWSInput,
@@ -57,12 +58,17 @@ export interface CompactVerifyGetKey
  * ```
  */
 export default async function compactVerify(
-  jws: string,
+  jws: string | Uint8Array,
   key: KeyLike | CompactVerifyGetKey,
   options?: VerifyOptions,
 ): Promise<CompactVerifyResult> {
+  if (jws instanceof Uint8Array) {
+    // eslint-disable-next-line no-param-reassign
+    jws = decoder.decode(jws)
+  }
+
   if (typeof jws !== 'string') {
-    throw new JWSInvalid('Compact JWS must be a string')
+    throw new JWSInvalid('Compact JWS must be a string or Uint8Array')
   }
   const { 0: protectedHeader, 1: payload, 2: signature, length } = jws.split('.')
 

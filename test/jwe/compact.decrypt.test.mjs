@@ -6,7 +6,7 @@ import(`${root}/jwe/compact/decrypt`).then(
   ({ default: flattenedDecrypt }) => {
     test('JWE format validation', async (t) => {
       await t.throwsAsync(flattenedDecrypt(null, new Uint8Array()), {
-        message: 'Compact JWE must be a string',
+        message: 'Compact JWE must be a string or Uint8Array',
         code: 'ERR_JWE_INVALID',
       });
       await t.throwsAsync(flattenedDecrypt('...', new Uint8Array()), {

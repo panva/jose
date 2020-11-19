@@ -1,5 +1,6 @@
 import decrypt from '../flattened/decrypt.js'
 import { JWEInvalid } from '../../util/errors.js'
+import { decoder } from '../../lib/buffer_utils.js'
 import type {
   KeyLike,
   DecryptOptions,
@@ -60,12 +61,17 @@ export interface CompactDecryptGetKey extends GetKeyFunction<JWEHeaderParameters
  * ```
  */
 export default async function compactDecrypt(
-  jwe: string,
+  jwe: string | Uint8Array,
   key: KeyLike | CompactDecryptGetKey,
   options?: DecryptOptions,
 ): Promise<CompactDecryptResult> {
+  if (jwe instanceof Uint8Array) {
+    // eslint-disable-next-line no-param-reassign
+    jwe = decoder.decode(jwe)
+  }
+
   if (typeof jwe !== 'string') {
-    throw new JWEInvalid('Compact JWE must be a string')
+    throw new JWEInvalid('Compact JWE must be a string or Uint8Array')
   }
   const { 0: protectedHeader, 1: encryptedKey, 2: iv, 3: ciphertext, 4: tag, length } = jwe.split(
     '.',
