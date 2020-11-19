@@ -56,6 +56,10 @@ npm install jose@3
 - [Unsecured JWT](docs/classes/_jwt_unsecured_.unsecuredjwt.md#readme)
 - [JOSE Errors](docs/modules/_util_errors_.md)
 
+## Examples
+
+A continuously growing list of examples is available in the [tracker](https://github.com/panva/jose/issues?q=label%3Aexample+label%3Av3.x).
+
 ## JOSE Support Matrix
 
 | JWK Key Types | Supported | `kty` value | |
@@ -208,6 +212,15 @@ npm install --save-dev @types/node
 Install @types/node as your project's development dependency
 
 ```
+npm install --save-dev @types/node
+```
+
+#### "Module '"crypto"' has no exported member '...'"
+
+Update @types/node as your project's development dependency
+
+```
+npm uninstall @types/node
 npm install --save-dev @types/node
 ```
 
