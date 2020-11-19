@@ -84,6 +84,14 @@
       "import": "./dist/node/webcrypto/esm/jwk/embedded.js",
       "require": "./dist/node/webcrypto/cjs/jwk/embedded.js"
     },
+    "#dist/jwk/from_key_like": {
+      "import": "./dist/node/esm/jwk/from_key_like.js",
+      "require": "./dist/node/cjs/jwk/from_key_like.js"
+    },
+    "#dist/webcrypto/jwk/from_key_like": {
+      "import": "./dist/node/webcrypto/esm/jwk/from_key_like.js",
+      "require": "./dist/node/webcrypto/cjs/jwk/from_key_like.js"
+    },
     "#dist/jwk/parse": {
       "import": "./dist/node/esm/jwk/parse.js",
       "require": "./dist/node/cjs/jwk/parse.js"
@@ -267,6 +275,15 @@
       "import": "./dist/node/webcrypto/esm/jwk/embedded.js",
       "require": "./dist/node/webcrypto/cjs/jwk/embedded.js"
     },
+    "./jwk/from_key_like": {
+      "browser": "./dist/browser/jwk/from_key_like.js",
+      "import": "./dist/node/esm/jwk/from_key_like.js",
+      "require": "./dist/node/cjs/jwk/from_key_like.js"
+    },
+    "./webcrypto/jwk/from_key_like": {
+      "import": "./dist/node/webcrypto/esm/jwk/from_key_like.js",
+      "require": "./dist/node/webcrypto/cjs/jwk/from_key_like.js"
+    },
     "./jwk/parse": {
       "browser": "./dist/browser/jwk/parse.js",
       "import": "./dist/node/esm/jwk/parse.js",
@@ -433,16 +450,23 @@
   "scripts": {
     "build": "tsc",
     "build-all": "run-s clear build:*",
+    "build-fast-all": "run-s clear build-fast:*",
+    "build-fast:browser": "npm run-script runtime-browser && npm run-script -s esbuild-find | xargs -0 esbuild --target=es2018 --outdir=dist/browser --format=esm && echo '{\"type\": \"module\"}'> dist/browser/package.json",
+    "build-fast:node-cjs": "npm run-script runtime-node && npm run-script -s esbuild-find | xargs -0 esbuild --platform=node --target=node12 --outdir=dist/node/cjs --format=cjs",
+    "build-fast:node-esm": "npm run-script runtime-node && npm run-script -s esbuild-find | xargs -0 esbuild --platform=node --target=node12 --outdir=dist/node/esm --format=esm && echo '{\"type\": \"module\"}'> dist/node/esm/package.json",
+    "build-fast:node-webcrypto-cjs": "npm run-script runtime-node-webcrypto && npm run-script -s esbuild-find | xargs -0 esbuild --platform=node --target=esnext --outdir=dist/node/webcrypto/cjs --format=cjs",
+    "build-fast:node-webcrypto-esm": "npm run-script runtime-node-webcrypto && npm run-script -s esbuild-find | xargs -0 esbuild --platform=node --target=esnext --outdir=dist/node/webcrypto/esm --format=esm && echo '{\"type\": \"module\"}'> dist/node/webcrypto/esm/package.json",
     "build:browser": "run-s runtime-browser lint 'build -- -p ./tsconfig/browser.json' && echo '{\"type\": \"module\"}'> dist/browser/package.json",
     "build:node-cjs": "run-s runtime-node lint 'build -- -p ./tsconfig/node-cjs.json'",
     "build:node-esm": "run-s runtime-node lint 'build -- -p ./tsconfig/node-esm.json' && echo '{\"type\": \"module\"}'> dist/node/esm/package.json",
-    "build:node-webcrypto-cjs": "run-s runtime-node-webcrypto && run-s 'build -- -p ./tsconfig/node-webcrypto-cjs.json'",
-    "build:node-webcrypto-esm": "run-s runtime-node-webcrypto && run-s 'build -- -p ./tsconfig/node-webcrypto-esm.json' && echo '{\"type\": \"module\"}'> dist/node/webcrypto/esm/package.json",
+    "build:node-webcrypto-cjs": "run-s runtime-node-webcrypto lint 'build -- -p ./tsconfig/node-webcrypto-cjs.json'",
+    "build:node-webcrypto-esm": "run-s runtime-node-webcrypto lint 'build -- -p ./tsconfig/node-webcrypto-esm.json' && echo '{\"type\": \"module\"}'> dist/node/webcrypto/esm/package.json",
     "clear": "rm -rf dist",
     "coverage": "npm run-script runtime-node && c8 npm run-script test",
     "coverage-webcrypto": "npm run-script runtime-node-webcrypto && c8 npm run-script test-webcrypto",
     "docs": "run-s docs:*",
-    "docs:generate": "npx typedoc --disableOutputCheck --excludeNotExported --excludePrivate --excludeProtected --gitRevision main --readme none --listInvalidSymbolLinks --plugin typedoc-plugin-markdown --out docs --includeDeclarations --excludeExternals --tsconfig ./tsconfig/browser.json --mode modules src/types.d.ts src/jwt/*.ts src/jwe/**/*.ts src/jws/**/*.ts src/jwk/*.ts src/jwks/*.ts src/util/*.ts --hideProjectName --hideGenerator --allReflectionsHaveOwnDocument --hideBreadcrumbs",
+    "docs:generate": "typedoc --disableOutputCheck --excludeNotExported --excludePrivate --excludeProtected --gitRevision main --readme none --listInvalidSymbolLinks --plugin typedoc-plugin-markdown --out docs --includeDeclarations --excludeExternals --tsconfig ./tsconfig/browser.json --mode modules src/types.d.ts src/jwt/*.ts src/jwe/**/*.ts src/jws/**/*.ts src/jwk/*.ts src/jwks/*.ts src/util/*.ts --hideProjectName --hideGenerator --allReflectionsHaveOwnDocument --hideBreadcrumbs",
+    "esbuild-find": "find src -type f -name '*.ts' -not -path '*/runtime/*/*' -not -name '*.d.ts' -print0",
     "lint": "eslint --config ./src/.eslintrc.json ./src",
     "runtime-browser": "run-s runtime:clear runtime:browser:* runtime:refs",
     "runtime-node": "run-s runtime:clear runtime:node:* runtime:refs",
@@ -473,6 +497,7 @@
     "ava": "^3.13.0",
     "bowser": "^2.11.0",
     "c8": "^7.3.5",
+    "esbuild": "0.8.11",
     "eslint": "^7.12.0",
     "eslint-config-airbnb-base": "^14.2.0",
     "eslint-config-airbnb-typescript": "^12.0.0",
@@ -482,8 +507,8 @@
     "glob": "^7.1.6",
     "karma": "^5.2.3",
     "karma-brief-reporter": "0.2.1",
-    "karma-browserstack-launcher": "^1.6.0",
-    "karma-qunit": "^4.1.1",
+    "karma-browserstack-launcher": "1.6.0",
+    "karma-qunit": "4.1.1",
     "nock": "^13.0.4",
     "npm-run-all": "^4.1.5",
     "prettier": "^2.1.2",
@@ -492,7 +517,7 @@
     "timekeeper": "^2.2.0",
     "typedoc": "0.19.2",
     "typedoc-plugin-markdown": "3.0.11",
-    "typescript": "~4.0.3",
+    "typescript": "4.0.3",
     "webpack": "^5.4.0",
     "webpack-cli": "^4.2.0"
   },

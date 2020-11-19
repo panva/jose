@@ -52,6 +52,11 @@ const parse: JWKParseFunction = (jwk: JWK): KeyObject => {
     case 'EC': {
       const enc = new Asn1SequenceEncoder()
       const isPrivate = jwk.d !== undefined
+      const pub = Buffer.concat([
+        Buffer.alloc(1, 4),
+        Buffer.from(jwk.x!, 'base64'),
+        Buffer.from(jwk.y!, 'base64'),
+      ])
 
       if (isPrivate) {
         enc.zero()
@@ -62,10 +67,15 @@ const parse: JWKParseFunction = (jwk: JWK): KeyObject => {
         const enc$2 = new Asn1SequenceEncoder()
         enc$2.one()
         enc$2.octStr(Buffer.from(jwk.d!, 'base64'))
+        const enc$3 = new Asn1SequenceEncoder()
+        enc$3.bitStr(pub)
+        const f2 = enc$3.end(Buffer.from([0xa1]))
+        enc$2.add(f2)
         const f = enc$2.end()
-        enc.add(Buffer.from([0x04]))
-        enc.add(Buffer.from([f.length]))
-        enc.add(f)
+        const enc$4 = new Asn1SequenceEncoder()
+        enc$4.add(f)
+        const f3 = enc$4.end(Buffer.from([0x04]))
+        enc.add(f3)
         const der = enc.end()
         const keyObject = createPrivateKey({ key: der, format: 'der', type: 'pkcs8' })
         setCurve(keyObject, jwk.crv!)
@@ -76,11 +86,6 @@ const parse: JWKParseFunction = (jwk: JWK): KeyObject => {
       enc$1.oidFor('ecPublicKey')
       enc$1.oidFor(jwk.crv!)
       enc.add(enc$1.end())
-      const pub = Buffer.concat([
-        Buffer.alloc(1, 4),
-        Buffer.from(jwk.x!, 'base64'),
-        Buffer.from(jwk.y!, 'base64'),
-      ])
       enc.bitStr(pub)
       const der = enc.end()
 

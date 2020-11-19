@@ -13,15 +13,21 @@ const getNamedCurve = (key: KeyObject): string => {
     throw new TypeError('only "private" or "public" key objects can be used for this operation')
   }
   switch (key.asymmetricKeyType) {
+    case 'ed25519':
+    case 'ed448':
+      return `Ed${key.asymmetricKeyType.substr(2)}`
     case 'x25519':
     case 'x448':
-      return key.asymmetricKeyType.toUpperCase()
+      return `X${key.asymmetricKeyType.substr(1)}`
     case 'ec': {
       if (weakMap.has(key)) {
         return weakMap.get(key) as string
       }
+
       if (key.type === 'private') {
-        return getNamedCurve(createPublicKey(key))
+        const curve = getNamedCurve(createPublicKey(key))
+        weakMap.set(key, curve)
+        return curve
       }
 
       const buf = key.export({ format: 'der', type: 'spki' })

@@ -5,10 +5,10 @@ import isObject from '../lib/is_object.js'
 import type { JWK, KeyLike } from '../types.js'
 
 /**
- * Converts a JWK to a runtime-specific key representation. Either JWK "alg" (Algorithm)
- * Parameter must be present or the optional "alg" argument. When running on a platform
- * using [Web Cryptography API](https://www.w3.org/TR/WebCryptoAPI/) the jwk parameters
- * "use", "key_ops", and "ext" are also used in the resulting `CryptoKey`.
+ * Converts a JWK to a runtime-specific key representation (KeyLike). Either
+ * JWK "alg" (Algorithm) Parameter must be present or the optional "alg" argument. When
+ * running on a platform using [Web Cryptography API](https://www.w3.org/TR/WebCryptoAPI/)
+ * the jwk parameters "use", "key_ops", and "ext" are also used in the resulting `CryptoKey`.
  *
  * @param jwk JSON Web Key.
  * @param alg JSON Web Algorithm identifier to be used with the converted key.

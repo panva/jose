@@ -118,3 +118,6 @@ export interface DigestFunction {
 export interface JWKParseFunction {
   (jwk: JWK): AsyncOrSync<KeyLike>
 }
+export interface JWKConvertFunction {
+  (key: any): AsyncOrSync<JWK>
+}

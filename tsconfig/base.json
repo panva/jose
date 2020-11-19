@@ -13,6 +13,7 @@
     "../src/jwk/parse.ts",
     "../src/jwk/thumbprint.ts",
     "../src/jwk/embedded.ts",
+    "../src/jwk/from_key_like.ts",
 
     "../src/jwks/remote.ts",
 
