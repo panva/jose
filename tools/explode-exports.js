@@ -28,21 +28,6 @@ const exp = all.reduce((acc, mod) => {
   return acc;
 }, {});
 
-const imp = all.reduce((acc, mod) => {
-  const len = mod.length;
-  const foo = mod.substring(4, len - 3);
-  acc["#dist/" + foo] = {
-    import: "./dist/node/esm/" + foo + ".js",
-    require: "./dist/node/cjs/" + foo + ".js",
-  };
-  acc["#dist/webcrypto/" + foo] = {
-    import: "./dist/node/webcrypto/esm/" + foo + ".js",
-    require: "./dist/node/webcrypto/cjs/" + foo + ".js",
-  };
-  return acc;
-}, {});
-
-package.imports = imp;
 package.exports = exp;
 
 writeFileSync("package.json", JSON.stringify(package, null, 2) + "\n");

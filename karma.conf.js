@@ -83,7 +83,7 @@ const browsers = {
     os: "android",
     real_mobile: true,
     os_version: "11.0",
-  }
+  },
 };
 
 module.exports = function (config) {
@@ -91,7 +91,11 @@ module.exports = function (config) {
     basePath: "",
     hostname: "localhost",
     frameworks: ["qunit"],
-    plugins: ["karma-qunit", "karma-browserstack-launcher", "karma-brief-reporter"],
+    plugins: [
+      "karma-qunit",
+      "karma-browserstack-launcher",
+      "karma-brief-reporter",
+    ],
     files: ["dist-browser-tests/*.js"],
     reporters: ["brief", "BrowserStack"],
     port: 9876,
@@ -100,8 +104,9 @@ module.exports = function (config) {
       username: process.env.BROWSERSTACK_USERNAME,
       accessKey: process.env.BROWSERSTACK_ACCESS_KEY,
       video: false,
+      pollingTimeout: 1e4,
     },
-    concurrency: 3,
+    concurrency: 2,
     customLaunchers: browsers,
     captureTimeout: 3e5,
     browserDisconnectTolerance: 1,
@@ -110,8 +115,6 @@ module.exports = function (config) {
     browserNoActivityTimeout: 3e5,
     browsers: Object.keys(browsers),
     singleRun: true,
-    briefReporter: {
-      renderOnRunCompleteOnly: 'CI' in process.env
-    }
+    briefReporter: { renderOnRunCompleteOnly: true },
   });
 };

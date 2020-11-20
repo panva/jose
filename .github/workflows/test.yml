@@ -53,7 +53,7 @@ jobs:
     strategy:
       matrix:
         node-version:
-          - 12.19.0
+          - 12.20.0
           - 12
           - 14.15.0
           - 14
@@ -128,13 +128,5 @@ jobs:
         with:
           path: dist
           key: dist-${{ hashFiles('src/**/*.ts') }}-${{ hashFiles('tsconfig/*.json') }}
-      - name: Turnstyle
-        uses: softprops/turnstyle@v1
-        with:
-          same-branch-only: false
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - run: npm run test-browser
-        env:
-          CI: true
       - run: git reset HEAD --hard
