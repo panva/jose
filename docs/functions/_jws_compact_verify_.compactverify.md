@@ -1,8 +1,8 @@
 # Function: compactVerify
 
-▸ **compactVerify**(`jws`: string, `key`: [KeyLike](../types/_types_d_.keylike.md) \| [CompactVerifyGetKey](../interfaces/_jws_compact_verify_.compactverifygetkey.md), `options?`: [VerifyOptions](../interfaces/_types_d_.verifyoptions.md)): Promise\<[CompactVerifyResult](../interfaces/_types_d_.compactverifyresult.md)>
+▸ **compactVerify**(`jws`: string \| Uint8Array, `key`: [KeyLike](../types/_types_d_.keylike.md) \| [CompactVerifyGetKey](../interfaces/_jws_compact_verify_.compactverifygetkey.md), `options?`: [VerifyOptions](../interfaces/_types_d_.verifyoptions.md)): Promise\<[CompactVerifyResult](../interfaces/_types_d_.compactverifyresult.md)>
 
-*Defined in [src/jws/compact/verify.ts:59](https://github.com/panva/jose/blob/v3.0.2/src/jws/compact/verify.ts#L59)*
+*Defined in [src/jws/compact/verify.ts:60](https://github.com/panva/jose/blob/v3.1.0/src/jws/compact/verify.ts#L60)*
 
 Verifies the signature and format of and afterwards decodes the Compact JWS.
 
@@ -43,7 +43,7 @@ console.log(decoder.decode(payload))
 
 Name | Type | Description |
 ------ | ------ | ------ |
-`jws` | string | Compact JWS. |
+`jws` | string \| Uint8Array | Compact JWS. |
 `key` | [KeyLike](../types/_types_d_.keylike.md) \| [CompactVerifyGetKey](../interfaces/_jws_compact_verify_.compactverifygetkey.md) | Key, or a function resolving a key, to verify the JWS with. |
 `options?` | [VerifyOptions](../interfaces/_types_d_.verifyoptions.md) | JWS Verify options.  |
 

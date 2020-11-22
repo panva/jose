@@ -1,8 +1,8 @@
 # Function: compactDecrypt
 
-▸ **compactDecrypt**(`jwe`: string, `key`: [KeyLike](../types/_types_d_.keylike.md) \| [CompactDecryptGetKey](../interfaces/_jwe_compact_decrypt_.compactdecryptgetkey.md), `options?`: [DecryptOptions](../interfaces/_types_d_.decryptoptions.md)): Promise\<[CompactDecryptResult](../interfaces/_types_d_.compactdecryptresult.md)>
+▸ **compactDecrypt**(`jwe`: string \| Uint8Array, `key`: [KeyLike](../types/_types_d_.keylike.md) \| [CompactDecryptGetKey](../interfaces/_jwe_compact_decrypt_.compactdecryptgetkey.md), `options?`: [DecryptOptions](../interfaces/_types_d_.decryptoptions.md)): Promise\<[CompactDecryptResult](../interfaces/_types_d_.compactdecryptresult.md)>
 
-*Defined in [src/jwe/compact/decrypt.ts:62](https://github.com/panva/jose/blob/v3.0.2/src/jwe/compact/decrypt.ts#L62)*
+*Defined in [src/jwe/compact/decrypt.ts:63](https://github.com/panva/jose/blob/v3.1.0/src/jwe/compact/decrypt.ts#L63)*
 
 Decrypts a Compact JWE.
 
@@ -47,7 +47,7 @@ console.log(decoder.decode(plaintext))
 
 Name | Type | Description |
 ------ | ------ | ------ |
-`jwe` | string | Compact JWE. |
+`jwe` | string \| Uint8Array | Compact JWE. |
 `key` | [KeyLike](../types/_types_d_.keylike.md) \| [CompactDecryptGetKey](../interfaces/_jwe_compact_decrypt_.compactdecryptgetkey.md) | Private Key or Secret, or a function resolving one, to decrypt the JWE with. |
 `options?` | [DecryptOptions](../interfaces/_types_d_.decryptoptions.md) | JWE Decryption options.  |
 

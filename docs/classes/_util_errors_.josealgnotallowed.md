@@ -21,7 +21,7 @@ An error subclass thrown when a JOSE Algorithm is not allowed per developer pref
 
 \+ **new JOSEAlgNotAllowed**(`message?`: string): [JOSEAlgNotAllowed](_util_errors_.josealgnotallowed.md)
 
-*Defined in [src/util/errors.ts:11](https://github.com/panva/jose/blob/v3.0.2/src/util/errors.ts#L11)*
+*Defined in [src/util/errors.ts:11](https://github.com/panva/jose/blob/v3.1.0/src/util/errors.ts#L11)*
 
 #### Parameters:
 
@@ -39,7 +39,7 @@ Name | Type |
 
 *Overrides [JOSEError](_util_errors_.joseerror.md).[code](_util_errors_.joseerror.md#code)*
 
-*Defined in [src/util/errors.ts:49](https://github.com/panva/jose/blob/v3.0.2/src/util/errors.ts#L49)*
+*Defined in [src/util/errors.ts:49](https://github.com/panva/jose/blob/v3.1.0/src/util/errors.ts#L49)*
 
 ___
 

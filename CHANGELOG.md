@@ -2,6 +2,15 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [3.1.0](https://github.com/panva/jose/compare/v3.0.2...v3.1.0) (2020-11-22)
+
+
+### Features
+
+* added "KeyLike to JWK" module ([7a8418e](https://github.com/panva/jose/commit/7a8418eadd68b645fb7edf78873a35980ea8e41d)), closes [#109](https://github.com/panva/jose/issues/109)
+* allow compact verify/decrypt tokens to be uint8array encoded ([e39c3db](https://github.com/panva/jose/commit/e39c3dba75e5ae70697e6a4f93096c492a265c07))
+* allow http.Agent and https.Agent passed in remote JWK Set ([38494a8](https://github.com/panva/jose/commit/38494a88828a8df2015efa78ca29c1a6317a3a50))
+
 ## [3.0.2](https://github.com/panva/jose/compare/v3.0.1...v3.0.2) (2020-11-15)
 
 
