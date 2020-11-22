@@ -1,4 +1,6 @@
 import type { KeyObject } from 'crypto'
+import type { Agent as HttpAgent } from 'http'
+import type { Agent as HttpsAgent } from 'https'
 
 import type { JWSHeaderParameters, JWK, FlattenedJWSInput, GetKeyFunction } from '../types.d'
 import parseJWK from '../jwk/parse.js'
@@ -43,6 +45,14 @@ export interface RemoteJWKSetOptions {
    * after a previous successful fetch. Default is 30000.
    */
   cooldownDuration?: number
+
+  /**
+   * An instance of http.Agent or https.Agent to pass to the http.get or
+   * https.get method options. Use when behind an http(s) proxy.
+   * This is a Node.js runtime specific option, it is ignored
+   * when used outside of Node.js runtime.
+   */
+  agent?: HttpAgent | HttpsAgent
 }
 
 class RemoteJWKSet {
@@ -60,11 +70,14 @@ class RemoteJWKSet {
 
   private _pendingFetch?: ReturnType<typeof fetchJson>
 
+  private _options: Pick<RemoteJWKSetOptions, 'agent'>
+
   constructor(url: URL, options?: RemoteJWKSetOptions) {
     if (!(url instanceof URL)) {
       throw new TypeError('url must be an instance of URL')
     }
     this._url = new URL(url.href)
+    this._options = { agent: options?.agent }
     this._timeoutDuration =
       typeof options?.timeoutDuration === 'number' ? options?.timeoutDuration : 5000
     this._cooldownDuration =
@@ -169,7 +182,7 @@ class RemoteJWKSet {
 
   async reload() {
     if (!this._pendingFetch) {
-      this._pendingFetch = fetchJson(this._url, this._timeoutDuration)
+      this._pendingFetch = fetchJson(this._url, this._timeoutDuration, this._options)
         .then((json: { keys: object[] }) => {
           if (
             typeof json !== 'object' ||

@@ -118,7 +118,7 @@ export interface DecryptFunction {
   ): Promise<Uint8Array>
 }
 export interface FetchFunction {
-  (url: URL, timeout: number): Promise<any>
+  (url: URL, timeout: number, options: any): Promise<any>
 }
 export interface DigestFunction {
   (digest: 'sha256' | 'sha384' | 'sha512', data: Uint8Array): AsyncOrSync<Uint8Array>
