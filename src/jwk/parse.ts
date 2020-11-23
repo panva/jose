@@ -57,7 +57,7 @@ export default async function parseJwk(
   }
 
   // eslint-disable-next-line no-param-reassign
-  alg ||= jwk.alg
+  alg || (alg = jwk.alg)
 
   if (typeof alg !== 'string' || !alg) {
     throw new TypeError('"alg" argument is required when "jwk.alg" is not present')
@@ -70,7 +70,7 @@ export default async function parseJwk(
       }
 
       // eslint-disable-next-line no-param-reassign, eqeqeq
-      octAsKeyObject ??= jwk.ext !== true
+      octAsKeyObject ?? (octAsKeyObject = jwk.ext !== true)
 
       if (octAsKeyObject) {
         return asKeyObject({ ...jwk, alg, ext: false })
