@@ -27,7 +27,8 @@
     "../src/util/errors.ts",
     "../src/util/generate_key_pair.ts",
     "../src/util/generate_secret.ts",
-    "../src/util/random.ts"
+    "../src/util/random.ts",
+    "../src/util/globals.ts"
   ],
   "compilerOptions": {
     "strict": true,
