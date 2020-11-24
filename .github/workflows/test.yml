@@ -53,8 +53,8 @@ jobs:
     strategy:
       matrix:
         node-version:
-          # - 12.20.0
-          # - 12
+          - 12.20.0
+          - 12
           - 14.15.0
           - 14
           - 15.0.1
