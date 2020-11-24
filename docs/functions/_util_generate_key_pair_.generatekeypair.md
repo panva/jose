@@ -2,7 +2,7 @@
 
 ▸ **generateKeyPair**(`alg`: string, `options?`: [GenerateKeyPairOptions](../interfaces/_util_generate_key_pair_.generatekeypairoptions.md)): Promise\<{ privateKey: CryptoKey \| KeyObject ; publicKey: CryptoKey \| KeyObject  }>
 
-*Defined in [src/util/generate_key_pair.ts:41](https://github.com/panva/jose/blob/v3.1.0/src/util/generate_key_pair.ts#L41)*
+*Defined in [src/util/generate_key_pair.ts:41](https://github.com/panva/jose/blob/v3.1.1/src/util/generate_key_pair.ts#L41)*
 
 Generates a private and a public key for a given JWA algorithm identifier.
 This can only generate asymmetric key pairs. For symmetric secrets use the

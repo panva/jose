@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [3.1.1](https://github.com/panva/jose/compare/v3.1.0...v3.1.1) (2020-11-24)
+
+
+### Bug Fixes
+
+* global detection in a browser worker runtime ([56ff8fa](https://github.com/panva/jose/commit/56ff8fa65aa045411c6c6a67d80b67c1099576a0))
+
 ## [3.1.0](https://github.com/panva/jose/compare/v3.0.2...v3.1.0) (2020-11-22)
 
 
