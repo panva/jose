@@ -1,6 +1,6 @@
 import type { KeyObject } from 'crypto'
-import type { Agent as HttpAgent } from 'http'
-import type { Agent as HttpsAgent } from 'https'
+import type * as http from 'http'
+import type * as https from 'https'
 
 import type { JWSHeaderParameters, JWK, FlattenedJWSInput, GetKeyFunction } from '../types.d'
 import parseJWK from '../jwk/parse.js'
@@ -52,7 +52,7 @@ export interface RemoteJWKSetOptions {
    * This is a Node.js runtime specific option, it is ignored
    * when used outside of Node.js runtime.
    */
-  agent?: HttpAgent | HttpsAgent
+  agent?: https.Agent | http.Agent
 }
 
 class RemoteJWKSet {
