@@ -20,6 +20,7 @@ jobs:
         uses: actions/setup-node@v2-beta
         with:
           node-version: 14
+          check-latest: true
       - name: Store node version variable
         id: node
         run: |
@@ -67,6 +68,7 @@ jobs:
         uses: actions/setup-node@v2-beta
         with:
           node-version: ${{ matrix.node-version }}
+          check-latest: true
       - name: Store node version variable
         id: node
         run: |
