@@ -1,12 +1,13 @@
 import type { Base64UrlDecode, Base64UrlEncode } from '../interfaces.d'
 import { encoder, decoder } from '../../lib/buffer_utils.js'
+import globalThis from './global.js'
 
 export const encode: Base64UrlEncode = (input) => {
   let unencoded = input
   if (typeof unencoded === 'string') {
     unencoded = encoder.encode(unencoded)
   }
-  const base64string = window.btoa(String.fromCharCode.apply(0, [...unencoded]))
+  const base64string = globalThis.btoa(String.fromCharCode.apply(0, [...unencoded]))
   return base64string.replace(/=/g, '').replace(/\+/g, '-').replace(/\//g, '_')
 }
 
@@ -17,7 +18,7 @@ export const decode: Base64UrlDecode = (input) => {
   }
   encoded = encoded.replace(/-/g, '+').replace(/_/g, '/').replace(/\s/g, '')
   return new Uint8Array(
-    window
+    globalThis
       .atob(encoded)
       .split('')
       .map((c) => c.charCodeAt(0)),

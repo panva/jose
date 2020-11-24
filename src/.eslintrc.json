@@ -31,8 +31,11 @@
     "jsdoc/require-param": 2,
     "jsdoc/valid-types": 2
   },
-  "globals": {
-    "window": "readonly"
-  },
-  "ignorePatterns": ["src/runtime/*/*.ts", "src/runtime/webcrypto.ts", "dist", "src/runtime/*.d.ts"]
+  "ignorePatterns": [
+    "src/runtime/*/*.ts",
+    "src/runtime/webcrypto.ts",
+    "src/runtime/global.ts",
+    "dist",
+    "src/runtime/*.d.ts"
+  ]
 }

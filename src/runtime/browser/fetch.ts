@@ -1,5 +1,6 @@
 import type { FetchFunction } from '../interfaces.d'
 import { JOSEError } from '../../util/errors.js'
+import globalThis from './global.js'
 
 const fetch: FetchFunction = async (url: URL, timeout: number) => {
   let controller!: AbortController
@@ -8,7 +9,7 @@ const fetch: FetchFunction = async (url: URL, timeout: number) => {
     setTimeout(() => controller.abort(), timeout)
   }
 
-  const response = await window.fetch(url.href, {
+  const response = await globalThis.fetch(url.href, {
     signal: controller ? controller.signal : undefined,
     redirect: 'manual',
     referrerPolicy: 'no-referrer',
