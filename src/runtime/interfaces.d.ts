@@ -1,22 +1,6 @@
 import type { JWK, KeyLike } from '../types.d'
 import type { EpkJwk, AsyncOrSync } from '../types.i.d'
 
-/**
- * Utility function to encode a string or Uint8Array as a base64url string.
- *
- * @param input Value that will be base64url-encoded.
- */
-export interface Base64UrlEncode {
-  (input: Uint8Array | string): string
-}
-/**
- * Utility function to decode a base64url encoded string.
- *
- * @param input Value that will be base64url-decoded.
- */
-export interface Base64UrlDecode {
-  (input: Uint8Array | string): Uint8Array
-}
 export interface TimingSafeEqual {
   (a: Uint8Array, b: Uint8Array): boolean
 }
@@ -25,9 +9,6 @@ export interface SignFunction {
 }
 export interface VerifyFunction {
   (alg: string, key: any, signature: Uint8Array, data: Uint8Array): Promise<boolean>
-}
-export interface GetRandomValuesFunction {
-  (array: Uint8Array): Uint8Array
 }
 export interface ExportCekFunction {
   (key: any): AsyncOrSync<Uint8Array>

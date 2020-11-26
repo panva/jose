@@ -41,6 +41,7 @@ jobs:
           path: dist
           key: dist-${{ hashFiles('src/**/*.ts') }}-${{ hashFiles('tsconfig/*.json') }}
       - run: sed -i -e "s/-i ''/-i/g" package.json
+      - run: sed -i -e "s/gcp/cp/g" package.json
       - name: Build
         run: npm run build-all
         if: ${{ steps.dist.outputs.cache-hit != 'true' }}

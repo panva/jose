@@ -1,7 +1,7 @@
 /* eslint-disable no-underscore-dangle */
 
 import CompactEncrypt from '../jwe/compact/encrypt.js'
-import {
+import type {
   EncryptOptions,
   JWEHeaderParameters,
   JWEKeyManagementHeaderParameters,

@@ -1,6 +1,6 @@
 /* eslint-disable jsdoc/require-param */
 import type { KeyObject } from 'crypto'
-import { FlattenedJWSInput, JWSHeaderParameters } from '../types.d'
+import type { FlattenedJWSInput, JWSHeaderParameters } from '../types.d'
 import parseJwk from './parse.js'
 import isObject from '../lib/is_object.js'
 import { JWSInvalid } from '../util/errors.js'

@@ -2,7 +2,7 @@
 
 import CompactSign from '../jws/compact/sign.js'
 import { JWTInvalid } from '../util/errors.js'
-import { JWSHeaderParameters, JWTPayload, KeyLike } from '../types.d'
+import type { JWSHeaderParameters, JWTPayload, KeyLike } from '../types.d'
 import { encoder } from '../lib/buffer_utils.js'
 import ProduceJWT from '../lib/jwt_producer.js'
 

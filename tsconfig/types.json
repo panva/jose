@@ -1,0 +1,10 @@
+{
+  "extends": "./base.json",
+  "compilerOptions": {
+    "target": "ESNext",
+    "outDir": "../dist/types",
+    "removeComments": false,
+    "declaration": true,
+    "emitDeclarationOnly": true
+  }
+}
