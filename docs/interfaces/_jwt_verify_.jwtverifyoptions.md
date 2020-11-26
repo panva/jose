@@ -21,7 +21,7 @@ Combination of JWS Verification options and JWT Claims Set verification options.
 
 • `Optional` **algorithms**: string[]
 
-*Defined in [src/types.d.ts:397](https://github.com/panva/jose/blob/v3.1.2/src/types.d.ts#L397)*
+*Defined in [src/types.d.ts:397](https://github.com/panva/jose/blob/v3.1.3/src/types.d.ts#L397)*
 
 A list of accepted JWS "alg" (Algorithm) Header Parameter values.
 
@@ -31,7 +31,7 @@ ___
 
 • `Optional` **audience**: string \| string[]
 
-*Defined in [src/types.d.ts:355](https://github.com/panva/jose/blob/v3.1.2/src/types.d.ts#L355)*
+*Defined in [src/types.d.ts:355](https://github.com/panva/jose/blob/v3.1.3/src/types.d.ts#L355)*
 
 Expected JWT "aud" (Audience) Claim value(s).
 
@@ -41,7 +41,7 @@ ___
 
 • `Optional` **clockTolerance**: string \| number
 
-*Defined in [src/types.d.ts:362](https://github.com/panva/jose/blob/v3.1.2/src/types.d.ts#L362)*
+*Defined in [src/types.d.ts:362](https://github.com/panva/jose/blob/v3.1.3/src/types.d.ts#L362)*
 
 Expected clock tolerance
 - in seconds when number (e.g. 5)
@@ -53,7 +53,7 @@ ___
 
 • `Optional` **currentDate**: Date
 
-*Defined in [src/types.d.ts:387](https://github.com/panva/jose/blob/v3.1.2/src/types.d.ts#L387)*
+*Defined in [src/types.d.ts:387](https://github.com/panva/jose/blob/v3.1.3/src/types.d.ts#L387)*
 
 Date to use when comparing NumericDate claims, defaults to `new Date()`.
 
@@ -63,7 +63,7 @@ ___
 
 • `Optional` **issuer**: string \| string[]
 
-*Defined in [src/types.d.ts:367](https://github.com/panva/jose/blob/v3.1.2/src/types.d.ts#L367)*
+*Defined in [src/types.d.ts:367](https://github.com/panva/jose/blob/v3.1.3/src/types.d.ts#L367)*
 
 Expected JWT "iss" (Issuer) Claim value(s).
 
@@ -73,7 +73,7 @@ ___
 
 • `Optional` **maxTokenAge**: string
 
-*Defined in [src/types.d.ts:372](https://github.com/panva/jose/blob/v3.1.2/src/types.d.ts#L372)*
+*Defined in [src/types.d.ts:372](https://github.com/panva/jose/blob/v3.1.3/src/types.d.ts#L372)*
 
 Maximum time elapsed (in seconds) from the JWT "iat" (Issued At) Claim value.
 
@@ -83,7 +83,7 @@ ___
 
 • `Optional` **subject**: string
 
-*Defined in [src/types.d.ts:377](https://github.com/panva/jose/blob/v3.1.2/src/types.d.ts#L377)*
+*Defined in [src/types.d.ts:377](https://github.com/panva/jose/blob/v3.1.3/src/types.d.ts#L377)*
 
 Expected JWT "sub" (Subject) Claim value.
 
@@ -93,6 +93,6 @@ ___
 
 • `Optional` **typ**: string
 
-*Defined in [src/types.d.ts:382](https://github.com/panva/jose/blob/v3.1.2/src/types.d.ts#L382)*
+*Defined in [src/types.d.ts:382](https://github.com/panva/jose/blob/v3.1.3/src/types.d.ts#L382)*
 
 Expected JWT "typ" (Type) Header Parameter value.

@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [3.1.3](https://github.com/panva/jose/compare/v3.1.2...v3.1.3) (2020-11-26)
+
+
+### Bug Fixes
+
+* **typescript:** refactored how types are published ([2937363](https://github.com/panva/jose/commit/29373633bc540ff1e7bfe8fb3e5c5b391e79c2d9)), closes [#119](https://github.com/panva/jose/issues/119)
+
 ## [3.1.2](https://github.com/panva/jose/compare/v3.1.1...v3.1.2) (2020-11-24)
 
 
