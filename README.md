@@ -224,6 +224,11 @@ npm uninstall @types/node
 npm install --save-dev @types/node
 ```
 
+#### "Cannot find module 'jose'"
+
+There's no "jose" root module. Each module is to be individually imported as explained in
+each individual module's documentation.
+
 #### Why? Just. Why?
 
 I was using [`node-jose`][node-jose] for
