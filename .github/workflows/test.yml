@@ -80,9 +80,6 @@ jobs:
         run: npx panva/npm-install-retry
         if: ${{ steps.node_modules.outputs.cache-hit != 'true' }}
       - run: npm run coverage
-      - env:
-          CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
-        run: npx codecov
 
   test-electron:
     env:
