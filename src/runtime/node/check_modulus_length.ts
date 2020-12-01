@@ -1,6 +1,6 @@
 import type { KeyObject } from 'crypto'
 
-const weakMap: WeakMap<KeyObject, number> = new WeakMap()
+export const weakMap: WeakMap<KeyObject, number> = new WeakMap()
 
 const getLength = (buf: Buffer, index: number): number => {
   let len = buf.readUInt8(1)

@@ -6,6 +6,8 @@ Promise.all([
   import(`${root}/util/generate_secret`),
 ]).then(
   ([{ default: generateKeyPair }, { default: generateSecret }]) => {
+    let checkModulusLength;
+    let getNamedCurve;
     async function testKeyPair(t, alg, options) {
       return t.notThrowsAsync(async () => {
         const { privateKey, publicKey } = await generateKeyPair(alg, options);
@@ -15,8 +17,9 @@ Promise.all([
         t.is(publicKey.type, 'public');
 
         for (const key of [publicKey, privateKey]) {
-          // Test CryptoKey curves are set properly
+          // CryptoKey
           if ('algorithm' in key) {
+            // Test curves are set properly
             if (key.algorithm.name === 'ECDH') {
               t.is(key.algorithm.namedCurve, (options && options.crv) || 'P-256');
             }
@@ -25,22 +28,60 @@ Promise.all([
               case 'ES256':
                 t.is(key.algorithm.namedCurve, 'P-256');
                 break;
-              case 'ES348':
+              case 'ES384':
                 t.is(key.algorithm.namedCurve, 'P-384');
                 break;
               case 'ES512':
                 t.is(key.algorithm.namedCurve, 'P-521');
                 break;
             }
-          }
 
-          // Test OKP KeyObject types are set properly
-          if (
-            'asymmetricKeyType' in key &&
-            key.asymmetricKeyType !== 'ec' &&
-            key.asymmetricKeyType !== 'rsa'
-          ) {
-            t.is(key.asymmetricKeyType, (options && options.crv.toLowerCase()) || 'ed25519');
+            // Test RSA modulusLength is used
+            if (key.algorithm.modulusLength !== undefined) {
+              t.is(key.algorithm.modulusLength, (options && options.modulusLength) || 2048);
+            }
+          } else {
+            // KeyObject
+            // Test OKP sub types are set properly
+            if (key.asymmetricKeyType !== 'ec' && key.asymmetricKeyType !== 'rsa') {
+              t.is(key.asymmetricKeyType, (options && options.crv.toLowerCase()) || 'ed25519');
+            }
+
+            // Test curves are set properly
+            if (key.asymmetricKeyType === 'ec') {
+              if (!getNamedCurve) {
+                getNamedCurve = await import(`${root}/runtime/get_named_curve`);
+              }
+              getNamedCurve.weakMap.delete(key);
+              getNamedCurve.default(key);
+              switch (alg) {
+                case 'ES256':
+                  t.is(getNamedCurve.weakMap.get(key), 'P-256');
+                  break;
+                case 'ES256K':
+                  t.is(getNamedCurve.weakMap.get(key), 'secp256k1');
+                  break;
+                case 'ES384':
+                  t.is(getNamedCurve.weakMap.get(key), 'P-384');
+                  break;
+                case 'ES512':
+                  t.is(getNamedCurve.weakMap.get(key), 'P-521');
+                  break;
+                default:
+                  // ECDH-ES
+                  t.is(getNamedCurve.weakMap.get(key), (options && options.crv) || 'P-256');
+              }
+            }
+
+            // Test RSA modulusLength is used
+            if (key.asymmetricKeyType === 'rsa') {
+              if (!checkModulusLength) {
+                checkModulusLength = await import(`${root}/runtime/check_modulus_length`);
+              }
+              checkModulusLength.weakMap.delete(key);
+              checkModulusLength.default(key);
+              t.is(checkModulusLength.weakMap.get(key), (options && options.modulusLength) || 2048);
+            }
           }
         }
       });
@@ -48,15 +89,25 @@ Promise.all([
     testKeyPair.title = (title, alg) => `generate ${alg} key pair${title ? ` ${title}` : ''}`;
 
     test(testKeyPair, 'PS256');
+    test('with modulusLength', testKeyPair, 'PS256', { modulusLength: 3072 });
     test(testKeyPair, 'PS384');
+    test('with modulusLength', testKeyPair, 'PS384', { modulusLength: 3072 });
     test(testKeyPair, 'PS512');
+    test('with modulusLength', testKeyPair, 'PS512', { modulusLength: 3072 });
     test(testKeyPair, 'RS256');
+    test('with modulusLength', testKeyPair, 'RS256', { modulusLength: 3072 });
     test(testKeyPair, 'RS384');
+    test('with modulusLength', testKeyPair, 'RS384', { modulusLength: 3072 });
     test(testKeyPair, 'RS512');
+    test('with modulusLength', testKeyPair, 'RS512', { modulusLength: 3072 });
     test(testKeyPair, 'RSA-OAEP');
+    test('with modulusLength', testKeyPair, 'RSA-OAEP', { modulusLength: 3072 });
     test(testKeyPair, 'RSA-OAEP-256');
+    test('with modulusLength', testKeyPair, 'RSA-OAEP-256', { modulusLength: 3072 });
     test(testKeyPair, 'RSA-OAEP-384');
+    test('with modulusLength', testKeyPair, 'RSA-OAEP-384', { modulusLength: 3072 });
     test(testKeyPair, 'RSA-OAEP-512');
+    test('with modulusLength', testKeyPair, 'RSA-OAEP-512', { modulusLength: 3072 });
     test(testKeyPair, 'ES256');
     test(testKeyPair, 'ES384');
     test(testKeyPair, 'ES512');
@@ -83,6 +134,7 @@ Promise.all([
     conditional('crv: Ed448', testKeyPair, 'EdDSA', { crv: 'Ed448' });
     conditional(testKeyPair, 'ES256K');
     conditional(testKeyPair, 'RSA1_5');
+    conditional('with modulusLength', testKeyPair, 'RSA1_5', { modulusLength: 3072 });
     for (const crv of ['X25519', 'X448']) {
       conditional(`crv: ${crv}`, testKeyPair, 'ECDH-ES', { crv });
       conditional(`crv: ${crv}`, testKeyPair, 'ECDH-ES+A128KW', { crv });

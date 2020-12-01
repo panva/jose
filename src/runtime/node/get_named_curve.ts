@@ -6,7 +6,7 @@ const p384 = Buffer.from([43, 129, 4, 0, 34])
 const p521 = Buffer.from([43, 129, 4, 0, 35])
 const secp256k1 = Buffer.from([43, 129, 4, 0, 10])
 
-const weakMap: WeakMap<KeyObject, string> = new WeakMap()
+export const weakMap: WeakMap<KeyObject, string> = new WeakMap()
 
 const getNamedCurve = (key: KeyObject): string => {
   if (key.type === 'secret') {
