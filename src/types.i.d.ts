@@ -5,6 +5,7 @@ interface NodeCrypto extends Crypto {
 }
 
 declare module 'crypto' {
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const webcrypto: NodeCrypto
 }
 

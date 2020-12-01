@@ -72,7 +72,7 @@ export interface JWK {
  * @param protectedHeader JWE or JWS Protected Header.
  * @param token The consumed JWE or JWS token.
  */
-interface GetKeyFunction<T, T2> {
+export interface GetKeyFunction<T, T2> {
   (protectedHeader: T, token: T2): Promise<KeyLike>
 }
 
