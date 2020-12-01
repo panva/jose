@@ -8,6 +8,12 @@ export interface GenerateKeyPairOptions {
    * the given JWA algorithm identifier.
    */
   crv?: string
+
+  /**
+   * A hint for RSA algorithms to generate an RSA key of a given `modulusLength`
+   * (Key size in bits). JOSE requires 2048 bits or larger. Default is 2048.
+   */
+  modulusLength?: number
 }
 
 /**

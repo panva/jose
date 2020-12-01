@@ -1,9 +1,7 @@
 import crypto, { ensureSecureContext } from './webcrypto.js'
 import { JOSENotSupported } from '../../util/errors.js'
 import random from './random.js'
-
-const modulusLength = 2048
-const publicExponent = new Uint8Array([0x01, 0x00, 0x01])
+import type { GenerateKeyPairOptions } from '../../util/generate_key_pair.js'
 
 export async function generateSecret(alg: string) {
   let length: number
@@ -46,11 +44,17 @@ export async function generateSecret(alg: string) {
   return crypto.subtle.generateKey(algorithm, false, keyUsages) as Promise<CryptoKey>
 }
 
-interface Options {
-  crv?: string
+function getModulusLengthOption(options?: GenerateKeyPairOptions) {
+  const modulusLength = options?.modulusLength ?? 2048
+  if (typeof modulusLength !== 'number' || modulusLength < 2048) {
+    throw new JOSENotSupported(
+      'invalid or unsupported modulusLength option provided, 2048 bits or larger keys must be used',
+    )
+  }
+  return modulusLength
 }
 
-export async function generateKeyPair(alg: string, options?: Options) {
+export async function generateKeyPair(alg: string, options?: GenerateKeyPairOptions) {
   let algorithm: RsaHashedKeyGenParams | EcKeyGenParams
   let keyUsages: KeyUsage[]
 
@@ -58,7 +62,12 @@ export async function generateKeyPair(alg: string, options?: Options) {
     case 'PS256':
     case 'PS384':
     case 'PS512':
-      algorithm = { name: 'RSA-PSS', hash: `SHA-${alg.substr(-3)}`, publicExponent, modulusLength }
+      algorithm = {
+        name: 'RSA-PSS',
+        hash: `SHA-${alg.substr(-3)}`,
+        publicExponent: new Uint8Array([0x01, 0x00, 0x01]),
+        modulusLength: getModulusLengthOption(options),
+      }
       keyUsages = ['sign', 'verify']
       break
     case 'RS256':
@@ -67,8 +76,8 @@ export async function generateKeyPair(alg: string, options?: Options) {
       algorithm = {
         name: 'RSASSA-PKCS1-v1_5',
         hash: `SHA-${alg.substr(-3)}`,
-        publicExponent,
-        modulusLength,
+        publicExponent: new Uint8Array([0x01, 0x00, 0x01]),
+        modulusLength: getModulusLengthOption(options),
       }
       keyUsages = ['sign', 'verify']
       break
@@ -79,8 +88,8 @@ export async function generateKeyPair(alg: string, options?: Options) {
       algorithm = {
         name: 'RSA-OAEP',
         hash: `SHA-${parseInt(alg.substr(-3), 10) || 1}`,
-        publicExponent,
-        modulusLength,
+        publicExponent: new Uint8Array([0x01, 0x00, 0x01]),
+        modulusLength: getModulusLengthOption(options),
       }
       keyUsages = ['decrypt', 'unwrapKey', 'encrypt', 'wrapKey']
       break

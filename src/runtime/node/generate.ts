@@ -2,7 +2,9 @@ import { createSecretKey, generateKeyPair as generateKeyPairCb } from 'crypto'
 import { promisify } from 'util'
 
 import random from './random.js'
+import { setModulusLength } from './check_modulus_length.js'
 import { JOSENotSupported } from '../../util/errors.js'
+import type { GenerateKeyPairOptions } from '../../util/generate_key_pair.js'
 
 const generate = promisify(generateKeyPairCb)
 
@@ -35,11 +37,7 @@ export async function generateSecret(alg: string) {
   return createSecretKey(random(new Uint8Array(length >> 3)))
 }
 
-interface Options {
-  crv?: string
-}
-
-export async function generateKeyPair(alg: string, options?: Options) {
+export async function generateKeyPair(alg: string, options?: GenerateKeyPairOptions) {
   switch (alg) {
     case 'RS256':
     case 'RS384':
@@ -51,8 +49,21 @@ export async function generateKeyPair(alg: string, options?: Options) {
     case 'RSA-OAEP-256':
     case 'RSA-OAEP-384':
     case 'RSA-OAEP-512':
-    case 'RSA1_5':
-      return generate('rsa', { modulusLength: 2048, publicExponent: 0x10001 })
+    case 'RSA1_5': {
+      const modulusLength = options?.modulusLength ?? 2048
+      if (typeof modulusLength !== 'number' || modulusLength < 2048) {
+        throw new JOSENotSupported(
+          'invalid or unsupported modulusLength option provided, 2048 bits or larger keys must be used',
+        )
+      }
+      const keypair = await generate('rsa', {
+        modulusLength,
+        publicExponent: 0x10001,
+      })
+      setModulusLength(keypair.privateKey, modulusLength)
+      setModulusLength(keypair.publicKey, modulusLength)
+      return keypair
+    }
     case 'ES256':
       return generate('ec', { namedCurve: 'P-256' })
     case 'ES256K':
