@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [3.2.0](https://github.com/panva/jose/compare/v3.1.3...v3.2.0) (2020-12-02)
+
+
+### Features
+
+* allow specifying modulusLength when generating RSA Key Pairs ([5f7a0e9](https://github.com/panva/jose/commit/5f7a0e9055256bce4786a53711bcf14cf59fa8f1)), closes [#121](https://github.com/panva/jose/issues/121)
+
 ## [3.1.3](https://github.com/panva/jose/compare/v3.1.2...v3.1.3) (2020-11-26)
 
 

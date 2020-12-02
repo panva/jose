@@ -17,7 +17,7 @@ is not returned when JWS Unencoded Payload Option
 
 • `Optional` **payload**: string
 
-*Defined in [src/types.d.ts:136](https://github.com/panva/jose/blob/v3.1.3/src/types.d.ts#L136)*
+*Defined in [src/types.d.ts:136](https://github.com/panva/jose/blob/v3.2.0/src/types.d.ts#L136)*
 
 ___
 
@@ -25,4 +25,4 @@ ___
 
 •  **signature**: string
 
-*Defined in [src/types.d.ts:137](https://github.com/panva/jose/blob/v3.1.3/src/types.d.ts#L137)*
+*Defined in [src/types.d.ts:137](https://github.com/panva/jose/blob/v3.2.0/src/types.d.ts#L137)*

@@ -18,7 +18,7 @@
 
 • `Optional` **cty**: string
 
-*Defined in [src/types.d.ts:174](https://github.com/panva/jose/blob/v3.1.3/src/types.d.ts#L174)*
+*Defined in [src/types.d.ts:174](https://github.com/panva/jose/blob/v3.2.0/src/types.d.ts#L174)*
 
 "cty" (Content Type) Header Parameter.
 
@@ -28,7 +28,7 @@ ___
 
 • `Optional` **jwk**: Pick\<[JWK](_types_d_.jwk.md), \"kty\" \| \"crv\" \| \"x\" \| \"y\" \| \"e\" \| \"n\">
 
-*Defined in [src/types.d.ts:164](https://github.com/panva/jose/blob/v3.1.3/src/types.d.ts#L164)*
+*Defined in [src/types.d.ts:164](https://github.com/panva/jose/blob/v3.2.0/src/types.d.ts#L164)*
 
 "jwk" (JSON Web Key) Header Parameter.
 
@@ -38,7 +38,7 @@ ___
 
 • `Optional` **kid**: string
 
-*Defined in [src/types.d.ts:144](https://github.com/panva/jose/blob/v3.1.3/src/types.d.ts#L144)*
+*Defined in [src/types.d.ts:144](https://github.com/panva/jose/blob/v3.2.0/src/types.d.ts#L144)*
 
 "kid" (Key ID) Header Parameter.
 
@@ -48,7 +48,7 @@ ___
 
 • `Optional` **typ**: string
 
-*Defined in [src/types.d.ts:169](https://github.com/panva/jose/blob/v3.1.3/src/types.d.ts#L169)*
+*Defined in [src/types.d.ts:169](https://github.com/panva/jose/blob/v3.2.0/src/types.d.ts#L169)*
 
 "typ" (Type) Header Parameter.
 
@@ -58,7 +58,7 @@ ___
 
 • `Optional` **x5c**: string[]
 
-*Defined in [src/types.d.ts:154](https://github.com/panva/jose/blob/v3.1.3/src/types.d.ts#L154)*
+*Defined in [src/types.d.ts:154](https://github.com/panva/jose/blob/v3.2.0/src/types.d.ts#L154)*
 
 "x5c" (X.509 Certificate Chain) Header Parameter.
 
@@ -68,7 +68,7 @@ ___
 
 • `Optional` **x5t**: string
 
-*Defined in [src/types.d.ts:149](https://github.com/panva/jose/blob/v3.1.3/src/types.d.ts#L149)*
+*Defined in [src/types.d.ts:149](https://github.com/panva/jose/blob/v3.2.0/src/types.d.ts#L149)*
 
 "x5t" (X.509 Certificate SHA-1 Thumbprint) Header Parameter.
 
@@ -78,6 +78,6 @@ ___
 
 • `Optional` **x5u**: string
 
-*Defined in [src/types.d.ts:159](https://github.com/panva/jose/blob/v3.1.3/src/types.d.ts#L159)*
+*Defined in [src/types.d.ts:159](https://github.com/panva/jose/blob/v3.2.0/src/types.d.ts#L159)*
 
 "x5u" (X.509 URL) Header Parameter.

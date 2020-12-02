@@ -21,7 +21,7 @@ An error subclass thrown when a JWKS is invalid.
 
 \+ **new JWKSInvalid**(`message?`: string): [JWKSInvalid](_util_errors_.jwksinvalid.md)
 
-*Defined in [src/util/errors.ts:11](https://github.com/panva/jose/blob/v3.1.3/src/util/errors.ts#L11)*
+*Defined in [src/util/errors.ts:11](https://github.com/panva/jose/blob/v3.2.0/src/util/errors.ts#L11)*
 
 #### Parameters:
 
@@ -39,7 +39,7 @@ Name | Type |
 
 *Overrides [JOSEError](_util_errors_.joseerror.md).[code](_util_errors_.joseerror.md#code)*
 
-*Defined in [src/util/errors.ts:101](https://github.com/panva/jose/blob/v3.1.3/src/util/errors.ts#L101)*
+*Defined in [src/util/errors.ts:101](https://github.com/panva/jose/blob/v3.2.0/src/util/errors.ts#L101)*
 
 ___
 
