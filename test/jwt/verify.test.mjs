@@ -374,6 +374,16 @@ Promise.all([
     for (const claim of ['iat', 'nbf', 'exp']) {
       test(numericDateNumber, claim);
     }
+
+    test('Signed JWTs cannot use unencoded payload', async (t) => {
+      await t.throwsAsync(
+        jwtVerify(
+          'eyJhbGciOiJIUzI1NiIsImI2NCI6ZmFsc2UsImNyaXQiOlsiYjY0Il19.foo.VklKdp4tVYD61VNPDBTqxqdEQcUL3JK-D4dGXu9NvWs',
+          t.context.secret,
+        ),
+        { code: 'ERR_JWT_INVALID', message: 'JWTs MUST NOT use unencoded payload' },
+      );
+    });
   },
   (err) => {
     test('failed to import', (t) => {
