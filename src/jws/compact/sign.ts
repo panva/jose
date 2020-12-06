@@ -1,7 +1,7 @@
 /* eslint-disable no-underscore-dangle */
 
 import FlattenedSign from '../flattened/sign.js'
-import type { JWSHeaderParameters, KeyLike } from '../../types.d'
+import type { JWSHeaderParameters, KeyLike, SignOptions } from '../../types.d'
 
 /**
  * The CompactSign class is a utility for creating Compact JWS strings.
@@ -64,9 +64,10 @@ export default class CompactSign {
    * Signs and resolves the value of the Compact JWS string.
    *
    * @param key Private Key or Secret to sign the JWS with.
+   * @param options JWS Sign options.
    */
-  async sign(key: KeyLike): Promise<string> {
-    const jws = await this._flattened.sign(key)
+  async sign(key: KeyLike, options?: SignOptions): Promise<string> {
+    const jws = await this._flattened.sign(key, options)
 
     if (jws.payload === undefined) {
       throw new TypeError('use the flattened module for creating JWS with b64: false')

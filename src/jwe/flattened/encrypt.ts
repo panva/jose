@@ -19,7 +19,7 @@ import { encoder, decoder, concat } from '../../lib/buffer_utils.js'
 import validateCrit from '../../lib/validate_crit.js'
 
 const generateIv = ivFactory(random)
-const checkCrit = validateCrit.bind(undefined, JWEInvalid, new Map())
+const checkExtensions = validateCrit.bind(undefined, JWEInvalid, new Map())
 
 /**
  * The FlattenedEncrypt class is a utility for creating Flattened JWE
@@ -205,7 +205,7 @@ export default class FlattenedEncrypt {
       ...this._sharedUnprotectedHeader,
     }
 
-    checkCrit(this._protectedHeader, joseHeader)
+    checkExtensions(options?.crit, this._protectedHeader, joseHeader)
 
     if (joseHeader.zip !== undefined) {
       if (!this._protectedHeader || !this._protectedHeader.zip) {

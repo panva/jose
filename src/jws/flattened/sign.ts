@@ -6,7 +6,7 @@ import { encoder, decoder, concat } from '../../lib/buffer_utils.js'
 
 import { encode as base64url } from '../../runtime/base64url.js'
 import sign from '../../runtime/sign.js'
-import type { KeyLike, FlattenedJWS, JWSHeaderParameters } from '../../types.d'
+import type { KeyLike, FlattenedJWS, JWSHeaderParameters, SignOptions } from '../../types.d'
 import checkKeyType from '../../lib/check_key_type.js'
 import validateCrit from '../../lib/validate_crit.js'
 
@@ -92,8 +92,9 @@ export default class FlattenedSign {
    * Signs and resolves the value of the Flattened JWS object.
    *
    * @param key Private Key or Secret to sign the JWS with.
+   * @param options JWS Sign options.
    */
-  async sign(key: KeyLike): Promise<FlattenedJWS> {
+  async sign(key: KeyLike, options?: SignOptions): Promise<FlattenedJWS> {
     if (!this._protectedHeader && !this._unprotectedHeader) {
       throw new JWSInvalid(
         'either setProtectedHeader or setUnprotectedHeader must be called before #sign()',
@@ -111,7 +112,7 @@ export default class FlattenedSign {
       ...this._unprotectedHeader,
     }
 
-    const extensions = checkExtensions(this._protectedHeader, joseHeader)
+    const extensions = checkExtensions(options?.crit, this._protectedHeader, joseHeader)
 
     let b64: boolean = true
     if (extensions.has('b64')) {

@@ -22,7 +22,7 @@ import validateCrit from '../../lib/validate_crit.js'
 import validateAlgorithms from '../../lib/validate_algorithms.js'
 
 const generateCek = cekFactory(random)
-const checkCrit = validateCrit.bind(undefined, JWEInvalid, new Map())
+const checkExtensions = validateCrit.bind(undefined, JWEInvalid, new Map())
 const checkAlgOption = validateAlgorithms.bind(undefined, 'keyManagementAlgorithms')
 const checkEncOption = validateAlgorithms.bind(undefined, 'contentEncryptionAlgorithms')
 
@@ -151,7 +151,7 @@ export default async function flattenedDecrypt(
     ...jwe.unprotected,
   }
 
-  checkCrit(parsedProt, joseHeader)
+  checkExtensions(options?.crit, parsedProt, joseHeader)
 
   if (joseHeader.zip !== undefined) {
     if (!parsedProt || !parsedProt.zip) {

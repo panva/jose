@@ -117,7 +117,7 @@ export default async function flattenedVerify(
     ...jws.header,
   }
 
-  const extensions = checkExtensions(parsedProt, joseHeader)
+  const extensions = checkExtensions(options?.crit, parsedProt, joseHeader)
 
   let b64: boolean = true
   if (extensions.has('b64')) {

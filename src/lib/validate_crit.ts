@@ -8,7 +8,8 @@ interface CritCheckHeader {
 
 function validateCrit(
   Err: typeof JWEInvalid | typeof JWSInvalid,
-  supported: Map<string, boolean>,
+  recognizedDefault: Map<string, boolean>,
+  recognizedOption: { [propName: string]: boolean } | undefined,
   protectedHeader: CritCheckHeader,
   joseHeader: CritCheckHeader,
 ) {
@@ -30,17 +31,22 @@ function validateCrit(
     )
   }
 
+  let recognized: Map<string, boolean>
+  if (recognizedOption !== undefined) {
+    recognized = new Map([...Object.entries(recognizedOption), ...recognizedDefault.entries()])
+  } else {
+    recognized = recognizedDefault
+  }
+
   // eslint-disable-next-line no-restricted-syntax
   for (const parameter of protectedHeader.crit) {
-    if (!supported.has(parameter)) {
-      throw new JOSENotSupported(
-        `Extension Header Parameter "${parameter}" is not supported by this implementation`,
-      )
+    if (!recognized.has(parameter)) {
+      throw new JOSENotSupported(`Extension Header Parameter "${parameter}" is not recognized`)
     }
 
     if (joseHeader[parameter] === undefined) {
       throw new Err(`Extension Header Parameter "${parameter}" is missing`)
-    } else if (supported.get(parameter) && protectedHeader[parameter] === undefined) {
+    } else if (recognized.get(parameter) && protectedHeader[parameter] === undefined) {
       throw new Err(`Extension Header Parameter "${parameter}" MUST be integrity protected`)
     }
   }

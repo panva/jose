@@ -3,8 +3,12 @@ import test from 'ava';
 import timekeeper from 'timekeeper';
 
 const root = !('WEBCRYPTO' in process.env) ? '#dist' : '#dist/webcrypto';
-Promise.all([import(`${root}/jwt/sign`), import(`${root}/jws/compact/verify`)]).then(
-  ([{ default: SignJWT }, { default: compactVerify }]) => {
+Promise.all([
+  import(`${root}/jwt/sign`),
+  import(`${root}/jws/compact/verify`),
+  import(`${root}/jwt/verify`),
+]).then(
+  ([{ default: SignJWT }, { default: compactVerify }, { default: jwtVerify }]) => {
     const now = 1604416038;
 
     test.before(async (t) => {
@@ -23,6 +27,43 @@ Promise.all([import(`${root}/jwt/sign`), import(`${root}/jws/compact/verify`)]).
       t.is(
         jwt,
         'eyJhbGciOiJIUzI1NiJ9.eyJ1cm46ZXhhbXBsZTpjbGFpbSI6dHJ1ZX0.yPnOE--rxp3rJaYy0iZaW2Vswvus05G6_ZBdXqIdjGo',
+      );
+    });
+
+    test('SignJWT w/crit', async (t) => {
+      const expected =
+        'eyJhbGciOiJIUzI1NiIsImNyaXQiOlsiaHR0cDovL29wZW5iYW5raW5nLm9yZy51ay9pYXQiXSwiaHR0cDovL29wZW5iYW5raW5nLm9yZy51ay9pYXQiOjB9.eyJ1cm46ZXhhbXBsZTpjbGFpbSI6dHJ1ZX0.YzOrPZaNql7PpCo43HAJdj-LASP8lOmtb-Bzj9OrNAk';
+      await t.throwsAsync(
+        new SignJWT(t.context.payload)
+          .setProtectedHeader({
+            alg: 'HS256',
+            crit: ['http://openbanking.org.uk/iat'],
+            'http://openbanking.org.uk/iat': 0,
+          })
+          .sign(t.context.secret),
+        {
+          code: 'ERR_JOSE_NOT_SUPPORTED',
+          message: 'Extension Header Parameter "http://openbanking.org.uk/iat" is not recognized',
+        },
+      );
+
+      await t.notThrowsAsync(async () => {
+        const jwt = await new SignJWT(t.context.payload)
+          .setProtectedHeader({
+            alg: 'HS256',
+            crit: ['http://openbanking.org.uk/iat'],
+            'http://openbanking.org.uk/iat': 0,
+          })
+          .sign(t.context.secret, { crit: { 'http://openbanking.org.uk/iat': true } });
+        t.is(jwt, expected);
+      });
+
+      await t.throwsAsync(jwtVerify(expected, t.context.secret), {
+        code: 'ERR_JOSE_NOT_SUPPORTED',
+        message: 'Extension Header Parameter "http://openbanking.org.uk/iat" is not recognized',
+      });
+      await t.notThrowsAsync(
+        jwtVerify(expected, t.context.secret, { crit: { 'http://openbanking.org.uk/iat': true } }),
       );
     });
 
