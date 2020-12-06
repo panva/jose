@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [3.3.1](https://github.com/panva/jose/compare/v3.3.0...v3.3.1) (2020-12-06)
+
+
+### Bug Fixes
+
+* botched v3.3.0 release ([1c3e116](https://github.com/panva/jose/commit/1c3e116976c997f205b917405f010b568d1bd3b9))
+
 ## [3.3.0](https://github.com/panva/jose/compare/v3.2.0...v3.3.0) (2020-12-06)
 
 

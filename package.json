@@ -1,6 +1,6 @@
 {
   "name": "jose",
-  "version": "3.3.0",
+  "version": "3.3.1",
   "description": "JSON Web Almost Everything - JWA, JWS, JWE, JWK, JWT, JWKS with no dependencies",
   "keywords": [
     "compact",

@@ -15,7 +15,7 @@ JWE Encryption options.
 
 • `Optional` **crit**: { [propName:string]: boolean;  }
 
-*Defined in [src/types.d.ts:340](https://github.com/panva/jose/blob/v3.3.0/src/types.d.ts#L340)*
+*Defined in [src/types.d.ts:340](https://github.com/panva/jose/blob/v3.3.1/src/types.d.ts#L340)*
 
 An object with keys representing recognized "crit" (Critical) Header Parameter
 names. The value for those is either `true` or `false`. `true` when the
@@ -42,7 +42,7 @@ ___
 
 • `Optional` **deflateRaw**: [DeflateFunction](_types_d_.deflatefunction.md)
 
-*Defined in [src/types.d.ts:374](https://github.com/panva/jose/blob/v3.3.0/src/types.d.ts#L374)*
+*Defined in [src/types.d.ts:374](https://github.com/panva/jose/blob/v3.3.1/src/types.d.ts#L374)*
 
 In a browser runtime you have to provide an implementation for Deflate Raw
 when you will be producing JWEs with compressed plaintext.
