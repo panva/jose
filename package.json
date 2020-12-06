@@ -267,8 +267,8 @@
     "dist/**/*.js",
     "dist/types/**/*.d.ts",
     "!dist/types/**/*.i.d.ts",
-    "!dist/types/runtime*",
-    "!dist/types/lib*",
+    "!dist/types/runtime/*",
+    "!dist/types/lib/*",
     "dist/types/lib/jwt_producer.d.ts"
   ],
   "scripts": {
