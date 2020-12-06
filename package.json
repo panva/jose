@@ -306,16 +306,6 @@
     "test-cjs": "rm -rf test/cjs && find test -type f -name '*.mjs' -print0 | xargs -0 npx esbuild --target=esnext --outdir=test/cjs --format=cjs",
     "test-webcrypto": "WEBCRYPTO=true npm test"
   },
-  "husky": {
-    "hooks": {
-      "commit-msg": "commitlint -E HUSKY_GIT_PARAMS"
-    }
-  },
-  "commitlint": {
-    "extends": [
-      "@commitlint/config-conventional"
-    ]
-  },
   "devDependencies": {
     "@types/node": "^14.14.9",
     "@typescript-eslint/eslint-plugin": "^4.9.0",
