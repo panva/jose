@@ -1,27 +1,14 @@
-# Interface: DecryptOptions
+# Interface: CritOption
 
-JWE Decryption options.
+Shared Interface with a "crit" property for all sign and verify operations.
 
 ## Index
 
 ### Properties
 
-* [contentEncryptionAlgorithms](_types_d_.decryptoptions.md#contentencryptionalgorithms)
-* [crit](_types_d_.decryptoptions.md#crit)
-* [inflateRaw](_types_d_.decryptoptions.md#inflateraw)
-* [keyManagementAlgorithms](_types_d_.decryptoptions.md#keymanagementalgorithms)
+* [crit](_types_d_.critoption.md#crit)
 
 ## Properties
-
-### contentEncryptionAlgorithms
-
-• `Optional` **contentEncryptionAlgorithms**: string[]
-
-*Defined in [src/types.d.ts:357](https://github.com/panva/jose/blob/v3.3.0/src/types.d.ts#L357)*
-
-A list of accepted JWE "enc" (Encryption Algorithm) Header Parameter values.
-
-___
 
 ### crit
 
@@ -47,24 +34,3 @@ profile's validation steps after the operation succeeds.
 The JWS extension Header Parameter `b64` is always recognized and processed
 properly. No other registered Header Parameters that need this kind of
 default built-in treatment are currently available.
-
-___
-
-### inflateRaw
-
-• `Optional` **inflateRaw**: [InflateFunction](_types_d_.inflatefunction.md)
-
-*Defined in [src/types.d.ts:363](https://github.com/panva/jose/blob/v3.3.0/src/types.d.ts#L363)*
-
-In a browser runtime you have to provide an implementation for Inflate Raw
-when you expect JWEs with compressed plaintext.
-
-___
-
-### keyManagementAlgorithms
-
-• `Optional` **keyManagementAlgorithms**: string[]
-
-*Defined in [src/types.d.ts:352](https://github.com/panva/jose/blob/v3.3.0/src/types.d.ts#L352)*
-
-A list of accepted JWE "alg" (Algorithm) Header Parameter values.

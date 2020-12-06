@@ -16,7 +16,7 @@
 
 • `Optional` **additionalAuthenticatedData**: Uint8Array
 
-*Defined in [src/types.d.ts:464](https://github.com/panva/jose/blob/v3.2.0/src/types.d.ts#L464)*
+*Defined in [src/types.d.ts:498](https://github.com/panva/jose/blob/v3.3.0/src/types.d.ts#L498)*
 
 JWE AAD.
 
@@ -26,7 +26,7 @@ ___
 
 •  **plaintext**: Uint8Array
 
-*Defined in [src/types.d.ts:469](https://github.com/panva/jose/blob/v3.2.0/src/types.d.ts#L469)*
+*Defined in [src/types.d.ts:503](https://github.com/panva/jose/blob/v3.3.0/src/types.d.ts#L503)*
 
 Plaintext.
 
@@ -36,7 +36,7 @@ ___
 
 • `Optional` **protectedHeader**: [JWEHeaderParameters](_types_d_.jweheaderparameters.md)
 
-*Defined in [src/types.d.ts:474](https://github.com/panva/jose/blob/v3.2.0/src/types.d.ts#L474)*
+*Defined in [src/types.d.ts:508](https://github.com/panva/jose/blob/v3.3.0/src/types.d.ts#L508)*
 
 JWE Protected Header.
 
@@ -46,7 +46,7 @@ ___
 
 • `Optional` **sharedUnprotectedHeader**: [JWEHeaderParameters](_types_d_.jweheaderparameters.md)
 
-*Defined in [src/types.d.ts:479](https://github.com/panva/jose/blob/v3.2.0/src/types.d.ts#L479)*
+*Defined in [src/types.d.ts:513](https://github.com/panva/jose/blob/v3.3.0/src/types.d.ts#L513)*
 
 JWE Shared Unprotected Header.
 
@@ -56,6 +56,6 @@ ___
 
 • `Optional` **unprotectedHeader**: [JWEHeaderParameters](_types_d_.jweheaderparameters.md)
 
-*Defined in [src/types.d.ts:484](https://github.com/panva/jose/blob/v3.2.0/src/types.d.ts#L484)*
+*Defined in [src/types.d.ts:518](https://github.com/panva/jose/blob/v3.3.0/src/types.d.ts#L518)*
 
 JWE Per-Recipient Unprotected Header.

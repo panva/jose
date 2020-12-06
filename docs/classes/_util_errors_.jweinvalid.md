@@ -21,7 +21,7 @@ An error subclass thrown when a JWE is invalid.
 
 \+ **new JWEInvalid**(`message?`: string): [JWEInvalid](_util_errors_.jweinvalid.md)
 
-*Defined in [src/util/errors.ts:11](https://github.com/panva/jose/blob/v3.2.0/src/util/errors.ts#L11)*
+*Defined in [src/util/errors.ts:11](https://github.com/panva/jose/blob/v3.3.0/src/util/errors.ts#L11)*
 
 #### Parameters:
 
@@ -39,7 +39,7 @@ Name | Type |
 
 *Overrides [JOSEError](_util_errors_.joseerror.md).[code](_util_errors_.joseerror.md#code)*
 
-*Defined in [src/util/errors.ts:73](https://github.com/panva/jose/blob/v3.2.0/src/util/errors.ts#L73)*
+*Defined in [src/util/errors.ts:73](https://github.com/panva/jose/blob/v3.3.0/src/util/errors.ts#L73)*
 
 ___
 

@@ -2,6 +2,18 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [3.3.0](https://github.com/panva/jose/compare/v3.2.0...v3.3.0) (2020-12-06)
+
+
+### Features
+
+* support recognizing proprietary `crit` header parameters ([5163116](https://github.com/panva/jose/commit/5163116ca1c091871ed0c601c9fbc1dbe94599cd)), closes [#123](https://github.com/panva/jose/issues/123)
+
+
+### Bug Fixes
+
+* reject JWTs with b64: false ([691b44a](https://github.com/panva/jose/commit/691b44ad4717c82a06539facfedff48fa0e9c6a9))
+
 ## [3.2.0](https://github.com/panva/jose/compare/v3.1.3...v3.2.0) (2020-12-02)
 
 

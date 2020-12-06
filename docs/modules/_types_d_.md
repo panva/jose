@@ -6,6 +6,7 @@
 
 * [CompactDecryptResult](../interfaces/_types_d_.compactdecryptresult.md)
 * [CompactVerifyResult](../interfaces/_types_d_.compactverifyresult.md)
+* [CritOption](../interfaces/_types_d_.critoption.md)
 * [DecryptOptions](../interfaces/_types_d_.decryptoptions.md)
 * [DeflateFunction](../interfaces/_types_d_.deflatefunction.md)
 * [EncryptOptions](../interfaces/_types_d_.encryptoptions.md)
@@ -25,6 +26,7 @@
 * [JWTPayload](../interfaces/_types_d_.jwtpayload.md)
 * [JWTVerifyResult](../interfaces/_types_d_.jwtverifyresult.md)
 * [JoseHeaderParameters](../interfaces/_types_d_.joseheaderparameters.md)
+* [SignOptions](../interfaces/_types_d_.signoptions.md)
 * [VerifyOptions](../interfaces/_types_d_.verifyoptions.md)
 
 ### Type aliases
