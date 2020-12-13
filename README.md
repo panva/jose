@@ -229,6 +229,10 @@ npm install --save-dev @types/node
 There's no "jose" root module. Each module is to be individually imported as explained in
 each individual module's documentation.
 
+#### "Module not found: Error: Can't resolve '...' in '...'"
+
+Use a supported Node.js runtime and make sure whatever tools you may use for transpiling the code also support the Subpath exports ("exports") feature.
+
 #### Why? Just. Why?
 
 I was using [`node-jose`][node-jose] for
