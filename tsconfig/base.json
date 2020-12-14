@@ -30,6 +30,7 @@
     "../src/util/random.ts"
   ],
   "compilerOptions": {
+    "lib": ["ES6"],
     "strict": true,
     "forceConsistentCasingInFileNames": true,
     "noUnusedLocals": true,

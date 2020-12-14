@@ -1,3 +1,5 @@
+/// <reference lib="dom"/>
+
 /* eslint-disable @typescript-eslint/naming-convention */
 import type { KeyObject } from 'crypto'
 

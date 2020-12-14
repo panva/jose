@@ -1,5 +1,6 @@
 import { get as http } from 'http'
 import type { ClientRequest } from 'http'
+import type { URL as URLtype } from 'url'
 import { get as https, RequestOptions } from 'https'
 
 import type { FetchFunction } from '../interfaces.d'
@@ -19,7 +20,7 @@ const fetch: FetchFunction = async (url: URL, timeout: number, options: Accepted
   }
   return new Promise((resolve, reject) => {
     const { agent } = options
-    protocols[url.protocol](url, { agent, timeout }, async (response) => {
+    protocols[url.protocol](<URLtype>url, { agent, timeout }, async (response) => {
       if (response.statusCode !== 200) {
         reject(new JOSEError('Expected 200 OK from the JSON Web Key Set HTTP response'))
       } else {
