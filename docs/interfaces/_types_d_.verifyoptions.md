@@ -15,7 +15,7 @@ JWS Verification options.
 
 • `Optional` **algorithms**: string[]
 
-*Defined in [src/types.d.ts:426](https://github.com/panva/jose/blob/v3.3.1/src/types.d.ts#L426)*
+*Defined in [src/types.d.ts:428](https://github.com/panva/jose/blob/v3.3.2/src/types.d.ts#L428)*
 
 A list of accepted JWS "alg" (Algorithm) Header Parameter values.
 
@@ -25,7 +25,7 @@ ___
 
 • `Optional` **crit**: { [propName:string]: boolean;  }
 
-*Defined in [src/types.d.ts:340](https://github.com/panva/jose/blob/v3.3.1/src/types.d.ts#L340)*
+*Defined in [src/types.d.ts:342](https://github.com/panva/jose/blob/v3.3.2/src/types.d.ts#L342)*
 
 An object with keys representing recognized "crit" (Critical) Header Parameter
 names. The value for those is either `true` or `false`. `true` when the

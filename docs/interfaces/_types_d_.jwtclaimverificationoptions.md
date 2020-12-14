@@ -20,7 +20,7 @@ JWT Claims Set verification options.
 
 • `Optional` **audience**: string \| string[]
 
-*Defined in [src/types.d.ts:384](https://github.com/panva/jose/blob/v3.3.1/src/types.d.ts#L384)*
+*Defined in [src/types.d.ts:386](https://github.com/panva/jose/blob/v3.3.2/src/types.d.ts#L386)*
 
 Expected JWT "aud" (Audience) Claim value(s).
 
@@ -30,7 +30,7 @@ ___
 
 • `Optional` **clockTolerance**: string \| number
 
-*Defined in [src/types.d.ts:391](https://github.com/panva/jose/blob/v3.3.1/src/types.d.ts#L391)*
+*Defined in [src/types.d.ts:393](https://github.com/panva/jose/blob/v3.3.2/src/types.d.ts#L393)*
 
 Expected clock tolerance
 - in seconds when number (e.g. 5)
@@ -42,7 +42,7 @@ ___
 
 • `Optional` **currentDate**: Date
 
-*Defined in [src/types.d.ts:416](https://github.com/panva/jose/blob/v3.3.1/src/types.d.ts#L416)*
+*Defined in [src/types.d.ts:418](https://github.com/panva/jose/blob/v3.3.2/src/types.d.ts#L418)*
 
 Date to use when comparing NumericDate claims, defaults to `new Date()`.
 
@@ -52,7 +52,7 @@ ___
 
 • `Optional` **issuer**: string \| string[]
 
-*Defined in [src/types.d.ts:396](https://github.com/panva/jose/blob/v3.3.1/src/types.d.ts#L396)*
+*Defined in [src/types.d.ts:398](https://github.com/panva/jose/blob/v3.3.2/src/types.d.ts#L398)*
 
 Expected JWT "iss" (Issuer) Claim value(s).
 
@@ -62,7 +62,7 @@ ___
 
 • `Optional` **maxTokenAge**: string
 
-*Defined in [src/types.d.ts:401](https://github.com/panva/jose/blob/v3.3.1/src/types.d.ts#L401)*
+*Defined in [src/types.d.ts:403](https://github.com/panva/jose/blob/v3.3.2/src/types.d.ts#L403)*
 
 Maximum time elapsed (in seconds) from the JWT "iat" (Issued At) Claim value.
 
@@ -72,7 +72,7 @@ ___
 
 • `Optional` **subject**: string
 
-*Defined in [src/types.d.ts:406](https://github.com/panva/jose/blob/v3.3.1/src/types.d.ts#L406)*
+*Defined in [src/types.d.ts:408](https://github.com/panva/jose/blob/v3.3.2/src/types.d.ts#L408)*
 
 Expected JWT "sub" (Subject) Claim value.
 
@@ -82,6 +82,6 @@ ___
 
 • `Optional` **typ**: string
 
-*Defined in [src/types.d.ts:411](https://github.com/panva/jose/blob/v3.3.1/src/types.d.ts#L411)*
+*Defined in [src/types.d.ts:413](https://github.com/panva/jose/blob/v3.3.2/src/types.d.ts#L413)*
 
 Expected JWT "typ" (Type) Header Parameter value.

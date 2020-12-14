@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [3.3.2](https://github.com/panva/jose/compare/v3.3.1...v3.3.2) (2020-12-14)
+
+
+### Bug Fixes
+
+* **typescript:** ref dom lib via triple-slash to fix some compile issues ([175f273](https://github.com/panva/jose/commit/175f273819785c29b9ad822dcb5d70073523f504)), closes [#126](https://github.com/panva/jose/issues/126)
+
 ## [3.3.1](https://github.com/panva/jose/compare/v3.3.0...v3.3.1) (2020-12-06)
 
 

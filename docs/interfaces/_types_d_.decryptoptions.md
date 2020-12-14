@@ -17,7 +17,7 @@ JWE Decryption options.
 
 • `Optional` **contentEncryptionAlgorithms**: string[]
 
-*Defined in [src/types.d.ts:357](https://github.com/panva/jose/blob/v3.3.1/src/types.d.ts#L357)*
+*Defined in [src/types.d.ts:359](https://github.com/panva/jose/blob/v3.3.2/src/types.d.ts#L359)*
 
 A list of accepted JWE "enc" (Encryption Algorithm) Header Parameter values.
 
@@ -27,7 +27,7 @@ ___
 
 • `Optional` **crit**: { [propName:string]: boolean;  }
 
-*Defined in [src/types.d.ts:340](https://github.com/panva/jose/blob/v3.3.1/src/types.d.ts#L340)*
+*Defined in [src/types.d.ts:342](https://github.com/panva/jose/blob/v3.3.2/src/types.d.ts#L342)*
 
 An object with keys representing recognized "crit" (Critical) Header Parameter
 names. The value for those is either `true` or `false`. `true` when the
@@ -54,7 +54,7 @@ ___
 
 • `Optional` **inflateRaw**: [InflateFunction](_types_d_.inflatefunction.md)
 
-*Defined in [src/types.d.ts:363](https://github.com/panva/jose/blob/v3.3.1/src/types.d.ts#L363)*
+*Defined in [src/types.d.ts:365](https://github.com/panva/jose/blob/v3.3.2/src/types.d.ts#L365)*
 
 In a browser runtime you have to provide an implementation for Inflate Raw
 when you expect JWEs with compressed plaintext.
@@ -65,6 +65,6 @@ ___
 
 • `Optional` **keyManagementAlgorithms**: string[]
 
-*Defined in [src/types.d.ts:352](https://github.com/panva/jose/blob/v3.3.1/src/types.d.ts#L352)*
+*Defined in [src/types.d.ts:354](https://github.com/panva/jose/blob/v3.3.2/src/types.d.ts#L354)*
 
 A list of accepted JWE "alg" (Algorithm) Header Parameter values.

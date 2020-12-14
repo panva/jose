@@ -13,7 +13,7 @@
 
 •  **payload**: Uint8Array
 
-*Defined in [src/types.d.ts:554](https://github.com/panva/jose/blob/v3.3.1/src/types.d.ts#L554)*
+*Defined in [src/types.d.ts:556](https://github.com/panva/jose/blob/v3.3.2/src/types.d.ts#L556)*
 
 JWS Payload.
 
@@ -23,6 +23,6 @@ ___
 
 •  **protectedHeader**: [JWSHeaderParameters](_types_d_.jwsheaderparameters.md)
 
-*Defined in [src/types.d.ts:559](https://github.com/panva/jose/blob/v3.3.1/src/types.d.ts#L559)*
+*Defined in [src/types.d.ts:561](https://github.com/panva/jose/blob/v3.3.2/src/types.d.ts#L561)*
 
 JWS Protected Header.

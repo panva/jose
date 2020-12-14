@@ -2,7 +2,7 @@
 
 ▸ **flattenedVerify**(`jws`: [FlattenedJWSInput](../interfaces/_types_d_.flattenedjwsinput.md), `key`: [KeyLike](../types/_types_d_.keylike.md) \| [FlattenedVerifyGetKey](../interfaces/_jws_flattened_verify_.flattenedverifygetkey.md), `options?`: [VerifyOptions](../interfaces/_types_d_.verifyoptions.md)): Promise\<[FlattenedVerifyResult](../interfaces/_types_d_.flattenedverifyresult.md)>
 
-*Defined in [src/jws/flattened/verify.ts:75](https://github.com/panva/jose/blob/v3.3.1/src/jws/flattened/verify.ts#L75)*
+*Defined in [src/jws/flattened/verify.ts:75](https://github.com/panva/jose/blob/v3.3.2/src/jws/flattened/verify.ts#L75)*
 
 Verifies the signature and format of and afterwards decodes the Flattened JWS.
 

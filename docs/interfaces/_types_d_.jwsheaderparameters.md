@@ -30,7 +30,7 @@ Any other JWS Header member.
 
 • `Optional` **alg**: string
 
-*Defined in [src/types.d.ts:185](https://github.com/panva/jose/blob/v3.3.1/src/types.d.ts#L185)*
+*Defined in [src/types.d.ts:187](https://github.com/panva/jose/blob/v3.3.2/src/types.d.ts#L187)*
 
 JWS "alg" (Algorithm) Header Parameter.
 
@@ -40,7 +40,7 @@ ___
 
 • `Optional` **b64**: false \| true
 
-*Defined in [src/types.d.ts:192](https://github.com/panva/jose/blob/v3.3.1/src/types.d.ts#L192)*
+*Defined in [src/types.d.ts:194](https://github.com/panva/jose/blob/v3.3.2/src/types.d.ts#L194)*
 
 This JWS Extension Header Parameter modifies the JWS Payload
 representation and the JWS Signing Input computation as per
@@ -52,7 +52,7 @@ ___
 
 • `Optional` **crit**: string[]
 
-*Defined in [src/types.d.ts:197](https://github.com/panva/jose/blob/v3.3.1/src/types.d.ts#L197)*
+*Defined in [src/types.d.ts:199](https://github.com/panva/jose/blob/v3.3.2/src/types.d.ts#L199)*
 
 JWS "crit" (Critical) Header Parameter.
 
@@ -62,7 +62,7 @@ ___
 
 • `Optional` **cty**: string
 
-*Defined in [src/types.d.ts:174](https://github.com/panva/jose/blob/v3.3.1/src/types.d.ts#L174)*
+*Defined in [src/types.d.ts:176](https://github.com/panva/jose/blob/v3.3.2/src/types.d.ts#L176)*
 
 "cty" (Content Type) Header Parameter.
 
@@ -72,7 +72,7 @@ ___
 
 • `Optional` **jwk**: Pick\<[JWK](_types_d_.jwk.md), \"kty\" \| \"crv\" \| \"x\" \| \"y\" \| \"e\" \| \"n\">
 
-*Defined in [src/types.d.ts:164](https://github.com/panva/jose/blob/v3.3.1/src/types.d.ts#L164)*
+*Defined in [src/types.d.ts:166](https://github.com/panva/jose/blob/v3.3.2/src/types.d.ts#L166)*
 
 "jwk" (JSON Web Key) Header Parameter.
 
@@ -82,7 +82,7 @@ ___
 
 • `Optional` **kid**: string
 
-*Defined in [src/types.d.ts:144](https://github.com/panva/jose/blob/v3.3.1/src/types.d.ts#L144)*
+*Defined in [src/types.d.ts:146](https://github.com/panva/jose/blob/v3.3.2/src/types.d.ts#L146)*
 
 "kid" (Key ID) Header Parameter.
 
@@ -92,7 +92,7 @@ ___
 
 • `Optional` **typ**: string
 
-*Defined in [src/types.d.ts:169](https://github.com/panva/jose/blob/v3.3.1/src/types.d.ts#L169)*
+*Defined in [src/types.d.ts:171](https://github.com/panva/jose/blob/v3.3.2/src/types.d.ts#L171)*
 
 "typ" (Type) Header Parameter.
 
@@ -102,7 +102,7 @@ ___
 
 • `Optional` **x5c**: string[]
 
-*Defined in [src/types.d.ts:154](https://github.com/panva/jose/blob/v3.3.1/src/types.d.ts#L154)*
+*Defined in [src/types.d.ts:156](https://github.com/panva/jose/blob/v3.3.2/src/types.d.ts#L156)*
 
 "x5c" (X.509 Certificate Chain) Header Parameter.
 
@@ -112,7 +112,7 @@ ___
 
 • `Optional` **x5t**: string
 
-*Defined in [src/types.d.ts:149](https://github.com/panva/jose/blob/v3.3.1/src/types.d.ts#L149)*
+*Defined in [src/types.d.ts:151](https://github.com/panva/jose/blob/v3.3.2/src/types.d.ts#L151)*
 
 "x5t" (X.509 Certificate SHA-1 Thumbprint) Header Parameter.
 
@@ -122,6 +122,6 @@ ___
 
 • `Optional` **x5u**: string
 
-*Defined in [src/types.d.ts:159](https://github.com/panva/jose/blob/v3.3.1/src/types.d.ts#L159)*
+*Defined in [src/types.d.ts:161](https://github.com/panva/jose/blob/v3.3.2/src/types.d.ts#L161)*
 
 "x5u" (X.509 URL) Header Parameter.
