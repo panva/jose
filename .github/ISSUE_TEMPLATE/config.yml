@@ -1,11 +1,21 @@
 blank_issues_enabled: false
 contact_links:
+  - name: ❓ Question
+    url: https://github.com/panva/jose/discussions
+    about:
+      Have a question about using jose? Head over to the discussions "Q&A" Category
+  - name: 💡 Feature proposal
+    url: https://github.com/panva/jose/discussions
+    about:
+      Have a proposal for a new feature? Head over to the discussions "Ideas" Category
   - name: Support the project
     url: https://github.com/sponsors/panva
-    about: Are you asking your nth question? Consider supporting the project before opening another.
+    about:
+      Are you asking your nth question? Relying on jose for critical operations? Consider
+      supporting the project so that it may continue being maintained.
   - name: Report a security vulnerability
     url: https://en.wikipedia.org/wiki/Responsible_disclosure
     about:
-      Do not disclose vulnerabilities via issues. Reach out to the project team via e.g. email,
-      we'll work together on patching the vulnerability and follow some form of Responsible
-      disclosure once fixed. Thank you.
+      Do not disclose vulnerabilities via issues or discussions. Reach out to the project team
+      via e.g. email, we'll work together on patching the vulnerability and follow some form of
+      Responsible disclosure once fixed. Thank you.

@@ -29,6 +29,7 @@ A clear and concise description of what you expected to happen.
 
 - `jose` version: [e.g. v3.0.0]
 - affected runtime is: [e.g. Node.js 14.15.0, Chrome 86, or iOS 14 Safari]
+- other relevant library versions: [e.g. webpack, typescript, electron, ...]
 
 **Additional context**
 Add any other context about the problem here.
