@@ -48,8 +48,6 @@ jobs:
       - run: git reset HEAD --hard
 
   test:
-    env:
-      NODE_OPTIONS: --enable-source-maps
     needs:
       - build
     strategy:
