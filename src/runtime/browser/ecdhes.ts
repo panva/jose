@@ -57,7 +57,8 @@ export const ephemeralKeyToPublicJWK: EphemeralKeyToPublicJwkFunction = async fu
   key: CryptoKey,
 ) {
   ensureSecureContext()
-  const { crv, kty, x, y } = <EpkJwk>(await crypto.subtle.exportKey('jwk', key))
+  // eslint-disable-next-line @typescript-eslint/keyword-spacing
+  const { crv, kty, x, y } = <EpkJwk>await crypto.subtle.exportKey('jwk', key)
   return { crv, kty, x, y }
 }
 
