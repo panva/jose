@@ -1,12 +1,12 @@
-# Interface: FlattenedVerifyResult
+# Interface: GeneralVerifyResult
 
 ## Index
 
 ### Properties
 
-* [payload](_types_d_.flattenedverifyresult.md#payload)
-* [protectedHeader](_types_d_.flattenedverifyresult.md#protectedheader)
-* [unprotectedHeader](_types_d_.flattenedverifyresult.md#unprotectedheader)
+* [payload](_types_d_.generalverifyresult.md#payload)
+* [protectedHeader](_types_d_.generalverifyresult.md#protectedheader)
+* [unprotectedHeader](_types_d_.generalverifyresult.md#unprotectedheader)
 
 ## Properties
 

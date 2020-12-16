@@ -21,7 +21,7 @@ An error subclass thrown when a JWE ciphertext decryption fails.
 
 \+ **new JWEDecryptionFailed**(`message?`: string): [JWEDecryptionFailed](_util_errors_.jwedecryptionfailed.md)
 
-*Defined in [src/util/errors.ts:11](https://github.com/panva/jose/blob/v3.3.2/src/util/errors.ts#L11)*
+*Defined in [src/util/errors.ts:11](https://github.com/panva/jose/blob/v3.4.0/src/util/errors.ts#L11)*
 
 #### Parameters:
 
@@ -39,7 +39,7 @@ Name | Type |
 
 *Overrides [JOSEError](_util_errors_.joseerror.md).[code](_util_errors_.joseerror.md#code)*
 
-*Defined in [src/util/errors.ts:64](https://github.com/panva/jose/blob/v3.3.2/src/util/errors.ts#L64)*
+*Defined in [src/util/errors.ts:64](https://github.com/panva/jose/blob/v3.4.0/src/util/errors.ts#L64)*
 
 ___
 
@@ -49,7 +49,7 @@ ___
 
 *Overrides [JOSEError](_util_errors_.joseerror.md).[message](_util_errors_.joseerror.md#message)*
 
-*Defined in [src/util/errors.ts:66](https://github.com/panva/jose/blob/v3.3.2/src/util/errors.ts#L66)*
+*Defined in [src/util/errors.ts:66](https://github.com/panva/jose/blob/v3.4.0/src/util/errors.ts#L66)*
 
 ___
 

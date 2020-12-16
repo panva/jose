@@ -2,6 +2,15 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [3.4.0](https://github.com/panva/jose/compare/v3.3.2...v3.4.0) (2020-12-16)
+
+
+### Features
+
+* added JWS General JSON Serialization signing ([6fb862c](https://github.com/panva/jose/commit/6fb862cf12d34b7dc5077d1872ad29eeac27d21e)), closes [#129](https://github.com/panva/jose/issues/129)
+* added JWS General JSON Serialization verification ([55b7781](https://github.com/panva/jose/commit/55b77810d03a1f7e38e13bec384dece08b74b206)), closes [#129](https://github.com/panva/jose/issues/129)
+* added utility function for decoding token's protected header ([fa29d68](https://github.com/panva/jose/commit/fa29d68cfdf0922c7e4dac24eb50161d1eab28d4))
+
 ## [3.3.2](https://github.com/panva/jose/compare/v3.3.1...v3.3.2) (2020-12-14)
 
 

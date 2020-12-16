@@ -1,6 +1,6 @@
-# Interface: CompactVerifyGetKey
+# Interface: GeneralVerifyGetKey
 
-Interface for Compact JWS Verification dynamic key resolution.
+Interface for General JWS Verification dynamic key resolution.
 No token components have been verified at the time of this function call.
 
 ## Callable
@@ -9,7 +9,7 @@ No token components have been verified at the time of this function call.
 
 *Defined in [src/types.d.ts:79](https://github.com/panva/jose/blob/v3.4.0/src/types.d.ts#L79)*
 
-Interface for Compact JWS Verification dynamic key resolution.
+Interface for General JWS Verification dynamic key resolution.
 No token components have been verified at the time of this function call.
 
 #### Parameters:

@@ -6,7 +6,7 @@ Inflate Raw implementation, e.g. promisified [zlib.inflateRaw](https://nodejs.or
 
 ▸ (`input`: Uint8Array): Promise\<Uint8Array>
 
-*Defined in [src/types.d.ts:492](https://github.com/panva/jose/blob/v3.3.2/src/types.d.ts#L492)*
+*Defined in [src/types.d.ts:524](https://github.com/panva/jose/blob/v3.4.0/src/types.d.ts#L524)*
 
 Inflate Raw implementation, e.g. promisified [zlib.inflateRaw](https://nodejs.org/api/zlib.html#zlib_zlib_inflateraw_buffer_options_callback).
 

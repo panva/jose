@@ -27,7 +27,7 @@ Any other JWT Claim Set member.
 
 • `Optional` **aud**: string \| string[]
 
-*Defined in [src/types.d.ts:454](https://github.com/panva/jose/blob/v3.3.2/src/types.d.ts#L454)*
+*Defined in [src/types.d.ts:486](https://github.com/panva/jose/blob/v3.4.0/src/types.d.ts#L486)*
 
 JWT Audience [RFC7519#section-4.1.3](https://tools.ietf.org/html/rfc7519#section-4.1.3).
 
@@ -37,7 +37,7 @@ ___
 
 • `Optional` **exp**: number
 
-*Defined in [src/types.d.ts:469](https://github.com/panva/jose/blob/v3.3.2/src/types.d.ts#L469)*
+*Defined in [src/types.d.ts:501](https://github.com/panva/jose/blob/v3.4.0/src/types.d.ts#L501)*
 
 JWT Expiration Time - [RFC7519#section-4.1.4](https://tools.ietf.org/html/rfc7519#section-4.1.4).
 
@@ -47,7 +47,7 @@ ___
 
 • `Optional` **iat**: number
 
-*Defined in [src/types.d.ts:474](https://github.com/panva/jose/blob/v3.3.2/src/types.d.ts#L474)*
+*Defined in [src/types.d.ts:506](https://github.com/panva/jose/blob/v3.4.0/src/types.d.ts#L506)*
 
 JWT Issued At - [RFC7519#section-4.1.6](https://tools.ietf.org/html/rfc7519#section-4.1.6).
 
@@ -57,7 +57,7 @@ ___
 
 • `Optional` **iss**: string
 
-*Defined in [src/types.d.ts:444](https://github.com/panva/jose/blob/v3.3.2/src/types.d.ts#L444)*
+*Defined in [src/types.d.ts:476](https://github.com/panva/jose/blob/v3.4.0/src/types.d.ts#L476)*
 
 JWT Issuer - [RFC7519#section-4.1.1](https://tools.ietf.org/html/rfc7519#section-4.1.1).
 
@@ -67,7 +67,7 @@ ___
 
 • `Optional` **jti**: string
 
-*Defined in [src/types.d.ts:459](https://github.com/panva/jose/blob/v3.3.2/src/types.d.ts#L459)*
+*Defined in [src/types.d.ts:491](https://github.com/panva/jose/blob/v3.4.0/src/types.d.ts#L491)*
 
 JWT ID - [RFC7519#section-4.1.7](https://tools.ietf.org/html/rfc7519#section-4.1.7).
 
@@ -77,7 +77,7 @@ ___
 
 • `Optional` **nbf**: number
 
-*Defined in [src/types.d.ts:464](https://github.com/panva/jose/blob/v3.3.2/src/types.d.ts#L464)*
+*Defined in [src/types.d.ts:496](https://github.com/panva/jose/blob/v3.4.0/src/types.d.ts#L496)*
 
 JWT Not Before - [RFC7519#section-4.1.5](https://tools.ietf.org/html/rfc7519#section-4.1.5).
 
@@ -87,6 +87,6 @@ ___
 
 • `Optional` **sub**: string
 
-*Defined in [src/types.d.ts:449](https://github.com/panva/jose/blob/v3.3.2/src/types.d.ts#L449)*
+*Defined in [src/types.d.ts:481](https://github.com/panva/jose/blob/v3.4.0/src/types.d.ts#L481)*
 
 JWT Subject - [RFC7519#section-4.1.2](https://tools.ietf.org/html/rfc7519#section-4.1.2).

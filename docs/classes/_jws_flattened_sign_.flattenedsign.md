@@ -53,7 +53,7 @@ console.log(jws)
 
 \+ **new FlattenedSign**(`payload`: Uint8Array): [FlattenedSign](_jws_flattened_sign_.flattenedsign.md)
 
-*Defined in [src/jws/flattened/sign.ts:56](https://github.com/panva/jose/blob/v3.3.2/src/jws/flattened/sign.ts#L56)*
+*Defined in [src/jws/flattened/sign.ts:56](https://github.com/panva/jose/blob/v3.4.0/src/jws/flattened/sign.ts#L56)*
 
 #### Parameters:
 
@@ -69,7 +69,7 @@ Name | Type | Description |
 
 ▸ **setProtectedHeader**(`protectedHeader`: [JWSHeaderParameters](../interfaces/_types_d_.jwsheaderparameters.md)): this
 
-*Defined in [src/jws/flattened/sign.ts:70](https://github.com/panva/jose/blob/v3.3.2/src/jws/flattened/sign.ts#L70)*
+*Defined in [src/jws/flattened/sign.ts:70](https://github.com/panva/jose/blob/v3.4.0/src/jws/flattened/sign.ts#L70)*
 
 Sets the JWS Protected Header on the FlattenedSign object.
 
@@ -87,7 +87,7 @@ ___
 
 ▸ **setUnprotectedHeader**(`unprotectedHeader`: [JWSHeaderParameters](../interfaces/_types_d_.jwsheaderparameters.md)): this
 
-*Defined in [src/jws/flattened/sign.ts:83](https://github.com/panva/jose/blob/v3.3.2/src/jws/flattened/sign.ts#L83)*
+*Defined in [src/jws/flattened/sign.ts:83](https://github.com/panva/jose/blob/v3.4.0/src/jws/flattened/sign.ts#L83)*
 
 Sets the JWS Unprotected Header on the FlattenedSign object.
 
@@ -105,7 +105,7 @@ ___
 
 ▸ **sign**(`key`: [KeyLike](../types/_types_d_.keylike.md), `options?`: [SignOptions](../interfaces/_types_d_.signoptions.md)): Promise\<[FlattenedJWS](../interfaces/_types_d_.flattenedjws.md)>
 
-*Defined in [src/jws/flattened/sign.ts:97](https://github.com/panva/jose/blob/v3.3.2/src/jws/flattened/sign.ts#L97)*
+*Defined in [src/jws/flattened/sign.ts:97](https://github.com/panva/jose/blob/v3.4.0/src/jws/flattened/sign.ts#L97)*
 
 Signs and resolves the value of the Flattened JWS object.
 

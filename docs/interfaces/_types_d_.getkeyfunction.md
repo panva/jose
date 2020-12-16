@@ -3,6 +3,8 @@
 Generic Interface for consuming operations dynamic key resolution.
 No token components have been verified at the time of this function call.
 
+If you cannot match a key suitable for the token, throw an error instead.
+
 ## Type parameters
 
 Name |
@@ -14,10 +16,12 @@ Name |
 
 ▸ (`protectedHeader`: T, `token`: T2): Promise\<[KeyLike](../types/_types_d_.keylike.md)>
 
-*Defined in [src/types.d.ts:77](https://github.com/panva/jose/blob/v3.3.2/src/types.d.ts#L77)*
+*Defined in [src/types.d.ts:79](https://github.com/panva/jose/blob/v3.4.0/src/types.d.ts#L79)*
 
 Generic Interface for consuming operations dynamic key resolution.
 No token components have been verified at the time of this function call.
+
+If you cannot match a key suitable for the token, throw an error instead.
 
 #### Parameters:
 
