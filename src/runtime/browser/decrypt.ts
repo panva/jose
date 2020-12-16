@@ -37,8 +37,7 @@ async function cbcDecrypt(
 
   try {
     plaintext = new Uint8Array(
-      // TODO: remove .buffer when https://github.com/nodejs/node/issues/36083 is fixed
-      await crypto.subtle.decrypt({ iv, name: 'AES-CBC' }, encKey, ciphertext.buffer),
+      await crypto.subtle.decrypt({ iv, name: 'AES-CBC' }, encKey, ciphertext),
     )
   } catch {
     //
@@ -85,8 +84,7 @@ async function gcmDecrypt(
           tagLength: 128,
         },
         encKey,
-        // TODO: remove .buffer when https://github.com/nodejs/node/issues/36083 is fixed
-        concat(ciphertext, tag).buffer,
+        concat(ciphertext, tag),
       ),
     )
   } catch (err) {
