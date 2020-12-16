@@ -41,8 +41,8 @@ npm install jose@3
   - Encryption - [Compact](docs/classes/_jwe_compact_encrypt_.compactencrypt.md#readme), [Flattened](docs/classes/_jwe_flattened_encrypt_.flattenedencrypt.md#readme)
   - Decryption - [Compact](docs/functions/_jwe_compact_decrypt_.compactdecrypt.md#readme), [Flattened](docs/functions/_jwe_flattened_decrypt_.flatteneddecrypt.md#readme)
 - JSON Web Signature (JWS)
-  - Signing - [Compact](docs/classes/_jws_compact_sign_.compactsign.md#readme), [Flattened](docs/classes/_jws_flattened_sign_.flattenedsign.md#readme)
-  - Verification - [Compact](docs/functions/_jws_compact_verify_.compactverify.md#readme), [Flattened](docs/functions/_jws_flattened_verify_.flattenedverify.md#readme)
+  - Signing - [Compact](docs/classes/_jws_compact_sign_.compactsign.md#readme), [Flattened](docs/classes/_jws_flattened_sign_.flattenedsign.md#readme), [General](docs/classes/_jws_general_sign_.generalsign.md#readme)
+  - Verification - [Compact](docs/functions/_jws_compact_verify_.compactverify.md#readme), [Flattened](docs/functions/_jws_flattened_verify_.flattenedverify.md#readme), [General](docs/functions/_jws_general_verify_.generalverify.md#readme)
 - JSON Web Key (JWK)
   - [Parsing (JWK to KeyLike)](docs/functions/_jwk_parse_.parsejwk.md#readme)
   - [Conversion (KeyLike to JWK)](docs/functions/_jwk_from_key_like_.fromkeylike.md#readme)
@@ -53,6 +53,8 @@ npm install jose@3
 - Key Pair or Secret Generation
   - [Asymmetric Key Pair Generation](docs/functions/_util_generate_key_pair_.generatekeypair.md#readme)
   - [Symmetric Secret Generation](docs/functions/_util_generate_secret_.generatesecret.md#readme)
+- Utilities
+  - [Decoding Token's Protected Header](docs/functions/_util_decode_protected_header_.decodeprotectedheader.md#readme)
 - [Unsecured JWT](docs/classes/_jwt_unsecured_.unsecuredjwt.md#readme)
 - [JOSE Errors](docs/modules/_util_errors_.md)
 
@@ -72,7 +74,7 @@ A continuously growing list of examples is available in the [tracker](https://gi
 | Serialization | JWS Sign | JWS Verify | JWE Encrypt | JWE Decrypt |
 | -- | -- | -- | -- | -- |
 | Compact | ✓ | ✓ | ✓ | ✓ |
-| General JSON | ✕ | ✕ | ✕ | ✕ |
+| General JSON | ✓ | ✓ | ✕ | ✕ |
 | Flattened JSON | ✓ | ✓ | ✓ | ✓ |
 
 | JWT Sign | JWT Verify | JWT Encrypt | JWT Decrypt |
