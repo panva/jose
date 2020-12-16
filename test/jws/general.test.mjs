@@ -80,7 +80,7 @@ Promise.all([
       );
 
       await t.throwsAsync(sig.sign(), {
-        message: 'index 1 signature produced a different payload',
+        message: /index \d signature produced a different payload/,
         code: 'ERR_JWS_INVALID',
       });
     });
