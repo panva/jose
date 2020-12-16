@@ -71,6 +71,8 @@ export interface JWK {
  * Generic Interface for consuming operations dynamic key resolution.
  * No token components have been verified at the time of this function call.
  *
+ * If you cannot match a key suitable for the token, throw an error instead.
+ *
  * @param protectedHeader JWE or JWS Protected Header.
  * @param token The consumed JWE or JWS token.
  */
