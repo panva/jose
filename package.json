@@ -14,6 +14,7 @@
     "embedded",
     "encrypt",
     "flattened",
+    "general",
     "isomorphic",
     "jose",
     "json web token",
@@ -170,6 +171,15 @@
     "./webcrypto/jws/flattened/verify": {
       "import": "./dist/node/webcrypto/esm/jws/flattened/verify.js",
       "require": "./dist/node/webcrypto/cjs/jws/flattened/verify.js"
+    },
+    "./jws/general/verify": {
+      "browser": "./dist/browser/jws/general/verify.js",
+      "import": "./dist/node/esm/jws/general/verify.js",
+      "require": "./dist/node/cjs/jws/general/verify.js"
+    },
+    "./webcrypto/jws/general/verify": {
+      "import": "./dist/node/webcrypto/esm/jws/general/verify.js",
+      "require": "./dist/node/webcrypto/cjs/jws/general/verify.js"
     },
     "./jwt/decrypt": {
       "browser": "./dist/browser/jwt/decrypt.js",

@@ -130,6 +130,26 @@ export interface FlattenedJWSInput {
 }
 
 /**
+ * General JWS definition for verify function inputs, allows payload as
+ * Uint8Array for detached signature validation.
+ */
+export interface GeneralJWSInput {
+  /**
+   * The "payload" member MUST be present and contain the value
+   * BASE64URL(JWS Payload). When RFC7797 "b64": false is used
+   * the value passed may also be a Uint8Array.
+   */
+  payload: string | Uint8Array
+
+  /**
+   * The "signatures" member value MUST be an array of JSON objects.
+   * Each object represents a signature or MAC over the JWS Payload and
+   * the JWS Protected Header.
+   */
+  signatures: Omit<FlattenedJWSInput, 'payload'>[]
+}
+
+/**
  * Flattened JWS definition. Payload is an optional return property, it
  * is not returned when JWS Unencoded Payload Option
  * [RFC7797](https://tools.ietf.org/html/rfc7797) is used.
@@ -548,6 +568,8 @@ export interface FlattenedVerifyResult {
    */
   unprotectedHeader?: JWSHeaderParameters
 }
+
+export interface GeneralVerifyResult extends FlattenedVerifyResult {}
 
 export interface CompactVerifyResult {
   /**
