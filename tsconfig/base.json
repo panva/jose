@@ -28,6 +28,7 @@
     "../src/util/errors.ts",
     "../src/util/generate_key_pair.ts",
     "../src/util/generate_secret.ts",
+    "../src/util/decode_protected_header.ts",
     "../src/util/random.ts"
   ],
   "compilerOptions": {

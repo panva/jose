@@ -235,6 +235,15 @@
       "import": "./dist/node/webcrypto/esm/util/base64url.js",
       "require": "./dist/node/webcrypto/cjs/util/base64url.js"
     },
+    "./util/decode_protected_header": {
+      "browser": "./dist/browser/util/decode_protected_header.js",
+      "import": "./dist/node/esm/util/decode_protected_header.js",
+      "require": "./dist/node/cjs/util/decode_protected_header.js"
+    },
+    "./webcrypto/util/decode_protected_header": {
+      "import": "./dist/node/webcrypto/esm/util/decode_protected_header.js",
+      "require": "./dist/node/webcrypto/cjs/util/decode_protected_header.js"
+    },
     "./util/errors": {
       "browser": "./dist/browser/util/errors.js",
       "import": "./dist/node/esm/util/errors.js",
