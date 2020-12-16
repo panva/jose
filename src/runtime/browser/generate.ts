@@ -41,7 +41,7 @@ export async function generateSecret(alg: string) {
       throw new JOSENotSupported('unsupported or invalid JWK "alg" (Algorithm) Parameter value')
   }
 
-  return crypto.subtle.generateKey(algorithm, false, keyUsages) as Promise<CryptoKey>
+  return <Promise<CryptoKey>>crypto.subtle.generateKey(algorithm, false, keyUsages)
 }
 
 function getModulusLengthOption(options?: GenerateKeyPairOptions) {
@@ -117,5 +117,5 @@ export async function generateKeyPair(alg: string, options?: GenerateKeyPairOpti
   }
 
   ensureSecureContext()
-  return crypto.subtle.generateKey(algorithm, false, keyUsages) as Promise<CryptoKeyPair>
+  return <Promise<CryptoKeyPair>>crypto.subtle.generateKey(algorithm, false, keyUsages)
 }

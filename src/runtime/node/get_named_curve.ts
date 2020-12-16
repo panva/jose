@@ -21,7 +21,7 @@ const getNamedCurve = (key: KeyObject): string => {
       return `X${key.asymmetricKeyType.substr(1)}`
     case 'ec': {
       if (weakMap.has(key)) {
-        return weakMap.get(key) as string
+        return <string>weakMap.get(key)
       }
 
       if (key.type === 'private') {

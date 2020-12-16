@@ -66,7 +66,7 @@ async function gcmDecrypt(
 ) {
   const keySize = parseInt(enc.substr(1, 3), 10)
 
-  const algorithm = `aes-${keySize}-gcm` as CipherGCMTypes
+  const algorithm = <CipherGCMTypes>`aes-${keySize}-gcm`
   if (!getCiphers().includes(algorithm)) {
     throw new JOSENotSupported(`alg ${enc} is unsupported either by your javascript runtime`)
   }

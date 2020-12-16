@@ -45,7 +45,7 @@ export const deriveKey: EcdhESDeriveKeyFunction = async (
         public: publicKey,
       },
       privateKey,
-      Math.ceil(parseInt((privateKey.algorithm as EcKeyAlgorithm).namedCurve.substr(-3), 10) / 8) <<
+      Math.ceil(parseInt((<EcKeyAlgorithm>privateKey.algorithm).namedCurve.substr(-3), 10) / 8) <<
         3,
     ),
   )
@@ -57,7 +57,7 @@ export const ephemeralKeyToPublicJWK: EphemeralKeyToPublicJwkFunction = async fu
   key: CryptoKey,
 ) {
   ensureSecureContext()
-  const { crv, kty, x, y } = (await crypto.subtle.exportKey('jwk', key)) as EpkJwk
+  const { crv, kty, x, y } = <EpkJwk>(await crypto.subtle.exportKey('jwk', key))
   return { crv, kty, x, y }
 }
 
@@ -65,7 +65,7 @@ export const generateEpk: GenerateEpkFunction = async (key: CryptoKey) => {
   ensureSecureContext()
   return (
     await crypto.subtle.generateKey(
-      { name: 'ECDH', namedCurve: (key.algorithm as EcKeyAlgorithm).namedCurve },
+      { name: 'ECDH', namedCurve: (<EcKeyAlgorithm>key.algorithm).namedCurve },
       true,
       ['deriveBits'],
     )
@@ -79,4 +79,4 @@ export const publicJwkToEphemeralKey: PublicJwkToEphemeralKeyFunction = async (j
 
 const curves = ['P-256', 'P-384', 'P-521']
 export const ecdhAllowed: EcdhAllowedFunction = (key: CryptoKey) =>
-  curves.includes((key.algorithm as EcKeyAlgorithm).namedCurve)
+  curves.includes((<EcKeyAlgorithm>key.algorithm).namedCurve)

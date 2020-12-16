@@ -42,7 +42,7 @@ async function gcmEncrypt(
 ) {
   const keySize = parseInt(enc.substr(1, 3), 10)
 
-  const algorithm = `aes-${keySize}-gcm` as CipherGCMTypes
+  const algorithm = <CipherGCMTypes>`aes-${keySize}-gcm`
   const cipher = createCipheriv(algorithm, cek, iv, { authTagLength: 16 })
   cipher.setAAD(aad)
 

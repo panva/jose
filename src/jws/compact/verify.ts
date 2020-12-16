@@ -78,11 +78,11 @@ export default async function compactVerify(
 
   const verified = await verify(
     {
-      payload: (payload || undefined) as string,
+      payload: <string>(payload || undefined),
       protected: protectedHeader || undefined,
-      signature: (signature || undefined) as string,
+      signature: <string>(signature || undefined),
     },
-    key as Parameters<typeof verify>[1],
+    <Parameters<typeof verify>[1]>key,
     options,
   )
 

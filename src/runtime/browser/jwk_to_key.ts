@@ -117,7 +117,7 @@ const parse: JWKParseFunction = async (jwk: JWK): Promise<CryptoKey> => {
     keyData,
     algorithm,
     jwk.ext ?? false,
-    (jwk.key_ops as KeyUsage[]) ?? keyUsages,
+    (<KeyUsage[]>jwk.key_ops) ?? keyUsages,
   )
 }
 export default parse

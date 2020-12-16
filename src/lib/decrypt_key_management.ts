@@ -64,7 +64,7 @@ async function decryptKeyManagement(
         ephemeralKey,
         key,
         alg === 'ECDH-ES' ? joseHeader.enc! : alg,
-        parseInt(alg.substr(-5, 3), 10) || (cekLengths.get(joseHeader.enc!) as number),
+        parseInt(alg.substr(-5, 3), 10) || <number>cekLengths.get(joseHeader.enc!),
         partyUInfo,
         partyVInfo,
       )

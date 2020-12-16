@@ -107,7 +107,7 @@ const decrypt: DecryptFunction = async (
   checkIvLength(enc, iv)
 
   if (enc.substr(4, 3) === 'CBC') {
-    return cbcDecrypt(enc, cek as Uint8Array, ciphertext, iv, tag, aad)
+    return cbcDecrypt(enc, <Uint8Array>cek, ciphertext, iv, tag, aad)
   }
 
   return gcmDecrypt(cek, ciphertext, iv, tag, aad)

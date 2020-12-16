@@ -3,7 +3,7 @@ import bogusWebCrypto from './bogus.js'
 import crypto, { ensureSecureContext } from './webcrypto.js'
 
 function checkKeySize(key: CryptoKey, alg: string) {
-  if ((key.algorithm as AesKeyAlgorithm).length !== parseInt(alg.substr(1, 3), 10)) {
+  if ((<AesKeyAlgorithm>key.algorithm).length !== parseInt(alg.substr(1, 3), 10)) {
     throw new TypeError(`invalid key size for alg: ${alg}`)
   }
 }

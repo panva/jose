@@ -2,7 +2,7 @@
 /* eslint-disable no-continue */
 
 const isDisjoint = (...headers: Array<object | undefined>) => {
-  const sources = headers.filter(Boolean) as Array<object>
+  const sources = <object[]>headers.filter(Boolean)
 
   if (sources.length === 0 || sources.length === 1) {
     return true

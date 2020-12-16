@@ -91,7 +91,7 @@ const encrypt: EncryptFunction = async (
   checkIvLength(enc, iv)
 
   if (enc.substr(4, 3) === 'CBC') {
-    return cbcEncrypt(enc, plaintext, cek as Uint8Array, iv, aad)
+    return cbcEncrypt(enc, plaintext, <Uint8Array>cek, iv, aad)
   }
 
   return gcmEncrypt(plaintext, cek, iv, aad)
