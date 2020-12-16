@@ -172,6 +172,15 @@
       "import": "./dist/node/webcrypto/esm/jws/flattened/verify.js",
       "require": "./dist/node/webcrypto/cjs/jws/flattened/verify.js"
     },
+    "./jws/general/sign": {
+      "browser": "./dist/browser/jws/general/sign.js",
+      "import": "./dist/node/esm/jws/general/sign.js",
+      "require": "./dist/node/cjs/jws/general/sign.js"
+    },
+    "./webcrypto/jws/general/sign": {
+      "import": "./dist/node/webcrypto/esm/jws/general/sign.js",
+      "require": "./dist/node/webcrypto/cjs/jws/general/sign.js"
+    },
     "./jws/general/verify": {
       "browser": "./dist/browser/jws/general/verify.js",
       "import": "./dist/node/esm/jws/general/verify.js",

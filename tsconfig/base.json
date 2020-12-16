@@ -10,6 +10,7 @@
     "../src/jws/flattened/sign.ts",
     "../src/jws/flattened/verify.ts",
     "../src/jws/general/verify.ts",
+    "../src/jws/general/sign.ts",
 
     "../src/jwk/parse.ts",
     "../src/jwk/thumbprint.ts",

@@ -161,6 +161,16 @@ export interface FlattenedJWS extends Partial<FlattenedJWSInput> {
   signature: string
 }
 
+/**
+ * General JWS definition. Payload is an optional return property, it
+ * is not returned when JWS Unencoded Payload Option
+ * [RFC7797](https://tools.ietf.org/html/rfc7797) is used.
+ */
+export interface GeneralJWS {
+  payload?: string
+  signatures: Omit<FlattenedJWSInput, 'payload'>[]
+}
+
 export interface JoseHeaderParameters {
   /**
    * "kid" (Key ID) Header Parameter.
