@@ -1,14 +1,14 @@
-# Interface: FlattenedDecryptResult
+# Interface: GeneralDecryptResult
 
 ## Index
 
 ### Properties
 
-* [additionalAuthenticatedData](_types_d_.flatteneddecryptresult.md#additionalauthenticateddata)
-* [plaintext](_types_d_.flatteneddecryptresult.md#plaintext)
-* [protectedHeader](_types_d_.flatteneddecryptresult.md#protectedheader)
-* [sharedUnprotectedHeader](_types_d_.flatteneddecryptresult.md#sharedunprotectedheader)
-* [unprotectedHeader](_types_d_.flatteneddecryptresult.md#unprotectedheader)
+* [additionalAuthenticatedData](_types_d_.generaldecryptresult.md#additionalauthenticateddata)
+* [plaintext](_types_d_.generaldecryptresult.md#plaintext)
+* [protectedHeader](_types_d_.generaldecryptresult.md#protectedheader)
+* [sharedUnprotectedHeader](_types_d_.generaldecryptresult.md#sharedunprotectedheader)
+* [unprotectedHeader](_types_d_.generaldecryptresult.md#unprotectedheader)
 
 ## Properties
 

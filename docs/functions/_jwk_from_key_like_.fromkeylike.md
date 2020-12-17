@@ -2,7 +2,7 @@
 
 ▸ **fromKeyLike**(`key`: [KeyLike](../types/_types_d_.keylike.md)): Promise\<[JWK](../interfaces/_types_d_.jwk.md)>
 
-*Defined in [src/jwk/from_key_like.ts:32](https://github.com/panva/jose/blob/v3.4.0/src/jwk/from_key_like.ts#L32)*
+*Defined in [src/jwk/from_key_like.ts:32](https://github.com/panva/jose/blob/v3.5.0/src/jwk/from_key_like.ts#L32)*
 
 Converts a runtime-specific key representation (KeyLike) to a JWK.
 

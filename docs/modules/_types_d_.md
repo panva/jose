@@ -15,6 +15,8 @@
 * [FlattenedJWS](../interfaces/_types_d_.flattenedjws.md)
 * [FlattenedJWSInput](../interfaces/_types_d_.flattenedjwsinput.md)
 * [FlattenedVerifyResult](../interfaces/_types_d_.flattenedverifyresult.md)
+* [GeneralDecryptResult](../interfaces/_types_d_.generaldecryptresult.md)
+* [GeneralJWE](../interfaces/_types_d_.generaljwe.md)
 * [GeneralJWS](../interfaces/_types_d_.generaljws.md)
 * [GeneralJWSInput](../interfaces/_types_d_.generaljwsinput.md)
 * [GeneralVerifyResult](../interfaces/_types_d_.generalverifyresult.md)

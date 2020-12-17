@@ -1,21 +1,21 @@
-# Function: compactDecrypt
+# Function: generalDecrypt
 
-▸ **compactDecrypt**(`jwe`: string \| Uint8Array, `key`: [KeyLike](../types/_types_d_.keylike.md) \| [CompactDecryptGetKey](../interfaces/_jwe_compact_decrypt_.compactdecryptgetkey.md), `options?`: [DecryptOptions](../interfaces/_types_d_.decryptoptions.md)): Promise\<[CompactDecryptResult](../interfaces/_types_d_.compactdecryptresult.md)>
+▸ **generalDecrypt**(`jwe`: [GeneralJWE](../interfaces/_types_d_.generaljwe.md), `key`: [KeyLike](../types/_types_d_.keylike.md) \| [GeneralDecryptGetKey](../interfaces/_jwe_general_decrypt_.generaldecryptgetkey.md), `options?`: [DecryptOptions](../interfaces/_types_d_.decryptoptions.md)): Promise\<[GeneralDecryptResult](../interfaces/_types_d_.generaldecryptresult.md)>
 
-*Defined in [src/jwe/compact/decrypt.ts:63](https://github.com/panva/jose/blob/v3.5.0/src/jwe/compact/decrypt.ts#L63)*
+*Defined in [src/jwe/general/decrypt.ts:80](https://github.com/panva/jose/blob/v3.5.0/src/jwe/general/decrypt.ts#L80)*
 
-Decrypts a Compact JWE.
+Decrypts a General JWE.
 
 **`example`** 
 ```js
 // ESM import
-import compactDecrypt from 'jose/jwe/compact/decrypt'
+import generalDecrypt from 'jose/jwe/general/decrypt'
 ```
 
 **`example`** 
 ```js
 // CJS import
-const { default: compactDecrypt } = require('jose/jwe/compact/decrypt')
+const { default: generalDecrypt } = require('jose/jwe/general/decrypt')
 ```
 
 **`example`** 
@@ -24,7 +24,18 @@ const { default: compactDecrypt } = require('jose/jwe/compact/decrypt')
 import parseJwk from 'jose/jwk/parse'
 
 const decoder = new TextDecoder()
-const jwe = 'eyJhbGciOiJSU0EtT0FFUC0yNTYiLCJlbmMiOiJBMjU2R0NNIn0.nyQ19eq9ogh9wA7fFtnI2oouzy5_8b5DeLkoRMfi2yijgfTs2zEnayCEofz_qhnL-nwszabd9qUeHv0-IwvhhJJS7GUJOU3ikiIe42qcIAFme1A_Fo9CTxw4XTOy-I5qanl8So91u6hwfyN1VxAqVLsSE7_23EC-gfGEg_5znew9PyXXsOIE-K_HH7IQowRrlZ1X_bM_Liu53RzDpLDvRz59mp3S8L56YqpM8FexFGTGpEaoTcEIst375qncYt3-79IVR7gZN1RWsWgjPatfvVbnh74PglQcATSf3UUhaW0OAKn6q7r3PDx6DIKQ35bgHQg5QopuN00eIfLQL2trGw.W3grIVj5HVuAb76X.6PcuDe5D6ttWFYyv0oqqdDXfI2R8wBg1F2Q80UUA_Gv8eEimNWfxIWdLxrjzgQGSvIhxmFKuLM0.a93_Ug3uZHuczj70Zavx8Q'
+const jwe = {
+  ciphertext: '9EzjFISUyoG-ifC2mSihfP0DPC80yeyrxhTzKt1C_VJBkxeBG0MI4Te61Pk45RAGubUvBpU9jm4',
+  iv: '8Fy7A_IuoX5VXG9s',
+  tag: 'W76IYV6arGRuDSaSyWrQNg',
+  aad: 'VGhlIEZlbGxvd3NoaXAgb2YgdGhlIFJpbmc',
+  protected: 'eyJhbGciOiJSU0EtT0FFUC0yNTYiLCJlbmMiOiJBMjU2R0NNIn0',
+  recipients: [
+    {
+      encrypted_key: 'Z6eD4UK_yFb5ZoKvKkGAdqywEG_m0e4IYo0x8Vf30LAMJcsc-_zSgIeiF82teZyYi2YYduHKoqImk7MRnoPZOlEs0Q5BNK1OgBmSOhCE8DFyqh9Zh48TCTP6lmBQ52naqoUJFMtHzu-0LwZH26hxos0GP3Dt19O379MJB837TdKKa87skq0zHaVLAquRHOBF77GI54Bc7O49d8aOrSu1VEFGMThlW2caspPRiTSePDMDPq7_WGk50izRhB3Asl9wmP9wEeaTrkJKRnQj5ips1SAZ1hDBsqEQKKukxP1HtdcopHV5_qgwU8Hjm5EwSLMluMQuiE6hwlkXGOujZLVizA'
+    }
+  ]
+}
 const privateKey = await parseJwk({
   e: 'AQAB',
   n: 'qpzYkTGRKSUcd12hZaJnYEKVLfdEsqu6HBAxZgRSvzLFj_zTSAEXjbf3fX47MPEHRw8NDcEXPjVOz84t4FTXYF2w2_LGWfp_myjV8pR6oUUncJjS7DhnUmTG5bpuK2HFXRMRJYz_iNR48xRJPMoY84jrnhdIFx8Tqv6w4ZHVyEvcvloPgwG3UjLidP6jmqbTiJtidVLnpQJRuFNFQJiluQXBZ1nOLC7raQshu7L9y0IatVU7vf0BPnmuSkcNNvmQkSta6ODQBPaL5-o5SW8H37vQjPDkrlJpreViNa3jqP5DB5HYUO-DMh4FegRv9gZWLDEvXpSd9A13YXCa9Q8K_w',
@@ -37,18 +48,23 @@ const privateKey = await parseJwk({
   kty: 'RSA'
 }, 'RSA-OAEP-256')
 
-const { plaintext, protectedHeader } = await compactDecrypt(jwe, privateKey)
+const {
+  plaintext,
+  protectedHeader,
+  additionalAuthenticatedData
+} = await generalDecrypt(jwe, privateKey)
 
 console.log(protectedHeader)
 console.log(decoder.decode(plaintext))
+console.log(decoder.decode(additionalAuthenticatedData))
 ```
 
 #### Parameters:
 
 Name | Type | Description |
 ------ | ------ | ------ |
-`jwe` | string \| Uint8Array | Compact JWE. |
-`key` | [KeyLike](../types/_types_d_.keylike.md) \| [CompactDecryptGetKey](../interfaces/_jwe_compact_decrypt_.compactdecryptgetkey.md) | Private Key or Secret, or a function resolving one, to decrypt the JWE with. |
+`jwe` | [GeneralJWE](../interfaces/_types_d_.generaljwe.md) | General JWE. |
+`key` | [KeyLike](../types/_types_d_.keylike.md) \| [GeneralDecryptGetKey](../interfaces/_jwe_general_decrypt_.generaldecryptgetkey.md) | Private Key or Secret, or a function resolving one, to decrypt the JWE with. |
 `options?` | [DecryptOptions](../interfaces/_types_d_.decryptoptions.md) | JWE Decryption options.  |
 
-**Returns:** Promise\<[CompactDecryptResult](../interfaces/_types_d_.compactdecryptresult.md)>
+**Returns:** Promise\<[GeneralDecryptResult](../interfaces/_types_d_.generaldecryptresult.md)>

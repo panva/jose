@@ -24,7 +24,7 @@ Combination of JWE Decryption options and JWT Claims Set verification options.
 
 • `Optional` **audience**: string \| string[]
 
-*Defined in [src/types.d.ts:418](https://github.com/panva/jose/blob/v3.4.0/src/types.d.ts#L418)*
+*Defined in [src/types.d.ts:422](https://github.com/panva/jose/blob/v3.5.0/src/types.d.ts#L422)*
 
 Expected JWT "aud" (Audience) Claim value(s).
 
@@ -34,7 +34,7 @@ ___
 
 • `Optional` **clockTolerance**: string \| number
 
-*Defined in [src/types.d.ts:425](https://github.com/panva/jose/blob/v3.4.0/src/types.d.ts#L425)*
+*Defined in [src/types.d.ts:429](https://github.com/panva/jose/blob/v3.5.0/src/types.d.ts#L429)*
 
 Expected clock tolerance
 - in seconds when number (e.g. 5)
@@ -46,7 +46,7 @@ ___
 
 • `Optional` **contentEncryptionAlgorithms**: string[]
 
-*Defined in [src/types.d.ts:391](https://github.com/panva/jose/blob/v3.4.0/src/types.d.ts#L391)*
+*Defined in [src/types.d.ts:395](https://github.com/panva/jose/blob/v3.5.0/src/types.d.ts#L395)*
 
 A list of accepted JWE "enc" (Encryption Algorithm) Header Parameter values.
 
@@ -56,7 +56,7 @@ ___
 
 • `Optional` **crit**: { [propName:string]: boolean;  }
 
-*Defined in [src/types.d.ts:374](https://github.com/panva/jose/blob/v3.4.0/src/types.d.ts#L374)*
+*Defined in [src/types.d.ts:378](https://github.com/panva/jose/blob/v3.5.0/src/types.d.ts#L378)*
 
 An object with keys representing recognized "crit" (Critical) Header Parameter
 names. The value for those is either `true` or `false`. `true` when the
@@ -83,7 +83,7 @@ ___
 
 • `Optional` **currentDate**: Date
 
-*Defined in [src/types.d.ts:450](https://github.com/panva/jose/blob/v3.4.0/src/types.d.ts#L450)*
+*Defined in [src/types.d.ts:454](https://github.com/panva/jose/blob/v3.5.0/src/types.d.ts#L454)*
 
 Date to use when comparing NumericDate claims, defaults to `new Date()`.
 
@@ -93,7 +93,7 @@ ___
 
 • `Optional` **inflateRaw**: [InflateFunction](_types_d_.inflatefunction.md)
 
-*Defined in [src/types.d.ts:397](https://github.com/panva/jose/blob/v3.4.0/src/types.d.ts#L397)*
+*Defined in [src/types.d.ts:401](https://github.com/panva/jose/blob/v3.5.0/src/types.d.ts#L401)*
 
 In a browser runtime you have to provide an implementation for Inflate Raw
 when you expect JWEs with compressed plaintext.
@@ -104,7 +104,7 @@ ___
 
 • `Optional` **issuer**: string \| string[]
 
-*Defined in [src/types.d.ts:430](https://github.com/panva/jose/blob/v3.4.0/src/types.d.ts#L430)*
+*Defined in [src/types.d.ts:434](https://github.com/panva/jose/blob/v3.5.0/src/types.d.ts#L434)*
 
 Expected JWT "iss" (Issuer) Claim value(s).
 
@@ -114,7 +114,7 @@ ___
 
 • `Optional` **keyManagementAlgorithms**: string[]
 
-*Defined in [src/types.d.ts:386](https://github.com/panva/jose/blob/v3.4.0/src/types.d.ts#L386)*
+*Defined in [src/types.d.ts:390](https://github.com/panva/jose/blob/v3.5.0/src/types.d.ts#L390)*
 
 A list of accepted JWE "alg" (Algorithm) Header Parameter values.
 
@@ -124,7 +124,7 @@ ___
 
 • `Optional` **maxTokenAge**: string
 
-*Defined in [src/types.d.ts:435](https://github.com/panva/jose/blob/v3.4.0/src/types.d.ts#L435)*
+*Defined in [src/types.d.ts:439](https://github.com/panva/jose/blob/v3.5.0/src/types.d.ts#L439)*
 
 Maximum time elapsed (in seconds) from the JWT "iat" (Issued At) Claim value.
 
@@ -134,7 +134,7 @@ ___
 
 • `Optional` **subject**: string
 
-*Defined in [src/types.d.ts:440](https://github.com/panva/jose/blob/v3.4.0/src/types.d.ts#L440)*
+*Defined in [src/types.d.ts:444](https://github.com/panva/jose/blob/v3.5.0/src/types.d.ts#L444)*
 
 Expected JWT "sub" (Subject) Claim value.
 
@@ -144,6 +144,6 @@ ___
 
 • `Optional` **typ**: string
 
-*Defined in [src/types.d.ts:445](https://github.com/panva/jose/blob/v3.4.0/src/types.d.ts#L445)*
+*Defined in [src/types.d.ts:449](https://github.com/panva/jose/blob/v3.5.0/src/types.d.ts#L449)*
 
 Expected JWT "typ" (Type) Header Parameter value.

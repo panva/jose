@@ -21,7 +21,7 @@ An error subclass thrown when no keys match from a JWKS.
 
 \+ **new JWKSNoMatchingKey**(`message?`: string): [JWKSNoMatchingKey](_util_errors_.jwksnomatchingkey.md)
 
-*Defined in [src/util/errors.ts:11](https://github.com/panva/jose/blob/v3.4.0/src/util/errors.ts#L11)*
+*Defined in [src/util/errors.ts:11](https://github.com/panva/jose/blob/v3.5.0/src/util/errors.ts#L11)*
 
 #### Parameters:
 
@@ -39,7 +39,7 @@ Name | Type |
 
 *Overrides [JOSEError](_util_errors_.joseerror.md).[code](_util_errors_.joseerror.md#code)*
 
-*Defined in [src/util/errors.ts:108](https://github.com/panva/jose/blob/v3.4.0/src/util/errors.ts#L108)*
+*Defined in [src/util/errors.ts:108](https://github.com/panva/jose/blob/v3.5.0/src/util/errors.ts#L108)*
 
 ___
 
@@ -49,7 +49,7 @@ ___
 
 *Overrides [JOSEError](_util_errors_.joseerror.md).[message](_util_errors_.joseerror.md#message)*
 
-*Defined in [src/util/errors.ts:110](https://github.com/panva/jose/blob/v3.4.0/src/util/errors.ts#L110)*
+*Defined in [src/util/errors.ts:110](https://github.com/panva/jose/blob/v3.5.0/src/util/errors.ts#L110)*
 
 ___
 

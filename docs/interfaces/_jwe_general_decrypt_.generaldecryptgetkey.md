@@ -1,6 +1,6 @@
-# Interface: JWTDecryptGetKey
+# Interface: GeneralDecryptGetKey
 
-Interface for JWT Decryption dynamic key resolution.
+Interface for General JWE Decryption dynamic key resolution.
 No token components have been verified at the time of this function call.
 
 ## Callable
@@ -9,7 +9,7 @@ No token components have been verified at the time of this function call.
 
 *Defined in [src/types.d.ts:79](https://github.com/panva/jose/blob/v3.5.0/src/types.d.ts#L79)*
 
-Interface for JWT Decryption dynamic key resolution.
+Interface for General JWE Decryption dynamic key resolution.
 No token components have been verified at the time of this function call.
 
 #### Parameters:

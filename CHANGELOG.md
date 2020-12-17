@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [3.5.0](https://github.com/panva/jose/compare/v3.4.0...v3.5.0) (2020-12-17)
+
+
+### Features
+
+* added JWE General JSON Serialization decryption ([16dea9e](https://github.com/panva/jose/commit/16dea9ec7d6179471f794a3463bba0c6e77295ff))
+
 ## [3.4.0](https://github.com/panva/jose/compare/v3.3.2...v3.4.0) (2020-12-16)
 
 

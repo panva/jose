@@ -13,7 +13,7 @@
 
 •  **plaintext**: Uint8Array
 
-*Defined in [src/types.d.ts:559](https://github.com/panva/jose/blob/v3.4.0/src/types.d.ts#L559)*
+*Defined in [src/types.d.ts:565](https://github.com/panva/jose/blob/v3.5.0/src/types.d.ts#L565)*
 
 Plaintext.
 
@@ -23,6 +23,6 @@ ___
 
 •  **protectedHeader**: [JWEHeaderParameters](_types_d_.jweheaderparameters.md)
 
-*Defined in [src/types.d.ts:564](https://github.com/panva/jose/blob/v3.4.0/src/types.d.ts#L564)*
+*Defined in [src/types.d.ts:570](https://github.com/panva/jose/blob/v3.5.0/src/types.d.ts#L570)*
 
 JWE Protected Header.
