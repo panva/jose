@@ -8,7 +8,7 @@ import type { JWSHeaderParameters, JWEHeaderParameters } from '../types.d'
 export type ProtectedHeaderParameters = JWSHeaderParameters & JWEHeaderParameters
 
 /**
- * Decodes the Protected Header of a JWE/JWS/JWT token utilizing any encoding.
+ * Decodes the Protected Header of a JWE/JWS/JWT token utilizing any JOSE serialization.
  *
  * @example
  * ```
@@ -29,7 +29,7 @@ export type ProtectedHeaderParameters = JWSHeaderParameters & JWEHeaderParameter
  * console.log(protectedHeader)
  * ```
  *
- * @param token JWE/JWS/JWT token in any encoding.
+ * @param token JWE/JWS/JWT token in any JOSE serialization.
  */
 export default function decodeProtectedHeader(token: string | object) {
   let protectedB64u!: string
