@@ -210,7 +210,7 @@ export default async function flattenedDecrypt(
     // of receiving an improperly formatted key, that the recipient
     // substitute a randomly generated CEK and proceed to the next step, to
     // mitigate timing attacks.
-    cek = await generateCek(enc)
+    cek = generateCek(enc)
   }
 
   const iv = base64url(jwe.iv)

@@ -15,7 +15,7 @@ export const wrap: AesGcmKwWrapFunction = async (
 ) => {
   const jweAlgorithm = alg.substr(0, 7)
   // eslint-disable-next-line no-param-reassign
-  iv ||= await generateIv(jweAlgorithm)
+  iv ||= generateIv(jweAlgorithm)
 
   const { ciphertext: encryptedKey, tag } = await encrypt(
     jweAlgorithm,

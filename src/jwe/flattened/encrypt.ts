@@ -263,7 +263,7 @@ export default class FlattenedEncrypt {
       }
     }
 
-    this._iv ||= await generateIv(enc)
+    this._iv ||= generateIv(enc)
 
     let additionalData: Uint8Array
     let protectedHeader: Uint8Array

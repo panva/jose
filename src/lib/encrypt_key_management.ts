@@ -65,7 +65,7 @@ async function encryptKeyManagement(
       }
 
       // Key Agreement with Key Wrapping
-      cek = providedCek || (await generateCek(enc))
+      cek = providedCek || generateCek(enc)
       const kwAlg = alg.substr(-6)
       encryptedKey = await aesKw(kwAlg, sharedSecret, cek)
       break
@@ -76,7 +76,7 @@ async function encryptKeyManagement(
     case 'RSA-OAEP-384':
     case 'RSA-OAEP-512': {
       // Key Encryption (RSA)
-      cek = providedCek || (await generateCek(enc))
+      cek = providedCek || generateCek(enc)
       encryptedKey = await rsaEs(alg, key, cek)
       break
     }
@@ -84,7 +84,7 @@ async function encryptKeyManagement(
     case 'PBES2-HS384+A192KW':
     case 'PBES2-HS512+A256KW': {
       // Key Encryption (PBES2)
-      cek = providedCek || (await generateCek(enc))
+      cek = providedCek || generateCek(enc)
       const { p2c, p2s } = providedParameters
       ;({ encryptedKey, ...parameters } = await pbes2Kw(alg, key, cek, p2c, p2s))
       break
@@ -93,7 +93,7 @@ async function encryptKeyManagement(
     case 'A192KW':
     case 'A256KW': {
       // Key Wrapping (AES KW)
-      cek = providedCek || (await generateCek(enc))
+      cek = providedCek || generateCek(enc)
       encryptedKey = await aesKw(alg, key, cek)
       break
     }
@@ -101,7 +101,7 @@ async function encryptKeyManagement(
     case 'A192GCMKW':
     case 'A256GCMKW': {
       // Key Wrapping (AES GCM KW)
-      cek = providedCek || (await generateCek(enc))
+      cek = providedCek || generateCek(enc)
       const { iv } = providedParameters
       ;({ encryptedKey, ...parameters } = await aesGcmKw(alg, key, cek, iv))
       break

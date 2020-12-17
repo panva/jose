@@ -1,4 +1,3 @@
-import type { AsyncOrSync } from '../types.i.d'
 import { JOSENotSupported } from '../util/errors.js'
 
 const bitLengths = new Map<string, number>([
@@ -10,9 +9,7 @@ const bitLengths = new Map<string, number>([
   ['A256GCM', 256],
 ])
 
-const factory = (random: (array: Uint8Array) => AsyncOrSync<Uint8Array>) => (
-  alg: string,
-): AsyncOrSync<Uint8Array> => {
+const factory = (random: (array: Uint8Array) => Uint8Array) => (alg: string): Uint8Array => {
   const bitLength = bitLengths.get(alg)
   if (!bitLength) {
     throw new JOSENotSupported(`Unsupported JWE Algorithm: ${alg}`)
