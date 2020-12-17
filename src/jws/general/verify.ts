@@ -81,10 +81,18 @@ export default async function generalVerify(
 
   // eslint-disable-next-line no-restricted-syntax
   for (const signature of jws.signatures) {
-    const flattened = { payload: jws.payload, ...signature }
     try {
       // eslint-disable-next-line no-await-in-loop
-      return await verify(flattened, <Parameters<typeof verify>[1]>key, options)
+      return await verify(
+        {
+          header: signature.header,
+          payload: jws.payload,
+          protected: signature.protected,
+          signature: signature.signature,
+        },
+        <Parameters<typeof verify>[1]>key,
+        options,
+      )
     } catch {
       //
     }
