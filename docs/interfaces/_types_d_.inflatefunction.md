@@ -4,7 +4,7 @@ Inflate Raw implementation, e.g. promisified [zlib.inflateRaw](https://nodejs.or
 
 ## Callable
 
-▸ (`input`: Uint8Array): Promise\<Uint8Array>
+▸ (`input`: Uint8Array): Promise<Uint8Array\>
 
 *Defined in [src/types.d.ts:528](https://github.com/panva/jose/blob/v3.5.0/src/types.d.ts#L528)*
 
@@ -16,4 +16,4 @@ Name | Type |
 ------ | ------ |
 `input` | Uint8Array |
 
-**Returns:** Promise\<Uint8Array>
+**Returns:** Promise<Uint8Array\>

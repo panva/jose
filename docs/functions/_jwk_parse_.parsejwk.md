@@ -1,6 +1,6 @@
 # Function: parseJwk
 
-▸ **parseJwk**(`jwk`: [JWK](../interfaces/_types_d_.jwk.md), `alg?`: string, `octAsKeyObject?`: false \| true): Promise\<[KeyLike](../types/_types_d_.keylike.md)>
+▸ **parseJwk**(`jwk`: [JWK](../interfaces/_types_d_.jwk.md), `alg?`: string, `octAsKeyObject?`: false \| true): Promise<[KeyLike](../types/_types_d_.keylike.md)\>
 
 *Defined in [src/jwk/parse.ts:50](https://github.com/panva/jose/blob/v3.5.0/src/jwk/parse.ts#L50)*
 
@@ -48,4 +48,4 @@ Name | Type | Description |
 `alg?` | string | JSON Web Algorithm identifier to be used with the converted key. Default is the "alg" property on the JWK. |
 `octAsKeyObject?` | false \| true | Forces a symmetric key to be converted to a KeyObject or CryptoKey. Default is true unless JWK "ext" (Extractable) is true.  |
 
-**Returns:** Promise\<[KeyLike](../types/_types_d_.keylike.md)>
+**Returns:** Promise<[KeyLike](../types/_types_d_.keylike.md)\>

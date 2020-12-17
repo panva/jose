@@ -4,7 +4,7 @@ Deflate Raw implementation, e.g. promisified [zlib.deflateRaw](https://nodejs.or
 
 ## Callable
 
-▸ (`input`: Uint8Array): Promise\<Uint8Array>
+▸ (`input`: Uint8Array): Promise<Uint8Array\>
 
 *Defined in [src/types.d.ts:521](https://github.com/panva/jose/blob/v3.5.0/src/types.d.ts#L521)*
 
@@ -16,4 +16,4 @@ Name | Type |
 ------ | ------ |
 `input` | Uint8Array |
 
-**Returns:** Promise\<Uint8Array>
+**Returns:** Promise<Uint8Array\>

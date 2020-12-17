@@ -1,6 +1,6 @@
 # Function: flattenedDecrypt
 
-▸ **flattenedDecrypt**(`jwe`: [FlattenedJWE](../interfaces/_types_d_.flattenedjwe.md), `key`: [KeyLike](../types/_types_d_.keylike.md) \| [FlattenedDecryptGetKey](../interfaces/_jwe_flattened_decrypt_.flatteneddecryptgetkey.md), `options?`: [DecryptOptions](../interfaces/_types_d_.decryptoptions.md)): Promise\<[FlattenedDecryptResult](../interfaces/_types_d_.flatteneddecryptresult.md)>
+▸ **flattenedDecrypt**(`jwe`: [FlattenedJWE](../interfaces/_types_d_.flattenedjwe.md), `key`: [KeyLike](../types/_types_d_.keylike.md) \| [FlattenedDecryptGetKey](../interfaces/_jwe_flattened_decrypt_.flatteneddecryptgetkey.md), `options?`: [DecryptOptions](../interfaces/_types_d_.decryptoptions.md)): Promise<[FlattenedDecryptResult](../interfaces/_types_d_.flatteneddecryptresult.md)\>
 
 *Defined in [src/jwe/flattened/decrypt.ts:92](https://github.com/panva/jose/blob/v3.5.0/src/jwe/flattened/decrypt.ts#L92)*
 
@@ -63,4 +63,4 @@ Name | Type | Description |
 `key` | [KeyLike](../types/_types_d_.keylike.md) \| [FlattenedDecryptGetKey](../interfaces/_jwe_flattened_decrypt_.flatteneddecryptgetkey.md) | Public Key or Secret, or a function resolving one, to decrypt the JWE with. |
 `options?` | [DecryptOptions](../interfaces/_types_d_.decryptoptions.md) | JWE Decryption options.  |
 
-**Returns:** Promise\<[FlattenedDecryptResult](../interfaces/_types_d_.flatteneddecryptresult.md)>
+**Returns:** Promise<[FlattenedDecryptResult](../interfaces/_types_d_.flatteneddecryptresult.md)\>

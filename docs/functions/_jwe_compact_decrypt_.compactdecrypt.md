@@ -1,6 +1,6 @@
 # Function: compactDecrypt
 
-▸ **compactDecrypt**(`jwe`: string \| Uint8Array, `key`: [KeyLike](../types/_types_d_.keylike.md) \| [CompactDecryptGetKey](../interfaces/_jwe_compact_decrypt_.compactdecryptgetkey.md), `options?`: [DecryptOptions](../interfaces/_types_d_.decryptoptions.md)): Promise\<[CompactDecryptResult](../interfaces/_types_d_.compactdecryptresult.md)>
+▸ **compactDecrypt**(`jwe`: string \| Uint8Array, `key`: [KeyLike](../types/_types_d_.keylike.md) \| [CompactDecryptGetKey](../interfaces/_jwe_compact_decrypt_.compactdecryptgetkey.md), `options?`: [DecryptOptions](../interfaces/_types_d_.decryptoptions.md)): Promise<[CompactDecryptResult](../interfaces/_types_d_.compactdecryptresult.md)\>
 
 *Defined in [src/jwe/compact/decrypt.ts:63](https://github.com/panva/jose/blob/v3.5.0/src/jwe/compact/decrypt.ts#L63)*
 
@@ -51,4 +51,4 @@ Name | Type | Description |
 `key` | [KeyLike](../types/_types_d_.keylike.md) \| [CompactDecryptGetKey](../interfaces/_jwe_compact_decrypt_.compactdecryptgetkey.md) | Private Key or Secret, or a function resolving one, to decrypt the JWE with. |
 `options?` | [DecryptOptions](../interfaces/_types_d_.decryptoptions.md) | JWE Decryption options.  |
 
-**Returns:** Promise\<[CompactDecryptResult](../interfaces/_types_d_.compactdecryptresult.md)>
+**Returns:** Promise<[CompactDecryptResult](../interfaces/_types_d_.compactdecryptresult.md)\>

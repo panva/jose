@@ -1,6 +1,6 @@
 # Function: jwtDecrypt
 
-▸ **jwtDecrypt**(`jwt`: string \| Uint8Array, `key`: [KeyLike](../types/_types_d_.keylike.md) \| [JWTDecryptGetKey](../interfaces/_jwt_decrypt_.jwtdecryptgetkey.md), `options?`: [JWTDecryptOptions](../interfaces/_jwt_decrypt_.jwtdecryptoptions.md)): Promise\<[JWTDecryptResult](../interfaces/_types_d_.jwtdecryptresult.md)>
+▸ **jwtDecrypt**(`jwt`: string \| Uint8Array, `key`: [KeyLike](../types/_types_d_.keylike.md) \| [JWTDecryptGetKey](../interfaces/_jwt_decrypt_.jwtdecryptgetkey.md), `options?`: [JWTDecryptOptions](../interfaces/_jwt_decrypt_.jwtdecryptoptions.md)): Promise<[JWTDecryptResult](../interfaces/_types_d_.jwtdecryptresult.md)\>
 
 *Defined in [src/jwt/decrypt.ts:65](https://github.com/panva/jose/blob/v3.5.0/src/jwt/decrypt.ts#L65)*
 
@@ -46,4 +46,4 @@ Name | Type | Description |
 `key` | [KeyLike](../types/_types_d_.keylike.md) \| [JWTDecryptGetKey](../interfaces/_jwt_decrypt_.jwtdecryptgetkey.md) | Private Key or Secret, or a function resolving one, to decrypt and verify the JWT with. |
 `options?` | [JWTDecryptOptions](../interfaces/_jwt_decrypt_.jwtdecryptoptions.md) | JWT Decryption and JWT Claims Set validation options.  |
 
-**Returns:** Promise\<[JWTDecryptResult](../interfaces/_types_d_.jwtdecryptresult.md)>
+**Returns:** Promise<[JWTDecryptResult](../interfaces/_types_d_.jwtdecryptresult.md)\>

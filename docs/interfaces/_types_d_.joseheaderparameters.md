@@ -26,7 +26,7 @@ ___
 
 ### jwk
 
-• `Optional` **jwk**: Pick\<[JWK](_types_d_.jwk.md), \"kty\" \| \"crv\" \| \"x\" \| \"y\" \| \"e\" \| \"n\">
+• `Optional` **jwk**: Pick<[JWK](_types_d_.jwk.md), \"kty\" \| \"crv\" \| \"x\" \| \"y\" \| \"e\" \| \"n\"\>
 
 *Defined in [src/types.d.ts:198](https://github.com/panva/jose/blob/v3.5.0/src/types.d.ts#L198)*
 

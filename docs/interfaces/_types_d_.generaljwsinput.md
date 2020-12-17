@@ -26,7 +26,7 @@ ___
 
 ### signatures
 
-•  **signatures**: Omit\<[FlattenedJWSInput](_types_d_.flattenedjwsinput.md), \"payload\">[]
+•  **signatures**: Omit<[FlattenedJWSInput](_types_d_.flattenedjwsinput.md), \"payload\"\>[]
 
 *Defined in [src/types.d.ts:151](https://github.com/panva/jose/blob/v3.5.0/src/types.d.ts#L151)*
 

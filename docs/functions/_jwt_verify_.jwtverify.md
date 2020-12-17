@@ -1,6 +1,6 @@
 # Function: jwtVerify
 
-▸ **jwtVerify**(`jwt`: string \| Uint8Array, `key`: [KeyLike](../types/_types_d_.keylike.md) \| [JWTVerifyGetKey](../interfaces/_jwt_verify_.jwtverifygetkey.md), `options?`: [JWTVerifyOptions](../interfaces/_jwt_verify_.jwtverifyoptions.md)): Promise\<[JWTVerifyResult](../interfaces/_types_d_.jwtverifyresult.md)>
+▸ **jwtVerify**(`jwt`: string \| Uint8Array, `key`: [KeyLike](../types/_types_d_.keylike.md) \| [JWTVerifyGetKey](../interfaces/_jwt_verify_.jwtverifygetkey.md), `options?`: [JWTVerifyOptions](../interfaces/_jwt_verify_.jwtverifyoptions.md)): Promise<[JWTVerifyResult](../interfaces/_types_d_.jwtverifyresult.md)\>
 
 *Defined in [src/jwt/verify.ts:67](https://github.com/panva/jose/blob/v3.5.0/src/jwt/verify.ts#L67)*
 
@@ -48,4 +48,4 @@ Name | Type | Description |
 `key` | [KeyLike](../types/_types_d_.keylike.md) \| [JWTVerifyGetKey](../interfaces/_jwt_verify_.jwtverifygetkey.md) | Key, or a function resolving a key, to verify the JWT with. |
 `options?` | [JWTVerifyOptions](../interfaces/_jwt_verify_.jwtverifyoptions.md) | JWT Decryption and JWT Claims Set validation options.  |
 
-**Returns:** Promise\<[JWTVerifyResult](../interfaces/_types_d_.jwtverifyresult.md)>
+**Returns:** Promise<[JWTVerifyResult](../interfaces/_types_d_.jwtverifyresult.md)\>

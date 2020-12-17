@@ -68,7 +68,7 @@ Name | Type | Description |
 
 ### encrypt
 
-▸ **encrypt**(`key`: [KeyLike](../types/_types_d_.keylike.md), `options?`: [EncryptOptions](../interfaces/_types_d_.encryptoptions.md)): Promise\<string>
+▸ **encrypt**(`key`: [KeyLike](../types/_types_d_.keylike.md), `options?`: [EncryptOptions](../interfaces/_types_d_.encryptoptions.md)): Promise<string\>
 
 *Defined in [src/jwe/compact/encrypt.ts:108](https://github.com/panva/jose/blob/v3.5.0/src/jwe/compact/encrypt.ts#L108)*
 
@@ -81,7 +81,7 @@ Name | Type | Description |
 `key` | [KeyLike](../types/_types_d_.keylike.md) | Public Key or Secret to encrypt the JWE with. |
 `options?` | [EncryptOptions](../interfaces/_types_d_.encryptoptions.md) | JWE Encryption options.  |
 
-**Returns:** Promise\<string>
+**Returns:** Promise<string\>
 
 ___
 

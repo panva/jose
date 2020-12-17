@@ -221,7 +221,7 @@ ___
 
 ### sign
 
-▸ **sign**(`key`: [KeyLike](../types/_types_d_.keylike.md), `options?`: [SignOptions](../interfaces/_types_d_.signoptions.md)): Promise\<string>
+▸ **sign**(`key`: [KeyLike](../types/_types_d_.keylike.md), `options?`: [SignOptions](../interfaces/_types_d_.signoptions.md)): Promise<string\>
 
 *Defined in [src/jwt/sign.ts:68](https://github.com/panva/jose/blob/v3.5.0/src/jwt/sign.ts#L68)*
 
@@ -234,4 +234,4 @@ Name | Type | Description |
 `key` | [KeyLike](../types/_types_d_.keylike.md) | Private Key or Secret to sign the JWT with. |
 `options?` | [SignOptions](../interfaces/_types_d_.signoptions.md) | JWT Sign options.  |
 
-**Returns:** Promise\<string>
+**Returns:** Promise<string\>

@@ -1,6 +1,6 @@
 # Function: createRemoteJWKSet
 
-▸ **createRemoteJWKSet**(`url`: URL, `options?`: [RemoteJWKSetOptions](../interfaces/_jwks_remote_.remotejwksetoptions.md)): [GetKeyFunction](../interfaces/_types_d_.getkeyfunction.md)\<[JWSHeaderParameters](../interfaces/_types_d_.jwsheaderparameters.md), [FlattenedJWSInput](../interfaces/_types_d_.flattenedjwsinput.md)>
+▸ **createRemoteJWKSet**(`url`: URL, `options?`: [RemoteJWKSetOptions](../interfaces/_jwks_remote_.remotejwksetoptions.md)): [GetKeyFunction](../interfaces/_types_d_.getkeyfunction.md)<[JWSHeaderParameters](../interfaces/_types_d_.jwsheaderparameters.md), [FlattenedJWSInput](../interfaces/_types_d_.flattenedjwsinput.md)\>
 
 *Defined in [src/jwks/remote.ts:245](https://github.com/panva/jose/blob/v3.5.0/src/jwks/remote.ts#L245)*
 
@@ -43,4 +43,4 @@ Name | Type | Description |
 `url` | URL | URL to fetch the JSON Web Key Set from. |
 `options?` | [RemoteJWKSetOptions](../interfaces/_jwks_remote_.remotejwksetoptions.md) | Options for the remote JSON Web Key Set.  |
 
-**Returns:** [GetKeyFunction](../interfaces/_types_d_.getkeyfunction.md)\<[JWSHeaderParameters](../interfaces/_types_d_.jwsheaderparameters.md), [FlattenedJWSInput](../interfaces/_types_d_.flattenedjwsinput.md)>
+**Returns:** [GetKeyFunction](../interfaces/_types_d_.getkeyfunction.md)<[JWSHeaderParameters](../interfaces/_types_d_.jwsheaderparameters.md), [FlattenedJWSInput](../interfaces/_types_d_.flattenedjwsinput.md)\>

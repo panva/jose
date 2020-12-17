@@ -1,6 +1,6 @@
 # Function: generateSecret
 
-▸ **generateSecret**(`alg`: string): Promise\<[KeyLike](../types/_types_d_.keylike.md)>
+▸ **generateSecret**(`alg`: string): Promise<[KeyLike](../types/_types_d_.keylike.md)\>
 
 *Defined in [src/util/generate_secret.ts:28](https://github.com/panva/jose/blob/v3.5.0/src/util/generate_secret.ts#L28)*
 
@@ -31,4 +31,4 @@ Name | Type | Description |
 ------ | ------ | ------ |
 `alg` | string | JWA Algorithm Identifier to be used with the generated secret.  |
 
-**Returns:** Promise\<[KeyLike](../types/_types_d_.keylike.md)>
+**Returns:** Promise<[KeyLike](../types/_types_d_.keylike.md)\>

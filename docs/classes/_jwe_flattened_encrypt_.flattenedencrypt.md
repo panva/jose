@@ -72,7 +72,7 @@ Name | Type | Description |
 
 ### encrypt
 
-▸ **encrypt**(`key`: [KeyLike](../types/_types_d_.keylike.md), `options?`: [EncryptOptions](../interfaces/_types_d_.encryptoptions.md)): Promise\<[FlattenedJWE](../interfaces/_types_d_.flattenedjwe.md)>
+▸ **encrypt**(`key`: [KeyLike](../types/_types_d_.keylike.md), `options?`: [EncryptOptions](../interfaces/_types_d_.encryptoptions.md)): Promise<[FlattenedJWE](../interfaces/_types_d_.flattenedjwe.md)\>
 
 *Defined in [src/jwe/flattened/encrypt.ts:187](https://github.com/panva/jose/blob/v3.5.0/src/jwe/flattened/encrypt.ts#L187)*
 
@@ -85,7 +85,7 @@ Name | Type | Description |
 `key` | [KeyLike](../types/_types_d_.keylike.md) | Public Key or Secret to encrypt the JWE with. |
 `options?` | [EncryptOptions](../interfaces/_types_d_.encryptoptions.md) | JWE Encryption options.  |
 
-**Returns:** Promise\<[FlattenedJWE](../interfaces/_types_d_.flattenedjwe.md)>
+**Returns:** Promise<[FlattenedJWE](../interfaces/_types_d_.flattenedjwe.md)\>
 
 ___
 

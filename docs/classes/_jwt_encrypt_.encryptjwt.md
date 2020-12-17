@@ -78,7 +78,7 @@ Name | Type | Description |
 
 ### encrypt
 
-▸ **encrypt**(`key`: [KeyLike](../types/_types_d_.keylike.md), `options?`: [EncryptOptions](../interfaces/_types_d_.encryptoptions.md)): Promise\<string>
+▸ **encrypt**(`key`: [KeyLike](../types/_types_d_.keylike.md), `options?`: [EncryptOptions](../interfaces/_types_d_.encryptoptions.md)): Promise<string\>
 
 *Defined in [src/jwt/encrypt.ts:160](https://github.com/panva/jose/blob/v3.5.0/src/jwt/encrypt.ts#L160)*
 
@@ -91,7 +91,7 @@ Name | Type | Description |
 `key` | [KeyLike](../types/_types_d_.keylike.md) | Public Key or Secret to encrypt the JWT with. |
 `options?` | [EncryptOptions](../interfaces/_types_d_.encryptoptions.md) | JWE Encryption options.  |
 
-**Returns:** Promise\<string>
+**Returns:** Promise<string\>
 
 ___
 

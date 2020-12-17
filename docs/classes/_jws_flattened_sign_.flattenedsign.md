@@ -103,7 +103,7 @@ ___
 
 ### sign
 
-▸ **sign**(`key`: [KeyLike](../types/_types_d_.keylike.md), `options?`: [SignOptions](../interfaces/_types_d_.signoptions.md)): Promise\<[FlattenedJWS](../interfaces/_types_d_.flattenedjws.md)>
+▸ **sign**(`key`: [KeyLike](../types/_types_d_.keylike.md), `options?`: [SignOptions](../interfaces/_types_d_.signoptions.md)): Promise<[FlattenedJWS](../interfaces/_types_d_.flattenedjws.md)\>
 
 *Defined in [src/jws/flattened/sign.ts:97](https://github.com/panva/jose/blob/v3.5.0/src/jws/flattened/sign.ts#L97)*
 
@@ -116,4 +116,4 @@ Name | Type | Description |
 `key` | [KeyLike](../types/_types_d_.keylike.md) | Private Key or Secret to sign the JWS with. |
 `options?` | [SignOptions](../interfaces/_types_d_.signoptions.md) | JWS Sign options.  |
 
-**Returns:** Promise\<[FlattenedJWS](../interfaces/_types_d_.flattenedjws.md)>
+**Returns:** Promise<[FlattenedJWS](../interfaces/_types_d_.flattenedjws.md)\>

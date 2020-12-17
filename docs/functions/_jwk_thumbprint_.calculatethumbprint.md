@@ -1,6 +1,6 @@
 # Function: calculateThumbprint
 
-▸ **calculateThumbprint**(`jwk`: [JWK](../interfaces/_types_d_.jwk.md), `digestAlgorithm?`: \"sha256\" \| \"sha384\" \| \"sha512\"): Promise\<string>
+▸ **calculateThumbprint**(`jwk`: [JWK](../interfaces/_types_d_.jwk.md), `digestAlgorithm?`: \"sha256\" \| \"sha384\" \| \"sha512\"): Promise<string\>
 
 *Defined in [src/jwk/thumbprint.ts:47](https://github.com/panva/jose/blob/v3.5.0/src/jwk/thumbprint.ts#L47)*
 
@@ -38,4 +38,4 @@ Name | Type | Default value | Description |
 `jwk` | [JWK](../interfaces/_types_d_.jwk.md) | - | JSON Web Key. |
 `digestAlgorithm` | \"sha256\" \| \"sha384\" \| \"sha512\" | "sha256" | Digest Algorithm to use for calculating the thumbprint. Default is sha256. Accepted is "sha256", "sha384", "sha512".  |
 
-**Returns:** Promise\<string>
+**Returns:** Promise<string\>

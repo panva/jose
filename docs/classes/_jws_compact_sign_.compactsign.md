@@ -85,7 +85,7 @@ ___
 
 ### sign
 
-▸ **sign**(`key`: [KeyLike](../types/_types_d_.keylike.md), `options?`: [SignOptions](../interfaces/_types_d_.signoptions.md)): Promise\<string>
+▸ **sign**(`key`: [KeyLike](../types/_types_d_.keylike.md), `options?`: [SignOptions](../interfaces/_types_d_.signoptions.md)): Promise<string\>
 
 *Defined in [src/jws/compact/sign.ts:69](https://github.com/panva/jose/blob/v3.5.0/src/jws/compact/sign.ts#L69)*
 
@@ -98,4 +98,4 @@ Name | Type | Description |
 `key` | [KeyLike](../types/_types_d_.keylike.md) | Private Key or Secret to sign the JWS with. |
 `options?` | [SignOptions](../interfaces/_types_d_.signoptions.md) | JWS Sign options.  |
 
-**Returns:** Promise\<string>
+**Returns:** Promise<string\>

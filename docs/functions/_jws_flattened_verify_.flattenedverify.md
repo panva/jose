@@ -1,6 +1,6 @@
 # Function: flattenedVerify
 
-▸ **flattenedVerify**(`jws`: [FlattenedJWSInput](../interfaces/_types_d_.flattenedjwsinput.md), `key`: [KeyLike](../types/_types_d_.keylike.md) \| [FlattenedVerifyGetKey](../interfaces/_jws_flattened_verify_.flattenedverifygetkey.md), `options?`: [VerifyOptions](../interfaces/_types_d_.verifyoptions.md)): Promise\<[FlattenedVerifyResult](../interfaces/_types_d_.flattenedverifyresult.md)>
+▸ **flattenedVerify**(`jws`: [FlattenedJWSInput](../interfaces/_types_d_.flattenedjwsinput.md), `key`: [KeyLike](../types/_types_d_.keylike.md) \| [FlattenedVerifyGetKey](../interfaces/_jws_flattened_verify_.flattenedverifygetkey.md), `options?`: [VerifyOptions](../interfaces/_types_d_.verifyoptions.md)): Promise<[FlattenedVerifyResult](../interfaces/_types_d_.flattenedverifyresult.md)\>
 
 *Defined in [src/jws/flattened/verify.ts:75](https://github.com/panva/jose/blob/v3.5.0/src/jws/flattened/verify.ts#L75)*
 
@@ -51,4 +51,4 @@ Name | Type | Description |
 `key` | [KeyLike](../types/_types_d_.keylike.md) \| [FlattenedVerifyGetKey](../interfaces/_jws_flattened_verify_.flattenedverifygetkey.md) | Key, or a function resolving a key, to verify the JWS with. |
 `options?` | [VerifyOptions](../interfaces/_types_d_.verifyoptions.md) | JWS Verify options.  |
 
-**Returns:** Promise\<[FlattenedVerifyResult](../interfaces/_types_d_.flattenedverifyresult.md)>
+**Returns:** Promise<[FlattenedVerifyResult](../interfaces/_types_d_.flattenedverifyresult.md)\>

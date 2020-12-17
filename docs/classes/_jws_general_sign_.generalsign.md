@@ -102,10 +102,10 @@ ___
 
 ### sign
 
-▸ **sign**(): Promise\<[GeneralJWS](../interfaces/_types_d_.generaljws.md)>
+▸ **sign**(): Promise<[GeneralJWS](../interfaces/_types_d_.generaljws.md)\>
 
 *Defined in [src/jws/general/sign.ts:143](https://github.com/panva/jose/blob/v3.5.0/src/jws/general/sign.ts#L143)*
 
 Signs and resolves the value of the General JWS object.
 
-**Returns:** Promise\<[GeneralJWS](../interfaces/_types_d_.generaljws.md)>
+**Returns:** Promise<[GeneralJWS](../interfaces/_types_d_.generaljws.md)\>

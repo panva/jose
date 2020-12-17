@@ -141,7 +141,7 @@ ___
 
 ### oth
 
-• `Optional` **oth**: Array\<{ d?: string ; r?: string ; t?: string  }>
+• `Optional` **oth**: Array<{ d?: string ; r?: string ; t?: string  }\>
 
 *Defined in [src/types.d.ts:38](https://github.com/panva/jose/blob/v3.5.0/src/types.d.ts#L38)*
 

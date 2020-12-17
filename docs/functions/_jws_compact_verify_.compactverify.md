@@ -1,6 +1,6 @@
 # Function: compactVerify
 
-▸ **compactVerify**(`jws`: string \| Uint8Array, `key`: [KeyLike](../types/_types_d_.keylike.md) \| [CompactVerifyGetKey](../interfaces/_jws_compact_verify_.compactverifygetkey.md), `options?`: [VerifyOptions](../interfaces/_types_d_.verifyoptions.md)): Promise\<[CompactVerifyResult](../interfaces/_types_d_.compactverifyresult.md)>
+▸ **compactVerify**(`jws`: string \| Uint8Array, `key`: [KeyLike](../types/_types_d_.keylike.md) \| [CompactVerifyGetKey](../interfaces/_jws_compact_verify_.compactverifygetkey.md), `options?`: [VerifyOptions](../interfaces/_types_d_.verifyoptions.md)): Promise<[CompactVerifyResult](../interfaces/_types_d_.compactverifyresult.md)\>
 
 *Defined in [src/jws/compact/verify.ts:60](https://github.com/panva/jose/blob/v3.5.0/src/jws/compact/verify.ts#L60)*
 
@@ -47,4 +47,4 @@ Name | Type | Description |
 `key` | [KeyLike](../types/_types_d_.keylike.md) \| [CompactVerifyGetKey](../interfaces/_jws_compact_verify_.compactverifygetkey.md) | Key, or a function resolving a key, to verify the JWS with. |
 `options?` | [VerifyOptions](../interfaces/_types_d_.verifyoptions.md) | JWS Verify options.  |
 
-**Returns:** Promise\<[CompactVerifyResult](../interfaces/_types_d_.compactverifyresult.md)>
+**Returns:** Promise<[CompactVerifyResult](../interfaces/_types_d_.compactverifyresult.md)\>

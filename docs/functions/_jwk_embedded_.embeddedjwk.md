@@ -1,6 +1,6 @@
 # Function: EmbeddedJWK
 
-▸ **EmbeddedJWK**(`protectedHeader`: [JWSHeaderParameters](../interfaces/_types_d_.jwsheaderparameters.md), `token`: [FlattenedJWSInput](../interfaces/_types_d_.flattenedjwsinput.md)): Promise\<KeyObject \| CryptoKey>
+▸ **EmbeddedJWK**(`protectedHeader`: [JWSHeaderParameters](../interfaces/_types_d_.jwsheaderparameters.md), `token`: [FlattenedJWSInput](../interfaces/_types_d_.flattenedjwsinput.md)): Promise<KeyObject \| CryptoKey\>
 
 *Defined in [src/jwk/embedded.ts:43](https://github.com/panva/jose/blob/v3.5.0/src/jwk/embedded.ts#L43)*
 
@@ -45,4 +45,4 @@ Name | Type |
 `protectedHeader` | [JWSHeaderParameters](../interfaces/_types_d_.jwsheaderparameters.md) |
 `token` | [FlattenedJWSInput](../interfaces/_types_d_.flattenedjwsinput.md) |
 
-**Returns:** Promise\<KeyObject \| CryptoKey>
+**Returns:** Promise<KeyObject \| CryptoKey\>

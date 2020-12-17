@@ -1,6 +1,6 @@
 # Function: generalVerify
 
-▸ **generalVerify**(`jws`: [GeneralJWSInput](../interfaces/_types_d_.generaljwsinput.md), `key`: [KeyLike](../types/_types_d_.keylike.md) \| [GeneralVerifyGetKey](../interfaces/_jws_general_verify_.generalverifygetkey.md), `options?`: [VerifyOptions](../interfaces/_types_d_.verifyoptions.md)): Promise\<[GeneralVerifyResult](../interfaces/_types_d_.generalverifyresult.md)>
+▸ **generalVerify**(`jws`: [GeneralJWSInput](../interfaces/_types_d_.generaljwsinput.md), `key`: [KeyLike](../types/_types_d_.keylike.md) \| [GeneralVerifyGetKey](../interfaces/_jws_general_verify_.generalverifygetkey.md), `options?`: [VerifyOptions](../interfaces/_types_d_.verifyoptions.md)): Promise<[GeneralVerifyResult](../interfaces/_types_d_.generalverifyresult.md)\>
 
 *Defined in [src/jws/general/verify.ts:69](https://github.com/panva/jose/blob/v3.5.0/src/jws/general/verify.ts#L69)*
 
@@ -55,4 +55,4 @@ Name | Type | Description |
 `key` | [KeyLike](../types/_types_d_.keylike.md) \| [GeneralVerifyGetKey](../interfaces/_jws_general_verify_.generalverifygetkey.md) | Key, or a function resolving a key, to verify the JWS with. |
 `options?` | [VerifyOptions](../interfaces/_types_d_.verifyoptions.md) | JWS Verify options.  |
 
-**Returns:** Promise\<[GeneralVerifyResult](../interfaces/_types_d_.generalverifyresult.md)>
+**Returns:** Promise<[GeneralVerifyResult](../interfaces/_types_d_.generalverifyresult.md)\>
