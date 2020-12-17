@@ -141,6 +141,10 @@ export default class GeneralSign {
    * Signs and resolves the value of the General JWS object.
    */
   async sign(): Promise<GeneralJWS> {
+    if (!this._signatures.length) {
+      throw new JWSInvalid('at least one signature must be added')
+    }
+
     const jws: GeneralJWS = {
       signatures: [],
     }
