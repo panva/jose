@@ -4,6 +4,7 @@
     "../src/jwe/compact/decrypt.ts",
     "../src/jwe/flattened/encrypt.ts",
     "../src/jwe/flattened/decrypt.ts",
+    "../src/jwe/general/decrypt.ts",
 
     "../src/jws/compact/sign.ts",
     "../src/jws/compact/verify.ts",

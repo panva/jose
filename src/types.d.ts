@@ -316,6 +316,10 @@ export interface FlattenedJWE {
   unprotected?: JWEHeaderParameters
 }
 
+export interface GeneralJWE extends Omit<FlattenedJWE, 'encrypted_key' | 'header'> {
+  recipients: Pick<FlattenedJWE, 'encrypted_key' | 'header'>[]
+}
+
 /**
  * Recognized JWE Header Parameters, any other Header members
  * may also be present.
@@ -551,6 +555,8 @@ export interface FlattenedDecryptResult {
    */
   unprotectedHeader?: JWEHeaderParameters
 }
+
+export interface GeneralDecryptResult extends FlattenedDecryptResult {}
 
 export interface CompactDecryptResult {
   /**

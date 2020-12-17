@@ -91,6 +91,15 @@
       "import": "./dist/node/webcrypto/esm/jwe/flattened/encrypt.js",
       "require": "./dist/node/webcrypto/cjs/jwe/flattened/encrypt.js"
     },
+    "./jwe/general/decrypt": {
+      "browser": "./dist/browser/jwe/general/decrypt.js",
+      "import": "./dist/node/esm/jwe/general/decrypt.js",
+      "require": "./dist/node/cjs/jwe/general/decrypt.js"
+    },
+    "./webcrypto/jwe/general/decrypt": {
+      "import": "./dist/node/webcrypto/esm/jwe/general/decrypt.js",
+      "require": "./dist/node/webcrypto/cjs/jwe/general/decrypt.js"
+    },
     "./jwk/embedded": {
       "browser": "./dist/browser/jwk/embedded.js",
       "import": "./dist/node/esm/jwk/embedded.js",
