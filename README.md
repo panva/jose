@@ -39,7 +39,7 @@ npm install jose@3
     - [Decryption & Claims Set Validation](docs/functions/_jwt_decrypt_.jwtdecrypt.md#readme)
 - JSON Web Encryption (JWE)
   - Encryption - [Compact](docs/classes/_jwe_compact_encrypt_.compactencrypt.md#readme), [Flattened](docs/classes/_jwe_flattened_encrypt_.flattenedencrypt.md#readme)
-  - Decryption - [Compact](docs/functions/_jwe_compact_decrypt_.compactdecrypt.md#readme), [Flattened](docs/functions/_jwe_flattened_decrypt_.flatteneddecrypt.md#readme)
+  - Decryption - [Compact](docs/functions/_jwe_compact_decrypt_.compactdecrypt.md#readme), [Flattened](docs/functions/_jwe_flattened_decrypt_.flatteneddecrypt.md#readme), [General](docs/functions/_jwe_general_decrypt_.generaldecrypt.md#readme)
 - JSON Web Signature (JWS)
   - Signing - [Compact](docs/classes/_jws_compact_sign_.compactsign.md#readme), [Flattened](docs/classes/_jws_flattened_sign_.flattenedsign.md#readme), [General](docs/classes/_jws_general_sign_.generalsign.md#readme)
   - Verification - [Compact](docs/functions/_jws_compact_verify_.compactverify.md#readme), [Flattened](docs/functions/_jws_flattened_verify_.flattenedverify.md#readme), [General](docs/functions/_jws_general_verify_.generalverify.md#readme)
@@ -74,7 +74,7 @@ A continuously growing list of examples is available in the [tracker](https://gi
 | Serialization | JWS Sign | JWS Verify | JWE Encrypt | JWE Decrypt |
 | -- | -- | -- | -- | -- |
 | Compact | ✓ | ✓ | ✓ | ✓ |
-| General JSON | ✓ | ✓ | ✕ | ✕ |
+| General JSON | ✓ | ✓ | ✕ | ✓ |
 | Flattened JSON | ✓ | ✓ | ✓ | ✓ |
 
 | JWT Sign | JWT Verify | JWT Encrypt | JWT Decrypt |

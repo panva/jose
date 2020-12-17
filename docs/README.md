@@ -16,7 +16,7 @@ If you or your business use `jose`, please consider becoming a [sponsor][support
     - [Decryption & Claims Set Validation](functions/_jwt_decrypt_.jwtdecrypt.md#readme)
 - JSON Web Encryption (JWE)
   - Encryption - [Compact](classes/_jwe_compact_encrypt_.compactencrypt.md#readme), [Flattened](classes/_jwe_flattened_encrypt_.flattenedencrypt.md#readme)
-  - Decryption - [Compact](functions/_jwe_compact_decrypt_.compactdecrypt.md#readme), [Flattened](functions/_jwe_flattened_decrypt_.flatteneddecrypt.md#readme)
+  - Decryption - [Compact](functions/_jwe_compact_decrypt_.compactdecrypt.md#readme), [Flattened](functions/_jwe_flattened_decrypt_.flatteneddecrypt.md#readme), [General](functions/_jwe_general_decrypt_.generaldecrypt.md#readme)
 - JSON Web Signature (JWS)
   - Signing - [Compact](classes/_jws_compact_sign_.compactsign.md#readme), [Flattened](classes/_jws_flattened_sign_.flattenedsign.md#readme), [General](classes/_jws_general_sign_.generalsign.md#readme)
   - Verification - [Compact](functions/_jws_compact_verify_.compactverify.md#readme), [Flattened](functions/_jws_flattened_verify_.flattenedverify.md#readme), [General](functions/_jws_general_verify_.generalverify.md#readme)
