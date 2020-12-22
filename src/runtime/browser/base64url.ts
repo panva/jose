@@ -16,10 +16,14 @@ export const decode = (input: Uint8Array | string) => {
     encoded = decoder.decode(encoded)
   }
   encoded = encoded.replace(/-/g, '+').replace(/_/g, '/').replace(/\s/g, '')
-  return new Uint8Array(
-    globalThis
-      .atob(encoded)
-      .split('')
-      .map((c) => c.charCodeAt(0)),
-  )
+  try {
+    return new Uint8Array(
+      globalThis
+        .atob(encoded)
+        .split('')
+        .map((c) => c.charCodeAt(0)),
+    )
+  } catch {
+    throw new TypeError('The input to be decoded is not correctly encoded.')
+  }
 }
