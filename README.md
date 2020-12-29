@@ -194,9 +194,7 @@ in the runtime already, those are often times faster and more reliable.
 #### Bundle Size, Package Size, Tree Shaking
 
 Yes the bundle size is on the larger side, that is because each module is actually published 
-5 times so that it can remain truly without dependencies and be universal / isomorphic.
-The source TS files are also published with inline docs so that your IDE's Intelligent code 
-completion works and has the exact same documentation as published.
+multiple times so that it can remain truly without dependencies and be universal / isomorphic.
 
 Nevertheless, since each module can be required independently and is fully tree-shakeable, the
 install size should not be a cause for concern.
