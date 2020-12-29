@@ -8,7 +8,7 @@ import jwtPayload from '../lib/jwt_claims_set.js'
 import ProduceJWT from '../lib/jwt_producer.js'
 
 /**
- * The UnsecuredJWT class is a utility for creating `{ "alg": "none" }` Unsecured JWTs.
+ * The UnsecuredJWT class is a utility for dealing with `{ "alg": "none" }` Unsecured JWTs.
  *
  * @example
  * ```

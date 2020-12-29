@@ -1,6 +1,6 @@
 # Class: UnsecuredJWT
 
-The UnsecuredJWT class is a utility for creating `{ "alg": "none" }` Unsecured JWTs.
+The UnsecuredJWT class is a utility for dealing with `{ "alg": "none" }` Unsecured JWTs.
 
 **`example`** 
 ```js
