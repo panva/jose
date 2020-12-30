@@ -12,13 +12,12 @@ const browsers = {
     browser_version: "63.0",
     os_version: "10",
   },
-  // 84 has a bug where localhost is not treated as secure context and crypto.subtle is undefined
-  // firefox_latest: {
-  //   base: "BrowserStack",
-  //   browser: "firefox",
-  //   os: "Windows",
-  //   os_version: "10",
-  // },
+  firefox_latest: {
+    base: "BrowserStack",
+    browser: "firefox",
+    os: "Windows",
+    os_version: "10",
+  },
   firefox_lowest: {
     base: "BrowserStack",
     browser: "firefox",
@@ -90,7 +89,7 @@ const browsers = {
 module.exports = function (config) {
   config.set({
     basePath: "",
-    hostname: "localhost",
+    hostname: "127.0.0.1",
     frameworks: ["qunit"],
     plugins: [
       "karma-qunit",
