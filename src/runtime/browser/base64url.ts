@@ -6,12 +6,12 @@ export const encode = (input: Uint8Array | string) => {
   if (typeof unencoded === 'string') {
     unencoded = encoder.encode(unencoded)
   }
-  const CHUNK_SIZE = 0x8000;
-  const arr = [];
+  const CHUNK_SIZE = 0x8000
+  const arr = []
   for (let i = 0; i < unencoded.length; i += CHUNK_SIZE) {
-    arr.push(String.fromCharCode.apply(null, unencoded.subarray(i, i+CHUNK_SIZE)));
+    arr.push(String.fromCharCode.apply(null, unencoded.subarray(i, i + CHUNK_SIZE)))
   }
-  const base64string = globalThis.btoa(arr.join(''));
+  const base64string = globalThis.btoa(arr.join(''))
   return base64string.replace(/=/g, '').replace(/\+/g, '-').replace(/\//g, '_')
 }
 
