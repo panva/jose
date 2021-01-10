@@ -2,7 +2,7 @@
 
 ▸ **flattenedDecrypt**(`jwe`: [FlattenedJWE](../interfaces/_types_d_.flattenedjwe.md), `key`: [KeyLike](../types/_types_d_.keylike.md) \| [FlattenedDecryptGetKey](../interfaces/_jwe_flattened_decrypt_.flatteneddecryptgetkey.md), `options?`: [DecryptOptions](../interfaces/_types_d_.decryptoptions.md)): Promise<[FlattenedDecryptResult](../interfaces/_types_d_.flatteneddecryptresult.md)\>
 
-*Defined in [src/jwe/flattened/decrypt.ts:92](https://github.com/panva/jose/blob/v3.5.0/src/jwe/flattened/decrypt.ts#L92)*
+*Defined in [src/jwe/flattened/decrypt.ts:92](https://github.com/panva/jose/blob/v3.5.1/src/jwe/flattened/decrypt.ts#L92)*
 
 Decrypts a Flattened JWE.
 

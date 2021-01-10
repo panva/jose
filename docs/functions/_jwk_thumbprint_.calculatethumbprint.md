@@ -2,7 +2,7 @@
 
 ▸ **calculateThumbprint**(`jwk`: [JWK](../interfaces/_types_d_.jwk.md), `digestAlgorithm?`: \"sha256\" \| \"sha384\" \| \"sha512\"): Promise<string\>
 
-*Defined in [src/jwk/thumbprint.ts:47](https://github.com/panva/jose/blob/v3.5.0/src/jwk/thumbprint.ts#L47)*
+*Defined in [src/jwk/thumbprint.ts:47](https://github.com/panva/jose/blob/v3.5.1/src/jwk/thumbprint.ts#L47)*
 
 Calculates a base64url-encoded JSON Web Key (JWK) Thumbprint as per
 [RFC7638](https://tools.ietf.org/html/rfc7638).

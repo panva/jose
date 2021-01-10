@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [3.5.1](https://github.com/panva/jose/compare/v3.5.0...v3.5.1) (2021-01-10)
+
+
+### Bug Fixes
+
+* workaround for RangeError in browser runtime base64url ([ed32b0d](https://github.com/panva/jose/commit/ed32b0d46ee570e405e0d88b43aecd8ef6fea129))
+
 ## [3.5.0](https://github.com/panva/jose/compare/v3.4.0...v3.5.0) (2020-12-17)
 
 
