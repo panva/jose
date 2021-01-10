@@ -52,9 +52,8 @@ export default async function EmbeddedJWK(
     throw new JWSInvalid('"jwk" (JSON Web Key) Header Parameter must be a JSON object')
   }
 
-  const key = (await parseJwk(joseHeader.jwk!, joseHeader.alg!, true)) as
-    | CryptoKey
-    | KeyObject
+  // eslint-disable-next-line @typescript-eslint/keyword-spacing
+  const key = <CryptoKey | KeyObject>await parseJwk(joseHeader.jwk!, joseHeader.alg!, true)
 
   if (key.type !== 'public') {
     throw new JWSInvalid('"jwk" (JSON Web Key) Header Parameter must be a public key')
