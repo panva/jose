@@ -7,7 +7,7 @@ const { sync: glob } = require("glob");
 const readme = readFileSync("docs/README.md");
 const tagName = `v${version}`;
 
-execSync('find docs -type d | grep "docs/" | xargs rm -r');
+execSync('find docs -type d | grep "docs/" | xargs rm -rf');
 writeFileSync(
   "node_modules/typedoc-plugin-markdown/dist/resources/partials/member.sources.hbs",
   readFileSync("tools/member.sources.hbs")
