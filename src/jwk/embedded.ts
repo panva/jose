@@ -44,15 +44,15 @@ export default async function EmbeddedJWK(
   protectedHeader: JWSHeaderParameters,
   token: FlattenedJWSInput,
 ) {
-  const combinedHeader = {
+  const joseHeader = {
     ...protectedHeader,
     ...token.header,
   }
-  if (!isObject(combinedHeader.jwk)) {
+  if (!isObject(joseHeader.jwk)) {
     throw new JWSInvalid('"jwk" (JSON Web Key) Header Parameter must be a JSON object')
   }
 
-  const key = (await parseJwk(combinedHeader.jwk!, combinedHeader.alg!, true)) as
+  const key = (await parseJwk(joseHeader.jwk!, joseHeader.alg!, true)) as
     | CryptoKey
     | KeyObject
 
