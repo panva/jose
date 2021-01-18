@@ -8,7 +8,22 @@ const secp256k1 = Buffer.from([43, 129, 4, 0, 10])
 
 export const weakMap: WeakMap<KeyObject, string> = new WeakMap()
 
-const getNamedCurve = (key: KeyObject): string => {
+const namedCurveToJOSE = (namedCurve: string) => {
+  switch (namedCurve) {
+    case 'prime256v1':
+      return 'P-256'
+    case 'secp384r1':
+      return 'P-384'
+    case 'secp521r1':
+      return 'P-521'
+    case 'secp256k1':
+      return namedCurve
+    default:
+      throw new JOSENotSupported('unsupported curve for this operation')
+  }
+}
+
+const getNamedCurve = (key: KeyObject, raw?: boolean): string => {
   if (key.type === 'secret') {
     throw new TypeError('only "private" or "public" key objects can be used for this operation')
   }
@@ -21,31 +36,33 @@ const getNamedCurve = (key: KeyObject): string => {
       return `X${key.asymmetricKeyType.substr(1)}`
     case 'ec': {
       if (weakMap.has(key)) {
-        return <string>weakMap.get(key)
+        return weakMap.get(key)!
       }
 
-      if (key.type === 'private') {
-        const curve = getNamedCurve(createPublicKey(key))
-        weakMap.set(key, curve)
-        return curve
+      // @ts-expect-error
+      let namedCurve: string = key.asymmetricKeyDetails?.namedCurve
+
+      if (!namedCurve && key.type === 'private') {
+        namedCurve = getNamedCurve(createPublicKey(key), true)
+      } else if (!namedCurve) {
+        const buf = key.export({ format: 'der', type: 'spki' })
+        const i = buf[1] < 128 ? 14 : 15
+        const len = buf[i]
+        const curveOid = buf.slice(i + 1, i + 1 + len)
+        if (curveOid.equals(p256)) {
+          namedCurve = 'prime256v1'
+        } else if (curveOid.equals(p384)) {
+          namedCurve = 'secp384r1'
+        } else if (curveOid.equals(p521)) {
+          namedCurve = 'secp521r1'
+        } else if (curveOid.equals(secp256k1)) {
+          namedCurve = 'secp256k1'
+        }
       }
 
-      const buf = key.export({ format: 'der', type: 'spki' })
-      const i = buf[1] < 128 ? 14 : 15
-      const len = buf[i]
-      const curveOid = buf.slice(i + 1, i + 1 + len)
-      let curve: string
-      if (curveOid.equals(p256)) {
-        curve = 'P-256'
-      } else if (curveOid.equals(p384)) {
-        curve = 'P-384'
-      } else if (curveOid.equals(p521)) {
-        curve = 'P-521'
-      } else if (curveOid.equals(secp256k1)) {
-        curve = 'secp256k1'
-      } else {
-        throw new JOSENotSupported('unsupported curve for this operation')
-      }
+      if (raw) return namedCurve
+
+      const curve = namedCurveToJOSE(namedCurve)
       weakMap.set(key, curve)
       return curve
     }

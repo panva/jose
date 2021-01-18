@@ -48,13 +48,16 @@ const getModulusLength = (key: KeyObject): number => {
     return weakMap.get(key)!
   }
 
-  const modulusLength =
+  const modulusLength: number =
+    // @ts-expect-error
+    key.asymmetricKeyDetails?.modulusLength ??
     (getLengthOfSeqIndex(
       key.export({ format: 'der', type: 'pkcs1' }),
       key.type === 'private' ? 1 : 0,
     ) -
       1) <<
-    3
+      3
+
   weakMap.set(key, modulusLength)
   return modulusLength
 }

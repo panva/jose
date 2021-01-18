@@ -72,8 +72,8 @@ Promise.all([import(`${root}/jwk/parse`), import(`${root}/jwk/from_key_like`)]).
       };
 
       t.deepEqual(
-        await parseJwk(oct, 'HS256'),
-        Uint8Array.from([
+        [...(await parseJwk(oct, 'HS256'))],
+        [
           23,
           32,
           170,
@@ -106,7 +106,7 @@ Promise.all([import(`${root}/jwk/parse`), import(`${root}/jwk/from_key_like`)]).
           17,
           146,
           114,
-        ]),
+        ],
       );
     });
 
