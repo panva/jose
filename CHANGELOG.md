@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [2.0.4](https://github.com/panva/jose/compare/v2.0.3...v2.0.4) (2021-01-18)
+
+
+### Performance
+
+* improve base64url encoding when available in Node.js ([d5af559](https://github.com/panva/jose/commit/d5af559a94f51ee82951e1def5c5c5749dfa290a))
+
 ## [2.0.3](https://github.com/panva/jose/compare/v2.0.2...v2.0.3) (2020-10-29)
 
 
