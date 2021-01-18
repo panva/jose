@@ -71,7 +71,7 @@ const jws = await sign.sign()
 
 \+ **new GeneralSign**(`payload`: Uint8Array): [GeneralSign](_jws_general_sign_.generalsign.md)
 
-*Defined in [src/jws/general/sign.ts:124](https://github.com/panva/jose/blob/v3.5.1/src/jws/general/sign.ts#L124)*
+*Defined in [src/jws/general/sign.ts:124](https://github.com/panva/jose/blob/v3.5.2/src/jws/general/sign.ts#L124)*
 
 #### Parameters:
 
@@ -87,7 +87,7 @@ Name | Type | Description |
 
 ▸ **addSignature**(`key`: [KeyLike](../types/_types_d_.keylike.md), `options?`: [SignOptions](../interfaces/_types_d_.signoptions.md)): [Signature](../interfaces/_jws_general_sign_.signature.md)
 
-*Defined in [src/jws/general/sign.ts:133](https://github.com/panva/jose/blob/v3.5.1/src/jws/general/sign.ts#L133)*
+*Defined in [src/jws/general/sign.ts:133](https://github.com/panva/jose/blob/v3.5.2/src/jws/general/sign.ts#L133)*
 
 #### Parameters:
 
@@ -104,7 +104,7 @@ ___
 
 ▸ **sign**(): Promise<[GeneralJWS](../interfaces/_types_d_.generaljws.md)\>
 
-*Defined in [src/jws/general/sign.ts:143](https://github.com/panva/jose/blob/v3.5.1/src/jws/general/sign.ts#L143)*
+*Defined in [src/jws/general/sign.ts:143](https://github.com/panva/jose/blob/v3.5.2/src/jws/general/sign.ts#L143)*
 
 Signs and resolves the value of the General JWS object.
 

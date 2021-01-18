@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [3.5.2](https://github.com/panva/jose/compare/v3.5.1...v3.5.2) (2021-01-18)
+
+
+### Performance
+
+* use 'base64url' encoding when available in Node.js runtime ([808f06c](https://github.com/panva/jose/commit/808f06cd08b10cf53343afb35802cc6e5b95ea20))
+* use KeyObject.prototype asymmetricKeyDetails when available ([ad88ee2](https://github.com/panva/jose/commit/ad88ee2cd5bcaee3c3e5ec79735c8172ae2725be))
+
 ## [3.5.1](https://github.com/panva/jose/compare/v3.5.0...v3.5.1) (2021-01-10)
 
 

@@ -2,7 +2,7 @@
 
 ▸ **generalVerify**(`jws`: [GeneralJWSInput](../interfaces/_types_d_.generaljwsinput.md), `key`: [KeyLike](../types/_types_d_.keylike.md) \| [GeneralVerifyGetKey](../interfaces/_jws_general_verify_.generalverifygetkey.md), `options?`: [VerifyOptions](../interfaces/_types_d_.verifyoptions.md)): Promise<[GeneralVerifyResult](../interfaces/_types_d_.generalverifyresult.md)\>
 
-*Defined in [src/jws/general/verify.ts:69](https://github.com/panva/jose/blob/v3.5.1/src/jws/general/verify.ts#L69)*
+*Defined in [src/jws/general/verify.ts:69](https://github.com/panva/jose/blob/v3.5.2/src/jws/general/verify.ts#L69)*
 
 Verifies the signature and format of and afterwards decodes the General JWS.
 

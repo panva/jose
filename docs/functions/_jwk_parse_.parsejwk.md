@@ -2,7 +2,7 @@
 
 ▸ **parseJwk**(`jwk`: [JWK](../interfaces/_types_d_.jwk.md), `alg?`: string, `octAsKeyObject?`: false \| true): Promise<[KeyLike](../types/_types_d_.keylike.md)\>
 
-*Defined in [src/jwk/parse.ts:50](https://github.com/panva/jose/blob/v3.5.1/src/jwk/parse.ts#L50)*
+*Defined in [src/jwk/parse.ts:50](https://github.com/panva/jose/blob/v3.5.2/src/jwk/parse.ts#L50)*
 
 Converts a JWK to a runtime-specific key representation (KeyLike). Either
 JWK "alg" (Algorithm) Parameter must be present or the optional "alg" argument. When
