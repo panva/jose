@@ -21,7 +21,7 @@ An error subclass thrown when a JWT is invalid.
 
 \+ **new JWTInvalid**(`message?`: string): [JWTInvalid](_util_errors_.jwtinvalid.md)
 
-*Defined in [src/util/errors.ts:11](https://github.com/panva/jose/blob/v3.5.2/src/util/errors.ts#L11)*
+*Defined in [src/util/errors.ts:11](https://github.com/panva/jose/blob/v3.5.3/src/util/errors.ts#L11)*
 
 #### Parameters:
 
@@ -39,7 +39,7 @@ Name | Type |
 
 *Overrides [JOSEError](_util_errors_.joseerror.md).[code](_util_errors_.joseerror.md#code)*
 
-*Defined in [src/util/errors.ts:87](https://github.com/panva/jose/blob/v3.5.2/src/util/errors.ts#L87)*
+*Defined in [src/util/errors.ts:87](https://github.com/panva/jose/blob/v3.5.3/src/util/errors.ts#L87)*
 
 ___
 

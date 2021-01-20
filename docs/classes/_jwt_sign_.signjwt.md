@@ -63,7 +63,7 @@ console.log(jwt)
 
 \+ **new SignJWT**(`payload`: [JWTPayload](../interfaces/_types_d_.jwtpayload.md)): [SignJWT](_jwt_sign_.signjwt.md)
 
-*Defined in [src/lib/jwt_producer.ts:10](https://github.com/panva/jose/blob/v3.5.2/src/lib/jwt_producer.ts#L10)*
+*Defined in [src/lib/jwt_producer.ts:10](https://github.com/panva/jose/blob/v3.5.3/src/lib/jwt_producer.ts#L10)*
 
 #### Parameters:
 
@@ -79,7 +79,7 @@ Name | Type | Description |
 
 ▸ **setAudience**(`audience`: string \| string[]): this
 
-*Defined in [src/lib/jwt_producer.ts:47](https://github.com/panva/jose/blob/v3.5.2/src/lib/jwt_producer.ts#L47)*
+*Defined in [src/lib/jwt_producer.ts:47](https://github.com/panva/jose/blob/v3.5.3/src/lib/jwt_producer.ts#L47)*
 
 Set "aud" (Audience) Claim.
 
@@ -97,7 +97,7 @@ ___
 
 ▸ **setExpirationTime**(`input`: number \| string): this
 
-*Defined in [src/lib/jwt_producer.ts:85](https://github.com/panva/jose/blob/v3.5.2/src/lib/jwt_producer.ts#L85)*
+*Defined in [src/lib/jwt_producer.ts:85](https://github.com/panva/jose/blob/v3.5.3/src/lib/jwt_producer.ts#L85)*
 
 Set "exp" (Expiration Time) Claim.
 
@@ -115,7 +115,7 @@ ___
 
 ▸ **setIssuedAt**(`input?`: number): this
 
-*Defined in [src/lib/jwt_producer.ts:100](https://github.com/panva/jose/blob/v3.5.2/src/lib/jwt_producer.ts#L100)*
+*Defined in [src/lib/jwt_producer.ts:100](https://github.com/panva/jose/blob/v3.5.3/src/lib/jwt_producer.ts#L100)*
 
 Set "iat" (Issued At) Claim.
 
@@ -133,7 +133,7 @@ ___
 
 ▸ **setIssuer**(`issuer`: string): this
 
-*Defined in [src/lib/jwt_producer.ts:27](https://github.com/panva/jose/blob/v3.5.2/src/lib/jwt_producer.ts#L27)*
+*Defined in [src/lib/jwt_producer.ts:27](https://github.com/panva/jose/blob/v3.5.3/src/lib/jwt_producer.ts#L27)*
 
 Set "iss" (Issuer) Claim.
 
@@ -151,7 +151,7 @@ ___
 
 ▸ **setJti**(`jwtId`: string): this
 
-*Defined in [src/lib/jwt_producer.ts:57](https://github.com/panva/jose/blob/v3.5.2/src/lib/jwt_producer.ts#L57)*
+*Defined in [src/lib/jwt_producer.ts:57](https://github.com/panva/jose/blob/v3.5.3/src/lib/jwt_producer.ts#L57)*
 
 Set "jti" (JWT ID) Claim.
 
@@ -169,7 +169,7 @@ ___
 
 ▸ **setNotBefore**(`input`: number \| string): this
 
-*Defined in [src/lib/jwt_producer.ts:69](https://github.com/panva/jose/blob/v3.5.2/src/lib/jwt_producer.ts#L69)*
+*Defined in [src/lib/jwt_producer.ts:69](https://github.com/panva/jose/blob/v3.5.3/src/lib/jwt_producer.ts#L69)*
 
 Set "nbf" (Not Before) Claim.
 
@@ -187,7 +187,7 @@ ___
 
 ▸ **setProtectedHeader**(`protectedHeader`: [JWSHeaderParameters](../interfaces/_types_d_.jwsheaderparameters.md)): this
 
-*Defined in [src/jwt/sign.ts:57](https://github.com/panva/jose/blob/v3.5.2/src/jwt/sign.ts#L57)*
+*Defined in [src/jwt/sign.ts:57](https://github.com/panva/jose/blob/v3.5.3/src/jwt/sign.ts#L57)*
 
 Sets the JWS Protected Header on the SignJWT object.
 
@@ -205,7 +205,7 @@ ___
 
 ▸ **setSubject**(`subject`: string): this
 
-*Defined in [src/lib/jwt_producer.ts:37](https://github.com/panva/jose/blob/v3.5.2/src/lib/jwt_producer.ts#L37)*
+*Defined in [src/lib/jwt_producer.ts:37](https://github.com/panva/jose/blob/v3.5.3/src/lib/jwt_producer.ts#L37)*
 
 Set "sub" (Subject) Claim.
 
@@ -223,7 +223,7 @@ ___
 
 ▸ **sign**(`key`: [KeyLike](../types/_types_d_.keylike.md), `options?`: [SignOptions](../interfaces/_types_d_.signoptions.md)): Promise<string\>
 
-*Defined in [src/jwt/sign.ts:68](https://github.com/panva/jose/blob/v3.5.2/src/jwt/sign.ts#L68)*
+*Defined in [src/jwt/sign.ts:68](https://github.com/panva/jose/blob/v3.5.3/src/jwt/sign.ts#L68)*
 
 Signs and returns the JWT.
 

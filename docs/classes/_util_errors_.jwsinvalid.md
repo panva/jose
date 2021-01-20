@@ -21,7 +21,7 @@ An error subclass thrown when a JWS is invalid.
 
 \+ **new JWSInvalid**(`message?`: string): [JWSInvalid](_util_errors_.jwsinvalid.md)
 
-*Defined in [src/util/errors.ts:11](https://github.com/panva/jose/blob/v3.5.2/src/util/errors.ts#L11)*
+*Defined in [src/util/errors.ts:11](https://github.com/panva/jose/blob/v3.5.3/src/util/errors.ts#L11)*
 
 #### Parameters:
 
@@ -39,7 +39,7 @@ Name | Type |
 
 *Overrides [JOSEError](_util_errors_.joseerror.md).[code](_util_errors_.joseerror.md#code)*
 
-*Defined in [src/util/errors.ts:80](https://github.com/panva/jose/blob/v3.5.2/src/util/errors.ts#L80)*
+*Defined in [src/util/errors.ts:80](https://github.com/panva/jose/blob/v3.5.3/src/util/errors.ts#L80)*
 
 ___
 

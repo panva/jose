@@ -31,7 +31,7 @@ Any other JWE Header member.
 
 • `Optional` **alg**: string
 
-*Defined in [src/types.d.ts:331](https://github.com/panva/jose/blob/v3.5.2/src/types.d.ts#L331)*
+*Defined in [src/types.d.ts:331](https://github.com/panva/jose/blob/v3.5.3/src/types.d.ts#L331)*
 
 JWE "alg" (Algorithm) Header Parameter.
 
@@ -41,7 +41,7 @@ ___
 
 • `Optional` **crit**: string[]
 
-*Defined in [src/types.d.ts:341](https://github.com/panva/jose/blob/v3.5.2/src/types.d.ts#L341)*
+*Defined in [src/types.d.ts:341](https://github.com/panva/jose/blob/v3.5.3/src/types.d.ts#L341)*
 
 JWE "crit" (Critical) Header Parameter.
 
@@ -51,7 +51,7 @@ ___
 
 • `Optional` **cty**: string
 
-*Defined in [src/types.d.ts:208](https://github.com/panva/jose/blob/v3.5.2/src/types.d.ts#L208)*
+*Defined in [src/types.d.ts:208](https://github.com/panva/jose/blob/v3.5.3/src/types.d.ts#L208)*
 
 "cty" (Content Type) Header Parameter.
 
@@ -61,7 +61,7 @@ ___
 
 • `Optional` **enc**: string
 
-*Defined in [src/types.d.ts:336](https://github.com/panva/jose/blob/v3.5.2/src/types.d.ts#L336)*
+*Defined in [src/types.d.ts:336](https://github.com/panva/jose/blob/v3.5.3/src/types.d.ts#L336)*
 
 JWE "enc" (Encryption Algorithm) Header Parameter.
 
@@ -71,7 +71,7 @@ ___
 
 • `Optional` **jwk**: Pick<[JWK](_types_d_.jwk.md), \"kty\" \| \"crv\" \| \"x\" \| \"y\" \| \"e\" \| \"n\"\>
 
-*Defined in [src/types.d.ts:198](https://github.com/panva/jose/blob/v3.5.2/src/types.d.ts#L198)*
+*Defined in [src/types.d.ts:198](https://github.com/panva/jose/blob/v3.5.3/src/types.d.ts#L198)*
 
 "jwk" (JSON Web Key) Header Parameter.
 
@@ -81,7 +81,7 @@ ___
 
 • `Optional` **kid**: string
 
-*Defined in [src/types.d.ts:178](https://github.com/panva/jose/blob/v3.5.2/src/types.d.ts#L178)*
+*Defined in [src/types.d.ts:178](https://github.com/panva/jose/blob/v3.5.3/src/types.d.ts#L178)*
 
 "kid" (Key ID) Header Parameter.
 
@@ -91,7 +91,7 @@ ___
 
 • `Optional` **typ**: string
 
-*Defined in [src/types.d.ts:203](https://github.com/panva/jose/blob/v3.5.2/src/types.d.ts#L203)*
+*Defined in [src/types.d.ts:203](https://github.com/panva/jose/blob/v3.5.3/src/types.d.ts#L203)*
 
 "typ" (Type) Header Parameter.
 
@@ -101,7 +101,7 @@ ___
 
 • `Optional` **x5c**: string[]
 
-*Defined in [src/types.d.ts:188](https://github.com/panva/jose/blob/v3.5.2/src/types.d.ts#L188)*
+*Defined in [src/types.d.ts:188](https://github.com/panva/jose/blob/v3.5.3/src/types.d.ts#L188)*
 
 "x5c" (X.509 Certificate Chain) Header Parameter.
 
@@ -111,7 +111,7 @@ ___
 
 • `Optional` **x5t**: string
 
-*Defined in [src/types.d.ts:183](https://github.com/panva/jose/blob/v3.5.2/src/types.d.ts#L183)*
+*Defined in [src/types.d.ts:183](https://github.com/panva/jose/blob/v3.5.3/src/types.d.ts#L183)*
 
 "x5t" (X.509 Certificate SHA-1 Thumbprint) Header Parameter.
 
@@ -121,7 +121,7 @@ ___
 
 • `Optional` **x5u**: string
 
-*Defined in [src/types.d.ts:193](https://github.com/panva/jose/blob/v3.5.2/src/types.d.ts#L193)*
+*Defined in [src/types.d.ts:193](https://github.com/panva/jose/blob/v3.5.3/src/types.d.ts#L193)*
 
 "x5u" (X.509 URL) Header Parameter.
 
@@ -131,6 +131,6 @@ ___
 
 • `Optional` **zip**: string
 
-*Defined in [src/types.d.ts:346](https://github.com/panva/jose/blob/v3.5.2/src/types.d.ts#L346)*
+*Defined in [src/types.d.ts:346](https://github.com/panva/jose/blob/v3.5.3/src/types.d.ts#L346)*
 
 JWE "zip" (Compression Algorithm) Header Parameter.

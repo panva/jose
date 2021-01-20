@@ -2,7 +2,7 @@
 
 ▸ **generalDecrypt**(`jwe`: [GeneralJWE](../interfaces/_types_d_.generaljwe.md), `key`: [KeyLike](../types/_types_d_.keylike.md) \| [GeneralDecryptGetKey](../interfaces/_jwe_general_decrypt_.generaldecryptgetkey.md), `options?`: [DecryptOptions](../interfaces/_types_d_.decryptoptions.md)): Promise<[GeneralDecryptResult](../interfaces/_types_d_.generaldecryptresult.md)\>
 
-*Defined in [src/jwe/general/decrypt.ts:80](https://github.com/panva/jose/blob/v3.5.2/src/jwe/general/decrypt.ts#L80)*
+*Defined in [src/jwe/general/decrypt.ts:80](https://github.com/panva/jose/blob/v3.5.3/src/jwe/general/decrypt.ts#L80)*
 
 Decrypts a General JWE.
 

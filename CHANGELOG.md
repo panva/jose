@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [3.5.3](https://github.com/panva/jose/compare/v3.5.2...v3.5.3) (2021-01-20)
+
+
+### Bug Fixes
+
+* workaround downstream dependency issues messing with http ([2e58005](https://github.com/panva/jose/commit/2e5800535ab72ab35f3abfaab7493163d8b0494e)), closes [#154](https://github.com/panva/jose/issues/154)
+
 ## [3.5.2](https://github.com/panva/jose/compare/v3.5.1...v3.5.2) (2021-01-18)
 
 
