@@ -1,5 +1,4 @@
-import { get as http } from 'http'
-import type { ClientRequest } from 'http'
+import { get as http, ClientRequest } from 'http'
 import { get as https, RequestOptions } from 'https'
 
 import type { FetchFunction } from '../interfaces.d'
