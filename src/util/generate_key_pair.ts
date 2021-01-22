@@ -1,5 +1,5 @@
-import type { KeyObject } from 'crypto'
 import { generateKeyPair as generate } from '../runtime/generate.js'
+import type { KeyLike } from '../types.js'
 
 export interface GenerateKeyPairOptions {
   /**
@@ -47,6 +47,6 @@ export interface GenerateKeyPairOptions {
 export default async function generateKeyPair(
   alg: string,
   options?: GenerateKeyPairOptions,
-): Promise<{ privateKey: CryptoKey | KeyObject; publicKey: CryptoKey | KeyObject }> {
+): Promise<{ privateKey: KeyLike; publicKey: KeyLike }> {
   return generate(alg, options)
 }
