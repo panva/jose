@@ -27,7 +27,7 @@ If you or your business use `jose`, please consider becoming a [sponsor][support
   - [EmbeddedJWK](functions/_jwk_embedded_.embeddedjwk.md#readme)
 - JSON Web Key Set (JWKS)
   - [Verify using a remote JWKSet](functions/_jwks_remote_.createremotejwkset.md#readme)
-- Key Pair or Secret Generation
+- Key Pair or Secret Generation (Generate KeyLike)
   - [Asymmetric Key Pair Generation](functions/_util_generate_key_pair_.generatekeypair.md#readme)
   - [Symmetric Secret Generation](functions/_util_generate_secret_.generatesecret.md#readme)
 - Utilities

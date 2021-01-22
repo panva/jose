@@ -50,7 +50,7 @@ npm install jose@3
   - [EmbeddedJWK](docs/functions/_jwk_embedded_.embeddedjwk.md#readme)
 - JSON Web Key Set (JWKS)
   - [Verify using a remote JWKSet](docs/functions/_jwks_remote_.createremotejwkset.md#readme)
-- Key Pair or Secret Generation
+- Key Pair or Secret Generation (Generate KeyLike)
   - [Asymmetric Key Pair Generation](docs/functions/_util_generate_key_pair_.generatekeypair.md#readme)
   - [Symmetric Secret Generation](docs/functions/_util_generate_secret_.generatesecret.md#readme)
 - Utilities
