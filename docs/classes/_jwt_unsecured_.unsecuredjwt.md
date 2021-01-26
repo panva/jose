@@ -64,7 +64,7 @@ console.log(payload)
 
 \+ **new UnsecuredJWT**(`payload`: [JWTPayload](../interfaces/_types_d_.jwtpayload.md)): [UnsecuredJWT](_jwt_unsecured_.unsecuredjwt.md)
 
-*Defined in [src/lib/jwt_producer.ts:10](https://github.com/panva/jose/blob/v3.5.3/src/lib/jwt_producer.ts#L10)*
+*Defined in [src/lib/jwt_producer.ts:10](https://github.com/panva/jose/blob/v3.5.4/src/lib/jwt_producer.ts#L10)*
 
 #### Parameters:
 
@@ -80,7 +80,7 @@ Name | Type | Description |
 
 ▸ **encode**(): string
 
-*Defined in [src/jwt/unsecured.ts:55](https://github.com/panva/jose/blob/v3.5.3/src/jwt/unsecured.ts#L55)*
+*Defined in [src/jwt/unsecured.ts:55](https://github.com/panva/jose/blob/v3.5.4/src/jwt/unsecured.ts#L55)*
 
 Encodes the Unsecured JWT.
 
@@ -92,7 +92,7 @@ ___
 
 ▸ **setAudience**(`audience`: string \| string[]): this
 
-*Defined in [src/lib/jwt_producer.ts:47](https://github.com/panva/jose/blob/v3.5.3/src/lib/jwt_producer.ts#L47)*
+*Defined in [src/lib/jwt_producer.ts:47](https://github.com/panva/jose/blob/v3.5.4/src/lib/jwt_producer.ts#L47)*
 
 Set "aud" (Audience) Claim.
 
@@ -110,7 +110,7 @@ ___
 
 ▸ **setExpirationTime**(`input`: number \| string): this
 
-*Defined in [src/lib/jwt_producer.ts:85](https://github.com/panva/jose/blob/v3.5.3/src/lib/jwt_producer.ts#L85)*
+*Defined in [src/lib/jwt_producer.ts:85](https://github.com/panva/jose/blob/v3.5.4/src/lib/jwt_producer.ts#L85)*
 
 Set "exp" (Expiration Time) Claim.
 
@@ -128,7 +128,7 @@ ___
 
 ▸ **setIssuedAt**(`input?`: number): this
 
-*Defined in [src/lib/jwt_producer.ts:100](https://github.com/panva/jose/blob/v3.5.3/src/lib/jwt_producer.ts#L100)*
+*Defined in [src/lib/jwt_producer.ts:100](https://github.com/panva/jose/blob/v3.5.4/src/lib/jwt_producer.ts#L100)*
 
 Set "iat" (Issued At) Claim.
 
@@ -146,7 +146,7 @@ ___
 
 ▸ **setIssuer**(`issuer`: string): this
 
-*Defined in [src/lib/jwt_producer.ts:27](https://github.com/panva/jose/blob/v3.5.3/src/lib/jwt_producer.ts#L27)*
+*Defined in [src/lib/jwt_producer.ts:27](https://github.com/panva/jose/blob/v3.5.4/src/lib/jwt_producer.ts#L27)*
 
 Set "iss" (Issuer) Claim.
 
@@ -164,7 +164,7 @@ ___
 
 ▸ **setJti**(`jwtId`: string): this
 
-*Defined in [src/lib/jwt_producer.ts:57](https://github.com/panva/jose/blob/v3.5.3/src/lib/jwt_producer.ts#L57)*
+*Defined in [src/lib/jwt_producer.ts:57](https://github.com/panva/jose/blob/v3.5.4/src/lib/jwt_producer.ts#L57)*
 
 Set "jti" (JWT ID) Claim.
 
@@ -182,7 +182,7 @@ ___
 
 ▸ **setNotBefore**(`input`: number \| string): this
 
-*Defined in [src/lib/jwt_producer.ts:69](https://github.com/panva/jose/blob/v3.5.3/src/lib/jwt_producer.ts#L69)*
+*Defined in [src/lib/jwt_producer.ts:69](https://github.com/panva/jose/blob/v3.5.4/src/lib/jwt_producer.ts#L69)*
 
 Set "nbf" (Not Before) Claim.
 
@@ -200,7 +200,7 @@ ___
 
 ▸ **setSubject**(`subject`: string): this
 
-*Defined in [src/lib/jwt_producer.ts:37](https://github.com/panva/jose/blob/v3.5.3/src/lib/jwt_producer.ts#L37)*
+*Defined in [src/lib/jwt_producer.ts:37](https://github.com/panva/jose/blob/v3.5.4/src/lib/jwt_producer.ts#L37)*
 
 Set "sub" (Subject) Claim.
 
@@ -218,7 +218,7 @@ ___
 
 ▸ `Static`**decode**(`jwt`: string, `options?`: [JWTClaimVerificationOptions](../interfaces/_types_d_.jwtclaimverificationoptions.md)): object
 
-*Defined in [src/jwt/unsecured.ts:77](https://github.com/panva/jose/blob/v3.5.3/src/jwt/unsecured.ts#L77)*
+*Defined in [src/jwt/unsecured.ts:77](https://github.com/panva/jose/blob/v3.5.4/src/jwt/unsecured.ts#L77)*
 
 Decodes an unsecured JWT.
 

@@ -2,7 +2,7 @@
 
 Ƭ  **KeyLike**: KeyObject \| CryptoKey \| Uint8Array
 
-*Defined in [src/types.d.ts:96](https://github.com/panva/jose/blob/v3.5.3/src/types.d.ts#L96)*
+*Defined in [src/types.d.ts:96](https://github.com/panva/jose/blob/v3.5.4/src/types.d.ts#L96)*
 
 KeyLike are platform-specific references to keying material.
 

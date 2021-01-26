@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [3.5.4](https://github.com/panva/jose/compare/v3.5.3...v3.5.4) (2021-01-26)
+
+
+### Bug Fixes
+
+* export package.json ([8c29107](https://github.com/panva/jose/commit/8c29107aea26a54869d8adadceaf0bbf70fb18cd)), closes [#157](https://github.com/panva/jose/issues/157)
+
 ## [3.5.3](https://github.com/panva/jose/compare/v3.5.2...v3.5.3) (2021-01-20)
 
 

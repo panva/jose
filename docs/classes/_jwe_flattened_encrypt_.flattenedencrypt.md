@@ -58,7 +58,7 @@ console.log(jwe)
 
 \+ **new FlattenedEncrypt**(`plaintext`: Uint8Array): [FlattenedEncrypt](_jwe_flattened_encrypt_.flattenedencrypt.md)
 
-*Defined in [src/jwe/flattened/encrypt.ts:75](https://github.com/panva/jose/blob/v3.5.3/src/jwe/flattened/encrypt.ts#L75)*
+*Defined in [src/jwe/flattened/encrypt.ts:75](https://github.com/panva/jose/blob/v3.5.4/src/jwe/flattened/encrypt.ts#L75)*
 
 #### Parameters:
 
@@ -74,7 +74,7 @@ Name | Type | Description |
 
 ▸ **encrypt**(`key`: [KeyLike](../types/_types_d_.keylike.md), `options?`: [EncryptOptions](../interfaces/_types_d_.encryptoptions.md)): Promise<[FlattenedJWE](../interfaces/_types_d_.flattenedjwe.md)\>
 
-*Defined in [src/jwe/flattened/encrypt.ts:187](https://github.com/panva/jose/blob/v3.5.3/src/jwe/flattened/encrypt.ts#L187)*
+*Defined in [src/jwe/flattened/encrypt.ts:187](https://github.com/panva/jose/blob/v3.5.4/src/jwe/flattened/encrypt.ts#L187)*
 
 Encrypts and resolves the value of the Flattened JWE object.
 
@@ -93,7 +93,7 @@ ___
 
 ▸ **setAdditionalAuthenticatedData**(`aad`: Uint8Array): this
 
-*Defined in [src/jwe/flattened/encrypt.ts:144](https://github.com/panva/jose/blob/v3.5.3/src/jwe/flattened/encrypt.ts#L144)*
+*Defined in [src/jwe/flattened/encrypt.ts:144](https://github.com/panva/jose/blob/v3.5.4/src/jwe/flattened/encrypt.ts#L144)*
 
 Sets the Additional Authenticated Data on the FlattenedEncrypt object.
 
@@ -111,7 +111,7 @@ ___
 
 ▸ **setContentEncryptionKey**(`cek`: Uint8Array): this
 
-*Defined in [src/jwe/flattened/encrypt.ts:157](https://github.com/panva/jose/blob/v3.5.3/src/jwe/flattened/encrypt.ts#L157)*
+*Defined in [src/jwe/flattened/encrypt.ts:157](https://github.com/panva/jose/blob/v3.5.4/src/jwe/flattened/encrypt.ts#L157)*
 
 Sets a content encryption key to use, by default a random suitable one
 is generated for the JWE enc" (Encryption Algorithm) Header Parameter.
@@ -132,7 +132,7 @@ ___
 
 ▸ **setInitializationVector**(`iv`: Uint8Array): this
 
-*Defined in [src/jwe/flattened/encrypt.ts:173](https://github.com/panva/jose/blob/v3.5.3/src/jwe/flattened/encrypt.ts#L173)*
+*Defined in [src/jwe/flattened/encrypt.ts:173](https://github.com/panva/jose/blob/v3.5.4/src/jwe/flattened/encrypt.ts#L173)*
 
 Sets the JWE Initialization Vector to use for content encryption, by default
 a random suitable one is generated for the JWE enc" (Encryption Algorithm)
@@ -153,7 +153,7 @@ ___
 
 ▸ **setKeyManagementParameters**(`parameters`: [JWEKeyManagementHeaderParameters](../interfaces/_types_d_.jwekeymanagementheaderparameters.md)): this
 
-*Defined in [src/jwe/flattened/encrypt.ts:92](https://github.com/panva/jose/blob/v3.5.3/src/jwe/flattened/encrypt.ts#L92)*
+*Defined in [src/jwe/flattened/encrypt.ts:92](https://github.com/panva/jose/blob/v3.5.4/src/jwe/flattened/encrypt.ts#L92)*
 
 Sets the JWE Key Management parameters to be used when encrypting.
 Use of this is method is really only needed for ECDH-ES based algorithms
@@ -174,7 +174,7 @@ ___
 
 ▸ **setProtectedHeader**(`protectedHeader`: [JWEHeaderParameters](../interfaces/_types_d_.jweheaderparameters.md)): this
 
-*Defined in [src/jwe/flattened/encrypt.ts:105](https://github.com/panva/jose/blob/v3.5.3/src/jwe/flattened/encrypt.ts#L105)*
+*Defined in [src/jwe/flattened/encrypt.ts:105](https://github.com/panva/jose/blob/v3.5.4/src/jwe/flattened/encrypt.ts#L105)*
 
 Sets the JWE Protected Header on the FlattenedEncrypt object.
 
@@ -192,7 +192,7 @@ ___
 
 ▸ **setSharedUnprotectedHeader**(`sharedUnprotectedHeader`: [JWEHeaderParameters](../interfaces/_types_d_.jweheaderparameters.md)): this
 
-*Defined in [src/jwe/flattened/encrypt.ts:118](https://github.com/panva/jose/blob/v3.5.3/src/jwe/flattened/encrypt.ts#L118)*
+*Defined in [src/jwe/flattened/encrypt.ts:118](https://github.com/panva/jose/blob/v3.5.4/src/jwe/flattened/encrypt.ts#L118)*
 
 Sets the JWE Shared Unprotected Header on the FlattenedEncrypt object.
 
@@ -210,7 +210,7 @@ ___
 
 ▸ **setUnprotectedHeader**(`unprotectedHeader`: [JWEHeaderParameters](../interfaces/_types_d_.jweheaderparameters.md)): this
 
-*Defined in [src/jwe/flattened/encrypt.ts:131](https://github.com/panva/jose/blob/v3.5.3/src/jwe/flattened/encrypt.ts#L131)*
+*Defined in [src/jwe/flattened/encrypt.ts:131](https://github.com/panva/jose/blob/v3.5.4/src/jwe/flattened/encrypt.ts#L131)*
 
 Sets the JWE Per-Recipient Unprotected Header on the FlattenedEncrypt object.
 
