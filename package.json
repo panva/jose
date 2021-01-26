@@ -56,6 +56,7 @@
     }
   },
   "exports": {
+    "./package.json": "./package.json",
     "./jwe/compact/decrypt": {
       "browser": "./dist/browser/jwe/compact/decrypt.js",
       "import": "./dist/node/esm/jwe/compact/decrypt.js",

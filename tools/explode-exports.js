@@ -26,7 +26,7 @@ const exp = all.reduce((acc, mod) => {
     require: "./dist/node/webcrypto/cjs/" + foo + ".js",
   };
   return acc;
-}, {});
+}, { './package.json': './package.json' });
 
 package.exports = exp;
 
