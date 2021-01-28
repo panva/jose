@@ -5,7 +5,7 @@ import checkIvLength from '../../lib/check_iv_length.js'
 import checkCekLength from './check_cek_length.js'
 import timingSafeEqual from './timing_safe_equal.js'
 import { JWEDecryptionFailed } from '../../util/errors.js'
-import crypto, { ensureSecureContext } from './webcrypto.js'
+import crypto from './webcrypto.js'
 
 async function cbcDecrypt(
   enc: string,
@@ -100,7 +100,6 @@ const decrypt: DecryptFunction = async (
   tag: Uint8Array,
   aad: Uint8Array,
 ) => {
-  ensureSecureContext()
   checkCekLength(enc, cek)
   checkIvLength(enc, iv)
 

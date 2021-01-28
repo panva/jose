@@ -1,4 +1,4 @@
-import crypto, { ensureSecureContext } from './webcrypto.js'
+import crypto from './webcrypto.js'
 import { JOSENotSupported } from '../../util/errors.js'
 import random from './random.js'
 import type { GenerateKeyPairOptions } from '../../util/generate_key_pair.js'
@@ -116,6 +116,5 @@ export async function generateKeyPair(alg: string, options?: GenerateKeyPairOpti
       throw new JOSENotSupported('unsupported or invalid JWK "alg" (Algorithm) Parameter value')
   }
 
-  ensureSecureContext()
   return <Promise<CryptoKeyPair>>crypto.subtle.generateKey(algorithm, false, keyUsages)
 }

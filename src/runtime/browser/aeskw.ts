@@ -1,6 +1,6 @@
 import type { AesKwUnwrapFunction, AesKwWrapFunction } from '../interfaces.d'
 import bogusWebCrypto from './bogus.js'
-import crypto, { ensureSecureContext } from './webcrypto.js'
+import crypto from './webcrypto.js'
 
 function checkKeySize(key: CryptoKey, alg: string) {
   if ((<AesKeyAlgorithm>key.algorithm).length !== parseInt(alg.substr(1, 3), 10)) {
@@ -13,7 +13,6 @@ export const wrap: AesKwWrapFunction = async (
   key: CryptoKey | Uint8Array,
   cek: Uint8Array,
 ) => {
-  ensureSecureContext()
   let cryptoKey: CryptoKey
 
   if (key instanceof Uint8Array) {
@@ -35,7 +34,6 @@ export const unwrap: AesKwUnwrapFunction = async (
   key: CryptoKey | Uint8Array,
   encryptedKey: Uint8Array,
 ) => {
-  ensureSecureContext()
   let cryptoKey: CryptoKey
 
   if (key instanceof Uint8Array) {

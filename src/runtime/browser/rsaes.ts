@@ -1,7 +1,7 @@
 import type { RsaEsDecryptFunction, RsaEsEncryptFunction } from '../interfaces.d'
 import subtleAlgorithm from './subtle_rsaes.js'
 import bogusWebCrypto from './bogus.js'
-import crypto, { ensureSecureContext } from './webcrypto.js'
+import crypto from './webcrypto.js'
 import checkKeyLength from './check_key_length.js'
 
 export const encrypt: RsaEsEncryptFunction = async (
@@ -9,7 +9,6 @@ export const encrypt: RsaEsEncryptFunction = async (
   key: CryptoKey,
   cek: Uint8Array,
 ) => {
-  ensureSecureContext()
   checkKeyLength(alg, key)
 
   if (key.usages.includes('encrypt')) {
@@ -34,7 +33,6 @@ export const decrypt: RsaEsDecryptFunction = async (
   key: CryptoKey,
   encryptedKey: Uint8Array,
 ) => {
-  ensureSecureContext()
   checkKeyLength(alg, key)
 
   if (key.usages.includes('decrypt')) {

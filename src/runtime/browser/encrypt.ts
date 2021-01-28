@@ -2,7 +2,7 @@ import { concat, uint64be } from '../../lib/buffer_utils.js'
 import type { EncryptFunction } from '../interfaces.d'
 import checkIvLength from '../../lib/check_iv_length.js'
 import checkCekLength from './check_cek_length.js'
-import crypto, { ensureSecureContext } from './webcrypto.js'
+import crypto from './webcrypto.js'
 
 async function cbcEncrypt(
   enc: string,
@@ -86,7 +86,6 @@ const encrypt: EncryptFunction = async (
   iv: Uint8Array,
   aad: Uint8Array,
 ) => {
-  ensureSecureContext()
   checkCekLength(enc, cek)
   checkIvLength(enc, iv)
 

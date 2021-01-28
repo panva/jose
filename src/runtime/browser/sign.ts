@@ -1,10 +1,9 @@
 import type { SignFunction } from '../interfaces.d'
 import subtleAlgorithm from './subtle_dsa.js'
-import crypto, { ensureSecureContext } from './webcrypto.js'
+import crypto from './webcrypto.js'
 import checkKeyLength from './check_key_length.js'
 
 const sign: SignFunction = async (alg, key: CryptoKey | Uint8Array, data) => {
-  ensureSecureContext()
   let cryptoKey: CryptoKey
   if (key instanceof Uint8Array) {
     if (!alg.startsWith('HS')) {

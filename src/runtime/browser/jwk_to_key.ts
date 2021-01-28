@@ -1,4 +1,4 @@
-import crypto, { ensureSecureContext } from './webcrypto.js'
+import crypto from './webcrypto.js'
 import type { JWKParseFunction } from '../interfaces.d'
 import { JOSENotSupported } from '../../util/errors.js'
 import type { JWK } from '../../types.d'
@@ -111,7 +111,6 @@ const parse: JWKParseFunction = async (jwk: JWK): Promise<CryptoKey> => {
     format = 'raw'
     keyData = base64url(jwk.k!)
   }
-  ensureSecureContext()
   return crypto.subtle.importKey(
     format,
     keyData,

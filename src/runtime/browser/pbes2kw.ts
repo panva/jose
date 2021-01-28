@@ -4,7 +4,7 @@ import { p2s as concatSalt } from '../../lib/buffer_utils.js'
 import { encode as base64url } from './base64url.js'
 import { wrap, unwrap } from './aeskw.js'
 import checkP2s from '../../lib/check_p2s.js'
-import crypto, { ensureSecureContext } from './webcrypto.js'
+import crypto from './webcrypto.js'
 
 export const encrypt: Pbes2KWEncryptFunction = async (
   alg: string,
@@ -13,7 +13,6 @@ export const encrypt: Pbes2KWEncryptFunction = async (
   p2c: number = Math.floor(Math.random() * 2049) + 2048,
   p2s: Uint8Array = random(new Uint8Array(16)),
 ) => {
-  ensureSecureContext()
   checkP2s(p2s)
 
   const salt = concatSalt(alg, p2s)
@@ -57,7 +56,6 @@ export const decrypt: Pbes2KWDecryptFunction = async (
   p2c: number,
   p2s: Uint8Array,
 ) => {
-  ensureSecureContext()
   checkP2s(p2s)
 
   const salt = concatSalt(alg, p2s)
