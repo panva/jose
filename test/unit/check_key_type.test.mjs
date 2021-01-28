@@ -21,7 +21,7 @@ Promise.all([
         message:
           'CryptoKey or KeyObject instances for symmetric algorithms must be of type "secret"',
       });
-      t.throws(() => checkKeyType('RSA-OAEP', new Uint8Array()), {
+      t.throws(() => checkKeyType('RSA-OAEP', new Uint8Array(0)), {
         instanceOf: TypeError,
         message: 'CryptoKey or KeyObject instances must be used for asymmetric algorithms',
       });

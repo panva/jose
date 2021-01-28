@@ -22,7 +22,7 @@ export const wrap: AesGcmKwWrapFunction = async (
     cek,
     key,
     iv,
-    new Uint8Array(),
+    new Uint8Array(0),
   )
 
   return { encryptedKey, iv: base64url(iv), tag: base64url(tag) }
@@ -36,5 +36,5 @@ export const unwrap: AesGcmKwUnwrapFunction = async (
   tag: Uint8Array,
 ) => {
   const jweAlgorithm = alg.substr(0, 7)
-  return decrypt(jweAlgorithm, key, encryptedKey, iv, tag, new Uint8Array())
+  return decrypt(jweAlgorithm, key, encryptedKey, iv, tag, new Uint8Array(0))
 }

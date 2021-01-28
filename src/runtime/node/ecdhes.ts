@@ -31,8 +31,8 @@ export const deriveKey: EcdhESDeriveKeyFunction = async (
   privateKey: KeyObject,
   algorithm: string,
   keyLength: number,
-  apu: Uint8Array = new Uint8Array(),
-  apv: Uint8Array = new Uint8Array(),
+  apu: Uint8Array = new Uint8Array(0),
+  apv: Uint8Array = new Uint8Array(0),
 ) => {
   const value = concat(
     lengthAndInput(encoder.encode(algorithm)),

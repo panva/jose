@@ -24,7 +24,7 @@ export const wrap: AesGcmKwWrapFunction = async (
     cek,
     key instanceof Uint8Array ? key : key.export(),
     iv,
-    new Uint8Array(),
+    new Uint8Array(0),
   )
 
   return { encryptedKey, iv: base64url(iv), tag: base64url(tag) }
@@ -45,6 +45,6 @@ export const unwrap: AesGcmKwUnwrapFunction = async (
     encryptedKey,
     iv,
     tag,
-    new Uint8Array(),
+    new Uint8Array(0),
   )
 }

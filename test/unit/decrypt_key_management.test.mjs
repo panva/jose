@@ -21,14 +21,14 @@ Promise.all([
     });
 
     test('ECDH-ES must not have an encrypted_key', async (t) => {
-      await t.throwsAsync(decryptKeyManagement('ECDH-ES', undefined, new Uint8Array(), {}), {
+      await t.throwsAsync(decryptKeyManagement('ECDH-ES', undefined, new Uint8Array(0), {}), {
         code: 'ERR_JWE_INVALID',
         message: 'Encountered unexpected JWE Encrypted Key',
       });
     });
 
     test('dir must not have an encrypted_key', async (t) => {
-      await t.throwsAsync(decryptKeyManagement('dir', undefined, new Uint8Array(), {}), {
+      await t.throwsAsync(decryptKeyManagement('dir', undefined, new Uint8Array(0), {}), {
         code: 'ERR_JWE_INVALID',
         message: 'Encountered unexpected JWE Encrypted Key',
       });
@@ -36,28 +36,28 @@ Promise.all([
 
     test('PBES2 requires p2c', async (t) => {
       await t.throwsAsync(
-        decryptKeyManagement('PBES2-HS256+A128KW', undefined, new Uint8Array(), { p2s: 'foo' }),
+        decryptKeyManagement('PBES2-HS256+A128KW', undefined, new Uint8Array(0), { p2s: 'foo' }),
         { code: 'ERR_JWE_INVALID', message: 'JOSE Header PBES2 Count (p2c) missing' },
       );
     });
 
     test('PBES2 requires p2s', async (t) => {
       await t.throwsAsync(
-        decryptKeyManagement('PBES2-HS256+A128KW', undefined, new Uint8Array(), { p2c: 2000 }),
+        decryptKeyManagement('PBES2-HS256+A128KW', undefined, new Uint8Array(0), { p2c: 2000 }),
         { code: 'ERR_JWE_INVALID', message: 'JOSE Header PBES2 Salt (p2s) missing' },
       );
     });
 
     test('GCM KW requires Authentication Tag', async (t) => {
       await t.throwsAsync(
-        decryptKeyManagement('A128GCMKW', undefined, new Uint8Array(), { iv: 'foo' }),
+        decryptKeyManagement('A128GCMKW', undefined, new Uint8Array(0), { iv: 'foo' }),
         { code: 'ERR_JWE_INVALID', message: 'JOSE Header Authentication Tag (tag) missing' },
       );
     });
 
     test('GCM KW requires Initialization Vector', async (t) => {
       await t.throwsAsync(
-        decryptKeyManagement('A128GCMKW', undefined, new Uint8Array(), { tag: 'foo' }),
+        decryptKeyManagement('A128GCMKW', undefined, new Uint8Array(0), { tag: 'foo' }),
         { code: 'ERR_JWE_INVALID', message: 'JOSE Header Initialization Vector (iv) missing' },
       );
     });
