@@ -1,3 +1,4 @@
 import * as crypto from 'crypto'
 
-export default crypto.webcrypto
+// @ts-expect-error
+export default <Crypto>crypto.webcrypto

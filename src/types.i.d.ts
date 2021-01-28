@@ -1,14 +1,3 @@
-/* eslint-disable @typescript-eslint/naming-convention */
-
-interface NodeCrypto extends Crypto {
-  readonly CryptoKey: typeof CryptoKey
-}
-
-declare module 'crypto' {
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const webcrypto: NodeCrypto
-}
-
 export type Awaited<T> = T extends PromiseLike<infer PT> ? PT : never
 export type AsyncOrSync<T> = PromiseLike<T> | T
 
