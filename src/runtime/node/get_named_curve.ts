@@ -1,5 +1,6 @@
 import { KeyObject, createPublicKey } from 'crypto'
 import { JOSENotSupported } from '../../util/errors.js'
+import { isCryptoKey, getKeyObject } from './webcrypto.js'
 
 const p256 = Buffer.from([42, 134, 72, 206, 61, 3, 1, 7])
 const p384 = Buffer.from([43, 129, 4, 0, 34])
@@ -23,10 +24,16 @@ const namedCurveToJOSE = (namedCurve: string) => {
   }
 }
 
-const getNamedCurve = (key: KeyObject, raw?: boolean): string => {
+const getNamedCurve = (key: KeyObject | CryptoKey, raw?: boolean): string => {
   if (key.type === 'secret') {
     throw new TypeError('only "private" or "public" key objects can be used for this operation')
   }
+
+  if (isCryptoKey(key)) {
+    // eslint-disable-next-line no-param-reassign
+    key = getKeyObject(key)
+  }
+
   switch (key.asymmetricKeyType) {
     case 'ed25519':
     case 'ed448':

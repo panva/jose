@@ -21,14 +21,15 @@ import {
 import type { EpkJwk } from '../../types.i.d'
 import digest from './digest.js'
 import { JOSENotSupported } from '../../util/errors.js'
+import { isCryptoKey, getKeyObject } from './webcrypto.js'
 
 const generateKeyPair = promisify(generateKeyPairCb)
 
 const concatKdf = KDF.bind(undefined, digest.bind(undefined, 'sha256'))
 
 export const deriveKey: EcdhESDeriveKeyFunction = async (
-  publicKey: KeyObject,
-  privateKey: KeyObject,
+  publicKey: KeyObject | CryptoKey,
+  privateKey: KeyObject | CryptoKey,
   algorithm: string,
   keyLength: number,
   apu: Uint8Array = new Uint8Array(0),
@@ -41,13 +42,27 @@ export const deriveKey: EcdhESDeriveKeyFunction = async (
     uint32be(keyLength),
   )
 
+  if (isCryptoKey(publicKey)) {
+    // eslint-disable-next-line no-param-reassign
+    publicKey = getKeyObject(publicKey)
+  }
+
+  if (isCryptoKey(privateKey)) {
+    // eslint-disable-next-line no-param-reassign
+    privateKey = getKeyObject(privateKey)
+  }
+
   const sharedSecret = diffieHellman({ privateKey, publicKey })
   return concatKdf(sharedSecret, keyLength, value)
 }
 
 export const ephemeralKeyToPublicJWK: EphemeralKeyToPublicJwkFunction = function ephemeralKeyToPublicJWK(
-  key: KeyObject,
+  key: KeyObject | CryptoKey,
 ) {
+  if (isCryptoKey(key)) {
+    // eslint-disable-next-line no-param-reassign
+    key = getKeyObject(key)
+  }
   switch (key.asymmetricKeyType) {
     case 'x25519':
     case 'x448': {
@@ -72,7 +87,11 @@ export const ephemeralKeyToPublicJWK: EphemeralKeyToPublicJwkFunction = function
   }
 }
 
-export const generateEpk: GenerateEpkFunction = async (key: KeyObject) => {
+export const generateEpk: GenerateEpkFunction = async (key: KeyObject | CryptoKey) => {
+  if (isCryptoKey(key)) {
+    // eslint-disable-next-line no-param-reassign
+    key = getKeyObject(key)
+  }
   switch (key.asymmetricKeyType) {
     case 'x25519':
       return (await generateKeyPair('x25519')).privateKey
@@ -134,5 +153,5 @@ export const publicJwkToEphemeralKey: PublicJwkToEphemeralKeyFunction = async (j
 }
 
 const curves = ['P-256', 'P-384', 'P-521', 'X25519', 'X448']
-export const ecdhAllowed: EcdhAllowedFunction = (key: KeyObject) =>
+export const ecdhAllowed: EcdhAllowedFunction = (key: KeyObject | CryptoKey) =>
   curves.includes(getNamedCurve(key))

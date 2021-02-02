@@ -327,6 +327,7 @@
     "build:node-webcrypto-esm": "run-s runtime-node-webcrypto lint 'build -- -p ./tsconfig/node-webcrypto-esm.json' && echo '{\"type\": \"module\"}'> dist/node/webcrypto/esm/package.json",
     "clear": "rm -rf dist",
     "coverage": "npm run-script runtime-node && c8 npm run-script test",
+    "coverage-cryptokey": "npm run-script runtime-node && c8 npm run-script test-cryptokey",
     "coverage-webcrypto": "npm run-script runtime-node-webcrypto && c8 npm run-script test-webcrypto",
     "docs": "run-s docs:*",
     "docs:generate": "typedoc --disableOutputCheck --excludeNotExported --excludePrivate --excludeProtected --gitRevision main --readme none --listInvalidSymbolLinks --plugin typedoc-plugin-markdown --out docs --includeDeclarations --excludeExternals --tsconfig ./tsconfig/browser.json --mode modules src/types.d.ts src/jwt/*.ts src/jwe/**/*.ts src/jws/**/*.ts src/jwk/*.ts src/jwks/*.ts src/util/*.ts --hideProjectName --hideGenerator --allReflectionsHaveOwnDocument --hideBreadcrumbs",
@@ -343,6 +344,7 @@
     "test": "npm run-script test-cjs && ava",
     "test-browser": "find test-browser -type f -name '*.js' -print0 | xargs -0 npx esbuild --outdir=dist-browser-tests --bundle && karma start",
     "test-cjs": "rm -rf test/cjs && find test -type f -name '*.mjs' -print0 | xargs -0 npx esbuild --target=esnext --outdir=test/cjs --format=cjs",
+    "test-cryptokey": "CRYPTOKEY=true npm test",
     "test-webcrypto": "WEBCRYPTO=true npm test"
   },
   "devDependencies": {

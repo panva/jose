@@ -1,14 +1,25 @@
 /* eslint-disable no-param-reassign */
 import test from 'ava';
 
-const root = !('WEBCRYPTO' in process.env) ? '#dist' : '#dist/webcrypto';
+let root;
+let keyRoot;
+
+if ('WEBCRYPTO' in process.env) {
+  root = keyRoot = '#dist/webcrypto';
+} else if ('CRYPTOKEY' in process.env) {
+  root = '#dist';
+  keyRoot = '#dist/webcrypto';
+} else {
+  root = keyRoot = '#dist';
+}
+
 Promise.all([
   import(`${root}/jws/flattened/sign`),
   import(`${root}/jws/flattened/verify`),
   import(`${root}/jwe/flattened/encrypt`),
   import(`${root}/jwe/flattened/decrypt`),
   import(`${root}/util/random`),
-  import(`${root}/jwk/parse`),
+  import(`${keyRoot}/jwk/parse`),
 ]).then(
   ([
     { default: FlattenedSign },
@@ -145,7 +156,7 @@ Promise.all([
     test(testRSAenc, 'RSA-OAEP-512');
 
     let conditional;
-    if ('WEBCRYPTO' in process.env) {
+    if ('WEBCRYPTO' in process.env || 'CRYPTOKEY' in process.env) {
       conditional = test.failing;
     } else {
       conditional = test;

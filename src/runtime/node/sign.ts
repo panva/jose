@@ -1,17 +1,21 @@
 import { sign as oneShotSign, createHmac, KeyObject } from 'crypto'
+import type { KeyLike } from '../../types.d'
 import type { SignFunction } from '../interfaces.d'
 import nodeDigest from './dsa_digest.js'
 import hmacDigest from './hmac_digest.js'
 import nodeKey from './node_key.js'
 import getSecretKey from './secret_key.js'
+import { isCryptoKey, getKeyObject } from './webcrypto.js'
 
-const sign: SignFunction = async (alg, key: KeyObject | Uint8Array, data) => {
+const sign: SignFunction = async (alg, key: KeyLike, data) => {
   let keyObject: KeyObject
   if (key instanceof Uint8Array) {
     if (!alg.startsWith('HS')) {
       throw new TypeError('symmetric keys are only applicable for HMAC-based JWA algorithms')
     }
     keyObject = getSecretKey(key)
+  } else if (isCryptoKey(key)) {
+    keyObject = getKeyObject(key)
   } else {
     keyObject = key
   }

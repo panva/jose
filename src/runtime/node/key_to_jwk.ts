@@ -6,8 +6,14 @@ import { encode as base64url } from './base64url.js'
 import Asn1SequenceDecoder from './asn1_sequence_decoder.js'
 import { JOSENotSupported } from '../../util/errors.js'
 import getNamedCurve from './get_named_curve.js'
+import { isCryptoKey, getKeyObject } from './webcrypto.js'
 
-const keyToJWK: JWKConvertFunction = (key: KeyObject): JWK => {
+const keyToJWK: JWKConvertFunction = (key: KeyObject | CryptoKey): JWK => {
+  if (isCryptoKey(key)) {
+    // eslint-disable-next-line no-param-reassign
+    key = getKeyObject(key)
+  }
+
   if (!(key instanceof KeyObject)) {
     throw new TypeError('invalid key argument type')
   }

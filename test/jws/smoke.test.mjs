@@ -5,15 +5,26 @@
 
 import test from 'ava';
 
-const root = !('WEBCRYPTO' in process.env) ? '#dist' : '#dist/webcrypto';
+let root;
+let keyRoot;
+
+if ('WEBCRYPTO' in process.env) {
+  root = keyRoot = '#dist/webcrypto';
+} else if ('CRYPTOKEY' in process.env) {
+  root = '#dist';
+  keyRoot = '#dist/webcrypto';
+} else {
+  root = keyRoot = '#dist';
+}
+
 Promise.all([
   import(`${root}/jws/flattened/sign`),
   import(`${root}/jws/flattened/verify`),
   import(`${root}/util/random`),
   import(`${root}/util/base64url`),
-  import(`${root}/jwk/parse`),
-  import(`${root}/util/generate_key_pair`),
-  import(`${root}/util/generate_secret`),
+  import(`${keyRoot}/jwk/parse`),
+  import(`${keyRoot}/util/generate_key_pair`),
+  import(`${keyRoot}/util/generate_secret`),
 ]).then(
   ([
     { default: FlattenedSign },
@@ -211,7 +222,7 @@ Promise.all([
     test('as keyobject', smoke, 'oct512', true);
 
     let conditional;
-    if ('WEBCRYPTO' in process.env) {
+    if ('WEBCRYPTO' in process.env || 'CRYPTOKEY' in process.env) {
       conditional = test.failing;
     } else {
       conditional = test;

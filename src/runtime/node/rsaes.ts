@@ -2,6 +2,7 @@ import type { KeyObject } from 'crypto'
 import { publicEncrypt, constants, privateDecrypt } from 'crypto'
 import type { RsaEsDecryptFunction, RsaEsEncryptFunction } from '../interfaces.d'
 import checkModulusLength from './check_modulus_length.js'
+import { isCryptoKey, getKeyObject } from './webcrypto.js'
 
 const checkKey = (key: KeyObject, alg: string) => {
   if (key.type === 'secret' || key.asymmetricKeyType !== 'rsa') {
@@ -41,22 +42,30 @@ const resolveOaepHash = (alg: string) => {
 
 export const encrypt: RsaEsEncryptFunction = async (
   alg: string,
-  key: KeyObject,
+  key: KeyObject | CryptoKey,
   cek: Uint8Array,
 ) => {
   const padding = resolvePadding(alg)
   const oaepHash = resolveOaepHash(alg)
+  if (isCryptoKey(key)) {
+    // eslint-disable-next-line no-param-reassign
+    key = getKeyObject(key)
+  }
   checkKey(key, alg)
   return publicEncrypt({ key, oaepHash, padding }, cek)
 }
 
 export const decrypt: RsaEsDecryptFunction = async (
   alg: string,
-  key: KeyObject,
+  key: KeyObject | CryptoKey,
   encryptedKey: Uint8Array,
 ) => {
   const padding = resolvePadding(alg)
   const oaepHash = resolveOaepHash(alg)
+  if (isCryptoKey(key)) {
+    // eslint-disable-next-line no-param-reassign
+    key = getKeyObject(key)
+  }
   checkKey(key, alg)
   return privateDecrypt({ key, oaepHash, padding }, encryptedKey)
 }

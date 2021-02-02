@@ -3,12 +3,23 @@ import test from 'ava';
 import nock from 'nock';
 import timekeeper from 'timekeeper';
 
-const root = !('WEBCRYPTO' in process.env) ? '#dist' : '#dist/webcrypto';
+let root;
+let keyRoot;
+
+if ('WEBCRYPTO' in process.env) {
+  root = keyRoot = '#dist/webcrypto';
+} else if ('CRYPTOKEY' in process.env) {
+  root = '#dist';
+  keyRoot = '#dist/webcrypto';
+} else {
+  root = keyRoot = '#dist';
+}
+
 Promise.all([
   import(`${root}/jwt/verify`),
   import(`${root}/jwt/sign`),
-  import(`${root}/jwk/parse`),
-  import(`${root}/jwks/remote`),
+  import(`${keyRoot}/jwk/parse`),
+  import(`${keyRoot}/jwks/remote`),
 ]).then(
   ([
     { default: jwtVerify },

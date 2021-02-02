@@ -4,6 +4,8 @@ import { JOSENotSupported } from '../../util/errors.js'
 import type { AesKwUnwrapFunction, AesKwWrapFunction } from '../interfaces.d'
 import { concat } from '../../lib/buffer_utils.js'
 import getSecretKey from './secret_key.js'
+import type { KeyLike } from '../../types.d'
+import { isCryptoKey, getKeyObject } from './webcrypto.js'
 
 function checkKeySize(key: KeyObject, alg: string) {
   if (key.symmetricKeySize! << 3 !== parseInt(alg.substr(1, 3), 10)) {
@@ -11,11 +13,7 @@ function checkKeySize(key: KeyObject, alg: string) {
   }
 }
 
-export const wrap: AesKwWrapFunction = async (
-  alg: string,
-  key: KeyObject | Uint8Array,
-  cek: Uint8Array,
-) => {
+export const wrap: AesKwWrapFunction = async (alg: string, key: KeyLike, cek: Uint8Array) => {
   const size = parseInt(alg.substr(1, 3), 10)
   const algorithm = `aes${size}-wrap`
   if (!getCiphers().includes(algorithm)) {
@@ -23,7 +21,14 @@ export const wrap: AesKwWrapFunction = async (
       `alg ${alg} is unsupported either by JOSE or your javascript runtime`,
     )
   }
-  const keyObject = getSecretKey(key)
+  let keyObject: KeyObject
+  if (key instanceof Uint8Array) {
+    keyObject = getSecretKey(key)
+  } else if (isCryptoKey(key)) {
+    keyObject = getKeyObject(key)
+  } else {
+    keyObject = key
+  }
   checkKeySize(keyObject, alg)
   const cipher = createCipheriv(algorithm, keyObject, Buffer.alloc(8, 0xa6))
   return concat(cipher.update(cek), cipher.final())
@@ -31,7 +36,7 @@ export const wrap: AesKwWrapFunction = async (
 
 export const unwrap: AesKwUnwrapFunction = async (
   alg: string,
-  key: KeyObject | Uint8Array,
+  key: KeyLike,
   encryptedKey: Uint8Array,
 ) => {
   const size = parseInt(alg.substr(1, 3), 10)
@@ -41,7 +46,14 @@ export const unwrap: AesKwUnwrapFunction = async (
       `alg ${alg} is unsupported either by JOSE or your javascript runtime`,
     )
   }
-  const keyObject = getSecretKey(key)
+  let keyObject: KeyObject
+  if (key instanceof Uint8Array) {
+    keyObject = getSecretKey(key)
+  } else if (isCryptoKey(key)) {
+    keyObject = getKeyObject(key)
+  } else {
+    keyObject = key
+  }
   checkKeySize(keyObject, alg)
   const cipher = createDecipheriv(algorithm, keyObject, Buffer.alloc(8, 0xa6))
   return concat(cipher.update(encryptedKey), cipher.final())

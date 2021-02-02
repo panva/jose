@@ -1,12 +1,23 @@
 /* eslint-disable no-param-reassign */
 import test from 'ava';
 
-const root = !('WEBCRYPTO' in process.env) ? '#dist' : '#dist/webcrypto';
+let root;
+let keyRoot;
+
+if ('WEBCRYPTO' in process.env) {
+  root = keyRoot = '#dist/webcrypto';
+} else if ('CRYPTOKEY' in process.env) {
+  root = '#dist';
+  keyRoot = '#dist/webcrypto';
+} else {
+  root = keyRoot = '#dist';
+}
+
 Promise.all([
   import(`${root}/jws/flattened/sign`),
   import(`${root}/jws/flattened/verify`),
-  import(`${root}/jwk/parse`),
-  import(`${root}/jwk/embedded`),
+  import(`${keyRoot}/jwk/parse`),
+  import(`${keyRoot}/jwk/embedded`),
 ]).then(
   ([
     { default: FlattenedSign },

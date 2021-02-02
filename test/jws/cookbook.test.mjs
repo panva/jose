@@ -1,13 +1,23 @@
 import test from 'ava';
 
-const root = !('WEBCRYPTO' in process.env) ? '#dist' : '#dist/webcrypto';
+let root;
+let keyRoot;
+
+if ('WEBCRYPTO' in process.env) {
+  root = keyRoot = '#dist/webcrypto';
+} else if ('CRYPTOKEY' in process.env) {
+  root = '#dist';
+  keyRoot = '#dist/webcrypto';
+} else {
+  root = keyRoot = '#dist';
+}
 
 Promise.all([
   import(`${root}/jws/flattened/sign`),
   import(`${root}/jws/flattened/verify`),
   import(`${root}/jws/compact/sign`),
   import(`${root}/jws/compact/verify`),
-  import(`${root}/jwk/parse`),
+  import(`${keyRoot}/jwk/parse`),
 ]).then(
   ([
     { default: FlattenedSign },
@@ -503,7 +513,7 @@ Promise.all([
 
     for (const vector of vectors) {
       let conditional;
-      if ('WEBCRYPTO' in process.env && vector.webcrypto === false) {
+      if (('WEBCRYPTO' in process.env || 'CRYPTOKEY' in process.env) && vector.webcrypto === false) {
         conditional = test.failing;
       } else {
         conditional = test;

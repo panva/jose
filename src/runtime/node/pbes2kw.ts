@@ -1,12 +1,12 @@
 import { promisify } from 'util'
-import type { KeyObject } from 'crypto'
-import { pbkdf2 as pbkdf2cb } from 'crypto'
+import { KeyObject, pbkdf2 as pbkdf2cb } from 'crypto'
 import type { Pbes2KWDecryptFunction, Pbes2KWEncryptFunction } from '../interfaces.d'
 import random from './random.js'
 import { p2s as concatSalt } from '../../lib/buffer_utils.js'
 import { encode as base64url } from './base64url.js'
 import { wrap, unwrap } from './aeskw.js'
 import checkP2s from '../../lib/check_p2s.js'
+import { isCryptoKey, getKeyObject } from './webcrypto.js'
 
 const pbkdf2 = promisify(pbkdf2cb)
 
@@ -20,7 +20,15 @@ export const encrypt: Pbes2KWEncryptFunction = async (
   checkP2s(p2s)
   const salt = concatSalt(alg, p2s)
   const keylen = parseInt(alg.substr(13, 3), 10) >> 3
-  const password = key instanceof Uint8Array ? key : key.export()
+  let password: Uint8Array
+
+  if (isCryptoKey(key)) {
+    password = getKeyObject(key).export()
+  } else if (key instanceof KeyObject) {
+    password = key.export()
+  } else {
+    password = key
+  }
   const derivedKey = await pbkdf2(password, salt, p2c, keylen, `sha${alg.substr(8, 3)}`)
   const encryptedKey = await wrap(alg.substr(-6), derivedKey, cek)
 
@@ -37,7 +45,15 @@ export const decrypt: Pbes2KWDecryptFunction = async (
   checkP2s(p2s)
   const salt = concatSalt(alg, p2s)
   const keylen = parseInt(alg.substr(13, 3), 10) >> 3
-  const password = key instanceof Uint8Array ? key : key.export()
+  let password: Uint8Array
+
+  if (isCryptoKey(key)) {
+    password = getKeyObject(key).export()
+  } else if (key instanceof KeyObject) {
+    password = key.export()
+  } else {
+    password = key
+  }
   const derivedKey = await pbkdf2(password, salt, p2c, keylen, `sha${alg.substr(8, 3)}`)
 
   return unwrap(alg.substr(-6), derivedKey, encryptedKey)

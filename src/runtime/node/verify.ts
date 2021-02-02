@@ -1,11 +1,13 @@
 import { verify as oneShotVerify, timingSafeEqual, KeyObject } from 'crypto'
 
+import type { KeyLike } from '../../types.d'
 import type { VerifyFunction } from '../interfaces.d'
 import nodeDigest from './dsa_digest.js'
 import nodeKey from './node_key.js'
 import sign from './sign.js'
+import { isCryptoKey, getKeyObject } from './webcrypto.js'
 
-const verify: VerifyFunction = async (alg, key: KeyObject | Uint8Array, signature, data) => {
+const verify: VerifyFunction = async (alg, key: KeyLike, signature, data) => {
   if (alg.startsWith('HS')) {
     const expected = await sign(alg, key, data)
     const actual = signature
@@ -19,7 +21,10 @@ const verify: VerifyFunction = async (alg, key: KeyObject | Uint8Array, signatur
 
   const algorithm = nodeDigest(alg)
 
-  if (!(key instanceof KeyObject)) {
+  if (isCryptoKey(key)) {
+    // eslint-disable-next-line no-param-reassign
+    key = getKeyObject(key)
+  } else if (!(key instanceof KeyObject)) {
     throw new TypeError('invalid key object type provided')
   }
 

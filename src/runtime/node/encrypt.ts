@@ -6,6 +6,8 @@ import checkIvLength from '../../lib/check_iv_length.js'
 import checkCekLength from './check_cek_length.js'
 import { concat } from '../../lib/buffer_utils.js'
 import cbcTag from './cbc_tag.js'
+import type { KeyLike } from '../../types.d'
+import { isCryptoKey, getKeyObject } from './webcrypto.js'
 
 async function cbcEncrypt(
   enc: string,
@@ -55,10 +57,15 @@ async function gcmEncrypt(
 const encrypt: EncryptFunction = async (
   enc: string,
   plaintext: Uint8Array,
-  cek: KeyObject | Uint8Array,
+  cek: KeyLike,
   iv: Uint8Array,
   aad: Uint8Array,
 ) => {
+  if (isCryptoKey(cek)) {
+    // eslint-disable-next-line no-param-reassign
+    cek = getKeyObject(cek)
+  }
+
   checkCekLength(enc, cek)
   checkIvLength(enc, iv)
 

@@ -1,7 +1,7 @@
 import { KeyObject } from 'crypto'
 import { JWEInvalid, JOSENotSupported } from '../../util/errors.js'
 
-const checkCekLength = (enc: string, cek: Uint8Array | KeyObject) => {
+const checkCekLength = (enc: string, cek: KeyObject | Uint8Array) => {
   let expected: number
   switch (enc) {
     case 'A128CBC-HS256':

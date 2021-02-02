@@ -8,10 +8,12 @@ import { concat } from '../../lib/buffer_utils.js'
 import { JOSENotSupported, JWEDecryptionFailed } from '../../util/errors.js'
 import timingSafeEqual from './timing_safe_equal.js'
 import cbcTag from './cbc_tag.js'
+import { isCryptoKey, getKeyObject } from './webcrypto.js'
+import type { KeyLike } from '../../types.d'
 
 async function cbcDecrypt(
   enc: string,
-  cek: Uint8Array | KeyObject,
+  cek: KeyObject | Uint8Array,
   ciphertext: Uint8Array,
   iv: Uint8Array,
   tag: Uint8Array,
@@ -58,7 +60,7 @@ async function cbcDecrypt(
 }
 async function gcmDecrypt(
   enc: string,
-  cek: Uint8Array | KeyObject,
+  cek: KeyObject | Uint8Array,
   ciphertext: Uint8Array,
   iv: Uint8Array,
   tag: Uint8Array,
@@ -83,12 +85,17 @@ async function gcmDecrypt(
 
 const decrypt: DecryptFunction = async (
   enc: string,
-  cek: Uint8Array | KeyObject,
+  cek: KeyLike,
   ciphertext: Uint8Array,
   iv: Uint8Array,
   tag: Uint8Array,
   aad: Uint8Array,
 ) => {
+  if (isCryptoKey(cek)) {
+    // eslint-disable-next-line no-param-reassign
+    cek = getKeyObject(cek)
+  }
+
   checkCekLength(enc, cek)
   checkIvLength(enc, iv)
 
