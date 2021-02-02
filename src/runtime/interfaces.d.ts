@@ -10,9 +10,6 @@ export interface SignFunction {
 export interface VerifyFunction {
   (alg: string, key: any, signature: Uint8Array, data: Uint8Array): Promise<boolean>
 }
-export interface ExportCekFunction {
-  (key: any): AsyncOrSync<Uint8Array>
-}
 export interface AesKwWrapFunction {
   (alg: string, key: any, cek: Uint8Array): Promise<Uint8Array>
 }
@@ -72,9 +69,6 @@ export interface EcdhAllowedFunction {
 }
 export interface GenerateEpkFunction {
   (key: any): Promise<KeyLike>
-}
-export interface GetNamedCurveFunction {
-  (key: any): string
 }
 export interface EphemeralKeyToPublicJwkFunction {
   (key: any): AsyncOrSync<EpkJwk>
