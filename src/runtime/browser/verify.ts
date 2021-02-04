@@ -12,7 +12,7 @@ const verify: VerifyFunction = async (alg, key: CryptoKey | Uint8Array, signatur
     cryptoKey = await crypto.subtle.importKey(
       'raw',
       key,
-      { hash: `SHA-${alg.substr(-3)}`, name: 'HMAC' },
+      { hash: { name: `SHA-${alg.substr(-3)}` }, name: 'HMAC' },
       false,
       ['verify'],
     )

@@ -16,7 +16,7 @@ function subtleMapping(
         case 'HS256':
         case 'HS384':
         case 'HS512':
-          algorithm = { name: 'HMAC', hash: `SHA-${jwk.alg.substr(-3)}` }
+          algorithm = { name: 'HMAC', hash: { name: `SHA-${jwk.alg.substr(-3)}` } }
           keyUsages = ['sign', 'verify']
           break
         case 'A128CBC-HS256':
@@ -54,20 +54,23 @@ function subtleMapping(
         case 'PS256':
         case 'PS384':
         case 'PS512':
-          algorithm = { name: 'RSA-PSS', hash: `SHA-${jwk.alg.substr(-3)}` }
+          algorithm = { name: 'RSA-PSS', hash: { name: `SHA-${jwk.alg.substr(-3)}` } }
           keyUsages = jwk.d ? ['sign'] : ['verify']
           break
         case 'RS256':
         case 'RS384':
         case 'RS512':
-          algorithm = { name: 'RSASSA-PKCS1-v1_5', hash: `SHA-${jwk.alg.substr(-3)}` }
+          algorithm = { name: 'RSASSA-PKCS1-v1_5', hash: { name: `SHA-${jwk.alg.substr(-3)}` } }
           keyUsages = jwk.d ? ['sign'] : ['verify']
           break
         case 'RSA-OAEP':
         case 'RSA-OAEP-256':
         case 'RSA-OAEP-384':
         case 'RSA-OAEP-512':
-          algorithm = { name: 'RSA-OAEP', hash: `SHA-${parseInt(jwk.alg.substr(-3), 10) || 1}` }
+          algorithm = {
+            name: 'RSA-OAEP',
+            hash: { name: `SHA-${parseInt(jwk.alg.substr(-3), 10) || 1}` },
+          }
           keyUsages = jwk.d ? ['decrypt', 'unwrapKey'] : ['encrypt', 'wrapKey']
           break
         default:

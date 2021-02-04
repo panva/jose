@@ -18,7 +18,7 @@ export const encrypt: Pbes2KWEncryptFunction = async (
   const salt = concatSalt(alg, p2s)
   const keylen = parseInt(alg.substr(13, 3), 10)
   const subtleAlg = {
-    hash: `SHA-${alg.substr(8, 3)}`,
+    hash: { name: `SHA-${alg.substr(8, 3)}` },
     iterations: p2c,
     name: 'PBKDF2',
     salt,
@@ -61,7 +61,7 @@ export const decrypt: Pbes2KWDecryptFunction = async (
   const salt = concatSalt(alg, p2s)
   const keylen = parseInt(alg.substr(13, 3), 10)
   const subtleAlg = {
-    hash: `SHA-${alg.substr(8, 3)}`,
+    hash: { name: `SHA-${alg.substr(8, 3)}` },
     iterations: p2c,
     name: 'PBKDF2',
     salt,
