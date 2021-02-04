@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [3.6.0](https://github.com/panva/jose/compare/v3.5.4...v3.6.0) (2021-02-04)
+
+
+### Features
+
+* allow CryptoKey instances in a regular non-webcrypto node runtime ([e8d41a9](https://github.com/panva/jose/commit/e8d41a933582495c9a9b02d6ec38b46bef8795e1))
+
 ## [3.5.4](https://github.com/panva/jose/compare/v3.5.3...v3.5.4) (2021-01-26)
 
 
