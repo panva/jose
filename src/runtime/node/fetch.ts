@@ -1,5 +1,8 @@
-import { get as http, ClientRequest } from 'http'
-import { get as https, RequestOptions } from 'https'
+import { get as http } from 'http'
+import { get as https } from 'https'
+import { once } from 'events'
+import type { ClientRequest, IncomingMessage } from 'http'
+import type { RequestOptions } from 'https'
 
 import type { FetchFunction } from '../interfaces.d'
 import { JOSEError } from '../../util/errors.js'
@@ -16,26 +19,31 @@ const fetch: FetchFunction = async (url: URL, timeout: number, options: Accepted
   if (protocols[url.protocol] === undefined) {
     throw new TypeError('Unsupported URL protocol.')
   }
-  return new Promise((resolve, reject) => {
-    const { agent } = options
-    protocols[url.protocol](url.href, { agent, timeout }, async (response) => {
-      if (response.statusCode !== 200) {
-        reject(new JOSEError('Expected 200 OK from the JSON Web Key Set HTTP response'))
-      } else {
-        const parts = []
-        // eslint-disable-next-line no-restricted-syntax
-        for await (const part of response) {
-          parts.push(part)
-        }
 
-        try {
-          resolve(JSON.parse(decoder.decode(concat(...parts))))
-        } catch (err) {
-          reject(new JOSEError('Failed to parse the JSON Web Key Set HTTP response as JSON'))
-        }
-      }
-    }).on('error', reject)
-  }) as Promise<any>
+  const { agent } = options
+  const req = protocols[url.protocol](url.href, {
+    agent,
+    timeout,
+  })
+
+  // eslint-disable-next-line @typescript-eslint/keyword-spacing
+  const [response] = <[IncomingMessage]>await once(req, 'response')
+
+  if (response.statusCode !== 200) {
+    throw new JOSEError('Expected 200 OK from the JSON Web Key Set HTTP response')
+  }
+
+  const parts = []
+  // eslint-disable-next-line no-restricted-syntax
+  for await (const part of response) {
+    parts.push(part)
+  }
+
+  try {
+    return JSON.parse(decoder.decode(concat(...parts)))
+  } catch (err) {
+    throw new JOSEError('Failed to parse the JSON Web Key Set HTTP response as JSON')
+  }
 }
 
 export default fetch

@@ -2,6 +2,8 @@
 import test from 'ava';
 import nock from 'nock';
 import timekeeper from 'timekeeper';
+import { createServer } from 'http';
+import { once } from 'events';
 
 let root;
 let keyRoot;
@@ -29,16 +31,25 @@ Promise.all([
   ]) => {
     const now = 1604416038;
 
-    test.beforeEach(() => {
-      timekeeper.freeze(now * 1000);
+    test.before(async (t) => {
+      nock.disableNetConnect();
+      t.context.server = createServer().listen(3000);
+      t.context.server.removeAllListeners('request');
+      await once(t.context.server, 'listening');
+    });
+
+    test.after(async (t) => {
+      nock.enableNetConnect();
+      await new Promise((resolve) => t.context.server.close(resolve));
     });
 
     test.afterEach((t) => {
+      t.context.server.removeAllListeners('request');
       t.true(nock.isDone());
       nock.cleanAll();
     });
 
-    test.afterEach(timekeeper.reset);
+    test.afterEach(() => timekeeper.reset());
 
     test.serial('RemoteJWKSet', async (t) => {
       const keys = [
@@ -174,6 +185,7 @@ Promise.all([
     });
 
     test.serial('refreshes the JWKS once off cooldown', async (t) => {
+      timekeeper.freeze(now * 1000);
       let jwk = {
         crv: 'P-256',
         x: 'fqCXPnWs3sSfwztvwYU9SthmRdoT4WCXxS8eD8icF6U',
@@ -261,6 +273,34 @@ Promise.all([
       await t.throwsAsync(JWKS({ alg: 'RS256' }), {
         code: 'ERR_JOSE_GENERIC',
         message: 'Failed to parse the JSON Web Key Set HTTP response as JSON',
+      });
+    });
+
+    test.serial('handles ENOTFOUND', async (t) => {
+      nock.enableNetConnect();
+      const url = new URL('https://op.example.com/jwks');
+      const JWKS = createRemoteJWKSet(url);
+      await t.throwsAsync(JWKS({ alg: 'RS256' }), {
+        code: 'ENOTFOUND',
+      });
+    });
+
+    test.serial('handles ECONNREFUSED', async (t) => {
+      const url = new URL('http://localhost:3001/jwks');
+      const JWKS = createRemoteJWKSet(url);
+      await t.throwsAsync(JWKS({ alg: 'RS256' }), {
+        code: 'ECONNREFUSED',
+      });
+    });
+
+    test.serial('handles ECONNRESET', async (t) => {
+      const url = new URL('http://localhost:3000/jwks');
+      t.context.server.once('connection', (socket) => {
+        socket.destroy();
+      });
+      const JWKS = createRemoteJWKSet(url);
+      await t.throwsAsync(JWKS({ alg: 'RS256' }), {
+        code: 'ECONNRESET',
       });
     });
   },
