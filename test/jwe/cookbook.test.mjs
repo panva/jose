@@ -936,7 +936,10 @@ Promise.all([
 
     for (const vector of vectors) {
       let conditional;
-      if (('WEBCRYPTO' in process.env || 'CRYPTOKEY' in process.env) && vector.webcrypto === false) {
+      if (
+        ('WEBCRYPTO' in process.env || 'CRYPTOKEY' in process.env) &&
+        vector.webcrypto === false
+      ) {
         conditional = test.failing;
       } else {
         conditional = test;
