@@ -374,57 +374,6 @@
     "typedoc-plugin-markdown": "3.1.1",
     "typescript": "4.0.5"
   },
-  "c8": {
-    "src": "./src",
-    "reporter": [
-      "lcov",
-      "text-summary"
-    ]
-  },
-  "standard-version": {
-    "commit-all": true,
-    "scripts": {
-      "prerelease": "npm run-script build-all",
-      "postbump": "node ./tools/docs.postbump.js",
-      "postchangelog": "sed -i '' -e 's/### \\[/## [/g' CHANGELOG.md"
-    },
-    "types": [
-      {
-        "type": "feat",
-        "section": "Features"
-      },
-      {
-        "type": "fix",
-        "section": "Bug Fixes"
-      },
-      {
-        "type": "chore",
-        "hidden": true
-      },
-      {
-        "type": "docs",
-        "hidden": true
-      },
-      {
-        "type": "style",
-        "hidden": true
-      },
-      {
-        "type": "refactor",
-        "section": "Refactor",
-        "hidden": true
-      },
-      {
-        "type": "perf",
-        "section": "Performance",
-        "hidden": false
-      },
-      {
-        "type": "test",
-        "hidden": true
-      }
-    ]
-  },
   "typesVersions": {
     "*": {
       "webcrypto/*": [
