@@ -23,7 +23,7 @@ JOSE Error subclasses inherit from.
 
 \+ **new JOSEError**(`message?`: string): [JOSEError](_util_errors_.joseerror.md)
 
-*Defined in [src/util/errors.ts:11](https://github.com/panva/jose/blob/v3.6.0/src/util/errors.ts#L11)*
+*Defined in [src/util/errors.ts:11](https://github.com/panva/jose/blob/v3.6.1/src/util/errors.ts#L11)*
 
 #### Parameters:
 
@@ -39,7 +39,7 @@ Name | Type |
 
 •  **code**: string = "ERR\_JOSE\_GENERIC"
 
-*Defined in [src/util/errors.ts:11](https://github.com/panva/jose/blob/v3.6.0/src/util/errors.ts#L11)*
+*Defined in [src/util/errors.ts:11](https://github.com/panva/jose/blob/v3.6.1/src/util/errors.ts#L11)*
 
 A unique error code for the particular error subclass.
 

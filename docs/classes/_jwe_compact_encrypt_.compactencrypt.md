@@ -54,7 +54,7 @@ console.log(jwe)
 
 \+ **new CompactEncrypt**(`plaintext`: Uint8Array): [CompactEncrypt](_jwe_compact_encrypt_.compactencrypt.md)
 
-*Defined in [src/jwe/compact/encrypt.ts:45](https://github.com/panva/jose/blob/v3.6.0/src/jwe/compact/encrypt.ts#L45)*
+*Defined in [src/jwe/compact/encrypt.ts:45](https://github.com/panva/jose/blob/v3.6.1/src/jwe/compact/encrypt.ts#L45)*
 
 #### Parameters:
 
@@ -70,7 +70,7 @@ Name | Type | Description |
 
 ▸ **encrypt**(`key`: [KeyLike](../types/_types_d_.keylike.md), `options?`: [EncryptOptions](../interfaces/_types_d_.encryptoptions.md)): Promise<string\>
 
-*Defined in [src/jwe/compact/encrypt.ts:108](https://github.com/panva/jose/blob/v3.6.0/src/jwe/compact/encrypt.ts#L108)*
+*Defined in [src/jwe/compact/encrypt.ts:108](https://github.com/panva/jose/blob/v3.6.1/src/jwe/compact/encrypt.ts#L108)*
 
 Encrypts and resolves the value of the Compact JWE string.
 
@@ -89,7 +89,7 @@ ___
 
 ▸ **setContentEncryptionKey**(`cek`: Uint8Array): this
 
-*Defined in [src/jwe/compact/encrypt.ts:62](https://github.com/panva/jose/blob/v3.6.0/src/jwe/compact/encrypt.ts#L62)*
+*Defined in [src/jwe/compact/encrypt.ts:62](https://github.com/panva/jose/blob/v3.6.1/src/jwe/compact/encrypt.ts#L62)*
 
 Sets a content encryption key to use, by default a random suitable one
 is generated for the JWE enc" (Encryption Algorithm) Header Parameter.
@@ -110,7 +110,7 @@ ___
 
 ▸ **setInitializationVector**(`iv`: Uint8Array): this
 
-*Defined in [src/jwe/compact/encrypt.ts:75](https://github.com/panva/jose/blob/v3.6.0/src/jwe/compact/encrypt.ts#L75)*
+*Defined in [src/jwe/compact/encrypt.ts:75](https://github.com/panva/jose/blob/v3.6.1/src/jwe/compact/encrypt.ts#L75)*
 
 Sets the JWE Initialization Vector to use for content encryption, by default
 a random suitable one is generated for the JWE enc" (Encryption Algorithm)
@@ -131,7 +131,7 @@ ___
 
 ▸ **setKeyManagementParameters**(`parameters`: [JWEKeyManagementHeaderParameters](../interfaces/_types_d_.jwekeymanagementheaderparameters.md)): this
 
-*Defined in [src/jwe/compact/encrypt.ts:97](https://github.com/panva/jose/blob/v3.6.0/src/jwe/compact/encrypt.ts#L97)*
+*Defined in [src/jwe/compact/encrypt.ts:97](https://github.com/panva/jose/blob/v3.6.1/src/jwe/compact/encrypt.ts#L97)*
 
 Sets the JWE Key Management parameters to be used when encrypting the Content
 Encryption Key. You do not need to invoke this method, it is only really
@@ -151,7 +151,7 @@ ___
 
 ▸ **setProtectedHeader**(`protectedHeader`: [JWEHeaderParameters](../interfaces/_types_d_.jweheaderparameters.md)): this
 
-*Defined in [src/jwe/compact/encrypt.ts:85](https://github.com/panva/jose/blob/v3.6.0/src/jwe/compact/encrypt.ts#L85)*
+*Defined in [src/jwe/compact/encrypt.ts:85](https://github.com/panva/jose/blob/v3.6.1/src/jwe/compact/encrypt.ts#L85)*
 
 Sets the JWE Protected Header on the CompactEncrypt object.
 

@@ -22,7 +22,7 @@ implementation or JOSE in general.
 
 \+ **new JOSENotSupported**(`message?`: string): [JOSENotSupported](_util_errors_.josenotsupported.md)
 
-*Defined in [src/util/errors.ts:11](https://github.com/panva/jose/blob/v3.6.0/src/util/errors.ts#L11)*
+*Defined in [src/util/errors.ts:11](https://github.com/panva/jose/blob/v3.6.1/src/util/errors.ts#L11)*
 
 #### Parameters:
 
@@ -40,7 +40,7 @@ Name | Type |
 
 *Overrides [JOSEError](_util_errors_.joseerror.md).[code](_util_errors_.joseerror.md#code)*
 
-*Defined in [src/util/errors.ts:57](https://github.com/panva/jose/blob/v3.6.0/src/util/errors.ts#L57)*
+*Defined in [src/util/errors.ts:57](https://github.com/panva/jose/blob/v3.6.1/src/util/errors.ts#L57)*
 
 ___
 

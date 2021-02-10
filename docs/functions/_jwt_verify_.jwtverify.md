@@ -2,7 +2,7 @@
 
 ▸ **jwtVerify**(`jwt`: string \| Uint8Array, `key`: [KeyLike](../types/_types_d_.keylike.md) \| [JWTVerifyGetKey](../interfaces/_jwt_verify_.jwtverifygetkey.md), `options?`: [JWTVerifyOptions](../interfaces/_jwt_verify_.jwtverifyoptions.md)): Promise<[JWTVerifyResult](../interfaces/_types_d_.jwtverifyresult.md)\>
 
-*Defined in [src/jwt/verify.ts:67](https://github.com/panva/jose/blob/v3.6.0/src/jwt/verify.ts#L67)*
+*Defined in [src/jwt/verify.ts:67](https://github.com/panva/jose/blob/v3.6.1/src/jwt/verify.ts#L67)*
 
 Verifies the JWT format (to be a JWS Compact format), verifies the JWS signature, validates the JWT Claims Set.
 
