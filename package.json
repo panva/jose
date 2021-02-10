@@ -63,8 +63,8 @@
       "require": "./dist/node/cjs/jwe/compact/decrypt.js"
     },
     "./webcrypto/jwe/compact/decrypt": {
-      "import": "./dist/node/webcrypto/esm/jwe/compact/decrypt.js",
-      "require": "./dist/node/webcrypto/cjs/jwe/compact/decrypt.js"
+      "import": "./dist/node/esm/jwe/compact/decrypt.js",
+      "require": "./dist/node/cjs/jwe/compact/decrypt.js"
     },
     "./jwe/compact/encrypt": {
       "browser": "./dist/browser/jwe/compact/encrypt.js",
@@ -72,8 +72,8 @@
       "require": "./dist/node/cjs/jwe/compact/encrypt.js"
     },
     "./webcrypto/jwe/compact/encrypt": {
-      "import": "./dist/node/webcrypto/esm/jwe/compact/encrypt.js",
-      "require": "./dist/node/webcrypto/cjs/jwe/compact/encrypt.js"
+      "import": "./dist/node/esm/jwe/compact/encrypt.js",
+      "require": "./dist/node/cjs/jwe/compact/encrypt.js"
     },
     "./jwe/flattened/decrypt": {
       "browser": "./dist/browser/jwe/flattened/decrypt.js",
@@ -81,8 +81,8 @@
       "require": "./dist/node/cjs/jwe/flattened/decrypt.js"
     },
     "./webcrypto/jwe/flattened/decrypt": {
-      "import": "./dist/node/webcrypto/esm/jwe/flattened/decrypt.js",
-      "require": "./dist/node/webcrypto/cjs/jwe/flattened/decrypt.js"
+      "import": "./dist/node/esm/jwe/flattened/decrypt.js",
+      "require": "./dist/node/cjs/jwe/flattened/decrypt.js"
     },
     "./jwe/flattened/encrypt": {
       "browser": "./dist/browser/jwe/flattened/encrypt.js",
@@ -90,8 +90,8 @@
       "require": "./dist/node/cjs/jwe/flattened/encrypt.js"
     },
     "./webcrypto/jwe/flattened/encrypt": {
-      "import": "./dist/node/webcrypto/esm/jwe/flattened/encrypt.js",
-      "require": "./dist/node/webcrypto/cjs/jwe/flattened/encrypt.js"
+      "import": "./dist/node/esm/jwe/flattened/encrypt.js",
+      "require": "./dist/node/cjs/jwe/flattened/encrypt.js"
     },
     "./jwe/general/decrypt": {
       "browser": "./dist/browser/jwe/general/decrypt.js",
@@ -99,8 +99,8 @@
       "require": "./dist/node/cjs/jwe/general/decrypt.js"
     },
     "./webcrypto/jwe/general/decrypt": {
-      "import": "./dist/node/webcrypto/esm/jwe/general/decrypt.js",
-      "require": "./dist/node/webcrypto/cjs/jwe/general/decrypt.js"
+      "import": "./dist/node/esm/jwe/general/decrypt.js",
+      "require": "./dist/node/cjs/jwe/general/decrypt.js"
     },
     "./jwk/embedded": {
       "browser": "./dist/browser/jwk/embedded.js",
@@ -108,8 +108,8 @@
       "require": "./dist/node/cjs/jwk/embedded.js"
     },
     "./webcrypto/jwk/embedded": {
-      "import": "./dist/node/webcrypto/esm/jwk/embedded.js",
-      "require": "./dist/node/webcrypto/cjs/jwk/embedded.js"
+      "import": "./dist/node/esm/jwk/embedded.js",
+      "require": "./dist/node/cjs/jwk/embedded.js"
     },
     "./jwk/from_key_like": {
       "browser": "./dist/browser/jwk/from_key_like.js",
@@ -117,8 +117,8 @@
       "require": "./dist/node/cjs/jwk/from_key_like.js"
     },
     "./webcrypto/jwk/from_key_like": {
-      "import": "./dist/node/webcrypto/esm/jwk/from_key_like.js",
-      "require": "./dist/node/webcrypto/cjs/jwk/from_key_like.js"
+      "import": "./dist/node/esm/jwk/from_key_like.js",
+      "require": "./dist/node/cjs/jwk/from_key_like.js"
     },
     "./jwk/parse": {
       "browser": "./dist/browser/jwk/parse.js",
@@ -126,8 +126,8 @@
       "require": "./dist/node/cjs/jwk/parse.js"
     },
     "./webcrypto/jwk/parse": {
-      "import": "./dist/node/webcrypto/esm/jwk/parse.js",
-      "require": "./dist/node/webcrypto/cjs/jwk/parse.js"
+      "import": "./dist/node/esm/jwk/parse.js",
+      "require": "./dist/node/cjs/jwk/parse.js"
     },
     "./jwk/thumbprint": {
       "browser": "./dist/browser/jwk/thumbprint.js",
@@ -135,8 +135,8 @@
       "require": "./dist/node/cjs/jwk/thumbprint.js"
     },
     "./webcrypto/jwk/thumbprint": {
-      "import": "./dist/node/webcrypto/esm/jwk/thumbprint.js",
-      "require": "./dist/node/webcrypto/cjs/jwk/thumbprint.js"
+      "import": "./dist/node/esm/jwk/thumbprint.js",
+      "require": "./dist/node/cjs/jwk/thumbprint.js"
     },
     "./jwks/remote": {
       "browser": "./dist/browser/jwks/remote.js",
@@ -144,8 +144,8 @@
       "require": "./dist/node/cjs/jwks/remote.js"
     },
     "./webcrypto/jwks/remote": {
-      "import": "./dist/node/webcrypto/esm/jwks/remote.js",
-      "require": "./dist/node/webcrypto/cjs/jwks/remote.js"
+      "import": "./dist/node/esm/jwks/remote.js",
+      "require": "./dist/node/cjs/jwks/remote.js"
     },
     "./jws/compact/sign": {
       "browser": "./dist/browser/jws/compact/sign.js",
@@ -153,8 +153,8 @@
       "require": "./dist/node/cjs/jws/compact/sign.js"
     },
     "./webcrypto/jws/compact/sign": {
-      "import": "./dist/node/webcrypto/esm/jws/compact/sign.js",
-      "require": "./dist/node/webcrypto/cjs/jws/compact/sign.js"
+      "import": "./dist/node/esm/jws/compact/sign.js",
+      "require": "./dist/node/cjs/jws/compact/sign.js"
     },
     "./jws/compact/verify": {
       "browser": "./dist/browser/jws/compact/verify.js",
@@ -162,8 +162,8 @@
       "require": "./dist/node/cjs/jws/compact/verify.js"
     },
     "./webcrypto/jws/compact/verify": {
-      "import": "./dist/node/webcrypto/esm/jws/compact/verify.js",
-      "require": "./dist/node/webcrypto/cjs/jws/compact/verify.js"
+      "import": "./dist/node/esm/jws/compact/verify.js",
+      "require": "./dist/node/cjs/jws/compact/verify.js"
     },
     "./jws/flattened/sign": {
       "browser": "./dist/browser/jws/flattened/sign.js",
@@ -171,8 +171,8 @@
       "require": "./dist/node/cjs/jws/flattened/sign.js"
     },
     "./webcrypto/jws/flattened/sign": {
-      "import": "./dist/node/webcrypto/esm/jws/flattened/sign.js",
-      "require": "./dist/node/webcrypto/cjs/jws/flattened/sign.js"
+      "import": "./dist/node/esm/jws/flattened/sign.js",
+      "require": "./dist/node/cjs/jws/flattened/sign.js"
     },
     "./jws/flattened/verify": {
       "browser": "./dist/browser/jws/flattened/verify.js",
@@ -180,8 +180,8 @@
       "require": "./dist/node/cjs/jws/flattened/verify.js"
     },
     "./webcrypto/jws/flattened/verify": {
-      "import": "./dist/node/webcrypto/esm/jws/flattened/verify.js",
-      "require": "./dist/node/webcrypto/cjs/jws/flattened/verify.js"
+      "import": "./dist/node/esm/jws/flattened/verify.js",
+      "require": "./dist/node/cjs/jws/flattened/verify.js"
     },
     "./jws/general/sign": {
       "browser": "./dist/browser/jws/general/sign.js",
@@ -189,8 +189,8 @@
       "require": "./dist/node/cjs/jws/general/sign.js"
     },
     "./webcrypto/jws/general/sign": {
-      "import": "./dist/node/webcrypto/esm/jws/general/sign.js",
-      "require": "./dist/node/webcrypto/cjs/jws/general/sign.js"
+      "import": "./dist/node/esm/jws/general/sign.js",
+      "require": "./dist/node/cjs/jws/general/sign.js"
     },
     "./jws/general/verify": {
       "browser": "./dist/browser/jws/general/verify.js",
@@ -198,8 +198,8 @@
       "require": "./dist/node/cjs/jws/general/verify.js"
     },
     "./webcrypto/jws/general/verify": {
-      "import": "./dist/node/webcrypto/esm/jws/general/verify.js",
-      "require": "./dist/node/webcrypto/cjs/jws/general/verify.js"
+      "import": "./dist/node/esm/jws/general/verify.js",
+      "require": "./dist/node/cjs/jws/general/verify.js"
     },
     "./jwt/decrypt": {
       "browser": "./dist/browser/jwt/decrypt.js",
@@ -207,8 +207,8 @@
       "require": "./dist/node/cjs/jwt/decrypt.js"
     },
     "./webcrypto/jwt/decrypt": {
-      "import": "./dist/node/webcrypto/esm/jwt/decrypt.js",
-      "require": "./dist/node/webcrypto/cjs/jwt/decrypt.js"
+      "import": "./dist/node/esm/jwt/decrypt.js",
+      "require": "./dist/node/cjs/jwt/decrypt.js"
     },
     "./jwt/encrypt": {
       "browser": "./dist/browser/jwt/encrypt.js",
@@ -216,8 +216,8 @@
       "require": "./dist/node/cjs/jwt/encrypt.js"
     },
     "./webcrypto/jwt/encrypt": {
-      "import": "./dist/node/webcrypto/esm/jwt/encrypt.js",
-      "require": "./dist/node/webcrypto/cjs/jwt/encrypt.js"
+      "import": "./dist/node/esm/jwt/encrypt.js",
+      "require": "./dist/node/cjs/jwt/encrypt.js"
     },
     "./jwt/sign": {
       "browser": "./dist/browser/jwt/sign.js",
@@ -225,8 +225,8 @@
       "require": "./dist/node/cjs/jwt/sign.js"
     },
     "./webcrypto/jwt/sign": {
-      "import": "./dist/node/webcrypto/esm/jwt/sign.js",
-      "require": "./dist/node/webcrypto/cjs/jwt/sign.js"
+      "import": "./dist/node/esm/jwt/sign.js",
+      "require": "./dist/node/cjs/jwt/sign.js"
     },
     "./jwt/unsecured": {
       "browser": "./dist/browser/jwt/unsecured.js",
@@ -234,8 +234,8 @@
       "require": "./dist/node/cjs/jwt/unsecured.js"
     },
     "./webcrypto/jwt/unsecured": {
-      "import": "./dist/node/webcrypto/esm/jwt/unsecured.js",
-      "require": "./dist/node/webcrypto/cjs/jwt/unsecured.js"
+      "import": "./dist/node/esm/jwt/unsecured.js",
+      "require": "./dist/node/cjs/jwt/unsecured.js"
     },
     "./jwt/verify": {
       "browser": "./dist/browser/jwt/verify.js",
@@ -243,8 +243,8 @@
       "require": "./dist/node/cjs/jwt/verify.js"
     },
     "./webcrypto/jwt/verify": {
-      "import": "./dist/node/webcrypto/esm/jwt/verify.js",
-      "require": "./dist/node/webcrypto/cjs/jwt/verify.js"
+      "import": "./dist/node/esm/jwt/verify.js",
+      "require": "./dist/node/cjs/jwt/verify.js"
     },
     "./util/base64url": {
       "browser": "./dist/browser/util/base64url.js",
@@ -252,8 +252,8 @@
       "require": "./dist/node/cjs/util/base64url.js"
     },
     "./webcrypto/util/base64url": {
-      "import": "./dist/node/webcrypto/esm/util/base64url.js",
-      "require": "./dist/node/webcrypto/cjs/util/base64url.js"
+      "import": "./dist/node/esm/util/base64url.js",
+      "require": "./dist/node/cjs/util/base64url.js"
     },
     "./util/decode_protected_header": {
       "browser": "./dist/browser/util/decode_protected_header.js",
@@ -261,8 +261,8 @@
       "require": "./dist/node/cjs/util/decode_protected_header.js"
     },
     "./webcrypto/util/decode_protected_header": {
-      "import": "./dist/node/webcrypto/esm/util/decode_protected_header.js",
-      "require": "./dist/node/webcrypto/cjs/util/decode_protected_header.js"
+      "import": "./dist/node/esm/util/decode_protected_header.js",
+      "require": "./dist/node/cjs/util/decode_protected_header.js"
     },
     "./util/errors": {
       "browser": "./dist/browser/util/errors.js",
@@ -270,8 +270,8 @@
       "require": "./dist/node/cjs/util/errors.js"
     },
     "./webcrypto/util/errors": {
-      "import": "./dist/node/webcrypto/esm/util/errors.js",
-      "require": "./dist/node/webcrypto/cjs/util/errors.js"
+      "import": "./dist/node/esm/util/errors.js",
+      "require": "./dist/node/cjs/util/errors.js"
     },
     "./util/generate_key_pair": {
       "browser": "./dist/browser/util/generate_key_pair.js",
@@ -279,8 +279,8 @@
       "require": "./dist/node/cjs/util/generate_key_pair.js"
     },
     "./webcrypto/util/generate_key_pair": {
-      "import": "./dist/node/webcrypto/esm/util/generate_key_pair.js",
-      "require": "./dist/node/webcrypto/cjs/util/generate_key_pair.js"
+      "import": "./dist/node/esm/util/generate_key_pair.js",
+      "require": "./dist/node/cjs/util/generate_key_pair.js"
     },
     "./util/generate_secret": {
       "browser": "./dist/browser/util/generate_secret.js",
@@ -288,8 +288,8 @@
       "require": "./dist/node/cjs/util/generate_secret.js"
     },
     "./webcrypto/util/generate_secret": {
-      "import": "./dist/node/webcrypto/esm/util/generate_secret.js",
-      "require": "./dist/node/webcrypto/cjs/util/generate_secret.js"
+      "import": "./dist/node/esm/util/generate_secret.js",
+      "require": "./dist/node/cjs/util/generate_secret.js"
     },
     "./util/random": {
       "browser": "./dist/browser/util/random.js",
@@ -297,14 +297,15 @@
       "require": "./dist/node/cjs/util/random.js"
     },
     "./webcrypto/util/random": {
-      "import": "./dist/node/webcrypto/esm/util/random.js",
-      "require": "./dist/node/webcrypto/cjs/util/random.js"
+      "import": "./dist/node/esm/util/random.js",
+      "require": "./dist/node/cjs/util/random.js"
     }
   },
   "files": [
     "dist/**/package.json",
     "dist/**/*.js",
     "dist/types/**/*.d.ts",
+    "!dist/node/webcrypto/**/*",
     "!dist/types/**/*.i.d.ts",
     "!dist/types/runtime/*",
     "!dist/types/lib/*",
