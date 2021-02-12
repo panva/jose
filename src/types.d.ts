@@ -424,7 +424,7 @@ export interface JWTClaimVerificationOptions {
   /**
    * Expected clock tolerance
    * - in seconds when number (e.g. 5)
-   * - parsed as seconds when a string (e.g. "5 seconds").
+   * - parsed as seconds when a string (e.g. "5 seconds", "10 minutes", "2 hours").
    */
   clockTolerance?: string | number
 
@@ -435,8 +435,10 @@ export interface JWTClaimVerificationOptions {
 
   /**
    * Maximum time elapsed (in seconds) from the JWT "iat" (Issued At) Claim value.
+   * - in seconds when number (e.g. 5)
+   * - parsed as seconds when a string (e.g. "5 seconds", "10 minutes", "2 hours").
    */
-  maxTokenAge?: string
+  maxTokenAge?: string | number
 
   /**
    * Expected JWT "sub" (Subject) Claim value.
