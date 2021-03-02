@@ -87,8 +87,6 @@ jobs:
         with:
           path: dist
           key: dist-${{ hashFiles('src/**/*.ts') }}-${{ hashFiles('tsconfig/*.json') }}
-      - run: npm install
-        working-directory: ./test
       - name: Test Node.js crypto
         run: npm run test
       - name: Test Node.js crypto w/ CryptoKey
@@ -97,6 +95,48 @@ jobs:
       - name: Test Web Cryptography API
         run: npm run test-webcrypto
         if: ${{ !startsWith(matrix.node-version, '14') && !startsWith(matrix.node-version, '12')  }}
+      - run: git reset HEAD --hard
+
+  test-electron:
+    needs:
+      - build
+    strategy:
+      matrix:
+        electron-version:
+          - 12.0.0
+          - latest
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Setup node
+        uses: actions/setup-node@v2
+        with:
+          node-version: 14
+          check-latest: true
+      - name: Store node version variable
+        id: node
+        run: |
+          echo "::set-output name=version::$(node -v)"
+      - name: Cache node_modules
+        uses: actions/cache@v2
+        id: node_modules
+        with:
+          path: node_modules
+          key: ${{ runner.os }}-node_modules-${{ hashFiles('package.json') }}-${{ steps.node.outputs.version }}
+      - name: Install dependencies
+        run: npx panva/npm-install-retry
+        if: ${{ steps.node_modules.outputs.cache-hit != 'true' }}
+      - name: Load cached dist
+        uses: actions/cache@v2
+        id: dist
+        with:
+          path: dist
+          key: dist-${{ hashFiles('src/**/*.ts') }}-${{ hashFiles('tsconfig/*.json') }}
+      - name: Install Electron
+        run: npm install --global xvfb-maybe electron@${{ matrix.electron-version }}
+      - name: Test Electron crypto
+        run: xvfb-maybe electron ./test/.electron
       - run: git reset HEAD --hard
 
   browserstack:

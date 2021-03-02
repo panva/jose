@@ -220,14 +220,19 @@ Promise.all([import(`${root}/jwk/parse`), import(`${root}/jwk/from_key_like`)]).
       );
     });
 
-    let conditional;
-    if ('WEBCRYPTO' in process.env) {
-      conditional = test.failing;
-    } else {
-      conditional = test;
+    function conditional({ webcrypto = 1, electron = 1 } = {}, ...args) {
+      let run = test;
+      if (!webcrypto && 'WEBCRYPTO' in process.env) {
+        run = run.failing;
+      }
+
+      if (!electron && 'electron' in process.versions) {
+        run = run.failing;
+      }
+      return run;
     }
 
-    conditional('secret key object can be transformed to a JWK', async (t) => {
+    conditional({ webcrypto: 0 })('secret key object can be transformed to a JWK', async (t) => {
       const keylike = await parseJwk(
         {
           ext: true,
@@ -250,35 +255,38 @@ Promise.all([import(`${root}/jwk/parse`), import(`${root}/jwk/from_key_like`)]).
       d: '47Iw2GXvj-hpfgGsfF3F2mekHKaDc2qv7WTqtAkU1H0',
       kty: 'EC',
     };
-    conditional(testKeyImportExport, { ...secp256k1, alg: 'ES256K' });
+    conditional({ webcrypto: 0, electron: 0 })(testKeyImportExport, {
+      ...secp256k1,
+      alg: 'ES256K',
+    });
     const ed25519 = {
       crv: 'Ed25519',
       x: 'GVLslCt7dY6H8p_yatNaGOtpdrCho5qaLvIvNTMd29M',
       d: 'FRaWZohbbDyzhYpTCS9m4fv2xoK6HG83bw6jq6zNxEs',
       kty: 'OKP',
     };
-    conditional(testKeyImportExport, { ...ed25519, alg: 'EdDSA' });
+    conditional({ webcrypto: 0 })(testKeyImportExport, { ...ed25519, alg: 'EdDSA' });
     const ed448 = {
       crv: 'Ed448',
       x: 'KYWcaDwgH77xdAwcbzOgvCVcGMy9I6prRQBhQTTdKXUcr-VquTz7Fd5adJO0wT2VHysF3bk3kBoA',
       d: 'UhC3-vN5vp_g9PnTknXZgfXUez7Xvw-OfuJ0pYkuwzpYkcTvacqoFkV_O05WMHpyXkzH9q2wzx5n',
       kty: 'OKP',
     };
-    conditional(testKeyImportExport, { ...ed448, alg: 'EdDSA' });
+    conditional({ webcrypto: 0, electron: 0 })(testKeyImportExport, { ...ed448, alg: 'EdDSA' });
     const x25519 = {
       crv: 'X25519',
       x: 'axR8Q7PEd74nY9nWaAoAYpMe3gp5sWbau6V6X1inPw4',
       d: 'aCvvb3jEBnxJJBjCIN2a9ZDTL-HG6LVgBbij4m8-d3Y',
       kty: 'OKP',
     };
-    conditional(testKeyImportExport, { ...x25519, alg: 'ECDH-ES' });
+    conditional({ webcrypto: 0 })(testKeyImportExport, { ...x25519, alg: 'ECDH-ES' });
     const x448 = {
       crv: 'X448',
       x: 'z8s0Ej7D4pgIDu233UHoDW48EbiEm5eFv8_LuFwRr0xVREHhCtdxH75x6J8egZbjDGweOSbeHbY',
       d: 'xBrCwLlrHa1ov2cbmD4eMw4t6DoN_MWsBT_mxcA_QWsCS_9sKMRyFpphNN9_2iKrGPTC9pWCS5w',
       kty: 'OKP',
     };
-    conditional(testKeyImportExport, { ...x448, alg: 'ECDH-ES' });
+    conditional({ webcrypto: 0, electron: 0 })(testKeyImportExport, { ...x448, alg: 'ECDH-ES' });
   },
   (err) => {
     test('failed to import', (t) => {

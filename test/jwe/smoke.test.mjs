@@ -136,22 +136,40 @@ Promise.all([
           algs: ['ECDH-ES', 'ECDH-ES+A128KW', 'ECDH-ES+A192KW', 'ECDH-ES+A256KW'],
           generate: { crv: 'X448' },
         },
-        p256: {
+        p256kw: {
           public: pubjwk(p256),
           private: p256,
-          algs: ['ECDH-ES', 'ECDH-ES+A128KW', 'ECDH-ES+A192KW', 'ECDH-ES+A256KW'],
+          algs: ['ECDH-ES+A128KW', 'ECDH-ES+A192KW', 'ECDH-ES+A256KW'],
           generate: { crv: 'P-256' },
         },
-        p384: {
+        p256dir: {
+          public: pubjwk(p256),
+          private: p256,
+          algs: ['ECDH-ES'],
+          generate: { crv: 'P-256' },
+        },
+        p384kw: {
           public: pubjwk(p384),
           private: p384,
-          algs: ['ECDH-ES', 'ECDH-ES+A128KW', 'ECDH-ES+A192KW', 'ECDH-ES+A256KW'],
+          algs: ['ECDH-ES+A128KW', 'ECDH-ES+A192KW', 'ECDH-ES+A256KW'],
           generate: { crv: 'P-384' },
         },
-        p521: {
+        p384dir: {
+          public: pubjwk(p384),
+          private: p384,
+          algs: ['ECDH-ES'],
+          generate: { crv: 'P-384' },
+        },
+        p521kw: {
           public: pubjwk(p521),
           private: p521,
-          algs: ['ECDH-ES', 'ECDH-ES+A128KW', 'ECDH-ES+A192KW', 'ECDH-ES+A256KW'],
+          algs: ['ECDH-ES+A128KW', 'ECDH-ES+A192KW', 'ECDH-ES+A256KW'],
+          generate: { crv: 'P-521' },
+        },
+        p521dir: {
+          public: pubjwk(p521),
+          private: p521,
+          algs: ['ECDH-ES'],
           generate: { crv: 'P-521' },
         },
         octAny: {
@@ -276,40 +294,63 @@ Promise.all([
     test(smoke, 'rsa');
     test('with wrap ops', smoke, 'rsa', ['wrapKey'], ['unwrapKey']);
     test('with enc ops', smoke, 'rsa', ['encrypt'], ['decrypt']);
-    test(smoke, 'p256');
-    test(smoke, 'p384');
-    test(smoke, 'p521');
-    test(smoke, 'oct128');
-    test('as keyobject', smoke, 'oct128', ['wrapKey'], ['unwrapKey'], true);
+    test(smoke, 'p256dir');
+    test(smoke, 'p384dir');
+    test(smoke, 'p521dir');
     test(smoke, 'oct128gcm');
     test('as keyobject', smoke, 'oct128gcm', ['encrypt'], ['decrypt'], true);
-    test(smoke, 'oct192');
-    test('as keyobject', smoke, 'oct192', ['wrapKey'], ['unwrapKey'], true);
     test(smoke, 'oct192gcm');
     test('as keyobject', smoke, 'oct192gcm', ['encrypt'], ['decrypt'], true);
-    test(smoke, 'oct256');
-    test('as keyobject', smoke, 'oct256', ['wrapKey'], ['unwrapKey'], true);
     test(smoke, 'oct256gcm');
     test('as keyobject', smoke, 'oct256gcm', ['encrypt'], ['decrypt'], true);
     test(smoke, 'oct256c');
     test(smoke, 'oct384c');
     test(smoke, 'oct512c');
-    test(smoke, 'octAny');
-    test('as keyobject (deriveBits)', smoke, 'octAny', ['deriveBits'], ['deriveBits'], true);
-    test('as keyobject (deriveKey)', smoke, 'octAny', ['deriveKey'], ['deriveKey'], true);
 
-    let conditional;
-    if ('WEBCRYPTO' in process.env || 'CRYPTOKEY' in process.env) {
-      conditional = test.failing;
-    } else {
-      conditional = test;
+    function conditional({ webcrypto = 1, electron = 1 } = {}, ...args) {
+      let run = test;
+      if ((!webcrypto && 'WEBCRYPTO' in process.env)) {
+        run = run.failing;
+      }
+
+      if (!electron && 'electron' in process.versions) {
+        run = run.failing;
+      }
+      return run;
     }
-    conditional(smoke, 'rsa1_5');
-    conditional(smoke, 'x25519');
-    conditional(smoke, 'x448');
-    conditional('as keyobject', smoke, 'oct256c', undefined, undefined, true);
-    conditional('as keyobject', smoke, 'oct384c', undefined, undefined, true);
-    conditional('as keyobject', smoke, 'oct512c', undefined, undefined, true);
+
+    conditional({ webcrypto: 0 }, smoke, 'rsa1_5');
+    conditional({ webcrypto: 0, electron: 0 }, smoke, 'x25519');
+    conditional({ webcrypto: 0, electron: 0 }, smoke, 'x448');
+    conditional({ webcrypto: 0 }, 'as keyobject', smoke, 'oct256c', undefined, undefined, true);
+    conditional({ webcrypto: 0 }, 'as keyobject', smoke, 'oct384c', undefined, undefined, true);
+    conditional({ webcrypto: 0 }, 'as keyobject', smoke, 'oct512c', undefined, undefined, true);
+    conditional({ electron: 0 })(smoke, 'octAny');
+    conditional({ electron: 0 })(
+      'as keyobject (deriveBits)',
+      smoke,
+      'octAny',
+      ['deriveBits'],
+      ['deriveBits'],
+      true,
+    );
+    conditional({ electron: 0 })(
+      'as keyobject (deriveKey)',
+      smoke,
+      'octAny',
+      ['deriveKey'],
+      ['deriveKey'],
+      true,
+    );
+    conditional({ electron: 0 })(smoke, 'oct128');
+    conditional({ electron: 0 })('as keyobject', smoke, 'oct128', ['wrapKey'], ['unwrapKey'], true);
+    conditional({ electron: 0 })(smoke, 'oct192');
+    conditional({ electron: 0 })('as keyobject', smoke, 'oct192', ['wrapKey'], ['unwrapKey'], true);
+    conditional({ electron: 0 })(smoke, 'oct256');
+    conditional({ electron: 0 })('as keyobject', smoke, 'oct256', ['wrapKey'], ['unwrapKey'], true);
+    conditional({ electron: 0 }, smoke, 'p256kw');
+    conditional({ electron: 0 }, smoke, 'p384kw');
+    conditional({ electron: 0 }, smoke, 'p521kw');
   },
   (err) => {
     test('failed to import', (t) => {

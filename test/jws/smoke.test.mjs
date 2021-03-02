@@ -221,15 +221,21 @@ Promise.all([
     test('as keyobject', smoke, 'oct384', true);
     test('as keyobject', smoke, 'oct512', true);
 
-    let conditional;
-    if ('WEBCRYPTO' in process.env || 'CRYPTOKEY' in process.env) {
-      conditional = test.failing;
-    } else {
-      conditional = test;
+    function conditional({ webcrypto = 1, electron = 1 } = {}, ...args) {
+      let run = test;
+      if ((!webcrypto && 'WEBCRYPTO' in process.env) || 'CRYPTOKEY' in process.env) {
+        run = run.failing;
+      }
+
+      if (!electron && 'electron' in process.versions) {
+        run = run.failing;
+      }
+      return run;
     }
-    conditional(smoke, 'secp256k1');
-    conditional(smoke, 'ed25519');
-    conditional(smoke, 'ed448');
+
+    conditional({ webcrypto: 0, electron: 0 })(smoke, 'secp256k1');
+    conditional({ webcrypto: 0 })(smoke, 'ed25519');
+    conditional({ webcrypto: 0, electron: 0 })(smoke, 'ed448');
   },
   (err) => {
     test('failed to import', (t) => {

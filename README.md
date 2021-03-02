@@ -114,7 +114,7 @@ Legend:
 | Platform | supported versions | caveats |
 | -- | -- | -- |
 | Node.js | LTS ^12.19.0 &vert;&vert; ^14.15.0 | |
-| Electron | `process.version` must match<br> the Node.js supported versions. So 12+</sup> | see <sup>[1]</sup> |
+| Electron | ^12.0.0 | see <sup>[1]</sup> |
 | Deno | ✕ | needs [Web Cryptography API integration](https://github.com/denoland/deno/issues/1891) first |
 | React Native | ✕ | has no available and usable crypto runtime |
 | IE | ✕ | implements old version of the Web Cryptography API specification |
@@ -129,7 +129,7 @@ Legend:
 
 <sup>1</sup> Due to its use of BoringSSL the following is not supported in Electron
   - A128KW, A192KW, A256KW, and all composite algorithms utilizing those
-  - secp256k1 EC curves
+  - secp256k1 EC curve
   - Ed448, X25519, and X448 OKP Sub Types  
 
 <sup>2</sup> RSA1_5, OKP JWK Key Type, and secp256k1 EC curve is not supported in [Web Cryptography API][webcrypto].   

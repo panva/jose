@@ -71,20 +71,29 @@ Promise.all([
       });
     }
 
-    let conditional;
-    if ('WEBCRYPTO' in process.env) {
-      conditional = test.failing;
-    } else {
-      conditional = test;
+    function conditional({ webcrypto = 1, electron = 1 } = {}, ...args) {
+      let run = test;
+      if (!webcrypto && 'WEBCRYPTO' in process.env) {
+        run = run.failing;
+      }
+
+      if (!electron && 'electron' in process.versions) {
+        run = run.failing;
+      }
+      return run;
     }
-    conditional('ECDH-ES cannot be executed with secp256k1', async (t) => {
-      const { privateKey } = await generateKeyPair('ES256K');
-      await t.throwsAsync(decryptKeyManagement('ECDH-ES', privateKey, undefined, { epk: {} }), {
-        code: 'ERR_JOSE_NOT_SUPPORTED',
-        message:
-          'ECDH-ES with the provided key is not allowed or not supported by your javascript runtime',
-      });
-    });
+
+    conditional({ webcrypto: 0, electron: 0 })(
+      'ECDH-ES cannot be executed with secp256k1',
+      async (t) => {
+        const { privateKey } = await generateKeyPair('ES256K');
+        await t.throwsAsync(decryptKeyManagement('ECDH-ES', privateKey, undefined, { epk: {} }), {
+          code: 'ERR_JOSE_NOT_SUPPORTED',
+          message:
+            'ECDH-ES with the provided key is not allowed or not supported by your javascript runtime',
+        });
+      },
+    );
   },
   (err) => {
     test('failed to import', (t) => {

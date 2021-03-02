@@ -173,6 +173,7 @@ Promise.all([
         title:
           'https://tools.ietf.org/html/rfc7520#section-5.1 - Key Encryption using RSA v1.5 and AES-HMAC-SHA2',
         webcrypto: false,
+        electron: true,
         reproducible: false,
         input: {
           plaintext:
@@ -246,6 +247,7 @@ Promise.all([
         title:
           'https://tools.ietf.org/html/rfc7520#section-5.2 - Key Encryption using RSA-OAEP with AES-GCM',
         webcrypto: true,
+        electron: true,
         input: {
           plaintext:
             'You can trust us to stick with you through thick and thin–to the bitter end. And you can trust us to keep any secret of yours–closer than you keep it yourself. But you cannot trust us to let you face trouble alone, and go off without a word. We are your friends, Frodo.',
@@ -319,6 +321,7 @@ Promise.all([
         title:
           'https://tools.ietf.org/html/rfc7520#section-5.3 - Key Wrap using PBES2-AES-KeyWrap with AES-CBC-HMAC-SHA2',
         webcrypto: true,
+        electron: false,
         reproducible: true,
         input: {
           plaintext:
@@ -375,6 +378,7 @@ Promise.all([
         title:
           'https://tools.ietf.org/html/rfc7520#section-5.4 - Key Agreement with Key Wrapping using ECDH-ES and AES-KeyWrap with AES-GCM',
         webcrypto: true,
+        electron: false,
         input: {
           plaintext:
             'You can trust us to stick with you through thick and thin–to the bitter end. And you can trust us to keep any secret of yours–closer than you keep it yourself. But you cannot trust us to let you face trouble alone, and go off without a word. We are your friends, Frodo.',
@@ -448,6 +452,7 @@ Promise.all([
         title:
           'https://tools.ietf.org/html/rfc7520#section-5.5 - Key Agreement using ECDH-ES with AES-CBC-HMAC-SHA2',
         webcrypto: true,
+        electron: true,
         input: {
           plaintext:
             'You can trust us to stick with you through thick and thin–to the bitter end. And you can trust us to keep any secret of yours–closer than you keep it yourself. But you cannot trust us to let you face trouble alone, and go off without a word. We are your friends, Frodo.',
@@ -515,6 +520,7 @@ Promise.all([
         title:
           'https://tools.ietf.org/html/rfc7520#section-5.6 - Direction Encryption using AES-GCM',
         webcrypto: true,
+        electron: true,
         reproducible: true,
         input: {
           plaintext:
@@ -565,6 +571,7 @@ Promise.all([
         title:
           'https://tools.ietf.org/html/rfc7520#section-5.6 - Key Wrap using AES-GCM KeyWrap with AES-CBC-HMAC-SHA2',
         webcrypto: true,
+        electron: true,
         reproducible: true,
         input: {
           plaintext:
@@ -628,6 +635,7 @@ Promise.all([
         title:
           'https://tools.ietf.org/html/rfc7520#section-5.8 - Key Wrap using AES-KeyWrap with AES-GCM',
         webcrypto: true,
+        electron: false,
         reproducible: true,
         input: {
           plaintext:
@@ -685,6 +693,7 @@ Promise.all([
       {
         title: 'https://tools.ietf.org/html/rfc7520#section-5.9 - Compressed Content',
         webcrypto: true,
+        electron: false,
         reproducible: true,
         input: {
           plaintext:
@@ -747,6 +756,7 @@ Promise.all([
         title:
           'https://tools.ietf.org/html/rfc7520#section-5.10 - Including Additional Authenticated Data',
         webcrypto: true,
+        electron: false,
         reproducible: true,
         input: {
           plaintext:
@@ -811,6 +821,7 @@ Promise.all([
         title:
           'https://tools.ietf.org/html/rfc7520#section-5.11 - Protecting Specific Header Fields',
         webcrypto: true,
+        electron: false,
         reproducible: true,
         input: {
           plaintext:
@@ -874,6 +885,7 @@ Promise.all([
       {
         title: 'https://tools.ietf.org/html/rfc7520#section-5.12 - Protecting Content Only',
         webcrypto: true,
+        electron: false,
         reproducible: true,
         input: {
           plaintext:
@@ -935,22 +947,23 @@ Promise.all([
     ];
 
     for (const vector of vectors) {
-      let conditional;
+      let run = test;
       if (
         ('WEBCRYPTO' in process.env || 'CRYPTOKEY' in process.env) &&
         vector.webcrypto === false
       ) {
-        conditional = test.failing;
-      } else {
-        conditional = test;
+        run = run.failing;
+      }
+      if ('electron' in process.versions && vector.electron === false) {
+        run = run.failing;
       }
       if (vector.skip) {
-        conditional = test.skip;
+        run = run.skip;
       }
       if (vector.only) {
-        conditional = test.only;
+        run = run.only;
       }
-      conditional(testCookbook, vector);
+      run(testCookbook, vector);
     }
   },
 );
