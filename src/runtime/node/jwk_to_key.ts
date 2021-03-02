@@ -22,7 +22,7 @@ const parse: JWKParseFunction = (jwk: JWK): KeyObject => {
       const exponent = Buffer.from(jwk.e!, 'base64')
 
       if (isPrivate) {
-        enc.unsignedInteger(Buffer.from([0x00]))
+        enc.zero()
         enc.unsignedInteger(modulus)
         enc.unsignedInteger(exponent)
         enc.unsignedInteger(Buffer.from(jwk.d!, 'base64'))
