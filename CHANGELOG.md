@@ -2,6 +2,19 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [3.7.0](https://github.com/panva/jose/compare/v3.6.2...v3.7.0) (2021-03-02)
+
+
+### Features
+
+* electron >=12.0.0 is now supported (and tested on ci) ([8fffd3e](https://github.com/panva/jose/commit/8fffd3e2e1ec0c5f3517a779b42974a4c1beae27))
+
+
+### Bug Fixes
+
+* **electron:** only call (de)cipher.setAAD() when aad is not empty ([a5a6c4d](https://github.com/panva/jose/commit/a5a6c4dc9f459b88de5f243cf1d4ea620def8d98))
+* **electron:** properly ASN.1 encode [0x00] when converting RSA JWKs ([433f020](https://github.com/panva/jose/commit/433f020246a9131f63705a3e1aa99492dac50947))
+
 ## [3.6.2](https://github.com/panva/jose/compare/v3.6.1...v3.6.2) (2021-02-16)
 
 

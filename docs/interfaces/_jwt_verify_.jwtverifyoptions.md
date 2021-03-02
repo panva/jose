@@ -22,7 +22,7 @@ Combination of JWS Verification options and JWT Claims Set verification options.
 
 • `Optional` **algorithms**: string[]
 
-*Defined in [src/types.d.ts:466](https://github.com/panva/jose/blob/v3.6.2/src/types.d.ts#L466)*
+*Defined in [src/types.d.ts:466](https://github.com/panva/jose/blob/v3.7.0/src/types.d.ts#L466)*
 
 A list of accepted JWS "alg" (Algorithm) Header Parameter values.
 
@@ -32,7 +32,7 @@ ___
 
 • `Optional` **audience**: string \| string[]
 
-*Defined in [src/types.d.ts:422](https://github.com/panva/jose/blob/v3.6.2/src/types.d.ts#L422)*
+*Defined in [src/types.d.ts:422](https://github.com/panva/jose/blob/v3.7.0/src/types.d.ts#L422)*
 
 Expected JWT "aud" (Audience) Claim value(s).
 
@@ -42,7 +42,7 @@ ___
 
 • `Optional` **clockTolerance**: string \| number
 
-*Defined in [src/types.d.ts:429](https://github.com/panva/jose/blob/v3.6.2/src/types.d.ts#L429)*
+*Defined in [src/types.d.ts:429](https://github.com/panva/jose/blob/v3.7.0/src/types.d.ts#L429)*
 
 Expected clock tolerance
 - in seconds when number (e.g. 5)
@@ -54,7 +54,7 @@ ___
 
 • `Optional` **crit**: { [propName:string]: boolean;  }
 
-*Defined in [src/types.d.ts:378](https://github.com/panva/jose/blob/v3.6.2/src/types.d.ts#L378)*
+*Defined in [src/types.d.ts:378](https://github.com/panva/jose/blob/v3.7.0/src/types.d.ts#L378)*
 
 An object with keys representing recognized "crit" (Critical) Header Parameter
 names. The value for those is either `true` or `false`. `true` when the
@@ -81,7 +81,7 @@ ___
 
 • `Optional` **currentDate**: Date
 
-*Defined in [src/types.d.ts:456](https://github.com/panva/jose/blob/v3.6.2/src/types.d.ts#L456)*
+*Defined in [src/types.d.ts:456](https://github.com/panva/jose/blob/v3.7.0/src/types.d.ts#L456)*
 
 Date to use when comparing NumericDate claims, defaults to `new Date()`.
 
@@ -91,7 +91,7 @@ ___
 
 • `Optional` **issuer**: string \| string[]
 
-*Defined in [src/types.d.ts:434](https://github.com/panva/jose/blob/v3.6.2/src/types.d.ts#L434)*
+*Defined in [src/types.d.ts:434](https://github.com/panva/jose/blob/v3.7.0/src/types.d.ts#L434)*
 
 Expected JWT "iss" (Issuer) Claim value(s).
 
@@ -101,7 +101,7 @@ ___
 
 • `Optional` **maxTokenAge**: string \| number
 
-*Defined in [src/types.d.ts:441](https://github.com/panva/jose/blob/v3.6.2/src/types.d.ts#L441)*
+*Defined in [src/types.d.ts:441](https://github.com/panva/jose/blob/v3.7.0/src/types.d.ts#L441)*
 
 Maximum time elapsed (in seconds) from the JWT "iat" (Issued At) Claim value.
 - in seconds when number (e.g. 5)
@@ -113,7 +113,7 @@ ___
 
 • `Optional` **subject**: string
 
-*Defined in [src/types.d.ts:446](https://github.com/panva/jose/blob/v3.6.2/src/types.d.ts#L446)*
+*Defined in [src/types.d.ts:446](https://github.com/panva/jose/blob/v3.7.0/src/types.d.ts#L446)*
 
 Expected JWT "sub" (Subject) Claim value.
 
@@ -123,6 +123,6 @@ ___
 
 • `Optional` **typ**: string
 
-*Defined in [src/types.d.ts:451](https://github.com/panva/jose/blob/v3.6.2/src/types.d.ts#L451)*
+*Defined in [src/types.d.ts:451](https://github.com/panva/jose/blob/v3.7.0/src/types.d.ts#L451)*
 
 Expected JWT "typ" (Type) Header Parameter value.

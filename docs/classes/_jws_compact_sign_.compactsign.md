@@ -53,7 +53,7 @@ console.log(jws)
 
 \+ **new CompactSign**(`payload`: Uint8Array): [CompactSign](_jws_compact_sign_.compactsign.md)
 
-*Defined in [src/jws/compact/sign.ts:44](https://github.com/panva/jose/blob/v3.6.2/src/jws/compact/sign.ts#L44)*
+*Defined in [src/jws/compact/sign.ts:44](https://github.com/panva/jose/blob/v3.7.0/src/jws/compact/sign.ts#L44)*
 
 #### Parameters:
 
@@ -69,7 +69,7 @@ Name | Type | Description |
 
 ▸ **setProtectedHeader**(`protectedHeader`: [JWSHeaderParameters](../interfaces/_types_d_.jwsheaderparameters.md)): this
 
-*Defined in [src/jws/compact/sign.ts:58](https://github.com/panva/jose/blob/v3.6.2/src/jws/compact/sign.ts#L58)*
+*Defined in [src/jws/compact/sign.ts:58](https://github.com/panva/jose/blob/v3.7.0/src/jws/compact/sign.ts#L58)*
 
 Sets the JWS Protected Header on the Sign object.
 
@@ -87,7 +87,7 @@ ___
 
 ▸ **sign**(`key`: [KeyLike](../types/_types_d_.keylike.md), `options?`: [SignOptions](../interfaces/_types_d_.signoptions.md)): Promise<string\>
 
-*Defined in [src/jws/compact/sign.ts:69](https://github.com/panva/jose/blob/v3.6.2/src/jws/compact/sign.ts#L69)*
+*Defined in [src/jws/compact/sign.ts:69](https://github.com/panva/jose/blob/v3.7.0/src/jws/compact/sign.ts#L69)*
 
 Signs and resolves the value of the Compact JWS string.
 

@@ -16,7 +16,7 @@ Uint8Array for detached signature validation.
 
 •  **payload**: string \| Uint8Array
 
-*Defined in [src/types.d.ts:144](https://github.com/panva/jose/blob/v3.6.2/src/types.d.ts#L144)*
+*Defined in [src/types.d.ts:144](https://github.com/panva/jose/blob/v3.7.0/src/types.d.ts#L144)*
 
 The "payload" member MUST be present and contain the value
 BASE64URL(JWS Payload). When RFC7797 "b64": false is used
@@ -28,7 +28,7 @@ ___
 
 •  **signatures**: Omit<[FlattenedJWSInput](_types_d_.flattenedjwsinput.md), \"payload\"\>[]
 
-*Defined in [src/types.d.ts:151](https://github.com/panva/jose/blob/v3.6.2/src/types.d.ts#L151)*
+*Defined in [src/types.d.ts:151](https://github.com/panva/jose/blob/v3.7.0/src/types.d.ts#L151)*
 
 The "signatures" member value MUST be an array of JSON objects.
 Each object represents a signature or MAC over the JWS Payload and
