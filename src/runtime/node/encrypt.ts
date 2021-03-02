@@ -46,7 +46,9 @@ async function gcmEncrypt(
 
   const algorithm = <CipherGCMTypes>`aes-${keySize}-gcm`
   const cipher = createCipheriv(algorithm, cek, iv, { authTagLength: 16 })
-  cipher.setAAD(aad)
+  if (aad.byteLength) {
+    cipher.setAAD(aad)
+  }
 
   const ciphertext = concat(cipher.update(plaintext), cipher.final())
   const tag = cipher.getAuthTag()
