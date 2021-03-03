@@ -94,7 +94,7 @@ export async function generateKeyPair(alg: string, options?: GenerateKeyPairOpti
         case 'P-256':
         case 'P-384':
         case 'P-521':
-          return generate('ec', { namedCurve: options?.crv || 'P-256' })
+          return generate('ec', { namedCurve: options?.crv ?? 'P-256' })
         case 'X25519':
           return generate('x25519')
         case 'X448':

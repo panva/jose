@@ -157,7 +157,7 @@ export default async function flattenedVerify(
   checkKeyType(alg, key)
 
   const data = concat(
-    encoder.encode(jws.protected || ''),
+    encoder.encode(jws.protected ?? ''),
     encoder.encode('.'),
     typeof jws.payload === 'string' ? encoder.encode(jws.payload) : jws.payload,
   )

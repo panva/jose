@@ -109,7 +109,7 @@ export async function generateKeyPair(alg: string, options?: GenerateKeyPairOpti
     case 'ECDH-ES+A128KW':
     case 'ECDH-ES+A192KW':
     case 'ECDH-ES+A256KW':
-      algorithm = { name: 'ECDH', namedCurve: options?.crv || 'P-256' }
+      algorithm = { name: 'ECDH', namedCurve: options?.crv ?? 'P-256' }
       keyUsages = ['deriveKey', 'deriveBits']
       break
     default:

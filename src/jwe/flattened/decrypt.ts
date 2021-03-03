@@ -216,7 +216,7 @@ export default async function flattenedDecrypt(
   const iv = base64url(jwe.iv)
   const tag = base64url(jwe.tag)
 
-  const protectedHeader: Uint8Array = encoder.encode(jwe.protected || '')
+  const protectedHeader: Uint8Array = encoder.encode(jwe.protected ?? '')
   let additionalData: Uint8Array
 
   if (jwe.aad !== undefined) {
