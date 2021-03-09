@@ -153,7 +153,6 @@ Legend:
 - No dependencies
 - Browser support (using [Web Cryptography API][webcrypto])
 - Promise-based API
-- experimental (non-blocking 🎉) Node.js libuv thread pool based runtime
 
 #### v2.x docs?
 
