@@ -309,7 +309,7 @@ Promise.all([
 
     function conditional({ webcrypto = 1, electron = 1 } = {}, ...args) {
       let run = test;
-      if ((!webcrypto && 'WEBCRYPTO' in process.env)) {
+      if (!webcrypto && 'WEBCRYPTO' in process.env) {
         run = run.failing;
       }
 
