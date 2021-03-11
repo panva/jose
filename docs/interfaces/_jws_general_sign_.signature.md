@@ -13,7 +13,7 @@
 
 ▸ **setProtectedHeader**(`protectedHeader`: [JWSHeaderParameters](_types_d_.jwsheaderparameters.md)): [Signature](_jws_general_sign_.signature.md)
 
-*Defined in [src/jws/general/sign.ts:13](https://github.com/panva/jose/blob/v3.7.0/src/jws/general/sign.ts#L13)*
+*Defined in [src/jws/general/sign.ts:13](https://github.com/panva/jose/blob/v3.7.1/src/jws/general/sign.ts#L13)*
 
 Sets the JWS Protected Header on the Signature object.
 
@@ -31,7 +31,7 @@ ___
 
 ▸ **setUnprotectedHeader**(`unprotectedHeader`: [JWSHeaderParameters](_types_d_.jwsheaderparameters.md)): [Signature](_jws_general_sign_.signature.md)
 
-*Defined in [src/jws/general/sign.ts:20](https://github.com/panva/jose/blob/v3.7.0/src/jws/general/sign.ts#L20)*
+*Defined in [src/jws/general/sign.ts:20](https://github.com/panva/jose/blob/v3.7.1/src/jws/general/sign.ts#L20)*
 
 Sets the JWS Unprotected Header on the Signature object.
 

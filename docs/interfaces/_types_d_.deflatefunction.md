@@ -6,7 +6,7 @@ Deflate Raw implementation, e.g. promisified [zlib.deflateRaw](https://nodejs.or
 
 ▸ (`input`: Uint8Array): Promise<Uint8Array\>
 
-*Defined in [src/types.d.ts:523](https://github.com/panva/jose/blob/v3.7.0/src/types.d.ts#L523)*
+*Defined in [src/types.d.ts:523](https://github.com/panva/jose/blob/v3.7.1/src/types.d.ts#L523)*
 
 Deflate Raw implementation, e.g. promisified [zlib.deflateRaw](https://nodejs.org/api/zlib.html#zlib_zlib_deflateraw_buffer_options_callback).
 

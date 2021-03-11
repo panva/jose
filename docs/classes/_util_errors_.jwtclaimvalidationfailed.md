@@ -25,7 +25,7 @@ An error subclass thrown when a JWT Claim Set member validation fails.
 
 *Overrides [JOSEError](_util_errors_.joseerror.md).[constructor](_util_errors_.joseerror.md#constructor)*
 
-*Defined in [src/util/errors.ts:36](https://github.com/panva/jose/blob/v3.7.0/src/util/errors.ts#L36)*
+*Defined in [src/util/errors.ts:36](https://github.com/panva/jose/blob/v3.7.1/src/util/errors.ts#L36)*
 
 #### Parameters:
 
@@ -43,7 +43,7 @@ Name | Type | Default value |
 
 •  **claim**: string
 
-*Defined in [src/util/errors.ts:31](https://github.com/panva/jose/blob/v3.7.0/src/util/errors.ts#L31)*
+*Defined in [src/util/errors.ts:31](https://github.com/panva/jose/blob/v3.7.1/src/util/errors.ts#L31)*
 
 The Claim for which the validation failed.
 
@@ -55,7 +55,7 @@ ___
 
 *Overrides [JOSEError](_util_errors_.joseerror.md).[code](_util_errors_.joseerror.md#code)*
 
-*Defined in [src/util/errors.ts:26](https://github.com/panva/jose/blob/v3.7.0/src/util/errors.ts#L26)*
+*Defined in [src/util/errors.ts:26](https://github.com/panva/jose/blob/v3.7.1/src/util/errors.ts#L26)*
 
 ___
 
@@ -79,7 +79,7 @@ ___
 
 •  **reason**: string
 
-*Defined in [src/util/errors.ts:36](https://github.com/panva/jose/blob/v3.7.0/src/util/errors.ts#L36)*
+*Defined in [src/util/errors.ts:36](https://github.com/panva/jose/blob/v3.7.1/src/util/errors.ts#L36)*
 
 Reason code for the validation failure.
 
