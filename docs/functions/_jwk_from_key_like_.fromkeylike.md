@@ -21,8 +21,8 @@ const { default: fromKeyLike } = require('jose/jwk/from_key_like')
 **`example`** 
 ```js
 // usage
-const privateJwk = fromKeyLike(privateKey)
-const publicJwk = fromKeyLike(publicKey)
+const privateJwk = await fromKeyLike(privateKey)
+const publicJwk = await fromKeyLike(publicKey)
 
 console.log(privateJwk)
 console.log(publicJwk)

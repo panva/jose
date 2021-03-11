@@ -22,8 +22,8 @@ import asJWK from '../runtime/key_to_jwk.js'
  * @example
  * ```
  * // usage
- * const privateJwk = fromKeyLike(privateKey)
- * const publicJwk = fromKeyLike(publicKey)
+ * const privateJwk = await fromKeyLike(privateKey)
+ * const publicJwk = await fromKeyLike(publicKey)
  *
  * console.log(privateJwk)
  * console.log(publicJwk)
