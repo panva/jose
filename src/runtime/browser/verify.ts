@@ -22,7 +22,12 @@ const verify: VerifyFunction = async (alg, key: CryptoKey | Uint8Array, signatur
 
   checkKeyLength(alg, cryptoKey)
 
-  return crypto.subtle.verify(subtleAlgorithm(alg), cryptoKey, signature, data)
+  const algorithm = subtleAlgorithm(alg)
+  try {
+    return await crypto.subtle.verify(algorithm, cryptoKey, signature, data)
+  } catch {
+    return false
+  }
 }
 
 export default verify

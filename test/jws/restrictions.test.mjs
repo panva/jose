@@ -1,5 +1,6 @@
 /* eslint-disable no-param-reassign */
 import test from 'ava';
+import * as crypto from 'crypto';
 
 let root;
 let keyRoot;
@@ -19,6 +20,8 @@ Promise.all([
   import(`${root}/jwe/flattened/encrypt`),
   import(`${root}/jwe/flattened/decrypt`),
   import(`${root}/util/random`),
+  import(`${root}/util/base64url`),
+  import(`${keyRoot}/util/generate_key_pair`),
   import(`${keyRoot}/jwk/parse`),
 ]).then(
   ([
@@ -27,6 +30,8 @@ Promise.all([
     { default: FlattenedEncrypt },
     { default: flattenedDecrypt },
     { default: random },
+    base64url,
+    { default: generateKeyPair },
     { default: parseJwk },
   ]) => {
     function pubjwk(jwk) {
@@ -143,6 +148,25 @@ Promise.all([
     testRSAenc.title = (title, alg) =>
       `${alg} requires key modulusLength to be 2048 bits or larger`;
 
+    async function testECDSASigEncoding(t, alg) {
+      const { privateKey, publicKey } = await generateKeyPair(alg);
+
+      const jws = await new FlattenedSign(t.context.payload)
+        .setProtectedHeader({ alg })
+        .sign(privateKey);
+
+      const derEncodedSignature = base64url.encode(
+        crypto.sign(`sha${alg.substr(2, 3)}`, Buffer.from('foo'), privateKey),
+      );
+
+      await t.throwsAsync(flattenedVerify({ ...jws, signature: derEncodedSignature }, publicKey), {
+        message: 'signature verification failed',
+        code: 'ERR_JWS_SIGNATURE_VERIFICATION_FAILED',
+      });
+    }
+    testECDSASigEncoding.title = (title, alg) =>
+      `${alg} swallows invalid signature encoding errors`;
+
     test(testRSAsig, 'RS256');
     test(testRSAsig, 'PS256');
     test(testRSAsig, 'RS384');
@@ -155,13 +179,24 @@ Promise.all([
     test(testRSAenc, 'RSA-OAEP-384');
     test(testRSAenc, 'RSA-OAEP-512');
 
-    let conditional;
-    if ('WEBCRYPTO' in process.env || 'CRYPTOKEY' in process.env) {
-      conditional = test.failing;
-    } else {
-      conditional = test;
+    test(testECDSASigEncoding, 'ES256');
+    test(testECDSASigEncoding, 'ES384');
+    test(testECDSASigEncoding, 'ES512');
+
+    function conditional({ webcrypto = 1, electron = 1 } = {}, ...args) {
+      let run = test;
+      if ((!webcrypto && 'WEBCRYPTO' in process.env) || 'CRYPTOKEY' in process.env) {
+        run = run.failing;
+      }
+
+      if (!electron && 'electron' in process.versions) {
+        run = run.failing;
+      }
+      return run;
     }
-    conditional(testRSAenc, 'RSA1_5');
+
+    conditional({ webcrypto: 0 })(testRSAenc, 'RSA1_5');
+    conditional({ webcrypto: 0, electron: 0 })(testECDSASigEncoding, 'ES256K');
   },
   (err) => {
     test('failed to import', (t) => {

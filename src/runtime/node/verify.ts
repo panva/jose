@@ -28,7 +28,12 @@ const verify: VerifyFunction = async (alg, key: KeyLike, signature, data) => {
     throw new TypeError('invalid key object type provided')
   }
 
-  return oneShotVerify(algorithm, data, nodeKey(alg, key), signature)
+  const keyInput = nodeKey(alg, key)
+  try {
+    return oneShotVerify(algorithm, data, keyInput, signature)
+  } catch {
+    return false
+  }
 }
 
 export default verify
