@@ -4,24 +4,24 @@ const { execSync } = require("child_process");
 const originalREADME = readFileSync("./README.md");
 const originalPackage = readFileSync("./package.json");
 const originalChangelog = readFileSync("./CHANGELOG.md");
-const package = JSON.parse(readFileSync("./package.json"));
-delete package.devDependencies;
-delete package.scripts;
-delete package.imports;
+const pkg = JSON.parse(readFileSync("./package.json"));
+delete pkg.devDependencies;
+delete pkg.scripts;
+delete pkg.imports;
 
-package.description = package.description.replace(
+pkg.description = pkg.description.replace(
   "Universal ",
   "(Node.JS ESM Runtime) "
 );
 
-for (const exportPath of Object.keys(package.exports)) {
+for (const exportPath of Object.keys(pkg.exports)) {
   if (exportPath.startsWith("./webcrypto")) {
-    delete package.exports[exportPath];
+    delete pkg.exports[exportPath];
   } else if (
-    typeof package.exports[exportPath] === "object" &&
-    "import" in package.exports[exportPath]
+    typeof pkg.exports[exportPath] === "object" &&
+    "import" in pkg.exports[exportPath]
   ) {
-    package.exports[exportPath] = package.exports[exportPath].import;
+    pkg.exports[exportPath] = pkg.exports[exportPath].import;
   }
 }
 
@@ -31,23 +31,23 @@ const deletedKeywords = new Set([
   "universal",
   "webcrypto",
 ]);
-package.keywords = package.keywords.filter((keyword) => {
+pkg.keywords = pkg.keywords.filter((keyword) => {
   return !deletedKeywords.has(keyword);
 });
 
-package.files.push("!dist/browser/**/*");
-package.files.push("!dist/node/cjs/**/*");
-package.files.push("!dist/**/package.json");
+pkg.files.push("!dist/browser/**/*");
+pkg.files.push("!dist/node/cjs/**/*");
+pkg.files.push("!dist/**/package.json");
 
-package.name = "jose-node-esm-runtime";
-package.type = "module";
+pkg.name = "jose-node-esm-runtime";
+pkg.type = "module";
 
-writeFileSync("./package.json", JSON.stringify(package, null, 2) + "\n");
+writeFileSync("./package.json", JSON.stringify(pkg, null, 2) + "\n");
 writeFileSync(
   "./README.md",
   `# jose
 
-> ${package.description} using the Node.js \`crypto\` module.
+> ${pkg.description} using the Node.js \`crypto\` module.
 
 ⚠️ This distribution only supports the Browser ESM runtime.
 Its purpose is to offer a distribution of \`jose\` with a smaller bundle/install
@@ -62,12 +62,12 @@ If you or your business use \`jose\`, please consider becoming a [sponsor][suppo
 ## Install
 
 \`\`\`console
-npm install jose@npm:${package.name}
+npm install jose@npm:${pkg.name}
 \`\`\`
 
 ## Documentation
 
-See [${package.homepage.replace("https://", "")}](${package.homepage})
+See [${pkg.homepage.replace("https://", "")}](${pkg.homepage})
 
 [support-sponsor]: https://github.com/sponsors/panva
 `
