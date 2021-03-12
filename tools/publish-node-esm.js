@@ -49,9 +49,9 @@ writeFileSync(
 
 > ${pkg.description} using the Node.js \`crypto\` module.
 
-⚠️ This distribution only supports the Browser ESM runtime.
+⚠️ This distribution only supports the Node.js runtime.
 Its purpose is to offer a distribution of \`jose\` with a smaller bundle/install
-size.
+size. It is an ECMAScript Module (ESM).
 
 For the universal module see [npmjs.com/package/jose](https://www.npmjs.com/package/jose)
 

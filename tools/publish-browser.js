@@ -50,7 +50,7 @@ writeFileSync(
 
 > ${pkg.description} using Web Cryptography API.
 
-⚠️ This distribution only supports the Browser ESM runtime.
+⚠️ This distribution only supports the Browser runtime.
 Its purpose is to offer a distribution of \`jose\` with a smaller bundle/install
 size before tree-shaking.
 
