@@ -26,19 +26,19 @@ const checkExtensions = validateCrit.bind(undefined, JWEInvalid, new Map())
  * objects.
  *
  * @example
- * ```
+ * ```js
  * // ESM import
  * import FlattenedEncrypt from 'jose/jwe/flattened/encrypt'
  * ```
  *
  * @example
- * ```
+ * ```js
  * // CJS import
  * const { default: FlattenedEncrypt } = require('jose/jwe/flattened/encrypt')
  * ```
  *
  * @example
- * ```
+ * ```js
  * // usage
  * import parseJwk from 'jose/jwk/parse'
  *

@@ -7,19 +7,19 @@ import type { JWSHeaderParameters, KeyLike, SignOptions } from '../../types.d'
  * The CompactSign class is a utility for creating Compact JWS strings.
  *
  * @example
- * ```
+ * ```js
  * // ESM import
  * import CompactSign from 'jose/jws/compact/sign'
  * ```
  *
  * @example
- * ```
+ * ```js
  * // CJS import
  * const { default: CompactSign } = require('jose/jws/compact/sign')
  * ```
  *
  * @example
- * ```
+ * ```js
  * // usage
  * import parseJwk from 'jose/jwk/parse'
  *

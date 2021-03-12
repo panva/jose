@@ -31,19 +31,19 @@ export interface JWTVerifyGetKey extends GetKeyFunction<JWSHeaderParameters, Fla
  * @param options JWT Decryption and JWT Claims Set validation options.
  *
  * @example
- * ```
+ * ```js
  * // ESM import
  * import jwtVerify from 'jose/jwt/verify'
  * ```
  *
  * @example
- * ```
+ * ```js
  * // CJS import
  * const { default: jwtVerify } = require('jose/jwt/verify')
  * ```
  *
  * @example
- * ```
+ * ```js
  * // usage
  * import parseJwk from 'jose/jwk/parse'
  *

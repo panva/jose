@@ -11,19 +11,19 @@ import ProduceJWT from '../lib/jwt_producer.js'
  * The UnsecuredJWT class is a utility for dealing with `{ "alg": "none" }` Unsecured JWTs.
  *
  * @example
- * ```
+ * ```js
  * // ESM import
  * import UnsecuredJWT from 'jose/jwt/unsecured'
  * ```
  *
  * @example
- * ```
+ * ```js
  * // CJS import
  * const { default: UnsecuredJWT } = require('jose/jwt/unsecured')
  * ```
  *
  * @example
- * ```
+ * ```js
  * // encoding
  *
  * const unsecuredJwt = new UnsecuredJWT({ 'urn:example:claim': true })
@@ -37,7 +37,7 @@ import ProduceJWT from '../lib/jwt_producer.js'
  * ```
  *
  * @example
- * ```
+ * ```js
  * // decoding
  *
  * const payload = new UnsecuredJWT.decode(jwt, {

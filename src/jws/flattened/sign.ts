@@ -16,19 +16,19 @@ const checkExtensions = validateCrit.bind(undefined, JWSInvalid, new Map([['b64'
  * The FlattenedSign class is a utility for creating Flattened JWS objects.
  *
  * @example
- * ```
+ * ```js
  * // ESM import
  * import FlattenedSign from 'jose/jws/flattened/sign'
  * ```
  *
  * @example
- * ```
+ * ```js
  * // CJS import
  * const { default: FlattenedSign } = require('jose/jws/flattened/sign')
  * ```
  *
  * @example
- * ```
+ * ```js
  * // usage
  * import parseJwk from 'jose/jwk/parse'
  *

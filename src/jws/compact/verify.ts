@@ -25,19 +25,19 @@ export interface CompactVerifyGetKey
  * @param options JWS Verify options.
  *
  * @example
- * ```
+ * ```js
  * // ESM import
  * import compactVerify from 'jose/jws/compact/verify'
  * ```
  *
  * @example
- * ```
+ * ```js
  * // CJS import
  * const { default: compactVerify } = require('jose/jws/compact/verify')
  * ```
  *
  * @example
- * ```
+ * ```js
  * // usage
  * import parseJwk from 'jose/jwk/parse'
  *

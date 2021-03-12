@@ -13,19 +13,19 @@ import { JWSInvalid } from '../util/errors.js'
  * JWS algorithms to accept.
  *
  * @example
- * ```
+ * ```js
  * // ESM import
  * import EmbeddedJWK from 'jose/jwk/embedded'
  * ```
  *
  * @example
- * ```
+ * ```js
  * // CJS import
  * const { default: EmbeddedJWK } = require('jose/jwk/embedded')
  * ```
  *
  * @example
- * ```
+ * ```js
  * // usage
  * import jwtVerify from 'jose/jwt/verify'
  *

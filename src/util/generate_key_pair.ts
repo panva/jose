@@ -22,19 +22,19 @@ export interface GenerateKeyPairOptions {
  * `generateSecret` function.
  *
  * @example
- * ```
+ * ```js
  * // ESM import
  * import generateKeyPair from 'jose/util/generate_key_pair'
  * ```
  *
  * @example
- * ```
+ * ```js
  * // CJS import
  * const { default: generateKeyPair } = require('jose/util/generate_key_pair')
  * ```
  *
  * @example
- * ```
+ * ```js
  * // usage
  * const { publicKey, privateKey } = await generateKeyPair('PS256')
  * console.log(publicKey)

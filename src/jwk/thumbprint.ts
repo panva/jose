@@ -21,19 +21,19 @@ const check = (value: any, description: string) => {
  * Default is sha256. Accepted is "sha256", "sha384", "sha512".
  *
  * @example
- * ```
+ * ```js
  * // ESM import
  * import calculateThumbprint from 'jose/jwk/thumbprint'
  * ```
  *
  * @example
- * ```
+ * ```js
  * // CJS import
  * const { default: calculateThumbprint } = require('jose/jwk/thumbprint')
  * ```
  *
  * @example
- * ```
+ * ```js
  * // usage
  * const thumbprint = await calculateThumbprint({
  *   kty: 'RSA',

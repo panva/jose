@@ -36,19 +36,19 @@ export interface FlattenedVerifyGetKey
  * @param options JWS Verify options.
  *
  * @example
- * ```
+ * ```js
  * // ESM import
  * import flattenedVerify from 'jose/jws/flattened/verify'
  * ```
  *
  * @example
- * ```
+ * ```js
  * // CJS import
  * const { default: flattenedVerify } = require('jose/jws/flattened/verify')
  * ```
  *
  * @example
- * ```
+ * ```js
  * // usage
  * import parseJwk from 'jose/jwk/parse'
  *

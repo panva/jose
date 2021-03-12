@@ -26,19 +26,19 @@ export interface GeneralVerifyGetKey
  * @param options JWS Verify options.
  *
  * @example
- * ```
+ * ```js
  * // ESM import
  * import generalVerify from 'jose/jws/general/verify'
  * ```
  *
  * @example
- * ```
+ * ```js
  * // CJS import
  * const { default: generalVerify } = require('jose/jws/general/verify')
  * ```
  *
  * @example
- * ```
+ * ```js
  * // usage
  * import parseJwk from 'jose/jwk/parse'
  *

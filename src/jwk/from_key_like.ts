@@ -8,19 +8,19 @@ import asJWK from '../runtime/key_to_jwk.js'
  * @param key Key representation to transform to a JWK.
  *
  * @example
- * ```
+ * ```js
  * // ESM import
  * import fromKeyLike from 'jose/jwk/from_key_like'
  * ```
  *
  * @example
- * ```
+ * ```js
  * // CJS import
  * const { default: fromKeyLike } = require('jose/jwk/from_key_like')
  * ```
  *
  * @example
- * ```
+ * ```js
  * // usage
  * const privateJwk = await fromKeyLike(privateKey)
  * const publicJwk = await fromKeyLike(publicKey)

@@ -17,19 +17,19 @@ import type { JWK, KeyLike } from '../types.d'
  * CryptoKey. Default is true unless JWK "ext" (Extractable) is true.
  *
  * @example
- * ```
+ * ```js
  * // ESM import
  * import parseJwk from 'jose/jwk/parse'
  * ```
  *
  * @example
- * ```
+ * ```js
  * // CJS import
  * const { default: parseJwk } = require('jose/jwk/parse')
  * ```
  *
  * @example
- * ```
+ * ```js
  * // usage
  * const ecPrivateKey = await parseJwk({
  *   alg: 'ES256',

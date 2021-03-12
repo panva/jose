@@ -67,19 +67,19 @@ class IndividualSignature implements Signature {
  * The GeneralSign class is a utility for creating General JWS objects.
  *
  * @example
- * ```
+ * ```js
  * // ESM import
  * import GeneralSign from 'jose/jws/general/sign'
  * ```
  *
  * @example
- * ```
+ * ```js
  * // CJS import
  * const { default: GeneralSign } = require('jose/jws/general/sign')
  * ```
  *
  * @example
- * ```
+ * ```js
  * // usage
  * import parseJwk from 'jose/jwk/parse'
  *

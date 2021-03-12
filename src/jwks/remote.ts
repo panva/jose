@@ -213,19 +213,19 @@ class RemoteJWKSet {
  * the selection process.
  *
  * @example
- * ```
+ * ```js
  * // ESM import
  * import createRemoteJWKSet from 'jose/jwks/remote'
  * ```
  *
  * @example
- * ```
+ * ```js
  * // CJS import
  * const { default: createRemoteJWKSet } = require('jose/jwks/remote')
  * ```
  *
  * @example
- * ```
+ * ```js
  * // usage
  * import jwtVerify from 'jose/jwt/verify'
  *

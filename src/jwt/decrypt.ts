@@ -31,19 +31,19 @@ export interface JWTDecryptGetKey extends GetKeyFunction<JWEHeaderParameters, Fl
  * @param options JWT Decryption and JWT Claims Set validation options.
  *
  * @example
- * ```
+ * ```js
  * // ESM import
  * import jwtDecrypt from 'jose/jwt/decrypt'
  * ```
  *
  * @example
- * ```
+ * ```js
  * // CJS import
  * const { default: jwtDecrypt } = require('jose/jwt/decrypt')
  * ```
  *
  * @example
- * ```
+ * ```js
  * // usage
  * const jwt = 'eyJhbGciOiJkaXIiLCJlbmMiOiJBMjU2R0NNIn0..KVcNLqK-3-8ZkYIC.xSwF4VxO0kUMUD2W-cifsNUxnr-swyBq-nADBptyt6y9n79-iNc5b0AALJpRwc0wwDkJw8hNOMjApNUTMsK9b-asToZ3DXFMvwfJ6n1aWefvd7RsoZ2LInWFfVAuttJDzoGB.uuexQoWHwrLMEYRElT8pBQ'
  * const secretKey = Uint8Array.from([
