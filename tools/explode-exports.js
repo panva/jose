@@ -13,20 +13,23 @@ const modules = [
 
 const all = modules.map((path) => glob.sync(`${path}/**/*.ts`)).flat(Infinity);
 
-const exp = all.reduce((acc, mod) => {
-  const len = mod.length;
-  const foo = mod.substring(4, len - 3);
-  acc["./" + foo] = {
-    browser: "./dist/browser/" + foo + ".js",
-    import: "./dist/node/esm/" + foo + ".js",
-    require: "./dist/node/cjs/" + foo + ".js",
-  };
-  acc["./webcrypto/" + foo] = {
-    import: "./dist/node/esm/" + foo + ".js",
-    require: "./dist/node/cjs/" + foo + ".js",
-  };
-  return acc;
-}, { './package.json': './package.json' });
+const exp = all.reduce(
+  (acc, mod) => {
+    const len = mod.length;
+    const foo = mod.substring(4, len - 3);
+    acc["./" + foo] = {
+      browser: "./dist/browser/" + foo + ".js",
+      import: "./dist/node/esm/" + foo + ".js",
+      require: "./dist/node/cjs/" + foo + ".js",
+    };
+    acc["./webcrypto/" + foo] = {
+      import: "./dist/node/esm/" + foo + ".js",
+      require: "./dist/node/cjs/" + foo + ".js",
+    };
+    return acc;
+  },
+  { "./package.json": "./package.json" }
+);
 
 package.exports = exp;
 

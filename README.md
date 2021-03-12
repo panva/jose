@@ -26,8 +26,30 @@ If you or your business use `jose`, please consider becoming a [sponsor][support
 ## Install
 
 ```console
-npm install jose@3
+npm install jose
 ```
+
+<details>
+<summary><em>Looking for a Node.js only distribution?</em> (Click to expand)</summary>
+
+ESM module (import):
+```console
+npm install jose@npm:jose-node-esm-runtime
+```
+
+CJS module (require):
+```console
+npm install jose@npm:jose-node-cjs-runtime
+```
+</details>
+
+<details>
+<summary><em>Looking for a Browser only distribution?</em> (Click to expand)</summary>
+
+```console
+npm install jose@npm:jose-browser-runtime
+```
+</details>
 
 ## Documentation
 

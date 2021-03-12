@@ -23,7 +23,7 @@ glob("docs/**/*.md").forEach((md) => {
     readFileSync(md)
       .toString()
       .replace(/```\n\/\//g, "```js\n//")
-      .replace(/undefined \\\| /g, '')
+      .replace(/undefined \\\| /g, "")
   );
 });
 writeFileSync("docs/README.md", readme);
