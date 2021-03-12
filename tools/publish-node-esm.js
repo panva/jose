@@ -73,10 +73,3 @@ See [${pkg.homepage.replace("https://", "")}](${pkg.homepage})
 `
 );
 unlinkSync("./CHANGELOG.md");
-
-// Release
-execSync("npm publish");
-
-writeFileSync("./package.json", originalPackage);
-writeFileSync("./CHANGELOG.md", originalChangelog);
-writeFileSync("./README.md", originalREADME);

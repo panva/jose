@@ -10,9 +10,3 @@ delete pkg.imports;
 
 writeFileSync("./package.json", JSON.stringify(pkg, null, 2) + "\n");
 unlinkSync("./CHANGELOG.md");
-
-// Release
-execSync("npm publish");
-
-writeFileSync("./package.json", originalPackage);
-writeFileSync("./CHANGELOG.md", originalChangelog);
