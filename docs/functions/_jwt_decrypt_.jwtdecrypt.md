@@ -2,7 +2,7 @@
 
 ▸ **jwtDecrypt**(`jwt`: string \| Uint8Array, `key`: [KeyLike](../types/_types_d_.keylike.md) \| [JWTDecryptGetKey](../interfaces/_jwt_decrypt_.jwtdecryptgetkey.md), `options?`: [JWTDecryptOptions](../interfaces/_jwt_decrypt_.jwtdecryptoptions.md)): Promise<[JWTDecryptResult](../interfaces/_types_d_.jwtdecryptresult.md)\>
 
-*Defined in [src/jwt/decrypt.ts:65](https://github.com/panva/jose/blob/v3.7.1/src/jwt/decrypt.ts#L65)*
+*Defined in [src/jwt/decrypt.ts:65](https://github.com/panva/jose/blob/v3.8.0/src/jwt/decrypt.ts#L65)*
 
 Verifies the JWT format (to be a JWE Compact format), decrypts the ciphertext, validates the JWT Claims Set.
 

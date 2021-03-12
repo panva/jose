@@ -12,4 +12,4 @@
 
 •  **recipients**: Pick<[FlattenedJWE](_types_d_.flattenedjwe.md), \"encrypted\_key\" \| \"header\"\>[]
 
-*Defined in [src/types.d.ts:320](https://github.com/panva/jose/blob/v3.7.1/src/types.d.ts#L320)*
+*Defined in [src/types.d.ts:320](https://github.com/panva/jose/blob/v3.8.0/src/types.d.ts#L320)*

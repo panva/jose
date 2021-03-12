@@ -13,7 +13,7 @@
 
 •  **payload**: [JWTPayload](_types_d_.jwtpayload.md)
 
-*Defined in [src/types.d.ts:610](https://github.com/panva/jose/blob/v3.7.1/src/types.d.ts#L610)*
+*Defined in [src/types.d.ts:610](https://github.com/panva/jose/blob/v3.8.0/src/types.d.ts#L610)*
 
 JWT Claims Set.
 
@@ -23,6 +23,6 @@ ___
 
 •  **protectedHeader**: [JWSHeaderParameters](_types_d_.jwsheaderparameters.md)
 
-*Defined in [src/types.d.ts:615](https://github.com/panva/jose/blob/v3.7.1/src/types.d.ts#L615)*
+*Defined in [src/types.d.ts:615](https://github.com/panva/jose/blob/v3.8.0/src/types.d.ts#L615)*
 
 JWS Protected Header.

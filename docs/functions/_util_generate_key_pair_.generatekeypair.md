@@ -2,7 +2,7 @@
 
 ▸ **generateKeyPair**(`alg`: string, `options?`: [GenerateKeyPairOptions](../interfaces/_util_generate_key_pair_.generatekeypairoptions.md)): Promise<{ privateKey: [KeyLike](../types/_types_d_.keylike.md) ; publicKey: [KeyLike](../types/_types_d_.keylike.md)  }\>
 
-*Defined in [src/util/generate_key_pair.ts:47](https://github.com/panva/jose/blob/v3.7.1/src/util/generate_key_pair.ts#L47)*
+*Defined in [src/util/generate_key_pair.ts:47](https://github.com/panva/jose/blob/v3.8.0/src/util/generate_key_pair.ts#L47)*
 
 Generates a private and a public key for a given JWA algorithm identifier.
 This can only generate asymmetric key pairs. For symmetric secrets use the

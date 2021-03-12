@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [3.8.0](https://github.com/panva/jose/compare/v3.7.1...v3.8.0) (2021-03-12)
+
+
+### Features
+
+* publish alternative Node.js and Browser specific distributions ([7856dad](https://github.com/panva/jose/commit/7856dad1031845bfc3cadfdbe609d0f0154f19ce))
+
 ## [3.7.1](https://github.com/panva/jose/compare/v3.7.0...v3.7.1) (2021-03-11)
 
 
