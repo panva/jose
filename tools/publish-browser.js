@@ -1,9 +1,5 @@
 const { readFileSync, writeFileSync, unlinkSync } = require("fs");
-const { execSync } = require("child_process");
 
-const originalREADME = readFileSync("./README.md");
-const originalPackage = readFileSync("./package.json");
-const originalChangelog = readFileSync("./CHANGELOG.md");
 const pkg = JSON.parse(readFileSync("./package.json"));
 delete pkg.devDependencies;
 delete pkg.scripts;
@@ -24,6 +20,7 @@ for (const exportPath of Object.keys(pkg.exports)) {
     pkg.exports[exportPath] = pkg.exports[exportPath].browser;
   }
 }
+delete pkg.typesVersions['*']['webcrypto/*']
 
 const deletedKeywords = new Set([
   "okp",
