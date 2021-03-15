@@ -7,9 +7,9 @@ on:
 jobs:
   publish:
     runs-on: ubuntu-latest
+    continue-on-error: true
     strategy:
       fail-fast: false
-      continue-on-error: true
       matrix:
         prepare-script:
           - browser
@@ -23,6 +23,9 @@ jobs:
         uses: actions/setup-node@v2
         with:
           node-version: 14
+          registry-url: https://registry.npmjs.org
+          always-auth: true
+      - run: npm install --global npm@7
       - name: Load cached dist
         uses: actions/cache@v2
         id: dist
@@ -31,6 +34,9 @@ jobs:
           key: dist-${{ hashFiles('src/**/*.ts') }}-${{ hashFiles('tsconfig/*.json') }}
       - name: Prepare distribution
         run: node tools/publish-${{ matrix.prepare-script }}
+      - run: npm whoami
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
       - run: npm publish
         env:
-          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
