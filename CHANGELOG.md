@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [3.9.0](https://github.com/panva/jose/compare/v3.8.0...v3.9.0) (2021-03-15)
+
+
+### Features
+
+* add named exports for all modules ([5cba6b0](https://github.com/panva/jose/commit/5cba6b0fdddd24c2e48623d8aaf48640b3279a43))
+
 ## [3.8.0](https://github.com/panva/jose/compare/v3.7.1...v3.8.0) (2021-03-12)
 
 
