@@ -33,6 +33,6 @@ If you or your business use `jose`, please consider becoming a [sponsor][support
 - Utilities
   - [Decoding Token's Protected Header](functions/util_decode_protected_header.decodeprotectedheader.md#readme)
 - [Unsecured JWT](classes/jwt_unsecured.unsecuredjwt.md#readme)
-- [JOSE Errors](modules/util_errors.md)
+- [JOSE Errors](modules/util_errors.md#readme)
 
 [support-sponsor]: https://github.com/sponsors/panva

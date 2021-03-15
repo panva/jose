@@ -78,7 +78,7 @@ npm install jose@npm:jose-browser-runtime
 - Utilities
   - [Decoding Token's Protected Header](docs/functions/util_decode_protected_header.decodeprotectedheader.md#readme)
 - [Unsecured JWT](docs/classes/jwt_unsecured.unsecuredjwt.md#readme)
-- [JOSE Errors](docs/modules/util_errors.md)
+- [JOSE Errors](docs/modules/util_errors.md#readme)
 
 ## Examples
 
