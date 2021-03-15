@@ -18,19 +18,19 @@ const checkExtensions = validateCrit.bind(undefined, JWSInvalid, new Map([['b64'
  * @example
  * ```js
  * // ESM import
- * import FlattenedSign from 'jose/jws/flattened/sign'
+ * import { FlattenedSign } from 'jose/jws/flattened/sign'
  * ```
  *
  * @example
  * ```js
  * // CJS import
- * const { default: FlattenedSign } = require('jose/jws/flattened/sign')
+ * const { FlattenedSign } = require('jose/jws/flattened/sign')
  * ```
  *
  * @example
  * ```js
  * // usage
- * import parseJwk from 'jose/jwk/parse'
+ * import { parseJwk } from 'jose/jwk/parse'
  *
  * const encoder = new TextEncoder()
  * const privateKey = await parseJwk({
@@ -48,7 +48,7 @@ const checkExtensions = validateCrit.bind(undefined, JWSInvalid, new Map([['b64'
  * console.log(jws)
  * ```
  */
-export default class FlattenedSign {
+class FlattenedSign {
   private _payload: Uint8Array
 
   private _protectedHeader!: JWSHeaderParameters
@@ -168,4 +168,6 @@ export default class FlattenedSign {
   }
 }
 
+export { FlattenedSign }
+export default FlattenedSign
 export type { KeyLike, FlattenedJWS, JWSHeaderParameters }

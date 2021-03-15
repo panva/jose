@@ -17,13 +17,13 @@ import ProduceJWT from '../lib/jwt_producer.js'
  * @example
  * ```js
  * // ESM import
- * import EncryptJWT from 'jose/jwt/encrypt'
+ * import { EncryptJWT } from 'jose/jwt/encrypt'
  * ```
  *
  * @example
  * ```js
  * // CJS import
- * const { default: EncryptJWT } = require('jose/jwt/encrypt')
+ * const { EncryptJWT } = require('jose/jwt/encrypt')
  * ```
  *
  * @example
@@ -46,7 +46,7 @@ import ProduceJWT from '../lib/jwt_producer.js'
  * console.log(jwt)
  * ```
  */
-export default class EncryptJWT extends ProduceJWT {
+class EncryptJWT extends ProduceJWT {
   private _cek!: Uint8Array
 
   private _iv!: Uint8Array
@@ -182,4 +182,6 @@ export default class EncryptJWT extends ProduceJWT {
   }
 }
 
+export { EncryptJWT }
+export default EncryptJWT
 export type { JWEHeaderParameters, JWTPayload, KeyLike }

@@ -23,13 +23,13 @@ const check = (value: any, description: string) => {
  * @example
  * ```js
  * // ESM import
- * import calculateThumbprint from 'jose/jwk/thumbprint'
+ * import { calculateThumbprint } from 'jose/jwk/thumbprint'
  * ```
  *
  * @example
  * ```js
  * // CJS import
- * const { default: calculateThumbprint } = require('jose/jwk/thumbprint')
+ * const { calculateThumbprint } = require('jose/jwk/thumbprint')
  * ```
  *
  * @example
@@ -44,7 +44,7 @@ const check = (value: any, description: string) => {
  * console.log(thumbprint)
  * ```
  */
-export default async function calculateThumbprint(
+async function calculateThumbprint(
   jwk: JWK,
   digestAlgorithm: 'sha256' | 'sha384' | 'sha512' = 'sha256',
 ): Promise<string> {
@@ -82,4 +82,6 @@ export default async function calculateThumbprint(
   return base64url(await digest(digestAlgorithm, data))
 }
 
+export { calculateThumbprint }
+export default calculateThumbprint
 export type { JWK }

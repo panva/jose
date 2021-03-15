@@ -33,19 +33,19 @@ export interface JWTVerifyGetKey extends GetKeyFunction<JWSHeaderParameters, Fla
  * @example
  * ```js
  * // ESM import
- * import jwtVerify from 'jose/jwt/verify'
+ * import { jwtVerify } from 'jose/jwt/verify'
  * ```
  *
  * @example
  * ```js
  * // CJS import
- * const { default: jwtVerify } = require('jose/jwt/verify')
+ * const { jwtVerify } = require('jose/jwt/verify')
  * ```
  *
  * @example
  * ```js
  * // usage
- * import parseJwk from 'jose/jwk/parse'
+ * import { parseJwk } from 'jose/jwk/parse'
  *
  * const jwt = 'eyJhbGciOiJFUzI1NiJ9.eyJ1cm46ZXhhbXBsZTpjbGFpbSI6dHJ1ZSwiaWF0IjoxNjA0MzE1MDc0LCJpc3MiOiJ1cm46ZXhhbXBsZTppc3N1ZXIiLCJhdWQiOiJ1cm46ZXhhbXBsZTphdWRpZW5jZSJ9.hx1nOfAT5LlXuzu8O-bhjXBGpklWDt2EsHw7-MDn49NrnwvVsstNhEnkW2ddauB7eSikFtUNeumLpFI9CWDBsg'
  * const publicKey = await parseJwk({
@@ -64,7 +64,7 @@ export interface JWTVerifyGetKey extends GetKeyFunction<JWSHeaderParameters, Fla
  * console.log(payload)
  * ```
  */
-export default async function jwtVerify(
+async function jwtVerify(
   jwt: string | Uint8Array,
   key: KeyLike | JWTVerifyGetKey,
   options?: JWTVerifyOptions,
@@ -77,4 +77,6 @@ export default async function jwtVerify(
   return { payload, protectedHeader: verified.protectedHeader }
 }
 
+export { jwtVerify }
+export default jwtVerify
 export type { KeyLike, JWTPayload, JWTVerifyOptions, JWSHeaderParameters, GetKeyFunction }

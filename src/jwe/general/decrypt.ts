@@ -27,19 +27,19 @@ export interface GeneralDecryptGetKey extends GetKeyFunction<JWEHeaderParameters
  * @example
  * ```js
  * // ESM import
- * import generalDecrypt from 'jose/jwe/general/decrypt'
+ * import { generalDecrypt } from 'jose/jwe/general/decrypt'
  * ```
  *
  * @example
  * ```js
  * // CJS import
- * const { default: generalDecrypt } = require('jose/jwe/general/decrypt')
+ * const { generalDecrypt } = require('jose/jwe/general/decrypt')
  * ```
  *
  * @example
  * ```js
  * // usage
- * import parseJwk from 'jose/jwk/parse'
+ * import { parseJwk } from 'jose/jwk/parse'
  *
  * const decoder = new TextDecoder()
  * const jwe = {
@@ -77,7 +77,7 @@ export interface GeneralDecryptGetKey extends GetKeyFunction<JWEHeaderParameters
  * console.log(decoder.decode(additionalAuthenticatedData))
  * ```
  */
-export default async function generalDecrypt(
+async function generalDecrypt(
   jwe: GeneralJWE,
   key: KeyLike | GeneralDecryptGetKey,
   options?: DecryptOptions,
@@ -115,4 +115,6 @@ export default async function generalDecrypt(
   throw new JWEDecryptionFailed()
 }
 
+export { generalDecrypt }
+export default generalDecrypt
 export type { KeyLike, GeneralJWE, DecryptOptions }

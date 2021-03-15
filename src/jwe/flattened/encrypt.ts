@@ -28,19 +28,19 @@ const checkExtensions = validateCrit.bind(undefined, JWEInvalid, new Map())
  * @example
  * ```js
  * // ESM import
- * import FlattenedEncrypt from 'jose/jwe/flattened/encrypt'
+ * import { FlattenedEncrypt } from 'jose/jwe/flattened/encrypt'
  * ```
  *
  * @example
  * ```js
  * // CJS import
- * const { default: FlattenedEncrypt } = require('jose/jwe/flattened/encrypt')
+ * const { FlattenedEncrypt } = require('jose/jwe/flattened/encrypt')
  * ```
  *
  * @example
  * ```js
  * // usage
- * import parseJwk from 'jose/jwk/parse'
+ * import { parseJwk } from 'jose/jwk/parse'
  *
  * const encoder = new TextEncoder()
  * const publicKey = await parseJwk({
@@ -57,7 +57,7 @@ const checkExtensions = validateCrit.bind(undefined, JWEInvalid, new Map())
  * console.log(jwe)
  * ```
  */
-export default class FlattenedEncrypt {
+class FlattenedEncrypt {
   private _plaintext: Uint8Array
 
   private _protectedHeader!: JWEHeaderParameters
@@ -321,4 +321,6 @@ export default class FlattenedEncrypt {
   }
 }
 
+export { FlattenedEncrypt }
+export default FlattenedEncrypt
 export type { KeyLike, FlattenedJWE, JWEHeaderParameters, JWEKeyManagementHeaderParameters }

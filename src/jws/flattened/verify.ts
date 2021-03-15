@@ -38,19 +38,19 @@ export interface FlattenedVerifyGetKey
  * @example
  * ```js
  * // ESM import
- * import flattenedVerify from 'jose/jws/flattened/verify'
+ * import { flattenedVerify } from 'jose/jws/flattened/verify'
  * ```
  *
  * @example
  * ```js
  * // CJS import
- * const { default: flattenedVerify } = require('jose/jws/flattened/verify')
+ * const { flattenedVerify } = require('jose/jws/flattened/verify')
  * ```
  *
  * @example
  * ```js
  * // usage
- * import parseJwk from 'jose/jwk/parse'
+ * import { parseJwk } from 'jose/jwk/parse'
  *
  * const decoder = new TextDecoder()
  * const jws = {
@@ -72,7 +72,7 @@ export interface FlattenedVerifyGetKey
  * console.log(decoder.decode(payload))
  * ```
  */
-export default async function flattenedVerify(
+async function flattenedVerify(
   jws: FlattenedJWSInput,
   key: KeyLike | FlattenedVerifyGetKey,
   options?: VerifyOptions,
@@ -190,4 +190,6 @@ export default async function flattenedVerify(
   return result
 }
 
+export { flattenedVerify }
+export default flattenedVerify
 export type { KeyLike, FlattenedJWSInput, GetKeyFunction, JWSHeaderParameters, VerifyOptions }

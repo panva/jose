@@ -33,13 +33,13 @@ export interface JWTDecryptGetKey extends GetKeyFunction<JWEHeaderParameters, Fl
  * @example
  * ```js
  * // ESM import
- * import jwtDecrypt from 'jose/jwt/decrypt'
+ * import { jwtDecrypt } from 'jose/jwt/decrypt'
  * ```
  *
  * @example
  * ```js
  * // CJS import
- * const { default: jwtDecrypt } = require('jose/jwt/decrypt')
+ * const { jwtDecrypt } = require('jose/jwt/decrypt')
  * ```
  *
  * @example
@@ -62,7 +62,7 @@ export interface JWTDecryptGetKey extends GetKeyFunction<JWEHeaderParameters, Fl
  * console.log(payload)
  * ```
  */
-export default async function jwtDecrypt(
+async function jwtDecrypt(
   jwt: string | Uint8Array,
   key: KeyLike | JWTDecryptGetKey,
   options?: JWTDecryptOptions,
@@ -102,4 +102,6 @@ export default async function jwtDecrypt(
   return { payload, protectedHeader }
 }
 
+export { jwtDecrypt }
+export default jwtDecrypt
 export type { KeyLike, DecryptOptions, JWTPayload, JWTDecryptOptions }

@@ -5,4 +5,5 @@ interface GetRandomValuesFunction {
 }
 
 const random: GetRandomValuesFunction = runtimeRandom
+export { random }
 export default random

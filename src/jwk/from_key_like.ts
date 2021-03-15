@@ -10,13 +10,13 @@ import asJWK from '../runtime/key_to_jwk.js'
  * @example
  * ```js
  * // ESM import
- * import fromKeyLike from 'jose/jwk/from_key_like'
+ * import { fromKeyLike } from 'jose/jwk/from_key_like'
  * ```
  *
  * @example
  * ```js
  * // CJS import
- * const { default: fromKeyLike } = require('jose/jwk/from_key_like')
+ * const { fromKeyLike } = require('jose/jwk/from_key_like')
  * ```
  *
  * @example
@@ -29,7 +29,7 @@ import asJWK from '../runtime/key_to_jwk.js'
  * console.log(publicJwk)
  * ```
  */
-export default async function fromKeyLike(key: KeyLike): Promise<JWK> {
+async function fromKeyLike(key: KeyLike): Promise<JWK> {
   if (key instanceof Uint8Array) {
     return {
       kty: 'oct',
@@ -40,4 +40,6 @@ export default async function fromKeyLike(key: KeyLike): Promise<JWK> {
   return asJWK(key)
 }
 
+export { fromKeyLike }
+export default fromKeyLike
 export type { KeyLike, JWK }

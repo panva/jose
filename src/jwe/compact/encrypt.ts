@@ -12,19 +12,19 @@ import type {
  * @example
  * ```js
  * // ESM import
- * import CompactEncrypt from 'jose/jwe/compact/encrypt'
+ * import { CompactEncrypt } from 'jose/jwe/compact/encrypt'
  * ```
  *
  * @example
  * ```js
  * // CJS import
- * const { default: CompactEncrypt } = require('jose/jwe/compact/encrypt')
+ * const { CompactEncrypt } = require('jose/jwe/compact/encrypt')
  * ```
  *
  * @example
  * ```js
  * // usage
- * import parseJwk from 'jose/jwk/parse'
+ * import { parseJwk } from 'jose/jwk/parse'
  *
  * const encoder = new TextEncoder()
  *
@@ -41,7 +41,7 @@ import type {
  * console.log(jwe)
  * ```
  */
-export default class CompactEncrypt {
+class CompactEncrypt {
   private _flattened: FlattenedEncrypt
 
   /**
@@ -112,4 +112,6 @@ export default class CompactEncrypt {
   }
 }
 
+export { CompactEncrypt }
+export default CompactEncrypt
 export type { KeyLike, JWEKeyManagementHeaderParameters, JWEHeaderParameters }

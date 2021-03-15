@@ -69,19 +69,19 @@ class IndividualSignature implements Signature {
  * @example
  * ```js
  * // ESM import
- * import GeneralSign from 'jose/jws/general/sign'
+ * import { GeneralSign } from 'jose/jws/general/sign'
  * ```
  *
  * @example
  * ```js
  * // CJS import
- * const { default: GeneralSign } = require('jose/jws/general/sign')
+ * const { GeneralSign } = require('jose/jws/general/sign')
  * ```
  *
  * @example
  * ```js
  * // usage
- * import parseJwk from 'jose/jwk/parse'
+ * import { parseJwk } from 'jose/jwk/parse'
  *
  * const encoder = new TextEncoder()
  * const ecPrivateKey = await parseJwk({
@@ -118,7 +118,7 @@ class IndividualSignature implements Signature {
  * const jws = await sign.sign()
  * ```
  */
-export default class GeneralSign {
+class GeneralSign {
   private _payload: Uint8Array
 
   private _signatures: IndividualSignature[] = []
@@ -182,4 +182,6 @@ export default class GeneralSign {
   }
 }
 
+export { GeneralSign }
+export default GeneralSign
 export type { KeyLike, GeneralJWS, JWSHeaderParameters }

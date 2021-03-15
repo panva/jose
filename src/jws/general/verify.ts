@@ -28,19 +28,19 @@ export interface GeneralVerifyGetKey
  * @example
  * ```js
  * // ESM import
- * import generalVerify from 'jose/jws/general/verify'
+ * import { generalVerify } from 'jose/jws/general/verify'
  * ```
  *
  * @example
  * ```js
  * // CJS import
- * const { default: generalVerify } = require('jose/jws/general/verify')
+ * const { generalVerify } = require('jose/jws/general/verify')
  * ```
  *
  * @example
  * ```js
  * // usage
- * import parseJwk from 'jose/jwk/parse'
+ * import { parseJwk } from 'jose/jwk/parse'
  *
  * const decoder = new TextDecoder()
  * const jws = {
@@ -66,7 +66,7 @@ export interface GeneralVerifyGetKey
  * console.log(decoder.decode(payload))
  * ```
  */
-export default async function generalVerify(
+async function generalVerify(
   jws: GeneralJWSInput,
   key: KeyLike | GeneralVerifyGetKey,
   options?: VerifyOptions,
@@ -100,4 +100,6 @@ export default async function generalVerify(
   throw new JWSSignatureVerificationFailed()
 }
 
+export { generalVerify }
+export default generalVerify
 export type { KeyLike, GeneralJWSInput, VerifyOptions }

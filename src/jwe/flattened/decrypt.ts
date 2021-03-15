@@ -43,19 +43,19 @@ export interface FlattenedDecryptGetKey
  * @example
  * ```js
  * // ESM import
- * import flattenedDecrypt from 'jose/jwe/flattened/decrypt'
+ * import { flattenedDecrypt } from 'jose/jwe/flattened/decrypt'
  * ```
  *
  * @example
  * ```js
  * // CJS import
- * const { default: flattenedDecrypt } = require('jose/jwe/flattened/decrypt')
+ * const { flattenedDecrypt } = require('jose/jwe/flattened/decrypt')
  * ```
  *
  * @example
  * ```js
  * // usage
- * import parseJwk from 'jose/jwk/parse'
+ * import { parseJwk } from 'jose/jwk/parse'
  *
  * const decoder = new TextDecoder()
  * const jwe = {
@@ -89,7 +89,7 @@ export interface FlattenedDecryptGetKey
  * console.log(decoder.decode(additionalAuthenticatedData))
  * ```
  */
-export default async function flattenedDecrypt(
+async function flattenedDecrypt(
   jwe: FlattenedJWE,
   key: KeyLike | FlattenedDecryptGetKey,
   options?: DecryptOptions,
@@ -252,4 +252,6 @@ export default async function flattenedDecrypt(
   return result
 }
 
+export { flattenedDecrypt }
+export default flattenedDecrypt
 export type { KeyLike, FlattenedJWE, JWEHeaderParameters, DecryptOptions }

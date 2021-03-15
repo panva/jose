@@ -13,13 +13,13 @@ export type ProtectedHeaderParameters = JWSHeaderParameters & JWEHeaderParameter
  * @example
  * ```js
  * // ESM import
- * import decodeProtectedHeader from 'jose/util/decode_protected_header'
+ * import { decodeProtectedHeader } from 'jose/util/decode_protected_header'
  * ```
  *
  * @example
  * ```js
  * // CJS import
- * const { default: decodeProtectedHeader } = require('jose/util/decode_protected_header')
+ * const { decodeProtectedHeader } = require('jose/util/decode_protected_header')
  * ```
  *
  * @example
@@ -31,7 +31,7 @@ export type ProtectedHeaderParameters = JWSHeaderParameters & JWEHeaderParameter
  *
  * @param token JWE/JWS/JWT token in any JOSE serialization.
  */
-export default function decodeProtectedHeader(token: string | object) {
+function decodeProtectedHeader(token: string | object) {
   let protectedB64u!: string
 
   if (typeof token === 'string') {
@@ -56,3 +56,6 @@ export default function decodeProtectedHeader(token: string | object) {
     throw new TypeError('Invalid Token or Protected Header formatting')
   }
 }
+
+export { decodeProtectedHeader }
+export default decodeProtectedHeader

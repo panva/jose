@@ -9,19 +9,19 @@ import type { JWSHeaderParameters, KeyLike, SignOptions } from '../../types.d'
  * @example
  * ```js
  * // ESM import
- * import CompactSign from 'jose/jws/compact/sign'
+ * import { CompactSign } from 'jose/jws/compact/sign'
  * ```
  *
  * @example
  * ```js
  * // CJS import
- * const { default: CompactSign } = require('jose/jws/compact/sign')
+ * const { CompactSign } = require('jose/jws/compact/sign')
  * ```
  *
  * @example
  * ```js
  * // usage
- * import parseJwk from 'jose/jwk/parse'
+ * import { parseJwk } from 'jose/jwk/parse'
  *
  * const encoder = new TextEncoder()
  * const privateKey = await parseJwk({
@@ -40,7 +40,7 @@ import type { JWSHeaderParameters, KeyLike, SignOptions } from '../../types.d'
  * console.log(jws)
  * ```
  */
-export default class CompactSign {
+class CompactSign {
   private _flattened: FlattenedSign
 
   /**
@@ -77,4 +77,6 @@ export default class CompactSign {
   }
 }
 
+export { CompactSign }
+export default CompactSign
 export type { JWSHeaderParameters, KeyLike }

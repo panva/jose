@@ -24,13 +24,13 @@ export interface GenerateKeyPairOptions {
  * @example
  * ```js
  * // ESM import
- * import generateKeyPair from 'jose/util/generate_key_pair'
+ * import { generateKeyPair } from 'jose/util/generate_key_pair'
  * ```
  *
  * @example
  * ```js
  * // CJS import
- * const { default: generateKeyPair } = require('jose/util/generate_key_pair')
+ * const { generateKeyPair } = require('jose/util/generate_key_pair')
  * ```
  *
  * @example
@@ -44,9 +44,12 @@ export interface GenerateKeyPairOptions {
  * @param alg JWA Algorithm Identifier to be used with the generated key pair.
  * @param options Additional options passed down to the key pair generation.
  */
-export default async function generateKeyPair(
+async function generateKeyPair(
   alg: string,
   options?: GenerateKeyPairOptions,
 ): Promise<{ privateKey: KeyLike; publicKey: KeyLike }> {
   return generate(alg, options)
 }
+
+export { generateKeyPair }
+export default generateKeyPair

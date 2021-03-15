@@ -15,19 +15,19 @@ import { JWSInvalid } from '../util/errors.js'
  * @example
  * ```js
  * // ESM import
- * import EmbeddedJWK from 'jose/jwk/embedded'
+ * import { EmbeddedJWK } from 'jose/jwk/embedded'
  * ```
  *
  * @example
  * ```js
  * // CJS import
- * const { default: EmbeddedJWK } = require('jose/jwk/embedded')
+ * const { EmbeddedJWK } = require('jose/jwk/embedded')
  * ```
  *
  * @example
  * ```js
  * // usage
- * import jwtVerify from 'jose/jwt/verify'
+ * import { jwtVerify } from 'jose/jwt/verify'
  *
  * const jwt = 'eyJqd2siOnsiY3J2IjoiUC0yNTYiLCJ4IjoiVU05ZzVuS25aWFlvdldBbE03NmNMejl2VG96UmpfX0NIVV9kT2wtZ09vRSIsInkiOiJkczhhZVF3MWwyY0RDQTdiQ2tPTnZ3REtwWEFidFhqdnFDbGVZSDhXc19VIiwia3R5IjoiRUMifSwiYWxnIjoiRVMyNTYifQ.eyJpc3MiOiJ1cm46ZXhhbXBsZTppc3N1ZXIiLCJhdWQiOiJ1cm46ZXhhbXBsZTphdWRpZW5jZSIsImlhdCI6MTYwNDU4MDc5NH0.60boak3_dErnW47ZPty1C0nrjeVq86EN_eK0GOq6K8w2OA0thKoBxFK4j-NuU9yZ_A9UKGxPT_G87DladBaV9g'
  *
@@ -40,7 +40,7 @@ import { JWSInvalid } from '../util/errors.js'
  * console.log(payload)
  * ```
  */
-export default async function EmbeddedJWK(
+async function EmbeddedJWK(
   protectedHeader: JWSHeaderParameters,
   token: FlattenedJWSInput,
 ) {
@@ -61,3 +61,6 @@ export default async function EmbeddedJWK(
 
   return key
 }
+
+export { EmbeddedJWK }
+export default EmbeddedJWK

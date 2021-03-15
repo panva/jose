@@ -215,19 +215,19 @@ class RemoteJWKSet {
  * @example
  * ```js
  * // ESM import
- * import createRemoteJWKSet from 'jose/jwks/remote'
+ * import { createRemoteJWKSet } from 'jose/jwks/remote'
  * ```
  *
  * @example
  * ```js
  * // CJS import
- * const { default: createRemoteJWKSet } = require('jose/jwks/remote')
+ * const { createRemoteJWKSet } = require('jose/jwks/remote')
  * ```
  *
  * @example
  * ```js
  * // usage
- * import jwtVerify from 'jose/jwt/verify'
+ * import { jwtVerify } from 'jose/jwt/verify'
  *
  * const JWKS = createRemoteJWKSet(new URL('https://www.googleapis.com/oauth2/v3/certs'))
  *
@@ -242,10 +242,13 @@ class RemoteJWKSet {
  * @param url URL to fetch the JSON Web Key Set from.
  * @param options Options for the remote JSON Web Key Set.
  */
-export default function createRemoteJWKSet(
+function createRemoteJWKSet(
   url: URL,
   options?: RemoteJWKSetOptions,
 ): GetKeyFunction<JWSHeaderParameters, FlattenedJWSInput> {
   const set = new RemoteJWKSet(url, options)
   return set.getKey.bind(set)
 }
+
+export { createRemoteJWKSet }
+export default createRemoteJWKSet

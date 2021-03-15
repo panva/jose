@@ -7,13 +7,13 @@ import type { KeyLike } from '../types.d'
  * @example
  * ```js
  * // ESM import
- * import generateSecret from 'jose/util/generate_secret'
+ * import { generateSecret } from 'jose/util/generate_secret'
  * ```
  *
  * @example
  * ```js
  * // CJS import
- * const { default: generateSecret } = require('jose/util/generate_secret')
+ * const { generateSecret } = require('jose/util/generate_secret')
  * ```
  *
  * @example
@@ -25,6 +25,9 @@ import type { KeyLike } from '../types.d'
  *
  * @param alg JWA Algorithm Identifier to be used with the generated secret.
  */
-export default async function generateSecret(alg: string): Promise<KeyLike> {
+async function generateSecret(alg: string): Promise<KeyLike> {
   return generate(alg)
 }
+
+export { generateSecret }
+export default generateSecret

@@ -13,13 +13,13 @@ import ProduceJWT from '../lib/jwt_producer.js'
  * @example
  * ```js
  * // ESM import
- * import UnsecuredJWT from 'jose/jwt/unsecured'
+ * import { UnsecuredJWT } from 'jose/jwt/unsecured'
  * ```
  *
  * @example
  * ```js
  * // CJS import
- * const { default: UnsecuredJWT } = require('jose/jwt/unsecured')
+ * const { UnsecuredJWT } = require('jose/jwt/unsecured')
  * ```
  *
  * @example
@@ -48,7 +48,7 @@ import ProduceJWT from '../lib/jwt_producer.js'
  * console.log(payload)
  * ```
  */
-export default class UnsecuredJWT extends ProduceJWT {
+class UnsecuredJWT extends ProduceJWT {
   /**
    * Encodes the Unsecured JWT.
    */
@@ -101,4 +101,6 @@ export default class UnsecuredJWT extends ProduceJWT {
   }
 }
 
+export { UnsecuredJWT }
+export default UnsecuredJWT
 export type { JWSHeaderParameters, JWTPayload }

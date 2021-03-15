@@ -12,19 +12,19 @@ import ProduceJWT from '../lib/jwt_producer.js'
  * @example
  * ```js
  * // ESM import
- * import SignJWT from 'jose/jwt/sign'
+ * import { SignJWT } from 'jose/jwt/sign'
  * ```
  *
  * @example
  * ```js
  * // CJS import
- * const { default: SignJWT } = require('jose/jwt/sign')
+ * const { SignJWT } = require('jose/jwt/sign')
  * ```
  *
  * @example
  * ```js
  * // usage
- * import parseJwk from 'jose/jwk/parse'
+ * import { parseJwk } from 'jose/jwk/parse'
  *
  * const privateKey = await parseJwk({
  *   alg: 'ES256',
@@ -46,7 +46,7 @@ import ProduceJWT from '../lib/jwt_producer.js'
  * console.log(jwt)
  * ```
  */
-export default class SignJWT extends ProduceJWT {
+class SignJWT extends ProduceJWT {
   private _protectedHeader!: JWSHeaderParameters
 
   /**
@@ -75,4 +75,6 @@ export default class SignJWT extends ProduceJWT {
   }
 }
 
+export { SignJWT }
+export default SignJWT
 export type { JWSHeaderParameters, JWTPayload, KeyLike }

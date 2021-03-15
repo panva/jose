@@ -19,13 +19,13 @@ import type { JWK, KeyLike } from '../types.d'
  * @example
  * ```js
  * // ESM import
- * import parseJwk from 'jose/jwk/parse'
+ * import { parseJwk } from 'jose/jwk/parse'
  * ```
  *
  * @example
  * ```js
  * // CJS import
- * const { default: parseJwk } = require('jose/jwk/parse')
+ * const { parseJwk } = require('jose/jwk/parse')
  * ```
  *
  * @example
@@ -47,7 +47,7 @@ import type { JWK, KeyLike } from '../types.d'
  * }, 'PS256')
  * ```
  */
-export default async function parseJwk(
+async function parseJwk(
   jwk: JWK,
   alg?: string,
   octAsKeyObject?: boolean,
@@ -92,4 +92,6 @@ export default async function parseJwk(
   }
 }
 
+export { parseJwk }
+export default parseJwk
 export type { KeyLike, JWK }

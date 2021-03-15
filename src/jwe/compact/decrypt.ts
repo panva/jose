@@ -26,19 +26,19 @@ export interface CompactDecryptGetKey extends GetKeyFunction<JWEHeaderParameters
  * @example
  * ```js
  * // ESM import
- * import compactDecrypt from 'jose/jwe/compact/decrypt'
+ * import { compactDecrypt } from 'jose/jwe/compact/decrypt'
  * ```
  *
  * @example
  * ```js
  * // CJS import
- * const { default: compactDecrypt } = require('jose/jwe/compact/decrypt')
+ * const { compactDecrypt } = require('jose/jwe/compact/decrypt')
  * ```
  *
  * @example
  * ```js
  * // usage
- * import parseJwk from 'jose/jwk/parse'
+ * import { parseJwk } from 'jose/jwk/parse'
  *
  * const decoder = new TextDecoder()
  * const jwe = 'eyJhbGciOiJSU0EtT0FFUC0yNTYiLCJlbmMiOiJBMjU2R0NNIn0.nyQ19eq9ogh9wA7fFtnI2oouzy5_8b5DeLkoRMfi2yijgfTs2zEnayCEofz_qhnL-nwszabd9qUeHv0-IwvhhJJS7GUJOU3ikiIe42qcIAFme1A_Fo9CTxw4XTOy-I5qanl8So91u6hwfyN1VxAqVLsSE7_23EC-gfGEg_5znew9PyXXsOIE-K_HH7IQowRrlZ1X_bM_Liu53RzDpLDvRz59mp3S8L56YqpM8FexFGTGpEaoTcEIst375qncYt3-79IVR7gZN1RWsWgjPatfvVbnh74PglQcATSf3UUhaW0OAKn6q7r3PDx6DIKQ35bgHQg5QopuN00eIfLQL2trGw.W3grIVj5HVuAb76X.6PcuDe5D6ttWFYyv0oqqdDXfI2R8wBg1F2Q80UUA_Gv8eEimNWfxIWdLxrjzgQGSvIhxmFKuLM0.a93_Ug3uZHuczj70Zavx8Q'
@@ -60,7 +60,7 @@ export interface CompactDecryptGetKey extends GetKeyFunction<JWEHeaderParameters
  * console.log(decoder.decode(plaintext))
  * ```
  */
-export default async function compactDecrypt(
+async function compactDecrypt(
   jwe: string | Uint8Array,
   key: KeyLike | CompactDecryptGetKey,
   options?: DecryptOptions,
@@ -96,4 +96,6 @@ export default async function compactDecrypt(
   return { plaintext: decrypted.plaintext, protectedHeader: decrypted.protectedHeader! }
 }
 
+export { compactDecrypt }
+export default compactDecrypt
 export type { KeyLike, DecryptOptions }

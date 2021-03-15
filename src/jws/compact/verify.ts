@@ -27,19 +27,19 @@ export interface CompactVerifyGetKey
  * @example
  * ```js
  * // ESM import
- * import compactVerify from 'jose/jws/compact/verify'
+ * import { compactVerify } from 'jose/jws/compact/verify'
  * ```
  *
  * @example
  * ```js
  * // CJS import
- * const { default: compactVerify } = require('jose/jws/compact/verify')
+ * const { compactVerify } = require('jose/jws/compact/verify')
  * ```
  *
  * @example
  * ```js
  * // usage
- * import parseJwk from 'jose/jwk/parse'
+ * import { parseJwk } from 'jose/jwk/parse'
  *
  * const decoder = new TextDecoder()
  * const jws = 'eyJhbGciOiJFUzI1NiJ9.SXTigJlzIGEgZGFuZ2Vyb3VzIGJ1c2luZXNzLCBGcm9kbywgZ29pbmcgb3V0IHlvdXIgZG9vci4.kkAs_gPPxWMI3rHuVlxHaTPfDWDoqdI8jSvuSmqV-8IHIWXg9mcAeC9ggV-45ZHRbiRJ3obUIFo1rHphPA5URg'
@@ -57,7 +57,7 @@ export interface CompactVerifyGetKey
  * console.log(decoder.decode(payload))
  * ```
  */
-export default async function compactVerify(
+async function compactVerify(
   jws: string | Uint8Array,
   key: KeyLike | CompactVerifyGetKey,
   options?: VerifyOptions,
@@ -89,4 +89,6 @@ export default async function compactVerify(
   return { payload: verified.payload, protectedHeader: verified.protectedHeader! }
 }
 
+export { compactVerify }
+export default compactVerify
 export type { KeyLike, VerifyOptions }
