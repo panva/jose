@@ -34,9 +34,6 @@ jobs:
           key: dist-${{ hashFiles('src/**/*.ts') }}-${{ hashFiles('tsconfig/*.json') }}
       - name: Prepare distribution
         run: node tools/publish-${{ matrix.prepare-script }}
-      - run: npm whoami
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
       - run: npm publish
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
