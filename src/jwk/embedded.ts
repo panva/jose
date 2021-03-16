@@ -40,10 +40,7 @@ import { JWSInvalid } from '../util/errors.js'
  * console.log(payload)
  * ```
  */
-async function EmbeddedJWK(
-  protectedHeader: JWSHeaderParameters,
-  token: FlattenedJWSInput,
-) {
+async function EmbeddedJWK(protectedHeader: JWSHeaderParameters, token: FlattenedJWSInput) {
   const joseHeader = {
     ...protectedHeader,
     ...token.header,

@@ -47,11 +47,7 @@ import type { JWK, KeyLike } from '../types.d'
  * }, 'PS256')
  * ```
  */
-async function parseJwk(
-  jwk: JWK,
-  alg?: string,
-  octAsKeyObject?: boolean,
-): Promise<KeyLike> {
+async function parseJwk(jwk: JWK, alg?: string, octAsKeyObject?: boolean): Promise<KeyLike> {
   if (!isObject(jwk)) {
     throw new TypeError('JWK must be an object')
   }

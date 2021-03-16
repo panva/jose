@@ -5,10 +5,7 @@ delete pkg.devDependencies;
 delete pkg.scripts;
 delete pkg.imports;
 
-pkg.description = pkg.description.replace(
-  "Universal ",
-  "(Browser Runtime) "
-);
+pkg.description = pkg.description.replace("Universal ", "(Browser Runtime) ");
 
 for (const exportPath of Object.keys(pkg.exports)) {
   if (exportPath.startsWith("./webcrypto")) {
@@ -20,7 +17,7 @@ for (const exportPath of Object.keys(pkg.exports)) {
     pkg.exports[exportPath] = pkg.exports[exportPath].browser;
   }
 }
-delete pkg.typesVersions['*']['webcrypto/*']
+delete pkg.typesVersions["*"]["webcrypto/*"];
 
 const deletedKeywords = new Set([
   "okp",

@@ -20,7 +20,7 @@ for (const exportPath of Object.keys(pkg.exports)) {
     pkg.exports[exportPath] = pkg.exports[exportPath].import;
   }
 }
-delete pkg.typesVersions['*']['webcrypto/*']
+delete pkg.typesVersions["*"]["webcrypto/*"];
 
 const deletedKeywords = new Set([
   "browser",
