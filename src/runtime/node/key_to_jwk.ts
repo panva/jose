@@ -8,6 +8,13 @@ import { JOSENotSupported } from '../../util/errors.js'
 import getNamedCurve from './get_named_curve.js'
 import { isCryptoKey, getKeyObject } from './webcrypto.js'
 
+const [major, minor] = process.version
+  .substr(1)
+  .split('.')
+  .map((str) => parseInt(str, 10))
+
+const jwkExportSupported = major >= 16 || (major === 15 && minor >= 9)
+
 const keyToJWK: JWKConvertFunction = (key: KeyObject | CryptoKey): JWK => {
   if (isCryptoKey(key)) {
     // eslint-disable-next-line no-param-reassign
@@ -16,6 +23,11 @@ const keyToJWK: JWKConvertFunction = (key: KeyObject | CryptoKey): JWK => {
 
   if (!(key instanceof KeyObject)) {
     throw new TypeError('invalid key argument type')
+  }
+
+  if (jwkExportSupported) {
+    // @ts-expect-error
+    return key.export({ format: 'jwk' })
   }
 
   switch (key.type) {
