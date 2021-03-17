@@ -9,7 +9,22 @@ import { setModulusLength } from './check_modulus_length.js'
 import Asn1SequenceEncoder from './asn1_sequence_encoder.js'
 import type { JWK } from '../../types.d'
 
+const [major, minor] = process.version
+  .substr(1)
+  .split('.')
+  .map((str) => parseInt(str, 10))
+
+const jwkImportSupported = major >= 16 || (major === 15 && minor >= 12)
+
 const parse: JWKParseFunction = (jwk: JWK): KeyObject => {
+  if (jwkImportSupported && jwk.kty !== 'oct') {
+    return jwk.d
+      ? // @ts-expect-error
+        createPrivateKey({ format: 'jwk', key: jwk })
+      : // @ts-expect-error
+        createPublicKey({ format: 'jwk', key: jwk })
+  }
+
   switch (jwk.kty) {
     case 'oct': {
       return createSecretKey(base64url(jwk.k!))
