@@ -1,4 +1,5 @@
-import { verify as oneShotVerify, timingSafeEqual, KeyObject } from 'crypto'
+import * as crypto from 'crypto'
+import { promisify } from 'util'
 
 import type { KeyLike } from '../../types.d'
 import type { VerifyFunction } from '../interfaces.d'
@@ -7,12 +8,18 @@ import nodeKey from './node_key.js'
 import sign from './sign.js'
 import { isCryptoKey, getKeyObject } from './webcrypto.js'
 
+let oneShotVerify = crypto.verify
+if (oneShotVerify.length > 4) {
+  // @ts-expect-error
+  oneShotVerify = promisify(oneShotVerify)
+}
+
 const verify: VerifyFunction = async (alg, key: KeyLike, signature, data) => {
   if (alg.startsWith('HS')) {
     const expected = await sign(alg, key, data)
     const actual = signature
     try {
-      return timingSafeEqual(actual, expected)
+      return crypto.timingSafeEqual(actual, expected)
     } catch {
       // handle incorrect signature lengths
       return false
@@ -24,7 +31,7 @@ const verify: VerifyFunction = async (alg, key: KeyLike, signature, data) => {
   if (isCryptoKey(key)) {
     // eslint-disable-next-line no-param-reassign
     key = getKeyObject(key)
-  } else if (!(key instanceof KeyObject)) {
+  } else if (!(key instanceof crypto.KeyObject)) {
     throw new TypeError('invalid key object type provided')
   }
 
