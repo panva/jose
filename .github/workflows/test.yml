@@ -52,16 +52,18 @@ jobs:
   test:
     needs:
       - build
+    continue-on-error: ${{ matrix.experimental || false }}
     strategy:
+      fail-fast: false
       matrix:
         node-version:
           - 12.20.0
           - 12
           - 14.15.0
           - 14
-          - 15.0.1
-          - 15
-          - '>=15'
+        include:
+          - experimental: true
+            node-version: '>=15'
 
     runs-on: ubuntu-latest
     steps:
