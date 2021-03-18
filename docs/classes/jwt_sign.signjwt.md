@@ -81,7 +81,7 @@ Name | Type | Description |
 
 Inherited from: void
 
-Defined in: [lib/jwt_producer.ts:10](https://github.com/panva/jose/blob/v3.9.0/src/lib/jwt_producer.ts#L10)
+Defined in: [lib/jwt_producer.ts:10](https://github.com/panva/jose/blob/v3.10.0/src/lib/jwt_producer.ts#L10)
 
 ## Methods
 
@@ -101,7 +101,7 @@ Name | Type | Description |
 
 Inherited from: void
 
-Defined in: [lib/jwt_producer.ts:47](https://github.com/panva/jose/blob/v3.9.0/src/lib/jwt_producer.ts#L47)
+Defined in: [lib/jwt_producer.ts:47](https://github.com/panva/jose/blob/v3.10.0/src/lib/jwt_producer.ts#L47)
 
 ___
 
@@ -121,7 +121,7 @@ Name | Type | Description |
 
 Inherited from: void
 
-Defined in: [lib/jwt_producer.ts:85](https://github.com/panva/jose/blob/v3.9.0/src/lib/jwt_producer.ts#L85)
+Defined in: [lib/jwt_producer.ts:85](https://github.com/panva/jose/blob/v3.10.0/src/lib/jwt_producer.ts#L85)
 
 ___
 
@@ -141,7 +141,7 @@ Name | Type | Description |
 
 Inherited from: void
 
-Defined in: [lib/jwt_producer.ts:100](https://github.com/panva/jose/blob/v3.9.0/src/lib/jwt_producer.ts#L100)
+Defined in: [lib/jwt_producer.ts:100](https://github.com/panva/jose/blob/v3.10.0/src/lib/jwt_producer.ts#L100)
 
 ___
 
@@ -161,7 +161,7 @@ Name | Type | Description |
 
 Inherited from: void
 
-Defined in: [lib/jwt_producer.ts:27](https://github.com/panva/jose/blob/v3.9.0/src/lib/jwt_producer.ts#L27)
+Defined in: [lib/jwt_producer.ts:27](https://github.com/panva/jose/blob/v3.10.0/src/lib/jwt_producer.ts#L27)
 
 ___
 
@@ -181,7 +181,7 @@ Name | Type | Description |
 
 Inherited from: void
 
-Defined in: [lib/jwt_producer.ts:57](https://github.com/panva/jose/blob/v3.9.0/src/lib/jwt_producer.ts#L57)
+Defined in: [lib/jwt_producer.ts:57](https://github.com/panva/jose/blob/v3.10.0/src/lib/jwt_producer.ts#L57)
 
 ___
 
@@ -201,7 +201,7 @@ Name | Type | Description |
 
 Inherited from: void
 
-Defined in: [lib/jwt_producer.ts:69](https://github.com/panva/jose/blob/v3.9.0/src/lib/jwt_producer.ts#L69)
+Defined in: [lib/jwt_producer.ts:69](https://github.com/panva/jose/blob/v3.10.0/src/lib/jwt_producer.ts#L69)
 
 ___
 
@@ -219,7 +219,7 @@ Name | Type | Description |
 
 **Returns:** [*SignJWT*](jwt_sign.signjwt.md)
 
-Defined in: [jwt/sign.ts:57](https://github.com/panva/jose/blob/v3.9.0/src/jwt/sign.ts#L57)
+Defined in: [jwt/sign.ts:57](https://github.com/panva/jose/blob/v3.10.0/src/jwt/sign.ts#L57)
 
 ___
 
@@ -239,7 +239,7 @@ Name | Type | Description |
 
 Inherited from: void
 
-Defined in: [lib/jwt_producer.ts:37](https://github.com/panva/jose/blob/v3.9.0/src/lib/jwt_producer.ts#L37)
+Defined in: [lib/jwt_producer.ts:37](https://github.com/panva/jose/blob/v3.10.0/src/lib/jwt_producer.ts#L37)
 
 ___
 
@@ -258,4 +258,4 @@ Name | Type | Description |
 
 **Returns:** *Promise*<string\>
 
-Defined in: [jwt/sign.ts:68](https://github.com/panva/jose/blob/v3.9.0/src/jwt/sign.ts#L68)
+Defined in: [jwt/sign.ts:68](https://github.com/panva/jose/blob/v3.10.0/src/jwt/sign.ts#L68)

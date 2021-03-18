@@ -42,7 +42,7 @@ Name | Type | Default value |
 
 Overrides: [JOSEError](util_errors.joseerror.md)
 
-Defined in: [util/errors.ts:36](https://github.com/panva/jose/blob/v3.9.0/src/util/errors.ts#L36)
+Defined in: [util/errors.ts:36](https://github.com/panva/jose/blob/v3.10.0/src/util/errors.ts#L36)
 
 ## Properties
 
@@ -52,7 +52,7 @@ Defined in: [util/errors.ts:36](https://github.com/panva/jose/blob/v3.9.0/src/ut
 
 The Claim for which the validation failed.
 
-Defined in: [util/errors.ts:31](https://github.com/panva/jose/blob/v3.9.0/src/util/errors.ts#L31)
+Defined in: [util/errors.ts:31](https://github.com/panva/jose/blob/v3.10.0/src/util/errors.ts#L31)
 
 ___
 
@@ -64,7 +64,7 @@ A unique error code for the particular error subclass.
 
 Overrides: [JOSEError](util_errors.joseerror.md).[code](util_errors.joseerror.md#code)
 
-Defined in: [util/errors.ts:26](https://github.com/panva/jose/blob/v3.9.0/src/util/errors.ts#L26)
+Defined in: [util/errors.ts:26](https://github.com/panva/jose/blob/v3.10.0/src/util/errors.ts#L26)
 
 ___
 
@@ -74,4 +74,4 @@ ___
 
 Reason code for the validation failure.
 
-Defined in: [util/errors.ts:36](https://github.com/panva/jose/blob/v3.9.0/src/util/errors.ts#L36)
+Defined in: [util/errors.ts:36](https://github.com/panva/jose/blob/v3.10.0/src/util/errors.ts#L36)

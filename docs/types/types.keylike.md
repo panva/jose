@@ -16,4 +16,4 @@ SubtleCrypto.generateKey, SubtleCrypto.deriveKey, SubtleCrypto.unwrapKey).
 is used exclusively for symmetric secret representations, a CryptoKey or KeyObject is
 preferred, but in Web Crypto API this isn't an option for some algorithms.
 
-Defined in: [types.d.ts:96](https://github.com/panva/jose/blob/v3.9.0/src/types.d.ts#L96)
+Defined in: [types.d.ts:96](https://github.com/panva/jose/blob/v3.10.0/src/types.d.ts#L96)

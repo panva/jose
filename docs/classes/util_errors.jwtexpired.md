@@ -40,7 +40,7 @@ Name | Type | Default value |
 
 Inherited from: [JWTClaimValidationFailed](util_errors.jwtclaimvalidationfailed.md)
 
-Defined in: [util/errors.ts:36](https://github.com/panva/jose/blob/v3.9.0/src/util/errors.ts#L36)
+Defined in: [util/errors.ts:36](https://github.com/panva/jose/blob/v3.10.0/src/util/errors.ts#L36)
 
 ## Properties
 
@@ -52,7 +52,7 @@ The Claim for which the validation failed.
 
 Inherited from: [JWTClaimValidationFailed](util_errors.jwtclaimvalidationfailed.md).[claim](util_errors.jwtclaimvalidationfailed.md#claim)
 
-Defined in: [util/errors.ts:31](https://github.com/panva/jose/blob/v3.9.0/src/util/errors.ts#L31)
+Defined in: [util/errors.ts:31](https://github.com/panva/jose/blob/v3.10.0/src/util/errors.ts#L31)
 
 ___
 
@@ -64,7 +64,7 @@ A unique error code for the particular error subclass.
 
 Overrides: [JWTClaimValidationFailed](util_errors.jwtclaimvalidationfailed.md).[code](util_errors.jwtclaimvalidationfailed.md#code)
 
-Defined in: [util/errors.ts:135](https://github.com/panva/jose/blob/v3.9.0/src/util/errors.ts#L135)
+Defined in: [util/errors.ts:135](https://github.com/panva/jose/blob/v3.10.0/src/util/errors.ts#L135)
 
 ___
 
@@ -76,4 +76,4 @@ Reason code for the validation failure.
 
 Inherited from: [JWTClaimValidationFailed](util_errors.jwtclaimvalidationfailed.md).[reason](util_errors.jwtclaimvalidationfailed.md#reason)
 
-Defined in: [util/errors.ts:36](https://github.com/panva/jose/blob/v3.9.0/src/util/errors.ts#L36)
+Defined in: [util/errors.ts:36](https://github.com/panva/jose/blob/v3.10.0/src/util/errors.ts#L36)

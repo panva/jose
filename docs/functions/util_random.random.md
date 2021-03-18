@@ -12,4 +12,4 @@ Name | Type |
 
 **Returns:** *Uint8Array*
 
-Defined in: [util/random.ts:7](https://github.com/panva/jose/blob/v3.9.0/src/util/random.ts#L7)
+Defined in: [util/random.ts:7](https://github.com/panva/jose/blob/v3.10.0/src/util/random.ts#L7)

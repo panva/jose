@@ -52,4 +52,4 @@ Name | Type | Description |
 
 **Returns:** *Promise*<[*KeyLike*](../types/types.keylike.md)\>
 
-Defined in: [types.d.ts:79](https://github.com/panva/jose/blob/v3.9.0/src/types.d.ts#L79)
+Defined in: [types.d.ts:79](https://github.com/panva/jose/blob/v3.10.0/src/types.d.ts#L79)

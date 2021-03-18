@@ -36,7 +36,7 @@ Name | Type |
 
 Inherited from: [JOSEError](util_errors.joseerror.md)
 
-Defined in: [util/errors.ts:11](https://github.com/panva/jose/blob/v3.9.0/src/util/errors.ts#L11)
+Defined in: [util/errors.ts:11](https://github.com/panva/jose/blob/v3.10.0/src/util/errors.ts#L11)
 
 ## Properties
 
@@ -48,4 +48,4 @@ A unique error code for the particular error subclass.
 
 Overrides: [JOSEError](util_errors.joseerror.md).[code](util_errors.joseerror.md#code)
 
-Defined in: [util/errors.ts:73](https://github.com/panva/jose/blob/v3.9.0/src/util/errors.ts#L73)
+Defined in: [util/errors.ts:73](https://github.com/panva/jose/blob/v3.10.0/src/util/errors.ts#L73)

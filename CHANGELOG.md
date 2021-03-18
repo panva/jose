@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [3.10.0](https://github.com/panva/jose/compare/v3.9.0...v3.10.0) (2021-03-18)
+
+
+### Features
+
+* **node:** use libuv threadpool to sign in node >= 15.12.0 ([cf5074e](https://github.com/panva/jose/commit/cf5074e7e1333728f7632ee6785cc52ef32711bf))
+* **node:** use libuv threadpool to verify in node >= 15.12.0 ([ae9a7f4](https://github.com/panva/jose/commit/ae9a7f4186da9675820dc2e77786b9ee3f7dd0d0))
+* **node:** use native JWK export in node >= 15.9.0 ([7f3cc44](https://github.com/panva/jose/commit/7f3cc44bd0508bf15c061500738473eeafdc32d1))
+* **node:** use native JWK import in node >= 15.12.0 ([f0c2a64](https://github.com/panva/jose/commit/f0c2a6472844c43a92a79ed90b51cc5133a2e22e))
+
 ## [3.9.0](https://github.com/panva/jose/compare/v3.8.0...v3.9.0) (2021-03-15)
 
 

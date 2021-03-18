@@ -64,7 +64,7 @@ Name | Type | Description |
 
 **Returns:** [*CompactEncrypt*](jwe_compact_encrypt.compactencrypt.md)
 
-Defined in: [jwe/compact/encrypt.ts:45](https://github.com/panva/jose/blob/v3.9.0/src/jwe/compact/encrypt.ts#L45)
+Defined in: [jwe/compact/encrypt.ts:45](https://github.com/panva/jose/blob/v3.10.0/src/jwe/compact/encrypt.ts#L45)
 
 ## Methods
 
@@ -83,7 +83,7 @@ Name | Type | Description |
 
 **Returns:** *Promise*<string\>
 
-Defined in: [jwe/compact/encrypt.ts:108](https://github.com/panva/jose/blob/v3.9.0/src/jwe/compact/encrypt.ts#L108)
+Defined in: [jwe/compact/encrypt.ts:108](https://github.com/panva/jose/blob/v3.10.0/src/jwe/compact/encrypt.ts#L108)
 
 ___
 
@@ -104,7 +104,7 @@ Name | Type | Description |
 
 **Returns:** [*CompactEncrypt*](jwe_compact_encrypt.compactencrypt.md)
 
-Defined in: [jwe/compact/encrypt.ts:62](https://github.com/panva/jose/blob/v3.9.0/src/jwe/compact/encrypt.ts#L62)
+Defined in: [jwe/compact/encrypt.ts:62](https://github.com/panva/jose/blob/v3.10.0/src/jwe/compact/encrypt.ts#L62)
 
 ___
 
@@ -125,7 +125,7 @@ Name | Type | Description |
 
 **Returns:** [*CompactEncrypt*](jwe_compact_encrypt.compactencrypt.md)
 
-Defined in: [jwe/compact/encrypt.ts:75](https://github.com/panva/jose/blob/v3.9.0/src/jwe/compact/encrypt.ts#L75)
+Defined in: [jwe/compact/encrypt.ts:75](https://github.com/panva/jose/blob/v3.10.0/src/jwe/compact/encrypt.ts#L75)
 
 ___
 
@@ -145,7 +145,7 @@ Name | Type | Description |
 
 **Returns:** [*CompactEncrypt*](jwe_compact_encrypt.compactencrypt.md)
 
-Defined in: [jwe/compact/encrypt.ts:97](https://github.com/panva/jose/blob/v3.9.0/src/jwe/compact/encrypt.ts#L97)
+Defined in: [jwe/compact/encrypt.ts:97](https://github.com/panva/jose/blob/v3.10.0/src/jwe/compact/encrypt.ts#L97)
 
 ___
 
@@ -163,4 +163,4 @@ Name | Type | Description |
 
 **Returns:** [*CompactEncrypt*](jwe_compact_encrypt.compactencrypt.md)
 
-Defined in: [jwe/compact/encrypt.ts:85](https://github.com/panva/jose/blob/v3.9.0/src/jwe/compact/encrypt.ts#L85)
+Defined in: [jwe/compact/encrypt.ts:85](https://github.com/panva/jose/blob/v3.10.0/src/jwe/compact/encrypt.ts#L85)
