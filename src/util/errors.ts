@@ -8,6 +8,7 @@ export class JOSEError extends Error {
   /**
    * A unique error code for the particular error subclass.
    */
+  static code = 'ERR_JOSE_GENERIC'
   code = 'ERR_JOSE_GENERIC'
 
   constructor(message?: string) {
@@ -23,6 +24,7 @@ export class JOSEError extends Error {
  * An error subclass thrown when a JWT Claim Set member validation fails.
  */
 export class JWTClaimValidationFailed extends JOSEError {
+  static code = 'ERR_JWT_CLAIM_VALIDATION_FAILED'
   code = 'ERR_JWT_CLAIM_VALIDATION_FAILED'
 
   /**
@@ -46,6 +48,7 @@ export class JWTClaimValidationFailed extends JOSEError {
  * An error subclass thrown when a JOSE Algorithm is not allowed per developer preference.
  */
 export class JOSEAlgNotAllowed extends JOSEError {
+  static code = 'ERR_JOSE_ALG_NOT_ALLOWED'
   code = 'ERR_JOSE_ALG_NOT_ALLOWED'
 }
 
@@ -54,6 +57,7 @@ export class JOSEAlgNotAllowed extends JOSEError {
  * implementation or JOSE in general.
  */
 export class JOSENotSupported extends JOSEError {
+  static code = 'ERR_JOSE_NOT_SUPPORTED'
   code = 'ERR_JOSE_NOT_SUPPORTED'
 }
 
@@ -61,6 +65,7 @@ export class JOSENotSupported extends JOSEError {
  * An error subclass thrown when a JWE ciphertext decryption fails.
  */
 export class JWEDecryptionFailed extends JOSEError {
+  static code = 'ERR_JWE_DECRYPTION_FAILED'
   code = 'ERR_JWE_DECRYPTION_FAILED'
 
   message = 'decryption operation failed'
@@ -70,6 +75,7 @@ export class JWEDecryptionFailed extends JOSEError {
  * An error subclass thrown when a JWE is invalid.
  */
 export class JWEInvalid extends JOSEError {
+  static code = 'ERR_JWE_INVALID'
   code = 'ERR_JWE_INVALID'
 }
 
@@ -77,6 +83,7 @@ export class JWEInvalid extends JOSEError {
  * An error subclass thrown when a JWS is invalid.
  */
 export class JWSInvalid extends JOSEError {
+  static code = 'ERR_JWS_INVALID'
   code = 'ERR_JWS_INVALID'
 }
 
@@ -84,6 +91,7 @@ export class JWSInvalid extends JOSEError {
  * An error subclass thrown when a JWT is invalid.
  */
 export class JWTInvalid extends JOSEError {
+  static code = 'ERR_JWT_INVALID'
   code = 'ERR_JWT_INVALID'
 }
 
@@ -91,6 +99,7 @@ export class JWTInvalid extends JOSEError {
  * An error subclass thrown when a JWK is invalid.
  */
 export class JWKInvalid extends JOSEError {
+  static code = 'ERR_JWK_INVALID'
   code = 'ERR_JWK_INVALID'
 }
 
@@ -98,6 +107,7 @@ export class JWKInvalid extends JOSEError {
  * An error subclass thrown when a JWKS is invalid.
  */
 export class JWKSInvalid extends JOSEError {
+  static code = 'ERR_JWKS_INVALID'
   code = 'ERR_JWKS_INVALID'
 }
 
@@ -105,6 +115,7 @@ export class JWKSInvalid extends JOSEError {
  * An error subclass thrown when no keys match from a JWKS.
  */
 export class JWKSNoMatchingKey extends JOSEError {
+  static code = 'ERR_JWKS_NO_MATCHING_KEY'
   code = 'ERR_JWKS_NO_MATCHING_KEY'
 
   message = 'no applicable key found in the JSON Web Key Set'
@@ -114,6 +125,7 @@ export class JWKSNoMatchingKey extends JOSEError {
  * An error subclass thrown when multiple keys match from a JWKS.
  */
 export class JWKSMultipleMatchingKeys extends JOSEError {
+  static code = 'ERR_JWKS_MULTIPLE_MATCHING_KEYS'
   code = 'ERR_JWKS_MULTIPLE_MATCHING_KEYS'
 
   message = 'multiple matching keys found in the JSON Web Key Set'
@@ -123,6 +135,7 @@ export class JWKSMultipleMatchingKeys extends JOSEError {
  * An error subclass thrown when JWS signature verification fails.
  */
 export class JWSSignatureVerificationFailed extends JOSEError {
+  static code = 'ERR_JWS_SIGNATURE_VERIFICATION_FAILED'
   code = 'ERR_JWS_SIGNATURE_VERIFICATION_FAILED'
 
   message = 'signature verification failed'
@@ -132,5 +145,6 @@ export class JWSSignatureVerificationFailed extends JOSEError {
  * An error subclass thrown when a JWT is expired.
  */
 export class JWTExpired extends JWTClaimValidationFailed {
+  static code = 'ERR_JWT_EXPIRED'
   code = 'ERR_JWT_EXPIRED'
 }
