@@ -20,6 +20,7 @@ An error subclass thrown when no keys match from a JWKS.
 
 - [code](util_errors.jwksnomatchingkey.md#code)
 - [message](util_errors.jwksnomatchingkey.md#message)
+- [code](util_errors.jwksnomatchingkey.md#code)
 
 ## Constructors
 
@@ -37,19 +38,19 @@ Name | Type |
 
 Inherited from: [JOSEError](util_errors.joseerror.md)
 
-Defined in: [util/errors.ts:11](https://github.com/panva/jose/blob/v3.10.0/src/util/errors.ts#L11)
+Defined in: [util/errors.ts:16](https://github.com/panva/jose/blob/v3.11.0/src/util/errors.ts#L16)
 
 ## Properties
 
 ### code
 
-• **code**: *string*= 'ERR\_JWKS\_NO\_MATCHING\_KEY'
+• **code**: *string*
 
 A unique error code for the particular error subclass.
 
 Overrides: [JOSEError](util_errors.joseerror.md).[code](util_errors.joseerror.md#code)
 
-Defined in: [util/errors.ts:108](https://github.com/panva/jose/blob/v3.10.0/src/util/errors.ts#L108)
+Defined in: [util/errors.ts:133](https://github.com/panva/jose/blob/v3.11.0/src/util/errors.ts#L133)
 
 ___
 
@@ -59,4 +60,16 @@ ___
 
 Overrides: void
 
-Defined in: [util/errors.ts:110](https://github.com/panva/jose/blob/v3.10.0/src/util/errors.ts#L110)
+Defined in: [util/errors.ts:135](https://github.com/panva/jose/blob/v3.11.0/src/util/errors.ts#L135)
+
+___
+
+### code
+
+▪ `Static` **code**: *string*= 'ERR\_JWKS\_NO\_MATCHING\_KEY'
+
+A unique error code for the particular error subclass.
+
+Overrides: [JOSEError](util_errors.joseerror.md).[code](util_errors.joseerror.md#code)
+
+Defined in: [util/errors.ts:131](https://github.com/panva/jose/blob/v3.11.0/src/util/errors.ts#L131)

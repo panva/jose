@@ -20,6 +20,7 @@ An error subclass thrown when JWS signature verification fails.
 
 - [code](util_errors.jwssignatureverificationfailed.md#code)
 - [message](util_errors.jwssignatureverificationfailed.md#message)
+- [code](util_errors.jwssignatureverificationfailed.md#code)
 
 ## Constructors
 
@@ -37,19 +38,19 @@ Name | Type |
 
 Inherited from: [JOSEError](util_errors.joseerror.md)
 
-Defined in: [util/errors.ts:11](https://github.com/panva/jose/blob/v3.10.0/src/util/errors.ts#L11)
+Defined in: [util/errors.ts:16](https://github.com/panva/jose/blob/v3.11.0/src/util/errors.ts#L16)
 
 ## Properties
 
 ### code
 
-• **code**: *string*= 'ERR\_JWS\_SIGNATURE\_VERIFICATION\_FAILED'
+• **code**: *string*
 
 A unique error code for the particular error subclass.
 
 Overrides: [JOSEError](util_errors.joseerror.md).[code](util_errors.joseerror.md#code)
 
-Defined in: [util/errors.ts:126](https://github.com/panva/jose/blob/v3.10.0/src/util/errors.ts#L126)
+Defined in: [util/errors.ts:155](https://github.com/panva/jose/blob/v3.11.0/src/util/errors.ts#L155)
 
 ___
 
@@ -59,4 +60,16 @@ ___
 
 Overrides: void
 
-Defined in: [util/errors.ts:128](https://github.com/panva/jose/blob/v3.10.0/src/util/errors.ts#L128)
+Defined in: [util/errors.ts:157](https://github.com/panva/jose/blob/v3.11.0/src/util/errors.ts#L157)
+
+___
+
+### code
+
+▪ `Static` **code**: *string*= 'ERR\_JWS\_SIGNATURE\_VERIFICATION\_FAILED'
+
+A unique error code for the particular error subclass.
+
+Overrides: [JOSEError](util_errors.joseerror.md).[code](util_errors.joseerror.md#code)
+
+Defined in: [util/errors.ts:153](https://github.com/panva/jose/blob/v3.11.0/src/util/errors.ts#L153)

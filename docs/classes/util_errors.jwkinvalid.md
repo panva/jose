@@ -19,6 +19,7 @@ An error subclass thrown when a JWK is invalid.
 ### Properties
 
 - [code](util_errors.jwkinvalid.md#code)
+- [code](util_errors.jwkinvalid.md#code)
 
 ## Constructors
 
@@ -36,16 +37,28 @@ Name | Type |
 
 Inherited from: [JOSEError](util_errors.joseerror.md)
 
-Defined in: [util/errors.ts:11](https://github.com/panva/jose/blob/v3.10.0/src/util/errors.ts#L11)
+Defined in: [util/errors.ts:16](https://github.com/panva/jose/blob/v3.11.0/src/util/errors.ts#L16)
 
 ## Properties
 
 ### code
 
-• **code**: *string*= 'ERR\_JWK\_INVALID'
+• **code**: *string*
 
 A unique error code for the particular error subclass.
 
 Overrides: [JOSEError](util_errors.joseerror.md).[code](util_errors.joseerror.md#code)
 
-Defined in: [util/errors.ts:94](https://github.com/panva/jose/blob/v3.10.0/src/util/errors.ts#L94)
+Defined in: [util/errors.ts:115](https://github.com/panva/jose/blob/v3.11.0/src/util/errors.ts#L115)
+
+___
+
+### code
+
+▪ `Static` **code**: *string*= 'ERR\_JWK\_INVALID'
+
+A unique error code for the particular error subclass.
+
+Overrides: [JOSEError](util_errors.joseerror.md).[code](util_errors.joseerror.md#code)
+
+Defined in: [util/errors.ts:113](https://github.com/panva/jose/blob/v3.11.0/src/util/errors.ts#L113)

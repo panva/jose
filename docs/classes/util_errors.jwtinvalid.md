@@ -19,6 +19,7 @@ An error subclass thrown when a JWT is invalid.
 ### Properties
 
 - [code](util_errors.jwtinvalid.md#code)
+- [code](util_errors.jwtinvalid.md#code)
 
 ## Constructors
 
@@ -36,16 +37,28 @@ Name | Type |
 
 Inherited from: [JOSEError](util_errors.joseerror.md)
 
-Defined in: [util/errors.ts:11](https://github.com/panva/jose/blob/v3.10.0/src/util/errors.ts#L11)
+Defined in: [util/errors.ts:16](https://github.com/panva/jose/blob/v3.11.0/src/util/errors.ts#L16)
 
 ## Properties
 
 ### code
 
-• **code**: *string*= 'ERR\_JWT\_INVALID'
+• **code**: *string*
 
 A unique error code for the particular error subclass.
 
 Overrides: [JOSEError](util_errors.joseerror.md).[code](util_errors.joseerror.md#code)
 
-Defined in: [util/errors.ts:87](https://github.com/panva/jose/blob/v3.10.0/src/util/errors.ts#L87)
+Defined in: [util/errors.ts:106](https://github.com/panva/jose/blob/v3.11.0/src/util/errors.ts#L106)
+
+___
+
+### code
+
+▪ `Static` **code**: *string*= 'ERR\_JWT\_INVALID'
+
+A unique error code for the particular error subclass.
+
+Overrides: [JOSEError](util_errors.joseerror.md).[code](util_errors.joseerror.md#code)
+
+Defined in: [util/errors.ts:104](https://github.com/panva/jose/blob/v3.11.0/src/util/errors.ts#L104)

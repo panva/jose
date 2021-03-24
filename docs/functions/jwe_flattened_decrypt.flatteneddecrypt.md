@@ -65,4 +65,4 @@ Name | Type | Description |
 
 **Returns:** *Promise*<[*FlattenedDecryptResult*](../interfaces/types.flatteneddecryptresult.md)\>
 
-Defined in: [jwe/flattened/decrypt.ts:92](https://github.com/panva/jose/blob/v3.10.0/src/jwe/flattened/decrypt.ts#L92)
+Defined in: [jwe/flattened/decrypt.ts:92](https://github.com/panva/jose/blob/v3.11.0/src/jwe/flattened/decrypt.ts#L92)

@@ -20,6 +20,7 @@ An error subclass thrown when a JWE ciphertext decryption fails.
 
 - [code](util_errors.jwedecryptionfailed.md#code)
 - [message](util_errors.jwedecryptionfailed.md#message)
+- [code](util_errors.jwedecryptionfailed.md#code)
 
 ## Constructors
 
@@ -37,19 +38,19 @@ Name | Type |
 
 Inherited from: [JOSEError](util_errors.joseerror.md)
 
-Defined in: [util/errors.ts:11](https://github.com/panva/jose/blob/v3.10.0/src/util/errors.ts#L11)
+Defined in: [util/errors.ts:16](https://github.com/panva/jose/blob/v3.11.0/src/util/errors.ts#L16)
 
 ## Properties
 
 ### code
 
-• **code**: *string*= 'ERR\_JWE\_DECRYPTION\_FAILED'
+• **code**: *string*
 
 A unique error code for the particular error subclass.
 
 Overrides: [JOSEError](util_errors.joseerror.md).[code](util_errors.joseerror.md#code)
 
-Defined in: [util/errors.ts:64](https://github.com/panva/jose/blob/v3.10.0/src/util/errors.ts#L64)
+Defined in: [util/errors.ts:77](https://github.com/panva/jose/blob/v3.11.0/src/util/errors.ts#L77)
 
 ___
 
@@ -59,4 +60,16 @@ ___
 
 Overrides: void
 
-Defined in: [util/errors.ts:66](https://github.com/panva/jose/blob/v3.10.0/src/util/errors.ts#L66)
+Defined in: [util/errors.ts:79](https://github.com/panva/jose/blob/v3.11.0/src/util/errors.ts#L79)
+
+___
+
+### code
+
+▪ `Static` **code**: *string*= 'ERR\_JWE\_DECRYPTION\_FAILED'
+
+A unique error code for the particular error subclass.
+
+Overrides: [JOSEError](util_errors.joseerror.md).[code](util_errors.joseerror.md#code)
+
+Defined in: [util/errors.ts:75](https://github.com/panva/jose/blob/v3.11.0/src/util/errors.ts#L75)

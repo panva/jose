@@ -49,4 +49,4 @@ Name | Type | Description |
 
 **Returns:** *Promise*<[*CompactVerifyResult*](../interfaces/types.compactverifyresult.md)\>
 
-Defined in: [jws/compact/verify.ts:60](https://github.com/panva/jose/blob/v3.10.0/src/jws/compact/verify.ts#L60)
+Defined in: [jws/compact/verify.ts:60](https://github.com/panva/jose/blob/v3.11.0/src/jws/compact/verify.ts#L60)

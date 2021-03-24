@@ -44,6 +44,7 @@ JOSE Error subclasses inherit from.
 ### Properties
 
 - [code](util_errors.joseerror.md#code)
+- [code](util_errors.joseerror.md#code)
 
 ## Constructors
 
@@ -61,14 +62,24 @@ Name | Type |
 
 Overrides: void
 
-Defined in: [util/errors.ts:11](https://github.com/panva/jose/blob/v3.10.0/src/util/errors.ts#L11)
+Defined in: [util/errors.ts:16](https://github.com/panva/jose/blob/v3.11.0/src/util/errors.ts#L16)
 
 ## Properties
 
 ### code
 
-• **code**: *string*= 'ERR\_JOSE\_GENERIC'
+• **code**: *string*
 
 A unique error code for the particular error subclass.
 
-Defined in: [util/errors.ts:11](https://github.com/panva/jose/blob/v3.10.0/src/util/errors.ts#L11)
+Defined in: [util/errors.ts:16](https://github.com/panva/jose/blob/v3.11.0/src/util/errors.ts#L16)
+
+___
+
+### code
+
+▪ `Static` **code**: *string*= 'ERR\_JOSE\_GENERIC'
+
+A unique error code for the particular error subclass.
+
+Defined in: [util/errors.ts:11](https://github.com/panva/jose/blob/v3.11.0/src/util/errors.ts#L11)

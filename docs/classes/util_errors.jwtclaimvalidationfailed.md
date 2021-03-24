@@ -23,6 +23,7 @@ An error subclass thrown when a JWT Claim Set member validation fails.
 - [claim](util_errors.jwtclaimvalidationfailed.md#claim)
 - [code](util_errors.jwtclaimvalidationfailed.md#code)
 - [reason](util_errors.jwtclaimvalidationfailed.md#reason)
+- [code](util_errors.jwtclaimvalidationfailed.md#code)
 
 ## Constructors
 
@@ -42,7 +43,7 @@ Name | Type | Default value |
 
 Overrides: [JOSEError](util_errors.joseerror.md)
 
-Defined in: [util/errors.ts:36](https://github.com/panva/jose/blob/v3.10.0/src/util/errors.ts#L36)
+Defined in: [util/errors.ts:43](https://github.com/panva/jose/blob/v3.11.0/src/util/errors.ts#L43)
 
 ## Properties
 
@@ -52,19 +53,19 @@ Defined in: [util/errors.ts:36](https://github.com/panva/jose/blob/v3.10.0/src/u
 
 The Claim for which the validation failed.
 
-Defined in: [util/errors.ts:31](https://github.com/panva/jose/blob/v3.10.0/src/util/errors.ts#L31)
+Defined in: [util/errors.ts:38](https://github.com/panva/jose/blob/v3.11.0/src/util/errors.ts#L38)
 
 ___
 
 ### code
 
-• **code**: *string*= 'ERR\_JWT\_CLAIM\_VALIDATION\_FAILED'
+• **code**: *string*
 
 A unique error code for the particular error subclass.
 
 Overrides: [JOSEError](util_errors.joseerror.md).[code](util_errors.joseerror.md#code)
 
-Defined in: [util/errors.ts:26](https://github.com/panva/jose/blob/v3.10.0/src/util/errors.ts#L26)
+Defined in: [util/errors.ts:33](https://github.com/panva/jose/blob/v3.11.0/src/util/errors.ts#L33)
 
 ___
 
@@ -74,4 +75,16 @@ ___
 
 Reason code for the validation failure.
 
-Defined in: [util/errors.ts:36](https://github.com/panva/jose/blob/v3.10.0/src/util/errors.ts#L36)
+Defined in: [util/errors.ts:43](https://github.com/panva/jose/blob/v3.11.0/src/util/errors.ts#L43)
+
+___
+
+### code
+
+▪ `Static` **code**: *string*= 'ERR\_JWT\_CLAIM\_VALIDATION\_FAILED'
+
+A unique error code for the particular error subclass.
+
+Overrides: [JOSEError](util_errors.joseerror.md).[code](util_errors.joseerror.md#code)
+
+Defined in: [util/errors.ts:31](https://github.com/panva/jose/blob/v3.11.0/src/util/errors.ts#L31)

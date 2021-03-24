@@ -20,6 +20,7 @@ implementation or JOSE in general.
 ### Properties
 
 - [code](util_errors.josenotsupported.md#code)
+- [code](util_errors.josenotsupported.md#code)
 
 ## Constructors
 
@@ -37,16 +38,28 @@ Name | Type |
 
 Inherited from: [JOSEError](util_errors.joseerror.md)
 
-Defined in: [util/errors.ts:11](https://github.com/panva/jose/blob/v3.10.0/src/util/errors.ts#L11)
+Defined in: [util/errors.ts:16](https://github.com/panva/jose/blob/v3.11.0/src/util/errors.ts#L16)
 
 ## Properties
 
 ### code
 
-• **code**: *string*= 'ERR\_JOSE\_NOT\_SUPPORTED'
+• **code**: *string*
 
 A unique error code for the particular error subclass.
 
 Overrides: [JOSEError](util_errors.joseerror.md).[code](util_errors.joseerror.md#code)
 
-Defined in: [util/errors.ts:57](https://github.com/panva/jose/blob/v3.10.0/src/util/errors.ts#L57)
+Defined in: [util/errors.ts:68](https://github.com/panva/jose/blob/v3.11.0/src/util/errors.ts#L68)
+
+___
+
+### code
+
+▪ `Static` **code**: *string*= 'ERR\_JOSE\_NOT\_SUPPORTED'
+
+A unique error code for the particular error subclass.
+
+Overrides: [JOSEError](util_errors.joseerror.md).[code](util_errors.joseerror.md#code)
+
+Defined in: [util/errors.ts:66](https://github.com/panva/jose/blob/v3.11.0/src/util/errors.ts#L66)

@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [3.11.0](https://github.com/panva/jose/compare/v3.10.0...v3.11.0) (2021-03-24)
+
+
+### Features
+
+* export error codes as static properties ([89d8003](https://github.com/panva/jose/commit/89d80038755be21228a3455a8feca396e76fbcf5)), closes [#170](https://github.com/panva/jose/issues/170)
+
 ## [3.10.0](https://github.com/panva/jose/compare/v3.9.0...v3.10.0) (2021-03-18)
 
 

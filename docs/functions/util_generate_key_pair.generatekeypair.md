@@ -37,4 +37,4 @@ Name | Type | Description |
 
 **Returns:** *Promise*<{ `privateKey`: [*KeyLike*](../types/types.keylike.md) ; `publicKey`: [*KeyLike*](../types/types.keylike.md)  }\>
 
-Defined in: [util/generate_key_pair.ts:47](https://github.com/panva/jose/blob/v3.10.0/src/util/generate_key_pair.ts#L47)
+Defined in: [util/generate_key_pair.ts:47](https://github.com/panva/jose/blob/v3.11.0/src/util/generate_key_pair.ts#L47)

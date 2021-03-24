@@ -33,4 +33,4 @@ Name | Type | Description |
 
 **Returns:** [*ProtectedHeaderParameters*](../types/util_decode_protected_header.protectedheaderparameters.md)
 
-Defined in: [util/decode_protected_header.ts:34](https://github.com/panva/jose/blob/v3.10.0/src/util/decode_protected_header.ts#L34)
+Defined in: [util/decode_protected_header.ts:34](https://github.com/panva/jose/blob/v3.11.0/src/util/decode_protected_header.ts#L34)

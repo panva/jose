@@ -81,7 +81,7 @@ Name | Type | Description |
 
 **Returns:** [*GeneralSign*](jws_general_sign.generalsign.md)
 
-Defined in: [jws/general/sign.ts:124](https://github.com/panva/jose/blob/v3.10.0/src/jws/general/sign.ts#L124)
+Defined in: [jws/general/sign.ts:124](https://github.com/panva/jose/blob/v3.11.0/src/jws/general/sign.ts#L124)
 
 ## Methods
 
@@ -98,7 +98,7 @@ Name | Type |
 
 **Returns:** [*Signature*](../interfaces/jws_general_sign.signature.md)
 
-Defined in: [jws/general/sign.ts:133](https://github.com/panva/jose/blob/v3.10.0/src/jws/general/sign.ts#L133)
+Defined in: [jws/general/sign.ts:133](https://github.com/panva/jose/blob/v3.11.0/src/jws/general/sign.ts#L133)
 
 ___
 
@@ -110,4 +110,4 @@ Signs and resolves the value of the General JWS object.
 
 **Returns:** *Promise*<[*GeneralJWS*](../interfaces/types.generaljws.md)\>
 
-Defined in: [jws/general/sign.ts:143](https://github.com/panva/jose/blob/v3.10.0/src/jws/general/sign.ts#L143)
+Defined in: [jws/general/sign.ts:143](https://github.com/panva/jose/blob/v3.11.0/src/jws/general/sign.ts#L143)

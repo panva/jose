@@ -47,4 +47,4 @@ Name | Type |
 
 **Returns:** *Promise*<KeyObject \| CryptoKey\>
 
-Defined in: [jwk/embedded.ts:43](https://github.com/panva/jose/blob/v3.10.0/src/jwk/embedded.ts#L43)
+Defined in: [jwk/embedded.ts:43](https://github.com/panva/jose/blob/v3.11.0/src/jwk/embedded.ts#L43)
