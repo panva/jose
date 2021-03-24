@@ -10,7 +10,7 @@ export class JOSEError extends Error {
    */
   static code = 'ERR_JOSE_GENERIC'
 
-  code = 'ERR_JOSE_GENERIC'
+  code = JOSEError.code
 
   constructor(message?: string) {
     super(message)
@@ -27,7 +27,7 @@ export class JOSEError extends Error {
 export class JWTClaimValidationFailed extends JOSEError {
   static code = 'ERR_JWT_CLAIM_VALIDATION_FAILED'
 
-  code = 'ERR_JWT_CLAIM_VALIDATION_FAILED'
+  code = JWTClaimValidationFailed.code
 
   /**
    * The Claim for which the validation failed.
@@ -52,7 +52,7 @@ export class JWTClaimValidationFailed extends JOSEError {
 export class JOSEAlgNotAllowed extends JOSEError {
   static code = 'ERR_JOSE_ALG_NOT_ALLOWED'
 
-  code = 'ERR_JOSE_ALG_NOT_ALLOWED'
+  code = JOSEAlgNotAllowed.code
 }
 
 /**
@@ -62,7 +62,7 @@ export class JOSEAlgNotAllowed extends JOSEError {
 export class JOSENotSupported extends JOSEError {
   static code = 'ERR_JOSE_NOT_SUPPORTED'
 
-  code = 'ERR_JOSE_NOT_SUPPORTED'
+  code = JOSENotSupported.code
 }
 
 /**
@@ -71,7 +71,7 @@ export class JOSENotSupported extends JOSEError {
 export class JWEDecryptionFailed extends JOSEError {
   static code = 'ERR_JWE_DECRYPTION_FAILED'
 
-  code = 'ERR_JWE_DECRYPTION_FAILED'
+  code = JWEDecryptionFailed.code
 
   message = 'decryption operation failed'
 }
@@ -82,7 +82,7 @@ export class JWEDecryptionFailed extends JOSEError {
 export class JWEInvalid extends JOSEError {
   static code = 'ERR_JWE_INVALID'
 
-  code = 'ERR_JWE_INVALID'
+  code = JWEInvalid.code
 }
 
 /**
@@ -91,7 +91,7 @@ export class JWEInvalid extends JOSEError {
 export class JWSInvalid extends JOSEError {
   static code = 'ERR_JWS_INVALID'
 
-  code = 'ERR_JWS_INVALID'
+  code = JWSInvalid.code
 }
 
 /**
@@ -100,7 +100,7 @@ export class JWSInvalid extends JOSEError {
 export class JWTInvalid extends JOSEError {
   static code = 'ERR_JWT_INVALID'
 
-  code = 'ERR_JWT_INVALID'
+  code = JWTInvalid.code
 }
 
 /**
@@ -109,7 +109,7 @@ export class JWTInvalid extends JOSEError {
 export class JWKInvalid extends JOSEError {
   static code = 'ERR_JWK_INVALID'
 
-  code = 'ERR_JWK_INVALID'
+  code = JWKInvalid.code
 }
 
 /**
@@ -118,7 +118,7 @@ export class JWKInvalid extends JOSEError {
 export class JWKSInvalid extends JOSEError {
   static code = 'ERR_JWKS_INVALID'
 
-  code = 'ERR_JWKS_INVALID'
+  code = JWKSInvalid.code
 }
 
 /**
@@ -127,7 +127,7 @@ export class JWKSInvalid extends JOSEError {
 export class JWKSNoMatchingKey extends JOSEError {
   static code = 'ERR_JWKS_NO_MATCHING_KEY'
 
-  code = 'ERR_JWKS_NO_MATCHING_KEY'
+  code = JWKSNoMatchingKey.code
 
   message = 'no applicable key found in the JSON Web Key Set'
 }
@@ -138,7 +138,7 @@ export class JWKSNoMatchingKey extends JOSEError {
 export class JWKSMultipleMatchingKeys extends JOSEError {
   static code = 'ERR_JWKS_MULTIPLE_MATCHING_KEYS'
 
-  code = 'ERR_JWKS_MULTIPLE_MATCHING_KEYS'
+  code = JWKSMultipleMatchingKeys.code
 
   message = 'multiple matching keys found in the JSON Web Key Set'
 }
@@ -149,7 +149,7 @@ export class JWKSMultipleMatchingKeys extends JOSEError {
 export class JWSSignatureVerificationFailed extends JOSEError {
   static code = 'ERR_JWS_SIGNATURE_VERIFICATION_FAILED'
 
-  code = 'ERR_JWS_SIGNATURE_VERIFICATION_FAILED'
+  code = JWSSignatureVerificationFailed.code
 
   message = 'signature verification failed'
 }
@@ -160,5 +160,5 @@ export class JWSSignatureVerificationFailed extends JOSEError {
 export class JWTExpired extends JWTClaimValidationFailed {
   static code = 'ERR_JWT_EXPIRED'
 
-  code = 'ERR_JWT_EXPIRED'
+  code = JWTExpired.code
 }
