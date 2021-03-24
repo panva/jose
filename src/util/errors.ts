@@ -10,6 +10,9 @@ export class JOSEError extends Error {
    */
   static code = 'ERR_JOSE_GENERIC'
 
+  /**
+   * A unique error code for the particular error subclass.
+   */
   code = JOSEError.code
 
   constructor(message?: string) {
