@@ -220,40 +220,6 @@ multiple times so that it can remain truly without dependencies and be universal
 Nevertheless, since each module can be required independently and is fully tree-shakeable, the
 install size should not be a cause for concern.
 
-#### Most types are "any"
-
-Install @types/node as your project's development dependency
-
-```
-npm install --save-dev @types/node
-```
-
-#### "Cannot find module '...' or its corresponding type declarations."
-
-Install @types/node as your project's development dependency
-
-```
-npm install --save-dev @types/node
-```
-
-#### "Module '"crypto"' has no exported member '...'"
-
-Update @types/node as your project's development dependency
-
-```
-npm uninstall @types/node
-npm install --save-dev @types/node
-```
-
-#### "Cannot find module 'jose'"
-
-There's no "jose" root module. Each module is to be individually imported as explained in
-each individual module's documentation.
-
-#### "Module not found: Error: Can't resolve '...' in '...'"
-
-Use a supported Node.js runtime and make sure whatever tools you may use for transpiling the code also support the Subpath exports ("exports") feature.
-
 #### Why? Just. Why?
 
 I was using [`node-jose`][node-jose] for
