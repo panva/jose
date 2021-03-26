@@ -8,8 +8,15 @@ import nodeKey from './node_key.js'
 import sign from './sign.js'
 import { isCryptoKey, getKeyObject } from './webcrypto.js'
 
+const [major, minor] = process.version
+  .substr(1)
+  .split('.')
+  .map((str) => parseInt(str, 10))
+
+const oneShotCallbackSupported = major >= 16 || (major === 15 && minor >= 13)
+
 let oneShotVerify = crypto.verify
-if (oneShotVerify.length > 4) {
+if (oneShotVerify.length > 4 && oneShotCallbackSupported) {
   // @ts-expect-error
   oneShotVerify = promisify(oneShotVerify)
 }
