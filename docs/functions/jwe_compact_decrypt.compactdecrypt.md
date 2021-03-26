@@ -53,4 +53,4 @@ Name | Type | Description |
 
 **Returns:** *Promise*<[*CompactDecryptResult*](../interfaces/types.compactdecryptresult.md)\>
 
-Defined in: [jwe/compact/decrypt.ts:63](https://github.com/panva/jose/blob/v3.11.0/src/jwe/compact/decrypt.ts#L63)
+Defined in: [jwe/compact/decrypt.ts:63](https://github.com/panva/jose/blob/v3.11.1/src/jwe/compact/decrypt.ts#L63)

@@ -31,7 +31,7 @@ Any other JWT Claim Set member.
 
 JWT Audience [RFC7519#section-4.1.3](https://tools.ietf.org/html/rfc7519#section-4.1.3).
 
-Defined in: [types.d.ts:492](https://github.com/panva/jose/blob/v3.11.0/src/types.d.ts#L492)
+Defined in: [types.d.ts:492](https://github.com/panva/jose/blob/v3.11.1/src/types.d.ts#L492)
 
 ___
 
@@ -41,7 +41,7 @@ ___
 
 JWT Expiration Time - [RFC7519#section-4.1.4](https://tools.ietf.org/html/rfc7519#section-4.1.4).
 
-Defined in: [types.d.ts:507](https://github.com/panva/jose/blob/v3.11.0/src/types.d.ts#L507)
+Defined in: [types.d.ts:507](https://github.com/panva/jose/blob/v3.11.1/src/types.d.ts#L507)
 
 ___
 
@@ -51,7 +51,7 @@ ___
 
 JWT Issued At - [RFC7519#section-4.1.6](https://tools.ietf.org/html/rfc7519#section-4.1.6).
 
-Defined in: [types.d.ts:512](https://github.com/panva/jose/blob/v3.11.0/src/types.d.ts#L512)
+Defined in: [types.d.ts:512](https://github.com/panva/jose/blob/v3.11.1/src/types.d.ts#L512)
 
 ___
 
@@ -61,7 +61,7 @@ ___
 
 JWT Issuer - [RFC7519#section-4.1.1](https://tools.ietf.org/html/rfc7519#section-4.1.1).
 
-Defined in: [types.d.ts:482](https://github.com/panva/jose/blob/v3.11.0/src/types.d.ts#L482)
+Defined in: [types.d.ts:482](https://github.com/panva/jose/blob/v3.11.1/src/types.d.ts#L482)
 
 ___
 
@@ -71,7 +71,7 @@ ___
 
 JWT ID - [RFC7519#section-4.1.7](https://tools.ietf.org/html/rfc7519#section-4.1.7).
 
-Defined in: [types.d.ts:497](https://github.com/panva/jose/blob/v3.11.0/src/types.d.ts#L497)
+Defined in: [types.d.ts:497](https://github.com/panva/jose/blob/v3.11.1/src/types.d.ts#L497)
 
 ___
 
@@ -81,7 +81,7 @@ ___
 
 JWT Not Before - [RFC7519#section-4.1.5](https://tools.ietf.org/html/rfc7519#section-4.1.5).
 
-Defined in: [types.d.ts:502](https://github.com/panva/jose/blob/v3.11.0/src/types.d.ts#L502)
+Defined in: [types.d.ts:502](https://github.com/panva/jose/blob/v3.11.1/src/types.d.ts#L502)
 
 ___
 
@@ -91,4 +91,4 @@ ___
 
 JWT Subject - [RFC7519#section-4.1.2](https://tools.ietf.org/html/rfc7519#section-4.1.2).
 
-Defined in: [types.d.ts:487](https://github.com/panva/jose/blob/v3.11.0/src/types.d.ts#L487)
+Defined in: [types.d.ts:487](https://github.com/panva/jose/blob/v3.11.1/src/types.d.ts#L487)

@@ -53,4 +53,4 @@ Name | Type | Description |
 
 **Returns:** *Promise*<[*FlattenedVerifyResult*](../interfaces/types.flattenedverifyresult.md)\>
 
-Defined in: [jws/flattened/verify.ts:75](https://github.com/panva/jose/blob/v3.11.0/src/jws/flattened/verify.ts#L75)
+Defined in: [jws/flattened/verify.ts:75](https://github.com/panva/jose/blob/v3.11.1/src/jws/flattened/verify.ts#L75)

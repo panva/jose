@@ -12,4 +12,4 @@ Name | Type |
 
 **Returns:** *Uint8Array*
 
-Defined in: [util/base64url.ts:23](https://github.com/panva/jose/blob/v3.11.0/src/util/base64url.ts#L23)
+Defined in: [util/base64url.ts:23](https://github.com/panva/jose/blob/v3.11.1/src/util/base64url.ts#L23)

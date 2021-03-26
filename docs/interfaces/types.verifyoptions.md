@@ -27,7 +27,7 @@ JWS Verification options.
 
 A list of accepted JWS "alg" (Algorithm) Header Parameter values.
 
-Defined in: [types.d.ts:466](https://github.com/panva/jose/blob/v3.11.0/src/types.d.ts#L466)
+Defined in: [types.d.ts:466](https://github.com/panva/jose/blob/v3.11.1/src/types.d.ts#L466)
 
 ___
 
@@ -58,4 +58,4 @@ default built-in treatment are currently available.
 
 Inherited from: [CritOption](types.critoption.md).[crit](types.critoption.md#crit)
 
-Defined in: [types.d.ts:378](https://github.com/panva/jose/blob/v3.11.0/src/types.d.ts#L378)
+Defined in: [types.d.ts:378](https://github.com/panva/jose/blob/v3.11.1/src/types.d.ts#L378)

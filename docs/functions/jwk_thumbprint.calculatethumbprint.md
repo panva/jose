@@ -40,4 +40,4 @@ Name | Type | Default value | Description |
 
 **Returns:** *Promise*<string\>
 
-Defined in: [jwk/thumbprint.ts:47](https://github.com/panva/jose/blob/v3.11.0/src/jwk/thumbprint.ts#L47)
+Defined in: [jwk/thumbprint.ts:47](https://github.com/panva/jose/blob/v3.11.1/src/jwk/thumbprint.ts#L47)

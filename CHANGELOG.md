@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [3.11.1](https://github.com/panva/jose/compare/v3.11.0...v3.11.1) (2021-03-26)
+
+
+### Bug Fixes
+
+* **node:** crypto.verify callback invocation with a private keyobject ([d3d4acd](https://github.com/panva/jose/commit/d3d4acd8be612850999309ef7de86c549d5de9c0))
+
 ## [3.11.0](https://github.com/panva/jose/compare/v3.10.0...v3.11.0) (2021-03-24)
 
 
