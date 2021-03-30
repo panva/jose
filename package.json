@@ -321,7 +321,7 @@
     "build-fast:node-webcrypto-cjs": "npm run-script runtime-node-webcrypto && npm run-script -s esbuild-find | xargs -0 esbuild --platform=node --target=esnext --outdir=dist/node/webcrypto/cjs --format=cjs",
     "build-fast:node-webcrypto-esm": "npm run-script runtime-node-webcrypto && npm run-script -s esbuild-find | xargs -0 esbuild --platform=node --target=esnext --outdir=dist/node/webcrypto/esm --format=esm && echo '{\"type\": \"module\"}'> dist/node/webcrypto/esm/package.json",
     "build:browser": "run-s runtime-browser lint 'build -- -p ./tsconfig/browser.json' && echo '{\"type\": \"module\"}'> dist/browser/package.json",
-    "build:types": "npm run-script build -- -p ./tsconfig/types.json && cd src && find . -name '*.d.ts' -maxdepth 2 -type f -exec gcp --parents \"{}\" ../dist/types  \\; && cd ..",
+    "build:types": "npm run-script build -- -p ./tsconfig/types.json && cd src && find . -name '*.d.ts' -maxdepth 2 -type f -exec gcp --parents \"{}\" ../dist/types  \\; && cd .. && node ./tools/strip-dts-comments",
     "build:node-cjs": "run-s runtime-node lint 'build -- -p ./tsconfig/node-cjs.json'",
     "build:node-esm": "run-s runtime-node lint 'build -- -p ./tsconfig/node-esm.json' && echo '{\"type\": \"module\"}'> dist/node/esm/package.json",
     "build:node-webcrypto-cjs": "run-s runtime-node-webcrypto lint 'build -- -p ./tsconfig/node-webcrypto-cjs.json'",
