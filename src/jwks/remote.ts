@@ -55,6 +55,10 @@ export interface RemoteJWKSetOptions {
   agent?: https.Agent | http.Agent
 }
 
+function isJWKLike(key: object): key is JWK {
+  return key && typeof key === 'object'
+}
+
 class RemoteJWKSet {
   private _url: URL
 
@@ -68,7 +72,7 @@ class RemoteJWKSet {
 
   private _cached: WeakMap<JWK, Cache> = new WeakMap()
 
-  private _pendingFetch?: ReturnType<typeof fetchJson>
+  private _pendingFetch?: Promise<unknown>
 
   private _options: Pick<RemoteJWKSetOptions, 'agent'>
 
@@ -183,16 +187,17 @@ class RemoteJWKSet {
   async reload() {
     if (!this._pendingFetch) {
       this._pendingFetch = fetchJson(this._url, this._timeoutDuration, this._options)
-        .then((json: { keys: object[] }) => {
+        .then((json) => {
           if (
             typeof json !== 'object' ||
             !json ||
             !Array.isArray(json.keys) ||
-            json.keys.some((key: object) => typeof key !== 'object' || !key)
+            !json.keys.every(isJWKLike)
           ) {
             throw new JWKSInvalid('JSON Web Key Set malformed')
           }
-          this._jwks = json
+
+          this._jwks = { keys: json.keys }
           this._cooldownStarted = Date.now()
           this._pendingFetch = undefined
         })

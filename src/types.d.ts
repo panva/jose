@@ -239,7 +239,7 @@ export interface JWSHeaderParameters extends JoseHeaderParameters {
   /**
    * Any other JWS Header member.
    */
-  [propName: string]: any
+  [propName: string]: unknown
 }
 
 /**
@@ -354,7 +354,7 @@ export interface JWEHeaderParameters extends JoseHeaderParameters {
   /**
    * Any other JWE Header member.
    */
-  [propName: string]: any
+  [propName: string]: unknown
 }
 
 /**
@@ -520,7 +520,7 @@ export interface JWTPayload {
   /**
    * Any other JWT Claim Set member.
    */
-  [propName: string]: any
+  [propName: string]: unknown
 }
 
 /**

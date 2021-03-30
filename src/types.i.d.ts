@@ -9,6 +9,7 @@ export interface JWEKeyManagementHeaderResults {
   p2c?: number
   p2s?: string
   tag?: string
+  [propName: string]: unknown
 }
 
 export interface EpkJwk {
@@ -17,5 +18,5 @@ export interface EpkJwk {
   kty: string
   x: string
   y?: string
-  [propName: string]: any
+  [propName: string]: unknown
 }

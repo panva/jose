@@ -3,7 +3,7 @@ import { JOSENotSupported, JWEInvalid, JWSInvalid } from '../util/errors.js'
 interface CritCheckHeader {
   b64?: boolean
   crit?: string[]
-  [propName: string]: any
+  [propName: string]: unknown
 }
 
 function validateCrit(

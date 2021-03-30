@@ -5,27 +5,26 @@ import type {
   GenerateEpkFunction,
   PublicJwkToEphemeralKeyFunction,
 } from '../interfaces.d'
-import {
-  encoder,
-  concat,
-  uint32be,
-  lengthAndInput,
-  concatKdf as KDF,
-} from '../../lib/buffer_utils.js'
+import { encoder, concat, uint32be, lengthAndInput, concatKdf } from '../../lib/buffer_utils.js'
 import type { EpkJwk } from '../../types.i.d'
-import crypto from './webcrypto.js'
+import crypto, { isCryptoKey } from './webcrypto.js'
 import digest from './digest.js'
 
-const concatKdf = KDF.bind(undefined, digest.bind(undefined, 'sha256'))
-
 export const deriveKey: EcdhESDeriveKeyFunction = async (
-  publicKey: CryptoKey,
-  privateKey: CryptoKey,
+  publicKey: unknown,
+  privateKey: unknown,
   algorithm: string,
   keyLength: number,
   apu: Uint8Array = new Uint8Array(0),
   apv: Uint8Array = new Uint8Array(0),
 ) => {
+  if (!isCryptoKey(publicKey)) {
+    throw new TypeError('invalid key input')
+  }
+  if (!isCryptoKey(privateKey)) {
+    throw new TypeError('invalid key input')
+  }
+
   const value = concat(
     lengthAndInput(encoder.encode(algorithm)),
     lengthAndInput(apu),
@@ -49,29 +48,41 @@ export const deriveKey: EcdhESDeriveKeyFunction = async (
     ),
   )
 
-  return concatKdf(sharedSecret, keyLength, value)
+  return concatKdf(digest, sharedSecret, keyLength, value)
 }
 
 export const ephemeralKeyToPublicJWK: EphemeralKeyToPublicJwkFunction = async function ephemeralKeyToPublicJWK(
-  key: CryptoKey,
+  key: unknown,
 ) {
+  if (!isCryptoKey(key)) {
+    throw new TypeError('invalid key input')
+  }
   // eslint-disable-next-line @typescript-eslint/keyword-spacing
   const { crv, kty, x, y } = <EpkJwk>await crypto.subtle.exportKey('jwk', key)
   return { crv, kty, x, y }
 }
 
-export const generateEpk: GenerateEpkFunction = async (key: CryptoKey) =>
-  (
+export const generateEpk: GenerateEpkFunction = async (key: unknown) => {
+  if (!isCryptoKey(key)) {
+    throw new TypeError('invalid key input')
+  }
+
+  return (
     await crypto.subtle.generateKey(
       { name: 'ECDH', namedCurve: (<EcKeyAlgorithm>key.algorithm).namedCurve },
       true,
       ['deriveBits'],
     )
   ).privateKey
+}
 
 export const publicJwkToEphemeralKey: PublicJwkToEphemeralKeyFunction = (jwk: EpkJwk) =>
   crypto.subtle.importKey('jwk', jwk, { name: 'ECDH', namedCurve: jwk.crv }, true, [])
 
 const curves = ['P-256', 'P-384', 'P-521']
-export const ecdhAllowed: EcdhAllowedFunction = (key: CryptoKey) =>
-  curves.includes((<EcKeyAlgorithm>key.algorithm).namedCurve)
+export const ecdhAllowed: EcdhAllowedFunction = (key: unknown) => {
+  if (!isCryptoKey(key)) {
+    throw new TypeError('invalid key input')
+  }
+  return curves.includes((<EcKeyAlgorithm>key.algorithm).namedCurve)
+}

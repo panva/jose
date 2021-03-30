@@ -1,5 +1,4 @@
 import { KeyObject, createPublicKey } from 'crypto'
-
 import type { JWKConvertFunction } from '../interfaces.d'
 import type { JWK } from '../../types.d'
 import { encode as base64url } from './base64url.js'
@@ -15,40 +14,40 @@ const [major, minor] = process.version
 
 const jwkExportSupported = major >= 16 || (major === 15 && minor >= 9)
 
-const keyToJWK: JWKConvertFunction = (key: KeyObject | CryptoKey): JWK => {
+const keyToJWK: JWKConvertFunction = (key: unknown): JWK => {
+  let keyObject: KeyObject
   if (isCryptoKey(key)) {
-    // eslint-disable-next-line no-param-reassign
-    key = getKeyObject(key)
-  }
-
-  if (!(key instanceof KeyObject)) {
-    throw new TypeError('invalid key argument type')
+    keyObject = getKeyObject(key)
+  } else if (key instanceof KeyObject) {
+    keyObject = key
+  } else {
+    throw new TypeError('invalid key input')
   }
 
   if (jwkExportSupported) {
     // @ts-expect-error
-    return key.export({ format: 'jwk' })
+    return keyObject.export({ format: 'jwk' })
   }
 
-  switch (key.type) {
+  switch (keyObject.type) {
     case 'secret':
       return {
         kty: 'oct',
-        k: base64url(key.export()),
+        k: base64url(keyObject.export()),
       }
     case 'private':
     case 'public': {
-      switch (key.asymmetricKeyType) {
+      switch (keyObject.asymmetricKeyType) {
         case 'rsa': {
-          const der = key.export({ format: 'der', type: 'pkcs1' })
+          const der = keyObject.export({ format: 'der', type: 'pkcs1' })
           const dec = new Asn1SequenceDecoder(der)
-          if (key.type === 'private') {
+          if (keyObject.type === 'private') {
             dec.unsignedInteger() // TODO: Don't ignore this
           }
           const n = base64url(dec.unsignedInteger())
           const e = base64url(dec.unsignedInteger())
           let jwk: JWK
-          if (key.type === 'private') {
+          if (keyObject.type === 'private') {
             jwk = {
               d: base64url(dec.unsignedInteger()),
               p: base64url(dec.unsignedInteger()),
@@ -62,7 +61,7 @@ const keyToJWK: JWKConvertFunction = (key: KeyObject | CryptoKey): JWK => {
           return { kty: 'RSA', n, e, ...jwk! }
         }
         case 'ec': {
-          const crv = getNamedCurve(key)
+          const crv = getNamedCurve(keyObject)
           let len: number
           let offset: number
           let correction: number
@@ -90,8 +89,8 @@ const keyToJWK: JWKConvertFunction = (key: KeyObject | CryptoKey): JWK => {
             default:
               throw new JOSENotSupported('unsupported curve')
           }
-          if (key.type === 'public') {
-            const der = key.export({ type: 'spki', format: 'der' })
+          if (keyObject.type === 'public') {
+            const der = keyObject.export({ type: 'spki', format: 'der' })
             return {
               kty: 'EC',
               crv,
@@ -99,20 +98,20 @@ const keyToJWK: JWKConvertFunction = (key: KeyObject | CryptoKey): JWK => {
               y: base64url(der.subarray(-len / 2)),
             }
           }
-          const der = key.export({ type: 'pkcs8', format: 'der' })
+          const der = keyObject.export({ type: 'pkcs8', format: 'der' })
           if (der.length < 100) {
             offset += correction
           }
           return {
-            ...keyToJWK(createPublicKey(key)),
+            ...keyToJWK(createPublicKey(keyObject)),
             d: base64url(der.subarray(offset, offset + len / 2)),
           }
         }
         case 'ed25519':
         case 'x25519': {
-          const crv = getNamedCurve(key)
-          if (key.type === 'public') {
-            const der = key.export({ type: 'spki', format: 'der' })
+          const crv = getNamedCurve(keyObject)
+          if (keyObject.type === 'public') {
+            const der = keyObject.export({ type: 'spki', format: 'der' })
             return {
               kty: 'OKP',
               crv,
@@ -120,17 +119,17 @@ const keyToJWK: JWKConvertFunction = (key: KeyObject | CryptoKey): JWK => {
             }
           }
 
-          const der = key.export({ type: 'pkcs8', format: 'der' })
+          const der = keyObject.export({ type: 'pkcs8', format: 'der' })
           return {
-            ...keyToJWK(createPublicKey(key)),
+            ...keyToJWK(createPublicKey(keyObject)),
             d: base64url(der.subarray(-32)),
           }
         }
         case 'ed448':
         case 'x448': {
-          const crv = getNamedCurve(key)
-          if (key.type === 'public') {
-            const der = key.export({ type: 'spki', format: 'der' })
+          const crv = getNamedCurve(keyObject)
+          if (keyObject.type === 'public') {
+            const der = keyObject.export({ type: 'spki', format: 'der' })
             return {
               kty: 'OKP',
               crv,
@@ -138,9 +137,9 @@ const keyToJWK: JWKConvertFunction = (key: KeyObject | CryptoKey): JWK => {
             }
           }
 
-          const der = key.export({ type: 'pkcs8', format: 'der' })
+          const der = keyObject.export({ type: 'pkcs8', format: 'der' })
           return {
-            ...keyToJWK(createPublicKey(key)),
+            ...keyToJWK(createPublicKey(keyObject)),
             d: base64url(der.subarray(crv === 'Ed448' ? -57 : -56)),
           }
         }

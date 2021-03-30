@@ -5,25 +5,25 @@ export interface TimingSafeEqual {
   (a: Uint8Array, b: Uint8Array): boolean
 }
 export interface SignFunction {
-  (alg: string, key: any, data: Uint8Array): Promise<Uint8Array>
+  (alg: string, key: unknown, data: Uint8Array): Promise<Uint8Array>
 }
 export interface VerifyFunction {
-  (alg: string, key: any, signature: Uint8Array, data: Uint8Array): Promise<boolean>
+  (alg: string, key: unknown, signature: Uint8Array, data: Uint8Array): Promise<boolean>
 }
 export interface AesKwWrapFunction {
-  (alg: string, key: any, cek: Uint8Array): Promise<Uint8Array>
+  (alg: string, key: unknown, cek: Uint8Array): Promise<Uint8Array>
 }
 export interface AesKwUnwrapFunction {
-  (alg: string, key: any, encryptedKey: Uint8Array): Promise<Uint8Array>
+  (alg: string, key: unknown, encryptedKey: Uint8Array): Promise<Uint8Array>
 }
 export interface RsaEsEncryptFunction {
-  (alg: string, key: any, cek: Uint8Array): Promise<Uint8Array>
+  (alg: string, key: unknown, cek: Uint8Array): Promise<Uint8Array>
 }
 export interface RsaEsDecryptFunction {
-  (alg: string, key: any, encryptedKey: Uint8Array): Promise<Uint8Array>
+  (alg: string, key: unknown, encryptedKey: Uint8Array): Promise<Uint8Array>
 }
 export interface AesGcmKwWrapFunction {
-  (alg: string, key: any, cek: Uint8Array, iv?: Uint8Array): Promise<{
+  (alg: string, key: unknown, cek: Uint8Array, iv?: Uint8Array): Promise<{
     encryptedKey: Uint8Array
     iv: string
     tag: string
@@ -32,14 +32,14 @@ export interface AesGcmKwWrapFunction {
 export interface AesGcmKwUnwrapFunction {
   (
     alg: string,
-    key: any,
+    key: unknown,
     encryptedKey: Uint8Array,
     iv: Uint8Array,
     tag: Uint8Array,
   ): Promise<Uint8Array>
 }
 export interface Pbes2KWEncryptFunction {
-  (alg: string, key: any, cek: Uint8Array, p2c?: number, p2s?: Uint8Array): Promise<{
+  (alg: string, key: unknown, cek: Uint8Array, p2c?: number, p2s?: Uint8Array): Promise<{
     encryptedKey: Uint8Array
     p2c: number
     p2s: string
@@ -48,7 +48,7 @@ export interface Pbes2KWEncryptFunction {
 export interface Pbes2KWDecryptFunction {
   (
     alg: string,
-    key: any,
+    key: unknown,
     encryptedKey: Uint8Array,
     p2c: number,
     p2s: Uint8Array,
@@ -56,8 +56,8 @@ export interface Pbes2KWDecryptFunction {
 }
 export interface EcdhESDeriveKeyFunction {
   (
-    publicKey: any,
-    privateKey: any,
+    publicKey: unknown,
+    privateKey: unknown,
     enc: string,
     keyLength: number,
     apu?: Uint8Array,
@@ -65,19 +65,19 @@ export interface EcdhESDeriveKeyFunction {
   ): Promise<Uint8Array>
 }
 export interface EcdhAllowedFunction {
-  (key: any): boolean
+  (key: unknown): boolean
 }
 export interface GenerateEpkFunction {
-  (key: any): Promise<KeyLike>
+  (key: unknown): Promise<KeyLike>
 }
 export interface EphemeralKeyToPublicJwkFunction {
-  (key: any): AsyncOrSync<EpkJwk>
+  (key: unknown): AsyncOrSync<EpkJwk>
 }
 export interface PublicJwkToEphemeralKeyFunction {
   (jwk: EpkJwk): AsyncOrSync<KeyLike>
 }
 export interface EncryptFunction {
-  (enc: string, plaintext: Uint8Array, cek: any, iv: Uint8Array, aad: Uint8Array): Promise<{
+  (enc: string, plaintext: Uint8Array, cek: unknown, iv: Uint8Array, aad: Uint8Array): Promise<{
     ciphertext: Uint8Array
     tag: Uint8Array
   }>
@@ -85,7 +85,7 @@ export interface EncryptFunction {
 export interface DecryptFunction {
   (
     enc: string,
-    cek: any,
+    cek: unknown,
     ciphertext: Uint8Array,
     iv: Uint8Array,
     tag: Uint8Array,
@@ -93,7 +93,7 @@ export interface DecryptFunction {
   ): Promise<Uint8Array>
 }
 export interface FetchFunction {
-  (url: URL, timeout: number, options: any): Promise<any>
+  (url: URL, timeout: number, options?: any): Promise<{ [propName: string]: unknown }>
 }
 export interface DigestFunction {
   (digest: 'sha256' | 'sha384' | 'sha512', data: Uint8Array): AsyncOrSync<Uint8Array>
@@ -102,5 +102,5 @@ export interface JWKParseFunction {
   (jwk: JWK): AsyncOrSync<KeyLike>
 }
 export interface JWKConvertFunction {
-  (key: any): AsyncOrSync<JWK>
+  (key: unknown): AsyncOrSync<JWK>
 }

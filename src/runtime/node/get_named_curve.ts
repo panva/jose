@@ -24,14 +24,17 @@ const namedCurveToJOSE = (namedCurve: string) => {
   }
 }
 
-const getNamedCurve = (key: KeyObject | CryptoKey, raw?: boolean): string => {
-  if (key.type === 'secret') {
-    throw new TypeError('only "private" or "public" key objects can be used for this operation')
-  }
-
+const getNamedCurve = (key: unknown, raw?: boolean): string => {
   if (isCryptoKey(key)) {
     // eslint-disable-next-line no-param-reassign
     key = getKeyObject(key)
+  }
+  if (!(key instanceof KeyObject)) {
+    throw new TypeError('invalid key input')
+  }
+
+  if (key.type === 'secret') {
+    throw new TypeError('only "private" or "public" key objects can be used for this operation')
   }
 
   switch (key.asymmetricKeyType) {

@@ -4,7 +4,7 @@ import * as crypto from 'crypto'
 const webcrypto = <Crypto>crypto.webcrypto
 
 export default webcrypto
-export function isCryptoKey(key: any): key is CryptoKey {
+export function isCryptoKey(key: unknown): key is CryptoKey {
   if (webcrypto !== undefined) {
     // @ts-expect-error
     return key instanceof webcrypto.CryptoKey

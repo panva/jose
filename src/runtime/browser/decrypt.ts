@@ -5,7 +5,7 @@ import checkIvLength from '../../lib/check_iv_length.js'
 import checkCekLength from './check_cek_length.js'
 import timingSafeEqual from './timing_safe_equal.js'
 import { JWEDecryptionFailed } from '../../util/errors.js'
-import crypto from './webcrypto.js'
+import crypto, { isCryptoKey } from './webcrypto.js'
 
 async function cbcDecrypt(
   enc: string,
@@ -94,12 +94,16 @@ async function gcmDecrypt(
 
 const decrypt: DecryptFunction = async (
   enc: string,
-  cek: CryptoKey | Uint8Array,
+  cek: unknown,
   ciphertext: Uint8Array,
   iv: Uint8Array,
   tag: Uint8Array,
   aad: Uint8Array,
 ) => {
+  if (!isCryptoKey(cek) && !(cek instanceof Uint8Array)) {
+    throw new TypeError('invalid key input')
+  }
+
   checkCekLength(enc, cek)
   checkIvLength(enc, iv)
 

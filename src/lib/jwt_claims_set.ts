@@ -11,14 +11,18 @@ import secs from './secs.js'
 
 const normalizeTyp = (value: string) => value.toLowerCase().replace(/^application\//, '')
 
-const checkAudiencePresence = (audPayload: any, audOption: string[]) => {
+const checkAudiencePresence = (audPayload: unknown, audOption: unknown[]) => {
   if (typeof audPayload === 'string') {
     return audOption.includes(audPayload)
   }
 
-  // Each principal intended to process the JWT MUST
-  // identify itself with a value in the audience claim
-  return audOption.some(Set.prototype.has.bind(new Set(audPayload)))
+  if (Array.isArray(audPayload)) {
+    // Each principal intended to process the JWT MUST
+    // identify itself with a value in the audience claim
+    return audOption.some(Set.prototype.has.bind(new Set(audPayload)))
+  }
+
+  return false
 }
 
 export default (
@@ -35,7 +39,7 @@ export default (
     throw new JWTClaimValidationFailed('unexpected "typ" JWT header value', 'typ', 'check_failed')
   }
 
-  let payload!: JWTPayload
+  let payload!: { [propName: string]: unknown }
   try {
     payload = JSON.parse(decoder.decode(encodedPayload))
   } catch {
@@ -47,7 +51,7 @@ export default (
   }
 
   const { issuer } = options
-  if (issuer && !(typeof issuer === 'string' ? [issuer] : issuer).includes(payload.iss!)) {
+  if (issuer && !(<unknown[]>(Array.isArray(issuer) ? issuer : [issuer])).includes(payload.iss!)) {
     throw new JWTClaimValidationFailed('unexpected "iss" claim value', 'iss', 'check_failed')
   }
 
@@ -139,5 +143,5 @@ export default (
     }
   }
 
-  return payload
+  return <JWTPayload>payload
 }

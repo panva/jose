@@ -1,14 +1,13 @@
 import type { RsaEsDecryptFunction, RsaEsEncryptFunction } from '../interfaces.d'
 import subtleAlgorithm from './subtle_rsaes.js'
 import bogusWebCrypto from './bogus.js'
-import crypto from './webcrypto.js'
+import crypto, { isCryptoKey } from './webcrypto.js'
 import checkKeyLength from './check_key_length.js'
 
-export const encrypt: RsaEsEncryptFunction = async (
-  alg: string,
-  key: CryptoKey,
-  cek: Uint8Array,
-) => {
+export const encrypt: RsaEsEncryptFunction = async (alg: string, key: unknown, cek: Uint8Array) => {
+  if (!isCryptoKey(key)) {
+    throw new TypeError('invalid key input')
+  }
   checkKeyLength(alg, key)
 
   if (key.usages.includes('encrypt')) {
@@ -30,9 +29,12 @@ export const encrypt: RsaEsEncryptFunction = async (
 
 export const decrypt: RsaEsDecryptFunction = async (
   alg: string,
-  key: CryptoKey,
+  key: unknown,
   encryptedKey: Uint8Array,
 ) => {
+  if (!isCryptoKey(key)) {
+    throw new TypeError('invalid key input')
+  }
   checkKeyLength(alg, key)
 
   if (key.usages.includes('decrypt')) {

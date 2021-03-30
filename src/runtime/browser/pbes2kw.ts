@@ -4,11 +4,23 @@ import { p2s as concatSalt } from '../../lib/buffer_utils.js'
 import { encode as base64url } from './base64url.js'
 import { wrap, unwrap } from './aeskw.js'
 import checkP2s from '../../lib/check_p2s.js'
-import crypto from './webcrypto.js'
+import crypto, { isCryptoKey } from './webcrypto.js'
+
+function getCryptoKey(key: unknown) {
+  if (key instanceof Uint8Array) {
+    return crypto.subtle.importKey('raw', key, 'PBKDF2', false, ['deriveBits'])
+  }
+
+  if (isCryptoKey(key)) {
+    return key
+  }
+
+  throw new TypeError('invalid key input')
+}
 
 export const encrypt: Pbes2KWEncryptFunction = async (
   alg: string,
-  key: CryptoKey | Uint8Array,
+  key: unknown,
   cek: Uint8Array,
   p2c: number = Math.floor(Math.random() * 2049) + 2048,
   p2s: Uint8Array = random(new Uint8Array(16)),
@@ -28,12 +40,7 @@ export const encrypt: Pbes2KWEncryptFunction = async (
     name: 'AES-KW',
   }
 
-  let cryptoKey: CryptoKey
-  if (key instanceof Uint8Array) {
-    cryptoKey = await crypto.subtle.importKey('raw', key, 'PBKDF2', false, ['deriveBits'])
-  } else {
-    cryptoKey = key
-  }
+  const cryptoKey = await getCryptoKey(key)
 
   let derived: CryptoKey | Uint8Array
   if (cryptoKey.usages.includes('deriveBits')) {
@@ -51,7 +58,7 @@ export const encrypt: Pbes2KWEncryptFunction = async (
 
 export const decrypt: Pbes2KWDecryptFunction = async (
   alg: string,
-  key: CryptoKey | Uint8Array,
+  key: unknown,
   encryptedKey: Uint8Array,
   p2c: number,
   p2s: Uint8Array,
@@ -71,12 +78,7 @@ export const decrypt: Pbes2KWDecryptFunction = async (
     name: 'AES-KW',
   }
 
-  let cryptoKey: CryptoKey
-  if (key instanceof Uint8Array) {
-    cryptoKey = await crypto.subtle.importKey('raw', key, 'PBKDF2', false, ['deriveBits'])
-  } else {
-    cryptoKey = key
-  }
+  const cryptoKey = await getCryptoKey(key)
 
   let derived: CryptoKey | Uint8Array
   if (cryptoKey.usages.includes('deriveBits')) {

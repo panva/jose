@@ -59,23 +59,28 @@ async function gcmEncrypt(
 const encrypt: EncryptFunction = async (
   enc: string,
   plaintext: Uint8Array,
-  cek: KeyLike,
+  cek: unknown,
   iv: Uint8Array,
   aad: Uint8Array,
 ) => {
+  let key: KeyLike
   if (isCryptoKey(cek)) {
     // eslint-disable-next-line no-param-reassign
-    cek = getKeyObject(cek)
+    key = getKeyObject(cek)
+  } else if (cek instanceof Uint8Array || cek instanceof KeyObject) {
+    key = cek
+  } else {
+    throw new TypeError('invalid key input')
   }
 
-  checkCekLength(enc, cek)
+  checkCekLength(enc, key)
   checkIvLength(enc, iv)
 
   if (enc.substr(4, 3) === 'CBC') {
-    return cbcEncrypt(enc, plaintext, cek, iv, aad)
+    return cbcEncrypt(enc, plaintext, key, iv, aad)
   }
 
-  return gcmEncrypt(enc, plaintext, cek, iv, aad)
+  return gcmEncrypt(enc, plaintext, key, iv, aad)
 }
 
 export default encrypt

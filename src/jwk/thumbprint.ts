@@ -6,7 +6,7 @@ import { encoder } from '../lib/buffer_utils.js'
 import type { JWK } from '../types.d'
 import isObject from '../lib/is_object.js'
 
-const check = (value: any, description: string) => {
+const check = (value: unknown, description: string) => {
   if (typeof value !== 'string' || !value) {
     throw new JWKInvalid(`${description} missing or invalid`)
   }

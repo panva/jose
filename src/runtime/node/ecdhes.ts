@@ -1,5 +1,9 @@
-import type { KeyObject } from 'crypto'
-import { diffieHellman, generateKeyPair as generateKeyPairCb, createPublicKey } from 'crypto'
+import {
+  KeyObject,
+  diffieHellman,
+  generateKeyPair as generateKeyPairCb,
+  createPublicKey,
+} from 'crypto'
 import { promisify } from 'util'
 
 import type {
@@ -11,13 +15,7 @@ import type {
 } from '../interfaces.d'
 import * as base64url from './base64url.js'
 import getNamedCurve from './get_named_curve.js'
-import {
-  encoder,
-  concat,
-  uint32be,
-  lengthAndInput,
-  concatKdf as KDF,
-} from '../../lib/buffer_utils.js'
+import { encoder, concat, uint32be, lengthAndInput, concatKdf } from '../../lib/buffer_utils.js'
 import type { EpkJwk } from '../../types.i.d'
 import digest from './digest.js'
 import { JOSENotSupported } from '../../util/errors.js'
@@ -25,11 +23,9 @@ import { isCryptoKey, getKeyObject } from './webcrypto.js'
 
 const generateKeyPair = promisify(generateKeyPairCb)
 
-const concatKdf = KDF.bind(undefined, digest.bind(undefined, 'sha256'))
-
 export const deriveKey: EcdhESDeriveKeyFunction = async (
-  publicKey: KeyObject | CryptoKey,
-  privateKey: KeyObject | CryptoKey,
+  publicKey: unknown,
+  privateKey: unknown,
   algorithm: string,
   keyLength: number,
   apu: Uint8Array = new Uint8Array(0),
@@ -46,23 +42,33 @@ export const deriveKey: EcdhESDeriveKeyFunction = async (
     // eslint-disable-next-line no-param-reassign
     publicKey = getKeyObject(publicKey)
   }
+  if (!(publicKey instanceof KeyObject)) {
+    throw new TypeError('invalid key input')
+  }
 
   if (isCryptoKey(privateKey)) {
     // eslint-disable-next-line no-param-reassign
     privateKey = getKeyObject(privateKey)
   }
+  if (!(privateKey instanceof KeyObject)) {
+    throw new TypeError('invalid key input')
+  }
 
   const sharedSecret = diffieHellman({ privateKey, publicKey })
-  return concatKdf(sharedSecret, keyLength, value)
+  return concatKdf(digest, sharedSecret, keyLength, value)
 }
 
 export const ephemeralKeyToPublicJWK: EphemeralKeyToPublicJwkFunction = function ephemeralKeyToPublicJWK(
-  key: KeyObject | CryptoKey,
+  key: unknown,
 ) {
   if (isCryptoKey(key)) {
     // eslint-disable-next-line no-param-reassign
     key = getKeyObject(key)
   }
+  if (!(key instanceof KeyObject)) {
+    throw new TypeError('invalid key input')
+  }
+
   switch (key.asymmetricKeyType) {
     case 'x25519':
     case 'x448': {
@@ -87,11 +93,15 @@ export const ephemeralKeyToPublicJWK: EphemeralKeyToPublicJwkFunction = function
   }
 }
 
-export const generateEpk: GenerateEpkFunction = async (key: KeyObject | CryptoKey) => {
+export const generateEpk: GenerateEpkFunction = async (key: unknown) => {
   if (isCryptoKey(key)) {
     // eslint-disable-next-line no-param-reassign
     key = getKeyObject(key)
   }
+  if (!(key instanceof KeyObject)) {
+    throw new TypeError('invalid key input')
+  }
+
   switch (key.asymmetricKeyType) {
     case 'x25519':
       return (await generateKeyPair('x25519')).privateKey
@@ -153,5 +163,5 @@ export const publicJwkToEphemeralKey: PublicJwkToEphemeralKeyFunction = async (j
 }
 
 const curves = ['P-256', 'P-384', 'P-521', 'X25519', 'X448']
-export const ecdhAllowed: EcdhAllowedFunction = (key: KeyObject | CryptoKey) =>
+export const ecdhAllowed: EcdhAllowedFunction = (key: unknown) =>
   curves.includes(getNamedCurve(key))

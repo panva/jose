@@ -9,14 +9,14 @@ import { unwrap as aesGcmKw } from '../runtime/aesgcmkw.js'
 import { decode as base64url } from '../runtime/base64url.js'
 import { bitLengths as cekLengths } from '../lib/cek.js'
 
-function assertEnryptedKey(encryptedKey: any) {
+function assertEnryptedKey(encryptedKey: unknown) {
   if (!encryptedKey) {
     throw new JWEInvalid('JWE Encrypted Key missing')
   }
 }
 
 function assertHeaderParameter(
-  joseHeader: { [propName: string]: any },
+  joseHeader: { [propName: string]: unknown },
   parameter: string,
   name: string,
 ) {

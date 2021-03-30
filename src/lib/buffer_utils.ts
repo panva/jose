@@ -1,5 +1,7 @@
 /* eslint-disable no-await-in-loop */
 
+import type { DigestFunction } from '../runtime/interfaces.d'
+
 export const encoder = new TextEncoder()
 export const decoder = new TextDecoder()
 
@@ -46,7 +48,12 @@ export function lengthAndInput(input: Uint8Array) {
   return concat(uint32be(input.length), input)
 }
 
-export async function concatKdf(digest: any, secret: Uint8Array, bits: number, value: Uint8Array) {
+export async function concatKdf(
+  digest: DigestFunction,
+  secret: Uint8Array,
+  bits: number,
+  value: Uint8Array,
+) {
   const iterations = Math.ceil((bits >> 3) / 32)
   let res!: Uint8Array
 
@@ -56,9 +63,9 @@ export async function concatKdf(digest: any, secret: Uint8Array, bits: number, v
     buf.set(secret, 4)
     buf.set(value, 4 + secret.length)
     if (!res) {
-      res = await digest(buf)
+      res = await digest('sha256', buf)
     } else {
-      res = concat(res, await digest(buf))
+      res = concat(res, await digest('sha256', buf))
     }
   }
   res = res.slice(0, bits >> 3)

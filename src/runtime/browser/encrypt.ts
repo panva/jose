@@ -2,7 +2,7 @@ import { concat, uint64be } from '../../lib/buffer_utils.js'
 import type { EncryptFunction } from '../interfaces.d'
 import checkIvLength from '../../lib/check_iv_length.js'
 import checkCekLength from './check_cek_length.js'
-import crypto from './webcrypto.js'
+import crypto, { isCryptoKey } from './webcrypto.js'
 
 async function cbcEncrypt(
   enc: string,
@@ -82,10 +82,14 @@ async function gcmEncrypt(
 const encrypt: EncryptFunction = async (
   enc: string,
   plaintext: Uint8Array,
-  cek: CryptoKey | Uint8Array,
+  cek: unknown,
   iv: Uint8Array,
   aad: Uint8Array,
 ) => {
+  if (!isCryptoKey(cek) && !(cek instanceof Uint8Array)) {
+    throw new TypeError('invalid key input')
+  }
+
   checkCekLength(enc, cek)
   checkIvLength(enc, iv)
 

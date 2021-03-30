@@ -9,7 +9,7 @@ const generateIv = ivFactory(random)
 
 export const wrap: AesGcmKwWrapFunction = async (
   alg: string,
-  key: CryptoKey | Uint8Array,
+  key: unknown,
   cek: Uint8Array,
   iv?: Uint8Array,
 ) => {
@@ -30,7 +30,7 @@ export const wrap: AesGcmKwWrapFunction = async (
 
 export const unwrap: AesGcmKwUnwrapFunction = async (
   alg: string,
-  key: CryptoKey | Uint8Array,
+  key: unknown,
   encryptedKey: Uint8Array,
   iv: Uint8Array,
   tag: Uint8Array,

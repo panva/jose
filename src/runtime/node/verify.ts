@@ -1,12 +1,11 @@
 import * as crypto from 'crypto'
 import { promisify } from 'util'
 
-import type { KeyLike } from '../../types.d'
 import type { VerifyFunction } from '../interfaces.d'
 import nodeDigest from './dsa_digest.js'
 import nodeKey from './node_key.js'
 import sign from './sign.js'
-import { isCryptoKey, getKeyObject } from './webcrypto.js'
+import getVerifyKey from './get_sign_verify_key.js'
 
 const [major, minor] = process.version
   .substr(1)
@@ -21,7 +20,7 @@ if (oneShotVerify.length > 4 && oneShotCallbackSupported) {
   oneShotVerify = promisify(oneShotVerify)
 }
 
-const verify: VerifyFunction = async (alg, key: KeyLike, signature, data) => {
+const verify: VerifyFunction = async (alg, key: unknown, signature, data) => {
   if (alg.startsWith('HS')) {
     const expected = await sign(alg, key, data)
     const actual = signature
@@ -34,15 +33,8 @@ const verify: VerifyFunction = async (alg, key: KeyLike, signature, data) => {
   }
 
   const algorithm = nodeDigest(alg)
-
-  if (isCryptoKey(key)) {
-    // eslint-disable-next-line no-param-reassign
-    key = getKeyObject(key)
-  } else if (!(key instanceof crypto.KeyObject)) {
-    throw new TypeError('invalid key object type provided')
-  }
-
-  const keyInput = nodeKey(alg, key)
+  const keyObject = getVerifyKey(alg, key)
+  const keyInput = nodeKey(alg, keyObject)
   try {
     return oneShotVerify(algorithm, data, keyInput, signature)
   } catch {

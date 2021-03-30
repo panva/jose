@@ -10,9 +10,22 @@ import { isCryptoKey, getKeyObject } from './webcrypto.js'
 
 const pbkdf2 = promisify(pbkdf2cb)
 
+function getPassword(key: unknown) {
+  if (key instanceof KeyObject) {
+    return key.export()
+  }
+  if (key instanceof Uint8Array) {
+    return key
+  }
+  if (isCryptoKey(key)) {
+    return getKeyObject(key).export()
+  }
+  throw new TypeError('invalid key input')
+}
+
 export const encrypt: Pbes2KWEncryptFunction = async (
   alg: string,
-  key: KeyObject | Uint8Array,
+  key: unknown,
   cek: Uint8Array,
   p2c: number = Math.floor(Math.random() * 2049) + 2048,
   p2s: Uint8Array = random(new Uint8Array(16)),
@@ -20,15 +33,8 @@ export const encrypt: Pbes2KWEncryptFunction = async (
   checkP2s(p2s)
   const salt = concatSalt(alg, p2s)
   const keylen = parseInt(alg.substr(13, 3), 10) >> 3
-  let password: Uint8Array
+  const password = getPassword(key)
 
-  if (isCryptoKey(key)) {
-    password = getKeyObject(key).export()
-  } else if (key instanceof KeyObject) {
-    password = key.export()
-  } else {
-    password = key
-  }
   const derivedKey = await pbkdf2(password, salt, p2c, keylen, `sha${alg.substr(8, 3)}`)
   const encryptedKey = await wrap(alg.substr(-6), derivedKey, cek)
 
@@ -37,7 +43,7 @@ export const encrypt: Pbes2KWEncryptFunction = async (
 
 export const decrypt: Pbes2KWDecryptFunction = async (
   alg: string,
-  key: KeyObject | Uint8Array,
+  key: unknown,
   encryptedKey: Uint8Array,
   p2c: number,
   p2s: Uint8Array,
@@ -45,15 +51,8 @@ export const decrypt: Pbes2KWDecryptFunction = async (
   checkP2s(p2s)
   const salt = concatSalt(alg, p2s)
   const keylen = parseInt(alg.substr(13, 3), 10) >> 3
-  let password: Uint8Array
+  const password = getPassword(key)
 
-  if (isCryptoKey(key)) {
-    password = getKeyObject(key).export()
-  } else if (key instanceof KeyObject) {
-    password = key.export()
-  } else {
-    password = key
-  }
   const derivedKey = await pbkdf2(password, salt, p2c, keylen, `sha${alg.substr(8, 3)}`)
 
   return unwrap(alg.substr(-6), derivedKey, encryptedKey)

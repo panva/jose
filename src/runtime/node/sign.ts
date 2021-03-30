@@ -1,13 +1,11 @@
 import * as crypto from 'crypto'
 import { promisify } from 'util'
 
-import type { KeyLike } from '../../types.d'
 import type { SignFunction } from '../interfaces.d'
 import nodeDigest from './dsa_digest.js'
 import hmacDigest from './hmac_digest.js'
 import nodeKey from './node_key.js'
-import getSecretKey from './secret_key.js'
-import { isCryptoKey, getKeyObject } from './webcrypto.js'
+import getSignKey from './get_sign_verify_key.js'
 
 let oneShotSign = crypto.sign
 if (oneShotSign.length > 3) {
@@ -15,18 +13,8 @@ if (oneShotSign.length > 3) {
   oneShotSign = promisify(oneShotSign)
 }
 
-const sign: SignFunction = async (alg, key: KeyLike, data) => {
-  let keyObject: crypto.KeyObject
-  if (key instanceof Uint8Array) {
-    if (!alg.startsWith('HS')) {
-      throw new TypeError('symmetric keys are only applicable for HMAC-based JWA algorithms')
-    }
-    keyObject = getSecretKey(key)
-  } else if (isCryptoKey(key)) {
-    keyObject = getKeyObject(key)
-  } else {
-    keyObject = key
-  }
+const sign: SignFunction = async (alg, key: unknown, data) => {
+  const keyObject = getSignKey(alg, key)
 
   if (alg.startsWith('HS')) {
     const bitlen = parseInt(alg.substr(-3), 10)
