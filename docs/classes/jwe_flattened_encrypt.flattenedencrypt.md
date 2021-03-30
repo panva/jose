@@ -68,7 +68,7 @@ Name | Type | Description |
 
 **Returns:** [*FlattenedEncrypt*](jwe_flattened_encrypt.flattenedencrypt.md)
 
-Defined in: [jwe/flattened/encrypt.ts:75](https://github.com/panva/jose/blob/v3.11.1/src/jwe/flattened/encrypt.ts#L75)
+Defined in: [jwe/flattened/encrypt.ts:75](https://github.com/panva/jose/blob/v3.11.2/src/jwe/flattened/encrypt.ts#L75)
 
 ## Methods
 
@@ -87,7 +87,7 @@ Name | Type | Description |
 
 **Returns:** *Promise*<[*FlattenedJWE*](../interfaces/types.flattenedjwe.md)\>
 
-Defined in: [jwe/flattened/encrypt.ts:187](https://github.com/panva/jose/blob/v3.11.1/src/jwe/flattened/encrypt.ts#L187)
+Defined in: [jwe/flattened/encrypt.ts:187](https://github.com/panva/jose/blob/v3.11.2/src/jwe/flattened/encrypt.ts#L187)
 
 ___
 
@@ -105,7 +105,7 @@ Name | Type | Description |
 
 **Returns:** [*FlattenedEncrypt*](jwe_flattened_encrypt.flattenedencrypt.md)
 
-Defined in: [jwe/flattened/encrypt.ts:144](https://github.com/panva/jose/blob/v3.11.1/src/jwe/flattened/encrypt.ts#L144)
+Defined in: [jwe/flattened/encrypt.ts:144](https://github.com/panva/jose/blob/v3.11.2/src/jwe/flattened/encrypt.ts#L144)
 
 ___
 
@@ -126,7 +126,7 @@ Name | Type | Description |
 
 **Returns:** [*FlattenedEncrypt*](jwe_flattened_encrypt.flattenedencrypt.md)
 
-Defined in: [jwe/flattened/encrypt.ts:157](https://github.com/panva/jose/blob/v3.11.1/src/jwe/flattened/encrypt.ts#L157)
+Defined in: [jwe/flattened/encrypt.ts:157](https://github.com/panva/jose/blob/v3.11.2/src/jwe/flattened/encrypt.ts#L157)
 
 ___
 
@@ -147,7 +147,7 @@ Name | Type | Description |
 
 **Returns:** [*FlattenedEncrypt*](jwe_flattened_encrypt.flattenedencrypt.md)
 
-Defined in: [jwe/flattened/encrypt.ts:173](https://github.com/panva/jose/blob/v3.11.1/src/jwe/flattened/encrypt.ts#L173)
+Defined in: [jwe/flattened/encrypt.ts:173](https://github.com/panva/jose/blob/v3.11.2/src/jwe/flattened/encrypt.ts#L173)
 
 ___
 
@@ -168,7 +168,7 @@ Name | Type | Description |
 
 **Returns:** [*FlattenedEncrypt*](jwe_flattened_encrypt.flattenedencrypt.md)
 
-Defined in: [jwe/flattened/encrypt.ts:92](https://github.com/panva/jose/blob/v3.11.1/src/jwe/flattened/encrypt.ts#L92)
+Defined in: [jwe/flattened/encrypt.ts:92](https://github.com/panva/jose/blob/v3.11.2/src/jwe/flattened/encrypt.ts#L92)
 
 ___
 
@@ -186,7 +186,7 @@ Name | Type | Description |
 
 **Returns:** [*FlattenedEncrypt*](jwe_flattened_encrypt.flattenedencrypt.md)
 
-Defined in: [jwe/flattened/encrypt.ts:105](https://github.com/panva/jose/blob/v3.11.1/src/jwe/flattened/encrypt.ts#L105)
+Defined in: [jwe/flattened/encrypt.ts:105](https://github.com/panva/jose/blob/v3.11.2/src/jwe/flattened/encrypt.ts#L105)
 
 ___
 
@@ -204,7 +204,7 @@ Name | Type | Description |
 
 **Returns:** [*FlattenedEncrypt*](jwe_flattened_encrypt.flattenedencrypt.md)
 
-Defined in: [jwe/flattened/encrypt.ts:118](https://github.com/panva/jose/blob/v3.11.1/src/jwe/flattened/encrypt.ts#L118)
+Defined in: [jwe/flattened/encrypt.ts:118](https://github.com/panva/jose/blob/v3.11.2/src/jwe/flattened/encrypt.ts#L118)
 
 ___
 
@@ -222,4 +222,4 @@ Name | Type | Description |
 
 **Returns:** [*FlattenedEncrypt*](jwe_flattened_encrypt.flattenedencrypt.md)
 
-Defined in: [jwe/flattened/encrypt.ts:131](https://github.com/panva/jose/blob/v3.11.1/src/jwe/flattened/encrypt.ts#L131)
+Defined in: [jwe/flattened/encrypt.ts:131](https://github.com/panva/jose/blob/v3.11.2/src/jwe/flattened/encrypt.ts#L131)

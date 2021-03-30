@@ -25,7 +25,7 @@ Name | Type | Description |
 
 **Returns:** [*Signature*](jws_general_sign.signature.md)
 
-Defined in: [jws/general/sign.ts:13](https://github.com/panva/jose/blob/v3.11.1/src/jws/general/sign.ts#L13)
+Defined in: [jws/general/sign.ts:13](https://github.com/panva/jose/blob/v3.11.2/src/jws/general/sign.ts#L13)
 
 ___
 
@@ -43,4 +43,4 @@ Name | Type | Description |
 
 **Returns:** [*Signature*](jws_general_sign.signature.md)
 
-Defined in: [jws/general/sign.ts:20](https://github.com/panva/jose/blob/v3.11.1/src/jws/general/sign.ts#L20)
+Defined in: [jws/general/sign.ts:20](https://github.com/panva/jose/blob/v3.11.2/src/jws/general/sign.ts#L20)

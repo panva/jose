@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [3.11.2](https://github.com/panva/jose/compare/v3.11.1...v3.11.2) (2021-03-30)
+
+
+### Bug Fixes
+
+* assert KeyLike input types, change "any" types to "unknown" ([edb83a8](https://github.com/panva/jose/commit/edb83a846a880d316d77ace485641330dd0debb6))
+
 ## [3.11.1](https://github.com/panva/jose/compare/v3.11.0...v3.11.1) (2021-03-26)
 
 

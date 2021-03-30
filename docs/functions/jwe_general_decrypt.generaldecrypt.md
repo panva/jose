@@ -69,4 +69,4 @@ Name | Type | Description |
 
 **Returns:** *Promise*<[*GeneralDecryptResult*](../interfaces/types.generaldecryptresult.md)\>
 
-Defined in: [jwe/general/decrypt.ts:80](https://github.com/panva/jose/blob/v3.11.1/src/jwe/general/decrypt.ts#L80)
+Defined in: [jwe/general/decrypt.ts:80](https://github.com/panva/jose/blob/v3.11.2/src/jwe/general/decrypt.ts#L80)

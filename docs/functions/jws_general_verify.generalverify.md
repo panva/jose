@@ -57,4 +57,4 @@ Name | Type | Description |
 
 **Returns:** *Promise*<[*GeneralVerifyResult*](../interfaces/types.generalverifyresult.md)\>
 
-Defined in: [jws/general/verify.ts:69](https://github.com/panva/jose/blob/v3.11.1/src/jws/general/verify.ts#L69)
+Defined in: [jws/general/verify.ts:69](https://github.com/panva/jose/blob/v3.11.2/src/jws/general/verify.ts#L69)

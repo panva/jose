@@ -35,7 +35,7 @@ Parameter values are not integrity protected.
 
 Inherited from: void
 
-Defined in: [types.d.ts:110](https://github.com/panva/jose/blob/v3.11.1/src/types.d.ts#L110)
+Defined in: [types.d.ts:116](https://github.com/panva/jose/blob/v3.11.2/src/types.d.ts#L116)
 
 ___
 
@@ -45,7 +45,7 @@ ___
 
 Overrides: void
 
-Defined in: [types.d.ts:160](https://github.com/panva/jose/blob/v3.11.1/src/types.d.ts#L160)
+Defined in: [types.d.ts:166](https://github.com/panva/jose/blob/v3.11.2/src/types.d.ts#L166)
 
 ___
 
@@ -60,7 +60,7 @@ Header Parameter values are integrity protected.
 
 Inherited from: void
 
-Defined in: [types.d.ts:125](https://github.com/panva/jose/blob/v3.11.1/src/types.d.ts#L125)
+Defined in: [types.d.ts:131](https://github.com/panva/jose/blob/v3.11.2/src/types.d.ts#L131)
 
 ___
 
@@ -70,4 +70,4 @@ ___
 
 Overrides: void
 
-Defined in: [types.d.ts:161](https://github.com/panva/jose/blob/v3.11.1/src/types.d.ts#L161)
+Defined in: [types.d.ts:167](https://github.com/panva/jose/blob/v3.11.2/src/types.d.ts#L167)
