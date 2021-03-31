@@ -6,21 +6,18 @@
 
 Decodes the Protected Header of a JWE/JWS/JWT token utilizing any JOSE serialization.
 
-**`example`** 
+**`example`** ESM import
 ```js
-// ESM import
 import { decodeProtectedHeader } from 'jose/util/decode_protected_header'
 ```
 
-**`example`** 
+**`example`** CJS import
 ```js
-// CJS import
 const { decodeProtectedHeader } = require('jose/util/decode_protected_header')
 ```
 
-**`example`** 
+**`example`** Usage
 ```js
-// usage
 const protectedHeader = decodeProtectedHeader(token)
 console.log(protectedHeader)
 ```
@@ -33,4 +30,4 @@ Name | Type | Description |
 
 **Returns:** [*ProtectedHeaderParameters*](../types/util_decode_protected_header.protectedheaderparameters.md)
 
-Defined in: [util/decode_protected_header.ts:34](https://github.com/panva/jose/blob/v3.11.2/src/util/decode_protected_header.ts#L34)
+Defined in: [util/decode_protected_header.ts:31](https://github.com/panva/jose/blob/main/src/util/decode_protected_header.ts#L31)

@@ -6,21 +6,18 @@
 
 Converts a runtime-specific key representation (KeyLike) to a JWK.
 
-**`example`** 
+**`example`** ESM import
 ```js
-// ESM import
 import { fromKeyLike } from 'jose/jwk/from_key_like'
 ```
 
-**`example`** 
+**`example`** CJS import
 ```js
-// CJS import
 const { fromKeyLike } = require('jose/jwk/from_key_like')
 ```
 
-**`example`** 
+**`example`** Usage
 ```js
-// usage
 const privateJwk = await fromKeyLike(privateKey)
 const publicJwk = await fromKeyLike(publicKey)
 
@@ -36,4 +33,4 @@ Name | Type | Description |
 
 **Returns:** *Promise*<[*JWK*](../interfaces/types.jwk.md)\>
 
-Defined in: [jwk/from_key_like.ts:32](https://github.com/panva/jose/blob/v3.11.2/src/jwk/from_key_like.ts#L32)
+Defined in: [jwk/from_key_like.ts:29](https://github.com/panva/jose/blob/main/src/jwk/from_key_like.ts#L29)

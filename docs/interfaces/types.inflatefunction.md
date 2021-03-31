@@ -18,4 +18,4 @@ Name | Type |
 
 **Returns:** *Promise*<Uint8Array\>
 
-Defined in: [types.d.ts:536](https://github.com/panva/jose/blob/v3.11.2/src/types.d.ts#L536)
+Defined in: [types.d.ts:582](https://github.com/panva/jose/blob/main/src/types.d.ts#L582)

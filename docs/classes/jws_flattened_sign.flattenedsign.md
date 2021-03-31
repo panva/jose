@@ -4,32 +4,19 @@
 
 The FlattenedSign class is a utility for creating Flattened JWS objects.
 
-**`example`** 
+**`example`** ESM import
 ```js
-// ESM import
 import { FlattenedSign } from 'jose/jws/flattened/sign'
 ```
 
-**`example`** 
+**`example`** CJS import
 ```js
-// CJS import
 const { FlattenedSign } = require('jose/jws/flattened/sign')
 ```
 
-**`example`** 
+**`example`** Usage
 ```js
-// usage
-import { parseJwk } from 'jose/jwk/parse'
-
 const encoder = new TextEncoder()
-const privateKey = await parseJwk({
-  alg: 'ES256',
-  crv: 'P-256',
-  kty: 'EC',
-  d: 'VhsfgSRKcvHCGpLyygMbO_YpXc7bVKwi12KQTE4yOR4',
-  x: 'ySK38C1jBdLwDsNWKzzBHqKYEE5Cgv-qjWvorUXk9fw',
-  y: '_LeQBw07cf5t57Iavn4j-BqJsAD1dpoz8gokd3sBsOo'
-})
 
 const jws = await new FlattenedSign(encoder.encode('It’s a dangerous business, Frodo, going out your door.'))
   .setProtectedHeader({ alg: 'ES256' })
@@ -63,7 +50,7 @@ Name | Type | Description |
 
 **Returns:** [*FlattenedSign*](jws_flattened_sign.flattenedsign.md)
 
-Defined in: [jws/flattened/sign.ts:56](https://github.com/panva/jose/blob/v3.11.2/src/jws/flattened/sign.ts#L56)
+Defined in: [jws/flattened/sign.ts:43](https://github.com/panva/jose/blob/main/src/jws/flattened/sign.ts#L43)
 
 ## Methods
 
@@ -81,7 +68,7 @@ Name | Type | Description |
 
 **Returns:** [*FlattenedSign*](jws_flattened_sign.flattenedsign.md)
 
-Defined in: [jws/flattened/sign.ts:70](https://github.com/panva/jose/blob/v3.11.2/src/jws/flattened/sign.ts#L70)
+Defined in: [jws/flattened/sign.ts:57](https://github.com/panva/jose/blob/main/src/jws/flattened/sign.ts#L57)
 
 ___
 
@@ -99,7 +86,7 @@ Name | Type | Description |
 
 **Returns:** [*FlattenedSign*](jws_flattened_sign.flattenedsign.md)
 
-Defined in: [jws/flattened/sign.ts:83](https://github.com/panva/jose/blob/v3.11.2/src/jws/flattened/sign.ts#L83)
+Defined in: [jws/flattened/sign.ts:70](https://github.com/panva/jose/blob/main/src/jws/flattened/sign.ts#L70)
 
 ___
 
@@ -118,4 +105,4 @@ Name | Type | Description |
 
 **Returns:** *Promise*<[*FlattenedJWS*](../interfaces/types.flattenedjws.md)\>
 
-Defined in: [jws/flattened/sign.ts:97](https://github.com/panva/jose/blob/v3.11.2/src/jws/flattened/sign.ts#L97)
+Defined in: [jws/flattened/sign.ts:84](https://github.com/panva/jose/blob/main/src/jws/flattened/sign.ts#L84)

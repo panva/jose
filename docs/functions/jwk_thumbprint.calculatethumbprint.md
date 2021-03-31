@@ -7,21 +7,18 @@
 Calculates a base64url-encoded JSON Web Key (JWK) Thumbprint as per
 [RFC7638](https://tools.ietf.org/html/rfc7638).
 
-**`example`** 
+**`example`** ESM import
 ```js
-// ESM import
 import { calculateThumbprint } from 'jose/jwk/thumbprint'
 ```
 
-**`example`** 
+**`example`** CJS import
 ```js
-// CJS import
 const { calculateThumbprint } = require('jose/jwk/thumbprint')
 ```
 
-**`example`** 
+**`example`** Usage
 ```js
-// usage
 const thumbprint = await calculateThumbprint({
   kty: 'RSA',
   e: 'AQAB',
@@ -40,4 +37,4 @@ Name | Type | Default value | Description |
 
 **Returns:** *Promise*<string\>
 
-Defined in: [jwk/thumbprint.ts:47](https://github.com/panva/jose/blob/v3.11.2/src/jwk/thumbprint.ts#L47)
+Defined in: [jwk/thumbprint.ts:44](https://github.com/panva/jose/blob/main/src/jwk/thumbprint.ts#L44)

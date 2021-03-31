@@ -4,32 +4,19 @@
 
 The CompactSign class is a utility for creating Compact JWS strings.
 
-**`example`** 
+**`example`** ESM import
 ```js
-// ESM import
 import { CompactSign } from 'jose/jws/compact/sign'
 ```
 
-**`example`** 
+**`example`** CJS import
 ```js
-// CJS import
 const { CompactSign } = require('jose/jws/compact/sign')
 ```
 
-**`example`** 
+**`example`** Usage
 ```js
-// usage
-import { parseJwk } from 'jose/jwk/parse'
-
 const encoder = new TextEncoder()
-const privateKey = await parseJwk({
-  alg: 'ES256',
-  crv: 'P-256',
-  kty: 'EC',
-  d: 'VhsfgSRKcvHCGpLyygMbO_YpXc7bVKwi12KQTE4yOR4',
-  x: 'ySK38C1jBdLwDsNWKzzBHqKYEE5Cgv-qjWvorUXk9fw',
-  y: '_LeQBw07cf5t57Iavn4j-BqJsAD1dpoz8gokd3sBsOo'
-})
 
 const jws = await new CompactSign(encoder.encode('It’s a dangerous business, Frodo, going out your door.'))
   .setProtectedHeader({ alg: 'ES256' })
@@ -63,7 +50,7 @@ Name | Type | Description |
 
 **Returns:** [*CompactSign*](jws_compact_sign.compactsign.md)
 
-Defined in: [jws/compact/sign.ts:44](https://github.com/panva/jose/blob/v3.11.2/src/jws/compact/sign.ts#L44)
+Defined in: [jws/compact/sign.ts:31](https://github.com/panva/jose/blob/main/src/jws/compact/sign.ts#L31)
 
 ## Methods
 
@@ -81,7 +68,7 @@ Name | Type | Description |
 
 **Returns:** [*CompactSign*](jws_compact_sign.compactsign.md)
 
-Defined in: [jws/compact/sign.ts:58](https://github.com/panva/jose/blob/v3.11.2/src/jws/compact/sign.ts#L58)
+Defined in: [jws/compact/sign.ts:45](https://github.com/panva/jose/blob/main/src/jws/compact/sign.ts#L45)
 
 ___
 
@@ -100,4 +87,4 @@ Name | Type | Description |
 
 **Returns:** *Promise*<string\>
 
-Defined in: [jws/compact/sign.ts:69](https://github.com/panva/jose/blob/v3.11.2/src/jws/compact/sign.ts#L69)
+Defined in: [jws/compact/sign.ts:56](https://github.com/panva/jose/blob/main/src/jws/compact/sign.ts#L56)

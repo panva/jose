@@ -8,21 +8,18 @@ Generates a private and a public key for a given JWA algorithm identifier.
 This can only generate asymmetric key pairs. For symmetric secrets use the
 `generateSecret` function.
 
-**`example`** 
+**`example`** ESM import
 ```js
-// ESM import
 import { generateKeyPair } from 'jose/util/generate_key_pair'
 ```
 
-**`example`** 
+**`example`** CJS import
 ```js
-// CJS import
 const { generateKeyPair } = require('jose/util/generate_key_pair')
 ```
 
-**`example`** 
+**`example`** Usage
 ```js
-// usage
 const { publicKey, privateKey } = await generateKeyPair('PS256')
 console.log(publicKey)
 console.log(privateKey)
@@ -37,4 +34,4 @@ Name | Type | Description |
 
 **Returns:** *Promise*<{ `privateKey`: [*KeyLike*](../types/types.keylike.md) ; `publicKey`: [*KeyLike*](../types/types.keylike.md)  }\>
 
-Defined in: [util/generate_key_pair.ts:47](https://github.com/panva/jose/blob/v3.11.2/src/util/generate_key_pair.ts#L47)
+Defined in: [util/generate_key_pair.ts:44](https://github.com/panva/jose/blob/main/src/util/generate_key_pair.ts#L44)

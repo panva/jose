@@ -17,7 +17,7 @@
 
 JWT Claims Set.
 
-Defined in: [types.d.ts:628](https://github.com/panva/jose/blob/v3.11.2/src/types.d.ts#L628)
+Defined in: [types.d.ts:674](https://github.com/panva/jose/blob/main/src/types.d.ts#L674)
 
 ___
 
@@ -27,4 +27,4 @@ ___
 
 JWE Protected Header.
 
-Defined in: [types.d.ts:633](https://github.com/panva/jose/blob/v3.11.2/src/types.d.ts#L633)
+Defined in: [types.d.ts:679](https://github.com/panva/jose/blob/main/src/types.d.ts#L679)

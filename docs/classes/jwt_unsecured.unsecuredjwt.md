@@ -4,22 +4,18 @@
 
 The UnsecuredJWT class is a utility for dealing with `{ "alg": "none" }` Unsecured JWTs.
 
-**`example`** 
+**`example`** ESM import
 ```js
-// ESM import
 import { UnsecuredJWT } from 'jose/jwt/unsecured'
 ```
 
-**`example`** 
+**`example`** CJS import
 ```js
-// CJS import
 const { UnsecuredJWT } = require('jose/jwt/unsecured')
 ```
 
-**`example`** 
-```js
-// encoding
-
+**`example`** Encoding
+```js *
 const unsecuredJwt = new UnsecuredJWT({ 'urn:example:claim': true })
   .setIssuedAt()
   .setIssuer('urn:example:issuer')
@@ -30,10 +26,8 @@ const unsecuredJwt = new UnsecuredJWT({ 'urn:example:claim': true })
 console.log(unsecuredJwt)
 ```
 
-**`example`** 
-```js
-// decoding
-
+**`example`** Decoding
+```js *
 const payload = new UnsecuredJWT.decode(jwt, {
   issuer: 'urn:example:issuer',
   audience: 'urn:example:audience'
@@ -82,7 +76,7 @@ Name | Type | Description |
 
 Inherited from: void
 
-Defined in: [lib/jwt_producer.ts:10](https://github.com/panva/jose/blob/v3.11.2/src/lib/jwt_producer.ts#L10)
+Defined in: [lib/jwt_producer.ts:10](https://github.com/panva/jose/blob/main/src/lib/jwt_producer.ts#L10)
 
 ## Methods
 
@@ -94,7 +88,7 @@ Encodes the Unsecured JWT.
 
 **Returns:** *string*
 
-Defined in: [jwt/unsecured.ts:55](https://github.com/panva/jose/blob/v3.11.2/src/jwt/unsecured.ts#L55)
+Defined in: [jwt/unsecured.ts:49](https://github.com/panva/jose/blob/main/src/jwt/unsecured.ts#L49)
 
 ___
 
@@ -114,7 +108,7 @@ Name | Type | Description |
 
 Inherited from: void
 
-Defined in: [lib/jwt_producer.ts:47](https://github.com/panva/jose/blob/v3.11.2/src/lib/jwt_producer.ts#L47)
+Defined in: [lib/jwt_producer.ts:47](https://github.com/panva/jose/blob/main/src/lib/jwt_producer.ts#L47)
 
 ___
 
@@ -134,7 +128,7 @@ Name | Type | Description |
 
 Inherited from: void
 
-Defined in: [lib/jwt_producer.ts:85](https://github.com/panva/jose/blob/v3.11.2/src/lib/jwt_producer.ts#L85)
+Defined in: [lib/jwt_producer.ts:85](https://github.com/panva/jose/blob/main/src/lib/jwt_producer.ts#L85)
 
 ___
 
@@ -154,7 +148,7 @@ Name | Type | Description |
 
 Inherited from: void
 
-Defined in: [lib/jwt_producer.ts:100](https://github.com/panva/jose/blob/v3.11.2/src/lib/jwt_producer.ts#L100)
+Defined in: [lib/jwt_producer.ts:100](https://github.com/panva/jose/blob/main/src/lib/jwt_producer.ts#L100)
 
 ___
 
@@ -174,7 +168,7 @@ Name | Type | Description |
 
 Inherited from: void
 
-Defined in: [lib/jwt_producer.ts:27](https://github.com/panva/jose/blob/v3.11.2/src/lib/jwt_producer.ts#L27)
+Defined in: [lib/jwt_producer.ts:27](https://github.com/panva/jose/blob/main/src/lib/jwt_producer.ts#L27)
 
 ___
 
@@ -194,7 +188,7 @@ Name | Type | Description |
 
 Inherited from: void
 
-Defined in: [lib/jwt_producer.ts:57](https://github.com/panva/jose/blob/v3.11.2/src/lib/jwt_producer.ts#L57)
+Defined in: [lib/jwt_producer.ts:57](https://github.com/panva/jose/blob/main/src/lib/jwt_producer.ts#L57)
 
 ___
 
@@ -214,7 +208,7 @@ Name | Type | Description |
 
 Inherited from: void
 
-Defined in: [lib/jwt_producer.ts:69](https://github.com/panva/jose/blob/v3.11.2/src/lib/jwt_producer.ts#L69)
+Defined in: [lib/jwt_producer.ts:69](https://github.com/panva/jose/blob/main/src/lib/jwt_producer.ts#L69)
 
 ___
 
@@ -234,7 +228,7 @@ Name | Type | Description |
 
 Inherited from: void
 
-Defined in: [lib/jwt_producer.ts:37](https://github.com/panva/jose/blob/v3.11.2/src/lib/jwt_producer.ts#L37)
+Defined in: [lib/jwt_producer.ts:37](https://github.com/panva/jose/blob/main/src/lib/jwt_producer.ts#L37)
 
 ___
 
@@ -243,15 +237,6 @@ ___
 ▸ `Static`**decode**(`jwt`: *string*, `options?`: [*JWTClaimVerificationOptions*](../interfaces/types.jwtclaimverificationoptions.md)): *object*
 
 Decodes an unsecured JWT.
-
-**`example`** 
-```
-// decoding
-const { payload, header } = UnsecuredJWT.decode(unsecuredJwt)
-
-console.log(header)
-console.log(payload)
-```
 
 #### Parameters:
 
@@ -267,4 +252,4 @@ Name | Type |
 `header` | [*JWSHeaderParameters*](../interfaces/types.jwsheaderparameters.md) |
 `payload` | [*JWTPayload*](../interfaces/types.jwtpayload.md) |
 
-Defined in: [jwt/unsecured.ts:77](https://github.com/panva/jose/blob/v3.11.2/src/jwt/unsecured.ts#L77)
+Defined in: [jwt/unsecured.ts:62](https://github.com/panva/jose/blob/main/src/jwt/unsecured.ts#L62)

@@ -21,7 +21,7 @@ Recognized JWE Key Management-related Header Parameters.
 
 • `Optional` **apu**: *Uint8Array*
 
-Defined in: [types.d.ts:249](https://github.com/panva/jose/blob/v3.11.2/src/types.d.ts#L249)
+Defined in: [types.d.ts:295](https://github.com/panva/jose/blob/main/src/types.d.ts#L295)
 
 ___
 
@@ -29,7 +29,7 @@ ___
 
 • `Optional` **apv**: *Uint8Array*
 
-Defined in: [types.d.ts:250](https://github.com/panva/jose/blob/v3.11.2/src/types.d.ts#L250)
+Defined in: [types.d.ts:296](https://github.com/panva/jose/blob/main/src/types.d.ts#L296)
 
 ___
 
@@ -37,7 +37,7 @@ ___
 
 • `Optional` **epk**: [*KeyLike*](../types/types.keylike.md)
 
-Defined in: [types.d.ts:251](https://github.com/panva/jose/blob/v3.11.2/src/types.d.ts#L251)
+Defined in: [types.d.ts:297](https://github.com/panva/jose/blob/main/src/types.d.ts#L297)
 
 ___
 
@@ -45,7 +45,7 @@ ___
 
 • `Optional` **iv**: *Uint8Array*
 
-Defined in: [types.d.ts:252](https://github.com/panva/jose/blob/v3.11.2/src/types.d.ts#L252)
+Defined in: [types.d.ts:298](https://github.com/panva/jose/blob/main/src/types.d.ts#L298)
 
 ___
 
@@ -53,7 +53,7 @@ ___
 
 • `Optional` **p2c**: *number*
 
-Defined in: [types.d.ts:253](https://github.com/panva/jose/blob/v3.11.2/src/types.d.ts#L253)
+Defined in: [types.d.ts:299](https://github.com/panva/jose/blob/main/src/types.d.ts#L299)
 
 ___
 
@@ -61,4 +61,4 @@ ___
 
 • `Optional` **p2s**: *Uint8Array*
 
-Defined in: [types.d.ts:254](https://github.com/panva/jose/blob/v3.11.2/src/types.d.ts#L254)
+Defined in: [types.d.ts:300](https://github.com/panva/jose/blob/main/src/types.d.ts#L300)

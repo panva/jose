@@ -4,30 +4,19 @@
 
 The CompactEncrypt class is a utility for creating Compact JWE strings.
 
-**`example`** 
+**`example`** ESM import
 ```js
-// ESM import
 import { CompactEncrypt } from 'jose/jwe/compact/encrypt'
 ```
 
-**`example`** 
+**`example`** CJS import
 ```js
-// CJS import
 const { CompactEncrypt } = require('jose/jwe/compact/encrypt')
 ```
 
-**`example`** 
+**`example`** Usage
 ```js
-// usage
-import { parseJwk } from 'jose/jwk/parse'
-
 const encoder = new TextEncoder()
-
-const publicKey = await parseJwk({
-  e: 'AQAB',
-  n: 'qpzYkTGRKSUcd12hZaJnYEKVLfdEsqu6HBAxZgRSvzLFj_zTSAEXjbf3fX47MPEHRw8NDcEXPjVOz84t4FTXYF2w2_LGWfp_myjV8pR6oUUncJjS7DhnUmTG5bpuK2HFXRMRJYz_iNR48xRJPMoY84jrnhdIFx8Tqv6w4ZHVyEvcvloPgwG3UjLidP6jmqbTiJtidVLnpQJRuFNFQJiluQXBZ1nOLC7raQshu7L9y0IatVU7vf0BPnmuSkcNNvmQkSta6ODQBPaL5-o5SW8H37vQjPDkrlJpreViNa3jqP5DB5HYUO-DMh4FegRv9gZWLDEvXpSd9A13YXCa9Q8K_w',
-  kty: 'RSA'
-}, 'RSA-OAEP-256')
 
 const jwe = await new CompactEncrypt(encoder.encode('It’s a dangerous business, Frodo, going out your door.'))
   .setProtectedHeader({ alg: 'RSA-OAEP-256', enc: 'A256GCM' })
@@ -64,7 +53,7 @@ Name | Type | Description |
 
 **Returns:** [*CompactEncrypt*](jwe_compact_encrypt.compactencrypt.md)
 
-Defined in: [jwe/compact/encrypt.ts:45](https://github.com/panva/jose/blob/v3.11.2/src/jwe/compact/encrypt.ts#L45)
+Defined in: [jwe/compact/encrypt.ts:34](https://github.com/panva/jose/blob/main/src/jwe/compact/encrypt.ts#L34)
 
 ## Methods
 
@@ -83,7 +72,7 @@ Name | Type | Description |
 
 **Returns:** *Promise*<string\>
 
-Defined in: [jwe/compact/encrypt.ts:108](https://github.com/panva/jose/blob/v3.11.2/src/jwe/compact/encrypt.ts#L108)
+Defined in: [jwe/compact/encrypt.ts:97](https://github.com/panva/jose/blob/main/src/jwe/compact/encrypt.ts#L97)
 
 ___
 
@@ -104,7 +93,7 @@ Name | Type | Description |
 
 **Returns:** [*CompactEncrypt*](jwe_compact_encrypt.compactencrypt.md)
 
-Defined in: [jwe/compact/encrypt.ts:62](https://github.com/panva/jose/blob/v3.11.2/src/jwe/compact/encrypt.ts#L62)
+Defined in: [jwe/compact/encrypt.ts:51](https://github.com/panva/jose/blob/main/src/jwe/compact/encrypt.ts#L51)
 
 ___
 
@@ -125,7 +114,7 @@ Name | Type | Description |
 
 **Returns:** [*CompactEncrypt*](jwe_compact_encrypt.compactencrypt.md)
 
-Defined in: [jwe/compact/encrypt.ts:75](https://github.com/panva/jose/blob/v3.11.2/src/jwe/compact/encrypt.ts#L75)
+Defined in: [jwe/compact/encrypt.ts:64](https://github.com/panva/jose/blob/main/src/jwe/compact/encrypt.ts#L64)
 
 ___
 
@@ -145,7 +134,7 @@ Name | Type | Description |
 
 **Returns:** [*CompactEncrypt*](jwe_compact_encrypt.compactencrypt.md)
 
-Defined in: [jwe/compact/encrypt.ts:97](https://github.com/panva/jose/blob/v3.11.2/src/jwe/compact/encrypt.ts#L97)
+Defined in: [jwe/compact/encrypt.ts:86](https://github.com/panva/jose/blob/main/src/jwe/compact/encrypt.ts#L86)
 
 ___
 
@@ -163,4 +152,4 @@ Name | Type | Description |
 
 **Returns:** [*CompactEncrypt*](jwe_compact_encrypt.compactencrypt.md)
 
-Defined in: [jwe/compact/encrypt.ts:85](https://github.com/panva/jose/blob/v3.11.2/src/jwe/compact/encrypt.ts#L85)
+Defined in: [jwe/compact/encrypt.ts:74](https://github.com/panva/jose/blob/main/src/jwe/compact/encrypt.ts#L74)

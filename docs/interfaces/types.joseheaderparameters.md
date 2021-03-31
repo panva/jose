@@ -30,7 +30,7 @@
 
 "cty" (Content Type) Header Parameter.
 
-Defined in: [types.d.ts:214](https://github.com/panva/jose/blob/v3.11.2/src/types.d.ts#L214)
+Defined in: [types.d.ts:260](https://github.com/panva/jose/blob/main/src/types.d.ts#L260)
 
 ___
 
@@ -40,7 +40,7 @@ ___
 
 "jwk" (JSON Web Key) Header Parameter.
 
-Defined in: [types.d.ts:204](https://github.com/panva/jose/blob/v3.11.2/src/types.d.ts#L204)
+Defined in: [types.d.ts:250](https://github.com/panva/jose/blob/main/src/types.d.ts#L250)
 
 ___
 
@@ -50,7 +50,7 @@ ___
 
 "kid" (Key ID) Header Parameter.
 
-Defined in: [types.d.ts:184](https://github.com/panva/jose/blob/v3.11.2/src/types.d.ts#L184)
+Defined in: [types.d.ts:230](https://github.com/panva/jose/blob/main/src/types.d.ts#L230)
 
 ___
 
@@ -60,7 +60,7 @@ ___
 
 "typ" (Type) Header Parameter.
 
-Defined in: [types.d.ts:209](https://github.com/panva/jose/blob/v3.11.2/src/types.d.ts#L209)
+Defined in: [types.d.ts:255](https://github.com/panva/jose/blob/main/src/types.d.ts#L255)
 
 ___
 
@@ -70,7 +70,7 @@ ___
 
 "x5c" (X.509 Certificate Chain) Header Parameter.
 
-Defined in: [types.d.ts:194](https://github.com/panva/jose/blob/v3.11.2/src/types.d.ts#L194)
+Defined in: [types.d.ts:240](https://github.com/panva/jose/blob/main/src/types.d.ts#L240)
 
 ___
 
@@ -80,7 +80,7 @@ ___
 
 "x5t" (X.509 Certificate SHA-1 Thumbprint) Header Parameter.
 
-Defined in: [types.d.ts:189](https://github.com/panva/jose/blob/v3.11.2/src/types.d.ts#L189)
+Defined in: [types.d.ts:235](https://github.com/panva/jose/blob/main/src/types.d.ts#L235)
 
 ___
 
@@ -90,4 +90,4 @@ ___
 
 "x5u" (X.509 URL) Header Parameter.
 
-Defined in: [types.d.ts:199](https://github.com/panva/jose/blob/v3.11.2/src/types.d.ts#L199)
+Defined in: [types.d.ts:245](https://github.com/panva/jose/blob/main/src/types.d.ts#L245)

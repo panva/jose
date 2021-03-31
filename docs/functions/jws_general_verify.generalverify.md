@@ -6,23 +6,18 @@
 
 Verifies the signature and format of and afterwards decodes the General JWS.
 
-**`example`** 
+**`example`** ESM import
 ```js
-// ESM import
 import { generalVerify } from 'jose/jws/general/verify'
 ```
 
-**`example`** 
+**`example`** CJS import
 ```js
-// CJS import
 const { generalVerify } = require('jose/jws/general/verify')
 ```
 
-**`example`** 
+**`example`** Usage
 ```js
-// usage
-import { parseJwk } from 'jose/jwk/parse'
-
 const decoder = new TextDecoder()
 const jws = {
   payload: 'SXTigJlzIGEgZGFuZ2Vyb3VzIGJ1c2luZXNzLCBGcm9kbywgZ29pbmcgb3V0IHlvdXIgZG9vci4',
@@ -33,13 +28,6 @@ const jws = {
     }
   ]
 }
-const publicKey = await parseJwk({
-  alg: 'ES256',
-  crv: 'P-256',
-  kty: 'EC',
-  x: 'ySK38C1jBdLwDsNWKzzBHqKYEE5Cgv-qjWvorUXk9fw',
-  y: '_LeQBw07cf5t57Iavn4j-BqJsAD1dpoz8gokd3sBsOo'
-})
 
 const { payload, protectedHeader } = await generalVerify(jws, publicKey)
 
@@ -57,4 +45,4 @@ Name | Type | Description |
 
 **Returns:** *Promise*<[*GeneralVerifyResult*](../interfaces/types.generalverifyresult.md)\>
 
-Defined in: [jws/general/verify.ts:69](https://github.com/panva/jose/blob/v3.11.2/src/jws/general/verify.ts#L69)
+Defined in: [jws/general/verify.ts:57](https://github.com/panva/jose/blob/main/src/jws/general/verify.ts#L57)

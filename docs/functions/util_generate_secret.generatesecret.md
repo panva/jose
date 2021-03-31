@@ -6,21 +6,18 @@
 
 Generates a symmetric secret key for a given JWA algorithm identifier.
 
-**`example`** 
+**`example`** ESM import
 ```js
-// ESM import
 import { generateSecret } from 'jose/util/generate_secret'
 ```
 
-**`example`** 
+**`example`** CJS import
 ```js
-// CJS import
 const { generateSecret } = require('jose/util/generate_secret')
 ```
 
-**`example`** 
+**`example`** Usage
 ```js
-// usage
 const secret = await generateSecret('HS256')
 console.log(secret)
 ```
@@ -33,4 +30,4 @@ Name | Type | Description |
 
 **Returns:** *Promise*<[*KeyLike*](../types/types.keylike.md)\>
 
-Defined in: [util/generate_secret.ts:28](https://github.com/panva/jose/blob/v3.11.2/src/util/generate_secret.ts#L28)
+Defined in: [util/generate_secret.ts:25](https://github.com/panva/jose/blob/main/src/util/generate_secret.ts#L25)

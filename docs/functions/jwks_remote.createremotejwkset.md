@@ -9,21 +9,18 @@ remote endpoint returning a JSON Web Key Set, that is, for example,
 an OAuth 2.0 or OIDC jwks_uri. Only a single public key must match
 the selection process.
 
-**`example`** 
+**`example`** ESM import
 ```js
-// ESM import
 import { createRemoteJWKSet } from 'jose/jwks/remote'
 ```
 
-**`example`** 
+**`example`** CJS import
 ```js
-// CJS import
 const { createRemoteJWKSet } = require('jose/jwks/remote')
 ```
 
-**`example`** 
+**`example`** Usage
 ```js
-// usage
 import { jwtVerify } from 'jose/jwt/verify'
 
 const JWKS = createRemoteJWKSet(new URL('https://www.googleapis.com/oauth2/v3/certs'))
@@ -45,4 +42,4 @@ Name | Type | Description |
 
 **Returns:** [*GetKeyFunction*](../interfaces/types.getkeyfunction.md)<[*JWSHeaderParameters*](../interfaces/types.jwsheaderparameters.md), [*FlattenedJWSInput*](../interfaces/types.flattenedjwsinput.md)\>
 
-Defined in: [jwks/remote.ts:250](https://github.com/panva/jose/blob/v3.11.2/src/jwks/remote.ts#L250)
+Defined in: [jwks/remote.ts:247](https://github.com/panva/jose/blob/main/src/jwks/remote.ts#L247)

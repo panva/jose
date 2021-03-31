@@ -9,29 +9,24 @@ JWK "alg" (Algorithm) Parameter must be present or the optional "alg" argument. 
 running on a platform using [Web Cryptography API](https://www.w3.org/TR/WebCryptoAPI/)
 the jwk parameters "use", "key_ops", and "ext" are also used in the resulting `CryptoKey`.
 
-**`example`** 
+**`example`** ESM import
 ```js
-// ESM import
 import { parseJwk } from 'jose/jwk/parse'
 ```
 
-**`example`** 
+**`example`** CJS import
 ```js
-// CJS import
 const { parseJwk } = require('jose/jwk/parse')
 ```
 
-**`example`** 
+**`example`** Usage
 ```js
-// usage
-const ecPrivateKey = await parseJwk({
-  alg: 'ES256',
+const ecPublicKey = await parseJwk({
   crv: 'P-256',
   kty: 'EC',
-  d: 'VhsfgSRKcvHCGpLyygMbO_YpXc7bVKwi12KQTE4yOR4',
   x: 'ySK38C1jBdLwDsNWKzzBHqKYEE5Cgv-qjWvorUXk9fw',
   y: '_LeQBw07cf5t57Iavn4j-BqJsAD1dpoz8gokd3sBsOo'
-})
+}, 'ES256')
 
 const rsaPublicKey = await parseJwk({
   kty: 'RSA',
@@ -50,4 +45,4 @@ Name | Type | Description |
 
 **Returns:** *Promise*<[*KeyLike*](../types/types.keylike.md)\>
 
-Defined in: [jwk/parse.ts:50](https://github.com/panva/jose/blob/v3.11.2/src/jwk/parse.ts#L50)
+Defined in: [jwk/parse.ts:45](https://github.com/panva/jose/blob/main/src/jwk/parse.ts#L45)

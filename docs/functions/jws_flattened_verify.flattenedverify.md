@@ -6,36 +6,24 @@
 
 Verifies the signature and format of and afterwards decodes the Flattened JWS.
 
-**`example`** 
+**`example`** ESM import
 ```js
-// ESM import
 import { flattenedVerify } from 'jose/jws/flattened/verify'
 ```
 
-**`example`** 
+**`example`** CJS import
 ```js
-// CJS import
 const { flattenedVerify } = require('jose/jws/flattened/verify')
 ```
 
-**`example`** 
+**`example`** Usage
 ```js
-// usage
-import { parseJwk } from 'jose/jwk/parse'
-
 const decoder = new TextDecoder()
 const jws = {
   signature: 'FVVOXwj6kD3DqdfD9yYqfT2W9jv-Nop4kOehp_DeDGNB5dQNSPRvntBY6xH3uxlCxE8na9d_kyhYOcanpDJ0EA',
   payload: 'SXTigJlzIGEgZGFuZ2Vyb3VzIGJ1c2luZXNzLCBGcm9kbywgZ29pbmcgb3V0IHlvdXIgZG9vci4',
   protected: 'eyJhbGciOiJFUzI1NiJ9'
 }
-const publicKey = await parseJwk({
-  alg: 'ES256',
-  crv: 'P-256',
-  kty: 'EC',
-  x: 'ySK38C1jBdLwDsNWKzzBHqKYEE5Cgv-qjWvorUXk9fw',
-  y: '_LeQBw07cf5t57Iavn4j-BqJsAD1dpoz8gokd3sBsOo'
-})
 
 const { payload, protectedHeader } = await flattenedVerify(jws, publicKey)
 
@@ -53,4 +41,4 @@ Name | Type | Description |
 
 **Returns:** *Promise*<[*FlattenedVerifyResult*](../interfaces/types.flattenedverifyresult.md)\>
 
-Defined in: [jws/flattened/verify.ts:75](https://github.com/panva/jose/blob/v3.11.2/src/jws/flattened/verify.ts#L75)
+Defined in: [jws/flattened/verify.ts:63](https://github.com/panva/jose/blob/main/src/jws/flattened/verify.ts#L63)
