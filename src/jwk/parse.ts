@@ -28,14 +28,12 @@ import type { JWK, KeyLike } from '../types.d'
  *
  * @example Usage
  * ```js
- * const ecPrivateKey = await parseJwk({
- *   alg: 'ES256',
+ * const ecPublicKey = await parseJwk({
  *   crv: 'P-256',
  *   kty: 'EC',
- *   d: 'VhsfgSRKcvHCGpLyygMbO_YpXc7bVKwi12KQTE4yOR4',
  *   x: 'ySK38C1jBdLwDsNWKzzBHqKYEE5Cgv-qjWvorUXk9fw',
  *   y: '_LeQBw07cf5t57Iavn4j-BqJsAD1dpoz8gokd3sBsOo'
- * })
+ * }, 'ES256')
  *
  * const rsaPublicKey = await parseJwk({
  *   kty: 'RSA',
