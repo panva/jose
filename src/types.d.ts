@@ -102,8 +102,9 @@ export interface GetKeyFunction<T, T2> {
  *
  * [Uint8Array](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Uint8Array)
  * is used exclusively for symmetric secret representations, a CryptoKey or KeyObject is
- * preferred, but in Web Crypto API this isn't an option for some algorithms. In Node.js runtime
- * [Buffer](https://nodejs.org/api/buffer.html#buffer_buffer)s are instances of Uint8Array.
+ * preferred, but in Web Crypto API this isn't an option for some algorithms.
+ * In Node.js the [Buffer](https://nodejs.org/api/buffer.html#buffer_buffer) class is a subclass of Uint8Array
+ * class. `jose` APIs accept plain Buffers wherever Uint8Array are supported as well.
  *
  * @example (node) Public KeyObject from a PEM public key
  * ```js
