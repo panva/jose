@@ -25,21 +25,18 @@ const checkExtensions = validateCrit.bind(undefined, JWEInvalid, new Map())
  * The FlattenedEncrypt class is a utility for creating Flattened JWE
  * objects.
  *
- * @example
+ * @example ESM import
  * ```js
- * // ESM import
  * import { FlattenedEncrypt } from 'jose/jwe/flattened/encrypt'
  * ```
  *
- * @example
+ * @example CJS import
  * ```js
- * // CJS import
  * const { FlattenedEncrypt } = require('jose/jwe/flattened/encrypt')
  * ```
  *
- * @example
+ * @example Usage
  * ```js
- * // usage
  * import { parseJwk } from 'jose/jwk/parse'
  *
  * const encoder = new TextEncoder()

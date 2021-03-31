@@ -14,21 +14,18 @@ import ProduceJWT from '../lib/jwt_producer.js'
 /**
  * The EncryptJWT class is a utility for creating Compact JWE formatted JWT strings.
  *
- * @example
+ * @example ESM import
  * ```js
- * // ESM import
  * import { EncryptJWT } from 'jose/jwt/encrypt'
  * ```
  *
- * @example
+ * @example CJS import
  * ```js
- * // CJS import
  * const { EncryptJWT } = require('jose/jwt/encrypt')
  * ```
  *
- * @example
+ * @example Usage
  * ```js
- * // usage
  * const secretKey = Uint8Array.from([
  *   206, 203, 53, 165, 235, 214, 153, 188,
  *   248, 225,  1, 132, 105, 204,  75,  42,

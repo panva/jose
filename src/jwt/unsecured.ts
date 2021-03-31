@@ -10,22 +10,18 @@ import ProduceJWT from '../lib/jwt_producer.js'
 /**
  * The UnsecuredJWT class is a utility for dealing with `{ "alg": "none" }` Unsecured JWTs.
  *
- * @example
+ * @example ESM import
  * ```js
- * // ESM import
  * import { UnsecuredJWT } from 'jose/jwt/unsecured'
  * ```
  *
- * @example
+ * @example CJS import
  * ```js
- * // CJS import
  * const { UnsecuredJWT } = require('jose/jwt/unsecured')
  * ```
  *
- * @example
- * ```js
- * // encoding
- *
+ * @example Encoding
+ * ```js *
  * const unsecuredJwt = new UnsecuredJWT({ 'urn:example:claim': true })
  *   .setIssuedAt()
  *   .setIssuer('urn:example:issuer')
@@ -36,10 +32,8 @@ import ProduceJWT from '../lib/jwt_producer.js'
  * console.log(unsecuredJwt)
  * ```
  *
- * @example
- * ```js
- * // decoding
- *
+ * @example Decoding
+ * ```js *
  * const payload = new UnsecuredJWT.decode(jwt, {
  *   issuer: 'urn:example:issuer',
  *   audience: 'urn:example:audience'
@@ -64,15 +58,6 @@ class UnsecuredJWT extends ProduceJWT {
    *
    * @param jwt Unsecured JWT to decode the payload of.
    * @param options JWT Claims Set validation options.
-   *
-   * @example
-   * ```
-   * // decoding
-   * const { payload, header } = UnsecuredJWT.decode(unsecuredJwt)
-   *
-   * console.log(header)
-   * console.log(payload)
-   * ```
    */
   static decode(
     jwt: string,

@@ -217,21 +217,18 @@ class RemoteJWKSet {
  * an OAuth 2.0 or OIDC jwks_uri. Only a single public key must match
  * the selection process.
  *
- * @example
+ * @example ESM import
  * ```js
- * // ESM import
  * import { createRemoteJWKSet } from 'jose/jwks/remote'
  * ```
  *
- * @example
+ * @example CJS import
  * ```js
- * // CJS import
  * const { createRemoteJWKSet } = require('jose/jwks/remote')
  * ```
  *
- * @example
+ * @example Usage
  * ```js
- * // usage
  * import { jwtVerify } from 'jose/jwt/verify'
  *
  * const JWKS = createRemoteJWKSet(new URL('https://www.googleapis.com/oauth2/v3/certs'))

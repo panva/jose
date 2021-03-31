@@ -20,21 +20,18 @@ const check = (value: unknown, description: string) => {
  * @param digestAlgorithm Digest Algorithm to use for calculating the thumbprint.
  * Default is sha256. Accepted is "sha256", "sha384", "sha512".
  *
- * @example
+ * @example ESM import
  * ```js
- * // ESM import
  * import { calculateThumbprint } from 'jose/jwk/thumbprint'
  * ```
  *
- * @example
+ * @example CJS import
  * ```js
- * // CJS import
  * const { calculateThumbprint } = require('jose/jwk/thumbprint')
  * ```
  *
- * @example
+ * @example Usage
  * ```js
- * // usage
  * const thumbprint = await calculateThumbprint({
  *   kty: 'RSA',
  *   e: 'AQAB',

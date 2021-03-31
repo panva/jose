@@ -21,21 +21,18 @@ export interface GenerateKeyPairOptions {
  * This can only generate asymmetric key pairs. For symmetric secrets use the
  * `generateSecret` function.
  *
- * @example
+ * @example ESM import
  * ```js
- * // ESM import
  * import { generateKeyPair } from 'jose/util/generate_key_pair'
  * ```
  *
- * @example
+ * @example CJS import
  * ```js
- * // CJS import
  * const { generateKeyPair } = require('jose/util/generate_key_pair')
  * ```
  *
- * @example
+ * @example Usage
  * ```js
- * // usage
  * const { publicKey, privateKey } = await generateKeyPair('PS256')
  * console.log(publicKey)
  * console.log(privateKey)

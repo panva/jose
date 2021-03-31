@@ -10,21 +10,18 @@ export type ProtectedHeaderParameters = JWSHeaderParameters & JWEHeaderParameter
 /**
  * Decodes the Protected Header of a JWE/JWS/JWT token utilizing any JOSE serialization.
  *
- * @example
+ * @example ESM import
  * ```js
- * // ESM import
  * import { decodeProtectedHeader } from 'jose/util/decode_protected_header'
  * ```
  *
- * @example
+ * @example CJS import
  * ```js
- * // CJS import
  * const { decodeProtectedHeader } = require('jose/util/decode_protected_header')
  * ```
  *
- * @example
+ * @example Usage
  * ```js
- * // usage
  * const protectedHeader = decodeProtectedHeader(token)
  * console.log(protectedHeader)
  * ```

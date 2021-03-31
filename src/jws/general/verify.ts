@@ -25,21 +25,18 @@ export interface GeneralVerifyGetKey
  * @param key Key, or a function resolving a key, to verify the JWS with.
  * @param options JWS Verify options.
  *
- * @example
+ * @example ESM import
  * ```js
- * // ESM import
  * import { generalVerify } from 'jose/jws/general/verify'
  * ```
  *
- * @example
+ * @example CJS import
  * ```js
- * // CJS import
  * const { generalVerify } = require('jose/jws/general/verify')
  * ```
  *
- * @example
+ * @example Usage
  * ```js
- * // usage
  * import { parseJwk } from 'jose/jwk/parse'
  *
  * const decoder = new TextDecoder()

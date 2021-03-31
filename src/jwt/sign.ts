@@ -9,21 +9,18 @@ import ProduceJWT from '../lib/jwt_producer.js'
 /**
  * The SignJWT class is a utility for creating Compact JWS formatted JWT strings.
  *
- * @example
+ * @example ESM import
  * ```js
- * // ESM import
  * import { SignJWT } from 'jose/jwt/sign'
  * ```
  *
- * @example
+ * @example CJS import
  * ```js
- * // CJS import
  * const { SignJWT } = require('jose/jwt/sign')
  * ```
  *
- * @example
+ * @example Usage
  * ```js
- * // usage
  * import { parseJwk } from 'jose/jwk/parse'
  *
  * const privateKey = await parseJwk({

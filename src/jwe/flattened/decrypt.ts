@@ -40,21 +40,18 @@ export interface FlattenedDecryptGetKey
  * @param key Public Key or Secret, or a function resolving one, to decrypt the JWE with.
  * @param options JWE Decryption options.
  *
- * @example
+ * @example ESM import
  * ```js
- * // ESM import
  * import { flattenedDecrypt } from 'jose/jwe/flattened/decrypt'
  * ```
  *
- * @example
+ * @example CJS import
  * ```js
- * // CJS import
  * const { flattenedDecrypt } = require('jose/jwe/flattened/decrypt')
  * ```
  *
- * @example
+ * @example Usage
  * ```js
- * // usage
  * import { parseJwk } from 'jose/jwk/parse'
  *
  * const decoder = new TextDecoder()

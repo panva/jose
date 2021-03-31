@@ -4,21 +4,18 @@ import type { KeyLike } from '../types.d'
 /**
  * Generates a symmetric secret key for a given JWA algorithm identifier.
  *
- * @example
+ * @example ESM import
  * ```js
- * // ESM import
  * import { generateSecret } from 'jose/util/generate_secret'
  * ```
  *
- * @example
+ * @example CJS import
  * ```js
- * // CJS import
  * const { generateSecret } = require('jose/util/generate_secret')
  * ```
  *
- * @example
+ * @example Usage
  * ```js
- * // usage
  * const secret = await generateSecret('HS256')
  * console.log(secret)
  * ```

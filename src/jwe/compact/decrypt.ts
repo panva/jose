@@ -23,21 +23,18 @@ export interface CompactDecryptGetKey extends GetKeyFunction<JWEHeaderParameters
  * @param key Private Key or Secret, or a function resolving one, to decrypt the JWE with.
  * @param options JWE Decryption options.
  *
- * @example
+ * @example ESM import
  * ```js
- * // ESM import
  * import { compactDecrypt } from 'jose/jwe/compact/decrypt'
  * ```
  *
- * @example
+ * @example CJS import
  * ```js
- * // CJS import
  * const { compactDecrypt } = require('jose/jwe/compact/decrypt')
  * ```
  *
- * @example
+ * @example Usage
  * ```js
- * // usage
  * import { parseJwk } from 'jose/jwk/parse'
  *
  * const decoder = new TextDecoder()

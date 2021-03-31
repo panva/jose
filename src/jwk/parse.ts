@@ -16,21 +16,18 @@ import type { JWK, KeyLike } from '../types.d'
  * @param octAsKeyObject Forces a symmetric key to be converted to a KeyObject or
  * CryptoKey. Default is true unless JWK "ext" (Extractable) is true.
  *
- * @example
+ * @example ESM import
  * ```js
- * // ESM import
  * import { parseJwk } from 'jose/jwk/parse'
  * ```
  *
- * @example
+ * @example CJS import
  * ```js
- * // CJS import
  * const { parseJwk } = require('jose/jwk/parse')
  * ```
  *
- * @example
+ * @example Usage
  * ```js
- * // usage
  * const ecPrivateKey = await parseJwk({
  *   alg: 'ES256',
  *   crv: 'P-256',

@@ -9,21 +9,18 @@ import type {
 /**
  * The CompactEncrypt class is a utility for creating Compact JWE strings.
  *
- * @example
+ * @example ESM import
  * ```js
- * // ESM import
  * import { CompactEncrypt } from 'jose/jwe/compact/encrypt'
  * ```
  *
- * @example
+ * @example CJS import
  * ```js
- * // CJS import
  * const { CompactEncrypt } = require('jose/jwe/compact/encrypt')
  * ```
  *
- * @example
+ * @example Usage
  * ```js
- * // usage
  * import { parseJwk } from 'jose/jwk/parse'
  *
  * const encoder = new TextEncoder()
