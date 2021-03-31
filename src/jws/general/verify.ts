@@ -37,8 +37,6 @@ export interface GeneralVerifyGetKey
  *
  * @example Usage
  * ```js
- * import { parseJwk } from 'jose/jwk/parse'
- *
  * const decoder = new TextDecoder()
  * const jws = {
  *   payload: 'SXTigJlzIGEgZGFuZ2Vyb3VzIGJ1c2luZXNzLCBGcm9kbywgZ29pbmcgb3V0IHlvdXIgZG9vci4',
@@ -49,13 +47,6 @@ export interface GeneralVerifyGetKey
  *     }
  *   ]
  * }
- * const publicKey = await parseJwk({
- *   alg: 'ES256',
- *   crv: 'P-256',
- *   kty: 'EC',
- *   x: 'ySK38C1jBdLwDsNWKzzBHqKYEE5Cgv-qjWvorUXk9fw',
- *   y: '_LeQBw07cf5t57Iavn4j-BqJsAD1dpoz8gokd3sBsOo'
- * })
  *
  * const { payload, protectedHeader } = await generalVerify(jws, publicKey)
  *

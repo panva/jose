@@ -36,17 +36,8 @@ export interface CompactVerifyGetKey
  *
  * @example Usage
  * ```js
- * import { parseJwk } from 'jose/jwk/parse'
- *
  * const decoder = new TextDecoder()
  * const jws = 'eyJhbGciOiJFUzI1NiJ9.SXTigJlzIGEgZGFuZ2Vyb3VzIGJ1c2luZXNzLCBGcm9kbywgZ29pbmcgb3V0IHlvdXIgZG9vci4.kkAs_gPPxWMI3rHuVlxHaTPfDWDoqdI8jSvuSmqV-8IHIWXg9mcAeC9ggV-45ZHRbiRJ3obUIFo1rHphPA5URg'
- * const publicKey = await parseJwk({
- *   alg: 'ES256',
- *   crv: 'P-256',
- *   kty: 'EC',
- *   x: 'ySK38C1jBdLwDsNWKzzBHqKYEE5Cgv-qjWvorUXk9fw',
- *   y: '_LeQBw07cf5t57Iavn4j-BqJsAD1dpoz8gokd3sBsOo'
- * })
  *
  * const { payload, protectedHeader } = await compactVerify(jws, publicKey)
  *

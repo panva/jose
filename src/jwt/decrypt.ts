@@ -43,12 +43,6 @@ export interface JWTDecryptGetKey extends GetKeyFunction<JWEHeaderParameters, Fl
  * @example Usage
  * ```js
  * const jwt = 'eyJhbGciOiJkaXIiLCJlbmMiOiJBMjU2R0NNIn0..KVcNLqK-3-8ZkYIC.xSwF4VxO0kUMUD2W-cifsNUxnr-swyBq-nADBptyt6y9n79-iNc5b0AALJpRwc0wwDkJw8hNOMjApNUTMsK9b-asToZ3DXFMvwfJ6n1aWefvd7RsoZ2LInWFfVAuttJDzoGB.uuexQoWHwrLMEYRElT8pBQ'
- * const secretKey = Uint8Array.from([
- *   206, 203, 53, 165, 235, 214, 153, 188,
- *   248, 225,  1, 132, 105, 204,  75,  42,
- *   186, 185, 24, 223, 136,  66, 116,  59,
- *   183, 155, 52,  52, 101, 167, 201,  85
- * ])
  *
  * const { payload, protectedHeader } = await jwtDecrypt(jwt, secretKey, {
  *   issuer: 'urn:example:issuer',

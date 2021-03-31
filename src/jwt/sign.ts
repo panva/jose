@@ -21,17 +21,6 @@ import ProduceJWT from '../lib/jwt_producer.js'
  *
  * @example Usage
  * ```js
- * import { parseJwk } from 'jose/jwk/parse'
- *
- * const privateKey = await parseJwk({
- *   alg: 'ES256',
- *   crv: 'P-256',
- *   kty: 'EC',
- *   d: 'VhsfgSRKcvHCGpLyygMbO_YpXc7bVKwi12KQTE4yOR4',
- *   x: 'ySK38C1jBdLwDsNWKzzBHqKYEE5Cgv-qjWvorUXk9fw',
- *   y: '_LeQBw07cf5t57Iavn4j-BqJsAD1dpoz8gokd3sBsOo'
- * })
- *
  * const jwt = await new SignJWT({ 'urn:example:claim': true })
  *   .setProtectedHeader({ alg: 'ES256' })
  *   .setIssuedAt()

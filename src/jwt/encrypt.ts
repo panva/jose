@@ -26,12 +26,6 @@ import ProduceJWT from '../lib/jwt_producer.js'
  *
  * @example Usage
  * ```js
- * const secretKey = Uint8Array.from([
- *   206, 203, 53, 165, 235, 214, 153, 188,
- *   248, 225,  1, 132, 105, 204,  75,  42,
- *   186, 185, 24, 223, 136,  66, 116,  59,
- *   183, 155, 52,  52, 101, 167, 201,  85
- * ])
  * const jwt = await new EncryptJWT({ 'urn:example:claim': true })
  *   .setProtectedHeader({ alg: 'dir', enc: 'A256GCM' })
  *   .setIssuedAt()
