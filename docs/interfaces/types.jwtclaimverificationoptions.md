@@ -32,7 +32,7 @@ JWT Claims Set verification options.
 
 Expected JWT "aud" (Audience) Claim value(s).
 
-Defined in: [types.d.ts:475](https://github.com/panva/jose/blob/main/src/types.d.ts#L475)
+Defined in: [types.d.ts:477](https://github.com/panva/jose/blob/v3.11.3/src/types.d.ts#L477)
 
 ___
 
@@ -44,7 +44,7 @@ Expected clock tolerance
 - in seconds when number (e.g. 5)
 - parsed as seconds when a string (e.g. "5 seconds", "10 minutes", "2 hours").
 
-Defined in: [types.d.ts:482](https://github.com/panva/jose/blob/main/src/types.d.ts#L482)
+Defined in: [types.d.ts:484](https://github.com/panva/jose/blob/v3.11.3/src/types.d.ts#L484)
 
 ___
 
@@ -54,7 +54,7 @@ ___
 
 Date to use when comparing NumericDate claims, defaults to `new Date()`.
 
-Defined in: [types.d.ts:509](https://github.com/panva/jose/blob/main/src/types.d.ts#L509)
+Defined in: [types.d.ts:511](https://github.com/panva/jose/blob/v3.11.3/src/types.d.ts#L511)
 
 ___
 
@@ -64,7 +64,7 @@ ___
 
 Expected JWT "iss" (Issuer) Claim value(s).
 
-Defined in: [types.d.ts:487](https://github.com/panva/jose/blob/main/src/types.d.ts#L487)
+Defined in: [types.d.ts:489](https://github.com/panva/jose/blob/v3.11.3/src/types.d.ts#L489)
 
 ___
 
@@ -76,7 +76,7 @@ Maximum time elapsed (in seconds) from the JWT "iat" (Issued At) Claim value.
 - in seconds when number (e.g. 5)
 - parsed as seconds when a string (e.g. "5 seconds", "10 minutes", "2 hours").
 
-Defined in: [types.d.ts:494](https://github.com/panva/jose/blob/main/src/types.d.ts#L494)
+Defined in: [types.d.ts:496](https://github.com/panva/jose/blob/v3.11.3/src/types.d.ts#L496)
 
 ___
 
@@ -86,7 +86,7 @@ ___
 
 Expected JWT "sub" (Subject) Claim value.
 
-Defined in: [types.d.ts:499](https://github.com/panva/jose/blob/main/src/types.d.ts#L499)
+Defined in: [types.d.ts:501](https://github.com/panva/jose/blob/v3.11.3/src/types.d.ts#L501)
 
 ___
 
@@ -96,4 +96,4 @@ ___
 
 Expected JWT "typ" (Type) Header Parameter value.
 
-Defined in: [types.d.ts:504](https://github.com/panva/jose/blob/main/src/types.d.ts#L504)
+Defined in: [types.d.ts:506](https://github.com/panva/jose/blob/v3.11.3/src/types.d.ts#L506)

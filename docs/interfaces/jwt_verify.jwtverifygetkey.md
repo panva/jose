@@ -5,6 +5,9 @@
 Interface for JWT Verification dynamic key resolution.
 No token components have been verified at the time of this function call.
 
+See [createRemoteJWKSet](../functions/jwks_remote.createremotejwkset.md#function-createremotejwkset)
+to verify using a remote JSON Web Key Set.
+
 ## Hierarchy
 
 * [*GetKeyFunction*](types.getkeyfunction.md)<[*JWSHeaderParameters*](types.jwsheaderparameters.md), [*FlattenedJWSInput*](types.flattenedjwsinput.md)\>
@@ -18,6 +21,9 @@ No token components have been verified at the time of this function call.
 Interface for JWT Verification dynamic key resolution.
 No token components have been verified at the time of this function call.
 
+See [createRemoteJWKSet](../functions/jwks_remote.createremotejwkset.md#function-createremotejwkset)
+to verify using a remote JSON Web Key Set.
+
 #### Parameters:
 
 Name | Type |
@@ -27,4 +33,4 @@ Name | Type |
 
 **Returns:** *Promise*<[*KeyLike*](../types/types.keylike.md)\>
 
-Defined in: [types.d.ts:78](https://github.com/panva/jose/blob/main/src/types.d.ts#L78)
+Defined in: [types.d.ts:78](https://github.com/panva/jose/blob/v3.11.3/src/types.d.ts#L78)

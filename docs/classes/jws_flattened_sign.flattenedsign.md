@@ -50,7 +50,7 @@ Name | Type | Description |
 
 **Returns:** [*FlattenedSign*](jws_flattened_sign.flattenedsign.md)
 
-Defined in: [jws/flattened/sign.ts:43](https://github.com/panva/jose/blob/main/src/jws/flattened/sign.ts#L43)
+Defined in: [jws/flattened/sign.ts:43](https://github.com/panva/jose/blob/v3.11.3/src/jws/flattened/sign.ts#L43)
 
 ## Methods
 
@@ -68,7 +68,7 @@ Name | Type | Description |
 
 **Returns:** [*FlattenedSign*](jws_flattened_sign.flattenedsign.md)
 
-Defined in: [jws/flattened/sign.ts:57](https://github.com/panva/jose/blob/main/src/jws/flattened/sign.ts#L57)
+Defined in: [jws/flattened/sign.ts:57](https://github.com/panva/jose/blob/v3.11.3/src/jws/flattened/sign.ts#L57)
 
 ___
 
@@ -86,7 +86,7 @@ Name | Type | Description |
 
 **Returns:** [*FlattenedSign*](jws_flattened_sign.flattenedsign.md)
 
-Defined in: [jws/flattened/sign.ts:70](https://github.com/panva/jose/blob/main/src/jws/flattened/sign.ts#L70)
+Defined in: [jws/flattened/sign.ts:70](https://github.com/panva/jose/blob/v3.11.3/src/jws/flattened/sign.ts#L70)
 
 ___
 
@@ -105,4 +105,4 @@ Name | Type | Description |
 
 **Returns:** *Promise*<[*FlattenedJWS*](../interfaces/types.flattenedjws.md)\>
 
-Defined in: [jws/flattened/sign.ts:84](https://github.com/panva/jose/blob/main/src/jws/flattened/sign.ts#L84)
+Defined in: [jws/flattened/sign.ts:84](https://github.com/panva/jose/blob/v3.11.3/src/jws/flattened/sign.ts#L84)

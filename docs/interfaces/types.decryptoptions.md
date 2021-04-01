@@ -28,8 +28,10 @@ JWE Decryption options.
 • `Optional` **contentEncryptionAlgorithms**: *string*[]
 
 A list of accepted JWE "enc" (Encryption Algorithm) Header Parameter values.
+By default all "enc" (Encryption Algorithm) values applicable for the used
+key/secret are allowed.
 
-Defined in: [types.d.ts:448](https://github.com/panva/jose/blob/main/src/types.d.ts#L448)
+Defined in: [types.d.ts:450](https://github.com/panva/jose/blob/v3.11.3/src/types.d.ts#L450)
 
 ___
 
@@ -60,7 +62,7 @@ default built-in treatment are currently available.
 
 Inherited from: [CritOption](types.critoption.md).[crit](types.critoption.md#crit)
 
-Defined in: [types.d.ts:431](https://github.com/panva/jose/blob/main/src/types.d.ts#L431)
+Defined in: [types.d.ts:431](https://github.com/panva/jose/blob/v3.11.3/src/types.d.ts#L431)
 
 ___
 
@@ -71,7 +73,7 @@ ___
 In a browser runtime you have to provide an implementation for Inflate Raw
 when you expect JWEs with compressed plaintext.
 
-Defined in: [types.d.ts:454](https://github.com/panva/jose/blob/main/src/types.d.ts#L454)
+Defined in: [types.d.ts:456](https://github.com/panva/jose/blob/v3.11.3/src/types.d.ts#L456)
 
 ___
 
@@ -81,4 +83,4 @@ ___
 
 A list of accepted JWE "alg" (Algorithm) Header Parameter values.
 
-Defined in: [types.d.ts:443](https://github.com/panva/jose/blob/main/src/types.d.ts#L443)
+Defined in: [types.d.ts:443](https://github.com/panva/jose/blob/v3.11.3/src/types.d.ts#L443)

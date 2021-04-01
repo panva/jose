@@ -68,4 +68,4 @@ const rsaPublicKey = await parseJwk({
 }, 'PS256')
 ```
 
-Defined in: [types.d.ts:148](https://github.com/panva/jose/blob/main/src/types.d.ts#L148)
+Defined in: [types.d.ts:148](https://github.com/panva/jose/blob/v3.11.3/src/types.d.ts#L148)

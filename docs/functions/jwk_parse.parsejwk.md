@@ -45,4 +45,4 @@ Name | Type | Description |
 
 **Returns:** *Promise*<[*KeyLike*](../types/types.keylike.md)\>
 
-Defined in: [jwk/parse.ts:45](https://github.com/panva/jose/blob/main/src/jwk/parse.ts#L45)
+Defined in: [jwk/parse.ts:45](https://github.com/panva/jose/blob/v3.11.3/src/jwk/parse.ts#L45)

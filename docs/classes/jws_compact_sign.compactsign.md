@@ -50,7 +50,7 @@ Name | Type | Description |
 
 **Returns:** [*CompactSign*](jws_compact_sign.compactsign.md)
 
-Defined in: [jws/compact/sign.ts:31](https://github.com/panva/jose/blob/main/src/jws/compact/sign.ts#L31)
+Defined in: [jws/compact/sign.ts:31](https://github.com/panva/jose/blob/v3.11.3/src/jws/compact/sign.ts#L31)
 
 ## Methods
 
@@ -68,7 +68,7 @@ Name | Type | Description |
 
 **Returns:** [*CompactSign*](jws_compact_sign.compactsign.md)
 
-Defined in: [jws/compact/sign.ts:45](https://github.com/panva/jose/blob/main/src/jws/compact/sign.ts#L45)
+Defined in: [jws/compact/sign.ts:45](https://github.com/panva/jose/blob/v3.11.3/src/jws/compact/sign.ts#L45)
 
 ___
 
@@ -87,4 +87,4 @@ Name | Type | Description |
 
 **Returns:** *Promise*<string\>
 
-Defined in: [jws/compact/sign.ts:56](https://github.com/panva/jose/blob/main/src/jws/compact/sign.ts#L56)
+Defined in: [jws/compact/sign.ts:56](https://github.com/panva/jose/blob/v3.11.3/src/jws/compact/sign.ts#L56)

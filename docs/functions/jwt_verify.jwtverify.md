@@ -39,4 +39,4 @@ Name | Type | Description |
 
 **Returns:** *Promise*<[*JWTVerifyResult*](../interfaces/types.jwtverifyresult.md)\>
 
-Defined in: [jwt/verify.ts:56](https://github.com/panva/jose/blob/main/src/jwt/verify.ts#L56)
+Defined in: [jwt/verify.ts:59](https://github.com/panva/jose/blob/v3.11.3/src/jwt/verify.ts#L59)

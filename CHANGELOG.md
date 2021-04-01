@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [3.11.3](https://github.com/panva/jose/compare/v3.11.2...v3.11.3) (2021-04-01)
+
+
+### Bug Fixes
+
+* **node:** check CryptoKey algorithm & usage before exporting KeyObject ([dab4b2f](https://github.com/panva/jose/commit/dab4b2f03efc5772773e66fdb757db5571deee4d))
+
 ## [3.11.2](https://github.com/panva/jose/compare/v3.11.1...v3.11.2) (2021-03-30)
 
 
