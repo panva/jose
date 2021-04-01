@@ -219,7 +219,6 @@ All notable changes to this project will be documented in this file. See [standa
 * No dependencies
 * Browser support (using [Web Cryptography API](https://www.w3.org/TR/WebCryptoAPI/))
 * Support for verification using a remote JWKS endpoint
-* Experimental Node.js libuv thread pool based runtime (non-blocking 🎉)
 
 ### Features
 
