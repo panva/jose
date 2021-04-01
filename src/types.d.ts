@@ -444,6 +444,8 @@ export interface DecryptOptions extends CritOption {
 
   /**
    * A list of accepted JWE "enc" (Encryption Algorithm) Header Parameter values.
+   * By default all "enc" (Encryption Algorithm) values applicable for the used
+   * key/secret are allowed.
    */
   contentEncryptionAlgorithms?: string[]
 
@@ -515,6 +517,8 @@ export interface JWTClaimVerificationOptions {
 export interface VerifyOptions extends CritOption {
   /**
    * A list of accepted JWS "alg" (Algorithm) Header Parameter values.
+   * By default all "alg" (Algorithm) values applicable for the used
+   * key/secret are allowed. Note: "none" is never accepted.
    */
   algorithms?: string[]
 }
