@@ -17,6 +17,9 @@ const jwkExportSupported = major >= 16 || (major === 15 && minor >= 9)
 const keyToJWK: JWKConvertFunction = (key: unknown): JWK => {
   let keyObject: KeyObject
   if (isCryptoKey(key)) {
+    if (!key.extractable) {
+      throw new TypeError('CryptoKey is not extractable')
+    }
     keyObject = getKeyObject(key)
   } else if (key instanceof KeyObject) {
     keyObject = key

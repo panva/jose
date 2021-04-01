@@ -1,8 +1,8 @@
 import * as crypto from 'crypto'
-import { isCryptoKey, getKeyObject as exportCryptoKey } from './webcrypto.js'
+import { isCryptoKey, getKeyObject } from './webcrypto.js'
 import getSecretKey from './secret_key.js'
 
-export default function getKeyObject(alg: string, key: unknown) {
+export default function getSignVerifyKey(alg: string, key: unknown, usage: KeyUsage) {
   if (key instanceof crypto.KeyObject) {
     return key
   }
@@ -13,7 +13,7 @@ export default function getKeyObject(alg: string, key: unknown) {
     return getSecretKey(key)
   }
   if (isCryptoKey(key)) {
-    return exportCryptoKey(key)
+    return getKeyObject(key, alg, new Set([usage]))
   }
   throw new TypeError('invalid key input')
 }

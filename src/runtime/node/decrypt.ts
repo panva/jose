@@ -96,7 +96,7 @@ const decrypt: DecryptFunction = async (
   let key: KeyLike
   if (isCryptoKey(cek)) {
     // eslint-disable-next-line no-param-reassign
-    key = getKeyObject(cek)
+    key = getKeyObject(cek, enc, new Set(['decrypt']))
   } else if (cek instanceof Uint8Array || cek instanceof KeyObject) {
     key = cek
   } else {

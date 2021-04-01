@@ -3,7 +3,7 @@ import { JOSENotSupported } from '../../util/errors.js'
 import type { AesKwUnwrapFunction, AesKwWrapFunction } from '../interfaces.d'
 import { concat } from '../../lib/buffer_utils.js'
 import getSecretKey from './secret_key.js'
-import { isCryptoKey, getKeyObject as exportCryptoKey } from './webcrypto.js'
+import { isCryptoKey, getKeyObject } from './webcrypto.js'
 
 function checkKeySize(key: KeyObject, alg: string) {
   if (key.symmetricKeySize! << 3 !== parseInt(alg.substr(1, 3), 10)) {
@@ -11,7 +11,7 @@ function checkKeySize(key: KeyObject, alg: string) {
   }
 }
 
-function getKeyObject(key: unknown) {
+function ensureKeyObject(key: unknown, alg: string, usage: KeyUsage) {
   if (key instanceof KeyObject) {
     return key
   }
@@ -19,7 +19,7 @@ function getKeyObject(key: unknown) {
     return getSecretKey(key)
   }
   if (isCryptoKey(key)) {
-    return exportCryptoKey(key)
+    return getKeyObject(key, alg, new Set([usage]))
   }
 
   throw new TypeError('invalid key input')
@@ -33,7 +33,7 @@ export const wrap: AesKwWrapFunction = async (alg: string, key: unknown, cek: Ui
       `alg ${alg} is unsupported either by JOSE or your javascript runtime`,
     )
   }
-  const keyObject = getKeyObject(key)
+  const keyObject = ensureKeyObject(key, alg, 'wrapKey')
   checkKeySize(keyObject, alg)
   const cipher = createCipheriv(algorithm, keyObject, Buffer.alloc(8, 0xa6))
   return concat(cipher.update(cek), cipher.final())
@@ -51,7 +51,7 @@ export const unwrap: AesKwUnwrapFunction = async (
       `alg ${alg} is unsupported either by JOSE or your javascript runtime`,
     )
   }
-  const keyObject = getKeyObject(key)
+  const keyObject = ensureKeyObject(key, alg, 'unwrapKey')
   checkKeySize(keyObject, alg)
   const cipher = createDecipheriv(algorithm, keyObject, Buffer.alloc(8, 0xa6))
   return concat(cipher.update(encryptedKey), cipher.final())

@@ -14,7 +14,7 @@ if (oneShotSign.length > 3) {
 }
 
 const sign: SignFunction = async (alg, key: unknown, data) => {
-  const keyObject = getSignKey(alg, key)
+  const keyObject = getSignKey(alg, key, 'sign')
 
   if (alg.startsWith('HS')) {
     const bitlen = parseInt(alg.substr(-3), 10)

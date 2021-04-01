@@ -22,7 +22,7 @@ if (oneShotVerify.length > 4 && oneShotCallbackSupported) {
 
 const verify: VerifyFunction = async (alg, key: unknown, signature, data) => {
   if (alg.startsWith('HS')) {
-    const expected = await sign(alg, key, data)
+    const expected = await sign(alg, getVerifyKey(alg, key, 'verify'), data)
     const actual = signature
     try {
       return crypto.timingSafeEqual(actual, expected)
@@ -33,7 +33,7 @@ const verify: VerifyFunction = async (alg, key: unknown, signature, data) => {
   }
 
   const algorithm = nodeDigest(alg)
-  const keyObject = getVerifyKey(alg, key)
+  const keyObject = getVerifyKey(alg, key, 'verify')
   const keyInput = nodeKey(alg, keyObject)
   try {
     return oneShotVerify(algorithm, data, keyInput, signature)

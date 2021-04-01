@@ -66,7 +66,7 @@ const encrypt: EncryptFunction = async (
   let key: KeyLike
   if (isCryptoKey(cek)) {
     // eslint-disable-next-line no-param-reassign
-    key = getKeyObject(cek)
+    key = getKeyObject(cek, enc, new Set(['encrypt']))
   } else if (cek instanceof Uint8Array || cek instanceof KeyObject) {
     key = cek
   } else {

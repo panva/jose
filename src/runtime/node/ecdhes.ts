@@ -31,7 +31,7 @@ export const deriveKey: EcdhESDeriveKeyFunction = async (
 
   if (isCryptoKey(publicKey)) {
     // eslint-disable-next-line no-param-reassign
-    publicKey = getKeyObject(publicKey)
+    publicKey = getKeyObject(publicKey, 'ECDH-ES')
   }
   if (!(publicKey instanceof KeyObject)) {
     throw new TypeError('invalid key input')
@@ -39,7 +39,7 @@ export const deriveKey: EcdhESDeriveKeyFunction = async (
 
   if (isCryptoKey(privateKey)) {
     // eslint-disable-next-line no-param-reassign
-    privateKey = getKeyObject(privateKey)
+    privateKey = getKeyObject(privateKey, 'ECDH-ES', new Set(['deriveBits', 'deriveKey']))
   }
   if (!(privateKey instanceof KeyObject)) {
     throw new TypeError('invalid key input')

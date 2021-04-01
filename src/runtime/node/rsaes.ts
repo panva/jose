@@ -1,7 +1,7 @@
 import { KeyObject, publicEncrypt, constants, privateDecrypt } from 'crypto'
 import type { RsaEsDecryptFunction, RsaEsEncryptFunction } from '../interfaces.d'
 import checkModulusLength from './check_modulus_length.js'
-import { isCryptoKey, getKeyObject as exportCryptoKey } from './webcrypto.js'
+import { isCryptoKey, getKeyObject } from './webcrypto.js'
 
 const checkKey = (key: KeyObject, alg: string) => {
   if (key.type === 'secret' || key.asymmetricKeyType !== 'rsa') {
@@ -39,12 +39,12 @@ const resolveOaepHash = (alg: string) => {
   }
 }
 
-function getKeyObject(key: unknown) {
+function ensureKeyObject(key: unknown, alg: string, ...usages: KeyUsage[]) {
   if (key instanceof KeyObject) {
     return key
   }
   if (isCryptoKey(key)) {
-    return exportCryptoKey(key)
+    return getKeyObject(key, alg, new Set(usages))
   }
   throw new TypeError('invalid key input')
 }
@@ -52,7 +52,7 @@ function getKeyObject(key: unknown) {
 export const encrypt: RsaEsEncryptFunction = async (alg: string, key: unknown, cek: Uint8Array) => {
   const padding = resolvePadding(alg)
   const oaepHash = resolveOaepHash(alg)
-  const keyObject = getKeyObject(key)
+  const keyObject = ensureKeyObject(key, alg, 'wrapKey', 'encrypt')
 
   checkKey(keyObject, alg)
   return publicEncrypt({ key: keyObject, oaepHash, padding }, cek)
@@ -65,7 +65,7 @@ export const decrypt: RsaEsDecryptFunction = async (
 ) => {
   const padding = resolvePadding(alg)
   const oaepHash = resolveOaepHash(alg)
-  const keyObject = getKeyObject(key)
+  const keyObject = ensureKeyObject(key, alg, 'unwrapKey', 'decrypt')
 
   checkKey(keyObject, alg)
   return privateDecrypt({ key: keyObject, oaepHash, padding }, encryptedKey)

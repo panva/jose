@@ -10,7 +10,7 @@ import { isCryptoKey, getKeyObject } from './webcrypto.js'
 
 const pbkdf2 = promisify(pbkdf2cb)
 
-function getPassword(key: unknown) {
+function getPassword(key: unknown, alg: string) {
   if (key instanceof KeyObject) {
     return key.export()
   }
@@ -18,7 +18,7 @@ function getPassword(key: unknown) {
     return key
   }
   if (isCryptoKey(key)) {
-    return getKeyObject(key).export()
+    return getKeyObject(key, alg, new Set(['deriveBits', 'deriveKey'])).export()
   }
   throw new TypeError('invalid key input')
 }
@@ -33,7 +33,7 @@ export const encrypt: Pbes2KWEncryptFunction = async (
   checkP2s(p2s)
   const salt = concatSalt(alg, p2s)
   const keylen = parseInt(alg.substr(13, 3), 10) >> 3
-  const password = getPassword(key)
+  const password = getPassword(key, alg)
 
   const derivedKey = await pbkdf2(password, salt, p2c, keylen, `sha${alg.substr(8, 3)}`)
   const encryptedKey = await wrap(alg.substr(-6), derivedKey, cek)
@@ -51,7 +51,7 @@ export const decrypt: Pbes2KWDecryptFunction = async (
   checkP2s(p2s)
   const salt = concatSalt(alg, p2s)
   const keylen = parseInt(alg.substr(13, 3), 10) >> 3
-  const password = getPassword(key)
+  const password = getPassword(key, alg)
 
   const derivedKey = await pbkdf2(password, salt, p2c, keylen, `sha${alg.substr(8, 3)}`)
 
