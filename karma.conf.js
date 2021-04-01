@@ -94,10 +94,10 @@ module.exports = function (config) {
     plugins: [
       "karma-qunit",
       "karma-browserstack-launcher",
-      "karma-brief-reporter",
+      "karma-summary-reporter",
     ],
     files: ["dist-browser-tests/*.js"],
-    reporters: ["brief", "BrowserStack"],
+    reporters: ["summary"],
     port: 9876,
     autoWatch: false,
     browserStack: {
@@ -115,6 +115,10 @@ module.exports = function (config) {
     browserNoActivityTimeout: 3e5,
     browsers: Object.keys(browsers),
     singleRun: true,
-    briefReporter: { renderOnRunCompleteOnly: true },
+    summaryReporter: {
+      show: 'all',
+      overviewColumn: false,
+      browserList: 'always'
+    }
   });
 };
