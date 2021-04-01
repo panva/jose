@@ -1,5 +1,5 @@
 import type { JWK, KeyLike } from '../types.d'
-import type { EpkJwk, AsyncOrSync } from '../types.i.d'
+import type { AsyncOrSync } from '../types.i.d'
 
 export interface TimingSafeEqual {
   (a: Uint8Array, b: Uint8Array): boolean
@@ -69,12 +69,6 @@ export interface EcdhAllowedFunction {
 }
 export interface GenerateEpkFunction {
   (key: unknown): Promise<KeyLike>
-}
-export interface EphemeralKeyToPublicJwkFunction {
-  (key: unknown): AsyncOrSync<EpkJwk>
-}
-export interface PublicJwkToEphemeralKeyFunction {
-  (jwk: EpkJwk): AsyncOrSync<KeyLike>
 }
 export interface EncryptFunction {
   (enc: string, plaintext: Uint8Array, cek: unknown, iv: Uint8Array, aad: Uint8Array): Promise<{

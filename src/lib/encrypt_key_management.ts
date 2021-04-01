@@ -9,6 +9,7 @@ import { encrypt as pbes2Kw } from '../runtime/pbes2kw.js'
 import { encrypt as rsaEs } from '../runtime/rsaes.js'
 import { wrap as aesGcmKw } from '../runtime/aesgcmkw.js'
 import { encode as base64url } from '../runtime/base64url.js'
+import { fromKeyLike } from '../jwk/from_key_like.js'
 
 const generateCek = cekFactory(random)
 
@@ -46,7 +47,7 @@ async function encryptKeyManagement(
       const { apu, apv } = providedParameters
       let { epk: ephemeralKey } = providedParameters
       ephemeralKey ||= await ECDH.generateEpk(key)
-      const epk = await ECDH.ephemeralKeyToPublicJWK(ephemeralKey)
+      const { x, y, crv, kty } = await fromKeyLike(ephemeralKey)
       const sharedSecret = await ECDH.deriveKey(
         key,
         ephemeralKey,
@@ -55,7 +56,7 @@ async function encryptKeyManagement(
         apu,
         apv,
       )
-      parameters = { epk }
+      parameters = { epk: { x, y, crv, kty } }
       if (apu) parameters.apu = base64url(apu)
       if (apv) parameters.apv = base64url(apv)
 

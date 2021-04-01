@@ -4,19 +4,10 @@ export type AsyncOrSync<T> = PromiseLike<T> | T
 export interface JWEKeyManagementHeaderResults {
   apu?: string
   apv?: string
-  epk?: EpkJwk
+  epk?: { x?: string; y?: string; crv?: string; kty?: string }
   iv?: string
   p2c?: number
   p2s?: string
   tag?: string
-  [propName: string]: unknown
-}
-
-export interface EpkJwk {
-  crv: string
-  d?: string
-  kty: string
-  x: string
-  y?: string
   [propName: string]: unknown
 }

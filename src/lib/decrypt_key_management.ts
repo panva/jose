@@ -8,6 +8,7 @@ import { decrypt as rsaEs } from '../runtime/rsaes.js'
 import { unwrap as aesGcmKw } from '../runtime/aesgcmkw.js'
 import { decode as base64url } from '../runtime/base64url.js'
 import { bitLengths as cekLengths } from '../lib/cek.js'
+import { parseJwk } from '../jwk/parse.js'
 
 function assertEnryptedKey(encryptedKey: unknown) {
   if (!encryptedKey) {
@@ -55,13 +56,13 @@ async function decryptKeyManagement(
           'ECDH-ES with the provided key is not allowed or not supported by your javascript runtime',
         )
       }
-      const ephemeralKey = await ECDH.publicJwkToEphemeralKey(joseHeader.epk!)
+      const epk = await parseJwk(joseHeader.epk!, alg)
       let partyUInfo!: Uint8Array
       let partyVInfo!: Uint8Array
       if (joseHeader.apu !== undefined) partyUInfo = base64url(joseHeader.apu)
       if (joseHeader.apv !== undefined) partyVInfo = base64url(joseHeader.apv)
       const sharedSecret = await ECDH.deriveKey(
-        ephemeralKey,
+        epk,
         key,
         alg === 'ECDH-ES' ? joseHeader.enc! : alg,
         parseInt(alg.substr(-5, 3), 10) || <number>cekLengths.get(joseHeader.enc!),
