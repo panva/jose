@@ -32,7 +32,7 @@ JWT Claims Set verification options.
 
 Expected JWT "aud" (Audience) Claim value(s).
 
-Defined in: [types.d.ts:474](https://github.com/panva/jose/blob/main/src/types.d.ts#L474)
+Defined in: [types.d.ts:475](https://github.com/panva/jose/blob/main/src/types.d.ts#L475)
 
 ___
 
@@ -44,7 +44,7 @@ Expected clock tolerance
 - in seconds when number (e.g. 5)
 - parsed as seconds when a string (e.g. "5 seconds", "10 minutes", "2 hours").
 
-Defined in: [types.d.ts:481](https://github.com/panva/jose/blob/main/src/types.d.ts#L481)
+Defined in: [types.d.ts:482](https://github.com/panva/jose/blob/main/src/types.d.ts#L482)
 
 ___
 
@@ -54,7 +54,7 @@ ___
 
 Date to use when comparing NumericDate claims, defaults to `new Date()`.
 
-Defined in: [types.d.ts:508](https://github.com/panva/jose/blob/main/src/types.d.ts#L508)
+Defined in: [types.d.ts:509](https://github.com/panva/jose/blob/main/src/types.d.ts#L509)
 
 ___
 
@@ -64,7 +64,7 @@ ___
 
 Expected JWT "iss" (Issuer) Claim value(s).
 
-Defined in: [types.d.ts:486](https://github.com/panva/jose/blob/main/src/types.d.ts#L486)
+Defined in: [types.d.ts:487](https://github.com/panva/jose/blob/main/src/types.d.ts#L487)
 
 ___
 
@@ -76,7 +76,7 @@ Maximum time elapsed (in seconds) from the JWT "iat" (Issued At) Claim value.
 - in seconds when number (e.g. 5)
 - parsed as seconds when a string (e.g. "5 seconds", "10 minutes", "2 hours").
 
-Defined in: [types.d.ts:493](https://github.com/panva/jose/blob/main/src/types.d.ts#L493)
+Defined in: [types.d.ts:494](https://github.com/panva/jose/blob/main/src/types.d.ts#L494)
 
 ___
 
@@ -86,7 +86,7 @@ ___
 
 Expected JWT "sub" (Subject) Claim value.
 
-Defined in: [types.d.ts:498](https://github.com/panva/jose/blob/main/src/types.d.ts#L498)
+Defined in: [types.d.ts:499](https://github.com/panva/jose/blob/main/src/types.d.ts#L499)
 
 ___
 
@@ -96,4 +96,4 @@ ___
 
 Expected JWT "typ" (Type) Header Parameter value.
 
-Defined in: [types.d.ts:503](https://github.com/panva/jose/blob/main/src/types.d.ts#L503)
+Defined in: [types.d.ts:504](https://github.com/panva/jose/blob/main/src/types.d.ts#L504)

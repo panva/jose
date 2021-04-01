@@ -28,7 +28,7 @@ JWE AAD.
 
 Inherited from: [FlattenedDecryptResult](types.flatteneddecryptresult.md).[additionalAuthenticatedData](types.flatteneddecryptresult.md#additionalauthenticateddata)
 
-Defined in: [types.d.ts:590](https://github.com/panva/jose/blob/main/src/types.d.ts#L590)
+Defined in: [types.d.ts:591](https://github.com/panva/jose/blob/main/src/types.d.ts#L591)
 
 ___
 
@@ -40,7 +40,7 @@ Plaintext.
 
 Inherited from: [FlattenedDecryptResult](types.flatteneddecryptresult.md).[plaintext](types.flatteneddecryptresult.md#plaintext)
 
-Defined in: [types.d.ts:595](https://github.com/panva/jose/blob/main/src/types.d.ts#L595)
+Defined in: [types.d.ts:596](https://github.com/panva/jose/blob/main/src/types.d.ts#L596)
 
 ___
 
@@ -52,7 +52,7 @@ JWE Protected Header.
 
 Inherited from: [FlattenedDecryptResult](types.flatteneddecryptresult.md).[protectedHeader](types.flatteneddecryptresult.md#protectedheader)
 
-Defined in: [types.d.ts:600](https://github.com/panva/jose/blob/main/src/types.d.ts#L600)
+Defined in: [types.d.ts:601](https://github.com/panva/jose/blob/main/src/types.d.ts#L601)
 
 ___
 
@@ -64,7 +64,7 @@ JWE Shared Unprotected Header.
 
 Inherited from: [FlattenedDecryptResult](types.flatteneddecryptresult.md).[sharedUnprotectedHeader](types.flatteneddecryptresult.md#sharedunprotectedheader)
 
-Defined in: [types.d.ts:605](https://github.com/panva/jose/blob/main/src/types.d.ts#L605)
+Defined in: [types.d.ts:606](https://github.com/panva/jose/blob/main/src/types.d.ts#L606)
 
 ___
 
@@ -76,4 +76,4 @@ JWE Per-Recipient Unprotected Header.
 
 Inherited from: [FlattenedDecryptResult](types.flatteneddecryptresult.md).[unprotectedHeader](types.flatteneddecryptresult.md#unprotectedheader)
 
-Defined in: [types.d.ts:610](https://github.com/panva/jose/blob/main/src/types.d.ts#L610)
+Defined in: [types.d.ts:611](https://github.com/panva/jose/blob/main/src/types.d.ts#L611)

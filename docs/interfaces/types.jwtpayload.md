@@ -31,7 +31,7 @@ Any other JWT Claim Set member.
 
 JWT Audience [RFC7519#section-4.1.3](https://tools.ietf.org/html/rfc7519#section-4.1.3).
 
-Defined in: [types.d.ts:544](https://github.com/panva/jose/blob/main/src/types.d.ts#L544)
+Defined in: [types.d.ts:545](https://github.com/panva/jose/blob/main/src/types.d.ts#L545)
 
 ___
 
@@ -41,7 +41,7 @@ ___
 
 JWT Expiration Time - [RFC7519#section-4.1.4](https://tools.ietf.org/html/rfc7519#section-4.1.4).
 
-Defined in: [types.d.ts:559](https://github.com/panva/jose/blob/main/src/types.d.ts#L559)
+Defined in: [types.d.ts:560](https://github.com/panva/jose/blob/main/src/types.d.ts#L560)
 
 ___
 
@@ -51,7 +51,7 @@ ___
 
 JWT Issued At - [RFC7519#section-4.1.6](https://tools.ietf.org/html/rfc7519#section-4.1.6).
 
-Defined in: [types.d.ts:564](https://github.com/panva/jose/blob/main/src/types.d.ts#L564)
+Defined in: [types.d.ts:565](https://github.com/panva/jose/blob/main/src/types.d.ts#L565)
 
 ___
 
@@ -61,7 +61,7 @@ ___
 
 JWT Issuer - [RFC7519#section-4.1.1](https://tools.ietf.org/html/rfc7519#section-4.1.1).
 
-Defined in: [types.d.ts:534](https://github.com/panva/jose/blob/main/src/types.d.ts#L534)
+Defined in: [types.d.ts:535](https://github.com/panva/jose/blob/main/src/types.d.ts#L535)
 
 ___
 
@@ -71,7 +71,7 @@ ___
 
 JWT ID - [RFC7519#section-4.1.7](https://tools.ietf.org/html/rfc7519#section-4.1.7).
 
-Defined in: [types.d.ts:549](https://github.com/panva/jose/blob/main/src/types.d.ts#L549)
+Defined in: [types.d.ts:550](https://github.com/panva/jose/blob/main/src/types.d.ts#L550)
 
 ___
 
@@ -81,7 +81,7 @@ ___
 
 JWT Not Before - [RFC7519#section-4.1.5](https://tools.ietf.org/html/rfc7519#section-4.1.5).
 
-Defined in: [types.d.ts:554](https://github.com/panva/jose/blob/main/src/types.d.ts#L554)
+Defined in: [types.d.ts:555](https://github.com/panva/jose/blob/main/src/types.d.ts#L555)
 
 ___
 
@@ -91,4 +91,4 @@ ___
 
 JWT Subject - [RFC7519#section-4.1.2](https://tools.ietf.org/html/rfc7519#section-4.1.2).
 
-Defined in: [types.d.ts:539](https://github.com/panva/jose/blob/main/src/types.d.ts#L539)
+Defined in: [types.d.ts:540](https://github.com/panva/jose/blob/main/src/types.d.ts#L540)

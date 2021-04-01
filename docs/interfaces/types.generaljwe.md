@@ -34,7 +34,7 @@ encrypted.
 
 Inherited from: void
 
-Defined in: [types.d.ts:314](https://github.com/panva/jose/blob/main/src/types.d.ts#L314)
+Defined in: [types.d.ts:315](https://github.com/panva/jose/blob/main/src/types.d.ts#L315)
 
 ___
 
@@ -47,7 +47,7 @@ BASE64URL(JWE Ciphertext).
 
 Inherited from: void
 
-Defined in: [types.d.ts:320](https://github.com/panva/jose/blob/main/src/types.d.ts#L320)
+Defined in: [types.d.ts:321](https://github.com/panva/jose/blob/main/src/types.d.ts#L321)
 
 ___
 
@@ -61,7 +61,7 @@ Vector value is non-empty; otherwise, it MUST be absent.
 
 Inherited from: void
 
-Defined in: [types.d.ts:344](https://github.com/panva/jose/blob/main/src/types.d.ts#L344)
+Defined in: [types.d.ts:345](https://github.com/panva/jose/blob/main/src/types.d.ts#L345)
 
 ___
 
@@ -76,7 +76,7 @@ Header Parameter values are integrity protected.
 
 Inherited from: void
 
-Defined in: [types.d.ts:352](https://github.com/panva/jose/blob/main/src/types.d.ts#L352)
+Defined in: [types.d.ts:353](https://github.com/panva/jose/blob/main/src/types.d.ts#L353)
 
 ___
 
@@ -84,7 +84,7 @@ ___
 
 • **recipients**: *Pick*<[*FlattenedJWE*](types.flattenedjwe.md), *header* \| *encrypted_key*\>[]
 
-Defined in: [types.d.ts:372](https://github.com/panva/jose/blob/main/src/types.d.ts#L372)
+Defined in: [types.d.ts:373](https://github.com/panva/jose/blob/main/src/types.d.ts#L373)
 
 ___
 
@@ -98,7 +98,7 @@ value is non-empty; otherwise, it MUST be absent.
 
 Inherited from: void
 
-Defined in: [types.d.ts:359](https://github.com/panva/jose/blob/main/src/types.d.ts#L359)
+Defined in: [types.d.ts:360](https://github.com/panva/jose/blob/main/src/types.d.ts#L360)
 
 ___
 
@@ -114,4 +114,4 @@ These Header Parameter values are not integrity protected.
 
 Inherited from: void
 
-Defined in: [types.d.ts:368](https://github.com/panva/jose/blob/main/src/types.d.ts#L368)
+Defined in: [types.d.ts:369](https://github.com/panva/jose/blob/main/src/types.d.ts#L369)
