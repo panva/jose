@@ -1,10 +1,21 @@
 import test from 'ava';
 
-const root = !('WEBCRYPTO' in process.env) ? '#dist' : '#dist/webcrypto';
+let root;
+let keyRoot;
+
+if ('WEBCRYPTO' in process.env) {
+  root = keyRoot = '#dist/webcrypto';
+} else if ('CRYPTOKEY' in process.env) {
+  root = '#dist';
+  keyRoot = '#dist/webcrypto';
+} else {
+  root = keyRoot = '#dist';
+}
+
 Promise.all([
   import(`${root}/lib/check_key_type`),
-  import(`${root}/util/generate_key_pair`),
-  import(`${root}/util/generate_secret`),
+  import(`${keyRoot}/util/generate_key_pair`),
+  import(`${keyRoot}/util/generate_secret`),
 ]).then(
   ([{ default: checkKeyType }, { default: generateKeyPair }, { default: generateSecret }]) => {
     test('lib/check_key_type.ts', async (t) => {

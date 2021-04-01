@@ -1,9 +1,20 @@
 import test from 'ava';
 
-const root = !('WEBCRYPTO' in process.env) ? '#dist' : '#dist/webcrypto';
+let root;
+let keyRoot;
+
+if ('WEBCRYPTO' in process.env) {
+  root = keyRoot = '#dist/webcrypto';
+} else if ('CRYPTOKEY' in process.env) {
+  root = '#dist';
+  keyRoot = '#dist/webcrypto';
+} else {
+  root = keyRoot = '#dist';
+}
+
 Promise.all([
-  import(`${root}/util/generate_key_pair`),
-  import(`${root}/util/generate_secret`),
+  import(`${keyRoot}/util/generate_key_pair`),
+  import(`${keyRoot}/util/generate_secret`),
 ]).then(
   ([{ default: generateKeyPair }, { default: generateSecret }]) => {
     let checkModulusLength;
@@ -125,7 +136,7 @@ Promise.all([
 
     function conditional({ webcrypto = 1, electron = 1 } = {}, ...args) {
       let run = test;
-      if (!webcrypto && 'WEBCRYPTO' in process.env) {
+      if ((!webcrypto && 'WEBCRYPTO' in process.env) || 'CRYPTOKEY' in process.env) {
         run = run.failing;
       }
 

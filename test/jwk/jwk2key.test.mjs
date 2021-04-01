@@ -1,7 +1,18 @@
 import test from 'ava';
 
-const root = !('WEBCRYPTO' in process.env) ? '#dist' : '#dist/webcrypto';
-Promise.all([import(`${root}/jwk/parse`), import(`${root}/jwk/from_key_like`)]).then(
+let root;
+let keyRoot;
+
+if ('WEBCRYPTO' in process.env) {
+  root = keyRoot = '#dist/webcrypto';
+} else if ('CRYPTOKEY' in process.env) {
+  root = '#dist';
+  keyRoot = '#dist/webcrypto';
+} else {
+  root = keyRoot = '#dist';
+}
+
+Promise.all([import(`${keyRoot}/jwk/parse`), import(`${keyRoot}/jwk/from_key_like`)]).then(
   ([{ default: parseJwk }, { default: fromKeyLike }]) => {
     test('JWK must be an object', async (t) => {
       await t.throwsAsync(parseJwk(true), {
@@ -222,7 +233,7 @@ Promise.all([import(`${root}/jwk/parse`), import(`${root}/jwk/from_key_like`)]).
 
     function conditional({ webcrypto = 1, electron = 1 } = {}, ...args) {
       let run = test;
-      if (!webcrypto && 'WEBCRYPTO' in process.env) {
+      if ((!webcrypto && 'WEBCRYPTO' in process.env) || 'CRYPTOKEY' in process.env) {
         run = run.failing;
       }
 

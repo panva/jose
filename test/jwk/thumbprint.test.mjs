@@ -1,7 +1,18 @@
 import test from 'ava';
 
-const root = !('WEBCRYPTO' in process.env) ? '#dist' : '#dist/webcrypto';
-import(`${root}/jwk/thumbprint`).then(
+let root;
+let keyRoot;
+
+if ('WEBCRYPTO' in process.env) {
+  root = keyRoot = '#dist/webcrypto';
+} else if ('CRYPTOKEY' in process.env) {
+  root = '#dist';
+  keyRoot = '#dist/webcrypto';
+} else {
+  root = keyRoot = '#dist';
+}
+
+import(`${keyRoot}/jwk/thumbprint`).then(
   ({ default: thumbprint }) => {
     test('https://tools.ietf.org/html/rfc7638#section-3.1', async (t) => {
       t.is(
