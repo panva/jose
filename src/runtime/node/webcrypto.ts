@@ -53,7 +53,7 @@ export function getKeyObject(key: CryptoKey, alg?: string, usage?: Set<KeyUsage>
     case 'RS384':
     case 'RS512':
       if (
-        key.algorithm.name.toUpperCase() !== 'RSASSA-PKCS1-V1_5' || // https://github.com/nodejs/node/pull/38029
+        key.algorithm.name !== 'RSASSA-PKCS1-v1_5' ||
         getHashLength((<RsaHashedKeyAlgorithm>key.algorithm).hash) !== parseInt(alg.substr(2), 10)
       ) {
         throw new TypeError('CryptoKey does not support this operation')
