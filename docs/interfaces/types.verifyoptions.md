@@ -29,7 +29,7 @@ A list of accepted JWS "alg" (Algorithm) Header Parameter values.
 By default all "alg" (Algorithm) values applicable for the used
 key/secret are allowed. Note: "none" is never accepted.
 
-Defined in: [types.d.ts:523](https://github.com/panva/jose/blob/v3.11.3/src/types.d.ts#L523)
+Defined in: [types.d.ts:523](https://github.com/panva/jose/blob/v3.11.4/src/types.d.ts#L523)
 
 ___
 
@@ -60,4 +60,4 @@ default built-in treatment are currently available.
 
 Inherited from: [CritOption](types.critoption.md).[crit](types.critoption.md#crit)
 
-Defined in: [types.d.ts:431](https://github.com/panva/jose/blob/v3.11.3/src/types.d.ts#L431)
+Defined in: [types.d.ts:431](https://github.com/panva/jose/blob/v3.11.4/src/types.d.ts#L431)

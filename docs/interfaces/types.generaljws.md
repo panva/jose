@@ -19,7 +19,7 @@ is not returned when JWS Unencoded Payload Option
 
 • `Optional` **payload**: *string*
 
-Defined in: [types.d.ts:223](https://github.com/panva/jose/blob/v3.11.3/src/types.d.ts#L223)
+Defined in: [types.d.ts:223](https://github.com/panva/jose/blob/v3.11.4/src/types.d.ts#L223)
 
 ___
 
@@ -27,4 +27,4 @@ ___
 
 • **signatures**: *Omit*<[*FlattenedJWSInput*](types.flattenedjwsinput.md), *payload*\>[]
 
-Defined in: [types.d.ts:224](https://github.com/panva/jose/blob/v3.11.3/src/types.d.ts#L224)
+Defined in: [types.d.ts:224](https://github.com/panva/jose/blob/v3.11.4/src/types.d.ts#L224)

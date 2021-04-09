@@ -33,4 +33,4 @@ Name | Type | Description |
 
 **Returns:** *Promise*<[*JWK*](../interfaces/types.jwk.md)\>
 
-Defined in: [jwk/from_key_like.ts:29](https://github.com/panva/jose/blob/v3.11.3/src/jwk/from_key_like.ts#L29)
+Defined in: [jwk/from_key_like.ts:29](https://github.com/panva/jose/blob/v3.11.4/src/jwk/from_key_like.ts#L29)
