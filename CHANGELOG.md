@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [2.0.5](https://github.com/panva/jose/compare/v2.0.4...v2.0.5) (2021-04-09)
+
+
+### Bug Fixes
+
+* defer AES CBC w/ HMAC decryption after tag verification passes ([812e03f](https://github.com/panva/jose/commit/812e03fcf4963791ffd9a46417beea5a7a74d995))
+
 ## [2.0.4](https://github.com/panva/jose/compare/v2.0.3...v2.0.4) (2021-01-18)
 
 
