@@ -35,14 +35,6 @@ async function cbcDecrypt(
     throw new JOSENotSupported(`alg ${enc} is unsupported either by your javascript runtime`)
   }
 
-  let plaintext!: Uint8Array
-  try {
-    const cipher = createDecipheriv(algorithm, encKey, iv)
-    plaintext = concat(cipher.update(ciphertext), cipher.final())
-  } catch {
-    //
-  }
-
   const expectedTag = cbcTag(aad, iv, ciphertext, macSize, macKey, keySize)
 
   let macCheckPassed!: boolean
@@ -51,8 +43,18 @@ async function cbcDecrypt(
   } catch {
     //
   }
+  if (!macCheckPassed) {
+    throw new JWEDecryptionFailed()
+  }
 
-  if (!plaintext || !macCheckPassed) {
+  let plaintext!: Uint8Array
+  try {
+    const cipher = createDecipheriv(algorithm, encKey, iv)
+    plaintext = concat(cipher.update(ciphertext), cipher.final())
+  } catch {
+    //
+  }
+  if (!plaintext) {
     throw new JWEDecryptionFailed()
   }
 

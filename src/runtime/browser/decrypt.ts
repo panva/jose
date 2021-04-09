@@ -33,15 +33,6 @@ async function cbcDecrypt(
     false,
     ['sign'],
   )
-  let plaintext!: Uint8Array
-
-  try {
-    plaintext = new Uint8Array(
-      await crypto.subtle.decrypt({ iv, name: 'AES-CBC' }, encKey, ciphertext),
-    )
-  } catch {
-    //
-  }
 
   const macData = concat(aad, iv, ciphertext, uint64be(aad.length << 3))
   const expectedTag = new Uint8Array(
@@ -54,8 +45,19 @@ async function cbcDecrypt(
   } catch {
     //
   }
+  if (!macCheckPassed) {
+    throw new JWEDecryptionFailed()
+  }
 
-  if (!plaintext || !macCheckPassed) {
+  let plaintext!: Uint8Array
+  try {
+    plaintext = new Uint8Array(
+      await crypto.subtle.decrypt({ iv, name: 'AES-CBC' }, encKey, ciphertext),
+    )
+  } catch {
+    //
+  }
+  if (!plaintext) {
     throw new JWEDecryptionFailed()
   }
 
