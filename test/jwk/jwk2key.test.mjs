@@ -148,7 +148,10 @@ Promise.all([import(`${keyRoot}/jwk/parse`), import(`${keyRoot}/jwk/from_key_lik
 
     async function testKeyImportExport(t, jwk) {
       await t.notThrowsAsync(async () => {
-        const key = await parseJwk(jwk);
+        let key = await parseJwk({ ...jwk, ext: true });
+        t.is(key.type, 'private');
+        const exportedJwk = await fromKeyLike(key)
+        key = await parseJwk(exportedJwk, jwk.alg);
         t.is(key.type, 'private');
       });
       await t.notThrowsAsync(async () => {
