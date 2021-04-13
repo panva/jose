@@ -48,10 +48,12 @@ import(`${keyRoot}/jwk/thumbprint`).then(
         instanceOf: TypeError,
         message: 'JWK must be an object',
       });
-      await t.throwsAsync(thumbprint(Object.create(null)), {
-        instanceOf: TypeError,
-        message: 'JWK must be an object',
-      });
+      const nullPrototype = Object.create(null);
+      nullPrototype.crv = 'P-256';
+      nullPrototype.kty = 'EC';
+      nullPrototype.x = 'q3zAwR_kUwtdLEwtB2oVfucXiLHmEhu9bJUFYjJxYGs';
+      nullPrototype.y = '8h0D-ONoU-iZqrq28TyUxEULxuGwJZGMJYTMbeMshvI';
+      await t.notThrowsAsync(thumbprint(nullPrototype));
     });
 
     test('JWK kty must be recognized', async (t) => {

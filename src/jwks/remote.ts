@@ -11,6 +11,7 @@ import {
   JWKSMultipleMatchingKeys,
 } from '../util/errors.js'
 import fetchJson from '../runtime/fetch.js'
+import isObject from '../lib/is_object.js'
 
 function getKtyFromAlg(alg: string) {
   switch (alg.substr(0, 2)) {
@@ -55,8 +56,8 @@ export interface RemoteJWKSetOptions {
   agent?: https.Agent | http.Agent
 }
 
-function isJWKLike(key: object): key is JWK {
-  return key && typeof key === 'object'
+function isJWKLike(key: unknown): key is JWK {
+  return isObject(key)
 }
 
 class RemoteJWKSet {

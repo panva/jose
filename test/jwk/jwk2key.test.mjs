@@ -35,10 +35,12 @@ Promise.all([import(`${keyRoot}/jwk/parse`), import(`${keyRoot}/jwk/from_key_lik
         instanceOf: TypeError,
         message: 'JWK must be an object',
       });
-      await t.throwsAsync(parseJwk(Object.create(null)), {
-        instanceOf: TypeError,
-        message: 'JWK must be an object',
-      });
+      const nullPrototype = Object.create(null);
+      nullPrototype.crv = 'P-256';
+      nullPrototype.kty = 'EC';
+      nullPrototype.x = 'q3zAwR_kUwtdLEwtB2oVfucXiLHmEhu9bJUFYjJxYGs';
+      nullPrototype.y = '8h0D-ONoU-iZqrq28TyUxEULxuGwJZGMJYTMbeMshvI';
+      await t.notThrowsAsync(parseJwk(nullPrototype, 'ES256'));
     });
 
     test('JWK kty must be recognized', async (t) => {
@@ -150,7 +152,7 @@ Promise.all([import(`${keyRoot}/jwk/parse`), import(`${keyRoot}/jwk/from_key_lik
       await t.notThrowsAsync(async () => {
         let key = await parseJwk({ ...jwk, ext: true });
         t.is(key.type, 'private');
-        const exportedJwk = await fromKeyLike(key)
+        const exportedJwk = await fromKeyLike(key);
         key = await parseJwk(exportedJwk, jwk.alg);
         t.is(key.type, 'private');
       });

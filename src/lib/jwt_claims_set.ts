@@ -8,6 +8,7 @@ import { JWTClaimValidationFailed, JWTExpired, JWTInvalid } from '../util/errors
 import { decoder } from './buffer_utils.js'
 import epoch from './epoch.js'
 import secs from './secs.js'
+import isObject from './is_object.js'
 
 const normalizeTyp = (value: string) => value.toLowerCase().replace(/^application\//, '')
 
@@ -46,7 +47,7 @@ export default (
     //
   }
 
-  if (typeof payload !== 'object' || !payload || Array.isArray(payload)) {
+  if (!isObject(payload)) {
     throw new JWTInvalid('JWT Claims Set must be a top-level JSON object')
   }
 
