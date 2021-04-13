@@ -103,21 +103,21 @@ module.exports = function (config) {
     browserStack: {
       username: process.env.BROWSERSTACK_USERNAME,
       accessKey: process.env.BROWSERSTACK_ACCESS_KEY,
-      video: false,
-      pollingTimeout: 1e4,
     },
-    concurrency: 2,
     customLaunchers: browsers,
-    captureTimeout: 3e5,
-    browserDisconnectTolerance: 1,
-    browserDisconnectTimeout: 3e5,
-    browserSocketTimeout: 1.2e5,
-    browserNoActivityTimeout: 3e5,
+    client: {
+      qunit: {
+        showUI: true,
+        testTimeout: 5000,
+        hidepassed: true
+      },
+    },
     browsers: Object.keys(browsers),
     singleRun: true,
+    retryLimit: 0,
     summaryReporter: {
       show: 'all',
-      overviewColumn: false,
+      overviewColumn: true,
       browserList: 'always'
     }
   });
