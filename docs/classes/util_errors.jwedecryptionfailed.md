@@ -38,7 +38,7 @@ Name | Type |
 
 Inherited from: [JOSEError](util_errors.joseerror.md)
 
-Defined in: [util/errors.ts:16](https://github.com/panva/jose/blob/v3.11.4/src/util/errors.ts#L16)
+Defined in: [util/errors.ts:16](https://github.com/panva/jose/blob/v3.11.5/src/util/errors.ts#L16)
 
 ## Properties
 
@@ -50,7 +50,7 @@ A unique error code for the particular error subclass.
 
 Overrides: [JOSEError](util_errors.joseerror.md).[code](util_errors.joseerror.md#code)
 
-Defined in: [util/errors.ts:77](https://github.com/panva/jose/blob/v3.11.4/src/util/errors.ts#L77)
+Defined in: [util/errors.ts:77](https://github.com/panva/jose/blob/v3.11.5/src/util/errors.ts#L77)
 
 ___
 
@@ -58,9 +58,9 @@ ___
 
 • **message**: *string*= 'decryption operation failed'
 
-Overrides: void
+Overrides: JOSEError.message
 
-Defined in: [util/errors.ts:79](https://github.com/panva/jose/blob/v3.11.4/src/util/errors.ts#L79)
+Defined in: [util/errors.ts:79](https://github.com/panva/jose/blob/v3.11.5/src/util/errors.ts#L79)
 
 ___
 
@@ -72,4 +72,4 @@ A unique error code for the particular error subclass.
 
 Overrides: [JOSEError](util_errors.joseerror.md).[code](util_errors.joseerror.md#code)
 
-Defined in: [util/errors.ts:75](https://github.com/panva/jose/blob/v3.11.4/src/util/errors.ts#L75)
+Defined in: [util/errors.ts:75](https://github.com/panva/jose/blob/v3.11.5/src/util/errors.ts#L75)

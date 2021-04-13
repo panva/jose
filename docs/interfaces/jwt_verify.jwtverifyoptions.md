@@ -38,7 +38,7 @@ key/secret are allowed. Note: "none" is never accepted.
 
 Inherited from: [VerifyOptions](types.verifyoptions.md).[algorithms](types.verifyoptions.md#algorithms)
 
-Defined in: [types.d.ts:523](https://github.com/panva/jose/blob/v3.11.4/src/types.d.ts#L523)
+Defined in: [types.d.ts:523](https://github.com/panva/jose/blob/v3.11.5/src/types.d.ts#L523)
 
 ___
 
@@ -50,7 +50,7 @@ Expected JWT "aud" (Audience) Claim value(s).
 
 Inherited from: [JWTClaimVerificationOptions](types.jwtclaimverificationoptions.md).[audience](types.jwtclaimverificationoptions.md#audience)
 
-Defined in: [types.d.ts:477](https://github.com/panva/jose/blob/v3.11.4/src/types.d.ts#L477)
+Defined in: [types.d.ts:477](https://github.com/panva/jose/blob/v3.11.5/src/types.d.ts#L477)
 
 ___
 
@@ -64,7 +64,7 @@ Expected clock tolerance
 
 Inherited from: [JWTClaimVerificationOptions](types.jwtclaimverificationoptions.md).[clockTolerance](types.jwtclaimverificationoptions.md#clocktolerance)
 
-Defined in: [types.d.ts:484](https://github.com/panva/jose/blob/v3.11.4/src/types.d.ts#L484)
+Defined in: [types.d.ts:484](https://github.com/panva/jose/blob/v3.11.5/src/types.d.ts#L484)
 
 ___
 
@@ -95,7 +95,7 @@ default built-in treatment are currently available.
 
 Inherited from: [VerifyOptions](types.verifyoptions.md).[crit](types.verifyoptions.md#crit)
 
-Defined in: [types.d.ts:431](https://github.com/panva/jose/blob/v3.11.4/src/types.d.ts#L431)
+Defined in: [types.d.ts:431](https://github.com/panva/jose/blob/v3.11.5/src/types.d.ts#L431)
 
 ___
 
@@ -107,7 +107,7 @@ Date to use when comparing NumericDate claims, defaults to `new Date()`.
 
 Inherited from: [JWTClaimVerificationOptions](types.jwtclaimverificationoptions.md).[currentDate](types.jwtclaimverificationoptions.md#currentdate)
 
-Defined in: [types.d.ts:511](https://github.com/panva/jose/blob/v3.11.4/src/types.d.ts#L511)
+Defined in: [types.d.ts:511](https://github.com/panva/jose/blob/v3.11.5/src/types.d.ts#L511)
 
 ___
 
@@ -119,7 +119,7 @@ Expected JWT "iss" (Issuer) Claim value(s).
 
 Inherited from: [JWTClaimVerificationOptions](types.jwtclaimverificationoptions.md).[issuer](types.jwtclaimverificationoptions.md#issuer)
 
-Defined in: [types.d.ts:489](https://github.com/panva/jose/blob/v3.11.4/src/types.d.ts#L489)
+Defined in: [types.d.ts:489](https://github.com/panva/jose/blob/v3.11.5/src/types.d.ts#L489)
 
 ___
 
@@ -133,7 +133,7 @@ Maximum time elapsed (in seconds) from the JWT "iat" (Issued At) Claim value.
 
 Inherited from: [JWTClaimVerificationOptions](types.jwtclaimverificationoptions.md).[maxTokenAge](types.jwtclaimverificationoptions.md#maxtokenage)
 
-Defined in: [types.d.ts:496](https://github.com/panva/jose/blob/v3.11.4/src/types.d.ts#L496)
+Defined in: [types.d.ts:496](https://github.com/panva/jose/blob/v3.11.5/src/types.d.ts#L496)
 
 ___
 
@@ -145,7 +145,7 @@ Expected JWT "sub" (Subject) Claim value.
 
 Inherited from: [JWTClaimVerificationOptions](types.jwtclaimverificationoptions.md).[subject](types.jwtclaimverificationoptions.md#subject)
 
-Defined in: [types.d.ts:501](https://github.com/panva/jose/blob/v3.11.4/src/types.d.ts#L501)
+Defined in: [types.d.ts:501](https://github.com/panva/jose/blob/v3.11.5/src/types.d.ts#L501)
 
 ___
 
@@ -157,4 +157,4 @@ Expected JWT "typ" (Type) Header Parameter value.
 
 Inherited from: [JWTClaimVerificationOptions](types.jwtclaimverificationoptions.md).[typ](types.jwtclaimverificationoptions.md#typ)
 
-Defined in: [types.d.ts:506](https://github.com/panva/jose/blob/v3.11.4/src/types.d.ts#L506)
+Defined in: [types.d.ts:506](https://github.com/panva/jose/blob/v3.11.5/src/types.d.ts#L506)

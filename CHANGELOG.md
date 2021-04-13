@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [3.11.5](https://github.com/panva/jose/compare/v3.11.4...v3.11.5) (2021-04-13)
+
+
+### Bug Fixes
+
+* isObject helper in different vm contexts or jest re-assigned globals ([7819df7](https://github.com/panva/jose/commit/7819df73ebf6391377ef3e7623948d8329ac47f5)), closes [#178](https://github.com/panva/jose/issues/178)
+
 ## [3.11.4](https://github.com/panva/jose/compare/v3.11.3...v3.11.4) (2021-04-09)
 
 

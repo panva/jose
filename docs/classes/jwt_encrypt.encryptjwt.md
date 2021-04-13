@@ -71,9 +71,9 @@ Name | Type | Description |
 
 **Returns:** [*EncryptJWT*](jwt_encrypt.encryptjwt.md)
 
-Inherited from: void
+Inherited from: ProduceJWT.constructor
 
-Defined in: [lib/jwt_producer.ts:10](https://github.com/panva/jose/blob/v3.11.4/src/lib/jwt_producer.ts#L10)
+Defined in: [lib/jwt_producer.ts:10](https://github.com/panva/jose/blob/v3.11.5/src/lib/jwt_producer.ts#L10)
 
 ## Methods
 
@@ -92,7 +92,7 @@ Name | Type | Description |
 
 **Returns:** *Promise*<string\>
 
-Defined in: [jwt/encrypt.ts:151](https://github.com/panva/jose/blob/v3.11.4/src/jwt/encrypt.ts#L151)
+Defined in: [jwt/encrypt.ts:151](https://github.com/panva/jose/blob/v3.11.5/src/jwt/encrypt.ts#L151)
 
 ___
 
@@ -105,7 +105,7 @@ Replicates the "aud" (Audience) Claim as a JWE Protected Header Parameter as per
 
 **Returns:** [*EncryptJWT*](jwt_encrypt.encryptjwt.md)
 
-Defined in: [jwt/encrypt.ts:140](https://github.com/panva/jose/blob/v3.11.4/src/jwt/encrypt.ts#L140)
+Defined in: [jwt/encrypt.ts:140](https://github.com/panva/jose/blob/v3.11.5/src/jwt/encrypt.ts#L140)
 
 ___
 
@@ -118,7 +118,7 @@ Replicates the "iss" (Issuer) Claim as a JWE Protected Header Parameter as per
 
 **Returns:** [*EncryptJWT*](jwt_encrypt.encryptjwt.md)
 
-Defined in: [jwt/encrypt.ts:122](https://github.com/panva/jose/blob/v3.11.4/src/jwt/encrypt.ts#L122)
+Defined in: [jwt/encrypt.ts:122](https://github.com/panva/jose/blob/v3.11.5/src/jwt/encrypt.ts#L122)
 
 ___
 
@@ -131,7 +131,7 @@ Replicates the "sub" (Subject) Claim as a JWE Protected Header Parameter as per
 
 **Returns:** [*EncryptJWT*](jwt_encrypt.encryptjwt.md)
 
-Defined in: [jwt/encrypt.ts:131](https://github.com/panva/jose/blob/v3.11.4/src/jwt/encrypt.ts#L131)
+Defined in: [jwt/encrypt.ts:131](https://github.com/panva/jose/blob/v3.11.5/src/jwt/encrypt.ts#L131)
 
 ___
 
@@ -149,9 +149,9 @@ Name | Type | Description |
 
 **Returns:** [*EncryptJWT*](jwt_encrypt.encryptjwt.md)
 
-Inherited from: void
+Inherited from: ProduceJWT.setAudience
 
-Defined in: [lib/jwt_producer.ts:47](https://github.com/panva/jose/blob/v3.11.4/src/lib/jwt_producer.ts#L47)
+Defined in: [lib/jwt_producer.ts:47](https://github.com/panva/jose/blob/v3.11.5/src/lib/jwt_producer.ts#L47)
 
 ___
 
@@ -172,7 +172,7 @@ Name | Type | Description |
 
 **Returns:** [*EncryptJWT*](jwt_encrypt.encryptjwt.md)
 
-Defined in: [jwt/encrypt.ts:94](https://github.com/panva/jose/blob/v3.11.4/src/jwt/encrypt.ts#L94)
+Defined in: [jwt/encrypt.ts:94](https://github.com/panva/jose/blob/v3.11.5/src/jwt/encrypt.ts#L94)
 
 ___
 
@@ -190,9 +190,9 @@ Name | Type | Description |
 
 **Returns:** [*EncryptJWT*](jwt_encrypt.encryptjwt.md)
 
-Inherited from: void
+Inherited from: ProduceJWT.setExpirationTime
 
-Defined in: [lib/jwt_producer.ts:85](https://github.com/panva/jose/blob/v3.11.4/src/lib/jwt_producer.ts#L85)
+Defined in: [lib/jwt_producer.ts:85](https://github.com/panva/jose/blob/v3.11.5/src/lib/jwt_producer.ts#L85)
 
 ___
 
@@ -213,7 +213,7 @@ Name | Type | Description |
 
 **Returns:** [*EncryptJWT*](jwt_encrypt.encryptjwt.md)
 
-Defined in: [jwt/encrypt.ts:110](https://github.com/panva/jose/blob/v3.11.4/src/jwt/encrypt.ts#L110)
+Defined in: [jwt/encrypt.ts:110](https://github.com/panva/jose/blob/v3.11.5/src/jwt/encrypt.ts#L110)
 
 ___
 
@@ -231,9 +231,9 @@ Name | Type | Description |
 
 **Returns:** [*EncryptJWT*](jwt_encrypt.encryptjwt.md)
 
-Inherited from: void
+Inherited from: ProduceJWT.setIssuedAt
 
-Defined in: [lib/jwt_producer.ts:100](https://github.com/panva/jose/blob/v3.11.4/src/lib/jwt_producer.ts#L100)
+Defined in: [lib/jwt_producer.ts:100](https://github.com/panva/jose/blob/v3.11.5/src/lib/jwt_producer.ts#L100)
 
 ___
 
@@ -251,9 +251,9 @@ Name | Type | Description |
 
 **Returns:** [*EncryptJWT*](jwt_encrypt.encryptjwt.md)
 
-Inherited from: void
+Inherited from: ProduceJWT.setIssuer
 
-Defined in: [lib/jwt_producer.ts:27](https://github.com/panva/jose/blob/v3.11.4/src/lib/jwt_producer.ts#L27)
+Defined in: [lib/jwt_producer.ts:27](https://github.com/panva/jose/blob/v3.11.5/src/lib/jwt_producer.ts#L27)
 
 ___
 
@@ -271,9 +271,9 @@ Name | Type | Description |
 
 **Returns:** [*EncryptJWT*](jwt_encrypt.encryptjwt.md)
 
-Inherited from: void
+Inherited from: ProduceJWT.setJti
 
-Defined in: [lib/jwt_producer.ts:57](https://github.com/panva/jose/blob/v3.11.4/src/lib/jwt_producer.ts#L57)
+Defined in: [lib/jwt_producer.ts:57](https://github.com/panva/jose/blob/v3.11.5/src/lib/jwt_producer.ts#L57)
 
 ___
 
@@ -294,7 +294,7 @@ Name | Type | Description |
 
 **Returns:** [*EncryptJWT*](jwt_encrypt.encryptjwt.md)
 
-Defined in: [jwt/encrypt.ts:78](https://github.com/panva/jose/blob/v3.11.4/src/jwt/encrypt.ts#L78)
+Defined in: [jwt/encrypt.ts:78](https://github.com/panva/jose/blob/v3.11.5/src/jwt/encrypt.ts#L78)
 
 ___
 
@@ -312,9 +312,9 @@ Name | Type | Description |
 
 **Returns:** [*EncryptJWT*](jwt_encrypt.encryptjwt.md)
 
-Inherited from: void
+Inherited from: ProduceJWT.setNotBefore
 
-Defined in: [lib/jwt_producer.ts:69](https://github.com/panva/jose/blob/v3.11.4/src/lib/jwt_producer.ts#L69)
+Defined in: [lib/jwt_producer.ts:69](https://github.com/panva/jose/blob/v3.11.5/src/lib/jwt_producer.ts#L69)
 
 ___
 
@@ -332,7 +332,7 @@ Name | Type | Description |
 
 **Returns:** [*EncryptJWT*](jwt_encrypt.encryptjwt.md)
 
-Defined in: [jwt/encrypt.ts:62](https://github.com/panva/jose/blob/v3.11.4/src/jwt/encrypt.ts#L62)
+Defined in: [jwt/encrypt.ts:62](https://github.com/panva/jose/blob/v3.11.5/src/jwt/encrypt.ts#L62)
 
 ___
 
@@ -350,6 +350,6 @@ Name | Type | Description |
 
 **Returns:** [*EncryptJWT*](jwt_encrypt.encryptjwt.md)
 
-Inherited from: void
+Inherited from: ProduceJWT.setSubject
 
-Defined in: [lib/jwt_producer.ts:37](https://github.com/panva/jose/blob/v3.11.4/src/lib/jwt_producer.ts#L37)
+Defined in: [lib/jwt_producer.ts:37](https://github.com/panva/jose/blob/v3.11.5/src/lib/jwt_producer.ts#L37)

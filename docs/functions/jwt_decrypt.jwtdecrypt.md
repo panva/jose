@@ -39,4 +39,4 @@ Name | Type | Description |
 
 **Returns:** *Promise*<[*JWTDecryptResult*](../interfaces/types.jwtdecryptresult.md)\>
 
-Defined in: [jwt/decrypt.ts:56](https://github.com/panva/jose/blob/v3.11.4/src/jwt/decrypt.ts#L56)
+Defined in: [jwt/decrypt.ts:56](https://github.com/panva/jose/blob/v3.11.5/src/jwt/decrypt.ts#L56)

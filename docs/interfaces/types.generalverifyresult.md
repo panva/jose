@@ -26,7 +26,7 @@ JWS Payload.
 
 Inherited from: [FlattenedVerifyResult](types.flattenedverifyresult.md).[payload](types.flattenedverifyresult.md#payload)
 
-Defined in: [types.d.ts:636](https://github.com/panva/jose/blob/v3.11.4/src/types.d.ts#L636)
+Defined in: [types.d.ts:636](https://github.com/panva/jose/blob/v3.11.5/src/types.d.ts#L636)
 
 ___
 
@@ -38,7 +38,7 @@ JWS Protected Header.
 
 Inherited from: [FlattenedVerifyResult](types.flattenedverifyresult.md).[protectedHeader](types.flattenedverifyresult.md#protectedheader)
 
-Defined in: [types.d.ts:641](https://github.com/panva/jose/blob/v3.11.4/src/types.d.ts#L641)
+Defined in: [types.d.ts:641](https://github.com/panva/jose/blob/v3.11.5/src/types.d.ts#L641)
 
 ___
 
@@ -50,4 +50,4 @@ JWS Unprotected Header.
 
 Inherited from: [FlattenedVerifyResult](types.flattenedverifyresult.md).[unprotectedHeader](types.flattenedverifyresult.md#unprotectedheader)
 
-Defined in: [types.d.ts:646](https://github.com/panva/jose/blob/v3.11.4/src/types.d.ts#L646)
+Defined in: [types.d.ts:646](https://github.com/panva/jose/blob/v3.11.5/src/types.d.ts#L646)

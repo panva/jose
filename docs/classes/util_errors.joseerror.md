@@ -60,9 +60,9 @@ Name | Type |
 
 **Returns:** [*JOSEError*](util_errors.joseerror.md)
 
-Overrides: void
+Overrides: Error.constructor
 
-Defined in: [util/errors.ts:16](https://github.com/panva/jose/blob/v3.11.4/src/util/errors.ts#L16)
+Defined in: [util/errors.ts:16](https://github.com/panva/jose/blob/v3.11.5/src/util/errors.ts#L16)
 
 ## Properties
 
@@ -72,7 +72,7 @@ Defined in: [util/errors.ts:16](https://github.com/panva/jose/blob/v3.11.4/src/u
 
 A unique error code for the particular error subclass.
 
-Defined in: [util/errors.ts:16](https://github.com/panva/jose/blob/v3.11.4/src/util/errors.ts#L16)
+Defined in: [util/errors.ts:16](https://github.com/panva/jose/blob/v3.11.5/src/util/errors.ts#L16)
 
 ___
 
@@ -82,4 +82,4 @@ ___
 
 A unique error code for the particular error subclass.
 
-Defined in: [util/errors.ts:11](https://github.com/panva/jose/blob/v3.11.4/src/util/errors.ts#L11)
+Defined in: [util/errors.ts:11](https://github.com/panva/jose/blob/v3.11.5/src/util/errors.ts#L11)

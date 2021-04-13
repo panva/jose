@@ -38,7 +38,7 @@ Name | Type |
 
 Inherited from: [JOSEError](util_errors.joseerror.md)
 
-Defined in: [util/errors.ts:16](https://github.com/panva/jose/blob/v3.11.4/src/util/errors.ts#L16)
+Defined in: [util/errors.ts:16](https://github.com/panva/jose/blob/v3.11.5/src/util/errors.ts#L16)
 
 ## Properties
 
@@ -50,7 +50,7 @@ A unique error code for the particular error subclass.
 
 Overrides: [JOSEError](util_errors.joseerror.md).[code](util_errors.joseerror.md#code)
 
-Defined in: [util/errors.ts:133](https://github.com/panva/jose/blob/v3.11.4/src/util/errors.ts#L133)
+Defined in: [util/errors.ts:133](https://github.com/panva/jose/blob/v3.11.5/src/util/errors.ts#L133)
 
 ___
 
@@ -58,9 +58,9 @@ ___
 
 • **message**: *string*= 'no applicable key found in the JSON Web Key Set'
 
-Overrides: void
+Overrides: JOSEError.message
 
-Defined in: [util/errors.ts:135](https://github.com/panva/jose/blob/v3.11.4/src/util/errors.ts#L135)
+Defined in: [util/errors.ts:135](https://github.com/panva/jose/blob/v3.11.5/src/util/errors.ts#L135)
 
 ___
 
@@ -72,4 +72,4 @@ A unique error code for the particular error subclass.
 
 Overrides: [JOSEError](util_errors.joseerror.md).[code](util_errors.joseerror.md#code)
 
-Defined in: [util/errors.ts:131](https://github.com/panva/jose/blob/v3.11.4/src/util/errors.ts#L131)
+Defined in: [util/errors.ts:131](https://github.com/panva/jose/blob/v3.11.5/src/util/errors.ts#L131)

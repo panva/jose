@@ -65,9 +65,9 @@ Name | Type | Description |
 
 **Returns:** [*SignJWT*](jwt_sign.signjwt.md)
 
-Inherited from: void
+Inherited from: ProduceJWT.constructor
 
-Defined in: [lib/jwt_producer.ts:10](https://github.com/panva/jose/blob/v3.11.4/src/lib/jwt_producer.ts#L10)
+Defined in: [lib/jwt_producer.ts:10](https://github.com/panva/jose/blob/v3.11.5/src/lib/jwt_producer.ts#L10)
 
 ## Methods
 
@@ -85,9 +85,9 @@ Name | Type | Description |
 
 **Returns:** [*SignJWT*](jwt_sign.signjwt.md)
 
-Inherited from: void
+Inherited from: ProduceJWT.setAudience
 
-Defined in: [lib/jwt_producer.ts:47](https://github.com/panva/jose/blob/v3.11.4/src/lib/jwt_producer.ts#L47)
+Defined in: [lib/jwt_producer.ts:47](https://github.com/panva/jose/blob/v3.11.5/src/lib/jwt_producer.ts#L47)
 
 ___
 
@@ -105,9 +105,9 @@ Name | Type | Description |
 
 **Returns:** [*SignJWT*](jwt_sign.signjwt.md)
 
-Inherited from: void
+Inherited from: ProduceJWT.setExpirationTime
 
-Defined in: [lib/jwt_producer.ts:85](https://github.com/panva/jose/blob/v3.11.4/src/lib/jwt_producer.ts#L85)
+Defined in: [lib/jwt_producer.ts:85](https://github.com/panva/jose/blob/v3.11.5/src/lib/jwt_producer.ts#L85)
 
 ___
 
@@ -125,9 +125,9 @@ Name | Type | Description |
 
 **Returns:** [*SignJWT*](jwt_sign.signjwt.md)
 
-Inherited from: void
+Inherited from: ProduceJWT.setIssuedAt
 
-Defined in: [lib/jwt_producer.ts:100](https://github.com/panva/jose/blob/v3.11.4/src/lib/jwt_producer.ts#L100)
+Defined in: [lib/jwt_producer.ts:100](https://github.com/panva/jose/blob/v3.11.5/src/lib/jwt_producer.ts#L100)
 
 ___
 
@@ -145,9 +145,9 @@ Name | Type | Description |
 
 **Returns:** [*SignJWT*](jwt_sign.signjwt.md)
 
-Inherited from: void
+Inherited from: ProduceJWT.setIssuer
 
-Defined in: [lib/jwt_producer.ts:27](https://github.com/panva/jose/blob/v3.11.4/src/lib/jwt_producer.ts#L27)
+Defined in: [lib/jwt_producer.ts:27](https://github.com/panva/jose/blob/v3.11.5/src/lib/jwt_producer.ts#L27)
 
 ___
 
@@ -165,9 +165,9 @@ Name | Type | Description |
 
 **Returns:** [*SignJWT*](jwt_sign.signjwt.md)
 
-Inherited from: void
+Inherited from: ProduceJWT.setJti
 
-Defined in: [lib/jwt_producer.ts:57](https://github.com/panva/jose/blob/v3.11.4/src/lib/jwt_producer.ts#L57)
+Defined in: [lib/jwt_producer.ts:57](https://github.com/panva/jose/blob/v3.11.5/src/lib/jwt_producer.ts#L57)
 
 ___
 
@@ -185,9 +185,9 @@ Name | Type | Description |
 
 **Returns:** [*SignJWT*](jwt_sign.signjwt.md)
 
-Inherited from: void
+Inherited from: ProduceJWT.setNotBefore
 
-Defined in: [lib/jwt_producer.ts:69](https://github.com/panva/jose/blob/v3.11.4/src/lib/jwt_producer.ts#L69)
+Defined in: [lib/jwt_producer.ts:69](https://github.com/panva/jose/blob/v3.11.5/src/lib/jwt_producer.ts#L69)
 
 ___
 
@@ -205,7 +205,7 @@ Name | Type | Description |
 
 **Returns:** [*SignJWT*](jwt_sign.signjwt.md)
 
-Defined in: [jwt/sign.ts:43](https://github.com/panva/jose/blob/v3.11.4/src/jwt/sign.ts#L43)
+Defined in: [jwt/sign.ts:43](https://github.com/panva/jose/blob/v3.11.5/src/jwt/sign.ts#L43)
 
 ___
 
@@ -223,9 +223,9 @@ Name | Type | Description |
 
 **Returns:** [*SignJWT*](jwt_sign.signjwt.md)
 
-Inherited from: void
+Inherited from: ProduceJWT.setSubject
 
-Defined in: [lib/jwt_producer.ts:37](https://github.com/panva/jose/blob/v3.11.4/src/lib/jwt_producer.ts#L37)
+Defined in: [lib/jwt_producer.ts:37](https://github.com/panva/jose/blob/v3.11.5/src/lib/jwt_producer.ts#L37)
 
 ___
 
@@ -244,4 +244,4 @@ Name | Type | Description |
 
 **Returns:** *Promise*<string\>
 
-Defined in: [jwt/sign.ts:54](https://github.com/panva/jose/blob/v3.11.4/src/jwt/sign.ts#L54)
+Defined in: [jwt/sign.ts:54](https://github.com/panva/jose/blob/v3.11.5/src/jwt/sign.ts#L54)

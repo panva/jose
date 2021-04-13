@@ -42,4 +42,4 @@ Name | Type | Description |
 
 **Returns:** [*GetKeyFunction*](../interfaces/types.getkeyfunction.md)<[*JWSHeaderParameters*](../interfaces/types.jwsheaderparameters.md), [*FlattenedJWSInput*](../interfaces/types.flattenedjwsinput.md)\>
 
-Defined in: [jwks/remote.ts:247](https://github.com/panva/jose/blob/v3.11.4/src/jwks/remote.ts#L247)
+Defined in: [jwks/remote.ts:248](https://github.com/panva/jose/blob/v3.11.5/src/jwks/remote.ts#L248)

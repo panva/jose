@@ -32,9 +32,9 @@ otherwise, it MUST be absent.  A JWE AAD value can be included to
 supply a base64url-encoded value to be integrity protected but not
 encrypted.
 
-Inherited from: void
+Inherited from: Omit.aad
 
-Defined in: [types.d.ts:315](https://github.com/panva/jose/blob/v3.11.4/src/types.d.ts#L315)
+Defined in: [types.d.ts:315](https://github.com/panva/jose/blob/v3.11.5/src/types.d.ts#L315)
 
 ___
 
@@ -45,9 +45,9 @@ ___
 The "ciphertext" member MUST be present and contain the value
 BASE64URL(JWE Ciphertext).
 
-Inherited from: void
+Inherited from: Omit.ciphertext
 
-Defined in: [types.d.ts:321](https://github.com/panva/jose/blob/v3.11.4/src/types.d.ts#L321)
+Defined in: [types.d.ts:321](https://github.com/panva/jose/blob/v3.11.5/src/types.d.ts#L321)
 
 ___
 
@@ -59,9 +59,9 @@ The "iv" member MUST be present and contain the value
 BASE64URL(JWE Initialization Vector) when the JWE Initialization
 Vector value is non-empty; otherwise, it MUST be absent.
 
-Inherited from: void
+Inherited from: Omit.iv
 
-Defined in: [types.d.ts:345](https://github.com/panva/jose/blob/v3.11.4/src/types.d.ts#L345)
+Defined in: [types.d.ts:345](https://github.com/panva/jose/blob/v3.11.5/src/types.d.ts#L345)
 
 ___
 
@@ -74,9 +74,9 @@ BASE64URL(UTF8(JWE Protected Header)) when the JWE Protected
 Header value is non-empty; otherwise, it MUST be absent.  These
 Header Parameter values are integrity protected.
 
-Inherited from: void
+Inherited from: Omit.protected
 
-Defined in: [types.d.ts:353](https://github.com/panva/jose/blob/v3.11.4/src/types.d.ts#L353)
+Defined in: [types.d.ts:353](https://github.com/panva/jose/blob/v3.11.5/src/types.d.ts#L353)
 
 ___
 
@@ -84,7 +84,7 @@ ___
 
 • **recipients**: *Pick*<[*FlattenedJWE*](types.flattenedjwe.md), *header* \| *encrypted_key*\>[]
 
-Defined in: [types.d.ts:373](https://github.com/panva/jose/blob/v3.11.4/src/types.d.ts#L373)
+Defined in: [types.d.ts:373](https://github.com/panva/jose/blob/v3.11.5/src/types.d.ts#L373)
 
 ___
 
@@ -96,9 +96,9 @@ The "tag" member MUST be present and contain the value
 BASE64URL(JWE Authentication Tag) when the JWE Authentication Tag
 value is non-empty; otherwise, it MUST be absent.
 
-Inherited from: void
+Inherited from: Omit.tag
 
-Defined in: [types.d.ts:360](https://github.com/panva/jose/blob/v3.11.4/src/types.d.ts#L360)
+Defined in: [types.d.ts:360](https://github.com/panva/jose/blob/v3.11.5/src/types.d.ts#L360)
 
 ___
 
@@ -112,6 +112,6 @@ value is non-empty; otherwise, it MUST be absent.  This value is
 represented as an unencoded JSON object, rather than as a string.
 These Header Parameter values are not integrity protected.
 
-Inherited from: void
+Inherited from: Omit.unprotected
 
-Defined in: [types.d.ts:369](https://github.com/panva/jose/blob/v3.11.4/src/types.d.ts#L369)
+Defined in: [types.d.ts:369](https://github.com/panva/jose/blob/v3.11.5/src/types.d.ts#L369)
