@@ -65,14 +65,14 @@ const browsers = {
   },
   ios_latest: {
     base: "BrowserStack",
-    device: "iPhone 11",
+    device: "iPhone 12 Pro",
     os: "ios",
     real_mobile: true,
     os_version: "14",
   },
   ios_lowest: {
     base: "BrowserStack",
-    device: "iPhone XR",
+    device: "iPhone XS Max",
     os: "ios",
     real_mobile: true,
     os_version: "12",
