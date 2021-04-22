@@ -146,6 +146,7 @@ jobs:
       - run: git reset HEAD --hard
 
   browserstack:
+    if: ${{ github.event_name != 'pull_request' }}
     env:
       BROWSERSTACK_USERNAME: ${{ secrets.BROWSERSTACK_USERNAME }}
       BROWSERSTACK_ACCESS_KEY: ${{ secrets.BROWSERSTACK_ACCESS_KEY }}
