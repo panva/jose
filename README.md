@@ -34,12 +34,12 @@ npm install jose
 
 ESM module (import):
 ```console
-npm install jose@npm:jose-node-esm-runtime
+npm install jose-node-esm-runtime
 ```
 
 CJS module (require):
 ```console
-npm install jose@npm:jose-node-cjs-runtime
+npm install jose-node-cjs-runtime
 ```
 </details>
 
@@ -47,7 +47,7 @@ npm install jose@npm:jose-node-cjs-runtime
 <summary><em>Looking for a Browser only distribution?</em> (Click to expand)</summary>
 
 ```console
-npm install jose@npm:jose-browser-runtime
+npm install jose-browser-runtime
 ```
 </details>
 
