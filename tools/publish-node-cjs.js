@@ -57,7 +57,7 @@ If you or your business use \`jose\`, please consider becoming a [sponsor][suppo
 ## Install
 
 \`\`\`console
-npm install jose@npm:${pkg.name}
+npm install ${pkg.name}
 \`\`\`
 
 ## Documentation
