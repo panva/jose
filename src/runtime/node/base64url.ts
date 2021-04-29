@@ -11,7 +11,7 @@ function normalize(input: string | Uint8Array) {
 }
 
 if (Buffer.isEncoding('base64url')) {
-  encodeImpl = (input) => Buffer.from(input).toString(<BufferEncoding>'base64url')
+  encodeImpl = (input) => Buffer.from(input).toString('base64url')
 } else {
   encodeImpl = (input) =>
     Buffer.from(input).toString('base64').replace(/=/g, '').replace(/\+/g, '-').replace(/\//g, '_')
