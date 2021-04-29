@@ -36,7 +36,12 @@ const verify: VerifyFunction = async (alg, key: unknown, signature, data) => {
   const keyObject = getVerifyKey(alg, key, 'verify')
   const keyInput = nodeKey(alg, keyObject)
   try {
-    return oneShotVerify(algorithm, data, keyInput, signature)
+    let result = oneShotVerify(algorithm, data, keyInput, signature)
+    // @ts-expect-error
+    if (result instanceof Promise) {
+      result = await result;
+    }
+    return result
   } catch {
     return false
   }
