@@ -14,6 +14,8 @@ key/secret available in the Node.js runtime. You can obtain a KeyObject instance
 - [crypto.createSecretKey](https://nodejs.org/api/crypto.html#crypto_crypto_createsecretkey_key_encoding)
 - [crypto.generateKeyPair](https://nodejs.org/api/crypto.html#crypto_crypto_generatekeypair_type_options_callback)
 - [jose/jwk/parse](../functions/jwk_parse.parsejwk.md#readme)
+- [jose/util/generate_key_pair](../functions/util_generate_key_pair.generatekeypair.md#readme)
+- [jose/util/generate_secret](../functions/util_generate_secret.generatesecret.md#readme)
 
 [CryptoKey](https://developer.mozilla.org/en-US/docs/Web/API/CryptoKey) is a representation of a
 key/secret available in the Browser runtime. You can obtain a CryptoKey instance e.g. from:
@@ -21,6 +23,8 @@ key/secret available in the Browser runtime. You can obtain a CryptoKey instance
 - [SubtleCrypto.importKey](https://developer.mozilla.org/en-US/docs/Web/API/SubtleCrypto/importKey)
 - [SubtleCrypto.generateKey](https://developer.mozilla.org/en-US/docs/Web/API/SubtleCrypto/generateKey)
 - [jose/jwk/parse](../functions/jwk_parse.parsejwk.md#readme)
+- [jose/util/generate_key_pair](../functions/util_generate_key_pair.generatekeypair.md#readme)
+- [jose/util/generate_secret](../functions/util_generate_secret.generatesecret.md#readme)
 
 [Uint8Array](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Uint8Array)
 is used exclusively for symmetric secret representations, a CryptoKey or KeyObject is
