@@ -13,7 +13,6 @@ key/secret available in the Node.js runtime. You can obtain a KeyObject instance
 - [crypto.createPublicKey](https://nodejs.org/api/crypto.html#crypto_crypto_createpublickey_key)
 - [crypto.createPrivateKey](https://nodejs.org/api/crypto.html#crypto_crypto_createprivatekey_key)
 - [crypto.createSecretKey](https://nodejs.org/api/crypto.html#crypto_crypto_createsecretkey_key_encoding)
-- [crypto.generateKeyPair](https://nodejs.org/api/crypto.html#crypto_crypto_generatekeypair_type_options_callback)
 - [jose/jwk/parse](../functions/jwk_parse.parsejwk.md#readme)
 
 [CryptoKey](https://developer.mozilla.org/en-US/docs/Web/API/CryptoKey) is a representation of a
