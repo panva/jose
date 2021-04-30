@@ -164,10 +164,11 @@ Legend:
 
 #### Supported Versions
 
-| Version | Bug Fixes 🐞 | New Features ⭐ |
-| ------- | --------- | -------- |
-| [3.x.x](https://github.com/panva/jose) | ✅ | ✅ |
-| [2.x.x](https://github.com/panva/jose/tree/v2.x) | ✅ until 2022-04-30 | ❌ |
+| Version | Security Fixes 🔑 | Other Bug Fixes 🐞 | New Features ⭐ |
+| ------- | --------- | -------- | -------- |
+| [3.x.x](https://github.com/panva/jose) | ✅ | ✅ | ✅ |
+| [2.x.x](https://github.com/panva/jose/tree/v2.x) | ✅ | ✅ until 2022-04-30 | ❌ |
+| [1.x.x](https://github.com/panva/jose/tree/v1.x) | ✅ | ❌ | ❌ |
 
 #### What is new in v3.x?
 
