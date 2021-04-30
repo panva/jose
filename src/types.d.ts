@@ -86,7 +86,6 @@ export interface GetKeyFunction<T, T2> {
  * [KeyObject](https://nodejs.org/api/crypto.html#crypto_class_keyobject) is a representation of a
  * key/secret available in the Node.js runtime. You can obtain a KeyObject instance e.g. from:
  *
- * - [crypto.generateKeyPair](https://nodejs.org/api/crypto.html#crypto_crypto_generatekeypair_type_options_callback)
  * - [crypto.createPublicKey](https://nodejs.org/api/crypto.html#crypto_crypto_createpublickey_key)
  * - [crypto.createPrivateKey](https://nodejs.org/api/crypto.html#crypto_crypto_createprivatekey_key)
  * - [crypto.createSecretKey](https://nodejs.org/api/crypto.html#crypto_crypto_createsecretkey_key_encoding)
