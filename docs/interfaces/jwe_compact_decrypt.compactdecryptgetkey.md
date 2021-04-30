@@ -20,11 +20,11 @@ No token components have been verified at the time of this function call.
 
 #### Parameters:
 
-Name | Type |
-:------ | :------ |
-`protectedHeader` | [*JWEHeaderParameters*](types.jweheaderparameters.md) |
-`token` | [*FlattenedJWE*](types.flattenedjwe.md) |
+| Name | Type |
+| :------ | :------ |
+| `protectedHeader` | [*JWEHeaderParameters*](types.jweheaderparameters.md) |
+| `token` | [*FlattenedJWE*](types.flattenedjwe.md) |
 
 **Returns:** *Promise*<[*KeyLike*](../types/types.keylike.md)\>
 
-Defined in: [types.d.ts:78](https://github.com/panva/jose/blob/v3.11.5/src/types.d.ts#L78)
+Defined in: [types.d.ts:78](https://github.com/panva/jose/blob/v3.11.6/src/types.d.ts#L78)

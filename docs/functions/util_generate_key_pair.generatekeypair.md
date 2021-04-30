@@ -27,11 +27,11 @@ console.log(privateKey)
 
 #### Parameters:
 
-Name | Type | Description |
-:------ | :------ | :------ |
-`alg` | *string* | JWA Algorithm Identifier to be used with the generated key pair.   |
-`options?` | [*GenerateKeyPairOptions*](../interfaces/util_generate_key_pair.generatekeypairoptions.md) | Additional options passed down to the key pair generation.    |
+| Name | Type | Description |
+| :------ | :------ | :------ |
+| `alg` | *string* | JWA Algorithm Identifier to be used with the generated key pair. |
+| `options?` | [*GenerateKeyPairOptions*](../interfaces/util_generate_key_pair.generatekeypairoptions.md) | Additional options passed down to the key pair generation. |
 
 **Returns:** *Promise*<{ `privateKey`: [*KeyLike*](../types/types.keylike.md) ; `publicKey`: [*KeyLike*](../types/types.keylike.md)  }\>
 
-Defined in: [util/generate_key_pair.ts:44](https://github.com/panva/jose/blob/v3.11.5/src/util/generate_key_pair.ts#L44)
+Defined in: [util/generate_key_pair.ts:44](https://github.com/panva/jose/blob/v3.11.6/src/util/generate_key_pair.ts#L44)

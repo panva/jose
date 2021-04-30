@@ -29,12 +29,12 @@ console.log(decoder.decode(payload))
 
 #### Parameters:
 
-Name | Type | Description |
-:------ | :------ | :------ |
-`jws` | *string* \| Uint8Array | Compact JWS.   |
-`key` | [*KeyLike*](../types/types.keylike.md) \| [*CompactVerifyGetKey*](../interfaces/jws_compact_verify.compactverifygetkey.md) | Key, or a function resolving a key, to verify the JWS with.   |
-`options?` | [*VerifyOptions*](../interfaces/types.verifyoptions.md) | JWS Verify options.    |
+| Name | Type | Description |
+| :------ | :------ | :------ |
+| `jws` | *string* \| Uint8Array | Compact JWS. |
+| `key` | [*KeyLike*](../types/types.keylike.md) \| [*CompactVerifyGetKey*](../interfaces/jws_compact_verify.compactverifygetkey.md) | Key, or a function resolving a key, to verify the JWS with. |
+| `options?` | [*VerifyOptions*](../interfaces/types.verifyoptions.md) | JWS Verify options. |
 
 **Returns:** *Promise*<[*CompactVerifyResult*](../interfaces/types.compactverifyresult.md)\>
 
-Defined in: [jws/compact/verify.ts:51](https://github.com/panva/jose/blob/v3.11.5/src/jws/compact/verify.ts#L51)
+Defined in: [jws/compact/verify.ts:51](https://github.com/panva/jose/blob/v3.11.6/src/jws/compact/verify.ts#L51)

@@ -12,10 +12,10 @@ Inflate Raw implementation, e.g. promisified [zlib.inflateRaw](https://nodejs.or
 
 #### Parameters:
 
-Name | Type |
-:------ | :------ |
-`input` | *Uint8Array* |
+| Name | Type |
+| :------ | :------ |
+| `input` | *Uint8Array* |
 
 **Returns:** *Promise*<Uint8Array\>
 
-Defined in: [types.d.ts:587](https://github.com/panva/jose/blob/v3.11.5/src/types.d.ts#L587)
+Defined in: [types.d.ts:586](https://github.com/panva/jose/blob/v3.11.6/src/types.d.ts#L586)

@@ -24,7 +24,7 @@
 
 JWS Payload.
 
-Defined in: [types.d.ts:636](https://github.com/panva/jose/blob/v3.11.5/src/types.d.ts#L636)
+Defined in: [types.d.ts:635](https://github.com/panva/jose/blob/v3.11.6/src/types.d.ts#L635)
 
 ___
 
@@ -34,7 +34,7 @@ ___
 
 JWS Protected Header.
 
-Defined in: [types.d.ts:641](https://github.com/panva/jose/blob/v3.11.5/src/types.d.ts#L641)
+Defined in: [types.d.ts:640](https://github.com/panva/jose/blob/v3.11.6/src/types.d.ts#L640)
 
 ___
 
@@ -44,4 +44,4 @@ ___
 
 JWS Unprotected Header.
 
-Defined in: [types.d.ts:646](https://github.com/panva/jose/blob/v3.11.5/src/types.d.ts#L646)
+Defined in: [types.d.ts:645](https://github.com/panva/jose/blob/v3.11.6/src/types.d.ts#L645)

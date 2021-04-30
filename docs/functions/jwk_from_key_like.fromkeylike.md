@@ -27,10 +27,10 @@ console.log(publicJwk)
 
 #### Parameters:
 
-Name | Type | Description |
-:------ | :------ | :------ |
-`key` | [*KeyLike*](../types/types.keylike.md) | Key representation to transform to a JWK.    |
+| Name | Type | Description |
+| :------ | :------ | :------ |
+| `key` | [*KeyLike*](../types/types.keylike.md) | Key representation to transform to a JWK. |
 
 **Returns:** *Promise*<[*JWK*](../interfaces/types.jwk.md)\>
 
-Defined in: [jwk/from_key_like.ts:29](https://github.com/panva/jose/blob/v3.11.5/src/jwk/from_key_like.ts#L29)
+Defined in: [jwk/from_key_like.ts:29](https://github.com/panva/jose/blob/v3.11.6/src/jwk/from_key_like.ts#L29)

@@ -47,13 +47,13 @@ console.log(jwe)
 
 #### Parameters:
 
-Name | Type | Description |
-:------ | :------ | :------ |
-`plaintext` | *Uint8Array* | Binary representation of the plaintext to encrypt.    |
+| Name | Type | Description |
+| :------ | :------ | :------ |
+| `plaintext` | *Uint8Array* | Binary representation of the plaintext to encrypt. |
 
 **Returns:** [*CompactEncrypt*](jwe_compact_encrypt.compactencrypt.md)
 
-Defined in: [jwe/compact/encrypt.ts:34](https://github.com/panva/jose/blob/v3.11.5/src/jwe/compact/encrypt.ts#L34)
+Defined in: [jwe/compact/encrypt.ts:34](https://github.com/panva/jose/blob/v3.11.6/src/jwe/compact/encrypt.ts#L34)
 
 ## Methods
 
@@ -65,14 +65,14 @@ Encrypts and resolves the value of the Compact JWE string.
 
 #### Parameters:
 
-Name | Type | Description |
-:------ | :------ | :------ |
-`key` | [*KeyLike*](../types/types.keylike.md) | Public Key or Secret to encrypt the JWE with.   |
-`options?` | [*EncryptOptions*](../interfaces/types.encryptoptions.md) | JWE Encryption options.    |
+| Name | Type | Description |
+| :------ | :------ | :------ |
+| `key` | [*KeyLike*](../types/types.keylike.md) | Public Key or Secret to encrypt the JWE with. |
+| `options?` | [*EncryptOptions*](../interfaces/types.encryptoptions.md) | JWE Encryption options. |
 
 **Returns:** *Promise*<string\>
 
-Defined in: [jwe/compact/encrypt.ts:97](https://github.com/panva/jose/blob/v3.11.5/src/jwe/compact/encrypt.ts#L97)
+Defined in: [jwe/compact/encrypt.ts:97](https://github.com/panva/jose/blob/v3.11.6/src/jwe/compact/encrypt.ts#L97)
 
 ___
 
@@ -87,13 +87,13 @@ test and vector validation purposes.
 
 #### Parameters:
 
-Name | Type | Description |
-:------ | :------ | :------ |
-`cek` | *Uint8Array* | JWE Content Encryption Key.    |
+| Name | Type | Description |
+| :------ | :------ | :------ |
+| `cek` | *Uint8Array* | JWE Content Encryption Key. |
 
 **Returns:** [*CompactEncrypt*](jwe_compact_encrypt.compactencrypt.md)
 
-Defined in: [jwe/compact/encrypt.ts:51](https://github.com/panva/jose/blob/v3.11.5/src/jwe/compact/encrypt.ts#L51)
+Defined in: [jwe/compact/encrypt.ts:51](https://github.com/panva/jose/blob/v3.11.6/src/jwe/compact/encrypt.ts#L51)
 
 ___
 
@@ -108,13 +108,13 @@ intended for test and vector validation purposes.
 
 #### Parameters:
 
-Name | Type | Description |
-:------ | :------ | :------ |
-`iv` | *Uint8Array* | JWE Initialization Vector.    |
+| Name | Type | Description |
+| :------ | :------ | :------ |
+| `iv` | *Uint8Array* | JWE Initialization Vector. |
 
 **Returns:** [*CompactEncrypt*](jwe_compact_encrypt.compactencrypt.md)
 
-Defined in: [jwe/compact/encrypt.ts:64](https://github.com/panva/jose/blob/v3.11.5/src/jwe/compact/encrypt.ts#L64)
+Defined in: [jwe/compact/encrypt.ts:64](https://github.com/panva/jose/blob/v3.11.6/src/jwe/compact/encrypt.ts#L64)
 
 ___
 
@@ -128,13 +128,13 @@ intended for test and vector validation purposes.
 
 #### Parameters:
 
-Name | Type | Description |
-:------ | :------ | :------ |
-`parameters` | [*JWEKeyManagementHeaderParameters*](../interfaces/types.jwekeymanagementheaderparameters.md) | JWE Key Management parameters.    |
+| Name | Type | Description |
+| :------ | :------ | :------ |
+| `parameters` | [*JWEKeyManagementHeaderParameters*](../interfaces/types.jwekeymanagementheaderparameters.md) | JWE Key Management parameters. |
 
 **Returns:** [*CompactEncrypt*](jwe_compact_encrypt.compactencrypt.md)
 
-Defined in: [jwe/compact/encrypt.ts:86](https://github.com/panva/jose/blob/v3.11.5/src/jwe/compact/encrypt.ts#L86)
+Defined in: [jwe/compact/encrypt.ts:86](https://github.com/panva/jose/blob/v3.11.6/src/jwe/compact/encrypt.ts#L86)
 
 ___
 
@@ -146,10 +146,10 @@ Sets the JWE Protected Header on the CompactEncrypt object.
 
 #### Parameters:
 
-Name | Type | Description |
-:------ | :------ | :------ |
-`protectedHeader` | [*JWEHeaderParameters*](../interfaces/types.jweheaderparameters.md) | JWE Protected Header object.    |
+| Name | Type | Description |
+| :------ | :------ | :------ |
+| `protectedHeader` | [*JWEHeaderParameters*](../interfaces/types.jweheaderparameters.md) | JWE Protected Header object. |
 
 **Returns:** [*CompactEncrypt*](jwe_compact_encrypt.compactencrypt.md)
 
-Defined in: [jwe/compact/encrypt.ts:74](https://github.com/panva/jose/blob/v3.11.5/src/jwe/compact/encrypt.ts#L74)
+Defined in: [jwe/compact/encrypt.ts:74](https://github.com/panva/jose/blob/v3.11.6/src/jwe/compact/encrypt.ts#L74)

@@ -45,12 +45,12 @@ console.log(decoder.decode(additionalAuthenticatedData))
 
 #### Parameters:
 
-Name | Type | Description |
-:------ | :------ | :------ |
-`jwe` | [*GeneralJWE*](../interfaces/types.generaljwe.md) | General JWE.   |
-`key` | [*KeyLike*](../types/types.keylike.md) \| [*GeneralDecryptGetKey*](../interfaces/jwe_general_decrypt.generaldecryptgetkey.md) | Private Key or Secret, or a function resolving one, to decrypt the JWE with.   |
-`options?` | [*DecryptOptions*](../interfaces/types.decryptoptions.md) | JWE Decryption options.    |
+| Name | Type | Description |
+| :------ | :------ | :------ |
+| `jwe` | [*GeneralJWE*](../interfaces/types.generaljwe.md) | General JWE. |
+| `key` | [*KeyLike*](../types/types.keylike.md) \| [*GeneralDecryptGetKey*](../interfaces/jwe_general_decrypt.generaldecryptgetkey.md) | Private Key or Secret, or a function resolving one, to decrypt the JWE with. |
+| `options?` | [*DecryptOptions*](../interfaces/types.decryptoptions.md) | JWE Decryption options. |
 
 **Returns:** *Promise*<[*GeneralDecryptResult*](../interfaces/types.generaldecryptresult.md)\>
 
-Defined in: [jwe/general/decrypt.ts:64](https://github.com/panva/jose/blob/v3.11.5/src/jwe/general/decrypt.ts#L64)
+Defined in: [jwe/general/decrypt.ts:64](https://github.com/panva/jose/blob/v3.11.6/src/jwe/general/decrypt.ts#L64)

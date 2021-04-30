@@ -29,12 +29,12 @@ console.log(decoder.decode(plaintext))
 
 #### Parameters:
 
-Name | Type | Description |
-:------ | :------ | :------ |
-`jwe` | *string* \| Uint8Array | Compact JWE.   |
-`key` | [*KeyLike*](../types/types.keylike.md) \| [*CompactDecryptGetKey*](../interfaces/jwe_compact_decrypt.compactdecryptgetkey.md) | Private Key or Secret, or a function resolving one, to decrypt the JWE with.   |
-`options?` | [*DecryptOptions*](../interfaces/types.decryptoptions.md) | JWE Decryption options.    |
+| Name | Type | Description |
+| :------ | :------ | :------ |
+| `jwe` | *string* \| Uint8Array | Compact JWE. |
+| `key` | [*KeyLike*](../types/types.keylike.md) \| [*CompactDecryptGetKey*](../interfaces/jwe_compact_decrypt.compactdecryptgetkey.md) | Private Key or Secret, or a function resolving one, to decrypt the JWE with. |
+| `options?` | [*DecryptOptions*](../interfaces/types.decryptoptions.md) | JWE Decryption options. |
 
 **Returns:** *Promise*<[*CompactDecryptResult*](../interfaces/types.compactdecryptresult.md)\>
 
-Defined in: [jwe/compact/decrypt.ts:47](https://github.com/panva/jose/blob/v3.11.5/src/jwe/compact/decrypt.ts#L47)
+Defined in: [jwe/compact/decrypt.ts:47](https://github.com/panva/jose/blob/v3.11.6/src/jwe/compact/decrypt.ts#L47)

@@ -29,15 +29,15 @@ An error subclass thrown when a JWE is invalid.
 
 #### Parameters:
 
-Name | Type |
-:------ | :------ |
-`message?` | *string* |
+| Name | Type |
+| :------ | :------ |
+| `message?` | *string* |
 
 **Returns:** [*JWEInvalid*](util_errors.jweinvalid.md)
 
 Inherited from: [JOSEError](util_errors.joseerror.md)
 
-Defined in: [util/errors.ts:16](https://github.com/panva/jose/blob/v3.11.5/src/util/errors.ts#L16)
+Defined in: [util/errors.ts:16](https://github.com/panva/jose/blob/v3.11.6/src/util/errors.ts#L16)
 
 ## Properties
 
@@ -49,7 +49,7 @@ A unique error code for the particular error subclass.
 
 Overrides: [JOSEError](util_errors.joseerror.md).[code](util_errors.joseerror.md#code)
 
-Defined in: [util/errors.ts:88](https://github.com/panva/jose/blob/v3.11.5/src/util/errors.ts#L88)
+Defined in: [util/errors.ts:88](https://github.com/panva/jose/blob/v3.11.6/src/util/errors.ts#L88)
 
 ___
 
@@ -61,4 +61,4 @@ A unique error code for the particular error subclass.
 
 Overrides: [JOSEError](util_errors.joseerror.md).[code](util_errors.joseerror.md#code)
 
-Defined in: [util/errors.ts:86](https://github.com/panva/jose/blob/v3.11.5/src/util/errors.ts#L86)
+Defined in: [util/errors.ts:86](https://github.com/panva/jose/blob/v3.11.6/src/util/errors.ts#L86)

@@ -2,7 +2,7 @@
 
 [jwk/thumbprint](../modules/jwk_thumbprint.md).calculateThumbprint
 
-▸ **calculateThumbprint**(`jwk`: [*JWK*](../interfaces/types.jwk.md), `digestAlgorithm?`: *sha256* \| *sha384* \| *sha512*): *Promise*<string\>
+▸ **calculateThumbprint**(`jwk`: [*JWK*](../interfaces/types.jwk.md), `digestAlgorithm?`: ``"sha256"`` \| ``"sha384"`` \| ``"sha512"``): *Promise*<string\>
 
 Calculates a base64url-encoded JSON Web Key (JWK) Thumbprint as per
 [RFC7638](https://tools.ietf.org/html/rfc7638).
@@ -30,11 +30,11 @@ console.log(thumbprint)
 
 #### Parameters:
 
-Name | Type | Default value | Description |
-:------ | :------ | :------ | :------ |
-`jwk` | [*JWK*](../interfaces/types.jwk.md) | - | JSON Web Key.   |
-`digestAlgorithm` | *sha256* \| *sha384* \| *sha512* | 'sha256' | Digest Algorithm to use for calculating the thumbprint. Default is sha256. Accepted is "sha256", "sha384", "sha512".    |
+| Name | Type | Default value | Description |
+| :------ | :------ | :------ | :------ |
+| `jwk` | [*JWK*](../interfaces/types.jwk.md) | - | JSON Web Key. |
+| `digestAlgorithm` | ``"sha256"`` \| ``"sha384"`` \| ``"sha512"`` | 'sha256' | Digest Algorithm to use for calculating the thumbprint. Default is sha256. Accepted is "sha256", "sha384", "sha512". |
 
 **Returns:** *Promise*<string\>
 
-Defined in: [jwk/thumbprint.ts:44](https://github.com/panva/jose/blob/v3.11.5/src/jwk/thumbprint.ts#L44)
+Defined in: [jwk/thumbprint.ts:44](https://github.com/panva/jose/blob/v3.11.6/src/jwk/thumbprint.ts#L44)

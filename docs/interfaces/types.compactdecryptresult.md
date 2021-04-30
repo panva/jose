@@ -17,7 +17,7 @@
 
 Plaintext.
 
-Defined in: [types.d.ts:624](https://github.com/panva/jose/blob/v3.11.5/src/types.d.ts#L624)
+Defined in: [types.d.ts:623](https://github.com/panva/jose/blob/v3.11.6/src/types.d.ts#L623)
 
 ___
 
@@ -27,4 +27,4 @@ ___
 
 JWE Protected Header.
 
-Defined in: [types.d.ts:629](https://github.com/panva/jose/blob/v3.11.5/src/types.d.ts#L629)
+Defined in: [types.d.ts:628](https://github.com/panva/jose/blob/v3.11.6/src/types.d.ts#L628)

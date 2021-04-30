@@ -31,12 +31,12 @@ console.log(payload)
 
 #### Parameters:
 
-Name | Type | Description |
-:------ | :------ | :------ |
-`jwt` | *string* \| Uint8Array | JSON Web Token value (encoded as JWS).   |
-`key` | [*KeyLike*](../types/types.keylike.md) \| [*JWTVerifyGetKey*](../interfaces/jwt_verify.jwtverifygetkey.md) | Key, or a function resolving a key, to verify the JWT with.   |
-`options?` | [*JWTVerifyOptions*](../interfaces/jwt_verify.jwtverifyoptions.md) | JWT Decryption and JWT Claims Set validation options.    |
+| Name | Type | Description |
+| :------ | :------ | :------ |
+| `jwt` | *string* \| Uint8Array | JSON Web Token value (encoded as JWS). |
+| `key` | [*KeyLike*](../types/types.keylike.md) \| [*JWTVerifyGetKey*](../interfaces/jwt_verify.jwtverifygetkey.md) | Key, or a function resolving a key, to verify the JWT with. |
+| `options?` | [*JWTVerifyOptions*](../interfaces/jwt_verify.jwtverifyoptions.md) | JWT Decryption and JWT Claims Set validation options. |
 
 **Returns:** *Promise*<[*JWTVerifyResult*](../interfaces/types.jwtverifyresult.md)\>
 
-Defined in: [jwt/verify.ts:59](https://github.com/panva/jose/blob/v3.11.5/src/jwt/verify.ts#L59)
+Defined in: [jwt/verify.ts:59](https://github.com/panva/jose/blob/v3.11.6/src/jwt/verify.ts#L59)

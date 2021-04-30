@@ -12,10 +12,10 @@ Deflate Raw implementation, e.g. promisified [zlib.deflateRaw](https://nodejs.or
 
 #### Parameters:
 
-Name | Type |
-:------ | :------ |
-`input` | *Uint8Array* |
+| Name | Type |
+| :------ | :------ |
+| `input` | *Uint8Array* |
 
 **Returns:** *Promise*<Uint8Array\>
 
-Defined in: [types.d.ts:580](https://github.com/panva/jose/blob/v3.11.5/src/types.d.ts#L580)
+Defined in: [types.d.ts:579](https://github.com/panva/jose/blob/v3.11.6/src/types.d.ts#L579)

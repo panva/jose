@@ -30,17 +30,17 @@
 
 "cty" (Content Type) Header Parameter.
 
-Defined in: [types.d.ts:261](https://github.com/panva/jose/blob/v3.11.5/src/types.d.ts#L261)
+Defined in: [types.d.ts:260](https://github.com/panva/jose/blob/v3.11.6/src/types.d.ts#L260)
 
 ___
 
 ### jwk
 
-• `Optional` **jwk**: *Pick*<[*JWK*](types.jwk.md), *kty* \| *crv* \| *x* \| *y* \| *e* \| *n*\>
+• `Optional` **jwk**: *Pick*<[*JWK*](types.jwk.md), ``"kty"`` \| ``"crv"`` \| ``"x"`` \| ``"y"`` \| ``"e"`` \| ``"n"``\>
 
 "jwk" (JSON Web Key) Header Parameter.
 
-Defined in: [types.d.ts:251](https://github.com/panva/jose/blob/v3.11.5/src/types.d.ts#L251)
+Defined in: [types.d.ts:250](https://github.com/panva/jose/blob/v3.11.6/src/types.d.ts#L250)
 
 ___
 
@@ -50,7 +50,7 @@ ___
 
 "kid" (Key ID) Header Parameter.
 
-Defined in: [types.d.ts:231](https://github.com/panva/jose/blob/v3.11.5/src/types.d.ts#L231)
+Defined in: [types.d.ts:230](https://github.com/panva/jose/blob/v3.11.6/src/types.d.ts#L230)
 
 ___
 
@@ -60,7 +60,7 @@ ___
 
 "typ" (Type) Header Parameter.
 
-Defined in: [types.d.ts:256](https://github.com/panva/jose/blob/v3.11.5/src/types.d.ts#L256)
+Defined in: [types.d.ts:255](https://github.com/panva/jose/blob/v3.11.6/src/types.d.ts#L255)
 
 ___
 
@@ -70,7 +70,7 @@ ___
 
 "x5c" (X.509 Certificate Chain) Header Parameter.
 
-Defined in: [types.d.ts:241](https://github.com/panva/jose/blob/v3.11.5/src/types.d.ts#L241)
+Defined in: [types.d.ts:240](https://github.com/panva/jose/blob/v3.11.6/src/types.d.ts#L240)
 
 ___
 
@@ -80,7 +80,7 @@ ___
 
 "x5t" (X.509 Certificate SHA-1 Thumbprint) Header Parameter.
 
-Defined in: [types.d.ts:236](https://github.com/panva/jose/blob/v3.11.5/src/types.d.ts#L236)
+Defined in: [types.d.ts:235](https://github.com/panva/jose/blob/v3.11.6/src/types.d.ts#L235)
 
 ___
 
@@ -90,4 +90,4 @@ ___
 
 "x5u" (X.509 URL) Header Parameter.
 
-Defined in: [types.d.ts:246](https://github.com/panva/jose/blob/v3.11.5/src/types.d.ts#L246)
+Defined in: [types.d.ts:245](https://github.com/panva/jose/blob/v3.11.6/src/types.d.ts#L245)

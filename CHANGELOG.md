@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [3.11.6](https://github.com/panva/jose/compare/v3.11.5...v3.11.6) (2021-04-30)
+
+
+### Bug Fixes
+
+* swallow promisified crypto.verify errors ([d512ede](https://github.com/panva/jose/commit/d512ede0730155051707d60ae8c69ba0492d858f))
+
 ## [3.11.5](https://github.com/panva/jose/compare/v3.11.4...v3.11.5) (2021-04-13)
 
 

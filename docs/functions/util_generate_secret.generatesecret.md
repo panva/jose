@@ -24,10 +24,10 @@ console.log(secret)
 
 #### Parameters:
 
-Name | Type | Description |
-:------ | :------ | :------ |
-`alg` | *string* | JWA Algorithm Identifier to be used with the generated secret.    |
+| Name | Type | Description |
+| :------ | :------ | :------ |
+| `alg` | *string* | JWA Algorithm Identifier to be used with the generated secret. |
 
 **Returns:** *Promise*<[*KeyLike*](../types/types.keylike.md)\>
 
-Defined in: [util/generate_secret.ts:25](https://github.com/panva/jose/blob/v3.11.5/src/util/generate_secret.ts#L25)
+Defined in: [util/generate_secret.ts:25](https://github.com/panva/jose/blob/v3.11.6/src/util/generate_secret.ts#L25)

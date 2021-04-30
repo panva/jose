@@ -26,11 +26,11 @@ to verify using a remote JSON Web Key Set.
 
 #### Parameters:
 
-Name | Type |
-:------ | :------ |
-`protectedHeader` | *undefined* \| [*JWSHeaderParameters*](types.jwsheaderparameters.md) |
-`token` | [*FlattenedJWSInput*](types.flattenedjwsinput.md) |
+| Name | Type |
+| :------ | :------ |
+| `protectedHeader` | *undefined* \| [*JWSHeaderParameters*](types.jwsheaderparameters.md) |
+| `token` | [*FlattenedJWSInput*](types.flattenedjwsinput.md) |
 
 **Returns:** *Promise*<[*KeyLike*](../types/types.keylike.md)\>
 
-Defined in: [types.d.ts:78](https://github.com/panva/jose/blob/v3.11.5/src/types.d.ts#L78)
+Defined in: [types.d.ts:78](https://github.com/panva/jose/blob/v3.11.6/src/types.d.ts#L78)

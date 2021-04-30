@@ -22,16 +22,16 @@ The "payload" member MUST be present and contain the value
 BASE64URL(JWS Payload). When RFC7797 "b64": false is used
 the value passed may also be a Uint8Array.
 
-Defined in: [types.d.ts:197](https://github.com/panva/jose/blob/v3.11.5/src/types.d.ts#L197)
+Defined in: [types.d.ts:196](https://github.com/panva/jose/blob/v3.11.6/src/types.d.ts#L196)
 
 ___
 
 ### signatures
 
-• **signatures**: *Omit*<[*FlattenedJWSInput*](types.flattenedjwsinput.md), *payload*\>[]
+• **signatures**: *Omit*<[*FlattenedJWSInput*](types.flattenedjwsinput.md), ``"payload"``\>[]
 
 The "signatures" member value MUST be an array of JSON objects.
 Each object represents a signature or MAC over the JWS Payload and
 the JWS Protected Header.
 
-Defined in: [types.d.ts:204](https://github.com/panva/jose/blob/v3.11.5/src/types.d.ts#L204)
+Defined in: [types.d.ts:203](https://github.com/panva/jose/blob/v3.11.6/src/types.d.ts#L203)

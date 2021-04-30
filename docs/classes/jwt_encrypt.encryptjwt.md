@@ -65,15 +65,15 @@ console.log(jwt)
 
 #### Parameters:
 
-Name | Type | Description |
-:------ | :------ | :------ |
-`payload` | [*JWTPayload*](../interfaces/types.jwtpayload.md) | The JWT Claims Set object.    |
+| Name | Type | Description |
+| :------ | :------ | :------ |
+| `payload` | [*JWTPayload*](../interfaces/types.jwtpayload.md) | The JWT Claims Set object. |
 
 **Returns:** [*EncryptJWT*](jwt_encrypt.encryptjwt.md)
 
 Inherited from: ProduceJWT.constructor
 
-Defined in: [lib/jwt_producer.ts:10](https://github.com/panva/jose/blob/v3.11.5/src/lib/jwt_producer.ts#L10)
+Defined in: [lib/jwt_producer.ts:10](https://github.com/panva/jose/blob/v3.11.6/src/lib/jwt_producer.ts#L10)
 
 ## Methods
 
@@ -85,14 +85,14 @@ Encrypts and returns the JWT.
 
 #### Parameters:
 
-Name | Type | Description |
-:------ | :------ | :------ |
-`key` | [*KeyLike*](../types/types.keylike.md) | Public Key or Secret to encrypt the JWT with.   |
-`options?` | [*EncryptOptions*](../interfaces/types.encryptoptions.md) | JWE Encryption options.    |
+| Name | Type | Description |
+| :------ | :------ | :------ |
+| `key` | [*KeyLike*](../types/types.keylike.md) | Public Key or Secret to encrypt the JWT with. |
+| `options?` | [*EncryptOptions*](../interfaces/types.encryptoptions.md) | JWE Encryption options. |
 
 **Returns:** *Promise*<string\>
 
-Defined in: [jwt/encrypt.ts:151](https://github.com/panva/jose/blob/v3.11.5/src/jwt/encrypt.ts#L151)
+Defined in: [jwt/encrypt.ts:151](https://github.com/panva/jose/blob/v3.11.6/src/jwt/encrypt.ts#L151)
 
 ___
 
@@ -105,7 +105,7 @@ Replicates the "aud" (Audience) Claim as a JWE Protected Header Parameter as per
 
 **Returns:** [*EncryptJWT*](jwt_encrypt.encryptjwt.md)
 
-Defined in: [jwt/encrypt.ts:140](https://github.com/panva/jose/blob/v3.11.5/src/jwt/encrypt.ts#L140)
+Defined in: [jwt/encrypt.ts:140](https://github.com/panva/jose/blob/v3.11.6/src/jwt/encrypt.ts#L140)
 
 ___
 
@@ -118,7 +118,7 @@ Replicates the "iss" (Issuer) Claim as a JWE Protected Header Parameter as per
 
 **Returns:** [*EncryptJWT*](jwt_encrypt.encryptjwt.md)
 
-Defined in: [jwt/encrypt.ts:122](https://github.com/panva/jose/blob/v3.11.5/src/jwt/encrypt.ts#L122)
+Defined in: [jwt/encrypt.ts:122](https://github.com/panva/jose/blob/v3.11.6/src/jwt/encrypt.ts#L122)
 
 ___
 
@@ -131,7 +131,7 @@ Replicates the "sub" (Subject) Claim as a JWE Protected Header Parameter as per
 
 **Returns:** [*EncryptJWT*](jwt_encrypt.encryptjwt.md)
 
-Defined in: [jwt/encrypt.ts:131](https://github.com/panva/jose/blob/v3.11.5/src/jwt/encrypt.ts#L131)
+Defined in: [jwt/encrypt.ts:131](https://github.com/panva/jose/blob/v3.11.6/src/jwt/encrypt.ts#L131)
 
 ___
 
@@ -143,15 +143,15 @@ Set "aud" (Audience) Claim.
 
 #### Parameters:
 
-Name | Type | Description |
-:------ | :------ | :------ |
-`audience` | *string* \| *string*[] | "aud" (Audience) Claim value to set on the JWT Claims Set.    |
+| Name | Type | Description |
+| :------ | :------ | :------ |
+| `audience` | *string* \| *string*[] | "aud" (Audience) Claim value to set on the JWT Claims Set. |
 
 **Returns:** [*EncryptJWT*](jwt_encrypt.encryptjwt.md)
 
 Inherited from: ProduceJWT.setAudience
 
-Defined in: [lib/jwt_producer.ts:47](https://github.com/panva/jose/blob/v3.11.5/src/lib/jwt_producer.ts#L47)
+Defined in: [lib/jwt_producer.ts:47](https://github.com/panva/jose/blob/v3.11.6/src/lib/jwt_producer.ts#L47)
 
 ___
 
@@ -166,13 +166,13 @@ test and vector validation purposes.
 
 #### Parameters:
 
-Name | Type | Description |
-:------ | :------ | :------ |
-`cek` | *Uint8Array* | JWE Content Encryption Key.    |
+| Name | Type | Description |
+| :------ | :------ | :------ |
+| `cek` | *Uint8Array* | JWE Content Encryption Key. |
 
 **Returns:** [*EncryptJWT*](jwt_encrypt.encryptjwt.md)
 
-Defined in: [jwt/encrypt.ts:94](https://github.com/panva/jose/blob/v3.11.5/src/jwt/encrypt.ts#L94)
+Defined in: [jwt/encrypt.ts:94](https://github.com/panva/jose/blob/v3.11.6/src/jwt/encrypt.ts#L94)
 
 ___
 
@@ -184,15 +184,15 @@ Set "exp" (Expiration Time) Claim.
 
 #### Parameters:
 
-Name | Type | Description |
-:------ | :------ | :------ |
-`input` | *string* \| *number* | "exp" (Expiration Time) Claim value to set on the JWT Claims Set. When number is passed that is used as a value, when string is passed it is resolved to a time span and added to the current timestamp.    |
+| Name | Type | Description |
+| :------ | :------ | :------ |
+| `input` | *string* \| *number* | "exp" (Expiration Time) Claim value to set on the JWT Claims Set. When number is passed that is used as a value, when string is passed it is resolved to a time span and added to the current timestamp. |
 
 **Returns:** [*EncryptJWT*](jwt_encrypt.encryptjwt.md)
 
 Inherited from: ProduceJWT.setExpirationTime
 
-Defined in: [lib/jwt_producer.ts:85](https://github.com/panva/jose/blob/v3.11.5/src/lib/jwt_producer.ts#L85)
+Defined in: [lib/jwt_producer.ts:85](https://github.com/panva/jose/blob/v3.11.6/src/lib/jwt_producer.ts#L85)
 
 ___
 
@@ -207,13 +207,13 @@ intended for test and vector validation purposes.
 
 #### Parameters:
 
-Name | Type | Description |
-:------ | :------ | :------ |
-`iv` | *Uint8Array* | JWE Initialization Vector.    |
+| Name | Type | Description |
+| :------ | :------ | :------ |
+| `iv` | *Uint8Array* | JWE Initialization Vector. |
 
 **Returns:** [*EncryptJWT*](jwt_encrypt.encryptjwt.md)
 
-Defined in: [jwt/encrypt.ts:110](https://github.com/panva/jose/blob/v3.11.5/src/jwt/encrypt.ts#L110)
+Defined in: [jwt/encrypt.ts:110](https://github.com/panva/jose/blob/v3.11.6/src/jwt/encrypt.ts#L110)
 
 ___
 
@@ -225,15 +225,15 @@ Set "iat" (Issued At) Claim.
 
 #### Parameters:
 
-Name | Type | Description |
-:------ | :------ | :------ |
-`input?` | *number* | "iat" (Issued At) Claim value to set on the JWT Claims Set. Default is current timestamp.    |
+| Name | Type | Description |
+| :------ | :------ | :------ |
+| `input?` | *number* | "iat" (Issued At) Claim value to set on the JWT Claims Set. Default is current timestamp. |
 
 **Returns:** [*EncryptJWT*](jwt_encrypt.encryptjwt.md)
 
 Inherited from: ProduceJWT.setIssuedAt
 
-Defined in: [lib/jwt_producer.ts:100](https://github.com/panva/jose/blob/v3.11.5/src/lib/jwt_producer.ts#L100)
+Defined in: [lib/jwt_producer.ts:100](https://github.com/panva/jose/blob/v3.11.6/src/lib/jwt_producer.ts#L100)
 
 ___
 
@@ -245,15 +245,15 @@ Set "iss" (Issuer) Claim.
 
 #### Parameters:
 
-Name | Type | Description |
-:------ | :------ | :------ |
-`issuer` | *string* | "Issuer" Claim value to set on the JWT Claims Set.    |
+| Name | Type | Description |
+| :------ | :------ | :------ |
+| `issuer` | *string* | "Issuer" Claim value to set on the JWT Claims Set. |
 
 **Returns:** [*EncryptJWT*](jwt_encrypt.encryptjwt.md)
 
 Inherited from: ProduceJWT.setIssuer
 
-Defined in: [lib/jwt_producer.ts:27](https://github.com/panva/jose/blob/v3.11.5/src/lib/jwt_producer.ts#L27)
+Defined in: [lib/jwt_producer.ts:27](https://github.com/panva/jose/blob/v3.11.6/src/lib/jwt_producer.ts#L27)
 
 ___
 
@@ -265,15 +265,15 @@ Set "jti" (JWT ID) Claim.
 
 #### Parameters:
 
-Name | Type | Description |
-:------ | :------ | :------ |
-`jwtId` | *string* | "jti" (JWT ID) Claim value to set on the JWT Claims Set.    |
+| Name | Type | Description |
+| :------ | :------ | :------ |
+| `jwtId` | *string* | "jti" (JWT ID) Claim value to set on the JWT Claims Set. |
 
 **Returns:** [*EncryptJWT*](jwt_encrypt.encryptjwt.md)
 
 Inherited from: ProduceJWT.setJti
 
-Defined in: [lib/jwt_producer.ts:57](https://github.com/panva/jose/blob/v3.11.5/src/lib/jwt_producer.ts#L57)
+Defined in: [lib/jwt_producer.ts:57](https://github.com/panva/jose/blob/v3.11.6/src/lib/jwt_producer.ts#L57)
 
 ___
 
@@ -288,13 +288,13 @@ Other parameters will always be randomly generated when needed and missing.
 
 #### Parameters:
 
-Name | Type | Description |
-:------ | :------ | :------ |
-`parameters` | [*JWEKeyManagementHeaderParameters*](../interfaces/types.jwekeymanagementheaderparameters.md) | JWE Key Management parameters.    |
+| Name | Type | Description |
+| :------ | :------ | :------ |
+| `parameters` | [*JWEKeyManagementHeaderParameters*](../interfaces/types.jwekeymanagementheaderparameters.md) | JWE Key Management parameters. |
 
 **Returns:** [*EncryptJWT*](jwt_encrypt.encryptjwt.md)
 
-Defined in: [jwt/encrypt.ts:78](https://github.com/panva/jose/blob/v3.11.5/src/jwt/encrypt.ts#L78)
+Defined in: [jwt/encrypt.ts:78](https://github.com/panva/jose/blob/v3.11.6/src/jwt/encrypt.ts#L78)
 
 ___
 
@@ -306,15 +306,15 @@ Set "nbf" (Not Before) Claim.
 
 #### Parameters:
 
-Name | Type | Description |
-:------ | :------ | :------ |
-`input` | *string* \| *number* | "nbf" (Not Before) Claim value to set on the JWT Claims Set. When number is passed that is used as a value, when string is passed it is resolved to a time span and added to the current timestamp.    |
+| Name | Type | Description |
+| :------ | :------ | :------ |
+| `input` | *string* \| *number* | "nbf" (Not Before) Claim value to set on the JWT Claims Set. When number is passed that is used as a value, when string is passed it is resolved to a time span and added to the current timestamp. |
 
 **Returns:** [*EncryptJWT*](jwt_encrypt.encryptjwt.md)
 
 Inherited from: ProduceJWT.setNotBefore
 
-Defined in: [lib/jwt_producer.ts:69](https://github.com/panva/jose/blob/v3.11.5/src/lib/jwt_producer.ts#L69)
+Defined in: [lib/jwt_producer.ts:69](https://github.com/panva/jose/blob/v3.11.6/src/lib/jwt_producer.ts#L69)
 
 ___
 
@@ -326,13 +326,13 @@ Sets the JWE Protected Header on the EncryptJWT object.
 
 #### Parameters:
 
-Name | Type | Description |
-:------ | :------ | :------ |
-`protectedHeader` | [*JWEHeaderParameters*](../interfaces/types.jweheaderparameters.md) | JWE Protected Header. Must contain an "alg" (JWE Algorithm) and "enc" (JWE Encryption Algorithm) properties.    |
+| Name | Type | Description |
+| :------ | :------ | :------ |
+| `protectedHeader` | [*JWEHeaderParameters*](../interfaces/types.jweheaderparameters.md) | JWE Protected Header. Must contain an "alg" (JWE Algorithm) and "enc" (JWE Encryption Algorithm) properties. |
 
 **Returns:** [*EncryptJWT*](jwt_encrypt.encryptjwt.md)
 
-Defined in: [jwt/encrypt.ts:62](https://github.com/panva/jose/blob/v3.11.5/src/jwt/encrypt.ts#L62)
+Defined in: [jwt/encrypt.ts:62](https://github.com/panva/jose/blob/v3.11.6/src/jwt/encrypt.ts#L62)
 
 ___
 
@@ -344,12 +344,12 @@ Set "sub" (Subject) Claim.
 
 #### Parameters:
 
-Name | Type | Description |
-:------ | :------ | :------ |
-`subject` | *string* | "sub" (Subject) Claim value to set on the JWT Claims Set.    |
+| Name | Type | Description |
+| :------ | :------ | :------ |
+| `subject` | *string* | "sub" (Subject) Claim value to set on the JWT Claims Set. |
 
 **Returns:** [*EncryptJWT*](jwt_encrypt.encryptjwt.md)
 
 Inherited from: ProduceJWT.setSubject
 
-Defined in: [lib/jwt_producer.ts:37](https://github.com/panva/jose/blob/v3.11.5/src/lib/jwt_producer.ts#L37)
+Defined in: [lib/jwt_producer.ts:37](https://github.com/panva/jose/blob/v3.11.6/src/lib/jwt_producer.ts#L37)

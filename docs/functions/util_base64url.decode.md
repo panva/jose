@@ -6,10 +6,10 @@
 
 #### Parameters:
 
-Name | Type |
-:------ | :------ |
-`input` | *string* \| *Uint8Array* |
+| Name | Type |
+| :------ | :------ |
+| `input` | *string* \| *Uint8Array* |
 
 **Returns:** *Uint8Array*
 
-Defined in: [util/base64url.ts:23](https://github.com/panva/jose/blob/v3.11.5/src/util/base64url.ts#L23)
+Defined in: [util/base64url.ts:23](https://github.com/panva/jose/blob/v3.11.6/src/util/base64url.ts#L23)

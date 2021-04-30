@@ -44,13 +44,13 @@ console.log(jws)
 
 #### Parameters:
 
-Name | Type | Description |
-:------ | :------ | :------ |
-`payload` | *Uint8Array* | Binary representation of the payload to sign.    |
+| Name | Type | Description |
+| :------ | :------ | :------ |
+| `payload` | *Uint8Array* | Binary representation of the payload to sign. |
 
 **Returns:** [*FlattenedSign*](jws_flattened_sign.flattenedsign.md)
 
-Defined in: [jws/flattened/sign.ts:43](https://github.com/panva/jose/blob/v3.11.5/src/jws/flattened/sign.ts#L43)
+Defined in: [jws/flattened/sign.ts:43](https://github.com/panva/jose/blob/v3.11.6/src/jws/flattened/sign.ts#L43)
 
 ## Methods
 
@@ -62,13 +62,13 @@ Sets the JWS Protected Header on the FlattenedSign object.
 
 #### Parameters:
 
-Name | Type | Description |
-:------ | :------ | :------ |
-`protectedHeader` | [*JWSHeaderParameters*](../interfaces/types.jwsheaderparameters.md) | JWS Protected Header.    |
+| Name | Type | Description |
+| :------ | :------ | :------ |
+| `protectedHeader` | [*JWSHeaderParameters*](../interfaces/types.jwsheaderparameters.md) | JWS Protected Header. |
 
 **Returns:** [*FlattenedSign*](jws_flattened_sign.flattenedsign.md)
 
-Defined in: [jws/flattened/sign.ts:57](https://github.com/panva/jose/blob/v3.11.5/src/jws/flattened/sign.ts#L57)
+Defined in: [jws/flattened/sign.ts:57](https://github.com/panva/jose/blob/v3.11.6/src/jws/flattened/sign.ts#L57)
 
 ___
 
@@ -80,13 +80,13 @@ Sets the JWS Unprotected Header on the FlattenedSign object.
 
 #### Parameters:
 
-Name | Type | Description |
-:------ | :------ | :------ |
-`unprotectedHeader` | [*JWSHeaderParameters*](../interfaces/types.jwsheaderparameters.md) | JWS Unprotected Header.    |
+| Name | Type | Description |
+| :------ | :------ | :------ |
+| `unprotectedHeader` | [*JWSHeaderParameters*](../interfaces/types.jwsheaderparameters.md) | JWS Unprotected Header. |
 
 **Returns:** [*FlattenedSign*](jws_flattened_sign.flattenedsign.md)
 
-Defined in: [jws/flattened/sign.ts:70](https://github.com/panva/jose/blob/v3.11.5/src/jws/flattened/sign.ts#L70)
+Defined in: [jws/flattened/sign.ts:70](https://github.com/panva/jose/blob/v3.11.6/src/jws/flattened/sign.ts#L70)
 
 ___
 
@@ -98,11 +98,11 @@ Signs and resolves the value of the Flattened JWS object.
 
 #### Parameters:
 
-Name | Type | Description |
-:------ | :------ | :------ |
-`key` | [*KeyLike*](../types/types.keylike.md) | Private Key or Secret to sign the JWS with.   |
-`options?` | [*SignOptions*](../interfaces/types.signoptions.md) | JWS Sign options.    |
+| Name | Type | Description |
+| :------ | :------ | :------ |
+| `key` | [*KeyLike*](../types/types.keylike.md) | Private Key or Secret to sign the JWS with. |
+| `options?` | [*SignOptions*](../interfaces/types.signoptions.md) | JWS Sign options. |
 
 **Returns:** *Promise*<[*FlattenedJWS*](../interfaces/types.flattenedjws.md)\>
 
-Defined in: [jws/flattened/sign.ts:84](https://github.com/panva/jose/blob/v3.11.5/src/jws/flattened/sign.ts#L84)
+Defined in: [jws/flattened/sign.ts:84](https://github.com/panva/jose/blob/v3.11.6/src/jws/flattened/sign.ts#L84)

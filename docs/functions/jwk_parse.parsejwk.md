@@ -37,12 +37,12 @@ const rsaPublicKey = await parseJwk({
 
 #### Parameters:
 
-Name | Type | Description |
-:------ | :------ | :------ |
-`jwk` | [*JWK*](../interfaces/types.jwk.md) | JSON Web Key.   |
-`alg?` | *string* | JSON Web Algorithm identifier to be used with the converted key. Default is the "alg" property on the JWK.   |
-`octAsKeyObject?` | *boolean* | Forces a symmetric key to be converted to a KeyObject or CryptoKey. Default is true unless JWK "ext" (Extractable) is true.    |
+| Name | Type | Description |
+| :------ | :------ | :------ |
+| `jwk` | [*JWK*](../interfaces/types.jwk.md) | JSON Web Key. |
+| `alg?` | *string* | JSON Web Algorithm identifier to be used with the converted key. Default is the "alg" property on the JWK. |
+| `octAsKeyObject?` | *boolean* | Forces a symmetric key to be converted to a KeyObject or CryptoKey. Default is true unless JWK "ext" (Extractable) is true. |
 
 **Returns:** *Promise*<[*KeyLike*](../types/types.keylike.md)\>
 
-Defined in: [jwk/parse.ts:45](https://github.com/panva/jose/blob/v3.11.5/src/jwk/parse.ts#L45)
+Defined in: [jwk/parse.ts:45](https://github.com/panva/jose/blob/v3.11.6/src/jwk/parse.ts#L45)

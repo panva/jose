@@ -29,15 +29,15 @@ An error subclass thrown when a JWK is invalid.
 
 #### Parameters:
 
-Name | Type |
-:------ | :------ |
-`message?` | *string* |
+| Name | Type |
+| :------ | :------ |
+| `message?` | *string* |
 
 **Returns:** [*JWKInvalid*](util_errors.jwkinvalid.md)
 
 Inherited from: [JOSEError](util_errors.joseerror.md)
 
-Defined in: [util/errors.ts:16](https://github.com/panva/jose/blob/v3.11.5/src/util/errors.ts#L16)
+Defined in: [util/errors.ts:16](https://github.com/panva/jose/blob/v3.11.6/src/util/errors.ts#L16)
 
 ## Properties
 
@@ -49,7 +49,7 @@ A unique error code for the particular error subclass.
 
 Overrides: [JOSEError](util_errors.joseerror.md).[code](util_errors.joseerror.md#code)
 
-Defined in: [util/errors.ts:115](https://github.com/panva/jose/blob/v3.11.5/src/util/errors.ts#L115)
+Defined in: [util/errors.ts:115](https://github.com/panva/jose/blob/v3.11.6/src/util/errors.ts#L115)
 
 ___
 
@@ -61,4 +61,4 @@ A unique error code for the particular error subclass.
 
 Overrides: [JOSEError](util_errors.joseerror.md).[code](util_errors.joseerror.md#code)
 
-Defined in: [util/errors.ts:113](https://github.com/panva/jose/blob/v3.11.5/src/util/errors.ts#L113)
+Defined in: [util/errors.ts:113](https://github.com/panva/jose/blob/v3.11.6/src/util/errors.ts#L113)

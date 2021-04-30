@@ -9,10 +9,10 @@ KeyLike are platform-specific references to keying material.
 [KeyObject](https://nodejs.org/api/crypto.html#crypto_class_keyobject) is a representation of a
 key/secret available in the Node.js runtime. You can obtain a KeyObject instance e.g. from:
 
-- [crypto.generateKeyPair](https://nodejs.org/api/crypto.html#crypto_crypto_generatekeypair_type_options_callback)
 - [crypto.createPublicKey](https://nodejs.org/api/crypto.html#crypto_crypto_createpublickey_key)
 - [crypto.createPrivateKey](https://nodejs.org/api/crypto.html#crypto_crypto_createprivatekey_key)
 - [crypto.createSecretKey](https://nodejs.org/api/crypto.html#crypto_crypto_createsecretkey_key_encoding)
+- [crypto.generateKeyPair](https://nodejs.org/api/crypto.html#crypto_crypto_generatekeypair_type_options_callback)
 - [jose/jwk/parse](../functions/jwk_parse.parsejwk.md#readme)
 
 [CryptoKey](https://developer.mozilla.org/en-US/docs/Web/API/CryptoKey) is a representation of a
@@ -67,4 +67,4 @@ const rsaPublicKey = await parseJwk({
 }, 'PS256')
 ```
 
-Defined in: [types.d.ts:148](https://github.com/panva/jose/blob/v3.11.5/src/types.d.ts#L148)
+Defined in: [types.d.ts:147](https://github.com/panva/jose/blob/v3.11.6/src/types.d.ts#L147)

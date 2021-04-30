@@ -44,13 +44,13 @@ console.log(jws)
 
 #### Parameters:
 
-Name | Type | Description |
-:------ | :------ | :------ |
-`payload` | *Uint8Array* | Binary representation of the payload to sign.    |
+| Name | Type | Description |
+| :------ | :------ | :------ |
+| `payload` | *Uint8Array* | Binary representation of the payload to sign. |
 
 **Returns:** [*CompactSign*](jws_compact_sign.compactsign.md)
 
-Defined in: [jws/compact/sign.ts:31](https://github.com/panva/jose/blob/v3.11.5/src/jws/compact/sign.ts#L31)
+Defined in: [jws/compact/sign.ts:31](https://github.com/panva/jose/blob/v3.11.6/src/jws/compact/sign.ts#L31)
 
 ## Methods
 
@@ -62,13 +62,13 @@ Sets the JWS Protected Header on the Sign object.
 
 #### Parameters:
 
-Name | Type | Description |
-:------ | :------ | :------ |
-`protectedHeader` | [*JWSHeaderParameters*](../interfaces/types.jwsheaderparameters.md) | JWS Protected Header.    |
+| Name | Type | Description |
+| :------ | :------ | :------ |
+| `protectedHeader` | [*JWSHeaderParameters*](../interfaces/types.jwsheaderparameters.md) | JWS Protected Header. |
 
 **Returns:** [*CompactSign*](jws_compact_sign.compactsign.md)
 
-Defined in: [jws/compact/sign.ts:45](https://github.com/panva/jose/blob/v3.11.5/src/jws/compact/sign.ts#L45)
+Defined in: [jws/compact/sign.ts:45](https://github.com/panva/jose/blob/v3.11.6/src/jws/compact/sign.ts#L45)
 
 ___
 
@@ -80,11 +80,11 @@ Signs and resolves the value of the Compact JWS string.
 
 #### Parameters:
 
-Name | Type | Description |
-:------ | :------ | :------ |
-`key` | [*KeyLike*](../types/types.keylike.md) | Private Key or Secret to sign the JWS with.   |
-`options?` | [*SignOptions*](../interfaces/types.signoptions.md) | JWS Sign options.    |
+| Name | Type | Description |
+| :------ | :------ | :------ |
+| `key` | [*KeyLike*](../types/types.keylike.md) | Private Key or Secret to sign the JWS with. |
+| `options?` | [*SignOptions*](../interfaces/types.signoptions.md) | JWS Sign options. |
 
 **Returns:** *Promise*<string\>
 
-Defined in: [jws/compact/sign.ts:56](https://github.com/panva/jose/blob/v3.11.5/src/jws/compact/sign.ts#L56)
+Defined in: [jws/compact/sign.ts:56](https://github.com/panva/jose/blob/v3.11.6/src/jws/compact/sign.ts#L56)

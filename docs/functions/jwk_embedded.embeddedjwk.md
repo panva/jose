@@ -37,11 +37,11 @@ console.log(payload)
 
 #### Parameters:
 
-Name | Type |
-:------ | :------ |
-`protectedHeader` | [*JWSHeaderParameters*](../interfaces/types.jwsheaderparameters.md) |
-`token` | [*FlattenedJWSInput*](../interfaces/types.flattenedjwsinput.md) |
+| Name | Type |
+| :------ | :------ |
+| `protectedHeader` | [*JWSHeaderParameters*](../interfaces/types.jwsheaderparameters.md) |
+| `token` | [*FlattenedJWSInput*](../interfaces/types.flattenedjwsinput.md) |
 
 **Returns:** *Promise*<KeyObject \| CryptoKey\>
 
-Defined in: [jwk/embedded.ts:40](https://github.com/panva/jose/blob/v3.11.5/src/jwk/embedded.ts#L40)
+Defined in: [jwk/embedded.ts:40](https://github.com/panva/jose/blob/v3.11.6/src/jwk/embedded.ts#L40)

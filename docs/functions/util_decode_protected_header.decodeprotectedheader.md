@@ -24,10 +24,10 @@ console.log(protectedHeader)
 
 #### Parameters:
 
-Name | Type | Description |
-:------ | :------ | :------ |
-`token` | *string* \| *object* | JWE/JWS/JWT token in any JOSE serialization.    |
+| Name | Type | Description |
+| :------ | :------ | :------ |
+| `token` | *string* \| *object* | JWE/JWS/JWT token in any JOSE serialization. |
 
 **Returns:** [*ProtectedHeaderParameters*](../types/util_decode_protected_header.protectedheaderparameters.md)
 
-Defined in: [util/decode_protected_header.ts:31](https://github.com/panva/jose/blob/v3.11.5/src/util/decode_protected_header.ts#L31)
+Defined in: [util/decode_protected_header.ts:31](https://github.com/panva/jose/blob/v3.11.6/src/util/decode_protected_header.ts#L31)

@@ -59,15 +59,15 @@ console.log(jwt)
 
 #### Parameters:
 
-Name | Type | Description |
-:------ | :------ | :------ |
-`payload` | [*JWTPayload*](../interfaces/types.jwtpayload.md) | The JWT Claims Set object.    |
+| Name | Type | Description |
+| :------ | :------ | :------ |
+| `payload` | [*JWTPayload*](../interfaces/types.jwtpayload.md) | The JWT Claims Set object. |
 
 **Returns:** [*SignJWT*](jwt_sign.signjwt.md)
 
 Inherited from: ProduceJWT.constructor
 
-Defined in: [lib/jwt_producer.ts:10](https://github.com/panva/jose/blob/v3.11.5/src/lib/jwt_producer.ts#L10)
+Defined in: [lib/jwt_producer.ts:10](https://github.com/panva/jose/blob/v3.11.6/src/lib/jwt_producer.ts#L10)
 
 ## Methods
 
@@ -79,15 +79,15 @@ Set "aud" (Audience) Claim.
 
 #### Parameters:
 
-Name | Type | Description |
-:------ | :------ | :------ |
-`audience` | *string* \| *string*[] | "aud" (Audience) Claim value to set on the JWT Claims Set.    |
+| Name | Type | Description |
+| :------ | :------ | :------ |
+| `audience` | *string* \| *string*[] | "aud" (Audience) Claim value to set on the JWT Claims Set. |
 
 **Returns:** [*SignJWT*](jwt_sign.signjwt.md)
 
 Inherited from: ProduceJWT.setAudience
 
-Defined in: [lib/jwt_producer.ts:47](https://github.com/panva/jose/blob/v3.11.5/src/lib/jwt_producer.ts#L47)
+Defined in: [lib/jwt_producer.ts:47](https://github.com/panva/jose/blob/v3.11.6/src/lib/jwt_producer.ts#L47)
 
 ___
 
@@ -99,15 +99,15 @@ Set "exp" (Expiration Time) Claim.
 
 #### Parameters:
 
-Name | Type | Description |
-:------ | :------ | :------ |
-`input` | *string* \| *number* | "exp" (Expiration Time) Claim value to set on the JWT Claims Set. When number is passed that is used as a value, when string is passed it is resolved to a time span and added to the current timestamp.    |
+| Name | Type | Description |
+| :------ | :------ | :------ |
+| `input` | *string* \| *number* | "exp" (Expiration Time) Claim value to set on the JWT Claims Set. When number is passed that is used as a value, when string is passed it is resolved to a time span and added to the current timestamp. |
 
 **Returns:** [*SignJWT*](jwt_sign.signjwt.md)
 
 Inherited from: ProduceJWT.setExpirationTime
 
-Defined in: [lib/jwt_producer.ts:85](https://github.com/panva/jose/blob/v3.11.5/src/lib/jwt_producer.ts#L85)
+Defined in: [lib/jwt_producer.ts:85](https://github.com/panva/jose/blob/v3.11.6/src/lib/jwt_producer.ts#L85)
 
 ___
 
@@ -119,15 +119,15 @@ Set "iat" (Issued At) Claim.
 
 #### Parameters:
 
-Name | Type | Description |
-:------ | :------ | :------ |
-`input?` | *number* | "iat" (Issued At) Claim value to set on the JWT Claims Set. Default is current timestamp.    |
+| Name | Type | Description |
+| :------ | :------ | :------ |
+| `input?` | *number* | "iat" (Issued At) Claim value to set on the JWT Claims Set. Default is current timestamp. |
 
 **Returns:** [*SignJWT*](jwt_sign.signjwt.md)
 
 Inherited from: ProduceJWT.setIssuedAt
 
-Defined in: [lib/jwt_producer.ts:100](https://github.com/panva/jose/blob/v3.11.5/src/lib/jwt_producer.ts#L100)
+Defined in: [lib/jwt_producer.ts:100](https://github.com/panva/jose/blob/v3.11.6/src/lib/jwt_producer.ts#L100)
 
 ___
 
@@ -139,15 +139,15 @@ Set "iss" (Issuer) Claim.
 
 #### Parameters:
 
-Name | Type | Description |
-:------ | :------ | :------ |
-`issuer` | *string* | "Issuer" Claim value to set on the JWT Claims Set.    |
+| Name | Type | Description |
+| :------ | :------ | :------ |
+| `issuer` | *string* | "Issuer" Claim value to set on the JWT Claims Set. |
 
 **Returns:** [*SignJWT*](jwt_sign.signjwt.md)
 
 Inherited from: ProduceJWT.setIssuer
 
-Defined in: [lib/jwt_producer.ts:27](https://github.com/panva/jose/blob/v3.11.5/src/lib/jwt_producer.ts#L27)
+Defined in: [lib/jwt_producer.ts:27](https://github.com/panva/jose/blob/v3.11.6/src/lib/jwt_producer.ts#L27)
 
 ___
 
@@ -159,15 +159,15 @@ Set "jti" (JWT ID) Claim.
 
 #### Parameters:
 
-Name | Type | Description |
-:------ | :------ | :------ |
-`jwtId` | *string* | "jti" (JWT ID) Claim value to set on the JWT Claims Set.    |
+| Name | Type | Description |
+| :------ | :------ | :------ |
+| `jwtId` | *string* | "jti" (JWT ID) Claim value to set on the JWT Claims Set. |
 
 **Returns:** [*SignJWT*](jwt_sign.signjwt.md)
 
 Inherited from: ProduceJWT.setJti
 
-Defined in: [lib/jwt_producer.ts:57](https://github.com/panva/jose/blob/v3.11.5/src/lib/jwt_producer.ts#L57)
+Defined in: [lib/jwt_producer.ts:57](https://github.com/panva/jose/blob/v3.11.6/src/lib/jwt_producer.ts#L57)
 
 ___
 
@@ -179,15 +179,15 @@ Set "nbf" (Not Before) Claim.
 
 #### Parameters:
 
-Name | Type | Description |
-:------ | :------ | :------ |
-`input` | *string* \| *number* | "nbf" (Not Before) Claim value to set on the JWT Claims Set. When number is passed that is used as a value, when string is passed it is resolved to a time span and added to the current timestamp.    |
+| Name | Type | Description |
+| :------ | :------ | :------ |
+| `input` | *string* \| *number* | "nbf" (Not Before) Claim value to set on the JWT Claims Set. When number is passed that is used as a value, when string is passed it is resolved to a time span and added to the current timestamp. |
 
 **Returns:** [*SignJWT*](jwt_sign.signjwt.md)
 
 Inherited from: ProduceJWT.setNotBefore
 
-Defined in: [lib/jwt_producer.ts:69](https://github.com/panva/jose/blob/v3.11.5/src/lib/jwt_producer.ts#L69)
+Defined in: [lib/jwt_producer.ts:69](https://github.com/panva/jose/blob/v3.11.6/src/lib/jwt_producer.ts#L69)
 
 ___
 
@@ -199,13 +199,13 @@ Sets the JWS Protected Header on the SignJWT object.
 
 #### Parameters:
 
-Name | Type | Description |
-:------ | :------ | :------ |
-`protectedHeader` | [*JWSHeaderParameters*](../interfaces/types.jwsheaderparameters.md) | JWS Protected Header.    |
+| Name | Type | Description |
+| :------ | :------ | :------ |
+| `protectedHeader` | [*JWSHeaderParameters*](../interfaces/types.jwsheaderparameters.md) | JWS Protected Header. |
 
 **Returns:** [*SignJWT*](jwt_sign.signjwt.md)
 
-Defined in: [jwt/sign.ts:43](https://github.com/panva/jose/blob/v3.11.5/src/jwt/sign.ts#L43)
+Defined in: [jwt/sign.ts:43](https://github.com/panva/jose/blob/v3.11.6/src/jwt/sign.ts#L43)
 
 ___
 
@@ -217,15 +217,15 @@ Set "sub" (Subject) Claim.
 
 #### Parameters:
 
-Name | Type | Description |
-:------ | :------ | :------ |
-`subject` | *string* | "sub" (Subject) Claim value to set on the JWT Claims Set.    |
+| Name | Type | Description |
+| :------ | :------ | :------ |
+| `subject` | *string* | "sub" (Subject) Claim value to set on the JWT Claims Set. |
 
 **Returns:** [*SignJWT*](jwt_sign.signjwt.md)
 
 Inherited from: ProduceJWT.setSubject
 
-Defined in: [lib/jwt_producer.ts:37](https://github.com/panva/jose/blob/v3.11.5/src/lib/jwt_producer.ts#L37)
+Defined in: [lib/jwt_producer.ts:37](https://github.com/panva/jose/blob/v3.11.6/src/lib/jwt_producer.ts#L37)
 
 ___
 
@@ -237,11 +237,11 @@ Signs and returns the JWT.
 
 #### Parameters:
 
-Name | Type | Description |
-:------ | :------ | :------ |
-`key` | [*KeyLike*](../types/types.keylike.md) | Private Key or Secret to sign the JWT with.   |
-`options?` | [*SignOptions*](../interfaces/types.signoptions.md) | JWT Sign options.    |
+| Name | Type | Description |
+| :------ | :------ | :------ |
+| `key` | [*KeyLike*](../types/types.keylike.md) | Private Key or Secret to sign the JWT with. |
+| `options?` | [*SignOptions*](../interfaces/types.signoptions.md) | JWT Sign options. |
 
 **Returns:** *Promise*<string\>
 
-Defined in: [jwt/sign.ts:54](https://github.com/panva/jose/blob/v3.11.5/src/jwt/sign.ts#L54)
+Defined in: [jwt/sign.ts:54](https://github.com/panva/jose/blob/v3.11.6/src/jwt/sign.ts#L54)

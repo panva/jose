@@ -41,12 +41,12 @@ console.log(decoder.decode(additionalAuthenticatedData))
 
 #### Parameters:
 
-Name | Type | Description |
-:------ | :------ | :------ |
-`jwe` | [*FlattenedJWE*](../interfaces/types.flattenedjwe.md) | Flattened JWE.   |
-`key` | [*KeyLike*](../types/types.keylike.md) \| [*FlattenedDecryptGetKey*](../interfaces/jwe_flattened_decrypt.flatteneddecryptgetkey.md) | Public Key or Secret, or a function resolving one, to decrypt the JWE with.   |
-`options?` | [*DecryptOptions*](../interfaces/types.decryptoptions.md) | JWE Decryption options.    |
+| Name | Type | Description |
+| :------ | :------ | :------ |
+| `jwe` | [*FlattenedJWE*](../interfaces/types.flattenedjwe.md) | Flattened JWE. |
+| `key` | [*KeyLike*](../types/types.keylike.md) \| [*FlattenedDecryptGetKey*](../interfaces/jwe_flattened_decrypt.flatteneddecryptgetkey.md) | Public Key or Secret, or a function resolving one, to decrypt the JWE with. |
+| `options?` | [*DecryptOptions*](../interfaces/types.decryptoptions.md) | JWE Decryption options. |
 
 **Returns:** *Promise*<[*FlattenedDecryptResult*](../interfaces/types.flatteneddecryptresult.md)\>
 
-Defined in: [jwe/flattened/decrypt.ts:76](https://github.com/panva/jose/blob/v3.11.5/src/jwe/flattened/decrypt.ts#L76)
+Defined in: [jwe/flattened/decrypt.ts:76](https://github.com/panva/jose/blob/v3.11.6/src/jwe/flattened/decrypt.ts#L76)

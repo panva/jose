@@ -35,11 +35,11 @@ console.log(payload)
 
 #### Parameters:
 
-Name | Type | Description |
-:------ | :------ | :------ |
-`url` | URL | URL to fetch the JSON Web Key Set from.   |
-`options?` | [*RemoteJWKSetOptions*](../interfaces/jwks_remote.remotejwksetoptions.md) | Options for the remote JSON Web Key Set.    |
+| Name | Type | Description |
+| :------ | :------ | :------ |
+| `url` | URL | URL to fetch the JSON Web Key Set from. |
+| `options?` | [*RemoteJWKSetOptions*](../interfaces/jwks_remote.remotejwksetoptions.md) | Options for the remote JSON Web Key Set. |
 
 **Returns:** [*GetKeyFunction*](../interfaces/types.getkeyfunction.md)<[*JWSHeaderParameters*](../interfaces/types.jwsheaderparameters.md), [*FlattenedJWSInput*](../interfaces/types.flattenedjwsinput.md)\>
 
-Defined in: [jwks/remote.ts:248](https://github.com/panva/jose/blob/v3.11.5/src/jwks/remote.ts#L248)
+Defined in: [jwks/remote.ts:248](https://github.com/panva/jose/blob/v3.11.6/src/jwks/remote.ts#L248)

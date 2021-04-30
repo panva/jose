@@ -19,12 +19,12 @@ is not returned when JWS Unencoded Payload Option
 
 • `Optional` **payload**: *string*
 
-Defined in: [types.d.ts:223](https://github.com/panva/jose/blob/v3.11.5/src/types.d.ts#L223)
+Defined in: [types.d.ts:222](https://github.com/panva/jose/blob/v3.11.6/src/types.d.ts#L222)
 
 ___
 
 ### signatures
 
-• **signatures**: *Omit*<[*FlattenedJWSInput*](types.flattenedjwsinput.md), *payload*\>[]
+• **signatures**: *Omit*<[*FlattenedJWSInput*](types.flattenedjwsinput.md), ``"payload"``\>[]
 
-Defined in: [types.d.ts:224](https://github.com/panva/jose/blob/v3.11.5/src/types.d.ts#L224)
+Defined in: [types.d.ts:223](https://github.com/panva/jose/blob/v3.11.6/src/types.d.ts#L223)

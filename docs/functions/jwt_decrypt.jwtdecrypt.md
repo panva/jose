@@ -31,12 +31,12 @@ console.log(payload)
 
 #### Parameters:
 
-Name | Type | Description |
-:------ | :------ | :------ |
-`jwt` | *string* \| Uint8Array | JSON Web Token value (encoded as JWE).   |
-`key` | [*KeyLike*](../types/types.keylike.md) \| [*JWTDecryptGetKey*](../interfaces/jwt_decrypt.jwtdecryptgetkey.md) | Private Key or Secret, or a function resolving one, to decrypt and verify the JWT with.   |
-`options?` | [*JWTDecryptOptions*](../interfaces/jwt_decrypt.jwtdecryptoptions.md) | JWT Decryption and JWT Claims Set validation options.    |
+| Name | Type | Description |
+| :------ | :------ | :------ |
+| `jwt` | *string* \| Uint8Array | JSON Web Token value (encoded as JWE). |
+| `key` | [*KeyLike*](../types/types.keylike.md) \| [*JWTDecryptGetKey*](../interfaces/jwt_decrypt.jwtdecryptgetkey.md) | Private Key or Secret, or a function resolving one, to decrypt and verify the JWT with. |
+| `options?` | [*JWTDecryptOptions*](../interfaces/jwt_decrypt.jwtdecryptoptions.md) | JWT Decryption and JWT Claims Set validation options. |
 
 **Returns:** *Promise*<[*JWTDecryptResult*](../interfaces/types.jwtdecryptresult.md)\>
 
-Defined in: [jwt/decrypt.ts:56](https://github.com/panva/jose/blob/v3.11.5/src/jwt/decrypt.ts#L56)
+Defined in: [jwt/decrypt.ts:56](https://github.com/panva/jose/blob/v3.11.6/src/jwt/decrypt.ts#L56)

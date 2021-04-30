@@ -9,10 +9,10 @@ If you cannot match a key suitable for the token, throw an error instead.
 
 ## Type parameters
 
-Name |
-:------ |
-`T` |
-`T2` |
+| Name |
+| :------ |
+| `T` |
+| `T2` |
 
 ## Hierarchy
 
@@ -45,11 +45,11 @@ If you cannot match a key suitable for the token, throw an error instead.
 
 #### Parameters:
 
-Name | Type | Description |
-:------ | :------ | :------ |
-`protectedHeader` | T | JWE or JWS Protected Header.   |
-`token` | T2 | The consumed JWE or JWS token.    |
+| Name | Type | Description |
+| :------ | :------ | :------ |
+| `protectedHeader` | T | JWE or JWS Protected Header. |
+| `token` | T2 | The consumed JWE or JWS token. |
 
 **Returns:** *Promise*<[*KeyLike*](../types/types.keylike.md)\>
 
-Defined in: [types.d.ts:78](https://github.com/panva/jose/blob/v3.11.5/src/types.d.ts#L78)
+Defined in: [types.d.ts:78](https://github.com/panva/jose/blob/v3.11.6/src/types.d.ts#L78)
