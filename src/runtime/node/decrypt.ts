@@ -32,7 +32,7 @@ async function cbcDecrypt(
 
   const algorithm = `aes-${keySize}-cbc`
   if (!getCiphers().includes(algorithm)) {
-    throw new JOSENotSupported(`alg ${enc} is unsupported either by your javascript runtime`)
+    throw new JOSENotSupported(`alg ${enc} is not supported by your javascript runtime`)
   }
 
   const expectedTag = cbcTag(aad, iv, ciphertext, macSize, macKey, keySize)
@@ -72,7 +72,7 @@ async function gcmDecrypt(
 
   const algorithm = <CipherGCMTypes>`aes-${keySize}-gcm`
   if (!getCiphers().includes(algorithm)) {
-    throw new JOSENotSupported(`alg ${enc} is unsupported either by your javascript runtime`)
+    throw new JOSENotSupported(`alg ${enc} is not supported by your javascript runtime`)
   }
   try {
     const cipher = createDecipheriv(algorithm, cek, iv, { authTagLength: 16 })
