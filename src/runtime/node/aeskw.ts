@@ -30,7 +30,7 @@ export const wrap: AesKwWrapFunction = async (alg: string, key: unknown, cek: Ui
   const algorithm = `aes${size}-wrap`
   if (!getCiphers().includes(algorithm)) {
     throw new JOSENotSupported(
-      `alg ${alg} is unsupported either by JOSE or your javascript runtime`,
+      `alg ${alg} is not supported either by JOSE or your javascript runtime`,
     )
   }
   const keyObject = ensureKeyObject(key, alg, 'wrapKey')
@@ -48,7 +48,7 @@ export const unwrap: AesKwUnwrapFunction = async (
   const algorithm = `aes${size}-wrap`
   if (!getCiphers().includes(algorithm)) {
     throw new JOSENotSupported(
-      `alg ${alg} is unsupported either by JOSE or your javascript runtime`,
+      `alg ${alg} is not supported either by JOSE or your javascript runtime`,
     )
   }
   const keyObject = ensureKeyObject(key, alg, 'unwrapKey')

@@ -40,7 +40,7 @@ export default function subtleDsa(alg: string) {
       return { hash: { name: 'SHA-512' }, name: 'ECDSA', namedCurve: 'P-521' }
     default:
       throw new JOSENotSupported(
-        `alg ${alg} is unsupported either by JOSE or your javascript runtime`,
+        `alg ${alg} is not supported either by JOSE or your javascript runtime`,
       )
   }
 }

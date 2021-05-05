@@ -18,7 +18,7 @@ const checkCekLength = (enc: string, cek: Uint8Array | CryptoKey) => {
       break
     default:
       throw new JOSENotSupported(
-        `Content Encryption Algorithm ${enc} is unsupported either by JOSE or your javascript runtime`,
+        `Content Encryption Algorithm ${enc} is not supported either by JOSE or your javascript runtime`,
       )
   }
 

@@ -71,7 +71,7 @@ async function parseJwk(jwk: JWK, alg?: string, octAsKeyObject?: boolean): Promi
     case 'RSA':
       if (jwk.oth !== undefined) {
         throw new JOSENotSupported(
-          'RSA JWK "oth" (Other Primes Info) Parameter value is unsupported',
+          'RSA JWK "oth" (Other Primes Info) Parameter value is not supported',
         )
       }
     // eslint-disable-next-line no-fallthrough

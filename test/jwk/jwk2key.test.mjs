@@ -70,10 +70,10 @@ Promise.all([import(`${keyRoot}/jwk/parse`), import(`${keyRoot}/jwk/from_key_lik
       });
     });
 
-    test('RSA JWK with oth is unsupported', async (t) => {
+    test('RSA JWK with oth is not supported', async (t) => {
       await t.throwsAsync(parseJwk({ kty: 'RSA', oth: [] }, 'RS256'), {
         code: 'ERR_JOSE_NOT_SUPPORTED',
-        message: 'RSA JWK "oth" (Other Primes Info) Parameter value is unsupported',
+        message: 'RSA JWK "oth" (Other Primes Info) Parameter value is not supported',
       });
     });
 
