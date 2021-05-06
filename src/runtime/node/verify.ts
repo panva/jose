@@ -39,7 +39,7 @@ const verify: VerifyFunction = async (alg, key: unknown, signature, data) => {
     let result = oneShotVerify(algorithm, data, keyInput, signature)
     // @ts-expect-error
     if (result instanceof Promise) {
-      result = await result;
+      result = await result
     }
     return result
   } catch {
