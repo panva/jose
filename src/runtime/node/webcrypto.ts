@@ -1,17 +1,31 @@
 import * as crypto from 'crypto'
+import * as util from 'util'
 
 // @ts-expect-error
 const webcrypto = <Crypto>crypto.webcrypto
 
 export default webcrypto
-export function isCryptoKey(key: unknown): key is CryptoKey {
-  if (webcrypto !== undefined) {
-    // @ts-expect-error
-    return key != null && key instanceof webcrypto.CryptoKey
-  }
 
-  return false
+let impl: (obj: unknown) => obj is CryptoKey
+
+// @ts-expect-error
+if (util.types.isCryptoKey) {
+  impl = function isCryptoKey(obj): obj is CryptoKey {
+    // @ts-expect-error
+    return <boolean>util.types.isCryptoKey(obj)
+  }
+} else if (webcrypto) {
+  impl = function isCryptoKey(obj): obj is CryptoKey {
+    //@ts-expect-error
+    return obj != null && obj instanceof webcrypto.CryptoKey;
+  }
+} else {
+  // @ts-expect-error
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  impl = (obj): obj is CryptoKey => false
 }
+
+export { impl as isCryptoKey }
 
 function getHashLength(hash: KeyAlgorithm) {
   return parseInt(hash?.name.substr(4), 10)
