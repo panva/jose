@@ -2,6 +2,7 @@ import { KeyObject, publicEncrypt, constants, privateDecrypt } from 'crypto'
 import type { RsaEsDecryptFunction, RsaEsEncryptFunction } from '../interfaces.d'
 import checkModulusLength from './check_modulus_length.js'
 import { isCryptoKey, getKeyObject } from './webcrypto.js'
+import isKeyObject from './is_key_object.js'
 
 const checkKey = (key: KeyObject, alg: string) => {
   if (key.type === 'secret' || key.asymmetricKeyType !== 'rsa') {
@@ -40,7 +41,7 @@ const resolveOaepHash = (alg: string) => {
 }
 
 function ensureKeyObject(key: unknown, alg: string, ...usages: KeyUsage[]) {
-  if (key instanceof KeyObject) {
+  if (isKeyObject(key)) {
     return key
   }
   if (isCryptoKey(key)) {

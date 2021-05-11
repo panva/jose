@@ -6,6 +6,7 @@ import Asn1SequenceDecoder from './asn1_sequence_decoder.js'
 import { JOSENotSupported } from '../../util/errors.js'
 import getNamedCurve from './get_named_curve.js'
 import { isCryptoKey, getKeyObject } from './webcrypto.js'
+import isKeyObject from './is_key_object.js'
 
 const [major, minor] = process.version
   .substr(1)
@@ -21,7 +22,7 @@ const keyToJWK: JWKConvertFunction = (key: unknown): JWK => {
       throw new TypeError('CryptoKey is not extractable')
     }
     keyObject = getKeyObject(key)
-  } else if (key instanceof KeyObject) {
+  } else if (isKeyObject(key)) {
     keyObject = key
   } else {
     throw new TypeError('invalid key input')

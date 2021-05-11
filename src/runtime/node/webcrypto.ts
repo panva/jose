@@ -7,7 +7,7 @@ export default webcrypto
 export function isCryptoKey(key: unknown): key is CryptoKey {
   if (webcrypto !== undefined) {
     // @ts-expect-error
-    return key instanceof webcrypto.CryptoKey
+    return key != null && key instanceof webcrypto.CryptoKey
   }
 
   return false

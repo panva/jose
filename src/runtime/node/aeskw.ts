@@ -4,6 +4,7 @@ import type { AesKwUnwrapFunction, AesKwWrapFunction } from '../interfaces.d'
 import { concat } from '../../lib/buffer_utils.js'
 import getSecretKey from './secret_key.js'
 import { isCryptoKey, getKeyObject } from './webcrypto.js'
+import isKeyObject from './is_key_object.js'
 
 function checkKeySize(key: KeyObject, alg: string) {
   if (key.symmetricKeySize! << 3 !== parseInt(alg.substr(1, 3), 10)) {
@@ -12,7 +13,7 @@ function checkKeySize(key: KeyObject, alg: string) {
 }
 
 function ensureKeyObject(key: unknown, alg: string, usage: KeyUsage) {
-  if (key instanceof KeyObject) {
+  if (isKeyObject(key)) {
     return key
   }
   if (key instanceof Uint8Array) {

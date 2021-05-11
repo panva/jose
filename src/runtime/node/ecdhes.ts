@@ -1,4 +1,4 @@
-import { KeyObject, diffieHellman, generateKeyPair as generateKeyPairCb } from 'crypto'
+import { diffieHellman, generateKeyPair as generateKeyPairCb } from 'crypto'
 import { promisify } from 'util'
 
 import type {
@@ -11,6 +11,7 @@ import { encoder, concat, uint32be, lengthAndInput, concatKdf } from '../../lib/
 import digest from './digest.js'
 import { JOSENotSupported } from '../../util/errors.js'
 import { isCryptoKey, getKeyObject } from './webcrypto.js'
+import isKeyObject from './is_key_object.js'
 
 const generateKeyPair = promisify(generateKeyPairCb)
 
@@ -33,7 +34,7 @@ export const deriveKey: EcdhESDeriveKeyFunction = async (
     // eslint-disable-next-line no-param-reassign
     publicKey = getKeyObject(publicKey, 'ECDH-ES')
   }
-  if (!(publicKey instanceof KeyObject)) {
+  if (!isKeyObject(publicKey)) {
     throw new TypeError('invalid key input')
   }
 
@@ -41,7 +42,7 @@ export const deriveKey: EcdhESDeriveKeyFunction = async (
     // eslint-disable-next-line no-param-reassign
     privateKey = getKeyObject(privateKey, 'ECDH-ES', new Set(['deriveBits', 'deriveKey']))
   }
-  if (!(privateKey instanceof KeyObject)) {
+  if (!isKeyObject(privateKey)) {
     throw new TypeError('invalid key input')
   }
 
@@ -54,7 +55,7 @@ export const generateEpk: GenerateEpkFunction = async (key: unknown) => {
     // eslint-disable-next-line no-param-reassign
     key = getKeyObject(key)
   }
-  if (!(key instanceof KeyObject)) {
+  if (!isKeyObject(key)) {
     throw new TypeError('invalid key input')
   }
 

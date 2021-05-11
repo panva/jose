@@ -1,6 +1,7 @@
 import { KeyObject, createPublicKey } from 'crypto'
 import { JOSENotSupported } from '../../util/errors.js'
 import { isCryptoKey, getKeyObject } from './webcrypto.js'
+import isKeyObject from './is_key_object.js'
 
 const p256 = Buffer.from([42, 134, 72, 206, 61, 3, 1, 7])
 const p384 = Buffer.from([43, 129, 4, 0, 34])
@@ -29,7 +30,7 @@ const getNamedCurve = (key: unknown, raw?: boolean): string => {
     // eslint-disable-next-line no-param-reassign
     key = getKeyObject(key)
   }
-  if (!(key instanceof KeyObject)) {
+  if (!isKeyObject(key)) {
     throw new TypeError('invalid key input')
   }
 

@@ -10,6 +10,7 @@ import timingSafeEqual from './timing_safe_equal.js'
 import cbcTag from './cbc_tag.js'
 import { isCryptoKey, getKeyObject } from './webcrypto.js'
 import type { KeyLike } from '../../types.d'
+import isKeyObject from './is_key_object.js'
 
 async function cbcDecrypt(
   enc: string,
@@ -21,7 +22,7 @@ async function cbcDecrypt(
 ) {
   const keySize = parseInt(enc.substr(1, 3), 10)
 
-  if (cek instanceof KeyObject) {
+  if (isKeyObject(cek)) {
     // eslint-disable-next-line no-param-reassign
     cek = cek.export()
   }
@@ -99,7 +100,7 @@ const decrypt: DecryptFunction = async (
   if (isCryptoKey(cek)) {
     // eslint-disable-next-line no-param-reassign
     key = getKeyObject(cek, enc, new Set(['decrypt']))
-  } else if (cek instanceof Uint8Array || cek instanceof KeyObject) {
+  } else if (cek instanceof Uint8Array || isKeyObject(cek)) {
     key = cek
   } else {
     throw new TypeError('invalid key input')

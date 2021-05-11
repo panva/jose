@@ -1,5 +1,6 @@
 import { KeyObject } from 'crypto'
 import { JWEInvalid, JOSENotSupported } from '../../util/errors.js'
+import isKeyObject from './is_key_object.js'
 
 const checkCekLength = (enc: string, cek: KeyObject | Uint8Array) => {
   let expected: number
@@ -27,7 +28,7 @@ const checkCekLength = (enc: string, cek: KeyObject | Uint8Array) => {
     return
   }
 
-  if (cek instanceof KeyObject && cek.type === 'secret') {
+  if (isKeyObject(cek) && cek.type === 'secret') {
     if (cek.symmetricKeySize! << 3 !== expected) {
       throw new JWEInvalid('Invalid Content Encryption Key length')
     }

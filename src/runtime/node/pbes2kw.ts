@@ -1,5 +1,5 @@
 import { promisify } from 'util'
-import { KeyObject, pbkdf2 as pbkdf2cb } from 'crypto'
+import { pbkdf2 as pbkdf2cb } from 'crypto'
 import type { Pbes2KWDecryptFunction, Pbes2KWEncryptFunction } from '../interfaces.d'
 import random from './random.js'
 import { p2s as concatSalt } from '../../lib/buffer_utils.js'
@@ -7,11 +7,12 @@ import { encode as base64url } from './base64url.js'
 import { wrap, unwrap } from './aeskw.js'
 import checkP2s from '../../lib/check_p2s.js'
 import { isCryptoKey, getKeyObject } from './webcrypto.js'
+import isKeyObject from './is_key_object.js'
 
 const pbkdf2 = promisify(pbkdf2cb)
 
 function getPassword(key: unknown, alg: string) {
-  if (key instanceof KeyObject) {
+  if (isKeyObject(key)) {
     return key.export()
   }
   if (key instanceof Uint8Array) {
