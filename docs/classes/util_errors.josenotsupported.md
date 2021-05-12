@@ -7,7 +7,7 @@ implementation or JOSE in general.
 
 ## Hierarchy
 
-* [*JOSEError*](util_errors.joseerror.md)
+- [*JOSEError*](util_errors.joseerror.md)
 
   ↳ **JOSENotSupported**
 
@@ -28,7 +28,7 @@ implementation or JOSE in general.
 
 \+ **new JOSENotSupported**(`message?`: *string*): [*JOSENotSupported*](util_errors.josenotsupported.md)
 
-#### Parameters:
+#### Parameters
 
 | Name | Type |
 | :------ | :------ |
@@ -38,7 +38,7 @@ implementation or JOSE in general.
 
 Inherited from: [JOSEError](util_errors.joseerror.md)
 
-Defined in: [util/errors.ts:16](https://github.com/panva/jose/blob/v3.11.6/src/util/errors.ts#L16)
+Defined in: [util/errors.ts:16](https://github.com/panva/jose/blob/v3.12.0/src/util/errors.ts#L16)
 
 ## Properties
 
@@ -50,7 +50,7 @@ A unique error code for the particular error subclass.
 
 Overrides: [JOSEError](util_errors.joseerror.md).[code](util_errors.joseerror.md#code)
 
-Defined in: [util/errors.ts:68](https://github.com/panva/jose/blob/v3.11.6/src/util/errors.ts#L68)
+Defined in: [util/errors.ts:68](https://github.com/panva/jose/blob/v3.12.0/src/util/errors.ts#L68)
 
 ___
 
@@ -62,4 +62,4 @@ A unique error code for the particular error subclass.
 
 Overrides: [JOSEError](util_errors.joseerror.md).[code](util_errors.joseerror.md#code)
 
-Defined in: [util/errors.ts:66](https://github.com/panva/jose/blob/v3.11.6/src/util/errors.ts#L66)
+Defined in: [util/errors.ts:66](https://github.com/panva/jose/blob/v3.12.0/src/util/errors.ts#L66)

@@ -10,7 +10,7 @@ Deflate Raw implementation, e.g. promisified [zlib.deflateRaw](https://nodejs.or
 
 Deflate Raw implementation, e.g. promisified [zlib.deflateRaw](https://nodejs.org/api/zlib.html#zlib_zlib_deflateraw_buffer_options_callback).
 
-#### Parameters:
+#### Parameters
 
 | Name | Type |
 | :------ | :------ |
@@ -18,4 +18,4 @@ Deflate Raw implementation, e.g. promisified [zlib.deflateRaw](https://nodejs.or
 
 **Returns:** *Promise*<Uint8Array\>
 
-Defined in: [types.d.ts:579](https://github.com/panva/jose/blob/v3.11.6/src/types.d.ts#L579)
+Defined in: [types.d.ts:583](https://github.com/panva/jose/blob/v3.12.0/src/types.d.ts#L583)

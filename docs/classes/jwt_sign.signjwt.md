@@ -29,7 +29,7 @@ console.log(jwt)
 
 ## Hierarchy
 
-* *ProduceJWT*
+- *ProduceJWT*
 
   ↳ **SignJWT**
 
@@ -57,7 +57,7 @@ console.log(jwt)
 
 \+ **new SignJWT**(`payload`: [*JWTPayload*](../interfaces/types.jwtpayload.md)): [*SignJWT*](jwt_sign.signjwt.md)
 
-#### Parameters:
+#### Parameters
 
 | Name | Type | Description |
 | :------ | :------ | :------ |
@@ -67,7 +67,7 @@ console.log(jwt)
 
 Inherited from: ProduceJWT.constructor
 
-Defined in: [lib/jwt_producer.ts:10](https://github.com/panva/jose/blob/v3.11.6/src/lib/jwt_producer.ts#L10)
+Defined in: [lib/jwt_producer.ts:10](https://github.com/panva/jose/blob/v3.12.0/src/lib/jwt_producer.ts#L10)
 
 ## Methods
 
@@ -77,7 +77,7 @@ Defined in: [lib/jwt_producer.ts:10](https://github.com/panva/jose/blob/v3.11.6/
 
 Set "aud" (Audience) Claim.
 
-#### Parameters:
+#### Parameters
 
 | Name | Type | Description |
 | :------ | :------ | :------ |
@@ -87,7 +87,7 @@ Set "aud" (Audience) Claim.
 
 Inherited from: ProduceJWT.setAudience
 
-Defined in: [lib/jwt_producer.ts:47](https://github.com/panva/jose/blob/v3.11.6/src/lib/jwt_producer.ts#L47)
+Defined in: [lib/jwt_producer.ts:47](https://github.com/panva/jose/blob/v3.12.0/src/lib/jwt_producer.ts#L47)
 
 ___
 
@@ -97,7 +97,7 @@ ___
 
 Set "exp" (Expiration Time) Claim.
 
-#### Parameters:
+#### Parameters
 
 | Name | Type | Description |
 | :------ | :------ | :------ |
@@ -107,7 +107,7 @@ Set "exp" (Expiration Time) Claim.
 
 Inherited from: ProduceJWT.setExpirationTime
 
-Defined in: [lib/jwt_producer.ts:85](https://github.com/panva/jose/blob/v3.11.6/src/lib/jwt_producer.ts#L85)
+Defined in: [lib/jwt_producer.ts:85](https://github.com/panva/jose/blob/v3.12.0/src/lib/jwt_producer.ts#L85)
 
 ___
 
@@ -117,7 +117,7 @@ ___
 
 Set "iat" (Issued At) Claim.
 
-#### Parameters:
+#### Parameters
 
 | Name | Type | Description |
 | :------ | :------ | :------ |
@@ -127,7 +127,7 @@ Set "iat" (Issued At) Claim.
 
 Inherited from: ProduceJWT.setIssuedAt
 
-Defined in: [lib/jwt_producer.ts:100](https://github.com/panva/jose/blob/v3.11.6/src/lib/jwt_producer.ts#L100)
+Defined in: [lib/jwt_producer.ts:100](https://github.com/panva/jose/blob/v3.12.0/src/lib/jwt_producer.ts#L100)
 
 ___
 
@@ -137,7 +137,7 @@ ___
 
 Set "iss" (Issuer) Claim.
 
-#### Parameters:
+#### Parameters
 
 | Name | Type | Description |
 | :------ | :------ | :------ |
@@ -147,7 +147,7 @@ Set "iss" (Issuer) Claim.
 
 Inherited from: ProduceJWT.setIssuer
 
-Defined in: [lib/jwt_producer.ts:27](https://github.com/panva/jose/blob/v3.11.6/src/lib/jwt_producer.ts#L27)
+Defined in: [lib/jwt_producer.ts:27](https://github.com/panva/jose/blob/v3.12.0/src/lib/jwt_producer.ts#L27)
 
 ___
 
@@ -157,7 +157,7 @@ ___
 
 Set "jti" (JWT ID) Claim.
 
-#### Parameters:
+#### Parameters
 
 | Name | Type | Description |
 | :------ | :------ | :------ |
@@ -167,7 +167,7 @@ Set "jti" (JWT ID) Claim.
 
 Inherited from: ProduceJWT.setJti
 
-Defined in: [lib/jwt_producer.ts:57](https://github.com/panva/jose/blob/v3.11.6/src/lib/jwt_producer.ts#L57)
+Defined in: [lib/jwt_producer.ts:57](https://github.com/panva/jose/blob/v3.12.0/src/lib/jwt_producer.ts#L57)
 
 ___
 
@@ -177,7 +177,7 @@ ___
 
 Set "nbf" (Not Before) Claim.
 
-#### Parameters:
+#### Parameters
 
 | Name | Type | Description |
 | :------ | :------ | :------ |
@@ -187,7 +187,7 @@ Set "nbf" (Not Before) Claim.
 
 Inherited from: ProduceJWT.setNotBefore
 
-Defined in: [lib/jwt_producer.ts:69](https://github.com/panva/jose/blob/v3.11.6/src/lib/jwt_producer.ts#L69)
+Defined in: [lib/jwt_producer.ts:69](https://github.com/panva/jose/blob/v3.12.0/src/lib/jwt_producer.ts#L69)
 
 ___
 
@@ -197,7 +197,7 @@ ___
 
 Sets the JWS Protected Header on the SignJWT object.
 
-#### Parameters:
+#### Parameters
 
 | Name | Type | Description |
 | :------ | :------ | :------ |
@@ -205,7 +205,7 @@ Sets the JWS Protected Header on the SignJWT object.
 
 **Returns:** [*SignJWT*](jwt_sign.signjwt.md)
 
-Defined in: [jwt/sign.ts:43](https://github.com/panva/jose/blob/v3.11.6/src/jwt/sign.ts#L43)
+Defined in: [jwt/sign.ts:43](https://github.com/panva/jose/blob/v3.12.0/src/jwt/sign.ts#L43)
 
 ___
 
@@ -215,7 +215,7 @@ ___
 
 Set "sub" (Subject) Claim.
 
-#### Parameters:
+#### Parameters
 
 | Name | Type | Description |
 | :------ | :------ | :------ |
@@ -225,7 +225,7 @@ Set "sub" (Subject) Claim.
 
 Inherited from: ProduceJWT.setSubject
 
-Defined in: [lib/jwt_producer.ts:37](https://github.com/panva/jose/blob/v3.11.6/src/lib/jwt_producer.ts#L37)
+Defined in: [lib/jwt_producer.ts:37](https://github.com/panva/jose/blob/v3.12.0/src/lib/jwt_producer.ts#L37)
 
 ___
 
@@ -235,7 +235,7 @@ ___
 
 Signs and returns the JWT.
 
-#### Parameters:
+#### Parameters
 
 | Name | Type | Description |
 | :------ | :------ | :------ |
@@ -244,4 +244,4 @@ Signs and returns the JWT.
 
 **Returns:** *Promise*<string\>
 
-Defined in: [jwt/sign.ts:54](https://github.com/panva/jose/blob/v3.11.6/src/jwt/sign.ts#L54)
+Defined in: [jwt/sign.ts:54](https://github.com/panva/jose/blob/v3.12.0/src/jwt/sign.ts#L54)

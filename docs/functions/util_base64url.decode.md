@@ -2,9 +2,9 @@
 
 [util/base64url](../modules/util_base64url.md).decode
 
-▸ `Const`**decode**(`input`: *string* \| *Uint8Array*): *Uint8Array*
+▸ `Const` **decode**(`input`: *string* \| *Uint8Array*): *Uint8Array*
 
-#### Parameters:
+#### Parameters
 
 | Name | Type |
 | :------ | :------ |
@@ -12,4 +12,4 @@
 
 **Returns:** *Uint8Array*
 
-Defined in: [util/base64url.ts:23](https://github.com/panva/jose/blob/v3.11.6/src/util/base64url.ts#L23)
+Defined in: [util/base64url.ts:23](https://github.com/panva/jose/blob/v3.12.0/src/util/base64url.ts#L23)

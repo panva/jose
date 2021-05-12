@@ -6,9 +6,9 @@ Combination of JWS Verification options and JWT Claims Set verification options.
 
 ## Hierarchy
 
-* [*VerifyOptions*](types.verifyoptions.md)
+- [*VerifyOptions*](types.verifyoptions.md)
 
-* [*JWTClaimVerificationOptions*](types.jwtclaimverificationoptions.md)
+- [*JWTClaimVerificationOptions*](types.jwtclaimverificationoptions.md)
 
   ↳ **JWTVerifyOptions**
 
@@ -38,7 +38,7 @@ key/secret are allowed. Note: "none" is never accepted.
 
 Inherited from: [VerifyOptions](types.verifyoptions.md).[algorithms](types.verifyoptions.md#algorithms)
 
-Defined in: [types.d.ts:522](https://github.com/panva/jose/blob/v3.11.6/src/types.d.ts#L522)
+Defined in: [types.d.ts:526](https://github.com/panva/jose/blob/v3.12.0/src/types.d.ts#L526)
 
 ___
 
@@ -50,7 +50,7 @@ Expected JWT "aud" (Audience) Claim value(s).
 
 Inherited from: [JWTClaimVerificationOptions](types.jwtclaimverificationoptions.md).[audience](types.jwtclaimverificationoptions.md#audience)
 
-Defined in: [types.d.ts:476](https://github.com/panva/jose/blob/v3.11.6/src/types.d.ts#L476)
+Defined in: [types.d.ts:480](https://github.com/panva/jose/blob/v3.12.0/src/types.d.ts#L480)
 
 ___
 
@@ -64,7 +64,7 @@ Expected clock tolerance
 
 Inherited from: [JWTClaimVerificationOptions](types.jwtclaimverificationoptions.md).[clockTolerance](types.jwtclaimverificationoptions.md#clocktolerance)
 
-Defined in: [types.d.ts:483](https://github.com/panva/jose/blob/v3.11.6/src/types.d.ts#L483)
+Defined in: [types.d.ts:487](https://github.com/panva/jose/blob/v3.12.0/src/types.d.ts#L487)
 
 ___
 
@@ -91,11 +91,11 @@ The JWS extension Header Parameter `b64` is always recognized and processed
 properly. No other registered Header Parameters that need this kind of
 default built-in treatment are currently available.
 
-#### Type declaration:
+#### Type declaration
 
 Inherited from: [VerifyOptions](types.verifyoptions.md).[crit](types.verifyoptions.md#crit)
 
-Defined in: [types.d.ts:430](https://github.com/panva/jose/blob/v3.11.6/src/types.d.ts#L430)
+Defined in: [types.d.ts:434](https://github.com/panva/jose/blob/v3.12.0/src/types.d.ts#L434)
 
 ___
 
@@ -107,7 +107,7 @@ Date to use when comparing NumericDate claims, defaults to `new Date()`.
 
 Inherited from: [JWTClaimVerificationOptions](types.jwtclaimverificationoptions.md).[currentDate](types.jwtclaimverificationoptions.md#currentdate)
 
-Defined in: [types.d.ts:510](https://github.com/panva/jose/blob/v3.11.6/src/types.d.ts#L510)
+Defined in: [types.d.ts:514](https://github.com/panva/jose/blob/v3.12.0/src/types.d.ts#L514)
 
 ___
 
@@ -119,7 +119,7 @@ Expected JWT "iss" (Issuer) Claim value(s).
 
 Inherited from: [JWTClaimVerificationOptions](types.jwtclaimverificationoptions.md).[issuer](types.jwtclaimverificationoptions.md#issuer)
 
-Defined in: [types.d.ts:488](https://github.com/panva/jose/blob/v3.11.6/src/types.d.ts#L488)
+Defined in: [types.d.ts:492](https://github.com/panva/jose/blob/v3.12.0/src/types.d.ts#L492)
 
 ___
 
@@ -133,7 +133,7 @@ Maximum time elapsed (in seconds) from the JWT "iat" (Issued At) Claim value.
 
 Inherited from: [JWTClaimVerificationOptions](types.jwtclaimverificationoptions.md).[maxTokenAge](types.jwtclaimverificationoptions.md#maxtokenage)
 
-Defined in: [types.d.ts:495](https://github.com/panva/jose/blob/v3.11.6/src/types.d.ts#L495)
+Defined in: [types.d.ts:499](https://github.com/panva/jose/blob/v3.12.0/src/types.d.ts#L499)
 
 ___
 
@@ -145,7 +145,7 @@ Expected JWT "sub" (Subject) Claim value.
 
 Inherited from: [JWTClaimVerificationOptions](types.jwtclaimverificationoptions.md).[subject](types.jwtclaimverificationoptions.md#subject)
 
-Defined in: [types.d.ts:500](https://github.com/panva/jose/blob/v3.11.6/src/types.d.ts#L500)
+Defined in: [types.d.ts:504](https://github.com/panva/jose/blob/v3.12.0/src/types.d.ts#L504)
 
 ___
 
@@ -157,4 +157,4 @@ Expected JWT "typ" (Type) Header Parameter value.
 
 Inherited from: [JWTClaimVerificationOptions](types.jwtclaimverificationoptions.md).[typ](types.jwtclaimverificationoptions.md#typ)
 
-Defined in: [types.d.ts:505](https://github.com/panva/jose/blob/v3.11.6/src/types.d.ts#L505)
+Defined in: [types.d.ts:509](https://github.com/panva/jose/blob/v3.12.0/src/types.d.ts#L509)

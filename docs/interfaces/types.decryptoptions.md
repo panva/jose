@@ -6,7 +6,7 @@ JWE Decryption options.
 
 ## Hierarchy
 
-* [*CritOption*](types.critoption.md)
+- [*CritOption*](types.critoption.md)
 
   ↳ **DecryptOptions**
 
@@ -31,7 +31,7 @@ A list of accepted JWE "enc" (Encryption Algorithm) Header Parameter values.
 By default all "enc" (Encryption Algorithm) values applicable for the used
 key/secret are allowed.
 
-Defined in: [types.d.ts:449](https://github.com/panva/jose/blob/v3.11.6/src/types.d.ts#L449)
+Defined in: [types.d.ts:453](https://github.com/panva/jose/blob/v3.12.0/src/types.d.ts#L453)
 
 ___
 
@@ -58,11 +58,11 @@ The JWS extension Header Parameter `b64` is always recognized and processed
 properly. No other registered Header Parameters that need this kind of
 default built-in treatment are currently available.
 
-#### Type declaration:
+#### Type declaration
 
 Inherited from: [CritOption](types.critoption.md).[crit](types.critoption.md#crit)
 
-Defined in: [types.d.ts:430](https://github.com/panva/jose/blob/v3.11.6/src/types.d.ts#L430)
+Defined in: [types.d.ts:434](https://github.com/panva/jose/blob/v3.12.0/src/types.d.ts#L434)
 
 ___
 
@@ -73,7 +73,7 @@ ___
 In a browser runtime you have to provide an implementation for Inflate Raw
 when you expect JWEs with compressed plaintext.
 
-Defined in: [types.d.ts:455](https://github.com/panva/jose/blob/v3.11.6/src/types.d.ts#L455)
+Defined in: [types.d.ts:459](https://github.com/panva/jose/blob/v3.12.0/src/types.d.ts#L459)
 
 ___
 
@@ -83,4 +83,4 @@ ___
 
 A list of accepted JWE "alg" (Algorithm) Header Parameter values.
 
-Defined in: [types.d.ts:442](https://github.com/panva/jose/blob/v3.11.6/src/types.d.ts#L442)
+Defined in: [types.d.ts:446](https://github.com/panva/jose/blob/v3.12.0/src/types.d.ts#L446)

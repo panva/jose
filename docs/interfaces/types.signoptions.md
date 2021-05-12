@@ -6,7 +6,7 @@ JWS Signing options.
 
 ## Hierarchy
 
-* [*CritOption*](types.critoption.md)
+- [*CritOption*](types.critoption.md)
 
   ↳ **SignOptions**
 
@@ -41,8 +41,8 @@ The JWS extension Header Parameter `b64` is always recognized and processed
 properly. No other registered Header Parameters that need this kind of
 default built-in treatment are currently available.
 
-#### Type declaration:
+#### Type declaration
 
 Inherited from: [CritOption](types.critoption.md).[crit](types.critoption.md#crit)
 
-Defined in: [types.d.ts:430](https://github.com/panva/jose/blob/v3.11.6/src/types.d.ts#L430)
+Defined in: [types.d.ts:434](https://github.com/panva/jose/blob/v3.12.0/src/types.d.ts#L434)

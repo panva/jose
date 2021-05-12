@@ -6,7 +6,7 @@ An error subclass thrown when a JWT Claim Set member validation fails.
 
 ## Hierarchy
 
-* [*JOSEError*](util_errors.joseerror.md)
+- [*JOSEError*](util_errors.joseerror.md)
 
   ↳ **JWTClaimValidationFailed**
 
@@ -31,7 +31,7 @@ An error subclass thrown when a JWT Claim Set member validation fails.
 
 \+ **new JWTClaimValidationFailed**(`message`: *string*, `claim?`: *string*, `reason?`: *string*): [*JWTClaimValidationFailed*](util_errors.jwtclaimvalidationfailed.md)
 
-#### Parameters:
+#### Parameters
 
 | Name | Type | Default value |
 | :------ | :------ | :------ |
@@ -43,7 +43,7 @@ An error subclass thrown when a JWT Claim Set member validation fails.
 
 Overrides: [JOSEError](util_errors.joseerror.md)
 
-Defined in: [util/errors.ts:43](https://github.com/panva/jose/blob/v3.11.6/src/util/errors.ts#L43)
+Defined in: [util/errors.ts:43](https://github.com/panva/jose/blob/v3.12.0/src/util/errors.ts#L43)
 
 ## Properties
 
@@ -53,7 +53,7 @@ Defined in: [util/errors.ts:43](https://github.com/panva/jose/blob/v3.11.6/src/u
 
 The Claim for which the validation failed.
 
-Defined in: [util/errors.ts:38](https://github.com/panva/jose/blob/v3.11.6/src/util/errors.ts#L38)
+Defined in: [util/errors.ts:38](https://github.com/panva/jose/blob/v3.12.0/src/util/errors.ts#L38)
 
 ___
 
@@ -65,7 +65,7 @@ A unique error code for the particular error subclass.
 
 Overrides: [JOSEError](util_errors.joseerror.md).[code](util_errors.joseerror.md#code)
 
-Defined in: [util/errors.ts:33](https://github.com/panva/jose/blob/v3.11.6/src/util/errors.ts#L33)
+Defined in: [util/errors.ts:33](https://github.com/panva/jose/blob/v3.12.0/src/util/errors.ts#L33)
 
 ___
 
@@ -75,7 +75,7 @@ ___
 
 Reason code for the validation failure.
 
-Defined in: [util/errors.ts:43](https://github.com/panva/jose/blob/v3.11.6/src/util/errors.ts#L43)
+Defined in: [util/errors.ts:43](https://github.com/panva/jose/blob/v3.12.0/src/util/errors.ts#L43)
 
 ___
 
@@ -87,4 +87,4 @@ A unique error code for the particular error subclass.
 
 Overrides: [JOSEError](util_errors.joseerror.md).[code](util_errors.joseerror.md#code)
 
-Defined in: [util/errors.ts:31](https://github.com/panva/jose/blob/v3.11.6/src/util/errors.ts#L31)
+Defined in: [util/errors.ts:31](https://github.com/panva/jose/blob/v3.12.0/src/util/errors.ts#L31)

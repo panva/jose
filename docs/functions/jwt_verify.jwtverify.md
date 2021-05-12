@@ -29,7 +29,7 @@ console.log(protectedHeader)
 console.log(payload)
 ```
 
-#### Parameters:
+#### Parameters
 
 | Name | Type | Description |
 | :------ | :------ | :------ |
@@ -39,4 +39,4 @@ console.log(payload)
 
 **Returns:** *Promise*<[*JWTVerifyResult*](../interfaces/types.jwtverifyresult.md)\>
 
-Defined in: [jwt/verify.ts:59](https://github.com/panva/jose/blob/v3.11.6/src/jwt/verify.ts#L59)
+Defined in: [jwt/verify.ts:59](https://github.com/panva/jose/blob/v3.12.0/src/jwt/verify.ts#L59)

@@ -45,7 +45,7 @@ console.log(jwe)
 
 \+ **new CompactEncrypt**(`plaintext`: *Uint8Array*): [*CompactEncrypt*](jwe_compact_encrypt.compactencrypt.md)
 
-#### Parameters:
+#### Parameters
 
 | Name | Type | Description |
 | :------ | :------ | :------ |
@@ -53,7 +53,7 @@ console.log(jwe)
 
 **Returns:** [*CompactEncrypt*](jwe_compact_encrypt.compactencrypt.md)
 
-Defined in: [jwe/compact/encrypt.ts:34](https://github.com/panva/jose/blob/v3.11.6/src/jwe/compact/encrypt.ts#L34)
+Defined in: [jwe/compact/encrypt.ts:34](https://github.com/panva/jose/blob/v3.12.0/src/jwe/compact/encrypt.ts#L34)
 
 ## Methods
 
@@ -63,7 +63,7 @@ Defined in: [jwe/compact/encrypt.ts:34](https://github.com/panva/jose/blob/v3.11
 
 Encrypts and resolves the value of the Compact JWE string.
 
-#### Parameters:
+#### Parameters
 
 | Name | Type | Description |
 | :------ | :------ | :------ |
@@ -72,7 +72,7 @@ Encrypts and resolves the value of the Compact JWE string.
 
 **Returns:** *Promise*<string\>
 
-Defined in: [jwe/compact/encrypt.ts:97](https://github.com/panva/jose/blob/v3.11.6/src/jwe/compact/encrypt.ts#L97)
+Defined in: [jwe/compact/encrypt.ts:97](https://github.com/panva/jose/blob/v3.12.0/src/jwe/compact/encrypt.ts#L97)
 
 ___
 
@@ -85,7 +85,7 @@ is generated for the JWE enc" (Encryption Algorithm) Header Parameter.
 You do not need to invoke this method, it is only really intended for
 test and vector validation purposes.
 
-#### Parameters:
+#### Parameters
 
 | Name | Type | Description |
 | :------ | :------ | :------ |
@@ -93,7 +93,7 @@ test and vector validation purposes.
 
 **Returns:** [*CompactEncrypt*](jwe_compact_encrypt.compactencrypt.md)
 
-Defined in: [jwe/compact/encrypt.ts:51](https://github.com/panva/jose/blob/v3.11.6/src/jwe/compact/encrypt.ts#L51)
+Defined in: [jwe/compact/encrypt.ts:51](https://github.com/panva/jose/blob/v3.12.0/src/jwe/compact/encrypt.ts#L51)
 
 ___
 
@@ -106,7 +106,7 @@ a random suitable one is generated for the JWE enc" (Encryption Algorithm)
 Header Parameter. You do not need to invoke this method, it is only really
 intended for test and vector validation purposes.
 
-#### Parameters:
+#### Parameters
 
 | Name | Type | Description |
 | :------ | :------ | :------ |
@@ -114,7 +114,7 @@ intended for test and vector validation purposes.
 
 **Returns:** [*CompactEncrypt*](jwe_compact_encrypt.compactencrypt.md)
 
-Defined in: [jwe/compact/encrypt.ts:64](https://github.com/panva/jose/blob/v3.11.6/src/jwe/compact/encrypt.ts#L64)
+Defined in: [jwe/compact/encrypt.ts:64](https://github.com/panva/jose/blob/v3.12.0/src/jwe/compact/encrypt.ts#L64)
 
 ___
 
@@ -126,7 +126,7 @@ Sets the JWE Key Management parameters to be used when encrypting the Content
 Encryption Key. You do not need to invoke this method, it is only really
 intended for test and vector validation purposes.
 
-#### Parameters:
+#### Parameters
 
 | Name | Type | Description |
 | :------ | :------ | :------ |
@@ -134,7 +134,7 @@ intended for test and vector validation purposes.
 
 **Returns:** [*CompactEncrypt*](jwe_compact_encrypt.compactencrypt.md)
 
-Defined in: [jwe/compact/encrypt.ts:86](https://github.com/panva/jose/blob/v3.11.6/src/jwe/compact/encrypt.ts#L86)
+Defined in: [jwe/compact/encrypt.ts:86](https://github.com/panva/jose/blob/v3.12.0/src/jwe/compact/encrypt.ts#L86)
 
 ___
 
@@ -144,7 +144,7 @@ ___
 
 Sets the JWE Protected Header on the CompactEncrypt object.
 
-#### Parameters:
+#### Parameters
 
 | Name | Type | Description |
 | :------ | :------ | :------ |
@@ -152,4 +152,4 @@ Sets the JWE Protected Header on the CompactEncrypt object.
 
 **Returns:** [*CompactEncrypt*](jwe_compact_encrypt.compactencrypt.md)
 
-Defined in: [jwe/compact/encrypt.ts:74](https://github.com/panva/jose/blob/v3.11.6/src/jwe/compact/encrypt.ts#L74)
+Defined in: [jwe/compact/encrypt.ts:74](https://github.com/panva/jose/blob/v3.12.0/src/jwe/compact/encrypt.ts#L74)

@@ -6,7 +6,7 @@ JWE Encryption options.
 
 ## Hierarchy
 
-* [*CritOption*](types.critoption.md)
+- [*CritOption*](types.critoption.md)
 
   ↳ **EncryptOptions**
 
@@ -42,11 +42,11 @@ The JWS extension Header Parameter `b64` is always recognized and processed
 properly. No other registered Header Parameters that need this kind of
 default built-in treatment are currently available.
 
-#### Type declaration:
+#### Type declaration
 
 Inherited from: [CritOption](types.critoption.md).[crit](types.critoption.md#crit)
 
-Defined in: [types.d.ts:430](https://github.com/panva/jose/blob/v3.11.6/src/types.d.ts#L430)
+Defined in: [types.d.ts:434](https://github.com/panva/jose/blob/v3.12.0/src/types.d.ts#L434)
 
 ___
 
@@ -57,4 +57,4 @@ ___
 In a browser runtime you have to provide an implementation for Deflate Raw
 when you will be producing JWEs with compressed plaintext.
 
-Defined in: [types.d.ts:466](https://github.com/panva/jose/blob/v3.11.6/src/types.d.ts#L466)
+Defined in: [types.d.ts:470](https://github.com/panva/jose/blob/v3.12.0/src/types.d.ts#L470)

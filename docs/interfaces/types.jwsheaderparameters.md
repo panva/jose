@@ -7,7 +7,7 @@ may also be present.
 
 ## Hierarchy
 
-* [*JoseHeaderParameters*](types.joseheaderparameters.md)
+- [*JoseHeaderParameters*](types.joseheaderparameters.md)
 
   ↳ **JWSHeaderParameters**
 
@@ -40,7 +40,7 @@ Any other JWS Header member.
 
 JWS "alg" (Algorithm) Header Parameter.
 
-Defined in: [types.d.ts:271](https://github.com/panva/jose/blob/v3.11.6/src/types.d.ts#L271)
+Defined in: [types.d.ts:275](https://github.com/panva/jose/blob/v3.12.0/src/types.d.ts#L275)
 
 ___
 
@@ -52,7 +52,7 @@ This JWS Extension Header Parameter modifies the JWS Payload
 representation and the JWS Signing Input computation as per
 [RFC7797](https://tools.ietf.org/html/rfc7797).
 
-Defined in: [types.d.ts:278](https://github.com/panva/jose/blob/v3.11.6/src/types.d.ts#L278)
+Defined in: [types.d.ts:282](https://github.com/panva/jose/blob/v3.12.0/src/types.d.ts#L282)
 
 ___
 
@@ -62,7 +62,7 @@ ___
 
 JWS "crit" (Critical) Header Parameter.
 
-Defined in: [types.d.ts:283](https://github.com/panva/jose/blob/v3.11.6/src/types.d.ts#L283)
+Defined in: [types.d.ts:287](https://github.com/panva/jose/blob/v3.12.0/src/types.d.ts#L287)
 
 ___
 
@@ -74,7 +74,7 @@ ___
 
 Inherited from: [JoseHeaderParameters](types.joseheaderparameters.md).[cty](types.joseheaderparameters.md#cty)
 
-Defined in: [types.d.ts:260](https://github.com/panva/jose/blob/v3.11.6/src/types.d.ts#L260)
+Defined in: [types.d.ts:264](https://github.com/panva/jose/blob/v3.12.0/src/types.d.ts#L264)
 
 ___
 
@@ -86,7 +86,7 @@ ___
 
 Inherited from: [JoseHeaderParameters](types.joseheaderparameters.md).[jwk](types.joseheaderparameters.md#jwk)
 
-Defined in: [types.d.ts:250](https://github.com/panva/jose/blob/v3.11.6/src/types.d.ts#L250)
+Defined in: [types.d.ts:254](https://github.com/panva/jose/blob/v3.12.0/src/types.d.ts#L254)
 
 ___
 
@@ -98,7 +98,7 @@ ___
 
 Inherited from: [JoseHeaderParameters](types.joseheaderparameters.md).[kid](types.joseheaderparameters.md#kid)
 
-Defined in: [types.d.ts:230](https://github.com/panva/jose/blob/v3.11.6/src/types.d.ts#L230)
+Defined in: [types.d.ts:234](https://github.com/panva/jose/blob/v3.12.0/src/types.d.ts#L234)
 
 ___
 
@@ -110,7 +110,7 @@ ___
 
 Inherited from: [JoseHeaderParameters](types.joseheaderparameters.md).[typ](types.joseheaderparameters.md#typ)
 
-Defined in: [types.d.ts:255](https://github.com/panva/jose/blob/v3.11.6/src/types.d.ts#L255)
+Defined in: [types.d.ts:259](https://github.com/panva/jose/blob/v3.12.0/src/types.d.ts#L259)
 
 ___
 
@@ -122,7 +122,7 @@ ___
 
 Inherited from: [JoseHeaderParameters](types.joseheaderparameters.md).[x5c](types.joseheaderparameters.md#x5c)
 
-Defined in: [types.d.ts:240](https://github.com/panva/jose/blob/v3.11.6/src/types.d.ts#L240)
+Defined in: [types.d.ts:244](https://github.com/panva/jose/blob/v3.12.0/src/types.d.ts#L244)
 
 ___
 
@@ -134,7 +134,7 @@ ___
 
 Inherited from: [JoseHeaderParameters](types.joseheaderparameters.md).[x5t](types.joseheaderparameters.md#x5t)
 
-Defined in: [types.d.ts:235](https://github.com/panva/jose/blob/v3.11.6/src/types.d.ts#L235)
+Defined in: [types.d.ts:239](https://github.com/panva/jose/blob/v3.12.0/src/types.d.ts#L239)
 
 ___
 
@@ -146,4 +146,4 @@ ___
 
 Inherited from: [JoseHeaderParameters](types.joseheaderparameters.md).[x5u](types.joseheaderparameters.md#x5u)
 
-Defined in: [types.d.ts:245](https://github.com/panva/jose/blob/v3.11.6/src/types.d.ts#L245)
+Defined in: [types.d.ts:249](https://github.com/panva/jose/blob/v3.12.0/src/types.d.ts#L249)

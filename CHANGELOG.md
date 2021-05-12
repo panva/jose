@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [3.12.0](https://github.com/panva/jose/compare/v3.11.6...v3.12.0) (2021-05-12)
+
+
+### Features
+
+* **webcrypto:** allow generate* modules extractable: false override ([afae428](https://github.com/panva/jose/commit/afae428f39eb920297ef474878d4266172d9a015))
+
 ## [3.11.6](https://github.com/panva/jose/compare/v3.11.5...v3.11.6) (2021-04-30)
 
 

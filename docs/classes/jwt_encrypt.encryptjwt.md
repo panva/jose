@@ -29,7 +29,7 @@ console.log(jwt)
 
 ## Hierarchy
 
-* *ProduceJWT*
+- *ProduceJWT*
 
   ↳ **EncryptJWT**
 
@@ -63,7 +63,7 @@ console.log(jwt)
 
 \+ **new EncryptJWT**(`payload`: [*JWTPayload*](../interfaces/types.jwtpayload.md)): [*EncryptJWT*](jwt_encrypt.encryptjwt.md)
 
-#### Parameters:
+#### Parameters
 
 | Name | Type | Description |
 | :------ | :------ | :------ |
@@ -73,7 +73,7 @@ console.log(jwt)
 
 Inherited from: ProduceJWT.constructor
 
-Defined in: [lib/jwt_producer.ts:10](https://github.com/panva/jose/blob/v3.11.6/src/lib/jwt_producer.ts#L10)
+Defined in: [lib/jwt_producer.ts:10](https://github.com/panva/jose/blob/v3.12.0/src/lib/jwt_producer.ts#L10)
 
 ## Methods
 
@@ -83,7 +83,7 @@ Defined in: [lib/jwt_producer.ts:10](https://github.com/panva/jose/blob/v3.11.6/
 
 Encrypts and returns the JWT.
 
-#### Parameters:
+#### Parameters
 
 | Name | Type | Description |
 | :------ | :------ | :------ |
@@ -92,7 +92,7 @@ Encrypts and returns the JWT.
 
 **Returns:** *Promise*<string\>
 
-Defined in: [jwt/encrypt.ts:151](https://github.com/panva/jose/blob/v3.11.6/src/jwt/encrypt.ts#L151)
+Defined in: [jwt/encrypt.ts:151](https://github.com/panva/jose/blob/v3.12.0/src/jwt/encrypt.ts#L151)
 
 ___
 
@@ -105,7 +105,7 @@ Replicates the "aud" (Audience) Claim as a JWE Protected Header Parameter as per
 
 **Returns:** [*EncryptJWT*](jwt_encrypt.encryptjwt.md)
 
-Defined in: [jwt/encrypt.ts:140](https://github.com/panva/jose/blob/v3.11.6/src/jwt/encrypt.ts#L140)
+Defined in: [jwt/encrypt.ts:140](https://github.com/panva/jose/blob/v3.12.0/src/jwt/encrypt.ts#L140)
 
 ___
 
@@ -118,7 +118,7 @@ Replicates the "iss" (Issuer) Claim as a JWE Protected Header Parameter as per
 
 **Returns:** [*EncryptJWT*](jwt_encrypt.encryptjwt.md)
 
-Defined in: [jwt/encrypt.ts:122](https://github.com/panva/jose/blob/v3.11.6/src/jwt/encrypt.ts#L122)
+Defined in: [jwt/encrypt.ts:122](https://github.com/panva/jose/blob/v3.12.0/src/jwt/encrypt.ts#L122)
 
 ___
 
@@ -131,7 +131,7 @@ Replicates the "sub" (Subject) Claim as a JWE Protected Header Parameter as per
 
 **Returns:** [*EncryptJWT*](jwt_encrypt.encryptjwt.md)
 
-Defined in: [jwt/encrypt.ts:131](https://github.com/panva/jose/blob/v3.11.6/src/jwt/encrypt.ts#L131)
+Defined in: [jwt/encrypt.ts:131](https://github.com/panva/jose/blob/v3.12.0/src/jwt/encrypt.ts#L131)
 
 ___
 
@@ -141,7 +141,7 @@ ___
 
 Set "aud" (Audience) Claim.
 
-#### Parameters:
+#### Parameters
 
 | Name | Type | Description |
 | :------ | :------ | :------ |
@@ -151,7 +151,7 @@ Set "aud" (Audience) Claim.
 
 Inherited from: ProduceJWT.setAudience
 
-Defined in: [lib/jwt_producer.ts:47](https://github.com/panva/jose/blob/v3.11.6/src/lib/jwt_producer.ts#L47)
+Defined in: [lib/jwt_producer.ts:47](https://github.com/panva/jose/blob/v3.12.0/src/lib/jwt_producer.ts#L47)
 
 ___
 
@@ -164,7 +164,7 @@ is generated for the JWE enc" (Encryption Algorithm) Header Parameter.
 You do not need to invoke this method, it is only really intended for
 test and vector validation purposes.
 
-#### Parameters:
+#### Parameters
 
 | Name | Type | Description |
 | :------ | :------ | :------ |
@@ -172,7 +172,7 @@ test and vector validation purposes.
 
 **Returns:** [*EncryptJWT*](jwt_encrypt.encryptjwt.md)
 
-Defined in: [jwt/encrypt.ts:94](https://github.com/panva/jose/blob/v3.11.6/src/jwt/encrypt.ts#L94)
+Defined in: [jwt/encrypt.ts:94](https://github.com/panva/jose/blob/v3.12.0/src/jwt/encrypt.ts#L94)
 
 ___
 
@@ -182,7 +182,7 @@ ___
 
 Set "exp" (Expiration Time) Claim.
 
-#### Parameters:
+#### Parameters
 
 | Name | Type | Description |
 | :------ | :------ | :------ |
@@ -192,7 +192,7 @@ Set "exp" (Expiration Time) Claim.
 
 Inherited from: ProduceJWT.setExpirationTime
 
-Defined in: [lib/jwt_producer.ts:85](https://github.com/panva/jose/blob/v3.11.6/src/lib/jwt_producer.ts#L85)
+Defined in: [lib/jwt_producer.ts:85](https://github.com/panva/jose/blob/v3.12.0/src/lib/jwt_producer.ts#L85)
 
 ___
 
@@ -205,7 +205,7 @@ a random suitable one is generated for the JWE enc" (Encryption Algorithm)
 Header Parameter. You do not need to invoke this method, it is only really
 intended for test and vector validation purposes.
 
-#### Parameters:
+#### Parameters
 
 | Name | Type | Description |
 | :------ | :------ | :------ |
@@ -213,7 +213,7 @@ intended for test and vector validation purposes.
 
 **Returns:** [*EncryptJWT*](jwt_encrypt.encryptjwt.md)
 
-Defined in: [jwt/encrypt.ts:110](https://github.com/panva/jose/blob/v3.11.6/src/jwt/encrypt.ts#L110)
+Defined in: [jwt/encrypt.ts:110](https://github.com/panva/jose/blob/v3.12.0/src/jwt/encrypt.ts#L110)
 
 ___
 
@@ -223,7 +223,7 @@ ___
 
 Set "iat" (Issued At) Claim.
 
-#### Parameters:
+#### Parameters
 
 | Name | Type | Description |
 | :------ | :------ | :------ |
@@ -233,7 +233,7 @@ Set "iat" (Issued At) Claim.
 
 Inherited from: ProduceJWT.setIssuedAt
 
-Defined in: [lib/jwt_producer.ts:100](https://github.com/panva/jose/blob/v3.11.6/src/lib/jwt_producer.ts#L100)
+Defined in: [lib/jwt_producer.ts:100](https://github.com/panva/jose/blob/v3.12.0/src/lib/jwt_producer.ts#L100)
 
 ___
 
@@ -243,7 +243,7 @@ ___
 
 Set "iss" (Issuer) Claim.
 
-#### Parameters:
+#### Parameters
 
 | Name | Type | Description |
 | :------ | :------ | :------ |
@@ -253,7 +253,7 @@ Set "iss" (Issuer) Claim.
 
 Inherited from: ProduceJWT.setIssuer
 
-Defined in: [lib/jwt_producer.ts:27](https://github.com/panva/jose/blob/v3.11.6/src/lib/jwt_producer.ts#L27)
+Defined in: [lib/jwt_producer.ts:27](https://github.com/panva/jose/blob/v3.12.0/src/lib/jwt_producer.ts#L27)
 
 ___
 
@@ -263,7 +263,7 @@ ___
 
 Set "jti" (JWT ID) Claim.
 
-#### Parameters:
+#### Parameters
 
 | Name | Type | Description |
 | :------ | :------ | :------ |
@@ -273,7 +273,7 @@ Set "jti" (JWT ID) Claim.
 
 Inherited from: ProduceJWT.setJti
 
-Defined in: [lib/jwt_producer.ts:57](https://github.com/panva/jose/blob/v3.11.6/src/lib/jwt_producer.ts#L57)
+Defined in: [lib/jwt_producer.ts:57](https://github.com/panva/jose/blob/v3.12.0/src/lib/jwt_producer.ts#L57)
 
 ___
 
@@ -286,7 +286,7 @@ Use of this is method is really only needed for ECDH-ES based algorithms
 when utilizing the Agreement PartyUInfo or Agreement PartyVInfo parameters.
 Other parameters will always be randomly generated when needed and missing.
 
-#### Parameters:
+#### Parameters
 
 | Name | Type | Description |
 | :------ | :------ | :------ |
@@ -294,7 +294,7 @@ Other parameters will always be randomly generated when needed and missing.
 
 **Returns:** [*EncryptJWT*](jwt_encrypt.encryptjwt.md)
 
-Defined in: [jwt/encrypt.ts:78](https://github.com/panva/jose/blob/v3.11.6/src/jwt/encrypt.ts#L78)
+Defined in: [jwt/encrypt.ts:78](https://github.com/panva/jose/blob/v3.12.0/src/jwt/encrypt.ts#L78)
 
 ___
 
@@ -304,7 +304,7 @@ ___
 
 Set "nbf" (Not Before) Claim.
 
-#### Parameters:
+#### Parameters
 
 | Name | Type | Description |
 | :------ | :------ | :------ |
@@ -314,7 +314,7 @@ Set "nbf" (Not Before) Claim.
 
 Inherited from: ProduceJWT.setNotBefore
 
-Defined in: [lib/jwt_producer.ts:69](https://github.com/panva/jose/blob/v3.11.6/src/lib/jwt_producer.ts#L69)
+Defined in: [lib/jwt_producer.ts:69](https://github.com/panva/jose/blob/v3.12.0/src/lib/jwt_producer.ts#L69)
 
 ___
 
@@ -324,7 +324,7 @@ ___
 
 Sets the JWE Protected Header on the EncryptJWT object.
 
-#### Parameters:
+#### Parameters
 
 | Name | Type | Description |
 | :------ | :------ | :------ |
@@ -332,7 +332,7 @@ Sets the JWE Protected Header on the EncryptJWT object.
 
 **Returns:** [*EncryptJWT*](jwt_encrypt.encryptjwt.md)
 
-Defined in: [jwt/encrypt.ts:62](https://github.com/panva/jose/blob/v3.11.6/src/jwt/encrypt.ts#L62)
+Defined in: [jwt/encrypt.ts:62](https://github.com/panva/jose/blob/v3.12.0/src/jwt/encrypt.ts#L62)
 
 ___
 
@@ -342,7 +342,7 @@ ___
 
 Set "sub" (Subject) Claim.
 
-#### Parameters:
+#### Parameters
 
 | Name | Type | Description |
 | :------ | :------ | :------ |
@@ -352,4 +352,4 @@ Set "sub" (Subject) Claim.
 
 Inherited from: ProduceJWT.setSubject
 
-Defined in: [lib/jwt_producer.ts:37](https://github.com/panva/jose/blob/v3.11.6/src/lib/jwt_producer.ts#L37)
+Defined in: [lib/jwt_producer.ts:37](https://github.com/panva/jose/blob/v3.12.0/src/lib/jwt_producer.ts#L37)

@@ -27,7 +27,7 @@ console.log(protectedHeader)
 console.log(decoder.decode(payload))
 ```
 
-#### Parameters:
+#### Parameters
 
 | Name | Type | Description |
 | :------ | :------ | :------ |
@@ -37,4 +37,4 @@ console.log(decoder.decode(payload))
 
 **Returns:** *Promise*<[*CompactVerifyResult*](../interfaces/types.compactverifyresult.md)\>
 
-Defined in: [jws/compact/verify.ts:51](https://github.com/panva/jose/blob/v3.11.6/src/jws/compact/verify.ts#L51)
+Defined in: [jws/compact/verify.ts:51](https://github.com/panva/jose/blob/v3.12.0/src/jws/compact/verify.ts#L51)

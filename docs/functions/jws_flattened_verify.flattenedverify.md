@@ -31,7 +31,7 @@ console.log(protectedHeader)
 console.log(decoder.decode(payload))
 ```
 
-#### Parameters:
+#### Parameters
 
 | Name | Type | Description |
 | :------ | :------ | :------ |
@@ -41,4 +41,4 @@ console.log(decoder.decode(payload))
 
 **Returns:** *Promise*<[*FlattenedVerifyResult*](../interfaces/types.flattenedverifyresult.md)\>
 
-Defined in: [jws/flattened/verify.ts:66](https://github.com/panva/jose/blob/v3.11.6/src/jws/flattened/verify.ts#L66)
+Defined in: [jws/flattened/verify.ts:66](https://github.com/panva/jose/blob/v3.12.0/src/jws/flattened/verify.ts#L66)

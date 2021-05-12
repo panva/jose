@@ -8,7 +8,7 @@ is not returned when JWS Unencoded Payload Option
 
 ## Hierarchy
 
-* *Partial*<[*FlattenedJWSInput*](types.flattenedjwsinput.md)\>
+- *Partial*<[*FlattenedJWSInput*](types.flattenedjwsinput.md)\>
 
   ↳ **FlattenedJWS**
 
@@ -35,7 +35,7 @@ Parameter values are not integrity protected.
 
 Inherited from: Partial.header
 
-Defined in: [types.d.ts:162](https://github.com/panva/jose/blob/v3.11.6/src/types.d.ts#L162)
+Defined in: [types.d.ts:166](https://github.com/panva/jose/blob/v3.12.0/src/types.d.ts#L166)
 
 ___
 
@@ -45,7 +45,7 @@ ___
 
 Overrides: Partial.payload
 
-Defined in: [types.d.ts:212](https://github.com/panva/jose/blob/v3.11.6/src/types.d.ts#L212)
+Defined in: [types.d.ts:216](https://github.com/panva/jose/blob/v3.12.0/src/types.d.ts#L216)
 
 ___
 
@@ -60,7 +60,7 @@ Header Parameter values are integrity protected.
 
 Inherited from: Partial.protected
 
-Defined in: [types.d.ts:177](https://github.com/panva/jose/blob/v3.11.6/src/types.d.ts#L177)
+Defined in: [types.d.ts:181](https://github.com/panva/jose/blob/v3.12.0/src/types.d.ts#L181)
 
 ___
 
@@ -70,4 +70,4 @@ ___
 
 Overrides: Partial.signature
 
-Defined in: [types.d.ts:213](https://github.com/panva/jose/blob/v3.11.6/src/types.d.ts#L213)
+Defined in: [types.d.ts:217](https://github.com/panva/jose/blob/v3.12.0/src/types.d.ts#L217)

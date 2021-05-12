@@ -4,7 +4,7 @@
 
 ## Hierarchy
 
-* **FlattenedDecryptResult**
+- **FlattenedDecryptResult**
 
   ↳ [*GeneralDecryptResult*](types.generaldecryptresult.md)
 
@@ -26,7 +26,7 @@
 
 JWE AAD.
 
-Defined in: [types.d.ts:594](https://github.com/panva/jose/blob/v3.11.6/src/types.d.ts#L594)
+Defined in: [types.d.ts:598](https://github.com/panva/jose/blob/v3.12.0/src/types.d.ts#L598)
 
 ___
 
@@ -36,7 +36,7 @@ ___
 
 Plaintext.
 
-Defined in: [types.d.ts:599](https://github.com/panva/jose/blob/v3.11.6/src/types.d.ts#L599)
+Defined in: [types.d.ts:603](https://github.com/panva/jose/blob/v3.12.0/src/types.d.ts#L603)
 
 ___
 
@@ -46,7 +46,7 @@ ___
 
 JWE Protected Header.
 
-Defined in: [types.d.ts:604](https://github.com/panva/jose/blob/v3.11.6/src/types.d.ts#L604)
+Defined in: [types.d.ts:608](https://github.com/panva/jose/blob/v3.12.0/src/types.d.ts#L608)
 
 ___
 
@@ -56,7 +56,7 @@ ___
 
 JWE Shared Unprotected Header.
 
-Defined in: [types.d.ts:609](https://github.com/panva/jose/blob/v3.11.6/src/types.d.ts#L609)
+Defined in: [types.d.ts:613](https://github.com/panva/jose/blob/v3.12.0/src/types.d.ts#L613)
 
 ___
 
@@ -66,4 +66,4 @@ ___
 
 JWE Per-Recipient Unprotected Header.
 
-Defined in: [types.d.ts:614](https://github.com/panva/jose/blob/v3.11.6/src/types.d.ts#L614)
+Defined in: [types.d.ts:618](https://github.com/panva/jose/blob/v3.12.0/src/types.d.ts#L618)

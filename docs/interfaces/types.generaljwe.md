@@ -4,7 +4,7 @@
 
 ## Hierarchy
 
-* *Omit*<[*FlattenedJWE*](types.flattenedjwe.md), ``"encrypted_key"`` \| ``"header"``\>
+- *Omit*<[*FlattenedJWE*](types.flattenedjwe.md), ``"encrypted_key"`` \| ``"header"``\>
 
   ↳ **GeneralJWE**
 
@@ -34,7 +34,7 @@ encrypted.
 
 Inherited from: Omit.aad
 
-Defined in: [types.d.ts:314](https://github.com/panva/jose/blob/v3.11.6/src/types.d.ts#L314)
+Defined in: [types.d.ts:318](https://github.com/panva/jose/blob/v3.12.0/src/types.d.ts#L318)
 
 ___
 
@@ -47,7 +47,7 @@ BASE64URL(JWE Ciphertext).
 
 Inherited from: Omit.ciphertext
 
-Defined in: [types.d.ts:320](https://github.com/panva/jose/blob/v3.11.6/src/types.d.ts#L320)
+Defined in: [types.d.ts:324](https://github.com/panva/jose/blob/v3.12.0/src/types.d.ts#L324)
 
 ___
 
@@ -61,7 +61,7 @@ Vector value is non-empty; otherwise, it MUST be absent.
 
 Inherited from: Omit.iv
 
-Defined in: [types.d.ts:344](https://github.com/panva/jose/blob/v3.11.6/src/types.d.ts#L344)
+Defined in: [types.d.ts:348](https://github.com/panva/jose/blob/v3.12.0/src/types.d.ts#L348)
 
 ___
 
@@ -76,7 +76,7 @@ Header Parameter values are integrity protected.
 
 Inherited from: Omit.protected
 
-Defined in: [types.d.ts:352](https://github.com/panva/jose/blob/v3.11.6/src/types.d.ts#L352)
+Defined in: [types.d.ts:356](https://github.com/panva/jose/blob/v3.12.0/src/types.d.ts#L356)
 
 ___
 
@@ -84,7 +84,7 @@ ___
 
 • **recipients**: *Pick*<[*FlattenedJWE*](types.flattenedjwe.md), ``"header"`` \| ``"encrypted_key"``\>[]
 
-Defined in: [types.d.ts:372](https://github.com/panva/jose/blob/v3.11.6/src/types.d.ts#L372)
+Defined in: [types.d.ts:376](https://github.com/panva/jose/blob/v3.12.0/src/types.d.ts#L376)
 
 ___
 
@@ -98,7 +98,7 @@ value is non-empty; otherwise, it MUST be absent.
 
 Inherited from: Omit.tag
 
-Defined in: [types.d.ts:359](https://github.com/panva/jose/blob/v3.11.6/src/types.d.ts#L359)
+Defined in: [types.d.ts:363](https://github.com/panva/jose/blob/v3.12.0/src/types.d.ts#L363)
 
 ___
 
@@ -114,4 +114,4 @@ These Header Parameter values are not integrity protected.
 
 Inherited from: Omit.unprotected
 
-Defined in: [types.d.ts:368](https://github.com/panva/jose/blob/v3.11.6/src/types.d.ts#L368)
+Defined in: [types.d.ts:372](https://github.com/panva/jose/blob/v3.12.0/src/types.d.ts#L372)

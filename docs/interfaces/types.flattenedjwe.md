@@ -29,7 +29,7 @@ otherwise, it MUST be absent.  A JWE AAD value can be included to
 supply a base64url-encoded value to be integrity protected but not
 encrypted.
 
-Defined in: [types.d.ts:314](https://github.com/panva/jose/blob/v3.11.6/src/types.d.ts#L314)
+Defined in: [types.d.ts:318](https://github.com/panva/jose/blob/v3.12.0/src/types.d.ts#L318)
 
 ___
 
@@ -40,7 +40,7 @@ ___
 The "ciphertext" member MUST be present and contain the value
 BASE64URL(JWE Ciphertext).
 
-Defined in: [types.d.ts:320](https://github.com/panva/jose/blob/v3.11.6/src/types.d.ts#L320)
+Defined in: [types.d.ts:324](https://github.com/panva/jose/blob/v3.12.0/src/types.d.ts#L324)
 
 ___
 
@@ -52,7 +52,7 @@ The "encrypted_key" member MUST be present and contain the value
 BASE64URL(JWE Encrypted Key) when the JWE Encrypted Key value is
 non-empty; otherwise, it MUST be absent.
 
-Defined in: [types.d.ts:327](https://github.com/panva/jose/blob/v3.11.6/src/types.d.ts#L327)
+Defined in: [types.d.ts:331](https://github.com/panva/jose/blob/v3.12.0/src/types.d.ts#L331)
 
 ___
 
@@ -67,7 +67,7 @@ absent.  This value is represented as an unencoded JSON object,
 rather than as a string.  These Header Parameter values are not
 integrity protected.
 
-Defined in: [types.d.ts:337](https://github.com/panva/jose/blob/v3.11.6/src/types.d.ts#L337)
+Defined in: [types.d.ts:341](https://github.com/panva/jose/blob/v3.12.0/src/types.d.ts#L341)
 
 ___
 
@@ -79,7 +79,7 @@ The "iv" member MUST be present and contain the value
 BASE64URL(JWE Initialization Vector) when the JWE Initialization
 Vector value is non-empty; otherwise, it MUST be absent.
 
-Defined in: [types.d.ts:344](https://github.com/panva/jose/blob/v3.11.6/src/types.d.ts#L344)
+Defined in: [types.d.ts:348](https://github.com/panva/jose/blob/v3.12.0/src/types.d.ts#L348)
 
 ___
 
@@ -92,7 +92,7 @@ BASE64URL(UTF8(JWE Protected Header)) when the JWE Protected
 Header value is non-empty; otherwise, it MUST be absent.  These
 Header Parameter values are integrity protected.
 
-Defined in: [types.d.ts:352](https://github.com/panva/jose/blob/v3.11.6/src/types.d.ts#L352)
+Defined in: [types.d.ts:356](https://github.com/panva/jose/blob/v3.12.0/src/types.d.ts#L356)
 
 ___
 
@@ -104,7 +104,7 @@ The "tag" member MUST be present and contain the value
 BASE64URL(JWE Authentication Tag) when the JWE Authentication Tag
 value is non-empty; otherwise, it MUST be absent.
 
-Defined in: [types.d.ts:359](https://github.com/panva/jose/blob/v3.11.6/src/types.d.ts#L359)
+Defined in: [types.d.ts:363](https://github.com/panva/jose/blob/v3.12.0/src/types.d.ts#L363)
 
 ___
 
@@ -118,4 +118,4 @@ value is non-empty; otherwise, it MUST be absent.  This value is
 represented as an unencoded JSON object, rather than as a string.
 These Header Parameter values are not integrity protected.
 
-Defined in: [types.d.ts:368](https://github.com/panva/jose/blob/v3.11.6/src/types.d.ts#L368)
+Defined in: [types.d.ts:372](https://github.com/panva/jose/blob/v3.12.0/src/types.d.ts#L372)

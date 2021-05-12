@@ -35,7 +35,7 @@ const rsaPublicKey = await parseJwk({
 }, 'PS256')
 ```
 
-#### Parameters:
+#### Parameters
 
 | Name | Type | Description |
 | :------ | :------ | :------ |
@@ -45,4 +45,4 @@ const rsaPublicKey = await parseJwk({
 
 **Returns:** *Promise*<[*KeyLike*](../types/types.keylike.md)\>
 
-Defined in: [jwk/parse.ts:45](https://github.com/panva/jose/blob/v3.11.6/src/jwk/parse.ts#L45)
+Defined in: [jwk/parse.ts:45](https://github.com/panva/jose/blob/v3.12.0/src/jwk/parse.ts#L45)

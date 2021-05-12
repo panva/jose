@@ -50,7 +50,7 @@ console.log(jwe)
 
 \+ **new FlattenedEncrypt**(`plaintext`: *Uint8Array*): [*FlattenedEncrypt*](jwe_flattened_encrypt.flattenedencrypt.md)
 
-#### Parameters:
+#### Parameters
 
 | Name | Type | Description |
 | :------ | :------ | :------ |
@@ -58,7 +58,7 @@ console.log(jwe)
 
 **Returns:** [*FlattenedEncrypt*](jwe_flattened_encrypt.flattenedencrypt.md)
 
-Defined in: [jwe/flattened/encrypt.ts:65](https://github.com/panva/jose/blob/v3.11.6/src/jwe/flattened/encrypt.ts#L65)
+Defined in: [jwe/flattened/encrypt.ts:65](https://github.com/panva/jose/blob/v3.12.0/src/jwe/flattened/encrypt.ts#L65)
 
 ## Methods
 
@@ -68,7 +68,7 @@ Defined in: [jwe/flattened/encrypt.ts:65](https://github.com/panva/jose/blob/v3.
 
 Encrypts and resolves the value of the Flattened JWE object.
 
-#### Parameters:
+#### Parameters
 
 | Name | Type | Description |
 | :------ | :------ | :------ |
@@ -77,7 +77,7 @@ Encrypts and resolves the value of the Flattened JWE object.
 
 **Returns:** *Promise*<[*FlattenedJWE*](../interfaces/types.flattenedjwe.md)\>
 
-Defined in: [jwe/flattened/encrypt.ts:177](https://github.com/panva/jose/blob/v3.11.6/src/jwe/flattened/encrypt.ts#L177)
+Defined in: [jwe/flattened/encrypt.ts:177](https://github.com/panva/jose/blob/v3.12.0/src/jwe/flattened/encrypt.ts#L177)
 
 ___
 
@@ -87,7 +87,7 @@ ___
 
 Sets the Additional Authenticated Data on the FlattenedEncrypt object.
 
-#### Parameters:
+#### Parameters
 
 | Name | Type | Description |
 | :------ | :------ | :------ |
@@ -95,7 +95,7 @@ Sets the Additional Authenticated Data on the FlattenedEncrypt object.
 
 **Returns:** [*FlattenedEncrypt*](jwe_flattened_encrypt.flattenedencrypt.md)
 
-Defined in: [jwe/flattened/encrypt.ts:134](https://github.com/panva/jose/blob/v3.11.6/src/jwe/flattened/encrypt.ts#L134)
+Defined in: [jwe/flattened/encrypt.ts:134](https://github.com/panva/jose/blob/v3.12.0/src/jwe/flattened/encrypt.ts#L134)
 
 ___
 
@@ -108,7 +108,7 @@ is generated for the JWE enc" (Encryption Algorithm) Header Parameter.
 You do not need to invoke this method, it is only really intended for
 test and vector validation purposes.
 
-#### Parameters:
+#### Parameters
 
 | Name | Type | Description |
 | :------ | :------ | :------ |
@@ -116,7 +116,7 @@ test and vector validation purposes.
 
 **Returns:** [*FlattenedEncrypt*](jwe_flattened_encrypt.flattenedencrypt.md)
 
-Defined in: [jwe/flattened/encrypt.ts:147](https://github.com/panva/jose/blob/v3.11.6/src/jwe/flattened/encrypt.ts#L147)
+Defined in: [jwe/flattened/encrypt.ts:147](https://github.com/panva/jose/blob/v3.12.0/src/jwe/flattened/encrypt.ts#L147)
 
 ___
 
@@ -129,7 +129,7 @@ a random suitable one is generated for the JWE enc" (Encryption Algorithm)
 Header Parameter. You do not need to invoke this method, it is only really
 intended for test and vector validation purposes.
 
-#### Parameters:
+#### Parameters
 
 | Name | Type | Description |
 | :------ | :------ | :------ |
@@ -137,7 +137,7 @@ intended for test and vector validation purposes.
 
 **Returns:** [*FlattenedEncrypt*](jwe_flattened_encrypt.flattenedencrypt.md)
 
-Defined in: [jwe/flattened/encrypt.ts:163](https://github.com/panva/jose/blob/v3.11.6/src/jwe/flattened/encrypt.ts#L163)
+Defined in: [jwe/flattened/encrypt.ts:163](https://github.com/panva/jose/blob/v3.12.0/src/jwe/flattened/encrypt.ts#L163)
 
 ___
 
@@ -150,7 +150,7 @@ Use of this is method is really only needed for ECDH-ES based algorithms
 when utilizing the Agreement PartyUInfo or Agreement PartyVInfo parameters.
 Other parameters will always be randomly generated when needed and missing.
 
-#### Parameters:
+#### Parameters
 
 | Name | Type | Description |
 | :------ | :------ | :------ |
@@ -158,7 +158,7 @@ Other parameters will always be randomly generated when needed and missing.
 
 **Returns:** [*FlattenedEncrypt*](jwe_flattened_encrypt.flattenedencrypt.md)
 
-Defined in: [jwe/flattened/encrypt.ts:82](https://github.com/panva/jose/blob/v3.11.6/src/jwe/flattened/encrypt.ts#L82)
+Defined in: [jwe/flattened/encrypt.ts:82](https://github.com/panva/jose/blob/v3.12.0/src/jwe/flattened/encrypt.ts#L82)
 
 ___
 
@@ -168,7 +168,7 @@ ___
 
 Sets the JWE Protected Header on the FlattenedEncrypt object.
 
-#### Parameters:
+#### Parameters
 
 | Name | Type | Description |
 | :------ | :------ | :------ |
@@ -176,7 +176,7 @@ Sets the JWE Protected Header on the FlattenedEncrypt object.
 
 **Returns:** [*FlattenedEncrypt*](jwe_flattened_encrypt.flattenedencrypt.md)
 
-Defined in: [jwe/flattened/encrypt.ts:95](https://github.com/panva/jose/blob/v3.11.6/src/jwe/flattened/encrypt.ts#L95)
+Defined in: [jwe/flattened/encrypt.ts:95](https://github.com/panva/jose/blob/v3.12.0/src/jwe/flattened/encrypt.ts#L95)
 
 ___
 
@@ -186,7 +186,7 @@ ___
 
 Sets the JWE Shared Unprotected Header on the FlattenedEncrypt object.
 
-#### Parameters:
+#### Parameters
 
 | Name | Type | Description |
 | :------ | :------ | :------ |
@@ -194,7 +194,7 @@ Sets the JWE Shared Unprotected Header on the FlattenedEncrypt object.
 
 **Returns:** [*FlattenedEncrypt*](jwe_flattened_encrypt.flattenedencrypt.md)
 
-Defined in: [jwe/flattened/encrypt.ts:108](https://github.com/panva/jose/blob/v3.11.6/src/jwe/flattened/encrypt.ts#L108)
+Defined in: [jwe/flattened/encrypt.ts:108](https://github.com/panva/jose/blob/v3.12.0/src/jwe/flattened/encrypt.ts#L108)
 
 ___
 
@@ -204,7 +204,7 @@ ___
 
 Sets the JWE Per-Recipient Unprotected Header on the FlattenedEncrypt object.
 
-#### Parameters:
+#### Parameters
 
 | Name | Type | Description |
 | :------ | :------ | :------ |
@@ -212,4 +212,4 @@ Sets the JWE Per-Recipient Unprotected Header on the FlattenedEncrypt object.
 
 **Returns:** [*FlattenedEncrypt*](jwe_flattened_encrypt.flattenedencrypt.md)
 
-Defined in: [jwe/flattened/encrypt.ts:121](https://github.com/panva/jose/blob/v3.11.6/src/jwe/flattened/encrypt.ts#L121)
+Defined in: [jwe/flattened/encrypt.ts:121](https://github.com/panva/jose/blob/v3.12.0/src/jwe/flattened/encrypt.ts#L121)

@@ -4,7 +4,7 @@
 
 ## Hierarchy
 
-* **FlattenedVerifyResult**
+- **FlattenedVerifyResult**
 
   ↳ [*GeneralVerifyResult*](types.generalverifyresult.md)
 
@@ -24,7 +24,7 @@
 
 JWS Payload.
 
-Defined in: [types.d.ts:635](https://github.com/panva/jose/blob/v3.11.6/src/types.d.ts#L635)
+Defined in: [types.d.ts:639](https://github.com/panva/jose/blob/v3.12.0/src/types.d.ts#L639)
 
 ___
 
@@ -34,7 +34,7 @@ ___
 
 JWS Protected Header.
 
-Defined in: [types.d.ts:640](https://github.com/panva/jose/blob/v3.11.6/src/types.d.ts#L640)
+Defined in: [types.d.ts:644](https://github.com/panva/jose/blob/v3.12.0/src/types.d.ts#L644)
 
 ___
 
@@ -44,4 +44,4 @@ ___
 
 JWS Unprotected Header.
 
-Defined in: [types.d.ts:645](https://github.com/panva/jose/blob/v3.11.6/src/types.d.ts#L645)
+Defined in: [types.d.ts:649](https://github.com/panva/jose/blob/v3.12.0/src/types.d.ts#L649)

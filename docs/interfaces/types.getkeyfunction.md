@@ -16,7 +16,7 @@ If you cannot match a key suitable for the token, throw an error instead.
 
 ## Hierarchy
 
-* **GetKeyFunction**
+- **GetKeyFunction**
 
   ↳ [*JWTDecryptGetKey*](jwt_decrypt.jwtdecryptgetkey.md)
 
@@ -43,7 +43,7 @@ No token components have been verified at the time of this function call.
 
 If you cannot match a key suitable for the token, throw an error instead.
 
-#### Parameters:
+#### Parameters
 
 | Name | Type | Description |
 | :------ | :------ | :------ |
@@ -52,4 +52,4 @@ If you cannot match a key suitable for the token, throw an error instead.
 
 **Returns:** *Promise*<[*KeyLike*](../types/types.keylike.md)\>
 
-Defined in: [types.d.ts:78](https://github.com/panva/jose/blob/v3.11.6/src/types.d.ts#L78)
+Defined in: [types.d.ts:78](https://github.com/panva/jose/blob/v3.12.0/src/types.d.ts#L78)

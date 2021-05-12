@@ -39,7 +39,7 @@ console.log(decoder.decode(plaintext))
 console.log(decoder.decode(additionalAuthenticatedData))
 ```
 
-#### Parameters:
+#### Parameters
 
 | Name | Type | Description |
 | :------ | :------ | :------ |
@@ -49,4 +49,4 @@ console.log(decoder.decode(additionalAuthenticatedData))
 
 **Returns:** *Promise*<[*FlattenedDecryptResult*](../interfaces/types.flatteneddecryptresult.md)\>
 
-Defined in: [jwe/flattened/decrypt.ts:76](https://github.com/panva/jose/blob/v3.11.6/src/jwe/flattened/decrypt.ts#L76)
+Defined in: [jwe/flattened/decrypt.ts:76](https://github.com/panva/jose/blob/v3.12.0/src/jwe/flattened/decrypt.ts#L76)

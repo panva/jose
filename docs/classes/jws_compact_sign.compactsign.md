@@ -42,7 +42,7 @@ console.log(jws)
 
 \+ **new CompactSign**(`payload`: *Uint8Array*): [*CompactSign*](jws_compact_sign.compactsign.md)
 
-#### Parameters:
+#### Parameters
 
 | Name | Type | Description |
 | :------ | :------ | :------ |
@@ -50,7 +50,7 @@ console.log(jws)
 
 **Returns:** [*CompactSign*](jws_compact_sign.compactsign.md)
 
-Defined in: [jws/compact/sign.ts:31](https://github.com/panva/jose/blob/v3.11.6/src/jws/compact/sign.ts#L31)
+Defined in: [jws/compact/sign.ts:31](https://github.com/panva/jose/blob/v3.12.0/src/jws/compact/sign.ts#L31)
 
 ## Methods
 
@@ -60,7 +60,7 @@ Defined in: [jws/compact/sign.ts:31](https://github.com/panva/jose/blob/v3.11.6/
 
 Sets the JWS Protected Header on the Sign object.
 
-#### Parameters:
+#### Parameters
 
 | Name | Type | Description |
 | :------ | :------ | :------ |
@@ -68,7 +68,7 @@ Sets the JWS Protected Header on the Sign object.
 
 **Returns:** [*CompactSign*](jws_compact_sign.compactsign.md)
 
-Defined in: [jws/compact/sign.ts:45](https://github.com/panva/jose/blob/v3.11.6/src/jws/compact/sign.ts#L45)
+Defined in: [jws/compact/sign.ts:45](https://github.com/panva/jose/blob/v3.12.0/src/jws/compact/sign.ts#L45)
 
 ___
 
@@ -78,7 +78,7 @@ ___
 
 Signs and resolves the value of the Compact JWS string.
 
-#### Parameters:
+#### Parameters
 
 | Name | Type | Description |
 | :------ | :------ | :------ |
@@ -87,4 +87,4 @@ Signs and resolves the value of the Compact JWS string.
 
 **Returns:** *Promise*<string\>
 
-Defined in: [jws/compact/sign.ts:56](https://github.com/panva/jose/blob/v3.11.6/src/jws/compact/sign.ts#L56)
+Defined in: [jws/compact/sign.ts:56](https://github.com/panva/jose/blob/v3.12.0/src/jws/compact/sign.ts#L56)

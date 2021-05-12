@@ -8,6 +8,9 @@ Generates a private and a public key for a given JWA algorithm identifier.
 This can only generate asymmetric key pairs. For symmetric secrets use the
 `generateSecret` function.
 
+Note: Under Web Cryptography API runtime the `privateKey` is generated with
+`extractable` set to `false` by default.
+
 **`example`** ESM import
 ```js
 import { generateKeyPair } from 'jose/util/generate_key_pair'
@@ -25,7 +28,7 @@ console.log(publicKey)
 console.log(privateKey)
 ```
 
-#### Parameters:
+#### Parameters
 
 | Name | Type | Description |
 | :------ | :------ | :------ |
@@ -34,4 +37,4 @@ console.log(privateKey)
 
 **Returns:** *Promise*<{ `privateKey`: [*KeyLike*](../types/types.keylike.md) ; `publicKey`: [*KeyLike*](../types/types.keylike.md)  }\>
 
-Defined in: [util/generate_key_pair.ts:44](https://github.com/panva/jose/blob/v3.11.6/src/util/generate_key_pair.ts#L44)
+Defined in: [util/generate_key_pair.ts:54](https://github.com/panva/jose/blob/v3.12.0/src/util/generate_key_pair.ts#L54)

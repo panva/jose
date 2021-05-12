@@ -33,7 +33,7 @@ console.log(protectedHeader)
 console.log(payload)
 ```
 
-#### Parameters:
+#### Parameters
 
 | Name | Type | Description |
 | :------ | :------ | :------ |
@@ -42,4 +42,4 @@ console.log(payload)
 
 **Returns:** [*GetKeyFunction*](../interfaces/types.getkeyfunction.md)<[*JWSHeaderParameters*](../interfaces/types.jwsheaderparameters.md), [*FlattenedJWSInput*](../interfaces/types.flattenedjwsinput.md)\>
 
-Defined in: [jwks/remote.ts:248](https://github.com/panva/jose/blob/v3.11.6/src/jwks/remote.ts#L248)
+Defined in: [jwks/remote.ts:248](https://github.com/panva/jose/blob/v3.12.0/src/jwks/remote.ts#L248)

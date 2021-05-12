@@ -42,7 +42,7 @@ console.log(jws)
 
 \+ **new FlattenedSign**(`payload`: *Uint8Array*): [*FlattenedSign*](jws_flattened_sign.flattenedsign.md)
 
-#### Parameters:
+#### Parameters
 
 | Name | Type | Description |
 | :------ | :------ | :------ |
@@ -50,7 +50,7 @@ console.log(jws)
 
 **Returns:** [*FlattenedSign*](jws_flattened_sign.flattenedsign.md)
 
-Defined in: [jws/flattened/sign.ts:43](https://github.com/panva/jose/blob/v3.11.6/src/jws/flattened/sign.ts#L43)
+Defined in: [jws/flattened/sign.ts:43](https://github.com/panva/jose/blob/v3.12.0/src/jws/flattened/sign.ts#L43)
 
 ## Methods
 
@@ -60,7 +60,7 @@ Defined in: [jws/flattened/sign.ts:43](https://github.com/panva/jose/blob/v3.11.
 
 Sets the JWS Protected Header on the FlattenedSign object.
 
-#### Parameters:
+#### Parameters
 
 | Name | Type | Description |
 | :------ | :------ | :------ |
@@ -68,7 +68,7 @@ Sets the JWS Protected Header on the FlattenedSign object.
 
 **Returns:** [*FlattenedSign*](jws_flattened_sign.flattenedsign.md)
 
-Defined in: [jws/flattened/sign.ts:57](https://github.com/panva/jose/blob/v3.11.6/src/jws/flattened/sign.ts#L57)
+Defined in: [jws/flattened/sign.ts:57](https://github.com/panva/jose/blob/v3.12.0/src/jws/flattened/sign.ts#L57)
 
 ___
 
@@ -78,7 +78,7 @@ ___
 
 Sets the JWS Unprotected Header on the FlattenedSign object.
 
-#### Parameters:
+#### Parameters
 
 | Name | Type | Description |
 | :------ | :------ | :------ |
@@ -86,7 +86,7 @@ Sets the JWS Unprotected Header on the FlattenedSign object.
 
 **Returns:** [*FlattenedSign*](jws_flattened_sign.flattenedsign.md)
 
-Defined in: [jws/flattened/sign.ts:70](https://github.com/panva/jose/blob/v3.11.6/src/jws/flattened/sign.ts#L70)
+Defined in: [jws/flattened/sign.ts:70](https://github.com/panva/jose/blob/v3.12.0/src/jws/flattened/sign.ts#L70)
 
 ___
 
@@ -96,7 +96,7 @@ ___
 
 Signs and resolves the value of the Flattened JWS object.
 
-#### Parameters:
+#### Parameters
 
 | Name | Type | Description |
 | :------ | :------ | :------ |
@@ -105,4 +105,4 @@ Signs and resolves the value of the Flattened JWS object.
 
 **Returns:** *Promise*<[*FlattenedJWS*](../interfaces/types.flattenedjws.md)\>
 
-Defined in: [jws/flattened/sign.ts:84](https://github.com/panva/jose/blob/v3.11.6/src/jws/flattened/sign.ts#L84)
+Defined in: [jws/flattened/sign.ts:84](https://github.com/panva/jose/blob/v3.12.0/src/jws/flattened/sign.ts#L84)

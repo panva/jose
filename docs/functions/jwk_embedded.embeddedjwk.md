@@ -35,7 +35,7 @@ console.log(protectedHeader)
 console.log(payload)
 ```
 
-#### Parameters:
+#### Parameters
 
 | Name | Type |
 | :------ | :------ |
@@ -44,4 +44,4 @@ console.log(payload)
 
 **Returns:** *Promise*<KeyObject \| CryptoKey\>
 
-Defined in: [jwk/embedded.ts:40](https://github.com/panva/jose/blob/v3.11.6/src/jwk/embedded.ts#L40)
+Defined in: [jwk/embedded.ts:40](https://github.com/panva/jose/blob/v3.12.0/src/jwk/embedded.ts#L40)

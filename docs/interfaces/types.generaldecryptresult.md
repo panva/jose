@@ -4,7 +4,7 @@
 
 ## Hierarchy
 
-* [*FlattenedDecryptResult*](types.flatteneddecryptresult.md)
+- [*FlattenedDecryptResult*](types.flatteneddecryptresult.md)
 
   ↳ **GeneralDecryptResult**
 
@@ -28,7 +28,7 @@ JWE AAD.
 
 Inherited from: [FlattenedDecryptResult](types.flatteneddecryptresult.md).[additionalAuthenticatedData](types.flatteneddecryptresult.md#additionalauthenticateddata)
 
-Defined in: [types.d.ts:594](https://github.com/panva/jose/blob/v3.11.6/src/types.d.ts#L594)
+Defined in: [types.d.ts:598](https://github.com/panva/jose/blob/v3.12.0/src/types.d.ts#L598)
 
 ___
 
@@ -40,7 +40,7 @@ Plaintext.
 
 Inherited from: [FlattenedDecryptResult](types.flatteneddecryptresult.md).[plaintext](types.flatteneddecryptresult.md#plaintext)
 
-Defined in: [types.d.ts:599](https://github.com/panva/jose/blob/v3.11.6/src/types.d.ts#L599)
+Defined in: [types.d.ts:603](https://github.com/panva/jose/blob/v3.12.0/src/types.d.ts#L603)
 
 ___
 
@@ -52,7 +52,7 @@ JWE Protected Header.
 
 Inherited from: [FlattenedDecryptResult](types.flatteneddecryptresult.md).[protectedHeader](types.flatteneddecryptresult.md#protectedheader)
 
-Defined in: [types.d.ts:604](https://github.com/panva/jose/blob/v3.11.6/src/types.d.ts#L604)
+Defined in: [types.d.ts:608](https://github.com/panva/jose/blob/v3.12.0/src/types.d.ts#L608)
 
 ___
 
@@ -64,7 +64,7 @@ JWE Shared Unprotected Header.
 
 Inherited from: [FlattenedDecryptResult](types.flatteneddecryptresult.md).[sharedUnprotectedHeader](types.flatteneddecryptresult.md#sharedunprotectedheader)
 
-Defined in: [types.d.ts:609](https://github.com/panva/jose/blob/v3.11.6/src/types.d.ts#L609)
+Defined in: [types.d.ts:613](https://github.com/panva/jose/blob/v3.12.0/src/types.d.ts#L613)
 
 ___
 
@@ -76,4 +76,4 @@ JWE Per-Recipient Unprotected Header.
 
 Inherited from: [FlattenedDecryptResult](types.flatteneddecryptresult.md).[unprotectedHeader](types.flatteneddecryptresult.md#unprotectedheader)
 
-Defined in: [types.d.ts:614](https://github.com/panva/jose/blob/v3.11.6/src/types.d.ts#L614)
+Defined in: [types.d.ts:618](https://github.com/panva/jose/blob/v3.12.0/src/types.d.ts#L618)

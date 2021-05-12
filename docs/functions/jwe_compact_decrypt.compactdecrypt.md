@@ -27,7 +27,7 @@ console.log(protectedHeader)
 console.log(decoder.decode(plaintext))
 ```
 
-#### Parameters:
+#### Parameters
 
 | Name | Type | Description |
 | :------ | :------ | :------ |
@@ -37,4 +37,4 @@ console.log(decoder.decode(plaintext))
 
 **Returns:** *Promise*<[*CompactDecryptResult*](../interfaces/types.compactdecryptresult.md)\>
 
-Defined in: [jwe/compact/decrypt.ts:47](https://github.com/panva/jose/blob/v3.11.6/src/jwe/compact/decrypt.ts#L47)
+Defined in: [jwe/compact/decrypt.ts:47](https://github.com/panva/jose/blob/v3.12.0/src/jwe/compact/decrypt.ts#L47)

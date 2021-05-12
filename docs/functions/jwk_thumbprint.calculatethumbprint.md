@@ -28,7 +28,7 @@ const thumbprint = await calculateThumbprint({
 console.log(thumbprint)
 ```
 
-#### Parameters:
+#### Parameters
 
 | Name | Type | Default value | Description |
 | :------ | :------ | :------ | :------ |
@@ -37,4 +37,4 @@ console.log(thumbprint)
 
 **Returns:** *Promise*<string\>
 
-Defined in: [jwk/thumbprint.ts:44](https://github.com/panva/jose/blob/v3.11.6/src/jwk/thumbprint.ts#L44)
+Defined in: [jwk/thumbprint.ts:44](https://github.com/panva/jose/blob/v3.12.0/src/jwk/thumbprint.ts#L44)
