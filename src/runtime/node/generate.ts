@@ -5,10 +5,13 @@ import random from './random.js'
 import { setModulusLength } from './check_modulus_length.js'
 import { JOSENotSupported } from '../../util/errors.js'
 import type { GenerateKeyPairOptions } from '../../util/generate_key_pair.js'
+import type { GenerateSecretOptions } from '../../util/generate_secret.js'
 
 const generate = promisify(generateKeyPairCb)
 
-export async function generateSecret(alg: string) {
+// @ts-expect-error
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+export async function generateSecret(alg: string, options?: GenerateSecretOptions) {
   let length: number
   switch (alg) {
     case 'HS256':

@@ -10,6 +10,13 @@ QUnit.test('HS256', async (assert) => {
   assert.ok(await generateSecret('HS256'));
 });
 
+QUnit.test('extractable', async (assert) => {
+  let secret = await generateSecret('HS256');
+  assert.false(secret.extractable);
+  secret = await generateSecret('HS256', { extractable: true });
+  assert.true(secret.extractable);
+});
+
 QUnit.test('HS384', async (assert) => {
   assert.ok(await generateSecret('HS384'));
 });

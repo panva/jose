@@ -10,6 +10,15 @@ QUnit.test('Generate PS256', async (assert) => {
   assert.ok(await generateKeyPair('PS256'));
 });
 
+QUnit.test('extractable', async (assert) => {
+  let { privateKey, publicKey } = await generateKeyPair('PS256');
+  assert.true(publicKey.extractable);
+  assert.false(privateKey.extractable);
+
+  ({ privateKey } = await generateKeyPair('PS256', { extractable: true }));
+  assert.true(privateKey.extractable);
+});
+
 QUnit.test('Generate PS384', async (assert) => {
   assert.ok(await generateKeyPair('PS384'));
 });

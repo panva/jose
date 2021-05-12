@@ -2,8 +2,9 @@ import crypto from './webcrypto.js'
 import { JOSENotSupported } from '../../util/errors.js'
 import random from './random.js'
 import type { GenerateKeyPairOptions } from '../../util/generate_key_pair.js'
+import type { GenerateSecretOptions } from '../../util/generate_secret.js'
 
-export async function generateSecret(alg: string) {
+export async function generateSecret(alg: string, options?: GenerateSecretOptions) {
   let length: number
   let algorithm: AesKeyGenParams | HmacKeyGenParams
   let keyUsages: KeyUsage[]
@@ -41,7 +42,9 @@ export async function generateSecret(alg: string) {
       throw new JOSENotSupported('unsupported or invalid JWK "alg" (Algorithm) Parameter value')
   }
 
-  return <Promise<CryptoKey>>crypto.subtle.generateKey(algorithm, false, keyUsages)
+  return <Promise<CryptoKey>>(
+    crypto.subtle.generateKey(algorithm, options?.extractable ?? false, keyUsages)
+  )
 }
 
 function getModulusLengthOption(options?: GenerateKeyPairOptions) {
@@ -116,5 +119,7 @@ export async function generateKeyPair(alg: string, options?: GenerateKeyPairOpti
       throw new JOSENotSupported('unsupported or invalid JWK "alg" (Algorithm) Parameter value')
   }
 
-  return <Promise<CryptoKeyPair>>crypto.subtle.generateKey(algorithm, false, keyUsages)
+  return <Promise<CryptoKeyPair>>(
+    crypto.subtle.generateKey(algorithm, options?.extractable ?? false, keyUsages)
+  )
 }

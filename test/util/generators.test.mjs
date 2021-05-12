@@ -51,6 +51,14 @@ Promise.all([
             if (key.algorithm.modulusLength !== undefined) {
               t.is(key.algorithm.modulusLength, (options && options.modulusLength) || 2048);
             }
+
+            t.true(publicKey.extractable);
+
+            if (options && options.extractable) {
+              t.true(privateKey.extractable);
+            } else {
+              t.false(privateKey.extractable);
+            }
           } else {
             // KeyObject
             // Test OKP sub types are set properly
@@ -134,6 +142,10 @@ Promise.all([
       test(`crv: ${crv}`, testKeyPair, 'ECDH-ES+A256KW', { crv });
     }
 
+    if ('WEBCRYPTO' in process.env || 'CRYPTOKEY' in process.env) {
+      test('with extractable: true', testKeyPair, 'PS256', { extractable: true });
+    }
+
     function conditional({ webcrypto = 1, electron = 1 } = {}, ...args) {
       let run = test;
       if ((!webcrypto && 'WEBCRYPTO' in process.env) || 'CRYPTOKEY' in process.env) {
@@ -183,9 +195,9 @@ Promise.all([
       );
     }
 
-    async function testSecret(t, alg, expectedLength) {
+    async function testSecret(t, alg, expectedLength, options) {
       return t.notThrowsAsync(async () => {
-        const secret = await generateSecret(alg);
+        const secret = await generateSecret(alg, options);
 
         if ('symmetricKeySize' in secret) {
           t.is(secret.symmetricKeySize, expectedLength >> 3);
@@ -195,6 +207,12 @@ Promise.all([
           t.is(secret.algorithm.length, expectedLength);
           t.true('type' in secret);
           t.is(secret.type, 'secret');
+
+          if (options && options.extractable) {
+            t.true(secret.extractable);
+          } else {
+            t.false(secret.extractable);
+          }
         } else if (secret instanceof Uint8Array) {
           t.is(secret.length, expectedLength >> 3);
         } else {
@@ -219,6 +237,10 @@ Promise.all([
     test(testSecret, 'A128GCM', 128);
     test(testSecret, 'A192GCM', 192);
     test(testSecret, 'A256GCM', 256);
+
+    if ('WEBCRYPTO' in process.env || 'CRYPTOKEY' in process.env) {
+      test('with extractable: true', testSecret, 'HS256', 256, { extractable: true });
+    }
   },
   (err) => {
     test('failed to import', (t) => {

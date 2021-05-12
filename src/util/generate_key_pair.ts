@@ -14,6 +14,13 @@ export interface GenerateKeyPairOptions {
    * (Key size in bits). JOSE requires 2048 bits or larger. Default is 2048.
    */
   modulusLength?: number
+
+  /**
+   * (Web Cryptography API specific) The value to use as
+   * [SubtleCrypto.generateKey()](https://developer.mozilla.org/en-US/docs/Web/API/SubtleCrypto/generateKey)
+   * `extractable` argument. Default is false.
+   */
+  extractable?: boolean
 }
 
 /**
@@ -22,7 +29,7 @@ export interface GenerateKeyPairOptions {
  * `generateSecret` function.
  *
  * Note: Under Web Cryptography API runtime the `privateKey` is generated with
- * `extractable` set to `false`.
+ * `extractable` set to `false` by default.
  *
  * @example ESM import
  * ```js
