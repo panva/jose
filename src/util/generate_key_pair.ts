@@ -21,6 +21,9 @@ export interface GenerateKeyPairOptions {
  * This can only generate asymmetric key pairs. For symmetric secrets use the
  * `generateSecret` function.
  *
+ * Note: Under Web Cryptography API runtime the `privateKey` is generated with
+ * `extractable` set to `false`.
+ *
  * @example ESM import
  * ```js
  * import { generateKeyPair } from 'jose/util/generate_key_pair'

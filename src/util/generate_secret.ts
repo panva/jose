@@ -4,6 +4,9 @@ import type { KeyLike } from '../types.d'
 /**
  * Generates a symmetric secret key for a given JWA algorithm identifier.
  *
+ * Note: Under Web Cryptography API runtime the secret key is generated with
+ * `extractable` set to `false`.
+ *
  * @example ESM import
  * ```js
  * import { generateSecret } from 'jose/util/generate_secret'
