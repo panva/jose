@@ -4,7 +4,8 @@ const day = hour * 24
 const week = day * 7
 const year = day * 365.25
 
-const REGEX = /^(\d+|\d+\.\d+) ?(seconds?|secs?|s|minutes?|mins?|m|hours?|hrs?|h|days?|d|weeks?|w|years?|yrs?|y)$/i
+const REGEX =
+  /^(\d+|\d+\.\d+) ?(seconds?|secs?|s|minutes?|mins?|m|hours?|hrs?|h|days?|d|weeks?|w|years?|yrs?|y)$/i
 
 // eslint-disable-next-line consistent-return
 export default (str: string): number => {

@@ -9,13 +9,16 @@ const bitLengths = new Map<string, number>([
   ['A256GCM', 256],
 ])
 
-const factory = (random: (array: Uint8Array) => Uint8Array) => (alg: string): Uint8Array => {
-  const bitLength = bitLengths.get(alg)
-  if (!bitLength) {
-    throw new JOSENotSupported(`Unsupported JWE Algorithm: ${alg}`)
+const factory =
+  (random: (array: Uint8Array) => Uint8Array) =>
+  (alg: string): Uint8Array => {
+    const bitLength = bitLengths.get(alg)
+    if (!bitLength) {
+      throw new JOSENotSupported(`Unsupported JWE Algorithm: ${alg}`)
+    }
+
+    return random(new Uint8Array(bitLength >> 3))
   }
 
-  return random(new Uint8Array(bitLength >> 3))
-}
 export default factory
 export { bitLengths }

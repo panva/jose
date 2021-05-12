@@ -18,8 +18,7 @@ import(`${keyRoot}/jwk/thumbprint`).then(
       t.is(
         await thumbprint({
           kty: 'RSA',
-          n:
-            '0vx7agoebGcQSuuPiLJXZptN9nndrQmbXEps2aiAFbWhM78LhWx4cbbfAAtVT86zwu1RK7aPFFxuhDR1L6tSoc_BJECPebWKRXjBZCiFV4n3oknjhMstn64tZ_2W-5JsGY4Hc5n9yBXArwl93lqt7_RN5w6Cf0h4QyQ5v-65YGjQR0_FDW2QvzqY368QQMicAtaSqzs8KJZgnYb9c7d0zgdAZHzu6qMQvRL5hajrn1n91CbOpbISD08qNLyrdkt-bFTWhAI4vMQFh6WeZu0fM4lFd2NcRwr3XPksINHaQ-G_xBniIqbw0Ls1jF44-csFCur-kEgU8awapJzKnqDKgw',
+          n: '0vx7agoebGcQSuuPiLJXZptN9nndrQmbXEps2aiAFbWhM78LhWx4cbbfAAtVT86zwu1RK7aPFFxuhDR1L6tSoc_BJECPebWKRXjBZCiFV4n3oknjhMstn64tZ_2W-5JsGY4Hc5n9yBXArwl93lqt7_RN5w6Cf0h4QyQ5v-65YGjQR0_FDW2QvzqY368QQMicAtaSqzs8KJZgnYb9c7d0zgdAZHzu6qMQvRL5hajrn1n91CbOpbISD08qNLyrdkt-bFTWhAI4vMQFh6WeZu0fM4lFd2NcRwr3XPksINHaQ-G_xBniIqbw0Ls1jF44-csFCur-kEgU8awapJzKnqDKgw',
           e: 'AQAB',
           alg: 'RS256',
         }),
@@ -108,8 +107,7 @@ import(`${keyRoot}/jwk/thumbprint`).then(
       const rsa = {
         e: 'AQAB',
         kty: 'RSA',
-        n:
-          'ok6WYUlmj2J1p-Sm0kwaZlAbWetUooe2LR6iAOJfntavWlyBO0shK_550YG3lQ6R1YeKisNAqbQ1pjqo3vwvR_v_AWtZ1gY1h6KX4DhCv0nNMexZ4g67LxEweoQ4_InMMiwMyQ3CRVJ3P1w0TQZYqzfSye-llY39tyzHeHeuotgrZrM427iUuIJdN38nZ2vW9VpK3bo_Nsvl12ZBe6x7DBzWEFHqQDFyjy8lH8EZyxqDArLA7T5OAcEdkm3RI8jBbsrUD9IySCE5SdEU3n0VGNGkT88DFU85QGvLpL2ITbGX0amaJvxYjIRhIYTfZS6Mqoxr6K1LIwP8pu0VD2Ca5Q',
+        n: 'ok6WYUlmj2J1p-Sm0kwaZlAbWetUooe2LR6iAOJfntavWlyBO0shK_550YG3lQ6R1YeKisNAqbQ1pjqo3vwvR_v_AWtZ1gY1h6KX4DhCv0nNMexZ4g67LxEweoQ4_InMMiwMyQ3CRVJ3P1w0TQZYqzfSye-llY39tyzHeHeuotgrZrM427iUuIJdN38nZ2vW9VpK3bo_Nsvl12ZBe6x7DBzWEFHqQDFyjy8lH8EZyxqDArLA7T5OAcEdkm3RI8jBbsrUD9IySCE5SdEU3n0VGNGkT88DFU85QGvLpL2ITbGX0amaJvxYjIRhIYTfZS6Mqoxr6K1LIwP8pu0VD2Ca5Q',
       };
 
       await t.throwsAsync(thumbprint({ ...rsa, e: undefined }), {

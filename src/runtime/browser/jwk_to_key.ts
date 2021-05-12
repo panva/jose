@@ -4,9 +4,10 @@ import { JOSENotSupported } from '../../util/errors.js'
 import type { JWK } from '../../types.d'
 import { decode as base64url } from './base64url.js'
 
-function subtleMapping(
-  jwk: JWK,
-): { algorithm: RsaHashedImportParams | EcKeyAlgorithm | Algorithm; keyUsages: KeyUsage[] } {
+function subtleMapping(jwk: JWK): {
+  algorithm: RsaHashedImportParams | EcKeyAlgorithm | Algorithm
+  keyUsages: KeyUsage[]
+} {
   let algorithm: RsaHashedImportParams | EcKeyAlgorithm | Algorithm
   let keyUsages: KeyUsage[]
 

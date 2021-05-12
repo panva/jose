@@ -57,9 +57,14 @@ async function compactDecrypt(
   if (typeof jwe !== 'string') {
     throw new JWEInvalid('Compact JWE must be a string or Uint8Array')
   }
-  const { 0: protectedHeader, 1: encryptedKey, 2: iv, 3: ciphertext, 4: tag, length } = jwe.split(
-    '.',
-  )
+  const {
+    0: protectedHeader,
+    1: encryptedKey,
+    2: iv,
+    3: ciphertext,
+    4: tag,
+    length,
+  } = jwe.split('.')
 
   if (length !== 5) {
     throw new JWEInvalid('Invalid Compact JWE')
