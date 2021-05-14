@@ -12,4 +12,4 @@
 
 **Returns:** *string*
 
-Defined in: [util/base64url.ts:22](https://github.com/panva/jose/blob/v3.12.0/src/util/base64url.ts#L22)
+Defined in: [util/base64url.ts:22](https://github.com/panva/jose/blob/v3.12.1/src/util/base64url.ts#L22)

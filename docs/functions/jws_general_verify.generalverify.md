@@ -45,4 +45,4 @@ console.log(decoder.decode(payload))
 
 **Returns:** *Promise*<[*GeneralVerifyResult*](../interfaces/types.generalverifyresult.md)\>
 
-Defined in: [jws/general/verify.ts:60](https://github.com/panva/jose/blob/v3.12.0/src/jws/general/verify.ts#L60)
+Defined in: [jws/general/verify.ts:60](https://github.com/panva/jose/blob/v3.12.1/src/jws/general/verify.ts#L60)

@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [3.12.1](https://github.com/panva/jose/compare/v3.12.0...v3.12.1) (2021-05-14)
+
+
+### Bug Fixes
+
+* **browser:** avoid global-conflicting variable name fetch ([#199](https://github.com/panva/jose/issues/199)) ([b2c6273](https://github.com/panva/jose/commit/b2c6273eccad5e34cbe0219c521c6453ba71e6c4))
+
 ## [3.12.0](https://github.com/panva/jose/compare/v3.11.6...v3.12.0) (2021-05-12)
 
 

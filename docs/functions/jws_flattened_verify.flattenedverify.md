@@ -41,4 +41,4 @@ console.log(decoder.decode(payload))
 
 **Returns:** *Promise*<[*FlattenedVerifyResult*](../interfaces/types.flattenedverifyresult.md)\>
 
-Defined in: [jws/flattened/verify.ts:66](https://github.com/panva/jose/blob/v3.12.0/src/jws/flattened/verify.ts#L66)
+Defined in: [jws/flattened/verify.ts:66](https://github.com/panva/jose/blob/v3.12.1/src/jws/flattened/verify.ts#L66)

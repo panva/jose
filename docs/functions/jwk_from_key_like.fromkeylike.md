@@ -33,4 +33,4 @@ console.log(publicJwk)
 
 **Returns:** *Promise*<[*JWK*](../interfaces/types.jwk.md)\>
 
-Defined in: [jwk/from_key_like.ts:29](https://github.com/panva/jose/blob/v3.12.0/src/jwk/from_key_like.ts#L29)
+Defined in: [jwk/from_key_like.ts:29](https://github.com/panva/jose/blob/v3.12.1/src/jwk/from_key_like.ts#L29)

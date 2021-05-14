@@ -50,7 +50,7 @@ console.log(jws)
 
 **Returns:** [*CompactSign*](jws_compact_sign.compactsign.md)
 
-Defined in: [jws/compact/sign.ts:31](https://github.com/panva/jose/blob/v3.12.0/src/jws/compact/sign.ts#L31)
+Defined in: [jws/compact/sign.ts:31](https://github.com/panva/jose/blob/v3.12.1/src/jws/compact/sign.ts#L31)
 
 ## Methods
 
@@ -68,7 +68,7 @@ Sets the JWS Protected Header on the Sign object.
 
 **Returns:** [*CompactSign*](jws_compact_sign.compactsign.md)
 
-Defined in: [jws/compact/sign.ts:45](https://github.com/panva/jose/blob/v3.12.0/src/jws/compact/sign.ts#L45)
+Defined in: [jws/compact/sign.ts:45](https://github.com/panva/jose/blob/v3.12.1/src/jws/compact/sign.ts#L45)
 
 ___
 
@@ -87,4 +87,4 @@ Signs and resolves the value of the Compact JWS string.
 
 **Returns:** *Promise*<string\>
 
-Defined in: [jws/compact/sign.ts:56](https://github.com/panva/jose/blob/v3.12.0/src/jws/compact/sign.ts#L56)
+Defined in: [jws/compact/sign.ts:56](https://github.com/panva/jose/blob/v3.12.1/src/jws/compact/sign.ts#L56)

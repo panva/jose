@@ -34,4 +34,4 @@ console.log(secret)
 
 **Returns:** *Promise*<[*KeyLike*](../types/types.keylike.md)\>
 
-Defined in: [util/generate_secret.ts:38](https://github.com/panva/jose/blob/v3.12.0/src/util/generate_secret.ts#L38)
+Defined in: [util/generate_secret.ts:38](https://github.com/panva/jose/blob/v3.12.1/src/util/generate_secret.ts#L38)

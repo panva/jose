@@ -52,4 +52,4 @@ If you cannot match a key suitable for the token, throw an error instead.
 
 **Returns:** *Promise*<[*KeyLike*](../types/types.keylike.md)\>
 
-Defined in: [types.d.ts:78](https://github.com/panva/jose/blob/v3.12.0/src/types.d.ts#L78)
+Defined in: [types.d.ts:78](https://github.com/panva/jose/blob/v3.12.1/src/types.d.ts#L78)

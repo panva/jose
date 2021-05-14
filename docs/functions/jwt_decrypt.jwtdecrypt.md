@@ -39,4 +39,4 @@ console.log(payload)
 
 **Returns:** *Promise*<[*JWTDecryptResult*](../interfaces/types.jwtdecryptresult.md)\>
 
-Defined in: [jwt/decrypt.ts:56](https://github.com/panva/jose/blob/v3.12.0/src/jwt/decrypt.ts#L56)
+Defined in: [jwt/decrypt.ts:56](https://github.com/panva/jose/blob/v3.12.1/src/jwt/decrypt.ts#L56)

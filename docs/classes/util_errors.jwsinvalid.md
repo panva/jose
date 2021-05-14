@@ -37,7 +37,7 @@ An error subclass thrown when a JWS is invalid.
 
 Inherited from: [JOSEError](util_errors.joseerror.md)
 
-Defined in: [util/errors.ts:16](https://github.com/panva/jose/blob/v3.12.0/src/util/errors.ts#L16)
+Defined in: [util/errors.ts:16](https://github.com/panva/jose/blob/v3.12.1/src/util/errors.ts#L16)
 
 ## Properties
 
@@ -49,7 +49,7 @@ A unique error code for the particular error subclass.
 
 Overrides: [JOSEError](util_errors.joseerror.md).[code](util_errors.joseerror.md#code)
 
-Defined in: [util/errors.ts:97](https://github.com/panva/jose/blob/v3.12.0/src/util/errors.ts#L97)
+Defined in: [util/errors.ts:97](https://github.com/panva/jose/blob/v3.12.1/src/util/errors.ts#L97)
 
 ___
 
@@ -61,4 +61,4 @@ A unique error code for the particular error subclass.
 
 Overrides: [JOSEError](util_errors.joseerror.md).[code](util_errors.joseerror.md#code)
 
-Defined in: [util/errors.ts:95](https://github.com/panva/jose/blob/v3.12.0/src/util/errors.ts#L95)
+Defined in: [util/errors.ts:95](https://github.com/panva/jose/blob/v3.12.1/src/util/errors.ts#L95)
