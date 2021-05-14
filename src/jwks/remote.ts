@@ -10,7 +10,7 @@ import {
   JWKSNoMatchingKey,
   JWKSMultipleMatchingKeys,
 } from '../util/errors.js'
-import fetchJson from '../runtime/fetch.js'
+import fetchJwks from '../runtime/fetch_jwks.js'
 import isObject from '../lib/is_object.js'
 
 function getKtyFromAlg(alg: string) {
@@ -187,7 +187,7 @@ class RemoteJWKSet {
 
   async reload() {
     if (!this._pendingFetch) {
-      this._pendingFetch = fetchJson(this._url, this._timeoutDuration, this._options)
+      this._pendingFetch = fetchJwks(this._url, this._timeoutDuration, this._options)
         .then((json) => {
           if (
             typeof json !== 'object' ||

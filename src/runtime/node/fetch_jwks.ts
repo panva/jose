@@ -15,7 +15,11 @@ const protocols: { [protocol: string]: (...args: Parameters<typeof https>) => Cl
 
 type AcceptedRequestOptions = Pick<RequestOptions, 'agent'>
 
-const fetch: FetchFunction = async (url: URL, timeout: number, options: AcceptedRequestOptions) => {
+const fetchJwks: FetchFunction = async (
+  url: URL,
+  timeout: number,
+  options: AcceptedRequestOptions,
+) => {
   if (protocols[url.protocol] === undefined) {
     throw new TypeError('Unsupported URL protocol.')
   }
@@ -46,4 +50,4 @@ const fetch: FetchFunction = async (url: URL, timeout: number, options: Accepted
   }
 }
 
-export default fetch
+export default fetchJwks
