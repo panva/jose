@@ -180,7 +180,7 @@ jobs:
         with:
           path: dist
           key: dist-${{ hashFiles('src/**/*.ts') }}-${{ hashFiles('tsconfig/*.json') }}
-      - run: npm run test-browser
+      - run: npx retry-cli npm run test-browser
       - run: git reset HEAD --hard
 
   prepare-release:
