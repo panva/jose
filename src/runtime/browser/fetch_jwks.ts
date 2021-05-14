@@ -2,7 +2,7 @@ import type { FetchFunction } from '../interfaces.d'
 import { JOSEError } from '../../util/errors.js'
 import globalThis from './global.js'
 
-const fetchJSON: FetchFunction = async (url: URL, timeout: number) => {
+const fetchJwks: FetchFunction = async (url: URL, timeout: number) => {
   let controller!: AbortController
   if (typeof AbortController === 'function') {
     controller = new AbortController()
@@ -28,4 +28,4 @@ const fetchJSON: FetchFunction = async (url: URL, timeout: number) => {
     throw new JOSEError('Failed to parse the JSON Web Key Set HTTP response as JSON')
   }
 }
-export default fetchJSON
+export default fetchJwks
