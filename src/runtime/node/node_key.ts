@@ -1,5 +1,5 @@
-import type { KeyObject, SignKeyObjectInput } from 'crypto'
 import { constants } from 'crypto'
+import type { KeyObject, SignKeyObjectInput } from 'crypto'
 
 import getNamedCurve from './get_named_curve.js'
 import { JOSENotSupported } from '../../util/errors.js'

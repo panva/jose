@@ -1,5 +1,5 @@
-import type { KeyObject, PublicKeyInput, PrivateKeyInput } from 'crypto'
 import { createPrivateKey, createPublicKey, createSecretKey } from 'crypto'
+import type { KeyObject, PublicKeyInput, PrivateKeyInput } from 'crypto'
 
 import type { JWKParseFunction } from '../interfaces.d'
 import { decode as base64url } from './base64url.js'
