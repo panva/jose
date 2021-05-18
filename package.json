@@ -55,6 +55,7 @@
       "require": "./dist/node/webcrypto/cjs/*.js"
     }
   },
+  "module": "./dist/browser/index.js",
   "exports": {
     "./package.json": "./package.json",
     "./jwe/compact/decrypt": {
