@@ -58,6 +58,11 @@
   "module": "./dist/browser/index.js",
   "exports": {
     "./package.json": "./package.json",
+    ".": {
+      "browser": "./dist/node/esm/index.js",
+      "import": "./dist/node/esm/index.js",
+      "require": "./dist/node/cjs/index.js"
+    },
     "./jwe/compact/decrypt": {
       "browser": "./dist/browser/jwe/compact/decrypt.js",
       "import": "./dist/node/esm/jwe/compact/decrypt.js",
