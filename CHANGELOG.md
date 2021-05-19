@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [3.12.2](https://github.com/panva/jose/compare/v3.12.1...v3.12.2) (2021-05-19)
+
+
+### Performance
+
+* **node:** use util.types.is* helpers when available ([d36311d](https://github.com/panva/jose/commit/d36311d5162b3500728937bf25bd2c756f8a33d6))
+
 ## [3.12.1](https://github.com/panva/jose/compare/v3.12.0...v3.12.1) (2021-05-14)
 
 

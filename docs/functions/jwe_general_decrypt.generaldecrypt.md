@@ -53,4 +53,4 @@ console.log(decoder.decode(additionalAuthenticatedData))
 
 **Returns:** *Promise*<[*GeneralDecryptResult*](../interfaces/types.generaldecryptresult.md)\>
 
-Defined in: [jwe/general/decrypt.ts:64](https://github.com/panva/jose/blob/v3.12.1/src/jwe/general/decrypt.ts#L64)
+Defined in: [jwe/general/decrypt.ts:64](https://github.com/panva/jose/blob/v3.12.2/src/jwe/general/decrypt.ts#L64)

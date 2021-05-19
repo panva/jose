@@ -37,4 +37,4 @@ console.log(decoder.decode(payload))
 
 **Returns:** *Promise*<[*CompactVerifyResult*](../interfaces/types.compactverifyresult.md)\>
 
-Defined in: [jws/compact/verify.ts:51](https://github.com/panva/jose/blob/v3.12.1/src/jws/compact/verify.ts#L51)
+Defined in: [jws/compact/verify.ts:51](https://github.com/panva/jose/blob/v3.12.2/src/jws/compact/verify.ts#L51)

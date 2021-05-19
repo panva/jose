@@ -35,7 +35,7 @@ Parameter values are not integrity protected.
 
 Inherited from: Partial.header
 
-Defined in: [types.d.ts:166](https://github.com/panva/jose/blob/v3.12.1/src/types.d.ts#L166)
+Defined in: [types.d.ts:166](https://github.com/panva/jose/blob/v3.12.2/src/types.d.ts#L166)
 
 ___
 
@@ -45,7 +45,7 @@ ___
 
 Overrides: Partial.payload
 
-Defined in: [types.d.ts:216](https://github.com/panva/jose/blob/v3.12.1/src/types.d.ts#L216)
+Defined in: [types.d.ts:216](https://github.com/panva/jose/blob/v3.12.2/src/types.d.ts#L216)
 
 ___
 
@@ -60,7 +60,7 @@ Header Parameter values are integrity protected.
 
 Inherited from: Partial.protected
 
-Defined in: [types.d.ts:181](https://github.com/panva/jose/blob/v3.12.1/src/types.d.ts#L181)
+Defined in: [types.d.ts:181](https://github.com/panva/jose/blob/v3.12.2/src/types.d.ts#L181)
 
 ___
 
@@ -70,4 +70,4 @@ ___
 
 Overrides: Partial.signature
 
-Defined in: [types.d.ts:217](https://github.com/panva/jose/blob/v3.12.1/src/types.d.ts#L217)
+Defined in: [types.d.ts:217](https://github.com/panva/jose/blob/v3.12.2/src/types.d.ts#L217)

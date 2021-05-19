@@ -44,4 +44,4 @@ console.log(payload)
 
 **Returns:** *Promise*<KeyObject \| CryptoKey\>
 
-Defined in: [jwk/embedded.ts:40](https://github.com/panva/jose/blob/v3.12.1/src/jwk/embedded.ts#L40)
+Defined in: [jwk/embedded.ts:40](https://github.com/panva/jose/blob/v3.12.2/src/jwk/embedded.ts#L40)

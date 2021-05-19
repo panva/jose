@@ -37,4 +37,4 @@ console.log(thumbprint)
 
 **Returns:** *Promise*<string\>
 
-Defined in: [jwk/thumbprint.ts:44](https://github.com/panva/jose/blob/v3.12.1/src/jwk/thumbprint.ts#L44)
+Defined in: [jwk/thumbprint.ts:44](https://github.com/panva/jose/blob/v3.12.2/src/jwk/thumbprint.ts#L44)

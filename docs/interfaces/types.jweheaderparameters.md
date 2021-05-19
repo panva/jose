@@ -41,7 +41,7 @@ Any other JWE Header member.
 
 JWE "alg" (Algorithm) Header Parameter.
 
-Defined in: [types.d.ts:387](https://github.com/panva/jose/blob/v3.12.1/src/types.d.ts#L387)
+Defined in: [types.d.ts:387](https://github.com/panva/jose/blob/v3.12.2/src/types.d.ts#L387)
 
 ___
 
@@ -51,7 +51,7 @@ ___
 
 JWE "crit" (Critical) Header Parameter.
 
-Defined in: [types.d.ts:397](https://github.com/panva/jose/blob/v3.12.1/src/types.d.ts#L397)
+Defined in: [types.d.ts:397](https://github.com/panva/jose/blob/v3.12.2/src/types.d.ts#L397)
 
 ___
 
@@ -63,7 +63,7 @@ ___
 
 Inherited from: [JoseHeaderParameters](types.joseheaderparameters.md).[cty](types.joseheaderparameters.md#cty)
 
-Defined in: [types.d.ts:264](https://github.com/panva/jose/blob/v3.12.1/src/types.d.ts#L264)
+Defined in: [types.d.ts:264](https://github.com/panva/jose/blob/v3.12.2/src/types.d.ts#L264)
 
 ___
 
@@ -73,7 +73,7 @@ ___
 
 JWE "enc" (Encryption Algorithm) Header Parameter.
 
-Defined in: [types.d.ts:392](https://github.com/panva/jose/blob/v3.12.1/src/types.d.ts#L392)
+Defined in: [types.d.ts:392](https://github.com/panva/jose/blob/v3.12.2/src/types.d.ts#L392)
 
 ___
 
@@ -85,7 +85,7 @@ ___
 
 Inherited from: [JoseHeaderParameters](types.joseheaderparameters.md).[jwk](types.joseheaderparameters.md#jwk)
 
-Defined in: [types.d.ts:254](https://github.com/panva/jose/blob/v3.12.1/src/types.d.ts#L254)
+Defined in: [types.d.ts:254](https://github.com/panva/jose/blob/v3.12.2/src/types.d.ts#L254)
 
 ___
 
@@ -97,7 +97,7 @@ ___
 
 Inherited from: [JoseHeaderParameters](types.joseheaderparameters.md).[kid](types.joseheaderparameters.md#kid)
 
-Defined in: [types.d.ts:234](https://github.com/panva/jose/blob/v3.12.1/src/types.d.ts#L234)
+Defined in: [types.d.ts:234](https://github.com/panva/jose/blob/v3.12.2/src/types.d.ts#L234)
 
 ___
 
@@ -109,7 +109,7 @@ ___
 
 Inherited from: [JoseHeaderParameters](types.joseheaderparameters.md).[typ](types.joseheaderparameters.md#typ)
 
-Defined in: [types.d.ts:259](https://github.com/panva/jose/blob/v3.12.1/src/types.d.ts#L259)
+Defined in: [types.d.ts:259](https://github.com/panva/jose/blob/v3.12.2/src/types.d.ts#L259)
 
 ___
 
@@ -121,7 +121,7 @@ ___
 
 Inherited from: [JoseHeaderParameters](types.joseheaderparameters.md).[x5c](types.joseheaderparameters.md#x5c)
 
-Defined in: [types.d.ts:244](https://github.com/panva/jose/blob/v3.12.1/src/types.d.ts#L244)
+Defined in: [types.d.ts:244](https://github.com/panva/jose/blob/v3.12.2/src/types.d.ts#L244)
 
 ___
 
@@ -133,7 +133,7 @@ ___
 
 Inherited from: [JoseHeaderParameters](types.joseheaderparameters.md).[x5t](types.joseheaderparameters.md#x5t)
 
-Defined in: [types.d.ts:239](https://github.com/panva/jose/blob/v3.12.1/src/types.d.ts#L239)
+Defined in: [types.d.ts:239](https://github.com/panva/jose/blob/v3.12.2/src/types.d.ts#L239)
 
 ___
 
@@ -145,7 +145,7 @@ ___
 
 Inherited from: [JoseHeaderParameters](types.joseheaderparameters.md).[x5u](types.joseheaderparameters.md#x5u)
 
-Defined in: [types.d.ts:249](https://github.com/panva/jose/blob/v3.12.1/src/types.d.ts#L249)
+Defined in: [types.d.ts:249](https://github.com/panva/jose/blob/v3.12.2/src/types.d.ts#L249)
 
 ___
 
@@ -155,4 +155,4 @@ ___
 
 JWE "zip" (Compression Algorithm) Header Parameter.
 
-Defined in: [types.d.ts:402](https://github.com/panva/jose/blob/v3.12.1/src/types.d.ts#L402)
+Defined in: [types.d.ts:402](https://github.com/panva/jose/blob/v3.12.2/src/types.d.ts#L402)

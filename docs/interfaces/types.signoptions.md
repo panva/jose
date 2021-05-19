@@ -45,4 +45,4 @@ default built-in treatment are currently available.
 
 Inherited from: [CritOption](types.critoption.md).[crit](types.critoption.md#crit)
 
-Defined in: [types.d.ts:434](https://github.com/panva/jose/blob/v3.12.1/src/types.d.ts#L434)
+Defined in: [types.d.ts:434](https://github.com/panva/jose/blob/v3.12.2/src/types.d.ts#L434)

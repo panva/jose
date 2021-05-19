@@ -30,4 +30,4 @@ console.log(protectedHeader)
 
 **Returns:** [*ProtectedHeaderParameters*](../types/util_decode_protected_header.protectedheaderparameters.md)
 
-Defined in: [util/decode_protected_header.ts:31](https://github.com/panva/jose/blob/v3.12.1/src/util/decode_protected_header.ts#L31)
+Defined in: [util/decode_protected_header.ts:31](https://github.com/panva/jose/blob/v3.12.2/src/util/decode_protected_header.ts#L31)

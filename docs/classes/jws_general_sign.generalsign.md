@@ -56,7 +56,7 @@ const jws = await sign.sign()
 
 **Returns:** [*GeneralSign*](jws_general_sign.generalsign.md)
 
-Defined in: [jws/general/sign.ts:99](https://github.com/panva/jose/blob/v3.12.1/src/jws/general/sign.ts#L99)
+Defined in: [jws/general/sign.ts:99](https://github.com/panva/jose/blob/v3.12.2/src/jws/general/sign.ts#L99)
 
 ## Methods
 
@@ -73,7 +73,7 @@ Defined in: [jws/general/sign.ts:99](https://github.com/panva/jose/blob/v3.12.1/
 
 **Returns:** [*Signature*](../interfaces/jws_general_sign.signature.md)
 
-Defined in: [jws/general/sign.ts:108](https://github.com/panva/jose/blob/v3.12.1/src/jws/general/sign.ts#L108)
+Defined in: [jws/general/sign.ts:108](https://github.com/panva/jose/blob/v3.12.2/src/jws/general/sign.ts#L108)
 
 ___
 
@@ -85,4 +85,4 @@ Signs and resolves the value of the General JWS object.
 
 **Returns:** *Promise*<[*GeneralJWS*](../interfaces/types.generaljws.md)\>
 
-Defined in: [jws/general/sign.ts:118](https://github.com/panva/jose/blob/v3.12.1/src/jws/general/sign.ts#L118)
+Defined in: [jws/general/sign.ts:118](https://github.com/panva/jose/blob/v3.12.2/src/jws/general/sign.ts#L118)
