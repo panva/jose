@@ -5,6 +5,7 @@ import generateSecret from '../dist/browser/util/generate_secret';
 import random from '../dist/browser/util/random';
 import FlattenedSign from '../dist/browser/jws/flattened/sign';
 import verifyFlattened from '../dist/browser/jws/flattened/verify';
+import decodeProtectedHeader from '../dist/browser/util/decode_protected_header';
 
 const browser = Bowser.parse(window.navigator.userAgent);
 
@@ -24,6 +25,7 @@ async function test(generate, alg, assert) {
     .setProtectedHeader({ alg })
     .sign(privateKey);
 
+  assert.ok(decodeProtectedHeader(jws));
   await verifyFlattened(jws, publicKey);
   assert.ok(1);
 }

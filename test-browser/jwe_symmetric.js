@@ -4,6 +4,7 @@ import generateSecret from '../dist/browser/util/generate_secret';
 import random from '../dist/browser/util/random';
 import FlattenedEncrypt from '../dist/browser/jwe/flattened/encrypt';
 import decryptFlattened from '../dist/browser/jwe/flattened/decrypt';
+import decodeProtectedHeader from '../dist/browser/util/decode_protected_header';
 
 const browser = Bowser.parse(window.navigator.userAgent);
 
@@ -17,6 +18,7 @@ async function test(generate, { alg, enc }, assert) {
     .setAdditionalAuthenticatedData(random(new Uint8Array(32)))
     .encrypt(secretKey);
 
+  assert.ok(decodeProtectedHeader(jwe));
   await decryptFlattened(jwe, secretKey);
   assert.ok(1);
 }

@@ -1,5 +1,3 @@
-import { ok as assert } from 'assert'
-
 import { decode as base64url } from './base64url.js'
 import { decoder } from '../lib/buffer_utils.js'
 import isObject from '../lib/is_object.js'
@@ -45,9 +43,13 @@ function decodeProtectedHeader(token: string | object) {
   }
 
   try {
-    assert(typeof protectedB64u === 'string' && protectedB64u)
+    if (typeof protectedB64u !== 'string' || !protectedB64u) {
+      throw new Error();
+    }
     const result = JSON.parse(decoder.decode(base64url(protectedB64u!)))
-    assert(isObject(result))
+    if (!isObject(result)) {
+      throw new Error();
+    }
     return <ProtectedHeaderParameters>result
   } catch (err) {
     throw new TypeError('Invalid Token or Protected Header formatting')
