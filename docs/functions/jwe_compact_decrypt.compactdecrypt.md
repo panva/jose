@@ -37,4 +37,4 @@ console.log(decoder.decode(plaintext))
 
 **Returns:** *Promise*<[*CompactDecryptResult*](../interfaces/types.compactdecryptresult.md)\>
 
-Defined in: [jwe/compact/decrypt.ts:47](https://github.com/panva/jose/blob/v3.12.2/src/jwe/compact/decrypt.ts#L47)
+Defined in: [jwe/compact/decrypt.ts:47](https://github.com/panva/jose/blob/v3.12.3/src/jwe/compact/decrypt.ts#L47)

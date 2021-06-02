@@ -26,7 +26,7 @@
 
 JWE AAD.
 
-Defined in: [types.d.ts:598](https://github.com/panva/jose/blob/v3.12.2/src/types.d.ts#L598)
+Defined in: [types.d.ts:598](https://github.com/panva/jose/blob/v3.12.3/src/types.d.ts#L598)
 
 ___
 
@@ -36,7 +36,7 @@ ___
 
 Plaintext.
 
-Defined in: [types.d.ts:603](https://github.com/panva/jose/blob/v3.12.2/src/types.d.ts#L603)
+Defined in: [types.d.ts:603](https://github.com/panva/jose/blob/v3.12.3/src/types.d.ts#L603)
 
 ___
 
@@ -46,7 +46,7 @@ ___
 
 JWE Protected Header.
 
-Defined in: [types.d.ts:608](https://github.com/panva/jose/blob/v3.12.2/src/types.d.ts#L608)
+Defined in: [types.d.ts:608](https://github.com/panva/jose/blob/v3.12.3/src/types.d.ts#L608)
 
 ___
 
@@ -56,7 +56,7 @@ ___
 
 JWE Shared Unprotected Header.
 
-Defined in: [types.d.ts:613](https://github.com/panva/jose/blob/v3.12.2/src/types.d.ts#L613)
+Defined in: [types.d.ts:613](https://github.com/panva/jose/blob/v3.12.3/src/types.d.ts#L613)
 
 ___
 
@@ -66,4 +66,4 @@ ___
 
 JWE Per-Recipient Unprotected Header.
 
-Defined in: [types.d.ts:618](https://github.com/panva/jose/blob/v3.12.2/src/types.d.ts#L618)
+Defined in: [types.d.ts:618](https://github.com/panva/jose/blob/v3.12.3/src/types.d.ts#L618)

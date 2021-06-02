@@ -38,7 +38,7 @@ An error subclass thrown when no keys match from a JWKS.
 
 Inherited from: [JOSEError](util_errors.joseerror.md)
 
-Defined in: [util/errors.ts:16](https://github.com/panva/jose/blob/v3.12.2/src/util/errors.ts#L16)
+Defined in: [util/errors.ts:16](https://github.com/panva/jose/blob/v3.12.3/src/util/errors.ts#L16)
 
 ## Properties
 
@@ -50,7 +50,7 @@ A unique error code for the particular error subclass.
 
 Overrides: [JOSEError](util_errors.joseerror.md).[code](util_errors.joseerror.md#code)
 
-Defined in: [util/errors.ts:133](https://github.com/panva/jose/blob/v3.12.2/src/util/errors.ts#L133)
+Defined in: [util/errors.ts:133](https://github.com/panva/jose/blob/v3.12.3/src/util/errors.ts#L133)
 
 ___
 
@@ -60,7 +60,7 @@ ___
 
 Overrides: JOSEError.message
 
-Defined in: [util/errors.ts:135](https://github.com/panva/jose/blob/v3.12.2/src/util/errors.ts#L135)
+Defined in: [util/errors.ts:135](https://github.com/panva/jose/blob/v3.12.3/src/util/errors.ts#L135)
 
 ___
 
@@ -72,4 +72,4 @@ A unique error code for the particular error subclass.
 
 Overrides: [JOSEError](util_errors.joseerror.md).[code](util_errors.joseerror.md#code)
 
-Defined in: [util/errors.ts:131](https://github.com/panva/jose/blob/v3.12.2/src/util/errors.ts#L131)
+Defined in: [util/errors.ts:131](https://github.com/panva/jose/blob/v3.12.3/src/util/errors.ts#L131)

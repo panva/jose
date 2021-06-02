@@ -18,4 +18,4 @@ Deflate Raw implementation, e.g. promisified [zlib.deflateRaw](https://nodejs.or
 
 **Returns:** *Promise*<Uint8Array\>
 
-Defined in: [types.d.ts:583](https://github.com/panva/jose/blob/v3.12.2/src/types.d.ts#L583)
+Defined in: [types.d.ts:583](https://github.com/panva/jose/blob/v3.12.3/src/types.d.ts#L583)

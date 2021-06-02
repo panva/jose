@@ -23,7 +23,7 @@ https.get method options. Use when behind an http(s) proxy.
 This is a Node.js runtime specific option, it is ignored
 when used outside of Node.js runtime.
 
-Defined in: [jwks/remote.ts:56](https://github.com/panva/jose/blob/v3.12.2/src/jwks/remote.ts#L56)
+Defined in: [jwks/remote.ts:56](https://github.com/panva/jose/blob/v3.12.3/src/jwks/remote.ts#L56)
 
 ___
 
@@ -34,7 +34,7 @@ ___
 Duration for which no more HTTP requests will be triggered
 after a previous successful fetch. Default is 30000.
 
-Defined in: [jwks/remote.ts:48](https://github.com/panva/jose/blob/v3.12.2/src/jwks/remote.ts#L48)
+Defined in: [jwks/remote.ts:48](https://github.com/panva/jose/blob/v3.12.3/src/jwks/remote.ts#L48)
 
 ___
 
@@ -45,4 +45,4 @@ ___
 Timeout for the HTTP request. When reached the request will be
 aborted and the verification will fail. Default is 5000.
 
-Defined in: [jwks/remote.ts:42](https://github.com/panva/jose/blob/v3.12.2/src/jwks/remote.ts#L42)
+Defined in: [jwks/remote.ts:42](https://github.com/panva/jose/blob/v3.12.3/src/jwks/remote.ts#L42)

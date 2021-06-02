@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [3.12.3](https://github.com/panva/jose/compare/v3.12.2...v3.12.3) (2021-06-02)
+
+
+### Bug Fixes
+
+* **browser:** remove the use of a node std-lib in decodeProtectedHeader ([d9d4a5f](https://github.com/panva/jose/commit/d9d4a5f2e88ca5172ff753a503bfbdb50522d094)), closes [#206](https://github.com/panva/jose/issues/206)
+
 ## [3.12.2](https://github.com/panva/jose/compare/v3.12.1...v3.12.2) (2021-05-19)
 
 

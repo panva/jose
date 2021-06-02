@@ -49,4 +49,4 @@ default built-in treatment are currently available.
 
 #### Type declaration
 
-Defined in: [types.d.ts:434](https://github.com/panva/jose/blob/v3.12.2/src/types.d.ts#L434)
+Defined in: [types.d.ts:434](https://github.com/panva/jose/blob/v3.12.3/src/types.d.ts#L434)

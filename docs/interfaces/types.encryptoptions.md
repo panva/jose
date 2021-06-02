@@ -46,7 +46,7 @@ default built-in treatment are currently available.
 
 Inherited from: [CritOption](types.critoption.md).[crit](types.critoption.md#crit)
 
-Defined in: [types.d.ts:434](https://github.com/panva/jose/blob/v3.12.2/src/types.d.ts#L434)
+Defined in: [types.d.ts:434](https://github.com/panva/jose/blob/v3.12.3/src/types.d.ts#L434)
 
 ___
 
@@ -57,4 +57,4 @@ ___
 In a browser runtime you have to provide an implementation for Deflate Raw
 when you will be producing JWEs with compressed plaintext.
 
-Defined in: [types.d.ts:470](https://github.com/panva/jose/blob/v3.12.2/src/types.d.ts#L470)
+Defined in: [types.d.ts:470](https://github.com/panva/jose/blob/v3.12.3/src/types.d.ts#L470)
