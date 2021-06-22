@@ -14,10 +14,16 @@ const [major, minor] = process.version
 
 const oneShotCallbackSupported = major >= 16 || (major === 15 && minor >= 13)
 
-let oneShotVerify = crypto.verify
-if (oneShotVerify.length > 4 && oneShotCallbackSupported) {
-  // @ts-expect-error
-  oneShotVerify = promisify(oneShotVerify)
+let oneShotVerify: (
+  alg: string | undefined,
+  data: Uint8Array,
+  key: ReturnType<typeof nodeKey>,
+  signature: Uint8Array,
+) => Promise<boolean> | boolean
+if (crypto.verify.length > 4 && oneShotCallbackSupported) {
+  oneShotVerify = promisify(crypto.verify)
+} else {
+  oneShotVerify = crypto.verify
 }
 
 const verify: VerifyFunction = async (alg, key: unknown, signature, data) => {
@@ -36,12 +42,7 @@ const verify: VerifyFunction = async (alg, key: unknown, signature, data) => {
   const keyObject = getVerifyKey(alg, key, 'verify')
   const keyInput = nodeKey(alg, keyObject)
   try {
-    let result = oneShotVerify(algorithm, data, keyInput, signature)
-    // @ts-expect-error
-    if (result instanceof Promise) {
-      result = await result
-    }
-    return result
+    return await oneShotVerify(algorithm, data, keyInput, signature)
   } catch {
     return false
   }
