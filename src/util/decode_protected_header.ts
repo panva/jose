@@ -58,4 +58,3 @@ function decodeProtectedHeader(token: string | object) {
 
 export { decodeProtectedHeader }
 export default decodeProtectedHeader
-export type { ProtectedHeaderParameters }
