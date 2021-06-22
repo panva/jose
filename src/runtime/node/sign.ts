@@ -7,10 +7,15 @@ import hmacDigest from './hmac_digest.js'
 import nodeKey from './node_key.js'
 import getSignKey from './get_sign_verify_key.js'
 
-let oneShotSign = crypto.sign
-if (oneShotSign.length > 3) {
-  // @ts-expect-error
-  oneShotSign = promisify(oneShotSign)
+let oneShotSign: (
+  alg: string | undefined,
+  data: Uint8Array,
+  key: ReturnType<typeof nodeKey>,
+) => Promise<Uint8Array> | Uint8Array
+if (crypto.sign.length > 3) {
+  oneShotSign = promisify(crypto.sign)
+} else {
+  oneShotSign = crypto.sign
 }
 
 const sign: SignFunction = async (alg, key: unknown, data) => {
