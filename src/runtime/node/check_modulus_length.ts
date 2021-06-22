@@ -49,7 +49,6 @@ const getModulusLength = (key: KeyObject): number => {
   }
 
   const modulusLength: number =
-    // @ts-expect-error
     key.asymmetricKeyDetails?.modulusLength ??
     (getLengthOfSeqIndex(
       key.export({ format: 'der', type: 'pkcs1' }),
