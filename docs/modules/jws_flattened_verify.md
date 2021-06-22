@@ -5,6 +5,7 @@
 ### References
 
 - [FlattenedJWSInput](jws_flattened_verify.md#flattenedjwsinput)
+- [FlattenedVerifyResult](jws_flattened_verify.md#flattenedverifyresult)
 - [GetKeyFunction](jws_flattened_verify.md#getkeyfunction)
 - [JWSHeaderParameters](jws_flattened_verify.md#jwsheaderparameters)
 - [KeyLike](jws_flattened_verify.md#keylike)
@@ -24,6 +25,12 @@
 ### FlattenedJWSInput
 
 Re-exports: [FlattenedJWSInput](../interfaces/types.flattenedjwsinput.md)
+
+___
+
+### FlattenedVerifyResult
+
+Re-exports: [FlattenedVerifyResult](../interfaces/types.flattenedverifyresult.md)
 
 ___
 

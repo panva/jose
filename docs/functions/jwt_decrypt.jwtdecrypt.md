@@ -2,7 +2,7 @@
 
 [jwt/decrypt](../modules/jwt_decrypt.md).jwtDecrypt
 
-▸ **jwtDecrypt**(`jwt`: *string* \| Uint8Array, `key`: [*KeyLike*](../types/types.keylike.md) \| [*JWTDecryptGetKey*](../interfaces/jwt_decrypt.jwtdecryptgetkey.md), `options?`: [*JWTDecryptOptions*](../interfaces/jwt_decrypt.jwtdecryptoptions.md)): *Promise*<[*JWTDecryptResult*](../interfaces/types.jwtdecryptresult.md)\>
+▸ **jwtDecrypt**(`jwt`, `key`, `options?`): `Promise`<[JWTDecryptResult](../interfaces/types.jwtdecryptresult.md)\>
 
 Verifies the JWT format (to be a JWE Compact format), decrypts the ciphertext, validates the JWT Claims Set.
 
@@ -33,10 +33,14 @@ console.log(payload)
 
 | Name | Type | Description |
 | :------ | :------ | :------ |
-| `jwt` | *string* \| Uint8Array | JSON Web Token value (encoded as JWE). |
-| `key` | [*KeyLike*](../types/types.keylike.md) \| [*JWTDecryptGetKey*](../interfaces/jwt_decrypt.jwtdecryptgetkey.md) | Private Key or Secret, or a function resolving one, to decrypt and verify the JWT with. |
-| `options?` | [*JWTDecryptOptions*](../interfaces/jwt_decrypt.jwtdecryptoptions.md) | JWT Decryption and JWT Claims Set validation options. |
+| `jwt` | `string` \| `Uint8Array` | JSON Web Token value (encoded as JWE). |
+| `key` | [KeyLike](../types/types.keylike.md) \| [JWTDecryptGetKey](../interfaces/jwt_decrypt.jwtdecryptgetkey.md) | Private Key or Secret, or a function resolving one, to decrypt and verify the JWT with. |
+| `options?` | [JWTDecryptOptions](../interfaces/jwt_decrypt.jwtdecryptoptions.md) | JWT Decryption and JWT Claims Set validation options. |
 
-**Returns:** *Promise*<[*JWTDecryptResult*](../interfaces/types.jwtdecryptresult.md)\>
+#### Returns
 
-Defined in: [jwt/decrypt.ts:56](https://github.com/panva/jose/blob/v3.12.3/src/jwt/decrypt.ts#L56)
+`Promise`<[JWTDecryptResult](../interfaces/types.jwtdecryptresult.md)\>
+
+#### Defined in
+
+[jwt/decrypt.ts:56](https://github.com/panva/jose/blob/v3.13.0/src/jwt/decrypt.ts#L56)

@@ -2,7 +2,7 @@
 
 [jwk/embedded](../modules/jwk_embedded.md).EmbeddedJWK
 
-▸ **EmbeddedJWK**(`protectedHeader`: [*JWSHeaderParameters*](../interfaces/types.jwsheaderparameters.md), `token`: [*FlattenedJWSInput*](../interfaces/types.flattenedjwsinput.md)): *Promise*<KeyObject \| CryptoKey\>
+▸ **EmbeddedJWK**(`protectedHeader`, `token`): `Promise`<KeyObject \| CryptoKey\>
 
 EmbeddedJWK is an implementation of a GetKeyFunction intended to be used with the
 JWS/JWT verify operations whenever you need to opt-in to verify signatures with
@@ -39,9 +39,13 @@ console.log(payload)
 
 | Name | Type |
 | :------ | :------ |
-| `protectedHeader` | [*JWSHeaderParameters*](../interfaces/types.jwsheaderparameters.md) |
-| `token` | [*FlattenedJWSInput*](../interfaces/types.flattenedjwsinput.md) |
+| `protectedHeader` | [JWSHeaderParameters](../interfaces/types.jwsheaderparameters.md) |
+| `token` | [FlattenedJWSInput](../interfaces/types.flattenedjwsinput.md) |
 
-**Returns:** *Promise*<KeyObject \| CryptoKey\>
+#### Returns
 
-Defined in: [jwk/embedded.ts:40](https://github.com/panva/jose/blob/v3.12.3/src/jwk/embedded.ts#L40)
+`Promise`<KeyObject \| CryptoKey\>
+
+#### Defined in
+
+[jwk/embedded.ts:40](https://github.com/panva/jose/blob/v3.13.0/src/jwk/embedded.ts#L40)

@@ -4,7 +4,7 @@
 
 ## Hierarchy
 
-- *Omit*<[*FlattenedJWE*](types.flattenedjwe.md), ``"encrypted_key"`` \| ``"header"``\>
+- `Omit`<[FlattenedJWE](types.flattenedjwe.md), ``"encrypted_key"`` \| ``"header"``\>
 
   ↳ **GeneralJWE**
 
@@ -24,7 +24,7 @@
 
 ### aad
 
-• `Optional` **aad**: *string*
+• `Optional` **aad**: `string`
 
 The "aad" member MUST be present and contain the value
 BASE64URL(JWE AAD)) when the JWE AAD value is non-empty;
@@ -32,79 +32,101 @@ otherwise, it MUST be absent.  A JWE AAD value can be included to
 supply a base64url-encoded value to be integrity protected but not
 encrypted.
 
-Inherited from: Omit.aad
+#### Inherited from
 
-Defined in: [types.d.ts:318](https://github.com/panva/jose/blob/v3.12.3/src/types.d.ts#L318)
+Omit.aad
+
+#### Defined in
+
+[types.d.ts:318](https://github.com/panva/jose/blob/v3.13.0/src/types.d.ts#L318)
 
 ___
 
 ### ciphertext
 
-• **ciphertext**: *string*
+• **ciphertext**: `string`
 
 The "ciphertext" member MUST be present and contain the value
 BASE64URL(JWE Ciphertext).
 
-Inherited from: Omit.ciphertext
+#### Inherited from
 
-Defined in: [types.d.ts:324](https://github.com/panva/jose/blob/v3.12.3/src/types.d.ts#L324)
+Omit.ciphertext
+
+#### Defined in
+
+[types.d.ts:324](https://github.com/panva/jose/blob/v3.13.0/src/types.d.ts#L324)
 
 ___
 
 ### iv
 
-• **iv**: *string*
+• **iv**: `string`
 
 The "iv" member MUST be present and contain the value
 BASE64URL(JWE Initialization Vector) when the JWE Initialization
 Vector value is non-empty; otherwise, it MUST be absent.
 
-Inherited from: Omit.iv
+#### Inherited from
 
-Defined in: [types.d.ts:348](https://github.com/panva/jose/blob/v3.12.3/src/types.d.ts#L348)
+Omit.iv
+
+#### Defined in
+
+[types.d.ts:348](https://github.com/panva/jose/blob/v3.13.0/src/types.d.ts#L348)
 
 ___
 
 ### protected
 
-• `Optional` **protected**: *string*
+• `Optional` **protected**: `string`
 
 The "protected" member MUST be present and contain the value
 BASE64URL(UTF8(JWE Protected Header)) when the JWE Protected
 Header value is non-empty; otherwise, it MUST be absent.  These
 Header Parameter values are integrity protected.
 
-Inherited from: Omit.protected
+#### Inherited from
 
-Defined in: [types.d.ts:356](https://github.com/panva/jose/blob/v3.12.3/src/types.d.ts#L356)
+Omit.protected
+
+#### Defined in
+
+[types.d.ts:356](https://github.com/panva/jose/blob/v3.13.0/src/types.d.ts#L356)
 
 ___
 
 ### recipients
 
-• **recipients**: *Pick*<[*FlattenedJWE*](types.flattenedjwe.md), ``"header"`` \| ``"encrypted_key"``\>[]
+• **recipients**: `Pick`<[FlattenedJWE](types.flattenedjwe.md), ``"header"`` \| ``"encrypted_key"``\>[]
 
-Defined in: [types.d.ts:376](https://github.com/panva/jose/blob/v3.12.3/src/types.d.ts#L376)
+#### Defined in
+
+[types.d.ts:376](https://github.com/panva/jose/blob/v3.13.0/src/types.d.ts#L376)
 
 ___
 
 ### tag
 
-• **tag**: *string*
+• **tag**: `string`
 
 The "tag" member MUST be present and contain the value
 BASE64URL(JWE Authentication Tag) when the JWE Authentication Tag
 value is non-empty; otherwise, it MUST be absent.
 
-Inherited from: Omit.tag
+#### Inherited from
 
-Defined in: [types.d.ts:363](https://github.com/panva/jose/blob/v3.12.3/src/types.d.ts#L363)
+Omit.tag
+
+#### Defined in
+
+[types.d.ts:363](https://github.com/panva/jose/blob/v3.13.0/src/types.d.ts#L363)
 
 ___
 
 ### unprotected
 
-• `Optional` **unprotected**: [*JWEHeaderParameters*](types.jweheaderparameters.md)
+• `Optional` **unprotected**: [JWEHeaderParameters](types.jweheaderparameters.md)
 
 The "unprotected" member MUST be present and contain the value JWE
 Shared Unprotected Header when the JWE Shared Unprotected Header
@@ -112,6 +134,10 @@ value is non-empty; otherwise, it MUST be absent.  This value is
 represented as an unencoded JSON object, rather than as a string.
 These Header Parameter values are not integrity protected.
 
-Inherited from: Omit.unprotected
+#### Inherited from
 
-Defined in: [types.d.ts:372](https://github.com/panva/jose/blob/v3.12.3/src/types.d.ts#L372)
+Omit.unprotected
+
+#### Defined in
+
+[types.d.ts:372](https://github.com/panva/jose/blob/v3.13.0/src/types.d.ts#L372)

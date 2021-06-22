@@ -2,14 +2,18 @@
 
 [util/random](../modules/util_random.md).random
 
-▸ `Const` **random**(`array`: *Uint8Array*): *Uint8Array*
+▸ `Const` **random**(`array`): `Uint8Array`
 
 #### Parameters
 
 | Name | Type |
 | :------ | :------ |
-| `array` | *Uint8Array* |
+| `array` | `Uint8Array` |
 
-**Returns:** *Uint8Array*
+#### Returns
 
-Defined in: [util/random.ts:7](https://github.com/panva/jose/blob/v3.12.3/src/util/random.ts#L7)
+`Uint8Array`
+
+#### Defined in
+
+[util/random.ts:7](https://github.com/panva/jose/blob/v3.13.0/src/util/random.ts#L7)

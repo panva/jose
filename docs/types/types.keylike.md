@@ -2,7 +2,7 @@
 
 [types](../modules/types.md).KeyLike
 
-Ƭ **KeyLike**: KeyObject \| CryptoKey \| Uint8Array
+Ƭ **KeyLike**: `KeyObject` \| `CryptoKey` \| `Uint8Array`
 
 KeyLike are platform-specific references to keying material.
 
@@ -71,4 +71,6 @@ const rsaPublicKey = await parseJwk({
 }, 'PS256')
 ```
 
-Defined in: [types.d.ts:151](https://github.com/panva/jose/blob/v3.12.3/src/types.d.ts#L151)
+#### Defined in
+
+[types.d.ts:151](https://github.com/panva/jose/blob/v3.13.0/src/types.d.ts#L151)

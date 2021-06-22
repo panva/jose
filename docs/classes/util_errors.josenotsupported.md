@@ -7,7 +7,7 @@ implementation or JOSE in general.
 
 ## Hierarchy
 
-- [*JOSEError*](util_errors.joseerror.md)
+- [JOSEError](util_errors.joseerror.md)
 
   ↳ **JOSENotSupported**
 
@@ -26,40 +26,50 @@ implementation or JOSE in general.
 
 ### constructor
 
-\+ **new JOSENotSupported**(`message?`: *string*): [*JOSENotSupported*](util_errors.josenotsupported.md)
+• **new JOSENotSupported**(`message?`)
 
 #### Parameters
 
 | Name | Type |
 | :------ | :------ |
-| `message?` | *string* |
+| `message?` | `string` |
 
-**Returns:** [*JOSENotSupported*](util_errors.josenotsupported.md)
+#### Inherited from
 
-Inherited from: [JOSEError](util_errors.joseerror.md)
+[JOSEError](util_errors.joseerror.md).[constructor](util_errors.joseerror.md#constructor)
 
-Defined in: [util/errors.ts:16](https://github.com/panva/jose/blob/v3.12.3/src/util/errors.ts#L16)
+#### Defined in
+
+[util/errors.ts:16](https://github.com/panva/jose/blob/v3.13.0/src/util/errors.ts#L16)
 
 ## Properties
 
 ### code
 
-• **code**: *string*
+• **code**: `string`
 
 A unique error code for the particular error subclass.
 
-Overrides: [JOSEError](util_errors.joseerror.md).[code](util_errors.joseerror.md#code)
+#### Overrides
 
-Defined in: [util/errors.ts:68](https://github.com/panva/jose/blob/v3.12.3/src/util/errors.ts#L68)
+[JOSEError](util_errors.joseerror.md).[code](util_errors.joseerror.md#code)
+
+#### Defined in
+
+[util/errors.ts:68](https://github.com/panva/jose/blob/v3.13.0/src/util/errors.ts#L68)
 
 ___
 
 ### code
 
-▪ `Static` **code**: *string*= 'ERR\_JOSE\_NOT\_SUPPORTED'
+▪ `Static` **code**: `string` = 'ERR\_JOSE\_NOT\_SUPPORTED'
 
 A unique error code for the particular error subclass.
 
-Overrides: [JOSEError](util_errors.joseerror.md).[code](util_errors.joseerror.md#code)
+#### Overrides
 
-Defined in: [util/errors.ts:66](https://github.com/panva/jose/blob/v3.12.3/src/util/errors.ts#L66)
+[JOSEError](util_errors.joseerror.md).[code](util_errors.joseerror.md#code)
+
+#### Defined in
+
+[util/errors.ts:66](https://github.com/panva/jose/blob/v3.13.0/src/util/errors.ts#L66)

@@ -6,7 +6,7 @@ An error subclass thrown when a JWK is invalid.
 
 ## Hierarchy
 
-- [*JOSEError*](util_errors.joseerror.md)
+- [JOSEError](util_errors.joseerror.md)
 
   ↳ **JWKInvalid**
 
@@ -25,40 +25,50 @@ An error subclass thrown when a JWK is invalid.
 
 ### constructor
 
-\+ **new JWKInvalid**(`message?`: *string*): [*JWKInvalid*](util_errors.jwkinvalid.md)
+• **new JWKInvalid**(`message?`)
 
 #### Parameters
 
 | Name | Type |
 | :------ | :------ |
-| `message?` | *string* |
+| `message?` | `string` |
 
-**Returns:** [*JWKInvalid*](util_errors.jwkinvalid.md)
+#### Inherited from
 
-Inherited from: [JOSEError](util_errors.joseerror.md)
+[JOSEError](util_errors.joseerror.md).[constructor](util_errors.joseerror.md#constructor)
 
-Defined in: [util/errors.ts:16](https://github.com/panva/jose/blob/v3.12.3/src/util/errors.ts#L16)
+#### Defined in
+
+[util/errors.ts:16](https://github.com/panva/jose/blob/v3.13.0/src/util/errors.ts#L16)
 
 ## Properties
 
 ### code
 
-• **code**: *string*
+• **code**: `string`
 
 A unique error code for the particular error subclass.
 
-Overrides: [JOSEError](util_errors.joseerror.md).[code](util_errors.joseerror.md#code)
+#### Overrides
 
-Defined in: [util/errors.ts:115](https://github.com/panva/jose/blob/v3.12.3/src/util/errors.ts#L115)
+[JOSEError](util_errors.joseerror.md).[code](util_errors.joseerror.md#code)
+
+#### Defined in
+
+[util/errors.ts:115](https://github.com/panva/jose/blob/v3.13.0/src/util/errors.ts#L115)
 
 ___
 
 ### code
 
-▪ `Static` **code**: *string*= 'ERR\_JWK\_INVALID'
+▪ `Static` **code**: `string` = 'ERR\_JWK\_INVALID'
 
 A unique error code for the particular error subclass.
 
-Overrides: [JOSEError](util_errors.joseerror.md).[code](util_errors.joseerror.md#code)
+#### Overrides
 
-Defined in: [util/errors.ts:113](https://github.com/panva/jose/blob/v3.12.3/src/util/errors.ts#L113)
+[JOSEError](util_errors.joseerror.md).[code](util_errors.joseerror.md#code)
+
+#### Defined in
+
+[util/errors.ts:113](https://github.com/panva/jose/blob/v3.13.0/src/util/errors.ts#L113)

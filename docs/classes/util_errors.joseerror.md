@@ -7,33 +7,33 @@ JOSE Error subclasses inherit from.
 
 ## Hierarchy
 
-- *Error*
+- `Error`
 
   ↳ **JOSEError**
 
-  ↳↳ [*JWTClaimValidationFailed*](util_errors.jwtclaimvalidationfailed.md)
+  ↳↳ [JWTClaimValidationFailed](util_errors.jwtclaimvalidationfailed.md)
 
-  ↳↳ [*JOSEAlgNotAllowed*](util_errors.josealgnotallowed.md)
+  ↳↳ [JOSEAlgNotAllowed](util_errors.josealgnotallowed.md)
 
-  ↳↳ [*JOSENotSupported*](util_errors.josenotsupported.md)
+  ↳↳ [JOSENotSupported](util_errors.josenotsupported.md)
 
-  ↳↳ [*JWEDecryptionFailed*](util_errors.jwedecryptionfailed.md)
+  ↳↳ [JWEDecryptionFailed](util_errors.jwedecryptionfailed.md)
 
-  ↳↳ [*JWEInvalid*](util_errors.jweinvalid.md)
+  ↳↳ [JWEInvalid](util_errors.jweinvalid.md)
 
-  ↳↳ [*JWSInvalid*](util_errors.jwsinvalid.md)
+  ↳↳ [JWSInvalid](util_errors.jwsinvalid.md)
 
-  ↳↳ [*JWTInvalid*](util_errors.jwtinvalid.md)
+  ↳↳ [JWTInvalid](util_errors.jwtinvalid.md)
 
-  ↳↳ [*JWKInvalid*](util_errors.jwkinvalid.md)
+  ↳↳ [JWKInvalid](util_errors.jwkinvalid.md)
 
-  ↳↳ [*JWKSInvalid*](util_errors.jwksinvalid.md)
+  ↳↳ [JWKSInvalid](util_errors.jwksinvalid.md)
 
-  ↳↳ [*JWKSNoMatchingKey*](util_errors.jwksnomatchingkey.md)
+  ↳↳ [JWKSNoMatchingKey](util_errors.jwksnomatchingkey.md)
 
-  ↳↳ [*JWKSMultipleMatchingKeys*](util_errors.jwksmultiplematchingkeys.md)
+  ↳↳ [JWKSMultipleMatchingKeys](util_errors.jwksmultiplematchingkeys.md)
 
-  ↳↳ [*JWSSignatureVerificationFailed*](util_errors.jwssignatureverificationfailed.md)
+  ↳↳ [JWSSignatureVerificationFailed](util_errors.jwssignatureverificationfailed.md)
 
 ## Table of contents
 
@@ -50,36 +50,42 @@ JOSE Error subclasses inherit from.
 
 ### constructor
 
-\+ **new JOSEError**(`message?`: *string*): [*JOSEError*](util_errors.joseerror.md)
+• **new JOSEError**(`message?`)
 
 #### Parameters
 
 | Name | Type |
 | :------ | :------ |
-| `message?` | *string* |
+| `message?` | `string` |
 
-**Returns:** [*JOSEError*](util_errors.joseerror.md)
+#### Overrides
 
-Overrides: Error.constructor
+Error.constructor
 
-Defined in: [util/errors.ts:16](https://github.com/panva/jose/blob/v3.12.3/src/util/errors.ts#L16)
+#### Defined in
+
+[util/errors.ts:16](https://github.com/panva/jose/blob/v3.13.0/src/util/errors.ts#L16)
 
 ## Properties
 
 ### code
 
-• **code**: *string*
+• **code**: `string`
 
 A unique error code for the particular error subclass.
 
-Defined in: [util/errors.ts:16](https://github.com/panva/jose/blob/v3.12.3/src/util/errors.ts#L16)
+#### Defined in
+
+[util/errors.ts:16](https://github.com/panva/jose/blob/v3.13.0/src/util/errors.ts#L16)
 
 ___
 
 ### code
 
-▪ `Static` **code**: *string*= 'ERR\_JOSE\_GENERIC'
+▪ `Static` **code**: `string` = 'ERR\_JOSE\_GENERIC'
 
 A unique error code for the particular error subclass.
 
-Defined in: [util/errors.ts:11](https://github.com/panva/jose/blob/v3.12.3/src/util/errors.ts#L11)
+#### Defined in
+
+[util/errors.ts:11](https://github.com/panva/jose/blob/v3.13.0/src/util/errors.ts#L11)

@@ -5,6 +5,7 @@
 ### References
 
 - [DecryptOptions](jwe_general_decrypt.md#decryptoptions)
+- [GeneralDecryptResult](jwe_general_decrypt.md#generaldecryptresult)
 - [GeneralJWE](jwe_general_decrypt.md#generaljwe)
 - [KeyLike](jwe_general_decrypt.md#keylike)
 - [default](jwe_general_decrypt.md#default)
@@ -22,6 +23,12 @@
 ### DecryptOptions
 
 Re-exports: [DecryptOptions](../interfaces/types.decryptoptions.md)
+
+___
+
+### GeneralDecryptResult
+
+Re-exports: [GeneralDecryptResult](../interfaces/types.generaldecryptresult.md)
 
 ___
 

@@ -8,13 +8,13 @@ Shared Interface with a "crit" property for all sign and verify operations.
 
 - **CritOption**
 
-  ↳ [*DecryptOptions*](types.decryptoptions.md)
+  ↳ [DecryptOptions](types.decryptoptions.md)
 
-  ↳ [*EncryptOptions*](types.encryptoptions.md)
+  ↳ [EncryptOptions](types.encryptoptions.md)
 
-  ↳ [*VerifyOptions*](types.verifyoptions.md)
+  ↳ [VerifyOptions](types.verifyoptions.md)
 
-  ↳ [*SignOptions*](types.signoptions.md)
+  ↳ [SignOptions](types.signoptions.md)
 
 ## Table of contents
 
@@ -26,7 +26,7 @@ Shared Interface with a "crit" property for all sign and verify operations.
 
 ### crit
 
-• `Optional` **crit**: *object*
+• `Optional` **crit**: `Object`
 
 An object with keys representing recognized "crit" (Critical) Header Parameter
 names. The value for those is either `true` or `false`. `true` when the
@@ -47,6 +47,10 @@ The JWS extension Header Parameter `b64` is always recognized and processed
 properly. No other registered Header Parameters that need this kind of
 default built-in treatment are currently available.
 
-#### Type declaration
+#### Index signature
 
-Defined in: [types.d.ts:434](https://github.com/panva/jose/blob/v3.12.3/src/types.d.ts#L434)
+▪ [propName: `string`]: `boolean`
+
+#### Defined in
+
+[types.d.ts:434](https://github.com/panva/jose/blob/v3.13.0/src/types.d.ts#L434)

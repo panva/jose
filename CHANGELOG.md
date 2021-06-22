@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [3.13.0](https://github.com/panva/jose/compare/v3.12.3...v3.13.0) (2021-06-22)
+
+
+### Features
+
+* **typescript:** export consume module interface types ([#213](https://github.com/panva/jose/issues/213)) ([13fa3d8](https://github.com/panva/jose/commit/13fa3d8ae089b21dace0ea22782451ca77941600))
+
 ## [3.12.3](https://github.com/panva/jose/compare/v3.12.2...v3.12.3) (2021-06-02)
 
 

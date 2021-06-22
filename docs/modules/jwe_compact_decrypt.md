@@ -4,6 +4,7 @@
 
 ### References
 
+- [CompactDecryptResult](jwe_compact_decrypt.md#compactdecryptresult)
 - [DecryptOptions](jwe_compact_decrypt.md#decryptoptions)
 - [KeyLike](jwe_compact_decrypt.md#keylike)
 - [default](jwe_compact_decrypt.md#default)
@@ -17,6 +18,12 @@
 - [compactDecrypt](../functions/jwe_compact_decrypt.compactdecrypt.md)
 
 ## References
+
+### CompactDecryptResult
+
+Re-exports: [CompactDecryptResult](../interfaces/types.compactdecryptresult.md)
+
+___
 
 ### DecryptOptions
 

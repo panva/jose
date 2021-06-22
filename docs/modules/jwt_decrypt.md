@@ -5,6 +5,7 @@
 ### References
 
 - [DecryptOptions](jwt_decrypt.md#decryptoptions)
+- [JWTDecryptResult](jwt_decrypt.md#jwtdecryptresult)
 - [JWTPayload](jwt_decrypt.md#jwtpayload)
 - [KeyLike](jwt_decrypt.md#keylike)
 - [default](jwt_decrypt.md#default)
@@ -23,6 +24,12 @@
 ### DecryptOptions
 
 Re-exports: [DecryptOptions](../interfaces/types.decryptoptions.md)
+
+___
+
+### JWTDecryptResult
+
+Re-exports: [JWTDecryptResult](../interfaces/types.jwtdecryptresult.md)
 
 ___
 

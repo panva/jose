@@ -12,10 +12,12 @@
 
 ### extractable
 
-• `Optional` **extractable**: *boolean*
+• `Optional` **extractable**: `boolean`
 
 (Web Cryptography API specific) The value to use as
 [SubtleCrypto.generateKey()](https://developer.mozilla.org/en-US/docs/Web/API/SubtleCrypto/generateKey)
 `extractable` argument. Default is false.
 
-Defined in: [util/generate_secret.ts:10](https://github.com/panva/jose/blob/v3.12.3/src/util/generate_secret.ts#L10)
+#### Defined in
+
+[util/generate_secret.ts:10](https://github.com/panva/jose/blob/v3.13.0/src/util/generate_secret.ts#L10)

@@ -2,7 +2,7 @@
 
 [jwe/general/decrypt](../modules/jwe_general_decrypt.md).generalDecrypt
 
-▸ **generalDecrypt**(`jwe`: [*GeneralJWE*](../interfaces/types.generaljwe.md), `key`: [*KeyLike*](../types/types.keylike.md) \| [*GeneralDecryptGetKey*](../interfaces/jwe_general_decrypt.generaldecryptgetkey.md), `options?`: [*DecryptOptions*](../interfaces/types.decryptoptions.md)): *Promise*<[*GeneralDecryptResult*](../interfaces/types.generaldecryptresult.md)\>
+▸ **generalDecrypt**(`jwe`, `key`, `options?`): `Promise`<[GeneralDecryptResult](../interfaces/types.generaldecryptresult.md)\>
 
 Decrypts a General JWE.
 
@@ -47,10 +47,14 @@ console.log(decoder.decode(additionalAuthenticatedData))
 
 | Name | Type | Description |
 | :------ | :------ | :------ |
-| `jwe` | [*GeneralJWE*](../interfaces/types.generaljwe.md) | General JWE. |
-| `key` | [*KeyLike*](../types/types.keylike.md) \| [*GeneralDecryptGetKey*](../interfaces/jwe_general_decrypt.generaldecryptgetkey.md) | Private Key or Secret, or a function resolving one, to decrypt the JWE with. |
-| `options?` | [*DecryptOptions*](../interfaces/types.decryptoptions.md) | JWE Decryption options. |
+| `jwe` | [GeneralJWE](../interfaces/types.generaljwe.md) | General JWE. |
+| `key` | [KeyLike](../types/types.keylike.md) \| [GeneralDecryptGetKey](../interfaces/jwe_general_decrypt.generaldecryptgetkey.md) | Private Key or Secret, or a function resolving one, to decrypt the JWE with. |
+| `options?` | [DecryptOptions](../interfaces/types.decryptoptions.md) | JWE Decryption options. |
 
-**Returns:** *Promise*<[*GeneralDecryptResult*](../interfaces/types.generaldecryptresult.md)\>
+#### Returns
 
-Defined in: [jwe/general/decrypt.ts:64](https://github.com/panva/jose/blob/v3.12.3/src/jwe/general/decrypt.ts#L64)
+`Promise`<[GeneralDecryptResult](../interfaces/types.generaldecryptresult.md)\>
+
+#### Defined in
+
+[jwe/general/decrypt.ts:64](https://github.com/panva/jose/blob/v3.13.0/src/jwe/general/decrypt.ts#L64)

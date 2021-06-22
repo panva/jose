@@ -4,6 +4,7 @@
 
 ### References
 
+- [CompactVerifyResult](jws_compact_verify.md#compactverifyresult)
 - [KeyLike](jws_compact_verify.md#keylike)
 - [VerifyOptions](jws_compact_verify.md#verifyoptions)
 - [default](jws_compact_verify.md#default)
@@ -17,6 +18,12 @@
 - [compactVerify](../functions/jws_compact_verify.compactverify.md)
 
 ## References
+
+### CompactVerifyResult
+
+Re-exports: [CompactVerifyResult](../interfaces/types.compactverifyresult.md)
+
+___
 
 ### KeyLike
 

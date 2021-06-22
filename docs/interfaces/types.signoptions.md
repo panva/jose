@@ -6,7 +6,7 @@ JWS Signing options.
 
 ## Hierarchy
 
-- [*CritOption*](types.critoption.md)
+- [CritOption](types.critoption.md)
 
   ↳ **SignOptions**
 
@@ -20,7 +20,7 @@ JWS Signing options.
 
 ### crit
 
-• `Optional` **crit**: *object*
+• `Optional` **crit**: `Object`
 
 An object with keys representing recognized "crit" (Critical) Header Parameter
 names. The value for those is either `true` or `false`. `true` when the
@@ -41,8 +41,14 @@ The JWS extension Header Parameter `b64` is always recognized and processed
 properly. No other registered Header Parameters that need this kind of
 default built-in treatment are currently available.
 
-#### Type declaration
+#### Index signature
 
-Inherited from: [CritOption](types.critoption.md).[crit](types.critoption.md#crit)
+▪ [propName: `string`]: `boolean`
 
-Defined in: [types.d.ts:434](https://github.com/panva/jose/blob/v3.12.3/src/types.d.ts#L434)
+#### Inherited from
+
+[CritOption](types.critoption.md).[crit](types.critoption.md#crit)
+
+#### Defined in
+
+[types.d.ts:434](https://github.com/panva/jose/blob/v3.13.0/src/types.d.ts#L434)

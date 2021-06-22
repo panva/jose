@@ -17,14 +17,18 @@ is not returned when JWS Unencoded Payload Option
 
 ### payload
 
-• `Optional` **payload**: *string*
+• `Optional` **payload**: `string`
 
-Defined in: [types.d.ts:226](https://github.com/panva/jose/blob/v3.12.3/src/types.d.ts#L226)
+#### Defined in
+
+[types.d.ts:226](https://github.com/panva/jose/blob/v3.13.0/src/types.d.ts#L226)
 
 ___
 
 ### signatures
 
-• **signatures**: *Omit*<[*FlattenedJWSInput*](types.flattenedjwsinput.md), ``"payload"``\>[]
+• **signatures**: `Omit`<[FlattenedJWSInput](types.flattenedjwsinput.md), ``"payload"``\>[]
 
-Defined in: [types.d.ts:227](https://github.com/panva/jose/blob/v3.12.3/src/types.d.ts#L227)
+#### Defined in
+
+[types.d.ts:227](https://github.com/panva/jose/blob/v3.13.0/src/types.d.ts#L227)

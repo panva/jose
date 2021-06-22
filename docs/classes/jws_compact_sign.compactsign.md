@@ -40,23 +40,23 @@ console.log(jws)
 
 ### constructor
 
-\+ **new CompactSign**(`payload`: *Uint8Array*): [*CompactSign*](jws_compact_sign.compactsign.md)
+• **new CompactSign**(`payload`)
 
 #### Parameters
 
 | Name | Type | Description |
 | :------ | :------ | :------ |
-| `payload` | *Uint8Array* | Binary representation of the payload to sign. |
+| `payload` | `Uint8Array` | Binary representation of the payload to sign. |
 
-**Returns:** [*CompactSign*](jws_compact_sign.compactsign.md)
+#### Defined in
 
-Defined in: [jws/compact/sign.ts:31](https://github.com/panva/jose/blob/v3.12.3/src/jws/compact/sign.ts#L31)
+[jws/compact/sign.ts:31](https://github.com/panva/jose/blob/v3.13.0/src/jws/compact/sign.ts#L31)
 
 ## Methods
 
 ### setProtectedHeader
 
-▸ **setProtectedHeader**(`protectedHeader`: [*JWSHeaderParameters*](../interfaces/types.jwsheaderparameters.md)): [*CompactSign*](jws_compact_sign.compactsign.md)
+▸ **setProtectedHeader**(`protectedHeader`): [CompactSign](jws_compact_sign.compactsign.md)
 
 Sets the JWS Protected Header on the Sign object.
 
@@ -64,17 +64,21 @@ Sets the JWS Protected Header on the Sign object.
 
 | Name | Type | Description |
 | :------ | :------ | :------ |
-| `protectedHeader` | [*JWSHeaderParameters*](../interfaces/types.jwsheaderparameters.md) | JWS Protected Header. |
+| `protectedHeader` | [JWSHeaderParameters](../interfaces/types.jwsheaderparameters.md) | JWS Protected Header. |
 
-**Returns:** [*CompactSign*](jws_compact_sign.compactsign.md)
+#### Returns
 
-Defined in: [jws/compact/sign.ts:45](https://github.com/panva/jose/blob/v3.12.3/src/jws/compact/sign.ts#L45)
+[CompactSign](jws_compact_sign.compactsign.md)
+
+#### Defined in
+
+[jws/compact/sign.ts:45](https://github.com/panva/jose/blob/v3.13.0/src/jws/compact/sign.ts#L45)
 
 ___
 
 ### sign
 
-▸ **sign**(`key`: [*KeyLike*](../types/types.keylike.md), `options?`: [*SignOptions*](../interfaces/types.signoptions.md)): *Promise*<string\>
+▸ **sign**(`key`, `options?`): `Promise`<string\>
 
 Signs and resolves the value of the Compact JWS string.
 
@@ -82,9 +86,13 @@ Signs and resolves the value of the Compact JWS string.
 
 | Name | Type | Description |
 | :------ | :------ | :------ |
-| `key` | [*KeyLike*](../types/types.keylike.md) | Private Key or Secret to sign the JWS with. |
-| `options?` | [*SignOptions*](../interfaces/types.signoptions.md) | JWS Sign options. |
+| `key` | [KeyLike](../types/types.keylike.md) | Private Key or Secret to sign the JWS with. |
+| `options?` | [SignOptions](../interfaces/types.signoptions.md) | JWS Sign options. |
 
-**Returns:** *Promise*<string\>
+#### Returns
 
-Defined in: [jws/compact/sign.ts:56](https://github.com/panva/jose/blob/v3.12.3/src/jws/compact/sign.ts#L56)
+`Promise`<string\>
+
+#### Defined in
+
+[jws/compact/sign.ts:56](https://github.com/panva/jose/blob/v3.13.0/src/jws/compact/sign.ts#L56)

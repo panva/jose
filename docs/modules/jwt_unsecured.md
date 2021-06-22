@@ -12,6 +12,10 @@
 
 - [UnsecuredJWT](../classes/jwt_unsecured.unsecuredjwt.md)
 
+### Interfaces
+
+- [UnsecuredResult](../interfaces/jwt_unsecured.unsecuredresult.md)
+
 ## References
 
 ### JWSHeaderParameters

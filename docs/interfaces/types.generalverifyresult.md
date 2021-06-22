@@ -4,7 +4,7 @@
 
 ## Hierarchy
 
-- [*FlattenedVerifyResult*](types.flattenedverifyresult.md)
+- [FlattenedVerifyResult](types.flattenedverifyresult.md)
 
   ↳ **GeneralVerifyResult**
 
@@ -20,34 +20,46 @@
 
 ### payload
 
-• **payload**: *Uint8Array*
+• **payload**: `Uint8Array`
 
 JWS Payload.
 
-Inherited from: [FlattenedVerifyResult](types.flattenedverifyresult.md).[payload](types.flattenedverifyresult.md#payload)
+#### Inherited from
 
-Defined in: [types.d.ts:639](https://github.com/panva/jose/blob/v3.12.3/src/types.d.ts#L639)
+[FlattenedVerifyResult](types.flattenedverifyresult.md).[payload](types.flattenedverifyresult.md#payload)
+
+#### Defined in
+
+[types.d.ts:639](https://github.com/panva/jose/blob/v3.13.0/src/types.d.ts#L639)
 
 ___
 
 ### protectedHeader
 
-• `Optional` **protectedHeader**: [*JWSHeaderParameters*](types.jwsheaderparameters.md)
+• `Optional` **protectedHeader**: [JWSHeaderParameters](types.jwsheaderparameters.md)
 
 JWS Protected Header.
 
-Inherited from: [FlattenedVerifyResult](types.flattenedverifyresult.md).[protectedHeader](types.flattenedverifyresult.md#protectedheader)
+#### Inherited from
 
-Defined in: [types.d.ts:644](https://github.com/panva/jose/blob/v3.12.3/src/types.d.ts#L644)
+[FlattenedVerifyResult](types.flattenedverifyresult.md).[protectedHeader](types.flattenedverifyresult.md#protectedheader)
+
+#### Defined in
+
+[types.d.ts:644](https://github.com/panva/jose/blob/v3.13.0/src/types.d.ts#L644)
 
 ___
 
 ### unprotectedHeader
 
-• `Optional` **unprotectedHeader**: [*JWSHeaderParameters*](types.jwsheaderparameters.md)
+• `Optional` **unprotectedHeader**: [JWSHeaderParameters](types.jwsheaderparameters.md)
 
 JWS Unprotected Header.
 
-Inherited from: [FlattenedVerifyResult](types.flattenedverifyresult.md).[unprotectedHeader](types.flattenedverifyresult.md#unprotectedheader)
+#### Inherited from
 
-Defined in: [types.d.ts:649](https://github.com/panva/jose/blob/v3.12.3/src/types.d.ts#L649)
+[FlattenedVerifyResult](types.flattenedverifyresult.md).[unprotectedHeader](types.flattenedverifyresult.md#unprotectedheader)
+
+#### Defined in
+
+[types.d.ts:649](https://github.com/panva/jose/blob/v3.13.0/src/types.d.ts#L649)

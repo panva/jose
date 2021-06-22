@@ -8,7 +8,7 @@ is not returned when JWS Unencoded Payload Option
 
 ## Hierarchy
 
-- *Partial*<[*FlattenedJWSInput*](types.flattenedjwsinput.md)\>
+- `Partial`<[FlattenedJWSInput](types.flattenedjwsinput.md)\>
 
   ↳ **FlattenedJWS**
 
@@ -25,7 +25,7 @@ is not returned when JWS Unencoded Payload Option
 
 ### header
 
-• `Optional` **header**: [*JWSHeaderParameters*](types.jwsheaderparameters.md)
+• `Optional` **header**: [JWSHeaderParameters](types.jwsheaderparameters.md)
 
 The "header" member MUST be present and contain the value JWS
 Unprotected Header when the JWS Unprotected Header value is non-
@@ -33,41 +33,57 @@ empty; otherwise, it MUST be absent.  This value is represented as
 an unencoded JSON object, rather than as a string.  These Header
 Parameter values are not integrity protected.
 
-Inherited from: Partial.header
+#### Inherited from
 
-Defined in: [types.d.ts:166](https://github.com/panva/jose/blob/v3.12.3/src/types.d.ts#L166)
+Partial.header
+
+#### Defined in
+
+[types.d.ts:166](https://github.com/panva/jose/blob/v3.13.0/src/types.d.ts#L166)
 
 ___
 
 ### payload
 
-• `Optional` **payload**: *string*
+• `Optional` **payload**: `string`
 
-Overrides: Partial.payload
+#### Overrides
 
-Defined in: [types.d.ts:216](https://github.com/panva/jose/blob/v3.12.3/src/types.d.ts#L216)
+Partial.payload
+
+#### Defined in
+
+[types.d.ts:216](https://github.com/panva/jose/blob/v3.13.0/src/types.d.ts#L216)
 
 ___
 
 ### protected
 
-• `Optional` **protected**: *string*
+• `Optional` **protected**: `string`
 
 The "protected" member MUST be present and contain the value
 BASE64URL(UTF8(JWS Protected Header)) when the JWS Protected
 Header value is non-empty; otherwise, it MUST be absent.  These
 Header Parameter values are integrity protected.
 
-Inherited from: Partial.protected
+#### Inherited from
 
-Defined in: [types.d.ts:181](https://github.com/panva/jose/blob/v3.12.3/src/types.d.ts#L181)
+Partial.protected
+
+#### Defined in
+
+[types.d.ts:181](https://github.com/panva/jose/blob/v3.13.0/src/types.d.ts#L181)
 
 ___
 
 ### signature
 
-• **signature**: *string*
+• **signature**: `string`
 
-Overrides: Partial.signature
+#### Overrides
 
-Defined in: [types.d.ts:217](https://github.com/panva/jose/blob/v3.12.3/src/types.d.ts#L217)
+Partial.signature
+
+#### Defined in
+
+[types.d.ts:217](https://github.com/panva/jose/blob/v3.13.0/src/types.d.ts#L217)

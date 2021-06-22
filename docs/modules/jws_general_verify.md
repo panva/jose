@@ -5,6 +5,7 @@
 ### References
 
 - [GeneralJWSInput](jws_general_verify.md#generaljwsinput)
+- [GeneralVerifyResult](jws_general_verify.md#generalverifyresult)
 - [KeyLike](jws_general_verify.md#keylike)
 - [VerifyOptions](jws_general_verify.md#verifyoptions)
 - [default](jws_general_verify.md#default)
@@ -22,6 +23,12 @@
 ### GeneralJWSInput
 
 Re-exports: [GeneralJWSInput](../interfaces/types.generaljwsinput.md)
+
+___
+
+### GeneralVerifyResult
+
+Re-exports: [GeneralVerifyResult](../interfaces/types.generalverifyresult.md)
 
 ___
 

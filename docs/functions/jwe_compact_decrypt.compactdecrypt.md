@@ -2,7 +2,7 @@
 
 [jwe/compact/decrypt](../modules/jwe_compact_decrypt.md).compactDecrypt
 
-▸ **compactDecrypt**(`jwe`: *string* \| Uint8Array, `key`: [*KeyLike*](../types/types.keylike.md) \| [*CompactDecryptGetKey*](../interfaces/jwe_compact_decrypt.compactdecryptgetkey.md), `options?`: [*DecryptOptions*](../interfaces/types.decryptoptions.md)): *Promise*<[*CompactDecryptResult*](../interfaces/types.compactdecryptresult.md)\>
+▸ **compactDecrypt**(`jwe`, `key`, `options?`): `Promise`<[CompactDecryptResult](../interfaces/types.compactdecryptresult.md)\>
 
 Decrypts a Compact JWE.
 
@@ -31,10 +31,14 @@ console.log(decoder.decode(plaintext))
 
 | Name | Type | Description |
 | :------ | :------ | :------ |
-| `jwe` | *string* \| Uint8Array | Compact JWE. |
-| `key` | [*KeyLike*](../types/types.keylike.md) \| [*CompactDecryptGetKey*](../interfaces/jwe_compact_decrypt.compactdecryptgetkey.md) | Private Key or Secret, or a function resolving one, to decrypt the JWE with. |
-| `options?` | [*DecryptOptions*](../interfaces/types.decryptoptions.md) | JWE Decryption options. |
+| `jwe` | `string` \| `Uint8Array` | Compact JWE. |
+| `key` | [KeyLike](../types/types.keylike.md) \| [CompactDecryptGetKey](../interfaces/jwe_compact_decrypt.compactdecryptgetkey.md) | Private Key or Secret, or a function resolving one, to decrypt the JWE with. |
+| `options?` | [DecryptOptions](../interfaces/types.decryptoptions.md) | JWE Decryption options. |
 
-**Returns:** *Promise*<[*CompactDecryptResult*](../interfaces/types.compactdecryptresult.md)\>
+#### Returns
 
-Defined in: [jwe/compact/decrypt.ts:47](https://github.com/panva/jose/blob/v3.12.3/src/jwe/compact/decrypt.ts#L47)
+`Promise`<[CompactDecryptResult](../interfaces/types.compactdecryptresult.md)\>
+
+#### Defined in
+
+[jwe/compact/decrypt.ts:47](https://github.com/panva/jose/blob/v3.13.0/src/jwe/compact/decrypt.ts#L47)

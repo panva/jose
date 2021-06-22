@@ -6,7 +6,7 @@ An error subclass thrown when no keys match from a JWKS.
 
 ## Hierarchy
 
-- [*JOSEError*](util_errors.joseerror.md)
+- [JOSEError](util_errors.joseerror.md)
 
   ↳ **JWKSNoMatchingKey**
 
@@ -26,50 +26,64 @@ An error subclass thrown when no keys match from a JWKS.
 
 ### constructor
 
-\+ **new JWKSNoMatchingKey**(`message?`: *string*): [*JWKSNoMatchingKey*](util_errors.jwksnomatchingkey.md)
+• **new JWKSNoMatchingKey**(`message?`)
 
 #### Parameters
 
 | Name | Type |
 | :------ | :------ |
-| `message?` | *string* |
+| `message?` | `string` |
 
-**Returns:** [*JWKSNoMatchingKey*](util_errors.jwksnomatchingkey.md)
+#### Inherited from
 
-Inherited from: [JOSEError](util_errors.joseerror.md)
+[JOSEError](util_errors.joseerror.md).[constructor](util_errors.joseerror.md#constructor)
 
-Defined in: [util/errors.ts:16](https://github.com/panva/jose/blob/v3.12.3/src/util/errors.ts#L16)
+#### Defined in
+
+[util/errors.ts:16](https://github.com/panva/jose/blob/v3.13.0/src/util/errors.ts#L16)
 
 ## Properties
 
 ### code
 
-• **code**: *string*
+• **code**: `string`
 
 A unique error code for the particular error subclass.
 
-Overrides: [JOSEError](util_errors.joseerror.md).[code](util_errors.joseerror.md#code)
+#### Overrides
 
-Defined in: [util/errors.ts:133](https://github.com/panva/jose/blob/v3.12.3/src/util/errors.ts#L133)
+[JOSEError](util_errors.joseerror.md).[code](util_errors.joseerror.md#code)
+
+#### Defined in
+
+[util/errors.ts:133](https://github.com/panva/jose/blob/v3.13.0/src/util/errors.ts#L133)
 
 ___
 
 ### message
 
-• **message**: *string*= 'no applicable key found in the JSON Web Key Set'
+• **message**: `string` = 'no applicable key found in the JSON Web Key Set'
 
-Overrides: JOSEError.message
+#### Overrides
 
-Defined in: [util/errors.ts:135](https://github.com/panva/jose/blob/v3.12.3/src/util/errors.ts#L135)
+JOSEError.message
+
+#### Defined in
+
+[util/errors.ts:135](https://github.com/panva/jose/blob/v3.13.0/src/util/errors.ts#L135)
 
 ___
 
 ### code
 
-▪ `Static` **code**: *string*= 'ERR\_JWKS\_NO\_MATCHING\_KEY'
+▪ `Static` **code**: `string` = 'ERR\_JWKS\_NO\_MATCHING\_KEY'
 
 A unique error code for the particular error subclass.
 
-Overrides: [JOSEError](util_errors.joseerror.md).[code](util_errors.joseerror.md#code)
+#### Overrides
 
-Defined in: [util/errors.ts:131](https://github.com/panva/jose/blob/v3.12.3/src/util/errors.ts#L131)
+[JOSEError](util_errors.joseerror.md).[code](util_errors.joseerror.md#code)
+
+#### Defined in
+
+[util/errors.ts:131](https://github.com/panva/jose/blob/v3.13.0/src/util/errors.ts#L131)

@@ -46,43 +46,51 @@ const jws = await sign.sign()
 
 ### constructor
 
-\+ **new GeneralSign**(`payload`: *Uint8Array*): [*GeneralSign*](jws_general_sign.generalsign.md)
+• **new GeneralSign**(`payload`)
 
 #### Parameters
 
 | Name | Type | Description |
 | :------ | :------ | :------ |
-| `payload` | *Uint8Array* | Binary representation of the payload to sign. |
+| `payload` | `Uint8Array` | Binary representation of the payload to sign. |
 
-**Returns:** [*GeneralSign*](jws_general_sign.generalsign.md)
+#### Defined in
 
-Defined in: [jws/general/sign.ts:99](https://github.com/panva/jose/blob/v3.12.3/src/jws/general/sign.ts#L99)
+[jws/general/sign.ts:99](https://github.com/panva/jose/blob/v3.13.0/src/jws/general/sign.ts#L99)
 
 ## Methods
 
 ### addSignature
 
-▸ **addSignature**(`key`: [*KeyLike*](../types/types.keylike.md), `options?`: [*SignOptions*](../interfaces/types.signoptions.md)): [*Signature*](../interfaces/jws_general_sign.signature.md)
+▸ **addSignature**(`key`, `options?`): [Signature](../interfaces/jws_general_sign.signature.md)
 
 #### Parameters
 
 | Name | Type |
 | :------ | :------ |
-| `key` | [*KeyLike*](../types/types.keylike.md) |
-| `options?` | [*SignOptions*](../interfaces/types.signoptions.md) |
+| `key` | [KeyLike](../types/types.keylike.md) |
+| `options?` | [SignOptions](../interfaces/types.signoptions.md) |
 
-**Returns:** [*Signature*](../interfaces/jws_general_sign.signature.md)
+#### Returns
 
-Defined in: [jws/general/sign.ts:108](https://github.com/panva/jose/blob/v3.12.3/src/jws/general/sign.ts#L108)
+[Signature](../interfaces/jws_general_sign.signature.md)
+
+#### Defined in
+
+[jws/general/sign.ts:108](https://github.com/panva/jose/blob/v3.13.0/src/jws/general/sign.ts#L108)
 
 ___
 
 ### sign
 
-▸ **sign**(): *Promise*<[*GeneralJWS*](../interfaces/types.generaljws.md)\>
+▸ **sign**(): `Promise`<[GeneralJWS](../interfaces/types.generaljws.md)\>
 
 Signs and resolves the value of the General JWS object.
 
-**Returns:** *Promise*<[*GeneralJWS*](../interfaces/types.generaljws.md)\>
+#### Returns
 
-Defined in: [jws/general/sign.ts:118](https://github.com/panva/jose/blob/v3.12.3/src/jws/general/sign.ts#L118)
+`Promise`<[GeneralJWS](../interfaces/types.generaljws.md)\>
+
+#### Defined in
+
+[jws/general/sign.ts:118](https://github.com/panva/jose/blob/v3.13.0/src/jws/general/sign.ts#L118)

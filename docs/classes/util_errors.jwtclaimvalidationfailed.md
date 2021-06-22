@@ -6,11 +6,11 @@ An error subclass thrown when a JWT Claim Set member validation fails.
 
 ## Hierarchy
 
-- [*JOSEError*](util_errors.joseerror.md)
+- [JOSEError](util_errors.joseerror.md)
 
   ↳ **JWTClaimValidationFailed**
 
-  ↳↳ [*JWTExpired*](util_errors.jwtexpired.md)
+  ↳↳ [JWTExpired](util_errors.jwtexpired.md)
 
 ## Table of contents
 
@@ -29,62 +29,76 @@ An error subclass thrown when a JWT Claim Set member validation fails.
 
 ### constructor
 
-\+ **new JWTClaimValidationFailed**(`message`: *string*, `claim?`: *string*, `reason?`: *string*): [*JWTClaimValidationFailed*](util_errors.jwtclaimvalidationfailed.md)
+• **new JWTClaimValidationFailed**(`message`, `claim?`, `reason?`)
 
 #### Parameters
 
 | Name | Type | Default value |
 | :------ | :------ | :------ |
-| `message` | *string* | - |
-| `claim` | *string* | 'unspecified' |
-| `reason` | *string* | 'unspecified' |
+| `message` | `string` | `undefined` |
+| `claim` | `string` | 'unspecified' |
+| `reason` | `string` | 'unspecified' |
 
-**Returns:** [*JWTClaimValidationFailed*](util_errors.jwtclaimvalidationfailed.md)
+#### Overrides
 
-Overrides: [JOSEError](util_errors.joseerror.md)
+[JOSEError](util_errors.joseerror.md).[constructor](util_errors.joseerror.md#constructor)
 
-Defined in: [util/errors.ts:43](https://github.com/panva/jose/blob/v3.12.3/src/util/errors.ts#L43)
+#### Defined in
+
+[util/errors.ts:43](https://github.com/panva/jose/blob/v3.13.0/src/util/errors.ts#L43)
 
 ## Properties
 
 ### claim
 
-• **claim**: *string*
+• **claim**: `string`
 
 The Claim for which the validation failed.
 
-Defined in: [util/errors.ts:38](https://github.com/panva/jose/blob/v3.12.3/src/util/errors.ts#L38)
+#### Defined in
+
+[util/errors.ts:38](https://github.com/panva/jose/blob/v3.13.0/src/util/errors.ts#L38)
 
 ___
 
 ### code
 
-• **code**: *string*
+• **code**: `string`
 
 A unique error code for the particular error subclass.
 
-Overrides: [JOSEError](util_errors.joseerror.md).[code](util_errors.joseerror.md#code)
+#### Overrides
 
-Defined in: [util/errors.ts:33](https://github.com/panva/jose/blob/v3.12.3/src/util/errors.ts#L33)
+[JOSEError](util_errors.joseerror.md).[code](util_errors.joseerror.md#code)
+
+#### Defined in
+
+[util/errors.ts:33](https://github.com/panva/jose/blob/v3.13.0/src/util/errors.ts#L33)
 
 ___
 
 ### reason
 
-• **reason**: *string*
+• **reason**: `string`
 
 Reason code for the validation failure.
 
-Defined in: [util/errors.ts:43](https://github.com/panva/jose/blob/v3.12.3/src/util/errors.ts#L43)
+#### Defined in
+
+[util/errors.ts:43](https://github.com/panva/jose/blob/v3.13.0/src/util/errors.ts#L43)
 
 ___
 
 ### code
 
-▪ `Static` **code**: *string*= 'ERR\_JWT\_CLAIM\_VALIDATION\_FAILED'
+▪ `Static` **code**: `string` = 'ERR\_JWT\_CLAIM\_VALIDATION\_FAILED'
 
 A unique error code for the particular error subclass.
 
-Overrides: [JOSEError](util_errors.joseerror.md).[code](util_errors.joseerror.md#code)
+#### Overrides
 
-Defined in: [util/errors.ts:31](https://github.com/panva/jose/blob/v3.12.3/src/util/errors.ts#L31)
+[JOSEError](util_errors.joseerror.md).[code](util_errors.joseerror.md#code)
+
+#### Defined in
+
+[util/errors.ts:31](https://github.com/panva/jose/blob/v3.13.0/src/util/errors.ts#L31)

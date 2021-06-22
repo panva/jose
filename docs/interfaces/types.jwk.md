@@ -37,202 +37,248 @@ JSON Web Key ([JWK](https://tools.ietf.org/html/rfc7517)).
 
 ### alg
 
-• `Optional` **alg**: *string*
+• `Optional` **alg**: `string`
 
 JWK "alg" (Algorithm) Parameter.
 
-Defined in: [types.d.ts:13](https://github.com/panva/jose/blob/v3.12.3/src/types.d.ts#L13)
+#### Defined in
+
+[types.d.ts:13](https://github.com/panva/jose/blob/v3.13.0/src/types.d.ts#L13)
 
 ___
 
 ### crv
 
-• `Optional` **crv**: *string*
+• `Optional` **crv**: `string`
 
-Defined in: [types.d.ts:14](https://github.com/panva/jose/blob/v3.12.3/src/types.d.ts#L14)
+#### Defined in
+
+[types.d.ts:14](https://github.com/panva/jose/blob/v3.13.0/src/types.d.ts#L14)
 
 ___
 
 ### d
 
-• `Optional` **d**: *string*
+• `Optional` **d**: `string`
 
-Defined in: [types.d.ts:15](https://github.com/panva/jose/blob/v3.12.3/src/types.d.ts#L15)
+#### Defined in
+
+[types.d.ts:15](https://github.com/panva/jose/blob/v3.13.0/src/types.d.ts#L15)
 
 ___
 
 ### dp
 
-• `Optional` **dp**: *string*
+• `Optional` **dp**: `string`
 
-Defined in: [types.d.ts:16](https://github.com/panva/jose/blob/v3.12.3/src/types.d.ts#L16)
+#### Defined in
+
+[types.d.ts:16](https://github.com/panva/jose/blob/v3.13.0/src/types.d.ts#L16)
 
 ___
 
 ### dq
 
-• `Optional` **dq**: *string*
+• `Optional` **dq**: `string`
 
-Defined in: [types.d.ts:17](https://github.com/panva/jose/blob/v3.12.3/src/types.d.ts#L17)
+#### Defined in
+
+[types.d.ts:17](https://github.com/panva/jose/blob/v3.13.0/src/types.d.ts#L17)
 
 ___
 
 ### e
 
-• `Optional` **e**: *string*
+• `Optional` **e**: `string`
 
-Defined in: [types.d.ts:18](https://github.com/panva/jose/blob/v3.12.3/src/types.d.ts#L18)
+#### Defined in
+
+[types.d.ts:18](https://github.com/panva/jose/blob/v3.13.0/src/types.d.ts#L18)
 
 ___
 
 ### ext
 
-• `Optional` **ext**: *boolean*
+• `Optional` **ext**: `boolean`
 
 JWK "ext" (Extractable) Parameter.
 
-Defined in: [types.d.ts:22](https://github.com/panva/jose/blob/v3.12.3/src/types.d.ts#L22)
+#### Defined in
+
+[types.d.ts:22](https://github.com/panva/jose/blob/v3.13.0/src/types.d.ts#L22)
 
 ___
 
 ### k
 
-• `Optional` **k**: *string*
+• `Optional` **k**: `string`
 
-Defined in: [types.d.ts:23](https://github.com/panva/jose/blob/v3.12.3/src/types.d.ts#L23)
+#### Defined in
+
+[types.d.ts:23](https://github.com/panva/jose/blob/v3.13.0/src/types.d.ts#L23)
 
 ___
 
 ### key\_ops
 
-• `Optional` **key\_ops**: *string*[]
+• `Optional` **key\_ops**: `string`[]
 
 JWK "key_ops" (Key Operations) Parameter.
 
-Defined in: [types.d.ts:27](https://github.com/panva/jose/blob/v3.12.3/src/types.d.ts#L27)
+#### Defined in
+
+[types.d.ts:27](https://github.com/panva/jose/blob/v3.13.0/src/types.d.ts#L27)
 
 ___
 
 ### kid
 
-• `Optional` **kid**: *string*
+• `Optional` **kid**: `string`
 
 JWK "kid" (Key ID) Parameter.
 
-Defined in: [types.d.ts:31](https://github.com/panva/jose/blob/v3.12.3/src/types.d.ts#L31)
+#### Defined in
+
+[types.d.ts:31](https://github.com/panva/jose/blob/v3.13.0/src/types.d.ts#L31)
 
 ___
 
 ### kty
 
-• `Optional` **kty**: *string*
+• `Optional` **kty**: `string`
 
 JWK "kty" (Key Type) Parameter.
 
-Defined in: [types.d.ts:35](https://github.com/panva/jose/blob/v3.12.3/src/types.d.ts#L35)
+#### Defined in
+
+[types.d.ts:35](https://github.com/panva/jose/blob/v3.13.0/src/types.d.ts#L35)
 
 ___
 
 ### n
 
-• `Optional` **n**: *string*
+• `Optional` **n**: `string`
 
-Defined in: [types.d.ts:36](https://github.com/panva/jose/blob/v3.12.3/src/types.d.ts#L36)
+#### Defined in
+
+[types.d.ts:36](https://github.com/panva/jose/blob/v3.13.0/src/types.d.ts#L36)
 
 ___
 
 ### oth
 
-• `Optional` **oth**: { `d?`: *string* ; `r?`: *string* ; `t?`: *string*  }[]
+• `Optional` **oth**: { `d?`: `string` ; `r?`: `string` ; `t?`: `string`  }[]
 
-Defined in: [types.d.ts:37](https://github.com/panva/jose/blob/v3.12.3/src/types.d.ts#L37)
+#### Defined in
+
+[types.d.ts:37](https://github.com/panva/jose/blob/v3.13.0/src/types.d.ts#L37)
 
 ___
 
 ### p
 
-• `Optional` **p**: *string*
+• `Optional` **p**: `string`
 
-Defined in: [types.d.ts:42](https://github.com/panva/jose/blob/v3.12.3/src/types.d.ts#L42)
+#### Defined in
+
+[types.d.ts:42](https://github.com/panva/jose/blob/v3.13.0/src/types.d.ts#L42)
 
 ___
 
 ### q
 
-• `Optional` **q**: *string*
+• `Optional` **q**: `string`
 
-Defined in: [types.d.ts:43](https://github.com/panva/jose/blob/v3.12.3/src/types.d.ts#L43)
+#### Defined in
+
+[types.d.ts:43](https://github.com/panva/jose/blob/v3.13.0/src/types.d.ts#L43)
 
 ___
 
 ### qi
 
-• `Optional` **qi**: *string*
+• `Optional` **qi**: `string`
 
-Defined in: [types.d.ts:44](https://github.com/panva/jose/blob/v3.12.3/src/types.d.ts#L44)
+#### Defined in
+
+[types.d.ts:44](https://github.com/panva/jose/blob/v3.13.0/src/types.d.ts#L44)
 
 ___
 
 ### use
 
-• `Optional` **use**: *string*
+• `Optional` **use**: `string`
 
 JWK "use" (Public Key Use) Parameter.
 
-Defined in: [types.d.ts:48](https://github.com/panva/jose/blob/v3.12.3/src/types.d.ts#L48)
+#### Defined in
+
+[types.d.ts:48](https://github.com/panva/jose/blob/v3.13.0/src/types.d.ts#L48)
 
 ___
 
 ### x
 
-• `Optional` **x**: *string*
+• `Optional` **x**: `string`
 
-Defined in: [types.d.ts:49](https://github.com/panva/jose/blob/v3.12.3/src/types.d.ts#L49)
+#### Defined in
+
+[types.d.ts:49](https://github.com/panva/jose/blob/v3.13.0/src/types.d.ts#L49)
 
 ___
 
 ### x5c
 
-• `Optional` **x5c**: *string*[]
+• `Optional` **x5c**: `string`[]
 
 JWK "x5c" (X.509 Certificate Chain) Parameter.
 
-Defined in: [types.d.ts:54](https://github.com/panva/jose/blob/v3.12.3/src/types.d.ts#L54)
+#### Defined in
+
+[types.d.ts:54](https://github.com/panva/jose/blob/v3.13.0/src/types.d.ts#L54)
 
 ___
 
 ### x5t
 
-• `Optional` **x5t**: *string*
+• `Optional` **x5t**: `string`
 
 JWK "x5t" (X.509 Certificate SHA-1 Thumbprint) Parameter.
 
-Defined in: [types.d.ts:58](https://github.com/panva/jose/blob/v3.12.3/src/types.d.ts#L58)
+#### Defined in
+
+[types.d.ts:58](https://github.com/panva/jose/blob/v3.13.0/src/types.d.ts#L58)
 
 ___
 
 ### x5t#S256
 
-• `Optional` **x5t#S256**: *string*
+• `Optional` **x5t#S256**: `string`
 
 "x5t#S256" (X.509 Certificate SHA-256 Thumbprint) Parameter.
 
-Defined in: [types.d.ts:58](https://github.com/panva/jose/blob/v3.12.3/src/types.d.ts#L58)
+#### Defined in
+
+[types.d.ts:58](https://github.com/panva/jose/blob/v3.13.0/src/types.d.ts#L58)
 
 ___
 
 ### x5u
 
-• `Optional` **x5u**: *string*
+• `Optional` **x5u**: `string`
 
 JWK "x5u" (X.509 URL) Parameter.
 
-Defined in: [types.d.ts:66](https://github.com/panva/jose/blob/v3.12.3/src/types.d.ts#L66)
+#### Defined in
+
+[types.d.ts:66](https://github.com/panva/jose/blob/v3.13.0/src/types.d.ts#L66)
 
 ___
 
 ### y
 
-• `Optional` **y**: *string*
+• `Optional` **y**: `string`
 
-Defined in: [types.d.ts:50](https://github.com/panva/jose/blob/v3.12.3/src/types.d.ts#L50)
+#### Defined in
+
+[types.d.ts:50](https://github.com/panva/jose/blob/v3.13.0/src/types.d.ts#L50)

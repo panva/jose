@@ -38,7 +38,7 @@ console.log(payload)
 
 ## Hierarchy
 
-- *ProduceJWT*
+- `ProduceJWT`
 
   ↳ **UnsecuredJWT**
 
@@ -64,37 +64,43 @@ console.log(payload)
 
 ### constructor
 
-\+ **new UnsecuredJWT**(`payload`: [*JWTPayload*](../interfaces/types.jwtpayload.md)): [*UnsecuredJWT*](jwt_unsecured.unsecuredjwt.md)
+• **new UnsecuredJWT**(`payload`)
 
 #### Parameters
 
 | Name | Type | Description |
 | :------ | :------ | :------ |
-| `payload` | [*JWTPayload*](../interfaces/types.jwtpayload.md) | The JWT Claims Set object. |
+| `payload` | [JWTPayload](../interfaces/types.jwtpayload.md) | The JWT Claims Set object. |
 
-**Returns:** [*UnsecuredJWT*](jwt_unsecured.unsecuredjwt.md)
+#### Inherited from
 
-Inherited from: ProduceJWT.constructor
+ProduceJWT.constructor
 
-Defined in: [lib/jwt_producer.ts:10](https://github.com/panva/jose/blob/v3.12.3/src/lib/jwt_producer.ts#L10)
+#### Defined in
+
+[lib/jwt_producer.ts:10](https://github.com/panva/jose/blob/v3.13.0/src/lib/jwt_producer.ts#L10)
 
 ## Methods
 
 ### encode
 
-▸ **encode**(): *string*
+▸ **encode**(): `string`
 
 Encodes the Unsecured JWT.
 
-**Returns:** *string*
+#### Returns
 
-Defined in: [jwt/unsecured.ts:49](https://github.com/panva/jose/blob/v3.12.3/src/jwt/unsecured.ts#L49)
+`string`
+
+#### Defined in
+
+[jwt/unsecured.ts:54](https://github.com/panva/jose/blob/v3.13.0/src/jwt/unsecured.ts#L54)
 
 ___
 
 ### setAudience
 
-▸ **setAudience**(`audience`: *string* \| *string*[]): [*UnsecuredJWT*](jwt_unsecured.unsecuredjwt.md)
+▸ **setAudience**(`audience`): [UnsecuredJWT](jwt_unsecured.unsecuredjwt.md)
 
 Set "aud" (Audience) Claim.
 
@@ -102,19 +108,25 @@ Set "aud" (Audience) Claim.
 
 | Name | Type | Description |
 | :------ | :------ | :------ |
-| `audience` | *string* \| *string*[] | "aud" (Audience) Claim value to set on the JWT Claims Set. |
+| `audience` | `string` \| `string`[] | "aud" (Audience) Claim value to set on the JWT Claims Set. |
 
-**Returns:** [*UnsecuredJWT*](jwt_unsecured.unsecuredjwt.md)
+#### Returns
 
-Inherited from: ProduceJWT.setAudience
+[UnsecuredJWT](jwt_unsecured.unsecuredjwt.md)
 
-Defined in: [lib/jwt_producer.ts:47](https://github.com/panva/jose/blob/v3.12.3/src/lib/jwt_producer.ts#L47)
+#### Inherited from
+
+ProduceJWT.setAudience
+
+#### Defined in
+
+[lib/jwt_producer.ts:47](https://github.com/panva/jose/blob/v3.13.0/src/lib/jwt_producer.ts#L47)
 
 ___
 
 ### setExpirationTime
 
-▸ **setExpirationTime**(`input`: *string* \| *number*): [*UnsecuredJWT*](jwt_unsecured.unsecuredjwt.md)
+▸ **setExpirationTime**(`input`): [UnsecuredJWT](jwt_unsecured.unsecuredjwt.md)
 
 Set "exp" (Expiration Time) Claim.
 
@@ -122,19 +134,25 @@ Set "exp" (Expiration Time) Claim.
 
 | Name | Type | Description |
 | :------ | :------ | :------ |
-| `input` | *string* \| *number* | "exp" (Expiration Time) Claim value to set on the JWT Claims Set. When number is passed that is used as a value, when string is passed it is resolved to a time span and added to the current timestamp. |
+| `input` | `string` \| `number` | "exp" (Expiration Time) Claim value to set on the JWT Claims Set. When number is passed that is used as a value, when string is passed it is resolved to a time span and added to the current timestamp. |
 
-**Returns:** [*UnsecuredJWT*](jwt_unsecured.unsecuredjwt.md)
+#### Returns
 
-Inherited from: ProduceJWT.setExpirationTime
+[UnsecuredJWT](jwt_unsecured.unsecuredjwt.md)
 
-Defined in: [lib/jwt_producer.ts:85](https://github.com/panva/jose/blob/v3.12.3/src/lib/jwt_producer.ts#L85)
+#### Inherited from
+
+ProduceJWT.setExpirationTime
+
+#### Defined in
+
+[lib/jwt_producer.ts:85](https://github.com/panva/jose/blob/v3.13.0/src/lib/jwt_producer.ts#L85)
 
 ___
 
 ### setIssuedAt
 
-▸ **setIssuedAt**(`input?`: *number*): [*UnsecuredJWT*](jwt_unsecured.unsecuredjwt.md)
+▸ **setIssuedAt**(`input?`): [UnsecuredJWT](jwt_unsecured.unsecuredjwt.md)
 
 Set "iat" (Issued At) Claim.
 
@@ -142,19 +160,25 @@ Set "iat" (Issued At) Claim.
 
 | Name | Type | Description |
 | :------ | :------ | :------ |
-| `input?` | *number* | "iat" (Issued At) Claim value to set on the JWT Claims Set. Default is current timestamp. |
+| `input?` | `number` | "iat" (Issued At) Claim value to set on the JWT Claims Set. Default is current timestamp. |
 
-**Returns:** [*UnsecuredJWT*](jwt_unsecured.unsecuredjwt.md)
+#### Returns
 
-Inherited from: ProduceJWT.setIssuedAt
+[UnsecuredJWT](jwt_unsecured.unsecuredjwt.md)
 
-Defined in: [lib/jwt_producer.ts:100](https://github.com/panva/jose/blob/v3.12.3/src/lib/jwt_producer.ts#L100)
+#### Inherited from
+
+ProduceJWT.setIssuedAt
+
+#### Defined in
+
+[lib/jwt_producer.ts:100](https://github.com/panva/jose/blob/v3.13.0/src/lib/jwt_producer.ts#L100)
 
 ___
 
 ### setIssuer
 
-▸ **setIssuer**(`issuer`: *string*): [*UnsecuredJWT*](jwt_unsecured.unsecuredjwt.md)
+▸ **setIssuer**(`issuer`): [UnsecuredJWT](jwt_unsecured.unsecuredjwt.md)
 
 Set "iss" (Issuer) Claim.
 
@@ -162,19 +186,25 @@ Set "iss" (Issuer) Claim.
 
 | Name | Type | Description |
 | :------ | :------ | :------ |
-| `issuer` | *string* | "Issuer" Claim value to set on the JWT Claims Set. |
+| `issuer` | `string` | "Issuer" Claim value to set on the JWT Claims Set. |
 
-**Returns:** [*UnsecuredJWT*](jwt_unsecured.unsecuredjwt.md)
+#### Returns
 
-Inherited from: ProduceJWT.setIssuer
+[UnsecuredJWT](jwt_unsecured.unsecuredjwt.md)
 
-Defined in: [lib/jwt_producer.ts:27](https://github.com/panva/jose/blob/v3.12.3/src/lib/jwt_producer.ts#L27)
+#### Inherited from
+
+ProduceJWT.setIssuer
+
+#### Defined in
+
+[lib/jwt_producer.ts:27](https://github.com/panva/jose/blob/v3.13.0/src/lib/jwt_producer.ts#L27)
 
 ___
 
 ### setJti
 
-▸ **setJti**(`jwtId`: *string*): [*UnsecuredJWT*](jwt_unsecured.unsecuredjwt.md)
+▸ **setJti**(`jwtId`): [UnsecuredJWT](jwt_unsecured.unsecuredjwt.md)
 
 Set "jti" (JWT ID) Claim.
 
@@ -182,19 +212,25 @@ Set "jti" (JWT ID) Claim.
 
 | Name | Type | Description |
 | :------ | :------ | :------ |
-| `jwtId` | *string* | "jti" (JWT ID) Claim value to set on the JWT Claims Set. |
+| `jwtId` | `string` | "jti" (JWT ID) Claim value to set on the JWT Claims Set. |
 
-**Returns:** [*UnsecuredJWT*](jwt_unsecured.unsecuredjwt.md)
+#### Returns
 
-Inherited from: ProduceJWT.setJti
+[UnsecuredJWT](jwt_unsecured.unsecuredjwt.md)
 
-Defined in: [lib/jwt_producer.ts:57](https://github.com/panva/jose/blob/v3.12.3/src/lib/jwt_producer.ts#L57)
+#### Inherited from
+
+ProduceJWT.setJti
+
+#### Defined in
+
+[lib/jwt_producer.ts:57](https://github.com/panva/jose/blob/v3.13.0/src/lib/jwt_producer.ts#L57)
 
 ___
 
 ### setNotBefore
 
-▸ **setNotBefore**(`input`: *string* \| *number*): [*UnsecuredJWT*](jwt_unsecured.unsecuredjwt.md)
+▸ **setNotBefore**(`input`): [UnsecuredJWT](jwt_unsecured.unsecuredjwt.md)
 
 Set "nbf" (Not Before) Claim.
 
@@ -202,19 +238,25 @@ Set "nbf" (Not Before) Claim.
 
 | Name | Type | Description |
 | :------ | :------ | :------ |
-| `input` | *string* \| *number* | "nbf" (Not Before) Claim value to set on the JWT Claims Set. When number is passed that is used as a value, when string is passed it is resolved to a time span and added to the current timestamp. |
+| `input` | `string` \| `number` | "nbf" (Not Before) Claim value to set on the JWT Claims Set. When number is passed that is used as a value, when string is passed it is resolved to a time span and added to the current timestamp. |
 
-**Returns:** [*UnsecuredJWT*](jwt_unsecured.unsecuredjwt.md)
+#### Returns
 
-Inherited from: ProduceJWT.setNotBefore
+[UnsecuredJWT](jwt_unsecured.unsecuredjwt.md)
 
-Defined in: [lib/jwt_producer.ts:69](https://github.com/panva/jose/blob/v3.12.3/src/lib/jwt_producer.ts#L69)
+#### Inherited from
+
+ProduceJWT.setNotBefore
+
+#### Defined in
+
+[lib/jwt_producer.ts:69](https://github.com/panva/jose/blob/v3.13.0/src/lib/jwt_producer.ts#L69)
 
 ___
 
 ### setSubject
 
-▸ **setSubject**(`subject`: *string*): [*UnsecuredJWT*](jwt_unsecured.unsecuredjwt.md)
+▸ **setSubject**(`subject`): [UnsecuredJWT](jwt_unsecured.unsecuredjwt.md)
 
 Set "sub" (Subject) Claim.
 
@@ -222,19 +264,25 @@ Set "sub" (Subject) Claim.
 
 | Name | Type | Description |
 | :------ | :------ | :------ |
-| `subject` | *string* | "sub" (Subject) Claim value to set on the JWT Claims Set. |
+| `subject` | `string` | "sub" (Subject) Claim value to set on the JWT Claims Set. |
 
-**Returns:** [*UnsecuredJWT*](jwt_unsecured.unsecuredjwt.md)
+#### Returns
 
-Inherited from: ProduceJWT.setSubject
+[UnsecuredJWT](jwt_unsecured.unsecuredjwt.md)
 
-Defined in: [lib/jwt_producer.ts:37](https://github.com/panva/jose/blob/v3.12.3/src/lib/jwt_producer.ts#L37)
+#### Inherited from
+
+ProduceJWT.setSubject
+
+#### Defined in
+
+[lib/jwt_producer.ts:37](https://github.com/panva/jose/blob/v3.13.0/src/lib/jwt_producer.ts#L37)
 
 ___
 
 ### decode
 
-▸ `Static` **decode**(`jwt`: *string*, `options?`: [*JWTClaimVerificationOptions*](../interfaces/types.jwtclaimverificationoptions.md)): *object*
+▸ `Static` **decode**(`jwt`, `options?`): [UnsecuredResult](../interfaces/jwt_unsecured.unsecuredresult.md)
 
 Decodes an unsecured JWT.
 
@@ -242,14 +290,13 @@ Decodes an unsecured JWT.
 
 | Name | Type | Description |
 | :------ | :------ | :------ |
-| `jwt` | *string* | Unsecured JWT to decode the payload of. |
-| `options?` | [*JWTClaimVerificationOptions*](../interfaces/types.jwtclaimverificationoptions.md) | JWT Claims Set validation options. |
+| `jwt` | `string` | Unsecured JWT to decode the payload of. |
+| `options?` | [JWTClaimVerificationOptions](../interfaces/types.jwtclaimverificationoptions.md) | JWT Claims Set validation options. |
 
-**Returns:** *object*
+#### Returns
 
-| Name | Type |
-| :------ | :------ |
-| `header` | [*JWSHeaderParameters*](../interfaces/types.jwsheaderparameters.md) |
-| `payload` | [*JWTPayload*](../interfaces/types.jwtpayload.md) |
+[UnsecuredResult](../interfaces/jwt_unsecured.unsecuredresult.md)
 
-Defined in: [jwt/unsecured.ts:62](https://github.com/panva/jose/blob/v3.12.3/src/jwt/unsecured.ts#L62)
+#### Defined in
+
+[jwt/unsecured.ts:67](https://github.com/panva/jose/blob/v3.13.0/src/jwt/unsecured.ts#L67)

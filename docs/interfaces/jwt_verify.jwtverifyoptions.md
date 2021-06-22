@@ -6,9 +6,9 @@ Combination of JWS Verification options and JWT Claims Set verification options.
 
 ## Hierarchy
 
-- [*VerifyOptions*](types.verifyoptions.md)
+- [VerifyOptions](types.verifyoptions.md)
 
-- [*JWTClaimVerificationOptions*](types.jwtclaimverificationoptions.md)
+- [JWTClaimVerificationOptions](types.jwtclaimverificationoptions.md)
 
   ↳ **JWTVerifyOptions**
 
@@ -30,47 +30,59 @@ Combination of JWS Verification options and JWT Claims Set verification options.
 
 ### algorithms
 
-• `Optional` **algorithms**: *string*[]
+• `Optional` **algorithms**: `string`[]
 
 A list of accepted JWS "alg" (Algorithm) Header Parameter values.
 By default all "alg" (Algorithm) values applicable for the used
 key/secret are allowed. Note: "none" is never accepted.
 
-Inherited from: [VerifyOptions](types.verifyoptions.md).[algorithms](types.verifyoptions.md#algorithms)
+#### Inherited from
 
-Defined in: [types.d.ts:526](https://github.com/panva/jose/blob/v3.12.3/src/types.d.ts#L526)
+[VerifyOptions](types.verifyoptions.md).[algorithms](types.verifyoptions.md#algorithms)
+
+#### Defined in
+
+[types.d.ts:526](https://github.com/panva/jose/blob/v3.13.0/src/types.d.ts#L526)
 
 ___
 
 ### audience
 
-• `Optional` **audience**: *string* \| *string*[]
+• `Optional` **audience**: `string` \| `string`[]
 
 Expected JWT "aud" (Audience) Claim value(s).
 
-Inherited from: [JWTClaimVerificationOptions](types.jwtclaimverificationoptions.md).[audience](types.jwtclaimverificationoptions.md#audience)
+#### Inherited from
 
-Defined in: [types.d.ts:480](https://github.com/panva/jose/blob/v3.12.3/src/types.d.ts#L480)
+[JWTClaimVerificationOptions](types.jwtclaimverificationoptions.md).[audience](types.jwtclaimverificationoptions.md#audience)
+
+#### Defined in
+
+[types.d.ts:480](https://github.com/panva/jose/blob/v3.13.0/src/types.d.ts#L480)
 
 ___
 
 ### clockTolerance
 
-• `Optional` **clockTolerance**: *string* \| *number*
+• `Optional` **clockTolerance**: `string` \| `number`
 
 Expected clock tolerance
 - in seconds when number (e.g. 5)
 - parsed as seconds when a string (e.g. "5 seconds", "10 minutes", "2 hours").
 
-Inherited from: [JWTClaimVerificationOptions](types.jwtclaimverificationoptions.md).[clockTolerance](types.jwtclaimverificationoptions.md#clocktolerance)
+#### Inherited from
 
-Defined in: [types.d.ts:487](https://github.com/panva/jose/blob/v3.12.3/src/types.d.ts#L487)
+[JWTClaimVerificationOptions](types.jwtclaimverificationoptions.md).[clockTolerance](types.jwtclaimverificationoptions.md#clocktolerance)
+
+#### Defined in
+
+[types.d.ts:487](https://github.com/panva/jose/blob/v3.13.0/src/types.d.ts#L487)
 
 ___
 
 ### crit
 
-• `Optional` **crit**: *object*
+• `Optional` **crit**: `Object`
 
 An object with keys representing recognized "crit" (Critical) Header Parameter
 names. The value for those is either `true` or `false`. `true` when the
@@ -91,70 +103,96 @@ The JWS extension Header Parameter `b64` is always recognized and processed
 properly. No other registered Header Parameters that need this kind of
 default built-in treatment are currently available.
 
-#### Type declaration
+#### Index signature
 
-Inherited from: [VerifyOptions](types.verifyoptions.md).[crit](types.verifyoptions.md#crit)
+▪ [propName: `string`]: `boolean`
 
-Defined in: [types.d.ts:434](https://github.com/panva/jose/blob/v3.12.3/src/types.d.ts#L434)
+#### Inherited from
+
+[VerifyOptions](types.verifyoptions.md).[crit](types.verifyoptions.md#crit)
+
+#### Defined in
+
+[types.d.ts:434](https://github.com/panva/jose/blob/v3.13.0/src/types.d.ts#L434)
 
 ___
 
 ### currentDate
 
-• `Optional` **currentDate**: Date
+• `Optional` **currentDate**: `Date`
 
 Date to use when comparing NumericDate claims, defaults to `new Date()`.
 
-Inherited from: [JWTClaimVerificationOptions](types.jwtclaimverificationoptions.md).[currentDate](types.jwtclaimverificationoptions.md#currentdate)
+#### Inherited from
 
-Defined in: [types.d.ts:514](https://github.com/panva/jose/blob/v3.12.3/src/types.d.ts#L514)
+[JWTClaimVerificationOptions](types.jwtclaimverificationoptions.md).[currentDate](types.jwtclaimverificationoptions.md#currentdate)
+
+#### Defined in
+
+[types.d.ts:514](https://github.com/panva/jose/blob/v3.13.0/src/types.d.ts#L514)
 
 ___
 
 ### issuer
 
-• `Optional` **issuer**: *string* \| *string*[]
+• `Optional` **issuer**: `string` \| `string`[]
 
 Expected JWT "iss" (Issuer) Claim value(s).
 
-Inherited from: [JWTClaimVerificationOptions](types.jwtclaimverificationoptions.md).[issuer](types.jwtclaimverificationoptions.md#issuer)
+#### Inherited from
 
-Defined in: [types.d.ts:492](https://github.com/panva/jose/blob/v3.12.3/src/types.d.ts#L492)
+[JWTClaimVerificationOptions](types.jwtclaimverificationoptions.md).[issuer](types.jwtclaimverificationoptions.md#issuer)
+
+#### Defined in
+
+[types.d.ts:492](https://github.com/panva/jose/blob/v3.13.0/src/types.d.ts#L492)
 
 ___
 
 ### maxTokenAge
 
-• `Optional` **maxTokenAge**: *string* \| *number*
+• `Optional` **maxTokenAge**: `string` \| `number`
 
 Maximum time elapsed (in seconds) from the JWT "iat" (Issued At) Claim value.
 - in seconds when number (e.g. 5)
 - parsed as seconds when a string (e.g. "5 seconds", "10 minutes", "2 hours").
 
-Inherited from: [JWTClaimVerificationOptions](types.jwtclaimverificationoptions.md).[maxTokenAge](types.jwtclaimverificationoptions.md#maxtokenage)
+#### Inherited from
 
-Defined in: [types.d.ts:499](https://github.com/panva/jose/blob/v3.12.3/src/types.d.ts#L499)
+[JWTClaimVerificationOptions](types.jwtclaimverificationoptions.md).[maxTokenAge](types.jwtclaimverificationoptions.md#maxtokenage)
+
+#### Defined in
+
+[types.d.ts:499](https://github.com/panva/jose/blob/v3.13.0/src/types.d.ts#L499)
 
 ___
 
 ### subject
 
-• `Optional` **subject**: *string*
+• `Optional` **subject**: `string`
 
 Expected JWT "sub" (Subject) Claim value.
 
-Inherited from: [JWTClaimVerificationOptions](types.jwtclaimverificationoptions.md).[subject](types.jwtclaimverificationoptions.md#subject)
+#### Inherited from
 
-Defined in: [types.d.ts:504](https://github.com/panva/jose/blob/v3.12.3/src/types.d.ts#L504)
+[JWTClaimVerificationOptions](types.jwtclaimverificationoptions.md).[subject](types.jwtclaimverificationoptions.md#subject)
+
+#### Defined in
+
+[types.d.ts:504](https://github.com/panva/jose/blob/v3.13.0/src/types.d.ts#L504)
 
 ___
 
 ### typ
 
-• `Optional` **typ**: *string*
+• `Optional` **typ**: `string`
 
 Expected JWT "typ" (Type) Header Parameter value.
 
-Inherited from: [JWTClaimVerificationOptions](types.jwtclaimverificationoptions.md).[typ](types.jwtclaimverificationoptions.md#typ)
+#### Inherited from
 
-Defined in: [types.d.ts:509](https://github.com/panva/jose/blob/v3.12.3/src/types.d.ts#L509)
+[JWTClaimVerificationOptions](types.jwtclaimverificationoptions.md).[typ](types.jwtclaimverificationoptions.md#typ)
+
+#### Defined in
+
+[types.d.ts:509](https://github.com/panva/jose/blob/v3.13.0/src/types.d.ts#L509)

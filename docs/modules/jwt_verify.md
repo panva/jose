@@ -7,6 +7,7 @@
 - [GetKeyFunction](jwt_verify.md#getkeyfunction)
 - [JWSHeaderParameters](jwt_verify.md#jwsheaderparameters)
 - [JWTPayload](jwt_verify.md#jwtpayload)
+- [JWTVerifyResult](jwt_verify.md#jwtverifyresult)
 - [KeyLike](jwt_verify.md#keylike)
 - [default](jwt_verify.md#default)
 
@@ -36,6 +37,12 @@ ___
 ### JWTPayload
 
 Re-exports: [JWTPayload](../interfaces/types.jwtpayload.md)
+
+___
+
+### JWTVerifyResult
+
+Re-exports: [JWTVerifyResult](../interfaces/types.jwtverifyresult.md)
 
 ___
 

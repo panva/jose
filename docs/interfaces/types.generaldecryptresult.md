@@ -4,7 +4,7 @@
 
 ## Hierarchy
 
-- [*FlattenedDecryptResult*](types.flatteneddecryptresult.md)
+- [FlattenedDecryptResult](types.flatteneddecryptresult.md)
 
   ↳ **GeneralDecryptResult**
 
@@ -22,58 +22,78 @@
 
 ### additionalAuthenticatedData
 
-• `Optional` **additionalAuthenticatedData**: *Uint8Array*
+• `Optional` **additionalAuthenticatedData**: `Uint8Array`
 
 JWE AAD.
 
-Inherited from: [FlattenedDecryptResult](types.flatteneddecryptresult.md).[additionalAuthenticatedData](types.flatteneddecryptresult.md#additionalauthenticateddata)
+#### Inherited from
 
-Defined in: [types.d.ts:598](https://github.com/panva/jose/blob/v3.12.3/src/types.d.ts#L598)
+[FlattenedDecryptResult](types.flatteneddecryptresult.md).[additionalAuthenticatedData](types.flatteneddecryptresult.md#additionalauthenticateddata)
+
+#### Defined in
+
+[types.d.ts:598](https://github.com/panva/jose/blob/v3.13.0/src/types.d.ts#L598)
 
 ___
 
 ### plaintext
 
-• **plaintext**: *Uint8Array*
+• **plaintext**: `Uint8Array`
 
 Plaintext.
 
-Inherited from: [FlattenedDecryptResult](types.flatteneddecryptresult.md).[plaintext](types.flatteneddecryptresult.md#plaintext)
+#### Inherited from
 
-Defined in: [types.d.ts:603](https://github.com/panva/jose/blob/v3.12.3/src/types.d.ts#L603)
+[FlattenedDecryptResult](types.flatteneddecryptresult.md).[plaintext](types.flatteneddecryptresult.md#plaintext)
+
+#### Defined in
+
+[types.d.ts:603](https://github.com/panva/jose/blob/v3.13.0/src/types.d.ts#L603)
 
 ___
 
 ### protectedHeader
 
-• `Optional` **protectedHeader**: [*JWEHeaderParameters*](types.jweheaderparameters.md)
+• `Optional` **protectedHeader**: [JWEHeaderParameters](types.jweheaderparameters.md)
 
 JWE Protected Header.
 
-Inherited from: [FlattenedDecryptResult](types.flatteneddecryptresult.md).[protectedHeader](types.flatteneddecryptresult.md#protectedheader)
+#### Inherited from
 
-Defined in: [types.d.ts:608](https://github.com/panva/jose/blob/v3.12.3/src/types.d.ts#L608)
+[FlattenedDecryptResult](types.flatteneddecryptresult.md).[protectedHeader](types.flatteneddecryptresult.md#protectedheader)
+
+#### Defined in
+
+[types.d.ts:608](https://github.com/panva/jose/blob/v3.13.0/src/types.d.ts#L608)
 
 ___
 
 ### sharedUnprotectedHeader
 
-• `Optional` **sharedUnprotectedHeader**: [*JWEHeaderParameters*](types.jweheaderparameters.md)
+• `Optional` **sharedUnprotectedHeader**: [JWEHeaderParameters](types.jweheaderparameters.md)
 
 JWE Shared Unprotected Header.
 
-Inherited from: [FlattenedDecryptResult](types.flatteneddecryptresult.md).[sharedUnprotectedHeader](types.flatteneddecryptresult.md#sharedunprotectedheader)
+#### Inherited from
 
-Defined in: [types.d.ts:613](https://github.com/panva/jose/blob/v3.12.3/src/types.d.ts#L613)
+[FlattenedDecryptResult](types.flatteneddecryptresult.md).[sharedUnprotectedHeader](types.flatteneddecryptresult.md#sharedunprotectedheader)
+
+#### Defined in
+
+[types.d.ts:613](https://github.com/panva/jose/blob/v3.13.0/src/types.d.ts#L613)
 
 ___
 
 ### unprotectedHeader
 
-• `Optional` **unprotectedHeader**: [*JWEHeaderParameters*](types.jweheaderparameters.md)
+• `Optional` **unprotectedHeader**: [JWEHeaderParameters](types.jweheaderparameters.md)
 
 JWE Per-Recipient Unprotected Header.
 
-Inherited from: [FlattenedDecryptResult](types.flatteneddecryptresult.md).[unprotectedHeader](types.flatteneddecryptresult.md#unprotectedheader)
+#### Inherited from
 
-Defined in: [types.d.ts:618](https://github.com/panva/jose/blob/v3.12.3/src/types.d.ts#L618)
+[FlattenedDecryptResult](types.flatteneddecryptresult.md).[unprotectedHeader](types.flatteneddecryptresult.md#unprotectedheader)
+
+#### Defined in
+
+[types.d.ts:618](https://github.com/panva/jose/blob/v3.13.0/src/types.d.ts#L618)

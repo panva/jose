@@ -5,6 +5,7 @@
 ### References
 
 - [DecryptOptions](jwe_flattened_decrypt.md#decryptoptions)
+- [FlattenedDecryptResult](jwe_flattened_decrypt.md#flatteneddecryptresult)
 - [FlattenedJWE](jwe_flattened_decrypt.md#flattenedjwe)
 - [JWEHeaderParameters](jwe_flattened_decrypt.md#jweheaderparameters)
 - [KeyLike](jwe_flattened_decrypt.md#keylike)
@@ -23,6 +24,12 @@
 ### DecryptOptions
 
 Re-exports: [DecryptOptions](../interfaces/types.decryptoptions.md)
+
+___
+
+### FlattenedDecryptResult
+
+Re-exports: [FlattenedDecryptResult](../interfaces/types.flatteneddecryptresult.md)
 
 ___
 

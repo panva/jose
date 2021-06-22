@@ -6,7 +6,7 @@ An error subclass thrown when a JWT is expired.
 
 ## Hierarchy
 
-- [*JWTClaimValidationFailed*](util_errors.jwtclaimvalidationfailed.md)
+- [JWTClaimValidationFailed](util_errors.jwtclaimvalidationfailed.md)
 
   ↳ **JWTExpired**
 
@@ -27,66 +27,84 @@ An error subclass thrown when a JWT is expired.
 
 ### constructor
 
-\+ **new JWTExpired**(`message`: *string*, `claim?`: *string*, `reason?`: *string*): [*JWTExpired*](util_errors.jwtexpired.md)
+• **new JWTExpired**(`message`, `claim?`, `reason?`)
 
 #### Parameters
 
 | Name | Type | Default value |
 | :------ | :------ | :------ |
-| `message` | *string* | - |
-| `claim` | *string* | 'unspecified' |
-| `reason` | *string* | 'unspecified' |
+| `message` | `string` | `undefined` |
+| `claim` | `string` | 'unspecified' |
+| `reason` | `string` | 'unspecified' |
 
-**Returns:** [*JWTExpired*](util_errors.jwtexpired.md)
+#### Inherited from
 
-Inherited from: [JWTClaimValidationFailed](util_errors.jwtclaimvalidationfailed.md)
+[JWTClaimValidationFailed](util_errors.jwtclaimvalidationfailed.md).[constructor](util_errors.jwtclaimvalidationfailed.md#constructor)
 
-Defined in: [util/errors.ts:43](https://github.com/panva/jose/blob/v3.12.3/src/util/errors.ts#L43)
+#### Defined in
+
+[util/errors.ts:43](https://github.com/panva/jose/blob/v3.13.0/src/util/errors.ts#L43)
 
 ## Properties
 
 ### claim
 
-• **claim**: *string*
+• **claim**: `string`
 
 The Claim for which the validation failed.
 
-Inherited from: [JWTClaimValidationFailed](util_errors.jwtclaimvalidationfailed.md).[claim](util_errors.jwtclaimvalidationfailed.md#claim)
+#### Inherited from
 
-Defined in: [util/errors.ts:38](https://github.com/panva/jose/blob/v3.12.3/src/util/errors.ts#L38)
+[JWTClaimValidationFailed](util_errors.jwtclaimvalidationfailed.md).[claim](util_errors.jwtclaimvalidationfailed.md#claim)
+
+#### Defined in
+
+[util/errors.ts:38](https://github.com/panva/jose/blob/v3.13.0/src/util/errors.ts#L38)
 
 ___
 
 ### code
 
-• **code**: *string*
+• **code**: `string`
 
 A unique error code for the particular error subclass.
 
-Overrides: [JWTClaimValidationFailed](util_errors.jwtclaimvalidationfailed.md).[code](util_errors.jwtclaimvalidationfailed.md#code)
+#### Overrides
 
-Defined in: [util/errors.ts:166](https://github.com/panva/jose/blob/v3.12.3/src/util/errors.ts#L166)
+[JWTClaimValidationFailed](util_errors.jwtclaimvalidationfailed.md).[code](util_errors.jwtclaimvalidationfailed.md#code)
+
+#### Defined in
+
+[util/errors.ts:166](https://github.com/panva/jose/blob/v3.13.0/src/util/errors.ts#L166)
 
 ___
 
 ### reason
 
-• **reason**: *string*
+• **reason**: `string`
 
 Reason code for the validation failure.
 
-Inherited from: [JWTClaimValidationFailed](util_errors.jwtclaimvalidationfailed.md).[reason](util_errors.jwtclaimvalidationfailed.md#reason)
+#### Inherited from
 
-Defined in: [util/errors.ts:43](https://github.com/panva/jose/blob/v3.12.3/src/util/errors.ts#L43)
+[JWTClaimValidationFailed](util_errors.jwtclaimvalidationfailed.md).[reason](util_errors.jwtclaimvalidationfailed.md#reason)
+
+#### Defined in
+
+[util/errors.ts:43](https://github.com/panva/jose/blob/v3.13.0/src/util/errors.ts#L43)
 
 ___
 
 ### code
 
-▪ `Static` **code**: *string*= 'ERR\_JWT\_EXPIRED'
+▪ `Static` **code**: `string` = 'ERR\_JWT\_EXPIRED'
 
 A unique error code for the particular error subclass.
 
-Overrides: [JWTClaimValidationFailed](util_errors.jwtclaimvalidationfailed.md).[code](util_errors.jwtclaimvalidationfailed.md#code)
+#### Overrides
 
-Defined in: [util/errors.ts:164](https://github.com/panva/jose/blob/v3.12.3/src/util/errors.ts#L164)
+[JWTClaimValidationFailed](util_errors.jwtclaimvalidationfailed.md).[code](util_errors.jwtclaimvalidationfailed.md#code)
+
+#### Defined in
+
+[util/errors.ts:164](https://github.com/panva/jose/blob/v3.13.0/src/util/errors.ts#L164)

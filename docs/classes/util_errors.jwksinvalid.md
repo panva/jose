@@ -6,7 +6,7 @@ An error subclass thrown when a JWKS is invalid.
 
 ## Hierarchy
 
-- [*JOSEError*](util_errors.joseerror.md)
+- [JOSEError](util_errors.joseerror.md)
 
   ↳ **JWKSInvalid**
 
@@ -25,40 +25,50 @@ An error subclass thrown when a JWKS is invalid.
 
 ### constructor
 
-\+ **new JWKSInvalid**(`message?`: *string*): [*JWKSInvalid*](util_errors.jwksinvalid.md)
+• **new JWKSInvalid**(`message?`)
 
 #### Parameters
 
 | Name | Type |
 | :------ | :------ |
-| `message?` | *string* |
+| `message?` | `string` |
 
-**Returns:** [*JWKSInvalid*](util_errors.jwksinvalid.md)
+#### Inherited from
 
-Inherited from: [JOSEError](util_errors.joseerror.md)
+[JOSEError](util_errors.joseerror.md).[constructor](util_errors.joseerror.md#constructor)
 
-Defined in: [util/errors.ts:16](https://github.com/panva/jose/blob/v3.12.3/src/util/errors.ts#L16)
+#### Defined in
+
+[util/errors.ts:16](https://github.com/panva/jose/blob/v3.13.0/src/util/errors.ts#L16)
 
 ## Properties
 
 ### code
 
-• **code**: *string*
+• **code**: `string`
 
 A unique error code for the particular error subclass.
 
-Overrides: [JOSEError](util_errors.joseerror.md).[code](util_errors.joseerror.md#code)
+#### Overrides
 
-Defined in: [util/errors.ts:124](https://github.com/panva/jose/blob/v3.12.3/src/util/errors.ts#L124)
+[JOSEError](util_errors.joseerror.md).[code](util_errors.joseerror.md#code)
+
+#### Defined in
+
+[util/errors.ts:124](https://github.com/panva/jose/blob/v3.13.0/src/util/errors.ts#L124)
 
 ___
 
 ### code
 
-▪ `Static` **code**: *string*= 'ERR\_JWKS\_INVALID'
+▪ `Static` **code**: `string` = 'ERR\_JWKS\_INVALID'
 
 A unique error code for the particular error subclass.
 
-Overrides: [JOSEError](util_errors.joseerror.md).[code](util_errors.joseerror.md#code)
+#### Overrides
 
-Defined in: [util/errors.ts:122](https://github.com/panva/jose/blob/v3.12.3/src/util/errors.ts#L122)
+[JOSEError](util_errors.joseerror.md).[code](util_errors.joseerror.md#code)
+
+#### Defined in
+
+[util/errors.ts:122](https://github.com/panva/jose/blob/v3.13.0/src/util/errors.ts#L122)

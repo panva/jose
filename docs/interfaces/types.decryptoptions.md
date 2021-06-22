@@ -6,11 +6,11 @@ JWE Decryption options.
 
 ## Hierarchy
 
-- [*CritOption*](types.critoption.md)
+- [CritOption](types.critoption.md)
 
   ↳ **DecryptOptions**
 
-  ↳↳ [*JWTDecryptOptions*](jwt_decrypt.jwtdecryptoptions.md)
+  ↳↳ [JWTDecryptOptions](jwt_decrypt.jwtdecryptoptions.md)
 
 ## Table of contents
 
@@ -25,19 +25,21 @@ JWE Decryption options.
 
 ### contentEncryptionAlgorithms
 
-• `Optional` **contentEncryptionAlgorithms**: *string*[]
+• `Optional` **contentEncryptionAlgorithms**: `string`[]
 
 A list of accepted JWE "enc" (Encryption Algorithm) Header Parameter values.
 By default all "enc" (Encryption Algorithm) values applicable for the used
 key/secret are allowed.
 
-Defined in: [types.d.ts:453](https://github.com/panva/jose/blob/v3.12.3/src/types.d.ts#L453)
+#### Defined in
+
+[types.d.ts:453](https://github.com/panva/jose/blob/v3.13.0/src/types.d.ts#L453)
 
 ___
 
 ### crit
 
-• `Optional` **crit**: *object*
+• `Optional` **crit**: `Object`
 
 An object with keys representing recognized "crit" (Critical) Header Parameter
 names. The value for those is either `true` or `false`. `true` when the
@@ -58,29 +60,39 @@ The JWS extension Header Parameter `b64` is always recognized and processed
 properly. No other registered Header Parameters that need this kind of
 default built-in treatment are currently available.
 
-#### Type declaration
+#### Index signature
 
-Inherited from: [CritOption](types.critoption.md).[crit](types.critoption.md#crit)
+▪ [propName: `string`]: `boolean`
 
-Defined in: [types.d.ts:434](https://github.com/panva/jose/blob/v3.12.3/src/types.d.ts#L434)
+#### Inherited from
+
+[CritOption](types.critoption.md).[crit](types.critoption.md#crit)
+
+#### Defined in
+
+[types.d.ts:434](https://github.com/panva/jose/blob/v3.13.0/src/types.d.ts#L434)
 
 ___
 
 ### inflateRaw
 
-• `Optional` **inflateRaw**: [*InflateFunction*](types.inflatefunction.md)
+• `Optional` **inflateRaw**: [InflateFunction](types.inflatefunction.md)
 
 In a browser runtime you have to provide an implementation for Inflate Raw
 when you expect JWEs with compressed plaintext.
 
-Defined in: [types.d.ts:459](https://github.com/panva/jose/blob/v3.12.3/src/types.d.ts#L459)
+#### Defined in
+
+[types.d.ts:459](https://github.com/panva/jose/blob/v3.13.0/src/types.d.ts#L459)
 
 ___
 
 ### keyManagementAlgorithms
 
-• `Optional` **keyManagementAlgorithms**: *string*[]
+• `Optional` **keyManagementAlgorithms**: `string`[]
 
 A list of accepted JWE "alg" (Algorithm) Header Parameter values.
 
-Defined in: [types.d.ts:446](https://github.com/panva/jose/blob/v3.12.3/src/types.d.ts#L446)
+#### Defined in
+
+[types.d.ts:446](https://github.com/panva/jose/blob/v3.13.0/src/types.d.ts#L446)

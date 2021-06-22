@@ -13,7 +13,7 @@
 
 ### setProtectedHeader
 
-▸ **setProtectedHeader**(`protectedHeader`: [*JWSHeaderParameters*](types.jwsheaderparameters.md)): [*Signature*](jws_general_sign.signature.md)
+▸ **setProtectedHeader**(`protectedHeader`): [Signature](jws_general_sign.signature.md)
 
 Sets the JWS Protected Header on the Signature object.
 
@@ -21,17 +21,21 @@ Sets the JWS Protected Header on the Signature object.
 
 | Name | Type | Description |
 | :------ | :------ | :------ |
-| `protectedHeader` | [*JWSHeaderParameters*](types.jwsheaderparameters.md) | JWS Protected Header. |
+| `protectedHeader` | [JWSHeaderParameters](types.jwsheaderparameters.md) | JWS Protected Header. |
 
-**Returns:** [*Signature*](jws_general_sign.signature.md)
+#### Returns
 
-Defined in: [jws/general/sign.ts:13](https://github.com/panva/jose/blob/v3.12.3/src/jws/general/sign.ts#L13)
+[Signature](jws_general_sign.signature.md)
+
+#### Defined in
+
+[jws/general/sign.ts:13](https://github.com/panva/jose/blob/v3.13.0/src/jws/general/sign.ts#L13)
 
 ___
 
 ### setUnprotectedHeader
 
-▸ **setUnprotectedHeader**(`unprotectedHeader`: [*JWSHeaderParameters*](types.jwsheaderparameters.md)): [*Signature*](jws_general_sign.signature.md)
+▸ **setUnprotectedHeader**(`unprotectedHeader`): [Signature](jws_general_sign.signature.md)
 
 Sets the JWS Unprotected Header on the Signature object.
 
@@ -39,8 +43,12 @@ Sets the JWS Unprotected Header on the Signature object.
 
 | Name | Type | Description |
 | :------ | :------ | :------ |
-| `unprotectedHeader` | [*JWSHeaderParameters*](types.jwsheaderparameters.md) | JWS Unprotected Header. |
+| `unprotectedHeader` | [JWSHeaderParameters](types.jwsheaderparameters.md) | JWS Unprotected Header. |
 
-**Returns:** [*Signature*](jws_general_sign.signature.md)
+#### Returns
 
-Defined in: [jws/general/sign.ts:20](https://github.com/panva/jose/blob/v3.12.3/src/jws/general/sign.ts#L20)
+[Signature](jws_general_sign.signature.md)
+
+#### Defined in
+
+[jws/general/sign.ts:20](https://github.com/panva/jose/blob/v3.13.0/src/jws/general/sign.ts#L20)

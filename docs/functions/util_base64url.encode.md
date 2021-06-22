@@ -2,14 +2,18 @@
 
 [util/base64url](../modules/util_base64url.md).encode
 
-▸ `Const` **encode**(`input`: *string* \| *Uint8Array*): *string*
+▸ `Const` **encode**(`input`): `string`
 
 #### Parameters
 
 | Name | Type |
 | :------ | :------ |
-| `input` | *string* \| *Uint8Array* |
+| `input` | `string` \| `Uint8Array` |
 
-**Returns:** *string*
+#### Returns
 
-Defined in: [util/base64url.ts:22](https://github.com/panva/jose/blob/v3.12.3/src/util/base64url.ts#L22)
+`string`
+
+#### Defined in
+
+[util/base64url.ts:22](https://github.com/panva/jose/blob/v3.13.0/src/util/base64url.ts#L22)

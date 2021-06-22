@@ -6,7 +6,7 @@ An error subclass thrown when a JWE ciphertext decryption fails.
 
 ## Hierarchy
 
-- [*JOSEError*](util_errors.joseerror.md)
+- [JOSEError](util_errors.joseerror.md)
 
   ↳ **JWEDecryptionFailed**
 
@@ -26,50 +26,64 @@ An error subclass thrown when a JWE ciphertext decryption fails.
 
 ### constructor
 
-\+ **new JWEDecryptionFailed**(`message?`: *string*): [*JWEDecryptionFailed*](util_errors.jwedecryptionfailed.md)
+• **new JWEDecryptionFailed**(`message?`)
 
 #### Parameters
 
 | Name | Type |
 | :------ | :------ |
-| `message?` | *string* |
+| `message?` | `string` |
 
-**Returns:** [*JWEDecryptionFailed*](util_errors.jwedecryptionfailed.md)
+#### Inherited from
 
-Inherited from: [JOSEError](util_errors.joseerror.md)
+[JOSEError](util_errors.joseerror.md).[constructor](util_errors.joseerror.md#constructor)
 
-Defined in: [util/errors.ts:16](https://github.com/panva/jose/blob/v3.12.3/src/util/errors.ts#L16)
+#### Defined in
+
+[util/errors.ts:16](https://github.com/panva/jose/blob/v3.13.0/src/util/errors.ts#L16)
 
 ## Properties
 
 ### code
 
-• **code**: *string*
+• **code**: `string`
 
 A unique error code for the particular error subclass.
 
-Overrides: [JOSEError](util_errors.joseerror.md).[code](util_errors.joseerror.md#code)
+#### Overrides
 
-Defined in: [util/errors.ts:77](https://github.com/panva/jose/blob/v3.12.3/src/util/errors.ts#L77)
+[JOSEError](util_errors.joseerror.md).[code](util_errors.joseerror.md#code)
+
+#### Defined in
+
+[util/errors.ts:77](https://github.com/panva/jose/blob/v3.13.0/src/util/errors.ts#L77)
 
 ___
 
 ### message
 
-• **message**: *string*= 'decryption operation failed'
+• **message**: `string` = 'decryption operation failed'
 
-Overrides: JOSEError.message
+#### Overrides
 
-Defined in: [util/errors.ts:79](https://github.com/panva/jose/blob/v3.12.3/src/util/errors.ts#L79)
+JOSEError.message
+
+#### Defined in
+
+[util/errors.ts:79](https://github.com/panva/jose/blob/v3.13.0/src/util/errors.ts#L79)
 
 ___
 
 ### code
 
-▪ `Static` **code**: *string*= 'ERR\_JWE\_DECRYPTION\_FAILED'
+▪ `Static` **code**: `string` = 'ERR\_JWE\_DECRYPTION\_FAILED'
 
 A unique error code for the particular error subclass.
 
-Overrides: [JOSEError](util_errors.joseerror.md).[code](util_errors.joseerror.md#code)
+#### Overrides
 
-Defined in: [util/errors.ts:75](https://github.com/panva/jose/blob/v3.12.3/src/util/errors.ts#L75)
+[JOSEError](util_errors.joseerror.md).[code](util_errors.joseerror.md#code)
+
+#### Defined in
+
+[util/errors.ts:75](https://github.com/panva/jose/blob/v3.13.0/src/util/errors.ts#L75)
