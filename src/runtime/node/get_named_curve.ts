@@ -21,7 +21,7 @@ const namedCurveToJOSE = (namedCurve: string) => {
     case 'secp256k1':
       return namedCurve
     default:
-      throw new JOSENotSupported('unsupported curve for this operation')
+      throw new JOSENotSupported('unsupported key curve for this operation')
   }
 }
 
@@ -50,8 +50,7 @@ const getNamedCurve = (key: unknown, raw?: boolean): string => {
         return weakMap.get(key)!
       }
 
-      // @ts-expect-error
-      let namedCurve: string = key.asymmetricKeyDetails?.namedCurve
+      let namedCurve = key.asymmetricKeyDetails?.namedCurve
 
       if (!namedCurve && key.type === 'private') {
         namedCurve = getNamedCurve(createPublicKey(key), true)
@@ -68,6 +67,8 @@ const getNamedCurve = (key: unknown, raw?: boolean): string => {
           namedCurve = 'secp521r1'
         } else if (curveOid.equals(secp256k1)) {
           namedCurve = 'secp256k1'
+        } else {
+          throw new JOSENotSupported('unsupported key curve for this operation')
         }
       }
 
