@@ -7,6 +7,11 @@ import { JWTInvalid } from '../util/errors.js'
 import jwtPayload from '../lib/jwt_claims_set.js'
 import ProduceJWT from '../lib/jwt_producer.js'
 
+interface UnsecuredResult {
+  payload: JWTPayload
+  header: JWSHeaderParameters
+}
+
 /**
  * The UnsecuredJWT class is a utility for dealing with `{ "alg": "none" }` Unsecured JWTs.
  *
@@ -59,10 +64,7 @@ class UnsecuredJWT extends ProduceJWT {
    * @param jwt Unsecured JWT to decode the payload of.
    * @param options JWT Claims Set validation options.
    */
-  static decode(
-    jwt: string,
-    options?: JWTClaimVerificationOptions,
-  ): { payload: JWTPayload; header: JWSHeaderParameters } {
+  static decode(jwt: string, options?: JWTClaimVerificationOptions): UnsecuredResult {
     if (typeof jwt !== 'string') {
       throw new JWTInvalid('Unsecured JWT must be a string')
     }
@@ -88,4 +90,4 @@ class UnsecuredJWT extends ProduceJWT {
 
 export { UnsecuredJWT }
 export default UnsecuredJWT
-export type { JWSHeaderParameters, JWTPayload }
+export type { JWSHeaderParameters, JWTPayload, UnsecuredResult }

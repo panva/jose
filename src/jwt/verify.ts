@@ -71,4 +71,11 @@ async function jwtVerify(
 
 export { jwtVerify }
 export default jwtVerify
-export type { KeyLike, JWTPayload, JWTVerifyOptions, JWSHeaderParameters, GetKeyFunction, JWTVerifyResult }
+export type {
+  KeyLike,
+  JWTPayload,
+  JWTVerifyOptions,
+  JWSHeaderParameters,
+  GetKeyFunction,
+  JWTVerifyResult,
+}

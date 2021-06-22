@@ -238,4 +238,4 @@ async function flattenedDecrypt(
 
 export { flattenedDecrypt }
 export default flattenedDecrypt
-export type { KeyLike, FlattenedJWE, JWEHeaderParameters, DecryptOptions }
+export type { KeyLike, FlattenedJWE, JWEHeaderParameters, DecryptOptions, FlattenedDecryptResult }

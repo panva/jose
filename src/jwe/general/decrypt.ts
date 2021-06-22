@@ -101,4 +101,4 @@ async function generalDecrypt(
 
 export { generalDecrypt }
 export default generalDecrypt
-export type { KeyLike, GeneralJWE, DecryptOptions }
+export type { KeyLike, GeneralJWE, DecryptOptions, GeneralDecryptResult }

@@ -95,4 +95,4 @@ async function jwtDecrypt(
 
 export { jwtDecrypt }
 export default jwtDecrypt
-export type { KeyLike, DecryptOptions, JWTPayload, JWTDecryptOptions }
+export type { KeyLike, DecryptOptions, JWTPayload, JWTDecryptOptions, JWTDecryptResult }
