@@ -87,4 +87,4 @@ async function compactDecrypt(
 
 export { compactDecrypt }
 export default compactDecrypt
-export type { KeyLike, DecryptOptions }
+export type { KeyLike, DecryptOptions, CompactDecryptResult }

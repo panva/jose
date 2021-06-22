@@ -82,4 +82,4 @@ async function compactVerify(
 
 export { compactVerify }
 export default compactVerify
-export type { KeyLike, VerifyOptions }
+export type { KeyLike, VerifyOptions, CompactVerifyResult }

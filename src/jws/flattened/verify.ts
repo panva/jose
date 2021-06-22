@@ -183,4 +183,11 @@ async function flattenedVerify(
 
 export { flattenedVerify }
 export default flattenedVerify
-export type { KeyLike, FlattenedJWSInput, GetKeyFunction, JWSHeaderParameters, VerifyOptions }
+export type {
+  KeyLike,
+  FlattenedJWSInput,
+  GetKeyFunction,
+  JWSHeaderParameters,
+  VerifyOptions,
+  FlattenedVerifyResult,
+}

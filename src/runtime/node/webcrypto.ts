@@ -17,7 +17,7 @@ if (util.types.isCryptoKey) {
 } else if (webcrypto) {
   impl = function isCryptoKey(obj): obj is CryptoKey {
     //@ts-expect-error
-    return obj != null && obj instanceof webcrypto.CryptoKey;
+    return obj != null && obj instanceof webcrypto.CryptoKey
   }
 } else {
   // @ts-expect-error

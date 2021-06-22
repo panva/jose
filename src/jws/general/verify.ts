@@ -93,4 +93,4 @@ async function generalVerify(
 
 export { generalVerify }
 export default generalVerify
-export type { KeyLike, GeneralJWSInput, VerifyOptions }
+export type { KeyLike, GeneralJWSInput, VerifyOptions, GeneralVerifyResult }

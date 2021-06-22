@@ -44,11 +44,11 @@ function decodeProtectedHeader(token: string | object) {
 
   try {
     if (typeof protectedB64u !== 'string' || !protectedB64u) {
-      throw new Error();
+      throw new Error()
     }
     const result = JSON.parse(decoder.decode(base64url(protectedB64u!)))
     if (!isObject(result)) {
-      throw new Error();
+      throw new Error()
     }
     return <ProtectedHeaderParameters>result
   } catch (err) {
