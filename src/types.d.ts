@@ -249,7 +249,7 @@ export interface JoseHeaderParameters {
   x5u?: string
 
   /**
-   * "jku" (JWK Set URL) Header Parameter
+   * "jku" (JWK Set URL) Header Parameter.
    */
   jku?: string
 
