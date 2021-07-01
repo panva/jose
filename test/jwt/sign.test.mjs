@@ -82,12 +82,10 @@ Promise.all([
             .sign(t.context.secret),
         { code: 'ERR_JWT_INVALID', message: 'JWTs MUST NOT use unencoded payload' },
       );
-      await t.throwsAsync(
-        () =>
-          new SignJWT({})
-            .sign(t.context.secret),
-        { code: 'ERR_JWS_INVALID', message: 'either setProtectedHeader or setUnprotectedHeader must be called before #sign()' },
-      );
+      await t.throwsAsync(() => new SignJWT({}).sign(t.context.secret), {
+        code: 'ERR_JWS_INVALID',
+        message: 'either setProtectedHeader or setUnprotectedHeader must be called before #sign()',
+      });
     });
 
     async function testJWTsetFunction(t, method, claim, value, expected = value) {
