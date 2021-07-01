@@ -249,6 +249,11 @@ export interface JoseHeaderParameters {
   x5u?: string
 
   /**
+   * "jku" (JWK Set URL) Header Parameter.
+   */
+  jku?: string
+
+  /**
    * "jwk" (JSON Web Key) Header Parameter.
    */
   jwk?: Pick<JWK, 'kty' | 'crv' | 'x' | 'y' | 'e' | 'n'>
