@@ -54,7 +54,7 @@ class SignJWT extends ProduceJWT {
   async sign(key: KeyLike, options?: SignOptions): Promise<string> {
     const sig = new CompactSign(encoder.encode(JSON.stringify(this._payload)))
     sig.setProtectedHeader(this._protectedHeader)
-    if (this._protectedHeader.crit?.includes('b64') && this._protectedHeader.b64 === false) {
+    if (this._protectedHeader?.crit?.includes('b64') && this._protectedHeader.b64 === false) {
       throw new JWTInvalid('JWTs MUST NOT use unencoded payload')
     }
     return sig.sign(key, options)
