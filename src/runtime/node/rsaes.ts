@@ -3,10 +3,11 @@ import type { RsaEsDecryptFunction, RsaEsEncryptFunction } from '../interfaces.d
 import checkModulusLength from './check_modulus_length.js'
 import { isCryptoKey, getKeyObject } from './webcrypto.js'
 import isKeyObject from './is_key_object.js'
+import invalidKeyInput from './invalid_key_input.js'
 
 const checkKey = (key: KeyObject, alg: string) => {
-  if (key.type === 'secret' || key.asymmetricKeyType !== 'rsa') {
-    throw new TypeError('invalid key type or asymmetric key type for this operation')
+  if (key.asymmetricKeyType !== 'rsa') {
+    throw new TypeError('Invalid key for this operation, its asymmetricKeyType must be rsa')
   }
   checkModulusLength(key, alg)
 }
@@ -47,7 +48,7 @@ function ensureKeyObject(key: unknown, alg: string, ...usages: KeyUsage[]) {
   if (isCryptoKey(key)) {
     return getKeyObject(key, alg, new Set(usages))
   }
-  throw new TypeError('invalid key input')
+  throw new TypeError(invalidKeyInput(key, 'KeyObject', 'CryptoKey'))
 }
 
 export const encrypt: RsaEsEncryptFunction = async (alg: string, key: unknown, cek: Uint8Array) => {

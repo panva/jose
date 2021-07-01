@@ -1,4 +1,5 @@
 import crypto, { isCryptoKey } from './webcrypto.js'
+import invalidKeyInput from './invalid_key_input.js'
 
 export default function getCryptoKey(alg: string, key: unknown, usage: KeyUsage) {
   if (isCryptoKey(key)) {
@@ -7,7 +8,7 @@ export default function getCryptoKey(alg: string, key: unknown, usage: KeyUsage)
 
   if (key instanceof Uint8Array) {
     if (!alg.startsWith('HS')) {
-      throw new TypeError('symmetric keys are only applicable for HMAC-based algorithms')
+      throw new TypeError(invalidKeyInput(key, 'CryptoKey'))
     }
     return crypto.subtle.importKey(
       'raw',
@@ -18,5 +19,5 @@ export default function getCryptoKey(alg: string, key: unknown, usage: KeyUsage)
     )
   }
 
-  throw new TypeError('invalid key input')
+  throw new TypeError(invalidKeyInput(key, 'CryptoKey', 'Uint8Array'))
 }

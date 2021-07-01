@@ -10,6 +10,7 @@ import { encrypt as rsaEs } from '../runtime/rsaes.js'
 import { wrap as aesGcmKw } from '../runtime/aesgcmkw.js'
 import { encode as base64url } from '../runtime/base64url.js'
 import { fromKeyLike } from '../jwk/from_key_like.js'
+import checkKeyType from './check_key_type.js'
 
 const generateCek = cekFactory(random)
 
@@ -27,6 +28,8 @@ async function encryptKeyManagement(
   let encryptedKey: Uint8Array | undefined
   let parameters: JWEKeyManagementHeaderResults | undefined
   let cek: KeyLike
+
+  checkKeyType(alg, key, 'encrypt')
 
   switch (alg) {
     case 'dir': {

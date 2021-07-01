@@ -145,7 +145,7 @@ async function flattenedVerify(
     key = await key(parsedProt, jws)
   }
 
-  checkKeyType(alg, key)
+  checkKeyType(alg, key, 'verify')
 
   const data = concat(
     encoder.encode(jws.protected ?? ''),

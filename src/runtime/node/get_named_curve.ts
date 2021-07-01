@@ -2,6 +2,7 @@ import { KeyObject, createPublicKey } from 'crypto'
 import { JOSENotSupported } from '../../util/errors.js'
 import { isCryptoKey, getKeyObject } from './webcrypto.js'
 import isKeyObject from './is_key_object.js'
+import invalidKeyInput from './invalid_key_input.js'
 
 const p256 = Buffer.from([42, 134, 72, 206, 61, 3, 1, 7])
 const p384 = Buffer.from([43, 129, 4, 0, 34])
@@ -31,11 +32,11 @@ const getNamedCurve = (key: unknown, raw?: boolean): string => {
     key = getKeyObject(key)
   }
   if (!isKeyObject(key)) {
-    throw new TypeError('invalid key input')
+    throw new TypeError(invalidKeyInput(key, 'KeyObject', 'CryptoKey'))
   }
 
   if (key.type === 'secret') {
-    throw new TypeError('only "private" or "public" key objects can be used for this operation')
+    throw new TypeError('only "private" or "public" type keys can be used for this operation')
   }
 
   switch (key.asymmetricKeyType) {
@@ -79,7 +80,7 @@ const getNamedCurve = (key: unknown, raw?: boolean): string => {
       return curve
     }
     default:
-      throw new TypeError('invalid key asymmetric key type for this operation')
+      throw new TypeError('Invalid asymmetric key type for this operation')
   }
 }
 

@@ -51,7 +51,7 @@ function getModulusLengthOption(options?: GenerateKeyPairOptions) {
   const modulusLength = options?.modulusLength ?? 2048
   if (typeof modulusLength !== 'number' || modulusLength < 2048) {
     throw new JOSENotSupported(
-      'invalid or unsupported modulusLength option provided, 2048 bits or larger keys must be used',
+      'Invalid or unsupported modulusLength option provided, 2048 bits or larger keys must be used',
     )
   }
   return modulusLength

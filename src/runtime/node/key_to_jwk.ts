@@ -7,6 +7,7 @@ import { JOSENotSupported } from '../../util/errors.js'
 import getNamedCurve from './get_named_curve.js'
 import { isCryptoKey, getKeyObject } from './webcrypto.js'
 import isKeyObject from './is_key_object.js'
+import invalidKeyInput from './invalid_key_input.js'
 
 const [major, minor] = process.version
   .substr(1)
@@ -24,8 +25,13 @@ const keyToJWK: JWKConvertFunction = (key: unknown): JWK => {
     keyObject = getKeyObject(key)
   } else if (isKeyObject(key)) {
     keyObject = key
+  } else if (key instanceof Uint8Array) {
+    return {
+      kty: 'oct',
+      k: base64url(key),
+    }
   } else {
-    throw new TypeError('invalid key input')
+    throw new TypeError(invalidKeyInput(key, 'KeyObject', 'CryptoKey', 'Uint8Array'))
   }
 
   if (jwkExportSupported) {

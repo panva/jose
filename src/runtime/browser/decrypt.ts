@@ -6,6 +6,7 @@ import checkCekLength from './check_cek_length.js'
 import timingSafeEqual from './timing_safe_equal.js'
 import { JWEDecryptionFailed } from '../../util/errors.js'
 import crypto, { isCryptoKey } from './webcrypto.js'
+import invalidKeyInput from './invalid_key_input.js'
 
 async function cbcDecrypt(
   enc: string,
@@ -103,7 +104,7 @@ const decrypt: DecryptFunction = async (
   aad: Uint8Array,
 ) => {
   if (!isCryptoKey(cek) && !(cek instanceof Uint8Array)) {
-    throw new TypeError('invalid key input')
+    throw new TypeError(invalidKeyInput(cek, 'CryptoKey', 'Uint8Array'))
   }
 
   checkCekLength(enc, cek)

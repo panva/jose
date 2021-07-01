@@ -298,7 +298,7 @@ Promise.all([
       await t.notThrowsAsync(jwtDecrypt(jwt, t.context.secret, { clockTolerance: '1s' }));
       await t.throwsAsync(jwtDecrypt(jwt, t.context.secret, { clockTolerance: null }), {
         instanceOf: TypeError,
-        message: 'invalid clockTolerance option type',
+        message: 'Invalid clockTolerance option type',
       });
     });
 

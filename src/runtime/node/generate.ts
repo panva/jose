@@ -56,7 +56,7 @@ export async function generateKeyPair(alg: string, options?: GenerateKeyPairOpti
       const modulusLength = options?.modulusLength ?? 2048
       if (typeof modulusLength !== 'number' || modulusLength < 2048) {
         throw new JOSENotSupported(
-          'invalid or unsupported modulusLength option provided, 2048 bits or larger keys must be used',
+          'Invalid or unsupported modulusLength option provided, 2048 bits or larger keys must be used',
         )
       }
       const keypair = await generate('rsa', {
@@ -84,7 +84,7 @@ export async function generateKeyPair(alg: string, options?: GenerateKeyPairOpti
           return generate('ed448')
         default:
           throw new JOSENotSupported(
-            'invalid or unsupported crv option provided, supported values are Ed25519 and Ed448',
+            'Invalid or unsupported crv option provided, supported values are Ed25519 and Ed448',
           )
       }
     }
@@ -104,7 +104,7 @@ export async function generateKeyPair(alg: string, options?: GenerateKeyPairOpti
           return generate('x448')
         default:
           throw new JOSENotSupported(
-            'invalid or unsupported crv option provided, supported values are P-256, P-384, P-521, X25519, and X448',
+            'Invalid or unsupported crv option provided, supported values are P-256, P-384, P-521, X25519, and X448',
           )
       }
     default:

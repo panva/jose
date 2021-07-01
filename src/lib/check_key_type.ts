@@ -1,6 +1,15 @@
 import type { KeyLike } from '../types.d'
+import invalidKeyInput from '../runtime/invalid_key_input.js'
 
-const checkKeyType = (alg: string, key: KeyLike): void => {
+const checkKeyType = (
+  alg: string,
+  key: KeyLike,
+  usage: 'sign' | 'verify' | 'encrypt' | 'decrypt',
+): void => {
+  if (!(key instanceof Uint8Array) && !key?.type) {
+    throw new TypeError(invalidKeyInput(key, 'KeyObject', 'CryptoKey', 'Uint8Array'))
+  }
+
   if (
     alg.startsWith('HS') ||
     alg === 'dir' ||
@@ -17,12 +26,24 @@ const checkKeyType = (alg: string, key: KeyLike): void => {
   }
 
   if (key instanceof Uint8Array) {
-    throw new TypeError('CryptoKey or KeyObject instances must be used for asymmetric algorithms')
+    throw new TypeError(invalidKeyInput(key, 'KeyObject', 'CryptoKey'))
   }
 
   if (key.type === 'secret') {
     throw new TypeError(
       'CryptoKey or KeyObject instances for asymmetric algorithms must not be of type "secret"',
+    )
+  }
+
+  if (usage === 'sign' && key.type === 'public') {
+    throw new TypeError(
+      'CryptoKey or KeyObject instances for asymmetric algorithm signing must be of type "private"',
+    )
+  }
+
+  if (usage === 'decrypt' && key.type === 'public') {
+    throw new TypeError(
+      'CryptoKey or KeyObject instances for asymmetric algorithm decryption must be of type "private"',
     )
   }
 }

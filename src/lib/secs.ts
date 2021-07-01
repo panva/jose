@@ -12,7 +12,7 @@ export default (str: string): number => {
   const matched = REGEX.exec(str)
 
   if (!matched) {
-    throw new TypeError('invalid time period format')
+    throw new TypeError('Invalid time period format')
   }
 
   const value = parseFloat(matched[1])

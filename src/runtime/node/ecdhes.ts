@@ -12,6 +12,7 @@ import digest from './digest.js'
 import { JOSENotSupported } from '../../util/errors.js'
 import { isCryptoKey, getKeyObject } from './webcrypto.js'
 import isKeyObject from './is_key_object.js'
+import invalidKeyInput from './invalid_key_input.js'
 
 const generateKeyPair = promisify(generateKeyPairCb)
 
@@ -35,7 +36,7 @@ export const deriveKey: EcdhESDeriveKeyFunction = async (
     publicKey = getKeyObject(publicKey, 'ECDH-ES')
   }
   if (!isKeyObject(publicKey)) {
-    throw new TypeError('invalid key input')
+    throw new TypeError(invalidKeyInput(publicKey, 'KeyObject', 'CryptoKey'))
   }
 
   if (isCryptoKey(privateKey)) {
@@ -43,7 +44,7 @@ export const deriveKey: EcdhESDeriveKeyFunction = async (
     privateKey = getKeyObject(privateKey, 'ECDH-ES', new Set(['deriveBits', 'deriveKey']))
   }
   if (!isKeyObject(privateKey)) {
-    throw new TypeError('invalid key input')
+    throw new TypeError(invalidKeyInput(privateKey, 'KeyObject', 'CryptoKey'))
   }
 
   const sharedSecret = diffieHellman({ privateKey, publicKey })
@@ -56,7 +57,7 @@ export const generateEpk: GenerateEpkFunction = async (key: unknown) => {
     key = getKeyObject(key)
   }
   if (!isKeyObject(key)) {
-    throw new TypeError('invalid key input')
+    throw new TypeError(invalidKeyInput(key, 'KeyObject', 'CryptoKey'))
   }
 
   switch (key.asymmetricKeyType) {

@@ -8,6 +8,7 @@ import { wrap, unwrap } from './aeskw.js'
 import checkP2s from '../../lib/check_p2s.js'
 import { isCryptoKey, getKeyObject } from './webcrypto.js'
 import isKeyObject from './is_key_object.js'
+import invalidKeyInput from './invalid_key_input.js'
 
 const pbkdf2 = promisify(pbkdf2cb)
 
@@ -21,7 +22,7 @@ function getPassword(key: unknown, alg: string) {
   if (isCryptoKey(key)) {
     return getKeyObject(key, alg, new Set(['deriveBits', 'deriveKey'])).export()
   }
-  throw new TypeError('invalid key input')
+  throw new TypeError(invalidKeyInput(key, 'KeyObject', 'CryptoKey', 'Uint8Array'))
 }
 
 export const encrypt: Pbes2KWEncryptFunction = async (

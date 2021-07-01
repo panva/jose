@@ -9,6 +9,7 @@ import cbcTag from './cbc_tag.js'
 import type { KeyLike } from '../../types.d'
 import { isCryptoKey, getKeyObject } from './webcrypto.js'
 import isKeyObject from './is_key_object.js'
+import invalidKeyInput from './invalid_key_input.js'
 
 async function cbcEncrypt(
   enc: string,
@@ -71,7 +72,7 @@ const encrypt: EncryptFunction = async (
   } else if (cek instanceof Uint8Array || isKeyObject(cek)) {
     key = cek
   } else {
-    throw new TypeError('invalid key input')
+    throw new TypeError(invalidKeyInput(cek, 'KeyObject', 'CryptoKey', 'Uint8Array'))
   }
 
   checkCekLength(enc, key)

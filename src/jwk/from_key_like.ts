@@ -1,5 +1,4 @@
 import type { JWK, KeyLike } from '../types.d'
-import { encode as base64url } from '../runtime/base64url.js'
 import asJWK from '../runtime/key_to_jwk.js'
 
 /**
@@ -27,13 +26,6 @@ import asJWK from '../runtime/key_to_jwk.js'
  * ```
  */
 async function fromKeyLike(key: KeyLike): Promise<JWK> {
-  if (key instanceof Uint8Array) {
-    return {
-      kty: 'oct',
-      k: base64url(key),
-    }
-  }
-
   return asJWK(key)
 }
 

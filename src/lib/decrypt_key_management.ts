@@ -9,6 +9,7 @@ import { unwrap as aesGcmKw } from '../runtime/aesgcmkw.js'
 import { decode as base64url } from '../runtime/base64url.js'
 import { bitLengths as cekLengths } from '../lib/cek.js'
 import { parseJwk } from '../jwk/parse.js'
+import checkKeyType from './check_key_type.js'
 
 function assertEnryptedKey(encryptedKey: unknown) {
   if (!encryptedKey) {
@@ -32,6 +33,8 @@ async function decryptKeyManagement(
   encryptedKey: Uint8Array | undefined,
   joseHeader: JWEKeyManagementHeaderResults & JWEHeaderParameters,
 ): Promise<KeyLike> {
+  checkKeyType(alg, key, 'decrypt')
+
   switch (alg) {
     case 'dir': {
       // Direct Encryption

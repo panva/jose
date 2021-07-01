@@ -11,6 +11,7 @@ import cbcTag from './cbc_tag.js'
 import { isCryptoKey, getKeyObject } from './webcrypto.js'
 import type { KeyLike } from '../../types.d'
 import isKeyObject from './is_key_object.js'
+import invalidKeyInput from './invalid_key_input.js'
 
 async function cbcDecrypt(
   enc: string,
@@ -103,7 +104,7 @@ const decrypt: DecryptFunction = async (
   } else if (cek instanceof Uint8Array || isKeyObject(cek)) {
     key = cek
   } else {
-    throw new TypeError('invalid key input')
+    throw new TypeError(invalidKeyInput(cek, 'KeyObject', 'CryptoKey', 'Uint8Array'))
   }
 
   checkCekLength(enc, key)

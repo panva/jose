@@ -5,6 +5,7 @@ import { concat } from '../../lib/buffer_utils.js'
 import getSecretKey from './secret_key.js'
 import { isCryptoKey, getKeyObject } from './webcrypto.js'
 import isKeyObject from './is_key_object.js'
+import invalidKeyInput from './invalid_key_input.js'
 
 function checkKeySize(key: KeyObject, alg: string) {
   if (key.symmetricKeySize! << 3 !== parseInt(alg.substr(1, 3), 10)) {
@@ -23,7 +24,7 @@ function ensureKeyObject(key: unknown, alg: string, usage: KeyUsage) {
     return getKeyObject(key, alg, new Set([usage]))
   }
 
-  throw new TypeError('invalid key input')
+  throw new TypeError(invalidKeyInput(key, 'KeyObject', 'CryptoKey', 'Uint8Array'))
 }
 
 export const wrap: AesKwWrapFunction = async (alg: string, key: unknown, cek: Uint8Array) => {

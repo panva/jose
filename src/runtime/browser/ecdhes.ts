@@ -6,6 +6,7 @@ import type {
 import { encoder, concat, uint32be, lengthAndInput, concatKdf } from '../../lib/buffer_utils.js'
 import crypto, { isCryptoKey } from './webcrypto.js'
 import digest from './digest.js'
+import invalidKeyInput from './invalid_key_input.js'
 
 export const deriveKey: EcdhESDeriveKeyFunction = async (
   publicKey: unknown,
@@ -16,10 +17,10 @@ export const deriveKey: EcdhESDeriveKeyFunction = async (
   apv: Uint8Array = new Uint8Array(0),
 ) => {
   if (!isCryptoKey(publicKey)) {
-    throw new TypeError('invalid key input')
+    throw new TypeError(invalidKeyInput(publicKey, 'CryptoKey'))
   }
   if (!isCryptoKey(privateKey)) {
-    throw new TypeError('invalid key input')
+    throw new TypeError(invalidKeyInput(privateKey, 'CryptoKey'))
   }
 
   const value = concat(
@@ -50,7 +51,7 @@ export const deriveKey: EcdhESDeriveKeyFunction = async (
 
 export const generateEpk: GenerateEpkFunction = async (key: unknown) => {
   if (!isCryptoKey(key)) {
-    throw new TypeError('invalid key input')
+    throw new TypeError(invalidKeyInput(key, 'CryptoKey'))
   }
 
   return (
@@ -64,7 +65,7 @@ export const generateEpk: GenerateEpkFunction = async (key: unknown) => {
 
 export const ecdhAllowed: EcdhAllowedFunction = (key: unknown) => {
   if (!isCryptoKey(key)) {
-    throw new TypeError('invalid key input')
+    throw new TypeError(invalidKeyInput(key, 'CryptoKey'))
   }
   return ['P-256', 'P-384', 'P-521'].includes((<EcKeyAlgorithm>key.algorithm).namedCurve)
 }

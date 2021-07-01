@@ -5,6 +5,7 @@ import { encode as base64url } from './base64url.js'
 import { wrap, unwrap } from './aeskw.js'
 import checkP2s from '../../lib/check_p2s.js'
 import crypto, { isCryptoKey } from './webcrypto.js'
+import invalidKeyInput from './invalid_key_input.js'
 
 function getCryptoKey(key: unknown) {
   if (key instanceof Uint8Array) {
@@ -15,7 +16,7 @@ function getCryptoKey(key: unknown) {
     return key
   }
 
-  throw new TypeError('invalid key input')
+  throw new TypeError(invalidKeyInput(key, 'CryptoKey', 'Uint8Array'))
 }
 
 export const encrypt: Pbes2KWEncryptFunction = async (

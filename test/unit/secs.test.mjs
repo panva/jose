@@ -31,7 +31,7 @@ import(`${root}/lib/secs`).then(
 
       t.throws(() => secs('1 fortnight'), {
         instanceOf: TypeError,
-        message: 'invalid time period format',
+        message: 'Invalid time period format',
       });
     });
   },

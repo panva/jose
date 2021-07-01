@@ -15,8 +15,10 @@ const ecCurveAlgMap = new Map([
 export default function keyForCrypto(alg: string, key: KeyObject): KeyObject | SignKeyObjectInput {
   switch (alg) {
     case 'EdDSA':
-      if (key.type === 'secret' || !['ed25519', 'ed448'].includes(key.asymmetricKeyType!)) {
-        throw new TypeError('invalid key type or asymmetric key type for this operation')
+      if (!['ed25519', 'ed448'].includes(key.asymmetricKeyType!)) {
+        throw new TypeError(
+          'Invalid key for this operation, its asymmetricKeyType must be ed25519 or ed448',
+        )
       }
 
       return key
@@ -24,8 +26,8 @@ export default function keyForCrypto(alg: string, key: KeyObject): KeyObject | S
     case 'RS256':
     case 'RS384':
     case 'RS512':
-      if (key.type === 'secret' || key.asymmetricKeyType !== 'rsa') {
-        throw new TypeError('invalid key type or asymmetric key type for this operation')
+      if (key.asymmetricKeyType !== 'rsa') {
+        throw new TypeError('Invalid key for this operation, its asymmetricKeyType must be rsa')
       }
       checkModulusLength(key, alg)
 
@@ -34,8 +36,8 @@ export default function keyForCrypto(alg: string, key: KeyObject): KeyObject | S
     case 'PS256':
     case 'PS384':
     case 'PS512':
-      if (key.type === 'secret' || key.asymmetricKeyType !== 'rsa') {
-        throw new TypeError('invalid key type or asymmetric key type for this operation')
+      if (key.asymmetricKeyType !== 'rsa') {
+        throw new TypeError('Invalid key for this operation, its asymmetricKeyType must be rsa')
       }
       checkModulusLength(key, alg)
 
@@ -48,17 +50,21 @@ export default function keyForCrypto(alg: string, key: KeyObject): KeyObject | S
     case 'ES256':
     case 'ES256K':
     case 'ES384':
-    case 'ES512':
-      if (key.type === 'secret' || key.asymmetricKeyType !== 'ec') {
-        throw new TypeError('invalid key type or asymmetric key type for this operation')
+    case 'ES512': {
+      if (key.asymmetricKeyType !== 'ec') {
+        throw new TypeError('Invalid key for this operation, its asymmetricKeyType must be ec')
       }
 
-      if (ecCurveAlgMap.get(alg) !== getNamedCurve(key)) {
-        throw new TypeError('invalid key curve for the algorithm')
+      const actual = getNamedCurve(key)
+      const expected = ecCurveAlgMap.get(alg)
+      if (actual !== expected) {
+        throw new TypeError(
+          `Invalid key curve for the algorithm, its curve must be ${expected}, got ${actual}`,
+        )
       }
 
       return { dsaEncoding: 'ieee-p1363', key }
-
+    }
     default:
       throw new JOSENotSupported(
         `alg ${alg} is not supported either by JOSE or your javascript runtime`,

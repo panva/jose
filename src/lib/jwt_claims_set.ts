@@ -81,7 +81,7 @@ export default (
       tolerance = 0
       break
     default:
-      throw new TypeError('invalid clockTolerance option type')
+      throw new TypeError('Invalid clockTolerance option type')
   }
 
   const { currentDate } = options

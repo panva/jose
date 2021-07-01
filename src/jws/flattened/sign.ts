@@ -117,7 +117,7 @@ class FlattenedSign {
       throw new JWSInvalid('JWS "alg" (Algorithm) Header Parameter missing or invalid')
     }
 
-    checkKeyType(alg, key)
+    checkKeyType(alg, key, 'sign')
 
     let payload = this._payload
     if (b64) {

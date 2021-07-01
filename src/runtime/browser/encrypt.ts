@@ -3,6 +3,7 @@ import type { EncryptFunction } from '../interfaces.d'
 import checkIvLength from '../../lib/check_iv_length.js'
 import checkCekLength from './check_cek_length.js'
 import crypto, { isCryptoKey } from './webcrypto.js'
+import invalidKeyInput from './invalid_key_input.js'
 
 async function cbcEncrypt(
   enc: string,
@@ -87,7 +88,7 @@ const encrypt: EncryptFunction = async (
   aad: Uint8Array,
 ) => {
   if (!isCryptoKey(cek) && !(cek instanceof Uint8Array)) {
-    throw new TypeError('invalid key input')
+    throw new TypeError(invalidKeyInput(cek, 'CryptoKey', 'Uint8Array'))
   }
 
   checkCekLength(enc, cek)
