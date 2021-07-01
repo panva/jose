@@ -5,7 +5,7 @@ const checkKeyType = (alg: string, key: KeyLike): void => {
     alg.startsWith('HS') ||
     alg === 'dir' ||
     alg.startsWith('PBES2') ||
-    alg.match(/^A\d{3}(?:GCM)KW$/)
+    alg.match(/^A\d{3}(?:GCM)?KW$/)
   ) {
     if (key instanceof Uint8Array || key.type === 'secret') {
       return
