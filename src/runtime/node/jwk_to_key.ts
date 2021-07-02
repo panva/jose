@@ -19,10 +19,8 @@ const jwkImportSupported = major >= 16 || (major === 15 && minor >= 12)
 const parse: JWKParseFunction = (jwk: JWK): KeyObject => {
   if (jwkImportSupported && jwk.kty !== 'oct') {
     return jwk.d
-      ? // @ts-expect-error
-        createPrivateKey({ format: 'jwk', key: jwk })
-      : // @ts-expect-error
-        createPublicKey({ format: 'jwk', key: jwk })
+      ? createPrivateKey({ format: 'jwk', key: jwk })
+      : createPublicKey({ format: 'jwk', key: jwk })
   }
 
   switch (jwk.kty) {

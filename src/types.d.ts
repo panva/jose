@@ -64,6 +64,8 @@ export interface JWK {
    * JWK "x5u" (X.509 URL) Parameter.
    */
   x5u?: string
+
+  [propName: string]: unknown
 }
 
 /**

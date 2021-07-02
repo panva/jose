@@ -35,7 +35,6 @@ const keyToJWK: JWKConvertFunction = (key: unknown): JWK => {
   }
 
   if (jwkExportSupported) {
-    // @ts-expect-error
     return keyObject.export({ format: 'jwk' })
   }
 

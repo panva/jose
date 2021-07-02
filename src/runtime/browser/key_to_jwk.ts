@@ -20,6 +20,6 @@ const keyToJWK: JWKConvertFunction = async (key: unknown): Promise<JWK> => {
   // eslint-disable-next-line @typescript-eslint/naming-convention
   const { ext, key_ops, alg, use, ...jwk } = await crypto.subtle.exportKey('jwk', key)
 
-  return jwk
+  return <JWK>jwk
 }
 export default keyToJWK
