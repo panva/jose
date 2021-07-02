@@ -6,15 +6,15 @@ Shared Interface with a "crit" property for all sign and verify operations.
 
 ## Hierarchy
 
-- **CritOption**
+- **`CritOption`**
 
-  ↳ [DecryptOptions](types.decryptoptions.md)
+  ↳ [`DecryptOptions`](types.decryptoptions.md)
 
-  ↳ [EncryptOptions](types.encryptoptions.md)
+  ↳ [`EncryptOptions`](types.encryptoptions.md)
 
-  ↳ [VerifyOptions](types.verifyoptions.md)
+  ↳ [`VerifyOptions`](types.verifyoptions.md)
 
-  ↳ [SignOptions](types.signoptions.md)
+  ↳ [`SignOptions`](types.signoptions.md)
 
 ## Table of contents
 
@@ -53,4 +53,4 @@ default built-in treatment are currently available.
 
 #### Defined in
 
-[types.d.ts:434](https://github.com/panva/jose/blob/v3.13.0/src/types.d.ts#L434)
+[types.d.ts:441](https://github.com/panva/jose/blob/v3.14.0/src/types.d.ts#L441)

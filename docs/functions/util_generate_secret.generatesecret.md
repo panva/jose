@@ -2,7 +2,7 @@
 
 [util/generate_secret](../modules/util_generate_secret.md).generateSecret
 
-▸ **generateSecret**(`alg`, `options?`): `Promise`<[KeyLike](../types/types.keylike.md)\>
+▸ **generateSecret**(`alg`, `options?`): `Promise`<[`KeyLike`](../types/types.keylike.md)\>
 
 Generates a symmetric secret key for a given JWA algorithm identifier.
 
@@ -30,12 +30,12 @@ console.log(secret)
 | Name | Type | Description |
 | :------ | :------ | :------ |
 | `alg` | `string` | JWA Algorithm Identifier to be used with the generated secret. |
-| `options?` | [GenerateSecretOptions](../interfaces/util_generate_secret.generatesecretoptions.md) | Additional options passed down to the secret generation. |
+| `options?` | [`GenerateSecretOptions`](../interfaces/util_generate_secret.generatesecretoptions.md) | Additional options passed down to the secret generation. |
 
 #### Returns
 
-`Promise`<[KeyLike](../types/types.keylike.md)\>
+`Promise`<[`KeyLike`](../types/types.keylike.md)\>
 
 #### Defined in
 
-[util/generate_secret.ts:38](https://github.com/panva/jose/blob/v3.13.0/src/util/generate_secret.ts#L38)
+[util/generate_secret.ts:38](https://github.com/panva/jose/blob/v3.14.0/src/util/generate_secret.ts#L38)

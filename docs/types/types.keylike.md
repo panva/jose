@@ -73,4 +73,4 @@ const rsaPublicKey = await parseJwk({
 
 #### Defined in
 
-[types.d.ts:151](https://github.com/panva/jose/blob/v3.13.0/src/types.d.ts#L151)
+[types.d.ts:153](https://github.com/panva/jose/blob/v3.14.0/src/types.d.ts#L153)

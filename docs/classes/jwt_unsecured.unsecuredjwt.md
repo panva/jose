@@ -40,7 +40,7 @@ console.log(payload)
 
 - `ProduceJWT`
 
-  ↳ **UnsecuredJWT**
+  ↳ **`UnsecuredJWT`**
 
 ## Table of contents
 
@@ -70,7 +70,7 @@ console.log(payload)
 
 | Name | Type | Description |
 | :------ | :------ | :------ |
-| `payload` | [JWTPayload](../interfaces/types.jwtpayload.md) | The JWT Claims Set object. |
+| `payload` | [`JWTPayload`](../interfaces/types.jwtpayload.md) | The JWT Claims Set object. |
 
 #### Inherited from
 
@@ -78,7 +78,7 @@ ProduceJWT.constructor
 
 #### Defined in
 
-[lib/jwt_producer.ts:10](https://github.com/panva/jose/blob/v3.13.0/src/lib/jwt_producer.ts#L10)
+[lib/jwt_producer.ts:10](https://github.com/panva/jose/blob/v3.14.0/src/lib/jwt_producer.ts#L10)
 
 ## Methods
 
@@ -94,13 +94,13 @@ Encodes the Unsecured JWT.
 
 #### Defined in
 
-[jwt/unsecured.ts:54](https://github.com/panva/jose/blob/v3.13.0/src/jwt/unsecured.ts#L54)
+[jwt/unsecured.ts:54](https://github.com/panva/jose/blob/v3.14.0/src/jwt/unsecured.ts#L54)
 
 ___
 
 ### setAudience
 
-▸ **setAudience**(`audience`): [UnsecuredJWT](jwt_unsecured.unsecuredjwt.md)
+▸ **setAudience**(`audience`): [`UnsecuredJWT`](jwt_unsecured.unsecuredjwt.md)
 
 Set "aud" (Audience) Claim.
 
@@ -112,7 +112,7 @@ Set "aud" (Audience) Claim.
 
 #### Returns
 
-[UnsecuredJWT](jwt_unsecured.unsecuredjwt.md)
+[`UnsecuredJWT`](jwt_unsecured.unsecuredjwt.md)
 
 #### Inherited from
 
@@ -120,13 +120,13 @@ ProduceJWT.setAudience
 
 #### Defined in
 
-[lib/jwt_producer.ts:47](https://github.com/panva/jose/blob/v3.13.0/src/lib/jwt_producer.ts#L47)
+[lib/jwt_producer.ts:47](https://github.com/panva/jose/blob/v3.14.0/src/lib/jwt_producer.ts#L47)
 
 ___
 
 ### setExpirationTime
 
-▸ **setExpirationTime**(`input`): [UnsecuredJWT](jwt_unsecured.unsecuredjwt.md)
+▸ **setExpirationTime**(`input`): [`UnsecuredJWT`](jwt_unsecured.unsecuredjwt.md)
 
 Set "exp" (Expiration Time) Claim.
 
@@ -138,7 +138,7 @@ Set "exp" (Expiration Time) Claim.
 
 #### Returns
 
-[UnsecuredJWT](jwt_unsecured.unsecuredjwt.md)
+[`UnsecuredJWT`](jwt_unsecured.unsecuredjwt.md)
 
 #### Inherited from
 
@@ -146,13 +146,13 @@ ProduceJWT.setExpirationTime
 
 #### Defined in
 
-[lib/jwt_producer.ts:85](https://github.com/panva/jose/blob/v3.13.0/src/lib/jwt_producer.ts#L85)
+[lib/jwt_producer.ts:85](https://github.com/panva/jose/blob/v3.14.0/src/lib/jwt_producer.ts#L85)
 
 ___
 
 ### setIssuedAt
 
-▸ **setIssuedAt**(`input?`): [UnsecuredJWT](jwt_unsecured.unsecuredjwt.md)
+▸ **setIssuedAt**(`input?`): [`UnsecuredJWT`](jwt_unsecured.unsecuredjwt.md)
 
 Set "iat" (Issued At) Claim.
 
@@ -164,7 +164,7 @@ Set "iat" (Issued At) Claim.
 
 #### Returns
 
-[UnsecuredJWT](jwt_unsecured.unsecuredjwt.md)
+[`UnsecuredJWT`](jwt_unsecured.unsecuredjwt.md)
 
 #### Inherited from
 
@@ -172,13 +172,13 @@ ProduceJWT.setIssuedAt
 
 #### Defined in
 
-[lib/jwt_producer.ts:100](https://github.com/panva/jose/blob/v3.13.0/src/lib/jwt_producer.ts#L100)
+[lib/jwt_producer.ts:100](https://github.com/panva/jose/blob/v3.14.0/src/lib/jwt_producer.ts#L100)
 
 ___
 
 ### setIssuer
 
-▸ **setIssuer**(`issuer`): [UnsecuredJWT](jwt_unsecured.unsecuredjwt.md)
+▸ **setIssuer**(`issuer`): [`UnsecuredJWT`](jwt_unsecured.unsecuredjwt.md)
 
 Set "iss" (Issuer) Claim.
 
@@ -190,7 +190,7 @@ Set "iss" (Issuer) Claim.
 
 #### Returns
 
-[UnsecuredJWT](jwt_unsecured.unsecuredjwt.md)
+[`UnsecuredJWT`](jwt_unsecured.unsecuredjwt.md)
 
 #### Inherited from
 
@@ -198,13 +198,13 @@ ProduceJWT.setIssuer
 
 #### Defined in
 
-[lib/jwt_producer.ts:27](https://github.com/panva/jose/blob/v3.13.0/src/lib/jwt_producer.ts#L27)
+[lib/jwt_producer.ts:27](https://github.com/panva/jose/blob/v3.14.0/src/lib/jwt_producer.ts#L27)
 
 ___
 
 ### setJti
 
-▸ **setJti**(`jwtId`): [UnsecuredJWT](jwt_unsecured.unsecuredjwt.md)
+▸ **setJti**(`jwtId`): [`UnsecuredJWT`](jwt_unsecured.unsecuredjwt.md)
 
 Set "jti" (JWT ID) Claim.
 
@@ -216,7 +216,7 @@ Set "jti" (JWT ID) Claim.
 
 #### Returns
 
-[UnsecuredJWT](jwt_unsecured.unsecuredjwt.md)
+[`UnsecuredJWT`](jwt_unsecured.unsecuredjwt.md)
 
 #### Inherited from
 
@@ -224,13 +224,13 @@ ProduceJWT.setJti
 
 #### Defined in
 
-[lib/jwt_producer.ts:57](https://github.com/panva/jose/blob/v3.13.0/src/lib/jwt_producer.ts#L57)
+[lib/jwt_producer.ts:57](https://github.com/panva/jose/blob/v3.14.0/src/lib/jwt_producer.ts#L57)
 
 ___
 
 ### setNotBefore
 
-▸ **setNotBefore**(`input`): [UnsecuredJWT](jwt_unsecured.unsecuredjwt.md)
+▸ **setNotBefore**(`input`): [`UnsecuredJWT`](jwt_unsecured.unsecuredjwt.md)
 
 Set "nbf" (Not Before) Claim.
 
@@ -242,7 +242,7 @@ Set "nbf" (Not Before) Claim.
 
 #### Returns
 
-[UnsecuredJWT](jwt_unsecured.unsecuredjwt.md)
+[`UnsecuredJWT`](jwt_unsecured.unsecuredjwt.md)
 
 #### Inherited from
 
@@ -250,13 +250,13 @@ ProduceJWT.setNotBefore
 
 #### Defined in
 
-[lib/jwt_producer.ts:69](https://github.com/panva/jose/blob/v3.13.0/src/lib/jwt_producer.ts#L69)
+[lib/jwt_producer.ts:69](https://github.com/panva/jose/blob/v3.14.0/src/lib/jwt_producer.ts#L69)
 
 ___
 
 ### setSubject
 
-▸ **setSubject**(`subject`): [UnsecuredJWT](jwt_unsecured.unsecuredjwt.md)
+▸ **setSubject**(`subject`): [`UnsecuredJWT`](jwt_unsecured.unsecuredjwt.md)
 
 Set "sub" (Subject) Claim.
 
@@ -268,7 +268,7 @@ Set "sub" (Subject) Claim.
 
 #### Returns
 
-[UnsecuredJWT](jwt_unsecured.unsecuredjwt.md)
+[`UnsecuredJWT`](jwt_unsecured.unsecuredjwt.md)
 
 #### Inherited from
 
@@ -276,13 +276,13 @@ ProduceJWT.setSubject
 
 #### Defined in
 
-[lib/jwt_producer.ts:37](https://github.com/panva/jose/blob/v3.13.0/src/lib/jwt_producer.ts#L37)
+[lib/jwt_producer.ts:37](https://github.com/panva/jose/blob/v3.14.0/src/lib/jwt_producer.ts#L37)
 
 ___
 
 ### decode
 
-▸ `Static` **decode**(`jwt`, `options?`): [UnsecuredResult](../interfaces/jwt_unsecured.unsecuredresult.md)
+▸ `Static` **decode**(`jwt`, `options?`): [`UnsecuredResult`](../interfaces/jwt_unsecured.unsecuredresult.md)
 
 Decodes an unsecured JWT.
 
@@ -291,12 +291,12 @@ Decodes an unsecured JWT.
 | Name | Type | Description |
 | :------ | :------ | :------ |
 | `jwt` | `string` | Unsecured JWT to decode the payload of. |
-| `options?` | [JWTClaimVerificationOptions](../interfaces/types.jwtclaimverificationoptions.md) | JWT Claims Set validation options. |
+| `options?` | [`JWTClaimVerificationOptions`](../interfaces/types.jwtclaimverificationoptions.md) | JWT Claims Set validation options. |
 
 #### Returns
 
-[UnsecuredResult](../interfaces/jwt_unsecured.unsecuredresult.md)
+[`UnsecuredResult`](../interfaces/jwt_unsecured.unsecuredresult.md)
 
 #### Defined in
 
-[jwt/unsecured.ts:67](https://github.com/panva/jose/blob/v3.13.0/src/jwt/unsecured.ts#L67)
+[jwt/unsecured.ts:67](https://github.com/panva/jose/blob/v3.14.0/src/jwt/unsecured.ts#L67)

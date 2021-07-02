@@ -31,7 +31,7 @@ console.log(jwt)
 
 - `ProduceJWT`
 
-  ↳ **SignJWT**
+  ↳ **`SignJWT`**
 
 ## Table of contents
 
@@ -61,7 +61,7 @@ console.log(jwt)
 
 | Name | Type | Description |
 | :------ | :------ | :------ |
-| `payload` | [JWTPayload](../interfaces/types.jwtpayload.md) | The JWT Claims Set object. |
+| `payload` | [`JWTPayload`](../interfaces/types.jwtpayload.md) | The JWT Claims Set object. |
 
 #### Inherited from
 
@@ -69,13 +69,13 @@ ProduceJWT.constructor
 
 #### Defined in
 
-[lib/jwt_producer.ts:10](https://github.com/panva/jose/blob/v3.13.0/src/lib/jwt_producer.ts#L10)
+[lib/jwt_producer.ts:10](https://github.com/panva/jose/blob/v3.14.0/src/lib/jwt_producer.ts#L10)
 
 ## Methods
 
 ### setAudience
 
-▸ **setAudience**(`audience`): [SignJWT](jwt_sign.signjwt.md)
+▸ **setAudience**(`audience`): [`SignJWT`](jwt_sign.signjwt.md)
 
 Set "aud" (Audience) Claim.
 
@@ -87,7 +87,7 @@ Set "aud" (Audience) Claim.
 
 #### Returns
 
-[SignJWT](jwt_sign.signjwt.md)
+[`SignJWT`](jwt_sign.signjwt.md)
 
 #### Inherited from
 
@@ -95,13 +95,13 @@ ProduceJWT.setAudience
 
 #### Defined in
 
-[lib/jwt_producer.ts:47](https://github.com/panva/jose/blob/v3.13.0/src/lib/jwt_producer.ts#L47)
+[lib/jwt_producer.ts:47](https://github.com/panva/jose/blob/v3.14.0/src/lib/jwt_producer.ts#L47)
 
 ___
 
 ### setExpirationTime
 
-▸ **setExpirationTime**(`input`): [SignJWT](jwt_sign.signjwt.md)
+▸ **setExpirationTime**(`input`): [`SignJWT`](jwt_sign.signjwt.md)
 
 Set "exp" (Expiration Time) Claim.
 
@@ -113,7 +113,7 @@ Set "exp" (Expiration Time) Claim.
 
 #### Returns
 
-[SignJWT](jwt_sign.signjwt.md)
+[`SignJWT`](jwt_sign.signjwt.md)
 
 #### Inherited from
 
@@ -121,13 +121,13 @@ ProduceJWT.setExpirationTime
 
 #### Defined in
 
-[lib/jwt_producer.ts:85](https://github.com/panva/jose/blob/v3.13.0/src/lib/jwt_producer.ts#L85)
+[lib/jwt_producer.ts:85](https://github.com/panva/jose/blob/v3.14.0/src/lib/jwt_producer.ts#L85)
 
 ___
 
 ### setIssuedAt
 
-▸ **setIssuedAt**(`input?`): [SignJWT](jwt_sign.signjwt.md)
+▸ **setIssuedAt**(`input?`): [`SignJWT`](jwt_sign.signjwt.md)
 
 Set "iat" (Issued At) Claim.
 
@@ -139,7 +139,7 @@ Set "iat" (Issued At) Claim.
 
 #### Returns
 
-[SignJWT](jwt_sign.signjwt.md)
+[`SignJWT`](jwt_sign.signjwt.md)
 
 #### Inherited from
 
@@ -147,13 +147,13 @@ ProduceJWT.setIssuedAt
 
 #### Defined in
 
-[lib/jwt_producer.ts:100](https://github.com/panva/jose/blob/v3.13.0/src/lib/jwt_producer.ts#L100)
+[lib/jwt_producer.ts:100](https://github.com/panva/jose/blob/v3.14.0/src/lib/jwt_producer.ts#L100)
 
 ___
 
 ### setIssuer
 
-▸ **setIssuer**(`issuer`): [SignJWT](jwt_sign.signjwt.md)
+▸ **setIssuer**(`issuer`): [`SignJWT`](jwt_sign.signjwt.md)
 
 Set "iss" (Issuer) Claim.
 
@@ -165,7 +165,7 @@ Set "iss" (Issuer) Claim.
 
 #### Returns
 
-[SignJWT](jwt_sign.signjwt.md)
+[`SignJWT`](jwt_sign.signjwt.md)
 
 #### Inherited from
 
@@ -173,13 +173,13 @@ ProduceJWT.setIssuer
 
 #### Defined in
 
-[lib/jwt_producer.ts:27](https://github.com/panva/jose/blob/v3.13.0/src/lib/jwt_producer.ts#L27)
+[lib/jwt_producer.ts:27](https://github.com/panva/jose/blob/v3.14.0/src/lib/jwt_producer.ts#L27)
 
 ___
 
 ### setJti
 
-▸ **setJti**(`jwtId`): [SignJWT](jwt_sign.signjwt.md)
+▸ **setJti**(`jwtId`): [`SignJWT`](jwt_sign.signjwt.md)
 
 Set "jti" (JWT ID) Claim.
 
@@ -191,7 +191,7 @@ Set "jti" (JWT ID) Claim.
 
 #### Returns
 
-[SignJWT](jwt_sign.signjwt.md)
+[`SignJWT`](jwt_sign.signjwt.md)
 
 #### Inherited from
 
@@ -199,13 +199,13 @@ ProduceJWT.setJti
 
 #### Defined in
 
-[lib/jwt_producer.ts:57](https://github.com/panva/jose/blob/v3.13.0/src/lib/jwt_producer.ts#L57)
+[lib/jwt_producer.ts:57](https://github.com/panva/jose/blob/v3.14.0/src/lib/jwt_producer.ts#L57)
 
 ___
 
 ### setNotBefore
 
-▸ **setNotBefore**(`input`): [SignJWT](jwt_sign.signjwt.md)
+▸ **setNotBefore**(`input`): [`SignJWT`](jwt_sign.signjwt.md)
 
 Set "nbf" (Not Before) Claim.
 
@@ -217,7 +217,7 @@ Set "nbf" (Not Before) Claim.
 
 #### Returns
 
-[SignJWT](jwt_sign.signjwt.md)
+[`SignJWT`](jwt_sign.signjwt.md)
 
 #### Inherited from
 
@@ -225,13 +225,13 @@ ProduceJWT.setNotBefore
 
 #### Defined in
 
-[lib/jwt_producer.ts:69](https://github.com/panva/jose/blob/v3.13.0/src/lib/jwt_producer.ts#L69)
+[lib/jwt_producer.ts:69](https://github.com/panva/jose/blob/v3.14.0/src/lib/jwt_producer.ts#L69)
 
 ___
 
 ### setProtectedHeader
 
-▸ **setProtectedHeader**(`protectedHeader`): [SignJWT](jwt_sign.signjwt.md)
+▸ **setProtectedHeader**(`protectedHeader`): [`SignJWT`](jwt_sign.signjwt.md)
 
 Sets the JWS Protected Header on the SignJWT object.
 
@@ -239,21 +239,21 @@ Sets the JWS Protected Header on the SignJWT object.
 
 | Name | Type | Description |
 | :------ | :------ | :------ |
-| `protectedHeader` | [JWSHeaderParameters](../interfaces/types.jwsheaderparameters.md) | JWS Protected Header. |
+| `protectedHeader` | [`JWSHeaderParameters`](../interfaces/types.jwsheaderparameters.md) | JWS Protected Header. |
 
 #### Returns
 
-[SignJWT](jwt_sign.signjwt.md)
+[`SignJWT`](jwt_sign.signjwt.md)
 
 #### Defined in
 
-[jwt/sign.ts:43](https://github.com/panva/jose/blob/v3.13.0/src/jwt/sign.ts#L43)
+[jwt/sign.ts:43](https://github.com/panva/jose/blob/v3.14.0/src/jwt/sign.ts#L43)
 
 ___
 
 ### setSubject
 
-▸ **setSubject**(`subject`): [SignJWT](jwt_sign.signjwt.md)
+▸ **setSubject**(`subject`): [`SignJWT`](jwt_sign.signjwt.md)
 
 Set "sub" (Subject) Claim.
 
@@ -265,7 +265,7 @@ Set "sub" (Subject) Claim.
 
 #### Returns
 
-[SignJWT](jwt_sign.signjwt.md)
+[`SignJWT`](jwt_sign.signjwt.md)
 
 #### Inherited from
 
@@ -273,13 +273,13 @@ ProduceJWT.setSubject
 
 #### Defined in
 
-[lib/jwt_producer.ts:37](https://github.com/panva/jose/blob/v3.13.0/src/lib/jwt_producer.ts#L37)
+[lib/jwt_producer.ts:37](https://github.com/panva/jose/blob/v3.14.0/src/lib/jwt_producer.ts#L37)
 
 ___
 
 ### sign
 
-▸ **sign**(`key`, `options?`): `Promise`<string\>
+▸ **sign**(`key`, `options?`): `Promise`<`string`\>
 
 Signs and returns the JWT.
 
@@ -287,13 +287,13 @@ Signs and returns the JWT.
 
 | Name | Type | Description |
 | :------ | :------ | :------ |
-| `key` | [KeyLike](../types/types.keylike.md) | Private Key or Secret to sign the JWT with. |
-| `options?` | [SignOptions](../interfaces/types.signoptions.md) | JWT Sign options. |
+| `key` | [`KeyLike`](../types/types.keylike.md) | Private Key or Secret to sign the JWT with. |
+| `options?` | [`SignOptions`](../interfaces/types.signoptions.md) | JWT Sign options. |
 
 #### Returns
 
-`Promise`<string\>
+`Promise`<`string`\>
 
 #### Defined in
 
-[jwt/sign.ts:54](https://github.com/panva/jose/blob/v3.13.0/src/jwt/sign.ts#L54)
+[jwt/sign.ts:54](https://github.com/panva/jose/blob/v3.14.0/src/jwt/sign.ts#L54)

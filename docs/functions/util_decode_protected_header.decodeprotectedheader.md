@@ -2,7 +2,7 @@
 
 [util/decode_protected_header](../modules/util_decode_protected_header.md).decodeProtectedHeader
 
-▸ **decodeProtectedHeader**(`token`): [ProtectedHeaderParameters](../types/util_decode_protected_header.protectedheaderparameters.md)
+▸ **decodeProtectedHeader**(`token`): [`ProtectedHeaderParameters`](../types/util_decode_protected_header.protectedheaderparameters.md)
 
 Decodes the Protected Header of a JWE/JWS/JWT token utilizing any JOSE serialization.
 
@@ -30,8 +30,8 @@ console.log(protectedHeader)
 
 #### Returns
 
-[ProtectedHeaderParameters](../types/util_decode_protected_header.protectedheaderparameters.md)
+[`ProtectedHeaderParameters`](../types/util_decode_protected_header.protectedheaderparameters.md)
 
 #### Defined in
 
-[util/decode_protected_header.ts:29](https://github.com/panva/jose/blob/v3.13.0/src/util/decode_protected_header.ts#L29)
+[util/decode_protected_header.ts:29](https://github.com/panva/jose/blob/v3.14.0/src/util/decode_protected_header.ts#L29)

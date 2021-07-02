@@ -6,11 +6,11 @@ JWE Decryption options.
 
 ## Hierarchy
 
-- [CritOption](types.critoption.md)
+- [`CritOption`](types.critoption.md)
 
-  ↳ **DecryptOptions**
+  ↳ **`DecryptOptions`**
 
-  ↳↳ [JWTDecryptOptions](jwt_decrypt.jwtdecryptoptions.md)
+  ↳↳ [`JWTDecryptOptions`](jwt_decrypt.jwtdecryptoptions.md)
 
 ## Table of contents
 
@@ -33,7 +33,7 @@ key/secret are allowed.
 
 #### Defined in
 
-[types.d.ts:453](https://github.com/panva/jose/blob/v3.13.0/src/types.d.ts#L453)
+[types.d.ts:460](https://github.com/panva/jose/blob/v3.14.0/src/types.d.ts#L460)
 
 ___
 
@@ -70,20 +70,20 @@ default built-in treatment are currently available.
 
 #### Defined in
 
-[types.d.ts:434](https://github.com/panva/jose/blob/v3.13.0/src/types.d.ts#L434)
+[types.d.ts:441](https://github.com/panva/jose/blob/v3.14.0/src/types.d.ts#L441)
 
 ___
 
 ### inflateRaw
 
-• `Optional` **inflateRaw**: [InflateFunction](types.inflatefunction.md)
+• `Optional` **inflateRaw**: [`InflateFunction`](types.inflatefunction.md)
 
 In a browser runtime you have to provide an implementation for Inflate Raw
 when you expect JWEs with compressed plaintext.
 
 #### Defined in
 
-[types.d.ts:459](https://github.com/panva/jose/blob/v3.13.0/src/types.d.ts#L459)
+[types.d.ts:466](https://github.com/panva/jose/blob/v3.14.0/src/types.d.ts#L466)
 
 ___
 
@@ -95,4 +95,4 @@ A list of accepted JWE "alg" (Algorithm) Header Parameter values.
 
 #### Defined in
 
-[types.d.ts:446](https://github.com/panva/jose/blob/v3.13.0/src/types.d.ts#L446)
+[types.d.ts:453](https://github.com/panva/jose/blob/v3.14.0/src/types.d.ts#L453)

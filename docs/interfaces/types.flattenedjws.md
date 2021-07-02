@@ -8,9 +8,9 @@ is not returned when JWS Unencoded Payload Option
 
 ## Hierarchy
 
-- `Partial`<[FlattenedJWSInput](types.flattenedjwsinput.md)\>
+- `Partial`<[`FlattenedJWSInput`](types.flattenedjwsinput.md)\>
 
-  ↳ **FlattenedJWS**
+  ↳ **`FlattenedJWS`**
 
 ## Table of contents
 
@@ -25,7 +25,7 @@ is not returned when JWS Unencoded Payload Option
 
 ### header
 
-• `Optional` **header**: [JWSHeaderParameters](types.jwsheaderparameters.md)
+• `Optional` **header**: [`JWSHeaderParameters`](types.jwsheaderparameters.md)
 
 The "header" member MUST be present and contain the value JWS
 Unprotected Header when the JWS Unprotected Header value is non-
@@ -39,7 +39,7 @@ Partial.header
 
 #### Defined in
 
-[types.d.ts:166](https://github.com/panva/jose/blob/v3.13.0/src/types.d.ts#L166)
+[types.d.ts:168](https://github.com/panva/jose/blob/v3.14.0/src/types.d.ts#L168)
 
 ___
 
@@ -53,7 +53,7 @@ Partial.payload
 
 #### Defined in
 
-[types.d.ts:216](https://github.com/panva/jose/blob/v3.13.0/src/types.d.ts#L216)
+[types.d.ts:218](https://github.com/panva/jose/blob/v3.14.0/src/types.d.ts#L218)
 
 ___
 
@@ -72,7 +72,7 @@ Partial.protected
 
 #### Defined in
 
-[types.d.ts:181](https://github.com/panva/jose/blob/v3.13.0/src/types.d.ts#L181)
+[types.d.ts:183](https://github.com/panva/jose/blob/v3.14.0/src/types.d.ts#L183)
 
 ___
 
@@ -86,4 +86,4 @@ Partial.signature
 
 #### Defined in
 
-[types.d.ts:217](https://github.com/panva/jose/blob/v3.13.0/src/types.d.ts#L217)
+[types.d.ts:219](https://github.com/panva/jose/blob/v3.14.0/src/types.d.ts#L219)

@@ -2,7 +2,7 @@
 
 [jws/flattened/verify](../modules/jws_flattened_verify.md).flattenedVerify
 
-▸ **flattenedVerify**(`jws`, `key`, `options?`): `Promise`<[FlattenedVerifyResult](../interfaces/types.flattenedverifyresult.md)\>
+▸ **flattenedVerify**(`jws`, `key`, `options?`): `Promise`<[`FlattenedVerifyResult`](../interfaces/types.flattenedverifyresult.md)\>
 
 Verifies the signature and format of and afterwards decodes the Flattened JWS.
 
@@ -35,14 +35,14 @@ console.log(decoder.decode(payload))
 
 | Name | Type | Description |
 | :------ | :------ | :------ |
-| `jws` | [FlattenedJWSInput](../interfaces/types.flattenedjwsinput.md) | Flattened JWS. |
-| `key` | [KeyLike](../types/types.keylike.md) \| [FlattenedVerifyGetKey](../interfaces/jws_flattened_verify.flattenedverifygetkey.md) | Key, or a function resolving a key, to verify the JWS with. |
-| `options?` | [VerifyOptions](../interfaces/types.verifyoptions.md) | JWS Verify options. |
+| `jws` | [`FlattenedJWSInput`](../interfaces/types.flattenedjwsinput.md) | Flattened JWS. |
+| `key` | [`KeyLike`](../types/types.keylike.md) \| [`FlattenedVerifyGetKey`](../interfaces/jws_flattened_verify.flattenedverifygetkey.md) | Key, or a function resolving a key, to verify the JWS with. |
+| `options?` | [`VerifyOptions`](../interfaces/types.verifyoptions.md) | JWS Verify options. |
 
 #### Returns
 
-`Promise`<[FlattenedVerifyResult](../interfaces/types.flattenedverifyresult.md)\>
+`Promise`<[`FlattenedVerifyResult`](../interfaces/types.flattenedverifyresult.md)\>
 
 #### Defined in
 
-[jws/flattened/verify.ts:66](https://github.com/panva/jose/blob/v3.13.0/src/jws/flattened/verify.ts#L66)
+[jws/flattened/verify.ts:66](https://github.com/panva/jose/blob/v3.14.0/src/jws/flattened/verify.ts#L66)

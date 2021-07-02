@@ -6,9 +6,9 @@ An error subclass thrown when a JWT is invalid.
 
 ## Hierarchy
 
-- [JOSEError](util_errors.joseerror.md)
+- [`JOSEError`](util_errors.joseerror.md)
 
-  ↳ **JWTInvalid**
+  ↳ **`JWTInvalid`**
 
 ## Table of contents
 
@@ -39,7 +39,7 @@ An error subclass thrown when a JWT is invalid.
 
 #### Defined in
 
-[util/errors.ts:16](https://github.com/panva/jose/blob/v3.13.0/src/util/errors.ts#L16)
+[util/errors.ts:16](https://github.com/panva/jose/blob/v3.14.0/src/util/errors.ts#L16)
 
 ## Properties
 
@@ -55,13 +55,13 @@ A unique error code for the particular error subclass.
 
 #### Defined in
 
-[util/errors.ts:106](https://github.com/panva/jose/blob/v3.13.0/src/util/errors.ts#L106)
+[util/errors.ts:106](https://github.com/panva/jose/blob/v3.14.0/src/util/errors.ts#L106)
 
 ___
 
 ### code
 
-▪ `Static` **code**: `string` = 'ERR\_JWT\_INVALID'
+▪ `Static` **code**: `string` = `'ERR_JWT_INVALID'`
 
 A unique error code for the particular error subclass.
 
@@ -71,4 +71,4 @@ A unique error code for the particular error subclass.
 
 #### Defined in
 
-[util/errors.ts:104](https://github.com/panva/jose/blob/v3.13.0/src/util/errors.ts#L104)
+[util/errors.ts:104](https://github.com/panva/jose/blob/v3.14.0/src/util/errors.ts#L104)

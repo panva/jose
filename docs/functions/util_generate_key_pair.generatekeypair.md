@@ -33,7 +33,7 @@ console.log(privateKey)
 | Name | Type | Description |
 | :------ | :------ | :------ |
 | `alg` | `string` | JWA Algorithm Identifier to be used with the generated key pair. |
-| `options?` | [GenerateKeyPairOptions](../interfaces/util_generate_key_pair.generatekeypairoptions.md) | Additional options passed down to the key pair generation. |
+| `options?` | [`GenerateKeyPairOptions`](../interfaces/util_generate_key_pair.generatekeypairoptions.md) | Additional options passed down to the key pair generation. |
 
 #### Returns
 
@@ -41,4 +41,4 @@ console.log(privateKey)
 
 #### Defined in
 
-[util/generate_key_pair.ts:54](https://github.com/panva/jose/blob/v3.13.0/src/util/generate_key_pair.ts#L54)
+[util/generate_key_pair.ts:54](https://github.com/panva/jose/blob/v3.14.0/src/util/generate_key_pair.ts#L54)

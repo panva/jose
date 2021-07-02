@@ -2,7 +2,7 @@
 
 [jws/general/verify](../modules/jws_general_verify.md).generalVerify
 
-▸ **generalVerify**(`jws`, `key`, `options?`): `Promise`<[GeneralVerifyResult](../interfaces/types.generalverifyresult.md)\>
+▸ **generalVerify**(`jws`, `key`, `options?`): `Promise`<[`GeneralVerifyResult`](../interfaces/types.generalverifyresult.md)\>
 
 Verifies the signature and format of and afterwards decodes the General JWS.
 
@@ -39,14 +39,14 @@ console.log(decoder.decode(payload))
 
 | Name | Type | Description |
 | :------ | :------ | :------ |
-| `jws` | [GeneralJWSInput](../interfaces/types.generaljwsinput.md) | General JWS. |
-| `key` | [KeyLike](../types/types.keylike.md) \| [GeneralVerifyGetKey](../interfaces/jws_general_verify.generalverifygetkey.md) | Key, or a function resolving a key, to verify the JWS with. |
-| `options?` | [VerifyOptions](../interfaces/types.verifyoptions.md) | JWS Verify options. |
+| `jws` | [`GeneralJWSInput`](../interfaces/types.generaljwsinput.md) | General JWS. |
+| `key` | [`KeyLike`](../types/types.keylike.md) \| [`GeneralVerifyGetKey`](../interfaces/jws_general_verify.generalverifygetkey.md) | Key, or a function resolving a key, to verify the JWS with. |
+| `options?` | [`VerifyOptions`](../interfaces/types.verifyoptions.md) | JWS Verify options. |
 
 #### Returns
 
-`Promise`<[GeneralVerifyResult](../interfaces/types.generalverifyresult.md)\>
+`Promise`<[`GeneralVerifyResult`](../interfaces/types.generalverifyresult.md)\>
 
 #### Defined in
 
-[jws/general/verify.ts:60](https://github.com/panva/jose/blob/v3.13.0/src/jws/general/verify.ts#L60)
+[jws/general/verify.ts:60](https://github.com/panva/jose/blob/v3.14.0/src/jws/general/verify.ts#L60)

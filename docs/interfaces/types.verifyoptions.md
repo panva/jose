@@ -6,11 +6,11 @@ JWS Verification options.
 
 ## Hierarchy
 
-- [CritOption](types.critoption.md)
+- [`CritOption`](types.critoption.md)
 
-  ↳ **VerifyOptions**
+  ↳ **`VerifyOptions`**
 
-  ↳↳ [JWTVerifyOptions](jwt_verify.jwtverifyoptions.md)
+  ↳↳ [`JWTVerifyOptions`](jwt_verify.jwtverifyoptions.md)
 
 ## Table of contents
 
@@ -31,7 +31,7 @@ key/secret are allowed. Note: "none" is never accepted.
 
 #### Defined in
 
-[types.d.ts:526](https://github.com/panva/jose/blob/v3.13.0/src/types.d.ts#L526)
+[types.d.ts:533](https://github.com/panva/jose/blob/v3.14.0/src/types.d.ts#L533)
 
 ___
 
@@ -68,4 +68,4 @@ default built-in treatment are currently available.
 
 #### Defined in
 
-[types.d.ts:434](https://github.com/panva/jose/blob/v3.13.0/src/types.d.ts#L434)
+[types.d.ts:441](https://github.com/panva/jose/blob/v3.14.0/src/types.d.ts#L441)

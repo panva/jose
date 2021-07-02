@@ -2,6 +2,21 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [3.14.0](https://github.com/panva/jose/compare/v3.13.0...v3.14.0) (2021-07-02)
+
+
+### Features
+
+* add verbose key type error messages ([df56b94](https://github.com/panva/jose/commit/df56b942c64dfdbb14cb860a403742f25ec60b49))
+
+
+### Bug Fixes
+
+* **typescript:** remove file extensions from .d.ts files ([e091f0f](https://github.com/panva/jose/commit/e091f0f24537541e350e803bd1e657348f428da2)), closes [#222](https://github.com/panva/jose/issues/222)
+* AES Key Wrap input type check ([b83821b](https://github.com/panva/jose/commit/b83821b2bf99fe2051d4d4d89fe4ff18a8559722))
+* guard SignJWT.prototype.sign() from missing protected header ([4103719](https://github.com/panva/jose/commit/4103719c24d1811306acf7d5290ef15c5afddcfb)), closes [#221](https://github.com/panva/jose/issues/221)
+* **typescript:** add "jku" header to JoseHeaderParameters ([#220](https://github.com/panva/jose/issues/220)) ([72a72db](https://github.com/panva/jose/commit/72a72db7723e06994066d6ad154073387c5bc17c))
+
 ## [3.13.0](https://github.com/panva/jose/compare/v3.12.3...v3.13.0) (2021-06-22)
 
 

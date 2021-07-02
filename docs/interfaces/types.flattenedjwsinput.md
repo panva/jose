@@ -18,7 +18,7 @@ Uint8Array for detached signature validation.
 
 ### header
 
-• `Optional` **header**: [JWSHeaderParameters](types.jwsheaderparameters.md)
+• `Optional` **header**: [`JWSHeaderParameters`](types.jwsheaderparameters.md)
 
 The "header" member MUST be present and contain the value JWS
 Unprotected Header when the JWS Unprotected Header value is non-
@@ -28,7 +28,7 @@ Parameter values are not integrity protected.
 
 #### Defined in
 
-[types.d.ts:166](https://github.com/panva/jose/blob/v3.13.0/src/types.d.ts#L166)
+[types.d.ts:168](https://github.com/panva/jose/blob/v3.14.0/src/types.d.ts#L168)
 
 ___
 
@@ -42,7 +42,7 @@ the value passed may also be a Uint8Array.
 
 #### Defined in
 
-[types.d.ts:173](https://github.com/panva/jose/blob/v3.13.0/src/types.d.ts#L173)
+[types.d.ts:175](https://github.com/panva/jose/blob/v3.14.0/src/types.d.ts#L175)
 
 ___
 
@@ -57,7 +57,7 @@ Header Parameter values are integrity protected.
 
 #### Defined in
 
-[types.d.ts:181](https://github.com/panva/jose/blob/v3.13.0/src/types.d.ts#L181)
+[types.d.ts:183](https://github.com/panva/jose/blob/v3.14.0/src/types.d.ts#L183)
 
 ___
 
@@ -70,4 +70,4 @@ BASE64URL(JWS Signature).
 
 #### Defined in
 
-[types.d.ts:187](https://github.com/panva/jose/blob/v3.13.0/src/types.d.ts#L187)
+[types.d.ts:189](https://github.com/panva/jose/blob/v3.14.0/src/types.d.ts#L189)

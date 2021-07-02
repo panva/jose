@@ -4,9 +4,9 @@
 
 ## Hierarchy
 
-- **FlattenedDecryptResult**
+- **`FlattenedDecryptResult`**
 
-  ↳ [GeneralDecryptResult](types.generaldecryptresult.md)
+  ↳ [`GeneralDecryptResult`](types.generaldecryptresult.md)
 
 ## Table of contents
 
@@ -28,7 +28,7 @@ JWE AAD.
 
 #### Defined in
 
-[types.d.ts:598](https://github.com/panva/jose/blob/v3.13.0/src/types.d.ts#L598)
+[types.d.ts:605](https://github.com/panva/jose/blob/v3.14.0/src/types.d.ts#L605)
 
 ___
 
@@ -40,40 +40,40 @@ Plaintext.
 
 #### Defined in
 
-[types.d.ts:603](https://github.com/panva/jose/blob/v3.13.0/src/types.d.ts#L603)
+[types.d.ts:610](https://github.com/panva/jose/blob/v3.14.0/src/types.d.ts#L610)
 
 ___
 
 ### protectedHeader
 
-• `Optional` **protectedHeader**: [JWEHeaderParameters](types.jweheaderparameters.md)
+• `Optional` **protectedHeader**: [`JWEHeaderParameters`](types.jweheaderparameters.md)
 
 JWE Protected Header.
 
 #### Defined in
 
-[types.d.ts:608](https://github.com/panva/jose/blob/v3.13.0/src/types.d.ts#L608)
+[types.d.ts:615](https://github.com/panva/jose/blob/v3.14.0/src/types.d.ts#L615)
 
 ___
 
 ### sharedUnprotectedHeader
 
-• `Optional` **sharedUnprotectedHeader**: [JWEHeaderParameters](types.jweheaderparameters.md)
+• `Optional` **sharedUnprotectedHeader**: [`JWEHeaderParameters`](types.jweheaderparameters.md)
 
 JWE Shared Unprotected Header.
 
 #### Defined in
 
-[types.d.ts:613](https://github.com/panva/jose/blob/v3.13.0/src/types.d.ts#L613)
+[types.d.ts:620](https://github.com/panva/jose/blob/v3.14.0/src/types.d.ts#L620)
 
 ___
 
 ### unprotectedHeader
 
-• `Optional` **unprotectedHeader**: [JWEHeaderParameters](types.jweheaderparameters.md)
+• `Optional` **unprotectedHeader**: [`JWEHeaderParameters`](types.jweheaderparameters.md)
 
 JWE Per-Recipient Unprotected Header.
 
 #### Defined in
 
-[types.d.ts:618](https://github.com/panva/jose/blob/v3.13.0/src/types.d.ts#L618)
+[types.d.ts:625](https://github.com/panva/jose/blob/v3.14.0/src/types.d.ts#L625)

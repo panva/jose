@@ -6,9 +6,9 @@ JWS Signing options.
 
 ## Hierarchy
 
-- [CritOption](types.critoption.md)
+- [`CritOption`](types.critoption.md)
 
-  ↳ **SignOptions**
+  ↳ **`SignOptions`**
 
 ## Table of contents
 
@@ -51,4 +51,4 @@ default built-in treatment are currently available.
 
 #### Defined in
 
-[types.d.ts:434](https://github.com/panva/jose/blob/v3.13.0/src/types.d.ts#L434)
+[types.d.ts:441](https://github.com/panva/jose/blob/v3.14.0/src/types.d.ts#L441)

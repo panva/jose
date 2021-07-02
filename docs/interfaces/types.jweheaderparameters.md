@@ -7,9 +7,9 @@ may also be present.
 
 ## Hierarchy
 
-- [JoseHeaderParameters](types.joseheaderparameters.md)
+- [`JoseHeaderParameters`](types.joseheaderparameters.md)
 
-  ↳ **JWEHeaderParameters**
+  ↳ **`JWEHeaderParameters`**
 
 ## Indexable
 
@@ -25,6 +25,7 @@ Any other JWE Header member.
 - [crit](types.jweheaderparameters.md#crit)
 - [cty](types.jweheaderparameters.md#cty)
 - [enc](types.jweheaderparameters.md#enc)
+- [jku](types.jweheaderparameters.md#jku)
 - [jwk](types.jweheaderparameters.md#jwk)
 - [kid](types.jweheaderparameters.md#kid)
 - [typ](types.jweheaderparameters.md#typ)
@@ -43,7 +44,7 @@ JWE "alg" (Algorithm) Header Parameter.
 
 #### Defined in
 
-[types.d.ts:387](https://github.com/panva/jose/blob/v3.13.0/src/types.d.ts#L387)
+[types.d.ts:394](https://github.com/panva/jose/blob/v3.14.0/src/types.d.ts#L394)
 
 ___
 
@@ -55,7 +56,7 @@ JWE "crit" (Critical) Header Parameter.
 
 #### Defined in
 
-[types.d.ts:397](https://github.com/panva/jose/blob/v3.13.0/src/types.d.ts#L397)
+[types.d.ts:404](https://github.com/panva/jose/blob/v3.14.0/src/types.d.ts#L404)
 
 ___
 
@@ -71,7 +72,7 @@ ___
 
 #### Defined in
 
-[types.d.ts:264](https://github.com/panva/jose/blob/v3.13.0/src/types.d.ts#L264)
+[types.d.ts:271](https://github.com/panva/jose/blob/v3.14.0/src/types.d.ts#L271)
 
 ___
 
@@ -83,13 +84,29 @@ JWE "enc" (Encryption Algorithm) Header Parameter.
 
 #### Defined in
 
-[types.d.ts:392](https://github.com/panva/jose/blob/v3.13.0/src/types.d.ts#L392)
+[types.d.ts:399](https://github.com/panva/jose/blob/v3.14.0/src/types.d.ts#L399)
+
+___
+
+### jku
+
+• `Optional` **jku**: `string`
+
+"jku" (JWK Set URL) Header Parameter.
+
+#### Inherited from
+
+[JoseHeaderParameters](types.joseheaderparameters.md).[jku](types.joseheaderparameters.md#jku)
+
+#### Defined in
+
+[types.d.ts:256](https://github.com/panva/jose/blob/v3.14.0/src/types.d.ts#L256)
 
 ___
 
 ### jwk
 
-• `Optional` **jwk**: `Pick`<[JWK](types.jwk.md), ``"kty"`` \| ``"crv"`` \| ``"x"`` \| ``"y"`` \| ``"e"`` \| ``"n"``\>
+• `Optional` **jwk**: `Pick`<[`JWK`](types.jwk.md), ``"kty"`` \| ``"crv"`` \| ``"x"`` \| ``"y"`` \| ``"e"`` \| ``"n"``\>
 
 "jwk" (JSON Web Key) Header Parameter.
 
@@ -99,7 +116,7 @@ ___
 
 #### Defined in
 
-[types.d.ts:254](https://github.com/panva/jose/blob/v3.13.0/src/types.d.ts#L254)
+[types.d.ts:261](https://github.com/panva/jose/blob/v3.14.0/src/types.d.ts#L261)
 
 ___
 
@@ -115,7 +132,7 @@ ___
 
 #### Defined in
 
-[types.d.ts:234](https://github.com/panva/jose/blob/v3.13.0/src/types.d.ts#L234)
+[types.d.ts:236](https://github.com/panva/jose/blob/v3.14.0/src/types.d.ts#L236)
 
 ___
 
@@ -131,7 +148,7 @@ ___
 
 #### Defined in
 
-[types.d.ts:259](https://github.com/panva/jose/blob/v3.13.0/src/types.d.ts#L259)
+[types.d.ts:266](https://github.com/panva/jose/blob/v3.14.0/src/types.d.ts#L266)
 
 ___
 
@@ -147,7 +164,7 @@ ___
 
 #### Defined in
 
-[types.d.ts:244](https://github.com/panva/jose/blob/v3.13.0/src/types.d.ts#L244)
+[types.d.ts:246](https://github.com/panva/jose/blob/v3.14.0/src/types.d.ts#L246)
 
 ___
 
@@ -163,7 +180,7 @@ ___
 
 #### Defined in
 
-[types.d.ts:239](https://github.com/panva/jose/blob/v3.13.0/src/types.d.ts#L239)
+[types.d.ts:241](https://github.com/panva/jose/blob/v3.14.0/src/types.d.ts#L241)
 
 ___
 
@@ -179,7 +196,7 @@ ___
 
 #### Defined in
 
-[types.d.ts:249](https://github.com/panva/jose/blob/v3.13.0/src/types.d.ts#L249)
+[types.d.ts:251](https://github.com/panva/jose/blob/v3.14.0/src/types.d.ts#L251)
 
 ___
 
@@ -191,4 +208,4 @@ JWE "zip" (Compression Algorithm) Header Parameter.
 
 #### Defined in
 
-[types.d.ts:402](https://github.com/panva/jose/blob/v3.13.0/src/types.d.ts#L402)
+[types.d.ts:409](https://github.com/panva/jose/blob/v3.14.0/src/types.d.ts#L409)

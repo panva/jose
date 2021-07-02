@@ -6,11 +6,11 @@ Combination of JWE Decryption options and JWT Claims Set verification options.
 
 ## Hierarchy
 
-- [DecryptOptions](types.decryptoptions.md)
+- [`DecryptOptions`](types.decryptoptions.md)
 
-- [JWTClaimVerificationOptions](types.jwtclaimverificationoptions.md)
+- [`JWTClaimVerificationOptions`](types.jwtclaimverificationoptions.md)
 
-  ↳ **JWTDecryptOptions**
+  ↳ **`JWTDecryptOptions`**
 
 ## Table of contents
 
@@ -42,7 +42,7 @@ Expected JWT "aud" (Audience) Claim value(s).
 
 #### Defined in
 
-[types.d.ts:480](https://github.com/panva/jose/blob/v3.13.0/src/types.d.ts#L480)
+[types.d.ts:487](https://github.com/panva/jose/blob/v3.14.0/src/types.d.ts#L487)
 
 ___
 
@@ -60,7 +60,7 @@ Expected clock tolerance
 
 #### Defined in
 
-[types.d.ts:487](https://github.com/panva/jose/blob/v3.13.0/src/types.d.ts#L487)
+[types.d.ts:494](https://github.com/panva/jose/blob/v3.14.0/src/types.d.ts#L494)
 
 ___
 
@@ -78,7 +78,7 @@ key/secret are allowed.
 
 #### Defined in
 
-[types.d.ts:453](https://github.com/panva/jose/blob/v3.13.0/src/types.d.ts#L453)
+[types.d.ts:460](https://github.com/panva/jose/blob/v3.14.0/src/types.d.ts#L460)
 
 ___
 
@@ -115,7 +115,7 @@ default built-in treatment are currently available.
 
 #### Defined in
 
-[types.d.ts:434](https://github.com/panva/jose/blob/v3.13.0/src/types.d.ts#L434)
+[types.d.ts:441](https://github.com/panva/jose/blob/v3.14.0/src/types.d.ts#L441)
 
 ___
 
@@ -131,13 +131,13 @@ Date to use when comparing NumericDate claims, defaults to `new Date()`.
 
 #### Defined in
 
-[types.d.ts:514](https://github.com/panva/jose/blob/v3.13.0/src/types.d.ts#L514)
+[types.d.ts:521](https://github.com/panva/jose/blob/v3.14.0/src/types.d.ts#L521)
 
 ___
 
 ### inflateRaw
 
-• `Optional` **inflateRaw**: [InflateFunction](types.inflatefunction.md)
+• `Optional` **inflateRaw**: [`InflateFunction`](types.inflatefunction.md)
 
 In a browser runtime you have to provide an implementation for Inflate Raw
 when you expect JWEs with compressed plaintext.
@@ -148,7 +148,7 @@ when you expect JWEs with compressed plaintext.
 
 #### Defined in
 
-[types.d.ts:459](https://github.com/panva/jose/blob/v3.13.0/src/types.d.ts#L459)
+[types.d.ts:466](https://github.com/panva/jose/blob/v3.14.0/src/types.d.ts#L466)
 
 ___
 
@@ -164,7 +164,7 @@ Expected JWT "iss" (Issuer) Claim value(s).
 
 #### Defined in
 
-[types.d.ts:492](https://github.com/panva/jose/blob/v3.13.0/src/types.d.ts#L492)
+[types.d.ts:499](https://github.com/panva/jose/blob/v3.14.0/src/types.d.ts#L499)
 
 ___
 
@@ -180,7 +180,7 @@ A list of accepted JWE "alg" (Algorithm) Header Parameter values.
 
 #### Defined in
 
-[types.d.ts:446](https://github.com/panva/jose/blob/v3.13.0/src/types.d.ts#L446)
+[types.d.ts:453](https://github.com/panva/jose/blob/v3.14.0/src/types.d.ts#L453)
 
 ___
 
@@ -198,7 +198,7 @@ Maximum time elapsed (in seconds) from the JWT "iat" (Issued At) Claim value.
 
 #### Defined in
 
-[types.d.ts:499](https://github.com/panva/jose/blob/v3.13.0/src/types.d.ts#L499)
+[types.d.ts:506](https://github.com/panva/jose/blob/v3.14.0/src/types.d.ts#L506)
 
 ___
 
@@ -214,7 +214,7 @@ Expected JWT "sub" (Subject) Claim value.
 
 #### Defined in
 
-[types.d.ts:504](https://github.com/panva/jose/blob/v3.13.0/src/types.d.ts#L504)
+[types.d.ts:511](https://github.com/panva/jose/blob/v3.14.0/src/types.d.ts#L511)
 
 ___
 
@@ -230,4 +230,4 @@ Expected JWT "typ" (Type) Header Parameter value.
 
 #### Defined in
 
-[types.d.ts:509](https://github.com/panva/jose/blob/v3.13.0/src/types.d.ts#L509)
+[types.d.ts:516](https://github.com/panva/jose/blob/v3.14.0/src/types.d.ts#L516)

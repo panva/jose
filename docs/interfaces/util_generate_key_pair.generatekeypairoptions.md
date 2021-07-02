@@ -22,7 +22,7 @@ the given JWA algorithm identifier.
 
 #### Defined in
 
-[util/generate_key_pair.ts:10](https://github.com/panva/jose/blob/v3.13.0/src/util/generate_key_pair.ts#L10)
+[util/generate_key_pair.ts:10](https://github.com/panva/jose/blob/v3.14.0/src/util/generate_key_pair.ts#L10)
 
 ___
 
@@ -36,7 +36,7 @@ ___
 
 #### Defined in
 
-[util/generate_key_pair.ts:23](https://github.com/panva/jose/blob/v3.13.0/src/util/generate_key_pair.ts#L23)
+[util/generate_key_pair.ts:23](https://github.com/panva/jose/blob/v3.14.0/src/util/generate_key_pair.ts#L23)
 
 ___
 
@@ -49,4 +49,4 @@ A hint for RSA algorithms to generate an RSA key of a given `modulusLength`
 
 #### Defined in
 
-[util/generate_key_pair.ts:16](https://github.com/panva/jose/blob/v3.13.0/src/util/generate_key_pair.ts#L16)
+[util/generate_key_pair.ts:16](https://github.com/panva/jose/blob/v3.14.0/src/util/generate_key_pair.ts#L16)

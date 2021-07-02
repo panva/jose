@@ -2,7 +2,7 @@
 
 [jwe/flattened/decrypt](../modules/jwe_flattened_decrypt.md).flattenedDecrypt
 
-▸ **flattenedDecrypt**(`jwe`, `key`, `options?`): `Promise`<[FlattenedDecryptResult](../interfaces/types.flatteneddecryptresult.md)\>
+▸ **flattenedDecrypt**(`jwe`, `key`, `options?`): `Promise`<[`FlattenedDecryptResult`](../interfaces/types.flatteneddecryptresult.md)\>
 
 Decrypts a Flattened JWE.
 
@@ -43,14 +43,14 @@ console.log(decoder.decode(additionalAuthenticatedData))
 
 | Name | Type | Description |
 | :------ | :------ | :------ |
-| `jwe` | [FlattenedJWE](../interfaces/types.flattenedjwe.md) | Flattened JWE. |
-| `key` | [KeyLike](../types/types.keylike.md) \| [FlattenedDecryptGetKey](../interfaces/jwe_flattened_decrypt.flatteneddecryptgetkey.md) | Public Key or Secret, or a function resolving one, to decrypt the JWE with. |
-| `options?` | [DecryptOptions](../interfaces/types.decryptoptions.md) | JWE Decryption options. |
+| `jwe` | [`FlattenedJWE`](../interfaces/types.flattenedjwe.md) | Flattened JWE. |
+| `key` | [`KeyLike`](../types/types.keylike.md) \| [`FlattenedDecryptGetKey`](../interfaces/jwe_flattened_decrypt.flatteneddecryptgetkey.md) | Public Key or Secret, or a function resolving one, to decrypt the JWE with. |
+| `options?` | [`DecryptOptions`](../interfaces/types.decryptoptions.md) | JWE Decryption options. |
 
 #### Returns
 
-`Promise`<[FlattenedDecryptResult](../interfaces/types.flatteneddecryptresult.md)\>
+`Promise`<[`FlattenedDecryptResult`](../interfaces/types.flatteneddecryptresult.md)\>
 
 #### Defined in
 
-[jwe/flattened/decrypt.ts:76](https://github.com/panva/jose/blob/v3.13.0/src/jwe/flattened/decrypt.ts#L76)
+[jwe/flattened/decrypt.ts:76](https://github.com/panva/jose/blob/v3.14.0/src/jwe/flattened/decrypt.ts#L76)

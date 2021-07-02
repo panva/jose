@@ -58,13 +58,13 @@ console.log(jwe)
 
 #### Defined in
 
-[jwe/flattened/encrypt.ts:65](https://github.com/panva/jose/blob/v3.13.0/src/jwe/flattened/encrypt.ts#L65)
+[jwe/flattened/encrypt.ts:65](https://github.com/panva/jose/blob/v3.14.0/src/jwe/flattened/encrypt.ts#L65)
 
 ## Methods
 
 ### encrypt
 
-▸ **encrypt**(`key`, `options?`): `Promise`<[FlattenedJWE](../interfaces/types.flattenedjwe.md)\>
+▸ **encrypt**(`key`, `options?`): `Promise`<[`FlattenedJWE`](../interfaces/types.flattenedjwe.md)\>
 
 Encrypts and resolves the value of the Flattened JWE object.
 
@@ -72,22 +72,22 @@ Encrypts and resolves the value of the Flattened JWE object.
 
 | Name | Type | Description |
 | :------ | :------ | :------ |
-| `key` | [KeyLike](../types/types.keylike.md) | Public Key or Secret to encrypt the JWE with. |
-| `options?` | [EncryptOptions](../interfaces/types.encryptoptions.md) | JWE Encryption options. |
+| `key` | [`KeyLike`](../types/types.keylike.md) | Public Key or Secret to encrypt the JWE with. |
+| `options?` | [`EncryptOptions`](../interfaces/types.encryptoptions.md) | JWE Encryption options. |
 
 #### Returns
 
-`Promise`<[FlattenedJWE](../interfaces/types.flattenedjwe.md)\>
+`Promise`<[`FlattenedJWE`](../interfaces/types.flattenedjwe.md)\>
 
 #### Defined in
 
-[jwe/flattened/encrypt.ts:177](https://github.com/panva/jose/blob/v3.13.0/src/jwe/flattened/encrypt.ts#L177)
+[jwe/flattened/encrypt.ts:177](https://github.com/panva/jose/blob/v3.14.0/src/jwe/flattened/encrypt.ts#L177)
 
 ___
 
 ### setAdditionalAuthenticatedData
 
-▸ **setAdditionalAuthenticatedData**(`aad`): [FlattenedEncrypt](jwe_flattened_encrypt.flattenedencrypt.md)
+▸ **setAdditionalAuthenticatedData**(`aad`): [`FlattenedEncrypt`](jwe_flattened_encrypt.flattenedencrypt.md)
 
 Sets the Additional Authenticated Data on the FlattenedEncrypt object.
 
@@ -99,17 +99,17 @@ Sets the Additional Authenticated Data on the FlattenedEncrypt object.
 
 #### Returns
 
-[FlattenedEncrypt](jwe_flattened_encrypt.flattenedencrypt.md)
+[`FlattenedEncrypt`](jwe_flattened_encrypt.flattenedencrypt.md)
 
 #### Defined in
 
-[jwe/flattened/encrypt.ts:134](https://github.com/panva/jose/blob/v3.13.0/src/jwe/flattened/encrypt.ts#L134)
+[jwe/flattened/encrypt.ts:134](https://github.com/panva/jose/blob/v3.14.0/src/jwe/flattened/encrypt.ts#L134)
 
 ___
 
 ### setContentEncryptionKey
 
-▸ **setContentEncryptionKey**(`cek`): [FlattenedEncrypt](jwe_flattened_encrypt.flattenedencrypt.md)
+▸ **setContentEncryptionKey**(`cek`): [`FlattenedEncrypt`](jwe_flattened_encrypt.flattenedencrypt.md)
 
 Sets a content encryption key to use, by default a random suitable one
 is generated for the JWE enc" (Encryption Algorithm) Header Parameter.
@@ -124,17 +124,17 @@ test and vector validation purposes.
 
 #### Returns
 
-[FlattenedEncrypt](jwe_flattened_encrypt.flattenedencrypt.md)
+[`FlattenedEncrypt`](jwe_flattened_encrypt.flattenedencrypt.md)
 
 #### Defined in
 
-[jwe/flattened/encrypt.ts:147](https://github.com/panva/jose/blob/v3.13.0/src/jwe/flattened/encrypt.ts#L147)
+[jwe/flattened/encrypt.ts:147](https://github.com/panva/jose/blob/v3.14.0/src/jwe/flattened/encrypt.ts#L147)
 
 ___
 
 ### setInitializationVector
 
-▸ **setInitializationVector**(`iv`): [FlattenedEncrypt](jwe_flattened_encrypt.flattenedencrypt.md)
+▸ **setInitializationVector**(`iv`): [`FlattenedEncrypt`](jwe_flattened_encrypt.flattenedencrypt.md)
 
 Sets the JWE Initialization Vector to use for content encryption, by default
 a random suitable one is generated for the JWE enc" (Encryption Algorithm)
@@ -149,17 +149,17 @@ intended for test and vector validation purposes.
 
 #### Returns
 
-[FlattenedEncrypt](jwe_flattened_encrypt.flattenedencrypt.md)
+[`FlattenedEncrypt`](jwe_flattened_encrypt.flattenedencrypt.md)
 
 #### Defined in
 
-[jwe/flattened/encrypt.ts:163](https://github.com/panva/jose/blob/v3.13.0/src/jwe/flattened/encrypt.ts#L163)
+[jwe/flattened/encrypt.ts:163](https://github.com/panva/jose/blob/v3.14.0/src/jwe/flattened/encrypt.ts#L163)
 
 ___
 
 ### setKeyManagementParameters
 
-▸ **setKeyManagementParameters**(`parameters`): [FlattenedEncrypt](jwe_flattened_encrypt.flattenedencrypt.md)
+▸ **setKeyManagementParameters**(`parameters`): [`FlattenedEncrypt`](jwe_flattened_encrypt.flattenedencrypt.md)
 
 Sets the JWE Key Management parameters to be used when encrypting.
 Use of this is method is really only needed for ECDH-ES based algorithms
@@ -170,21 +170,21 @@ Other parameters will always be randomly generated when needed and missing.
 
 | Name | Type | Description |
 | :------ | :------ | :------ |
-| `parameters` | [JWEKeyManagementHeaderParameters](../interfaces/types.jwekeymanagementheaderparameters.md) | JWE Key Management parameters. |
+| `parameters` | [`JWEKeyManagementHeaderParameters`](../interfaces/types.jwekeymanagementheaderparameters.md) | JWE Key Management parameters. |
 
 #### Returns
 
-[FlattenedEncrypt](jwe_flattened_encrypt.flattenedencrypt.md)
+[`FlattenedEncrypt`](jwe_flattened_encrypt.flattenedencrypt.md)
 
 #### Defined in
 
-[jwe/flattened/encrypt.ts:82](https://github.com/panva/jose/blob/v3.13.0/src/jwe/flattened/encrypt.ts#L82)
+[jwe/flattened/encrypt.ts:82](https://github.com/panva/jose/blob/v3.14.0/src/jwe/flattened/encrypt.ts#L82)
 
 ___
 
 ### setProtectedHeader
 
-▸ **setProtectedHeader**(`protectedHeader`): [FlattenedEncrypt](jwe_flattened_encrypt.flattenedencrypt.md)
+▸ **setProtectedHeader**(`protectedHeader`): [`FlattenedEncrypt`](jwe_flattened_encrypt.flattenedencrypt.md)
 
 Sets the JWE Protected Header on the FlattenedEncrypt object.
 
@@ -192,21 +192,21 @@ Sets the JWE Protected Header on the FlattenedEncrypt object.
 
 | Name | Type | Description |
 | :------ | :------ | :------ |
-| `protectedHeader` | [JWEHeaderParameters](../interfaces/types.jweheaderparameters.md) | JWE Protected Header. |
+| `protectedHeader` | [`JWEHeaderParameters`](../interfaces/types.jweheaderparameters.md) | JWE Protected Header. |
 
 #### Returns
 
-[FlattenedEncrypt](jwe_flattened_encrypt.flattenedencrypt.md)
+[`FlattenedEncrypt`](jwe_flattened_encrypt.flattenedencrypt.md)
 
 #### Defined in
 
-[jwe/flattened/encrypt.ts:95](https://github.com/panva/jose/blob/v3.13.0/src/jwe/flattened/encrypt.ts#L95)
+[jwe/flattened/encrypt.ts:95](https://github.com/panva/jose/blob/v3.14.0/src/jwe/flattened/encrypt.ts#L95)
 
 ___
 
 ### setSharedUnprotectedHeader
 
-▸ **setSharedUnprotectedHeader**(`sharedUnprotectedHeader`): [FlattenedEncrypt](jwe_flattened_encrypt.flattenedencrypt.md)
+▸ **setSharedUnprotectedHeader**(`sharedUnprotectedHeader`): [`FlattenedEncrypt`](jwe_flattened_encrypt.flattenedencrypt.md)
 
 Sets the JWE Shared Unprotected Header on the FlattenedEncrypt object.
 
@@ -214,21 +214,21 @@ Sets the JWE Shared Unprotected Header on the FlattenedEncrypt object.
 
 | Name | Type | Description |
 | :------ | :------ | :------ |
-| `sharedUnprotectedHeader` | [JWEHeaderParameters](../interfaces/types.jweheaderparameters.md) | JWE Shared Unprotected Header. |
+| `sharedUnprotectedHeader` | [`JWEHeaderParameters`](../interfaces/types.jweheaderparameters.md) | JWE Shared Unprotected Header. |
 
 #### Returns
 
-[FlattenedEncrypt](jwe_flattened_encrypt.flattenedencrypt.md)
+[`FlattenedEncrypt`](jwe_flattened_encrypt.flattenedencrypt.md)
 
 #### Defined in
 
-[jwe/flattened/encrypt.ts:108](https://github.com/panva/jose/blob/v3.13.0/src/jwe/flattened/encrypt.ts#L108)
+[jwe/flattened/encrypt.ts:108](https://github.com/panva/jose/blob/v3.14.0/src/jwe/flattened/encrypt.ts#L108)
 
 ___
 
 ### setUnprotectedHeader
 
-▸ **setUnprotectedHeader**(`unprotectedHeader`): [FlattenedEncrypt](jwe_flattened_encrypt.flattenedencrypt.md)
+▸ **setUnprotectedHeader**(`unprotectedHeader`): [`FlattenedEncrypt`](jwe_flattened_encrypt.flattenedencrypt.md)
 
 Sets the JWE Per-Recipient Unprotected Header on the FlattenedEncrypt object.
 
@@ -236,12 +236,12 @@ Sets the JWE Per-Recipient Unprotected Header on the FlattenedEncrypt object.
 
 | Name | Type | Description |
 | :------ | :------ | :------ |
-| `unprotectedHeader` | [JWEHeaderParameters](../interfaces/types.jweheaderparameters.md) | JWE Per-Recipient Unprotected Header. |
+| `unprotectedHeader` | [`JWEHeaderParameters`](../interfaces/types.jweheaderparameters.md) | JWE Per-Recipient Unprotected Header. |
 
 #### Returns
 
-[FlattenedEncrypt](jwe_flattened_encrypt.flattenedencrypt.md)
+[`FlattenedEncrypt`](jwe_flattened_encrypt.flattenedencrypt.md)
 
 #### Defined in
 
-[jwe/flattened/encrypt.ts:121](https://github.com/panva/jose/blob/v3.13.0/src/jwe/flattened/encrypt.ts#L121)
+[jwe/flattened/encrypt.ts:121](https://github.com/panva/jose/blob/v3.14.0/src/jwe/flattened/encrypt.ts#L121)

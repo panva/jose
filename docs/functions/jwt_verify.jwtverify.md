@@ -2,7 +2,7 @@
 
 [jwt/verify](../modules/jwt_verify.md).jwtVerify
 
-▸ **jwtVerify**(`jwt`, `key`, `options?`): `Promise`<[JWTVerifyResult](../interfaces/types.jwtverifyresult.md)\>
+▸ **jwtVerify**(`jwt`, `key`, `options?`): `Promise`<[`JWTVerifyResult`](../interfaces/types.jwtverifyresult.md)\>
 
 Verifies the JWT format (to be a JWS Compact format), verifies the JWS signature, validates the JWT Claims Set.
 
@@ -34,13 +34,13 @@ console.log(payload)
 | Name | Type | Description |
 | :------ | :------ | :------ |
 | `jwt` | `string` \| `Uint8Array` | JSON Web Token value (encoded as JWS). |
-| `key` | [KeyLike](../types/types.keylike.md) \| [JWTVerifyGetKey](../interfaces/jwt_verify.jwtverifygetkey.md) | Key, or a function resolving a key, to verify the JWT with. |
-| `options?` | [JWTVerifyOptions](../interfaces/jwt_verify.jwtverifyoptions.md) | JWT Decryption and JWT Claims Set validation options. |
+| `key` | [`KeyLike`](../types/types.keylike.md) \| [`JWTVerifyGetKey`](../interfaces/jwt_verify.jwtverifygetkey.md) | Key, or a function resolving a key, to verify the JWT with. |
+| `options?` | [`JWTVerifyOptions`](../interfaces/jwt_verify.jwtverifyoptions.md) | JWT Decryption and JWT Claims Set validation options. |
 
 #### Returns
 
-`Promise`<[JWTVerifyResult](../interfaces/types.jwtverifyresult.md)\>
+`Promise`<[`JWTVerifyResult`](../interfaces/types.jwtverifyresult.md)\>
 
 #### Defined in
 
-[jwt/verify.ts:59](https://github.com/panva/jose/blob/v3.13.0/src/jwt/verify.ts#L59)
+[jwt/verify.ts:59](https://github.com/panva/jose/blob/v3.14.0/src/jwt/verify.ts#L59)

@@ -6,11 +6,11 @@ An error subclass thrown when a JWT Claim Set member validation fails.
 
 ## Hierarchy
 
-- [JOSEError](util_errors.joseerror.md)
+- [`JOSEError`](util_errors.joseerror.md)
 
-  ↳ **JWTClaimValidationFailed**
+  ↳ **`JWTClaimValidationFailed`**
 
-  ↳↳ [JWTExpired](util_errors.jwtexpired.md)
+  ↳↳ [`JWTExpired`](util_errors.jwtexpired.md)
 
 ## Table of contents
 
@@ -36,8 +36,8 @@ An error subclass thrown when a JWT Claim Set member validation fails.
 | Name | Type | Default value |
 | :------ | :------ | :------ |
 | `message` | `string` | `undefined` |
-| `claim` | `string` | 'unspecified' |
-| `reason` | `string` | 'unspecified' |
+| `claim` | `string` | `'unspecified'` |
+| `reason` | `string` | `'unspecified'` |
 
 #### Overrides
 
@@ -45,7 +45,7 @@ An error subclass thrown when a JWT Claim Set member validation fails.
 
 #### Defined in
 
-[util/errors.ts:43](https://github.com/panva/jose/blob/v3.13.0/src/util/errors.ts#L43)
+[util/errors.ts:43](https://github.com/panva/jose/blob/v3.14.0/src/util/errors.ts#L43)
 
 ## Properties
 
@@ -57,7 +57,7 @@ The Claim for which the validation failed.
 
 #### Defined in
 
-[util/errors.ts:38](https://github.com/panva/jose/blob/v3.13.0/src/util/errors.ts#L38)
+[util/errors.ts:38](https://github.com/panva/jose/blob/v3.14.0/src/util/errors.ts#L38)
 
 ___
 
@@ -73,7 +73,7 @@ A unique error code for the particular error subclass.
 
 #### Defined in
 
-[util/errors.ts:33](https://github.com/panva/jose/blob/v3.13.0/src/util/errors.ts#L33)
+[util/errors.ts:33](https://github.com/panva/jose/blob/v3.14.0/src/util/errors.ts#L33)
 
 ___
 
@@ -85,13 +85,13 @@ Reason code for the validation failure.
 
 #### Defined in
 
-[util/errors.ts:43](https://github.com/panva/jose/blob/v3.13.0/src/util/errors.ts#L43)
+[util/errors.ts:43](https://github.com/panva/jose/blob/v3.14.0/src/util/errors.ts#L43)
 
 ___
 
 ### code
 
-▪ `Static` **code**: `string` = 'ERR\_JWT\_CLAIM\_VALIDATION\_FAILED'
+▪ `Static` **code**: `string` = `'ERR_JWT_CLAIM_VALIDATION_FAILED'`
 
 A unique error code for the particular error subclass.
 
@@ -101,4 +101,4 @@ A unique error code for the particular error subclass.
 
 #### Defined in
 
-[util/errors.ts:31](https://github.com/panva/jose/blob/v3.13.0/src/util/errors.ts#L31)
+[util/errors.ts:31](https://github.com/panva/jose/blob/v3.14.0/src/util/errors.ts#L31)

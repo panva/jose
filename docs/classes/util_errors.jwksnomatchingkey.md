@@ -6,9 +6,9 @@ An error subclass thrown when no keys match from a JWKS.
 
 ## Hierarchy
 
-- [JOSEError](util_errors.joseerror.md)
+- [`JOSEError`](util_errors.joseerror.md)
 
-  ↳ **JWKSNoMatchingKey**
+  ↳ **`JWKSNoMatchingKey`**
 
 ## Table of contents
 
@@ -40,7 +40,7 @@ An error subclass thrown when no keys match from a JWKS.
 
 #### Defined in
 
-[util/errors.ts:16](https://github.com/panva/jose/blob/v3.13.0/src/util/errors.ts#L16)
+[util/errors.ts:16](https://github.com/panva/jose/blob/v3.14.0/src/util/errors.ts#L16)
 
 ## Properties
 
@@ -56,13 +56,13 @@ A unique error code for the particular error subclass.
 
 #### Defined in
 
-[util/errors.ts:133](https://github.com/panva/jose/blob/v3.13.0/src/util/errors.ts#L133)
+[util/errors.ts:133](https://github.com/panva/jose/blob/v3.14.0/src/util/errors.ts#L133)
 
 ___
 
 ### message
 
-• **message**: `string` = 'no applicable key found in the JSON Web Key Set'
+• **message**: `string` = `'no applicable key found in the JSON Web Key Set'`
 
 #### Overrides
 
@@ -70,13 +70,13 @@ JOSEError.message
 
 #### Defined in
 
-[util/errors.ts:135](https://github.com/panva/jose/blob/v3.13.0/src/util/errors.ts#L135)
+[util/errors.ts:135](https://github.com/panva/jose/blob/v3.14.0/src/util/errors.ts#L135)
 
 ___
 
 ### code
 
-▪ `Static` **code**: `string` = 'ERR\_JWKS\_NO\_MATCHING\_KEY'
+▪ `Static` **code**: `string` = `'ERR_JWKS_NO_MATCHING_KEY'`
 
 A unique error code for the particular error subclass.
 
@@ -86,4 +86,4 @@ A unique error code for the particular error subclass.
 
 #### Defined in
 
-[util/errors.ts:131](https://github.com/panva/jose/blob/v3.13.0/src/util/errors.ts#L131)
+[util/errors.ts:131](https://github.com/panva/jose/blob/v3.14.0/src/util/errors.ts#L131)

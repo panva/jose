@@ -2,7 +2,7 @@
 
 [jwk/from_key_like](../modules/jwk_from_key_like.md).fromKeyLike
 
-▸ **fromKeyLike**(`key`): `Promise`<[JWK](../interfaces/types.jwk.md)\>
+▸ **fromKeyLike**(`key`): `Promise`<[`JWK`](../interfaces/types.jwk.md)\>
 
 Converts a runtime-specific key representation (KeyLike) to a JWK.
 
@@ -29,12 +29,12 @@ console.log(publicJwk)
 
 | Name | Type | Description |
 | :------ | :------ | :------ |
-| `key` | [KeyLike](../types/types.keylike.md) | Key representation to transform to a JWK. |
+| `key` | [`KeyLike`](../types/types.keylike.md) | Key representation to transform to a JWK. |
 
 #### Returns
 
-`Promise`<[JWK](../interfaces/types.jwk.md)\>
+`Promise`<[`JWK`](../interfaces/types.jwk.md)\>
 
 #### Defined in
 
-[jwk/from_key_like.ts:29](https://github.com/panva/jose/blob/v3.13.0/src/jwk/from_key_like.ts#L29)
+[jwk/from_key_like.ts:28](https://github.com/panva/jose/blob/v3.14.0/src/jwk/from_key_like.ts#L28)

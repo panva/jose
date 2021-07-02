@@ -13,18 +13,18 @@
 
 ### header
 
-• **header**: [JWSHeaderParameters](types.jwsheaderparameters.md)
+• **header**: [`JWSHeaderParameters`](types.jwsheaderparameters.md)
 
 #### Defined in
 
-[jwt/unsecured.ts:12](https://github.com/panva/jose/blob/v3.13.0/src/jwt/unsecured.ts#L12)
+[jwt/unsecured.ts:12](https://github.com/panva/jose/blob/v3.14.0/src/jwt/unsecured.ts#L12)
 
 ___
 
 ### payload
 
-• **payload**: [JWTPayload](types.jwtpayload.md)
+• **payload**: [`JWTPayload`](types.jwtpayload.md)
 
 #### Defined in
 
-[jwt/unsecured.ts:11](https://github.com/panva/jose/blob/v3.13.0/src/jwt/unsecured.ts#L11)
+[jwt/unsecured.ts:11](https://github.com/panva/jose/blob/v3.14.0/src/jwt/unsecured.ts#L11)

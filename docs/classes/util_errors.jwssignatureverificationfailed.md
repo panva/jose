@@ -6,9 +6,9 @@ An error subclass thrown when JWS signature verification fails.
 
 ## Hierarchy
 
-- [JOSEError](util_errors.joseerror.md)
+- [`JOSEError`](util_errors.joseerror.md)
 
-  ↳ **JWSSignatureVerificationFailed**
+  ↳ **`JWSSignatureVerificationFailed`**
 
 ## Table of contents
 
@@ -40,7 +40,7 @@ An error subclass thrown when JWS signature verification fails.
 
 #### Defined in
 
-[util/errors.ts:16](https://github.com/panva/jose/blob/v3.13.0/src/util/errors.ts#L16)
+[util/errors.ts:16](https://github.com/panva/jose/blob/v3.14.0/src/util/errors.ts#L16)
 
 ## Properties
 
@@ -56,13 +56,13 @@ A unique error code for the particular error subclass.
 
 #### Defined in
 
-[util/errors.ts:155](https://github.com/panva/jose/blob/v3.13.0/src/util/errors.ts#L155)
+[util/errors.ts:155](https://github.com/panva/jose/blob/v3.14.0/src/util/errors.ts#L155)
 
 ___
 
 ### message
 
-• **message**: `string` = 'signature verification failed'
+• **message**: `string` = `'signature verification failed'`
 
 #### Overrides
 
@@ -70,13 +70,13 @@ JOSEError.message
 
 #### Defined in
 
-[util/errors.ts:157](https://github.com/panva/jose/blob/v3.13.0/src/util/errors.ts#L157)
+[util/errors.ts:157](https://github.com/panva/jose/blob/v3.14.0/src/util/errors.ts#L157)
 
 ___
 
 ### code
 
-▪ `Static` **code**: `string` = 'ERR\_JWS\_SIGNATURE\_VERIFICATION\_FAILED'
+▪ `Static` **code**: `string` = `'ERR_JWS_SIGNATURE_VERIFICATION_FAILED'`
 
 A unique error code for the particular error subclass.
 
@@ -86,4 +86,4 @@ A unique error code for the particular error subclass.
 
 #### Defined in
 
-[util/errors.ts:153](https://github.com/panva/jose/blob/v3.13.0/src/util/errors.ts#L153)
+[util/errors.ts:153](https://github.com/panva/jose/blob/v3.14.0/src/util/errors.ts#L153)

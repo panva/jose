@@ -4,9 +4,9 @@
 
 ## Hierarchy
 
-- `Omit`<[FlattenedJWE](types.flattenedjwe.md), ``"encrypted_key"`` \| ``"header"``\>
+- `Omit`<[`FlattenedJWE`](types.flattenedjwe.md), ``"encrypted_key"`` \| ``"header"``\>
 
-  ↳ **GeneralJWE**
+  ↳ **`GeneralJWE`**
 
 ## Table of contents
 
@@ -38,7 +38,7 @@ Omit.aad
 
 #### Defined in
 
-[types.d.ts:318](https://github.com/panva/jose/blob/v3.13.0/src/types.d.ts#L318)
+[types.d.ts:325](https://github.com/panva/jose/blob/v3.14.0/src/types.d.ts#L325)
 
 ___
 
@@ -55,7 +55,7 @@ Omit.ciphertext
 
 #### Defined in
 
-[types.d.ts:324](https://github.com/panva/jose/blob/v3.13.0/src/types.d.ts#L324)
+[types.d.ts:331](https://github.com/panva/jose/blob/v3.14.0/src/types.d.ts#L331)
 
 ___
 
@@ -73,7 +73,7 @@ Omit.iv
 
 #### Defined in
 
-[types.d.ts:348](https://github.com/panva/jose/blob/v3.13.0/src/types.d.ts#L348)
+[types.d.ts:355](https://github.com/panva/jose/blob/v3.14.0/src/types.d.ts#L355)
 
 ___
 
@@ -92,17 +92,17 @@ Omit.protected
 
 #### Defined in
 
-[types.d.ts:356](https://github.com/panva/jose/blob/v3.13.0/src/types.d.ts#L356)
+[types.d.ts:363](https://github.com/panva/jose/blob/v3.14.0/src/types.d.ts#L363)
 
 ___
 
 ### recipients
 
-• **recipients**: `Pick`<[FlattenedJWE](types.flattenedjwe.md), ``"header"`` \| ``"encrypted_key"``\>[]
+• **recipients**: `Pick`<[`FlattenedJWE`](types.flattenedjwe.md), ``"header"`` \| ``"encrypted_key"``\>[]
 
 #### Defined in
 
-[types.d.ts:376](https://github.com/panva/jose/blob/v3.13.0/src/types.d.ts#L376)
+[types.d.ts:383](https://github.com/panva/jose/blob/v3.14.0/src/types.d.ts#L383)
 
 ___
 
@@ -120,13 +120,13 @@ Omit.tag
 
 #### Defined in
 
-[types.d.ts:363](https://github.com/panva/jose/blob/v3.13.0/src/types.d.ts#L363)
+[types.d.ts:370](https://github.com/panva/jose/blob/v3.14.0/src/types.d.ts#L370)
 
 ___
 
 ### unprotected
 
-• `Optional` **unprotected**: [JWEHeaderParameters](types.jweheaderparameters.md)
+• `Optional` **unprotected**: [`JWEHeaderParameters`](types.jweheaderparameters.md)
 
 The "unprotected" member MUST be present and contain the value JWE
 Shared Unprotected Header when the JWE Shared Unprotected Header
@@ -140,4 +140,4 @@ Omit.unprotected
 
 #### Defined in
 
-[types.d.ts:372](https://github.com/panva/jose/blob/v3.13.0/src/types.d.ts#L372)
+[types.d.ts:379](https://github.com/panva/jose/blob/v3.14.0/src/types.d.ts#L379)

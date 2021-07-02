@@ -6,9 +6,9 @@ An error subclass thrown when a JWE is invalid.
 
 ## Hierarchy
 
-- [JOSEError](util_errors.joseerror.md)
+- [`JOSEError`](util_errors.joseerror.md)
 
-  ↳ **JWEInvalid**
+  ↳ **`JWEInvalid`**
 
 ## Table of contents
 
@@ -39,7 +39,7 @@ An error subclass thrown when a JWE is invalid.
 
 #### Defined in
 
-[util/errors.ts:16](https://github.com/panva/jose/blob/v3.13.0/src/util/errors.ts#L16)
+[util/errors.ts:16](https://github.com/panva/jose/blob/v3.14.0/src/util/errors.ts#L16)
 
 ## Properties
 
@@ -55,13 +55,13 @@ A unique error code for the particular error subclass.
 
 #### Defined in
 
-[util/errors.ts:88](https://github.com/panva/jose/blob/v3.13.0/src/util/errors.ts#L88)
+[util/errors.ts:88](https://github.com/panva/jose/blob/v3.14.0/src/util/errors.ts#L88)
 
 ___
 
 ### code
 
-▪ `Static` **code**: `string` = 'ERR\_JWE\_INVALID'
+▪ `Static` **code**: `string` = `'ERR_JWE_INVALID'`
 
 A unique error code for the particular error subclass.
 
@@ -71,4 +71,4 @@ A unique error code for the particular error subclass.
 
 #### Defined in
 
-[util/errors.ts:86](https://github.com/panva/jose/blob/v3.13.0/src/util/errors.ts#L86)
+[util/errors.ts:86](https://github.com/panva/jose/blob/v3.14.0/src/util/errors.ts#L86)

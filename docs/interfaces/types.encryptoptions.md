@@ -6,9 +6,9 @@ JWE Encryption options.
 
 ## Hierarchy
 
-- [CritOption](types.critoption.md)
+- [`CritOption`](types.critoption.md)
 
-  ↳ **EncryptOptions**
+  ↳ **`EncryptOptions`**
 
 ## Table of contents
 
@@ -52,17 +52,17 @@ default built-in treatment are currently available.
 
 #### Defined in
 
-[types.d.ts:434](https://github.com/panva/jose/blob/v3.13.0/src/types.d.ts#L434)
+[types.d.ts:441](https://github.com/panva/jose/blob/v3.14.0/src/types.d.ts#L441)
 
 ___
 
 ### deflateRaw
 
-• `Optional` **deflateRaw**: [DeflateFunction](types.deflatefunction.md)
+• `Optional` **deflateRaw**: [`DeflateFunction`](types.deflatefunction.md)
 
 In a browser runtime you have to provide an implementation for Deflate Raw
 when you will be producing JWEs with compressed plaintext.
 
 #### Defined in
 
-[types.d.ts:470](https://github.com/panva/jose/blob/v3.13.0/src/types.d.ts#L470)
+[types.d.ts:477](https://github.com/panva/jose/blob/v3.14.0/src/types.d.ts#L477)

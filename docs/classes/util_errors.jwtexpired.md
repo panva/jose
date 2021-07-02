@@ -6,9 +6,9 @@ An error subclass thrown when a JWT is expired.
 
 ## Hierarchy
 
-- [JWTClaimValidationFailed](util_errors.jwtclaimvalidationfailed.md)
+- [`JWTClaimValidationFailed`](util_errors.jwtclaimvalidationfailed.md)
 
-  ↳ **JWTExpired**
+  ↳ **`JWTExpired`**
 
 ## Table of contents
 
@@ -34,8 +34,8 @@ An error subclass thrown when a JWT is expired.
 | Name | Type | Default value |
 | :------ | :------ | :------ |
 | `message` | `string` | `undefined` |
-| `claim` | `string` | 'unspecified' |
-| `reason` | `string` | 'unspecified' |
+| `claim` | `string` | `'unspecified'` |
+| `reason` | `string` | `'unspecified'` |
 
 #### Inherited from
 
@@ -43,7 +43,7 @@ An error subclass thrown when a JWT is expired.
 
 #### Defined in
 
-[util/errors.ts:43](https://github.com/panva/jose/blob/v3.13.0/src/util/errors.ts#L43)
+[util/errors.ts:43](https://github.com/panva/jose/blob/v3.14.0/src/util/errors.ts#L43)
 
 ## Properties
 
@@ -59,7 +59,7 @@ The Claim for which the validation failed.
 
 #### Defined in
 
-[util/errors.ts:38](https://github.com/panva/jose/blob/v3.13.0/src/util/errors.ts#L38)
+[util/errors.ts:38](https://github.com/panva/jose/blob/v3.14.0/src/util/errors.ts#L38)
 
 ___
 
@@ -75,7 +75,7 @@ A unique error code for the particular error subclass.
 
 #### Defined in
 
-[util/errors.ts:166](https://github.com/panva/jose/blob/v3.13.0/src/util/errors.ts#L166)
+[util/errors.ts:166](https://github.com/panva/jose/blob/v3.14.0/src/util/errors.ts#L166)
 
 ___
 
@@ -91,13 +91,13 @@ Reason code for the validation failure.
 
 #### Defined in
 
-[util/errors.ts:43](https://github.com/panva/jose/blob/v3.13.0/src/util/errors.ts#L43)
+[util/errors.ts:43](https://github.com/panva/jose/blob/v3.14.0/src/util/errors.ts#L43)
 
 ___
 
 ### code
 
-▪ `Static` **code**: `string` = 'ERR\_JWT\_EXPIRED'
+▪ `Static` **code**: `string` = `'ERR_JWT_EXPIRED'`
 
 A unique error code for the particular error subclass.
 
@@ -107,4 +107,4 @@ A unique error code for the particular error subclass.
 
 #### Defined in
 
-[util/errors.ts:164](https://github.com/panva/jose/blob/v3.13.0/src/util/errors.ts#L164)
+[util/errors.ts:164](https://github.com/panva/jose/blob/v3.14.0/src/util/errors.ts#L164)

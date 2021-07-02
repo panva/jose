@@ -6,9 +6,9 @@ An error subclass thrown when a JOSE Algorithm is not allowed per developer pref
 
 ## Hierarchy
 
-- [JOSEError](util_errors.joseerror.md)
+- [`JOSEError`](util_errors.joseerror.md)
 
-  ↳ **JOSEAlgNotAllowed**
+  ↳ **`JOSEAlgNotAllowed`**
 
 ## Table of contents
 
@@ -39,7 +39,7 @@ An error subclass thrown when a JOSE Algorithm is not allowed per developer pref
 
 #### Defined in
 
-[util/errors.ts:16](https://github.com/panva/jose/blob/v3.13.0/src/util/errors.ts#L16)
+[util/errors.ts:16](https://github.com/panva/jose/blob/v3.14.0/src/util/errors.ts#L16)
 
 ## Properties
 
@@ -55,13 +55,13 @@ A unique error code for the particular error subclass.
 
 #### Defined in
 
-[util/errors.ts:58](https://github.com/panva/jose/blob/v3.13.0/src/util/errors.ts#L58)
+[util/errors.ts:58](https://github.com/panva/jose/blob/v3.14.0/src/util/errors.ts#L58)
 
 ___
 
 ### code
 
-▪ `Static` **code**: `string` = 'ERR\_JOSE\_ALG\_NOT\_ALLOWED'
+▪ `Static` **code**: `string` = `'ERR_JOSE_ALG_NOT_ALLOWED'`
 
 A unique error code for the particular error subclass.
 
@@ -71,4 +71,4 @@ A unique error code for the particular error subclass.
 
 #### Defined in
 
-[util/errors.ts:56](https://github.com/panva/jose/blob/v3.13.0/src/util/errors.ts#L56)
+[util/errors.ts:56](https://github.com/panva/jose/blob/v3.14.0/src/util/errors.ts#L56)

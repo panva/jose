@@ -6,11 +6,11 @@ JWT Claims Set verification options.
 
 ## Hierarchy
 
-- **JWTClaimVerificationOptions**
+- **`JWTClaimVerificationOptions`**
 
-  ↳ [JWTDecryptOptions](jwt_decrypt.jwtdecryptoptions.md)
+  ↳ [`JWTDecryptOptions`](jwt_decrypt.jwtdecryptoptions.md)
 
-  ↳ [JWTVerifyOptions](jwt_verify.jwtverifyoptions.md)
+  ↳ [`JWTVerifyOptions`](jwt_verify.jwtverifyoptions.md)
 
 ## Table of contents
 
@@ -34,7 +34,7 @@ Expected JWT "aud" (Audience) Claim value(s).
 
 #### Defined in
 
-[types.d.ts:480](https://github.com/panva/jose/blob/v3.13.0/src/types.d.ts#L480)
+[types.d.ts:487](https://github.com/panva/jose/blob/v3.14.0/src/types.d.ts#L487)
 
 ___
 
@@ -48,7 +48,7 @@ Expected clock tolerance
 
 #### Defined in
 
-[types.d.ts:487](https://github.com/panva/jose/blob/v3.13.0/src/types.d.ts#L487)
+[types.d.ts:494](https://github.com/panva/jose/blob/v3.14.0/src/types.d.ts#L494)
 
 ___
 
@@ -60,7 +60,7 @@ Date to use when comparing NumericDate claims, defaults to `new Date()`.
 
 #### Defined in
 
-[types.d.ts:514](https://github.com/panva/jose/blob/v3.13.0/src/types.d.ts#L514)
+[types.d.ts:521](https://github.com/panva/jose/blob/v3.14.0/src/types.d.ts#L521)
 
 ___
 
@@ -72,7 +72,7 @@ Expected JWT "iss" (Issuer) Claim value(s).
 
 #### Defined in
 
-[types.d.ts:492](https://github.com/panva/jose/blob/v3.13.0/src/types.d.ts#L492)
+[types.d.ts:499](https://github.com/panva/jose/blob/v3.14.0/src/types.d.ts#L499)
 
 ___
 
@@ -86,7 +86,7 @@ Maximum time elapsed (in seconds) from the JWT "iat" (Issued At) Claim value.
 
 #### Defined in
 
-[types.d.ts:499](https://github.com/panva/jose/blob/v3.13.0/src/types.d.ts#L499)
+[types.d.ts:506](https://github.com/panva/jose/blob/v3.14.0/src/types.d.ts#L506)
 
 ___
 
@@ -98,7 +98,7 @@ Expected JWT "sub" (Subject) Claim value.
 
 #### Defined in
 
-[types.d.ts:504](https://github.com/panva/jose/blob/v3.13.0/src/types.d.ts#L504)
+[types.d.ts:511](https://github.com/panva/jose/blob/v3.14.0/src/types.d.ts#L511)
 
 ___
 
@@ -110,4 +110,4 @@ Expected JWT "typ" (Type) Header Parameter value.
 
 #### Defined in
 
-[types.d.ts:509](https://github.com/panva/jose/blob/v3.13.0/src/types.d.ts#L509)
+[types.d.ts:516](https://github.com/panva/jose/blob/v3.14.0/src/types.d.ts#L516)

@@ -20,4 +20,4 @@
 
 #### Defined in
 
-[util/generate_secret.ts:10](https://github.com/panva/jose/blob/v3.13.0/src/util/generate_secret.ts#L10)
+[util/generate_secret.ts:10](https://github.com/panva/jose/blob/v3.14.0/src/util/generate_secret.ts#L10)

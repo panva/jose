@@ -21,14 +21,14 @@ is not returned when JWS Unencoded Payload Option
 
 #### Defined in
 
-[types.d.ts:226](https://github.com/panva/jose/blob/v3.13.0/src/types.d.ts#L226)
+[types.d.ts:228](https://github.com/panva/jose/blob/v3.14.0/src/types.d.ts#L228)
 
 ___
 
 ### signatures
 
-• **signatures**: `Omit`<[FlattenedJWSInput](types.flattenedjwsinput.md), ``"payload"``\>[]
+• **signatures**: `Omit`<[`FlattenedJWSInput`](types.flattenedjwsinput.md), ``"payload"``\>[]
 
 #### Defined in
 
-[types.d.ts:227](https://github.com/panva/jose/blob/v3.13.0/src/types.d.ts#L227)
+[types.d.ts:229](https://github.com/panva/jose/blob/v3.14.0/src/types.d.ts#L229)

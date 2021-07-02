@@ -2,7 +2,7 @@
 
 [jwk/parse](../modules/jwk_parse.md).parseJwk
 
-▸ **parseJwk**(`jwk`, `alg?`, `octAsKeyObject?`): `Promise`<[KeyLike](../types/types.keylike.md)\>
+▸ **parseJwk**(`jwk`, `alg?`, `octAsKeyObject?`): `Promise`<[`KeyLike`](../types/types.keylike.md)\>
 
 Converts a JWK to a runtime-specific key representation (KeyLike). Either
 JWK "alg" (Algorithm) Parameter must be present or the optional "alg" argument. When
@@ -39,14 +39,14 @@ const rsaPublicKey = await parseJwk({
 
 | Name | Type | Description |
 | :------ | :------ | :------ |
-| `jwk` | [JWK](../interfaces/types.jwk.md) | JSON Web Key. |
+| `jwk` | [`JWK`](../interfaces/types.jwk.md) | JSON Web Key. |
 | `alg?` | `string` | JSON Web Algorithm identifier to be used with the converted key. Default is the "alg" property on the JWK. |
 | `octAsKeyObject?` | `boolean` | Forces a symmetric key to be converted to a KeyObject or CryptoKey. Default is true unless JWK "ext" (Extractable) is true. |
 
 #### Returns
 
-`Promise`<[KeyLike](../types/types.keylike.md)\>
+`Promise`<[`KeyLike`](../types/types.keylike.md)\>
 
 #### Defined in
 
-[jwk/parse.ts:45](https://github.com/panva/jose/blob/v3.13.0/src/jwk/parse.ts#L45)
+[jwk/parse.ts:45](https://github.com/panva/jose/blob/v3.14.0/src/jwk/parse.ts#L45)

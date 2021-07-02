@@ -19,16 +19,16 @@ Plaintext.
 
 #### Defined in
 
-[types.d.ts:627](https://github.com/panva/jose/blob/v3.13.0/src/types.d.ts#L627)
+[types.d.ts:634](https://github.com/panva/jose/blob/v3.14.0/src/types.d.ts#L634)
 
 ___
 
 ### protectedHeader
 
-• **protectedHeader**: [JWEHeaderParameters](types.jweheaderparameters.md)
+• **protectedHeader**: [`JWEHeaderParameters`](types.jweheaderparameters.md)
 
 JWE Protected Header.
 
 #### Defined in
 
-[types.d.ts:632](https://github.com/panva/jose/blob/v3.13.0/src/types.d.ts#L632)
+[types.d.ts:639](https://github.com/panva/jose/blob/v3.14.0/src/types.d.ts#L639)

@@ -4,9 +4,9 @@
 
 ## Hierarchy
 
-- **FlattenedVerifyResult**
+- **`FlattenedVerifyResult`**
 
-  ↳ [GeneralVerifyResult](types.generalverifyresult.md)
+  ↳ [`GeneralVerifyResult`](types.generalverifyresult.md)
 
 ## Table of contents
 
@@ -26,28 +26,28 @@ JWS Payload.
 
 #### Defined in
 
-[types.d.ts:639](https://github.com/panva/jose/blob/v3.13.0/src/types.d.ts#L639)
+[types.d.ts:646](https://github.com/panva/jose/blob/v3.14.0/src/types.d.ts#L646)
 
 ___
 
 ### protectedHeader
 
-• `Optional` **protectedHeader**: [JWSHeaderParameters](types.jwsheaderparameters.md)
+• `Optional` **protectedHeader**: [`JWSHeaderParameters`](types.jwsheaderparameters.md)
 
 JWS Protected Header.
 
 #### Defined in
 
-[types.d.ts:644](https://github.com/panva/jose/blob/v3.13.0/src/types.d.ts#L644)
+[types.d.ts:651](https://github.com/panva/jose/blob/v3.14.0/src/types.d.ts#L651)
 
 ___
 
 ### unprotectedHeader
 
-• `Optional` **unprotectedHeader**: [JWSHeaderParameters](types.jwsheaderparameters.md)
+• `Optional` **unprotectedHeader**: [`JWSHeaderParameters`](types.jwsheaderparameters.md)
 
 JWS Unprotected Header.
 
 #### Defined in
 
-[types.d.ts:649](https://github.com/panva/jose/blob/v3.13.0/src/types.d.ts#L649)
+[types.d.ts:656](https://github.com/panva/jose/blob/v3.14.0/src/types.d.ts#L656)
