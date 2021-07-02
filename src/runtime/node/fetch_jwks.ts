@@ -4,7 +4,7 @@ import { once } from 'events'
 import type { ClientRequest, IncomingMessage } from 'http'
 import type { RequestOptions } from 'https'
 
-import type { FetchFunction } from '../interfaces.d'
+import type { FetchFunction } from '../interfaces'
 import { JOSEError } from '../../util/errors.js'
 import { concat, decoder } from '../../lib/buffer_utils.js'
 

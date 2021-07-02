@@ -1,4 +1,4 @@
-import type { SignFunction } from '../interfaces.d'
+import type { SignFunction } from '../interfaces'
 import subtleAlgorithm from './subtle_dsa.js'
 import crypto from './webcrypto.js'
 import checkKeyLength from './check_key_length.js'

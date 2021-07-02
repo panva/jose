@@ -1,6 +1,6 @@
 import { timingSafeEqual as impl } from 'crypto'
 
-import type { TimingSafeEqual } from '../interfaces.d'
+import type { TimingSafeEqual } from '../interfaces'
 
 const timingSafeEqual: TimingSafeEqual = impl
 

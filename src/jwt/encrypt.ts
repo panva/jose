@@ -7,7 +7,7 @@ import type {
   JWEKeyManagementHeaderParameters,
   JWTPayload,
   KeyLike,
-} from '../types.d'
+} from '../types'
 import { encoder } from '../lib/buffer_utils.js'
 import ProduceJWT from '../lib/jwt_producer.js'
 

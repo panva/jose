@@ -1,6 +1,6 @@
 import { KeyObject, createPublicKey } from 'crypto'
-import type { JWKConvertFunction } from '../interfaces.d'
-import type { JWK } from '../../types.d'
+import type { JWKConvertFunction } from '../interfaces'
+import type { JWK } from '../../types'
 import { encode as base64url } from './base64url.js'
 import Asn1SequenceDecoder from './asn1_sequence_decoder.js'
 import { JOSENotSupported } from '../../util/errors.js'

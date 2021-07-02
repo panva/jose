@@ -16,7 +16,7 @@ import type {
   JWSHeaderParameters,
   VerifyOptions,
   GetKeyFunction,
-} from '../../types.d'
+} from '../../types'
 
 const checkExtensions = validateCrit.bind(undefined, JWSInvalid, new Map([['b64', true]]))
 const checkAlgOption = validateAlgorithms.bind(undefined, 'algorithms')

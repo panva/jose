@@ -1,6 +1,6 @@
 import { KeyObject, createDecipheriv, createCipheriv, getCiphers } from 'crypto'
 import { JOSENotSupported } from '../../util/errors.js'
-import type { AesKwUnwrapFunction, AesKwWrapFunction } from '../interfaces.d'
+import type { AesKwUnwrapFunction, AesKwWrapFunction } from '../interfaces'
 import { concat } from '../../lib/buffer_utils.js'
 import getSecretKey from './secret_key.js'
 import { isCryptoKey, getKeyObject } from './webcrypto.js'

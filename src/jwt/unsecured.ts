@@ -1,6 +1,6 @@
 /* eslint-disable no-underscore-dangle */
 
-import type { JWSHeaderParameters, JWTClaimVerificationOptions, JWTPayload } from '../types.d'
+import type { JWSHeaderParameters, JWTClaimVerificationOptions, JWTPayload } from '../types'
 import { decoder } from '../lib/buffer_utils.js'
 import * as base64url from '../runtime/base64url.js'
 import { JWTInvalid } from '../util/errors.js'

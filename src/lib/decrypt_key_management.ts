@@ -1,5 +1,5 @@
-import type { JWEHeaderParameters, KeyLike } from '../types.d'
-import type { JWEKeyManagementHeaderResults } from '../types.i.d'
+import type { JWEHeaderParameters, KeyLike } from '../types'
+import type { JWEKeyManagementHeaderResults } from '../types.i'
 import { JOSENotSupported, JWEInvalid } from '../util/errors.js'
 import { unwrap as aesKw } from '../runtime/aeskw.js'
 import * as ECDH from '../runtime/ecdhes.js'

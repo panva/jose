@@ -8,7 +8,7 @@ import type {
   FlattenedJWE,
   GeneralJWE,
   GeneralDecryptResult,
-} from '../../types.d'
+} from '../../types'
 import isObject from '../../lib/is_object.js'
 
 /**

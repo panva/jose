@@ -6,7 +6,7 @@ import { encoder, decoder, concat } from '../../lib/buffer_utils.js'
 
 import { encode as base64url } from '../../runtime/base64url.js'
 import sign from '../../runtime/sign.js'
-import type { KeyLike, FlattenedJWS, JWSHeaderParameters, SignOptions } from '../../types.d'
+import type { KeyLike, FlattenedJWS, JWSHeaderParameters, SignOptions } from '../../types'
 import checkKeyType from '../../lib/check_key_type.js'
 import validateCrit from '../../lib/validate_crit.js'
 

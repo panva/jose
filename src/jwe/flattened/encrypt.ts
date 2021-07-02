@@ -4,8 +4,8 @@ import type {
   JWEHeaderParameters,
   JWEKeyManagementHeaderParameters,
   EncryptOptions,
-} from '../../types.d'
-import type { JWEKeyManagementHeaderResults } from '../../types.i.d'
+} from '../../types'
+import type { JWEKeyManagementHeaderResults } from '../../types.i'
 import ivFactory from '../../lib/iv.js'
 import { encode as base64url } from '../../runtime/base64url.js'
 import random from '../../runtime/random.js'

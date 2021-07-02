@@ -1,7 +1,7 @@
 import { getCiphers, KeyObject, createDecipheriv } from 'crypto'
 import type { CipherGCMTypes } from 'crypto'
 
-import type { DecryptFunction } from '../interfaces.d'
+import type { DecryptFunction } from '../interfaces'
 import checkIvLength from '../../lib/check_iv_length.js'
 import checkCekLength from './check_cek_length.js'
 import { concat } from '../../lib/buffer_utils.js'
@@ -9,7 +9,7 @@ import { JOSENotSupported, JWEDecryptionFailed } from '../../util/errors.js'
 import timingSafeEqual from './timing_safe_equal.js'
 import cbcTag from './cbc_tag.js'
 import { isCryptoKey, getKeyObject } from './webcrypto.js'
-import type { KeyLike } from '../../types.d'
+import type { KeyLike } from '../../types'
 import isKeyObject from './is_key_object.js'
 import invalidKeyInput from './invalid_key_input.js'
 

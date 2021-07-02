@@ -1,5 +1,5 @@
 import crypto from './webcrypto.js'
-import type { DigestFunction } from '../interfaces.d'
+import type { DigestFunction } from '../interfaces'
 
 const digest: DigestFunction = async (
   algorithm: 'sha256' | 'sha384' | 'sha512',

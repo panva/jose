@@ -2,7 +2,7 @@ import type { KeyObject } from 'crypto'
 import type * as http from 'http'
 import type * as https from 'https'
 
-import type { JWSHeaderParameters, JWK, FlattenedJWSInput, GetKeyFunction } from '../types.d'
+import type { JWSHeaderParameters, JWK, FlattenedJWSInput, GetKeyFunction } from '../types'
 import parseJWK from '../jwk/parse.js'
 import {
   JWKSInvalid,

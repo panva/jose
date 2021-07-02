@@ -1,5 +1,5 @@
 import { JOSENotSupported } from '../../util/errors.js'
-import type { InflateFunction, DeflateFunction } from '../../types.d'
+import type { InflateFunction, DeflateFunction } from '../../types'
 
 export const inflate: InflateFunction = async () => {
   throw new JOSENotSupported(

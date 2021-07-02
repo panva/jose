@@ -8,7 +8,7 @@ import type {
   JWSHeaderParameters,
   KeyLike,
   VerifyOptions,
-} from '../../types.d'
+} from '../../types'
 
 /**
  * Interface for Compact JWS Verification dynamic key resolution.

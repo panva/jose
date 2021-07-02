@@ -1,4 +1,4 @@
-import type { RsaEsDecryptFunction, RsaEsEncryptFunction } from '../interfaces.d'
+import type { RsaEsDecryptFunction, RsaEsEncryptFunction } from '../interfaces'
 import subtleAlgorithm from './subtle_rsaes.js'
 import bogusWebCrypto from './bogus.js'
 import crypto, { isCryptoKey } from './webcrypto.js'

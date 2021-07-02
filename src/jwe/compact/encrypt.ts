@@ -4,7 +4,7 @@ import type {
   JWEKeyManagementHeaderParameters,
   JWEHeaderParameters,
   EncryptOptions,
-} from '../../types.d'
+} from '../../types'
 
 /**
  * The CompactEncrypt class is a utility for creating Compact JWE strings.

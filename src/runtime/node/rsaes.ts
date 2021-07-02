@@ -1,5 +1,5 @@
 import { KeyObject, publicEncrypt, constants, privateDecrypt } from 'crypto'
-import type { RsaEsDecryptFunction, RsaEsEncryptFunction } from '../interfaces.d'
+import type { RsaEsDecryptFunction, RsaEsEncryptFunction } from '../interfaces'
 import checkModulusLength from './check_modulus_length.js'
 import { isCryptoKey, getKeyObject } from './webcrypto.js'
 import isKeyObject from './is_key_object.js'

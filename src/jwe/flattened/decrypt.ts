@@ -14,7 +14,7 @@ import type {
   JWEHeaderParameters,
   DecryptOptions,
   GetKeyFunction,
-} from '../../types.d'
+} from '../../types'
 import { encoder, decoder, concat } from '../../lib/buffer_utils.js'
 import cekFactory from '../../lib/cek.js'
 import random from '../../runtime/random.js'

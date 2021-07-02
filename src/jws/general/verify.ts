@@ -7,7 +7,7 @@ import type {
   JWSHeaderParameters,
   KeyLike,
   VerifyOptions,
-} from '../../types.d'
+} from '../../types'
 import { JWSInvalid, JWSSignatureVerificationFailed } from '../../util/errors.js'
 import isObject from '../../lib/is_object.js'
 

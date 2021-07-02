@@ -1,4 +1,4 @@
-import type { TimingSafeEqual } from '../interfaces.d'
+import type { TimingSafeEqual } from '../interfaces'
 
 const timingSafeEqual: TimingSafeEqual = (a, b) => {
   if (!(a instanceof Uint8Array)) {

@@ -1,6 +1,6 @@
 import crypto, { isCryptoKey } from './webcrypto.js'
-import type { JWKConvertFunction } from '../interfaces.d'
-import type { JWK } from '../../types.d'
+import type { JWKConvertFunction } from '../interfaces'
+import type { JWK } from '../../types'
 import invalidKeyInput from './invalid_key_input.js'
 import { encode as base64url } from './base64url.js'
 

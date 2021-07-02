@@ -1,4 +1,4 @@
-import type { AesGcmKwWrapFunction, AesGcmKwUnwrapFunction } from '../interfaces.d'
+import type { AesGcmKwWrapFunction, AesGcmKwUnwrapFunction } from '../interfaces'
 import encrypt from './encrypt.js'
 import decrypt from './decrypt.js'
 import ivFactory from '../../lib/iv.js'

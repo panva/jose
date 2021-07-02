@@ -1,4 +1,4 @@
-import type { JWK, KeyLike } from '../types.d'
+import type { JWK, KeyLike } from '../types'
 import asJWK from '../runtime/key_to_jwk.js'
 
 /**

@@ -1,6 +1,6 @@
 import { promisify } from 'util'
 import { pbkdf2 as pbkdf2cb } from 'crypto'
-import type { Pbes2KWDecryptFunction, Pbes2KWEncryptFunction } from '../interfaces.d'
+import type { Pbes2KWDecryptFunction, Pbes2KWEncryptFunction } from '../interfaces'
 import random from './random.js'
 import { p2s as concatSalt } from '../../lib/buffer_utils.js'
 import { encode as base64url } from './base64url.js'

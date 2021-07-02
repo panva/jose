@@ -1,5 +1,5 @@
 import { createHash } from 'crypto'
-import type { DigestFunction } from '../interfaces.d'
+import type { DigestFunction } from '../interfaces'
 
 const digest: DigestFunction = (
   algorithm: 'sha256' | 'sha384' | 'sha512',

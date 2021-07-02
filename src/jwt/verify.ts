@@ -8,7 +8,7 @@ import type {
   GetKeyFunction,
   FlattenedJWSInput,
   JWTVerifyResult,
-} from '../types.d'
+} from '../types'
 import jwtPayload from '../lib/jwt_claims_set.js'
 import { JWTInvalid } from '../util/errors.js'
 

@@ -1,4 +1,4 @@
-import type { FetchFunction } from '../interfaces.d'
+import type { FetchFunction } from '../interfaces'
 import { JOSEError } from '../../util/errors.js'
 import globalThis from './global.js'
 

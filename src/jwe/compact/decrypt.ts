@@ -8,7 +8,7 @@ import type {
   GetKeyFunction,
   FlattenedJWE,
   CompactDecryptResult,
-} from '../../types.d'
+} from '../../types'
 
 /**
  * Interface for Compact JWE Decryption dynamic key resolution.
