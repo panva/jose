@@ -350,7 +350,7 @@
     "test-webcrypto": "WEBCRYPTO=true npm test"
   },
   "devDependencies": {
-    "@types/node": "^15.14.0",
+    "@types/node": "^16.0.0",
     "@typescript-eslint/eslint-plugin": "^4.28.0",
     "ava": "^3.13.0",
     "bowser": "^2.11.0",
