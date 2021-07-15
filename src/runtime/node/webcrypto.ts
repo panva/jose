@@ -8,11 +8,9 @@ export default webcrypto
 
 let impl: (obj: unknown) => obj is CryptoKey
 
-// @ts-expect-error
 if (util.types.isCryptoKey) {
   impl = function isCryptoKey(obj): obj is CryptoKey {
-    // @ts-expect-error
-    return <boolean>util.types.isCryptoKey(obj)
+    return util.types.isCryptoKey(obj)
   }
 } else if (webcrypto) {
   impl = function isCryptoKey(obj): obj is CryptoKey {
