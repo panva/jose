@@ -16,4 +16,4 @@ ask that you keep the language to English and keep on track with the issue at ha
 be respectful of our fellow contributors and keep an exemplary level of professionalism at all
 times.
 
-[coc]: https://github.com/panva/node-openid-client/blob/master/CODE_OF_CONDUCT.md
+[coc]: https://github.com/panva/jose/blob/main/CODE_OF_CONDUCT.md
