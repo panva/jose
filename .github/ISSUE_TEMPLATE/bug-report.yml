@@ -1,0 +1,52 @@
+name: 🐞Bug report
+description: There's a bug I want to report
+labels: triage
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for taking the time to fill out this bug report. Do not use this form to ask questions or make suggestions, use the [appropriate](https://github.com/panva/jose/issues/new/choose) Discussions Topic for those.
+  - type: textarea
+    attributes:
+      label: What happened?
+      description: A clear and concise description of what the bug is and what you expected to happen instead.
+    validations:
+      required: true
+  - type: input
+    attributes:
+      label: Version
+      description: What exact version of the library do you use?
+      placeholder: e.g. v3.14.0
+    validations:
+      required: true
+  - type: dropdown
+    attributes:
+      label: Runtime
+      description: What javascript runtime are you seeing the problem on?
+      options:
+        - Node.js
+        - Browser
+        - Electron
+        - Other (I will specify below)
+    validations:
+      required: true
+  - type: input
+    attributes:
+      label: Runtime Details
+      description: More information about the runtime (e.g. node version, browser vendor and version, electron version, operating system)
+    validations:
+      required: true
+  - type: textarea
+    attributes:
+      label: Code to reproduce
+      description: Please copy and paste code to reproduce the issue. This will be automatically formatted into javascript code, so no need for backticks.
+      render: js
+    validations:
+      required: true
+  - type: checkboxes
+    attributes:
+      options:
+        - label: I have searched the issues tracker and discussions for similar topics and couldn't find anything related.
+          required: true
+        - label: I agree to follow this project's [Code of Conduct](https://github.com/panva/jose/blob/main/CODE_OF_CONDUCT.md)
+          required: true
