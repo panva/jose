@@ -10,7 +10,7 @@ If you or your business use `jose`, please consider becoming a [sponsor][support
 
 - JSON Web Tokens (JWT)
   - [Signing](classes/jwt_sign.SignJWT.md#readme)
-  - [Verification & Claims Set Validation](functions/jwt_verify.SignJWT.md#readme)
+  - [Verification & Claims Set Validation](functions/jwt_verify.jwtVerify.md#readme)
   - Encrypted JSON Web Tokens
     - [Encryption](classes/jwt_encrypt.EncryptJWT.md#readme)
     - [Decryption & Claims Set Validation](functions/jwt_decrypt.jwtDecrypt.md#readme)

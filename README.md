@@ -55,7 +55,7 @@ npm install jose-browser-runtime
 
 - JSON Web Tokens (JWT)
   - [Signing](docs/classes/jwt_sign.SignJWT.md#readme)
-  - [Verification & Claims Set Validation](docs/functions/jwt_verify.SignJWT.md#readme)
+  - [Verification & Claims Set Validation](docs/functions/jwt_verify.jwtVerify.md#readme)
   - Encrypted JSON Web Tokens
     - [Encryption](docs/classes/jwt_encrypt.EncryptJWT.md#readme)
     - [Decryption & Claims Set Validation](docs/functions/jwt_decrypt.jwtDecrypt.md#readme)
