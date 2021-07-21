@@ -46,4 +46,4 @@ console.log(payload)
 
 #### Defined in
 
-[jwks/remote.ts:248](https://github.com/panva/jose/blob/v3.14.1/src/jwks/remote.ts#L248)
+[jwks/remote.ts:248](https://github.com/panva/jose/blob/v3.14.2/src/jwks/remote.ts#L248)

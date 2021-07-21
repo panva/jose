@@ -24,7 +24,7 @@ the value passed may also be a Uint8Array.
 
 #### Defined in
 
-[types.d.ts:202](https://github.com/panva/jose/blob/v3.14.1/src/types.d.ts#L202)
+[types.d.ts:202](https://github.com/panva/jose/blob/v3.14.2/src/types.d.ts#L202)
 
 ___
 
@@ -38,4 +38,4 @@ the JWS Protected Header.
 
 #### Defined in
 
-[types.d.ts:209](https://github.com/panva/jose/blob/v3.14.1/src/types.d.ts#L209)
+[types.d.ts:209](https://github.com/panva/jose/blob/v3.14.2/src/types.d.ts#L209)

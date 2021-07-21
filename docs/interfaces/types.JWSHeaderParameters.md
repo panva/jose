@@ -43,7 +43,7 @@ JWS "alg" (Algorithm) Header Parameter.
 
 #### Defined in
 
-[types.d.ts:282](https://github.com/panva/jose/blob/v3.14.1/src/types.d.ts#L282)
+[types.d.ts:282](https://github.com/panva/jose/blob/v3.14.2/src/types.d.ts#L282)
 
 ___
 
@@ -57,7 +57,7 @@ representation and the JWS Signing Input computation as per
 
 #### Defined in
 
-[types.d.ts:289](https://github.com/panva/jose/blob/v3.14.1/src/types.d.ts#L289)
+[types.d.ts:289](https://github.com/panva/jose/blob/v3.14.2/src/types.d.ts#L289)
 
 ___
 
@@ -69,7 +69,7 @@ JWS "crit" (Critical) Header Parameter.
 
 #### Defined in
 
-[types.d.ts:294](https://github.com/panva/jose/blob/v3.14.1/src/types.d.ts#L294)
+[types.d.ts:294](https://github.com/panva/jose/blob/v3.14.2/src/types.d.ts#L294)
 
 ___
 
@@ -85,7 +85,7 @@ ___
 
 #### Defined in
 
-[types.d.ts:271](https://github.com/panva/jose/blob/v3.14.1/src/types.d.ts#L271)
+[types.d.ts:271](https://github.com/panva/jose/blob/v3.14.2/src/types.d.ts#L271)
 
 ___
 
@@ -101,7 +101,7 @@ ___
 
 #### Defined in
 
-[types.d.ts:256](https://github.com/panva/jose/blob/v3.14.1/src/types.d.ts#L256)
+[types.d.ts:256](https://github.com/panva/jose/blob/v3.14.2/src/types.d.ts#L256)
 
 ___
 
@@ -117,7 +117,7 @@ ___
 
 #### Defined in
 
-[types.d.ts:261](https://github.com/panva/jose/blob/v3.14.1/src/types.d.ts#L261)
+[types.d.ts:261](https://github.com/panva/jose/blob/v3.14.2/src/types.d.ts#L261)
 
 ___
 
@@ -133,7 +133,7 @@ ___
 
 #### Defined in
 
-[types.d.ts:236](https://github.com/panva/jose/blob/v3.14.1/src/types.d.ts#L236)
+[types.d.ts:236](https://github.com/panva/jose/blob/v3.14.2/src/types.d.ts#L236)
 
 ___
 
@@ -149,7 +149,7 @@ ___
 
 #### Defined in
 
-[types.d.ts:266](https://github.com/panva/jose/blob/v3.14.1/src/types.d.ts#L266)
+[types.d.ts:266](https://github.com/panva/jose/blob/v3.14.2/src/types.d.ts#L266)
 
 ___
 
@@ -165,7 +165,7 @@ ___
 
 #### Defined in
 
-[types.d.ts:246](https://github.com/panva/jose/blob/v3.14.1/src/types.d.ts#L246)
+[types.d.ts:246](https://github.com/panva/jose/blob/v3.14.2/src/types.d.ts#L246)
 
 ___
 
@@ -181,7 +181,7 @@ ___
 
 #### Defined in
 
-[types.d.ts:241](https://github.com/panva/jose/blob/v3.14.1/src/types.d.ts#L241)
+[types.d.ts:241](https://github.com/panva/jose/blob/v3.14.2/src/types.d.ts#L241)
 
 ___
 
@@ -197,4 +197,4 @@ ___
 
 #### Defined in
 
-[types.d.ts:251](https://github.com/panva/jose/blob/v3.14.1/src/types.d.ts#L251)
+[types.d.ts:251](https://github.com/panva/jose/blob/v3.14.2/src/types.d.ts#L251)

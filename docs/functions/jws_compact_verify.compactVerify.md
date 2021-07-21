@@ -41,4 +41,4 @@ console.log(decoder.decode(payload))
 
 #### Defined in
 
-[jws/compact/verify.ts:51](https://github.com/panva/jose/blob/v3.14.1/src/jws/compact/verify.ts#L51)
+[jws/compact/verify.ts:51](https://github.com/panva/jose/blob/v3.14.2/src/jws/compact/verify.ts#L51)

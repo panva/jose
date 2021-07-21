@@ -33,7 +33,7 @@ JWT Audience [RFC7519#section-4.1.3](https://tools.ietf.org/html/rfc7519#section
 
 #### Defined in
 
-[types.d.ts:559](https://github.com/panva/jose/blob/v3.14.1/src/types.d.ts#L559)
+[types.d.ts:559](https://github.com/panva/jose/blob/v3.14.2/src/types.d.ts#L559)
 
 ___
 
@@ -45,7 +45,7 @@ JWT Expiration Time - [RFC7519#section-4.1.4](https://tools.ietf.org/html/rfc751
 
 #### Defined in
 
-[types.d.ts:574](https://github.com/panva/jose/blob/v3.14.1/src/types.d.ts#L574)
+[types.d.ts:574](https://github.com/panva/jose/blob/v3.14.2/src/types.d.ts#L574)
 
 ___
 
@@ -57,7 +57,7 @@ JWT Issued At - [RFC7519#section-4.1.6](https://tools.ietf.org/html/rfc7519#sect
 
 #### Defined in
 
-[types.d.ts:579](https://github.com/panva/jose/blob/v3.14.1/src/types.d.ts#L579)
+[types.d.ts:579](https://github.com/panva/jose/blob/v3.14.2/src/types.d.ts#L579)
 
 ___
 
@@ -69,7 +69,7 @@ JWT Issuer - [RFC7519#section-4.1.1](https://tools.ietf.org/html/rfc7519#section
 
 #### Defined in
 
-[types.d.ts:549](https://github.com/panva/jose/blob/v3.14.1/src/types.d.ts#L549)
+[types.d.ts:549](https://github.com/panva/jose/blob/v3.14.2/src/types.d.ts#L549)
 
 ___
 
@@ -81,7 +81,7 @@ JWT ID - [RFC7519#section-4.1.7](https://tools.ietf.org/html/rfc7519#section-4.1
 
 #### Defined in
 
-[types.d.ts:564](https://github.com/panva/jose/blob/v3.14.1/src/types.d.ts#L564)
+[types.d.ts:564](https://github.com/panva/jose/blob/v3.14.2/src/types.d.ts#L564)
 
 ___
 
@@ -93,7 +93,7 @@ JWT Not Before - [RFC7519#section-4.1.5](https://tools.ietf.org/html/rfc7519#sec
 
 #### Defined in
 
-[types.d.ts:569](https://github.com/panva/jose/blob/v3.14.1/src/types.d.ts#L569)
+[types.d.ts:569](https://github.com/panva/jose/blob/v3.14.2/src/types.d.ts#L569)
 
 ___
 
@@ -105,4 +105,4 @@ JWT Subject - [RFC7519#section-4.1.2](https://tools.ietf.org/html/rfc7519#sectio
 
 #### Defined in
 
-[types.d.ts:554](https://github.com/panva/jose/blob/v3.14.1/src/types.d.ts#L554)
+[types.d.ts:554](https://github.com/panva/jose/blob/v3.14.2/src/types.d.ts#L554)

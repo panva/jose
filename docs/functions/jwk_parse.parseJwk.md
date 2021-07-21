@@ -49,4 +49,4 @@ const rsaPublicKey = await parseJwk({
 
 #### Defined in
 
-[jwk/parse.ts:45](https://github.com/panva/jose/blob/v3.14.1/src/jwk/parse.ts#L45)
+[jwk/parse.ts:45](https://github.com/panva/jose/blob/v3.14.2/src/jwk/parse.ts#L45)

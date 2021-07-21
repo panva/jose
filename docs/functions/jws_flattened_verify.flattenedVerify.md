@@ -45,4 +45,4 @@ console.log(decoder.decode(payload))
 
 #### Defined in
 
-[jws/flattened/verify.ts:66](https://github.com/panva/jose/blob/v3.14.1/src/jws/flattened/verify.ts#L66)
+[jws/flattened/verify.ts:66](https://github.com/panva/jose/blob/v3.14.2/src/jws/flattened/verify.ts#L66)

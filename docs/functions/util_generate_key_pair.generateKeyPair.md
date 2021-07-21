@@ -41,4 +41,4 @@ console.log(privateKey)
 
 #### Defined in
 
-[util/generate_key_pair.ts:66](https://github.com/panva/jose/blob/v3.14.1/src/util/generate_key_pair.ts#L66)
+[util/generate_key_pair.ts:66](https://github.com/panva/jose/blob/v3.14.2/src/util/generate_key_pair.ts#L66)

@@ -45,7 +45,7 @@ An error subclass thrown when a JWT Claim Set member validation fails.
 
 #### Defined in
 
-[util/errors.ts:45](https://github.com/panva/jose/blob/v3.14.1/src/util/errors.ts#L45)
+[util/errors.ts:45](https://github.com/panva/jose/blob/v3.14.2/src/util/errors.ts#L45)
 
 ## Properties
 
@@ -57,7 +57,7 @@ The Claim for which the validation failed.
 
 #### Defined in
 
-[util/errors.ts:38](https://github.com/panva/jose/blob/v3.14.1/src/util/errors.ts#L38)
+[util/errors.ts:38](https://github.com/panva/jose/blob/v3.14.2/src/util/errors.ts#L38)
 
 ___
 
@@ -73,7 +73,7 @@ A unique error code for the particular error subclass.
 
 #### Defined in
 
-[util/errors.ts:33](https://github.com/panva/jose/blob/v3.14.1/src/util/errors.ts#L33)
+[util/errors.ts:33](https://github.com/panva/jose/blob/v3.14.2/src/util/errors.ts#L33)
 
 ___
 
@@ -85,7 +85,7 @@ Reason code for the validation failure.
 
 #### Defined in
 
-[util/errors.ts:43](https://github.com/panva/jose/blob/v3.14.1/src/util/errors.ts#L43)
+[util/errors.ts:43](https://github.com/panva/jose/blob/v3.14.2/src/util/errors.ts#L43)
 
 ___
 
@@ -101,4 +101,4 @@ A unique error code for the particular error subclass.
 
 #### Defined in
 
-[util/errors.ts:31](https://github.com/panva/jose/blob/v3.14.1/src/util/errors.ts#L31)
+[util/errors.ts:31](https://github.com/panva/jose/blob/v3.14.2/src/util/errors.ts#L31)

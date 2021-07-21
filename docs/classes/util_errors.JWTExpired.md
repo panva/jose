@@ -43,7 +43,7 @@ An error subclass thrown when a JWT is expired.
 
 #### Defined in
 
-[util/errors.ts:45](https://github.com/panva/jose/blob/v3.14.1/src/util/errors.ts#L45)
+[util/errors.ts:45](https://github.com/panva/jose/blob/v3.14.2/src/util/errors.ts#L45)
 
 ## Properties
 
@@ -59,7 +59,7 @@ The Claim for which the validation failed.
 
 #### Defined in
 
-[util/errors.ts:38](https://github.com/panva/jose/blob/v3.14.1/src/util/errors.ts#L38)
+[util/errors.ts:38](https://github.com/panva/jose/blob/v3.14.2/src/util/errors.ts#L38)
 
 ___
 
@@ -75,7 +75,7 @@ A unique error code for the particular error subclass.
 
 #### Defined in
 
-[util/errors.ts:166](https://github.com/panva/jose/blob/v3.14.1/src/util/errors.ts#L166)
+[util/errors.ts:166](https://github.com/panva/jose/blob/v3.14.2/src/util/errors.ts#L166)
 
 ___
 
@@ -91,7 +91,7 @@ Reason code for the validation failure.
 
 #### Defined in
 
-[util/errors.ts:43](https://github.com/panva/jose/blob/v3.14.1/src/util/errors.ts#L43)
+[util/errors.ts:43](https://github.com/panva/jose/blob/v3.14.2/src/util/errors.ts#L43)
 
 ___
 
@@ -107,4 +107,4 @@ A unique error code for the particular error subclass.
 
 #### Defined in
 
-[util/errors.ts:164](https://github.com/panva/jose/blob/v3.14.1/src/util/errors.ts#L164)
+[util/errors.ts:164](https://github.com/panva/jose/blob/v3.14.2/src/util/errors.ts#L164)
