@@ -1,6 +1,18 @@
 import { generateKeyPair as generate } from '../runtime/generate.js'
 import type { KeyLike } from '../types'
 
+export interface GenerateKeyPairResult {
+  /**
+   * The generated Private Key.
+   */
+  privateKey: KeyLike
+
+  /**
+   * Public Key corresponding to the generated Private Key.
+   */
+  publicKey: KeyLike
+}
+
 export interface GenerateKeyPairOptions {
   /**
    * The EC "crv" (Curve) or OKP "crv" (Subtype of Key Pair) value to generate.
@@ -54,7 +66,7 @@ export interface GenerateKeyPairOptions {
 async function generateKeyPair(
   alg: string,
   options?: GenerateKeyPairOptions,
-): Promise<{ privateKey: KeyLike; publicKey: KeyLike }> {
+): Promise<GenerateKeyPairResult> {
   return generate(alg, options)
 }
 
