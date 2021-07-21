@@ -10,22 +10,22 @@
 
 ### Functions
 
-- [parseJwk](../functions/jwk_parse.parsejwk.md)
+- [parseJwk](../functions/jwk_parse.parseJwk.md)
 
 ## References
 
 ### JWK
 
-Re-exports: [JWK](../interfaces/types.jwk.md)
+Re-exports: [JWK](../interfaces/types.JWK.md)
 
 ___
 
 ### KeyLike
 
-Re-exports: [KeyLike](../types/types.keylike.md)
+Re-exports: [KeyLike](../types/types.KeyLike.md)
 
 ___
 
 ### default
 
-Renames and exports: [parseJwk](../functions/jwk_parse.parsejwk.md)
+Renames and exports: [parseJwk](../functions/jwk_parse.parseJwk.md)

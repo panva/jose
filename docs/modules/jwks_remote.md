@@ -8,14 +8,14 @@
 
 ### Interfaces
 
-- [RemoteJWKSetOptions](../interfaces/jwks_remote.remotejwksetoptions.md)
+- [RemoteJWKSetOptions](../interfaces/jwks_remote.RemoteJWKSetOptions.md)
 
 ### Functions
 
-- [createRemoteJWKSet](../functions/jwks_remote.createremotejwkset.md)
+- [createRemoteJWKSet](../functions/jwks_remote.createRemoteJWKSet.md)
 
 ## References
 
 ### default
 
-Renames and exports: [createRemoteJWKSet](../functions/jwks_remote.createremotejwkset.md)
+Renames and exports: [createRemoteJWKSet](../functions/jwks_remote.createRemoteJWKSet.md)

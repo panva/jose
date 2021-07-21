@@ -12,39 +12,39 @@
 
 ### Interfaces
 
-- [JWTDecryptGetKey](../interfaces/jwt_decrypt.jwtdecryptgetkey.md)
-- [JWTDecryptOptions](../interfaces/jwt_decrypt.jwtdecryptoptions.md)
+- [JWTDecryptGetKey](../interfaces/jwt_decrypt.JWTDecryptGetKey.md)
+- [JWTDecryptOptions](../interfaces/jwt_decrypt.JWTDecryptOptions.md)
 
 ### Functions
 
-- [jwtDecrypt](../functions/jwt_decrypt.jwtdecrypt.md)
+- [jwtDecrypt](../functions/jwt_decrypt.jwtDecrypt.md)
 
 ## References
 
 ### DecryptOptions
 
-Re-exports: [DecryptOptions](../interfaces/types.decryptoptions.md)
+Re-exports: [DecryptOptions](../interfaces/types.DecryptOptions.md)
 
 ___
 
 ### JWTDecryptResult
 
-Re-exports: [JWTDecryptResult](../interfaces/types.jwtdecryptresult.md)
+Re-exports: [JWTDecryptResult](../interfaces/types.JWTDecryptResult.md)
 
 ___
 
 ### JWTPayload
 
-Re-exports: [JWTPayload](../interfaces/types.jwtpayload.md)
+Re-exports: [JWTPayload](../interfaces/types.JWTPayload.md)
 
 ___
 
 ### KeyLike
 
-Re-exports: [KeyLike](../types/types.keylike.md)
+Re-exports: [KeyLike](../types/types.KeyLike.md)
 
 ___
 
 ### default
 
-Renames and exports: [jwtDecrypt](../functions/jwt_decrypt.jwtdecrypt.md)
+Renames and exports: [jwtDecrypt](../functions/jwt_decrypt.jwtDecrypt.md)

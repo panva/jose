@@ -11,28 +11,28 @@
 
 ### Classes
 
-- [FlattenedSign](../classes/jws_flattened_sign.flattenedsign.md)
+- [FlattenedSign](../classes/jws_flattened_sign.FlattenedSign.md)
 
 ## References
 
 ### FlattenedJWS
 
-Re-exports: [FlattenedJWS](../interfaces/types.flattenedjws.md)
+Re-exports: [FlattenedJWS](../interfaces/types.FlattenedJWS.md)
 
 ___
 
 ### JWSHeaderParameters
 
-Re-exports: [JWSHeaderParameters](../interfaces/types.jwsheaderparameters.md)
+Re-exports: [JWSHeaderParameters](../interfaces/types.JWSHeaderParameters.md)
 
 ___
 
 ### KeyLike
 
-Re-exports: [KeyLike](../types/types.keylike.md)
+Re-exports: [KeyLike](../types/types.KeyLike.md)
 
 ___
 
 ### default
 
-Renames and exports: [FlattenedSign](../classes/jws_flattened_sign.flattenedsign.md)
+Renames and exports: [FlattenedSign](../classes/jws_flattened_sign.FlattenedSign.md)

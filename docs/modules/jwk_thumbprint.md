@@ -9,16 +9,16 @@
 
 ### Functions
 
-- [calculateThumbprint](../functions/jwk_thumbprint.calculatethumbprint.md)
+- [calculateThumbprint](../functions/jwk_thumbprint.calculateThumbprint.md)
 
 ## References
 
 ### JWK
 
-Re-exports: [JWK](../interfaces/types.jwk.md)
+Re-exports: [JWK](../interfaces/types.JWK.md)
 
 ___
 
 ### default
 
-Renames and exports: [calculateThumbprint](../functions/jwk_thumbprint.calculatethumbprint.md)
+Renames and exports: [calculateThumbprint](../functions/jwk_thumbprint.calculateThumbprint.md)

@@ -8,14 +8,15 @@
 
 ### Interfaces
 
-- [GenerateKeyPairOptions](../interfaces/util_generate_key_pair.generatekeypairoptions.md)
+- [GenerateKeyPairOptions](../interfaces/util_generate_key_pair.GenerateKeyPairOptions.md)
+- [GenerateKeyPairResult](../interfaces/util_generate_key_pair.GenerateKeyPairResult.md)
 
 ### Functions
 
-- [generateKeyPair](../functions/util_generate_key_pair.generatekeypair.md)
+- [generateKeyPair](../functions/util_generate_key_pair.generateKeyPair.md)
 
 ## References
 
 ### default
 
-Renames and exports: [generateKeyPair](../functions/util_generate_key_pair.generatekeypair.md)
+Renames and exports: [generateKeyPair](../functions/util_generate_key_pair.generateKeyPair.md)

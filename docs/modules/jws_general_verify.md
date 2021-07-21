@@ -12,38 +12,38 @@
 
 ### Interfaces
 
-- [GeneralVerifyGetKey](../interfaces/jws_general_verify.generalverifygetkey.md)
+- [GeneralVerifyGetKey](../interfaces/jws_general_verify.GeneralVerifyGetKey.md)
 
 ### Functions
 
-- [generalVerify](../functions/jws_general_verify.generalverify.md)
+- [generalVerify](../functions/jws_general_verify.generalVerify.md)
 
 ## References
 
 ### GeneralJWSInput
 
-Re-exports: [GeneralJWSInput](../interfaces/types.generaljwsinput.md)
+Re-exports: [GeneralJWSInput](../interfaces/types.GeneralJWSInput.md)
 
 ___
 
 ### GeneralVerifyResult
 
-Re-exports: [GeneralVerifyResult](../interfaces/types.generalverifyresult.md)
+Re-exports: [GeneralVerifyResult](../interfaces/types.GeneralVerifyResult.md)
 
 ___
 
 ### KeyLike
 
-Re-exports: [KeyLike](../types/types.keylike.md)
+Re-exports: [KeyLike](../types/types.KeyLike.md)
 
 ___
 
 ### VerifyOptions
 
-Re-exports: [VerifyOptions](../interfaces/types.verifyoptions.md)
+Re-exports: [VerifyOptions](../interfaces/types.VerifyOptions.md)
 
 ___
 
 ### default
 
-Renames and exports: [generalVerify](../functions/jws_general_verify.generalverify.md)
+Renames and exports: [generalVerify](../functions/jws_general_verify.generalVerify.md)

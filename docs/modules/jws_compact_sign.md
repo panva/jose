@@ -10,22 +10,22 @@
 
 ### Classes
 
-- [CompactSign](../classes/jws_compact_sign.compactsign.md)
+- [CompactSign](../classes/jws_compact_sign.CompactSign.md)
 
 ## References
 
 ### JWSHeaderParameters
 
-Re-exports: [JWSHeaderParameters](../interfaces/types.jwsheaderparameters.md)
+Re-exports: [JWSHeaderParameters](../interfaces/types.JWSHeaderParameters.md)
 
 ___
 
 ### KeyLike
 
-Re-exports: [KeyLike](../types/types.keylike.md)
+Re-exports: [KeyLike](../types/types.KeyLike.md)
 
 ___
 
 ### default
 
-Renames and exports: [CompactSign](../classes/jws_compact_sign.compactsign.md)
+Renames and exports: [CompactSign](../classes/jws_compact_sign.CompactSign.md)

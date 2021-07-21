@@ -11,32 +11,32 @@
 
 ### Interfaces
 
-- [CompactVerifyGetKey](../interfaces/jws_compact_verify.compactverifygetkey.md)
+- [CompactVerifyGetKey](../interfaces/jws_compact_verify.CompactVerifyGetKey.md)
 
 ### Functions
 
-- [compactVerify](../functions/jws_compact_verify.compactverify.md)
+- [compactVerify](../functions/jws_compact_verify.compactVerify.md)
 
 ## References
 
 ### CompactVerifyResult
 
-Re-exports: [CompactVerifyResult](../interfaces/types.compactverifyresult.md)
+Re-exports: [CompactVerifyResult](../interfaces/types.CompactVerifyResult.md)
 
 ___
 
 ### KeyLike
 
-Re-exports: [KeyLike](../types/types.keylike.md)
+Re-exports: [KeyLike](../types/types.KeyLike.md)
 
 ___
 
 ### VerifyOptions
 
-Re-exports: [VerifyOptions](../interfaces/types.verifyoptions.md)
+Re-exports: [VerifyOptions](../interfaces/types.VerifyOptions.md)
 
 ___
 
 ### default
 
-Renames and exports: [compactVerify](../functions/jws_compact_verify.compactverify.md)
+Renames and exports: [compactVerify](../functions/jws_compact_verify.compactVerify.md)

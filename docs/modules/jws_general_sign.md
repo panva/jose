@@ -11,32 +11,32 @@
 
 ### Classes
 
-- [GeneralSign](../classes/jws_general_sign.generalsign.md)
+- [GeneralSign](../classes/jws_general_sign.GeneralSign.md)
 
 ### Interfaces
 
-- [Signature](../interfaces/jws_general_sign.signature.md)
+- [Signature](../interfaces/jws_general_sign.Signature.md)
 
 ## References
 
 ### GeneralJWS
 
-Re-exports: [GeneralJWS](../interfaces/types.generaljws.md)
+Re-exports: [GeneralJWS](../interfaces/types.GeneralJWS.md)
 
 ___
 
 ### JWSHeaderParameters
 
-Re-exports: [JWSHeaderParameters](../interfaces/types.jwsheaderparameters.md)
+Re-exports: [JWSHeaderParameters](../interfaces/types.JWSHeaderParameters.md)
 
 ___
 
 ### KeyLike
 
-Re-exports: [KeyLike](../types/types.keylike.md)
+Re-exports: [KeyLike](../types/types.KeyLike.md)
 
 ___
 
 ### default
 
-Renames and exports: [GeneralSign](../classes/jws_general_sign.generalsign.md)
+Renames and exports: [GeneralSign](../classes/jws_general_sign.GeneralSign.md)

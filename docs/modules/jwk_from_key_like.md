@@ -10,22 +10,22 @@
 
 ### Functions
 
-- [fromKeyLike](../functions/jwk_from_key_like.fromkeylike.md)
+- [fromKeyLike](../functions/jwk_from_key_like.fromKeyLike.md)
 
 ## References
 
 ### JWK
 
-Re-exports: [JWK](../interfaces/types.jwk.md)
+Re-exports: [JWK](../interfaces/types.JWK.md)
 
 ___
 
 ### KeyLike
 
-Re-exports: [KeyLike](../types/types.keylike.md)
+Re-exports: [KeyLike](../types/types.KeyLike.md)
 
 ___
 
 ### default
 
-Renames and exports: [fromKeyLike](../functions/jwk_from_key_like.fromkeylike.md)
+Renames and exports: [fromKeyLike](../functions/jwk_from_key_like.fromKeyLike.md)

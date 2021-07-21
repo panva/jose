@@ -8,14 +8,14 @@
 
 ### Interfaces
 
-- [GenerateSecretOptions](../interfaces/util_generate_secret.generatesecretoptions.md)
+- [GenerateSecretOptions](../interfaces/util_generate_secret.GenerateSecretOptions.md)
 
 ### Functions
 
-- [generateSecret](../functions/util_generate_secret.generatesecret.md)
+- [generateSecret](../functions/util_generate_secret.generateSecret.md)
 
 ## References
 
 ### default
 
-Renames and exports: [generateSecret](../functions/util_generate_secret.generatesecret.md)
+Renames and exports: [generateSecret](../functions/util_generate_secret.generateSecret.md)

@@ -14,50 +14,50 @@
 
 ### Interfaces
 
-- [FlattenedVerifyGetKey](../interfaces/jws_flattened_verify.flattenedverifygetkey.md)
+- [FlattenedVerifyGetKey](../interfaces/jws_flattened_verify.FlattenedVerifyGetKey.md)
 
 ### Functions
 
-- [flattenedVerify](../functions/jws_flattened_verify.flattenedverify.md)
+- [flattenedVerify](../functions/jws_flattened_verify.flattenedVerify.md)
 
 ## References
 
 ### FlattenedJWSInput
 
-Re-exports: [FlattenedJWSInput](../interfaces/types.flattenedjwsinput.md)
+Re-exports: [FlattenedJWSInput](../interfaces/types.FlattenedJWSInput.md)
 
 ___
 
 ### FlattenedVerifyResult
 
-Re-exports: [FlattenedVerifyResult](../interfaces/types.flattenedverifyresult.md)
+Re-exports: [FlattenedVerifyResult](../interfaces/types.FlattenedVerifyResult.md)
 
 ___
 
 ### GetKeyFunction
 
-Re-exports: [GetKeyFunction](../interfaces/types.getkeyfunction.md)
+Re-exports: [GetKeyFunction](../interfaces/types.GetKeyFunction.md)
 
 ___
 
 ### JWSHeaderParameters
 
-Re-exports: [JWSHeaderParameters](../interfaces/types.jwsheaderparameters.md)
+Re-exports: [JWSHeaderParameters](../interfaces/types.JWSHeaderParameters.md)
 
 ___
 
 ### KeyLike
 
-Re-exports: [KeyLike](../types/types.keylike.md)
+Re-exports: [KeyLike](../types/types.KeyLike.md)
 
 ___
 
 ### VerifyOptions
 
-Re-exports: [VerifyOptions](../interfaces/types.verifyoptions.md)
+Re-exports: [VerifyOptions](../interfaces/types.VerifyOptions.md)
 
 ___
 
 ### default
 
-Renames and exports: [flattenedVerify](../functions/jws_flattened_verify.flattenedverify.md)
+Renames and exports: [flattenedVerify](../functions/jws_flattened_verify.flattenedVerify.md)

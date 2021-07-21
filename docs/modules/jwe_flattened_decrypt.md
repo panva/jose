@@ -13,44 +13,44 @@
 
 ### Interfaces
 
-- [FlattenedDecryptGetKey](../interfaces/jwe_flattened_decrypt.flatteneddecryptgetkey.md)
+- [FlattenedDecryptGetKey](../interfaces/jwe_flattened_decrypt.FlattenedDecryptGetKey.md)
 
 ### Functions
 
-- [flattenedDecrypt](../functions/jwe_flattened_decrypt.flatteneddecrypt.md)
+- [flattenedDecrypt](../functions/jwe_flattened_decrypt.flattenedDecrypt.md)
 
 ## References
 
 ### DecryptOptions
 
-Re-exports: [DecryptOptions](../interfaces/types.decryptoptions.md)
+Re-exports: [DecryptOptions](../interfaces/types.DecryptOptions.md)
 
 ___
 
 ### FlattenedDecryptResult
 
-Re-exports: [FlattenedDecryptResult](../interfaces/types.flatteneddecryptresult.md)
+Re-exports: [FlattenedDecryptResult](../interfaces/types.FlattenedDecryptResult.md)
 
 ___
 
 ### FlattenedJWE
 
-Re-exports: [FlattenedJWE](../interfaces/types.flattenedjwe.md)
+Re-exports: [FlattenedJWE](../interfaces/types.FlattenedJWE.md)
 
 ___
 
 ### JWEHeaderParameters
 
-Re-exports: [JWEHeaderParameters](../interfaces/types.jweheaderparameters.md)
+Re-exports: [JWEHeaderParameters](../interfaces/types.JWEHeaderParameters.md)
 
 ___
 
 ### KeyLike
 
-Re-exports: [KeyLike](../types/types.keylike.md)
+Re-exports: [KeyLike](../types/types.KeyLike.md)
 
 ___
 
 ### default
 
-Renames and exports: [flattenedDecrypt](../functions/jwe_flattened_decrypt.flatteneddecrypt.md)
+Renames and exports: [flattenedDecrypt](../functions/jwe_flattened_decrypt.flattenedDecrypt.md)

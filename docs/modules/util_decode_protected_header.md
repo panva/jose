@@ -8,14 +8,14 @@
 
 ### Type aliases
 
-- [ProtectedHeaderParameters](../types/util_decode_protected_header.protectedheaderparameters.md)
+- [ProtectedHeaderParameters](../types/util_decode_protected_header.ProtectedHeaderParameters.md)
 
 ### Functions
 
-- [decodeProtectedHeader](../functions/util_decode_protected_header.decodeprotectedheader.md)
+- [decodeProtectedHeader](../functions/util_decode_protected_header.decodeProtectedHeader.md)
 
 ## References
 
 ### default
 
-Renames and exports: [decodeProtectedHeader](../functions/util_decode_protected_header.decodeprotectedheader.md)
+Renames and exports: [decodeProtectedHeader](../functions/util_decode_protected_header.decodeProtectedHeader.md)

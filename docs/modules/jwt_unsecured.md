@@ -10,26 +10,26 @@
 
 ### Classes
 
-- [UnsecuredJWT](../classes/jwt_unsecured.unsecuredjwt.md)
+- [UnsecuredJWT](../classes/jwt_unsecured.UnsecuredJWT.md)
 
 ### Interfaces
 
-- [UnsecuredResult](../interfaces/jwt_unsecured.unsecuredresult.md)
+- [UnsecuredResult](../interfaces/jwt_unsecured.UnsecuredResult.md)
 
 ## References
 
 ### JWSHeaderParameters
 
-Re-exports: [JWSHeaderParameters](../interfaces/types.jwsheaderparameters.md)
+Re-exports: [JWSHeaderParameters](../interfaces/types.JWSHeaderParameters.md)
 
 ___
 
 ### JWTPayload
 
-Re-exports: [JWTPayload](../interfaces/types.jwtpayload.md)
+Re-exports: [JWTPayload](../interfaces/types.JWTPayload.md)
 
 ___
 
 ### default
 
-Renames and exports: [UnsecuredJWT](../classes/jwt_unsecured.unsecuredjwt.md)
+Renames and exports: [UnsecuredJWT](../classes/jwt_unsecured.UnsecuredJWT.md)

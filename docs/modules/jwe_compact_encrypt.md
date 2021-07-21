@@ -11,28 +11,28 @@
 
 ### Classes
 
-- [CompactEncrypt](../classes/jwe_compact_encrypt.compactencrypt.md)
+- [CompactEncrypt](../classes/jwe_compact_encrypt.CompactEncrypt.md)
 
 ## References
 
 ### JWEHeaderParameters
 
-Re-exports: [JWEHeaderParameters](../interfaces/types.jweheaderparameters.md)
+Re-exports: [JWEHeaderParameters](../interfaces/types.JWEHeaderParameters.md)
 
 ___
 
 ### JWEKeyManagementHeaderParameters
 
-Re-exports: [JWEKeyManagementHeaderParameters](../interfaces/types.jwekeymanagementheaderparameters.md)
+Re-exports: [JWEKeyManagementHeaderParameters](../interfaces/types.JWEKeyManagementHeaderParameters.md)
 
 ___
 
 ### KeyLike
 
-Re-exports: [KeyLike](../types/types.keylike.md)
+Re-exports: [KeyLike](../types/types.KeyLike.md)
 
 ___
 
 ### default
 
-Renames and exports: [CompactEncrypt](../classes/jwe_compact_encrypt.compactencrypt.md)
+Renames and exports: [CompactEncrypt](../classes/jwe_compact_encrypt.CompactEncrypt.md)

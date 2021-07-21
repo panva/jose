@@ -12,34 +12,34 @@
 
 ### Classes
 
-- [FlattenedEncrypt](../classes/jwe_flattened_encrypt.flattenedencrypt.md)
+- [FlattenedEncrypt](../classes/jwe_flattened_encrypt.FlattenedEncrypt.md)
 
 ## References
 
 ### FlattenedJWE
 
-Re-exports: [FlattenedJWE](../interfaces/types.flattenedjwe.md)
+Re-exports: [FlattenedJWE](../interfaces/types.FlattenedJWE.md)
 
 ___
 
 ### JWEHeaderParameters
 
-Re-exports: [JWEHeaderParameters](../interfaces/types.jweheaderparameters.md)
+Re-exports: [JWEHeaderParameters](../interfaces/types.JWEHeaderParameters.md)
 
 ___
 
 ### JWEKeyManagementHeaderParameters
 
-Re-exports: [JWEKeyManagementHeaderParameters](../interfaces/types.jwekeymanagementheaderparameters.md)
+Re-exports: [JWEKeyManagementHeaderParameters](../interfaces/types.JWEKeyManagementHeaderParameters.md)
 
 ___
 
 ### KeyLike
 
-Re-exports: [KeyLike](../types/types.keylike.md)
+Re-exports: [KeyLike](../types/types.KeyLike.md)
 
 ___
 
 ### default
 
-Renames and exports: [FlattenedEncrypt](../classes/jwe_flattened_encrypt.flattenedencrypt.md)
+Renames and exports: [FlattenedEncrypt](../classes/jwe_flattened_encrypt.FlattenedEncrypt.md)

@@ -8,10 +8,10 @@
 
 ### Functions
 
-- [EmbeddedJWK](../functions/jwk_embedded.embeddedjwk.md)
+- [EmbeddedJWK](../functions/jwk_embedded.EmbeddedJWK.md)
 
 ## References
 
 ### default
 
-Renames and exports: [EmbeddedJWK](../functions/jwk_embedded.embeddedjwk.md)
+Renames and exports: [EmbeddedJWK](../functions/jwk_embedded.EmbeddedJWK.md)
