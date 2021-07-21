@@ -54,35 +54,31 @@ npm install jose-browser-runtime
 ## Documentation
 
 - JSON Web Tokens (JWT)
-  - [Signing](docs/classes/jwt_sign.signjwt.md#readme)
-  - [Verification & Claims Set Validation](docs/functions/jwt_verify.jwtverify.md#readme)
+  - [Signing](docs/classes/jwt_sign.SignJWT.md#readme)
+  - [Verification & Claims Set Validation](docs/functions/jwt_verify.SignJWT.md#readme)
   - Encrypted JSON Web Tokens
-    - [Encryption](docs/classes/jwt_encrypt.encryptjwt.md#readme)
-    - [Decryption & Claims Set Validation](docs/functions/jwt_decrypt.jwtdecrypt.md#readme)
+    - [Encryption](docs/classes/jwt_encrypt.EncryptJWT.md#readme)
+    - [Decryption & Claims Set Validation](docs/functions/jwt_decrypt.jwtDecrypt.md#readme)
 - JSON Web Encryption (JWE)
-  - Encryption - [Compact](docs/classes/jwe_compact_encrypt.compactencrypt.md#readme), [Flattened](docs/classes/jwe_flattened_encrypt.flattenedencrypt.md#readme)
-  - Decryption - [Compact](docs/functions/jwe_compact_decrypt.compactdecrypt.md#readme), [Flattened](docs/functions/jwe_flattened_decrypt.flatteneddecrypt.md#readme), [General](docs/functions/jwe_general_decrypt.generaldecrypt.md#readme)
+  - Encryption - [Compact](docs/classes/jwe_compact_encrypt.CompactEncrypt.md#readme), [Flattened](docs/classes/jwe_flattened_encrypt.FlattenedEncrypt.md#readme)
+  - Decryption - [Compact](docs/functions/jwe_compact_decrypt.compactDecrypt.md#readme), [Flattened](docs/functions/jwe_flattened_decrypt.flattenedDecrypt.md#readme), [General](docs/functions/jwe_general_decrypt.generalDecrypt.md#readme)
 - JSON Web Signature (JWS)
-  - Signing - [Compact](docs/classes/jws_compact_sign.compactsign.md#readme), [Flattened](docs/classes/jws_flattened_sign.flattenedsign.md#readme), [General](docs/classes/jws_general_sign.generalsign.md#readme)
-  - Verification - [Compact](docs/functions/jws_compact_verify.compactverify.md#readme), [Flattened](docs/functions/jws_flattened_verify.flattenedverify.md#readme), [General](docs/functions/jws_general_verify.generalverify.md#readme)
+  - Signing - [Compact](docs/classes/jws_compact_sign.CompactSign.md#readme), [Flattened](docs/classes/jws_flattened_sign.FlattenedSign.md#readme), [General](docs/classes/jws_general_sign.GeneralSign.md#readme)
+  - Verification - [Compact](docs/functions/jws_compact_verify.compactVerify.md#readme), [Flattened](docs/functions/jws_flattened_verify.flattenedVerify.md#readme), [General](docs/functions/jws_general_verify.generalVerify.md#readme)
 - JSON Web Key (JWK)
-  - [Parsing (JWK to KeyLike)](docs/functions/jwk_parse.parsejwk.md#readme)
-  - [Conversion (KeyLike to JWK)](docs/functions/jwk_from_key_like.fromkeylike.md#readme)
-  - [Thumbprints](docs/functions/jwk_thumbprint.calculatethumbprint.md#readme)
-  - [EmbeddedJWK](docs/functions/jwk_embedded.embeddedjwk.md#readme)
+  - [Parsing (JWK to KeyLike)](docs/functions/jwk_parse.parseJwk.md#readme)
+  - [Conversion (KeyLike to JWK)](docs/functions/jwk_from_key_like.fromKeyLike.md#readme)
+  - [Thumbprints](docs/functions/jwk_thumbprint.calculateThumbprint.md#readme)
+  - [EmbeddedJWK](docs/functions/jwk_embedded.EmbeddedJWK.md#readme)
 - JSON Web Key Set (JWKS)
-  - [Verify using a remote JWKSet](docs/functions/jwks_remote.createremotejwkset.md#readme)
+  - [Verify using a remote JWKSet](docs/functions/jwks_remote.createRemoteJWKSet.md#readme)
 - Key Pair or Secret Generation (Generate KeyLike)
-  - [Asymmetric Key Pair Generation](docs/functions/util_generate_key_pair.generatekeypair.md#readme)
-  - [Symmetric Secret Generation](docs/functions/util_generate_secret.generatesecret.md#readme)
+  - [Asymmetric Key Pair Generation](docs/functions/util_generate_key_pair.generateKeyPair.md#readme)
+  - [Symmetric Secret Generation](docs/functions/util_generate_secret.generateSecret.md#readme)
 - Utilities
-  - [Decoding Token's Protected Header](docs/functions/util_decode_protected_header.decodeprotectedheader.md#readme)
-- [Unsecured JWT](docs/classes/jwt_unsecured.unsecuredjwt.md#readme)
+  - [Decoding Token's Protected Header](docs/functions/util_decode_protected_header.decodeProtectedHeader.md#readme)
+- [Unsecured JWT](docs/classes/jwt_unsecured.UnsecuredJWT.md#readme)
 - [JOSE Errors](docs/modules/util_errors.md#readme)
-
-## Examples
-
-A continuously growing list of examples is available in the [tracker](https://github.com/panva/jose/issues?q=label%3Aexample+label%3Av3.x).
 
 ## JOSE Support Matrix
 
