@@ -43,4 +43,4 @@ console.log(payload)
 
 #### Defined in
 
-[jwt/decrypt.ts:56](https://github.com/panva/jose/blob/v3.14.2/src/jwt/decrypt.ts#L56)
+[jwt/decrypt.ts:56](https://github.com/panva/jose/blob/v3.14.3/src/jwt/decrypt.ts#L56)

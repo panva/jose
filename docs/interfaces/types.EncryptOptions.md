@@ -52,7 +52,7 @@ default built-in treatment are currently available.
 
 #### Defined in
 
-[types.d.ts:441](https://github.com/panva/jose/blob/v3.14.2/src/types.d.ts#L441)
+[types.d.ts:441](https://github.com/panva/jose/blob/v3.14.3/src/types.d.ts#L441)
 
 ___
 
@@ -65,4 +65,4 @@ when you will be producing JWEs with compressed plaintext.
 
 #### Defined in
 
-[types.d.ts:477](https://github.com/panva/jose/blob/v3.14.2/src/types.d.ts#L477)
+[types.d.ts:477](https://github.com/panva/jose/blob/v3.14.3/src/types.d.ts#L477)

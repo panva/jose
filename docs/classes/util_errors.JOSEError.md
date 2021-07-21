@@ -64,7 +64,7 @@ Error.constructor
 
 #### Defined in
 
-[util/errors.ts:18](https://github.com/panva/jose/blob/v3.14.2/src/util/errors.ts#L18)
+[util/errors.ts:18](https://github.com/panva/jose/blob/v3.14.3/src/util/errors.ts#L18)
 
 ## Properties
 
@@ -76,7 +76,7 @@ A unique error code for the particular error subclass.
 
 #### Defined in
 
-[util/errors.ts:16](https://github.com/panva/jose/blob/v3.14.2/src/util/errors.ts#L16)
+[util/errors.ts:16](https://github.com/panva/jose/blob/v3.14.3/src/util/errors.ts#L16)
 
 ___
 
@@ -88,4 +88,4 @@ A unique error code for the particular error subclass.
 
 #### Defined in
 
-[util/errors.ts:11](https://github.com/panva/jose/blob/v3.14.2/src/util/errors.ts#L11)
+[util/errors.ts:11](https://github.com/panva/jose/blob/v3.14.3/src/util/errors.ts#L11)

@@ -38,4 +38,4 @@ console.log(secret)
 
 #### Defined in
 
-[util/generate_secret.ts:38](https://github.com/panva/jose/blob/v3.14.2/src/util/generate_secret.ts#L38)
+[util/generate_secret.ts:38](https://github.com/panva/jose/blob/v3.14.3/src/util/generate_secret.ts#L38)

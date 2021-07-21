@@ -33,4 +33,4 @@ to verify using a remote JSON Web Key Set.
 
 #### Defined in
 
-[types.d.ts:81](https://github.com/panva/jose/blob/v3.14.2/src/types.d.ts#L81)
+[types.d.ts:81](https://github.com/panva/jose/blob/v3.14.3/src/types.d.ts#L81)

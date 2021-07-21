@@ -17,7 +17,7 @@
 
 #### Defined in
 
-[jwt/unsecured.ts:12](https://github.com/panva/jose/blob/v3.14.2/src/jwt/unsecured.ts#L12)
+[jwt/unsecured.ts:12](https://github.com/panva/jose/blob/v3.14.3/src/jwt/unsecured.ts#L12)
 
 ___
 
@@ -27,4 +27,4 @@ ___
 
 #### Defined in
 
-[jwt/unsecured.ts:11](https://github.com/panva/jose/blob/v3.14.2/src/jwt/unsecured.ts#L11)
+[jwt/unsecured.ts:11](https://github.com/panva/jose/blob/v3.14.3/src/jwt/unsecured.ts#L11)

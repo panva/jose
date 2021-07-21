@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [3.14.3](https://github.com/panva/jose/compare/v3.14.2...v3.14.3) (2021-07-21)
+
+
+### Bug Fixes
+
+* **docs:** update doc links again ([26c4361](https://github.com/panva/jose/commit/26c4361c007e3bc7e6ee60b65f9535cecf447fe6))
+
 ## [3.14.2](https://github.com/panva/jose/compare/v3.14.1...v3.14.2) (2021-07-21)
 
 

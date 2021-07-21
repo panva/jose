@@ -41,4 +41,4 @@ console.log(thumbprint)
 
 #### Defined in
 
-[jwk/thumbprint.ts:44](https://github.com/panva/jose/blob/v3.14.2/src/jwk/thumbprint.ts#L44)
+[jwk/thumbprint.ts:44](https://github.com/panva/jose/blob/v3.14.3/src/jwk/thumbprint.ts#L44)

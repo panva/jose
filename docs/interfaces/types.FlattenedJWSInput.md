@@ -28,7 +28,7 @@ Parameter values are not integrity protected.
 
 #### Defined in
 
-[types.d.ts:168](https://github.com/panva/jose/blob/v3.14.2/src/types.d.ts#L168)
+[types.d.ts:168](https://github.com/panva/jose/blob/v3.14.3/src/types.d.ts#L168)
 
 ___
 
@@ -42,7 +42,7 @@ the value passed may also be a Uint8Array.
 
 #### Defined in
 
-[types.d.ts:175](https://github.com/panva/jose/blob/v3.14.2/src/types.d.ts#L175)
+[types.d.ts:175](https://github.com/panva/jose/blob/v3.14.3/src/types.d.ts#L175)
 
 ___
 
@@ -57,7 +57,7 @@ Header Parameter values are integrity protected.
 
 #### Defined in
 
-[types.d.ts:183](https://github.com/panva/jose/blob/v3.14.2/src/types.d.ts#L183)
+[types.d.ts:183](https://github.com/panva/jose/blob/v3.14.3/src/types.d.ts#L183)
 
 ___
 
@@ -70,4 +70,4 @@ BASE64URL(JWS Signature).
 
 #### Defined in
 
-[types.d.ts:189](https://github.com/panva/jose/blob/v3.14.2/src/types.d.ts#L189)
+[types.d.ts:189](https://github.com/panva/jose/blob/v3.14.3/src/types.d.ts#L189)

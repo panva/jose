@@ -43,4 +43,4 @@ console.log(payload)
 
 #### Defined in
 
-[jwt/verify.ts:59](https://github.com/panva/jose/blob/v3.14.2/src/jwt/verify.ts#L59)
+[jwt/verify.ts:59](https://github.com/panva/jose/blob/v3.14.3/src/jwt/verify.ts#L59)

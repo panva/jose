@@ -50,7 +50,7 @@ console.log(jws)
 
 #### Defined in
 
-[jws/flattened/sign.ts:48](https://github.com/panva/jose/blob/v3.14.2/src/jws/flattened/sign.ts#L48)
+[jws/flattened/sign.ts:48](https://github.com/panva/jose/blob/v3.14.3/src/jws/flattened/sign.ts#L48)
 
 ## Methods
 
@@ -72,7 +72,7 @@ Sets the JWS Protected Header on the FlattenedSign object.
 
 #### Defined in
 
-[jws/flattened/sign.ts:57](https://github.com/panva/jose/blob/v3.14.2/src/jws/flattened/sign.ts#L57)
+[jws/flattened/sign.ts:57](https://github.com/panva/jose/blob/v3.14.3/src/jws/flattened/sign.ts#L57)
 
 ___
 
@@ -94,7 +94,7 @@ Sets the JWS Unprotected Header on the FlattenedSign object.
 
 #### Defined in
 
-[jws/flattened/sign.ts:70](https://github.com/panva/jose/blob/v3.14.2/src/jws/flattened/sign.ts#L70)
+[jws/flattened/sign.ts:70](https://github.com/panva/jose/blob/v3.14.3/src/jws/flattened/sign.ts#L70)
 
 ___
 
@@ -117,4 +117,4 @@ Signs and resolves the value of the Flattened JWS object.
 
 #### Defined in
 
-[jws/flattened/sign.ts:84](https://github.com/panva/jose/blob/v3.14.2/src/jws/flattened/sign.ts#L84)
+[jws/flattened/sign.ts:84](https://github.com/panva/jose/blob/v3.14.3/src/jws/flattened/sign.ts#L84)
