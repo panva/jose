@@ -59,7 +59,7 @@ async function gcmEncrypt(
 
   const cipher = createCipheriv(algorithm, cek, iv, { authTagLength: 16 })
   if (aad.byteLength) {
-    cipher.setAAD(aad)
+    cipher.setAAD(aad, { plaintextLength: plaintext.length })
   }
 
   const ciphertext = concat(cipher.update(plaintext), cipher.final())

@@ -81,7 +81,7 @@ async function gcmDecrypt(
     const cipher = createDecipheriv(algorithm, cek, iv, { authTagLength: 16 })
     cipher.setAuthTag(tag)
     if (aad.byteLength) {
-      cipher.setAAD(aad)
+      cipher.setAAD(aad, { plaintextLength: ciphertext.length })
     }
 
     return concat(cipher.update(ciphertext), cipher.final())
