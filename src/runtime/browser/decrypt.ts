@@ -4,7 +4,7 @@ import type { DecryptFunction } from '../interfaces'
 import checkIvLength from '../../lib/check_iv_length.js'
 import checkCekLength from './check_cek_length.js'
 import timingSafeEqual from './timing_safe_equal.js'
-import { JWEDecryptionFailed } from '../../util/errors.js'
+import { JOSENotSupported, JWEDecryptionFailed } from '../../util/errors.js'
 import crypto, { isCryptoKey } from './webcrypto.js'
 import invalidKeyInput from './invalid_key_input.js'
 
@@ -110,11 +110,18 @@ const decrypt: DecryptFunction = async (
   checkCekLength(enc, cek)
   checkIvLength(enc, iv)
 
-  if (enc.substr(4, 3) === 'CBC') {
-    return cbcDecrypt(enc, <Uint8Array>cek, ciphertext, iv, tag, aad)
+  switch (enc) {
+    case 'A128CBC-HS256':
+    case 'A192CBC-HS384':
+    case 'A256CBC-HS512':
+      return cbcDecrypt(enc, <Uint8Array>cek, ciphertext, iv, tag, aad)
+    case 'A128GCM':
+    case 'A192GCM':
+    case 'A256GCM':
+      return gcmDecrypt(cek, ciphertext, iv, tag, aad)
+    default:
+      throw new JOSENotSupported('unsupported JWE Content Encryption Algorithm')
   }
-
-  return gcmDecrypt(cek, ciphertext, iv, tag, aad)
 }
 
 export default decrypt

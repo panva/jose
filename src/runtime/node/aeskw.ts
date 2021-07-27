@@ -1,4 +1,4 @@
-import { KeyObject, createDecipheriv, createCipheriv, getCiphers } from 'crypto'
+import { KeyObject, createDecipheriv, createCipheriv } from 'crypto'
 import { JOSENotSupported } from '../../util/errors.js'
 import type { AesKwUnwrapFunction, AesKwWrapFunction } from '../interfaces'
 import { concat } from '../../lib/buffer_utils.js'
@@ -6,6 +6,7 @@ import getSecretKey from './secret_key.js'
 import { isCryptoKey, getKeyObject } from './webcrypto.js'
 import isKeyObject from './is_key_object.js'
 import invalidKeyInput from './invalid_key_input.js'
+import supported from './ciphers.js'
 
 function checkKeySize(key: KeyObject, alg: string) {
   if (key.symmetricKeySize! << 3 !== parseInt(alg.substr(1, 3), 10)) {
@@ -30,7 +31,7 @@ function ensureKeyObject(key: unknown, alg: string, usage: KeyUsage) {
 export const wrap: AesKwWrapFunction = async (alg: string, key: unknown, cek: Uint8Array) => {
   const size = parseInt(alg.substr(1, 3), 10)
   const algorithm = `aes${size}-wrap`
-  if (!getCiphers().includes(algorithm)) {
+  if (!supported(algorithm)) {
     throw new JOSENotSupported(
       `alg ${alg} is not supported either by JOSE or your javascript runtime`,
     )
@@ -48,7 +49,7 @@ export const unwrap: AesKwUnwrapFunction = async (
 ) => {
   const size = parseInt(alg.substr(1, 3), 10)
   const algorithm = `aes${size}-wrap`
-  if (!getCiphers().includes(algorithm)) {
+  if (!supported(algorithm)) {
     throw new JOSENotSupported(
       `alg ${alg} is not supported either by JOSE or your javascript runtime`,
     )

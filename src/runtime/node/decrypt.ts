@@ -1,4 +1,4 @@
-import { getCiphers, KeyObject, createDecipheriv } from 'crypto'
+import { KeyObject, createDecipheriv } from 'crypto'
 import type { CipherGCMTypes } from 'crypto'
 
 import type { DecryptFunction } from '../interfaces'
@@ -12,6 +12,7 @@ import { isCryptoKey, getKeyObject } from './webcrypto.js'
 import type { KeyLike } from '../../types'
 import isKeyObject from './is_key_object.js'
 import invalidKeyInput from './invalid_key_input.js'
+import supported from './ciphers.js'
 
 async function cbcDecrypt(
   enc: string,
@@ -33,7 +34,7 @@ async function cbcDecrypt(
   const macSize = parseInt(enc.substr(-3), 10)
 
   const algorithm = `aes-${keySize}-cbc`
-  if (!getCiphers().includes(algorithm)) {
+  if (!supported(algorithm)) {
     throw new JOSENotSupported(`alg ${enc} is not supported by your javascript runtime`)
   }
 
@@ -73,7 +74,7 @@ async function gcmDecrypt(
   const keySize = parseInt(enc.substr(1, 3), 10)
 
   const algorithm = <CipherGCMTypes>`aes-${keySize}-gcm`
-  if (!getCiphers().includes(algorithm)) {
+  if (!supported(algorithm)) {
     throw new JOSENotSupported(`alg ${enc} is not supported by your javascript runtime`)
   }
   try {
@@ -110,11 +111,18 @@ const decrypt: DecryptFunction = async (
   checkCekLength(enc, key)
   checkIvLength(enc, iv)
 
-  if (enc.substr(4, 3) === 'CBC') {
-    return cbcDecrypt(enc, key, ciphertext, iv, tag, aad)
+  switch (enc) {
+    case 'A128CBC-HS256':
+    case 'A192CBC-HS384':
+    case 'A256CBC-HS512':
+      return cbcDecrypt(enc, key, ciphertext, iv, tag, aad)
+    case 'A128GCM':
+    case 'A192GCM':
+    case 'A256GCM':
+      return gcmDecrypt(enc, key, ciphertext, iv, tag, aad)
+    default:
+      throw new JOSENotSupported('unsupported JWE Content Encryption Algorithm')
   }
-
-  return gcmDecrypt(enc, key, ciphertext, iv, tag, aad)
 }
 
 export default decrypt

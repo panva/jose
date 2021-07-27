@@ -10,6 +10,8 @@ import type { KeyLike } from '../../types'
 import { isCryptoKey, getKeyObject } from './webcrypto.js'
 import isKeyObject from './is_key_object.js'
 import invalidKeyInput from './invalid_key_input.js'
+import { JOSENotSupported } from '../../util/errors.js'
+import supported from './ciphers.js'
 
 async function cbcEncrypt(
   enc: string,
@@ -29,6 +31,10 @@ async function cbcEncrypt(
   const macKey = cek.subarray(0, keySize >> 3)
 
   const algorithm = `aes-${keySize}-cbc`
+  if (!supported(algorithm)) {
+    throw new JOSENotSupported(`alg ${enc} is not supported by your javascript runtime`)
+  }
+
   const cipher = createCipheriv(algorithm, encKey, iv)
   const ciphertext = concat(cipher.update(plaintext), cipher.final())
 
@@ -47,6 +53,10 @@ async function gcmEncrypt(
   const keySize = parseInt(enc.substr(1, 3), 10)
 
   const algorithm = <CipherGCMTypes>`aes-${keySize}-gcm`
+  if (!supported(algorithm)) {
+    throw new JOSENotSupported(`alg ${enc} is not supported by your javascript runtime`)
+  }
+
   const cipher = createCipheriv(algorithm, cek, iv, { authTagLength: 16 })
   if (aad.byteLength) {
     cipher.setAAD(aad)
@@ -78,11 +88,18 @@ const encrypt: EncryptFunction = async (
   checkCekLength(enc, key)
   checkIvLength(enc, iv)
 
-  if (enc.substr(4, 3) === 'CBC') {
-    return cbcEncrypt(enc, plaintext, key, iv, aad)
+  switch (enc) {
+    case 'A128CBC-HS256':
+    case 'A192CBC-HS384':
+    case 'A256CBC-HS512':
+      return cbcEncrypt(enc, plaintext, key, iv, aad)
+    case 'A128GCM':
+    case 'A192GCM':
+    case 'A256GCM':
+      return gcmEncrypt(enc, plaintext, key, iv, aad)
+    default:
+      throw new JOSENotSupported('unsupported JWE Content Encryption Algorithm')
   }
-
-  return gcmEncrypt(enc, plaintext, key, iv, aad)
 }
 
 export default encrypt

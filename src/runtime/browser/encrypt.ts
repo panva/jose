@@ -4,6 +4,7 @@ import checkIvLength from '../../lib/check_iv_length.js'
 import checkCekLength from './check_cek_length.js'
 import crypto, { isCryptoKey } from './webcrypto.js'
 import invalidKeyInput from './invalid_key_input.js'
+import { JOSENotSupported } from '../../util/errors.js'
 
 async function cbcEncrypt(
   enc: string,
@@ -94,11 +95,18 @@ const encrypt: EncryptFunction = async (
   checkCekLength(enc, cek)
   checkIvLength(enc, iv)
 
-  if (enc.substr(4, 3) === 'CBC') {
-    return cbcEncrypt(enc, plaintext, <Uint8Array>cek, iv, aad)
+  switch (enc) {
+    case 'A128CBC-HS256':
+    case 'A192CBC-HS384':
+    case 'A256CBC-HS512':
+      return cbcEncrypt(enc, plaintext, <Uint8Array>cek, iv, aad)
+    case 'A128GCM':
+    case 'A192GCM':
+    case 'A256GCM':
+      return gcmEncrypt(plaintext, cek, iv, aad)
+    default:
+      throw new JOSENotSupported('unsupported JWE Content Encryption Algorithm')
   }
-
-  return gcmEncrypt(plaintext, cek, iv, aad)
 }
 
 export default encrypt
