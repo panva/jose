@@ -24,7 +24,7 @@ const fetchJwks: FetchFunction = async (url: URL, timeout: number) => {
 
   try {
     return await response.json()
-  } catch (err) {
+  } catch {
     throw new JOSEError('Failed to parse the JSON Web Key Set HTTP response as JSON')
   }
 }

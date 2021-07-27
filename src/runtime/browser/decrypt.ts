@@ -90,7 +90,7 @@ async function gcmDecrypt(
         concat(ciphertext, tag),
       ),
     )
-  } catch (err) {
+  } catch {
     throw new JWEDecryptionFailed()
   }
 }

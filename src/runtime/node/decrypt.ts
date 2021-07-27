@@ -85,7 +85,7 @@ async function gcmDecrypt(
     }
 
     return concat(cipher.update(ciphertext), cipher.final())
-  } catch (err) {
+  } catch {
     throw new JWEDecryptionFailed()
   }
 }

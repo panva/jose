@@ -51,7 +51,7 @@ function decodeProtectedHeader(token: string | object) {
       throw new Error()
     }
     return <ProtectedHeaderParameters>result
-  } catch (err) {
+  } catch {
     throw new TypeError('Invalid Token or Protected Header formatting')
   }
 }
