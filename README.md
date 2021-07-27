@@ -133,7 +133,7 @@ Legend:
 | -- | -- | -- |
 | Node.js | LTS ^12.19.0 &vert;&vert; ^14.15.0 | |
 | Electron | ^12.0.0 | see <sup>[1]</sup> |
-| Deno | ✕ | needs [Web Cryptography API integration](https://github.com/denoland/deno/issues/1891) first |
+| Deno | ✕ | needs to complete its [Web Cryptography API integration](https://github.com/denoland/deno/issues/1891) first |
 | React Native | ✕ | has no available and usable crypto runtime |
 | IE | ✕ | implements old version of the Web Cryptography API specification |
 | Browsers | see [caniuse.com][caniuse] | |
