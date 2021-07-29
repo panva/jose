@@ -183,7 +183,7 @@ Legend:
 
 #### How is it different from [`jws`](https://github.com/brianloveswords/node-jws), [`jwa`](https://github.com/brianloveswords/node-jwa) or [`jsonwebtoken`](https://github.com/auth0/node-jsonwebtoken)?
 
-- it supports browser runtime
+- it supports the browser runtime
 - it supports encrypted JWTs (i.e. in JWE format)
 - supports secp256k1, Ed25519, Ed448, X25519, and X448
 - it supports JWK Key Format for all four key types (oct, RSA, EC and OKP)
@@ -194,13 +194,13 @@ Legend:
 
 #### How is it different from [`node-jose`](https://github.com/cisco/node-jose)?
 
-`node-jose` is also built to work in any javascript runtime, to be able to do that it packs a lot of
+`node-jose` is built to work in any javascript runtime, to be able to do that it packs a lot of
 polyfills and javascript implementation code in the form of
 [`node-forge`](https://github.com/digitalbazaar/forge), this significantly increases the footprint
 of the modules with dependencies that either aren't ever used or have native implementation available
 in the runtime already, those are often times faster and more reliable.
 
-- it has smaller module footprints as it does not bundle unnecessary polyfills
+- it has smaller module footprint as it does not bundle unnecessary polyfills
 - it does not bundle [`node-forge`](https://github.com/digitalbazaar/forge) fallbacks when crypto runtime is unavailable
 - supports secp256k1, Ed25519, Ed448, X25519, and X448
 
@@ -216,15 +216,6 @@ multiple times so that it can remain truly without dependencies and be universal
 
 Nevertheless, since each module can be required independently and is fully tree-shakeable, the
 install size should not be a cause for concern.
-
-#### Why? Just. Why?
-
-I was using [`node-jose`][node-jose] for
-[`openid-client`](https://github.com/panva/node-openid-client) and
-[`oidc-provider`](https://github.com/panva/node-oidc-provider) and came to realize its shortcomings
-in terms of performance and API (not having well defined errors).
-
-&plus; this was an amazing opportunity to learn JOSE as a whole
 
 [documentation]: /docs/README.md
 [node-jose]: https://github.com/cisco/node-jose
