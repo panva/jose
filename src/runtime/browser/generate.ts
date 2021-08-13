@@ -13,7 +13,7 @@ export async function generateSecret(alg: string, options?: GenerateSecretOption
     case 'HS384':
     case 'HS512':
       length = parseInt(alg.substr(-3), 10)
-      algorithm = { name: 'HMAC', hash: { name: `SHA-${alg.substr(-3)}` }, length }
+      algorithm = { name: 'HMAC', hash: { name: `SHA-${length}` }, length }
       keyUsages = ['sign', 'verify']
       break
     case 'A128CBC-HS256':
