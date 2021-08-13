@@ -17,7 +17,7 @@
 Interface for Flattened JWS Verification dynamic key resolution.
 No token components have been verified at the time of this function call.
 
-See [createRemoteJWKSet](../functions/jwks_remote.createremotejwkset.md#function-createremotejwkset)
+See [createRemoteJWKSet](../functions/jwks_remote.createRemoteJWKSet.md#function-createremotejwkset)
 to verify using a remote JSON Web Key Set.
 
 #### Parameters
