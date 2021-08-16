@@ -95,7 +95,6 @@ Promise.all([
         });
       }
 
-
       {
         const jwe = { ...fullJwe };
         const assertion = {
