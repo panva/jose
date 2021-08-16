@@ -49,4 +49,4 @@ console.log(decoder.decode(payload))
 
 #### Defined in
 
-[jws/general/verify.ts:60](https://github.com/panva/jose/blob/v3.14.3/src/jws/general/verify.ts#L60)
+[jws/general/verify.ts:60](https://github.com/panva/jose/blob/v3.14.4/src/jws/general/verify.ts#L60)

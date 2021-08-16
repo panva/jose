@@ -48,4 +48,4 @@ console.log(payload)
 
 #### Defined in
 
-[jwk/embedded.ts:40](https://github.com/panva/jose/blob/v3.14.3/src/jwk/embedded.ts#L40)
+[jwk/embedded.ts:40](https://github.com/panva/jose/blob/v3.14.4/src/jwk/embedded.ts#L40)

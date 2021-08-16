@@ -1,6 +1,6 @@
 {
   "name": "jose",
-  "version": "3.14.3",
+  "version": "3.14.4",
   "description": "Universal 'JSON Web Almost Everything' - JWA, JWS, JWE, JWT, JWK with no dependencies",
   "keywords": [
     "browser",

@@ -30,4 +30,4 @@ No token components have been verified at the time of this function call.
 
 #### Defined in
 
-[types.d.ts:81](https://github.com/panva/jose/blob/v3.14.3/src/types.d.ts#L81)
+[types.d.ts:81](https://github.com/panva/jose/blob/v3.14.4/src/types.d.ts#L81)

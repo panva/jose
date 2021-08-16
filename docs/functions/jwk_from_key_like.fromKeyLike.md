@@ -37,4 +37,4 @@ console.log(publicJwk)
 
 #### Defined in
 
-[jwk/from_key_like.ts:28](https://github.com/panva/jose/blob/v3.14.3/src/jwk/from_key_like.ts#L28)
+[jwk/from_key_like.ts:28](https://github.com/panva/jose/blob/v3.14.4/src/jwk/from_key_like.ts#L28)

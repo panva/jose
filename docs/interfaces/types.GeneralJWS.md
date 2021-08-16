@@ -21,7 +21,7 @@ is not returned when JWS Unencoded Payload Option
 
 #### Defined in
 
-[types.d.ts:228](https://github.com/panva/jose/blob/v3.14.3/src/types.d.ts#L228)
+[types.d.ts:228](https://github.com/panva/jose/blob/v3.14.4/src/types.d.ts#L228)
 
 ___
 
@@ -31,4 +31,4 @@ ___
 
 #### Defined in
 
-[types.d.ts:229](https://github.com/panva/jose/blob/v3.14.3/src/types.d.ts#L229)
+[types.d.ts:229](https://github.com/panva/jose/blob/v3.14.4/src/types.d.ts#L229)

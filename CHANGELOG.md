@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [3.14.4](https://github.com/panva/jose/compare/v3.14.3...v3.14.4) (2021-08-16)
+
+
+### Bug Fixes
+
+* throw JWEInvalid when jwe protected header is invalid ([991d435](https://github.com/panva/jose/commit/991d4350d0357ebad17080644c24bccec844c3b9))
+* throw JWSInvalid when jws protected header is invalid ([#244](https://github.com/panva/jose/issues/244)) ([1fc79aa](https://github.com/panva/jose/commit/1fc79aa8315fa25e28f63f1c5534d0630fc781dc))
+
 ## [3.14.3](https://github.com/panva/jose/compare/v3.14.2...v3.14.3) (2021-07-21)
 
 

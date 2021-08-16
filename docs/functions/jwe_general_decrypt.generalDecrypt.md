@@ -57,4 +57,4 @@ console.log(decoder.decode(additionalAuthenticatedData))
 
 #### Defined in
 
-[jwe/general/decrypt.ts:64](https://github.com/panva/jose/blob/v3.14.3/src/jwe/general/decrypt.ts#L64)
+[jwe/general/decrypt.ts:64](https://github.com/panva/jose/blob/v3.14.4/src/jwe/general/decrypt.ts#L64)

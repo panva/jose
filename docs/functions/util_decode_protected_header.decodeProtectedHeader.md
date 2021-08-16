@@ -34,4 +34,4 @@ console.log(protectedHeader)
 
 #### Defined in
 
-[util/decode_protected_header.ts:29](https://github.com/panva/jose/blob/v3.14.3/src/util/decode_protected_header.ts#L29)
+[util/decode_protected_header.ts:29](https://github.com/panva/jose/blob/v3.14.4/src/util/decode_protected_header.ts#L29)

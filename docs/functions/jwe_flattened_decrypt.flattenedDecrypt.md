@@ -53,4 +53,4 @@ console.log(decoder.decode(additionalAuthenticatedData))
 
 #### Defined in
 
-[jwe/flattened/decrypt.ts:76](https://github.com/panva/jose/blob/v3.14.3/src/jwe/flattened/decrypt.ts#L76)
+[jwe/flattened/decrypt.ts:76](https://github.com/panva/jose/blob/v3.14.4/src/jwe/flattened/decrypt.ts#L76)

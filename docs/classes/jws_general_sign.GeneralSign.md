@@ -56,7 +56,7 @@ const jws = await sign.sign()
 
 #### Defined in
 
-[jws/general/sign.ts:104](https://github.com/panva/jose/blob/v3.14.3/src/jws/general/sign.ts#L104)
+[jws/general/sign.ts:104](https://github.com/panva/jose/blob/v3.14.4/src/jws/general/sign.ts#L104)
 
 ## Methods
 
@@ -77,7 +77,7 @@ const jws = await sign.sign()
 
 #### Defined in
 
-[jws/general/sign.ts:108](https://github.com/panva/jose/blob/v3.14.3/src/jws/general/sign.ts#L108)
+[jws/general/sign.ts:108](https://github.com/panva/jose/blob/v3.14.4/src/jws/general/sign.ts#L108)
 
 ___
 
@@ -93,4 +93,4 @@ Signs and resolves the value of the General JWS object.
 
 #### Defined in
 
-[jws/general/sign.ts:118](https://github.com/panva/jose/blob/v3.14.3/src/jws/general/sign.ts#L118)
+[jws/general/sign.ts:118](https://github.com/panva/jose/blob/v3.14.4/src/jws/general/sign.ts#L118)

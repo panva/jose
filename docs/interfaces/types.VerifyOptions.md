@@ -31,7 +31,7 @@ key/secret are allowed. Note: "none" is never accepted.
 
 #### Defined in
 
-[types.d.ts:533](https://github.com/panva/jose/blob/v3.14.3/src/types.d.ts#L533)
+[types.d.ts:533](https://github.com/panva/jose/blob/v3.14.4/src/types.d.ts#L533)
 
 ___
 
@@ -68,4 +68,4 @@ default built-in treatment are currently available.
 
 #### Defined in
 
-[types.d.ts:441](https://github.com/panva/jose/blob/v3.14.3/src/types.d.ts#L441)
+[types.d.ts:441](https://github.com/panva/jose/blob/v3.14.4/src/types.d.ts#L441)

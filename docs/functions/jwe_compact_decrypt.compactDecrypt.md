@@ -41,4 +41,4 @@ console.log(decoder.decode(plaintext))
 
 #### Defined in
 
-[jwe/compact/decrypt.ts:47](https://github.com/panva/jose/blob/v3.14.3/src/jwe/compact/decrypt.ts#L47)
+[jwe/compact/decrypt.ts:47](https://github.com/panva/jose/blob/v3.14.4/src/jwe/compact/decrypt.ts#L47)
