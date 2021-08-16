@@ -1,13 +1,13 @@
 import { createPrivateKey, createPublicKey, createSecretKey } from 'crypto'
 import type { KeyObject, PublicKeyInput, PrivateKeyInput } from 'crypto'
 
-import type { JWKParseFunction } from '../interfaces'
+import type { JWKParseFunction } from '../interfaces.d'
 import { decode as base64url } from './base64url.js'
 import { JOSENotSupported } from '../../util/errors.js'
 import { setCurve } from './get_named_curve.js'
 import { setModulusLength } from './check_modulus_length.js'
 import Asn1SequenceEncoder from './asn1_sequence_encoder.js'
-import type { JWK } from '../../types'
+import type { JWK } from '../../types.d'
 
 const [major, minor] = process.version
   .substr(1)

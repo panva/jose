@@ -16,7 +16,7 @@ import type {
   JWSHeaderParameters,
   VerifyOptions,
   GetKeyFunction,
-} from '../../types'
+} from '../../types.d'
 
 const checkExtensions = validateCrit.bind(undefined, JWSInvalid, new Map([['b64', true]]))
 const checkAlgOption = validateAlgorithms.bind(undefined, 'algorithms')
@@ -46,6 +46,11 @@ export interface FlattenedVerifyGetKey
  * @example CJS import
  * ```js
  * const { flattenedVerify } = require('jose/jws/flattened/verify')
+ * ```
+ *
+ * @example Deno import
+ * ```js
+ * import { flattenedVerify } from 'https://deno.land/x/jose@VERSION/jws/flattened/verify.ts'
  * ```
  *
  * @example Usage
@@ -145,7 +150,6 @@ async function flattenedVerify(
   }
 
   if (typeof key === 'function') {
-    // eslint-disable-next-line no-param-reassign
     key = await key(parsedProt, jws)
   }
 

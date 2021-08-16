@@ -4,7 +4,7 @@ import type {
   JWEKeyManagementHeaderParameters,
   JWEHeaderParameters,
   EncryptOptions,
-} from '../../types'
+} from '../../types.d'
 
 /**
  * The CompactEncrypt class is a utility for creating Compact JWE strings.
@@ -17,6 +17,11 @@ import type {
  * @example CJS import
  * ```js
  * const { CompactEncrypt } = require('jose/jwe/compact/encrypt')
+ * ```
+ *
+ * @example Deno import
+ * ```js
+ * import { CompactEncrypt } from 'https://deno.land/x/jose@VERSION/jwe/compact/encrypt.ts'
  * ```
  *
  * @example Usage

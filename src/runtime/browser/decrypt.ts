@@ -1,6 +1,6 @@
 import { concat, uint64be } from '../../lib/buffer_utils.js'
 
-import type { DecryptFunction } from '../interfaces'
+import type { DecryptFunction } from '../interfaces.d'
 import checkIvLength from '../../lib/check_iv_length.js'
 import checkCekLength from './check_cek_length.js'
 import timingSafeEqual from './timing_safe_equal.js'

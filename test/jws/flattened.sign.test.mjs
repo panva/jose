@@ -1,4 +1,3 @@
-/* eslint-disable no-param-reassign */
 import test from 'ava';
 
 const root = !('WEBCRYPTO' in process.env) ? '#dist' : '#dist/webcrypto';

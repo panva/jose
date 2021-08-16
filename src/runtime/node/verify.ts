@@ -1,7 +1,7 @@
 import * as crypto from 'crypto'
 import { promisify } from 'util'
 
-import type { VerifyFunction } from '../interfaces'
+import type { VerifyFunction } from '../interfaces.d'
 import nodeDigest from './dsa_digest.js'
 import nodeKey from './node_key.js'
 import sign from './sign.js'

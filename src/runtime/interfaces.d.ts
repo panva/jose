@@ -1,5 +1,5 @@
-import type { JWK, KeyLike } from '../types'
-import type { AsyncOrSync } from '../types.i'
+import type { JWK, KeyLike } from '../types.d'
+import type { AsyncOrSync } from '../types.i.d'
 
 export interface TimingSafeEqual {
   (a: Uint8Array, b: Uint8Array): boolean

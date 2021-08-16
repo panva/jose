@@ -2,7 +2,7 @@ import { decode as base64url } from '../runtime/base64url.js'
 import asKeyObject from '../runtime/jwk_to_key.js'
 import { JOSENotSupported } from '../util/errors.js'
 import isObject from '../lib/is_object.js'
-import type { JWK, KeyLike } from '../types'
+import type { JWK, KeyLike } from '../types.d'
 
 /**
  * Converts a JWK to a runtime-specific key representation (KeyLike). Either
@@ -26,6 +26,11 @@ import type { JWK, KeyLike } from '../types'
  * const { parseJwk } = require('jose/jwk/parse')
  * ```
  *
+ * @example Deno import
+ * ```js
+ * import { parseJwk } from 'https://deno.land/x/jose@VERSION/jwk/parse.ts'
+ * ```
+ *
  * @example Usage
  * ```js
  * const ecPublicKey = await parseJwk({
@@ -47,7 +52,6 @@ async function parseJwk(jwk: JWK, alg?: string, octAsKeyObject?: boolean): Promi
     throw new TypeError('JWK must be an object')
   }
 
-  // eslint-disable-next-line no-param-reassign
   alg ||= jwk.alg
 
   if (typeof alg !== 'string' || !alg) {
@@ -60,7 +64,6 @@ async function parseJwk(jwk: JWK, alg?: string, octAsKeyObject?: boolean): Promi
         throw new TypeError('missing "k" (Key Value) Parameter value')
       }
 
-      // eslint-disable-next-line no-param-reassign, eqeqeq
       octAsKeyObject ??= jwk.ext !== true
 
       if (octAsKeyObject) {
@@ -74,7 +77,6 @@ async function parseJwk(jwk: JWK, alg?: string, octAsKeyObject?: boolean): Promi
           'RSA JWK "oth" (Other Primes Info) Parameter value is not supported',
         )
       }
-    // eslint-disable-next-line no-fallthrough
     case 'EC':
     case 'OKP':
       return asKeyObject({ ...jwk, alg })

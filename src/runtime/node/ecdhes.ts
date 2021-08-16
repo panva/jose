@@ -32,7 +32,6 @@ export const deriveKey: EcdhESDeriveKeyFunction = async (
   )
 
   if (isCryptoKey(publicKey)) {
-    // eslint-disable-next-line no-param-reassign
     publicKey = getKeyObject(publicKey, 'ECDH-ES')
   }
   if (!isKeyObject(publicKey)) {
@@ -40,7 +39,6 @@ export const deriveKey: EcdhESDeriveKeyFunction = async (
   }
 
   if (isCryptoKey(privateKey)) {
-    // eslint-disable-next-line no-param-reassign
     privateKey = getKeyObject(privateKey, 'ECDH-ES', new Set(['deriveBits', 'deriveKey']))
   }
   if (!isKeyObject(privateKey)) {
@@ -53,7 +51,6 @@ export const deriveKey: EcdhESDeriveKeyFunction = async (
 
 export const generateEpk: GenerateEpkFunction = async (key: unknown) => {
   if (isCryptoKey(key)) {
-    // eslint-disable-next-line no-param-reassign
     key = getKeyObject(key)
   }
   if (!isKeyObject(key)) {

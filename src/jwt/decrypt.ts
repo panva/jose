@@ -8,7 +8,7 @@ import type {
   JWEHeaderParameters,
   FlattenedJWE,
   JWTDecryptResult,
-} from '../types'
+} from '../types.d'
 import jwtPayload from '../lib/jwt_claims_set.js'
 import { JWTClaimValidationFailed } from '../util/errors.js'
 
@@ -38,6 +38,11 @@ export interface JWTDecryptGetKey extends GetKeyFunction<JWEHeaderParameters, Fl
  * @example CJS import
  * ```js
  * const { jwtDecrypt } = require('jose/jwt/decrypt')
+ * ```
+ *
+ * @example Deno import
+ * ```js
+ * import { jwtDecrypt } from 'https://deno.land/x/jose@VERSION/jwt/decrypt.ts'
  * ```
  *
  * @example Usage

@@ -8,7 +8,7 @@ import type {
   FlattenedJWE,
   GeneralJWE,
   GeneralDecryptResult,
-} from '../../types'
+} from '../../types.d'
 import isObject from '../../lib/is_object.js'
 
 /**
@@ -32,6 +32,11 @@ export interface GeneralDecryptGetKey extends GetKeyFunction<JWEHeaderParameters
  * @example CJS import
  * ```js
  * const { generalDecrypt } = require('jose/jwe/general/decrypt')
+ * ```
+ *
+ * @example Deno import
+ * ```js
+ * import { generalDecrypt } from 'https://deno.land/x/jose@VERSION/jwe/general/decrypt.ts'
  * ```
  *
  * @example Usage
@@ -74,10 +79,8 @@ async function generalDecrypt(
     throw new JWEInvalid('JWE Recipients missing or incorrect type')
   }
 
-  // eslint-disable-next-line no-restricted-syntax
   for (const recipient of jwe.recipients) {
     try {
-      // eslint-disable-next-line no-await-in-loop
       return await decrypt(
         {
           aad: jwe.aad,

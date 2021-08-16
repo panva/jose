@@ -1,7 +1,7 @@
 import { promisify } from 'util'
 import { inflateRaw as inflateRawCb, deflateRaw as deflateRawCb } from 'zlib'
 
-import type { InflateFunction, DeflateFunction } from '../../types'
+import type { InflateFunction, DeflateFunction } from '../../types.d'
 
 const inflateRaw = promisify(inflateRawCb)
 const deflateRaw = promisify(deflateRawCb)

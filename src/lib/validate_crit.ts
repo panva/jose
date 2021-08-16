@@ -38,7 +38,6 @@ function validateCrit(
     recognized = recognizedDefault
   }
 
-  // eslint-disable-next-line no-restricted-syntax
   for (const parameter of protectedHeader.crit) {
     if (!recognized.has(parameter)) {
       throw new JOSENotSupported(`Extension Header Parameter "${parameter}" is not recognized`)

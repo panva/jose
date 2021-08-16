@@ -28,7 +28,6 @@ const namedCurveToJOSE = (namedCurve: string) => {
 
 const getNamedCurve = (key: unknown, raw?: boolean): string => {
   if (isCryptoKey(key)) {
-    // eslint-disable-next-line no-param-reassign
     key = getKeyObject(key)
   }
   if (!isKeyObject(key)) {

@@ -1,4 +1,4 @@
-import type { KeyLike } from '../types'
+import type { KeyLike } from '../types.d'
 import invalidKeyInput from '../runtime/invalid_key_input.js'
 
 const checkKeyType = (

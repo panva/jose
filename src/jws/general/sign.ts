@@ -1,8 +1,7 @@
-/* eslint-disable max-classes-per-file */
 import FlattenedSign from '../flattened/sign.js'
 import { JWSInvalid } from '../../util/errors.js'
 
-import type { KeyLike, GeneralJWS, JWSHeaderParameters, SignOptions } from '../../types'
+import type { KeyLike, GeneralJWS, JWSHeaderParameters, SignOptions } from '../../types.d'
 
 export interface Signature {
   /**
@@ -74,6 +73,11 @@ class IndividualSignature implements Signature {
  * @example CJS import
  * ```js
  * const { GeneralSign } = require('jose/jws/general/sign')
+ * ```
+ *
+ * @example Deno import
+ * ```js
+ * import { GeneralSign } from 'https://deno.land/x/jose@VERSION/jws/general/sign.ts'
  * ```
  *
  * @example Usage

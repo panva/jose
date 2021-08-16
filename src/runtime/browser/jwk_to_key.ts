@@ -1,7 +1,7 @@
 import crypto from './webcrypto.js'
-import type { JWKParseFunction } from '../interfaces'
+import type { JWKParseFunction } from '../interfaces.d'
 import { JOSENotSupported } from '../../util/errors.js'
-import type { JWK } from '../../types'
+import type { JWK } from '../../types.d'
 import { decode as base64url } from './base64url.js'
 
 function subtleMapping(jwk: JWK): {

@@ -1,7 +1,6 @@
 import { KeyObject } from 'crypto'
 import * as util from 'util'
 
-// eslint-disable-next-line import/no-mutable-exports
 let impl: (obj: unknown) => obj is KeyObject
 
 if (util.types.isKeyObject) {

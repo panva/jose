@@ -8,7 +8,7 @@ import type {
   JWSHeaderParameters,
   KeyLike,
   VerifyOptions,
-} from '../../types'
+} from '../../types.d'
 
 /**
  * Interface for Compact JWS Verification dynamic key resolution.
@@ -37,6 +37,11 @@ export interface CompactVerifyGetKey
  * const { compactVerify } = require('jose/jws/compact/verify')
  * ```
  *
+ * @example Deno import
+ * ```js
+ * import { compactVerify } from 'https://deno.land/x/jose@VERSION/jws/compact/verify.ts'
+ * ```
+ *
  * @example Usage
  * ```js
  * const decoder = new TextDecoder()
@@ -54,7 +59,6 @@ async function compactVerify(
   options?: VerifyOptions,
 ): Promise<CompactVerifyResult> {
   if (jws instanceof Uint8Array) {
-    // eslint-disable-next-line no-param-reassign
     jws = decoder.decode(jws)
   }
 

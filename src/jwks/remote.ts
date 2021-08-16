@@ -1,8 +1,10 @@
-import type { KeyObject } from 'crypto'
-import type * as http from 'http'
-import type * as https from 'https'
-
-import type { JWSHeaderParameters, JWK, FlattenedJWSInput, GetKeyFunction } from '../types'
+import type {
+  KeyObject,
+  JWSHeaderParameters,
+  JWK,
+  FlattenedJWSInput,
+  GetKeyFunction,
+} from '../types.d'
 import parseJWK from '../jwk/parse.js'
 import {
   JWKSInvalid,
@@ -48,12 +50,15 @@ export interface RemoteJWKSetOptions {
   cooldownDuration?: number
 
   /**
-   * An instance of http.Agent or https.Agent to pass to the http.get or
-   * https.get method options. Use when behind an http(s) proxy.
+   * An instance of [http.Agent](https://nodejs.org/api/http.html#http_class_http_agent)
+   * or [https.Agent](https://nodejs.org/api/https.html#https_class_https_agent) to pass
+   * to the [http.get](https://nodejs.org/api/http.html#http_http_get_options_callback)
+   * or [https.get](https://nodejs.org/api/https.html#https_https_get_options_callback)
+   * method's options. Use when behind an http(s) proxy.
    * This is a Node.js runtime specific option, it is ignored
    * when used outside of Node.js runtime.
    */
-  agent?: https.Agent | http.Agent
+  agent?: any
 }
 
 function isJWKLike(key: unknown): key is JWK {
@@ -202,7 +207,7 @@ class RemoteJWKSet {
           this._cooldownStarted = Date.now()
           this._pendingFetch = undefined
         })
-        .catch((err) => {
+        .catch((err: Error) => {
           this._pendingFetch = undefined
           throw err
         })
@@ -226,6 +231,11 @@ class RemoteJWKSet {
  * @example CJS import
  * ```js
  * const { createRemoteJWKSet } = require('jose/jwks/remote')
+ * ```
+ *
+ * @example Deno import
+ * ```js
+ * import { createRemoteJWKSet } from 'https://deno.land/x/jose@VERSION/jwks/remote.ts'
  * ```
  *
  * @example Usage

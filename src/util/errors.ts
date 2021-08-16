@@ -1,5 +1,3 @@
-/* eslint-disable max-classes-per-file */
-
 /**
  * A generic Error subclass that all other specific
  * JOSE Error subclasses inherit from.

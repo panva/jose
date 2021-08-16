@@ -1,5 +1,3 @@
-/* eslint-disable prefer-destructuring */
-
 import * as base64url from '../runtime/base64url.js'
 
 /**

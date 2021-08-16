@@ -1,7 +1,7 @@
 import { decode as base64url } from './base64url.js'
 import { decoder } from '../lib/buffer_utils.js'
 import isObject from '../lib/is_object.js'
-import type { JWSHeaderParameters, JWEHeaderParameters } from '../types'
+import type { JWSHeaderParameters, JWEHeaderParameters } from '../types.d'
 
 export type ProtectedHeaderParameters = JWSHeaderParameters & JWEHeaderParameters
 
@@ -16,6 +16,11 @@ export type ProtectedHeaderParameters = JWSHeaderParameters & JWEHeaderParameter
  * @example CJS import
  * ```js
  * const { decodeProtectedHeader } = require('jose/util/decode_protected_header')
+ * ```
+ *
+ * @example Deno import
+ * ```js
+ * import { decodeProtectedHeader } from 'https://deno.land/x/jose@VERSION/util/decode_protected_header.ts'
  * ```
  *
  * @example Usage

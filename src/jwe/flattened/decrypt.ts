@@ -14,7 +14,7 @@ import type {
   JWEHeaderParameters,
   DecryptOptions,
   GetKeyFunction,
-} from '../../types'
+} from '../../types.d'
 import { encoder, decoder, concat } from '../../lib/buffer_utils.js'
 import cekFactory from '../../lib/cek.js'
 import random from '../../runtime/random.js'
@@ -48,6 +48,11 @@ export interface FlattenedDecryptGetKey
  * @example CJS import
  * ```js
  * const { flattenedDecrypt } = require('jose/jwe/flattened/decrypt')
+ * ```
+ *
+ * @example Deno import
+ * ```js
+ * import { flattenedDecrypt } from 'https://deno.land/x/jose@VERSION/jwe/flattened/decrypt.ts'
  * ```
  *
  * @example Usage
@@ -180,7 +185,6 @@ async function flattenedDecrypt(
   }
 
   if (typeof key === 'function') {
-    // eslint-disable-next-line no-param-reassign
     key = await key(parsedProt, jwe)
   }
 

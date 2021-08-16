@@ -1,6 +1,3 @@
-/* eslint-disable no-restricted-syntax */
-/* eslint-disable no-continue */
-
 const isDisjoint = (...headers: Array<object | undefined>) => {
   const sources = <object[]>headers.filter(Boolean)
 

@@ -23,7 +23,6 @@ async function test(generate, alg, assert) {
   assert.ok(1);
 }
 
-// eslint-disable-next-line no-restricted-syntax
 for (const crv of ['P-256', 'P-384', 'P-521']) {
   if (crv === 'P-521' && !p521) {
     QUnit.test(`ECDH-ES crv: ${crv}`, async (assert) => {

@@ -8,7 +8,7 @@ import type {
   GetKeyFunction,
   FlattenedJWSInput,
   JWTVerifyResult,
-} from '../types'
+} from '../types.d'
 import jwtPayload from '../lib/jwt_claims_set.js'
 import { JWTInvalid } from '../util/errors.js'
 
@@ -41,6 +41,11 @@ export interface JWTVerifyGetKey extends GetKeyFunction<JWSHeaderParameters, Fla
  * @example CJS import
  * ```js
  * const { jwtVerify } = require('jose/jwt/verify')
+ * ```
+ *
+ * @example Deno import
+ * ```js
+ * import { jwtVerify } from 'https://deno.land/x/jose@VERSION/jwt/verify.ts'
  * ```
  *
  * @example Usage

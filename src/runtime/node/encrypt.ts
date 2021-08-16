@@ -1,12 +1,12 @@
 import { KeyObject, createCipheriv } from 'crypto'
 import type { CipherGCMTypes } from 'crypto'
 
-import type { EncryptFunction } from '../interfaces'
+import type { EncryptFunction } from '../interfaces.d'
 import checkIvLength from '../../lib/check_iv_length.js'
 import checkCekLength from './check_cek_length.js'
 import { concat } from '../../lib/buffer_utils.js'
 import cbcTag from './cbc_tag.js'
-import type { KeyLike } from '../../types'
+import type { KeyLike } from '../../types.d'
 import { isCryptoKey, getKeyObject } from './webcrypto.js'
 import isKeyObject from './is_key_object.js'
 import invalidKeyInput from './invalid_key_input.js'
@@ -23,7 +23,6 @@ async function cbcEncrypt(
   const keySize = parseInt(enc.substr(1, 3), 10)
 
   if (isKeyObject(cek)) {
-    // eslint-disable-next-line no-param-reassign
     cek = cek.export()
   }
 
@@ -77,7 +76,6 @@ const encrypt: EncryptFunction = async (
 ) => {
   let key: KeyLike
   if (isCryptoKey(cek)) {
-    // eslint-disable-next-line no-param-reassign
     key = getKeyObject(cek, enc, new Set(['encrypt']))
   } else if (cek instanceof Uint8Array || isKeyObject(cek)) {
     key = cek

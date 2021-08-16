@@ -1,4 +1,4 @@
-import type { AesGcmKwUnwrapFunction, AesGcmKwWrapFunction } from '../interfaces'
+import type { AesGcmKwUnwrapFunction, AesGcmKwWrapFunction } from '../interfaces.d'
 import encrypt from './encrypt.js'
 import decrypt from './decrypt.js'
 import ivFactory from '../../lib/iv.js'
@@ -14,7 +14,6 @@ export const wrap: AesGcmKwWrapFunction = async (
   iv?: Uint8Array,
 ) => {
   const jweAlgorithm = alg.substr(0, 7)
-  // eslint-disable-next-line no-param-reassign
   iv ||= generateIv(jweAlgorithm)
 
   const { ciphertext: encryptedKey, tag } = await encrypt(

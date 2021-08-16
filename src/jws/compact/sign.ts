@@ -1,7 +1,5 @@
-/* eslint-disable no-underscore-dangle */
-
 import FlattenedSign from '../flattened/sign.js'
-import type { JWSHeaderParameters, KeyLike, SignOptions } from '../../types'
+import type { JWSHeaderParameters, KeyLike, SignOptions } from '../../types.d'
 
 /**
  * The CompactSign class is a utility for creating Compact JWS strings.
@@ -14,6 +12,11 @@ import type { JWSHeaderParameters, KeyLike, SignOptions } from '../../types'
  * @example CJS import
  * ```js
  * const { CompactSign } = require('jose/jws/compact/sign')
+ * ```
+ *
+ * @example Deno import
+ * ```js
+ * import { CompactSign } from 'https://deno.land/x/jose@VERSION/jws/compact/sign.ts'
  * ```
  *
  * @example Usage

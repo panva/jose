@@ -1,7 +1,7 @@
 import { KeyObject, createDecipheriv } from 'crypto'
 import type { CipherGCMTypes } from 'crypto'
 
-import type { DecryptFunction } from '../interfaces'
+import type { DecryptFunction } from '../interfaces.d'
 import checkIvLength from '../../lib/check_iv_length.js'
 import checkCekLength from './check_cek_length.js'
 import { concat } from '../../lib/buffer_utils.js'
@@ -9,7 +9,7 @@ import { JOSENotSupported, JWEDecryptionFailed } from '../../util/errors.js'
 import timingSafeEqual from './timing_safe_equal.js'
 import cbcTag from './cbc_tag.js'
 import { isCryptoKey, getKeyObject } from './webcrypto.js'
-import type { KeyLike } from '../../types'
+import type { KeyLike } from '../../types.d'
 import isKeyObject from './is_key_object.js'
 import invalidKeyInput from './invalid_key_input.js'
 import supported from './ciphers.js'
@@ -25,7 +25,6 @@ async function cbcDecrypt(
   const keySize = parseInt(enc.substr(1, 3), 10)
 
   if (isKeyObject(cek)) {
-    // eslint-disable-next-line no-param-reassign
     cek = cek.export()
   }
 
@@ -100,7 +99,6 @@ const decrypt: DecryptFunction = async (
 ) => {
   let key: KeyLike
   if (isCryptoKey(cek)) {
-    // eslint-disable-next-line no-param-reassign
     key = getKeyObject(cek, enc, new Set(['decrypt']))
   } else if (cek instanceof Uint8Array || isKeyObject(cek)) {
     key = cek

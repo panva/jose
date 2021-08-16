@@ -43,7 +43,7 @@ export async function generateSecret(alg: string, options?: GenerateSecretOption
   }
 
   return <Promise<CryptoKey>>(
-    crypto.subtle.generateKey(algorithm, options?.extractable ?? false, keyUsages)
+    (<unknown>crypto.subtle.generateKey(algorithm, options?.extractable ?? false, keyUsages))
   )
 }
 

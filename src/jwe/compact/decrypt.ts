@@ -8,7 +8,7 @@ import type {
   GetKeyFunction,
   FlattenedJWE,
   CompactDecryptResult,
-} from '../../types'
+} from '../../types.d'
 
 /**
  * Interface for Compact JWE Decryption dynamic key resolution.
@@ -33,6 +33,11 @@ export interface CompactDecryptGetKey extends GetKeyFunction<JWEHeaderParameters
  * const { compactDecrypt } = require('jose/jwe/compact/decrypt')
  * ```
  *
+ * @example Deno import
+ * ```js
+ * import { compactDecrypt } from 'https://deno.land/x/jose@VERSION/jwe/compact/decrypt.ts'
+ * ```
+ *
  * @example Usage
  * ```js
  * const decoder = new TextDecoder()
@@ -50,7 +55,6 @@ async function compactDecrypt(
   options?: DecryptOptions,
 ): Promise<CompactDecryptResult> {
   if (jwe instanceof Uint8Array) {
-    // eslint-disable-next-line no-param-reassign
     jwe = decoder.decode(jwe)
   }
 

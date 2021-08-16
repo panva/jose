@@ -10,7 +10,6 @@ import type { GenerateSecretOptions } from '../../util/generate_secret.js'
 const generate = promisify(generateKeyPairCb)
 
 // @ts-expect-error
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
 export async function generateSecret(alg: string, options?: GenerateSecretOptions) {
   let length: number
   switch (alg) {

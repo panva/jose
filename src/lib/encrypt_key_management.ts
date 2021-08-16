@@ -1,5 +1,5 @@
-import type { KeyLike, JWEKeyManagementHeaderParameters } from '../types'
-import type { JWEKeyManagementHeaderResults } from '../types.i'
+import type { KeyLike, JWEKeyManagementHeaderParameters } from '../types.d'
+import type { JWEKeyManagementHeaderResults } from '../types.i.d'
 import cekFactory, { bitLengths as cekLengths } from '../lib/cek.js'
 import { JOSENotSupported } from '../util/errors.js'
 import random from '../runtime/random.js'

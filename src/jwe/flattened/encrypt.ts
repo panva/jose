@@ -4,8 +4,8 @@ import type {
   JWEHeaderParameters,
   JWEKeyManagementHeaderParameters,
   EncryptOptions,
-} from '../../types'
-import type { JWEKeyManagementHeaderResults } from '../../types.i'
+} from '../../types.d'
+import type { JWEKeyManagementHeaderResults } from '../../types.i.d'
 import ivFactory from '../../lib/iv.js'
 import { encode as base64url } from '../../runtime/base64url.js'
 import random from '../../runtime/random.js'
@@ -33,6 +33,11 @@ const checkExtensions = validateCrit.bind(undefined, JWEInvalid, new Map())
  * @example CJS import
  * ```js
  * const { FlattenedEncrypt } = require('jose/jwe/flattened/encrypt')
+ * ```
+ *
+ * @example Deno import
+ * ```js
+ * import { FlattenedEncrypt } from 'https://deno.land/x/jose@VERSION/jwe/flattened/encrypt.ts'
  * ```
  *
  * @example Usage

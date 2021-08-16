@@ -1,8 +1,3 @@
-/* eslint-disable no-await-in-loop */
-/* eslint-disable no-restricted-syntax */
-/* eslint-disable no-bitwise */
-/* eslint-disable no-param-reassign */
-
 import test from 'ava';
 
 let root;

@@ -56,13 +56,11 @@ Promise.all([
 
       if (reproducible) {
         // sign and compare results are the same
-        // eslint-disable-next-line no-restricted-syntax
         for (const [serialization, expectedResult] of [
           [flattened, vector.output.json_flat],
           [compact, vector.output.compact],
         ]) {
           if (!expectedResult) {
-            // eslint-disable-next-line no-continue
             continue;
           }
           const encrypt = new serialization.Encrypt(encode(vector.input.plaintext));

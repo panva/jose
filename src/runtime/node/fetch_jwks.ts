@@ -4,7 +4,7 @@ import { once } from 'events'
 import type { ClientRequest, IncomingMessage } from 'http'
 import type { RequestOptions } from 'https'
 
-import type { FetchFunction } from '../interfaces'
+import type { FetchFunction } from '../interfaces.d'
 import { JOSEError } from '../../util/errors.js'
 import { concat, decoder } from '../../lib/buffer_utils.js'
 
@@ -30,7 +30,6 @@ const fetchJwks: FetchFunction = async (
     timeout,
   })
 
-  // eslint-disable-next-line @typescript-eslint/keyword-spacing
   const [response] = <[IncomingMessage]>await once(req, 'response')
 
   if (response.statusCode !== 200) {
@@ -38,7 +37,6 @@ const fetchJwks: FetchFunction = async (
   }
 
   const parts = []
-  // eslint-disable-next-line no-restricted-syntax
   for await (const part of response) {
     parts.push(part)
   }

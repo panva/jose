@@ -1,5 +1,5 @@
 import { generateKeyPair as generate } from '../runtime/generate.js'
-import type { KeyLike } from '../types'
+import type { KeyLike } from '../types.d'
 
 export interface GenerateKeyPairResult {
   /**
@@ -51,6 +51,11 @@ export interface GenerateKeyPairOptions {
  * @example CJS import
  * ```js
  * const { generateKeyPair } = require('jose/util/generate_key_pair')
+ * ```
+ *
+ * @example Deno import
+ * ```js
+ * import { generateKeyPair } from 'https://deno.land/x/jose@VERSION/util/generate_key_pair.ts'
  * ```
  *
  * @example Usage

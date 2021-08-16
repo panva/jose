@@ -1,6 +1,4 @@
-/* eslint-disable no-await-in-loop */
-
-import type { DigestFunction } from '../runtime/interfaces'
+import type { DigestFunction } from '../runtime/interfaces.d'
 
 export const encoder = new TextEncoder()
 export const decoder = new TextDecoder()

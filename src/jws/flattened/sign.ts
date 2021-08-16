@@ -1,12 +1,10 @@
-/* eslint-disable no-underscore-dangle */
-
 import isDisjoint from '../../lib/is_disjoint.js'
 import { JWSInvalid } from '../../util/errors.js'
 import { encoder, decoder, concat } from '../../lib/buffer_utils.js'
 
 import { encode as base64url } from '../../runtime/base64url.js'
 import sign from '../../runtime/sign.js'
-import type { KeyLike, FlattenedJWS, JWSHeaderParameters, SignOptions } from '../../types'
+import type { KeyLike, FlattenedJWS, JWSHeaderParameters, SignOptions } from '../../types.d'
 import checkKeyType from '../../lib/check_key_type.js'
 import validateCrit from '../../lib/validate_crit.js'
 
@@ -23,6 +21,11 @@ const checkExtensions = validateCrit.bind(undefined, JWSInvalid, new Map([['b64'
  * @example CJS import
  * ```js
  * const { FlattenedSign } = require('jose/jws/flattened/sign')
+ * ```
+ *
+ * @example Deno import
+ * ```js
+ * import { FlattenedSign } from 'https://deno.land/x/jose@VERSION/jws/flattened/sign.ts'
  * ```
  *
  * @example Usage

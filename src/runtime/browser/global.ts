@@ -1,5 +1,3 @@
-/* eslint-disable no-restricted-globals */
-
 function getGlobal() {
   if (typeof globalThis !== 'undefined') return globalThis
   if (typeof self !== 'undefined') return self

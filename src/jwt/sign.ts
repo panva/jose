@@ -1,8 +1,6 @@
-/* eslint-disable no-underscore-dangle */
-
 import CompactSign from '../jws/compact/sign.js'
 import { JWTInvalid } from '../util/errors.js'
-import type { JWSHeaderParameters, JWTPayload, KeyLike, SignOptions } from '../types'
+import type { JWSHeaderParameters, JWTPayload, KeyLike, SignOptions } from '../types.d'
 import { encoder } from '../lib/buffer_utils.js'
 import ProduceJWT from '../lib/jwt_producer.js'
 
@@ -17,6 +15,11 @@ import ProduceJWT from '../lib/jwt_producer.js'
  * @example CJS import
  * ```js
  * const { SignJWT } = require('jose/jwt/sign')
+ * ```
+ *
+ * @example Deno import
+ * ```js
+ * import { SignJWT } from 'https://deno.land/x/jose@VERSION/jwt/sign.ts'
  * ```
  *
  * @example Usage

@@ -1,4 +1,3 @@
-/* eslint-disable no-param-reassign */
 import test from 'ava';
 
 let root;

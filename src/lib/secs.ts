@@ -7,7 +7,6 @@ const year = day * 365.25
 const REGEX =
   /^(\d+|\d+\.\d+) ?(seconds?|secs?|s|minutes?|mins?|m|hours?|hrs?|h|days?|d|weeks?|w|years?|yrs?|y)$/i
 
-// eslint-disable-next-line consistent-return
 export default (str: string): number => {
   const matched = REGEX.exec(str)
 
@@ -18,7 +17,6 @@ export default (str: string): number => {
   const value = parseFloat(matched[1])
   const unit = matched[2].toLowerCase()
 
-  // eslint-disable-next-line default-case
   switch (unit) {
     case 'sec':
     case 'secs':

@@ -7,7 +7,7 @@ import type {
   JWSHeaderParameters,
   KeyLike,
   VerifyOptions,
-} from '../../types'
+} from '../../types.d'
 import { JWSInvalid, JWSSignatureVerificationFailed } from '../../util/errors.js'
 import isObject from '../../lib/is_object.js'
 
@@ -36,6 +36,11 @@ export interface GeneralVerifyGetKey
  * @example CJS import
  * ```js
  * const { generalVerify } = require('jose/jws/general/verify')
+ * ```
+ *
+ * @example Deno import
+ * ```js
+ * import { generalVerify } from 'https://deno.land/x/jose@VERSION/jws/general/verify.ts'
  * ```
  *
  * @example Usage
@@ -70,10 +75,8 @@ async function generalVerify(
     throw new JWSInvalid('JWS Signatures missing or incorrect type')
   }
 
-  // eslint-disable-next-line no-restricted-syntax
   for (const signature of jws.signatures) {
     try {
-      // eslint-disable-next-line no-await-in-loop
       return await verify(
         {
           header: signature.header,

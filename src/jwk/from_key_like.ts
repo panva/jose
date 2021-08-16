@@ -1,4 +1,4 @@
-import type { JWK, KeyLike } from '../types'
+import type { JWK, KeyLike } from '../types.d'
 import asJWK from '../runtime/key_to_jwk.js'
 
 /**
@@ -14,6 +14,11 @@ import asJWK from '../runtime/key_to_jwk.js'
  * @example CJS import
  * ```js
  * const { fromKeyLike } = require('jose/jwk/from_key_like')
+ * ```
+ *
+ * @example Deno import
+ * ```js
+ * import { fromKeyLike } from 'https://deno.land/x/jose@VERSION/jwk/from_key_like.ts'
  * ```
  *
  * @example Usage

@@ -1,6 +1,4 @@
-/* eslint-disable no-underscore-dangle */
-
-import type { JWSHeaderParameters, JWTClaimVerificationOptions, JWTPayload } from '../types'
+import type { JWSHeaderParameters, JWTClaimVerificationOptions, JWTPayload } from '../types.d'
 import { decoder } from '../lib/buffer_utils.js'
 import * as base64url from '../runtime/base64url.js'
 import { JWTInvalid } from '../util/errors.js'
@@ -23,6 +21,11 @@ interface UnsecuredResult {
  * @example CJS import
  * ```js
  * const { UnsecuredJWT } = require('jose/jwt/unsecured')
+ * ```
+ *
+ * @example Deno import
+ * ```js
+ * import { UnsecuredJWT } from 'https://deno.land/x/jose@VERSION/jwt/unsecured.ts'
  * ```
  *
  * @example Encoding

@@ -1,5 +1,3 @@
-/* eslint-disable no-underscore-dangle */
-
 import CompactEncrypt from '../jwe/compact/encrypt.js'
 import type {
   EncryptOptions,
@@ -7,7 +5,7 @@ import type {
   JWEKeyManagementHeaderParameters,
   JWTPayload,
   KeyLike,
-} from '../types'
+} from '../types.d'
 import { encoder } from '../lib/buffer_utils.js'
 import ProduceJWT from '../lib/jwt_producer.js'
 
@@ -22,6 +20,11 @@ import ProduceJWT from '../lib/jwt_producer.js'
  * @example CJS import
  * ```js
  * const { EncryptJWT } = require('jose/jwt/encrypt')
+ * ```
+ *
+ * @example Deno import
+ * ```js
+ * import { EncryptJWT } from 'https://deno.land/x/jose@VERSION/jwt/encrypt.ts'
  * ```
  *
  * @example Usage

@@ -1,4 +1,4 @@
-import type { AesKwUnwrapFunction, AesKwWrapFunction } from '../interfaces'
+import type { AesKwUnwrapFunction, AesKwWrapFunction } from '../interfaces.d'
 import bogusWebCrypto from './bogus.js'
 import crypto, { isCryptoKey } from './webcrypto.js'
 import invalidKeyInput from './invalid_key_input.js'

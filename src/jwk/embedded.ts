@@ -1,6 +1,4 @@
-/* eslint-disable jsdoc/require-param */
-import type { KeyObject } from 'crypto'
-import type { FlattenedJWSInput, JWSHeaderParameters } from '../types'
+import type { KeyObject, FlattenedJWSInput, JWSHeaderParameters } from '../types.d'
 import parseJwk from './parse.js'
 import isObject from '../lib/is_object.js'
 import { JWSInvalid } from '../util/errors.js'
@@ -20,6 +18,11 @@ import { JWSInvalid } from '../util/errors.js'
  * @example CJS import
  * ```js
  * const { EmbeddedJWK } = require('jose/jwk/embedded')
+ * ```
+ *
+ * @example Deno import
+ * ```js
+ * import { EmbeddedJWK } from 'https://deno.land/x/jose@VERSION/jwk/embedded.ts'
  * ```
  *
  * @example Usage
@@ -46,7 +49,6 @@ async function EmbeddedJWK(protectedHeader: JWSHeaderParameters, token: Flattene
     throw new JWSInvalid('"jwk" (JSON Web Key) Header Parameter must be a JSON object')
   }
 
-  // eslint-disable-next-line @typescript-eslint/keyword-spacing
   const key = <CryptoKey | KeyObject>await parseJwk(joseHeader.jwk!, joseHeader.alg!, true)
 
   if (key.type !== 'public') {

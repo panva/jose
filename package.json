@@ -8,6 +8,7 @@
     "decode",
     "decrypt",
     "detached",
+    "deno",
     "ec",
     "ecdsa",
     "eddsa",
@@ -301,6 +302,16 @@
       "require": "./dist/node/cjs/util/random.js"
     }
   },
+  "typesVersions": {
+    "*": {
+      "webcrypto/*": [
+        "./dist/types/*"
+      ],
+      "*": [
+        "./dist/types/*"
+      ]
+    }
+  },
   "files": [
     "dist/**/package.json",
     "dist/**/*.js",
@@ -316,16 +327,18 @@
     "build-all": "run-s clear build:*",
     "build-fast-all": "run-s clear build-fast:*",
     "build-fast:browser": "npm run-script runtime-browser && npm run-script -s esbuild-find | xargs -0 esbuild --log-level=warning --target=es2018 --outdir=dist/browser --format=esm && echo '{\"type\": \"module\"}'> dist/browser/package.json",
+    "build-fast:deno": "npm run-script build:deno",
     "build-fast:node-cjs": "npm run-script runtime-node && npm run-script -s esbuild-find | xargs -0 esbuild --log-level=warning --platform=node --target=node12 --outdir=dist/node/cjs --format=cjs",
     "build-fast:node-esm": "npm run-script runtime-node && npm run-script -s esbuild-find | xargs -0 esbuild --log-level=warning --platform=node --target=node12 --outdir=dist/node/esm --format=esm && echo '{\"type\": \"module\"}'> dist/node/esm/package.json",
     "build-fast:node-webcrypto-cjs": "npm run-script runtime-node-webcrypto && npm run-script -s esbuild-find | xargs -0 esbuild --log-level=warning --platform=node --target=esnext --outdir=dist/node/webcrypto/cjs --format=cjs",
     "build-fast:node-webcrypto-esm": "npm run-script runtime-node-webcrypto && npm run-script -s esbuild-find | xargs -0 esbuild --log-level=warning --platform=node --target=esnext --outdir=dist/node/webcrypto/esm --format=esm && echo '{\"type\": \"module\"}'> dist/node/webcrypto/esm/package.json",
-    "build:browser": "run-s runtime-browser lint 'build -- -p ./tsconfig/browser.json' && echo '{\"type\": \"module\"}'> dist/browser/package.json",
+    "build:browser": "run-s runtime-browser 'build -- -p ./tsconfig/browser.json' && echo '{\"type\": \"module\"}'> dist/browser/package.json",
+    "build:deno": "npm run-script runtime-deno && find dist/deno -name '*.ts' -type f -print0 | xargs -0 sed -i '' -e \"s/\\.js'/.ts'/g\" -e \"s/\\.d'/.d.ts'/g\" && echo 'export class KeyObject extends CryptoKey {}' > dist/deno/types.d.ts && tail -n +5 src/types.d.ts >> dist/deno/types.d.ts",
     "build:types": "npm run-script build -- -p ./tsconfig/types.json && cd src && find . -name '*.d.ts' -maxdepth 2 -type f -exec gcp --parents \"{}\" ../dist/types  \\; && cd .. && node ./tools/strip-dts-comments && run-s -s types:find | xargs -0 sed -i '' -e \"s/.js//g\"",
-    "build:node-cjs": "run-s runtime-node lint 'build -- -p ./tsconfig/node-cjs.json'",
-    "build:node-esm": "run-s runtime-node lint 'build -- -p ./tsconfig/node-esm.json' && echo '{\"type\": \"module\"}'> dist/node/esm/package.json",
-    "build:node-webcrypto-cjs": "run-s runtime-node-webcrypto lint 'build -- -p ./tsconfig/node-webcrypto-cjs.json'",
-    "build:node-webcrypto-esm": "run-s runtime-node-webcrypto lint 'build -- -p ./tsconfig/node-webcrypto-esm.json' && echo '{\"type\": \"module\"}'> dist/node/webcrypto/esm/package.json",
+    "build:node-cjs": "run-s runtime-node 'build -- -p ./tsconfig/node-cjs.json'",
+    "build:node-esm": "run-s runtime-node 'build -- -p ./tsconfig/node-esm.json' && echo '{\"type\": \"module\"}'> dist/node/esm/package.json",
+    "build:node-webcrypto-cjs": "run-s runtime-node-webcrypto 'build -- -p ./tsconfig/node-webcrypto-cjs.json'",
+    "build:node-webcrypto-esm": "run-s runtime-node-webcrypto 'build -- -p ./tsconfig/node-webcrypto-esm.json' && echo '{\"type\": \"module\"}'> dist/node/webcrypto/esm/package.json",
     "clear": "rm -rf dist",
     "coverage": "npm run-script runtime-node && c8 npm run-script test",
     "coverage-cryptokey": "npm run-script runtime-node && c8 npm run-script test-cryptokey",
@@ -333,8 +346,8 @@
     "docs": "run-s docs:*",
     "docs:generate": "typedoc --allReflectionsHaveOwnDocument --excludePrivate --excludeProtected --gitRevision main --readme none --plugin typedoc-plugin-markdown --out docs --excludeExternals --tsconfig ./tsconfig/browser.json  --hideGenerator --hideBreadcrumbs src/types.d.ts src/jwt/*.ts src/jwe/**/*.ts src/jws/**/*.ts src/jwk/*.ts src/jwks/*.ts src/util/*.ts",
     "esbuild-find": "find src -type f -name '*.ts' -not -path '*/runtime/*/*' -not -name '*.d.ts' -print0",
-    "lint": "eslint --config ./src/.eslintrc.json ./src",
     "runtime-browser": "run-s runtime:clear runtime:browser:* runtime:refs",
+    "runtime-deno": "npm run-script runtime-browser && mkdir -p dist/deno && cp -r src/. dist/deno && rm -r dist/deno/runtime/browser dist/deno/runtime/node && rm dist/deno/.prettierrc.json",
     "runtime-node": "run-s runtime:clear runtime:node:* runtime:refs",
     "runtime-node-webcrypto": "run-s runtime:clear runtime:browser:* && cp ./src/runtime/node/webcrypto.ts ./src/runtime/ && cp ./src/runtime/node/fetch_jwks.ts ./src/runtime/ && cp ./src/runtime/node/base64url.ts ./src/runtime/ && cp ./src/runtime/node/zlib.ts ./src/runtime/ && run-s runtime:refs",
     "runtime:browser:copy": "cp ./src/runtime/browser/*.ts ./src/runtime",
@@ -344,24 +357,19 @@
     "runtime:node:copy": "cp ./src/runtime/node/*.ts ./src/runtime",
     "runtime:refs": "run-s -s runtime:find | xargs -0 sed -i '' -e \"s/'\\.\\.\\//'\\.\\//g\" -e \"s/'\\.\\/\\.\\./'../g\"",
     "test": "npm run-script test-cjs && ava",
+    "test-deno": "deno test --jobs --no-check --allow-net test-deno",
     "test-browser": "find test-browser -type f -name '*.js' -print0 | xargs -0 npx esbuild --log-level=warning --outdir=dist-browser-tests --bundle && karma start",
     "test-cjs": "rm -rf test/cjs && find test -type f -name '*.mjs' -print0 | xargs -0 npx esbuild --log-level=warning --target=esnext --outdir=test/cjs --format=cjs",
     "test-cryptokey": "CRYPTOKEY=true npm test",
-    "test-webcrypto": "WEBCRYPTO=true npm test"
+    "test-webcrypto": "WEBCRYPTO=true npm test",
+    "prettier": "npx prettier --write ./test ./src ./tools ./test-browser ./test-deno"
   },
   "devDependencies": {
     "@types/node": "^16.6.2",
-    "@typescript-eslint/eslint-plugin": "^4.29.1",
     "ava": "^3.15.0",
     "bowser": "^2.11.0",
     "c8": "^7.8.0",
     "esbuild": "^0.12.21",
-    "eslint": "^7.32.0",
-    "eslint-config-airbnb-base": "14.2.1",
-    "eslint-config-airbnb-typescript": "^12.3.1",
-    "eslint-config-prettier": "^8.3.0",
-    "eslint-plugin-import": "^2.24.0",
-    "eslint-plugin-jsdoc": "^36.0.7",
     "glob": "^7.1.7",
     "karma": "^6.3.4",
     "karma-browserstack-launcher": "1.6.0",
@@ -371,19 +379,10 @@
     "npm-run-all": "^4.1.5",
     "prettier": "^2.3.2",
     "qunit": "^2.16.0",
+    "tar": "^6.1.10",
     "timekeeper": "^2.2.0",
     "typedoc": "^0.21.6",
     "typedoc-plugin-markdown": "^3.10.4",
     "typescript": "^4.3.5"
-  },
-  "typesVersions": {
-    "*": {
-      "webcrypto/*": [
-        "./dist/types/*"
-      ],
-      "*": [
-        "./dist/types/*"
-      ]
-    }
   }
 }

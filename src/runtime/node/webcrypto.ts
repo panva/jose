@@ -19,7 +19,6 @@ if (util.types.isCryptoKey) {
   }
 } else {
   // @ts-expect-error
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   impl = (obj): obj is CryptoKey => false
 }
 

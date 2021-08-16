@@ -1,5 +1,5 @@
 import { generateSecret as generate } from '../runtime/generate.js'
-import type { KeyLike } from '../types'
+import type { KeyLike } from '../types.d'
 
 export interface GenerateSecretOptions {
   /**
@@ -24,6 +24,11 @@ export interface GenerateSecretOptions {
  * @example CJS import
  * ```js
  * const { generateSecret } = require('jose/util/generate_secret')
+ * ```
+ *
+ * @example Deno import
+ * ```js
+ * import { generateSecret } from 'https://deno.land/x/jose@VERSION/util/generate_secret.ts'
  * ```
  *
  * @example Usage

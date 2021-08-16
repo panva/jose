@@ -54,7 +54,6 @@ Promise.all([
         }
         for (const [serialization, expectedResult] of runs) {
           if (!expectedResult) {
-            // eslint-disable-next-line no-continue
             continue;
           }
           const sign = new serialization.Sign(encode(vector.input.payload));

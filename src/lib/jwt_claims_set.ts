@@ -3,7 +3,7 @@ import type {
   JWTClaimVerificationOptions,
   JWEHeaderParameters,
   JWSHeaderParameters,
-} from '../types'
+} from '../types.d'
 import { JWTClaimValidationFailed, JWTExpired, JWTInvalid } from '../util/errors.js'
 import { decoder } from './buffer_utils.js'
 import epoch from './epoch.js'
