@@ -75,6 +75,16 @@ Promise.all([
       {
         const jws = { ...fullJws };
         const assertion = {
+          message: 'JWS Protected Header is invalid',
+          code: 'ERR_JWS_INVALID',
+        };
+        jws.protected = `1${jws.protected}`;
+        await t.throwsAsync(flattenedVerify(jws, t.context.secret), assertion);
+      }
+
+      {
+        const jws = { ...fullJws };
+        const assertion = {
           message: 'JWS Payload missing',
           code: 'ERR_JWS_INVALID',
         };
