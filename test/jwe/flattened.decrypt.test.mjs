@@ -95,6 +95,17 @@ Promise.all([
         });
       }
 
+
+      {
+        const jwe = { ...fullJwe };
+        const assertion = {
+          message: 'JWE Protected Header is invalid',
+          code: 'ERR_JWE_INVALID',
+        };
+        jwe.protected = `1${jwe.protected}`;
+        await t.throwsAsync(flattenedDecrypt(jwe, t.context.secret), assertion);
+      }
+
       {
         const jwe = { ...fullJwe };
         jwe.encrypted_key = null;

@@ -121,7 +121,11 @@ async function flattenedDecrypt(
   let parsedProt!: JWEHeaderParameters
   if (jwe.protected) {
     const protectedHeader = base64url(jwe.protected)
-    parsedProt = JSON.parse(decoder.decode(protectedHeader))
+    try {
+      parsedProt = JSON.parse(decoder.decode(protectedHeader))
+    } catch {
+      throw new JWEInvalid('JWE Protected Header is invalid')
+    }
   }
   if (!isDisjoint(parsedProt, jwe.header, jwe.unprotected)) {
     throw new JWEInvalid(
