@@ -122,10 +122,12 @@ class GeneralSign {
 
     const jws: GeneralJWS = {
       signatures: [],
+      payload: '',
     }
 
+    let payloads = new Set()
     await Promise.all(
-      this._signatures.map(async (sig, i) => {
+      this._signatures.map(async (sig) => {
         const { protectedHeader, unprotectedHeader, options, key } = signatureRef.get(sig)!
         const flattened = new FlattenedSign(this._payload)
 
@@ -138,19 +140,14 @@ class GeneralSign {
         }
 
         const { payload, ...rest } = await flattened.sign(key, options)
-
-        if ('payload' in jws && jws.payload !== payload) {
-          throw new JWSInvalid(`index ${i} signature produced a different payload`)
-        } else {
-          jws.payload = payload
-        }
-
+        payloads.add(payload)
+        jws.payload = payload
         jws.signatures.push(rest)
       }),
     )
 
-    if ('payload' in jws && jws.payload === undefined) {
-      delete jws.payload
+    if (payloads.size !== 1) {
+      throw new JWSInvalid('inconsistent use of JWS Unencoded Payload Option (RFC7797)')
     }
 
     return jws

@@ -51,7 +51,7 @@ Promise.all([
 
       const generalJws = await sig.sign();
 
-      t.false('payload' in generalJws);
+      t.is(generalJws.payload, '');
       t.is(generalJws.signatures.length, 2);
     });
 
@@ -80,7 +80,7 @@ Promise.all([
       );
 
       await t.throwsAsync(sig.sign(), {
-        message: /index \d signature produced a different payload/,
+        message: 'inconsistent use of JWS Unencoded Payload Option (RFC7797)',
         code: 'ERR_JWS_INVALID',
       });
     });

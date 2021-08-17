@@ -12,6 +12,7 @@ Promise.all([import(`${root}/jws/flattened/sign`), import(`${root}/jws/flattened
         .sign(new Uint8Array(32));
 
       t.deepEqual(jws, {
+        payload: '',
         protected: 'eyJhbGciOiJIUzI1NiIsImI2NCI6ZmFsc2UsImNyaXQiOlsiYjY0Il19',
         signature: 'VklKdp4tVYD61VNPDBTqxqdEQcUL3JK-D4dGXu9NvWs',
       });

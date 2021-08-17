@@ -137,6 +137,7 @@ class FlattenedSign {
 
     const jws: FlattenedJWS = {
       signature: base64url(signature),
+      payload: '',
     }
 
     if (b64) {

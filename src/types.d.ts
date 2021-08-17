@@ -210,22 +210,22 @@ export interface GeneralJWSInput {
 }
 
 /**
- * Flattened JWS definition. Payload is an optional return property, it
- * is not returned when JWS Unencoded Payload Option
+ * Flattened JWS definition. Payload is returned as an empty
+ * string when JWS Unencoded Payload Option
  * [RFC7797](https://tools.ietf.org/html/rfc7797) is used.
  */
 export interface FlattenedJWS extends Partial<FlattenedJWSInput> {
-  payload?: string
+  payload: string
   signature: string
 }
 
 /**
- * General JWS definition. Payload is an optional return property, it
- * is not returned when JWS Unencoded Payload Option
+ * General JWS definition. Payload is returned as an empty
+ * string when JWS Unencoded Payload Option
  * [RFC7797](https://tools.ietf.org/html/rfc7797) is used.
  */
 export interface GeneralJWS {
-  payload?: string
+  payload: string
   signatures: Omit<FlattenedJWSInput, 'payload'>[]
 }
 
