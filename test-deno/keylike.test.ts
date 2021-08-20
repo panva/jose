@@ -5,7 +5,7 @@ import keyToJwk from '../dist/deno/jwk/from_key_like.ts';
 import calculateThumbprint from '../dist/deno/jwk/thumbprint.ts';
 
 async function test(jwk: JsonWebKey, alg: string) {
-  await calculateThumbprint(jwk)
+  await calculateThumbprint(jwk);
   const keyLike = await jwkToKey(jwk, alg);
   assertEquals(await keyToJwk(keyLike), jwk);
 }

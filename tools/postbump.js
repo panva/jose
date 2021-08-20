@@ -27,7 +27,9 @@ x({
   sync: true,
 });
 execSync("npm run build:deno", opts);
-execSync("cp docs/README.md dist/deno/README.md")
-execSync(`sed -i '' -e 's/](/](https:\\/\\/github.com\\/panva\\/jose\\/blob\\/${tagName}\\/docs\\//g' dist/deno/README.md`)
+execSync("cp docs/README.md dist/deno/README.md");
+execSync(
+  `sed -i '' -e 's/](/](https:\\/\\/github.com\\/panva\\/jose\\/blob\\/${tagName}\\/docs\\//g' dist/deno/README.md`
+);
 execSync("git add docs/**/*.md", opts);
 execSync("git add dist/**/* -f", opts);
