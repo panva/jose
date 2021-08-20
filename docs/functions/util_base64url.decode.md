@@ -16,4 +16,4 @@
 
 #### Defined in
 
-[util/base64url.ts:21](https://github.com/panva/jose/blob/v3.15.3/src/util/base64url.ts#L21)
+[util/base64url.ts:21](https://github.com/panva/jose/blob/v3.15.4/src/util/base64url.ts#L21)

@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [3.15.4](https://github.com/panva/jose/compare/v3.15.3...v3.15.4) (2021-08-20)
+
+
+### Bug Fixes
+
+* **deno:** ignore incomplete webcrypto api type errors ([c5f2262](https://github.com/panva/jose/commit/c5f226290ead93b7f43f664fc05c5fec90f38be8))
+* **typescript:** generateKeyPair never returns Uint8Array ([73adc01](https://github.com/panva/jose/commit/73adc014ad9827067637153a97f230bfdd72cb9b))
+
 ## [3.15.3](https://github.com/panva/jose/compare/v3.15.2...v3.15.3) (2021-08-20)
 
 

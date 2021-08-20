@@ -18,7 +18,7 @@ const { flattenedDecrypt } = require('jose/jwe/flattened/decrypt')
 
 **`example`** Deno import
 ```js
-import { flattenedDecrypt } from 'https://deno.land/x/jose@v3.15.3/jwe/flattened/decrypt.ts'
+import { flattenedDecrypt } from 'https://deno.land/x/jose@v3.15.4/jwe/flattened/decrypt.ts'
 ```
 
 **`example`** Usage
@@ -58,4 +58,4 @@ console.log(decoder.decode(additionalAuthenticatedData))
 
 #### Defined in
 
-[jwe/flattened/decrypt.ts:81](https://github.com/panva/jose/blob/v3.15.3/src/jwe/flattened/decrypt.ts#L81)
+[jwe/flattened/decrypt.ts:81](https://github.com/panva/jose/blob/v3.15.4/src/jwe/flattened/decrypt.ts#L81)
