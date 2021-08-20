@@ -21,7 +21,7 @@ const { createRemoteJWKSet } = require('jose/jwks/remote')
 
 **`example`** Deno import
 ```js
-import { createRemoteJWKSet } from 'https://deno.land/x/jose@v3.15.2/jwks/remote.ts'
+import { createRemoteJWKSet } from 'https://deno.land/x/jose@v3.15.3/jwks/remote.ts'
 ```
 
 **`example`** Usage
@@ -51,4 +51,4 @@ console.log(payload)
 
 #### Defined in
 
-[jwks/remote.ts:258](https://github.com/panva/jose/blob/v3.15.2/src/jwks/remote.ts#L258)
+[jwks/remote.ts:258](https://github.com/panva/jose/blob/v3.15.3/src/jwks/remote.ts#L258)

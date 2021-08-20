@@ -39,7 +39,7 @@ An error subclass thrown when a JWE is invalid.
 
 #### Defined in
 
-[util/errors.ts:16](https://github.com/panva/jose/blob/v3.15.2/src/util/errors.ts#L16)
+[util/errors.ts:16](https://github.com/panva/jose/blob/v3.15.3/src/util/errors.ts#L16)
 
 ## Properties
 
@@ -55,7 +55,7 @@ A unique error code for the particular error subclass.
 
 #### Defined in
 
-[util/errors.ts:86](https://github.com/panva/jose/blob/v3.15.2/src/util/errors.ts#L86)
+[util/errors.ts:86](https://github.com/panva/jose/blob/v3.15.3/src/util/errors.ts#L86)
 
 ___
 
@@ -71,4 +71,4 @@ A unique error code for the particular error subclass.
 
 #### Defined in
 
-[util/errors.ts:84](https://github.com/panva/jose/blob/v3.15.2/src/util/errors.ts#L84)
+[util/errors.ts:84](https://github.com/panva/jose/blob/v3.15.3/src/util/errors.ts#L84)

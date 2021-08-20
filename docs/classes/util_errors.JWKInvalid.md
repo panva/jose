@@ -39,7 +39,7 @@ An error subclass thrown when a JWK is invalid.
 
 #### Defined in
 
-[util/errors.ts:16](https://github.com/panva/jose/blob/v3.15.2/src/util/errors.ts#L16)
+[util/errors.ts:16](https://github.com/panva/jose/blob/v3.15.3/src/util/errors.ts#L16)
 
 ## Properties
 
@@ -55,7 +55,7 @@ A unique error code for the particular error subclass.
 
 #### Defined in
 
-[util/errors.ts:113](https://github.com/panva/jose/blob/v3.15.2/src/util/errors.ts#L113)
+[util/errors.ts:113](https://github.com/panva/jose/blob/v3.15.3/src/util/errors.ts#L113)
 
 ___
 
@@ -71,4 +71,4 @@ A unique error code for the particular error subclass.
 
 #### Defined in
 
-[util/errors.ts:111](https://github.com/panva/jose/blob/v3.15.2/src/util/errors.ts#L111)
+[util/errors.ts:111](https://github.com/panva/jose/blob/v3.15.3/src/util/errors.ts#L111)
