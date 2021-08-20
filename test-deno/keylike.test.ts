@@ -1,4 +1,4 @@
-import { assertEquals } from 'https://deno.land/std@0.104.0/testing/asserts.ts';
+import { assertEquals, assertThrowsAsync } from 'https://deno.land/std@0.104.0/testing/asserts.ts';
 
 import jwkToKey from '../dist/deno/jwk/parse.ts';
 import keyToJwk from '../dist/deno/jwk/from_key_like.ts';
@@ -8,6 +8,10 @@ async function test(jwk: JsonWebKey, alg: string) {
   await calculateThumbprint(jwk);
   const keyLike = await jwkToKey(jwk, alg);
   assertEquals(await keyToJwk(keyLike), jwk);
+}
+
+async function failing(...args) {
+  return assertThrowsAsync(() => test(...args));
 }
 
 for (const [alg, jwk] of [
@@ -43,10 +47,6 @@ for (const [alg, jwk] of [
     'ES384',
     '{"crv":"P-384","kty":"EC","x":"HnBAtgpS-GJzTCdLBELPm1VIRoQwlk7luJIGEYWKhWtMHmOq14Hh7674Oxcc52mE","y":"jXGek8Zapkjav7mO-KB-7vEWrqNxHSoXgNn1r6C0BiqS89SVciz6O8uriPdxoWem","d":"Fr-aKdB1GdA98B80LTNftu04p9RILDBSNRQxQ1chl4DS9CSZcw39aEZoSUAbJa6r"}',
   ],
-  [
-    'ES512',
-    '{"crv":"P-521","kty":"EC","x":"AIwG869tNnEGIDg2hSyvXKIOk9rWPO_riIixGliBGBV0kB57QoTrjK-g5JCtazDTcBT23igX9gvAVkLvr2oFTQ9p","y":"AeGZ0Z3JHM1rQWvmmpdfVu0zSNpmu0xPjGUE2hGhloRqF-JJV3aVMS72ZhGlbWi-O7OCcypIfndhpYgrc3qx0Y1w","d":"AVIiopJk-cUIfQCJey-NvNbxiTB7haAB1AVvjp4r6wQ0ySw-RsKM03VbJNdWxcSsyHnk-mj-IP6wdWdeqUdto04T"}',
-  ],
   ['HS256', '{"kty":"oct","k":"iPYq7qKZWRaVmo1FiJ17M84uADey7-veCAEEsxpPTus"}'],
   ['HS384', '{"kty":"oct","k":"ATgNcVOYFsjbN4GeyXOyryfqqmGp_48-uvVd5J3GsX7ExUMp3WNTDbbZK_5kTjND"}'],
   [
@@ -55,4 +55,16 @@ for (const [alg, jwk] of [
   ],
 ]) {
   Deno.test(`Key Import/Export ${alg}`, test.bind(undefined, JSON.parse(jwk), alg));
+}
+
+for (const [alg, jwk] of [
+  [
+    'ES512',
+    '{"crv":"P-521","kty":"EC","x":"AIwG869tNnEGIDg2hSyvXKIOk9rWPO_riIixGliBGBV0kB57QoTrjK-g5JCtazDTcBT23igX9gvAVkLvr2oFTQ9p","y":"AeGZ0Z3JHM1rQWvmmpdfVu0zSNpmu0xPjGUE2hGhloRqF-JJV3aVMS72ZhGlbWi-O7OCcypIfndhpYgrc3qx0Y1w","d":"AVIiopJk-cUIfQCJey-NvNbxiTB7haAB1AVvjp4r6wQ0ySw-RsKM03VbJNdWxcSsyHnk-mj-IP6wdWdeqUdto04T"}',
+  ],
+]) {
+  Deno.test(
+    `(expecting failure) Key Import/Export ${alg}`,
+    failing.bind(undefined, JSON.parse(jwk), alg),
+  );
 }

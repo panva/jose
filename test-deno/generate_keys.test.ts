@@ -1,4 +1,7 @@
-import { assertStrictEquals } from 'https://deno.land/std@0.104.0/testing/asserts.ts';
+import {
+  assertStrictEquals,
+  assertThrowsAsync,
+} from 'https://deno.land/std@0.104.0/testing/asserts.ts';
 
 import generateKeyPair from '../dist/deno/util/generate_key_pair.ts';
 
@@ -43,8 +46,8 @@ Deno.test('Generate ES384 keys', async () => {
   await generateKeyPair('ES384');
 });
 
-Deno.test('Generate ES512 keys', async () => {
-  await generateKeyPair('ES512');
+Deno.test('(expecting failure) Generate ES512 keys', async () => {
+  await assertThrowsAsync(() => generateKeyPair('ES512'));
 });
 
 Deno.test('Generate RSA-OAEP keys', async () => {

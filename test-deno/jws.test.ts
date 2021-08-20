@@ -1,4 +1,4 @@
-import { assert } from 'https://deno.land/std@0.104.0/testing/asserts.ts';
+import { assert, assertThrowsAsync } from 'https://deno.land/std@0.104.0/testing/asserts.ts';
 
 import generateKeyPair from '../dist/deno/util/generate_key_pair.ts';
 import generateSecret from '../dist/deno/util/generate_secret.ts';
@@ -23,6 +23,10 @@ async function test(generate: any, alg: string) {
 
   assert(decodeProtectedHeader(jws));
   await verifyFlattened({ ...jws }, publicKey);
+}
+
+async function failing(...args) {
+  return assertThrowsAsync(() => test(...args));
 }
 
 Deno.test(
@@ -51,8 +55,8 @@ Deno.test(
 );
 
 Deno.test(
-  'Sign/Verify ES512',
-  test.bind(undefined, () => generateKeyPair('ES512'), 'ES512'),
+  '(expecting failure) Sign/Verify ES512',
+  failing.bind(undefined, () => generateKeyPair('ES512'), 'ES512'),
 );
 
 Deno.test(
