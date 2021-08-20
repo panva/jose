@@ -16,16 +16,19 @@ Options for the remote JSON Web Key Set.
 
 ### agent
 
-• `Optional` **agent**: `Agent` \| `Agent`
+• `Optional` **agent**: `any`
 
-An instance of http.Agent or https.Agent to pass to the http.get or
-https.get method options. Use when behind an http(s) proxy.
+An instance of [http.Agent](https://nodejs.org/api/http.html#http_class_http_agent)
+or [https.Agent](https://nodejs.org/api/https.html#https_class_https_agent) to pass
+to the [http.get](https://nodejs.org/api/http.html#http_http_get_options_callback)
+or [https.get](https://nodejs.org/api/https.html#https_https_get_options_callback)
+method's options. Use when behind an http(s) proxy.
 This is a Node.js runtime specific option, it is ignored
 when used outside of Node.js runtime.
 
 #### Defined in
 
-[jwks/remote.ts:56](https://github.com/panva/jose/blob/v3.14.4/src/jwks/remote.ts#L56)
+[jwks/remote.ts:61](https://github.com/panva/jose/blob/v3.15.0/src/jwks/remote.ts#L61)
 
 ___
 
@@ -38,7 +41,7 @@ after a previous successful fetch. Default is 30000.
 
 #### Defined in
 
-[jwks/remote.ts:48](https://github.com/panva/jose/blob/v3.14.4/src/jwks/remote.ts#L48)
+[jwks/remote.ts:50](https://github.com/panva/jose/blob/v3.15.0/src/jwks/remote.ts#L50)
 
 ___
 
@@ -51,4 +54,4 @@ aborted and the verification will fail. Default is 5000.
 
 #### Defined in
 
-[jwks/remote.ts:42](https://github.com/panva/jose/blob/v3.14.4/src/jwks/remote.ts#L42)
+[jwks/remote.ts:44](https://github.com/panva/jose/blob/v3.15.0/src/jwks/remote.ts#L44)

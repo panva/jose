@@ -39,7 +39,7 @@ An error subclass thrown when a JWT is invalid.
 
 #### Defined in
 
-[util/errors.ts:18](https://github.com/panva/jose/blob/v3.14.4/src/util/errors.ts#L18)
+[util/errors.ts:16](https://github.com/panva/jose/blob/v3.15.0/src/util/errors.ts#L16)
 
 ## Properties
 
@@ -55,7 +55,7 @@ A unique error code for the particular error subclass.
 
 #### Defined in
 
-[util/errors.ts:106](https://github.com/panva/jose/blob/v3.14.4/src/util/errors.ts#L106)
+[util/errors.ts:104](https://github.com/panva/jose/blob/v3.15.0/src/util/errors.ts#L104)
 
 ___
 
@@ -71,4 +71,4 @@ A unique error code for the particular error subclass.
 
 #### Defined in
 
-[util/errors.ts:104](https://github.com/panva/jose/blob/v3.14.4/src/util/errors.ts#L104)
+[util/errors.ts:102](https://github.com/panva/jose/blob/v3.15.0/src/util/errors.ts#L102)

@@ -16,6 +16,11 @@ import { fromKeyLike } from 'jose/jwk/from_key_like'
 const { fromKeyLike } = require('jose/jwk/from_key_like')
 ```
 
+**`example`** Deno import
+```js
+import { fromKeyLike } from 'https://deno.land/x/jose@v3.15.0/jwk/from_key_like.ts'
+```
+
 **`example`** Usage
 ```js
 const privateJwk = await fromKeyLike(privateKey)
@@ -37,4 +42,4 @@ console.log(publicJwk)
 
 #### Defined in
 
-[jwk/from_key_like.ts:28](https://github.com/panva/jose/blob/v3.14.4/src/jwk/from_key_like.ts#L28)
+[jwk/from_key_like.ts:33](https://github.com/panva/jose/blob/v3.15.0/src/jwk/from_key_like.ts#L33)

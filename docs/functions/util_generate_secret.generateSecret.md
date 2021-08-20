@@ -19,6 +19,11 @@ import { generateSecret } from 'jose/util/generate_secret'
 const { generateSecret } = require('jose/util/generate_secret')
 ```
 
+**`example`** Deno import
+```js
+import { generateSecret } from 'https://deno.land/x/jose@v3.15.0/util/generate_secret.ts'
+```
+
 **`example`** Usage
 ```js
 const secret = await generateSecret('HS256')
@@ -38,4 +43,4 @@ console.log(secret)
 
 #### Defined in
 
-[util/generate_secret.ts:38](https://github.com/panva/jose/blob/v3.14.4/src/util/generate_secret.ts#L38)
+[util/generate_secret.ts:43](https://github.com/panva/jose/blob/v3.15.0/src/util/generate_secret.ts#L43)

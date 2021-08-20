@@ -16,6 +16,11 @@ import { compactDecrypt } from 'jose/jwe/compact/decrypt'
 const { compactDecrypt } = require('jose/jwe/compact/decrypt')
 ```
 
+**`example`** Deno import
+```js
+import { compactDecrypt } from 'https://deno.land/x/jose@v3.15.0/jwe/compact/decrypt.ts'
+```
+
 **`example`** Usage
 ```js
 const decoder = new TextDecoder()
@@ -41,4 +46,4 @@ console.log(decoder.decode(plaintext))
 
 #### Defined in
 
-[jwe/compact/decrypt.ts:47](https://github.com/panva/jose/blob/v3.14.4/src/jwe/compact/decrypt.ts#L47)
+[jwe/compact/decrypt.ts:52](https://github.com/panva/jose/blob/v3.15.0/src/jwe/compact/decrypt.ts#L52)

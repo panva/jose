@@ -33,7 +33,7 @@
 
 #### Defined in
 
-[types.d.ts:271](https://github.com/panva/jose/blob/v3.14.4/src/types.d.ts#L271)
+[types.d.ts:270](https://github.com/panva/jose/blob/v3.15.0/src/types.d.ts#L270)
 
 ___
 
@@ -45,7 +45,7 @@ ___
 
 #### Defined in
 
-[types.d.ts:256](https://github.com/panva/jose/blob/v3.14.4/src/types.d.ts#L256)
+[types.d.ts:255](https://github.com/panva/jose/blob/v3.15.0/src/types.d.ts#L255)
 
 ___
 
@@ -57,7 +57,7 @@ ___
 
 #### Defined in
 
-[types.d.ts:261](https://github.com/panva/jose/blob/v3.14.4/src/types.d.ts#L261)
+[types.d.ts:260](https://github.com/panva/jose/blob/v3.15.0/src/types.d.ts#L260)
 
 ___
 
@@ -69,7 +69,7 @@ ___
 
 #### Defined in
 
-[types.d.ts:236](https://github.com/panva/jose/blob/v3.14.4/src/types.d.ts#L236)
+[types.d.ts:235](https://github.com/panva/jose/blob/v3.15.0/src/types.d.ts#L235)
 
 ___
 
@@ -81,7 +81,7 @@ ___
 
 #### Defined in
 
-[types.d.ts:266](https://github.com/panva/jose/blob/v3.14.4/src/types.d.ts#L266)
+[types.d.ts:265](https://github.com/panva/jose/blob/v3.15.0/src/types.d.ts#L265)
 
 ___
 
@@ -93,7 +93,7 @@ ___
 
 #### Defined in
 
-[types.d.ts:246](https://github.com/panva/jose/blob/v3.14.4/src/types.d.ts#L246)
+[types.d.ts:245](https://github.com/panva/jose/blob/v3.15.0/src/types.d.ts#L245)
 
 ___
 
@@ -105,7 +105,7 @@ ___
 
 #### Defined in
 
-[types.d.ts:241](https://github.com/panva/jose/blob/v3.14.4/src/types.d.ts#L241)
+[types.d.ts:240](https://github.com/panva/jose/blob/v3.15.0/src/types.d.ts#L240)
 
 ___
 
@@ -117,4 +117,4 @@ ___
 
 #### Defined in
 
-[types.d.ts:251](https://github.com/panva/jose/blob/v3.14.4/src/types.d.ts#L251)
+[types.d.ts:250](https://github.com/panva/jose/blob/v3.15.0/src/types.d.ts#L250)

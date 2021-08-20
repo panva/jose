@@ -2,6 +2,18 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [3.15.0](https://github.com/panva/jose/compare/v3.14.4...v3.15.0) (2021-08-20)
+
+
+### Features
+
+* experimental Deno build & publish ([5c7d265](https://github.com/panva/jose/commit/5c7d2656b6e5659a19c6cb3c4fed73e724fe2f6e))
+
+
+### Bug Fixes
+
+* **typescript:** allow sign results to be passed to verify ([59aa96d](https://github.com/panva/jose/commit/59aa96d28dd259d9d8b03fcf37b5a703c5e36874))
+
 ## [3.14.4](https://github.com/panva/jose/compare/v3.14.3...v3.14.4) (2021-08-16)
 
 

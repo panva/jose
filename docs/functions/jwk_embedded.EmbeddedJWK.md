@@ -20,6 +20,11 @@ import { EmbeddedJWK } from 'jose/jwk/embedded'
 const { EmbeddedJWK } = require('jose/jwk/embedded')
 ```
 
+**`example`** Deno import
+```js
+import { EmbeddedJWK } from 'https://deno.land/x/jose@v3.15.0/jwk/embedded.ts'
+```
+
 **`example`** Usage
 ```js
 import { jwtVerify } from 'jose/jwt/verify'
@@ -48,4 +53,4 @@ console.log(payload)
 
 #### Defined in
 
-[jwk/embedded.ts:40](https://github.com/panva/jose/blob/v3.14.4/src/jwk/embedded.ts#L40)
+[jwk/embedded.ts:43](https://github.com/panva/jose/blob/v3.15.0/src/jwk/embedded.ts#L43)

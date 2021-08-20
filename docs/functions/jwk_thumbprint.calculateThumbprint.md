@@ -17,6 +17,11 @@ import { calculateThumbprint } from 'jose/jwk/thumbprint'
 const { calculateThumbprint } = require('jose/jwk/thumbprint')
 ```
 
+**`example`** Deno import
+```js
+import { calculateThumbprint } from 'https://deno.land/x/jose@v3.15.0/jwk/thumbprint.ts'
+```
+
 **`example`** Usage
 ```js
 const thumbprint = await calculateThumbprint({
@@ -41,4 +46,4 @@ console.log(thumbprint)
 
 #### Defined in
 
-[jwk/thumbprint.ts:44](https://github.com/panva/jose/blob/v3.14.4/src/jwk/thumbprint.ts#L44)
+[jwk/thumbprint.ts:49](https://github.com/panva/jose/blob/v3.15.0/src/jwk/thumbprint.ts#L49)

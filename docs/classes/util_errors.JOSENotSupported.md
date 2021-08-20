@@ -40,7 +40,7 @@ implementation or JOSE in general.
 
 #### Defined in
 
-[util/errors.ts:18](https://github.com/panva/jose/blob/v3.14.4/src/util/errors.ts#L18)
+[util/errors.ts:16](https://github.com/panva/jose/blob/v3.15.0/src/util/errors.ts#L16)
 
 ## Properties
 
@@ -56,7 +56,7 @@ A unique error code for the particular error subclass.
 
 #### Defined in
 
-[util/errors.ts:68](https://github.com/panva/jose/blob/v3.14.4/src/util/errors.ts#L68)
+[util/errors.ts:66](https://github.com/panva/jose/blob/v3.15.0/src/util/errors.ts#L66)
 
 ___
 
@@ -72,4 +72,4 @@ A unique error code for the particular error subclass.
 
 #### Defined in
 
-[util/errors.ts:66](https://github.com/panva/jose/blob/v3.14.4/src/util/errors.ts#L66)
+[util/errors.ts:64](https://github.com/panva/jose/blob/v3.15.0/src/util/errors.ts#L64)

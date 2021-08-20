@@ -2,8 +2,8 @@
 
 [types](../modules/types.md).GeneralJWS
 
-General JWS definition. Payload is an optional return property, it
-is not returned when JWS Unencoded Payload Option
+General JWS definition. Payload is returned as an empty
+string when JWS Unencoded Payload Option
 [RFC7797](https://tools.ietf.org/html/rfc7797) is used.
 
 ## Table of contents
@@ -17,11 +17,11 @@ is not returned when JWS Unencoded Payload Option
 
 ### payload
 
-• `Optional` **payload**: `string`
+• **payload**: `string`
 
 #### Defined in
 
-[types.d.ts:228](https://github.com/panva/jose/blob/v3.14.4/src/types.d.ts#L228)
+[types.d.ts:227](https://github.com/panva/jose/blob/v3.15.0/src/types.d.ts#L227)
 
 ___
 
@@ -31,4 +31,4 @@ ___
 
 #### Defined in
 
-[types.d.ts:229](https://github.com/panva/jose/blob/v3.14.4/src/types.d.ts#L229)
+[types.d.ts:228](https://github.com/panva/jose/blob/v3.15.0/src/types.d.ts#L228)

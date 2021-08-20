@@ -2,8 +2,8 @@
 
 [types](../modules/types.md).FlattenedJWS
 
-Flattened JWS definition. Payload is an optional return property, it
-is not returned when JWS Unencoded Payload Option
+Flattened JWS definition. Payload is returned as an empty
+string when JWS Unencoded Payload Option
 [RFC7797](https://tools.ietf.org/html/rfc7797) is used.
 
 ## Hierarchy
@@ -39,13 +39,13 @@ Partial.header
 
 #### Defined in
 
-[types.d.ts:168](https://github.com/panva/jose/blob/v3.14.4/src/types.d.ts#L168)
+[types.d.ts:167](https://github.com/panva/jose/blob/v3.15.0/src/types.d.ts#L167)
 
 ___
 
 ### payload
 
-• `Optional` **payload**: `string`
+• **payload**: `string`
 
 #### Overrides
 
@@ -53,7 +53,7 @@ Partial.payload
 
 #### Defined in
 
-[types.d.ts:218](https://github.com/panva/jose/blob/v3.14.4/src/types.d.ts#L218)
+[types.d.ts:217](https://github.com/panva/jose/blob/v3.15.0/src/types.d.ts#L217)
 
 ___
 
@@ -72,7 +72,7 @@ Partial.protected
 
 #### Defined in
 
-[types.d.ts:183](https://github.com/panva/jose/blob/v3.14.4/src/types.d.ts#L183)
+[types.d.ts:182](https://github.com/panva/jose/blob/v3.15.0/src/types.d.ts#L182)
 
 ___
 
@@ -86,4 +86,4 @@ Partial.signature
 
 #### Defined in
 
-[types.d.ts:219](https://github.com/panva/jose/blob/v3.14.4/src/types.d.ts#L219)
+[types.d.ts:218](https://github.com/panva/jose/blob/v3.15.0/src/types.d.ts#L218)

@@ -16,6 +16,11 @@ import { flattenedVerify } from 'jose/jws/flattened/verify'
 const { flattenedVerify } = require('jose/jws/flattened/verify')
 ```
 
+**`example`** Deno import
+```js
+import { flattenedVerify } from 'https://deno.land/x/jose@v3.15.0/jws/flattened/verify.ts'
+```
+
 **`example`** Usage
 ```js
 const decoder = new TextDecoder()
@@ -45,4 +50,4 @@ console.log(decoder.decode(payload))
 
 #### Defined in
 
-[jws/flattened/verify.ts:66](https://github.com/panva/jose/blob/v3.14.4/src/jws/flattened/verify.ts#L66)
+[jws/flattened/verify.ts:71](https://github.com/panva/jose/blob/v3.15.0/src/jws/flattened/verify.ts#L71)

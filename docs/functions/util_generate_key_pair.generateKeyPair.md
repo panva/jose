@@ -21,6 +21,11 @@ import { generateKeyPair } from 'jose/util/generate_key_pair'
 const { generateKeyPair } = require('jose/util/generate_key_pair')
 ```
 
+**`example`** Deno import
+```js
+import { generateKeyPair } from 'https://deno.land/x/jose@v3.15.0/util/generate_key_pair.ts'
+```
+
 **`example`** Usage
 ```js
 const { publicKey, privateKey } = await generateKeyPair('PS256')
@@ -41,4 +46,4 @@ console.log(privateKey)
 
 #### Defined in
 
-[util/generate_key_pair.ts:66](https://github.com/panva/jose/blob/v3.14.4/src/util/generate_key_pair.ts#L66)
+[util/generate_key_pair.ts:71](https://github.com/panva/jose/blob/v3.15.0/src/util/generate_key_pair.ts#L71)

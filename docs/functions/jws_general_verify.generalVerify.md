@@ -16,6 +16,11 @@ import { generalVerify } from 'jose/jws/general/verify'
 const { generalVerify } = require('jose/jws/general/verify')
 ```
 
+**`example`** Deno import
+```js
+import { generalVerify } from 'https://deno.land/x/jose@v3.15.0/jws/general/verify.ts'
+```
+
 **`example`** Usage
 ```js
 const decoder = new TextDecoder()
@@ -49,4 +54,4 @@ console.log(decoder.decode(payload))
 
 #### Defined in
 
-[jws/general/verify.ts:60](https://github.com/panva/jose/blob/v3.14.4/src/jws/general/verify.ts#L60)
+[jws/general/verify.ts:65](https://github.com/panva/jose/blob/v3.15.0/src/jws/general/verify.ts#L65)

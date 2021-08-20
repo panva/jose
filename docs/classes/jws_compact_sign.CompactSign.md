@@ -14,6 +14,11 @@ import { CompactSign } from 'jose/jws/compact/sign'
 const { CompactSign } = require('jose/jws/compact/sign')
 ```
 
+**`example`** Deno import
+```js
+import { CompactSign } from 'https://deno.land/x/jose@v3.15.0/jws/compact/sign.ts'
+```
+
 **`example`** Usage
 ```js
 const encoder = new TextEncoder()
@@ -50,7 +55,7 @@ console.log(jws)
 
 #### Defined in
 
-[jws/compact/sign.ts:36](https://github.com/panva/jose/blob/v3.14.4/src/jws/compact/sign.ts#L36)
+[jws/compact/sign.ts:39](https://github.com/panva/jose/blob/v3.15.0/src/jws/compact/sign.ts#L39)
 
 ## Methods
 
@@ -72,7 +77,7 @@ Sets the JWS Protected Header on the Sign object.
 
 #### Defined in
 
-[jws/compact/sign.ts:45](https://github.com/panva/jose/blob/v3.14.4/src/jws/compact/sign.ts#L45)
+[jws/compact/sign.ts:48](https://github.com/panva/jose/blob/v3.15.0/src/jws/compact/sign.ts#L48)
 
 ___
 
@@ -95,4 +100,4 @@ Signs and resolves the value of the Compact JWS string.
 
 #### Defined in
 
-[jws/compact/sign.ts:56](https://github.com/panva/jose/blob/v3.14.4/src/jws/compact/sign.ts#L56)
+[jws/compact/sign.ts:59](https://github.com/panva/jose/blob/v3.15.0/src/jws/compact/sign.ts#L59)

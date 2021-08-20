@@ -22,4 +22,4 @@ Inflate Raw implementation, e.g. promisified [zlib.inflateRaw](https://nodejs.or
 
 #### Defined in
 
-[types.d.ts:598](https://github.com/panva/jose/blob/v3.14.4/src/types.d.ts#L598)
+[types.d.ts:597](https://github.com/panva/jose/blob/v3.15.0/src/types.d.ts#L597)

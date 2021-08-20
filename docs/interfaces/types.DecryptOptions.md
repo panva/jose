@@ -33,7 +33,7 @@ key/secret are allowed.
 
 #### Defined in
 
-[types.d.ts:460](https://github.com/panva/jose/blob/v3.14.4/src/types.d.ts#L460)
+[types.d.ts:459](https://github.com/panva/jose/blob/v3.15.0/src/types.d.ts#L459)
 
 ___
 
@@ -70,7 +70,7 @@ default built-in treatment are currently available.
 
 #### Defined in
 
-[types.d.ts:441](https://github.com/panva/jose/blob/v3.14.4/src/types.d.ts#L441)
+[types.d.ts:440](https://github.com/panva/jose/blob/v3.15.0/src/types.d.ts#L440)
 
 ___
 
@@ -83,7 +83,7 @@ when you expect JWEs with compressed plaintext.
 
 #### Defined in
 
-[types.d.ts:466](https://github.com/panva/jose/blob/v3.14.4/src/types.d.ts#L466)
+[types.d.ts:465](https://github.com/panva/jose/blob/v3.15.0/src/types.d.ts#L465)
 
 ___
 
@@ -95,4 +95,4 @@ A list of accepted JWE "alg" (Algorithm) Header Parameter values.
 
 #### Defined in
 
-[types.d.ts:453](https://github.com/panva/jose/blob/v3.14.4/src/types.d.ts#L453)
+[types.d.ts:452](https://github.com/panva/jose/blob/v3.15.0/src/types.d.ts#L452)

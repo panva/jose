@@ -16,6 +16,11 @@ import { compactVerify } from 'jose/jws/compact/verify'
 const { compactVerify } = require('jose/jws/compact/verify')
 ```
 
+**`example`** Deno import
+```js
+import { compactVerify } from 'https://deno.land/x/jose@v3.15.0/jws/compact/verify.ts'
+```
+
 **`example`** Usage
 ```js
 const decoder = new TextDecoder()
@@ -41,4 +46,4 @@ console.log(decoder.decode(payload))
 
 #### Defined in
 
-[jws/compact/verify.ts:51](https://github.com/panva/jose/blob/v3.14.4/src/jws/compact/verify.ts#L51)
+[jws/compact/verify.ts:56](https://github.com/panva/jose/blob/v3.15.0/src/jws/compact/verify.ts#L56)

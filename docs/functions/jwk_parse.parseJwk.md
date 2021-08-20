@@ -19,6 +19,11 @@ import { parseJwk } from 'jose/jwk/parse'
 const { parseJwk } = require('jose/jwk/parse')
 ```
 
+**`example`** Deno import
+```js
+import { parseJwk } from 'https://deno.land/x/jose@v3.15.0/jwk/parse.ts'
+```
+
 **`example`** Usage
 ```js
 const ecPublicKey = await parseJwk({
@@ -49,4 +54,4 @@ const rsaPublicKey = await parseJwk({
 
 #### Defined in
 
-[jwk/parse.ts:45](https://github.com/panva/jose/blob/v3.14.4/src/jwk/parse.ts#L45)
+[jwk/parse.ts:50](https://github.com/panva/jose/blob/v3.15.0/src/jwk/parse.ts#L50)

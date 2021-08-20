@@ -16,6 +16,11 @@ import { jwtDecrypt } from 'jose/jwt/decrypt'
 const { jwtDecrypt } = require('jose/jwt/decrypt')
 ```
 
+**`example`** Deno import
+```js
+import { jwtDecrypt } from 'https://deno.land/x/jose@v3.15.0/jwt/decrypt.ts'
+```
+
 **`example`** Usage
 ```js
 const jwt = 'eyJhbGciOiJkaXIiLCJlbmMiOiJBMjU2R0NNIn0..KVcNLqK-3-8ZkYIC.xSwF4VxO0kUMUD2W-cifsNUxnr-swyBq-nADBptyt6y9n79-iNc5b0AALJpRwc0wwDkJw8hNOMjApNUTMsK9b-asToZ3DXFMvwfJ6n1aWefvd7RsoZ2LInWFfVAuttJDzoGB.uuexQoWHwrLMEYRElT8pBQ'
@@ -43,4 +48,4 @@ console.log(payload)
 
 #### Defined in
 
-[jwt/decrypt.ts:56](https://github.com/panva/jose/blob/v3.14.4/src/jwt/decrypt.ts#L56)
+[jwt/decrypt.ts:61](https://github.com/panva/jose/blob/v3.15.0/src/jwt/decrypt.ts#L61)

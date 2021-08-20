@@ -14,6 +14,11 @@ import { CompactEncrypt } from 'jose/jwe/compact/encrypt'
 const { CompactEncrypt } = require('jose/jwe/compact/encrypt')
 ```
 
+**`example`** Deno import
+```js
+import { CompactEncrypt } from 'https://deno.land/x/jose@v3.15.0/jwe/compact/encrypt.ts'
+```
+
 **`example`** Usage
 ```js
 const encoder = new TextEncoder()
@@ -53,7 +58,7 @@ console.log(jwe)
 
 #### Defined in
 
-[jwe/compact/encrypt.ts:39](https://github.com/panva/jose/blob/v3.14.4/src/jwe/compact/encrypt.ts#L39)
+[jwe/compact/encrypt.ts:44](https://github.com/panva/jose/blob/v3.15.0/src/jwe/compact/encrypt.ts#L44)
 
 ## Methods
 
@@ -76,7 +81,7 @@ Encrypts and resolves the value of the Compact JWE string.
 
 #### Defined in
 
-[jwe/compact/encrypt.ts:97](https://github.com/panva/jose/blob/v3.14.4/src/jwe/compact/encrypt.ts#L97)
+[jwe/compact/encrypt.ts:102](https://github.com/panva/jose/blob/v3.15.0/src/jwe/compact/encrypt.ts#L102)
 
 ___
 
@@ -101,7 +106,7 @@ test and vector validation purposes.
 
 #### Defined in
 
-[jwe/compact/encrypt.ts:51](https://github.com/panva/jose/blob/v3.14.4/src/jwe/compact/encrypt.ts#L51)
+[jwe/compact/encrypt.ts:56](https://github.com/panva/jose/blob/v3.15.0/src/jwe/compact/encrypt.ts#L56)
 
 ___
 
@@ -126,7 +131,7 @@ intended for test and vector validation purposes.
 
 #### Defined in
 
-[jwe/compact/encrypt.ts:64](https://github.com/panva/jose/blob/v3.14.4/src/jwe/compact/encrypt.ts#L64)
+[jwe/compact/encrypt.ts:69](https://github.com/panva/jose/blob/v3.15.0/src/jwe/compact/encrypt.ts#L69)
 
 ___
 
@@ -150,7 +155,7 @@ intended for test and vector validation purposes.
 
 #### Defined in
 
-[jwe/compact/encrypt.ts:86](https://github.com/panva/jose/blob/v3.14.4/src/jwe/compact/encrypt.ts#L86)
+[jwe/compact/encrypt.ts:91](https://github.com/panva/jose/blob/v3.15.0/src/jwe/compact/encrypt.ts#L91)
 
 ___
 
@@ -172,4 +177,4 @@ Sets the JWE Protected Header on the CompactEncrypt object.
 
 #### Defined in
 
-[jwe/compact/encrypt.ts:74](https://github.com/panva/jose/blob/v3.14.4/src/jwe/compact/encrypt.ts#L74)
+[jwe/compact/encrypt.ts:79](https://github.com/panva/jose/blob/v3.15.0/src/jwe/compact/encrypt.ts#L79)
