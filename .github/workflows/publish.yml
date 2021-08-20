@@ -53,5 +53,7 @@ jobs:
       - run: git push origin $GITHUB_SHA:v3.x
       - run: git rm -r dist/**/*
       - run: |
+          git config --local user.email "panva.ip@gmail.com"
+          git config --local user.name "Filip Skokan"
           git commit -m "chore: cleanup after publish"
       - run: git push origin HEAD:main
