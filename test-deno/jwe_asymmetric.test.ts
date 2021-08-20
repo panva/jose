@@ -6,7 +6,7 @@ import FlattenedEncrypt from '../dist/deno/jwe/flattened/encrypt.ts';
 import decryptFlattened from '../dist/deno/jwe/flattened/decrypt.ts';
 import decodeProtectedHeader from '../dist/deno/util/decode_protected_header.ts';
 
-async function test(generate, alg) {
+async function test(generate: () => ReturnType<typeof generateKeyPair>, alg: string) {
   const { publicKey, privateKey } = await generate();
 
   const jwe = await new FlattenedEncrypt(random(new Uint8Array(32)))

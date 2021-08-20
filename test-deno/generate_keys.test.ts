@@ -74,6 +74,6 @@ Deno.test('Generate ECDH-ES crv: P-384 keys', async () => {
   await generateKeyPair('ECDH-ES', { crv: 'P-384' });
 });
 
-Deno.test('Generate ECDH-ES crv: P-521 keys', async () => {
-  await generateKeyPair('ECDH-ES', { crv: 'P-521' });
+Deno.test('(expecting failure) Generate ECDH-ES crv: P-521 keys', async () => {
+  await assertThrowsAsync(() => generateKeyPair('ECDH-ES', { crv: 'P-521' }));
 });

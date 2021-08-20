@@ -4,14 +4,14 @@ import jwkToKey from '../dist/deno/jwk/parse.ts';
 import keyToJwk from '../dist/deno/jwk/from_key_like.ts';
 import calculateThumbprint from '../dist/deno/jwk/thumbprint.ts';
 
-async function test(jwk: JsonWebKey, alg: string) {
+async function test(jwk: { [key: string]: unknown }, alg: string) {
   await calculateThumbprint(jwk);
   const keyLike = await jwkToKey(jwk, alg);
   assertEquals(await keyToJwk(keyLike), jwk);
 }
 
-async function failing(...args) {
-  return assertThrowsAsync(() => test(...args));
+async function failing(jwk: { [key: string]: unknown }, alg: string) {
+  return assertThrowsAsync(() => test(jwk, alg));
 }
 
 for (const [alg, jwk] of [

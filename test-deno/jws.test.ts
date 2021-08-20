@@ -1,4 +1,8 @@
-import { assert, assertThrowsAsync } from 'https://deno.land/std@0.104.0/testing/asserts.ts';
+import {
+  assert,
+  assertThrowsAsync,
+  unreachable,
+} from 'https://deno.land/std@0.104.0/testing/asserts.ts';
 
 import generateKeyPair from '../dist/deno/util/generate_key_pair.ts';
 import generateSecret from '../dist/deno/util/generate_secret.ts';
@@ -7,12 +11,17 @@ import FlattenedSign from '../dist/deno/jws/flattened/sign.ts';
 import verifyFlattened from '../dist/deno/jws/flattened/verify.ts';
 import decodeProtectedHeader from '../dist/deno/util/decode_protected_header.ts';
 
-async function test(generate: any, alg: string) {
+async function test(
+  generate: () => ReturnType<typeof generateKeyPair> | ReturnType<typeof generateSecret>,
+  alg: string,
+) {
   const generated = await generate();
   let privateKey: CryptoKey;
   let publicKey: CryptoKey;
-  if (generated.type === 'secret') {
+  if ('type' in generated) {
     publicKey = privateKey = generated;
+  } else if (generated instanceof Uint8Array) {
+    unreachable();
   } else {
     ({ publicKey, privateKey } = generated);
   }
@@ -25,8 +34,11 @@ async function test(generate: any, alg: string) {
   await verifyFlattened({ ...jws }, publicKey);
 }
 
-async function failing(...args) {
-  return assertThrowsAsync(() => test(...args));
+async function failing(
+  generate: () => ReturnType<typeof generateKeyPair> | ReturnType<typeof generateSecret>,
+  alg: string,
+) {
+  return assertThrowsAsync(() => test(generate, alg));
 }
 
 Deno.test(

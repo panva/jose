@@ -10,14 +10,14 @@ Deno.test('fetches the JWKSet', async () => {
   const { alg, kid } = response.keys[0];
   const jwks = createRemoteJWKSet(new URL(jwksUri));
   await assertThrowsAsync(
-    () => jwks({ alg: 'RS256' }),
+    () => jwks({ alg: 'RS256' }, <any>null),
     JWKSMultipleMatchingKeys,
     'multiple matching keys found in the JSON Web Key Set',
   );
   await assertThrowsAsync(
-    () => jwks({ kid: 'foo', alg: 'RS256' }),
+    () => jwks({ kid: 'foo', alg: 'RS256' }, <any>null),
     JWKSNoMatchingKey,
     'no applicable key found in the JSON Web Key Set',
   );
-  await jwks({ alg, kid });
+  await jwks({ alg, kid }, <any>null);
 });

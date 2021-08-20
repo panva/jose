@@ -1,4 +1,4 @@
-import { assertStrictEquals } from 'https://deno.land/std@0.104.0/testing/asserts.ts';
+import { assertStrictEquals, unreachable } from 'https://deno.land/std@0.104.0/testing/asserts.ts';
 
 import generateSecret from '../dist/deno/util/generate_secret.ts';
 
@@ -8,8 +8,14 @@ Deno.test('Generate HS256 secret', async () => {
 
 Deno.test('extractable', async () => {
   let secret = await generateSecret('HS256');
+  if (!(secret instanceof CryptoKey)) {
+    unreachable();
+  }
   assertStrictEquals(secret.extractable, false);
   secret = await generateSecret('HS256', { extractable: true });
+  if (!(secret instanceof CryptoKey)) {
+    unreachable();
+  }
   assertStrictEquals(secret.extractable, true);
 });
 

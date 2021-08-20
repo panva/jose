@@ -6,7 +6,10 @@ import FlattenedEncrypt from '../dist/deno/jwe/flattened/encrypt.ts';
 import decryptFlattened from '../dist/deno/jwe/flattened/decrypt.ts';
 import decodeProtectedHeader from '../dist/deno/util/decode_protected_header.ts';
 
-async function test(generate, { alg, enc }) {
+async function test(
+  generate: () => ReturnType<typeof generateSecret>,
+  { alg, enc }: { [key: string]: string },
+) {
   const secretKey = await generate();
 
   const jwe = await new FlattenedEncrypt(random(new Uint8Array(32)))
@@ -116,7 +119,7 @@ Deno.test(
 
 Deno.test(
   'Encrypt/Decrypt PBES2-HS256+A128KW',
-  test.bind(undefined, () => random(new Uint8Array(10)), {
+  test.bind(undefined, async () => random(new Uint8Array(10)), {
     alg: 'PBES2-HS256+A128KW',
     enc: 'A256GCM',
   }),
@@ -124,7 +127,7 @@ Deno.test(
 
 Deno.test(
   'Encrypt/Decrypt PBES2-HS384+A192KW',
-  test.bind(undefined, () => random(new Uint8Array(10)), {
+  test.bind(undefined, async () => random(new Uint8Array(10)), {
     alg: 'PBES2-HS384+A192KW',
     enc: 'A256GCM',
   }),
@@ -132,7 +135,7 @@ Deno.test(
 
 Deno.test(
   'Encrypt/Decrypt PBES2-HS512+A256KW',
-  test.bind(undefined, () => random(new Uint8Array(10)), {
+  test.bind(undefined, async () => random(new Uint8Array(10)), {
     alg: 'PBES2-HS512+A256KW',
     enc: 'A256GCM',
   }),
