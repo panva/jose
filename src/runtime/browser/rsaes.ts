@@ -12,6 +12,7 @@ export const encrypt: RsaEsEncryptFunction = async (alg: string, key: unknown, c
   checkKeyLength(alg, key)
 
   if (key.usages.includes('encrypt')) {
+    // @deno-expect-error
     return new Uint8Array(await crypto.subtle.encrypt(subtleAlgorithm(alg), key, cek))
   }
 
@@ -19,6 +20,7 @@ export const encrypt: RsaEsEncryptFunction = async (alg: string, key: unknown, c
     // we're importing the cek to end up with CryptoKey instance that can be wrapped, the algorithm used is irrelevant
     const cryptoKeyCek = await crypto.subtle.importKey('raw', cek, ...bogusWebCrypto)
     return new Uint8Array(
+      // @deno-expect-error
       await crypto.subtle.wrapKey('raw', cryptoKeyCek, key, subtleAlgorithm(alg)),
     )
   }
@@ -39,10 +41,12 @@ export const decrypt: RsaEsDecryptFunction = async (
   checkKeyLength(alg, key)
 
   if (key.usages.includes('decrypt')) {
+    // @deno-expect-error
     return new Uint8Array(await crypto.subtle.decrypt(subtleAlgorithm(alg), key, encryptedKey))
   }
 
   if (key.usages.includes('unwrapKey')) {
+    // @deno-expect-error
     const cryptoKeyCek = await crypto.subtle.unwrapKey(
       'raw',
       encryptedKey,
@@ -51,6 +55,7 @@ export const decrypt: RsaEsDecryptFunction = async (
       ...bogusWebCrypto,
     )
 
+    // @deno-expect-error
     return new Uint8Array(await crypto.subtle.exportKey('raw', cryptoKeyCek))
   }
 

@@ -4,6 +4,7 @@ import crypto, { isCryptoKey } from './webcrypto.js'
 import invalidKeyInput from './invalid_key_input.js'
 
 function checkKeySize(key: CryptoKey, alg: string) {
+  // @deno-expect-error
   if ((<AesKeyAlgorithm>key.algorithm).length !== parseInt(alg.substr(1, 3), 10)) {
     throw new TypeError(`invalid key size for alg: ${alg}`)
   }
@@ -29,6 +30,7 @@ export const wrap: AesKwWrapFunction = async (alg: string, key: unknown, cek: Ui
   // we're importing the cek to end up with CryptoKey instance that can be wrapped, the algorithm used is irrelevant
   const cryptoKeyCek = await crypto.subtle.importKey('raw', cek, ...bogusWebCrypto)
 
+  // @deno-expect-error
   return new Uint8Array(await crypto.subtle.wrapKey('raw', cryptoKeyCek, cryptoKey, 'AES-KW'))
 }
 
@@ -41,6 +43,7 @@ export const unwrap: AesKwUnwrapFunction = async (
 
   checkKeySize(cryptoKey, alg)
 
+  // @deno-expect-error
   const cryptoKeyCek = await crypto.subtle.unwrapKey(
     'raw',
     encryptedKey,
@@ -49,5 +52,6 @@ export const unwrap: AesKwUnwrapFunction = async (
     ...bogusWebCrypto,
   )
 
+  // @deno-expect-error
   return new Uint8Array(await crypto.subtle.exportKey('raw', cryptoKeyCek))
 }

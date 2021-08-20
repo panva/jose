@@ -17,6 +17,7 @@ const keyToJWK: JWKConvertFunction = async (key: unknown): Promise<JWK> => {
   if (!key.extractable) {
     throw new TypeError('non-extractable CryptoKey cannot be exported as a JWK')
   }
+  // @deno-expect-error
   const { ext, key_ops, alg, use, ...jwk } = await crypto.subtle.exportKey('jwk', key)
 
   return <JWK>jwk

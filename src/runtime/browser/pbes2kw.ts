@@ -45,8 +45,10 @@ export const encrypt: Pbes2KWEncryptFunction = async (
 
   let derived: CryptoKey | Uint8Array
   if (cryptoKey.usages.includes('deriveBits')) {
+    // @deno-expect-error
     derived = new Uint8Array(await crypto.subtle.deriveBits(subtleAlg, cryptoKey, keylen))
   } else if (cryptoKey.usages.includes('deriveKey')) {
+    // @deno-expect-error
     derived = await crypto.subtle.deriveKey(subtleAlg, cryptoKey, wrapAlg, false, ['wrapKey'])
   } else {
     throw new TypeError('PBKDF2 key "usages" must include "deriveBits" or "deriveKey"')
@@ -83,8 +85,10 @@ export const decrypt: Pbes2KWDecryptFunction = async (
 
   let derived: CryptoKey | Uint8Array
   if (cryptoKey.usages.includes('deriveBits')) {
+    // @deno-expect-error
     derived = new Uint8Array(await crypto.subtle.deriveBits(subtleAlg, cryptoKey, keylen))
   } else if (cryptoKey.usages.includes('deriveKey')) {
+    // @deno-expect-error
     derived = await crypto.subtle.deriveKey(subtleAlg, cryptoKey, wrapAlg, false, ['unwrapKey'])
   } else {
     throw new TypeError('PBKDF2 key "usages" must include "deriveBits" or "deriveKey"')

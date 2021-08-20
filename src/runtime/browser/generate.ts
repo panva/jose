@@ -6,6 +6,7 @@ import type { GenerateSecretOptions } from '../../util/generate_secret.js'
 
 export async function generateSecret(alg: string, options?: GenerateSecretOptions) {
   let length: number
+  // @deno-expect-error
   let algorithm: AesKeyGenParams | HmacKeyGenParams
   let keyUsages: KeyUsage[]
   switch (alg) {
