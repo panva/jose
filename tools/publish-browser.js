@@ -20,12 +20,13 @@ for (const exportPath of Object.keys(pkg.exports)) {
 delete pkg.typesVersions["*"]["webcrypto/*"];
 
 const deletedKeywords = new Set([
+  "deno",
+  "eddsa",
+  "electron",
+  "isomorphic",
   "okp",
   "secp256k1",
   "universal",
-  "eddsa",
-  "isomorphic",
-  "electron",
 ]);
 pkg.keywords = pkg.keywords.filter((keyword) => {
   return !deletedKeywords.has(keyword);

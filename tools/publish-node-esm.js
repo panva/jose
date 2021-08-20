@@ -24,6 +24,7 @@ delete pkg.typesVersions["*"]["webcrypto/*"];
 
 const deletedKeywords = new Set([
   "browser",
+  "deno",
   "isomorphic",
   "universal",
   "webcrypto",

@@ -30,6 +30,20 @@ npm install jose
 ```
 
 <details>
+<summary><em>Looking for a Browser only distribution?</em> (Click to expand)</summary>
+
+```console
+npm install jose-browser-runtime
+```
+</details>
+
+<details>
+<summary><em>Looking for a Deno distribution?</em> (Click to expand)</summary>
+
+see [deno.land/x/jose][]
+</details>
+
+<details>
 <summary><em>Looking for a Node.js only distribution?</em> (Click to expand)</summary>
 
 ESM module (import):
@@ -40,14 +54,6 @@ npm install jose-node-esm-runtime
 CJS module (require):
 ```console
 npm install jose-node-cjs-runtime
-```
-</details>
-
-<details>
-<summary><em>Looking for a Browser only distribution?</em> (Click to expand)</summary>
-
-```console
-npm install jose-browser-runtime
 ```
 </details>
 
@@ -234,3 +240,4 @@ install size should not be a cause for concern.
 [webcrypto]: https://www.w3.org/TR/WebCryptoAPI/
 [nodewebcrypto]: https://nodejs.org/docs/latest-v15.x/api/webcrypto.html
 [caniuse]: https://caniuse.com/mdn-javascript_operators_await,async-functions,mdn-javascript_statements_for_await_of,cryptography,textencoder
+[deno.land/x/jose]: https://deno.land/x/jose
