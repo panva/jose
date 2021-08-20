@@ -16,7 +16,7 @@ const { FlattenedSign } = require('jose/jws/flattened/sign')
 
 **`example`** Deno import
 ```js
-import { FlattenedSign } from 'https://deno.land/x/jose@v3.15.1/jws/flattened/sign.ts'
+import { FlattenedSign } from 'https://deno.land/x/jose@v3.15.2/jws/flattened/sign.ts'
 ```
 
 **`example`** Usage
@@ -55,7 +55,7 @@ console.log(jws)
 
 #### Defined in
 
-[jws/flattened/sign.ts:51](https://github.com/panva/jose/blob/v3.15.1/src/jws/flattened/sign.ts#L51)
+[jws/flattened/sign.ts:51](https://github.com/panva/jose/blob/v3.15.2/src/jws/flattened/sign.ts#L51)
 
 ## Methods
 
@@ -77,7 +77,7 @@ Sets the JWS Protected Header on the FlattenedSign object.
 
 #### Defined in
 
-[jws/flattened/sign.ts:60](https://github.com/panva/jose/blob/v3.15.1/src/jws/flattened/sign.ts#L60)
+[jws/flattened/sign.ts:60](https://github.com/panva/jose/blob/v3.15.2/src/jws/flattened/sign.ts#L60)
 
 ___
 
@@ -99,7 +99,7 @@ Sets the JWS Unprotected Header on the FlattenedSign object.
 
 #### Defined in
 
-[jws/flattened/sign.ts:73](https://github.com/panva/jose/blob/v3.15.1/src/jws/flattened/sign.ts#L73)
+[jws/flattened/sign.ts:73](https://github.com/panva/jose/blob/v3.15.2/src/jws/flattened/sign.ts#L73)
 
 ___
 
@@ -122,4 +122,4 @@ Signs and resolves the value of the Flattened JWS object.
 
 #### Defined in
 
-[jws/flattened/sign.ts:87](https://github.com/panva/jose/blob/v3.15.1/src/jws/flattened/sign.ts#L87)
+[jws/flattened/sign.ts:87](https://github.com/panva/jose/blob/v3.15.2/src/jws/flattened/sign.ts#L87)

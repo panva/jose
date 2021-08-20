@@ -18,7 +18,7 @@ const { compactVerify } = require('jose/jws/compact/verify')
 
 **`example`** Deno import
 ```js
-import { compactVerify } from 'https://deno.land/x/jose@v3.15.1/jws/compact/verify.ts'
+import { compactVerify } from 'https://deno.land/x/jose@v3.15.2/jws/compact/verify.ts'
 ```
 
 **`example`** Usage
@@ -46,4 +46,4 @@ console.log(decoder.decode(payload))
 
 #### Defined in
 
-[jws/compact/verify.ts:56](https://github.com/panva/jose/blob/v3.15.1/src/jws/compact/verify.ts#L56)
+[jws/compact/verify.ts:56](https://github.com/panva/jose/blob/v3.15.2/src/jws/compact/verify.ts#L56)

@@ -18,7 +18,7 @@ const { generalDecrypt } = require('jose/jwe/general/decrypt')
 
 **`example`** Deno import
 ```js
-import { generalDecrypt } from 'https://deno.land/x/jose@v3.15.1/jwe/general/decrypt.ts'
+import { generalDecrypt } from 'https://deno.land/x/jose@v3.15.2/jwe/general/decrypt.ts'
 ```
 
 **`example`** Usage
@@ -62,4 +62,4 @@ console.log(decoder.decode(additionalAuthenticatedData))
 
 #### Defined in
 
-[jwe/general/decrypt.ts:69](https://github.com/panva/jose/blob/v3.15.1/src/jwe/general/decrypt.ts#L69)
+[jwe/general/decrypt.ts:69](https://github.com/panva/jose/blob/v3.15.2/src/jwe/general/decrypt.ts#L69)
