@@ -17,7 +17,7 @@ execSync(
 );
 writeFileSync("docs/README.md", readme);
 execSync("npm pack", opts);
-
+execSync("rm -rf dist", opts);
 x({
   f: `jose-${version}.tgz`,
   strip: true,
