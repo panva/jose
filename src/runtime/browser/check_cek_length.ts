@@ -1,4 +1,5 @@
 import { JWEInvalid, JOSENotSupported } from '../../util/errors.js'
+import { isCryptoKey } from './webcrypto.js'
 
 const checkCekLength = (enc: string, cek: Uint8Array | CryptoKey) => {
   let expected: number
@@ -30,7 +31,7 @@ const checkCekLength = (enc: string, cek: Uint8Array | CryptoKey) => {
   }
 
   // CryptoKey
-  if (cek.algorithm !== undefined) {
+  if (isCryptoKey(cek)) {
     const { length } = <AesKeyAlgorithm>cek.algorithm
     if (length !== expected) {
       throw new JWEInvalid('Invalid Content Encryption Key length')
