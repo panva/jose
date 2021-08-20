@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [3.15.1](https://github.com/panva/jose/compare/v3.15.0...v3.15.1) (2021-08-20)
+
+
+### Bug Fixes
+
+* **typescript:** remove file extensions from types/**/*.d.ts files ([0c432e5](https://github.com/panva/jose/commit/0c432e554e7b1f0382efefe44c0053a446c9dcc4)), closes [#222](https://github.com/panva/jose/issues/222)
+
 ## [3.15.0](https://github.com/panva/jose/compare/v3.14.4...v3.15.0) (2021-08-20)
 
 

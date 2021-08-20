@@ -53,4 +53,4 @@ If you cannot match a key suitable for the token, throw an error instead.
 
 #### Defined in
 
-[types.d.ts:152](https://github.com/panva/jose/blob/v3.15.0/src/types.d.ts#L152)
+[types.d.ts:152](https://github.com/panva/jose/blob/v3.15.1/src/types.d.ts#L152)

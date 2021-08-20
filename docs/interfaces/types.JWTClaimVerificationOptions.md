@@ -34,7 +34,7 @@ Expected JWT "aud" (Audience) Claim value(s).
 
 #### Defined in
 
-[types.d.ts:486](https://github.com/panva/jose/blob/v3.15.0/src/types.d.ts#L486)
+[types.d.ts:486](https://github.com/panva/jose/blob/v3.15.1/src/types.d.ts#L486)
 
 ___
 
@@ -48,7 +48,7 @@ Expected clock tolerance
 
 #### Defined in
 
-[types.d.ts:493](https://github.com/panva/jose/blob/v3.15.0/src/types.d.ts#L493)
+[types.d.ts:493](https://github.com/panva/jose/blob/v3.15.1/src/types.d.ts#L493)
 
 ___
 
@@ -60,7 +60,7 @@ Date to use when comparing NumericDate claims, defaults to `new Date()`.
 
 #### Defined in
 
-[types.d.ts:520](https://github.com/panva/jose/blob/v3.15.0/src/types.d.ts#L520)
+[types.d.ts:520](https://github.com/panva/jose/blob/v3.15.1/src/types.d.ts#L520)
 
 ___
 
@@ -72,7 +72,7 @@ Expected JWT "iss" (Issuer) Claim value(s).
 
 #### Defined in
 
-[types.d.ts:498](https://github.com/panva/jose/blob/v3.15.0/src/types.d.ts#L498)
+[types.d.ts:498](https://github.com/panva/jose/blob/v3.15.1/src/types.d.ts#L498)
 
 ___
 
@@ -86,7 +86,7 @@ Maximum time elapsed (in seconds) from the JWT "iat" (Issued At) Claim value.
 
 #### Defined in
 
-[types.d.ts:505](https://github.com/panva/jose/blob/v3.15.0/src/types.d.ts#L505)
+[types.d.ts:505](https://github.com/panva/jose/blob/v3.15.1/src/types.d.ts#L505)
 
 ___
 
@@ -98,7 +98,7 @@ Expected JWT "sub" (Subject) Claim value.
 
 #### Defined in
 
-[types.d.ts:510](https://github.com/panva/jose/blob/v3.15.0/src/types.d.ts#L510)
+[types.d.ts:510](https://github.com/panva/jose/blob/v3.15.1/src/types.d.ts#L510)
 
 ___
 
@@ -110,4 +110,4 @@ Expected JWT "typ" (Type) Header Parameter value.
 
 #### Defined in
 
-[types.d.ts:515](https://github.com/panva/jose/blob/v3.15.0/src/types.d.ts#L515)
+[types.d.ts:515](https://github.com/panva/jose/blob/v3.15.1/src/types.d.ts#L515)

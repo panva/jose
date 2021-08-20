@@ -16,7 +16,7 @@ const { GeneralSign } = require('jose/jws/general/sign')
 
 **`example`** Deno import
 ```js
-import { GeneralSign } from 'https://deno.land/x/jose@v3.15.0/jws/general/sign.ts'
+import { GeneralSign } from 'https://deno.land/x/jose@v3.15.1/jws/general/sign.ts'
 ```
 
 **`example`** Usage
@@ -61,7 +61,7 @@ const jws = await sign.sign()
 
 #### Defined in
 
-[jws/general/sign.ts:108](https://github.com/panva/jose/blob/v3.15.0/src/jws/general/sign.ts#L108)
+[jws/general/sign.ts:108](https://github.com/panva/jose/blob/v3.15.1/src/jws/general/sign.ts#L108)
 
 ## Methods
 
@@ -82,7 +82,7 @@ const jws = await sign.sign()
 
 #### Defined in
 
-[jws/general/sign.ts:112](https://github.com/panva/jose/blob/v3.15.0/src/jws/general/sign.ts#L112)
+[jws/general/sign.ts:112](https://github.com/panva/jose/blob/v3.15.1/src/jws/general/sign.ts#L112)
 
 ___
 
@@ -98,4 +98,4 @@ Signs and resolves the value of the General JWS object.
 
 #### Defined in
 
-[jws/general/sign.ts:122](https://github.com/panva/jose/blob/v3.15.0/src/jws/general/sign.ts#L122)
+[jws/general/sign.ts:122](https://github.com/panva/jose/blob/v3.15.1/src/jws/general/sign.ts#L122)
