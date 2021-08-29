@@ -5,6 +5,13 @@ import getNamedCurve from './get_named_curve.js'
 import { JOSENotSupported } from '../../util/errors.js'
 import checkModulusLength from './check_modulus_length.js'
 
+const [major, minor] = process.version
+  .substr(1)
+  .split('.')
+  .map((str) => parseInt(str, 10))
+
+const rsaPssParams = major >= 17 || (major === 16 && minor >= 9)
+
 const ecCurveAlgMap = new Map([
   ['ES256', 'P-256'],
   ['ES256K', 'secp256k1'],
@@ -33,9 +40,44 @@ export default function keyForCrypto(alg: string, key: KeyObject): KeyObject | S
 
       return key
 
-    case 'PS256':
-    case 'PS384':
-    case 'PS512':
+    case rsaPssParams && 'PS256':
+    case rsaPssParams && 'PS384':
+    case rsaPssParams && 'PS512':
+      if (key.asymmetricKeyType === 'rsa-pss') {
+        // @ts-expect-error
+        const { hashAlgorithm, mgf1HashAlgorithm, saltLength } = key.asymmetricKeyDetails
+
+        const length = parseInt(alg.substr(-3), 10)
+
+        if (
+          hashAlgorithm !== undefined &&
+          (hashAlgorithm !== `sha${length}` || mgf1HashAlgorithm !== hashAlgorithm)
+        ) {
+          throw new TypeError(
+            `Invalid key for this operation, its RSA-PSS parameters do not meet the requirements of "alg" ${alg}`,
+          )
+        }
+        if (saltLength !== undefined && saltLength > length >> 3) {
+          throw new TypeError(
+            `Invalid key for this operation, its RSA-PSS parameter saltLength does not meet the requirements of "alg" ${alg}`,
+          )
+        }
+      } else if (key.asymmetricKeyType !== 'rsa') {
+        throw new TypeError(
+          'Invalid key for this operation, its asymmetricKeyType must be rsa or rsa-pss',
+        )
+      }
+      checkModulusLength(key, alg)
+
+      return {
+        key,
+        padding: constants.RSA_PKCS1_PSS_PADDING,
+        saltLength: constants.RSA_PSS_SALTLEN_DIGEST,
+      }
+
+    case !rsaPssParams && 'PS256':
+    case !rsaPssParams && 'PS384':
+    case !rsaPssParams && 'PS512':
       if (key.asymmetricKeyType !== 'rsa') {
         throw new TypeError('Invalid key for this operation, its asymmetricKeyType must be rsa')
       }
