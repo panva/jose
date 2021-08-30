@@ -176,9 +176,7 @@ class RemoteJWKSet {
 
     const cached = this._cached.get(jwk)!
     if (cached[protectedHeader.alg!] === undefined) {
-      const keyObject = (await parseJWK({ ...jwk, alg: protectedHeader.alg! })) as
-        | KeyObject
-        | CryptoKey
+      const keyObject = <KeyObject | CryptoKey>await parseJWK({ ...jwk, alg: protectedHeader.alg! })
 
       if (keyObject.type !== 'public') {
         throw new JWKSInvalid('JSON Web Key Set members must be public keys')

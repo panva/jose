@@ -118,11 +118,7 @@ const parse: JWKParseFunction = async (jwk: JWK): Promise<CryptoKey> => {
   ]
 
   if (algorithm.name === 'PBKDF2') {
-    return crypto.subtle.importKey(
-      'raw',
-      base64url(jwk.k!),
-      ...rest,
-    )
+    return crypto.subtle.importKey('raw', base64url(jwk.k!), ...rest)
   }
 
   const keyData: JWK = { ...jwk }
