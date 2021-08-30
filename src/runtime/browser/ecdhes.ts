@@ -56,14 +56,12 @@ export const generateEpk: GenerateEpkFunction = async (key: unknown) => {
     throw new TypeError(invalidKeyInput(key, 'CryptoKey'))
   }
 
-  return (
-    await crypto.subtle.generateKey(
-      // @deno-expect-error
-      { name: 'ECDH', namedCurve: (<EcKeyAlgorithm>key.algorithm).namedCurve },
-      true,
-      ['deriveBits'],
-    )
-  ).privateKey
+  return (<{ publicKey: CryptoKey; privateKey: CryptoKey }>await crypto.subtle.generateKey(
+    // @deno-expect-error
+    { name: 'ECDH', namedCurve: (<EcKeyAlgorithm>key.algorithm).namedCurve },
+    true,
+    ['deriveBits'],
+  )).privateKey
 }
 
 export const ecdhAllowed: EcdhAllowedFunction = (key: unknown) => {

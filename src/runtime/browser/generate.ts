@@ -120,7 +120,7 @@ export async function generateKeyPair(alg: string, options?: GenerateKeyPairOpti
       throw new JOSENotSupported('unsupported or invalid JWK "alg" (Algorithm) Parameter value')
   }
 
-  return <Promise<CryptoKeyPair>>(
+  return <Promise<{ publicKey: CryptoKey; privateKey: CryptoKey }>>(
     crypto.subtle.generateKey(algorithm, options?.extractable ?? false, keyUsages)
   )
 }

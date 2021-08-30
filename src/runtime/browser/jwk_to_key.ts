@@ -110,20 +110,28 @@ function subtleMapping(jwk: JWK): {
 
 const parse: JWKParseFunction = async (jwk: JWK): Promise<CryptoKey> => {
   const { algorithm, keyUsages } = subtleMapping(jwk)
-  let format = 'jwk'
-  let keyData: JWK | Uint8Array = { ...jwk }
-  delete keyData.alg
-  if (algorithm.name === 'PBKDF2') {
-    format = 'raw'
-    keyData = base64url(jwk.k!)
-  }
-  return crypto.subtle.importKey(
-    // @deno-expect-error
-    format,
-    keyData,
+  // @deno-expect-error
+  const rest: [RsaHashedImportParams | EcKeyAlgorithm | Algorithm, boolean, KeyUsage[]] = [
     algorithm,
     jwk.ext ?? false,
     <KeyUsage[]>jwk.key_ops ?? keyUsages,
+  ]
+
+  if (algorithm.name === 'PBKDF2') {
+    return crypto.subtle.importKey(
+      'raw',
+      base64url(jwk.k!),
+      ...rest,
+    )
+  }
+
+  const keyData: JWK = { ...jwk }
+  delete keyData.alg
+  return crypto.subtle.importKey(
+    // @deno-expect-error
+    'jwk',
+    keyData,
+    ...rest,
   )
 }
 export default parse
