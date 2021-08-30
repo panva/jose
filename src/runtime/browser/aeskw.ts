@@ -52,6 +52,5 @@ export const unwrap: AesKwUnwrapFunction = async (
     ...bogusWebCrypto,
   )
 
-  // @deno-expect-error
   return new Uint8Array(await crypto.subtle.exportKey('raw', cryptoKeyCek))
 }

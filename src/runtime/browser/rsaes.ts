@@ -55,7 +55,6 @@ export const decrypt: RsaEsDecryptFunction = async (
       ...bogusWebCrypto,
     )
 
-    // @deno-expect-error
     return new Uint8Array(await crypto.subtle.exportKey('raw', cryptoKeyCek))
   }
 

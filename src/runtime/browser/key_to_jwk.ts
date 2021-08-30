@@ -20,6 +20,7 @@ const keyToJWK: JWKConvertFunction = async (key: unknown): Promise<JWK> => {
   // @deno-expect-error
   const { ext, key_ops, alg, use, ...jwk } = await crypto.subtle.exportKey('jwk', key)
 
+  // @deno-expect-error
   return <JWK>jwk
 }
 export default keyToJWK
