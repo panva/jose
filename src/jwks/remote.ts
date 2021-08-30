@@ -257,8 +257,7 @@ function createRemoteJWKSet(
   url: URL,
   options?: RemoteJWKSetOptions,
 ): GetKeyFunction<JWSHeaderParameters, FlattenedJWSInput> {
-  const set = new RemoteJWKSet(url, options)
-  return set.getKey.bind(set)
+  return RemoteJWKSet.prototype.getKey.bind(new RemoteJWKSet(url, options))
 }
 
 export { createRemoteJWKSet }
