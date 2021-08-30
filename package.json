@@ -362,7 +362,7 @@
     "test-cjs": "rm -rf test/cjs && find test -type f -name '*.mjs' -print0 | xargs -0 npx esbuild --log-level=warning --target=esnext --outdir=test/cjs --format=cjs",
     "test-cryptokey": "CRYPTOKEY=true npm test",
     "test-webcrypto": "WEBCRYPTO=true npm test",
-    "prettier": "npx prettier --write ./test ./src ./tools ./test-browser ./test-deno"
+    "prettier": "npx prettier --loglevel silent --write ./test ./src ./tools ./test-browser ./test-deno"
   },
   "devDependencies": {
     "@types/node": "^16.6.2",
