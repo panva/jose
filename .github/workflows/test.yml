@@ -121,8 +121,10 @@ jobs:
         with:
           path: dist
           key: dist-${{ hashFiles('src/**/*.ts') }}-${{ hashFiles('tsconfig/*.json') }}-${{ hashFiles('.github/workflows/*.yml') }}-${{ hashFiles('package.json') }}
+      - name: Test Deno Definitions
+        run: npm run test-deno -- --no-run
       - name: Test Deno
-        run: npm run test-deno
+        run: npm run test-deno -- --no-check
       - run: git reset HEAD --hard
 
   test-electron:
