@@ -18,7 +18,7 @@ key/secret available in the Node.js runtime. You can obtain a KeyObject instance
 - [jose/util/generate_secret](../functions/util_generate_secret.generateSecret.md#readme)
 
 [CryptoKey](https://developer.mozilla.org/en-US/docs/Web/API/CryptoKey) is a representation of a
-key/secret available in the Browser runtime. You can obtain a CryptoKey instance e.g. from:
+key/secret available in the Browser and Deno runtimes. You can obtain a CryptoKey instance e.g. from:
 
 - [SubtleCrypto.importKey](https://developer.mozilla.org/en-US/docs/Web/API/SubtleCrypto/importKey)
 - [SubtleCrypto.generateKey](https://developer.mozilla.org/en-US/docs/Web/API/SubtleCrypto/generateKey)
@@ -73,4 +73,4 @@ const rsaPublicKey = await parseJwk({
 
 #### Defined in
 
-[types.d.ts:74](https://github.com/panva/jose/blob/v3.15.4/src/types.d.ts#L74)
+[types.d.ts:74](https://github.com/panva/jose/blob/v3.15.5/src/types.d.ts#L74)

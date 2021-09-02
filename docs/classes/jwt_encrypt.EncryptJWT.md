@@ -16,7 +16,7 @@ const { EncryptJWT } = require('jose/jwt/encrypt')
 
 **`example`** Deno import
 ```js
-import { EncryptJWT } from 'https://deno.land/x/jose@v3.15.4/jwt/encrypt.ts'
+import { EncryptJWT } from 'https://deno.land/x/jose@v3.15.5/jwt/encrypt.ts'
 ```
 
 **`example`** Usage
@@ -80,7 +80,7 @@ ProduceJWT.constructor
 
 #### Defined in
 
-[lib/jwt_producer.ts:15](https://github.com/panva/jose/blob/v3.15.4/src/lib/jwt_producer.ts#L15)
+[lib/jwt_producer.ts:15](https://github.com/panva/jose/blob/v3.15.5/src/lib/jwt_producer.ts#L15)
 
 ## Methods
 
@@ -103,7 +103,7 @@ Encrypts and returns the JWT.
 
 #### Defined in
 
-[jwt/encrypt.ts:154](https://github.com/panva/jose/blob/v3.15.4/src/jwt/encrypt.ts#L154)
+[jwt/encrypt.ts:154](https://github.com/panva/jose/blob/v3.15.5/src/jwt/encrypt.ts#L154)
 
 ___
 
@@ -120,7 +120,7 @@ Replicates the "aud" (Audience) Claim as a JWE Protected Header Parameter as per
 
 #### Defined in
 
-[jwt/encrypt.ts:143](https://github.com/panva/jose/blob/v3.15.4/src/jwt/encrypt.ts#L143)
+[jwt/encrypt.ts:143](https://github.com/panva/jose/blob/v3.15.5/src/jwt/encrypt.ts#L143)
 
 ___
 
@@ -137,7 +137,7 @@ Replicates the "iss" (Issuer) Claim as a JWE Protected Header Parameter as per
 
 #### Defined in
 
-[jwt/encrypt.ts:125](https://github.com/panva/jose/blob/v3.15.4/src/jwt/encrypt.ts#L125)
+[jwt/encrypt.ts:125](https://github.com/panva/jose/blob/v3.15.5/src/jwt/encrypt.ts#L125)
 
 ___
 
@@ -154,7 +154,7 @@ Replicates the "sub" (Subject) Claim as a JWE Protected Header Parameter as per
 
 #### Defined in
 
-[jwt/encrypt.ts:134](https://github.com/panva/jose/blob/v3.15.4/src/jwt/encrypt.ts#L134)
+[jwt/encrypt.ts:134](https://github.com/panva/jose/blob/v3.15.5/src/jwt/encrypt.ts#L134)
 
 ___
 
@@ -180,7 +180,7 @@ ProduceJWT.setAudience
 
 #### Defined in
 
-[lib/jwt_producer.ts:47](https://github.com/panva/jose/blob/v3.15.4/src/lib/jwt_producer.ts#L47)
+[lib/jwt_producer.ts:47](https://github.com/panva/jose/blob/v3.15.5/src/lib/jwt_producer.ts#L47)
 
 ___
 
@@ -205,7 +205,7 @@ test and vector validation purposes.
 
 #### Defined in
 
-[jwt/encrypt.ts:97](https://github.com/panva/jose/blob/v3.15.4/src/jwt/encrypt.ts#L97)
+[jwt/encrypt.ts:97](https://github.com/panva/jose/blob/v3.15.5/src/jwt/encrypt.ts#L97)
 
 ___
 
@@ -231,7 +231,7 @@ ProduceJWT.setExpirationTime
 
 #### Defined in
 
-[lib/jwt_producer.ts:85](https://github.com/panva/jose/blob/v3.15.4/src/lib/jwt_producer.ts#L85)
+[lib/jwt_producer.ts:85](https://github.com/panva/jose/blob/v3.15.5/src/lib/jwt_producer.ts#L85)
 
 ___
 
@@ -256,7 +256,7 @@ intended for test and vector validation purposes.
 
 #### Defined in
 
-[jwt/encrypt.ts:113](https://github.com/panva/jose/blob/v3.15.4/src/jwt/encrypt.ts#L113)
+[jwt/encrypt.ts:113](https://github.com/panva/jose/blob/v3.15.5/src/jwt/encrypt.ts#L113)
 
 ___
 
@@ -282,7 +282,7 @@ ProduceJWT.setIssuedAt
 
 #### Defined in
 
-[lib/jwt_producer.ts:100](https://github.com/panva/jose/blob/v3.15.4/src/lib/jwt_producer.ts#L100)
+[lib/jwt_producer.ts:100](https://github.com/panva/jose/blob/v3.15.5/src/lib/jwt_producer.ts#L100)
 
 ___
 
@@ -308,7 +308,7 @@ ProduceJWT.setIssuer
 
 #### Defined in
 
-[lib/jwt_producer.ts:27](https://github.com/panva/jose/blob/v3.15.4/src/lib/jwt_producer.ts#L27)
+[lib/jwt_producer.ts:27](https://github.com/panva/jose/blob/v3.15.5/src/lib/jwt_producer.ts#L27)
 
 ___
 
@@ -334,7 +334,7 @@ ProduceJWT.setJti
 
 #### Defined in
 
-[lib/jwt_producer.ts:57](https://github.com/panva/jose/blob/v3.15.4/src/lib/jwt_producer.ts#L57)
+[lib/jwt_producer.ts:57](https://github.com/panva/jose/blob/v3.15.5/src/lib/jwt_producer.ts#L57)
 
 ___
 
@@ -359,7 +359,7 @@ Other parameters will always be randomly generated when needed and missing.
 
 #### Defined in
 
-[jwt/encrypt.ts:81](https://github.com/panva/jose/blob/v3.15.4/src/jwt/encrypt.ts#L81)
+[jwt/encrypt.ts:81](https://github.com/panva/jose/blob/v3.15.5/src/jwt/encrypt.ts#L81)
 
 ___
 
@@ -385,7 +385,7 @@ ProduceJWT.setNotBefore
 
 #### Defined in
 
-[lib/jwt_producer.ts:69](https://github.com/panva/jose/blob/v3.15.4/src/lib/jwt_producer.ts#L69)
+[lib/jwt_producer.ts:69](https://github.com/panva/jose/blob/v3.15.5/src/lib/jwt_producer.ts#L69)
 
 ___
 
@@ -407,7 +407,7 @@ Sets the JWE Protected Header on the EncryptJWT object.
 
 #### Defined in
 
-[jwt/encrypt.ts:65](https://github.com/panva/jose/blob/v3.15.4/src/jwt/encrypt.ts#L65)
+[jwt/encrypt.ts:65](https://github.com/panva/jose/blob/v3.15.5/src/jwt/encrypt.ts#L65)
 
 ___
 
@@ -433,4 +433,4 @@ ProduceJWT.setSubject
 
 #### Defined in
 
-[lib/jwt_producer.ts:37](https://github.com/panva/jose/blob/v3.15.4/src/lib/jwt_producer.ts#L37)
+[lib/jwt_producer.ts:37](https://github.com/panva/jose/blob/v3.15.5/src/lib/jwt_producer.ts#L37)

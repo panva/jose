@@ -44,7 +44,7 @@ JWE "alg" (Algorithm) Header Parameter.
 
 #### Defined in
 
-[types.d.ts:393](https://github.com/panva/jose/blob/v3.15.4/src/types.d.ts#L393)
+[types.d.ts:393](https://github.com/panva/jose/blob/v3.15.5/src/types.d.ts#L393)
 
 ___
 
@@ -56,7 +56,7 @@ JWE "crit" (Critical) Header Parameter.
 
 #### Defined in
 
-[types.d.ts:403](https://github.com/panva/jose/blob/v3.15.4/src/types.d.ts#L403)
+[types.d.ts:403](https://github.com/panva/jose/blob/v3.15.5/src/types.d.ts#L403)
 
 ___
 
@@ -72,7 +72,7 @@ ___
 
 #### Defined in
 
-[types.d.ts:270](https://github.com/panva/jose/blob/v3.15.4/src/types.d.ts#L270)
+[types.d.ts:270](https://github.com/panva/jose/blob/v3.15.5/src/types.d.ts#L270)
 
 ___
 
@@ -84,7 +84,7 @@ JWE "enc" (Encryption Algorithm) Header Parameter.
 
 #### Defined in
 
-[types.d.ts:398](https://github.com/panva/jose/blob/v3.15.4/src/types.d.ts#L398)
+[types.d.ts:398](https://github.com/panva/jose/blob/v3.15.5/src/types.d.ts#L398)
 
 ___
 
@@ -100,7 +100,7 @@ ___
 
 #### Defined in
 
-[types.d.ts:255](https://github.com/panva/jose/blob/v3.15.4/src/types.d.ts#L255)
+[types.d.ts:255](https://github.com/panva/jose/blob/v3.15.5/src/types.d.ts#L255)
 
 ___
 
@@ -116,7 +116,7 @@ ___
 
 #### Defined in
 
-[types.d.ts:260](https://github.com/panva/jose/blob/v3.15.4/src/types.d.ts#L260)
+[types.d.ts:260](https://github.com/panva/jose/blob/v3.15.5/src/types.d.ts#L260)
 
 ___
 
@@ -132,7 +132,7 @@ ___
 
 #### Defined in
 
-[types.d.ts:235](https://github.com/panva/jose/blob/v3.15.4/src/types.d.ts#L235)
+[types.d.ts:235](https://github.com/panva/jose/blob/v3.15.5/src/types.d.ts#L235)
 
 ___
 
@@ -148,7 +148,7 @@ ___
 
 #### Defined in
 
-[types.d.ts:265](https://github.com/panva/jose/blob/v3.15.4/src/types.d.ts#L265)
+[types.d.ts:265](https://github.com/panva/jose/blob/v3.15.5/src/types.d.ts#L265)
 
 ___
 
@@ -164,7 +164,7 @@ ___
 
 #### Defined in
 
-[types.d.ts:245](https://github.com/panva/jose/blob/v3.15.4/src/types.d.ts#L245)
+[types.d.ts:245](https://github.com/panva/jose/blob/v3.15.5/src/types.d.ts#L245)
 
 ___
 
@@ -180,7 +180,7 @@ ___
 
 #### Defined in
 
-[types.d.ts:240](https://github.com/panva/jose/blob/v3.15.4/src/types.d.ts#L240)
+[types.d.ts:240](https://github.com/panva/jose/blob/v3.15.5/src/types.d.ts#L240)
 
 ___
 
@@ -196,7 +196,7 @@ ___
 
 #### Defined in
 
-[types.d.ts:250](https://github.com/panva/jose/blob/v3.15.4/src/types.d.ts#L250)
+[types.d.ts:250](https://github.com/panva/jose/blob/v3.15.5/src/types.d.ts#L250)
 
 ___
 
@@ -208,4 +208,4 @@ JWE "zip" (Compression Algorithm) Header Parameter.
 
 #### Defined in
 
-[types.d.ts:408](https://github.com/panva/jose/blob/v3.15.4/src/types.d.ts#L408)
+[types.d.ts:408](https://github.com/panva/jose/blob/v3.15.5/src/types.d.ts#L408)

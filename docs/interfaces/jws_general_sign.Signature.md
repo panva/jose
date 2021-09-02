@@ -29,7 +29,7 @@ Sets the JWS Protected Header on the Signature object.
 
 #### Defined in
 
-[jws/general/sign.ts:12](https://github.com/panva/jose/blob/v3.15.4/src/jws/general/sign.ts#L12)
+[jws/general/sign.ts:12](https://github.com/panva/jose/blob/v3.15.5/src/jws/general/sign.ts#L12)
 
 ___
 
@@ -51,4 +51,4 @@ Sets the JWS Unprotected Header on the Signature object.
 
 #### Defined in
 
-[jws/general/sign.ts:19](https://github.com/panva/jose/blob/v3.15.4/src/jws/general/sign.ts#L19)
+[jws/general/sign.ts:19](https://github.com/panva/jose/blob/v3.15.5/src/jws/general/sign.ts#L19)

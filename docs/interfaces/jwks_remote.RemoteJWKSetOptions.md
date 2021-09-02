@@ -28,7 +28,7 @@ when used outside of Node.js runtime.
 
 #### Defined in
 
-[jwks/remote.ts:61](https://github.com/panva/jose/blob/v3.15.4/src/jwks/remote.ts#L61)
+[jwks/remote.ts:61](https://github.com/panva/jose/blob/v3.15.5/src/jwks/remote.ts#L61)
 
 ___
 
@@ -41,7 +41,7 @@ after a previous successful fetch. Default is 30000.
 
 #### Defined in
 
-[jwks/remote.ts:50](https://github.com/panva/jose/blob/v3.15.4/src/jwks/remote.ts#L50)
+[jwks/remote.ts:50](https://github.com/panva/jose/blob/v3.15.5/src/jwks/remote.ts#L50)
 
 ___
 
@@ -54,4 +54,4 @@ aborted and the verification will fail. Default is 5000.
 
 #### Defined in
 
-[jwks/remote.ts:44](https://github.com/panva/jose/blob/v3.15.4/src/jwks/remote.ts#L44)
+[jwks/remote.ts:44](https://github.com/panva/jose/blob/v3.15.5/src/jwks/remote.ts#L44)

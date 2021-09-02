@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [3.15.5](https://github.com/panva/jose/compare/v3.15.4...v3.15.5) (2021-09-02)
+
+
+### Bug Fixes
+
+* omit some fetch options when running in Cloudflare Workers env ([ced065a](https://github.com/panva/jose/commit/ced065aa9754c625ea88a598025962503e078ae9)), closes [#255](https://github.com/panva/jose/issues/255)
+
 ## [3.15.4](https://github.com/panva/jose/compare/v3.15.3...v3.15.4) (2021-08-20)
 
 
