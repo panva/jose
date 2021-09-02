@@ -9,21 +9,20 @@ function createAbortSignal(ms?: number) {
   return controller.signal
 }
 
-const isCloudflareWorker = ("mode" in new Request(""))
+const hasMode = ("mode" in new Request(""))
+const hasCredentials = ("credentials" in new Request(""))
+const hasReferrerPolicy = ("referrerPolicy" in new Request(""))
 
 const fetchJwks: FetchFunction = async (url: URL, timeout: number) => {
   const signal = createAbortSignal(timeout)
-  const referrerPolicy = !isCloudflareWorker ? 'no-referrer' : undefined
-  const credentials =    !isCloudflareWorker ? 'omit' : undefined
-  const mode =           !isCloudflareWorker ? 'cors' : undefined
 
   const response = await globalThis.fetch(url.href, {
+    signal,
     redirect: 'manual',
     method: 'GET',
-    signal,
-    referrerPolicy,
-    credentials,
-    mode,
+    referrerPolicy: hasReferrerPolicy ? 'no-referrer' : undefined,
+    credentials: hasCredentials ? 'omit' : undefined,
+    mode: hasMode ? 'cors' : undefined,
   })
 
   if (response.status !== 200) {
