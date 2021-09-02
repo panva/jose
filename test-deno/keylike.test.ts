@@ -6,7 +6,7 @@ import calculateThumbprint from '../dist/deno/jwk/thumbprint.ts';
 
 async function test(jwk: { [key: string]: unknown }, alg: string) {
   await calculateThumbprint(jwk);
-  const keyLike = await jwkToKey(jwk, alg);
+  const keyLike = await jwkToKey({ ...jwk, ext: true }, alg);
   assertEquals(await keyToJwk(keyLike), jwk);
 }
 
