@@ -12,10 +12,17 @@ const fetchJwks: FetchFunction = async (url: URL, timeout: number) => {
   const response = await globalThis.fetch(url.href, {
     signal: controller ? controller.signal : undefined,
     redirect: 'manual',
-    referrerPolicy: 'no-referrer',
-    credentials: 'omit',
-    mode: 'cors',
     method: 'GET',
+    // do not pass referrerPolicy, credentials, and mode when running
+    // in Cloudflare Workers environment
+    // @ts-expect-error
+    ...(typeof globalThis.WebSocketPair === 'undefined'
+      ? {
+          referrerPolicy: 'no-referrer',
+          credentials: 'omit',
+          mode: 'cors',
+        }
+      : undefined),
   })
 
   if (response.status !== 200) {

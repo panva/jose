@@ -139,6 +139,7 @@ Legend:
 | -- | -- | -- |
 | Node.js | LTS ^12.19.0 &vert;&vert; ^14.15.0 | |
 | Electron | ^12.0.0 | see <sup>[1]</sup> |
+| Cloudflare Workers | ✓ | see <sup>[2], [4]</sup> |
 | Deno | experimental | see Deno's [Web Cryptography API roadmap](https://github.com/denoland/deno/issues/11690) |
 | React Native | ✕ | has no available and usable crypto runtime |
 | IE | ✕ | implements old version of the Web Cryptography API specification |
