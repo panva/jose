@@ -2,20 +2,28 @@ import type { FetchFunction } from '../interfaces.d'
 import { JOSEError } from '../../util/errors.js'
 import globalThis from './global.js'
 
+let createAbortSignal = (ms?: number) => {
+  if (typeof AbortController !== 'function') { return }
+    const controller = new AbortController()
+    setTimeout(() => controller.abort(), ms)
+    return controller.signal
+}
+
+const isCloudflareWorker = ("mode" in new Request(""))
+
 const fetchJwks: FetchFunction = async (url: URL, timeout: number) => {
-  let controller!: AbortController
-  if (typeof AbortController === 'function') {
-    controller = new AbortController()
-    setTimeout(() => controller.abort(), timeout)
-  }
+  const signal = createAbortSignal(timeout)
+  const referrerPolicy = !isCloudflareWorker ? 'no-referrer' : undefined
+  const credentials =    !isCloudflareWorker ? 'omit' : undefined
+  const mode =           !isCloudflareWorker ? 'cors' : undefined
 
   const response = await globalThis.fetch(url.href, {
-    signal: controller ? controller.signal : undefined,
     redirect: 'manual',
-    referrerPolicy: 'no-referrer',
-    credentials: 'omit',
-    mode: 'cors',
     method: 'GET',
+    signal,
+    referrerPolicy,
+    credentials,
+    mode,
   })
 
   if (response.status !== 200) {
