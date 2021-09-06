@@ -127,6 +127,49 @@ jobs:
         run: npm run test-deno -- --no-check
       - run: git reset HEAD --hard
 
+  test-cloudflare:
+    concurrency: test-cloudflare
+    needs:
+      - build
+    continue-on-error: true
+
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      - uses: denoland/setup-deno@v1
+        with:
+          deno-version: v1.x
+      - name: Setup node
+        uses: actions/setup-node@v2
+        with:
+          node-version: 16
+      - name: Store node version variable
+        id: node
+        run: |
+          echo "::set-output name=version::$(node -v)"
+      - name: Cache node_modules
+        uses: actions/cache@v2
+        id: node_modules
+        with:
+          path: node_modules
+          key: ${{ runner.os }}-node_modules-${{ hashFiles('package.json') }}-${{ steps.node.outputs.version }}
+      - name: Install dependencies
+        run: npx panva/npm-install-retry
+        if: ${{ steps.node_modules.outputs.cache-hit != 'true' }}
+      - name: Load cached dist
+        uses: actions/cache@v2
+        id: dist
+        with:
+          path: dist
+          key: dist-${{ hashFiles('src/**/*.ts') }}-${{ hashFiles('tsconfig/*.json') }}-${{ hashFiles('.github/workflows/*.yml') }}-${{ hashFiles('package.json') }}
+      - name: Test Cloudflare Workers
+        run: npm run test-cloudflare-workers
+        env:
+          CF_ACCOUNT_ID: ${{ secrets.CF_ACCOUNT_ID }}
+          CF_API_TOKEN: ${{ secrets.CF_API_TOKEN }}
+      - run: git reset HEAD --hard
+
   test-electron:
     needs:
       - build
@@ -169,8 +212,8 @@ jobs:
         run: xvfb-maybe electron ./test/.electron
       - run: git reset HEAD --hard
 
-  browserstack:
-    concurrency: ci-${{ github.job }}
+  test-browsers:
+    concurrency: test-browsers
     if: ${{ github.event_name != 'pull_request' }}
     env:
       BROWSERSTACK_USERNAME: ${{ secrets.BROWSERSTACK_USERNAME }}
@@ -179,6 +222,9 @@ jobs:
       - build
     runs-on: ubuntu-latest
     steps:
+      - uses: denoland/setup-deno@v1
+        with:
+          deno-version: v1.x
       - name: Checkout
         uses: actions/checkout@v2
       - name: Setup node
@@ -204,15 +250,16 @@ jobs:
         with:
           path: dist
           key: dist-${{ hashFiles('src/**/*.ts') }}-${{ hashFiles('tsconfig/*.json') }}-${{ hashFiles('.github/workflows/*.yml') }}-${{ hashFiles('package.json') }}
-      - run: npx retry-cli npm run test-browser
+      - run: npx retry-cli npm run test-browsers
       - run: git reset HEAD --hard
 
   prepare-release:
     needs:
-      - browserstack
       - test
+      - test-browsers
       - test-electron
       - test-deno
+      - test-cloudflare
     runs-on: ubuntu-latest
     if: ${{ github.event_name == 'push' && startsWith(github.ref, 'refs/tags') && github.repository == 'panva/jose' }}
     steps:
