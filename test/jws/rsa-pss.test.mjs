@@ -10,7 +10,7 @@ const [major, minor] = process.version
   .map((str) => parseInt(str, 10));
 
 const rsaPssParams = major >= 17 || (major === 16 && minor >= 9);
-const electron = 'electron' in process.versions
+const electron = 'electron' in process.versions;
 
 Promise.all([import('jose/jws/flattened/sign'), import('jose/jws/flattened/verify')]).then(
   ([{ default: FlattenedSign }, { default: flattenedVerify }]) => {
