@@ -64,7 +64,6 @@ jobs:
         include:
           - experimental: true
             node-version: '>=15'
-            node-options: '--throw-deprecation --pending-deprecation'
 
     runs-on: ubuntu-latest
     steps:
@@ -96,18 +95,12 @@ jobs:
           key: dist-${{ hashFiles('src/**/*.ts') }}-${{ hashFiles('tsconfig/*.json') }}-${{ hashFiles('.github/workflows/*.yml') }}-${{ hashFiles('package.json') }}
       - name: Test Node.js crypto
         run: npm run test
-        env:
-          NODE_OPTIONS: ${{ matrix.node-options }}
       - name: Test Node.js crypto w/ CryptoKey
         run: npm run test-cryptokey
         if: ${{ !startsWith(matrix.node-version, '14') && !startsWith(matrix.node-version, '12')  }}
-        env:
-          NODE_OPTIONS: ${{ matrix.node-options }}
       - name: Test Web Cryptography API
         run: npm run test-webcrypto
         if: ${{ !startsWith(matrix.node-version, '14') && !startsWith(matrix.node-version, '12')  }}
-        env:
-          NODE_OPTIONS: ${{ matrix.node-options }}
       - run: git reset HEAD --hard
 
   test-deno:
