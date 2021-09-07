@@ -39,7 +39,7 @@ Partial.header
 
 #### Defined in
 
-[types.d.ts:167](https://github.com/panva/jose/blob/v3.15.5/src/types.d.ts#L167)
+[types.d.ts:167](https://github.com/panva/jose/blob/v3.16.0/src/types.d.ts#L167)
 
 ___
 
@@ -53,7 +53,7 @@ Partial.payload
 
 #### Defined in
 
-[types.d.ts:217](https://github.com/panva/jose/blob/v3.15.5/src/types.d.ts#L217)
+[types.d.ts:217](https://github.com/panva/jose/blob/v3.16.0/src/types.d.ts#L217)
 
 ___
 
@@ -72,7 +72,7 @@ Partial.protected
 
 #### Defined in
 
-[types.d.ts:182](https://github.com/panva/jose/blob/v3.15.5/src/types.d.ts#L182)
+[types.d.ts:182](https://github.com/panva/jose/blob/v3.16.0/src/types.d.ts#L182)
 
 ___
 
@@ -86,4 +86,4 @@ Partial.signature
 
 #### Defined in
 
-[types.d.ts:218](https://github.com/panva/jose/blob/v3.15.5/src/types.d.ts#L218)
+[types.d.ts:218](https://github.com/panva/jose/blob/v3.16.0/src/types.d.ts#L218)

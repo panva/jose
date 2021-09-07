@@ -22,4 +22,4 @@ Deflate Raw implementation, e.g. promisified [zlib.deflateRaw](https://nodejs.or
 
 #### Defined in
 
-[types.d.ts:590](https://github.com/panva/jose/blob/v3.15.5/src/types.d.ts#L590)
+[types.d.ts:590](https://github.com/panva/jose/blob/v3.16.0/src/types.d.ts#L590)

@@ -17,7 +17,7 @@ const { FlattenedEncrypt } = require('jose/jwe/flattened/encrypt')
 
 **`example`** Deno import
 ```js
-import { FlattenedEncrypt } from 'https://deno.land/x/jose@v3.15.5/jwe/flattened/encrypt.ts'
+import { FlattenedEncrypt } from 'https://deno.land/x/jose@v3.16.0/jwe/flattened/encrypt.ts'
 ```
 
 **`example`** Usage
@@ -63,7 +63,7 @@ console.log(jwe)
 
 #### Defined in
 
-[jwe/flattened/encrypt.ts:75](https://github.com/panva/jose/blob/v3.15.5/src/jwe/flattened/encrypt.ts#L75)
+[jwe/flattened/encrypt.ts:75](https://github.com/panva/jose/blob/v3.16.0/src/jwe/flattened/encrypt.ts#L75)
 
 ## Methods
 
@@ -86,7 +86,7 @@ Encrypts and resolves the value of the Flattened JWE object.
 
 #### Defined in
 
-[jwe/flattened/encrypt.ts:182](https://github.com/panva/jose/blob/v3.15.5/src/jwe/flattened/encrypt.ts#L182)
+[jwe/flattened/encrypt.ts:182](https://github.com/panva/jose/blob/v3.16.0/src/jwe/flattened/encrypt.ts#L182)
 
 ___
 
@@ -108,7 +108,7 @@ Sets the Additional Authenticated Data on the FlattenedEncrypt object.
 
 #### Defined in
 
-[jwe/flattened/encrypt.ts:139](https://github.com/panva/jose/blob/v3.15.5/src/jwe/flattened/encrypt.ts#L139)
+[jwe/flattened/encrypt.ts:139](https://github.com/panva/jose/blob/v3.16.0/src/jwe/flattened/encrypt.ts#L139)
 
 ___
 
@@ -133,7 +133,7 @@ test and vector validation purposes.
 
 #### Defined in
 
-[jwe/flattened/encrypt.ts:152](https://github.com/panva/jose/blob/v3.15.5/src/jwe/flattened/encrypt.ts#L152)
+[jwe/flattened/encrypt.ts:152](https://github.com/panva/jose/blob/v3.16.0/src/jwe/flattened/encrypt.ts#L152)
 
 ___
 
@@ -158,7 +158,7 @@ intended for test and vector validation purposes.
 
 #### Defined in
 
-[jwe/flattened/encrypt.ts:168](https://github.com/panva/jose/blob/v3.15.5/src/jwe/flattened/encrypt.ts#L168)
+[jwe/flattened/encrypt.ts:168](https://github.com/panva/jose/blob/v3.16.0/src/jwe/flattened/encrypt.ts#L168)
 
 ___
 
@@ -183,7 +183,7 @@ Other parameters will always be randomly generated when needed and missing.
 
 #### Defined in
 
-[jwe/flattened/encrypt.ts:87](https://github.com/panva/jose/blob/v3.15.5/src/jwe/flattened/encrypt.ts#L87)
+[jwe/flattened/encrypt.ts:87](https://github.com/panva/jose/blob/v3.16.0/src/jwe/flattened/encrypt.ts#L87)
 
 ___
 
@@ -205,7 +205,7 @@ Sets the JWE Protected Header on the FlattenedEncrypt object.
 
 #### Defined in
 
-[jwe/flattened/encrypt.ts:100](https://github.com/panva/jose/blob/v3.15.5/src/jwe/flattened/encrypt.ts#L100)
+[jwe/flattened/encrypt.ts:100](https://github.com/panva/jose/blob/v3.16.0/src/jwe/flattened/encrypt.ts#L100)
 
 ___
 
@@ -227,7 +227,7 @@ Sets the JWE Shared Unprotected Header on the FlattenedEncrypt object.
 
 #### Defined in
 
-[jwe/flattened/encrypt.ts:113](https://github.com/panva/jose/blob/v3.15.5/src/jwe/flattened/encrypt.ts#L113)
+[jwe/flattened/encrypt.ts:113](https://github.com/panva/jose/blob/v3.16.0/src/jwe/flattened/encrypt.ts#L113)
 
 ___
 
@@ -249,4 +249,4 @@ Sets the JWE Per-Recipient Unprotected Header on the FlattenedEncrypt object.
 
 #### Defined in
 
-[jwe/flattened/encrypt.ts:126](https://github.com/panva/jose/blob/v3.15.5/src/jwe/flattened/encrypt.ts#L126)
+[jwe/flattened/encrypt.ts:126](https://github.com/panva/jose/blob/v3.16.0/src/jwe/flattened/encrypt.ts#L126)

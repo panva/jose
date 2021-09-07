@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [3.16.0](https://github.com/panva/jose/compare/v3.15.5...v3.16.0) (2021-09-07)
+
+
+### Features
+
+* **node:** support rsa-pss keys in Node.js >= 16.9.0 for sign/verify ([0b112cf](https://github.com/panva/jose/commit/0b112cf63ed2a859806531853c37486485740f9c))
+
 ## [3.15.5](https://github.com/panva/jose/compare/v3.15.4...v3.15.5) (2021-09-02)
 
 

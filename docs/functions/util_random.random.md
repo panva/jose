@@ -16,4 +16,4 @@
 
 #### Defined in
 
-[util/random.ts:7](https://github.com/panva/jose/blob/v3.15.5/src/util/random.ts#L7)
+[util/random.ts:7](https://github.com/panva/jose/blob/v3.16.0/src/util/random.ts#L7)
