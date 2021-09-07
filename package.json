@@ -9,6 +9,8 @@
     "decrypt",
     "detached",
     "deno",
+    "cloudflare",
+    "workers",
     "ec",
     "ecdsa",
     "eddsa",

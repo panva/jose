@@ -24,10 +24,12 @@ delete pkg.typesVersions["*"]["webcrypto/*"];
 
 const deletedKeywords = new Set([
   "browser",
+  "cloudflare",
   "deno",
   "isomorphic",
   "universal",
   "webcrypto",
+  "workers",
 ]);
 pkg.keywords = pkg.keywords.filter((keyword) => {
   return !deletedKeywords.has(keyword);
