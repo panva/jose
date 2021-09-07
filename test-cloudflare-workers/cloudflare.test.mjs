@@ -79,7 +79,7 @@ const macro = async (t, testScript) => {
         method: 'GET',
       },
     ));
-    i++
+    i++;
     await setTimeout(1000);
   } while (statusCode !== 200 && statusCode !== 400);
 

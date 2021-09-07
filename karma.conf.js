@@ -96,8 +96,8 @@ module.exports = function (config) {
       "karma-browserstack-launcher",
       "karma-summary-reporter",
     ],
-    files: ["dist-browser-tests/*.js"],
-    reporters: ["summary"],
+    files: ["dist-browser-tests/keylike.js"],
+    reporters: ["progress", "summary"],
     port: 9876,
     autoWatch: false,
     browserStack: {
@@ -105,6 +105,7 @@ module.exports = function (config) {
       accessKey: process.env.BROWSERSTACK_ACCESS_KEY,
     },
     customLaunchers: browsers,
+    logLevel: config.LOG_WARN,
     client: {
       qunit: {
         showUI: true,
