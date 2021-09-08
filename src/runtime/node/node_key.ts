@@ -44,8 +44,7 @@ export default function keyForCrypto(alg: string, key: KeyObject): KeyObject | S
     case rsaPssParams && 'PS384':
     case rsaPssParams && 'PS512':
       if (key.asymmetricKeyType === 'rsa-pss') {
-        // @ts-expect-error
-        const { hashAlgorithm, mgf1HashAlgorithm, saltLength } = key.asymmetricKeyDetails
+        const { hashAlgorithm, mgf1HashAlgorithm, saltLength } = key.asymmetricKeyDetails!
 
         const length = parseInt(alg.substr(-3), 10)
 
