@@ -22,10 +22,6 @@ const exp = all.reduce(
       import: "./dist/node/esm/" + foo + ".js",
       require: "./dist/node/cjs/" + foo + ".js",
     };
-    acc["./webcrypto/" + foo] = {
-      import: "./dist/node/esm/" + foo + ".js",
-      require: "./dist/node/cjs/" + foo + ".js",
-    };
     return acc;
   },
   { "./package.json": "./package.json" }

@@ -8,9 +8,7 @@ delete pkg.imports;
 pkg.description = pkg.description.replace("Universal ", "(Browser Runtime) ");
 
 for (const exportPath of Object.keys(pkg.exports)) {
-  if (exportPath.startsWith("./webcrypto")) {
-    delete pkg.exports[exportPath];
-  } else if (
+  if (
     typeof pkg.exports[exportPath] === "object" &&
     "browser" in pkg.exports[exportPath]
   ) {
