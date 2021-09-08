@@ -46,6 +46,26 @@ import(`${root}/jws/flattened/sign`).then(
           signature: 'O7HdMZ_6_aEQWLGGItmCKN3pf8-nZ9mHnPfT7rrPCwk',
         });
       }
+      {
+        for (const value of [
+          undefined,
+          null,
+          {},
+          '',
+          'foo',
+          1,
+          0,
+          true,
+          false,
+          [],
+          new FlattenedSign(new Uint8Array()),
+        ]) {
+          t.throws(() => new FlattenedSign(value), {
+            instanceOf: TypeError,
+            message: 'payload must be an instance of Uint8Array',
+          });
+        }
+      }
     });
 
     test('FlattenedSign.prototype.setProtectedHeader', (t) => {

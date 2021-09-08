@@ -73,6 +73,9 @@ class FlattenedEncrypt {
    * @param plaintext Binary representation of the plaintext to encrypt.
    */
   constructor(plaintext: Uint8Array) {
+    if (!(plaintext instanceof Uint8Array)) {
+      throw new TypeError('plaintext must be an instance of Uint8Array')
+    }
     this._plaintext = plaintext
   }
 

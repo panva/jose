@@ -77,6 +77,26 @@ import(`${root}/jwe/flattened/encrypt`).then(
           tag: 'gEwNlfPZ-O-dG7dTFkhMyQ',
         });
       }
+      {
+        for (const value of [
+          undefined,
+          null,
+          {},
+          '',
+          'foo',
+          1,
+          0,
+          true,
+          false,
+          [],
+          new FlattenedEncrypt(new Uint8Array()),
+        ]) {
+          t.throws(() => new FlattenedEncrypt(value), {
+            instanceOf: TypeError,
+            message: 'plaintext must be an instance of Uint8Array',
+          });
+        }
+      }
     });
 
     test('FlattenedEncrypt.prototype.setProtectedHeader', (t) => {
