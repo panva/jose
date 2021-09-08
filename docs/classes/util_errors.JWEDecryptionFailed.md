@@ -40,7 +40,7 @@ An error subclass thrown when a JWE ciphertext decryption fails.
 
 #### Defined in
 
-[util/errors.ts:16](https://github.com/panva/jose/blob/v3.16.0/src/util/errors.ts#L16)
+[util/errors.ts:16](https://github.com/panva/jose/blob/v3.16.1/src/util/errors.ts#L16)
 
 ## Properties
 
@@ -56,7 +56,7 @@ A unique error code for the particular error subclass.
 
 #### Defined in
 
-[util/errors.ts:75](https://github.com/panva/jose/blob/v3.16.0/src/util/errors.ts#L75)
+[util/errors.ts:75](https://github.com/panva/jose/blob/v3.16.1/src/util/errors.ts#L75)
 
 ___
 
@@ -70,7 +70,7 @@ JOSEError.message
 
 #### Defined in
 
-[util/errors.ts:77](https://github.com/panva/jose/blob/v3.16.0/src/util/errors.ts#L77)
+[util/errors.ts:77](https://github.com/panva/jose/blob/v3.16.1/src/util/errors.ts#L77)
 
 ___
 
@@ -86,4 +86,4 @@ A unique error code for the particular error subclass.
 
 #### Defined in
 
-[util/errors.ts:73](https://github.com/panva/jose/blob/v3.16.0/src/util/errors.ts#L73)
+[util/errors.ts:73](https://github.com/panva/jose/blob/v3.16.1/src/util/errors.ts#L73)

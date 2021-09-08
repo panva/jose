@@ -6,4 +6,4 @@
 
 #### Defined in
 
-[util/decode_protected_header.ts:6](https://github.com/panva/jose/blob/v3.16.0/src/util/decode_protected_header.ts#L6)
+[util/decode_protected_header.ts:6](https://github.com/panva/jose/blob/v3.16.1/src/util/decode_protected_header.ts#L6)

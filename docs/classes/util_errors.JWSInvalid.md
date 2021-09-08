@@ -39,7 +39,7 @@ An error subclass thrown when a JWS is invalid.
 
 #### Defined in
 
-[util/errors.ts:16](https://github.com/panva/jose/blob/v3.16.0/src/util/errors.ts#L16)
+[util/errors.ts:16](https://github.com/panva/jose/blob/v3.16.1/src/util/errors.ts#L16)
 
 ## Properties
 
@@ -55,7 +55,7 @@ A unique error code for the particular error subclass.
 
 #### Defined in
 
-[util/errors.ts:95](https://github.com/panva/jose/blob/v3.16.0/src/util/errors.ts#L95)
+[util/errors.ts:95](https://github.com/panva/jose/blob/v3.16.1/src/util/errors.ts#L95)
 
 ___
 
@@ -71,4 +71,4 @@ A unique error code for the particular error subclass.
 
 #### Defined in
 
-[util/errors.ts:93](https://github.com/panva/jose/blob/v3.16.0/src/util/errors.ts#L93)
+[util/errors.ts:93](https://github.com/panva/jose/blob/v3.16.1/src/util/errors.ts#L93)

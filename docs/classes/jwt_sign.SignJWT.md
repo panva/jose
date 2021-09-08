@@ -16,7 +16,7 @@ const { SignJWT } = require('jose/jwt/sign')
 
 **`example`** Deno import
 ```js
-import { SignJWT } from 'https://deno.land/x/jose@v3.16.0/jwt/sign.ts'
+import { SignJWT } from 'https://deno.land/x/jose@v3.16.1/jwt/sign.ts'
 ```
 
 **`example`** Usage
@@ -74,7 +74,7 @@ ProduceJWT.constructor
 
 #### Defined in
 
-[lib/jwt_producer.ts:15](https://github.com/panva/jose/blob/v3.16.0/src/lib/jwt_producer.ts#L15)
+[lib/jwt_producer.ts:15](https://github.com/panva/jose/blob/v3.16.1/src/lib/jwt_producer.ts#L15)
 
 ## Methods
 
@@ -100,7 +100,7 @@ ProduceJWT.setAudience
 
 #### Defined in
 
-[lib/jwt_producer.ts:47](https://github.com/panva/jose/blob/v3.16.0/src/lib/jwt_producer.ts#L47)
+[lib/jwt_producer.ts:47](https://github.com/panva/jose/blob/v3.16.1/src/lib/jwt_producer.ts#L47)
 
 ___
 
@@ -126,7 +126,7 @@ ProduceJWT.setExpirationTime
 
 #### Defined in
 
-[lib/jwt_producer.ts:85](https://github.com/panva/jose/blob/v3.16.0/src/lib/jwt_producer.ts#L85)
+[lib/jwt_producer.ts:85](https://github.com/panva/jose/blob/v3.16.1/src/lib/jwt_producer.ts#L85)
 
 ___
 
@@ -152,7 +152,7 @@ ProduceJWT.setIssuedAt
 
 #### Defined in
 
-[lib/jwt_producer.ts:100](https://github.com/panva/jose/blob/v3.16.0/src/lib/jwt_producer.ts#L100)
+[lib/jwt_producer.ts:100](https://github.com/panva/jose/blob/v3.16.1/src/lib/jwt_producer.ts#L100)
 
 ___
 
@@ -178,7 +178,7 @@ ProduceJWT.setIssuer
 
 #### Defined in
 
-[lib/jwt_producer.ts:27](https://github.com/panva/jose/blob/v3.16.0/src/lib/jwt_producer.ts#L27)
+[lib/jwt_producer.ts:27](https://github.com/panva/jose/blob/v3.16.1/src/lib/jwt_producer.ts#L27)
 
 ___
 
@@ -204,7 +204,7 @@ ProduceJWT.setJti
 
 #### Defined in
 
-[lib/jwt_producer.ts:57](https://github.com/panva/jose/blob/v3.16.0/src/lib/jwt_producer.ts#L57)
+[lib/jwt_producer.ts:57](https://github.com/panva/jose/blob/v3.16.1/src/lib/jwt_producer.ts#L57)
 
 ___
 
@@ -230,7 +230,7 @@ ProduceJWT.setNotBefore
 
 #### Defined in
 
-[lib/jwt_producer.ts:69](https://github.com/panva/jose/blob/v3.16.0/src/lib/jwt_producer.ts#L69)
+[lib/jwt_producer.ts:69](https://github.com/panva/jose/blob/v3.16.1/src/lib/jwt_producer.ts#L69)
 
 ___
 
@@ -252,7 +252,7 @@ Sets the JWS Protected Header on the SignJWT object.
 
 #### Defined in
 
-[jwt/sign.ts:46](https://github.com/panva/jose/blob/v3.16.0/src/jwt/sign.ts#L46)
+[jwt/sign.ts:46](https://github.com/panva/jose/blob/v3.16.1/src/jwt/sign.ts#L46)
 
 ___
 
@@ -278,7 +278,7 @@ ProduceJWT.setSubject
 
 #### Defined in
 
-[lib/jwt_producer.ts:37](https://github.com/panva/jose/blob/v3.16.0/src/lib/jwt_producer.ts#L37)
+[lib/jwt_producer.ts:37](https://github.com/panva/jose/blob/v3.16.1/src/lib/jwt_producer.ts#L37)
 
 ___
 
@@ -301,4 +301,4 @@ Signs and returns the JWT.
 
 #### Defined in
 
-[jwt/sign.ts:57](https://github.com/panva/jose/blob/v3.16.0/src/jwt/sign.ts#L57)
+[jwt/sign.ts:57](https://github.com/panva/jose/blob/v3.16.1/src/jwt/sign.ts#L57)

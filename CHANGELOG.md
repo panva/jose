@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [3.16.1](https://github.com/panva/jose/compare/v3.16.0...v3.16.1) (2021-09-08)
+
+
+### Bug Fixes
+
+* guard Sign payloads and Encrypt plaintext argument types ([10a18f2](https://github.com/panva/jose/commit/10a18f28a0f845e91579afab3573730c9b1ae478))
+
 ## [3.16.0](https://github.com/panva/jose/compare/v3.15.5...v3.16.0) (2021-09-07)
 
 
