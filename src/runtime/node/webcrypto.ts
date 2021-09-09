@@ -200,6 +200,5 @@ export function getKeyObject(key: CryptoKey, alg?: string, usage?: Set<KeyUsage>
     throw new TypeError(msg)
   }
 
-  // @ts-expect-error
-  return <crypto.KeyObject>crypto.KeyObject.from(key)
+  return crypto.KeyObject.from(key)
 }
