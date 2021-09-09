@@ -16,7 +16,7 @@ const fetchJwks: FetchFunction = async (url: URL, timeout: number) => {
     // do not pass referrerPolicy, credentials, and mode when running
     // in Cloudflare Workers environment
     // @ts-expect-error
-    ...(typeof globalThis.WebSocketPair === 'undefined'
+    ...(globalThis.WebSocketPair === undefined
       ? {
           referrerPolicy: 'no-referrer',
           credentials: 'omit',

@@ -1,3 +1,4 @@
+import { isCloudflareWorkers, isNodeJs } from './global.js'
 import crypto from './webcrypto.js'
 import type { JWKParseFunction } from '../interfaces.d'
 import { JOSENotSupported } from '../../util/errors.js'
@@ -84,9 +85,15 @@ function subtleMapping(jwk: JWK): {
     case 'EC': {
       switch (jwk.alg) {
         case 'ES256':
+          algorithm = { name: 'ECDSA', namedCurve: 'P-256' }
+          keyUsages = jwk.d ? ['sign'] : ['verify']
+          break
         case 'ES384':
+          algorithm = { name: 'ECDSA', namedCurve: 'P-384' }
+          keyUsages = jwk.d ? ['sign'] : ['verify']
+          break
         case 'ES512':
-          algorithm = { name: 'ECDSA', namedCurve: jwk.crv! }
+          algorithm = { name: 'ECDSA', namedCurve: 'P-521' }
           keyUsages = jwk.d ? ['sign'] : ['verify']
           break
         case 'ECDH-ES':
@@ -101,6 +108,25 @@ function subtleMapping(jwk: JWK): {
       }
       break
     }
+    case (isCloudflareWorkers() || isNodeJs()) && 'OKP':
+      if (jwk.alg !== 'EdDSA') {
+        throw new JOSENotSupported('unsupported or invalid JWK "alg" (Algorithm) Parameter value')
+      }
+      switch (jwk.crv) {
+        case 'Ed25519':
+          algorithm = { name: 'NODE-ED25519', namedCurve: 'NODE-ED25519' }
+          keyUsages = jwk.d ? ['sign'] : ['verify']
+          break
+        case isNodeJs() && 'Ed448':
+          algorithm = { name: 'NODE-ED448', namedCurve: 'NODE-ED448' }
+          keyUsages = jwk.d ? ['sign'] : ['verify']
+          break
+        default:
+          throw new JOSENotSupported(
+            'unsupported or invalid JWK "crv" (Subtype of Key Pair) Parameter value',
+          )
+      }
+      break
     default:
       throw new JOSENotSupported('unsupported or invalid JWK "kty" (Key Type) Parameter value')
   }

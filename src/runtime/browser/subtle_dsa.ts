@@ -1,6 +1,7 @@
+import { isCloudflareWorkers, isNodeJs } from './global.js'
 import { JOSENotSupported } from '../../util/errors.js'
 
-export default function subtleDsa(alg: string) {
+export default function subtleDsa(alg: string, crv?: string) {
   switch (alg) {
     case 'HS256':
       return { hash: { name: 'SHA-256' }, name: 'HMAC' }
@@ -38,6 +39,9 @@ export default function subtleDsa(alg: string) {
       return { hash: { name: 'SHA-384' }, name: 'ECDSA', namedCurve: 'P-384' }
     case 'ES512':
       return { hash: { name: 'SHA-512' }, name: 'ECDSA', namedCurve: 'P-521' }
+    case (isCloudflareWorkers() || isNodeJs()) && 'EdDSA':
+      // @deno-expect-error
+      return <EcKeyAlgorithm>{ name: crv, namedCurve: crv }
     default:
       throw new JOSENotSupported(
         `alg ${alg} is not supported either by JOSE or your javascript runtime`,

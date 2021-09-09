@@ -219,8 +219,8 @@ Promise.all([
     }
 
     conditional({ webcrypto: 0, electron: 0 })(smoke, 'secp256k1');
-    conditional({ webcrypto: 0 })(smoke, 'ed25519');
-    conditional({ webcrypto: 0, electron: 0 })(smoke, 'ed448');
+    conditional({ webcrypto: 1 })(smoke, 'ed25519');
+    conditional({ webcrypto: 1, electron: 0 })(smoke, 'ed448');
   },
   (err) => {
     test('failed to import', (t) => {

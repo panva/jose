@@ -6,3 +6,19 @@ function getGlobal() {
 }
 
 export default getGlobal()
+export function isCloudflareWorkers(): boolean {
+  try {
+    // @ts-expect-error
+    return getGlobal().WebSocketPair !== undefined
+  } catch {
+    return false
+  }
+}
+export function isNodeJs(): boolean {
+  try {
+    // @deno-expect-error
+    return getGlobal().process?.versions?.node !== undefined
+  } catch {
+    return false
+  }
+}

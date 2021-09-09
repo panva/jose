@@ -164,6 +164,18 @@ test('ES512', macro, async () => {
   await jwsAsymmetricTest(keypair, alg);
 });
 
+test('EdDSA', macro, async () => {
+  const alg = 'EdDSA';
+  const keypair = await utilGenerateKeyPair(alg);
+  await jwsAsymmetricTest(keypair, alg);
+});
+
+test('EdDSA crv: Ed25519', macro, async () => {
+  const alg = 'EdDSA';
+  const keypair = await utilGenerateKeyPair(alg, { crv: 'Ed25519' });
+  await jwsAsymmetricTest(keypair, alg);
+});
+
 test('createRemoteJWKSet', macro, async () => {
   const jwksUri = 'https://www.googleapis.com/oauth2/v3/certs';
   const response = await fetch(jwksUri).then((r) => r.json());

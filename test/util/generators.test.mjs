@@ -158,9 +158,9 @@ Promise.all([
       return run;
     }
 
-    conditional({ webcrypto: 0 })(testKeyPair, 'EdDSA');
-    conditional({ webcrypto: 0 })('crv: Ed25519', testKeyPair, 'EdDSA', { crv: 'Ed25519' });
-    conditional({ webcrypto: 0, electron: 0 })('crv: Ed448', testKeyPair, 'EdDSA', {
+    conditional({ webcrypto: 1 })(testKeyPair, 'EdDSA');
+    conditional({ webcrypto: 1 })('crv: Ed25519', testKeyPair, 'EdDSA', { crv: 'Ed25519' });
+    conditional({ webcrypto: 1, electron: 0 })('crv: Ed448', testKeyPair, 'EdDSA', {
       crv: 'Ed448',
     });
     conditional({ webcrypto: 0, electron: 0 })(testKeyPair, 'ES256K');

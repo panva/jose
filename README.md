@@ -139,7 +139,7 @@ Legend:
 | -- | -- | -- |
 | Node.js | LTS ^12.19.0 &vert;&vert; ^14.15.0 | |
 | Electron | ^12.0.0 | see <sup>[1]</sup> |
-| Cloudflare Workers | ✓ | see <sup>[2], [4]</sup> |
+| Cloudflare Workers | ✓ | see <sup>[2], [5]</sup> |
 | Deno | experimental | see Deno's [Web Cryptography API roadmap](https://github.com/denoland/deno/issues/11690) |
 | React Native | ✕ | has no available and usable crypto runtime |
 | IE | ✕ | implements old version of the Web Cryptography API specification |
@@ -162,6 +162,8 @@ Legend:
 <sup>3</sup> P-521 EC curve is not supported in Safari  
 
 <sup>4</sup> 192 bit AES keys are not supported in Chromium  
+
+<sup>5</sup> OKP / EdDSA / Ed25519 is supported
 
 ## FAQ
 

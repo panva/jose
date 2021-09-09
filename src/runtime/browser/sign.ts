@@ -7,7 +7,12 @@ import getSignKey from './get_sign_verify_key.js'
 const sign: SignFunction = async (alg, key: unknown, data) => {
   const cryptoKey = await getSignKey(alg, key, 'sign')
   checkKeyLength(alg, cryptoKey)
-  const signature = await crypto.subtle.sign(subtleAlgorithm(alg), cryptoKey, data)
+  const signature = await crypto.subtle.sign(
+    // @deno-expect-error
+    subtleAlgorithm(alg, (<EcKeyAlgorithm>cryptoKey.algorithm).namedCurve),
+    cryptoKey,
+    data,
+  )
   return new Uint8Array(signature)
 }
 

@@ -84,6 +84,14 @@ export function getKeyObject(key: CryptoKey, alg?: string, usage?: Set<KeyUsage>
       }
       break
     }
+    case 'EdDSA': {
+      if (key.algorithm.name !== 'NODE-ED25519' && key.algorithm.name !== 'NODE-ED448') {
+        throw new TypeError(
+          `CryptoKey does not support this operation, its algorithm.name must be NODE-ED25519 or NODE-ED448.`,
+        )
+      }
+      break
+    }
     case 'ES256':
     case 'ES384':
     case 'ES512': {
