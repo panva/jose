@@ -168,9 +168,9 @@ Promise.all([
     test(testECDSASigEncoding, 'ES384');
     test(testECDSASigEncoding, 'ES512');
 
-    function conditional({ webcrypto = 1, electron = 1 } = {}, ...args) {
+    function conditional({ webcrypto = 1, electron = 1 } = {}) {
       let run = test;
-      if ((!webcrypto && 'WEBCRYPTO' in process.env) || 'CRYPTOKEY' in process.env) {
+      if (!webcrypto && ('WEBCRYPTO' in process.env || 'CRYPTOKEY' in process.env)) {
         run = run.failing;
       }
 

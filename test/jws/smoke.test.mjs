@@ -206,9 +206,9 @@ Promise.all([
     test('as keyobject', smoke, 'oct384', true);
     test('as keyobject', smoke, 'oct512', true);
 
-    function conditional({ webcrypto = 1, electron = 1 } = {}, ...args) {
+    function conditional({ webcrypto = 1, electron = 1 } = {}) {
       let run = test;
-      if ((!webcrypto && 'WEBCRYPTO' in process.env) || 'CRYPTOKEY' in process.env) {
+      if (!webcrypto && ('WEBCRYPTO' in process.env || 'CRYPTOKEY' in process.env)) {
         run = run.failing;
       }
 

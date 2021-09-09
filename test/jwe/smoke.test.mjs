@@ -292,7 +292,7 @@ Promise.all([
     test(smoke, 'oct384c');
     test(smoke, 'oct512c');
 
-    function conditional({ webcrypto = 1, electron = 1 } = {}, ...args) {
+    function conditional({ webcrypto = 1, electron = 1 } = {}) {
       let run = test;
       if (!webcrypto && 'WEBCRYPTO' in process.env) {
         run = run.failing;
