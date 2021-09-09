@@ -23,40 +23,6 @@ implementation is correct.
 
 If you or your business use `jose`, please consider becoming a [sponsor][support-sponsor] so I can continue maintaining it and adding new features carefree.
 
-## Install
-
-```console
-npm install jose
-```
-
-<details>
-<summary><em>Looking for a Browser only distribution?</em> (Click to expand)</summary>
-
-```console
-npm install jose-browser-runtime
-```
-</details>
-
-<details>
-<summary><em>Looking for a Deno distribution?</em> (Click to expand)</summary>
-
-see [deno.land/x/jose][]
-</details>
-
-<details>
-<summary><em>Looking for a Node.js only distribution?</em> (Click to expand)</summary>
-
-ESM module (import):
-```console
-npm install jose-node-esm-runtime
-```
-
-CJS module (require):
-```console
-npm install jose-node-cjs-runtime
-```
-</details>
-
 ## Documentation
 
 - JSON Web Tokens (JWT)
@@ -86,84 +52,13 @@ npm install jose-node-cjs-runtime
 - [Unsecured JWT](docs/classes/jwt_unsecured.UnsecuredJWT.md#readme)
 - [JOSE Errors](docs/modules/util_errors.md#readme)
 
-## JOSE Support Matrix
+## Supported Runtimes, Environments, Platforms
 
-| JWK Key Types | Supported | `kty` value | |
-| -- | -- | -- | -- |
-| RSA | ✓ | RSA | |
-| Elliptic Curve | ✓ | EC | supported curves: P-256, secp256k1, P-384, P-521 |
-| Octet Key Pair | ✓ | OKP | supported subtypes: Ed25519, Ed448, X25519, X448 |
-| Octet sequence | ✓ | oct | |
-
-| Serialization | JWS Sign | JWS Verify | JWE Encrypt | JWE Decrypt |
-| -- | -- | -- | -- | -- |
-| Compact | ✓ | ✓ | ✓ | ✓ |
-| General JSON | ✓ | ✓ | ✕ | ✓ |
-| Flattened JSON | ✓ | ✓ | ✓ | ✓ |
-
-| JWT Sign | JWT Verify | JWT Encrypt | JWT Decrypt |
-| -- | -- | -- | -- |
-| ✓ | ✓ | ✓ | ✓ |
-
-| JWS Algorithms | Supported | |
-| -- | -- | -- |
-| RSASSA-PKCS1-v1_5 | ✓ | RS256, RS384, RS512 |
-| RSASSA-PSS | ✓ | PS256, PS384, PS512 |
-| ECDSA | ✓ | ES256, ES256K, ES384, ES512 |
-| Edwards-curve DSA | ✓ | EdDSA |
-| HMAC with SHA-2 | ✓ | HS256, HS384, HS512 |
-| Unsecured JWS | ✓ | none |
-
-| JWE Key Management Algorithms | Supported | |
-| -- | -- | -- |
-| AES | ✓ | A128KW, A192KW, A256KW |
-| AES GCM | ✓ | A128GCMKW, A192GCMKW, A256GCMKW |
-| Direct Key Agreement | ✓ | dir |
-| RSAES OAEP | ✓ | RSA-OAEP, RSA-OAEP-256, RSA-OAEP-384, RSA-OAEP-512 |
-| RSAES-PKCS1-v1_5 | ✓ | RSA1_5 |
-| PBES2 | ✓ | PBES2-HS256+A128KW, PBES2-HS384+A192KW, PBES2-HS512+A256KW |
-| ECDH-ES | ✓ | ECDH-ES, ECDH-ES+A128KW, ECDH-ES+A192KW, ECDH-ES+A256KW |
-
-| JWE Content Encryption Algorithms | Supported | |
-| -- | -- | -- |
-| AES GCM | ✓ | A128GCM, A192GCM, A256GCM |
-| AES CBC w/ HMAC | ✓ |  A128CBC-HS256, A192CBC-HS384, A256CBC-HS512 |
-
-Legend:
-- **✓** Implemented
-- **✕** Not Considered
-
-## Runtime Support Matrix
-
-| Platform | supported versions | caveats |
-| -- | -- | -- |
-| Node.js | LTS ^12.19.0 &vert;&vert; ^14.15.0 | |
-| Electron | ^12.0.0 | see <sup>[1]</sup> |
-| Cloudflare Workers | ✓ | see <sup>[2], [5]</sup> |
-| Deno | experimental | see Deno's [Web Cryptography API roadmap](https://github.com/denoland/deno/issues/11690) |
-| React Native | ✕ | has no available and usable crypto runtime |
-| IE | ✕ | implements old version of the Web Cryptography API specification |
-| Browsers | see [caniuse.com][caniuse] | |
-| --- | | |
-| Edge | 79+ | see <sup>[2], [4]</sup> |
-| Firefox | 57+ | see <sup>[2]</sup> |
-| Chrome | 63+ | see <sup>[2], [4]</sup> |
-| Safari | 11+ | see <sup>[2], [3]</sup> |
-| Opera | 50+ | see <sup>[2], [4]</sup> |
-| iOS Safari | 12+ | see <sup>[2], [3]</sup> |
-
-<sup>1</sup> Due to its use of BoringSSL the following is not supported in Electron
-  - A128KW, A192KW, A256KW, and all composite algorithms utilizing those
-  - secp256k1 EC curve
-  - Ed448, X25519, and X448 OKP Sub Types  
-
-<sup>2</sup> RSA1_5, OKP JWK Key Type, and secp256k1 EC curve is not supported in [Web Cryptography API][webcrypto].   
-
-<sup>3</sup> P-521 EC curve is not supported in Safari  
-
-<sup>4</sup> 192 bit AES keys are not supported in Chromium  
-
-<sup>5</sup> OKP / EdDSA / Ed25519 is supported
+- [Browser Support][]
+- [Cloudflare Workers Support][]
+- [Deno Support][]
+- [Electron Support][]
+- [Node.js Support][]
 
 ## FAQ
 
@@ -242,5 +137,9 @@ install size should not be a cause for concern.
 [conditional-exports]: https://nodejs.org/api/packages.html#packages_conditional_exports
 [webcrypto]: https://www.w3.org/TR/WebCryptoAPI/
 [nodewebcrypto]: https://nodejs.org/docs/latest-v15.x/api/webcrypto.html
-[caniuse]: https://caniuse.com/mdn-javascript_operators_await,async-functions,mdn-javascript_statements_for_await_of,cryptography,textencoder
 [deno.land/x/jose]: https://deno.land/x/jose
+[Browser Support]: https://github.com/panva/jose/issues/263
+[Cloudflare Workers Support]: https://github.com/panva/jose/issues/265
+[Deno Support]: https://github.com/panva/jose/issues/266
+[Electron Support]: https://github.com/panva/jose/issues/264
+[Node.js Support]: https://github.com/panva/jose/issues/262
