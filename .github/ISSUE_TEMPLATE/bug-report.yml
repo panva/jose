@@ -24,9 +24,11 @@ body:
       label: Runtime
       description: What javascript runtime are you seeing the problem on?
       options:
-        - Node.js
         - Browser
+        - Cloudflare Workers
+        - Deno
         - Electron
+        - Node.js
         - Other (I will specify below)
     validations:
       required: true
