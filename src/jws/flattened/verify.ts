@@ -1,11 +1,11 @@
+import { decode as base64url } from '../../runtime/base64url.js'
+import verify from '../../runtime/verify.js'
+
 import { JOSEAlgNotAllowed, JWSInvalid, JWSSignatureVerificationFailed } from '../../util/errors.js'
 import { concat, encoder, decoder } from '../../lib/buffer_utils.js'
 import isDisjoint from '../../lib/is_disjoint.js'
 import isObject from '../../lib/is_object.js'
 import checkKeyType from '../../lib/check_key_type.js'
-
-import { decode as base64url } from '../../runtime/base64url.js'
-import verify from '../../runtime/verify.js'
 import validateCrit from '../../lib/validate_crit.js'
 import validateAlgorithms from '../../lib/validate_algorithms.js'
 

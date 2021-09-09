@@ -1,3 +1,5 @@
+import fetchJwks from '../runtime/fetch_jwks.js'
+
 import type {
   KeyObject,
   JWSHeaderParameters,
@@ -12,7 +14,6 @@ import {
   JWKSNoMatchingKey,
   JWKSMultipleMatchingKeys,
 } from '../util/errors.js'
-import fetchJwks from '../runtime/fetch_jwks.js'
 import isObject from '../lib/is_object.js'
 
 function getKtyFromAlg(alg: string) {

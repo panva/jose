@@ -1,3 +1,8 @@
+import { encode as base64url } from '../../runtime/base64url.js'
+import random from '../../runtime/random.js'
+import encrypt from '../../runtime/encrypt.js'
+import { deflate } from '../../runtime/zlib.js'
+
 import type {
   KeyLike,
   FlattenedJWE,
@@ -7,12 +12,7 @@ import type {
 } from '../../types.d'
 import type { JWEKeyManagementHeaderResults } from '../../types.i.d'
 import ivFactory from '../../lib/iv.js'
-import { encode as base64url } from '../../runtime/base64url.js'
-import random from '../../runtime/random.js'
-import encrypt from '../../runtime/encrypt.js'
-import { deflate } from '../../runtime/zlib.js'
 import encryptKeyManagement from '../../lib/encrypt_key_management.js'
-
 import { JOSENotSupported, JWEInvalid } from '../../util/errors.js'
 import isDisjoint from '../../lib/is_disjoint.js'
 import { encoder, decoder, concat } from '../../lib/buffer_utils.js'

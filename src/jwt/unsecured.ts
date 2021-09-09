@@ -1,6 +1,7 @@
+import * as base64url from '../runtime/base64url.js'
+
 import type { JWSHeaderParameters, JWTClaimVerificationOptions, JWTPayload } from '../types.d'
 import { decoder } from '../lib/buffer_utils.js'
-import * as base64url from '../runtime/base64url.js'
 import { JWTInvalid } from '../util/errors.js'
 import jwtPayload from '../lib/jwt_claims_set.js'
 import ProduceJWT from '../lib/jwt_producer.js'

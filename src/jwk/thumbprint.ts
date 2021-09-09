@@ -1,7 +1,7 @@
-import { JOSENotSupported, JWKInvalid } from '../util/errors.js'
-
 import digest from '../runtime/digest.js'
 import { encode as base64url } from '../runtime/base64url.js'
+
+import { JOSENotSupported, JWKInvalid } from '../util/errors.js'
 import { encoder } from '../lib/buffer_utils.js'
 import type { JWK } from '../types.d'
 import isObject from '../lib/is_object.js'

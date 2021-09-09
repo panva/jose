@@ -1,5 +1,6 @@
-import type { JWK, KeyLike } from '../types.d'
 import asJWK from '../runtime/key_to_jwk.js'
+
+import type { JWK, KeyLike } from '../types.d'
 
 /**
  * Converts a runtime-specific key representation (KeyLike) to a JWK.

@@ -1,3 +1,4 @@
+import type { KeyObject } from 'crypto'
 import { diffieHellman, generateKeyPair as generateKeyPairCb } from 'crypto'
 import { promisify } from 'util'
 
@@ -17,13 +18,31 @@ import invalidKeyInput from './invalid_key_input.js'
 const generateKeyPair = promisify(generateKeyPairCb)
 
 export const deriveKey: EcdhESDeriveKeyFunction = async (
-  publicKey: unknown,
-  privateKey: unknown,
+  publicKee: unknown,
+  privateKee: unknown,
   algorithm: string,
   keyLength: number,
   apu: Uint8Array = new Uint8Array(0),
   apv: Uint8Array = new Uint8Array(0),
 ) => {
+  let publicKey: KeyObject
+  if (isCryptoKey(publicKee)) {
+    publicKey = getKeyObject(publicKee, 'ECDH-ES')
+  } else if (isKeyObject(publicKee)) {
+    publicKey = publicKee
+  } else {
+    throw new TypeError(invalidKeyInput(publicKee, 'KeyObject', 'CryptoKey'))
+  }
+
+  let privateKey: KeyObject
+  if (isCryptoKey(privateKee)) {
+    privateKey = getKeyObject(privateKee, 'ECDH-ES', new Set(['deriveBits', 'deriveKey']))
+  } else if (isKeyObject(privateKee)) {
+    privateKey = privateKee
+  } else {
+    throw new TypeError(invalidKeyInput(privateKee, 'KeyObject', 'CryptoKey'))
+  }
+
   const value = concat(
     lengthAndInput(encoder.encode(algorithm)),
     lengthAndInput(apu),
@@ -31,30 +50,18 @@ export const deriveKey: EcdhESDeriveKeyFunction = async (
     uint32be(keyLength),
   )
 
-  if (isCryptoKey(publicKey)) {
-    publicKey = getKeyObject(publicKey, 'ECDH-ES')
-  }
-  if (!isKeyObject(publicKey)) {
-    throw new TypeError(invalidKeyInput(publicKey, 'KeyObject', 'CryptoKey'))
-  }
-
-  if (isCryptoKey(privateKey)) {
-    privateKey = getKeyObject(privateKey, 'ECDH-ES', new Set(['deriveBits', 'deriveKey']))
-  }
-  if (!isKeyObject(privateKey)) {
-    throw new TypeError(invalidKeyInput(privateKey, 'KeyObject', 'CryptoKey'))
-  }
-
   const sharedSecret = diffieHellman({ privateKey, publicKey })
   return concatKdf(digest, sharedSecret, keyLength, value)
 }
 
-export const generateEpk: GenerateEpkFunction = async (key: unknown) => {
-  if (isCryptoKey(key)) {
-    key = getKeyObject(key)
-  }
-  if (!isKeyObject(key)) {
-    throw new TypeError(invalidKeyInput(key, 'KeyObject', 'CryptoKey'))
+export const generateEpk: GenerateEpkFunction = async (kee: unknown) => {
+  let key: KeyObject
+  if (isCryptoKey(kee)) {
+    key = getKeyObject(kee)
+  } else if (isKeyObject(kee)) {
+    key = kee
+  } else {
+    throw new TypeError(invalidKeyInput(kee, 'KeyObject', 'CryptoKey'))
   }
 
   switch (key.asymmetricKeyType) {

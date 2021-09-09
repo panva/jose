@@ -6,23 +6,10 @@ const webcrypto = <Crypto>crypto.webcrypto
 
 export default webcrypto
 
-let impl: (obj: unknown) => obj is CryptoKey
-
-if (util.types.isCryptoKey) {
-  impl = function isCryptoKey(obj): obj is CryptoKey {
-    return util.types.isCryptoKey(obj)
-  }
-} else if (webcrypto) {
-  impl = function isCryptoKey(obj): obj is CryptoKey {
-    //@ts-expect-error
-    return obj != null && obj instanceof webcrypto.CryptoKey
-  }
-} else {
-  // @ts-expect-error
-  impl = (obj): obj is CryptoKey => false
-}
-
-export { impl as isCryptoKey }
+export const isCryptoKey = util.types.isCryptoKey
+  ? (obj: unknown): obj is CryptoKey => util.types.isCryptoKey(obj)
+  : // @ts-expect-error
+    (obj: unknown): obj is CryptoKey => false
 
 function getHashLength(hash: KeyAlgorithm) {
   return parseInt(hash?.name.substr(4), 10)
@@ -40,12 +27,9 @@ function getNamedCurve(alg: string) {
 }
 
 export function getKeyObject(key: CryptoKey, alg?: string, usage?: Set<KeyUsage>) {
-  if (!alg) {
-    // @ts-expect-error
-    return <crypto.KeyObject>crypto.KeyObject.from(key)
-  }
-
   switch (alg) {
+    case undefined:
+      break
     case 'HS256':
     case 'HS384':
     case 'HS512': {

@@ -1,4 +1,5 @@
-import { KeyObject, createPublicKey } from 'crypto'
+import type { KeyObject } from 'crypto'
+import { createPublicKey } from 'crypto'
 import { JOSENotSupported } from '../../util/errors.js'
 import { isCryptoKey, getKeyObject } from './webcrypto.js'
 import isKeyObject from './is_key_object.js'
@@ -20,18 +21,20 @@ const namedCurveToJOSE = (namedCurve: string) => {
     case 'secp521r1':
       return 'P-521'
     case 'secp256k1':
-      return namedCurve
+      return 'secp256k1'
     default:
       throw new JOSENotSupported('unsupported key curve for this operation')
   }
 }
 
-const getNamedCurve = (key: unknown, raw?: boolean): string => {
-  if (isCryptoKey(key)) {
-    key = getKeyObject(key)
-  }
-  if (!isKeyObject(key)) {
-    throw new TypeError(invalidKeyInput(key, 'KeyObject', 'CryptoKey'))
+const getNamedCurve = (kee: unknown, raw?: boolean): string => {
+  let key: KeyObject
+  if (isCryptoKey(kee)) {
+    key = getKeyObject(kee)
+  } else if (isKeyObject(kee)) {
+    key = kee
+  } else {
+    throw new TypeError(invalidKeyInput(kee, 'KeyObject', 'CryptoKey'))
   }
 
   if (key.type === 'secret') {

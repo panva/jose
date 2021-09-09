@@ -1,4 +1,5 @@
 import { generateKeyPair as generate } from '../runtime/generate.js'
+
 import type { KeyLike } from '../types.d'
 
 export interface GenerateKeyPairResult {
