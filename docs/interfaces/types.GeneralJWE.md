@@ -38,7 +38,7 @@ Omit.aad
 
 #### Defined in
 
-[types.d.ts:324](https://github.com/panva/jose/blob/v3.16.1/src/types.d.ts#L324)
+[types.d.ts:324](https://github.com/panva/jose/blob/v3.17.0/src/types.d.ts#L324)
 
 ___
 
@@ -55,7 +55,7 @@ Omit.ciphertext
 
 #### Defined in
 
-[types.d.ts:330](https://github.com/panva/jose/blob/v3.16.1/src/types.d.ts#L330)
+[types.d.ts:330](https://github.com/panva/jose/blob/v3.17.0/src/types.d.ts#L330)
 
 ___
 
@@ -73,7 +73,7 @@ Omit.iv
 
 #### Defined in
 
-[types.d.ts:354](https://github.com/panva/jose/blob/v3.16.1/src/types.d.ts#L354)
+[types.d.ts:354](https://github.com/panva/jose/blob/v3.17.0/src/types.d.ts#L354)
 
 ___
 
@@ -92,7 +92,7 @@ Omit.protected
 
 #### Defined in
 
-[types.d.ts:362](https://github.com/panva/jose/blob/v3.16.1/src/types.d.ts#L362)
+[types.d.ts:362](https://github.com/panva/jose/blob/v3.17.0/src/types.d.ts#L362)
 
 ___
 
@@ -102,7 +102,7 @@ ___
 
 #### Defined in
 
-[types.d.ts:382](https://github.com/panva/jose/blob/v3.16.1/src/types.d.ts#L382)
+[types.d.ts:382](https://github.com/panva/jose/blob/v3.17.0/src/types.d.ts#L382)
 
 ___
 
@@ -120,7 +120,7 @@ Omit.tag
 
 #### Defined in
 
-[types.d.ts:369](https://github.com/panva/jose/blob/v3.16.1/src/types.d.ts#L369)
+[types.d.ts:369](https://github.com/panva/jose/blob/v3.17.0/src/types.d.ts#L369)
 
 ___
 
@@ -140,4 +140,4 @@ Omit.unprotected
 
 #### Defined in
 
-[types.d.ts:378](https://github.com/panva/jose/blob/v3.16.1/src/types.d.ts#L378)
+[types.d.ts:378](https://github.com/panva/jose/blob/v3.17.0/src/types.d.ts#L378)

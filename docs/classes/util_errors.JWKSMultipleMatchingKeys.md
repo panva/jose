@@ -40,7 +40,7 @@ An error subclass thrown when multiple keys match from a JWKS.
 
 #### Defined in
 
-[util/errors.ts:16](https://github.com/panva/jose/blob/v3.16.1/src/util/errors.ts#L16)
+[util/errors.ts:16](https://github.com/panva/jose/blob/v3.17.0/src/util/errors.ts#L16)
 
 ## Properties
 
@@ -56,7 +56,7 @@ A unique error code for the particular error subclass.
 
 #### Defined in
 
-[util/errors.ts:142](https://github.com/panva/jose/blob/v3.16.1/src/util/errors.ts#L142)
+[util/errors.ts:142](https://github.com/panva/jose/blob/v3.17.0/src/util/errors.ts#L142)
 
 ___
 
@@ -70,7 +70,7 @@ JOSEError.message
 
 #### Defined in
 
-[util/errors.ts:144](https://github.com/panva/jose/blob/v3.16.1/src/util/errors.ts#L144)
+[util/errors.ts:144](https://github.com/panva/jose/blob/v3.17.0/src/util/errors.ts#L144)
 
 ___
 
@@ -86,4 +86,4 @@ A unique error code for the particular error subclass.
 
 #### Defined in
 
-[util/errors.ts:140](https://github.com/panva/jose/blob/v3.16.1/src/util/errors.ts#L140)
+[util/errors.ts:140](https://github.com/panva/jose/blob/v3.17.0/src/util/errors.ts#L140)

@@ -18,7 +18,7 @@ const { jwtVerify } = require('jose/jwt/verify')
 
 **`example`** Deno import
 ```js
-import { jwtVerify } from 'https://deno.land/x/jose@v3.16.1/jwt/verify.ts'
+import { jwtVerify } from 'https://deno.land/x/jose@v3.17.0/jwt/verify.ts'
 ```
 
 **`example`** Usage
@@ -48,4 +48,4 @@ console.log(payload)
 
 #### Defined in
 
-[jwt/verify.ts:64](https://github.com/panva/jose/blob/v3.16.1/src/jwt/verify.ts#L64)
+[jwt/verify.ts:64](https://github.com/panva/jose/blob/v3.17.0/src/jwt/verify.ts#L64)
