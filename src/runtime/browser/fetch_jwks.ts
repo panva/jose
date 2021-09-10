@@ -1,6 +1,6 @@
 import type { FetchFunction } from '../interfaces.d'
 import { JOSEError } from '../../util/errors.js'
-import globalThis from './global.js'
+import globalThis, { isCloudflareWorkers } from './global.js'
 
 const fetchJwks: FetchFunction = async (url: URL, timeout: number) => {
   let controller!: AbortController
@@ -13,10 +13,7 @@ const fetchJwks: FetchFunction = async (url: URL, timeout: number) => {
     signal: controller ? controller.signal : undefined,
     redirect: 'manual',
     method: 'GET',
-    // do not pass referrerPolicy, credentials, and mode when running
-    // in Cloudflare Workers environment
-    // @ts-expect-error
-    ...(globalThis.WebSocketPair === undefined
+    ...(!isCloudflareWorkers()
       ? {
           referrerPolicy: 'no-referrer',
           credentials: 'omit',
