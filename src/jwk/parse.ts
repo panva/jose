@@ -82,7 +82,7 @@ async function parseJwk(jwk: JWK, alg?: string, octAsKeyObject?: boolean): Promi
     case 'OKP':
       return asKeyObject({ ...jwk, alg })
     default:
-      throw new JOSENotSupported('unsupported "kty" (Key Type) Parameter value')
+      throw new JOSENotSupported('Unsupported "kty" (Key Type) Parameter value')
   }
 }
 

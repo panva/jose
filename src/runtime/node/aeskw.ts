@@ -10,7 +10,7 @@ import supported from './ciphers.js'
 
 function checkKeySize(key: KeyObject, alg: string) {
   if (key.symmetricKeySize! << 3 !== parseInt(alg.substr(1, 3), 10)) {
-    throw new TypeError(`invalid key size for alg: ${alg}`)
+    throw new TypeError(`Invalid key size for alg: ${alg}`)
   }
 }
 

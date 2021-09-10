@@ -75,7 +75,7 @@ export const generateEpk: GenerateEpkFunction = async (kee: unknown) => {
       return (await generateKeyPair('ec', { namedCurve })).privateKey
     }
     default:
-      throw new JOSENotSupported('unsupported or invalid EPK')
+      throw new JOSENotSupported('Invalid or unsupported EPK')
   }
 }
 

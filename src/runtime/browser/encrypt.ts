@@ -107,7 +107,7 @@ const encrypt: EncryptFunction = async (
     case 'A256GCM':
       return gcmEncrypt(plaintext, cek, iv, aad)
     default:
-      throw new JOSENotSupported('unsupported JWE Content Encryption Algorithm')
+      throw new JOSENotSupported('Unsupported JWE Content Encryption Algorithm')
   }
 }
 

@@ -49,7 +49,7 @@ function subtleMapping(jwk: JWK): {
           keyUsages = ['deriveBits']
           break
         default:
-          throw new JOSENotSupported('unsupported or invalid JWK "alg" (Algorithm) Parameter value')
+          throw new JOSENotSupported('Invalid or unsupported JWK "alg" (Algorithm) Parameter value')
       }
       break
     }
@@ -78,7 +78,7 @@ function subtleMapping(jwk: JWK): {
           keyUsages = jwk.d ? ['decrypt', 'unwrapKey'] : ['encrypt', 'wrapKey']
           break
         default:
-          throw new JOSENotSupported('unsupported or invalid JWK "alg" (Algorithm) Parameter value')
+          throw new JOSENotSupported('Invalid or unsupported JWK "alg" (Algorithm) Parameter value')
       }
       break
     }
@@ -104,13 +104,13 @@ function subtleMapping(jwk: JWK): {
           keyUsages = jwk.d ? ['deriveBits'] : []
           break
         default:
-          throw new JOSENotSupported('unsupported or invalid JWK "alg" (Algorithm) Parameter value')
+          throw new JOSENotSupported('Invalid or unsupported JWK "alg" (Algorithm) Parameter value')
       }
       break
     }
     case (isCloudflareWorkers() || isNodeJs()) && 'OKP':
       if (jwk.alg !== 'EdDSA') {
-        throw new JOSENotSupported('unsupported or invalid JWK "alg" (Algorithm) Parameter value')
+        throw new JOSENotSupported('Invalid or unsupported JWK "alg" (Algorithm) Parameter value')
       }
       switch (jwk.crv) {
         case 'Ed25519':
@@ -123,12 +123,12 @@ function subtleMapping(jwk: JWK): {
           break
         default:
           throw new JOSENotSupported(
-            'unsupported or invalid JWK "crv" (Subtype of Key Pair) Parameter value',
+            'Invalid or unsupported JWK "crv" (Subtype of Key Pair) Parameter value',
           )
       }
       break
     default:
-      throw new JOSENotSupported('unsupported or invalid JWK "kty" (Key Type) Parameter value')
+      throw new JOSENotSupported('Invalid or unsupported JWK "kty" (Key Type) Parameter value')
   }
 
   return { algorithm, keyUsages }

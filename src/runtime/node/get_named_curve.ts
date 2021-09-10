@@ -23,7 +23,7 @@ const namedCurveToJOSE = (namedCurve: string) => {
     case 'secp256k1':
       return 'secp256k1'
     default:
-      throw new JOSENotSupported('unsupported key curve for this operation')
+      throw new JOSENotSupported('Unsupported key curve for this operation')
   }
 }
 
@@ -71,7 +71,7 @@ const getNamedCurve = (kee: unknown, raw?: boolean): string => {
         } else if (curveOid.equals(secp256k1)) {
           namedCurve = 'secp256k1'
         } else {
-          throw new JOSENotSupported('unsupported key curve for this operation')
+          throw new JOSENotSupported('Unsupported key curve for this operation')
         }
       }
 

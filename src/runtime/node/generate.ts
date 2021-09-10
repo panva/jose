@@ -33,7 +33,7 @@ export async function generateSecret(alg: string, options?: GenerateSecretOption
       length = parseInt(alg.substring(1, 4), 10)
       break
     default:
-      throw new JOSENotSupported('unsupported or invalid JWK "alg" (Algorithm) Parameter value')
+      throw new JOSENotSupported('Invalid or unsupported JWK "alg" (Algorithm) Parameter value')
   }
 
   return createSecretKey(random(new Uint8Array(length >> 3)))
@@ -107,6 +107,6 @@ export async function generateKeyPair(alg: string, options?: GenerateKeyPairOpti
           )
       }
     default:
-      throw new JOSENotSupported('unsupported or invalid JWK "alg" (Algorithm) Parameter value')
+      throw new JOSENotSupported('Invalid or unsupported JWK "alg" (Algorithm) Parameter value')
   }
 }

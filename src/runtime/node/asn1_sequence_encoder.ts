@@ -49,7 +49,7 @@ export default class DumbAsn1Encoder {
   oidFor(oid: string) {
     const bOid = oids.get(oid)
     if (!bOid) {
-      throw new JOSENotSupported('unsupported or invalid OID')
+      throw new JOSENotSupported('Invalid or unsupported OID')
     }
     this.elements.push(bOid)
     this.length += bOid.length

@@ -121,7 +121,7 @@ async function decryptKeyManagement(
       return aesGcmKw(alg, key, encryptedKey!, iv, tag)
     }
     default: {
-      throw new JOSENotSupported('unsupported or invalid "alg" (JWE Algorithm) header value')
+      throw new JOSENotSupported('Invalid or unsupported "alg" (JWE Algorithm) header value')
     }
   }
 }

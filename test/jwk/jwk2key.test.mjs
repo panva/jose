@@ -46,7 +46,7 @@ Promise.all([import(`${keyRoot}/jwk/parse`), import(`${keyRoot}/jwk/from_key_lik
     test('JWK kty must be recognized', async (t) => {
       await t.throwsAsync(parseJwk({ kty: 'unrecognized' }, 'HS256'), {
         code: 'ERR_JOSE_NOT_SUPPORTED',
-        message: 'unsupported "kty" (Key Type) Parameter value',
+        message: 'Unsupported "kty" (Key Type) Parameter value',
       });
     });
 

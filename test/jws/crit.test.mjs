@@ -29,11 +29,11 @@ Promise.all([import(`${root}/jws/flattened/sign`), import(`${root}/jws/flattened
       );
       await t.throwsAsync(
         new FlattenedSign(encode('foo'))
-          .setProtectedHeader({ alg: 'HS256', crit: ['unsupported'], unsupported: 'foo' })
+          .setProtectedHeader({ alg: 'HS256', crit: ['nope'], nope: 'foo' })
           .sign(new Uint8Array(32)),
         {
           code: 'ERR_JOSE_NOT_SUPPORTED',
-          message: 'Extension Header Parameter "unsupported" is not recognized',
+          message: 'Extension Header Parameter "nope" is not recognized',
         },
       );
     });

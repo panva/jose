@@ -112,7 +112,7 @@ async function encryptKeyManagement(
       break
     }
     default: {
-      throw new JOSENotSupported('unsupported or invalid "alg" (JWE Algorithm) header value')
+      throw new JOSENotSupported('Invalid or unsupported "alg" (JWE Algorithm) header value')
     }
   }
 

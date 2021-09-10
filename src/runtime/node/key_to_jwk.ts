@@ -96,7 +96,7 @@ const keyToJWK: JWKConvertFunction = (key: unknown): JWK => {
               correction = -3
               break
             default:
-              throw new JOSENotSupported('unsupported curve')
+              throw new JOSENotSupported('Unsupported curve')
           }
           if (keyObject.type === 'public') {
             const der = keyObject.export({ type: 'spki', format: 'der' })
@@ -153,11 +153,11 @@ const keyToJWK: JWKConvertFunction = (key: unknown): JWK => {
           }
         }
         default:
-          throw new JOSENotSupported('unsupported key asymmetricKeyType')
+          throw new JOSENotSupported('Unsupported key asymmetricKeyType')
       }
     }
     default:
-      throw new JOSENotSupported('unsupported key type')
+      throw new JOSENotSupported('Unsupported key type')
   }
 }
 export default keyToJWK

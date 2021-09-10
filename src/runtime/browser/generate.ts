@@ -41,7 +41,7 @@ export async function generateSecret(alg: string, options?: GenerateSecretOption
       keyUsages = ['encrypt', 'decrypt']
       break
     default:
-      throw new JOSENotSupported('unsupported or invalid JWK "alg" (Algorithm) Parameter value')
+      throw new JOSENotSupported('Invalid or unsupported JWK "alg" (Algorithm) Parameter value')
   }
 
   return <Promise<CryptoKey>>(
@@ -135,7 +135,7 @@ export async function generateKeyPair(alg: string, options?: GenerateKeyPairOpti
       keyUsages = ['deriveKey', 'deriveBits']
       break
     default:
-      throw new JOSENotSupported('unsupported or invalid JWK "alg" (Algorithm) Parameter value')
+      throw new JOSENotSupported('Invalid or unsupported JWK "alg" (Algorithm) Parameter value')
   }
 
   return <Promise<{ publicKey: CryptoKey; privateKey: CryptoKey }>>(

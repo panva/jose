@@ -122,7 +122,7 @@ const decrypt: DecryptFunction = async (
     case 'A256GCM':
       return gcmDecrypt(cek, ciphertext, iv, tag, aad)
     default:
-      throw new JOSENotSupported('unsupported JWE Content Encryption Algorithm')
+      throw new JOSENotSupported('Unsupported JWE Content Encryption Algorithm')
   }
 }
 

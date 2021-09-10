@@ -135,7 +135,7 @@ const parse: JWKParseFunction = (jwk: JWK): KeyObject => {
       return createPublicKey({ key: der, format: 'der', type: 'spki' })
     }
     default:
-      throw new JOSENotSupported('unsupported or invalid JWK "kty" (Key Type) Parameter value')
+      throw new JOSENotSupported('Invalid or unsupported JWK "kty" (Key Type) Parameter value')
   }
 }
 export default parse

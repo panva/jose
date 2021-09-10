@@ -212,7 +212,7 @@ class FlattenedEncrypt {
 
       if (joseHeader.zip !== 'DEF') {
         throw new JOSENotSupported(
-          'unsupported JWE "zip" (Compression Algorithm) Header Parameter value',
+          'Unsupported JWE "zip" (Compression Algorithm) Header Parameter value',
         )
       }
     }
