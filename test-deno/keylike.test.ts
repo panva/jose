@@ -11,6 +11,7 @@ async function test(jwk: { [key: string]: unknown }, alg: string) {
 }
 
 async function failing(jwk: { [key: string]: unknown }, alg: string) {
+  await calculateThumbprint(jwk);
   return assertThrowsAsync(() => test(jwk, alg));
 }
 
@@ -58,6 +59,16 @@ for (const [alg, jwk] of [
 }
 
 for (const [alg, jwk] of [
+  ['EdDSA', '{"kty":"OKP","crv":"Ed25519","x":"zjV_JsgzH--qhtVlJEYDFeRFITSD0k6lYSSpOKBarZQ"}'],
+  ['ECDH-ES', '{"kty":"OKP","crv":"X25519","x":"HqyMxA2utODyDFMeCiTiOXmHIG_ih52vOX89gbCI71U"}'],
+  [
+    'EdDSA',
+    '{"kty":"OKP","crv":"Ed448","x":"Wc7ow0-awVkxhTX7Rmkp1dDbR_EJYOH61-Cnx2iFxfq_QhUvIKWpI6UlHoWnKyE0zh4rlKdoJb6A"}',
+  ],
+  [
+    'ECDH-ES',
+    '{"kty":"OKP","crv":"X448","x":"v3Lhxa_bdhGUK7NUYHizRQA55sDS68WeZTGYNvFhdxhL519MkWQTt_LlviW84i6ARWyVxlKgBF0"}',
+  ],
   [
     'ES512',
     '{"crv":"P-521","kty":"EC","x":"AIwG869tNnEGIDg2hSyvXKIOk9rWPO_riIixGliBGBV0kB57QoTrjK-g5JCtazDTcBT23igX9gvAVkLvr2oFTQ9p","y":"AeGZ0Z3JHM1rQWvmmpdfVu0zSNpmu0xPjGUE2hGhloRqF-JJV3aVMS72ZhGlbWi-O7OCcypIfndhpYgrc3qx0Y1w","d":"AVIiopJk-cUIfQCJey-NvNbxiTB7haAB1AVvjp4r6wQ0ySw-RsKM03VbJNdWxcSsyHnk-mj-IP6wdWdeqUdto04T"}',

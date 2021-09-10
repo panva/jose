@@ -15,6 +15,7 @@ async function test(jwk, alg, assert) {
 }
 
 async function failing(jwk, alg, assert) {
+  await calculateThumbprint(jwk);
   await assert.rejects(test.bind(undefined, jwk, alg)(assert));
 }
 
@@ -45,11 +46,11 @@ const expectSuccess = [
   ],
   [
     'ES256',
-    '{"crv":"P-256","kty":"EC","x":"E8KpG0wpGUfRBYx8tUhd6tYaFaTZaIyHvAudXbSUFxQ","y":"gcVDlKTo-UhZ-wHDNUdoQP0M9zevurU6A5WMR07B-wQ"}',
+    '{"kty":"EC","crv":"P-256","x":"E8KpG0wpGUfRBYx8tUhd6tYaFaTZaIyHvAudXbSUFxQ","y":"gcVDlKTo-UhZ-wHDNUdoQP0M9zevurU6A5WMR07B-wQ"}',
   ],
   [
     'ES384',
-    '{"crv":"P-384","kty":"EC","x":"HnBAtgpS-GJzTCdLBELPm1VIRoQwlk7luJIGEYWKhWtMHmOq14Hh7674Oxcc52mE","y":"jXGek8Zapkjav7mO-KB-7vEWrqNxHSoXgNn1r6C0BiqS89SVciz6O8uriPdxoWem"}',
+    '{"kty":"EC","crv":"P-384","x":"HnBAtgpS-GJzTCdLBELPm1VIRoQwlk7luJIGEYWKhWtMHmOq14Hh7674Oxcc52mE","y":"jXGek8Zapkjav7mO-KB-7vEWrqNxHSoXgNn1r6C0BiqS89SVciz6O8uriPdxoWem"}',
   ],
   ['HS256', '{"kty":"oct","k":"iPYq7qKZWRaVmo1FiJ17M84uADey7-veCAEEsxpPTus"}'],
   ['HS384', '{"kty":"oct","k":"ATgNcVOYFsjbN4GeyXOyryfqqmGp_48-uvVd5J3GsX7ExUMp3WNTDbbZK_5kTjND"}'],
@@ -58,11 +59,22 @@ const expectSuccess = [
     '{"kty":"oct","k":"2O5x_zEOhSIDiGcOAOYhB1dyDU_ZW27rl-_xDpKE-8tBlL91z6p_8aYo3by6AOsa6ycx6-JC9LBAio0amINXTQ"}',
   ],
 ];
-const expectFailure = [];
+const expectFailure = [
+  ['EdDSA', '{"kty":"OKP","crv":"Ed25519","x":"zjV_JsgzH--qhtVlJEYDFeRFITSD0k6lYSSpOKBarZQ"}'],
+  ['ECDH-ES', '{"kty":"OKP","crv":"X25519","x":"HqyMxA2utODyDFMeCiTiOXmHIG_ih52vOX89gbCI71U"}'],
+  [
+    'EdDSA',
+    '{"kty":"OKP","crv":"Ed448","x":"Wc7ow0-awVkxhTX7Rmkp1dDbR_EJYOH61-Cnx2iFxfq_QhUvIKWpI6UlHoWnKyE0zh4rlKdoJb6A"}',
+  ],
+  [
+    'ECDH-ES',
+    '{"kty":"OKP","crv":"X448","x":"v3Lhxa_bdhGUK7NUYHizRQA55sDS68WeZTGYNvFhdxhL519MkWQTt_LlviW84i6ARWyVxlKgBF0"}',
+  ],
+];
 
 const ES512 = [
   'ES512',
-  '{"crv":"P-521","kty":"EC","x":"AIwG869tNnEGIDg2hSyvXKIOk9rWPO_riIixGliBGBV0kB57QoTrjK-g5JCtazDTcBT23igX9gvAVkLvr2oFTQ9p","y":"AeGZ0Z3JHM1rQWvmmpdfVu0zSNpmu0xPjGUE2hGhloRqF-JJV3aVMS72ZhGlbWi-O7OCcypIfndhpYgrc3qx0Y1w"}',
+  '{"kty":"EC","crv":"P-521","x":"AIwG869tNnEGIDg2hSyvXKIOk9rWPO_riIixGliBGBV0kB57QoTrjK-g5JCtazDTcBT23igX9gvAVkLvr2oFTQ9p","y":"AeGZ0Z3JHM1rQWvmmpdfVu0zSNpmu0xPjGUE2hGhloRqF-JJV3aVMS72ZhGlbWi-O7OCcypIfndhpYgrc3qx0Y1w"}',
 ];
 
 if (p521) {
