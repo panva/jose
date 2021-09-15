@@ -1,3 +1,9 @@
+const reporters = ["summary"];
+
+if (!('CI' in process.env)) {
+  reporters.push("progress");
+}
+
 const browsers = {
   chrome_latest: {
     base: "BrowserStack",
@@ -96,8 +102,8 @@ module.exports = function (config) {
       "karma-browserstack-launcher",
       "karma-summary-reporter",
     ],
-    files: ["dist-browser-tests/keylike.js"],
-    reporters: ["progress", "summary"],
+    files: ["dist-browser-tests/*.js"],
+    reporters,
     port: 9876,
     autoWatch: false,
     browserStack: {
