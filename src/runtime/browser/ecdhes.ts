@@ -55,10 +55,12 @@ export const generateEpk: GenerateEpkFunction = async (key: unknown) => {
     throw new TypeError(invalidKeyInput(key, 'CryptoKey'))
   }
 
-  return (<{ publicKey: CryptoKey; privateKey: CryptoKey }>await crypto.subtle.generateKey(
-    { name: 'ECDH', namedCurve: (<EcKeyAlgorithm>key.algorithm).namedCurve },
-    true,
-    ['deriveBits'],
+  return (<{ publicKey: CryptoKey; privateKey: CryptoKey }>(
+    await crypto.subtle.generateKey(
+      { name: 'ECDH', namedCurve: (<EcKeyAlgorithm>key.algorithm).namedCurve },
+      true,
+      ['deriveBits'],
+    )
   )).privateKey
 }
 
