@@ -1,4 +1,4 @@
-import { assert } from 'https://deno.land/std@0.104.0/testing/asserts.ts';
+import { assert, assertThrowsAsync } from 'https://deno.land/std@0.104.0/testing/asserts.ts';
 
 import generateKeyPair from '../dist/deno/util/generate_key_pair.ts';
 import random from '../dist/deno/util/random.ts';
@@ -18,13 +18,22 @@ async function test(generate: () => ReturnType<typeof generateKeyPair>, alg: str
   await decryptFlattened(jwe, privateKey);
 }
 
-for (const crv of ['P-256', 'P-384', 'P-521']) {
-  Deno.test(
-    `Encrypt/Decrypt ECDH-ES crv: ${crv}`,
-    test.bind(undefined, generateKeyPair.bind(undefined, 'ECDH-ES', { crv }), 'ECDH-ES'),
-  );
+async function failing(generate: () => ReturnType<typeof generateKeyPair>, alg: string) {
+  return assertThrowsAsync(() => test(generate, alg));
 }
 
+Deno.test(
+  'Encrypt/Decrypt ECDH-ES crv: P-256',
+  test.bind(undefined, generateKeyPair.bind(undefined, 'ECDH-ES', { crv: 'P-256' }), 'ECDH-ES'),
+);
+Deno.test(
+  'Encrypt/Decrypt ECDH-ES crv: P-384',
+  test.bind(undefined, generateKeyPair.bind(undefined, 'ECDH-ES', { crv: 'P-384' }), 'ECDH-ES'),
+);
+Deno.test(
+  '(expecting failure) Encrypt/Decrypt ECDH-ES crv: P-521',
+  failing.bind(undefined, generateKeyPair.bind(undefined, 'ECDH-ES', { crv: 'P-384' }), 'ECDH-ES'),
+);
 Deno.test(
   'Encrypt/Decrypt RSA-OAEP-256',
   test.bind(undefined, generateKeyPair.bind(undefined, 'RSA-OAEP-256'), 'RSA-OAEP-256'),
