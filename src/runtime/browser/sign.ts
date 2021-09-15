@@ -8,7 +8,6 @@ const sign: SignFunction = async (alg, key: unknown, data) => {
   const cryptoKey = await getSignKey(alg, key, 'sign')
   checkKeyLength(alg, cryptoKey)
   const signature = await crypto.subtle.sign(
-    // @deno-expect-error
     subtleAlgorithm(alg, (<EcKeyAlgorithm>cryptoKey.algorithm).namedCurve),
     cryptoKey,
     data,

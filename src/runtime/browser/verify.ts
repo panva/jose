@@ -7,7 +7,6 @@ import getVerifyKey from './get_sign_verify_key.js'
 const verify: VerifyFunction = async (alg, key: unknown, signature, data) => {
   const cryptoKey = await getVerifyKey(alg, key, 'verify')
   checkKeyLength(alg, cryptoKey)
-  // @deno-expect-error
   const algorithm = subtleAlgorithm(alg, (<EcKeyAlgorithm>cryptoKey.algorithm).namedCurve)
   try {
     return await crypto.subtle.verify(algorithm, cryptoKey, signature, data)

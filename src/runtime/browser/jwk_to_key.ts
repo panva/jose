@@ -6,11 +6,9 @@ import type { JWK } from '../../types.d'
 import { decode as base64url } from './base64url.js'
 
 function subtleMapping(jwk: JWK): {
-  // @deno-expect-error
   algorithm: RsaHashedImportParams | EcKeyAlgorithm | Algorithm
   keyUsages: KeyUsage[]
 } {
-  // @deno-expect-error
   let algorithm: RsaHashedImportParams | EcKeyAlgorithm | Algorithm
   let keyUsages: KeyUsage[]
 
@@ -136,7 +134,6 @@ function subtleMapping(jwk: JWK): {
 
 const parse: JWKParseFunction = async (jwk: JWK): Promise<CryptoKey> => {
   const { algorithm, keyUsages } = subtleMapping(jwk)
-  // @deno-expect-error
   const rest: [RsaHashedImportParams | EcKeyAlgorithm | Algorithm, boolean, KeyUsage[]] = [
     algorithm,
     jwk.ext ?? false,
@@ -150,7 +147,6 @@ const parse: JWKParseFunction = async (jwk: JWK): Promise<CryptoKey> => {
   const keyData: JWK = { ...jwk }
   delete keyData.alg
   return crypto.subtle.importKey(
-    // @deno-expect-error
     'jwk',
     keyData,
     ...rest,

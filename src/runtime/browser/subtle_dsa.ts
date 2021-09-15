@@ -40,7 +40,6 @@ export default function subtleDsa(alg: string, crv?: string) {
     case 'ES512':
       return { hash: { name: 'SHA-512' }, name: 'ECDSA', namedCurve: 'P-521' }
     case (isCloudflareWorkers() || isNodeJs()) && 'EdDSA':
-      // @deno-expect-error
       return <EcKeyAlgorithm>{ name: crv, namedCurve: crv }
     default:
       throw new JOSENotSupported(

@@ -35,14 +35,13 @@ export const deriveKey: EcdhESDeriveKeyFunction = async (
   }
 
   const sharedSecret = new Uint8Array(
-    // @deno-expect-error
     await crypto.subtle.deriveBits(
       {
         name: 'ECDH',
+        // @deno-expect-error
         public: publicKey,
       },
       privateKey,
-      // @deno-expect-error
       Math.ceil(parseInt((<EcKeyAlgorithm>privateKey.algorithm).namedCurve.substr(-3), 10) / 8) <<
         3,
     ),
@@ -57,7 +56,6 @@ export const generateEpk: GenerateEpkFunction = async (key: unknown) => {
   }
 
   return (<{ publicKey: CryptoKey; privateKey: CryptoKey }>await crypto.subtle.generateKey(
-    // @deno-expect-error
     { name: 'ECDH', namedCurve: (<EcKeyAlgorithm>key.algorithm).namedCurve },
     true,
     ['deriveBits'],
@@ -68,6 +66,5 @@ export const ecdhAllowed: EcdhAllowedFunction = (key: unknown) => {
   if (!isCryptoKey(key)) {
     throw new TypeError(invalidKeyInput(key, 'CryptoKey'))
   }
-  // @deno-expect-error
   return ['P-256', 'P-384', 'P-521'].includes((<EcKeyAlgorithm>key.algorithm).namedCurve)
 }

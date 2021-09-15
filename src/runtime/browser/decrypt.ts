@@ -80,9 +80,9 @@ async function gcmDecrypt(
 
   try {
     return new Uint8Array(
-      // @deno-expect-error
       await crypto.subtle.decrypt(
         {
+          // @deno-expect-error
           additionalData: aad,
           iv,
           name: 'AES-GCM',

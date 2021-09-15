@@ -45,7 +45,6 @@ export const encrypt: Pbes2KWEncryptFunction = async (
 
   let derived: CryptoKey | Uint8Array
   if (cryptoKey.usages.includes('deriveBits')) {
-    // @deno-expect-error
     derived = new Uint8Array(await crypto.subtle.deriveBits(subtleAlg, cryptoKey, keylen))
   } else if (cryptoKey.usages.includes('deriveKey')) {
     // @deno-expect-error
@@ -85,7 +84,6 @@ export const decrypt: Pbes2KWDecryptFunction = async (
 
   let derived: CryptoKey | Uint8Array
   if (cryptoKey.usages.includes('deriveBits')) {
-    // @deno-expect-error
     derived = new Uint8Array(await crypto.subtle.deriveBits(subtleAlg, cryptoKey, keylen))
   } else if (cryptoKey.usages.includes('deriveKey')) {
     // @deno-expect-error

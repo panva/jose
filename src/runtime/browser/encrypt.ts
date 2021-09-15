@@ -33,9 +33,9 @@ async function cbcEncrypt(
   )
 
   const ciphertext = new Uint8Array(
-    // @deno-expect-error
     await crypto.subtle.encrypt(
       {
+        // @deno-expect-error
         iv,
         name: 'AES-CBC',
       },
@@ -64,9 +64,9 @@ async function gcmEncrypt(
       : cek
 
   const encrypted = new Uint8Array(
-    // @deno-expect-error
     await crypto.subtle.encrypt(
       {
+        // @deno-expect-error
         additionalData: aad,
         iv,
         name: 'AES-GCM',

@@ -12,7 +12,6 @@ export const encrypt: RsaEsEncryptFunction = async (alg: string, key: unknown, c
   checkKeyLength(alg, key)
 
   if (key.usages.includes('encrypt')) {
-    // @deno-expect-error
     return new Uint8Array(await crypto.subtle.encrypt(subtleAlgorithm(alg), key, cek))
   }
 
@@ -41,7 +40,6 @@ export const decrypt: RsaEsDecryptFunction = async (
   checkKeyLength(alg, key)
 
   if (key.usages.includes('decrypt')) {
-    // @deno-expect-error
     return new Uint8Array(await crypto.subtle.decrypt(subtleAlgorithm(alg), key, encryptedKey))
   }
 
