@@ -93,3 +93,11 @@ Deno.test('imports generateKeyPair', async () => {
 Deno.test('imports generateSecret', async () => {
   await import('../dist/deno/util/generate_secret.ts');
 });
+
+Deno.test('imports key imports', async () => {
+  await import('../dist/deno/key/import.ts');
+});
+
+Deno.test('imports key exports', async () => {
+  await import('../dist/deno/key/export.ts');
+});

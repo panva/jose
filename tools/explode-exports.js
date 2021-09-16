@@ -8,6 +8,7 @@ const modules = [
   "src/jwks",
   "src/jws",
   "src/jwt",
+  "src/key",
   "src/util",
 ];
 

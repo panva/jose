@@ -31,6 +31,11 @@ If you or your business use `jose`, please consider becoming a [sponsor][support
   - Encrypted JSON Web Tokens
     - [Encryption](docs/classes/jwt_encrypt.EncryptJWT.md#readme)
     - [Decryption & Claims Set Validation](docs/functions/jwt_decrypt.jwtDecrypt.md#readme)
+- Key Import
+  - [JWK Import](docs/functions/key_import.importJWK.md#readme)
+  - [Public Key Import (SPKI)](docs/functions/key_import.importSPKI.md#readme)
+  - [Public Key Import (X.509 Certificate)](docs/functions/key_import.importX509.md#readme)
+  - [Private Key Import (PKCS #8)](docs/functions/key_import.importPKCS8.md#readme)
 - JSON Web Encryption (JWE)
   - Encryption - [Compact](docs/classes/jwe_compact_encrypt.CompactEncrypt.md#readme), [Flattened](docs/classes/jwe_flattened_encrypt.FlattenedEncrypt.md#readme)
   - Decryption - [Compact](docs/functions/jwe_compact_decrypt.compactDecrypt.md#readme), [Flattened](docs/functions/jwe_flattened_decrypt.flattenedDecrypt.md#readme), [General](docs/functions/jwe_general_decrypt.generalDecrypt.md#readme)
@@ -38,15 +43,17 @@ If you or your business use `jose`, please consider becoming a [sponsor][support
   - Signing - [Compact](docs/classes/jws_compact_sign.CompactSign.md#readme), [Flattened](docs/classes/jws_flattened_sign.FlattenedSign.md#readme), [General](docs/classes/jws_general_sign.GeneralSign.md#readme)
   - Verification - [Compact](docs/functions/jws_compact_verify.compactVerify.md#readme), [Flattened](docs/functions/jws_flattened_verify.flattenedVerify.md#readme), [General](docs/functions/jws_general_verify.generalVerify.md#readme)
 - JSON Web Key (JWK)
-  - [Parsing (JWK to KeyLike)](docs/functions/jwk_parse.parseJwk.md#readme)
-  - [Conversion (KeyLike to JWK)](docs/functions/jwk_from_key_like.fromKeyLike.md#readme)
   - [Thumbprints](docs/functions/jwk_thumbprint.calculateThumbprint.md#readme)
   - [EmbeddedJWK](docs/functions/jwk_embedded.EmbeddedJWK.md#readme)
 - JSON Web Key Set (JWKS)
   - [Verify using a remote JWKSet](docs/functions/jwks_remote.createRemoteJWKSet.md#readme)
-- Key Pair or Secret Generation (Generate KeyLike)
+- Key Pair or Secret Generation
   - [Asymmetric Key Pair Generation](docs/functions/util_generate_key_pair.generateKeyPair.md#readme)
   - [Symmetric Secret Generation](docs/functions/util_generate_secret.generateSecret.md#readme)
+- Key Export
+  - [JWK Export](docs/functions/key_export.exportJWK.md#readme)
+  - [Private Key Export](docs/functions/key_export.exportPKCS8.md#readme)
+  - [Public Key Export](docs/functions/key_export.exportSPKI.md#readme)
 - Utilities
   - [Decoding Token's Protected Header](docs/functions/util_decode_protected_header.decodeProtectedHeader.md#readme)
 - [Unsecured JWT](docs/classes/jwt_unsecured.UnsecuredJWT.md#readme)

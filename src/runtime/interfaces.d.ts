@@ -1,5 +1,6 @@
 import type { JWK, KeyLike } from '../types.d'
 import type { AsyncOrSync } from '../types.i.d'
+import type { PEMImportOptions } from '../key/import.js'
 
 export interface TimingSafeEqual {
   (a: Uint8Array, b: Uint8Array): boolean
@@ -97,4 +98,10 @@ export interface JWKParseFunction {
 }
 export interface JWKConvertFunction {
   (key: unknown): AsyncOrSync<JWK>
+}
+export interface PEMExportFunction {
+  (key: unknown): AsyncOrSync<string>
+}
+export interface PEMImportFunction {
+  (pem: string, alg: string, options?: PEMImportOptions): AsyncOrSync<Exclude<KeyLike, Uint8Array>>
 }

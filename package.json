@@ -4,13 +4,12 @@
   "description": "Universal 'JSON Web Almost Everything' - JWA, JWS, JWE, JWT, JWK with no dependencies",
   "keywords": [
     "browser",
+    "cloudflare",
     "compact",
     "decode",
     "decrypt",
-    "detached",
     "deno",
-    "cloudflare",
-    "workers",
+    "detached",
     "ec",
     "ecdsa",
     "eddsa",
@@ -32,14 +31,19 @@
     "oct",
     "okp",
     "payload",
+    "pem",
+    "pkcs8",
     "rsa",
     "secp256k1",
     "sign",
     "signature",
+    "spki",
     "universal",
     "validate",
     "verify",
-    "webcrypto"
+    "webcrypto",
+    "workers",
+    "x509"
   ],
   "homepage": "https://github.com/panva/jose",
   "repository": "panva/jose",
@@ -165,6 +169,16 @@
       "import": "./dist/node/esm/jwt/verify.js",
       "require": "./dist/node/cjs/jwt/verify.js"
     },
+    "./key/export": {
+      "browser": "./dist/browser/key/export.js",
+      "import": "./dist/node/esm/key/export.js",
+      "require": "./dist/node/cjs/key/export.js"
+    },
+    "./key/import": {
+      "browser": "./dist/browser/key/import.js",
+      "import": "./dist/node/esm/key/import.js",
+      "require": "./dist/node/cjs/key/import.js"
+    },
     "./util/base64url": {
       "browser": "./dist/browser/util/base64url.js",
       "import": "./dist/node/esm/util/base64url.js",
@@ -235,7 +249,7 @@
     "coverage-cryptokey": "npm run-script runtime-node && c8 npm run-script test-cryptokey",
     "coverage-webcrypto": "npm run-script runtime-node-webcrypto && c8 npm run-script test-webcrypto",
     "docs": "run-s docs:*",
-    "docs:generate": "typedoc --allReflectionsHaveOwnDocument --excludePrivate --excludeProtected --gitRevision main --readme none --plugin typedoc-plugin-markdown --out docs --excludeExternals --tsconfig ./tsconfig/browser.json  --hideGenerator --hideBreadcrumbs src/types.d.ts src/jwt/*.ts src/jwe/**/*.ts src/jws/**/*.ts src/jwk/*.ts src/jwks/*.ts src/util/*.ts",
+    "docs:generate": "typedoc --allReflectionsHaveOwnDocument --excludePrivate --excludeProtected --gitRevision main --readme none --plugin typedoc-plugin-markdown --out docs --excludeExternals --tsconfig ./tsconfig/browser.json  --hideGenerator --hideBreadcrumbs src/types.d.ts src/jwt/*.ts src/jwe/**/*.ts src/jws/**/*.ts src/jwk/*.ts src/jwks/*.ts src/util/*.ts src/key/*.ts",
     "esbuild-find": "find src -type f -name '*.ts' -not -path '*/runtime/*/*' -not -name '*.d.ts' -print0",
     "runtime-browser": "run-s runtime:clear runtime:browser:* runtime:refs",
     "runtime-deno": "npm run-script runtime-browser && mkdir -p dist/deno && cp -r src/. dist/deno && rm -r dist/deno/runtime/browser dist/deno/runtime/node && rm dist/deno/.prettierrc.json",

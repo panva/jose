@@ -132,6 +132,9 @@ test('RS256', macro, async () => {
   await jwkFromKeyLike(await jwkParse({ ...jwk, ext: true }, alg));
   const keypair = await utilGenerateKeyPair(alg);
   await jwsAsymmetricTest(keypair, alg);
+  await testSPKI(fixtures.keys.rsa.publicKey, alg);
+  await testPKCS8(fixtures.keys.rsa.privateKey, alg);
+  await testX509(fixtures.keys.rsa.certificate, alg);
 });
 
 test('RS384', macro, async () => {
@@ -143,6 +146,10 @@ test('RS384', macro, async () => {
   await jwkFromKeyLike(await jwkParse({ ...jwk, ext: true }, alg));
   const keypair = await utilGenerateKeyPair(alg);
   await jwsAsymmetricTest(keypair, alg);
+
+  await testSPKI(fixtures.keys.rsa.publicKey, alg);
+  await testPKCS8(fixtures.keys.rsa.privateKey, alg);
+  await testX509(fixtures.keys.rsa.certificate, alg);
 });
 
 test('RS512', macro, async () => {
@@ -154,6 +161,10 @@ test('RS512', macro, async () => {
   await jwkFromKeyLike(await jwkParse({ ...jwk, ext: true }, alg));
   const keypair = await utilGenerateKeyPair(alg);
   await jwsAsymmetricTest(keypair, alg);
+
+  await testSPKI(fixtures.keys.rsa.publicKey, alg);
+  await testPKCS8(fixtures.keys.rsa.privateKey, alg);
+  await testX509(fixtures.keys.rsa.certificate, alg);
 });
 
 test('PS256', macro, async () => {
@@ -165,6 +176,10 @@ test('PS256', macro, async () => {
   await jwkFromKeyLike(await jwkParse({ ...jwk, ext: true }, alg));
   const keypair = await utilGenerateKeyPair(alg);
   await jwsAsymmetricTest(keypair, alg);
+
+  await testSPKI(fixtures.keys.rsa.publicKey, alg);
+  await testPKCS8(fixtures.keys.rsa.privateKey, alg);
+  await testX509(fixtures.keys.rsa.certificate, alg);
 });
 
 test('PS384', macro, async () => {
@@ -176,6 +191,10 @@ test('PS384', macro, async () => {
   await jwkFromKeyLike(await jwkParse({ ...jwk, ext: true }, alg));
   const keypair = await utilGenerateKeyPair(alg);
   await jwsAsymmetricTest(keypair, alg);
+
+  await testSPKI(fixtures.keys.rsa.publicKey, alg);
+  await testPKCS8(fixtures.keys.rsa.privateKey, alg);
+  await testX509(fixtures.keys.rsa.certificate, alg);
 });
 
 test('PS512', macro, async () => {
@@ -187,6 +206,10 @@ test('PS512', macro, async () => {
   await jwkFromKeyLike(await jwkParse({ ...jwk, ext: true }, alg));
   const keypair = await utilGenerateKeyPair(alg);
   await jwsAsymmetricTest(keypair, alg);
+
+  await testSPKI(fixtures.keys.rsa.publicKey, alg);
+  await testPKCS8(fixtures.keys.rsa.privateKey, alg);
+  await testX509(fixtures.keys.rsa.certificate, alg);
 });
 
 test('ES256', macro, async () => {
@@ -198,6 +221,9 @@ test('ES256', macro, async () => {
   await jwkFromKeyLike(await jwkParse({ ...jwk, ext: true }, alg));
   const keypair = await utilGenerateKeyPair(alg);
   await jwsAsymmetricTest(keypair, alg);
+  await testSPKI(fixtures.keys['P-256'].publicKey, alg);
+  await testPKCS8(fixtures.keys['P-256'].privateKey, alg);
+  await testX509(fixtures.keys['P-256'].certificate, alg);
 });
 
 test('ES384', macro, async () => {
@@ -209,6 +235,9 @@ test('ES384', macro, async () => {
   await jwkFromKeyLike(await jwkParse({ ...jwk, ext: true }, alg));
   const keypair = await utilGenerateKeyPair(alg);
   await jwsAsymmetricTest(keypair, alg);
+  await testSPKI(fixtures.keys['P-384'].publicKey, alg);
+  await testPKCS8(fixtures.keys['P-384'].privateKey, alg);
+  await testX509(fixtures.keys['P-384'].certificate, alg);
 });
 
 test('ES512', macro, async () => {
@@ -220,6 +249,9 @@ test('ES512', macro, async () => {
   await jwkFromKeyLike(await jwkParse({ ...jwk, ext: true }, alg));
   const keypair = await utilGenerateKeyPair(alg);
   await jwsAsymmetricTest(keypair, alg);
+  await testSPKI(fixtures.keys['P-521'].publicKey, alg);
+  await testPKCS8(fixtures.keys['P-521'].privateKey, alg);
+  await testX509(fixtures.keys['P-521'].certificate, alg);
 });
 
 test('EdDSA', macro, async () => {
@@ -231,6 +263,8 @@ test('EdDSA', macro, async () => {
   await jwkFromKeyLike(await jwkParse({ ...jwk, ext: true }, alg));
   const keypair = await utilGenerateKeyPair(alg);
   await jwsAsymmetricTest(keypair, alg);
+  await testSPKI(fixtures.keys.ed25519.publicKey, alg);
+  await testPKCS8(fixtures.keys.ed25519.privateKey, alg);
 });
 
 test('EdDSA crv: Ed25519', macro, async () => {
