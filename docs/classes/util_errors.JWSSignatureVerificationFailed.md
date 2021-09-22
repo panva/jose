@@ -40,7 +40,7 @@ An error subclass thrown when JWS signature verification fails.
 
 #### Defined in
 
-[util/errors.ts:16](https://github.com/panva/jose/blob/v3.17.0/src/util/errors.ts#L16)
+[util/errors.ts:16](https://github.com/panva/jose/blob/v3.18.0/src/util/errors.ts#L16)
 
 ## Properties
 
@@ -56,7 +56,7 @@ A unique error code for the particular error subclass.
 
 #### Defined in
 
-[util/errors.ts:153](https://github.com/panva/jose/blob/v3.17.0/src/util/errors.ts#L153)
+[util/errors.ts:153](https://github.com/panva/jose/blob/v3.18.0/src/util/errors.ts#L153)
 
 ___
 
@@ -70,7 +70,7 @@ JOSEError.message
 
 #### Defined in
 
-[util/errors.ts:155](https://github.com/panva/jose/blob/v3.17.0/src/util/errors.ts#L155)
+[util/errors.ts:155](https://github.com/panva/jose/blob/v3.18.0/src/util/errors.ts#L155)
 
 ___
 
@@ -86,4 +86,4 @@ A unique error code for the particular error subclass.
 
 #### Defined in
 
-[util/errors.ts:151](https://github.com/panva/jose/blob/v3.17.0/src/util/errors.ts#L151)
+[util/errors.ts:151](https://github.com/panva/jose/blob/v3.18.0/src/util/errors.ts#L151)

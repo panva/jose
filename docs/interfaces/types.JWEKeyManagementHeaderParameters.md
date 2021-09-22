@@ -23,7 +23,7 @@ Recognized JWE Key Management-related Header Parameters.
 
 #### Defined in
 
-[types.d.ts:305](https://github.com/panva/jose/blob/v3.17.0/src/types.d.ts#L305)
+[types.d.ts:334](https://github.com/panva/jose/blob/v3.18.0/src/types.d.ts#L334)
 
 ___
 
@@ -33,7 +33,7 @@ ___
 
 #### Defined in
 
-[types.d.ts:306](https://github.com/panva/jose/blob/v3.17.0/src/types.d.ts#L306)
+[types.d.ts:335](https://github.com/panva/jose/blob/v3.18.0/src/types.d.ts#L335)
 
 ___
 
@@ -43,7 +43,7 @@ ___
 
 #### Defined in
 
-[types.d.ts:307](https://github.com/panva/jose/blob/v3.17.0/src/types.d.ts#L307)
+[types.d.ts:336](https://github.com/panva/jose/blob/v3.18.0/src/types.d.ts#L336)
 
 ___
 
@@ -53,7 +53,7 @@ ___
 
 #### Defined in
 
-[types.d.ts:308](https://github.com/panva/jose/blob/v3.17.0/src/types.d.ts#L308)
+[types.d.ts:337](https://github.com/panva/jose/blob/v3.18.0/src/types.d.ts#L337)
 
 ___
 
@@ -63,7 +63,7 @@ ___
 
 #### Defined in
 
-[types.d.ts:309](https://github.com/panva/jose/blob/v3.17.0/src/types.d.ts#L309)
+[types.d.ts:338](https://github.com/panva/jose/blob/v3.18.0/src/types.d.ts#L338)
 
 ___
 
@@ -73,4 +73,4 @@ ___
 
 #### Defined in
 
-[types.d.ts:310](https://github.com/panva/jose/blob/v3.17.0/src/types.d.ts#L310)
+[types.d.ts:339](https://github.com/panva/jose/blob/v3.18.0/src/types.d.ts#L339)

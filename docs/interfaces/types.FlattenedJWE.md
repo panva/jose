@@ -31,7 +31,7 @@ encrypted.
 
 #### Defined in
 
-[types.d.ts:324](https://github.com/panva/jose/blob/v3.17.0/src/types.d.ts#L324)
+[types.d.ts:353](https://github.com/panva/jose/blob/v3.18.0/src/types.d.ts#L353)
 
 ___
 
@@ -44,7 +44,7 @@ BASE64URL(JWE Ciphertext).
 
 #### Defined in
 
-[types.d.ts:330](https://github.com/panva/jose/blob/v3.17.0/src/types.d.ts#L330)
+[types.d.ts:359](https://github.com/panva/jose/blob/v3.18.0/src/types.d.ts#L359)
 
 ___
 
@@ -58,7 +58,7 @@ non-empty; otherwise, it MUST be absent.
 
 #### Defined in
 
-[types.d.ts:337](https://github.com/panva/jose/blob/v3.17.0/src/types.d.ts#L337)
+[types.d.ts:366](https://github.com/panva/jose/blob/v3.18.0/src/types.d.ts#L366)
 
 ___
 
@@ -75,7 +75,7 @@ integrity protected.
 
 #### Defined in
 
-[types.d.ts:347](https://github.com/panva/jose/blob/v3.17.0/src/types.d.ts#L347)
+[types.d.ts:376](https://github.com/panva/jose/blob/v3.18.0/src/types.d.ts#L376)
 
 ___
 
@@ -89,7 +89,7 @@ Vector value is non-empty; otherwise, it MUST be absent.
 
 #### Defined in
 
-[types.d.ts:354](https://github.com/panva/jose/blob/v3.17.0/src/types.d.ts#L354)
+[types.d.ts:383](https://github.com/panva/jose/blob/v3.18.0/src/types.d.ts#L383)
 
 ___
 
@@ -104,7 +104,7 @@ Header Parameter values are integrity protected.
 
 #### Defined in
 
-[types.d.ts:362](https://github.com/panva/jose/blob/v3.17.0/src/types.d.ts#L362)
+[types.d.ts:391](https://github.com/panva/jose/blob/v3.18.0/src/types.d.ts#L391)
 
 ___
 
@@ -118,7 +118,7 @@ value is non-empty; otherwise, it MUST be absent.
 
 #### Defined in
 
-[types.d.ts:369](https://github.com/panva/jose/blob/v3.17.0/src/types.d.ts#L369)
+[types.d.ts:398](https://github.com/panva/jose/blob/v3.18.0/src/types.d.ts#L398)
 
 ___
 
@@ -134,4 +134,4 @@ These Header Parameter values are not integrity protected.
 
 #### Defined in
 
-[types.d.ts:378](https://github.com/panva/jose/blob/v3.17.0/src/types.d.ts#L378)
+[types.d.ts:407](https://github.com/panva/jose/blob/v3.18.0/src/types.d.ts#L407)

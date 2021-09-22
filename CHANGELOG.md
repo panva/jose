@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [3.18.0](https://github.com/panva/jose/compare/v3.17.0...v3.18.0) (2021-09-22)
+
+
+### Features
+
+* add X.509/SPKI/PKCS8 key import and SPKI/PKCS8 export functions ([a2af0f4](https://github.com/panva/jose/commit/a2af0f45fe47b3d73178ab00c18e49fccd2b1432))
+
 ## [3.17.0](https://github.com/panva/jose/compare/v3.16.1...v3.17.0) (2021-09-10)
 
 

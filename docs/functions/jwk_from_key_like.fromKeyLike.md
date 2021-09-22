@@ -4,37 +4,13 @@
 
 ▸ **fromKeyLike**(`key`): `Promise`<[`JWK`](../interfaces/types.JWK.md)\>
 
-Converts a runtime-specific key representation (KeyLike) to a JWK.
-
-**`example`** ESM import
-```js
-import { fromKeyLike } from 'jose/jwk/from_key_like'
-```
-
-**`example`** CJS import
-```js
-const { fromKeyLike } = require('jose/jwk/from_key_like')
-```
-
-**`example`** Deno import
-```js
-import { fromKeyLike } from 'https://deno.land/x/jose@v3.17.0/jwk/from_key_like.ts'
-```
-
-**`example`** Usage
-```js
-const privateJwk = await fromKeyLike(privateKey)
-const publicJwk = await fromKeyLike(publicKey)
-
-console.log(privateJwk)
-console.log(publicJwk)
-```
+**`deprecated`** use `jose/key/export`
 
 #### Parameters
 
-| Name | Type | Description |
-| :------ | :------ | :------ |
-| `key` | [`KeyLike`](../types/types.KeyLike.md) | Key representation to transform to a JWK. |
+| Name | Type |
+| :------ | :------ |
+| `key` | [`KeyLike`](../types/types.KeyLike.md) |
 
 #### Returns
 
@@ -42,4 +18,4 @@ console.log(publicJwk)
 
 #### Defined in
 
-[jwk/from_key_like.ts:34](https://github.com/panva/jose/blob/v3.17.0/src/jwk/from_key_like.ts#L34)
+[jwk/from_key_like.ts:8](https://github.com/panva/jose/blob/v3.18.0/src/jwk/from_key_like.ts#L8)

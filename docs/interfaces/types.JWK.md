@@ -47,7 +47,7 @@ JWK "alg" (Algorithm) Parameter.
 
 #### Defined in
 
-[types.d.ts:84](https://github.com/panva/jose/blob/v3.17.0/src/types.d.ts#L84)
+[types.d.ts:113](https://github.com/panva/jose/blob/v3.18.0/src/types.d.ts#L113)
 
 ___
 
@@ -57,7 +57,7 @@ ___
 
 #### Defined in
 
-[types.d.ts:85](https://github.com/panva/jose/blob/v3.17.0/src/types.d.ts#L85)
+[types.d.ts:114](https://github.com/panva/jose/blob/v3.18.0/src/types.d.ts#L114)
 
 ___
 
@@ -67,7 +67,7 @@ ___
 
 #### Defined in
 
-[types.d.ts:86](https://github.com/panva/jose/blob/v3.17.0/src/types.d.ts#L86)
+[types.d.ts:115](https://github.com/panva/jose/blob/v3.18.0/src/types.d.ts#L115)
 
 ___
 
@@ -77,7 +77,7 @@ ___
 
 #### Defined in
 
-[types.d.ts:87](https://github.com/panva/jose/blob/v3.17.0/src/types.d.ts#L87)
+[types.d.ts:116](https://github.com/panva/jose/blob/v3.18.0/src/types.d.ts#L116)
 
 ___
 
@@ -87,7 +87,7 @@ ___
 
 #### Defined in
 
-[types.d.ts:88](https://github.com/panva/jose/blob/v3.17.0/src/types.d.ts#L88)
+[types.d.ts:117](https://github.com/panva/jose/blob/v3.18.0/src/types.d.ts#L117)
 
 ___
 
@@ -97,7 +97,7 @@ ___
 
 #### Defined in
 
-[types.d.ts:89](https://github.com/panva/jose/blob/v3.17.0/src/types.d.ts#L89)
+[types.d.ts:118](https://github.com/panva/jose/blob/v3.18.0/src/types.d.ts#L118)
 
 ___
 
@@ -109,7 +109,7 @@ JWK "ext" (Extractable) Parameter.
 
 #### Defined in
 
-[types.d.ts:93](https://github.com/panva/jose/blob/v3.17.0/src/types.d.ts#L93)
+[types.d.ts:122](https://github.com/panva/jose/blob/v3.18.0/src/types.d.ts#L122)
 
 ___
 
@@ -119,7 +119,7 @@ ___
 
 #### Defined in
 
-[types.d.ts:94](https://github.com/panva/jose/blob/v3.17.0/src/types.d.ts#L94)
+[types.d.ts:123](https://github.com/panva/jose/blob/v3.18.0/src/types.d.ts#L123)
 
 ___
 
@@ -131,7 +131,7 @@ JWK "key_ops" (Key Operations) Parameter.
 
 #### Defined in
 
-[types.d.ts:98](https://github.com/panva/jose/blob/v3.17.0/src/types.d.ts#L98)
+[types.d.ts:127](https://github.com/panva/jose/blob/v3.18.0/src/types.d.ts#L127)
 
 ___
 
@@ -143,7 +143,7 @@ JWK "kid" (Key ID) Parameter.
 
 #### Defined in
 
-[types.d.ts:102](https://github.com/panva/jose/blob/v3.17.0/src/types.d.ts#L102)
+[types.d.ts:131](https://github.com/panva/jose/blob/v3.18.0/src/types.d.ts#L131)
 
 ___
 
@@ -155,7 +155,7 @@ JWK "kty" (Key Type) Parameter.
 
 #### Defined in
 
-[types.d.ts:106](https://github.com/panva/jose/blob/v3.17.0/src/types.d.ts#L106)
+[types.d.ts:135](https://github.com/panva/jose/blob/v3.18.0/src/types.d.ts#L135)
 
 ___
 
@@ -165,7 +165,7 @@ ___
 
 #### Defined in
 
-[types.d.ts:107](https://github.com/panva/jose/blob/v3.17.0/src/types.d.ts#L107)
+[types.d.ts:136](https://github.com/panva/jose/blob/v3.18.0/src/types.d.ts#L136)
 
 ___
 
@@ -175,7 +175,7 @@ ___
 
 #### Defined in
 
-[types.d.ts:108](https://github.com/panva/jose/blob/v3.17.0/src/types.d.ts#L108)
+[types.d.ts:137](https://github.com/panva/jose/blob/v3.18.0/src/types.d.ts#L137)
 
 ___
 
@@ -185,7 +185,7 @@ ___
 
 #### Defined in
 
-[types.d.ts:113](https://github.com/panva/jose/blob/v3.17.0/src/types.d.ts#L113)
+[types.d.ts:142](https://github.com/panva/jose/blob/v3.18.0/src/types.d.ts#L142)
 
 ___
 
@@ -195,7 +195,7 @@ ___
 
 #### Defined in
 
-[types.d.ts:114](https://github.com/panva/jose/blob/v3.17.0/src/types.d.ts#L114)
+[types.d.ts:143](https://github.com/panva/jose/blob/v3.18.0/src/types.d.ts#L143)
 
 ___
 
@@ -205,7 +205,7 @@ ___
 
 #### Defined in
 
-[types.d.ts:115](https://github.com/panva/jose/blob/v3.17.0/src/types.d.ts#L115)
+[types.d.ts:144](https://github.com/panva/jose/blob/v3.18.0/src/types.d.ts#L144)
 
 ___
 
@@ -217,7 +217,7 @@ JWK "use" (Public Key Use) Parameter.
 
 #### Defined in
 
-[types.d.ts:119](https://github.com/panva/jose/blob/v3.17.0/src/types.d.ts#L119)
+[types.d.ts:148](https://github.com/panva/jose/blob/v3.18.0/src/types.d.ts#L148)
 
 ___
 
@@ -227,7 +227,7 @@ ___
 
 #### Defined in
 
-[types.d.ts:120](https://github.com/panva/jose/blob/v3.17.0/src/types.d.ts#L120)
+[types.d.ts:149](https://github.com/panva/jose/blob/v3.18.0/src/types.d.ts#L149)
 
 ___
 
@@ -239,7 +239,7 @@ JWK "x5c" (X.509 Certificate Chain) Parameter.
 
 #### Defined in
 
-[types.d.ts:125](https://github.com/panva/jose/blob/v3.17.0/src/types.d.ts#L125)
+[types.d.ts:154](https://github.com/panva/jose/blob/v3.18.0/src/types.d.ts#L154)
 
 ___
 
@@ -251,7 +251,7 @@ JWK "x5t" (X.509 Certificate SHA-1 Thumbprint) Parameter.
 
 #### Defined in
 
-[types.d.ts:129](https://github.com/panva/jose/blob/v3.17.0/src/types.d.ts#L129)
+[types.d.ts:158](https://github.com/panva/jose/blob/v3.18.0/src/types.d.ts#L158)
 
 ___
 
@@ -263,7 +263,7 @@ ___
 
 #### Defined in
 
-[types.d.ts:133](https://github.com/panva/jose/blob/v3.17.0/src/types.d.ts#L133)
+[types.d.ts:162](https://github.com/panva/jose/blob/v3.18.0/src/types.d.ts#L162)
 
 ___
 
@@ -275,7 +275,7 @@ JWK "x5u" (X.509 URL) Parameter.
 
 #### Defined in
 
-[types.d.ts:137](https://github.com/panva/jose/blob/v3.17.0/src/types.d.ts#L137)
+[types.d.ts:166](https://github.com/panva/jose/blob/v3.18.0/src/types.d.ts#L166)
 
 ___
 
@@ -285,4 +285,4 @@ ___
 
 #### Defined in
 
-[types.d.ts:121](https://github.com/panva/jose/blob/v3.17.0/src/types.d.ts#L121)
+[types.d.ts:150](https://github.com/panva/jose/blob/v3.18.0/src/types.d.ts#L150)

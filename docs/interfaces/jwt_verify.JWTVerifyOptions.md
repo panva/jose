@@ -42,7 +42,7 @@ key/secret are allowed. Note: "none" is never accepted.
 
 #### Defined in
 
-[types.d.ts:532](https://github.com/panva/jose/blob/v3.17.0/src/types.d.ts#L532)
+[types.d.ts:561](https://github.com/panva/jose/blob/v3.18.0/src/types.d.ts#L561)
 
 ___
 
@@ -58,7 +58,7 @@ Expected JWT "aud" (Audience) Claim value(s).
 
 #### Defined in
 
-[types.d.ts:486](https://github.com/panva/jose/blob/v3.17.0/src/types.d.ts#L486)
+[types.d.ts:515](https://github.com/panva/jose/blob/v3.18.0/src/types.d.ts#L515)
 
 ___
 
@@ -76,7 +76,7 @@ Expected clock tolerance
 
 #### Defined in
 
-[types.d.ts:493](https://github.com/panva/jose/blob/v3.17.0/src/types.d.ts#L493)
+[types.d.ts:522](https://github.com/panva/jose/blob/v3.18.0/src/types.d.ts#L522)
 
 ___
 
@@ -113,7 +113,7 @@ default built-in treatment are currently available.
 
 #### Defined in
 
-[types.d.ts:440](https://github.com/panva/jose/blob/v3.17.0/src/types.d.ts#L440)
+[types.d.ts:469](https://github.com/panva/jose/blob/v3.18.0/src/types.d.ts#L469)
 
 ___
 
@@ -129,7 +129,7 @@ Date to use when comparing NumericDate claims, defaults to `new Date()`.
 
 #### Defined in
 
-[types.d.ts:520](https://github.com/panva/jose/blob/v3.17.0/src/types.d.ts#L520)
+[types.d.ts:549](https://github.com/panva/jose/blob/v3.18.0/src/types.d.ts#L549)
 
 ___
 
@@ -145,7 +145,7 @@ Expected JWT "iss" (Issuer) Claim value(s).
 
 #### Defined in
 
-[types.d.ts:498](https://github.com/panva/jose/blob/v3.17.0/src/types.d.ts#L498)
+[types.d.ts:527](https://github.com/panva/jose/blob/v3.18.0/src/types.d.ts#L527)
 
 ___
 
@@ -163,7 +163,7 @@ Maximum time elapsed (in seconds) from the JWT "iat" (Issued At) Claim value.
 
 #### Defined in
 
-[types.d.ts:505](https://github.com/panva/jose/blob/v3.17.0/src/types.d.ts#L505)
+[types.d.ts:534](https://github.com/panva/jose/blob/v3.18.0/src/types.d.ts#L534)
 
 ___
 
@@ -179,7 +179,7 @@ Expected JWT "sub" (Subject) Claim value.
 
 #### Defined in
 
-[types.d.ts:510](https://github.com/panva/jose/blob/v3.17.0/src/types.d.ts#L510)
+[types.d.ts:539](https://github.com/panva/jose/blob/v3.18.0/src/types.d.ts#L539)
 
 ___
 
@@ -195,4 +195,4 @@ Expected JWT "typ" (Type) Header Parameter value.
 
 #### Defined in
 
-[types.d.ts:515](https://github.com/panva/jose/blob/v3.17.0/src/types.d.ts#L515)
+[types.d.ts:544](https://github.com/panva/jose/blob/v3.18.0/src/types.d.ts#L544)
