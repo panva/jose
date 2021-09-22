@@ -18,9 +18,20 @@ function conditional({ webcrypto = 1, electron = 1 } = {}) {
     run = run.failing;
   }
 
-  if (!electron && 'electron' in process.versions) {
-    run = run.failing;
+  if ('electron' in process.versions) {
+    switch (electron) {
+      case 0:
+        run = run.failing;
+        break;
+      case parseInt(process.versions.electron, 10) >= 15 && 2:
+        run = run.skip;
+        break;
+      case 2:
+        run = run.failing;
+        break;
+    }
   }
+
   return run;
 }
 
@@ -179,13 +190,13 @@ Promise.all([import(`${keyRoot}/key/import`), import(`${keyRoot}/key/export`)]).
     for (const alg of ['EdDSA']) {
       test(`import SPKI ed25519 for ${alg}`, testSPKI, keys.ed25519.publicKey, alg);
       test(`import PKCS8 ed25519 for ${alg}`, testPKCS8, keys.ed25519.privateKey, alg);
-      conditional({ webcrypto: 1, electron: 0 })(
+      conditional({ webcrypto: 1, electron: 2 })(
         `import SPKI ed448 for ${alg}`,
         testSPKI,
         keys.ed448.publicKey,
         alg,
       );
-      conditional({ webcrypto: 1, electron: 0 })(
+      conditional({ webcrypto: 1, electron: 2 })(
         `import PKCS8 ed448 for ${alg}`,
         testPKCS8,
         keys.ed448.privateKey,
@@ -206,13 +217,13 @@ Promise.all([import(`${keyRoot}/key/import`), import(`${keyRoot}/key/export`)]).
         keys.x25519.privateKey,
         alg,
       );
-      conditional({ webcrypto: 0, electron: 0 })(
+      conditional({ webcrypto: 0, electron: 2 })(
         `import SPKI x448 for ${alg}`,
         testSPKI,
         keys.x448.publicKey,
         alg,
       );
-      conditional({ webcrypto: 0, electron: 0 })(
+      conditional({ webcrypto: 0, electron: 2 })(
         `import PKCS8 x448 for ${alg}`,
         testPKCS8,
         keys.x448.privateKey,
