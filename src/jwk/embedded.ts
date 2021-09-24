@@ -1,5 +1,5 @@
 import type { KeyObject, FlattenedJWSInput, JWSHeaderParameters } from '../types.d'
-import parseJwk from './parse.js'
+import { importJWK } from '../key/import.js'
 import isObject from '../lib/is_object.js'
 import { JWSInvalid } from '../util/errors.js'
 
@@ -50,7 +50,7 @@ async function EmbeddedJWK(protectedHeader: JWSHeaderParameters, token: Flattene
   }
 
   const key = <CryptoKey | KeyObject>(
-    await parseJwk({ ...joseHeader.jwk, ext: true }, joseHeader.alg!, true)
+    await importJWK({ ...joseHeader.jwk, ext: true }, joseHeader.alg!, true)
   )
 
   if (key.type !== 'public') {

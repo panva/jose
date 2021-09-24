@@ -1,8 +1,8 @@
 import { toSPKI as exportPublic } from '../runtime/asn1.js'
 import { toPKCS8 as exportPrivate } from '../runtime/asn1.js'
+import keyToJWK from '../runtime/key_to_jwk.js'
 
-import { fromKeyLike } from '../jwk/from_key_like.js'
-import type { KeyLike } from '../types.d'
+import type { JWK, KeyLike } from '../types.d'
 
 /**
  * Exports a runtime-specific public key representation (KeyObject or CryptoKey) to an PEM-encoded SPKI string format.
@@ -95,6 +95,8 @@ export async function exportPKCS8(key: Exclude<KeyLike, Uint8Array>): Promise<st
  * console.log(publicJwk)
  * ```
  */
-export const exportJWK: typeof fromKeyLike = (...args) => fromKeyLike(...args)
+export async function exportJWK(key: KeyLike): Promise<JWK> {
+  return keyToJWK(key)
+}
 
-export type { KeyLike }
+export type { KeyLike, JWK }

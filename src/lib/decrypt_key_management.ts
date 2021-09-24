@@ -9,7 +9,7 @@ import type { JWEHeaderParameters, KeyLike } from '../types.d'
 import type { JWEKeyManagementHeaderResults } from '../types.i.d'
 import { JOSENotSupported, JWEInvalid } from '../util/errors.js'
 import { bitLengths as cekLengths } from '../lib/cek.js'
-import { parseJwk } from '../jwk/parse.js'
+import { importJWK } from '../key/import.js'
 import checkKeyType from './check_key_type.js'
 
 function assertEnryptedKey(encryptedKey: unknown) {
@@ -59,7 +59,7 @@ async function decryptKeyManagement(
           'ECDH-ES with the provided key is not allowed or not supported by your javascript runtime',
         )
       }
-      const epk = await parseJwk(joseHeader.epk!, alg)
+      const epk = await importJWK(joseHeader.epk!, alg)
       let partyUInfo!: Uint8Array
       let partyVInfo!: Uint8Array
       if (joseHeader.apu !== undefined) partyUInfo = base64url(joseHeader.apu)
