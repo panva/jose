@@ -49,7 +49,9 @@ async function EmbeddedJWK(protectedHeader: JWSHeaderParameters, token: Flattene
     throw new JWSInvalid('"jwk" (JSON Web Key) Header Parameter must be a JSON object')
   }
 
-  const key = <CryptoKey | KeyObject>await parseJwk(joseHeader.jwk!, joseHeader.alg!, true)
+  const key = <CryptoKey | KeyObject>(
+    await parseJwk({ ...joseHeader.jwk, ext: true }, joseHeader.alg!, true)
+  )
 
   if (key.type !== 'public') {
     throw new JWSInvalid('"jwk" (JSON Web Key) Header Parameter must be a public key')
