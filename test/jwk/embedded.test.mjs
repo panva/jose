@@ -65,7 +65,11 @@ Promise.all([
     });
 
     test('EmbeddedJWK', async (t) => {
-      await t.notThrowsAsync(flattenedVerify(t.context.token, EmbeddedJWK));
+      await t.notThrowsAsync(async () => {
+        const { key: resolvedKey } = await flattenedVerify(t.context.token, EmbeddedJWK);
+        t.truthy(resolvedKey);
+        t.is(resolvedKey.type, 'public');
+      });
     });
 
     test('EmbeddedJWK requires "jwk" to be an object', async (t) => {

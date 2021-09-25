@@ -92,7 +92,7 @@ Promise.all([
         .setProtectedHeader({ alg: 'HS256' })
         [method](value)
         .sign(t.context.secret);
-      const { payload } = await compactVerify(jwt, async (header, token) => {
+      const { payload, key: resolvedKey } = await compactVerify(jwt, async (header, token) => {
         t.true('alg' in header);
         t.is(header.alg, 'HS256');
         t.true('payload' in token);
@@ -100,6 +100,7 @@ Promise.all([
         t.true('signature' in token);
         return t.context.secret;
       });
+      t.is(resolvedKey, t.context.secret);
       const claims = JSON.parse(new TextDecoder().decode(payload));
       t.true(claim in claims);
       t.is(claims[claim], expected);

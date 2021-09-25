@@ -97,7 +97,11 @@ Promise.all([
 
       const jwt = await enc.encrypt(t.context.secret);
 
-      const { plaintext, protectedHeader } = await compactDecrypt(jwt, async (header, token) => {
+      const {
+        plaintext,
+        protectedHeader,
+        key: resolvedKey,
+      } = await compactDecrypt(jwt, async (header, token) => {
         t.true('alg' in header);
         t.true('enc' in header);
         t.is(header.alg, 'dir');
@@ -108,6 +112,7 @@ Promise.all([
         t.true('tag' in token);
         return t.context.secret;
       });
+      t.is(resolvedKey, t.context.secret);
       const payload = JSON.parse(new TextDecoder().decode(plaintext));
       t.is(payload[claim], expected);
       if (duplicate) {

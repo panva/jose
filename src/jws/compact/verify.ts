@@ -8,6 +8,7 @@ import type {
   JWSHeaderParameters,
   KeyLike,
   VerifyOptions,
+  ResolvedKey,
 } from '../../types.d'
 
 /**
@@ -24,7 +25,7 @@ export interface CompactVerifyGetKey
  * Verifies the signature and format of and afterwards decodes the Compact JWS.
  *
  * @param jws Compact JWS.
- * @param key Key, or a function resolving a key, to verify the JWS with.
+ * @param key Key to verify the JWS with.
  * @param options JWS Verify options.
  *
  * @example ESM import
@@ -53,11 +54,26 @@ export interface CompactVerifyGetKey
  * console.log(decoder.decode(payload))
  * ```
  */
+function compactVerify(
+  jws: string | Uint8Array,
+  key: KeyLike,
+  options?: VerifyOptions,
+): Promise<CompactVerifyResult>
+/**
+ * @param jws Compact JWS.
+ * @param getKey Function resolving a key to verify the JWS with.
+ * @param options JWS Verify options.
+ */
+function compactVerify(
+  jws: string | Uint8Array,
+  getKey: CompactVerifyGetKey,
+  options?: VerifyOptions,
+): Promise<CompactVerifyResult & ResolvedKey>
 async function compactVerify(
   jws: string | Uint8Array,
   key: KeyLike | CompactVerifyGetKey,
   options?: VerifyOptions,
-): Promise<CompactVerifyResult> {
+) {
   if (jws instanceof Uint8Array) {
     jws = decoder.decode(jws)
   }
@@ -81,7 +97,13 @@ async function compactVerify(
     options,
   )
 
-  return { payload: verified.payload, protectedHeader: verified.protectedHeader! }
+  const result = { payload: verified.payload, protectedHeader: verified.protectedHeader! }
+
+  if (typeof key === 'function') {
+    return { ...result, key: verified.key }
+  }
+
+  return result
 }
 
 export { compactVerify }

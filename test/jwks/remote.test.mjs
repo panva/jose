@@ -135,7 +135,11 @@ Promise.all([
         const jwt = await new SignJWT({})
           .setProtectedHeader({ alg: 'PS256', kid: jwk.kid })
           .sign(key);
-        await t.notThrowsAsync(jwtVerify(jwt, JWKS));
+        await t.notThrowsAsync(async () => {
+          const { key: resolvedKey } = await jwtVerify(jwt, JWKS);
+          t.truthy(resolvedKey);
+          t.is(resolvedKey.type, 'public');
+        });
       }
       {
         const [jwk] = keys;

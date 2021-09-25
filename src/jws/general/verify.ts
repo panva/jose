@@ -7,6 +7,7 @@ import type {
   JWSHeaderParameters,
   KeyLike,
   VerifyOptions,
+  ResolvedKey,
 } from '../../types.d'
 import { JWSInvalid, JWSSignatureVerificationFailed } from '../../util/errors.js'
 import isObject from '../../lib/is_object.js'
@@ -25,7 +26,7 @@ export interface GeneralVerifyGetKey
  * Verifies the signature and format of and afterwards decodes the General JWS.
  *
  * @param jws General JWS.
- * @param key Key, or a function resolving a key, to verify the JWS with.
+ * @param key Key to verify the JWS with.
  * @param options JWS Verify options.
  *
  * @example ESM import
@@ -62,11 +63,26 @@ export interface GeneralVerifyGetKey
  * console.log(decoder.decode(payload))
  * ```
  */
+function generalVerify(
+  jws: GeneralJWSInput,
+  key: KeyLike,
+  options?: VerifyOptions,
+): Promise<GeneralVerifyResult>
+/**
+ * @param jws General JWS.
+ * @param getKey Function resolving a key to verify the JWS with.
+ * @param options JWS Verify options.
+ */
+function generalVerify(
+  jws: GeneralJWSInput,
+  getKey: GeneralVerifyGetKey,
+  options?: VerifyOptions,
+): Promise<GeneralVerifyResult & ResolvedKey>
 async function generalVerify(
   jws: GeneralJWSInput,
   key: KeyLike | GeneralVerifyGetKey,
   options?: VerifyOptions,
-): Promise<GeneralVerifyResult> {
+) {
   if (!isObject(jws)) {
     throw new JWSInvalid('General JWS must be an object')
   }

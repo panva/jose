@@ -14,6 +14,7 @@ import type {
   JWEHeaderParameters,
   DecryptOptions,
   GetKeyFunction,
+  ResolvedKey,
 } from '../../types.d'
 import { encoder, decoder, concat } from '../../lib/buffer_utils.js'
 import cekFactory from '../../lib/cek.js'
@@ -36,7 +37,7 @@ export interface FlattenedDecryptGetKey
  * Decrypts a Flattened JWE.
  *
  * @param jwe Flattened JWE.
- * @param key Public Key or Secret, or a function resolving one, to decrypt the JWE with.
+ * @param key Private Key or Secret to decrypt the JWE with.
  * @param options JWE Decryption options.
  *
  * @example ESM import
@@ -77,11 +78,26 @@ export interface FlattenedDecryptGetKey
  * console.log(decoder.decode(additionalAuthenticatedData))
  * ```
  */
+function flattenedDecrypt(
+  jwe: FlattenedJWE,
+  key: KeyLike,
+  options?: DecryptOptions,
+): Promise<FlattenedDecryptResult>
+/**
+ * @param jwe Flattened JWE.
+ * @param getKey Function resolving Private Key or Secret to decrypt the JWE with.
+ * @param options JWE Decryption options.
+ */
+function flattenedDecrypt(
+  jwe: FlattenedJWE,
+  getKey: FlattenedDecryptGetKey,
+  options?: DecryptOptions,
+): Promise<FlattenedDecryptResult & ResolvedKey>
 async function flattenedDecrypt(
   jwe: FlattenedJWE,
   key: KeyLike | FlattenedDecryptGetKey,
   options?: DecryptOptions,
-): Promise<FlattenedDecryptResult> {
+) {
   if (!isObject(jwe)) {
     throw new JWEInvalid('Flattened JWE must be an object')
   }
@@ -183,8 +199,10 @@ async function flattenedDecrypt(
     encryptedKey = base64url(jwe.encrypted_key!)
   }
 
+  let resolvedKey = false
   if (typeof key === 'function') {
     key = await key(parsedProt, jwe)
+    resolvedKey = true
   }
 
   let cek: KeyLike
@@ -238,6 +256,10 @@ async function flattenedDecrypt(
 
   if (jwe.header !== undefined) {
     result.unprotectedHeader = jwe.header
+  }
+
+  if (resolvedKey) {
+    return { ...result, key }
   }
 
   return result

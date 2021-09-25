@@ -721,3 +721,10 @@ export interface JWTDecryptResult {
    */
   protectedHeader: JWEHeaderParameters
 }
+
+export interface ResolvedKey {
+  /**
+   * Key resolved from the key resolver function.
+   */
+  key: KeyLike
+}

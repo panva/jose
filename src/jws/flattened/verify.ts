@@ -16,6 +16,7 @@ import type {
   JWSHeaderParameters,
   VerifyOptions,
   GetKeyFunction,
+  ResolvedKey,
 } from '../../types.d'
 
 const checkExtensions = validateCrit.bind(undefined, JWSInvalid, new Map([['b64', true]]))
@@ -35,7 +36,7 @@ export interface FlattenedVerifyGetKey
  * Verifies the signature and format of and afterwards decodes the Flattened JWS.
  *
  * @param jws Flattened JWS.
- * @param key Key, or a function resolving a key, to verify the JWS with.
+ * @param key Key to verify the JWS with.
  * @param options JWS Verify options.
  *
  * @example ESM import
@@ -68,11 +69,26 @@ export interface FlattenedVerifyGetKey
  * console.log(decoder.decode(payload))
  * ```
  */
+function flattenedVerify(
+  jws: FlattenedJWSInput,
+  key: KeyLike,
+  options?: VerifyOptions,
+): Promise<FlattenedVerifyResult>
+/**
+ * @param jws Flattened JWS.
+ * @param getKey Function resolving a key to verify the JWS with.
+ * @param options JWS Verify options.
+ */
+function flattenedVerify(
+  jws: FlattenedJWSInput,
+  getKey: FlattenedVerifyGetKey,
+  options?: VerifyOptions,
+): Promise<FlattenedVerifyResult & ResolvedKey>
 async function flattenedVerify(
   jws: FlattenedJWSInput,
   key: KeyLike | FlattenedVerifyGetKey,
   options?: VerifyOptions,
-): Promise<FlattenedVerifyResult> {
+) {
   if (!isObject(jws)) {
     throw new JWSInvalid('Flattened JWS must be an object')
   }
@@ -149,8 +165,10 @@ async function flattenedVerify(
     throw new JWSInvalid('JWS Payload must be a string or an Uint8Array instance')
   }
 
+  let resolvedKey = false
   if (typeof key === 'function') {
     key = await key(parsedProt, jws)
+    resolvedKey = true
   }
 
   checkKeyType(alg, key, 'verify')
@@ -184,6 +202,10 @@ async function flattenedVerify(
 
   if (jws.header !== undefined) {
     result.unprotectedHeader = jws.header
+  }
+
+  if (resolvedKey) {
+    return { ...result, key }
   }
 
   return result

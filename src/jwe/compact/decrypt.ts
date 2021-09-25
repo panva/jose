@@ -8,6 +8,7 @@ import type {
   GetKeyFunction,
   FlattenedJWE,
   CompactDecryptResult,
+  ResolvedKey,
 } from '../../types.d'
 
 /**
@@ -20,7 +21,7 @@ export interface CompactDecryptGetKey extends GetKeyFunction<JWEHeaderParameters
  * Decrypts a Compact JWE.
  *
  * @param jwe Compact JWE.
- * @param key Private Key or Secret, or a function resolving one, to decrypt the JWE with.
+ * @param key Private Key or Secret to decrypt the JWE with.
  * @param options JWE Decryption options.
  *
  * @example ESM import
@@ -51,9 +52,24 @@ export interface CompactDecryptGetKey extends GetKeyFunction<JWEHeaderParameters
  */
 async function compactDecrypt(
   jwe: string | Uint8Array,
+  key: KeyLike,
+  options?: DecryptOptions,
+): Promise<CompactDecryptResult>
+/**
+ * @param jwe Compact JWE.
+ * @param getKey Function resolving Private Key or Secret to decrypt the JWE with.
+ * @param options JWE Decryption options.
+ */
+async function compactDecrypt(
+  jwe: string | Uint8Array,
+  getKey: CompactDecryptGetKey,
+  options?: DecryptOptions,
+): Promise<CompactDecryptResult & ResolvedKey>
+async function compactDecrypt(
+  jwe: string | Uint8Array,
   key: KeyLike | CompactDecryptGetKey,
   options?: DecryptOptions,
-): Promise<CompactDecryptResult> {
+) {
   if (jwe instanceof Uint8Array) {
     jwe = decoder.decode(jwe)
   }
@@ -86,7 +102,13 @@ async function compactDecrypt(
     options,
   )
 
-  return { plaintext: decrypted.plaintext, protectedHeader: decrypted.protectedHeader! }
+  const result = { plaintext: decrypted.plaintext, protectedHeader: decrypted.protectedHeader! }
+
+  if (typeof key === 'function') {
+    return { ...result, key: decrypted.key }
+  }
+
+  return result
 }
 
 export { compactDecrypt }

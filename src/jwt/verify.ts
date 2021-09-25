@@ -8,6 +8,7 @@ import type {
   GetKeyFunction,
   FlattenedJWSInput,
   JWTVerifyResult,
+  ResolvedKey,
 } from '../types.d'
 import jwtPayload from '../lib/jwt_claims_set.js'
 import { JWTInvalid } from '../util/errors.js'
@@ -30,7 +31,7 @@ export interface JWTVerifyGetKey extends GetKeyFunction<JWSHeaderParameters, Fla
  * Verifies the JWT format (to be a JWS Compact format), verifies the JWS signature, validates the JWT Claims Set.
  *
  * @param jwt JSON Web Token value (encoded as JWS).
- * @param key Key, or a function resolving a key, to verify the JWT with.
+ * @param key Key to verify the JWT with.
  * @param options JWT Decryption and JWT Claims Set validation options.
  *
  * @example ESM import
@@ -63,15 +64,34 @@ export interface JWTVerifyGetKey extends GetKeyFunction<JWSHeaderParameters, Fla
  */
 async function jwtVerify(
   jwt: string | Uint8Array,
+  key: KeyLike,
+  options?: JWTVerifyOptions,
+): Promise<JWTVerifyResult>
+/**
+ * @param jwt JSON Web Token value (encoded as JWS).
+ * @param getKey Function resolving a key to verify the JWT with.
+ * @param options JWT Decryption and JWT Claims Set validation options.
+ */
+async function jwtVerify(
+  jwt: string | Uint8Array,
+  getKey: JWTVerifyGetKey,
+  options?: JWTVerifyOptions,
+): Promise<JWTVerifyResult & ResolvedKey>
+async function jwtVerify(
+  jwt: string | Uint8Array,
   key: KeyLike | JWTVerifyGetKey,
   options?: JWTVerifyOptions,
-): Promise<JWTVerifyResult> {
-  const verified = await verify(jwt, key, options)
+) {
+  const verified = await verify(jwt, <Parameters<typeof verify>[1]>key, options)
   if (verified.protectedHeader.crit?.includes('b64') && verified.protectedHeader.b64 === false) {
     throw new JWTInvalid('JWTs MUST NOT use unencoded payload')
   }
   const payload = jwtPayload(verified.protectedHeader, verified.payload, options)
-  return { payload, protectedHeader: verified.protectedHeader }
+  const result = { payload, protectedHeader: verified.protectedHeader }
+  if (typeof key === 'function') {
+    return { ...result, key: verified.key }
+  }
+  return result
 }
 
 export { jwtVerify }

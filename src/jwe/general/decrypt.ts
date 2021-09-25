@@ -8,6 +8,7 @@ import type {
   FlattenedJWE,
   GeneralJWE,
   GeneralDecryptResult,
+  ResolvedKey,
 } from '../../types.d'
 import isObject from '../../lib/is_object.js'
 
@@ -21,7 +22,7 @@ export interface GeneralDecryptGetKey extends GetKeyFunction<JWEHeaderParameters
  * Decrypts a General JWE.
  *
  * @param jwe General JWE.
- * @param key Private Key or Secret, or a function resolving one, to decrypt the JWE with.
+ * @param key Private Key or Secret to decrypt the JWE with.
  * @param options JWE Decryption options.
  *
  * @example ESM import
@@ -66,11 +67,26 @@ export interface GeneralDecryptGetKey extends GetKeyFunction<JWEHeaderParameters
  * console.log(decoder.decode(additionalAuthenticatedData))
  * ```
  */
+function generalDecrypt(
+  jwe: GeneralJWE,
+  key: KeyLike,
+  options?: DecryptOptions,
+): Promise<GeneralDecryptResult>
+/**
+ * @param jwe General JWE.
+ * @param getKey Function resolving Private Key or Secret to decrypt the JWE with.
+ * @param options JWE Decryption options.
+ */
+function generalDecrypt(
+  jwe: GeneralJWE,
+  getKey: GeneralDecryptGetKey,
+  options?: DecryptOptions,
+): Promise<GeneralDecryptResult & ResolvedKey>
 async function generalDecrypt(
   jwe: GeneralJWE,
   key: KeyLike | GeneralDecryptGetKey,
   options?: DecryptOptions,
-): Promise<GeneralDecryptResult> {
+) {
   if (!isObject(jwe)) {
     throw new JWEInvalid('General JWE must be an object')
   }

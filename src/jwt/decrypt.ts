@@ -8,6 +8,7 @@ import type {
   JWEHeaderParameters,
   FlattenedJWE,
   JWTDecryptResult,
+  ResolvedKey,
 } from '../types.d'
 import jwtPayload from '../lib/jwt_claims_set.js'
 import { JWTClaimValidationFailed } from '../util/errors.js'
@@ -27,7 +28,7 @@ export interface JWTDecryptGetKey extends GetKeyFunction<JWEHeaderParameters, Fl
  * Verifies the JWT format (to be a JWE Compact format), decrypts the ciphertext, validates the JWT Claims Set.
  *
  * @param jwt JSON Web Token value (encoded as JWE).
- * @param key Private Key or Secret, or a function resolving one, to decrypt and verify the JWT with.
+ * @param key Private Key or Secret to decrypt and verify the JWT with.
  * @param options JWT Decryption and JWT Claims Set validation options.
  *
  * @example ESM import
@@ -60,10 +61,25 @@ export interface JWTDecryptGetKey extends GetKeyFunction<JWEHeaderParameters, Fl
  */
 async function jwtDecrypt(
   jwt: string | Uint8Array,
+  key: KeyLike,
+  options?: JWTDecryptOptions,
+): Promise<JWTDecryptResult>
+/**
+ * @param jwt JSON Web Token value (encoded as JWE).
+ * @param getKey Function resolving Private Key or Secret to decrypt and verify the JWT with.
+ * @param options JWT Decryption and JWT Claims Set validation options.
+ */
+async function jwtDecrypt(
+  jwt: string | Uint8Array,
+  getKey: JWTDecryptGetKey,
+  options?: JWTDecryptOptions,
+): Promise<JWTDecryptResult & ResolvedKey>
+async function jwtDecrypt(
+  jwt: string | Uint8Array,
   key: KeyLike | JWTDecryptGetKey,
   options?: JWTDecryptOptions,
-): Promise<JWTDecryptResult> {
-  const decrypted = await decrypt(jwt, key, options)
+) {
+  const decrypted = await decrypt(jwt, <Parameters<typeof decrypt>[1]>key, options)
   const payload = jwtPayload(decrypted.protectedHeader, decrypted.plaintext, options)
 
   const { protectedHeader } = decrypted
@@ -95,7 +111,13 @@ async function jwtDecrypt(
     )
   }
 
-  return { payload, protectedHeader }
+  const result = { payload, protectedHeader }
+
+  if (typeof key === 'function') {
+    return { ...result, key: decrypted.key }
+  }
+
+  return result
 }
 
 export { jwtDecrypt }
