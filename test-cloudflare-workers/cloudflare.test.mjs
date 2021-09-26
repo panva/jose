@@ -5,33 +5,34 @@ import { setTimeout } from 'node:timers/promises';
 
 import test from 'ava';
 import throttle from 'p-throttle';
-import * as Undici from 'undici';
+import Got from 'got';
 
-Undici.setGlobalDispatcher(
-  new Undici.Agent({
-    keepAliveTimeout: 10,
-    keepAliveMaxTimeout: 10,
-  }),
-);
-
+const got = Got.extend({
+  http2: true,
+  throwHttpErrors: false,
+});
 const { CF_ACCOUNT_ID, CF_API_TOKEN } = process.env;
 
 const baseUrl = `https://api.cloudflare.com/client/v4/accounts/${CF_ACCOUNT_ID}/workers/scripts`;
 const authorization = `Bearer ${CF_API_TOKEN}`;
 const TEMPLATE = readFileSync(`./test-cloudflare-workers/template.js`);
 
-const request = throttle({ limit: 10, interval: 500 })(async (...args) => {
-  return Undici.request(...args);
+const request = throttle({ limit: 10, interval: 1000 })(async (...args) => {
+  return got(...args);
 });
 
 test.before(async () => {
-  const { body } = await request(baseUrl, {
+  const {
+    body: { result },
+  } = await request({
+    responseType: 'json',
+    url: baseUrl,
     method: 'GET',
     headers: { authorization },
   });
-  const { result } = await body.json();
   for (const { id } of result) {
-    request(`${baseUrl}/${id}`, {
+    request({
+      url: `${baseUrl}/${id}`,
       method: 'DELETE',
       headers: { authorization },
     });
@@ -46,7 +47,8 @@ test.beforeEach((t) => {
 test.afterEach.always(async (t) => {
   let statusCode;
   do {
-    ({ statusCode } = await request(`${baseUrl}/${t.context.uuid}`, {
+    ({ statusCode } = await request({
+      url: `${baseUrl}/${t.context.uuid}`,
       method: 'DELETE',
       headers: { authorization },
     }));
@@ -61,7 +63,8 @@ const macro = async (t, testScript) => {
 
   let statusCode;
   do {
-    ({ statusCode } = await request(`${baseUrl}/${t.context.uuid}`, {
+    ({ statusCode } = await request({
+      url: `${baseUrl}/${t.context.uuid}`,
       method: 'PUT',
       headers: { authorization, 'content-type': 'application/javascript' },
       body: readFileSync(t.context.file),
@@ -72,7 +75,8 @@ const macro = async (t, testScript) => {
   unlinkSync(t.context.file);
 
   do {
-    ({ statusCode } = await request(`${baseUrl}/${t.context.uuid}/subdomain`, {
+    ({ statusCode } = await request({
+      url: `${baseUrl}/${t.context.uuid}/subdomain`,
       method: 'POST',
       headers: { authorization, 'content-type': 'application/json' },
       body: JSON.stringify({ enabled: true }),
@@ -85,7 +89,11 @@ const macro = async (t, testScript) => {
   let body;
   let i = 0;
   do {
-    ({ statusCode, body } = await request(`https://${t.context.uuid}.panva.workers.dev`));
+    ({ statusCode, body } = await request({
+      method: 'GET',
+      url: `https://${t.context.uuid}.panva.workers.dev`,
+      responseType: 'json',
+    }));
     i++;
     await setTimeout(1000);
   } while (statusCode !== 200 && statusCode !== 400);
@@ -94,7 +102,7 @@ const macro = async (t, testScript) => {
   if (statusCode === 200) {
     t.pass();
   } else {
-    t.log(await body.json());
+    t.log(body);
     t.fail();
   }
 };
