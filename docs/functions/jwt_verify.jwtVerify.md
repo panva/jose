@@ -18,7 +18,7 @@ const { jwtVerify } = require('jose/jwt/verify')
 
 **`example`** Deno import
 ```js
-import { jwtVerify } from 'https://deno.land/x/jose@v3.18.0/jwt/verify.ts'
+import { jwtVerify } from 'https://deno.land/x/jose@v3.19.0/jwt/verify.ts'
 ```
 
 **`example`** Usage
@@ -39,7 +39,7 @@ console.log(payload)
 | Name | Type | Description |
 | :------ | :------ | :------ |
 | `jwt` | `string` \| `Uint8Array` | JSON Web Token value (encoded as JWS). |
-| `key` | [`KeyLike`](../types/types.KeyLike.md) \| [`JWTVerifyGetKey`](../interfaces/jwt_verify.JWTVerifyGetKey.md) | Key, or a function resolving a key, to verify the JWT with. |
+| `key` | [`KeyLike`](../types/types.KeyLike.md) | Key to verify the JWT with. |
 | `options?` | [`JWTVerifyOptions`](../interfaces/jwt_verify.JWTVerifyOptions.md) | JWT Decryption and JWT Claims Set validation options. |
 
 #### Returns
@@ -48,4 +48,22 @@ console.log(payload)
 
 #### Defined in
 
-[jwt/verify.ts:64](https://github.com/panva/jose/blob/v3.18.0/src/jwt/verify.ts#L64)
+[jwt/verify.ts:65](https://github.com/panva/jose/blob/v3.19.0/src/jwt/verify.ts#L65)
+
+▸ **jwtVerify**(`jwt`, `getKey`, `options?`): `Promise`<[`JWTVerifyResult`](../interfaces/types.JWTVerifyResult.md) & [`ResolvedKey`](../interfaces/types.ResolvedKey.md)\>
+
+#### Parameters
+
+| Name | Type | Description |
+| :------ | :------ | :------ |
+| `jwt` | `string` \| `Uint8Array` | JSON Web Token value (encoded as JWS). |
+| `getKey` | [`JWTVerifyGetKey`](../interfaces/jwt_verify.JWTVerifyGetKey.md) | Function resolving a key to verify the JWT with. |
+| `options?` | [`JWTVerifyOptions`](../interfaces/jwt_verify.JWTVerifyOptions.md) | JWT Decryption and JWT Claims Set validation options. |
+
+#### Returns
+
+`Promise`<[`JWTVerifyResult`](../interfaces/types.JWTVerifyResult.md) & [`ResolvedKey`](../interfaces/types.ResolvedKey.md)\>
+
+#### Defined in
+
+[jwt/verify.ts:75](https://github.com/panva/jose/blob/v3.19.0/src/jwt/verify.ts#L75)

@@ -18,7 +18,7 @@ const { generalDecrypt } = require('jose/jwe/general/decrypt')
 
 **`example`** Deno import
 ```js
-import { generalDecrypt } from 'https://deno.land/x/jose@v3.18.0/jwe/general/decrypt.ts'
+import { generalDecrypt } from 'https://deno.land/x/jose@v3.19.0/jwe/general/decrypt.ts'
 ```
 
 **`example`** Usage
@@ -53,7 +53,7 @@ console.log(decoder.decode(additionalAuthenticatedData))
 | Name | Type | Description |
 | :------ | :------ | :------ |
 | `jwe` | [`GeneralJWE`](../interfaces/types.GeneralJWE.md) | General JWE. |
-| `key` | [`KeyLike`](../types/types.KeyLike.md) \| [`GeneralDecryptGetKey`](../interfaces/jwe_general_decrypt.GeneralDecryptGetKey.md) | Private Key or Secret, or a function resolving one, to decrypt the JWE with. |
+| `key` | [`KeyLike`](../types/types.KeyLike.md) | Private Key or Secret to decrypt the JWE with. |
 | `options?` | [`DecryptOptions`](../interfaces/types.DecryptOptions.md) | JWE Decryption options. |
 
 #### Returns
@@ -62,4 +62,22 @@ console.log(decoder.decode(additionalAuthenticatedData))
 
 #### Defined in
 
-[jwe/general/decrypt.ts:69](https://github.com/panva/jose/blob/v3.18.0/src/jwe/general/decrypt.ts#L69)
+[jwe/general/decrypt.ts:70](https://github.com/panva/jose/blob/v3.19.0/src/jwe/general/decrypt.ts#L70)
+
+▸ **generalDecrypt**(`jwe`, `getKey`, `options?`): `Promise`<[`GeneralDecryptResult`](../interfaces/types.GeneralDecryptResult.md) & [`ResolvedKey`](../interfaces/types.ResolvedKey.md)\>
+
+#### Parameters
+
+| Name | Type | Description |
+| :------ | :------ | :------ |
+| `jwe` | [`GeneralJWE`](../interfaces/types.GeneralJWE.md) | General JWE. |
+| `getKey` | [`GeneralDecryptGetKey`](../interfaces/jwe_general_decrypt.GeneralDecryptGetKey.md) | Function resolving Private Key or Secret to decrypt the JWE with. |
+| `options?` | [`DecryptOptions`](../interfaces/types.DecryptOptions.md) | JWE Decryption options. |
+
+#### Returns
+
+`Promise`<[`GeneralDecryptResult`](../interfaces/types.GeneralDecryptResult.md) & [`ResolvedKey`](../interfaces/types.ResolvedKey.md)\>
+
+#### Defined in
+
+[jwe/general/decrypt.ts:80](https://github.com/panva/jose/blob/v3.19.0/src/jwe/general/decrypt.ts#L80)

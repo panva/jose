@@ -21,7 +21,7 @@ string when JWS Unencoded Payload Option
 
 #### Defined in
 
-[types.d.ts:256](https://github.com/panva/jose/blob/v3.18.0/src/types.d.ts#L256)
+[types.d.ts:256](https://github.com/panva/jose/blob/v3.19.0/src/types.d.ts#L256)
 
 ___
 
@@ -31,4 +31,4 @@ ___
 
 #### Defined in
 
-[types.d.ts:257](https://github.com/panva/jose/blob/v3.18.0/src/types.d.ts#L257)
+[types.d.ts:257](https://github.com/panva/jose/blob/v3.19.0/src/types.d.ts#L257)

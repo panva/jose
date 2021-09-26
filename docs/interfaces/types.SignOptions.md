@@ -51,4 +51,4 @@ default built-in treatment are currently available.
 
 #### Defined in
 
-[types.d.ts:469](https://github.com/panva/jose/blob/v3.18.0/src/types.d.ts#L469)
+[types.d.ts:469](https://github.com/panva/jose/blob/v3.19.0/src/types.d.ts#L469)

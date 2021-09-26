@@ -18,4 +18,4 @@
 
 #### Defined in
 
-[jwk/from_key_like.ts:8](https://github.com/panva/jose/blob/v3.18.0/src/jwk/from_key_like.ts#L8)
+[jwk/from_key_like.ts:8](https://github.com/panva/jose/blob/v3.19.0/src/jwk/from_key_like.ts#L8)

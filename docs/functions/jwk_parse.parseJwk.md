@@ -20,4 +20,4 @@
 
 #### Defined in
 
-[jwk/parse.ts:11](https://github.com/panva/jose/blob/v3.18.0/src/jwk/parse.ts#L11)
+[jwk/parse.ts:8](https://github.com/panva/jose/blob/v3.19.0/src/jwk/parse.ts#L8)

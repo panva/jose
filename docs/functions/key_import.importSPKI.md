@@ -20,7 +20,7 @@ const { importSPKI } = require('jose/key/import')
 
 **`example`** Deno import
 ```js
-import { importSPKI } from 'https://deno.land/x/jose@v3.18.0/key/import.ts'
+import { importSPKI } from 'https://deno.land/x/jose@v3.19.0/key/import.ts'
 ```
 
 **`example`** Usage
@@ -47,4 +47,4 @@ const ecPublicKey = await importSPKI(spki, algorithm)
 
 #### Defined in
 
-[key/import.ts:127](https://github.com/panva/jose/blob/v3.18.0/src/key/import.ts#L127)
+[key/import.ts:129](https://github.com/panva/jose/blob/v3.19.0/src/key/import.ts#L129)

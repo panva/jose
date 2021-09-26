@@ -18,7 +18,7 @@ const { flattenedVerify } = require('jose/jws/flattened/verify')
 
 **`example`** Deno import
 ```js
-import { flattenedVerify } from 'https://deno.land/x/jose@v3.18.0/jws/flattened/verify.ts'
+import { flattenedVerify } from 'https://deno.land/x/jose@v3.19.0/jws/flattened/verify.ts'
 ```
 
 **`example`** Usage
@@ -41,7 +41,7 @@ console.log(decoder.decode(payload))
 | Name | Type | Description |
 | :------ | :------ | :------ |
 | `jws` | [`FlattenedJWSInput`](../interfaces/types.FlattenedJWSInput.md) | Flattened JWS. |
-| `key` | [`KeyLike`](../types/types.KeyLike.md) \| [`FlattenedVerifyGetKey`](../interfaces/jws_flattened_verify.FlattenedVerifyGetKey.md) | Key, or a function resolving a key, to verify the JWS with. |
+| `key` | [`KeyLike`](../types/types.KeyLike.md) | Key to verify the JWS with. |
 | `options?` | [`VerifyOptions`](../interfaces/types.VerifyOptions.md) | JWS Verify options. |
 
 #### Returns
@@ -50,4 +50,22 @@ console.log(decoder.decode(payload))
 
 #### Defined in
 
-[jws/flattened/verify.ts:71](https://github.com/panva/jose/blob/v3.18.0/src/jws/flattened/verify.ts#L71)
+[jws/flattened/verify.ts:72](https://github.com/panva/jose/blob/v3.19.0/src/jws/flattened/verify.ts#L72)
+
+▸ **flattenedVerify**(`jws`, `getKey`, `options?`): `Promise`<[`FlattenedVerifyResult`](../interfaces/types.FlattenedVerifyResult.md) & [`ResolvedKey`](../interfaces/types.ResolvedKey.md)\>
+
+#### Parameters
+
+| Name | Type | Description |
+| :------ | :------ | :------ |
+| `jws` | [`FlattenedJWSInput`](../interfaces/types.FlattenedJWSInput.md) | Flattened JWS. |
+| `getKey` | [`FlattenedVerifyGetKey`](../interfaces/jws_flattened_verify.FlattenedVerifyGetKey.md) | Function resolving a key to verify the JWS with. |
+| `options?` | [`VerifyOptions`](../interfaces/types.VerifyOptions.md) | JWS Verify options. |
+
+#### Returns
+
+`Promise`<[`FlattenedVerifyResult`](../interfaces/types.FlattenedVerifyResult.md) & [`ResolvedKey`](../interfaces/types.ResolvedKey.md)\>
+
+#### Defined in
+
+[jws/flattened/verify.ts:82](https://github.com/panva/jose/blob/v3.19.0/src/jws/flattened/verify.ts#L82)

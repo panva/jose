@@ -18,7 +18,7 @@ const { exportSPKI } = require('jose/key/export')
 
 **`example`** Deno import
 ```js
-import { exportSPKI } from 'https://deno.land/x/jose@v3.18.0/key/export.ts'
+import { exportSPKI } from 'https://deno.land/x/jose@v3.19.0/key/export.ts'
 ```
 
 **`example`** Usage
@@ -40,4 +40,4 @@ console.log(spkiPem)
 
 #### Defined in
 
-[key/export.ts:34](https://github.com/panva/jose/blob/v3.18.0/src/key/export.ts#L34)
+[key/export.ts:34](https://github.com/panva/jose/blob/v3.19.0/src/key/export.ts#L34)

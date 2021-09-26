@@ -2,7 +2,7 @@
 
 [key/import](../modules/key_import.md).importJWK
 
-▸ `Const` **importJWK**(`jwk`, `alg?`, `octAsKeyObject?`): `Promise`<[`KeyLike`](../types/types.KeyLike.md)\>
+▸ **importJWK**(`jwk`, `alg?`, `octAsKeyObject?`): `Promise`<[`KeyLike`](../types/types.KeyLike.md)\>
 
 Imports a JWK to a runtime-specific key representation (KeyLike). Either
 JWK "alg" (Algorithm) Parameter must be present or the optional "alg" argument. When
@@ -23,7 +23,7 @@ const { importJWK } = require('jose/key/import')
 
 **`example`** Deno import
 ```js
-import { importJWK } from 'https://deno.land/x/jose@v3.18.0/key/import.ts'
+import { importJWK } from 'https://deno.land/x/jose@v3.19.0/key/import.ts'
 ```
 
 **`example`** Usage
@@ -56,4 +56,4 @@ const rsaPublicKey = await importJWK({
 
 #### Defined in
 
-[key/import.ts:279](https://github.com/panva/jose/blob/v3.18.0/src/key/import.ts#L279)
+[key/import.ts:281](https://github.com/panva/jose/blob/v3.19.0/src/key/import.ts#L281)

@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [3.19.0](https://github.com/panva/jose/compare/v3.18.0...v3.19.0) (2021-09-26)
+
+
+### Features
+
+* return resolved key when verify and decrypt resolve functions are used ([49fb62c](https://github.com/panva/jose/commit/49fb62cb96cd9afc854f5102313f16e27c0eb2b4))
+
 ## [3.18.0](https://github.com/panva/jose/compare/v3.17.0...v3.18.0) (2021-09-22)
 
 

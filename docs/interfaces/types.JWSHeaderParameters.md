@@ -43,7 +43,7 @@ JWS "alg" (Algorithm) Header Parameter.
 
 #### Defined in
 
-[types.d.ts:310](https://github.com/panva/jose/blob/v3.18.0/src/types.d.ts#L310)
+[types.d.ts:310](https://github.com/panva/jose/blob/v3.19.0/src/types.d.ts#L310)
 
 ___
 
@@ -57,7 +57,7 @@ representation and the JWS Signing Input computation as per
 
 #### Defined in
 
-[types.d.ts:317](https://github.com/panva/jose/blob/v3.18.0/src/types.d.ts#L317)
+[types.d.ts:317](https://github.com/panva/jose/blob/v3.19.0/src/types.d.ts#L317)
 
 ___
 
@@ -69,7 +69,7 @@ JWS "crit" (Critical) Header Parameter.
 
 #### Defined in
 
-[types.d.ts:322](https://github.com/panva/jose/blob/v3.18.0/src/types.d.ts#L322)
+[types.d.ts:322](https://github.com/panva/jose/blob/v3.19.0/src/types.d.ts#L322)
 
 ___
 
@@ -85,7 +85,7 @@ ___
 
 #### Defined in
 
-[types.d.ts:299](https://github.com/panva/jose/blob/v3.18.0/src/types.d.ts#L299)
+[types.d.ts:299](https://github.com/panva/jose/blob/v3.19.0/src/types.d.ts#L299)
 
 ___
 
@@ -101,7 +101,7 @@ ___
 
 #### Defined in
 
-[types.d.ts:284](https://github.com/panva/jose/blob/v3.18.0/src/types.d.ts#L284)
+[types.d.ts:284](https://github.com/panva/jose/blob/v3.19.0/src/types.d.ts#L284)
 
 ___
 
@@ -117,7 +117,7 @@ ___
 
 #### Defined in
 
-[types.d.ts:289](https://github.com/panva/jose/blob/v3.18.0/src/types.d.ts#L289)
+[types.d.ts:289](https://github.com/panva/jose/blob/v3.19.0/src/types.d.ts#L289)
 
 ___
 
@@ -133,7 +133,7 @@ ___
 
 #### Defined in
 
-[types.d.ts:264](https://github.com/panva/jose/blob/v3.18.0/src/types.d.ts#L264)
+[types.d.ts:264](https://github.com/panva/jose/blob/v3.19.0/src/types.d.ts#L264)
 
 ___
 
@@ -149,7 +149,7 @@ ___
 
 #### Defined in
 
-[types.d.ts:294](https://github.com/panva/jose/blob/v3.18.0/src/types.d.ts#L294)
+[types.d.ts:294](https://github.com/panva/jose/blob/v3.19.0/src/types.d.ts#L294)
 
 ___
 
@@ -165,7 +165,7 @@ ___
 
 #### Defined in
 
-[types.d.ts:274](https://github.com/panva/jose/blob/v3.18.0/src/types.d.ts#L274)
+[types.d.ts:274](https://github.com/panva/jose/blob/v3.19.0/src/types.d.ts#L274)
 
 ___
 
@@ -181,7 +181,7 @@ ___
 
 #### Defined in
 
-[types.d.ts:269](https://github.com/panva/jose/blob/v3.18.0/src/types.d.ts#L269)
+[types.d.ts:269](https://github.com/panva/jose/blob/v3.19.0/src/types.d.ts#L269)
 
 ___
 
@@ -197,4 +197,4 @@ ___
 
 #### Defined in
 
-[types.d.ts:279](https://github.com/panva/jose/blob/v3.18.0/src/types.d.ts#L279)
+[types.d.ts:279](https://github.com/panva/jose/blob/v3.19.0/src/types.d.ts#L279)

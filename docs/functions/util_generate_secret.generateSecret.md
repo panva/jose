@@ -21,7 +21,7 @@ const { generateSecret } = require('jose/util/generate_secret')
 
 **`example`** Deno import
 ```js
-import { generateSecret } from 'https://deno.land/x/jose@v3.18.0/util/generate_secret.ts'
+import { generateSecret } from 'https://deno.land/x/jose@v3.19.0/util/generate_secret.ts'
 ```
 
 **`example`** Usage
@@ -43,4 +43,4 @@ console.log(secret)
 
 #### Defined in
 
-[util/generate_secret.ts:44](https://github.com/panva/jose/blob/v3.18.0/src/util/generate_secret.ts#L44)
+[util/generate_secret.ts:44](https://github.com/panva/jose/blob/v3.19.0/src/util/generate_secret.ts#L44)

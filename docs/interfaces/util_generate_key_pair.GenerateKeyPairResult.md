@@ -19,7 +19,7 @@ The generated Private Key.
 
 #### Defined in
 
-[util/generate_key_pair.ts:9](https://github.com/panva/jose/blob/v3.18.0/src/util/generate_key_pair.ts#L9)
+[util/generate_key_pair.ts:9](https://github.com/panva/jose/blob/v3.19.0/src/util/generate_key_pair.ts#L9)
 
 ___
 
@@ -31,4 +31,4 @@ Public Key corresponding to the generated Private Key.
 
 #### Defined in
 
-[util/generate_key_pair.ts:14](https://github.com/panva/jose/blob/v3.18.0/src/util/generate_key_pair.ts#L14)
+[util/generate_key_pair.ts:14](https://github.com/panva/jose/blob/v3.19.0/src/util/generate_key_pair.ts#L14)

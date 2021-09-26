@@ -2,7 +2,7 @@
 
 [key/export](../modules/key_export.md).exportJWK
 
-▸ `Const` **exportJWK**(`key`): `Promise`<[`JWK`](../interfaces/types.JWK.md)\>
+▸ **exportJWK**(`key`): `Promise`<[`JWK`](../interfaces/types.JWK.md)\>
 
 Exports a runtime-specific key representation (KeyLike) to a JWK.
 
@@ -18,7 +18,7 @@ const { exportJWK } = require('jose/key/export')
 
 **`example`** Deno import
 ```js
-import { exportJWK } from 'https://deno.land/x/jose@v3.18.0/key/export.ts'
+import { exportJWK } from 'https://deno.land/x/jose@v3.19.0/key/export.ts'
 ```
 
 **`example`** Usage
@@ -42,4 +42,4 @@ console.log(publicJwk)
 
 #### Defined in
 
-[key/export.ts:98](https://github.com/panva/jose/blob/v3.18.0/src/key/export.ts#L98)
+[key/export.ts:98](https://github.com/panva/jose/blob/v3.19.0/src/key/export.ts#L98)

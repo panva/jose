@@ -4,6 +4,7 @@
 
 ### References
 
+- [JWK](key_export.md#jwk)
 - [KeyLike](key_export.md#keylike)
 
 ### Functions
@@ -13,6 +14,12 @@
 - [exportSPKI](../functions/key_export.exportSPKI.md)
 
 ## References
+
+### JWK
+
+Re-exports: [JWK](../interfaces/types.JWK.md)
+
+___
 
 ### KeyLike
 

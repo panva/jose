@@ -18,7 +18,7 @@ const { generalVerify } = require('jose/jws/general/verify')
 
 **`example`** Deno import
 ```js
-import { generalVerify } from 'https://deno.land/x/jose@v3.18.0/jws/general/verify.ts'
+import { generalVerify } from 'https://deno.land/x/jose@v3.19.0/jws/general/verify.ts'
 ```
 
 **`example`** Usage
@@ -45,7 +45,7 @@ console.log(decoder.decode(payload))
 | Name | Type | Description |
 | :------ | :------ | :------ |
 | `jws` | [`GeneralJWSInput`](../interfaces/types.GeneralJWSInput.md) | General JWS. |
-| `key` | [`KeyLike`](../types/types.KeyLike.md) \| [`GeneralVerifyGetKey`](../interfaces/jws_general_verify.GeneralVerifyGetKey.md) | Key, or a function resolving a key, to verify the JWS with. |
+| `key` | [`KeyLike`](../types/types.KeyLike.md) | Key to verify the JWS with. |
 | `options?` | [`VerifyOptions`](../interfaces/types.VerifyOptions.md) | JWS Verify options. |
 
 #### Returns
@@ -54,4 +54,22 @@ console.log(decoder.decode(payload))
 
 #### Defined in
 
-[jws/general/verify.ts:65](https://github.com/panva/jose/blob/v3.18.0/src/jws/general/verify.ts#L65)
+[jws/general/verify.ts:66](https://github.com/panva/jose/blob/v3.19.0/src/jws/general/verify.ts#L66)
+
+▸ **generalVerify**(`jws`, `getKey`, `options?`): `Promise`<[`GeneralVerifyResult`](../interfaces/types.GeneralVerifyResult.md) & [`ResolvedKey`](../interfaces/types.ResolvedKey.md)\>
+
+#### Parameters
+
+| Name | Type | Description |
+| :------ | :------ | :------ |
+| `jws` | [`GeneralJWSInput`](../interfaces/types.GeneralJWSInput.md) | General JWS. |
+| `getKey` | [`GeneralVerifyGetKey`](../interfaces/jws_general_verify.GeneralVerifyGetKey.md) | Function resolving a key to verify the JWS with. |
+| `options?` | [`VerifyOptions`](../interfaces/types.VerifyOptions.md) | JWS Verify options. |
+
+#### Returns
+
+`Promise`<[`GeneralVerifyResult`](../interfaces/types.GeneralVerifyResult.md) & [`ResolvedKey`](../interfaces/types.ResolvedKey.md)\>
+
+#### Defined in
+
+[jws/general/verify.ts:76](https://github.com/panva/jose/blob/v3.19.0/src/jws/general/verify.ts#L76)

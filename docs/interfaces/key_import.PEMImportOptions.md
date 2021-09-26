@@ -20,4 +20,4 @@
 
 #### Defined in
 
-[key/import.ts:91](https://github.com/panva/jose/blob/v3.18.0/src/key/import.ts#L91)
+[key/import.ts:93](https://github.com/panva/jose/blob/v3.19.0/src/key/import.ts#L93)

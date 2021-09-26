@@ -18,7 +18,7 @@ const { exportPKCS8 } = require('jose/key/export')
 
 **`example`** Deno import
 ```js
-import { exportPKCS8 } from 'https://deno.land/x/jose@v3.18.0/key/export.ts'
+import { exportPKCS8 } from 'https://deno.land/x/jose@v3.19.0/key/export.ts'
 ```
 
 **`example`** Usage
@@ -40,4 +40,4 @@ console.log(pkcs8Pem)
 
 #### Defined in
 
-[key/export.ts:65](https://github.com/panva/jose/blob/v3.18.0/src/key/export.ts#L65)
+[key/export.ts:65](https://github.com/panva/jose/blob/v3.19.0/src/key/export.ts#L65)

@@ -4,6 +4,7 @@
 
 ### References
 
+- [JWK](key_import.md#jwk)
 - [KeyLike](key_import.md#keylike)
 
 ### Interfaces
@@ -18,6 +19,12 @@
 - [importX509](../functions/key_import.importX509.md)
 
 ## References
+
+### JWK
+
+Re-exports: [JWK](../interfaces/types.JWK.md)
+
+___
 
 ### KeyLike
 

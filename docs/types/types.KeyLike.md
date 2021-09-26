@@ -102,4 +102,4 @@ const secretKey = createSecretKey(Buffer.from('7f908df6c8bd634f769c073a48986d776
 
 #### Defined in
 
-[types.d.ts:103](https://github.com/panva/jose/blob/v3.18.0/src/types.d.ts#L103)
+[types.d.ts:103](https://github.com/panva/jose/blob/v3.19.0/src/types.d.ts#L103)

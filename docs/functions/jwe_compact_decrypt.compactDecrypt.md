@@ -18,7 +18,7 @@ const { compactDecrypt } = require('jose/jwe/compact/decrypt')
 
 **`example`** Deno import
 ```js
-import { compactDecrypt } from 'https://deno.land/x/jose@v3.18.0/jwe/compact/decrypt.ts'
+import { compactDecrypt } from 'https://deno.land/x/jose@v3.19.0/jwe/compact/decrypt.ts'
 ```
 
 **`example`** Usage
@@ -37,7 +37,7 @@ console.log(decoder.decode(plaintext))
 | Name | Type | Description |
 | :------ | :------ | :------ |
 | `jwe` | `string` \| `Uint8Array` | Compact JWE. |
-| `key` | [`KeyLike`](../types/types.KeyLike.md) \| [`CompactDecryptGetKey`](../interfaces/jwe_compact_decrypt.CompactDecryptGetKey.md) | Private Key or Secret, or a function resolving one, to decrypt the JWE with. |
+| `key` | [`KeyLike`](../types/types.KeyLike.md) | Private Key or Secret to decrypt the JWE with. |
 | `options?` | [`DecryptOptions`](../interfaces/types.DecryptOptions.md) | JWE Decryption options. |
 
 #### Returns
@@ -46,4 +46,22 @@ console.log(decoder.decode(plaintext))
 
 #### Defined in
 
-[jwe/compact/decrypt.ts:52](https://github.com/panva/jose/blob/v3.18.0/src/jwe/compact/decrypt.ts#L52)
+[jwe/compact/decrypt.ts:53](https://github.com/panva/jose/blob/v3.19.0/src/jwe/compact/decrypt.ts#L53)
+
+▸ **compactDecrypt**(`jwe`, `getKey`, `options?`): `Promise`<[`CompactDecryptResult`](../interfaces/types.CompactDecryptResult.md) & [`ResolvedKey`](../interfaces/types.ResolvedKey.md)\>
+
+#### Parameters
+
+| Name | Type | Description |
+| :------ | :------ | :------ |
+| `jwe` | `string` \| `Uint8Array` | Compact JWE. |
+| `getKey` | [`CompactDecryptGetKey`](../interfaces/jwe_compact_decrypt.CompactDecryptGetKey.md) | Function resolving Private Key or Secret to decrypt the JWE with. |
+| `options?` | [`DecryptOptions`](../interfaces/types.DecryptOptions.md) | JWE Decryption options. |
+
+#### Returns
+
+`Promise`<[`CompactDecryptResult`](../interfaces/types.CompactDecryptResult.md) & [`ResolvedKey`](../interfaces/types.ResolvedKey.md)\>
+
+#### Defined in
+
+[jwe/compact/decrypt.ts:63](https://github.com/panva/jose/blob/v3.19.0/src/jwe/compact/decrypt.ts#L63)

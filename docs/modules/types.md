@@ -31,6 +31,7 @@
 - [JWTPayload](../interfaces/types.JWTPayload.md)
 - [JWTVerifyResult](../interfaces/types.JWTVerifyResult.md)
 - [JoseHeaderParameters](../interfaces/types.JoseHeaderParameters.md)
+- [ResolvedKey](../interfaces/types.ResolvedKey.md)
 - [SignOptions](../interfaces/types.SignOptions.md)
 - [VerifyOptions](../interfaces/types.VerifyOptions.md)
 
