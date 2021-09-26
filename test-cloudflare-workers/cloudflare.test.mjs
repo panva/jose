@@ -4,13 +4,25 @@ import { readFileSync, writeFileSync, unlinkSync } from 'node:fs';
 import { setTimeout } from 'node:timers/promises';
 
 import test from 'ava';
-import { Client, request } from 'undici';
+import throttle from 'p-throttle';
+import * as Undici from 'undici';
+
+Undici.setGlobalDispatcher(
+  new Undici.Agent({
+    keepAliveTimeout: 10,
+    keepAliveMaxTimeout: 10,
+  }),
+);
 
 const { CF_ACCOUNT_ID, CF_API_TOKEN } = process.env;
 
 const baseUrl = `https://api.cloudflare.com/client/v4/accounts/${CF_ACCOUNT_ID}/workers/scripts`;
 const authorization = `Bearer ${CF_API_TOKEN}`;
 const TEMPLATE = readFileSync(`./test-cloudflare-workers/template.js`);
+
+const request = throttle({ limit: 10, interval: 500 })(async (...args) => {
+  return Undici.request(...args);
+});
 
 test.before(async () => {
   const { body } = await request(baseUrl, {
@@ -73,12 +85,7 @@ const macro = async (t, testScript) => {
   let body;
   let i = 0;
   do {
-    ({ statusCode, body } = await new Client(`https://${t.context.uuid}.panva.workers.dev`).request(
-      {
-        path: '/',
-        method: 'GET',
-      },
-    ));
+    ({ statusCode, body } = await request(`https://${t.context.uuid}.panva.workers.dev`));
     i++;
     await setTimeout(1000);
   } while (statusCode !== 200 && statusCode !== 400);
