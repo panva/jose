@@ -33,7 +33,7 @@ Use this when a given JWS/JWT/JWE profile requires the use of proprietary
 non-registered "crit" (Critical) Header Parameters. This will only make sure
 the Header Parameter is syntactically correct when provided and that it is
 optionally integrity protected. It will not process the Header Parameter in
-any way or reject if the operation if it is missing. You MUST still
+any way or reject the operation if it is missing. You MUST still
 verify the Header Parameter was present and process it according to the
 profile's validation steps after the operation succeeds.
 
