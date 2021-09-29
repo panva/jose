@@ -12,26 +12,26 @@ if ('WEBCRYPTO' in process.env) {
   root = keyRoot = '#dist';
 }
 
-Promise.all([import(`${keyRoot}/jwk/parse`), import(`${keyRoot}/jwk/from_key_like`)]).then(
-  ([{ default: parseJwk }, { default: fromKeyLike }]) => {
+Promise.all([import(`${keyRoot}/key/import`), import(`${keyRoot}/key/export`)]).then(
+  ([{ importJWK }, { exportJWK }]) => {
     test('JWK must be an object', async (t) => {
-      await t.throwsAsync(parseJwk(true), {
+      await t.throwsAsync(importJWK(true), {
         instanceOf: TypeError,
         message: 'JWK must be an object',
       });
-      await t.throwsAsync(parseJwk(null), {
+      await t.throwsAsync(importJWK(null), {
         instanceOf: TypeError,
         message: 'JWK must be an object',
       });
-      await t.throwsAsync(parseJwk(Boolean), {
+      await t.throwsAsync(importJWK(Boolean), {
         instanceOf: TypeError,
         message: 'JWK must be an object',
       });
-      await t.throwsAsync(parseJwk([]), {
+      await t.throwsAsync(importJWK([]), {
         instanceOf: TypeError,
         message: 'JWK must be an object',
       });
-      await t.throwsAsync(parseJwk(''), {
+      await t.throwsAsync(importJWK(''), {
         instanceOf: TypeError,
         message: 'JWK must be an object',
       });
@@ -40,11 +40,11 @@ Promise.all([import(`${keyRoot}/jwk/parse`), import(`${keyRoot}/jwk/from_key_lik
       nullPrototype.kty = 'EC';
       nullPrototype.x = 'q3zAwR_kUwtdLEwtB2oVfucXiLHmEhu9bJUFYjJxYGs';
       nullPrototype.y = '8h0D-ONoU-iZqrq28TyUxEULxuGwJZGMJYTMbeMshvI';
-      await t.notThrowsAsync(parseJwk(nullPrototype, 'ES256'));
+      await t.notThrowsAsync(importJWK(nullPrototype, 'ES256'));
     });
 
     test('JWK kty must be recognized', async (t) => {
-      await t.throwsAsync(parseJwk({ kty: 'unrecognized' }, 'HS256'), {
+      await t.throwsAsync(importJWK({ kty: 'unrecognized' }, 'HS256'), {
         code: 'ERR_JOSE_NOT_SUPPORTED',
         message: 'Unsupported "kty" (Key Type) Parameter value',
       });
@@ -55,23 +55,23 @@ Promise.all([import(`${keyRoot}/jwk/parse`), import(`${keyRoot}/jwk/from_key_lik
         k: 'FyCq1CKBflh3I5gikEjpYrdOXllzxB_yc02za8ERknI',
         kty: 'oct',
       };
-      await t.throwsAsync(parseJwk(oct), {
+      await t.throwsAsync(importJWK(oct), {
         instanceOf: TypeError,
         message: '"alg" argument is required when "jwk.alg" is not present',
       });
-      await t.notThrowsAsync(parseJwk(oct, 'HS256'));
-      await t.notThrowsAsync(parseJwk({ ...oct, alg: 'HS256' }));
+      await t.notThrowsAsync(importJWK(oct, 'HS256'));
+      await t.notThrowsAsync(importJWK({ ...oct, alg: 'HS256' }));
     });
 
     test('oct JWK must have "k"', async (t) => {
-      await t.throwsAsync(parseJwk({ kty: 'oct' }, 'HS256'), {
+      await t.throwsAsync(importJWK({ kty: 'oct' }, 'HS256'), {
         instanceOf: TypeError,
         message: 'missing "k" (Key Value) Parameter value',
       });
     });
 
     test('RSA JWK with oth is not supported', async (t) => {
-      await t.throwsAsync(parseJwk({ kty: 'RSA', oth: [] }, 'RS256'), {
+      await t.throwsAsync(importJWK({ kty: 'RSA', oth: [] }, 'RS256'), {
         code: 'ERR_JOSE_NOT_SUPPORTED',
         message: 'RSA JWK "oth" (Other Primes Info) Parameter value is not supported',
       });
@@ -85,7 +85,7 @@ Promise.all([import(`${keyRoot}/jwk/parse`), import(`${keyRoot}/jwk/from_key_lik
       };
 
       t.deepEqual(
-        [...(await parseJwk(oct, 'HS256'))],
+        [...(await importJWK(oct, 'HS256'))],
         [
           23, 32, 170, 212, 34, 129, 126, 88, 119, 35, 152, 34, 144, 72, 233, 98, 183, 78, 94, 89,
           115, 196, 31, 242, 115, 77, 179, 107, 193, 17, 146, 114,
@@ -100,7 +100,7 @@ Promise.all([import(`${keyRoot}/jwk/parse`), import(`${keyRoot}/jwk/from_key_lik
         ext: false,
       };
 
-      const k = await parseJwk(oct, 'HS256');
+      const k = await importJWK(oct, 'HS256');
 
       t.true('type' in k);
       t.is(k.type, 'secret');
@@ -112,7 +112,7 @@ Promise.all([import(`${keyRoot}/jwk/parse`), import(`${keyRoot}/jwk/from_key_lik
         kty: 'oct',
       };
 
-      const k = await parseJwk(oct, 'HS256');
+      const k = await importJWK(oct, 'HS256');
 
       t.true('type' in k);
       t.is(k.type, 'secret');
@@ -120,29 +120,29 @@ Promise.all([import(`${keyRoot}/jwk/parse`), import(`${keyRoot}/jwk/from_key_lik
 
     async function testKeyImportExport(t, jwk) {
       await t.notThrowsAsync(async () => {
-        let key = await parseJwk({ ...jwk, ext: true });
+        let key = await importJWK({ ...jwk, ext: true });
         t.is(key.type, 'private');
-        const exportedJwk = await fromKeyLike(key);
-        key = await parseJwk(exportedJwk, jwk.alg);
+        const exportedJwk = await exportJWK(key);
+        key = await importJWK(exportedJwk, jwk.alg);
         t.is(key.type, 'private');
       });
       await t.notThrowsAsync(async () => {
         const { d, p, q, dp, dq, qi, ...publicJwk } = jwk;
-        const key = await parseJwk(publicJwk);
+        const key = await importJWK(publicJwk);
         t.is(key.type, 'public');
       });
       await t.notThrowsAsync(async () => {
         const { ext, key_ops, alg, use, ...expectedExport } = jwk;
-        const key = await parseJwk({ ...jwk, ext: true });
+        const key = await importJWK({ ...jwk, ext: true });
         t.is(key.type, 'private');
-        t.deepEqual(await fromKeyLike(key), expectedExport);
+        t.deepEqual(await exportJWK(key), expectedExport);
       });
       await t.notThrowsAsync(async () => {
         const { d, p, q, dp, dq, qi, ...publicJwk } = jwk;
         const { ext, key_ops, alg, use, ...expectedExport } = publicJwk;
-        const key = await parseJwk({ ...publicJwk, ext: true });
+        const key = await importJWK({ ...publicJwk, ext: true });
         t.is(key.type, 'public');
-        t.deepEqual(await fromKeyLike(key), expectedExport);
+        t.deepEqual(await exportJWK(key), expectedExport);
       });
     }
     testKeyImportExport.title = (_, jwk) => `${jwk.kty} ${jwk.crv} JWK (${jwk.alg})`;
@@ -191,7 +191,7 @@ Promise.all([import(`${keyRoot}/jwk/parse`), import(`${keyRoot}/jwk/from_key_lik
 
     test('Uin8tArray can be transformed to a JWK', async (t) => {
       t.deepEqual(
-        await fromKeyLike(new Uint8Array([1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15])),
+        await exportJWK(new Uint8Array([1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15])),
         {
           k: 'AQIDBAUGBwgJCgsMDQ4P',
           kty: 'oct',
@@ -223,7 +223,7 @@ Promise.all([import(`${keyRoot}/jwk/parse`), import(`${keyRoot}/jwk/from_key_lik
     }
 
     conditional({ webcrypto: 0 })('secret key object can be transformed to a JWK', async (t) => {
-      const keylike = await parseJwk(
+      const keylike = await importJWK(
         {
           ext: true,
           k: 'AQIDBAUGBwgJCgsMDQ4P',
@@ -232,7 +232,7 @@ Promise.all([import(`${keyRoot}/jwk/parse`), import(`${keyRoot}/jwk/from_key_lik
         'HS256',
         true,
       );
-      t.deepEqual(await fromKeyLike(keylike), {
+      t.deepEqual(await exportJWK(keylike), {
         k: 'AQIDBAUGBwgJCgsMDQ4P',
         kty: 'oct',
       });

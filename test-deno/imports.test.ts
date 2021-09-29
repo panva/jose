@@ -46,14 +46,6 @@ Deno.test('imports EmbeddedJWK', async () => {
   await import('../dist/deno/jwk/embedded.ts');
 });
 
-Deno.test('imports fromKeyLike', async () => {
-  await import('../dist/deno/jwk/from_key_like.ts');
-});
-
-Deno.test('imports parseJwk', async () => {
-  await import('../dist/deno/jwk/parse.ts');
-});
-
 Deno.test('imports calculateThumbprint', async () => {
   await import('../dist/deno/jwk/thumbprint.ts');
 });

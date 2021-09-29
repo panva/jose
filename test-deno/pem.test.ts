@@ -1,4 +1,4 @@
-import { assertThrowsAsync } from 'https://deno.land/std@0.104.0/testing/asserts.ts';
+import { assertThrowsAsync } from 'https://deno.land/std@0.109.0/testing/asserts.ts';
 
 import * as importKey from '../dist/browser/key/import.js';
 import * as exportKey from '../dist/browser/key/export.js';

@@ -1,4 +1,4 @@
-import { assert, assertThrowsAsync } from 'https://deno.land/std@0.104.0/testing/asserts.ts';
+import { assert, assertThrowsAsync } from 'https://deno.land/std@0.109.0/testing/asserts.ts';
 
 import generateKeyPair from '../dist/deno/util/generate_key_pair.ts';
 import random from '../dist/deno/util/random.ts';

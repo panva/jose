@@ -1,7 +1,7 @@
 import * as Bowser from 'bowser';
 
-import jwkToKey from '../dist/browser/jwk/parse.js';
-import keyToJwk from '../dist/browser/jwk/from_key_like.js';
+import { importJWK } from '../dist/browser/key/import.js';
+import { exportJWK } from '../dist/browser/key/export.js';
 import calculateThumbprint from '../dist/browser/jwk/thumbprint.js';
 
 const browser = Bowser.parse(window.navigator.userAgent);
@@ -10,8 +10,8 @@ const p521 = browser.engine.name !== 'WebKit';
 
 async function test(jwk, alg, assert) {
   await calculateThumbprint(jwk);
-  const keyLike = await jwkToKey({ ...jwk, ext: true }, alg);
-  assert.deepEqual(await keyToJwk(keyLike), jwk);
+  const keyLike = await importJWK({ ...jwk, ext: true }, alg);
+  assert.deepEqual(await exportJWK(keyLike), jwk);
 }
 
 async function failing(jwk, alg, assert) {

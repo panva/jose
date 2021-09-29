@@ -1,13 +1,13 @@
-import { assertEquals, assertThrowsAsync } from 'https://deno.land/std@0.104.0/testing/asserts.ts';
+import { assertEquals, assertThrowsAsync } from 'https://deno.land/std@0.109.0/testing/asserts.ts';
 
-import jwkToKey from '../dist/deno/jwk/parse.ts';
-import keyToJwk from '../dist/deno/jwk/from_key_like.ts';
+import { importJWK } from '../dist/deno/key/import.ts';
+import { exportJWK } from '../dist/deno/key/export.ts';
 import calculateThumbprint from '../dist/deno/jwk/thumbprint.ts';
 
 async function test(jwk: { [key: string]: unknown }, alg: string) {
   await calculateThumbprint(jwk);
-  const keyLike = await jwkToKey({ ...jwk, ext: true }, alg);
-  assertEquals(await keyToJwk(keyLike), jwk);
+  const keyLike = await importJWK({ ...jwk, ext: true }, alg);
+  assertEquals(await exportJWK(keyLike), jwk);
 }
 
 async function failing(jwk: { [key: string]: unknown }, alg: string) {

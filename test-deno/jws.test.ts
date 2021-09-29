@@ -2,7 +2,7 @@ import {
   assert,
   assertThrowsAsync,
   unreachable,
-} from 'https://deno.land/std@0.104.0/testing/asserts.ts';
+} from 'https://deno.land/std@0.109.0/testing/asserts.ts';
 
 import generateKeyPair from '../dist/deno/util/generate_key_pair.ts';
 import generateSecret from '../dist/deno/util/generate_secret.ts';

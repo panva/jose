@@ -10,8 +10,6 @@ import jweCompactDecrypt from '../dist/browser/jwe/compact/decrypt.js';
 import jweFlattenedDecrypt from '../dist/browser/jwe/flattened/decrypt.js';
 import jweGeneralDecrypt from '../dist/browser/jwe/general/decrypt.js';
 import jwkEmbedded from '../dist/browser/jwk/embedded.js';
-import jwkFromKeyLike from '../dist/browser/jwk/from_key_like.js';
-import jwkParse from '../dist/browser/jwk/parse.js';
 import jwkThumbprint from '../dist/browser/jwk/thumbprint.js';
 import jwksRemote from '../dist/browser/jwks/remote.js';
 import jwsCompactVerify from '../dist/browser/jws/compact/verify.js';

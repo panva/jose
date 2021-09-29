@@ -1,4 +1,4 @@
-import { assertThrowsAsync } from 'https://deno.land/std@0.104.0/testing/asserts.ts';
+import { assertThrowsAsync } from 'https://deno.land/std@0.109.0/testing/asserts.ts';
 
 import createRemoteJWKSet from '../dist/deno/jwks/remote.ts';
 import { JWKSNoMatchingKey, JWKSMultipleMatchingKeys } from '../dist/deno/util/errors.ts';
