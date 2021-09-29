@@ -2,7 +2,7 @@ function isObjectLike(value: unknown) {
   return typeof value === 'object' && value !== null
 }
 
-export default function isObject(input: unknown): boolean {
+export default function isObject(input: unknown): input is object {
   if (!isObjectLike(input) || Object.prototype.toString.call(input) !== '[object Object]') {
     return false
   }

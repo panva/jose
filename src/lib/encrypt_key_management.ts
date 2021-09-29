@@ -10,7 +10,7 @@ import type { KeyLike, JWEKeyManagementHeaderParameters } from '../types.d'
 import type { JWEKeyManagementHeaderResults } from '../types.i.d'
 import cekFactory, { bitLengths as cekLengths } from '../lib/cek.js'
 import { JOSENotSupported } from '../util/errors.js'
-import { fromKeyLike } from '../jwk/from_key_like.js'
+import { exportJWK } from '../key/export.js'
 import checkKeyType from './check_key_type.js'
 
 const generateCek = cekFactory(random)
@@ -51,7 +51,7 @@ async function encryptKeyManagement(
       const { apu, apv } = providedParameters
       let { epk: ephemeralKey } = providedParameters
       ephemeralKey ||= await ECDH.generateEpk(key)
-      const { x, y, crv, kty } = await fromKeyLike(ephemeralKey)
+      const { x, y, crv, kty } = await exportJWK(ephemeralKey)
       const sharedSecret = await ECDH.deriveKey(
         key,
         ephemeralKey,

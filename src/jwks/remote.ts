@@ -7,7 +7,7 @@ import type {
   FlattenedJWSInput,
   GetKeyFunction,
 } from '../types.d'
-import parseJWK from '../jwk/parse.js'
+import { importJWK } from '../key/import.js'
 import {
   JWKSInvalid,
   JOSENotSupported,
@@ -16,8 +16,8 @@ import {
 } from '../util/errors.js'
 import isObject from '../lib/is_object.js'
 
-function getKtyFromAlg(alg: string) {
-  switch (alg.substr(0, 2)) {
+function getKtyFromAlg(alg: unknown) {
+  switch (typeof alg === 'string' && alg.substr(0, 2)) {
     case 'RS':
     case 'PS':
       return 'RSA'
@@ -96,7 +96,7 @@ class RemoteJWKSet {
   }
 
   coolingDown() {
-    if (typeof this._cooldownStarted === 'undefined') {
+    if (!this._cooldownStarted) {
       return false
     }
 
@@ -110,7 +110,7 @@ class RemoteJWKSet {
 
     const candidates = this._jwks!.keys.filter((jwk) => {
       // filter keys based on the mapping of signature algorithms to Key Type
-      let candidate = jwk.kty === getKtyFromAlg(protectedHeader.alg!)
+      let candidate = jwk.kty === getKtyFromAlg(protectedHeader.alg)
 
       // filter keys based on the JWK Key ID in the header
       if (candidate && typeof protectedHeader.kid === 'string') {
@@ -119,7 +119,7 @@ class RemoteJWKSet {
 
       // filter keys based on the key's declared Algorithm
       if (candidate && typeof jwk.alg === 'string') {
-        candidate = protectedHeader.alg! === jwk.alg
+        candidate = protectedHeader.alg === jwk.alg
       }
 
       // filter keys based on the key's declared Public Key Use
@@ -133,13 +133,13 @@ class RemoteJWKSet {
       }
 
       // filter out non-applicable OKP Sub Types
-      if (candidate && protectedHeader.alg! === 'EdDSA') {
-        candidate = ['Ed25519', 'Ed448'].includes(jwk.crv!)
+      if (candidate && protectedHeader.alg === 'EdDSA') {
+        candidate = jwk.crv === 'Ed25519' || jwk.crv === 'Ed448'
       }
 
       // filter out non-applicable EC curves
       if (candidate) {
-        switch (protectedHeader.alg!) {
+        switch (protectedHeader.alg) {
           case 'ES256':
             candidate = jwk.crv === 'P-256'
             break
@@ -171,17 +171,11 @@ class RemoteJWKSet {
       throw new JWKSMultipleMatchingKeys()
     }
 
-    if (!this._cached.has(jwk)) {
-      this._cached.set(jwk, {})
-    }
-
-    const cached = this._cached.get(jwk)!
+    const cached = this._cached.get(jwk) || this._cached.set(jwk, {}).get(jwk)!
     if (cached[protectedHeader.alg!] === undefined) {
-      const keyObject = <KeyObject | CryptoKey>(
-        await parseJWK({ ...jwk, alg: protectedHeader.alg!, ext: true })
-      )
+      const keyObject = await importJWK({ ...jwk, ext: true }, protectedHeader.alg!)
 
-      if (keyObject.type !== 'public') {
+      if (!('type' in keyObject) || keyObject.type !== 'public') {
         throw new JWKSInvalid('JSON Web Key Set members must be public keys')
       }
 

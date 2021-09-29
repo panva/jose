@@ -1,4 +1,4 @@
-import type { KeyObject, FlattenedJWSInput, JWSHeaderParameters } from '../types.d'
+import type { FlattenedJWSInput, JWSHeaderParameters } from '../types.d'
 import { importJWK } from '../key/import.js'
 import isObject from '../lib/is_object.js'
 import { JWSInvalid } from '../util/errors.js'
@@ -49,11 +49,9 @@ async function EmbeddedJWK(protectedHeader: JWSHeaderParameters, token: Flattene
     throw new JWSInvalid('"jwk" (JSON Web Key) Header Parameter must be a JSON object')
   }
 
-  const key = <CryptoKey | KeyObject>(
-    await importJWK({ ...joseHeader.jwk, ext: true }, joseHeader.alg!, true)
-  )
+  const key = await importJWK({ ...joseHeader.jwk, ext: true }, joseHeader.alg!, true)
 
-  if (key.type !== 'public') {
+  if (!('type' in key) || key.type !== 'public') {
     throw new JWSInvalid('"jwk" (JSON Web Key) Header Parameter must be a public key')
   }
 
