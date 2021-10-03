@@ -205,20 +205,9 @@ Promise.all([import(`${keyRoot}/key/import`), import(`${keyRoot}/key/export`)]).
         run = run.failing;
       }
 
-      if ('electron' in process.versions) {
-        switch (electron) {
-          case 0:
-            run = run.failing;
-            break;
-          case parseInt(process.versions.electron, 10) >= 15 && 2:
-            run = run.skip;
-            break;
-          case 2:
-            run = run.failing;
-            break;
-        }
+      if (!electron && 'electron' in process.versions) {
+        run = run.failing;
       }
-
       return run;
     }
 
@@ -262,7 +251,7 @@ Promise.all([import(`${keyRoot}/key/import`), import(`${keyRoot}/key/export`)]).
       d: 'UhC3-vN5vp_g9PnTknXZgfXUez7Xvw-OfuJ0pYkuwzpYkcTvacqoFkV_O05WMHpyXkzH9q2wzx5n',
       kty: 'OKP',
     };
-    conditional({ webcrypto: 1, electron: 2 })(testKeyImportExport, { ...ed448, alg: 'EdDSA' });
+    conditional({ webcrypto: 1, electron: 0 })(testKeyImportExport, { ...ed448, alg: 'EdDSA' });
     const x25519 = {
       crv: 'X25519',
       x: 'axR8Q7PEd74nY9nWaAoAYpMe3gp5sWbau6V6X1inPw4',
@@ -276,7 +265,7 @@ Promise.all([import(`${keyRoot}/key/import`), import(`${keyRoot}/key/export`)]).
       d: 'xBrCwLlrHa1ov2cbmD4eMw4t6DoN_MWsBT_mxcA_QWsCS_9sKMRyFpphNN9_2iKrGPTC9pWCS5w',
       kty: 'OKP',
     };
-    conditional({ webcrypto: 0, electron: 2 })(testKeyImportExport, { ...x448, alg: 'ECDH-ES' });
+    conditional({ webcrypto: 0, electron: 0 })(testKeyImportExport, { ...x448, alg: 'ECDH-ES' });
   },
   (err) => {
     test('failed to import', (t) => {

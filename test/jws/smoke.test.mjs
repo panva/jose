@@ -212,26 +212,15 @@ Promise.all([
         run = run.failing;
       }
 
-      if ('electron' in process.versions) {
-        switch (electron) {
-          case 0:
-            run = run.failing;
-            break;
-          case parseInt(process.versions.electron, 10) >= 15 && 2:
-            run = run.skip;
-            break;
-          case 2:
-            run = run.failing;
-            break;
-        }
+      if (!electron && 'electron' in process.versions) {
+        run = run.failing;
       }
-
       return run;
     }
 
     conditional({ webcrypto: 0, electron: 0 })(smoke, 'secp256k1');
     conditional({ webcrypto: 1 })(smoke, 'ed25519');
-    conditional({ webcrypto: 1, electron: 2 })(smoke, 'ed448');
+    conditional({ webcrypto: 1, electron: 0 })(smoke, 'ed448');
   },
   (err) => {
     test('failed to import', (t) => {

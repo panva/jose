@@ -298,26 +298,15 @@ Promise.all([
         run = run.failing;
       }
 
-      if ('electron' in process.versions) {
-        switch (electron) {
-          case 0:
-            run = run.failing;
-            break;
-          case parseInt(process.versions.electron, 10) >= 15 && 2:
-            run = run.skip;
-            break;
-          case 2:
-            run = run.failing;
-            break;
-        }
+      if (!electron && 'electron' in process.versions) {
+        run = run.failing;
       }
-
       return run;
     }
 
     conditional({ webcrypto: 0 }, smoke, 'rsa1_5');
     conditional({ webcrypto: 0, electron: 0 }, smoke, 'x25519');
-    conditional({ webcrypto: 0, electron: 2 }, smoke, 'x448');
+    conditional({ webcrypto: 0, electron: 0 }, smoke, 'x448');
     conditional({ webcrypto: 0 }, 'as keyobject', smoke, 'oct256c', undefined, undefined, true);
     conditional({ webcrypto: 0 }, 'as keyobject', smoke, 'oct384c', undefined, undefined, true);
     conditional({ webcrypto: 0 }, 'as keyobject', smoke, 'oct512c', undefined, undefined, true);
