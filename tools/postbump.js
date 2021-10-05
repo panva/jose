@@ -11,6 +11,7 @@ const opts = { stdio: "inherit" };
 
 execSync("git rm -f docs/**/*.md", opts);
 execSync('find docs -type d | grep "docs/" | xargs rm -rf', opts);
+execSync("npx patch-package", opts);
 execSync(
   `npm run docs:generate -- --plugin ./tools/typedoc-replace-version --gitRevision ${tagName}`,
   opts
