@@ -4,12 +4,6 @@
 
 JWS Signing options.
 
-## Hierarchy
-
-- [`CritOption`](types.CritOption.md)
-
-  ↳ **`SignOptions`**
-
 ## Table of contents
 
 ### Properties
@@ -44,11 +38,3 @@ default built-in treatment are currently available.
 #### Index signature
 
 ▪ [propName: `string`]: `boolean`
-
-#### Inherited from
-
-[CritOption](types.CritOption.md).[crit](types.CritOption.md#crit)
-
-#### Defined in
-
-[types.d.ts:469](https://github.com/panva/jose/blob/v3.19.0/src/types.d.ts#L469)

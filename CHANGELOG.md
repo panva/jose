@@ -2,6 +2,18 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [3.20.0](https://github.com/panva/jose/compare/v3.19.0...v3.20.0) (2021-10-06)
+
+
+### Features
+
+* improve key input type errors, remove dependency on @types/node ([a13eb04](https://github.com/panva/jose/commit/a13eb045d86d96e56f7a250cdc808f8c5aa0e62a))
+
+
+### Bug Fixes
+
+* proper createRemoteJWKSet timeoutDuration handling ([efa1619](https://github.com/panva/jose/commit/efa16195173f9f66b21d4f41039caaad0ccfa92a)), closes [#277](https://github.com/panva/jose/issues/277)
+
 ## [3.19.0](https://github.com/panva/jose/compare/v3.18.0...v3.19.0) (2021-09-26)
 
 

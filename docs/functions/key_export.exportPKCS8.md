@@ -18,7 +18,7 @@ const { exportPKCS8 } = require('jose/key/export')
 
 **`example`** Deno import
 ```js
-import { exportPKCS8 } from 'https://deno.land/x/jose@v3.19.0/key/export.ts'
+import { exportPKCS8 } from 'https://deno.land/x/jose@v3.20.0/key/export.ts'
 ```
 
 **`example`** Usage
@@ -32,12 +32,8 @@ console.log(pkcs8Pem)
 
 | Name | Type | Description |
 | :------ | :------ | :------ |
-| `key` | `Exclude`<[`KeyLike`](../types/types.KeyLike.md), `Uint8Array`\> | Key representation to transform to an PEM-encoded PKCS8 string format. |
+| `key` | [`KeyLike`](../types/types.KeyLike.md) | Key representation to transform to an PEM-encoded PKCS8 string format. |
 
 #### Returns
 
 `Promise`<`string`\>
-
-#### Defined in
-
-[key/export.ts:65](https://github.com/panva/jose/blob/v3.19.0/src/key/export.ts#L65)

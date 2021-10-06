@@ -12,10 +12,6 @@
 
 ### key
 
-• **key**: [`KeyLike`](../types/types.KeyLike.md)
+• **key**: [`KeyLike`](../types/types.KeyLike.md) \| `Uint8Array`
 
 Key resolved from the key resolver function.
-
-#### Defined in
-
-[types.d.ts:729](https://github.com/panva/jose/blob/v3.19.0/src/types.d.ts#L729)

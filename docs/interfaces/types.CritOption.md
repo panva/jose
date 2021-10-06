@@ -4,18 +4,6 @@
 
 Shared Interface with a "crit" property for all sign and verify operations.
 
-## Hierarchy
-
-- **`CritOption`**
-
-  ↳ [`DecryptOptions`](types.DecryptOptions.md)
-
-  ↳ [`EncryptOptions`](types.EncryptOptions.md)
-
-  ↳ [`VerifyOptions`](types.VerifyOptions.md)
-
-  ↳ [`SignOptions`](types.SignOptions.md)
-
 ## Table of contents
 
 ### Properties
@@ -50,7 +38,3 @@ default built-in treatment are currently available.
 #### Index signature
 
 ▪ [propName: `string`]: `boolean`
-
-#### Defined in
-
-[types.d.ts:469](https://github.com/panva/jose/blob/v3.19.0/src/types.d.ts#L469)

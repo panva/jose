@@ -2,17 +2,11 @@
 
 [jws/compact/verify](../modules/jws_compact_verify.md).CompactVerifyGetKey
 
-## Hierarchy
-
-- [`GetKeyFunction`](types.GetKeyFunction.md)<[`JWSHeaderParameters`](types.JWSHeaderParameters.md), [`FlattenedJWSInput`](types.FlattenedJWSInput.md)\>
-
-  ↳ **`CompactVerifyGetKey`**
-
 ## Callable
 
 ### CompactVerifyGetKey
 
-▸ **CompactVerifyGetKey**(`protectedHeader`, `token`): `Promise`<[`KeyLike`](../types/types.KeyLike.md)\>
+▸ **CompactVerifyGetKey**(`protectedHeader`, `token`): `Promise`<[`KeyLike`](../types/types.KeyLike.md) \| `Uint8Array`\>
 
 Interface for Compact JWS Verification dynamic key resolution.
 No token components have been verified at the time of this function call.
@@ -29,8 +23,4 @@ to verify using a remote JSON Web Key Set.
 
 #### Returns
 
-`Promise`<[`KeyLike`](../types/types.KeyLike.md)\>
-
-#### Defined in
-
-[types.d.ts:181](https://github.com/panva/jose/blob/v3.19.0/src/types.d.ts#L181)
+`Promise`<[`KeyLike`](../types/types.KeyLike.md) \| `Uint8Array`\>

@@ -13,6 +13,7 @@
 - [JWKSInvalid](../classes/util_errors.JWKSInvalid.md)
 - [JWKSMultipleMatchingKeys](../classes/util_errors.JWKSMultipleMatchingKeys.md)
 - [JWKSNoMatchingKey](../classes/util_errors.JWKSNoMatchingKey.md)
+- [JWKSTimeout](../classes/util_errors.JWKSTimeout.md)
 - [JWSInvalid](../classes/util_errors.JWSInvalid.md)
 - [JWSSignatureVerificationFailed](../classes/util_errors.JWSSignatureVerificationFailed.md)
 - [JWTClaimValidationFailed](../classes/util_errors.JWTClaimValidationFailed.md)

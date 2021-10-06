@@ -19,7 +19,3 @@ Inflate Raw implementation, e.g. promisified [zlib.inflateRaw](https://nodejs.or
 #### Returns
 
 `Promise`<`Uint8Array`\>
-
-#### Defined in
-
-[types.d.ts:626](https://github.com/panva/jose/blob/v3.19.0/src/types.d.ts#L626)

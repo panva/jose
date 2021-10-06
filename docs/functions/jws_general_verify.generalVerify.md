@@ -18,7 +18,7 @@ const { generalVerify } = require('jose/jws/general/verify')
 
 **`example`** Deno import
 ```js
-import { generalVerify } from 'https://deno.land/x/jose@v3.19.0/jws/general/verify.ts'
+import { generalVerify } from 'https://deno.land/x/jose@v3.20.0/jws/general/verify.ts'
 ```
 
 **`example`** Usage
@@ -45,16 +45,12 @@ console.log(decoder.decode(payload))
 | Name | Type | Description |
 | :------ | :------ | :------ |
 | `jws` | [`GeneralJWSInput`](../interfaces/types.GeneralJWSInput.md) | General JWS. |
-| `key` | [`KeyLike`](../types/types.KeyLike.md) | Key to verify the JWS with. |
+| `key` | [`KeyLike`](../types/types.KeyLike.md) \| `Uint8Array` | Key to verify the JWS with. |
 | `options?` | [`VerifyOptions`](../interfaces/types.VerifyOptions.md) | JWS Verify options. |
 
 #### Returns
 
 `Promise`<[`GeneralVerifyResult`](../interfaces/types.GeneralVerifyResult.md)\>
-
-#### Defined in
-
-[jws/general/verify.ts:66](https://github.com/panva/jose/blob/v3.19.0/src/jws/general/verify.ts#L66)
 
 ▸ **generalVerify**(`jws`, `getKey`, `options?`): `Promise`<[`GeneralVerifyResult`](../interfaces/types.GeneralVerifyResult.md) & [`ResolvedKey`](../interfaces/types.ResolvedKey.md)\>
 
@@ -69,7 +65,3 @@ console.log(decoder.decode(payload))
 #### Returns
 
 `Promise`<[`GeneralVerifyResult`](../interfaces/types.GeneralVerifyResult.md) & [`ResolvedKey`](../interfaces/types.ResolvedKey.md)\>
-
-#### Defined in
-
-[jws/general/verify.ts:76](https://github.com/panva/jose/blob/v3.19.0/src/jws/general/verify.ts#L76)

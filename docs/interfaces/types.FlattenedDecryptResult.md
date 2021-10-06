@@ -2,12 +2,6 @@
 
 [types](../modules/types.md).FlattenedDecryptResult
 
-## Hierarchy
-
-- **`FlattenedDecryptResult`**
-
-  ↳ [`GeneralDecryptResult`](types.GeneralDecryptResult.md)
-
 ## Table of contents
 
 ### Properties
@@ -26,10 +20,6 @@
 
 JWE AAD.
 
-#### Defined in
-
-[types.d.ts:633](https://github.com/panva/jose/blob/v3.19.0/src/types.d.ts#L633)
-
 ___
 
 ### plaintext
@@ -37,10 +27,6 @@ ___
 • **plaintext**: `Uint8Array`
 
 Plaintext.
-
-#### Defined in
-
-[types.d.ts:638](https://github.com/panva/jose/blob/v3.19.0/src/types.d.ts#L638)
 
 ___
 
@@ -50,10 +36,6 @@ ___
 
 JWE Protected Header.
 
-#### Defined in
-
-[types.d.ts:643](https://github.com/panva/jose/blob/v3.19.0/src/types.d.ts#L643)
-
 ___
 
 ### sharedUnprotectedHeader
@@ -62,10 +44,6 @@ ___
 
 JWE Shared Unprotected Header.
 
-#### Defined in
-
-[types.d.ts:648](https://github.com/panva/jose/blob/v3.19.0/src/types.d.ts#L648)
-
 ___
 
 ### unprotectedHeader
@@ -73,7 +51,3 @@ ___
 • `Optional` **unprotectedHeader**: [`JWEHeaderParameters`](types.JWEHeaderParameters.md)
 
 JWE Per-Recipient Unprotected Header.
-
-#### Defined in
-
-[types.d.ts:653](https://github.com/panva/jose/blob/v3.19.0/src/types.d.ts#L653)

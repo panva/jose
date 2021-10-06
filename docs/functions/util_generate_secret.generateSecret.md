@@ -2,7 +2,7 @@
 
 [util/generate_secret](../modules/util_generate_secret.md).generateSecret
 
-▸ **generateSecret**(`alg`, `options?`): `Promise`<[`KeyLike`](../types/types.KeyLike.md)\>
+▸ **generateSecret**(`alg`, `options?`): `Promise`<[`KeyLike`](../types/types.KeyLike.md) \| `Uint8Array`\>
 
 Generates a symmetric secret key for a given JWA algorithm identifier.
 
@@ -21,7 +21,7 @@ const { generateSecret } = require('jose/util/generate_secret')
 
 **`example`** Deno import
 ```js
-import { generateSecret } from 'https://deno.land/x/jose@v3.19.0/util/generate_secret.ts'
+import { generateSecret } from 'https://deno.land/x/jose@v3.20.0/util/generate_secret.ts'
 ```
 
 **`example`** Usage
@@ -39,8 +39,4 @@ console.log(secret)
 
 #### Returns
 
-`Promise`<[`KeyLike`](../types/types.KeyLike.md)\>
-
-#### Defined in
-
-[util/generate_secret.ts:44](https://github.com/panva/jose/blob/v3.19.0/src/util/generate_secret.ts#L44)
+`Promise`<[`KeyLike`](../types/types.KeyLike.md) \| `Uint8Array`\>

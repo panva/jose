@@ -20,7 +20,7 @@ const { importX509 } = require('jose/key/import')
 
 **`example`** Deno import
 ```js
-import { importX509 } from 'https://deno.land/x/jose@v3.19.0/key/import.ts'
+import { importX509 } from 'https://deno.land/x/jose@v3.20.0/key/import.ts'
 ```
 
 **`example`** Usage
@@ -50,7 +50,3 @@ const ecPublicKey = await importX509(x509, algorithm)
 #### Returns
 
 `Promise`<`Exclude`<[`KeyLike`](../types/types.KeyLike.md), `Uint8Array`\>\>
-
-#### Defined in
-
-[key/import.ts:179](https://github.com/panva/jose/blob/v3.19.0/src/key/import.ts#L179)

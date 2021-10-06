@@ -13,7 +13,3 @@
 #### Returns
 
 `Uint8Array`
-
-#### Defined in
-
-[util/base64url.ts:21](https://github.com/panva/jose/blob/v3.19.0/src/util/base64url.ts#L21)

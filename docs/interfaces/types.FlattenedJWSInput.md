@@ -26,10 +26,6 @@ empty; otherwise, it MUST be absent.  This value is represented as
 an unencoded JSON object, rather than as a string.  These Header
 Parameter values are not integrity protected.
 
-#### Defined in
-
-[types.d.ts:196](https://github.com/panva/jose/blob/v3.19.0/src/types.d.ts#L196)
-
 ___
 
 ### payload
@@ -39,10 +35,6 @@ ___
 The "payload" member MUST be present and contain the value
 BASE64URL(JWS Payload). When RFC7797 "b64": false is used
 the value passed may also be a Uint8Array.
-
-#### Defined in
-
-[types.d.ts:203](https://github.com/panva/jose/blob/v3.19.0/src/types.d.ts#L203)
 
 ___
 
@@ -55,10 +47,6 @@ BASE64URL(UTF8(JWS Protected Header)) when the JWS Protected
 Header value is non-empty; otherwise, it MUST be absent.  These
 Header Parameter values are integrity protected.
 
-#### Defined in
-
-[types.d.ts:211](https://github.com/panva/jose/blob/v3.19.0/src/types.d.ts#L211)
-
 ___
 
 ### signature
@@ -67,7 +55,3 @@ ___
 
 The "signature" member MUST be present and contain the value
 BASE64URL(JWS Signature).
-
-#### Defined in
-
-[types.d.ts:217](https://github.com/panva/jose/blob/v3.19.0/src/types.d.ts#L217)

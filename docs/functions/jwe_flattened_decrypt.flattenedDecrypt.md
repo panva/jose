@@ -18,7 +18,7 @@ const { flattenedDecrypt } = require('jose/jwe/flattened/decrypt')
 
 **`example`** Deno import
 ```js
-import { flattenedDecrypt } from 'https://deno.land/x/jose@v3.19.0/jwe/flattened/decrypt.ts'
+import { flattenedDecrypt } from 'https://deno.land/x/jose@v3.20.0/jwe/flattened/decrypt.ts'
 ```
 
 **`example`** Usage
@@ -49,16 +49,12 @@ console.log(decoder.decode(additionalAuthenticatedData))
 | Name | Type | Description |
 | :------ | :------ | :------ |
 | `jwe` | [`FlattenedJWE`](../interfaces/types.FlattenedJWE.md) | Flattened JWE. |
-| `key` | [`KeyLike`](../types/types.KeyLike.md) | Private Key or Secret to decrypt the JWE with. |
+| `key` | [`KeyLike`](../types/types.KeyLike.md) \| `Uint8Array` | Private Key or Secret to decrypt the JWE with. |
 | `options?` | [`DecryptOptions`](../interfaces/types.DecryptOptions.md) | JWE Decryption options. |
 
 #### Returns
 
 `Promise`<[`FlattenedDecryptResult`](../interfaces/types.FlattenedDecryptResult.md)\>
-
-#### Defined in
-
-[jwe/flattened/decrypt.ts:81](https://github.com/panva/jose/blob/v3.19.0/src/jwe/flattened/decrypt.ts#L81)
 
 ▸ **flattenedDecrypt**(`jwe`, `getKey`, `options?`): `Promise`<[`FlattenedDecryptResult`](../interfaces/types.FlattenedDecryptResult.md) & [`ResolvedKey`](../interfaces/types.ResolvedKey.md)\>
 
@@ -73,7 +69,3 @@ console.log(decoder.decode(additionalAuthenticatedData))
 #### Returns
 
 `Promise`<[`FlattenedDecryptResult`](../interfaces/types.FlattenedDecryptResult.md) & [`ResolvedKey`](../interfaces/types.ResolvedKey.md)\>
-
-#### Defined in
-
-[jwe/flattened/decrypt.ts:91](https://github.com/panva/jose/blob/v3.19.0/src/jwe/flattened/decrypt.ts#L91)

@@ -4,12 +4,6 @@
 
 JWE Encryption options.
 
-## Hierarchy
-
-- [`CritOption`](types.CritOption.md)
-
-  ↳ **`EncryptOptions`**
-
 ## Table of contents
 
 ### Properties
@@ -46,14 +40,6 @@ default built-in treatment are currently available.
 
 ▪ [propName: `string`]: `boolean`
 
-#### Inherited from
-
-[CritOption](types.CritOption.md).[crit](types.CritOption.md#crit)
-
-#### Defined in
-
-[types.d.ts:469](https://github.com/panva/jose/blob/v3.19.0/src/types.d.ts#L469)
-
 ___
 
 ### deflateRaw
@@ -62,7 +48,3 @@ ___
 
 In a browser runtime you have to provide an implementation for Deflate Raw
 when you will be producing JWEs with compressed plaintext.
-
-#### Defined in
-
-[types.d.ts:505](https://github.com/panva/jose/blob/v3.19.0/src/types.d.ts#L505)

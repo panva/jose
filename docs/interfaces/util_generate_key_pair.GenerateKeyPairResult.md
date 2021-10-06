@@ -13,22 +13,14 @@
 
 ### privateKey
 
-• **privateKey**: `KeyObject` \| `CryptoKey`
+• **privateKey**: [`KeyLike`](../types/types.KeyLike.md)
 
 The generated Private Key.
-
-#### Defined in
-
-[util/generate_key_pair.ts:9](https://github.com/panva/jose/blob/v3.19.0/src/util/generate_key_pair.ts#L9)
 
 ___
 
 ### publicKey
 
-• **publicKey**: `KeyObject` \| `CryptoKey`
+• **publicKey**: [`KeyLike`](../types/types.KeyLike.md)
 
 Public Key corresponding to the generated Private Key.
-
-#### Defined in
-
-[util/generate_key_pair.ts:14](https://github.com/panva/jose/blob/v3.19.0/src/util/generate_key_pair.ts#L14)

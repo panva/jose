@@ -2,7 +2,7 @@
 
 [jwk/parse](../modules/jwk_parse.md).parseJwk
 
-▸ **parseJwk**(`jwk`, `alg?`, `octAsKeyObject?`): `Promise`<[`KeyLike`](../types/types.KeyLike.md)\>
+▸ **parseJwk**(`jwk`, `alg?`, `octAsKeyObject?`): `Promise`<[`KeyLike`](../types/types.KeyLike.md) \| `Uint8Array`\>
 
 **`deprecated`** use `jose/key/import`
 
@@ -16,8 +16,4 @@
 
 #### Returns
 
-`Promise`<[`KeyLike`](../types/types.KeyLike.md)\>
-
-#### Defined in
-
-[jwk/parse.ts:8](https://github.com/panva/jose/blob/v3.19.0/src/jwk/parse.ts#L8)
+`Promise`<[`KeyLike`](../types/types.KeyLike.md) \| `Uint8Array`\>

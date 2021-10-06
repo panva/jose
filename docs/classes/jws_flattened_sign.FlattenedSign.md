@@ -16,7 +16,7 @@ const { FlattenedSign } = require('jose/jws/flattened/sign')
 
 **`example`** Deno import
 ```js
-import { FlattenedSign } from 'https://deno.land/x/jose@v3.19.0/jws/flattened/sign.ts'
+import { FlattenedSign } from 'https://deno.land/x/jose@v3.20.0/jws/flattened/sign.ts'
 ```
 
 **`example`** Usage
@@ -53,10 +53,6 @@ console.log(jws)
 | :------ | :------ | :------ |
 | `payload` | `Uint8Array` | Binary representation of the payload to sign. |
 
-#### Defined in
-
-[jws/flattened/sign.ts:51](https://github.com/panva/jose/blob/v3.19.0/src/jws/flattened/sign.ts#L51)
-
 ## Methods
 
 ### setProtectedHeader
@@ -74,10 +70,6 @@ Sets the JWS Protected Header on the FlattenedSign object.
 #### Returns
 
 [`FlattenedSign`](jws_flattened_sign.FlattenedSign.md)
-
-#### Defined in
-
-[jws/flattened/sign.ts:63](https://github.com/panva/jose/blob/v3.19.0/src/jws/flattened/sign.ts#L63)
 
 ___
 
@@ -97,10 +89,6 @@ Sets the JWS Unprotected Header on the FlattenedSign object.
 
 [`FlattenedSign`](jws_flattened_sign.FlattenedSign.md)
 
-#### Defined in
-
-[jws/flattened/sign.ts:76](https://github.com/panva/jose/blob/v3.19.0/src/jws/flattened/sign.ts#L76)
-
 ___
 
 ### sign
@@ -113,13 +101,9 @@ Signs and resolves the value of the Flattened JWS object.
 
 | Name | Type | Description |
 | :------ | :------ | :------ |
-| `key` | [`KeyLike`](../types/types.KeyLike.md) | Private Key or Secret to sign the JWS with. |
+| `key` | [`KeyLike`](../types/types.KeyLike.md) \| `Uint8Array` | Private Key or Secret to sign the JWS with. |
 | `options?` | [`SignOptions`](../interfaces/types.SignOptions.md) | JWS Sign options. |
 
 #### Returns
 
 `Promise`<[`FlattenedJWS`](../interfaces/types.FlattenedJWS.md)\>
-
-#### Defined in
-
-[jws/flattened/sign.ts:90](https://github.com/panva/jose/blob/v3.19.0/src/jws/flattened/sign.ts#L90)

@@ -2,7 +2,7 @@
 
 [jwk/embedded](../modules/jwk_embedded.md).EmbeddedJWK
 
-▸ **EmbeddedJWK**(`protectedHeader`, `token`): `Promise`<`KeyObject` \| `CryptoKey`\>
+▸ **EmbeddedJWK**(`protectedHeader`, `token`): `Promise`<[`KeyLike`](../types/types.KeyLike.md)\>
 
 EmbeddedJWK is an implementation of a GetKeyFunction intended to be used with the
 JWS/JWT verify operations whenever you need to opt-in to verify signatures with
@@ -22,7 +22,7 @@ const { EmbeddedJWK } = require('jose/jwk/embedded')
 
 **`example`** Deno import
 ```js
-import { EmbeddedJWK } from 'https://deno.land/x/jose@v3.19.0/jwk/embedded.ts'
+import { EmbeddedJWK } from 'https://deno.land/x/jose@v3.20.0/jwk/embedded.ts'
 ```
 
 **`example`** Usage
@@ -49,8 +49,4 @@ console.log(payload)
 
 #### Returns
 
-`Promise`<`KeyObject` \| `CryptoKey`\>
-
-#### Defined in
-
-[jwk/embedded.ts:43](https://github.com/panva/jose/blob/v3.19.0/src/jwk/embedded.ts#L43)
+`Promise`<[`KeyLike`](../types/types.KeyLike.md)\>

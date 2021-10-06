@@ -4,14 +4,6 @@
 
 An error subclass thrown when a JWT Claim Set member validation fails.
 
-## Hierarchy
-
-- [`JOSEError`](util_errors.JOSEError.md)
-
-  ↳ **`JWTClaimValidationFailed`**
-
-  ↳↳ [`JWTExpired`](util_errors.JWTExpired.md)
-
 ## Table of contents
 
 ### Constructors
@@ -39,14 +31,6 @@ An error subclass thrown when a JWT Claim Set member validation fails.
 | `claim` | `string` | `'unspecified'` |
 | `reason` | `string` | `'unspecified'` |
 
-#### Overrides
-
-[JOSEError](util_errors.JOSEError.md).[constructor](util_errors.JOSEError.md#constructor)
-
-#### Defined in
-
-[util/errors.ts:43](https://github.com/panva/jose/blob/v3.19.0/src/util/errors.ts#L43)
-
 ## Properties
 
 ### claim
@@ -54,10 +38,6 @@ An error subclass thrown when a JWT Claim Set member validation fails.
 • **claim**: `string`
 
 The Claim for which the validation failed.
-
-#### Defined in
-
-[util/errors.ts:36](https://github.com/panva/jose/blob/v3.19.0/src/util/errors.ts#L36)
 
 ___
 
@@ -67,14 +47,6 @@ ___
 
 A unique error code for the particular error subclass.
 
-#### Overrides
-
-[JOSEError](util_errors.JOSEError.md).[code](util_errors.JOSEError.md#code)
-
-#### Defined in
-
-[util/errors.ts:31](https://github.com/panva/jose/blob/v3.19.0/src/util/errors.ts#L31)
-
 ___
 
 ### reason
@@ -83,10 +55,6 @@ ___
 
 Reason code for the validation failure.
 
-#### Defined in
-
-[util/errors.ts:41](https://github.com/panva/jose/blob/v3.19.0/src/util/errors.ts#L41)
-
 ___
 
 ### code
@@ -94,11 +62,3 @@ ___
 ▪ `Static` **code**: `string` = `'ERR_JWT_CLAIM_VALIDATION_FAILED'`
 
 A unique error code for the particular error subclass.
-
-#### Overrides
-
-[JOSEError](util_errors.JOSEError.md).[code](util_errors.JOSEError.md#code)
-
-#### Defined in
-
-[util/errors.ts:29](https://github.com/panva/jose/blob/v3.19.0/src/util/errors.ts#L29)

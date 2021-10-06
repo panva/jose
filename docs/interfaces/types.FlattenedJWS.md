@@ -6,12 +6,6 @@ Flattened JWS definition. Payload is returned as an empty
 string when JWS Unencoded Payload Option
 [RFC7797](https://tools.ietf.org/html/rfc7797) is used.
 
-## Hierarchy
-
-- `Partial`<[`FlattenedJWSInput`](types.FlattenedJWSInput.md)\>
-
-  ↳ **`FlattenedJWS`**
-
 ## Table of contents
 
 ### Properties
@@ -33,27 +27,11 @@ empty; otherwise, it MUST be absent.  This value is represented as
 an unencoded JSON object, rather than as a string.  These Header
 Parameter values are not integrity protected.
 
-#### Inherited from
-
-Partial.header
-
-#### Defined in
-
-[types.d.ts:196](https://github.com/panva/jose/blob/v3.19.0/src/types.d.ts#L196)
-
 ___
 
 ### payload
 
 • **payload**: `string`
-
-#### Overrides
-
-Partial.payload
-
-#### Defined in
-
-[types.d.ts:246](https://github.com/panva/jose/blob/v3.19.0/src/types.d.ts#L246)
 
 ___
 
@@ -66,24 +44,8 @@ BASE64URL(UTF8(JWS Protected Header)) when the JWS Protected
 Header value is non-empty; otherwise, it MUST be absent.  These
 Header Parameter values are integrity protected.
 
-#### Inherited from
-
-Partial.protected
-
-#### Defined in
-
-[types.d.ts:211](https://github.com/panva/jose/blob/v3.19.0/src/types.d.ts#L211)
-
 ___
 
 ### signature
 
 • **signature**: `string`
-
-#### Overrides
-
-Partial.signature
-
-#### Defined in
-
-[types.d.ts:247](https://github.com/panva/jose/blob/v3.19.0/src/types.d.ts#L247)

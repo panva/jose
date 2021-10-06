@@ -5,36 +5,6 @@
 A generic Error subclass that all other specific
 JOSE Error subclasses inherit from.
 
-## Hierarchy
-
-- `Error`
-
-  ↳ **`JOSEError`**
-
-  ↳↳ [`JWTClaimValidationFailed`](util_errors.JWTClaimValidationFailed.md)
-
-  ↳↳ [`JOSEAlgNotAllowed`](util_errors.JOSEAlgNotAllowed.md)
-
-  ↳↳ [`JOSENotSupported`](util_errors.JOSENotSupported.md)
-
-  ↳↳ [`JWEDecryptionFailed`](util_errors.JWEDecryptionFailed.md)
-
-  ↳↳ [`JWEInvalid`](util_errors.JWEInvalid.md)
-
-  ↳↳ [`JWSInvalid`](util_errors.JWSInvalid.md)
-
-  ↳↳ [`JWTInvalid`](util_errors.JWTInvalid.md)
-
-  ↳↳ [`JWKInvalid`](util_errors.JWKInvalid.md)
-
-  ↳↳ [`JWKSInvalid`](util_errors.JWKSInvalid.md)
-
-  ↳↳ [`JWKSNoMatchingKey`](util_errors.JWKSNoMatchingKey.md)
-
-  ↳↳ [`JWKSMultipleMatchingKeys`](util_errors.JWKSMultipleMatchingKeys.md)
-
-  ↳↳ [`JWSSignatureVerificationFailed`](util_errors.JWSSignatureVerificationFailed.md)
-
 ## Table of contents
 
 ### Constructors
@@ -58,14 +28,6 @@ JOSE Error subclasses inherit from.
 | :------ | :------ |
 | `message?` | `string` |
 
-#### Overrides
-
-Error.constructor
-
-#### Defined in
-
-[util/errors.ts:16](https://github.com/panva/jose/blob/v3.19.0/src/util/errors.ts#L16)
-
 ## Properties
 
 ### code
@@ -74,10 +36,6 @@ Error.constructor
 
 A unique error code for the particular error subclass.
 
-#### Defined in
-
-[util/errors.ts:14](https://github.com/panva/jose/blob/v3.19.0/src/util/errors.ts#L14)
-
 ___
 
 ### code
@@ -85,7 +43,3 @@ ___
 ▪ `Static` **code**: `string` = `'ERR_JOSE_GENERIC'`
 
 A unique error code for the particular error subclass.
-
-#### Defined in
-
-[util/errors.ts:9](https://github.com/panva/jose/blob/v3.19.0/src/util/errors.ts#L9)

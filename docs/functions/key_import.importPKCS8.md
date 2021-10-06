@@ -20,7 +20,7 @@ const { importPKCS8 } = require('jose/key/import')
 
 **`example`** Deno import
 ```js
-import { importPKCS8 } from 'https://deno.land/x/jose@v3.19.0/key/import.ts'
+import { importPKCS8 } from 'https://deno.land/x/jose@v3.20.0/key/import.ts'
 ```
 
 **`example`** Usage
@@ -45,7 +45,3 @@ const ecPrivateKey = await importPKCS8(pkcs8, algorithm)
 #### Returns
 
 `Promise`<`Exclude`<[`KeyLike`](../types/types.KeyLike.md), `Uint8Array`\>\>
-
-#### Defined in
-
-[key/import.ts:225](https://github.com/panva/jose/blob/v3.19.0/src/key/import.ts#L225)

@@ -16,7 +16,7 @@ const { UnsecuredJWT } = require('jose/jwt/unsecured')
 
 **`example`** Deno import
 ```js
-import { UnsecuredJWT } from 'https://deno.land/x/jose@v3.19.0/jwt/unsecured.ts'
+import { UnsecuredJWT } from 'https://deno.land/x/jose@v3.20.0/jwt/unsecured.ts'
 ```
 
 **`example`** Encoding
@@ -40,12 +40,6 @@ const payload = new UnsecuredJWT.decode(jwt, {
 
 console.log(payload)
 ```
-
-## Hierarchy
-
-- `ProduceJWT`
-
-  ↳ **`UnsecuredJWT`**
 
 ## Table of contents
 
@@ -77,14 +71,6 @@ console.log(payload)
 | :------ | :------ | :------ |
 | `payload` | [`JWTPayload`](../interfaces/types.JWTPayload.md) | The JWT Claims Set object. |
 
-#### Inherited from
-
-ProduceJWT.constructor
-
-#### Defined in
-
-[lib/jwt_producer.ts:15](https://github.com/panva/jose/blob/v3.19.0/src/lib/jwt_producer.ts#L15)
-
 ## Methods
 
 ### encode
@@ -96,10 +82,6 @@ Encodes the Unsecured JWT.
 #### Returns
 
 `string`
-
-#### Defined in
-
-[jwt/unsecured.ts:58](https://github.com/panva/jose/blob/v3.19.0/src/jwt/unsecured.ts#L58)
 
 ___
 
@@ -119,14 +101,6 @@ Set "aud" (Audience) Claim.
 
 [`UnsecuredJWT`](jwt_unsecured.UnsecuredJWT.md)
 
-#### Inherited from
-
-ProduceJWT.setAudience
-
-#### Defined in
-
-[lib/jwt_producer.ts:47](https://github.com/panva/jose/blob/v3.19.0/src/lib/jwt_producer.ts#L47)
-
 ___
 
 ### setExpirationTime
@@ -144,14 +118,6 @@ Set "exp" (Expiration Time) Claim.
 #### Returns
 
 [`UnsecuredJWT`](jwt_unsecured.UnsecuredJWT.md)
-
-#### Inherited from
-
-ProduceJWT.setExpirationTime
-
-#### Defined in
-
-[lib/jwt_producer.ts:85](https://github.com/panva/jose/blob/v3.19.0/src/lib/jwt_producer.ts#L85)
 
 ___
 
@@ -171,14 +137,6 @@ Set "iat" (Issued At) Claim.
 
 [`UnsecuredJWT`](jwt_unsecured.UnsecuredJWT.md)
 
-#### Inherited from
-
-ProduceJWT.setIssuedAt
-
-#### Defined in
-
-[lib/jwt_producer.ts:100](https://github.com/panva/jose/blob/v3.19.0/src/lib/jwt_producer.ts#L100)
-
 ___
 
 ### setIssuer
@@ -196,14 +154,6 @@ Set "iss" (Issuer) Claim.
 #### Returns
 
 [`UnsecuredJWT`](jwt_unsecured.UnsecuredJWT.md)
-
-#### Inherited from
-
-ProduceJWT.setIssuer
-
-#### Defined in
-
-[lib/jwt_producer.ts:27](https://github.com/panva/jose/blob/v3.19.0/src/lib/jwt_producer.ts#L27)
 
 ___
 
@@ -223,14 +173,6 @@ Set "jti" (JWT ID) Claim.
 
 [`UnsecuredJWT`](jwt_unsecured.UnsecuredJWT.md)
 
-#### Inherited from
-
-ProduceJWT.setJti
-
-#### Defined in
-
-[lib/jwt_producer.ts:57](https://github.com/panva/jose/blob/v3.19.0/src/lib/jwt_producer.ts#L57)
-
 ___
 
 ### setNotBefore
@@ -248,14 +190,6 @@ Set "nbf" (Not Before) Claim.
 #### Returns
 
 [`UnsecuredJWT`](jwt_unsecured.UnsecuredJWT.md)
-
-#### Inherited from
-
-ProduceJWT.setNotBefore
-
-#### Defined in
-
-[lib/jwt_producer.ts:69](https://github.com/panva/jose/blob/v3.19.0/src/lib/jwt_producer.ts#L69)
 
 ___
 
@@ -275,14 +209,6 @@ Set "sub" (Subject) Claim.
 
 [`UnsecuredJWT`](jwt_unsecured.UnsecuredJWT.md)
 
-#### Inherited from
-
-ProduceJWT.setSubject
-
-#### Defined in
-
-[lib/jwt_producer.ts:37](https://github.com/panva/jose/blob/v3.19.0/src/lib/jwt_producer.ts#L37)
-
 ___
 
 ### decode
@@ -301,7 +227,3 @@ Decodes an unsecured JWT.
 #### Returns
 
 [`UnsecuredResult`](../interfaces/jwt_unsecured.UnsecuredResult.md)
-
-#### Defined in
-
-[jwt/unsecured.ts:71](https://github.com/panva/jose/blob/v3.19.0/src/jwt/unsecured.ts#L71)

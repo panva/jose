@@ -18,7 +18,7 @@ const { compactVerify } = require('jose/jws/compact/verify')
 
 **`example`** Deno import
 ```js
-import { compactVerify } from 'https://deno.land/x/jose@v3.19.0/jws/compact/verify.ts'
+import { compactVerify } from 'https://deno.land/x/jose@v3.20.0/jws/compact/verify.ts'
 ```
 
 **`example`** Usage
@@ -37,16 +37,12 @@ console.log(decoder.decode(payload))
 | Name | Type | Description |
 | :------ | :------ | :------ |
 | `jws` | `string` \| `Uint8Array` | Compact JWS. |
-| `key` | [`KeyLike`](../types/types.KeyLike.md) | Key to verify the JWS with. |
+| `key` | [`KeyLike`](../types/types.KeyLike.md) \| `Uint8Array` | Key to verify the JWS with. |
 | `options?` | [`VerifyOptions`](../interfaces/types.VerifyOptions.md) | JWS Verify options. |
 
 #### Returns
 
 `Promise`<[`CompactVerifyResult`](../interfaces/types.CompactVerifyResult.md)\>
-
-#### Defined in
-
-[jws/compact/verify.ts:57](https://github.com/panva/jose/blob/v3.19.0/src/jws/compact/verify.ts#L57)
 
 ▸ **compactVerify**(`jws`, `getKey`, `options?`): `Promise`<[`CompactVerifyResult`](../interfaces/types.CompactVerifyResult.md) & [`ResolvedKey`](../interfaces/types.ResolvedKey.md)\>
 
@@ -61,7 +57,3 @@ console.log(decoder.decode(payload))
 #### Returns
 
 `Promise`<[`CompactVerifyResult`](../interfaces/types.CompactVerifyResult.md) & [`ResolvedKey`](../interfaces/types.ResolvedKey.md)\>
-
-#### Defined in
-
-[jws/compact/verify.ts:67](https://github.com/panva/jose/blob/v3.19.0/src/jws/compact/verify.ts#L67)

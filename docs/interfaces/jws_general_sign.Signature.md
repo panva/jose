@@ -27,10 +27,6 @@ Sets the JWS Protected Header on the Signature object.
 
 [`Signature`](jws_general_sign.Signature.md)
 
-#### Defined in
-
-[jws/general/sign.ts:12](https://github.com/panva/jose/blob/v3.19.0/src/jws/general/sign.ts#L12)
-
 ___
 
 ### setUnprotectedHeader
@@ -48,7 +44,3 @@ Sets the JWS Unprotected Header on the Signature object.
 #### Returns
 
 [`Signature`](jws_general_sign.Signature.md)
-
-#### Defined in
-
-[jws/general/sign.ts:19](https://github.com/panva/jose/blob/v3.19.0/src/jws/general/sign.ts#L19)

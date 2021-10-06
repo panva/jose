@@ -10,12 +10,8 @@
 
 | Name | Type |
 | :------ | :------ |
-| `key` | [`KeyLike`](../types/types.KeyLike.md) |
+| `key` | [`KeyLike`](../types/types.KeyLike.md) \| `Uint8Array` |
 
 #### Returns
 
 `Promise`<[`JWK`](../interfaces/types.JWK.md)\>
-
-#### Defined in
-
-[jwk/from_key_like.ts:8](https://github.com/panva/jose/blob/v3.19.0/src/jwk/from_key_like.ts#L8)

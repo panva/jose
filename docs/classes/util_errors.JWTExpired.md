@@ -4,12 +4,6 @@
 
 An error subclass thrown when a JWT is expired.
 
-## Hierarchy
-
-- [`JWTClaimValidationFailed`](util_errors.JWTClaimValidationFailed.md)
-
-  ↳ **`JWTExpired`**
-
 ## Table of contents
 
 ### Constructors
@@ -37,14 +31,6 @@ An error subclass thrown when a JWT is expired.
 | `claim` | `string` | `'unspecified'` |
 | `reason` | `string` | `'unspecified'` |
 
-#### Inherited from
-
-[JWTClaimValidationFailed](util_errors.JWTClaimValidationFailed.md).[constructor](util_errors.JWTClaimValidationFailed.md#constructor)
-
-#### Defined in
-
-[util/errors.ts:43](https://github.com/panva/jose/blob/v3.19.0/src/util/errors.ts#L43)
-
 ## Properties
 
 ### claim
@@ -52,14 +38,6 @@ An error subclass thrown when a JWT is expired.
 • **claim**: `string`
 
 The Claim for which the validation failed.
-
-#### Inherited from
-
-[JWTClaimValidationFailed](util_errors.JWTClaimValidationFailed.md).[claim](util_errors.JWTClaimValidationFailed.md#claim)
-
-#### Defined in
-
-[util/errors.ts:36](https://github.com/panva/jose/blob/v3.19.0/src/util/errors.ts#L36)
 
 ___
 
@@ -69,14 +47,6 @@ ___
 
 A unique error code for the particular error subclass.
 
-#### Overrides
-
-[JWTClaimValidationFailed](util_errors.JWTClaimValidationFailed.md).[code](util_errors.JWTClaimValidationFailed.md#code)
-
-#### Defined in
-
-[util/errors.ts:164](https://github.com/panva/jose/blob/v3.19.0/src/util/errors.ts#L164)
-
 ___
 
 ### reason
@@ -85,14 +55,6 @@ ___
 
 Reason code for the validation failure.
 
-#### Inherited from
-
-[JWTClaimValidationFailed](util_errors.JWTClaimValidationFailed.md).[reason](util_errors.JWTClaimValidationFailed.md#reason)
-
-#### Defined in
-
-[util/errors.ts:41](https://github.com/panva/jose/blob/v3.19.0/src/util/errors.ts#L41)
-
 ___
 
 ### code
@@ -100,11 +62,3 @@ ___
 ▪ `Static` **code**: `string` = `'ERR_JWT_EXPIRED'`
 
 A unique error code for the particular error subclass.
-
-#### Overrides
-
-[JWTClaimValidationFailed](util_errors.JWTClaimValidationFailed.md).[code](util_errors.JWTClaimValidationFailed.md#code)
-
-#### Defined in
-
-[util/errors.ts:162](https://github.com/panva/jose/blob/v3.19.0/src/util/errors.ts#L162)

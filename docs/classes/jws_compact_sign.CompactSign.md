@@ -16,7 +16,7 @@ const { CompactSign } = require('jose/jws/compact/sign')
 
 **`example`** Deno import
 ```js
-import { CompactSign } from 'https://deno.land/x/jose@v3.19.0/jws/compact/sign.ts'
+import { CompactSign } from 'https://deno.land/x/jose@v3.20.0/jws/compact/sign.ts'
 ```
 
 **`example`** Usage
@@ -53,10 +53,6 @@ console.log(jws)
 | :------ | :------ | :------ |
 | `payload` | `Uint8Array` | Binary representation of the payload to sign. |
 
-#### Defined in
-
-[jws/compact/sign.ts:39](https://github.com/panva/jose/blob/v3.19.0/src/jws/compact/sign.ts#L39)
-
 ## Methods
 
 ### setProtectedHeader
@@ -75,10 +71,6 @@ Sets the JWS Protected Header on the Sign object.
 
 [`CompactSign`](jws_compact_sign.CompactSign.md)
 
-#### Defined in
-
-[jws/compact/sign.ts:48](https://github.com/panva/jose/blob/v3.19.0/src/jws/compact/sign.ts#L48)
-
 ___
 
 ### sign
@@ -91,13 +83,9 @@ Signs and resolves the value of the Compact JWS string.
 
 | Name | Type | Description |
 | :------ | :------ | :------ |
-| `key` | [`KeyLike`](../types/types.KeyLike.md) | Private Key or Secret to sign the JWS with. |
+| `key` | [`KeyLike`](../types/types.KeyLike.md) \| `Uint8Array` | Private Key or Secret to sign the JWS with. |
 | `options?` | [`SignOptions`](../interfaces/types.SignOptions.md) | JWS Sign options. |
 
 #### Returns
 
 `Promise`<`string`\>
-
-#### Defined in
-
-[jws/compact/sign.ts:59](https://github.com/panva/jose/blob/v3.19.0/src/jws/compact/sign.ts#L59)

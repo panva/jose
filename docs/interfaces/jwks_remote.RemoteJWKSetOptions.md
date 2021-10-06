@@ -26,10 +26,6 @@ method's options. Use when behind an http(s) proxy.
 This is a Node.js runtime specific option, it is ignored
 when used outside of Node.js runtime.
 
-#### Defined in
-
-[jwks/remote.ts:62](https://github.com/panva/jose/blob/v3.19.0/src/jwks/remote.ts#L62)
-
 ___
 
 ### cooldownDuration
@@ -39,10 +35,6 @@ ___
 Duration for which no more HTTP requests will be triggered
 after a previous successful fetch. Default is 30000.
 
-#### Defined in
-
-[jwks/remote.ts:51](https://github.com/panva/jose/blob/v3.19.0/src/jwks/remote.ts#L51)
-
 ___
 
 ### timeoutDuration
@@ -51,7 +43,3 @@ ___
 
 Timeout for the HTTP request. When reached the request will be
 aborted and the verification will fail. Default is 5000.
-
-#### Defined in
-
-[jwks/remote.ts:45](https://github.com/panva/jose/blob/v3.19.0/src/jwks/remote.ts#L45)

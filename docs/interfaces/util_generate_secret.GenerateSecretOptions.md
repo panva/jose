@@ -17,7 +17,3 @@
 (Web Cryptography API specific) The value to use as
 [SubtleCrypto.generateKey()](https://developer.mozilla.org/en-US/docs/Web/API/SubtleCrypto/generateKey)
 `extractable` argument. Default is false.
-
-#### Defined in
-
-[util/generate_secret.ts:11](https://github.com/panva/jose/blob/v3.19.0/src/util/generate_secret.ts#L11)

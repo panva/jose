@@ -2,11 +2,11 @@
 
 [key/import](../modules/key_import.md).importJWK
 
-▸ **importJWK**(`jwk`, `alg?`, `octAsKeyObject?`): `Promise`<[`KeyLike`](../types/types.KeyLike.md)\>
+▸ **importJWK**(`jwk`, `alg?`, `octAsKeyObject?`): `Promise`<[`KeyLike`](../types/types.KeyLike.md) \| `Uint8Array`\>
 
 Imports a JWK to a runtime-specific key representation (KeyLike). Either
 JWK "alg" (Algorithm) Parameter must be present or the optional "alg" argument. When
-running on a platform using [Web Cryptography API](https://www.w3.org/TR/WebCryptoAPI/)
+running on a runtime using [Web Cryptography API](https://www.w3.org/TR/WebCryptoAPI/)
 the jwk parameters "use", "key_ops", and "ext" are also used in the resulting `CryptoKey`.
 See [Algorithm Key Requirements](https://github.com/panva/jose/issues/210) to learn about key to algorithm
 requirements and mapping.
@@ -23,7 +23,7 @@ const { importJWK } = require('jose/key/import')
 
 **`example`** Deno import
 ```js
-import { importJWK } from 'https://deno.land/x/jose@v3.19.0/key/import.ts'
+import { importJWK } from 'https://deno.land/x/jose@v3.20.0/key/import.ts'
 ```
 
 **`example`** Usage
@@ -52,8 +52,4 @@ const rsaPublicKey = await importJWK({
 
 #### Returns
 
-`Promise`<[`KeyLike`](../types/types.KeyLike.md)\>
-
-#### Defined in
-
-[key/import.ts:281](https://github.com/panva/jose/blob/v3.19.0/src/key/import.ts#L281)
+`Promise`<[`KeyLike`](../types/types.KeyLike.md) \| `Uint8Array`\>

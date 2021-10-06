@@ -9,31 +9,11 @@
 | `T` |
 | `T2` |
 
-## Hierarchy
-
-- **`GetKeyFunction`**
-
-  ↳ [`JWTDecryptGetKey`](jwt_decrypt.JWTDecryptGetKey.md)
-
-  ↳ [`JWTVerifyGetKey`](jwt_verify.JWTVerifyGetKey.md)
-
-  ↳ [`CompactDecryptGetKey`](jwe_compact_decrypt.CompactDecryptGetKey.md)
-
-  ↳ [`FlattenedDecryptGetKey`](jwe_flattened_decrypt.FlattenedDecryptGetKey.md)
-
-  ↳ [`GeneralDecryptGetKey`](jwe_general_decrypt.GeneralDecryptGetKey.md)
-
-  ↳ [`CompactVerifyGetKey`](jws_compact_verify.CompactVerifyGetKey.md)
-
-  ↳ [`FlattenedVerifyGetKey`](jws_flattened_verify.FlattenedVerifyGetKey.md)
-
-  ↳ [`GeneralVerifyGetKey`](jws_general_verify.GeneralVerifyGetKey.md)
-
 ## Callable
 
 ### GetKeyFunction
 
-▸ **GetKeyFunction**(`protectedHeader`, `token`): `Promise`<[`KeyLike`](../types/types.KeyLike.md)\>
+▸ **GetKeyFunction**(`protectedHeader`, `token`): `Promise`<[`KeyLike`](../types/types.KeyLike.md) \| `Uint8Array`\>
 
 Generic Interface for consuming operations dynamic key resolution.
 No token components have been verified at the time of this function call.
@@ -49,8 +29,4 @@ If you cannot match a key suitable for the token, throw an error instead.
 
 #### Returns
 
-`Promise`<[`KeyLike`](../types/types.KeyLike.md)\>
-
-#### Defined in
-
-[types.d.ts:181](https://github.com/panva/jose/blob/v3.19.0/src/types.d.ts#L181)
+`Promise`<[`KeyLike`](../types/types.KeyLike.md) \| `Uint8Array`\>

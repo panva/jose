@@ -4,14 +4,6 @@
 
 JWE Decryption options.
 
-## Hierarchy
-
-- [`CritOption`](types.CritOption.md)
-
-  ↳ **`DecryptOptions`**
-
-  ↳↳ [`JWTDecryptOptions`](jwt_decrypt.JWTDecryptOptions.md)
-
 ## Table of contents
 
 ### Properties
@@ -30,10 +22,6 @@ JWE Decryption options.
 A list of accepted JWE "enc" (Encryption Algorithm) Header Parameter values.
 By default all "enc" (Encryption Algorithm) values applicable for the used
 key/secret are allowed.
-
-#### Defined in
-
-[types.d.ts:488](https://github.com/panva/jose/blob/v3.19.0/src/types.d.ts#L488)
 
 ___
 
@@ -64,14 +52,6 @@ default built-in treatment are currently available.
 
 ▪ [propName: `string`]: `boolean`
 
-#### Inherited from
-
-[CritOption](types.CritOption.md).[crit](types.CritOption.md#crit)
-
-#### Defined in
-
-[types.d.ts:469](https://github.com/panva/jose/blob/v3.19.0/src/types.d.ts#L469)
-
 ___
 
 ### inflateRaw
@@ -81,10 +61,6 @@ ___
 In a browser runtime you have to provide an implementation for Inflate Raw
 when you expect JWEs with compressed plaintext.
 
-#### Defined in
-
-[types.d.ts:494](https://github.com/panva/jose/blob/v3.19.0/src/types.d.ts#L494)
-
 ___
 
 ### keyManagementAlgorithms
@@ -92,7 +68,3 @@ ___
 • `Optional` **keyManagementAlgorithms**: `string`[]
 
 A list of accepted JWE "alg" (Algorithm) Header Parameter values.
-
-#### Defined in
-
-[types.d.ts:481](https://github.com/panva/jose/blob/v3.19.0/src/types.d.ts#L481)

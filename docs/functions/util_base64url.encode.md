@@ -13,7 +13,3 @@
 #### Returns
 
 `string`
-
-#### Defined in
-
-[util/base64url.ts:20](https://github.com/panva/jose/blob/v3.19.0/src/util/base64url.ts#L20)

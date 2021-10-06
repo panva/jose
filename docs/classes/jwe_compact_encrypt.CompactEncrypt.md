@@ -16,7 +16,7 @@ const { CompactEncrypt } = require('jose/jwe/compact/encrypt')
 
 **`example`** Deno import
 ```js
-import { CompactEncrypt } from 'https://deno.land/x/jose@v3.19.0/jwe/compact/encrypt.ts'
+import { CompactEncrypt } from 'https://deno.land/x/jose@v3.20.0/jwe/compact/encrypt.ts'
 ```
 
 **`example`** Usage
@@ -56,10 +56,6 @@ console.log(jwe)
 | :------ | :------ | :------ |
 | `plaintext` | `Uint8Array` | Binary representation of the plaintext to encrypt. |
 
-#### Defined in
-
-[jwe/compact/encrypt.ts:44](https://github.com/panva/jose/blob/v3.19.0/src/jwe/compact/encrypt.ts#L44)
-
 ## Methods
 
 ### encrypt
@@ -72,16 +68,12 @@ Encrypts and resolves the value of the Compact JWE string.
 
 | Name | Type | Description |
 | :------ | :------ | :------ |
-| `key` | [`KeyLike`](../types/types.KeyLike.md) | Public Key or Secret to encrypt the JWE with. |
+| `key` | [`KeyLike`](../types/types.KeyLike.md) \| `Uint8Array` | Public Key or Secret to encrypt the JWE with. |
 | `options?` | [`EncryptOptions`](../interfaces/types.EncryptOptions.md) | JWE Encryption options. |
 
 #### Returns
 
 `Promise`<`string`\>
-
-#### Defined in
-
-[jwe/compact/encrypt.ts:102](https://github.com/panva/jose/blob/v3.19.0/src/jwe/compact/encrypt.ts#L102)
 
 ___
 
@@ -104,10 +96,6 @@ test and vector validation purposes.
 
 [`CompactEncrypt`](jwe_compact_encrypt.CompactEncrypt.md)
 
-#### Defined in
-
-[jwe/compact/encrypt.ts:56](https://github.com/panva/jose/blob/v3.19.0/src/jwe/compact/encrypt.ts#L56)
-
 ___
 
 ### setInitializationVector
@@ -129,10 +117,6 @@ intended for test and vector validation purposes.
 
 [`CompactEncrypt`](jwe_compact_encrypt.CompactEncrypt.md)
 
-#### Defined in
-
-[jwe/compact/encrypt.ts:69](https://github.com/panva/jose/blob/v3.19.0/src/jwe/compact/encrypt.ts#L69)
-
 ___
 
 ### setKeyManagementParameters
@@ -153,10 +137,6 @@ intended for test and vector validation purposes.
 
 [`CompactEncrypt`](jwe_compact_encrypt.CompactEncrypt.md)
 
-#### Defined in
-
-[jwe/compact/encrypt.ts:91](https://github.com/panva/jose/blob/v3.19.0/src/jwe/compact/encrypt.ts#L91)
-
 ___
 
 ### setProtectedHeader
@@ -174,7 +154,3 @@ Sets the JWE Protected Header on the CompactEncrypt object.
 #### Returns
 
 [`CompactEncrypt`](jwe_compact_encrypt.CompactEncrypt.md)
-
-#### Defined in
-
-[jwe/compact/encrypt.ts:79](https://github.com/panva/jose/blob/v3.19.0/src/jwe/compact/encrypt.ts#L79)

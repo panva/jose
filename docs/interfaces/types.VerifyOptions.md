@@ -4,14 +4,6 @@
 
 JWS Verification options.
 
-## Hierarchy
-
-- [`CritOption`](types.CritOption.md)
-
-  ↳ **`VerifyOptions`**
-
-  ↳↳ [`JWTVerifyOptions`](jwt_verify.JWTVerifyOptions.md)
-
 ## Table of contents
 
 ### Properties
@@ -28,10 +20,6 @@ JWS Verification options.
 A list of accepted JWS "alg" (Algorithm) Header Parameter values.
 By default all "alg" (Algorithm) values applicable for the used
 key/secret are allowed. Note: "none" is never accepted.
-
-#### Defined in
-
-[types.d.ts:561](https://github.com/panva/jose/blob/v3.19.0/src/types.d.ts#L561)
 
 ___
 
@@ -61,11 +49,3 @@ default built-in treatment are currently available.
 #### Index signature
 
 ▪ [propName: `string`]: `boolean`
-
-#### Inherited from
-
-[CritOption](types.CritOption.md).[crit](types.CritOption.md#crit)
-
-#### Defined in
-
-[types.d.ts:469](https://github.com/panva/jose/blob/v3.19.0/src/types.d.ts#L469)

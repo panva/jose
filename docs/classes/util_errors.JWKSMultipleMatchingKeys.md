@@ -4,12 +4,6 @@
 
 An error subclass thrown when multiple keys match from a JWKS.
 
-## Hierarchy
-
-- [`JOSEError`](util_errors.JOSEError.md)
-
-  ↳ **`JWKSMultipleMatchingKeys`**
-
 ## Table of contents
 
 ### Constructors
@@ -34,14 +28,6 @@ An error subclass thrown when multiple keys match from a JWKS.
 | :------ | :------ |
 | `message?` | `string` |
 
-#### Inherited from
-
-[JOSEError](util_errors.JOSEError.md).[constructor](util_errors.JOSEError.md#constructor)
-
-#### Defined in
-
-[util/errors.ts:16](https://github.com/panva/jose/blob/v3.19.0/src/util/errors.ts#L16)
-
 ## Properties
 
 ### code
@@ -50,27 +36,11 @@ An error subclass thrown when multiple keys match from a JWKS.
 
 A unique error code for the particular error subclass.
 
-#### Overrides
-
-[JOSEError](util_errors.JOSEError.md).[code](util_errors.JOSEError.md#code)
-
-#### Defined in
-
-[util/errors.ts:142](https://github.com/panva/jose/blob/v3.19.0/src/util/errors.ts#L142)
-
 ___
 
 ### message
 
 • **message**: `string` = `'multiple matching keys found in the JSON Web Key Set'`
-
-#### Overrides
-
-JOSEError.message
-
-#### Defined in
-
-[util/errors.ts:144](https://github.com/panva/jose/blob/v3.19.0/src/util/errors.ts#L144)
 
 ___
 
@@ -79,11 +49,3 @@ ___
 ▪ `Static` **code**: `string` = `'ERR_JWKS_MULTIPLE_MATCHING_KEYS'`
 
 A unique error code for the particular error subclass.
-
-#### Overrides
-
-[JOSEError](util_errors.JOSEError.md).[code](util_errors.JOSEError.md#code)
-
-#### Defined in
-
-[util/errors.ts:140](https://github.com/panva/jose/blob/v3.19.0/src/util/errors.ts#L140)

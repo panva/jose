@@ -17,10 +17,6 @@
 
 Plaintext.
 
-#### Defined in
-
-[types.d.ts:662](https://github.com/panva/jose/blob/v3.19.0/src/types.d.ts#L662)
-
 ___
 
 ### protectedHeader
@@ -28,7 +24,3 @@ ___
 • **protectedHeader**: [`JWEHeaderParameters`](types.JWEHeaderParameters.md)
 
 JWE Protected Header.
-
-#### Defined in
-
-[types.d.ts:667](https://github.com/panva/jose/blob/v3.19.0/src/types.d.ts#L667)

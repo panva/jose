@@ -4,14 +4,6 @@
 
 JWT Claims Set verification options.
 
-## Hierarchy
-
-- **`JWTClaimVerificationOptions`**
-
-  ↳ [`JWTDecryptOptions`](jwt_decrypt.JWTDecryptOptions.md)
-
-  ↳ [`JWTVerifyOptions`](jwt_verify.JWTVerifyOptions.md)
-
 ## Table of contents
 
 ### Properties
@@ -32,10 +24,6 @@ JWT Claims Set verification options.
 
 Expected JWT "aud" (Audience) Claim value(s).
 
-#### Defined in
-
-[types.d.ts:515](https://github.com/panva/jose/blob/v3.19.0/src/types.d.ts#L515)
-
 ___
 
 ### clockTolerance
@@ -46,10 +34,6 @@ Expected clock tolerance
 - in seconds when number (e.g. 5)
 - parsed as seconds when a string (e.g. "5 seconds", "10 minutes", "2 hours").
 
-#### Defined in
-
-[types.d.ts:522](https://github.com/panva/jose/blob/v3.19.0/src/types.d.ts#L522)
-
 ___
 
 ### currentDate
@@ -58,10 +42,6 @@ ___
 
 Date to use when comparing NumericDate claims, defaults to `new Date()`.
 
-#### Defined in
-
-[types.d.ts:549](https://github.com/panva/jose/blob/v3.19.0/src/types.d.ts#L549)
-
 ___
 
 ### issuer
@@ -69,10 +49,6 @@ ___
 • `Optional` **issuer**: `string` \| `string`[]
 
 Expected JWT "iss" (Issuer) Claim value(s).
-
-#### Defined in
-
-[types.d.ts:527](https://github.com/panva/jose/blob/v3.19.0/src/types.d.ts#L527)
 
 ___
 
@@ -84,10 +60,6 @@ Maximum time elapsed (in seconds) from the JWT "iat" (Issued At) Claim value.
 - in seconds when number (e.g. 5)
 - parsed as seconds when a string (e.g. "5 seconds", "10 minutes", "2 hours").
 
-#### Defined in
-
-[types.d.ts:534](https://github.com/panva/jose/blob/v3.19.0/src/types.d.ts#L534)
-
 ___
 
 ### subject
@@ -96,10 +68,6 @@ ___
 
 Expected JWT "sub" (Subject) Claim value.
 
-#### Defined in
-
-[types.d.ts:539](https://github.com/panva/jose/blob/v3.19.0/src/types.d.ts#L539)
-
 ___
 
 ### typ
@@ -107,7 +75,3 @@ ___
 • `Optional` **typ**: `string`
 
 Expected JWT "typ" (Type) Header Parameter value.
-
-#### Defined in
-
-[types.d.ts:544](https://github.com/panva/jose/blob/v3.19.0/src/types.d.ts#L544)

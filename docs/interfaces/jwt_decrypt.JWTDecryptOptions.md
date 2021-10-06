@@ -4,14 +4,6 @@
 
 Combination of JWE Decryption options and JWT Claims Set verification options.
 
-## Hierarchy
-
-- [`DecryptOptions`](types.DecryptOptions.md)
-
-- [`JWTClaimVerificationOptions`](types.JWTClaimVerificationOptions.md)
-
-  ↳ **`JWTDecryptOptions`**
-
 ## Table of contents
 
 ### Properties
@@ -36,14 +28,6 @@ Combination of JWE Decryption options and JWT Claims Set verification options.
 
 Expected JWT "aud" (Audience) Claim value(s).
 
-#### Inherited from
-
-[JWTClaimVerificationOptions](types.JWTClaimVerificationOptions.md).[audience](types.JWTClaimVerificationOptions.md#audience)
-
-#### Defined in
-
-[types.d.ts:515](https://github.com/panva/jose/blob/v3.19.0/src/types.d.ts#L515)
-
 ___
 
 ### clockTolerance
@@ -54,14 +38,6 @@ Expected clock tolerance
 - in seconds when number (e.g. 5)
 - parsed as seconds when a string (e.g. "5 seconds", "10 minutes", "2 hours").
 
-#### Inherited from
-
-[JWTClaimVerificationOptions](types.JWTClaimVerificationOptions.md).[clockTolerance](types.JWTClaimVerificationOptions.md#clocktolerance)
-
-#### Defined in
-
-[types.d.ts:522](https://github.com/panva/jose/blob/v3.19.0/src/types.d.ts#L522)
-
 ___
 
 ### contentEncryptionAlgorithms
@@ -71,14 +47,6 @@ ___
 A list of accepted JWE "enc" (Encryption Algorithm) Header Parameter values.
 By default all "enc" (Encryption Algorithm) values applicable for the used
 key/secret are allowed.
-
-#### Inherited from
-
-[DecryptOptions](types.DecryptOptions.md).[contentEncryptionAlgorithms](types.DecryptOptions.md#contentencryptionalgorithms)
-
-#### Defined in
-
-[types.d.ts:488](https://github.com/panva/jose/blob/v3.19.0/src/types.d.ts#L488)
 
 ___
 
@@ -109,14 +77,6 @@ default built-in treatment are currently available.
 
 ▪ [propName: `string`]: `boolean`
 
-#### Inherited from
-
-[DecryptOptions](types.DecryptOptions.md).[crit](types.DecryptOptions.md#crit)
-
-#### Defined in
-
-[types.d.ts:469](https://github.com/panva/jose/blob/v3.19.0/src/types.d.ts#L469)
-
 ___
 
 ### currentDate
@@ -124,14 +84,6 @@ ___
 • `Optional` **currentDate**: `Date`
 
 Date to use when comparing NumericDate claims, defaults to `new Date()`.
-
-#### Inherited from
-
-[JWTClaimVerificationOptions](types.JWTClaimVerificationOptions.md).[currentDate](types.JWTClaimVerificationOptions.md#currentdate)
-
-#### Defined in
-
-[types.d.ts:549](https://github.com/panva/jose/blob/v3.19.0/src/types.d.ts#L549)
 
 ___
 
@@ -142,14 +94,6 @@ ___
 In a browser runtime you have to provide an implementation for Inflate Raw
 when you expect JWEs with compressed plaintext.
 
-#### Inherited from
-
-[DecryptOptions](types.DecryptOptions.md).[inflateRaw](types.DecryptOptions.md#inflateraw)
-
-#### Defined in
-
-[types.d.ts:494](https://github.com/panva/jose/blob/v3.19.0/src/types.d.ts#L494)
-
 ___
 
 ### issuer
@@ -158,14 +102,6 @@ ___
 
 Expected JWT "iss" (Issuer) Claim value(s).
 
-#### Inherited from
-
-[JWTClaimVerificationOptions](types.JWTClaimVerificationOptions.md).[issuer](types.JWTClaimVerificationOptions.md#issuer)
-
-#### Defined in
-
-[types.d.ts:527](https://github.com/panva/jose/blob/v3.19.0/src/types.d.ts#L527)
-
 ___
 
 ### keyManagementAlgorithms
@@ -173,14 +109,6 @@ ___
 • `Optional` **keyManagementAlgorithms**: `string`[]
 
 A list of accepted JWE "alg" (Algorithm) Header Parameter values.
-
-#### Inherited from
-
-[DecryptOptions](types.DecryptOptions.md).[keyManagementAlgorithms](types.DecryptOptions.md#keymanagementalgorithms)
-
-#### Defined in
-
-[types.d.ts:481](https://github.com/panva/jose/blob/v3.19.0/src/types.d.ts#L481)
 
 ___
 
@@ -192,14 +120,6 @@ Maximum time elapsed (in seconds) from the JWT "iat" (Issued At) Claim value.
 - in seconds when number (e.g. 5)
 - parsed as seconds when a string (e.g. "5 seconds", "10 minutes", "2 hours").
 
-#### Inherited from
-
-[JWTClaimVerificationOptions](types.JWTClaimVerificationOptions.md).[maxTokenAge](types.JWTClaimVerificationOptions.md#maxtokenage)
-
-#### Defined in
-
-[types.d.ts:534](https://github.com/panva/jose/blob/v3.19.0/src/types.d.ts#L534)
-
 ___
 
 ### subject
@@ -208,14 +128,6 @@ ___
 
 Expected JWT "sub" (Subject) Claim value.
 
-#### Inherited from
-
-[JWTClaimVerificationOptions](types.JWTClaimVerificationOptions.md).[subject](types.JWTClaimVerificationOptions.md#subject)
-
-#### Defined in
-
-[types.d.ts:539](https://github.com/panva/jose/blob/v3.19.0/src/types.d.ts#L539)
-
 ___
 
 ### typ
@@ -223,11 +135,3 @@ ___
 • `Optional` **typ**: `string`
 
 Expected JWT "typ" (Type) Header Parameter value.
-
-#### Inherited from
-
-[JWTClaimVerificationOptions](types.JWTClaimVerificationOptions.md).[typ](types.JWTClaimVerificationOptions.md#typ)
-
-#### Defined in
-
-[types.d.ts:544](https://github.com/panva/jose/blob/v3.19.0/src/types.d.ts#L544)

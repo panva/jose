@@ -2,14 +2,6 @@
 
 [types](../modules/types.md).JoseHeaderParameters
 
-## Hierarchy
-
-- **`JoseHeaderParameters`**
-
-  ↳ [`JWSHeaderParameters`](types.JWSHeaderParameters.md)
-
-  ↳ [`JWEHeaderParameters`](types.JWEHeaderParameters.md)
-
 ## Table of contents
 
 ### Properties
@@ -31,10 +23,6 @@
 
 "cty" (Content Type) Header Parameter.
 
-#### Defined in
-
-[types.d.ts:299](https://github.com/panva/jose/blob/v3.19.0/src/types.d.ts#L299)
-
 ___
 
 ### jku
@@ -42,10 +30,6 @@ ___
 • `Optional` **jku**: `string`
 
 "jku" (JWK Set URL) Header Parameter.
-
-#### Defined in
-
-[types.d.ts:284](https://github.com/panva/jose/blob/v3.19.0/src/types.d.ts#L284)
 
 ___
 
@@ -55,10 +39,6 @@ ___
 
 "jwk" (JSON Web Key) Header Parameter.
 
-#### Defined in
-
-[types.d.ts:289](https://github.com/panva/jose/blob/v3.19.0/src/types.d.ts#L289)
-
 ___
 
 ### kid
@@ -66,10 +46,6 @@ ___
 • `Optional` **kid**: `string`
 
 "kid" (Key ID) Header Parameter.
-
-#### Defined in
-
-[types.d.ts:264](https://github.com/panva/jose/blob/v3.19.0/src/types.d.ts#L264)
 
 ___
 
@@ -79,10 +55,6 @@ ___
 
 "typ" (Type) Header Parameter.
 
-#### Defined in
-
-[types.d.ts:294](https://github.com/panva/jose/blob/v3.19.0/src/types.d.ts#L294)
-
 ___
 
 ### x5c
@@ -90,10 +62,6 @@ ___
 • `Optional` **x5c**: `string`[]
 
 "x5c" (X.509 Certificate Chain) Header Parameter.
-
-#### Defined in
-
-[types.d.ts:274](https://github.com/panva/jose/blob/v3.19.0/src/types.d.ts#L274)
 
 ___
 
@@ -103,10 +71,6 @@ ___
 
 "x5t" (X.509 Certificate SHA-1 Thumbprint) Header Parameter.
 
-#### Defined in
-
-[types.d.ts:269](https://github.com/panva/jose/blob/v3.19.0/src/types.d.ts#L269)
-
 ___
 
 ### x5u
@@ -114,7 +78,3 @@ ___
 • `Optional` **x5u**: `string`
 
 "x5u" (X.509 URL) Header Parameter.
-
-#### Defined in
-
-[types.d.ts:279](https://github.com/panva/jose/blob/v3.19.0/src/types.d.ts#L279)

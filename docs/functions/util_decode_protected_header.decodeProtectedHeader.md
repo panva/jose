@@ -18,7 +18,7 @@ const { decodeProtectedHeader } = require('jose/util/decode_protected_header')
 
 **`example`** Deno import
 ```js
-import { decodeProtectedHeader } from 'https://deno.land/x/jose@v3.19.0/util/decode_protected_header.ts'
+import { decodeProtectedHeader } from 'https://deno.land/x/jose@v3.20.0/util/decode_protected_header.ts'
 ```
 
 **`example`** Usage
@@ -36,7 +36,3 @@ console.log(protectedHeader)
 #### Returns
 
 [`ProtectedHeaderParameters`](../types/util_decode_protected_header.ProtectedHeaderParameters.md)
-
-#### Defined in
-
-[util/decode_protected_header.ts:34](https://github.com/panva/jose/blob/v3.19.0/src/util/decode_protected_header.ts#L34)

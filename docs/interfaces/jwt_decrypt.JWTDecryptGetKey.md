@@ -2,17 +2,11 @@
 
 [jwt/decrypt](../modules/jwt_decrypt.md).JWTDecryptGetKey
 
-## Hierarchy
-
-- [`GetKeyFunction`](types.GetKeyFunction.md)<[`JWEHeaderParameters`](types.JWEHeaderParameters.md), [`FlattenedJWE`](types.FlattenedJWE.md)\>
-
-  ↳ **`JWTDecryptGetKey`**
-
 ## Callable
 
 ### JWTDecryptGetKey
 
-▸ **JWTDecryptGetKey**(`protectedHeader`, `token`): `Promise`<[`KeyLike`](../types/types.KeyLike.md)\>
+▸ **JWTDecryptGetKey**(`protectedHeader`, `token`): `Promise`<[`KeyLike`](../types/types.KeyLike.md) \| `Uint8Array`\>
 
 Interface for JWT Decryption dynamic key resolution.
 No token components have been verified at the time of this function call.
@@ -26,8 +20,4 @@ No token components have been verified at the time of this function call.
 
 #### Returns
 
-`Promise`<[`KeyLike`](../types/types.KeyLike.md)\>
-
-#### Defined in
-
-[types.d.ts:181](https://github.com/panva/jose/blob/v3.19.0/src/types.d.ts#L181)
+`Promise`<[`KeyLike`](../types/types.KeyLike.md) \| `Uint8Array`\>

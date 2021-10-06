@@ -2,12 +2,6 @@
 
 [types](../modules/types.md).FlattenedVerifyResult
 
-## Hierarchy
-
-- **`FlattenedVerifyResult`**
-
-  ↳ [`GeneralVerifyResult`](types.GeneralVerifyResult.md)
-
 ## Table of contents
 
 ### Properties
@@ -24,10 +18,6 @@
 
 JWS Payload.
 
-#### Defined in
-
-[types.d.ts:674](https://github.com/panva/jose/blob/v3.19.0/src/types.d.ts#L674)
-
 ___
 
 ### protectedHeader
@@ -36,10 +26,6 @@ ___
 
 JWS Protected Header.
 
-#### Defined in
-
-[types.d.ts:679](https://github.com/panva/jose/blob/v3.19.0/src/types.d.ts#L679)
-
 ___
 
 ### unprotectedHeader
@@ -47,7 +33,3 @@ ___
 • `Optional` **unprotectedHeader**: [`JWSHeaderParameters`](types.JWSHeaderParameters.md)
 
 JWS Unprotected Header.
-
-#### Defined in
-
-[types.d.ts:684](https://github.com/panva/jose/blob/v3.19.0/src/types.d.ts#L684)

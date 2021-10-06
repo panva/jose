@@ -45,19 +45,11 @@ JSON Web Key ([JWK](https://tools.ietf.org/html/rfc7517)).
 
 JWK "alg" (Algorithm) Parameter.
 
-#### Defined in
-
-[types.d.ts:113](https://github.com/panva/jose/blob/v3.19.0/src/types.d.ts#L113)
-
 ___
 
 ### crv
 
 • `Optional` **crv**: `string`
-
-#### Defined in
-
-[types.d.ts:114](https://github.com/panva/jose/blob/v3.19.0/src/types.d.ts#L114)
 
 ___
 
@@ -65,19 +57,11 @@ ___
 
 • `Optional` **d**: `string`
 
-#### Defined in
-
-[types.d.ts:115](https://github.com/panva/jose/blob/v3.19.0/src/types.d.ts#L115)
-
 ___
 
 ### dp
 
 • `Optional` **dp**: `string`
-
-#### Defined in
-
-[types.d.ts:116](https://github.com/panva/jose/blob/v3.19.0/src/types.d.ts#L116)
 
 ___
 
@@ -85,19 +69,11 @@ ___
 
 • `Optional` **dq**: `string`
 
-#### Defined in
-
-[types.d.ts:117](https://github.com/panva/jose/blob/v3.19.0/src/types.d.ts#L117)
-
 ___
 
 ### e
 
 • `Optional` **e**: `string`
-
-#### Defined in
-
-[types.d.ts:118](https://github.com/panva/jose/blob/v3.19.0/src/types.d.ts#L118)
 
 ___
 
@@ -107,19 +83,11 @@ ___
 
 JWK "ext" (Extractable) Parameter.
 
-#### Defined in
-
-[types.d.ts:122](https://github.com/panva/jose/blob/v3.19.0/src/types.d.ts#L122)
-
 ___
 
 ### k
 
 • `Optional` **k**: `string`
-
-#### Defined in
-
-[types.d.ts:123](https://github.com/panva/jose/blob/v3.19.0/src/types.d.ts#L123)
 
 ___
 
@@ -129,10 +97,6 @@ ___
 
 JWK "key_ops" (Key Operations) Parameter.
 
-#### Defined in
-
-[types.d.ts:127](https://github.com/panva/jose/blob/v3.19.0/src/types.d.ts#L127)
-
 ___
 
 ### kid
@@ -140,10 +104,6 @@ ___
 • `Optional` **kid**: `string`
 
 JWK "kid" (Key ID) Parameter.
-
-#### Defined in
-
-[types.d.ts:131](https://github.com/panva/jose/blob/v3.19.0/src/types.d.ts#L131)
 
 ___
 
@@ -153,19 +113,11 @@ ___
 
 JWK "kty" (Key Type) Parameter.
 
-#### Defined in
-
-[types.d.ts:135](https://github.com/panva/jose/blob/v3.19.0/src/types.d.ts#L135)
-
 ___
 
 ### n
 
 • `Optional` **n**: `string`
-
-#### Defined in
-
-[types.d.ts:136](https://github.com/panva/jose/blob/v3.19.0/src/types.d.ts#L136)
 
 ___
 
@@ -173,19 +125,11 @@ ___
 
 • `Optional` **oth**: { `d?`: `string` ; `r?`: `string` ; `t?`: `string`  }[]
 
-#### Defined in
-
-[types.d.ts:137](https://github.com/panva/jose/blob/v3.19.0/src/types.d.ts#L137)
-
 ___
 
 ### p
 
 • `Optional` **p**: `string`
-
-#### Defined in
-
-[types.d.ts:142](https://github.com/panva/jose/blob/v3.19.0/src/types.d.ts#L142)
 
 ___
 
@@ -193,19 +137,11 @@ ___
 
 • `Optional` **q**: `string`
 
-#### Defined in
-
-[types.d.ts:143](https://github.com/panva/jose/blob/v3.19.0/src/types.d.ts#L143)
-
 ___
 
 ### qi
 
 • `Optional` **qi**: `string`
-
-#### Defined in
-
-[types.d.ts:144](https://github.com/panva/jose/blob/v3.19.0/src/types.d.ts#L144)
 
 ___
 
@@ -215,19 +151,11 @@ ___
 
 JWK "use" (Public Key Use) Parameter.
 
-#### Defined in
-
-[types.d.ts:148](https://github.com/panva/jose/blob/v3.19.0/src/types.d.ts#L148)
-
 ___
 
 ### x
 
 • `Optional` **x**: `string`
-
-#### Defined in
-
-[types.d.ts:149](https://github.com/panva/jose/blob/v3.19.0/src/types.d.ts#L149)
 
 ___
 
@@ -237,10 +165,6 @@ ___
 
 JWK "x5c" (X.509 Certificate Chain) Parameter.
 
-#### Defined in
-
-[types.d.ts:154](https://github.com/panva/jose/blob/v3.19.0/src/types.d.ts#L154)
-
 ___
 
 ### x5t
@@ -248,10 +172,6 @@ ___
 • `Optional` **x5t**: `string`
 
 JWK "x5t" (X.509 Certificate SHA-1 Thumbprint) Parameter.
-
-#### Defined in
-
-[types.d.ts:158](https://github.com/panva/jose/blob/v3.19.0/src/types.d.ts#L158)
 
 ___
 
@@ -261,10 +181,6 @@ ___
 
 "x5t#S256" (X.509 Certificate SHA-256 Thumbprint) Parameter.
 
-#### Defined in
-
-[types.d.ts:162](https://github.com/panva/jose/blob/v3.19.0/src/types.d.ts#L162)
-
 ___
 
 ### x5u
@@ -273,16 +189,8 @@ ___
 
 JWK "x5u" (X.509 URL) Parameter.
 
-#### Defined in
-
-[types.d.ts:166](https://github.com/panva/jose/blob/v3.19.0/src/types.d.ts#L166)
-
 ___
 
 ### y
 
 • `Optional` **y**: `string`
-
-#### Defined in
-
-[types.d.ts:150](https://github.com/panva/jose/blob/v3.19.0/src/types.d.ts#L150)

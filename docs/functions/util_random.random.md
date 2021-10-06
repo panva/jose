@@ -13,7 +13,3 @@
 #### Returns
 
 `Uint8Array`
-
-#### Defined in
-
-[util/random.ts:7](https://github.com/panva/jose/blob/v3.19.0/src/util/random.ts#L7)

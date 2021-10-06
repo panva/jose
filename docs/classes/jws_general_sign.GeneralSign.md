@@ -16,7 +16,7 @@ const { GeneralSign } = require('jose/jws/general/sign')
 
 **`example`** Deno import
 ```js
-import { GeneralSign } from 'https://deno.land/x/jose@v3.19.0/jws/general/sign.ts'
+import { GeneralSign } from 'https://deno.land/x/jose@v3.20.0/jws/general/sign.ts'
 ```
 
 **`example`** Usage
@@ -59,10 +59,6 @@ const jws = await sign.sign()
 | :------ | :------ | :------ |
 | `payload` | `Uint8Array` | Binary representation of the payload to sign. |
 
-#### Defined in
-
-[jws/general/sign.ts:108](https://github.com/panva/jose/blob/v3.19.0/src/jws/general/sign.ts#L108)
-
 ## Methods
 
 ### addSignature
@@ -73,16 +69,12 @@ const jws = await sign.sign()
 
 | Name | Type |
 | :------ | :------ |
-| `key` | [`KeyLike`](../types/types.KeyLike.md) |
+| `key` | [`KeyLike`](../types/types.KeyLike.md) \| `Uint8Array` |
 | `options?` | [`SignOptions`](../interfaces/types.SignOptions.md) |
 
 #### Returns
 
 [`Signature`](../interfaces/jws_general_sign.Signature.md)
-
-#### Defined in
-
-[jws/general/sign.ts:112](https://github.com/panva/jose/blob/v3.19.0/src/jws/general/sign.ts#L112)
 
 ___
 
@@ -95,7 +87,3 @@ Signs and resolves the value of the General JWS object.
 #### Returns
 
 `Promise`<[`GeneralJWS`](../interfaces/types.GeneralJWS.md)\>
-
-#### Defined in
-
-[jws/general/sign.ts:122](https://github.com/panva/jose/blob/v3.19.0/src/jws/general/sign.ts#L122)

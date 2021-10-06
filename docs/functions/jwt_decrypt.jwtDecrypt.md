@@ -18,7 +18,7 @@ const { jwtDecrypt } = require('jose/jwt/decrypt')
 
 **`example`** Deno import
 ```js
-import { jwtDecrypt } from 'https://deno.land/x/jose@v3.19.0/jwt/decrypt.ts'
+import { jwtDecrypt } from 'https://deno.land/x/jose@v3.20.0/jwt/decrypt.ts'
 ```
 
 **`example`** Usage
@@ -39,16 +39,12 @@ console.log(payload)
 | Name | Type | Description |
 | :------ | :------ | :------ |
 | `jwt` | `string` \| `Uint8Array` | JSON Web Token value (encoded as JWE). |
-| `key` | [`KeyLike`](../types/types.KeyLike.md) | Private Key or Secret to decrypt and verify the JWT with. |
+| `key` | [`KeyLike`](../types/types.KeyLike.md) \| `Uint8Array` | Private Key or Secret to decrypt and verify the JWT with. |
 | `options?` | [`JWTDecryptOptions`](../interfaces/jwt_decrypt.JWTDecryptOptions.md) | JWT Decryption and JWT Claims Set validation options. |
 
 #### Returns
 
 `Promise`<[`JWTDecryptResult`](../interfaces/types.JWTDecryptResult.md)\>
-
-#### Defined in
-
-[jwt/decrypt.ts:62](https://github.com/panva/jose/blob/v3.19.0/src/jwt/decrypt.ts#L62)
 
 ▸ **jwtDecrypt**(`jwt`, `getKey`, `options?`): `Promise`<[`JWTDecryptResult`](../interfaces/types.JWTDecryptResult.md) & [`ResolvedKey`](../interfaces/types.ResolvedKey.md)\>
 
@@ -63,7 +59,3 @@ console.log(payload)
 #### Returns
 
 `Promise`<[`JWTDecryptResult`](../interfaces/types.JWTDecryptResult.md) & [`ResolvedKey`](../interfaces/types.ResolvedKey.md)\>
-
-#### Defined in
-
-[jwt/decrypt.ts:72](https://github.com/panva/jose/blob/v3.19.0/src/jwt/decrypt.ts#L72)

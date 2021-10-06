@@ -21,19 +21,11 @@ Recognized JWE Key Management-related Header Parameters.
 
 • `Optional` **apu**: `Uint8Array`
 
-#### Defined in
-
-[types.d.ts:334](https://github.com/panva/jose/blob/v3.19.0/src/types.d.ts#L334)
-
 ___
 
 ### apv
 
 • `Optional` **apv**: `Uint8Array`
-
-#### Defined in
-
-[types.d.ts:335](https://github.com/panva/jose/blob/v3.19.0/src/types.d.ts#L335)
 
 ___
 
@@ -41,19 +33,11 @@ ___
 
 • `Optional` **epk**: [`KeyLike`](../types/types.KeyLike.md)
 
-#### Defined in
-
-[types.d.ts:336](https://github.com/panva/jose/blob/v3.19.0/src/types.d.ts#L336)
-
 ___
 
 ### iv
 
 • `Optional` **iv**: `Uint8Array`
-
-#### Defined in
-
-[types.d.ts:337](https://github.com/panva/jose/blob/v3.19.0/src/types.d.ts#L337)
 
 ___
 
@@ -61,16 +45,8 @@ ___
 
 • `Optional` **p2c**: `number`
 
-#### Defined in
-
-[types.d.ts:338](https://github.com/panva/jose/blob/v3.19.0/src/types.d.ts#L338)
-
 ___
 
 ### p2s
 
 • `Optional` **p2s**: `Uint8Array`
-
-#### Defined in
-
-[types.d.ts:339](https://github.com/panva/jose/blob/v3.19.0/src/types.d.ts#L339)

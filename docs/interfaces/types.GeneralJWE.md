@@ -2,12 +2,6 @@
 
 [types](../modules/types.md).GeneralJWE
 
-## Hierarchy
-
-- `Omit`<[`FlattenedJWE`](types.FlattenedJWE.md), ``"encrypted_key"`` \| ``"header"``\>
-
-  ↳ **`GeneralJWE`**
-
 ## Table of contents
 
 ### Properties
@@ -32,14 +26,6 @@ otherwise, it MUST be absent.  A JWE AAD value can be included to
 supply a base64url-encoded value to be integrity protected but not
 encrypted.
 
-#### Inherited from
-
-Omit.aad
-
-#### Defined in
-
-[types.d.ts:353](https://github.com/panva/jose/blob/v3.19.0/src/types.d.ts#L353)
-
 ___
 
 ### ciphertext
@@ -48,14 +34,6 @@ ___
 
 The "ciphertext" member MUST be present and contain the value
 BASE64URL(JWE Ciphertext).
-
-#### Inherited from
-
-Omit.ciphertext
-
-#### Defined in
-
-[types.d.ts:359](https://github.com/panva/jose/blob/v3.19.0/src/types.d.ts#L359)
 
 ___
 
@@ -66,14 +44,6 @@ ___
 The "iv" member MUST be present and contain the value
 BASE64URL(JWE Initialization Vector) when the JWE Initialization
 Vector value is non-empty; otherwise, it MUST be absent.
-
-#### Inherited from
-
-Omit.iv
-
-#### Defined in
-
-[types.d.ts:383](https://github.com/panva/jose/blob/v3.19.0/src/types.d.ts#L383)
 
 ___
 
@@ -86,23 +56,11 @@ BASE64URL(UTF8(JWE Protected Header)) when the JWE Protected
 Header value is non-empty; otherwise, it MUST be absent.  These
 Header Parameter values are integrity protected.
 
-#### Inherited from
-
-Omit.protected
-
-#### Defined in
-
-[types.d.ts:391](https://github.com/panva/jose/blob/v3.19.0/src/types.d.ts#L391)
-
 ___
 
 ### recipients
 
 • **recipients**: `Pick`<[`FlattenedJWE`](types.FlattenedJWE.md), ``"header"`` \| ``"encrypted_key"``\>[]
-
-#### Defined in
-
-[types.d.ts:411](https://github.com/panva/jose/blob/v3.19.0/src/types.d.ts#L411)
 
 ___
 
@@ -113,14 +71,6 @@ ___
 The "tag" member MUST be present and contain the value
 BASE64URL(JWE Authentication Tag) when the JWE Authentication Tag
 value is non-empty; otherwise, it MUST be absent.
-
-#### Inherited from
-
-Omit.tag
-
-#### Defined in
-
-[types.d.ts:398](https://github.com/panva/jose/blob/v3.19.0/src/types.d.ts#L398)
 
 ___
 
@@ -133,11 +83,3 @@ Shared Unprotected Header when the JWE Shared Unprotected Header
 value is non-empty; otherwise, it MUST be absent.  This value is
 represented as an unencoded JSON object, rather than as a string.
 These Header Parameter values are not integrity protected.
-
-#### Inherited from
-
-Omit.unprotected
-
-#### Defined in
-
-[types.d.ts:407](https://github.com/panva/jose/blob/v3.19.0/src/types.d.ts#L407)
