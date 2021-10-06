@@ -5,7 +5,7 @@ import type { ClientRequest, IncomingMessage } from 'http'
 import type { RequestOptions } from 'https'
 
 import type { FetchFunction } from '../interfaces.d'
-import { JOSEError } from '../../util/errors.js'
+import { JOSEError, JWKSTimeout } from '../../util/errors.js'
 import { concat, decoder } from '../../lib/buffer_utils.js'
 
 const protocols: { [protocol: string]: (...args: Parameters<typeof https>) => ClientRequest } = {
@@ -30,7 +30,15 @@ const fetchJwks: FetchFunction = async (
     timeout,
   })
 
-  const [response] = <[IncomingMessage]>await once(req, 'response')
+  const [response] = <[IncomingMessage]>(
+    await Promise.race([once(req, 'response'), once(req, 'timeout')])
+  )
+
+  // timeout reached
+  if (!response) {
+    req.destroy()
+    throw new JWKSTimeout()
+  }
 
   if (response.statusCode !== 200) {
     throw new JOSEError('Expected 200 OK from the JSON Web Key Set HTTP response')

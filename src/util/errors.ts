@@ -143,6 +143,17 @@ export class JWKSMultipleMatchingKeys extends JOSEError {
 }
 
 /**
+ * Timeout was reached when retrieving the JWKS response.
+ */
+export class JWKSTimeout extends JOSEError {
+  static code = 'ERR_JWKS_TIMEOUT'
+
+  code = JWKSTimeout.code
+
+  message = 'request timed out'
+}
+
+/**
  * An error subclass thrown when JWS signature verification fails.
  */
 export class JWSSignatureVerificationFailed extends JOSEError {

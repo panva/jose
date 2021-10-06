@@ -16,3 +16,9 @@ QUnit.test('fetches the JWKSet', async (assert) => {
   );
   assert.ok(await jwks({ alg, kid }));
 });
+
+const conditional = typeof AbortController === 'function' ? QUnit.test : QUnit.skip;
+conditional('timeout', async (assert) => {
+  const jwks = createRemoteJWKSet(new URL(jwksUri));
+  await assert.rejects(jwks({ alg: 'RS256' }, { timeoutDuration: 0 }), 'request timed out');
+});

@@ -349,6 +349,21 @@ test('createRemoteJWKSet', macro, async () => {
   await jwks({ alg, kid });
 });
 
+test('remote jwk set timeout', macro, async () => {
+  const jwksUri = 'https://www.googleapis.com/oauth2/v3/certs';
+  const jwks = jwksRemote(new URL(jwksUri), { timeoutDuration: 0 });
+  await jwks({ alg: 'RS256' }).then(
+    () => {
+      throw new Error('should fail');
+    },
+    (err) => {
+      if (err.code !== 'ERR_JWKS_TIMEOUT') {
+        throw err;
+      }
+    },
+  );
+});
+
 test('ECDH-ES', macro, async () => {
   const keypair = await utilGenerateKeyPair('ECDH-ES');
   await jweAsymmetricTest(keypair, 'ECDH-ES');

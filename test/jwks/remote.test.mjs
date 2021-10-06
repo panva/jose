@@ -32,7 +32,7 @@ Promise.all([
 
     test.before(async (t) => {
       nock.disableNetConnect();
-      t.context.server = createServer().listen(3000);
+      t.context.server = createServer().unref().listen(3000);
       t.context.server.removeAllListeners('request');
       await once(t.context.server, 'listening');
     });
@@ -40,6 +40,10 @@ Promise.all([
     test.after(async (t) => {
       nock.enableNetConnect();
       await new Promise((resolve) => t.context.server.close(resolve));
+    });
+
+    test.afterEach(() => {
+      nock.disableNetConnect();
     });
 
     test.afterEach((t) => {
@@ -261,7 +265,7 @@ Promise.all([
       });
     });
 
-    test.serial('handles ENOTFOUND', async (t) => {
+    test('handles ENOTFOUND', async (t) => {
       nock.enableNetConnect();
       const url = new URL('https://op.example.com/jwks');
       const JWKS = createRemoteJWKSet(url);
@@ -270,7 +274,8 @@ Promise.all([
       });
     });
 
-    test.serial('handles ECONNREFUSED', async (t) => {
+    test('handles ECONNREFUSED', async (t) => {
+      nock.enableNetConnect();
       const url = new URL('http://localhost:3001/jwks');
       const JWKS = createRemoteJWKSet(url);
       await t.throwsAsync(JWKS({ alg: 'RS256' }), {
@@ -278,7 +283,8 @@ Promise.all([
       });
     });
 
-    test.serial('handles ECONNRESET', async (t) => {
+    test('handles ECONNRESET', async (t) => {
+      nock.enableNetConnect();
       const url = new URL('http://localhost:3000/jwks');
       t.context.server.once('connection', (socket) => {
         socket.destroy();
@@ -288,10 +294,21 @@ Promise.all([
         code: 'ECONNRESET',
       });
     });
+
+    test('handles a timeout', async (t) => {
+      t.timeout(1000);
+      nock.enableNetConnect();
+      const url = new URL('http://localhost:3000/jwks');
+      const JWKS = createRemoteJWKSet(url, {
+        timeoutDuration: 500,
+      });
+      await t.throwsAsync(JWKS({ alg: 'RS256' }), {
+        code: 'ERR_JWKS_TIMEOUT',
+      });
+    });
   },
   (err) => {
-    test.serial('failed to import', (t) => {
-      console.error(err);
+    test('failed to import', (t) => {
       t.fail();
     });
   },
