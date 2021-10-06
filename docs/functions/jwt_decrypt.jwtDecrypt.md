@@ -18,7 +18,7 @@ const { jwtDecrypt } = require('jose/jwt/decrypt')
 
 **`example`** Deno import
 ```js
-import { jwtDecrypt } from 'https://deno.land/x/jose@v3.20.0/jwt/decrypt.ts'
+import { jwtDecrypt } from 'https://deno.land/x/jose@v3.20.1/jwt/decrypt.ts'
 ```
 
 **`example`** Usage

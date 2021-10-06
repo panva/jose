@@ -16,7 +16,7 @@ const { UnsecuredJWT } = require('jose/jwt/unsecured')
 
 **`example`** Deno import
 ```js
-import { UnsecuredJWT } from 'https://deno.land/x/jose@v3.20.0/jwt/unsecured.ts'
+import { UnsecuredJWT } from 'https://deno.land/x/jose@v3.20.1/jwt/unsecured.ts'
 ```
 
 **`example`** Encoding

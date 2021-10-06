@@ -2,7 +2,7 @@
 
 [key/import](../modules/key_import.md).importX509
 
-▸ **importX509**(`x509`, `alg`, `options?`): `Promise`<`Exclude`<[`KeyLike`](../types/types.KeyLike.md), `Uint8Array`\>\>
+▸ **importX509**(`x509`, `alg`, `options?`): `Promise`<[`KeyLike`](../types/types.KeyLike.md)\>
 
 Imports the SPKI from an X.509 string certificate as a runtime-specific public key representation (KeyObject or CryptoKey).
 See [Algorithm Key Requirements](https://github.com/panva/jose/issues/210) to learn about key to algorithm
@@ -20,7 +20,7 @@ const { importX509 } = require('jose/key/import')
 
 **`example`** Deno import
 ```js
-import { importX509 } from 'https://deno.land/x/jose@v3.20.0/key/import.ts'
+import { importX509 } from 'https://deno.land/x/jose@v3.20.1/key/import.ts'
 ```
 
 **`example`** Usage
@@ -49,4 +49,4 @@ const ecPublicKey = await importX509(x509, algorithm)
 
 #### Returns
 
-`Promise`<`Exclude`<[`KeyLike`](../types/types.KeyLike.md), `Uint8Array`\>\>
+`Promise`<[`KeyLike`](../types/types.KeyLike.md)\>

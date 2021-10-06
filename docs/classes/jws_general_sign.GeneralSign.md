@@ -16,7 +16,7 @@ const { GeneralSign } = require('jose/jws/general/sign')
 
 **`example`** Deno import
 ```js
-import { GeneralSign } from 'https://deno.land/x/jose@v3.20.0/jws/general/sign.ts'
+import { GeneralSign } from 'https://deno.land/x/jose@v3.20.1/jws/general/sign.ts'
 ```
 
 **`example`** Usage

@@ -2,7 +2,7 @@
 
 [key/import](../modules/key_import.md).importSPKI
 
-▸ **importSPKI**(`spki`, `alg`, `options?`): `Promise`<`Exclude`<[`KeyLike`](../types/types.KeyLike.md), `Uint8Array`\>\>
+▸ **importSPKI**(`spki`, `alg`, `options?`): `Promise`<[`KeyLike`](../types/types.KeyLike.md)\>
 
 Imports an PEM-encoded SPKI string as a runtime-specific public key representation (KeyObject or CryptoKey).
 See [Algorithm Key Requirements](https://github.com/panva/jose/issues/210) to learn about key to algorithm
@@ -20,7 +20,7 @@ const { importSPKI } = require('jose/key/import')
 
 **`example`** Deno import
 ```js
-import { importSPKI } from 'https://deno.land/x/jose@v3.20.0/key/import.ts'
+import { importSPKI } from 'https://deno.land/x/jose@v3.20.1/key/import.ts'
 ```
 
 **`example`** Usage
@@ -43,4 +43,4 @@ const ecPublicKey = await importSPKI(spki, algorithm)
 
 #### Returns
 
-`Promise`<`Exclude`<[`KeyLike`](../types/types.KeyLike.md), `Uint8Array`\>\>
+`Promise`<[`KeyLike`](../types/types.KeyLike.md)\>

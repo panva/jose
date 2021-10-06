@@ -18,7 +18,7 @@ const { exportJWK } = require('jose/key/export')
 
 **`example`** Deno import
 ```js
-import { exportJWK } from 'https://deno.land/x/jose@v3.20.0/key/export.ts'
+import { exportJWK } from 'https://deno.land/x/jose@v3.20.1/key/export.ts'
 ```
 
 **`example`** Usage

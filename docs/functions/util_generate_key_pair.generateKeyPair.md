@@ -23,7 +23,7 @@ const { generateKeyPair } = require('jose/util/generate_key_pair')
 
 **`example`** Deno import
 ```js
-import { generateKeyPair } from 'https://deno.land/x/jose@v3.20.0/util/generate_key_pair.ts'
+import { generateKeyPair } from 'https://deno.land/x/jose@v3.20.1/util/generate_key_pair.ts'
 ```
 
 **`example`** Usage

@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [3.20.1](https://github.com/panva/jose/compare/v3.20.0...v3.20.1) (2021-10-06)
+
+
+### Bug Fixes
+
+* **typescript:** PEM import functions always resolve a KeyLike, never a Uint8Array ([8ef3a8e](https://github.com/panva/jose/commit/8ef3a8ebb78b592e664102cb593542ae6259d72a))
+
 ## [3.20.0](https://github.com/panva/jose/compare/v3.19.0...v3.20.0) (2021-10-06)
 
 

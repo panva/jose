@@ -18,7 +18,7 @@ const { jwtVerify } = require('jose/jwt/verify')
 
 **`example`** Deno import
 ```js
-import { jwtVerify } from 'https://deno.land/x/jose@v3.20.0/jwt/verify.ts'
+import { jwtVerify } from 'https://deno.land/x/jose@v3.20.1/jwt/verify.ts'
 ```
 
 **`example`** Usage

@@ -19,7 +19,7 @@ const { calculateThumbprint } = require('jose/jwk/thumbprint')
 
 **`example`** Deno import
 ```js
-import { calculateThumbprint } from 'https://deno.land/x/jose@v3.20.0/jwk/thumbprint.ts'
+import { calculateThumbprint } from 'https://deno.land/x/jose@v3.20.1/jwk/thumbprint.ts'
 ```
 
 **`example`** Usage

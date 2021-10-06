@@ -2,7 +2,7 @@
 
 [key/import](../modules/key_import.md).importPKCS8
 
-▸ **importPKCS8**(`pkcs8`, `alg`, `options?`): `Promise`<`Exclude`<[`KeyLike`](../types/types.KeyLike.md), `Uint8Array`\>\>
+▸ **importPKCS8**(`pkcs8`, `alg`, `options?`): `Promise`<[`KeyLike`](../types/types.KeyLike.md)\>
 
 Imports an PEM-encoded PKCS8 string as a runtime-specific private key representation (KeyObject or CryptoKey).
 See [Algorithm Key Requirements](https://github.com/panva/jose/issues/210) to learn about key to algorithm
@@ -20,7 +20,7 @@ const { importPKCS8 } = require('jose/key/import')
 
 **`example`** Deno import
 ```js
-import { importPKCS8 } from 'https://deno.land/x/jose@v3.20.0/key/import.ts'
+import { importPKCS8 } from 'https://deno.land/x/jose@v3.20.1/key/import.ts'
 ```
 
 **`example`** Usage
@@ -44,4 +44,4 @@ const ecPrivateKey = await importPKCS8(pkcs8, algorithm)
 
 #### Returns
 
-`Promise`<`Exclude`<[`KeyLike`](../types/types.KeyLike.md), `Uint8Array`\>\>
+`Promise`<[`KeyLike`](../types/types.KeyLike.md)\>
