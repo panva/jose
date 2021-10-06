@@ -130,7 +130,7 @@ export async function importSPKI(
   spki: string,
   alg: string,
   options?: PEMImportOptions,
-): Promise<Exclude<KeyLike, Uint8Array>> {
+): Promise<KeyLike> {
   if (typeof spki !== 'string' || spki.indexOf('-----BEGIN PUBLIC KEY-----') !== 0) {
     throw new TypeError('"spki" must be SPKI formatted string')
   }
@@ -180,7 +180,7 @@ export async function importX509(
   x509: string,
   alg: string,
   options?: PEMImportOptions,
-): Promise<Exclude<KeyLike, Uint8Array>> {
+): Promise<KeyLike> {
   if (typeof x509 !== 'string' || x509.indexOf('-----BEGIN CERTIFICATE-----') !== 0) {
     throw new TypeError('"x509" must be X.509 formatted string')
   }
@@ -226,7 +226,7 @@ export async function importPKCS8(
   pkcs8: string,
   alg: string,
   options?: PEMImportOptions,
-): Promise<Exclude<KeyLike, Uint8Array>> {
+): Promise<KeyLike> {
   if (typeof pkcs8 !== 'string' || pkcs8.indexOf('-----BEGIN PRIVATE KEY-----') !== 0) {
     throw new TypeError('"pkcs8" must be PCKS8 formatted string')
   }

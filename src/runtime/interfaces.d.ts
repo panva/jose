@@ -98,7 +98,7 @@ export interface JWKImportFunction {
   (jwk: JWK): AsyncOrSync<KeyLike>
 }
 export interface PEMImportFunction {
-  (pem: string, alg: string, options?: PEMImportOptions): AsyncOrSync<Exclude<KeyLike, Uint8Array>>
+  (pem: string, alg: string, options?: PEMImportOptions): AsyncOrSync<KeyLike>
 }
 interface ExportFunction<T> {
   (key: unknown): AsyncOrSync<T>
