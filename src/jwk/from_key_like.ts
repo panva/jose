@@ -5,7 +5,7 @@ import type { JWK, KeyLike } from '../types.d'
 /**
  * @deprecated use `jose/key/export`
  */
-async function fromKeyLike(key: KeyLike): Promise<JWK> {
+async function fromKeyLike(key: KeyLike | Uint8Array): Promise<JWK> {
   return exportJWK(key)
 }
 

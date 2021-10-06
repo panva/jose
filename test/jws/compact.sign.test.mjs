@@ -1,6 +1,7 @@
 import test from 'ava';
 
 const root = !('WEBCRYPTO' in process.env) ? '#dist' : '#dist/webcrypto';
+
 import(`${root}/jws/compact/sign`).then(
   ({ default: CompactSign }) => {
     test.before((t) => {

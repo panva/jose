@@ -10,7 +10,6 @@ import type {
   JWEKeyManagementHeaderParameters,
   EncryptOptions,
 } from '../../types.d'
-import type { JWEKeyManagementHeaderResults } from '../../types.i.d'
 import ivFactory from '../../lib/iv.js'
 import encryptKeyManagement from '../../lib/encrypt_key_management.js'
 import { JOSENotSupported, JWEInvalid } from '../../util/errors.js'
@@ -182,7 +181,7 @@ class FlattenedEncrypt {
    * @param key Public Key or Secret to encrypt the JWE with.
    * @param options JWE Encryption options.
    */
-  async encrypt(key: KeyLike, options?: EncryptOptions) {
+  async encrypt(key: KeyLike | Uint8Array, options?: EncryptOptions) {
     if (!this._protectedHeader && !this._unprotectedHeader && !this._sharedUnprotectedHeader) {
       throw new JWEInvalid(
         'either setProtectedHeader, setUnprotectedHeader, or sharedUnprotectedHeader must be called before #encrypt()',
@@ -241,9 +240,9 @@ class FlattenedEncrypt {
       }
     }
 
-    let cek: KeyLike
+    let cek: KeyLike | Uint8Array
     {
-      let parameters: JWEKeyManagementHeaderResults | undefined
+      let parameters: { [propName: string]: unknown } | undefined
       ;({ cek, encryptedKey, parameters } = await encryptKeyManagement(
         alg,
         enc,

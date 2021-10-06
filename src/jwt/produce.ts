@@ -1,12 +1,12 @@
 import type { JWTPayload } from '../types.d'
-import epoch from './epoch.js'
-import isObject from './is_object.js'
-import secs from './secs.js'
+import epoch from '../lib/epoch.js'
+import isObject from '../lib/is_object.js'
+import secs from '../lib/secs.js'
 
 /**
  * Generic class for JWT producing.
  */
-export default class ProduceJWT {
+export class ProduceJWT {
   protected _payload!: JWTPayload
 
   /**

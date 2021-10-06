@@ -1,6 +1,6 @@
 import { isCloudflareWorkers, isNodeJs } from './global.js'
 import crypto from './webcrypto.js'
-import type { JWKParseFunction } from '../interfaces.d'
+import type { JWKImportFunction } from '../interfaces.d'
 import { JOSENotSupported } from '../../util/errors.js'
 import type { JWK } from '../../types.d'
 import { decode as base64url } from './base64url.js'
@@ -132,7 +132,7 @@ function subtleMapping(jwk: JWK): {
   return { algorithm, keyUsages }
 }
 
-const parse: JWKParseFunction = async (jwk: JWK): Promise<CryptoKey> => {
+const parse: JWKImportFunction = async (jwk: JWK): Promise<CryptoKey> => {
   const { algorithm, keyUsages } = subtleMapping(jwk)
   const rest: [RsaHashedImportParams | EcKeyAlgorithm | Algorithm, boolean, KeyUsage[]] = [
     algorithm,

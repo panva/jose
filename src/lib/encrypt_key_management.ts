@@ -6,8 +6,7 @@ import { encrypt as rsaEs } from '../runtime/rsaes.js'
 import { wrap as aesGcmKw } from '../runtime/aesgcmkw.js'
 import { encode as base64url } from '../runtime/base64url.js'
 
-import type { KeyLike, JWEKeyManagementHeaderParameters } from '../types.d'
-import type { JWEKeyManagementHeaderResults } from '../types.i.d'
+import type { KeyLike, JWEKeyManagementHeaderParameters, JWEHeaderParameters } from '../types.d'
 import cekFactory, { bitLengths as cekLengths } from '../lib/cek.js'
 import { JOSENotSupported } from '../util/errors.js'
 import { exportJWK } from '../key/export.js'
@@ -18,17 +17,17 @@ const generateCek = cekFactory(random)
 async function encryptKeyManagement(
   alg: string,
   enc: string,
-  key: KeyLike,
+  key: KeyLike | Uint8Array,
   providedCek?: Uint8Array,
   providedParameters: JWEKeyManagementHeaderParameters = {},
 ): Promise<{
-  cek: KeyLike
+  cek: KeyLike | Uint8Array
   encryptedKey?: Uint8Array
-  parameters?: JWEKeyManagementHeaderResults
+  parameters?: JWEHeaderParameters
 }> {
   let encryptedKey: Uint8Array | undefined
-  let parameters: JWEKeyManagementHeaderResults | undefined
-  let cek: KeyLike
+  let parameters: JWEHeaderParameters | undefined
+  let cek: KeyLike | Uint8Array
 
   checkKeyType(alg, key, 'encrypt')
 

@@ -6,12 +6,12 @@ export interface GenerateKeyPairResult {
   /**
    * The generated Private Key.
    */
-  privateKey: Exclude<KeyLike, Uint8Array>
+  privateKey: KeyLike
 
   /**
    * Public Key corresponding to the generated Private Key.
    */
-  publicKey: Exclude<KeyLike, Uint8Array>
+  publicKey: KeyLike
 }
 
 export interface GenerateKeyPairOptions {

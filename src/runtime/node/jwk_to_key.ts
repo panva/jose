@@ -1,7 +1,7 @@
 import { createPrivateKey, createPublicKey, createSecretKey } from 'crypto'
 import type { KeyObject, PublicKeyInput, PrivateKeyInput } from 'crypto'
 
-import type { JWKParseFunction } from '../interfaces.d'
+import type { JWKImportFunction } from '../interfaces.d'
 import { decode as base64url } from './base64url.js'
 import { JOSENotSupported } from '../../util/errors.js'
 import { setCurve } from './get_named_curve.js'
@@ -16,7 +16,7 @@ const [major, minor] = process.version
 
 const jwkImportSupported = major >= 16 || (major === 15 && minor >= 12)
 
-const parse: JWKParseFunction = (jwk: JWK): KeyObject => {
+const parse: JWKImportFunction = (jwk: JWK): KeyObject => {
   if (jwkImportSupported && jwk.kty !== 'oct') {
     return jwk.d
       ? createPrivateKey({ format: 'jwk', key: jwk })

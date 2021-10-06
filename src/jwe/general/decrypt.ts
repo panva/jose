@@ -69,7 +69,7 @@ export interface GeneralDecryptGetKey extends GetKeyFunction<JWEHeaderParameters
  */
 function generalDecrypt(
   jwe: GeneralJWE,
-  key: KeyLike,
+  key: KeyLike | Uint8Array,
   options?: DecryptOptions,
 ): Promise<GeneralDecryptResult>
 /**
@@ -84,7 +84,7 @@ function generalDecrypt(
 ): Promise<GeneralDecryptResult & ResolvedKey>
 async function generalDecrypt(
   jwe: GeneralJWE,
-  key: KeyLike | GeneralDecryptGetKey,
+  key: KeyLike | Uint8Array | GeneralDecryptGetKey,
   options?: DecryptOptions,
 ) {
   if (!isObject(jwe)) {

@@ -56,7 +56,7 @@ class CompactSign {
    * @param key Private Key or Secret to sign the JWS with.
    * @param options JWS Sign options.
    */
-  async sign(key: KeyLike, options?: SignOptions): Promise<string> {
+  async sign(key: KeyLike | Uint8Array, options?: SignOptions): Promise<string> {
     const jws = await this._flattened.sign(key, options)
 
     if (jws.payload === undefined) {

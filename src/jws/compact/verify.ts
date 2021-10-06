@@ -56,7 +56,7 @@ export interface CompactVerifyGetKey
  */
 function compactVerify(
   jws: string | Uint8Array,
-  key: KeyLike,
+  key: KeyLike | Uint8Array,
   options?: VerifyOptions,
 ): Promise<CompactVerifyResult>
 /**
@@ -71,7 +71,7 @@ function compactVerify(
 ): Promise<CompactVerifyResult & ResolvedKey>
 async function compactVerify(
   jws: string | Uint8Array,
-  key: KeyLike | CompactVerifyGetKey,
+  key: KeyLike | Uint8Array | CompactVerifyGetKey,
   options?: VerifyOptions,
 ) {
   if (jws instanceof Uint8Array) {

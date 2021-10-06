@@ -51,7 +51,7 @@ async function EmbeddedJWK(protectedHeader: JWSHeaderParameters, token: Flattene
 
   const key = await importJWK({ ...joseHeader.jwk, ext: true }, joseHeader.alg!, true)
 
-  if (!('type' in key) || key.type !== 'public') {
+  if (key instanceof Uint8Array || key.type !== 'public') {
     throw new JWSInvalid('"jwk" (JSON Web Key) Header Parameter must be a public key')
   }
 

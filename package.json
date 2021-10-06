@@ -222,10 +222,8 @@
     "dist/**/*.js",
     "dist/types/**/*.d.ts",
     "!dist/node/webcrypto/**/*",
-    "!dist/types/**/*.i.d.ts",
     "!dist/types/runtime/*",
-    "!dist/types/lib/*",
-    "dist/types/lib/jwt_producer.d.ts"
+    "!dist/types/lib/*"
   ],
   "scripts": {
     "build": "tsc",
@@ -238,7 +236,7 @@
     "build-fast:node-webcrypto-cjs": "npm run-script runtime-node-webcrypto && npm run-script -s esbuild-find | xargs -0 esbuild --log-level=warning --platform=node --target=esnext --outdir=dist/node/webcrypto/cjs --format=cjs",
     "build-fast:node-webcrypto-esm": "npm run-script runtime-node-webcrypto && npm run-script -s esbuild-find | xargs -0 esbuild --log-level=warning --platform=node --target=esnext --outdir=dist/node/webcrypto/esm --format=esm && echo '{\"type\": \"module\"}'> dist/node/webcrypto/esm/package.json",
     "build:browser": "run-s runtime-browser 'build -- -p ./tsconfig/browser.json' && echo '{\"type\": \"module\"}'> dist/browser/package.json",
-    "build:deno": "npm run-script runtime-deno && find dist/deno -name '*.ts' -type f -print0 | xargs -0 sed -i '' -e \"s/@deno\\-expect\\-error/@ts-ignore/g\" -e \"s/\\.js'/.ts'/g\" -e \"s/\\.d'/.d.ts'/g\" && echo 'export type KeyObject = CryptoKey' > dist/deno/types.d.ts && tail -n +5 src/types.d.ts >> dist/deno/types.d.ts",
+    "build:deno": "npm run-script runtime-deno && find dist/deno -name '*.ts' -type f -print0 | xargs -0 sed -i '' -e \"s/@deno\\-expect\\-error/@ts-ignore/g\" -e \"s/\\.js'/.ts'/g\" -e \"s/\\.d'/.d.ts'/g\"",
     "build:types": "npm run-script build -- -p ./tsconfig/types.json && cd src && find . -name '*.d.ts' -maxdepth 2 -type f -exec gcp --parents \"{}\" ../dist/types  \\; && cd .. && node ./tools/strip-dts-comments && run-s -s types:find | xargs -0 sed -i '' -e \"s/\\.js'/'/g\" -e \"s/\\.d'/'/g\"",
     "build:node-cjs": "run-s runtime-node 'build -- -p ./tsconfig/node-cjs.json'",
     "build:node-esm": "run-s runtime-node 'build -- -p ./tsconfig/node-esm.json' && echo '{\"type\": \"module\"}'> dist/node/esm/package.json",
@@ -263,7 +261,7 @@
     "runtime:refs": "run-s -s runtime:find | xargs -0 sed -i '' -e \"s/'\\.\\.\\//'\\.\\//g\" -e \"s/'\\.\\/\\.\\./'../g\"",
     "test": "npm run-script test-cjs && ava",
     "test-cloudflare-workers": "ava --timeout=5m --config ./test-cloudflare-workers.config.cjs",
-    "test-deno": "deno test --jobs --allow-net --allow-read test-deno",
+    "test-deno": "deno test --reload --jobs --allow-net --allow-read test-deno",
     "test-browsers": "find test-browser -type f -name '*.js' -print0 | xargs -0 npx esbuild --log-level=warning --outdir=dist-browser-tests --bundle && karma start",
     "test-cjs": "rm -rf test/cjs && find test -type f -name '*.mjs' -print0 | xargs -0 npx esbuild --log-level=warning --target=esnext --outdir=test/cjs --format=cjs",
     "test-cryptokey": "CRYPTOKEY=true npm test",

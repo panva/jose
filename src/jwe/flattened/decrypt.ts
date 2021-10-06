@@ -80,7 +80,7 @@ export interface FlattenedDecryptGetKey
  */
 function flattenedDecrypt(
   jwe: FlattenedJWE,
-  key: KeyLike,
+  key: KeyLike | Uint8Array,
   options?: DecryptOptions,
 ): Promise<FlattenedDecryptResult>
 /**
@@ -95,7 +95,7 @@ function flattenedDecrypt(
 ): Promise<FlattenedDecryptResult & ResolvedKey>
 async function flattenedDecrypt(
   jwe: FlattenedJWE,
-  key: KeyLike | FlattenedDecryptGetKey,
+  key: KeyLike | Uint8Array | FlattenedDecryptGetKey,
   options?: DecryptOptions,
 ) {
   if (!isObject(jwe)) {
@@ -205,7 +205,7 @@ async function flattenedDecrypt(
     resolvedKey = true
   }
 
-  let cek: KeyLike
+  let cek: KeyLike | Uint8Array
   try {
     cek = await decryptKeyManagement(alg, key, encryptedKey, joseHeader)
   } catch (err) {

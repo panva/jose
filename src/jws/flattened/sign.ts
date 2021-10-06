@@ -87,7 +87,7 @@ class FlattenedSign {
    * @param key Private Key or Secret to sign the JWS with.
    * @param options JWS Sign options.
    */
-  async sign(key: KeyLike, options?: SignOptions): Promise<FlattenedJWS> {
+  async sign(key: KeyLike | Uint8Array, options?: SignOptions): Promise<FlattenedJWS> {
     if (!this._protectedHeader && !this._unprotectedHeader) {
       throw new JWSInvalid(
         'either setProtectedHeader or setUnprotectedHeader must be called before #sign()',

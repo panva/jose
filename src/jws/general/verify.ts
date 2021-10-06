@@ -65,7 +65,7 @@ export interface GeneralVerifyGetKey
  */
 function generalVerify(
   jws: GeneralJWSInput,
-  key: KeyLike,
+  key: KeyLike | Uint8Array,
   options?: VerifyOptions,
 ): Promise<GeneralVerifyResult>
 /**
@@ -80,7 +80,7 @@ function generalVerify(
 ): Promise<GeneralVerifyResult & ResolvedKey>
 async function generalVerify(
   jws: GeneralJWSInput,
-  key: KeyLike | GeneralVerifyGetKey,
+  key: KeyLike | Uint8Array | GeneralVerifyGetKey,
   options?: VerifyOptions,
 ) {
   if (!isObject(jws)) {

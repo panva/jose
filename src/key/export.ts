@@ -31,7 +31,7 @@ import type { JWK, KeyLike } from '../types.d'
  * console.log(spkiPem)
  * ```
  */
-export async function exportSPKI(key: Exclude<KeyLike, Uint8Array>): Promise<string> {
+export async function exportSPKI(key: KeyLike): Promise<string> {
   return exportPublic(key)
 }
 
@@ -62,7 +62,7 @@ export async function exportSPKI(key: Exclude<KeyLike, Uint8Array>): Promise<str
  * console.log(pkcs8Pem)
  * ```
  */
-export async function exportPKCS8(key: Exclude<KeyLike, Uint8Array>): Promise<string> {
+export async function exportPKCS8(key: KeyLike): Promise<string> {
   return exportPrivate(key)
 }
 
@@ -95,7 +95,7 @@ export async function exportPKCS8(key: Exclude<KeyLike, Uint8Array>): Promise<st
  * console.log(publicJwk)
  * ```
  */
-export async function exportJWK(key: KeyLike): Promise<JWK> {
+export async function exportJWK(key: KeyLike | Uint8Array): Promise<JWK> {
   return keyToJWK(key)
 }
 

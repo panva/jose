@@ -4,7 +4,7 @@ import type { JWSHeaderParameters, JWTClaimVerificationOptions, JWTPayload } fro
 import { decoder } from '../lib/buffer_utils.js'
 import { JWTInvalid } from '../util/errors.js'
 import jwtPayload from '../lib/jwt_claims_set.js'
-import ProduceJWT from '../lib/jwt_producer.js'
+import { ProduceJWT } from './produce.js'
 
 interface UnsecuredResult {
   payload: JWTPayload

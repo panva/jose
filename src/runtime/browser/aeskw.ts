@@ -4,7 +4,6 @@ import crypto, { isCryptoKey } from './webcrypto.js'
 import invalidKeyInput from './invalid_key_input.js'
 
 function checkKeySize(key: CryptoKey, alg: string) {
-  // @deno-expect-error
   if ((<AesKeyAlgorithm>key.algorithm).length !== parseInt(alg.substr(1, 3), 10)) {
     throw new TypeError(`Invalid key size for alg: ${alg}`)
   }

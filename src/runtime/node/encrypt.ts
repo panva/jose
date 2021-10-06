@@ -1,12 +1,11 @@
-import { KeyObject, createCipheriv } from 'crypto'
-import type { CipherGCMTypes } from 'crypto'
+import { createCipheriv } from 'crypto'
+import type { KeyObject, CipherGCMTypes } from 'crypto'
 
 import type { EncryptFunction } from '../interfaces.d'
 import checkIvLength from '../../lib/check_iv_length.js'
 import checkCekLength from './check_cek_length.js'
 import { concat } from '../../lib/buffer_utils.js'
 import cbcTag from './cbc_tag.js'
-import type { KeyLike } from '../../types.d'
 import { isCryptoKey, getKeyObject } from './webcrypto.js'
 import isKeyObject from './is_key_object.js'
 import invalidKeyInput from './invalid_key_input.js'
@@ -74,7 +73,7 @@ const encrypt: EncryptFunction = async (
   iv: Uint8Array,
   aad: Uint8Array,
 ) => {
-  let key: KeyLike
+  let key: KeyObject | Uint8Array
   if (isCryptoKey(cek)) {
     key = getKeyObject(cek, enc, new Set(['encrypt']))
   } else if (cek instanceof Uint8Array || isKeyObject(cek)) {

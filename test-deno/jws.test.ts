@@ -16,8 +16,8 @@ async function test(
   alg: string,
 ) {
   const generated = await generate();
-  let privateKey: CryptoKey;
-  let publicKey: CryptoKey;
+  let privateKey;
+  let publicKey;
   if ('type' in generated) {
     publicKey = privateKey = generated;
   } else if (generated instanceof Uint8Array) {

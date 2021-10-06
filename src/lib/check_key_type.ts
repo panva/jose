@@ -1,51 +1,73 @@
 import invalidKeyInput from '../runtime/invalid_key_input.js'
+import isKeyLike, { types } from '../runtime/is_key_like.js'
 
-import type { KeyLike } from '../types.d'
+const symmetricTypeCheck = (key: unknown) => {
+  if (key instanceof Uint8Array) return
 
-const checkKeyType = (
-  alg: string,
-  key: KeyLike,
-  usage: 'sign' | 'verify' | 'encrypt' | 'decrypt',
-): void => {
-  if (!(key instanceof Uint8Array) && !key?.type) {
-    throw new TypeError(invalidKeyInput(key, 'KeyObject', 'CryptoKey', 'Uint8Array'))
+  if (!isKeyLike(key)) {
+    throw new TypeError(invalidKeyInput(key, ...types, 'Uint8Array'))
   }
 
-  if (
-    alg.startsWith('HS') ||
-    alg === 'dir' ||
-    alg.startsWith('PBES2') ||
-    alg.match(/^A\d{3}(?:GCM)?KW$/)
-  ) {
-    if (key instanceof Uint8Array || key.type === 'secret') {
-      return
-    }
-
+  if (key.type !== 'secret') {
     throw new TypeError(
-      'CryptoKey or KeyObject instances for symmetric algorithms must be of type "secret"',
+      `${types.join(' or ')} instances for symmetric algorithms must be of type "secret"`,
     )
   }
+}
 
-  if (key instanceof Uint8Array) {
-    throw new TypeError(invalidKeyInput(key, 'KeyObject', 'CryptoKey'))
+const asymmetricTypeCheck = (key: unknown, usage: string) => {
+  if (!isKeyLike(key)) {
+    throw new TypeError(invalidKeyInput(key, ...types))
   }
 
   if (key.type === 'secret') {
     throw new TypeError(
-      'CryptoKey or KeyObject instances for asymmetric algorithms must not be of type "secret"',
+      `${types.join(' or ')} instances for asymmetric algorithms must not be of type "secret"`,
     )
   }
 
   if (usage === 'sign' && key.type === 'public') {
     throw new TypeError(
-      'CryptoKey or KeyObject instances for asymmetric algorithm signing must be of type "private"',
+      `${types.join(' or ')} instances for asymmetric algorithm signing must be of type "private"`,
     )
   }
 
   if (usage === 'decrypt' && key.type === 'public') {
     throw new TypeError(
-      'CryptoKey or KeyObject instances for asymmetric algorithm decryption must be of type "private"',
+      `${types.join(
+        ' or ',
+      )} instances for asymmetric algorithm decryption must be of type "private"`,
     )
+  }
+
+  // KeyObject allows this but CryptoKey does not.
+  if ((<CryptoKey>key).algorithm && usage === 'verify' && key.type === 'private') {
+    throw new TypeError(
+      `${types.join(' or ')} instances for asymmetric algorithm verifying must be of type "public"`,
+    )
+  }
+
+  // KeyObject allows this but CryptoKey does not.
+  if ((<CryptoKey>key).algorithm && usage === 'encrypt' && key.type === 'private') {
+    throw new TypeError(
+      `${types.join(
+        ' or ',
+      )} instances for asymmetric algorithm encryption must be of type "public"`,
+    )
+  }
+}
+
+const checkKeyType = (alg: string, key: unknown, usage: string): void => {
+  const symmetric =
+    alg.startsWith('HS') ||
+    alg === 'dir' ||
+    alg.startsWith('PBES2') ||
+    /^A\d{3}(?:GCM)?KW$/.test(alg)
+
+  if (symmetric) {
+    symmetricTypeCheck(key)
+  } else {
+    asymmetricTypeCheck(key, usage)
   }
 }
 

@@ -1,7 +1,7 @@
 import fetchJwks from '../runtime/fetch_jwks.js'
 
 import type {
-  KeyObject,
+  KeyLike,
   JWSHeaderParameters,
   JWK,
   FlattenedJWSInput,
@@ -31,7 +31,7 @@ function getKtyFromAlg(alg: unknown) {
 }
 
 interface Cache {
-  [alg: string]: KeyObject | CryptoKey
+  [alg: string]: KeyLike
 }
 
 /**
@@ -62,8 +62,8 @@ export interface RemoteJWKSetOptions {
   agent?: any
 }
 
-function isJWKLike(key: unknown): key is JWK {
-  return isObject(key)
+function isJWKLike(key: unknown) {
+  return isObject<JWK>(key)
 }
 
 class RemoteJWKSet {
@@ -103,7 +103,7 @@ class RemoteJWKSet {
     return Date.now() < this._cooldownStarted + this._cooldownDuration
   }
 
-  async getKey(protectedHeader: JWSHeaderParameters): Promise<KeyObject | CryptoKey> {
+  async getKey(protectedHeader: JWSHeaderParameters): Promise<KeyLike> {
     if (!this._jwks) {
       await this.reload()
     }
@@ -175,7 +175,7 @@ class RemoteJWKSet {
     if (cached[protectedHeader.alg!] === undefined) {
       const keyObject = await importJWK({ ...jwk, ext: true }, protectedHeader.alg!)
 
-      if (!('type' in keyObject) || keyObject.type !== 'public') {
+      if (keyObject instanceof Uint8Array || keyObject.type !== 'public') {
         throw new JWKSInvalid('JSON Web Key Set members must be public keys')
       }
 

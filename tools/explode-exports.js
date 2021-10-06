@@ -16,6 +16,9 @@ const all = modules.map((path) => glob.sync(`${path}/**/*.ts`)).flat(Infinity);
 
 const exp = all.reduce(
   (acc, mod) => {
+    if (mod === "src/jwt/produce.ts") {
+      return acc;
+    }
     const len = mod.length;
     const foo = mod.substring(4, len - 3);
     acc["./" + foo] = {

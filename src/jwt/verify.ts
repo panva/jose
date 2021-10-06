@@ -64,7 +64,7 @@ export interface JWTVerifyGetKey extends GetKeyFunction<JWSHeaderParameters, Fla
  */
 async function jwtVerify(
   jwt: string | Uint8Array,
-  key: KeyLike,
+  key: KeyLike | Uint8Array,
   options?: JWTVerifyOptions,
 ): Promise<JWTVerifyResult>
 /**
@@ -79,7 +79,7 @@ async function jwtVerify(
 ): Promise<JWTVerifyResult & ResolvedKey>
 async function jwtVerify(
   jwt: string | Uint8Array,
-  key: KeyLike | JWTVerifyGetKey,
+  key: KeyLike | Uint8Array | JWTVerifyGetKey,
   options?: JWTVerifyOptions,
 ) {
   const verified = await verify(jwt, <Parameters<typeof verify>[1]>key, options)

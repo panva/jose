@@ -99,7 +99,7 @@ class CompactEncrypt {
    * @param key Public Key or Secret to encrypt the JWE with.
    * @param options JWE Encryption options.
    */
-  async encrypt(key: KeyLike, options?: EncryptOptions): Promise<string> {
+  async encrypt(key: KeyLike | Uint8Array, options?: EncryptOptions): Promise<string> {
     const jwe = await this._flattened.encrypt(key, options)
 
     return [jwe.protected, jwe.encrypted_key, jwe.iv, jwe.ciphertext, jwe.tag].join('.')

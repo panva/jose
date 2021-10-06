@@ -1,5 +1,5 @@
 import { KeyObject, createPublicKey } from 'crypto'
-import type { JWKConvertFunction } from '../interfaces.d'
+import type { JWKExportFunction } from '../interfaces.d'
 import type { JWK } from '../../types.d'
 import { encode as base64url } from './base64url.js'
 import Asn1SequenceDecoder from './asn1_sequence_decoder.js'
@@ -16,7 +16,7 @@ const [major, minor] = process.version
 
 const jwkExportSupported = major >= 16 || (major === 15 && minor >= 9)
 
-const keyToJWK: JWKConvertFunction = (key: unknown): JWK => {
+const keyToJWK: JWKExportFunction = (key: unknown): JWK => {
   let keyObject: KeyObject
   if (isCryptoKey(key)) {
     if (!key.extractable) {

@@ -1,5 +1,5 @@
-import { KeyObject, createDecipheriv } from 'crypto'
-import type { CipherGCMTypes } from 'crypto'
+import { createDecipheriv } from 'crypto'
+import type { KeyObject, CipherGCMTypes } from 'crypto'
 
 import type { DecryptFunction } from '../interfaces.d'
 import checkIvLength from '../../lib/check_iv_length.js'
@@ -9,7 +9,6 @@ import { JOSENotSupported, JWEDecryptionFailed } from '../../util/errors.js'
 import timingSafeEqual from './timing_safe_equal.js'
 import cbcTag from './cbc_tag.js'
 import { isCryptoKey, getKeyObject } from './webcrypto.js'
-import type { KeyLike } from '../../types.d'
 import isKeyObject from './is_key_object.js'
 import invalidKeyInput from './invalid_key_input.js'
 import supported from './ciphers.js'
@@ -97,7 +96,7 @@ const decrypt: DecryptFunction = async (
   tag: Uint8Array,
   aad: Uint8Array,
 ) => {
-  let key: KeyLike
+  let key: KeyObject | Uint8Array
   if (isCryptoKey(cek)) {
     key = getKeyObject(cek, enc, new Set(['decrypt']))
   } else if (cek instanceof Uint8Array || isKeyObject(cek)) {

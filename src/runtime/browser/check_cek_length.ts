@@ -32,7 +32,6 @@ const checkCekLength = (enc: string, cek: Uint8Array | CryptoKey) => {
 
   // CryptoKey
   if (isCryptoKey(cek)) {
-    // @deno-expect-error
     const { length } = <AesKeyAlgorithm>cek.algorithm
     if (length !== expected) {
       throw new JWEInvalid('Invalid Content Encryption Key length')

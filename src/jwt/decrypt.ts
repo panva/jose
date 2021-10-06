@@ -61,7 +61,7 @@ export interface JWTDecryptGetKey extends GetKeyFunction<JWEHeaderParameters, Fl
  */
 async function jwtDecrypt(
   jwt: string | Uint8Array,
-  key: KeyLike,
+  key: KeyLike | Uint8Array,
   options?: JWTDecryptOptions,
 ): Promise<JWTDecryptResult>
 /**
@@ -76,7 +76,7 @@ async function jwtDecrypt(
 ): Promise<JWTDecryptResult & ResolvedKey>
 async function jwtDecrypt(
   jwt: string | Uint8Array,
-  key: KeyLike | JWTDecryptGetKey,
+  key: KeyLike | Uint8Array | JWTDecryptGetKey,
   options?: JWTDecryptOptions,
 ) {
   const decrypted = await decrypt(jwt, <Parameters<typeof decrypt>[1]>key, options)

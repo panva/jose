@@ -7,7 +7,7 @@ import type {
   KeyLike,
 } from '../types.d'
 import { encoder } from '../lib/buffer_utils.js'
-import ProduceJWT from '../lib/jwt_producer.js'
+import { ProduceJWT } from './produce.js'
 
 /**
  * The EncryptJWT class is a utility for creating Compact JWE formatted JWT strings.
@@ -151,7 +151,7 @@ class EncryptJWT extends ProduceJWT {
    * @param key Public Key or Secret to encrypt the JWT with.
    * @param options JWE Encryption options.
    */
-  async encrypt(key: KeyLike, options?: EncryptOptions): Promise<string> {
+  async encrypt(key: KeyLike | Uint8Array, options?: EncryptOptions): Promise<string> {
     const enc = new CompactEncrypt(encoder.encode(JSON.stringify(this._payload)))
     if (this._replicateIssuerAsHeader) {
       this._protectedHeader = { ...this._protectedHeader, iss: this._payload.iss }

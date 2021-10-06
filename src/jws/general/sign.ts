@@ -23,7 +23,7 @@ interface SignatureReference {
   protectedHeader?: JWSHeaderParameters
   unprotectedHeader?: JWSHeaderParameters
   options?: SignOptions
-  key: KeyLike
+  key: KeyLike | Uint8Array
 }
 
 const signatureRef: WeakMap<IndividualSignature, SignatureReference> = new WeakMap()
@@ -109,7 +109,7 @@ class GeneralSign {
     this._payload = payload
   }
 
-  addSignature(key: KeyLike, options?: SignOptions): Signature {
+  addSignature(key: KeyLike | Uint8Array, options?: SignOptions): Signature {
     const signature = new IndividualSignature()
     signatureRef.set(signature, { key, options })
     this._signatures.push(signature)

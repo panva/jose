@@ -71,7 +71,7 @@ export interface FlattenedVerifyGetKey
  */
 function flattenedVerify(
   jws: FlattenedJWSInput,
-  key: KeyLike,
+  key: KeyLike | Uint8Array,
   options?: VerifyOptions,
 ): Promise<FlattenedVerifyResult>
 /**
@@ -86,7 +86,7 @@ function flattenedVerify(
 ): Promise<FlattenedVerifyResult & ResolvedKey>
 async function flattenedVerify(
   jws: FlattenedJWSInput,
-  key: KeyLike | FlattenedVerifyGetKey,
+  key: KeyLike | Uint8Array | FlattenedVerifyGetKey,
   options?: VerifyOptions,
 ) {
   if (!isObject(jws)) {

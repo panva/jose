@@ -52,7 +52,7 @@ export interface CompactDecryptGetKey extends GetKeyFunction<JWEHeaderParameters
  */
 async function compactDecrypt(
   jwe: string | Uint8Array,
-  key: KeyLike,
+  key: KeyLike | Uint8Array,
   options?: DecryptOptions,
 ): Promise<CompactDecryptResult>
 /**
@@ -67,7 +67,7 @@ async function compactDecrypt(
 ): Promise<CompactDecryptResult & ResolvedKey>
 async function compactDecrypt(
   jwe: string | Uint8Array,
-  key: KeyLike | CompactDecryptGetKey,
+  key: KeyLike | Uint8Array | CompactDecryptGetKey,
   options?: DecryptOptions,
 ) {
   if (jwe instanceof Uint8Array) {

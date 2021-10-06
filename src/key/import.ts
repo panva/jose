@@ -236,7 +236,7 @@ export async function importPKCS8(
 /**
  * Imports a JWK to a runtime-specific key representation (KeyLike). Either
  * JWK "alg" (Algorithm) Parameter must be present or the optional "alg" argument. When
- * running on a platform using [Web Cryptography API](https://www.w3.org/TR/WebCryptoAPI/)
+ * running on a runtime using [Web Cryptography API](https://www.w3.org/TR/WebCryptoAPI/)
  * the jwk parameters "use", "key_ops", and "ext" are also used in the resulting `CryptoKey`.
  * See [Algorithm Key Requirements](https://github.com/panva/jose/issues/210) to learn about key to algorithm
  * requirements and mapping.
@@ -282,7 +282,7 @@ export async function importJWK(
   jwk: JWK,
   alg?: string,
   octAsKeyObject?: boolean,
-): Promise<KeyLike> {
+): Promise<KeyLike | Uint8Array> {
   if (!isObject(jwk)) {
     throw new TypeError('JWK must be an object')
   }
