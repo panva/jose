@@ -6,7 +6,7 @@ import * as exportKey from '../dist/browser/key/export.js';
 const browser = Bowser.parse(window.navigator.userAgent);
 
 const p521 = browser.engine.name !== 'WebKit';
-const firefox = browser.browser.name === 'Firefox';
+const noPKCS8 = browser.browser.name === 'Firefox' && parseInt(browser.browser.version, 10) < 93
 
 const keys = {
   rsa: {
@@ -135,7 +135,7 @@ for (const alg of ['ES256', 'ECDH-ES', 'ECDH-ES+A128KW', 'ECDH-ES+A192KW', 'ECDH
   );
   QUnit.test(
     `import PKCS8 P-256 for ${alg}`,
-    (firefox ? failing : (a, ...args) => a(...args)).bind(
+    (noPKCS8 ? failing : (a, ...args) => a(...args)).bind(
       undefined,
       testPKCS8.bind(undefined, keys['P-256'].privateKey, alg),
     ),
@@ -153,7 +153,7 @@ for (const alg of ['ES384', 'ECDH-ES', 'ECDH-ES+A128KW', 'ECDH-ES+A192KW', 'ECDH
   );
   QUnit.test(
     `import PKCS8 P-384 for ${alg}`,
-    (firefox ? failing : (a, ...args) => a(...args)).bind(
+    (noPKCS8 ? failing : (a, ...args) => a(...args)).bind(
       undefined,
       testPKCS8.bind(undefined, keys['P-384'].privateKey, alg),
     ),
@@ -172,7 +172,7 @@ for (const alg of ['ES512', 'ECDH-ES', 'ECDH-ES+A128KW', 'ECDH-ES+A192KW', 'ECDH
     );
     QUnit.test(
       `import PKCS8 P-521 for ${alg}`,
-      (firefox ? failing : (a, ...args) => a(...args)).bind(
+      (noPKCS8 ? failing : (a, ...args) => a(...args)).bind(
         undefined,
         testPKCS8.bind(undefined, keys['P-521'].privateKey, alg),
       ),
