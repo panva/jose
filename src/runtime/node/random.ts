@@ -1,3 +1,1 @@
-import { randomFillSync } from 'crypto'
-
-export default randomFillSync
+export { randomFillSync as default } from 'crypto'
