@@ -73,7 +73,7 @@ Deno.test(
   'Encrypt/Decrypt A128GCMKW',
   test.bind(undefined, generateSecret.bind(undefined, 'A128GCMKW'), {
     alg: 'A128GCMKW',
-    enc: 'A256GCM',
+    enc: 'A192CBC-HS384',
   }),
 );
 
@@ -81,7 +81,7 @@ Deno.test(
   'Encrypt/Decrypt A128KW',
   test.bind(undefined, generateSecret.bind(undefined, 'A128KW'), {
     alg: 'A128KW',
-    enc: 'A256GCM',
+    enc: 'A192CBC-HS384',
   }),
 );
 
@@ -89,7 +89,7 @@ Deno.test(
   'Encrypt/Decrypt A192GCMKW',
   test.bind(undefined, generateSecret.bind(undefined, 'A192GCMKW'), {
     alg: 'A192GCMKW',
-    enc: 'A256GCM',
+    enc: 'A192CBC-HS384',
   }),
 );
 
@@ -97,7 +97,7 @@ Deno.test(
   'Encrypt/Decrypt A192KW',
   test.bind(undefined, generateSecret.bind(undefined, 'A192KW'), {
     alg: 'A192KW',
-    enc: 'A256GCM',
+    enc: 'A192CBC-HS384',
   }),
 );
 
@@ -105,7 +105,7 @@ Deno.test(
   'Encrypt/Decrypt A256GCMKW',
   test.bind(undefined, generateSecret.bind(undefined, 'A256GCMKW'), {
     alg: 'A256GCMKW',
-    enc: 'A256GCM',
+    enc: 'A192CBC-HS384',
   }),
 );
 
@@ -113,7 +113,7 @@ Deno.test(
   'Encrypt/Decrypt A256KW',
   test.bind(undefined, generateSecret.bind(undefined, 'A256KW'), {
     alg: 'A256KW',
-    enc: 'A256GCM',
+    enc: 'A192CBC-HS384',
   }),
 );
 
@@ -121,7 +121,7 @@ Deno.test(
   'Encrypt/Decrypt PBES2-HS256+A128KW',
   test.bind(undefined, async () => random(new Uint8Array(10)), {
     alg: 'PBES2-HS256+A128KW',
-    enc: 'A256GCM',
+    enc: 'A192CBC-HS384',
   }),
 );
 
@@ -129,7 +129,7 @@ Deno.test(
   'Encrypt/Decrypt PBES2-HS384+A192KW',
   test.bind(undefined, async () => random(new Uint8Array(10)), {
     alg: 'PBES2-HS384+A192KW',
-    enc: 'A256GCM',
+    enc: 'A192CBC-HS384',
   }),
 );
 
@@ -137,6 +137,6 @@ Deno.test(
   'Encrypt/Decrypt PBES2-HS512+A256KW',
   test.bind(undefined, async () => random(new Uint8Array(10)), {
     alg: 'PBES2-HS512+A256KW',
-    enc: 'A256GCM',
+    enc: 'A192CBC-HS384',
   }),
 );

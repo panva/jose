@@ -19,7 +19,6 @@ export const encrypt: RsaEsEncryptFunction = async (alg: string, key: unknown, c
     // we're importing the cek to end up with CryptoKey instance that can be wrapped, the algorithm used is irrelevant
     const cryptoKeyCek = await crypto.subtle.importKey('raw', cek, ...bogusWebCrypto)
     return new Uint8Array(
-      // @deno-expect-error
       await crypto.subtle.wrapKey('raw', cryptoKeyCek, key, subtleAlgorithm(alg)),
     )
   }

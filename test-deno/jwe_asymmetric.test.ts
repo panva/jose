@@ -10,7 +10,7 @@ async function test(generate: () => ReturnType<typeof generateKeyPair>, alg: str
   const { publicKey, privateKey } = await generate();
 
   const jwe = await new FlattenedEncrypt(random(new Uint8Array(32)))
-    .setProtectedHeader({ alg, enc: 'A256GCM' })
+    .setProtectedHeader({ alg, enc: 'A192CBC-HS384' })
     .setAdditionalAuthenticatedData(random(new Uint8Array(32)))
     .encrypt(publicKey);
 

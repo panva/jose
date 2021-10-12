@@ -53,7 +53,6 @@ async function cbcDecrypt(
   let plaintext!: Uint8Array
   try {
     plaintext = new Uint8Array(
-      // @deno-expect-error
       await crypto.subtle.decrypt({ iv, name: 'AES-CBC' }, encKey, ciphertext),
     )
   } catch {

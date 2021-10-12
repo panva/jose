@@ -29,7 +29,11 @@ Deno.test('fetches the JWKSet', async () => {
 Deno.test('timeout', async () => {
   const server = Deno.listen({ port: 3000 });
   const jwks = createRemoteJWKSet(new URL('http://localhost:3000'), { timeoutDuration: 0 });
-  await assertThrowsAsync(() => jwks({ alg: 'RS256' }, <any>null), JWKSTimeout, 'request timed out').finally(async () => {
+  await assertThrowsAsync(
+    () => jwks({ alg: 'RS256' }, <any>null),
+    JWKSTimeout,
+    'request timed out',
+  ).finally(async () => {
     const conn = await server.accept();
     conn.close();
     server.close();

@@ -6,7 +6,7 @@ import * as exportKey from '../dist/browser/key/export.js';
 const browser = Bowser.parse(window.navigator.userAgent);
 
 const p521 = browser.engine.name !== 'WebKit';
-const noPKCS8 = browser.browser.name === 'Firefox' && parseInt(browser.browser.version, 10) < 93
+const noPKCS8 = browser.browser.name === 'Firefox' && parseInt(browser.browser.version, 10) < 93;
 
 const keys = {
   rsa: {

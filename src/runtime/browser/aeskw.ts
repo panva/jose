@@ -29,7 +29,6 @@ export const wrap: AesKwWrapFunction = async (alg: string, key: unknown, cek: Ui
   // we're importing the cek to end up with CryptoKey instance that can be wrapped, the algorithm used is irrelevant
   const cryptoKeyCek = await crypto.subtle.importKey('raw', cek, ...bogusWebCrypto)
 
-  // @deno-expect-error
   return new Uint8Array(await crypto.subtle.wrapKey('raw', cryptoKeyCek, cryptoKey, 'AES-KW'))
 }
 

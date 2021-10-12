@@ -38,7 +38,6 @@ export const deriveKey: EcdhESDeriveKeyFunction = async (
     await crypto.subtle.deriveBits(
       {
         name: 'ECDH',
-        // @deno-expect-error
         public: publicKey,
       },
       privateKey,
