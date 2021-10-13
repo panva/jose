@@ -1,11 +1,8 @@
 import type { AesGcmKwWrapFunction, AesGcmKwUnwrapFunction } from '../interfaces.d'
 import encrypt from './encrypt.js'
 import decrypt from './decrypt.js'
-import ivFactory from '../../lib/iv.js'
-import random from './random.js'
+import generateIv from '../../lib/iv.js'
 import { encode as base64url } from './base64url.js'
-
-const generateIv = ivFactory(random)
 
 export const wrap: AesGcmKwWrapFunction = async (
   alg: string,

@@ -1,10 +1,10 @@
 import test from 'ava';
 
 const root = !('WEBCRYPTO' in process.env) ? '#dist' : '#dist/webcrypto';
-Promise.all([import(`${root}/lib/cek`), import(`${root}/util/random`)]).then(
-  ([{ default: cek }, { default: random }]) => {
+Promise.all([import(`${root}/lib/cek`)]).then(
+  ([{ default: cek }]) => {
     test('lib/cek.ts', (t) => {
-      t.throws(() => cek(random)('foo'), {
+      t.throws(() => cek('foo'), {
         code: 'ERR_JOSE_NOT_SUPPORTED',
         message: 'Unsupported JWE Algorithm: foo',
       });

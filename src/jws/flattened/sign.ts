@@ -8,8 +8,6 @@ import type { KeyLike, FlattenedJWS, JWSHeaderParameters, SignOptions } from '..
 import checkKeyType from '../../lib/check_key_type.js'
 import validateCrit from '../../lib/validate_crit.js'
 
-const checkExtensions = validateCrit.bind(undefined, JWSInvalid, new Map([['b64', true]]))
-
 /**
  * The FlattenedSign class is a utility for creating Flattened JWS objects.
  *
@@ -105,7 +103,13 @@ class FlattenedSign {
       ...this._unprotectedHeader,
     }
 
-    const extensions = checkExtensions(options?.crit, this._protectedHeader, joseHeader)
+    const extensions = validateCrit(
+      JWSInvalid,
+      new Map([['b64', true]]),
+      options?.crit,
+      this._protectedHeader,
+      joseHeader,
+    )
 
     let b64: boolean = true
     if (extensions.has('b64')) {

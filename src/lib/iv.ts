@@ -1,4 +1,5 @@
 import { JOSENotSupported } from '../util/errors.js'
+import random from '../runtime/random.js'
 
 const bitLengths = new Map<string, number>([
   ['A128CBC-HS256', 128],
@@ -12,16 +13,14 @@ const bitLengths = new Map<string, number>([
   ['A256GCMKW', 96],
 ])
 
-const factory =
-  (random: (array: Uint8Array) => Uint8Array) =>
-  (alg: string): Uint8Array => {
-    const bitLength = bitLengths.get(alg)
-    if (!bitLength) {
-      throw new JOSENotSupported(`Unsupported JWE Algorithm: ${alg}`)
-    }
-
-    return random(new Uint8Array(bitLength >> 3))
+const generateIv = (alg: string): Uint8Array => {
+  const bitLength = bitLengths.get(alg)
+  if (!bitLength) {
+    throw new JOSENotSupported(`Unsupported JWE Algorithm: ${alg}`)
   }
 
-export default factory
+  return random(new Uint8Array(bitLength >> 3))
+}
+
+export default generateIv
 export { bitLengths }

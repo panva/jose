@@ -1,4 +1,3 @@
-import random from '../runtime/random.js'
 import { wrap as aesKw } from '../runtime/aeskw.js'
 import * as ECDH from '../runtime/ecdhes.js'
 import { encrypt as pbes2Kw } from '../runtime/pbes2kw.js'
@@ -7,12 +6,10 @@ import { wrap as aesGcmKw } from '../runtime/aesgcmkw.js'
 import { encode as base64url } from '../runtime/base64url.js'
 
 import type { KeyLike, JWEKeyManagementHeaderParameters, JWEHeaderParameters } from '../types.d'
-import cekFactory, { bitLengths as cekLengths } from '../lib/cek.js'
+import generateCek, { bitLengths as cekLengths } from '../lib/cek.js'
 import { JOSENotSupported } from '../util/errors.js'
 import { exportJWK } from '../key/export.js'
 import checkKeyType from './check_key_type.js'
-
-const generateCek = cekFactory(random)
 
 async function encryptKeyManagement(
   alg: string,

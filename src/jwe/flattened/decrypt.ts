@@ -1,7 +1,6 @@
 import { decode as base64url } from '../../runtime/base64url.js'
 import decrypt from '../../runtime/decrypt.js'
 import { inflate } from '../../runtime/zlib.js'
-import random from '../../runtime/random.js'
 
 import { JOSEAlgNotAllowed, JOSENotSupported, JWEInvalid } from '../../util/errors.js'
 import isDisjoint from '../../lib/is_disjoint.js'
@@ -17,14 +16,9 @@ import type {
   ResolvedKey,
 } from '../../types.d'
 import { encoder, decoder, concat } from '../../lib/buffer_utils.js'
-import cekFactory from '../../lib/cek.js'
+import generateCek from '../../lib/cek.js'
 import validateCrit from '../../lib/validate_crit.js'
 import validateAlgorithms from '../../lib/validate_algorithms.js'
-
-const generateCek = cekFactory(random)
-const checkExtensions = validateCrit.bind(undefined, JWEInvalid, new Map())
-const checkAlgOption = validateAlgorithms.bind(undefined, 'keyManagementAlgorithms')
-const checkEncOption = validateAlgorithms.bind(undefined, 'contentEncryptionAlgorithms')
 
 /**
  * Interface for Flattened JWE Decryption dynamic key resolution.
@@ -159,7 +153,7 @@ async function flattenedDecrypt(
     ...jwe.unprotected,
   }
 
-  checkExtensions(options?.crit, parsedProt, joseHeader)
+  validateCrit(JWEInvalid, new Map(), options?.crit, parsedProt, joseHeader)
 
   if (joseHeader.zip !== undefined) {
     if (!parsedProt || !parsedProt.zip) {
@@ -183,8 +177,11 @@ async function flattenedDecrypt(
     throw new JWEInvalid('missing JWE Encryption Algorithm (enc) in JWE Header')
   }
 
-  const keyManagementAlgorithms = options && checkAlgOption(options.keyManagementAlgorithms)
-  const contentEncryptionAlgorithms = options && checkEncOption(options.contentEncryptionAlgorithms)
+  const keyManagementAlgorithms =
+    options && validateAlgorithms('keyManagementAlgorithms', options.keyManagementAlgorithms)
+  const contentEncryptionAlgorithms =
+    options &&
+    validateAlgorithms('contentEncryptionAlgorithms', options.contentEncryptionAlgorithms)
 
   if (keyManagementAlgorithms && !keyManagementAlgorithms.has(alg)) {
     throw new JOSEAlgNotAllowed('"alg" (Algorithm) Header Parameter not allowed')

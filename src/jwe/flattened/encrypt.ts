@@ -1,5 +1,4 @@
 import { encode as base64url } from '../../runtime/base64url.js'
-import random from '../../runtime/random.js'
 import encrypt from '../../runtime/encrypt.js'
 import { deflate } from '../../runtime/zlib.js'
 
@@ -10,15 +9,12 @@ import type {
   JWEKeyManagementHeaderParameters,
   EncryptOptions,
 } from '../../types.d'
-import ivFactory from '../../lib/iv.js'
+import generateIv from '../../lib/iv.js'
 import encryptKeyManagement from '../../lib/encrypt_key_management.js'
 import { JOSENotSupported, JWEInvalid } from '../../util/errors.js'
 import isDisjoint from '../../lib/is_disjoint.js'
 import { encoder, decoder, concat } from '../../lib/buffer_utils.js'
 import validateCrit from '../../lib/validate_crit.js'
-
-const generateIv = ivFactory(random)
-const checkExtensions = validateCrit.bind(undefined, JWEInvalid, new Map())
 
 /**
  * The FlattenedEncrypt class is a utility for creating Flattened JWE
@@ -202,7 +198,7 @@ class FlattenedEncrypt {
       ...this._sharedUnprotectedHeader,
     }
 
-    checkExtensions(options?.crit, this._protectedHeader, joseHeader)
+    validateCrit(JWEInvalid, new Map(), options?.crit, this._protectedHeader, joseHeader)
 
     if (joseHeader.zip !== undefined) {
       if (!this._protectedHeader || !this._protectedHeader.zip) {

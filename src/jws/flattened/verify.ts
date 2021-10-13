@@ -19,9 +19,6 @@ import type {
   ResolvedKey,
 } from '../../types.d'
 
-const checkExtensions = validateCrit.bind(undefined, JWSInvalid, new Map([['b64', true]]))
-const checkAlgOption = validateAlgorithms.bind(undefined, 'algorithms')
-
 /**
  * Interface for Flattened JWS Verification dynamic key resolution.
  * No token components have been verified at the time of this function call.
@@ -133,7 +130,13 @@ async function flattenedVerify(
     ...jws.header,
   }
 
-  const extensions = checkExtensions(options?.crit, parsedProt, joseHeader)
+  const extensions = validateCrit(
+    JWSInvalid,
+    new Map([['b64', true]]),
+    options?.crit,
+    parsedProt,
+    joseHeader,
+  )
 
   let b64: boolean = true
   if (extensions.has('b64')) {
@@ -151,7 +154,7 @@ async function flattenedVerify(
     throw new JWSInvalid('JWS "alg" (Algorithm) Header Parameter missing or invalid')
   }
 
-  const algorithms = options && checkAlgOption(options.algorithms)
+  const algorithms = options && validateAlgorithms('algorithms', options.algorithms)
 
   if (algorithms && !algorithms.has(alg)) {
     throw new JOSEAlgNotAllowed('"alg" (Algorithm) Header Parameter not allowed')

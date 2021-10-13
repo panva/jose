@@ -1,10 +1,10 @@
 import test from 'ava';
 
 const root = !('WEBCRYPTO' in process.env) ? '#dist' : '#dist/webcrypto';
-Promise.all([import(`${root}/lib/iv`), import(`${root}/util/random`)]).then(
-  ([{ default: iv }, { default: random }]) => {
+Promise.all([import(`${root}/lib/iv`)]).then(
+  ([{ default: iv }]) => {
     test('lib/iv.ts', (t) => {
-      t.throws(() => iv(random)('foo'), {
+      t.throws(() => iv('foo'), {
         code: 'ERR_JOSE_NOT_SUPPORTED',
         message: 'Unsupported JWE Algorithm: foo',
       });
