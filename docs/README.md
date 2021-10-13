@@ -26,7 +26,7 @@ If you or your business use `jose`, please consider becoming a [sponsor][support
   - Signing - [Compact](classes/jws_compact_sign.CompactSign.md#readme), [Flattened](classes/jws_flattened_sign.FlattenedSign.md#readme), [General](classes/jws_general_sign.GeneralSign.md#readme)
   - Verification - [Compact](functions/jws_compact_verify.compactVerify.md#readme), [Flattened](functions/jws_flattened_verify.flattenedVerify.md#readme), [General](functions/jws_general_verify.generalVerify.md#readme)
 - JSON Web Key (JWK)
-  - [Thumbprints](functions/jwk_thumbprint.calculateThumbprint.md#readme)
+  - [Thumbprints](functions/jwk_thumbprint.calculateJwkThumbprint.md#readme)
   - [EmbeddedJWK](functions/jwk_embedded.EmbeddedJWK.md#readme)
 - JSON Web Key Set (JWKS)
   - [Verify using a remote JWKSet](functions/jwks_remote.createRemoteJWKSet.md#readme)

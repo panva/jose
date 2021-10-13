@@ -9,7 +9,7 @@
 
 ### Functions
 
-- [calculateThumbprint](../functions/jwk_thumbprint.calculateThumbprint.md)
+- [calculateJwkThumbprint](../functions/jwk_thumbprint.calculateJwkThumbprint.md)
 
 ## References
 
@@ -21,4 +21,4 @@ ___
 
 ### default
 
-Renames and exports: [calculateThumbprint](../functions/jwk_thumbprint.calculateThumbprint.md)
+Renames and exports: [calculateJwkThumbprint](../functions/jwk_thumbprint.calculateJwkThumbprint.md)

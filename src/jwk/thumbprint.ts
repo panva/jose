@@ -22,22 +22,22 @@ const check = (value: unknown, description: string) => {
  *
  * @example ESM import
  * ```js
- * import { calculateThumbprint } from 'jose/jwk/thumbprint'
+ * import { calculateJwkThumbprint } from 'jose/jwk/thumbprint'
  * ```
  *
  * @example CJS import
  * ```js
- * const { calculateThumbprint } = require('jose/jwk/thumbprint')
+ * const { calculateJwkThumbprint } = require('jose/jwk/thumbprint')
  * ```
  *
  * @example Deno import
  * ```js
- * import { calculateThumbprint } from 'https://deno.land/x/jose@VERSION/jwk/thumbprint.ts'
+ * import { calculateJwkThumbprint } from 'https://deno.land/x/jose@VERSION/jwk/thumbprint.ts'
  * ```
  *
  * @example Usage
  * ```js
- * const thumbprint = await calculateThumbprint({
+ * const thumbprint = await calculateJwkThumbprint({
  *   kty: 'RSA',
  *   e: 'AQAB',
  *   n: '12oBZRhCiZFJLcPg59LkZZ9mdhSMTKAQZYq32k_ti5SBB6jerkh-WzOMAO664r_qyLkqHUSp3u5SbXtseZEpN3XPWGKSxjsy-1JyEFTdLSYe6f9gfrmxkUF_7DTpq0gn6rntP05g2-wFW50YO7mosfdslfrTJYWHFhJALabAeYirYD7-9kqq9ebfFMF4sRRELbv9oi36As6Q9B3Qb5_C1rAzqfao_PCsf9EPsTZsVVVkA5qoIAr47lo1ipfiBPxUCCNSdvkmDTYgvvRm6ZoMjFbvOtgyts55fXKdMWv7I9HMD5HwE9uW839PWA514qhbcIsXEYSFMPMV6fnlsiZvQQ'
@@ -46,7 +46,7 @@ const check = (value: unknown, description: string) => {
  * console.log(thumbprint)
  * ```
  */
-async function calculateThumbprint(
+async function calculateJwkThumbprint(
   jwk: JWK,
   digestAlgorithm: 'sha256' | 'sha384' | 'sha512' = 'sha256',
 ): Promise<string> {
@@ -84,6 +84,6 @@ async function calculateThumbprint(
   return base64url(await digest(digestAlgorithm, data))
 }
 
-export { calculateThumbprint }
-export default calculateThumbprint
+export { calculateJwkThumbprint }
+export default calculateJwkThumbprint
 export type { JWK }
