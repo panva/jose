@@ -52,6 +52,7 @@
   },
   "license": "MIT",
   "author": "Filip Skokan <panva.ip@gmail.com>",
+  "sideEffects": false,
   "imports": {
     "#dist/*": {
       "import": "./dist/node/esm/*.js",
