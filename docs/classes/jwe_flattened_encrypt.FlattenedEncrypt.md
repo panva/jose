@@ -3,21 +3,6 @@
 The FlattenedEncrypt class is a utility for creating Flattened JWE
 objects.
 
-**`example`** ESM import
-```js
-import { FlattenedEncrypt } from 'jose/jwe/flattened/encrypt'
-```
-
-**`example`** CJS import
-```js
-const { FlattenedEncrypt } = require('jose/jwe/flattened/encrypt')
-```
-
-**`example`** Deno import
-```js
-import { FlattenedEncrypt } from 'https://deno.land/x/jose@v3.20.3/jwe/flattened/encrypt.ts'
-```
-
 **`example`** Usage
 ```js
 const encoder = new TextEncoder()
@@ -28,6 +13,21 @@ const jwe = await new FlattenedEncrypt(encoder.encode('It’s a dangerous busine
   .encrypt(publicKey)
 
 console.log(jwe)
+```
+
+**`example`** ESM import
+```js
+import { FlattenedEncrypt } from 'jose'
+```
+
+**`example`** CJS import
+```js
+const { FlattenedEncrypt } = require('jose')
+```
+
+**`example`** Deno import
+```js
+import { FlattenedEncrypt } from 'https://deno.land/x/jose@v3.20.3/index.ts'
 ```
 
 ## Table of contents

@@ -11,21 +11,6 @@ import validateCrit from '../../lib/validate_crit.js'
 /**
  * The FlattenedSign class is a utility for creating Flattened JWS objects.
  *
- * @example ESM import
- * ```js
- * import { FlattenedSign } from 'jose/jws/flattened/sign'
- * ```
- *
- * @example CJS import
- * ```js
- * const { FlattenedSign } = require('jose/jws/flattened/sign')
- * ```
- *
- * @example Deno import
- * ```js
- * import { FlattenedSign } from 'https://deno.land/x/jose@VERSION/jws/flattened/sign.ts'
- * ```
- *
  * @example Usage
  * ```js
  * const encoder = new TextEncoder()
@@ -34,6 +19,21 @@ import validateCrit from '../../lib/validate_crit.js'
  *   .setProtectedHeader({ alg: 'ES256' })
  *   .sign(privateKey)
  * console.log(jws)
+ * ```
+ *
+ * @example ESM import
+ * ```js
+ * import { FlattenedSign } from 'jose'
+ * ```
+ *
+ * @example CJS import
+ * ```js
+ * const { FlattenedSign } = require('jose')
+ * ```
+ *
+ * @example Deno import
+ * ```js
+ * import { FlattenedSign } from 'https://deno.land/x/jose@VERSION/index.ts'
  * ```
  */
 class FlattenedSign {

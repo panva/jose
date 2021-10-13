@@ -17,25 +17,25 @@ export interface GenerateSecretOptions {
  * Note: Under Web Cryptography API runtime the secret key is generated with
  * `extractable` set to `false` by default.
  *
- * @example ESM import
- * ```js
- * import { generateSecret } from 'jose/util/generate_secret'
- * ```
- *
- * @example CJS import
- * ```js
- * const { generateSecret } = require('jose/util/generate_secret')
- * ```
- *
- * @example Deno import
- * ```js
- * import { generateSecret } from 'https://deno.land/x/jose@VERSION/util/generate_secret.ts'
- * ```
- *
  * @example Usage
  * ```js
  * const secret = await generateSecret('HS256')
  * console.log(secret)
+ * ```
+ *
+ * @example ESM import
+ * ```js
+ * import { generateSecret } from 'jose'
+ * ```
+ *
+ * @example CJS import
+ * ```js
+ * const { generateSecret } = require('jose')
+ * ```
+ *
+ * @example Deno import
+ * ```js
+ * import { generateSecret } from 'https://deno.land/x/jose@VERSION/index.ts'
  * ```
  *
  * @param alg JWA Algorithm Identifier to be used with the generated secret.

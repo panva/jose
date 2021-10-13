@@ -6,21 +6,6 @@ Imports the SPKI from an X.509 string certificate as a runtime-specific public k
 See [Algorithm Key Requirements](https://github.com/panva/jose/issues/210) to learn about key to algorithm
 requirements and mapping.
 
-**`example`** ESM import
-```js
-import { importX509 } from 'jose/key/import'
-```
-
-**`example`** CJS import
-```js
-const { importX509 } = require('jose/key/import')
-```
-
-**`example`** Deno import
-```js
-import { importX509 } from 'https://deno.land/x/jose@v3.20.3/key/import.ts'
-```
-
 **`example`** Usage
 ```js
 const algorithm = 'ES256'
@@ -35,6 +20,21 @@ UH+kBKDnphJO3odpPZ5gvgKs2nwRWcrDnUjYLDAKBggqhkjOPQQDAgNIADBFAiEA
 v+A1QWZMuTWqYt+uh/YSRNDn
 -----END CERTIFICATE-----`
 const ecPublicKey = await importX509(x509, algorithm)
+```
+
+**`example`** ESM import
+```js
+import { importX509 } from 'jose'
+```
+
+**`example`** CJS import
+```js
+const { importX509 } = require('jose')
+```
+
+**`example`** Deno import
+```js
+import { importX509 } from 'https://deno.land/x/jose@v3.20.3/index.ts'
 ```
 
 #### Parameters

@@ -7,24 +7,9 @@ remote endpoint returning a JSON Web Key Set, that is, for example,
 an OAuth 2.0 or OIDC jwks_uri. Only a single public key must match
 the selection process.
 
-**`example`** ESM import
-```js
-import { createRemoteJWKSet } from 'jose/jwks/remote'
-```
-
-**`example`** CJS import
-```js
-const { createRemoteJWKSet } = require('jose/jwks/remote')
-```
-
-**`example`** Deno import
-```js
-import { createRemoteJWKSet } from 'https://deno.land/x/jose@v3.20.3/jwks/remote.ts'
-```
-
 **`example`** Usage
 ```js
-import { jwtVerify } from 'jose/jwt/verify'
+import { jwtVerify } from 'jose'
 
 const JWKS = createRemoteJWKSet(new URL('https://www.googleapis.com/oauth2/v3/certs'))
 
@@ -34,6 +19,21 @@ const { payload, protectedHeader } = await jwtVerify(jwt, JWKS, {
 })
 console.log(protectedHeader)
 console.log(payload)
+```
+
+**`example`** ESM import
+```js
+import { createRemoteJWKSet } from 'jose'
+```
+
+**`example`** CJS import
+```js
+const { createRemoteJWKSet } = require('jose')
+```
+
+**`example`** Deno import
+```js
+import { createRemoteJWKSet } from 'https://deno.land/x/jose@v3.20.3/index.ts'
 ```
 
 #### Parameters

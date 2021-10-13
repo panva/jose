@@ -10,24 +10,9 @@ import { JWSInvalid } from '../util/errors.js'
  * It is recommended to combine this with the verify algorithms option to whitelist
  * JWS algorithms to accept.
  *
- * @example ESM import
- * ```js
- * import { EmbeddedJWK } from 'jose/jwk/embedded'
- * ```
- *
- * @example CJS import
- * ```js
- * const { EmbeddedJWK } = require('jose/jwk/embedded')
- * ```
- *
- * @example Deno import
- * ```js
- * import { EmbeddedJWK } from 'https://deno.land/x/jose@VERSION/jwk/embedded.ts'
- * ```
- *
  * @example Usage
  * ```js
- * import { jwtVerify } from 'jose/jwt/verify'
+ * import { jwtVerify } from 'jose'
  *
  * const jwt = 'eyJqd2siOnsiY3J2IjoiUC0yNTYiLCJ4IjoiVU05ZzVuS25aWFlvdldBbE03NmNMejl2VG96UmpfX0NIVV9kT2wtZ09vRSIsInkiOiJkczhhZVF3MWwyY0RDQTdiQ2tPTnZ3REtwWEFidFhqdnFDbGVZSDhXc19VIiwia3R5IjoiRUMifSwiYWxnIjoiRVMyNTYifQ.eyJpc3MiOiJ1cm46ZXhhbXBsZTppc3N1ZXIiLCJhdWQiOiJ1cm46ZXhhbXBsZTphdWRpZW5jZSIsImlhdCI6MTYwNDU4MDc5NH0.60boak3_dErnW47ZPty1C0nrjeVq86EN_eK0GOq6K8w2OA0thKoBxFK4j-NuU9yZ_A9UKGxPT_G87DladBaV9g'
  *
@@ -38,6 +23,21 @@ import { JWSInvalid } from '../util/errors.js'
  *
  * console.log(protectedHeader)
  * console.log(payload)
+ * ```
+ *
+ * @example ESM import
+ * ```js
+ * import { EmbeddedJWK } from 'jose'
+ * ```
+ *
+ * @example CJS import
+ * ```js
+ * const { EmbeddedJWK } = require('jose')
+ * ```
+ *
+ * @example Deno import
+ * ```js
+ * import { EmbeddedJWK } from 'https://deno.land/x/jose@VERSION/index.ts'
  * ```
  */
 async function EmbeddedJWK(protectedHeader: JWSHeaderParameters, token: FlattenedJWSInput) {

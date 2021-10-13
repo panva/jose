@@ -29,21 +29,6 @@ export interface GeneralVerifyGetKey
  * @param key Key to verify the JWS with.
  * @param options JWS Verify options.
  *
- * @example ESM import
- * ```js
- * import { generalVerify } from 'jose/jws/general/verify'
- * ```
- *
- * @example CJS import
- * ```js
- * const { generalVerify } = require('jose/jws/general/verify')
- * ```
- *
- * @example Deno import
- * ```js
- * import { generalVerify } from 'https://deno.land/x/jose@VERSION/jws/general/verify.ts'
- * ```
- *
  * @example Usage
  * ```js
  * const decoder = new TextDecoder()
@@ -61,6 +46,21 @@ export interface GeneralVerifyGetKey
  *
  * console.log(protectedHeader)
  * console.log(decoder.decode(payload))
+ * ```
+ *
+ * @example ESM import
+ * ```js
+ * import { generalVerify } from 'jose'
+ * ```
+ *
+ * @example CJS import
+ * ```js
+ * const { generalVerify } = require('jose')
+ * ```
+ *
+ * @example Deno import
+ * ```js
+ * import { generalVerify } from 'https://deno.land/x/jose@VERSION/index.ts'
  * ```
  */
 function generalVerify(

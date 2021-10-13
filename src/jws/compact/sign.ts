@@ -4,21 +4,6 @@ import type { JWSHeaderParameters, KeyLike, SignOptions } from '../../types.d'
 /**
  * The CompactSign class is a utility for creating Compact JWS strings.
  *
- * @example ESM import
- * ```js
- * import { CompactSign } from 'jose/jws/compact/sign'
- * ```
- *
- * @example CJS import
- * ```js
- * const { CompactSign } = require('jose/jws/compact/sign')
- * ```
- *
- * @example Deno import
- * ```js
- * import { CompactSign } from 'https://deno.land/x/jose@VERSION/jws/compact/sign.ts'
- * ```
- *
  * @example Usage
  * ```js
  * const encoder = new TextEncoder()
@@ -28,6 +13,21 @@ import type { JWSHeaderParameters, KeyLike, SignOptions } from '../../types.d'
  *   .sign(privateKey)
  *
  * console.log(jws)
+ * ```
+ *
+ * @example ESM import
+ * ```js
+ * import { CompactSign } from 'jose'
+ * ```
+ *
+ * @example CJS import
+ * ```js
+ * const { CompactSign } = require('jose')
+ * ```
+ *
+ * @example Deno import
+ * ```js
+ * import { CompactSign } from 'https://deno.land/x/jose@VERSION/index.ts'
  * ```
  */
 class CompactSign {

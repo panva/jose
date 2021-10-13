@@ -28,21 +28,6 @@ export interface CompactVerifyGetKey
  * @param key Key to verify the JWS with.
  * @param options JWS Verify options.
  *
- * @example ESM import
- * ```js
- * import { compactVerify } from 'jose/jws/compact/verify'
- * ```
- *
- * @example CJS import
- * ```js
- * const { compactVerify } = require('jose/jws/compact/verify')
- * ```
- *
- * @example Deno import
- * ```js
- * import { compactVerify } from 'https://deno.land/x/jose@VERSION/jws/compact/verify.ts'
- * ```
- *
  * @example Usage
  * ```js
  * const decoder = new TextDecoder()
@@ -52,6 +37,21 @@ export interface CompactVerifyGetKey
  *
  * console.log(protectedHeader)
  * console.log(decoder.decode(payload))
+ * ```
+ *
+ * @example ESM import
+ * ```js
+ * import { compactVerify } from 'jose'
+ * ```
+ *
+ * @example CJS import
+ * ```js
+ * const { compactVerify } = require('jose')
+ * ```
+ *
+ * @example Deno import
+ * ```js
+ * import { compactVerify } from 'https://deno.land/x/jose@VERSION/index.ts'
  * ```
  */
 function compactVerify(

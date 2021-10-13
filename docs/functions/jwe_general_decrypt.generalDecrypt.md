@@ -6,17 +6,17 @@ Decrypts a General JWE.
 
 **`example`** ESM import
 ```js
-import { generalDecrypt } from 'jose/jwe/general/decrypt'
+import { generalDecrypt } from 'jose'
 ```
 
 **`example`** CJS import
 ```js
-const { generalDecrypt } = require('jose/jwe/general/decrypt')
+const { generalDecrypt } = require('jose')
 ```
 
 **`example`** Deno import
 ```js
-import { generalDecrypt } from 'https://deno.land/x/jose@v3.20.3/jwe/general/decrypt.ts'
+import { generalDecrypt } from 'https://deno.land/x/jose@v3.20.3/index.ts'
 ```
 
 **`example`** Usage

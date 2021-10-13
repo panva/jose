@@ -4,25 +4,25 @@
 
 Decodes the Protected Header of a JWE/JWS/JWT token utilizing any JOSE serialization.
 
-**`example`** ESM import
-```js
-import { decodeProtectedHeader } from 'jose/util/decode_protected_header'
-```
-
-**`example`** CJS import
-```js
-const { decodeProtectedHeader } = require('jose/util/decode_protected_header')
-```
-
-**`example`** Deno import
-```js
-import { decodeProtectedHeader } from 'https://deno.land/x/jose@v3.20.3/util/decode_protected_header.ts'
-```
-
 **`example`** Usage
 ```js
 const protectedHeader = decodeProtectedHeader(token)
 console.log(protectedHeader)
+```
+
+**`example`** ESM import
+```js
+import { decodeProtectedHeader } from 'jose'
+```
+
+**`example`** CJS import
+```js
+const { decodeProtectedHeader } = require('jose')
+```
+
+**`example`** Deno import
+```js
+import { decodeProtectedHeader } from 'https://deno.land/x/jose@v3.20.3/index.ts'
 ```
 
 #### Parameters

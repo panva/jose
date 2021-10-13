@@ -6,21 +6,6 @@ Imports an PEM-encoded PKCS8 string as a runtime-specific private key representa
 See [Algorithm Key Requirements](https://github.com/panva/jose/issues/210) to learn about key to algorithm
 requirements and mapping. Encrypted keys are not supported.
 
-**`example`** ESM import
-```js
-import { importPKCS8 } from 'jose/key/import'
-```
-
-**`example`** CJS import
-```js
-const { importPKCS8 } = require('jose/key/import')
-```
-
-**`example`** Deno import
-```js
-import { importPKCS8 } from 'https://deno.land/x/jose@v3.20.3/key/import.ts'
-```
-
 **`example`** Usage
 ```js
 const algorithm = 'ES256'
@@ -30,6 +15,21 @@ nlrnUclopnvuuMfoc8HHly3505OhRANCAAQWUcdZ8uTSAsFuwtNy4KtsKqgeqYxg
 l6kwL5D4N3pEGYGIDjV69Sw0zAt43480WqJv7HCL0mQnyqFmSrxj8jMa
 -----END PRIVATE KEY-----`
 const ecPrivateKey = await importPKCS8(pkcs8, algorithm)
+```
+
+**`example`** ESM import
+```js
+import { importPKCS8 } from 'jose'
+```
+
+**`example`** CJS import
+```js
+const { importPKCS8 } = require('jose')
+```
+
+**`example`** Deno import
+```js
+import { importPKCS8 } from 'https://deno.land/x/jose@v3.20.3/index.ts'
 ```
 
 #### Parameters

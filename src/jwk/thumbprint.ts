@@ -20,21 +20,6 @@ const check = (value: unknown, description: string) => {
  * @param digestAlgorithm Digest Algorithm to use for calculating the thumbprint.
  * Default is sha256. Accepted is "sha256", "sha384", "sha512".
  *
- * @example ESM import
- * ```js
- * import { calculateJwkThumbprint } from 'jose/jwk/thumbprint'
- * ```
- *
- * @example CJS import
- * ```js
- * const { calculateJwkThumbprint } = require('jose/jwk/thumbprint')
- * ```
- *
- * @example Deno import
- * ```js
- * import { calculateJwkThumbprint } from 'https://deno.land/x/jose@VERSION/jwk/thumbprint.ts'
- * ```
- *
  * @example Usage
  * ```js
  * const thumbprint = await calculateJwkThumbprint({
@@ -44,6 +29,21 @@ const check = (value: unknown, description: string) => {
  * })
  *
  * console.log(thumbprint)
+ * ```
+ *
+ * @example ESM import
+ * ```js
+ * import { calculateJwkThumbprint } from 'jose'
+ * ```
+ *
+ * @example CJS import
+ * ```js
+ * const { calculateJwkThumbprint } = require('jose')
+ * ```
+ *
+ * @example Deno import
+ * ```js
+ * import { calculateJwkThumbprint } from 'https://deno.land/x/jose@VERSION/index.ts'
  * ```
  */
 async function calculateJwkThumbprint(

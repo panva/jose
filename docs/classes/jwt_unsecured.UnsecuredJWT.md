@@ -2,21 +2,6 @@
 
 The UnsecuredJWT class is a utility for dealing with `{ "alg": "none" }` Unsecured JWTs.
 
-**`example`** ESM import
-```js
-import { UnsecuredJWT } from 'jose/jwt/unsecured'
-```
-
-**`example`** CJS import
-```js
-const { UnsecuredJWT } = require('jose/jwt/unsecured')
-```
-
-**`example`** Deno import
-```js
-import { UnsecuredJWT } from 'https://deno.land/x/jose@v3.20.3/jwt/unsecured.ts'
-```
-
 **`example`** Encoding
 ```js *
 const unsecuredJwt = new UnsecuredJWT({ 'urn:example:claim': true })
@@ -37,6 +22,21 @@ const payload = new UnsecuredJWT.decode(jwt, {
 })
 
 console.log(payload)
+```
+
+**`example`** ESM import
+```js
+import { UnsecuredJWT } from 'jose'
+```
+
+**`example`** CJS import
+```js
+const { UnsecuredJWT } = require('jose')
+```
+
+**`example`** Deno import
+```js
+import { UnsecuredJWT } from 'https://deno.land/x/jose@v3.20.3/index.ts'
 ```
 
 ## Table of contents

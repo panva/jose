@@ -9,21 +9,6 @@ the jwk parameters "use", "key_ops", and "ext" are also used in the resulting `C
 See [Algorithm Key Requirements](https://github.com/panva/jose/issues/210) to learn about key to algorithm
 requirements and mapping.
 
-**`example`** ESM import
-```js
-import { importJWK } from 'jose/key/import'
-```
-
-**`example`** CJS import
-```js
-const { importJWK } = require('jose/key/import')
-```
-
-**`example`** Deno import
-```js
-import { importJWK } from 'https://deno.land/x/jose@v3.20.3/key/import.ts'
-```
-
 **`example`** Usage
 ```js
 const ecPublicKey = await importJWK({
@@ -38,6 +23,21 @@ const rsaPublicKey = await importJWK({
   e: 'AQAB',
   n: '12oBZRhCiZFJLcPg59LkZZ9mdhSMTKAQZYq32k_ti5SBB6jerkh-WzOMAO664r_qyLkqHUSp3u5SbXtseZEpN3XPWGKSxjsy-1JyEFTdLSYe6f9gfrmxkUF_7DTpq0gn6rntP05g2-wFW50YO7mosfdslfrTJYWHFhJALabAeYirYD7-9kqq9ebfFMF4sRRELbv9oi36As6Q9B3Qb5_C1rAzqfao_PCsf9EPsTZsVVVkA5qoIAr47lo1ipfiBPxUCCNSdvkmDTYgvvRm6ZoMjFbvOtgyts55fXKdMWv7I9HMD5HwE9uW839PWA514qhbcIsXEYSFMPMV6fnlsiZvQQ'
 }, 'PS256')
+```
+
+**`example`** ESM import
+```js
+import { importJWK } from 'jose'
+```
+
+**`example`** CJS import
+```js
+const { importJWK } = require('jose')
+```
+
+**`example`** Deno import
+```js
+import { importJWK } from 'https://deno.land/x/jose@v3.20.3/index.ts'
 ```
 
 #### Parameters

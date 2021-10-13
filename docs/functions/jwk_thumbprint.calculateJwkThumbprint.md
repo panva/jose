@@ -5,21 +5,6 @@
 Calculates a base64url-encoded JSON Web Key (JWK) Thumbprint as per
 [RFC7638](https://tools.ietf.org/html/rfc7638).
 
-**`example`** ESM import
-```js
-import { calculateJwkThumbprint } from 'jose/jwk/thumbprint'
-```
-
-**`example`** CJS import
-```js
-const { calculateJwkThumbprint } = require('jose/jwk/thumbprint')
-```
-
-**`example`** Deno import
-```js
-import { calculateJwkThumbprint } from 'https://deno.land/x/jose@v3.20.2/jwk/thumbprint.ts'
-```
-
 **`example`** Usage
 ```js
 const thumbprint = await calculateJwkThumbprint({
@@ -29,6 +14,21 @@ const thumbprint = await calculateJwkThumbprint({
 })
 
 console.log(thumbprint)
+```
+
+**`example`** ESM import
+```js
+import { calculateJwkThumbprint } from 'jose'
+```
+
+**`example`** CJS import
+```js
+const { calculateJwkThumbprint } = require('jose')
+```
+
+**`example`** Deno import
+```js
+import { calculateJwkThumbprint } from 'https://deno.land/x/jose@v3.20.3/index.ts'
 ```
 
 #### Parameters

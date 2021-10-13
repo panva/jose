@@ -7,21 +7,6 @@ import { ProduceJWT } from './produce.js'
 /**
  * The SignJWT class is a utility for creating Compact JWS formatted JWT strings.
  *
- * @example ESM import
- * ```js
- * import { SignJWT } from 'jose/jwt/sign'
- * ```
- *
- * @example CJS import
- * ```js
- * const { SignJWT } = require('jose/jwt/sign')
- * ```
- *
- * @example Deno import
- * ```js
- * import { SignJWT } from 'https://deno.land/x/jose@VERSION/jwt/sign.ts'
- * ```
- *
  * @example Usage
  * ```js
  * const jwt = await new SignJWT({ 'urn:example:claim': true })
@@ -33,6 +18,21 @@ import { ProduceJWT } from './produce.js'
  *   .sign(privateKey)
  *
  * console.log(jwt)
+ * ```
+ *
+ * @example ESM import
+ * ```js
+ * import { SignJWT } from 'jose'
+ * ```
+ *
+ * @example CJS import
+ * ```js
+ * const { SignJWT } = require('jose')
+ * ```
+ *
+ * @example Deno import
+ * ```js
+ * import { SignJWT } from 'https://deno.land/x/jose@VERSION/index.ts'
  * ```
  */
 class SignJWT extends ProduceJWT {

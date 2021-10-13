@@ -4,21 +4,6 @@
 
 Decrypts a Flattened JWE.
 
-**`example`** ESM import
-```js
-import { flattenedDecrypt } from 'jose/jwe/flattened/decrypt'
-```
-
-**`example`** CJS import
-```js
-const { flattenedDecrypt } = require('jose/jwe/flattened/decrypt')
-```
-
-**`example`** Deno import
-```js
-import { flattenedDecrypt } from 'https://deno.land/x/jose@v3.20.3/jwe/flattened/decrypt.ts'
-```
-
 **`example`** Usage
 ```js
 const decoder = new TextDecoder()
@@ -40,6 +25,21 @@ const {
 console.log(protectedHeader)
 console.log(decoder.decode(plaintext))
 console.log(decoder.decode(additionalAuthenticatedData))
+```
+
+**`example`** ESM import
+```js
+import { flattenedDecrypt } from 'jose'
+```
+
+**`example`** CJS import
+```js
+const { flattenedDecrypt } = require('jose')
+```
+
+**`example`** Deno import
+```js
+import { flattenedDecrypt } from 'https://deno.land/x/jose@v3.20.3/index.ts'
 ```
 
 #### Parameters

@@ -9,26 +9,26 @@ import type { JWK, KeyLike } from '../types.d'
  *
  * @param key Key representation to transform to an PEM-encoded SPKI string format.
  *
- * @example ESM import
- * ```js
- * import { exportSPKI } from 'jose/key/export'
- * ```
- *
- * @example CJS import
- * ```js
- * const { exportSPKI } = require('jose/key/export')
- * ```
- *
- * @example Deno import
- * ```js
- * import { exportSPKI } from 'https://deno.land/x/jose@VERSION/key/export.ts'
- * ```
- *
  * @example Usage
  * ```js
  * const spkiPem = await exportSPKI(publicKey)
  *
  * console.log(spkiPem)
+ * ```
+ *
+ * @example ESM import
+ * ```js
+ * import { exportSPKI } from 'jose'
+ * ```
+ *
+ * @example CJS import
+ * ```js
+ * const { exportSPKI } = require('jose')
+ * ```
+ *
+ * @example Deno import
+ * ```js
+ * import { exportSPKI } from 'https://deno.land/x/jose@VERSION/index.ts'
  * ```
  */
 export async function exportSPKI(key: KeyLike): Promise<string> {
@@ -40,26 +40,26 @@ export async function exportSPKI(key: KeyLike): Promise<string> {
  *
  * @param key Key representation to transform to an PEM-encoded PKCS8 string format.
  *
- * @example ESM import
- * ```js
- * import { exportPKCS8 } from 'jose/key/export'
- * ```
- *
- * @example CJS import
- * ```js
- * const { exportPKCS8 } = require('jose/key/export')
- * ```
- *
- * @example Deno import
- * ```js
- * import { exportPKCS8 } from 'https://deno.land/x/jose@VERSION/key/export.ts'
- * ```
- *
  * @example Usage
  * ```js
  * const pkcs8Pem = await exportPKCS8(privateKey)
  *
  * console.log(pkcs8Pem)
+ * ```
+ *
+ * @example ESM import
+ * ```js
+ * import { exportPKCS8 } from 'jose'
+ * ```
+ *
+ * @example CJS import
+ * ```js
+ * const { exportPKCS8 } = require('jose')
+ * ```
+ *
+ * @example Deno import
+ * ```js
+ * import { exportPKCS8 } from 'https://deno.land/x/jose@VERSION/index.ts'
  * ```
  */
 export async function exportPKCS8(key: KeyLike): Promise<string> {
@@ -71,21 +71,6 @@ export async function exportPKCS8(key: KeyLike): Promise<string> {
  *
  * @param key Key representation to export as JWK.
  *
- * @example ESM import
- * ```js
- * import { exportJWK } from 'jose/key/export'
- * ```
- *
- * @example CJS import
- * ```js
- * const { exportJWK } = require('jose/key/export')
- * ```
- *
- * @example Deno import
- * ```js
- * import { exportJWK } from 'https://deno.land/x/jose@VERSION/key/export.ts'
- * ```
- *
  * @example Usage
  * ```js
  * const privateJwk = await exportJWK(privateKey)
@@ -93,6 +78,21 @@ export async function exportPKCS8(key: KeyLike): Promise<string> {
  *
  * console.log(privateJwk)
  * console.log(publicJwk)
+ * ```
+ *
+ * @example ESM import
+ * ```js
+ * import { exportJWK } from 'jose'
+ * ```
+ *
+ * @example CJS import
+ * ```js
+ * const { exportJWK } = require('jose')
+ * ```
+ *
+ * @example Deno import
+ * ```js
+ * import { exportJWK } from 'https://deno.land/x/jose@VERSION/index.ts'
  * ```
  */
 export async function exportJWK(key: KeyLike | Uint8Array): Promise<JWK> {

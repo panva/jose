@@ -2,21 +2,6 @@
 
 The CompactEncrypt class is a utility for creating Compact JWE strings.
 
-**`example`** ESM import
-```js
-import { CompactEncrypt } from 'jose/jwe/compact/encrypt'
-```
-
-**`example`** CJS import
-```js
-const { CompactEncrypt } = require('jose/jwe/compact/encrypt')
-```
-
-**`example`** Deno import
-```js
-import { CompactEncrypt } from 'https://deno.land/x/jose@v3.20.3/jwe/compact/encrypt.ts'
-```
-
 **`example`** Usage
 ```js
 const encoder = new TextEncoder()
@@ -26,6 +11,21 @@ const jwe = await new CompactEncrypt(encoder.encode('It’s a dangerous business
   .encrypt(publicKey)
 
 console.log(jwe)
+```
+
+**`example`** ESM import
+```js
+import { CompactEncrypt } from 'jose'
+```
+
+**`example`** CJS import
+```js
+const { CompactEncrypt } = require('jose')
+```
+
+**`example`** Deno import
+```js
+import { CompactEncrypt } from 'https://deno.land/x/jose@v3.20.3/index.ts'
 ```
 
 ## Table of contents

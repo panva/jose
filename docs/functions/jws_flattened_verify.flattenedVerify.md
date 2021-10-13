@@ -4,21 +4,6 @@
 
 Verifies the signature and format of and afterwards decodes the Flattened JWS.
 
-**`example`** ESM import
-```js
-import { flattenedVerify } from 'jose/jws/flattened/verify'
-```
-
-**`example`** CJS import
-```js
-const { flattenedVerify } = require('jose/jws/flattened/verify')
-```
-
-**`example`** Deno import
-```js
-import { flattenedVerify } from 'https://deno.land/x/jose@v3.20.3/jws/flattened/verify.ts'
-```
-
 **`example`** Usage
 ```js
 const decoder = new TextDecoder()
@@ -32,6 +17,21 @@ const { payload, protectedHeader } = await flattenedVerify(jws, publicKey)
 
 console.log(protectedHeader)
 console.log(decoder.decode(payload))
+```
+
+**`example`** ESM import
+```js
+import { flattenedVerify } from 'jose'
+```
+
+**`example`** CJS import
+```js
+const { flattenedVerify } = require('jose')
+```
+
+**`example`** Deno import
+```js
+import { flattenedVerify } from 'https://deno.land/x/jose@v3.20.3/index.ts'
 ```
 
 #### Parameters

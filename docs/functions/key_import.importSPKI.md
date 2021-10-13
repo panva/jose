@@ -6,21 +6,6 @@ Imports an PEM-encoded SPKI string as a runtime-specific public key representati
 See [Algorithm Key Requirements](https://github.com/panva/jose/issues/210) to learn about key to algorithm
 requirements and mapping.
 
-**`example`** ESM import
-```js
-import { importSPKI } from 'jose/key/import'
-```
-
-**`example`** CJS import
-```js
-const { importSPKI } = require('jose/key/import')
-```
-
-**`example`** Deno import
-```js
-import { importSPKI } from 'https://deno.land/x/jose@v3.20.3/key/import.ts'
-```
-
 **`example`** Usage
 ```js
 const algorithm = 'ES256'
@@ -29,6 +14,21 @@ MFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAEFlHHWfLk0gLBbsLTcuCrbCqoHqmM
 YJepMC+Q+Dd6RBmBiA41evUsNMwLeN+PNFqib+xwi9JkJ8qhZkq8Y/IzGg==
 -----END PUBLIC KEY-----`
 const ecPublicKey = await importSPKI(spki, algorithm)
+```
+
+**`example`** ESM import
+```js
+import { importSPKI } from 'jose'
+```
+
+**`example`** CJS import
+```js
+const { importSPKI } = require('jose')
+```
+
+**`example`** Deno import
+```js
+import { importSPKI } from 'https://deno.land/x/jose@v3.20.3/index.ts'
 ```
 
 #### Parameters

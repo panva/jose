@@ -34,21 +34,6 @@ export interface FlattenedDecryptGetKey
  * @param key Private Key or Secret to decrypt the JWE with.
  * @param options JWE Decryption options.
  *
- * @example ESM import
- * ```js
- * import { flattenedDecrypt } from 'jose/jwe/flattened/decrypt'
- * ```
- *
- * @example CJS import
- * ```js
- * const { flattenedDecrypt } = require('jose/jwe/flattened/decrypt')
- * ```
- *
- * @example Deno import
- * ```js
- * import { flattenedDecrypt } from 'https://deno.land/x/jose@VERSION/jwe/flattened/decrypt.ts'
- * ```
- *
  * @example Usage
  * ```js
  * const decoder = new TextDecoder()
@@ -70,6 +55,21 @@ export interface FlattenedDecryptGetKey
  * console.log(protectedHeader)
  * console.log(decoder.decode(plaintext))
  * console.log(decoder.decode(additionalAuthenticatedData))
+ * ```
+ *
+ * @example ESM import
+ * ```js
+ * import { flattenedDecrypt } from 'jose'
+ * ```
+ *
+ * @example CJS import
+ * ```js
+ * const { flattenedDecrypt } = require('jose')
+ * ```
+ *
+ * @example Deno import
+ * ```js
+ * import { flattenedDecrypt } from 'https://deno.land/x/jose@VERSION/index.ts'
  * ```
  */
 function flattenedDecrypt(

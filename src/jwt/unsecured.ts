@@ -14,21 +14,6 @@ interface UnsecuredResult {
 /**
  * The UnsecuredJWT class is a utility for dealing with `{ "alg": "none" }` Unsecured JWTs.
  *
- * @example ESM import
- * ```js
- * import { UnsecuredJWT } from 'jose/jwt/unsecured'
- * ```
- *
- * @example CJS import
- * ```js
- * const { UnsecuredJWT } = require('jose/jwt/unsecured')
- * ```
- *
- * @example Deno import
- * ```js
- * import { UnsecuredJWT } from 'https://deno.land/x/jose@VERSION/jwt/unsecured.ts'
- * ```
- *
  * @example Encoding
  * ```js *
  * const unsecuredJwt = new UnsecuredJWT({ 'urn:example:claim': true })
@@ -49,6 +34,21 @@ interface UnsecuredResult {
  * })
  *
  * console.log(payload)
+ * ```
+ *
+ * @example ESM import
+ * ```js
+ * import { UnsecuredJWT } from 'jose'
+ * ```
+ *
+ * @example CJS import
+ * ```js
+ * const { UnsecuredJWT } = require('jose')
+ * ```
+ *
+ * @example Deno import
+ * ```js
+ * import { UnsecuredJWT } from 'https://deno.land/x/jose@VERSION/index.ts'
  * ```
  */
 class UnsecuredJWT extends ProduceJWT {

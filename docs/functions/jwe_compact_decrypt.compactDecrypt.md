@@ -4,21 +4,6 @@
 
 Decrypts a Compact JWE.
 
-**`example`** ESM import
-```js
-import { compactDecrypt } from 'jose/jwe/compact/decrypt'
-```
-
-**`example`** CJS import
-```js
-const { compactDecrypt } = require('jose/jwe/compact/decrypt')
-```
-
-**`example`** Deno import
-```js
-import { compactDecrypt } from 'https://deno.land/x/jose@v3.20.3/jwe/compact/decrypt.ts'
-```
-
 **`example`** Usage
 ```js
 const decoder = new TextDecoder()
@@ -28,6 +13,21 @@ const { plaintext, protectedHeader } = await compactDecrypt(jwe, privateKey)
 
 console.log(protectedHeader)
 console.log(decoder.decode(plaintext))
+```
+
+**`example`** ESM import
+```js
+import { compactDecrypt } from 'jose'
+```
+
+**`example`** CJS import
+```js
+const { compactDecrypt } = require('jose')
+```
+
+**`example`** Deno import
+```js
+import { compactDecrypt } from 'https://deno.land/x/jose@v3.20.3/index.ts'
 ```
 
 #### Parameters

@@ -12,21 +12,6 @@ import { ProduceJWT } from './produce.js'
 /**
  * The EncryptJWT class is a utility for creating Compact JWE formatted JWT strings.
  *
- * @example ESM import
- * ```js
- * import { EncryptJWT } from 'jose/jwt/encrypt'
- * ```
- *
- * @example CJS import
- * ```js
- * const { EncryptJWT } = require('jose/jwt/encrypt')
- * ```
- *
- * @example Deno import
- * ```js
- * import { EncryptJWT } from 'https://deno.land/x/jose@VERSION/jwt/encrypt.ts'
- * ```
- *
  * @example Usage
  * ```js
  * const jwt = await new EncryptJWT({ 'urn:example:claim': true })
@@ -38,6 +23,21 @@ import { ProduceJWT } from './produce.js'
  *   .encrypt(secretKey)
  *
  * console.log(jwt)
+ * ```
+ *
+ * @example ESM import
+ * ```js
+ * import { EncryptJWT } from 'jose'
+ * ```
+ *
+ * @example CJS import
+ * ```js
+ * const { EncryptJWT } = require('jose')
+ * ```
+ *
+ * @example Deno import
+ * ```js
+ * import { EncryptJWT } from 'https://deno.land/x/jose@VERSION/index.ts'
  * ```
  */
 class EncryptJWT extends ProduceJWT {

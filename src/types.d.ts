@@ -7,7 +7,7 @@
  * [Uint8Array](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Uint8Array)
  * instances are also accepted as symmetric secret representation only.
  *
- * [jose/key/import](../modules/key_import.md#readme) functions can be used to import PEM,
+ * [Key Import Functions](../modules/key_import.md#readme) can be used to import PEM,
  * or JWK formatted asymmetric keys and certificates to these runtime-specific representations.
  *
  * In Node.js the
@@ -35,7 +35,7 @@
  *
  * @example Import a PEM-encoded SPKI Public Key
  * ```js
- * import { importSPKI } from 'jose/key/import'
+ * import { importSPKI } from 'jose'
  *
  * const algorithm = 'ES256'
  * const spki = `-----BEGIN PUBLIC KEY-----
@@ -47,7 +47,7 @@
  *
  * @example Import a X.509 Certificate
  * ```js
- * import { importX509 } from 'jose/key/import'
+ * import { importX509 } from 'jose'
  *
  * const algorithm = 'ES256'
  * const x509 = `-----BEGIN CERTIFICATE-----
@@ -65,7 +65,7 @@
  *
  * @example Import a PEM-encoded PKCS8 Private Key
  * ```js
- * import { importPKCS8 } from 'jose/key/import'
+ * import { importPKCS8 } from 'jose'
  *
  * const algorithm = 'ES256'
  * const pkcs8 = `-----BEGIN PRIVATE KEY-----
@@ -78,7 +78,7 @@
  *
  * @example Import a JSON Web Key (JWK)
  * ```js
- * import { importJWK } from 'jose/key/import'
+ * import { importJWK } from 'jose'
  *
  * const ecPublicKey = await importJWK({
  *   crv: 'P-256',

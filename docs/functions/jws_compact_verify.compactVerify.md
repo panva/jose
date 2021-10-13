@@ -4,21 +4,6 @@
 
 Verifies the signature and format of and afterwards decodes the Compact JWS.
 
-**`example`** ESM import
-```js
-import { compactVerify } from 'jose/jws/compact/verify'
-```
-
-**`example`** CJS import
-```js
-const { compactVerify } = require('jose/jws/compact/verify')
-```
-
-**`example`** Deno import
-```js
-import { compactVerify } from 'https://deno.land/x/jose@v3.20.3/jws/compact/verify.ts'
-```
-
 **`example`** Usage
 ```js
 const decoder = new TextDecoder()
@@ -28,6 +13,21 @@ const { payload, protectedHeader } = await compactVerify(jws, publicKey)
 
 console.log(protectedHeader)
 console.log(decoder.decode(payload))
+```
+
+**`example`** ESM import
+```js
+import { compactVerify } from 'jose'
+```
+
+**`example`** CJS import
+```js
+const { compactVerify } = require('jose')
+```
+
+**`example`** Deno import
+```js
+import { compactVerify } from 'https://deno.land/x/jose@v3.20.3/index.ts'
 ```
 
 #### Parameters

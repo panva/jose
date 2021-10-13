@@ -4,26 +4,26 @@
 
 Exports a runtime-specific private key representation (KeyObject or CryptoKey) to an PEM-encoded PKCS8 string format.
 
-**`example`** ESM import
-```js
-import { exportPKCS8 } from 'jose/key/export'
-```
-
-**`example`** CJS import
-```js
-const { exportPKCS8 } = require('jose/key/export')
-```
-
-**`example`** Deno import
-```js
-import { exportPKCS8 } from 'https://deno.land/x/jose@v3.20.3/key/export.ts'
-```
-
 **`example`** Usage
 ```js
 const pkcs8Pem = await exportPKCS8(privateKey)
 
 console.log(pkcs8Pem)
+```
+
+**`example`** ESM import
+```js
+import { exportPKCS8 } from 'jose'
+```
+
+**`example`** CJS import
+```js
+const { exportPKCS8 } = require('jose')
+```
+
+**`example`** Deno import
+```js
+import { exportPKCS8 } from 'https://deno.land/x/jose@v3.20.3/index.ts'
 ```
 
 #### Parameters

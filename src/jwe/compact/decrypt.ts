@@ -24,21 +24,6 @@ export interface CompactDecryptGetKey extends GetKeyFunction<JWEHeaderParameters
  * @param key Private Key or Secret to decrypt the JWE with.
  * @param options JWE Decryption options.
  *
- * @example ESM import
- * ```js
- * import { compactDecrypt } from 'jose/jwe/compact/decrypt'
- * ```
- *
- * @example CJS import
- * ```js
- * const { compactDecrypt } = require('jose/jwe/compact/decrypt')
- * ```
- *
- * @example Deno import
- * ```js
- * import { compactDecrypt } from 'https://deno.land/x/jose@VERSION/jwe/compact/decrypt.ts'
- * ```
- *
  * @example Usage
  * ```js
  * const decoder = new TextDecoder()
@@ -48,6 +33,21 @@ export interface CompactDecryptGetKey extends GetKeyFunction<JWEHeaderParameters
  *
  * console.log(protectedHeader)
  * console.log(decoder.decode(plaintext))
+ * ```
+ *
+ * @example ESM import
+ * ```js
+ * import { compactDecrypt } from 'jose'
+ * ```
+ *
+ * @example CJS import
+ * ```js
+ * const { compactDecrypt } = require('jose')
+ * ```
+ *
+ * @example Deno import
+ * ```js
+ * import { compactDecrypt } from 'https://deno.land/x/jose@VERSION/index.ts'
  * ```
  */
 async function compactDecrypt(

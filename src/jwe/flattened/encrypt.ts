@@ -20,21 +20,6 @@ import validateCrit from '../../lib/validate_crit.js'
  * The FlattenedEncrypt class is a utility for creating Flattened JWE
  * objects.
  *
- * @example ESM import
- * ```js
- * import { FlattenedEncrypt } from 'jose/jwe/flattened/encrypt'
- * ```
- *
- * @example CJS import
- * ```js
- * const { FlattenedEncrypt } = require('jose/jwe/flattened/encrypt')
- * ```
- *
- * @example Deno import
- * ```js
- * import { FlattenedEncrypt } from 'https://deno.land/x/jose@VERSION/jwe/flattened/encrypt.ts'
- * ```
- *
  * @example Usage
  * ```js
  * const encoder = new TextEncoder()
@@ -45,6 +30,21 @@ import validateCrit from '../../lib/validate_crit.js'
  *   .encrypt(publicKey)
  *
  * console.log(jwe)
+ * ```
+ *
+ * @example ESM import
+ * ```js
+ * import { FlattenedEncrypt } from 'jose'
+ * ```
+ *
+ * @example CJS import
+ * ```js
+ * const { FlattenedEncrypt } = require('jose')
+ * ```
+ *
+ * @example Deno import
+ * ```js
+ * import { FlattenedEncrypt } from 'https://deno.land/x/jose@VERSION/index.ts'
  * ```
  */
 class FlattenedEncrypt {

@@ -4,21 +4,6 @@
 
 Exports a runtime-specific key representation (KeyLike) to a JWK.
 
-**`example`** ESM import
-```js
-import { exportJWK } from 'jose/key/export'
-```
-
-**`example`** CJS import
-```js
-const { exportJWK } = require('jose/key/export')
-```
-
-**`example`** Deno import
-```js
-import { exportJWK } from 'https://deno.land/x/jose@v3.20.3/key/export.ts'
-```
-
 **`example`** Usage
 ```js
 const privateJwk = await exportJWK(privateKey)
@@ -26,6 +11,21 @@ const publicJwk = await exportJWK(publicKey)
 
 console.log(privateJwk)
 console.log(publicJwk)
+```
+
+**`example`** ESM import
+```js
+import { exportJWK } from 'jose'
+```
+
+**`example`** CJS import
+```js
+const { exportJWK } = require('jose')
+```
+
+**`example`** Deno import
+```js
+import { exportJWK } from 'https://deno.land/x/jose@v3.20.3/index.ts'
 ```
 
 #### Parameters

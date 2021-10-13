@@ -36,21 +36,6 @@ export interface FlattenedVerifyGetKey
  * @param key Key to verify the JWS with.
  * @param options JWS Verify options.
  *
- * @example ESM import
- * ```js
- * import { flattenedVerify } from 'jose/jws/flattened/verify'
- * ```
- *
- * @example CJS import
- * ```js
- * const { flattenedVerify } = require('jose/jws/flattened/verify')
- * ```
- *
- * @example Deno import
- * ```js
- * import { flattenedVerify } from 'https://deno.land/x/jose@VERSION/jws/flattened/verify.ts'
- * ```
- *
  * @example Usage
  * ```js
  * const decoder = new TextDecoder()
@@ -64,6 +49,21 @@ export interface FlattenedVerifyGetKey
  *
  * console.log(protectedHeader)
  * console.log(decoder.decode(payload))
+ * ```
+ *
+ * @example ESM import
+ * ```js
+ * import { flattenedVerify } from 'jose'
+ * ```
+ *
+ * @example CJS import
+ * ```js
+ * const { flattenedVerify } = require('jose')
+ * ```
+ *
+ * @example Deno import
+ * ```js
+ * import { flattenedVerify } from 'https://deno.land/x/jose@VERSION/index.ts'
  * ```
  */
 function flattenedVerify(
