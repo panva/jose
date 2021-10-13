@@ -16,7 +16,6 @@
     "../src/jwk/parse.ts",
     "../src/jwk/thumbprint.ts",
     "../src/jwk/embedded.ts",
-    "../src/jwk/from_key_like.ts",
 
     "../src/key/import.ts",
     "../src/key/export.ts",

@@ -95,11 +95,6 @@
       "import": "./dist/node/esm/jwk/embedded.js",
       "require": "./dist/node/cjs/jwk/embedded.js"
     },
-    "./jwk/from_key_like": {
-      "browser": "./dist/browser/jwk/from_key_like.js",
-      "import": "./dist/node/esm/jwk/from_key_like.js",
-      "require": "./dist/node/cjs/jwk/from_key_like.js"
-    },
     "./jwk/parse": {
       "browser": "./dist/browser/jwk/parse.js",
       "import": "./dist/node/esm/jwk/parse.js",
