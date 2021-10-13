@@ -10,15 +10,9 @@ pkg.description = pkg.description.replace(
   "(Node.JS CJS Runtime) "
 );
 
-for (const exportPath of Object.keys(pkg.exports)) {
-  if (
-    typeof pkg.exports[exportPath] === "object" &&
-    "require" in pkg.exports[exportPath]
-  ) {
-    pkg.exports[exportPath] = pkg.exports[exportPath].require;
-  }
-}
-delete pkg.typesVersions["*"]["webcrypto/*"];
+delete pkg.browser;
+delete pkg.exports["."].browser;
+delete pkg.exports["."].import;
 
 const deletedKeywords = new Set([
   "browser",

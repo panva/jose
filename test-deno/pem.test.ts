@@ -1,7 +1,12 @@
 import { assertThrowsAsync } from 'https://deno.land/std@0.109.0/testing/asserts.ts';
 
-import * as importKey from '../dist/browser/key/import.js';
-import * as exportKey from '../dist/browser/key/export.js';
+import {
+  exportPKCS8,
+  exportSPKI,
+  importPKCS8,
+  importSPKI,
+  importX509,
+} from '../dist/deno/index.ts';
 
 const keys = {
   rsa: {
@@ -79,15 +84,15 @@ async function failing(test: any) {
 }
 
 const testSPKI = async (pem: string, alg: string) => {
-  const key = await importKey.importSPKI(pem, alg, { extractable: true });
-  await exportKey.exportSPKI(key);
+  const key = await importSPKI(pem, alg, { extractable: true });
+  await exportSPKI(key);
 };
 const testPKCS8 = async (pem: string, alg: string) => {
-  const key = await importKey.importPKCS8(pem, alg, { extractable: true });
-  await exportKey.exportPKCS8(key);
+  const key = await importPKCS8(pem, alg, { extractable: true });
+  await exportPKCS8(key);
 };
 const testX509 = async (x509: string, alg: string) => {
-  await importKey.importX509(x509, alg, { extractable: true });
+  await importX509(x509, alg, { extractable: true });
 };
 
 for (const alg of [

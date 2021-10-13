@@ -1,6 +1,6 @@
 # Function: generateKeyPair
 
-▸ **generateKeyPair**(`alg`, `options?`): `Promise`<[`GenerateKeyPairResult`](../interfaces/util_generate_key_pair.GenerateKeyPairResult.md)\>
+▸ **generateKeyPair**(`alg`, `options?`): `Promise`<[`GenerateKeyPairResult`](../interfaces/key_generate_key_pair.GenerateKeyPairResult.md)\>
 
 Generates a private and a public key for a given JWA algorithm identifier.
 This can only generate asymmetric key pairs. For symmetric secrets use the
@@ -36,8 +36,8 @@ import { generateKeyPair } from 'https://deno.land/x/jose@v3.20.3/index.ts'
 | Name | Type | Description |
 | :------ | :------ | :------ |
 | `alg` | `string` | JWA Algorithm Identifier to be used with the generated key pair. |
-| `options?` | [`GenerateKeyPairOptions`](../interfaces/util_generate_key_pair.GenerateKeyPairOptions.md) | Additional options passed down to the key pair generation. |
+| `options?` | [`GenerateKeyPairOptions`](../interfaces/key_generate_key_pair.GenerateKeyPairOptions.md) | Additional options passed down to the key pair generation. |
 
 #### Returns
 
-`Promise`<[`GenerateKeyPairResult`](../interfaces/util_generate_key_pair.GenerateKeyPairResult.md)\>
+`Promise`<[`GenerateKeyPairResult`](../interfaces/key_generate_key_pair.GenerateKeyPairResult.md)\>

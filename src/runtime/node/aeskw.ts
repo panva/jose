@@ -1,3 +1,4 @@
+import { Buffer } from 'buffer'
 import { KeyObject, createDecipheriv, createCipheriv } from 'crypto'
 import { JOSENotSupported } from '../../util/errors.js'
 import type { AesKwUnwrapFunction, AesKwWrapFunction } from '../interfaces.d'

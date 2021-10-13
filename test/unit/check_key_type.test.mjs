@@ -24,8 +24,8 @@ if ('WEBCRYPTO' in process.env) {
 
 Promise.all([
   import(`${root}/lib/check_key_type`),
-  import(`${keyRoot}/util/generate_key_pair`),
-  import(`${keyRoot}/util/generate_secret`),
+  import(`${keyRoot}/key/generate_key_pair`),
+  import(`${keyRoot}/key/generate_secret`),
 ]).then(
   ([{ default: checkKeyType }, { generateKeyPair }, { generateSecret }]) => {
     test('lib/check_key_type.ts', async (t) => {

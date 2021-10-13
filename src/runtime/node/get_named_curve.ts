@@ -1,3 +1,4 @@
+import { Buffer } from 'buffer'
 import type { KeyObject } from 'crypto'
 import { createPublicKey } from 'crypto'
 import { JOSENotSupported } from '../../util/errors.js'

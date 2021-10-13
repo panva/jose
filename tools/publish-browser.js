@@ -7,15 +7,9 @@ delete pkg.imports;
 
 pkg.description = pkg.description.replace("Universal ", "(Browser Runtime) ");
 
-for (const exportPath of Object.keys(pkg.exports)) {
-  if (
-    typeof pkg.exports[exportPath] === "object" &&
-    "browser" in pkg.exports[exportPath]
-  ) {
-    pkg.exports[exportPath] = pkg.exports[exportPath].browser;
-  }
-}
-delete pkg.typesVersions["*"]["webcrypto/*"];
+delete pkg.main;
+delete pkg.exports["."].import;
+delete pkg.exports["."].require;
 
 const deletedKeywords = new Set([
   "deno",

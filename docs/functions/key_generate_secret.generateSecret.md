@@ -33,7 +33,7 @@ import { generateSecret } from 'https://deno.land/x/jose@v3.20.3/index.ts'
 | Name | Type | Description |
 | :------ | :------ | :------ |
 | `alg` | `string` | JWA Algorithm Identifier to be used with the generated secret. |
-| `options?` | [`GenerateSecretOptions`](../interfaces/util_generate_secret.GenerateSecretOptions.md) | Additional options passed down to the secret generation. |
+| `options?` | [`GenerateSecretOptions`](../interfaces/key_generate_secret.GenerateSecretOptions.md) | Additional options passed down to the secret generation. |
 
 #### Returns
 

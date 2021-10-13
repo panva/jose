@@ -31,8 +31,8 @@ If you or your business use `jose`, please consider becoming a [sponsor][support
 - JSON Web Key Set (JWKS)
   - [Verify using a remote JWKSet](functions/jwks_remote.createRemoteJWKSet.md#readme)
 - Key Pair or Secret Generation
-  - [Asymmetric Key Pair Generation](functions/util_generate_key_pair.generateKeyPair.md#readme)
-  - [Symmetric Secret Generation](functions/util_generate_secret.generateSecret.md#readme)
+  - [Asymmetric Key Pair Generation](functions/key_generate_key_pair.generateKeyPair.md#readme)
+  - [Symmetric Secret Generation](functions/key_generate_secret.generateSecret.md#readme)
 - Key Export
   - [JWK Export](functions/key_export.exportJWK.md#readme)
   - [Private Key Export](functions/key_export.exportPKCS8.md#readme)

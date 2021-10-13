@@ -4,8 +4,8 @@
 
 ### Properties
 
-- [privateKey](util_generate_key_pair.GenerateKeyPairResult.md#privatekey)
-- [publicKey](util_generate_key_pair.GenerateKeyPairResult.md#publickey)
+- [privateKey](key_generate_key_pair.GenerateKeyPairResult.md#privatekey)
+- [publicKey](key_generate_key_pair.GenerateKeyPairResult.md#publickey)
 
 ## Properties
 

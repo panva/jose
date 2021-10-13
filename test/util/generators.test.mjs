@@ -13,8 +13,8 @@ if ('WEBCRYPTO' in process.env) {
 }
 
 Promise.all([
-  import(`${keyRoot}/util/generate_key_pair`),
-  import(`${keyRoot}/util/generate_secret`),
+  import(`${keyRoot}/key/generate_key_pair`),
+  import(`${keyRoot}/key/generate_secret`),
 ]).then(
   ([{ generateKeyPair }, { generateSecret }]) => {
     let checkModulusLength;

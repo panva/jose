@@ -2,8 +2,8 @@ import { isCloudflareWorkers, isNodeJs } from './global.js'
 import crypto from './webcrypto.js'
 import { JOSENotSupported } from '../../util/errors.js'
 import random from './random.js'
-import type { GenerateKeyPairOptions } from '../../util/generate_key_pair.js'
-import type { GenerateSecretOptions } from '../../util/generate_secret.js'
+import type { GenerateKeyPairOptions } from '../../key/generate_key_pair.js'
+import type { GenerateSecretOptions } from '../../key/generate_secret.js'
 
 export async function generateSecret(alg: string, options?: GenerateSecretOptions) {
   let length: number

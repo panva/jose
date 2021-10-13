@@ -4,9 +4,9 @@
 
 ### Properties
 
-- [crv](util_generate_key_pair.GenerateKeyPairOptions.md#crv)
-- [extractable](util_generate_key_pair.GenerateKeyPairOptions.md#extractable)
-- [modulusLength](util_generate_key_pair.GenerateKeyPairOptions.md#moduluslength)
+- [crv](key_generate_key_pair.GenerateKeyPairOptions.md#crv)
+- [extractable](key_generate_key_pair.GenerateKeyPairOptions.md#extractable)
+- [modulusLength](key_generate_key_pair.GenerateKeyPairOptions.md#moduluslength)
 
 ## Properties
 

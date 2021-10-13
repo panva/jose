@@ -1,6 +1,5 @@
 const { x } = require("tar");
 
-require("./explode-exports");
 const { execSync } = require("child_process");
 const { readFileSync, writeFileSync } = require("fs");
 const { version } = require("../package.json");

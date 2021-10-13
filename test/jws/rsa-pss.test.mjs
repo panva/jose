@@ -12,7 +12,7 @@ const [major, minor] = process.version
 const rsaPssParams = major >= 17 || (major === 16 && minor >= 9);
 const electron = 'electron' in process.versions;
 
-Promise.all([import('jose/jws/flattened/sign'), import('jose/jws/flattened/verify')]).then(
+Promise.all([import('#dist/jws/flattened/sign'), import('#dist/jws/flattened/verify')]).then(
   ([{ FlattenedSign }, { flattenedVerify }]) => {
     if (rsaPssParams) {
       for (const length of [256, 384, 512]) {

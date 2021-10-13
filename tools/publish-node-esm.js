@@ -10,14 +10,9 @@ pkg.description = pkg.description.replace(
   "(Node.JS ESM Runtime) "
 );
 
-for (const exportPath of Object.keys(pkg.exports)) {
-  if (
-    typeof pkg.exports[exportPath] === "object" &&
-    "import" in pkg.exports[exportPath]
-  ) {
-    pkg.exports[exportPath] = pkg.exports[exportPath].import;
-  }
-}
+delete pkg.browser;
+delete pkg.exports["."].browser;
+delete pkg.exports["."].require;
 
 const deletedKeywords = new Set([
   "browser",

@@ -1,7 +1,6 @@
 import * as Bowser from 'bowser';
 
-import * as importKey from '../dist/browser/key/import.js';
-import * as exportKey from '../dist/browser/key/export.js';
+import * as jose from '../dist/browser/index.js';
 
 const browser = Bowser.parse(window.navigator.userAgent);
 
@@ -84,17 +83,17 @@ async function failing(test, assert) {
 }
 
 const testSPKI = async (pem, alg, assert) => {
-  const key = await importKey.importSPKI(pem, alg, { extractable: true });
-  await exportKey.exportSPKI(key);
+  const key = await jose.importSPKI(pem, alg, { extractable: true });
+  await jose.exportSPKI(key);
   assert.ok(1);
 };
 const testPKCS8 = async (pem, alg, assert) => {
-  const key = await importKey.importPKCS8(pem, alg, { extractable: true });
-  await exportKey.exportPKCS8(key);
+  const key = await jose.importPKCS8(pem, alg, { extractable: true });
+  await jose.exportPKCS8(key);
   assert.ok(1);
 };
 const testX509 = async (x509, alg, assert) => {
-  await importKey.importX509(x509, alg, { extractable: true });
+  await jose.importX509(x509, alg, { extractable: true });
   assert.ok(1);
 };
 

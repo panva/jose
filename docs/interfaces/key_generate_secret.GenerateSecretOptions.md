@@ -4,7 +4,7 @@
 
 ### Properties
 
-- [extractable](util_generate_secret.GenerateSecretOptions.md#extractable)
+- [extractable](key_generate_secret.GenerateSecretOptions.md#extractable)
 
 ## Properties
 

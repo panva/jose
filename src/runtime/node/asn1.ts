@@ -1,4 +1,5 @@
 import { createPrivateKey, createPublicKey, KeyObject } from 'crypto'
+import { Buffer } from 'buffer'
 import { isCryptoKey, getKeyObject } from './webcrypto.js'
 import type { PEMExportFunction, PEMImportFunction } from '../interfaces.d'
 import isKeyObject from './is_key_object.js'

@@ -64,145 +64,16 @@
     }
   },
   "exports": {
-    "./package.json": "./package.json",
-    "./jwe/compact/decrypt": {
-      "browser": "./dist/browser/jwe/compact/decrypt.js",
-      "import": "./dist/node/esm/jwe/compact/decrypt.js",
-      "require": "./dist/node/cjs/jwe/compact/decrypt.js"
+    ".": {
+      "browser": "./dist/browser/index.js",
+      "import": "./dist/node/esm/index.js",
+      "require": "./dist/node/cjs/index.js"
     },
-    "./jwe/compact/encrypt": {
-      "browser": "./dist/browser/jwe/compact/encrypt.js",
-      "import": "./dist/node/esm/jwe/compact/encrypt.js",
-      "require": "./dist/node/cjs/jwe/compact/encrypt.js"
-    },
-    "./jwe/flattened/decrypt": {
-      "browser": "./dist/browser/jwe/flattened/decrypt.js",
-      "import": "./dist/node/esm/jwe/flattened/decrypt.js",
-      "require": "./dist/node/cjs/jwe/flattened/decrypt.js"
-    },
-    "./jwe/flattened/encrypt": {
-      "browser": "./dist/browser/jwe/flattened/encrypt.js",
-      "import": "./dist/node/esm/jwe/flattened/encrypt.js",
-      "require": "./dist/node/cjs/jwe/flattened/encrypt.js"
-    },
-    "./jwe/general/decrypt": {
-      "browser": "./dist/browser/jwe/general/decrypt.js",
-      "import": "./dist/node/esm/jwe/general/decrypt.js",
-      "require": "./dist/node/cjs/jwe/general/decrypt.js"
-    },
-    "./jwk/embedded": {
-      "browser": "./dist/browser/jwk/embedded.js",
-      "import": "./dist/node/esm/jwk/embedded.js",
-      "require": "./dist/node/cjs/jwk/embedded.js"
-    },
-    "./jwk/thumbprint": {
-      "browser": "./dist/browser/jwk/thumbprint.js",
-      "import": "./dist/node/esm/jwk/thumbprint.js",
-      "require": "./dist/node/cjs/jwk/thumbprint.js"
-    },
-    "./jwks/remote": {
-      "browser": "./dist/browser/jwks/remote.js",
-      "import": "./dist/node/esm/jwks/remote.js",
-      "require": "./dist/node/cjs/jwks/remote.js"
-    },
-    "./jws/compact/sign": {
-      "browser": "./dist/browser/jws/compact/sign.js",
-      "import": "./dist/node/esm/jws/compact/sign.js",
-      "require": "./dist/node/cjs/jws/compact/sign.js"
-    },
-    "./jws/compact/verify": {
-      "browser": "./dist/browser/jws/compact/verify.js",
-      "import": "./dist/node/esm/jws/compact/verify.js",
-      "require": "./dist/node/cjs/jws/compact/verify.js"
-    },
-    "./jws/flattened/sign": {
-      "browser": "./dist/browser/jws/flattened/sign.js",
-      "import": "./dist/node/esm/jws/flattened/sign.js",
-      "require": "./dist/node/cjs/jws/flattened/sign.js"
-    },
-    "./jws/flattened/verify": {
-      "browser": "./dist/browser/jws/flattened/verify.js",
-      "import": "./dist/node/esm/jws/flattened/verify.js",
-      "require": "./dist/node/cjs/jws/flattened/verify.js"
-    },
-    "./jws/general/sign": {
-      "browser": "./dist/browser/jws/general/sign.js",
-      "import": "./dist/node/esm/jws/general/sign.js",
-      "require": "./dist/node/cjs/jws/general/sign.js"
-    },
-    "./jws/general/verify": {
-      "browser": "./dist/browser/jws/general/verify.js",
-      "import": "./dist/node/esm/jws/general/verify.js",
-      "require": "./dist/node/cjs/jws/general/verify.js"
-    },
-    "./jwt/decrypt": {
-      "browser": "./dist/browser/jwt/decrypt.js",
-      "import": "./dist/node/esm/jwt/decrypt.js",
-      "require": "./dist/node/cjs/jwt/decrypt.js"
-    },
-    "./jwt/encrypt": {
-      "browser": "./dist/browser/jwt/encrypt.js",
-      "import": "./dist/node/esm/jwt/encrypt.js",
-      "require": "./dist/node/cjs/jwt/encrypt.js"
-    },
-    "./jwt/sign": {
-      "browser": "./dist/browser/jwt/sign.js",
-      "import": "./dist/node/esm/jwt/sign.js",
-      "require": "./dist/node/cjs/jwt/sign.js"
-    },
-    "./jwt/unsecured": {
-      "browser": "./dist/browser/jwt/unsecured.js",
-      "import": "./dist/node/esm/jwt/unsecured.js",
-      "require": "./dist/node/cjs/jwt/unsecured.js"
-    },
-    "./jwt/verify": {
-      "browser": "./dist/browser/jwt/verify.js",
-      "import": "./dist/node/esm/jwt/verify.js",
-      "require": "./dist/node/cjs/jwt/verify.js"
-    },
-    "./key/export": {
-      "browser": "./dist/browser/key/export.js",
-      "import": "./dist/node/esm/key/export.js",
-      "require": "./dist/node/cjs/key/export.js"
-    },
-    "./key/import": {
-      "browser": "./dist/browser/key/import.js",
-      "import": "./dist/node/esm/key/import.js",
-      "require": "./dist/node/cjs/key/import.js"
-    },
-    "./util/base64url": {
-      "browser": "./dist/browser/util/base64url.js",
-      "import": "./dist/node/esm/util/base64url.js",
-      "require": "./dist/node/cjs/util/base64url.js"
-    },
-    "./util/decode_protected_header": {
-      "browser": "./dist/browser/util/decode_protected_header.js",
-      "import": "./dist/node/esm/util/decode_protected_header.js",
-      "require": "./dist/node/cjs/util/decode_protected_header.js"
-    },
-    "./util/errors": {
-      "browser": "./dist/browser/util/errors.js",
-      "import": "./dist/node/esm/util/errors.js",
-      "require": "./dist/node/cjs/util/errors.js"
-    },
-    "./util/generate_key_pair": {
-      "browser": "./dist/browser/util/generate_key_pair.js",
-      "import": "./dist/node/esm/util/generate_key_pair.js",
-      "require": "./dist/node/cjs/util/generate_key_pair.js"
-    },
-    "./util/generate_secret": {
-      "browser": "./dist/browser/util/generate_secret.js",
-      "import": "./dist/node/esm/util/generate_secret.js",
-      "require": "./dist/node/cjs/util/generate_secret.js"
-    }
+    "./package.json": "./package.json"
   },
-  "typesVersions": {
-    "*": {
-      "*": [
-        "./dist/types/*"
-      ]
-    }
-  },
+  "main": "./dist/node/cjs/index.js",
+  "browser": "./dist/browser/index.js",
+  "types": "./dist/types/index.d.ts",
   "files": [
     "dist/**/package.json",
     "dist/**/*.js",

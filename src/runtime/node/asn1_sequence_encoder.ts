@@ -1,3 +1,4 @@
+import { Buffer } from 'buffer'
 import { JOSENotSupported } from '../../util/errors.js'
 
 const tagInteger = 0x02

@@ -4,8 +4,8 @@ import { promisify } from 'util'
 import random from './random.js'
 import { setModulusLength } from './check_modulus_length.js'
 import { JOSENotSupported } from '../../util/errors.js'
-import type { GenerateKeyPairOptions } from '../../util/generate_key_pair.js'
-import type { GenerateSecretOptions } from '../../util/generate_secret.js'
+import type { GenerateKeyPairOptions } from '../../key/generate_key_pair.js'
+import type { GenerateSecretOptions } from '../../key/generate_secret.js'
 
 const generate = promisify(generateKeyPairCb)
 

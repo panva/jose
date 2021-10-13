@@ -1,4 +1,4 @@
-import { createRemoteJWKSet } from '../dist/browser/jwks/remote';
+import { createRemoteJWKSet } from '../dist/browser/index.js';
 
 const jwksUri = 'https://www.googleapis.com/oauth2/v3/certs';
 

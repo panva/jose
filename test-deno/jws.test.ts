@@ -4,11 +4,13 @@ import {
   unreachable,
 } from 'https://deno.land/std@0.109.0/testing/asserts.ts';
 
-import { generateKeyPair } from '../dist/deno/util/generate_key_pair.ts';
-import { generateSecret } from '../dist/deno/util/generate_secret.ts';
-import { FlattenedSign } from '../dist/deno/jws/flattened/sign.ts';
-import { flattenedVerify } from '../dist/deno/jws/flattened/verify.ts';
-import { decodeProtectedHeader } from '../dist/deno/util/decode_protected_header.ts';
+import {
+  generateKeyPair,
+  generateSecret,
+  FlattenedSign,
+  flattenedVerify,
+  decodeProtectedHeader,
+} from '../dist/deno/index.ts';
 
 async function test(
   generate: () => ReturnType<typeof generateKeyPair> | ReturnType<typeof generateSecret>,

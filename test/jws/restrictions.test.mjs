@@ -19,7 +19,7 @@ Promise.all([
   import(`${root}/jwe/flattened/encrypt`),
   import(`${root}/jwe/flattened/decrypt`),
   import(`${root}/util/base64url`),
-  import(`${keyRoot}/util/generate_key_pair`),
+  import(`${keyRoot}/key/generate_key_pair`),
   import(`${keyRoot}/key/import`),
 ]).then(
   ([

@@ -1,9 +1,11 @@
 import * as Bowser from 'bowser';
 
-import { generateSecret } from '../dist/browser/util/generate_secret';
-import { FlattenedEncrypt } from '../dist/browser/jwe/flattened/encrypt';
-import { flattenedDecrypt } from '../dist/browser/jwe/flattened/decrypt';
-import { decodeProtectedHeader } from '../dist/browser/util/decode_protected_header';
+import {
+  generateSecret,
+  FlattenedEncrypt,
+  flattenedDecrypt,
+  decodeProtectedHeader,
+} from '../dist/browser/index.js';
 
 const browser = Bowser.parse(window.navigator.userAgent);
 

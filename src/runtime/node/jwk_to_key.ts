@@ -1,3 +1,4 @@
+import { Buffer } from 'buffer'
 import { createPrivateKey, createPublicKey, createSecretKey } from 'crypto'
 import type { KeyObject, PublicKeyInput, PrivateKeyInput } from 'crypto'
 

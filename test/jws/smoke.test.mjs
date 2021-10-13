@@ -18,8 +18,8 @@ Promise.all([
   import(`${root}/jws/flattened/verify`),
   import(`${root}/util/base64url`),
   import(`${keyRoot}/key/import`),
-  import(`${keyRoot}/util/generate_key_pair`),
-  import(`${keyRoot}/util/generate_secret`),
+  import(`${keyRoot}/key/generate_key_pair`),
+  import(`${keyRoot}/key/generate_secret`),
 ]).then(
   ([
     { FlattenedSign },
