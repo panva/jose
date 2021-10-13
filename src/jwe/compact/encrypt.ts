@@ -1,4 +1,4 @@
-import FlattenedEncrypt from '../flattened/encrypt.js'
+import { FlattenedEncrypt } from '../flattened/encrypt.js'
 import type {
   KeyLike,
   JWEKeyManagementHeaderParameters,
@@ -35,7 +35,7 @@ import type {
  * import { CompactEncrypt } from 'https://deno.land/x/jose@VERSION/index.ts'
  * ```
  */
-class CompactEncrypt {
+export class CompactEncrypt {
   private _flattened: FlattenedEncrypt
 
   /**
@@ -106,6 +106,4 @@ class CompactEncrypt {
   }
 }
 
-export { CompactEncrypt }
-export default CompactEncrypt
 export type { KeyLike, JWEKeyManagementHeaderParameters, JWEHeaderParameters }

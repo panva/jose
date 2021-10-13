@@ -22,12 +22,12 @@ Promise.all([
   import(`${keyRoot}/util/generate_secret`),
 ]).then(
   ([
-    { default: FlattenedEncrypt },
-    { default: decryptFlattened },
+    { FlattenedEncrypt },
+    { flattenedDecrypt },
     { encode: base64url },
     { importJWK },
-    { default: generateKeyPair },
-    { default: generateSecret },
+    { generateKeyPair },
+    { generateSecret },
   ]) => {
     function pubjwk(jwk) {
       const { d, p, q, dp, dq, qi, ...publicJwk } = jwk;
@@ -268,7 +268,7 @@ Promise.all([
             )
             .setAdditionalAuthenticatedData(crypto.randomFillSync(new Uint8Array(128 >> 3)))
             .encrypt(pub);
-          await decryptFlattened(jwe, priv);
+          await flattenedDecrypt(jwe, priv);
         }),
         ...fixtures.algs.map(async (alg) => {
           let priv;
@@ -296,7 +296,7 @@ Promise.all([
             )
             .setAdditionalAuthenticatedData(crypto.randomFillSync(new Uint8Array(128 >> 3)))
             .encrypt(pub);
-          await decryptFlattened(jwe, priv);
+          await flattenedDecrypt(jwe, priv);
         }),
       ]);
       t.pass();

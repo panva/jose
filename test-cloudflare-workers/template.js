@@ -1,25 +1,25 @@
-import jweCompactEncrypt from '../dist/browser/jwe/compact/encrypt.js';
-import jweFlattenedEncrypt from '../dist/browser/jwe/flattened/encrypt.js';
-import jwsCompactSign from '../dist/browser/jws/compact/sign.js';
-import jwsFlattenedSign from '../dist/browser/jws/flattened/sign.js';
-import jwsGeneralSign from '../dist/browser/jws/general/sign.js';
-import jwtEncrypt from '../dist/browser/jwt/encrypt.js';
-import jwtSign from '../dist/browser/jwt/sign.js';
-import jwtUnsecured from '../dist/browser/jwt/unsecured.js';
-import jweCompactDecrypt from '../dist/browser/jwe/compact/decrypt.js';
-import jweFlattenedDecrypt from '../dist/browser/jwe/flattened/decrypt.js';
-import jweGeneralDecrypt from '../dist/browser/jwe/general/decrypt.js';
-import jwkEmbedded from '../dist/browser/jwk/embedded.js';
-import jwkThumbprint from '../dist/browser/jwk/thumbprint.js';
-import jwksRemote from '../dist/browser/jwks/remote.js';
-import jwsCompactVerify from '../dist/browser/jws/compact/verify.js';
-import jwsFlattenedVerify from '../dist/browser/jws/flattened/verify.js';
-import jwsGeneralVerify from '../dist/browser/jws/general/verify.js';
-import jwtDecrypt from '../dist/browser/jwt/decrypt.js';
-import jwtVerify from '../dist/browser/jwt/verify.js';
-import utilDecodeProtectedHeader from '../dist/browser/util/decode_protected_header.js';
-import utilGenerateKeyPair from '../dist/browser/util/generate_key_pair.js';
-import utilGenerateSecret from '../dist/browser/util/generate_secret.js';
+import { CompactEncrypt } from '../dist/browser/jwe/compact/encrypt.js';
+import { FlattenedEncrypt } from '../dist/browser/jwe/flattened/encrypt.js';
+import { CompactSign } from '../dist/browser/jws/compact/sign.js';
+import { FlattenedSign } from '../dist/browser/jws/flattened/sign.js';
+import { GeneralSign } from '../dist/browser/jws/general/sign.js';
+import { EncryptJWT } from '../dist/browser/jwt/encrypt.js';
+import { SignJWT } from '../dist/browser/jwt/sign.js';
+import { UnsecuredJWT } from '../dist/browser/jwt/unsecured.js';
+import { compactDecrypt } from '../dist/browser/jwe/compact/decrypt.js';
+import { flattenedDecrypt } from '../dist/browser/jwe/flattened/decrypt.js';
+import { generalDecrypt } from '../dist/browser/jwe/general/decrypt.js';
+import { EmbeddedJWK } from '../dist/browser/jwk/embedded.js';
+import { calculateJwkThumbprint } from '../dist/browser/jwk/thumbprint.js';
+import { createRemoteJWKSet } from '../dist/browser/jwks/remote.js';
+import { compactVerify } from '../dist/browser/jws/compact/verify.js';
+import { flattenedVerify } from '../dist/browser/jws/flattened/verify.js';
+import { generalVerify } from '../dist/browser/jws/general/verify.js';
+import { jwtDecrypt } from '../dist/browser/jwt/decrypt.js';
+import { jwtVerify } from '../dist/browser/jwt/verify.js';
+import { decodeProtectedHeader } from '../dist/browser/util/decode_protected_header.js';
+import { generateKeyPair } from '../dist/browser/util/generate_key_pair.js';
+import { generateSecret } from '../dist/browser/util/generate_secret.js';
 import * as keyImport from '../dist/browser/key/import.js';
 import * as keyExport from '../dist/browser/key/export.js';
 
@@ -111,41 +111,41 @@ addEventListener('fetch', (event) => {
 });
 
 async function jweAsymmetricTest({ publicKey, privateKey }, alg) {
-  const jwe = await new jweFlattenedEncrypt(crypto.getRandomValues(new Uint8Array(32)))
+  const jwe = await new FlattenedEncrypt(crypto.getRandomValues(new Uint8Array(32)))
     .setProtectedHeader({ alg, enc: 'A256GCM' })
     .setAdditionalAuthenticatedData(crypto.getRandomValues(new Uint8Array(32)))
     .encrypt(publicKey);
 
-  utilDecodeProtectedHeader(jwe);
-  await jweFlattenedDecrypt(jwe, privateKey);
+  decodeProtectedHeader(jwe);
+  await flattenedDecrypt(jwe, privateKey);
 }
 
 async function jwsAsymmetricTest({ publicKey, privateKey }, alg) {
-  const jws = await new jwsFlattenedSign(crypto.getRandomValues(new Uint8Array(32)))
+  const jws = await new FlattenedSign(crypto.getRandomValues(new Uint8Array(32)))
     .setProtectedHeader({ alg })
     .sign(privateKey);
 
-  utilDecodeProtectedHeader(jws);
-  await jwsFlattenedVerify(jws, publicKey);
+  decodeProtectedHeader(jws);
+  await flattenedVerify(jws, publicKey);
 }
 
 async function jwsSymmetricTest(secretKey, alg) {
-  const jws = await new jwsFlattenedSign(crypto.getRandomValues(new Uint8Array(32)))
+  const jws = await new FlattenedSign(crypto.getRandomValues(new Uint8Array(32)))
     .setProtectedHeader({ alg })
     .sign(secretKey);
 
-  utilDecodeProtectedHeader(jws);
-  await jwsFlattenedVerify(jws, secretKey);
+  decodeProtectedHeader(jws);
+  await flattenedVerify(jws, secretKey);
 }
 
 async function jweSymmetricTest(secretKey, { alg, enc }) {
-  const jwe = await new jweFlattenedEncrypt(crypto.getRandomValues(new Uint8Array(32)))
+  const jwe = await new FlattenedEncrypt(crypto.getRandomValues(new Uint8Array(32)))
     .setProtectedHeader({ alg, enc })
     .setAdditionalAuthenticatedData(crypto.getRandomValues(new Uint8Array(32)))
     .encrypt(secretKey);
 
-  utilDecodeProtectedHeader(jwe);
-  await jweFlattenedDecrypt(jwe, secretKey);
+  decodeProtectedHeader(jwe);
+  await flattenedDecrypt(jwe, secretKey);
 }
 
 async function testSPKI(pem, alg) {

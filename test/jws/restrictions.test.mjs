@@ -23,12 +23,12 @@ Promise.all([
   import(`${keyRoot}/key/import`),
 ]).then(
   ([
-    { default: FlattenedSign },
-    { default: flattenedVerify },
-    { default: FlattenedEncrypt },
-    { default: flattenedDecrypt },
+    { FlattenedSign },
+    { flattenedVerify },
+    { FlattenedEncrypt },
+    { flattenedDecrypt },
     base64url,
-    { default: generateKeyPair },
+    { generateKeyPair },
     { importJWK },
   ]) => {
     function pubjwk(jwk) {

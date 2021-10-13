@@ -9,7 +9,6 @@
 - [JWTPayload](jwt_verify.md#jwtpayload)
 - [JWTVerifyResult](jwt_verify.md#jwtverifyresult)
 - [KeyLike](jwt_verify.md#keylike)
-- [default](jwt_verify.md#default)
 
 ### Interfaces
 
@@ -49,9 +48,3 @@ ___
 ### KeyLike
 
 Re-exports: [KeyLike](../types/types.KeyLike.md)
-
-___
-
-### default
-
-Renames and exports: [jwtVerify](../functions/jwt_verify.jwtVerify.md)

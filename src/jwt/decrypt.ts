@@ -1,4 +1,4 @@
-import decrypt from '../jwe/compact/decrypt.js'
+import { compactDecrypt } from '../jwe/compact/decrypt.js'
 import type {
   KeyLike,
   DecryptOptions,
@@ -59,7 +59,7 @@ export interface JWTDecryptGetKey extends GetKeyFunction<JWEHeaderParameters, Fl
  * import { jwtDecrypt } from 'https://deno.land/x/jose@VERSION/index.ts'
  * ```
  */
-async function jwtDecrypt(
+export async function jwtDecrypt(
   jwt: string | Uint8Array,
   key: KeyLike | Uint8Array,
   options?: JWTDecryptOptions,
@@ -69,17 +69,17 @@ async function jwtDecrypt(
  * @param getKey Function resolving Private Key or Secret to decrypt and verify the JWT with.
  * @param options JWT Decryption and JWT Claims Set validation options.
  */
-async function jwtDecrypt(
+export async function jwtDecrypt(
   jwt: string | Uint8Array,
   getKey: JWTDecryptGetKey,
   options?: JWTDecryptOptions,
 ): Promise<JWTDecryptResult & ResolvedKey>
-async function jwtDecrypt(
+export async function jwtDecrypt(
   jwt: string | Uint8Array,
   key: KeyLike | Uint8Array | JWTDecryptGetKey,
   options?: JWTDecryptOptions,
 ) {
-  const decrypted = await decrypt(jwt, <Parameters<typeof decrypt>[1]>key, options)
+  const decrypted = await compactDecrypt(jwt, <Parameters<typeof compactDecrypt>[1]>key, options)
   const payload = jwtPayload(decrypted.protectedHeader, decrypted.plaintext, options)
 
   const { protectedHeader } = decrypted
@@ -120,6 +120,4 @@ async function jwtDecrypt(
   return result
 }
 
-export { jwtDecrypt }
-export default jwtDecrypt
 export type { KeyLike, DecryptOptions, JWTPayload, JWTDecryptOptions, JWTDecryptResult }

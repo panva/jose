@@ -31,7 +31,7 @@ export type ProtectedHeaderParameters = JWSHeaderParameters & JWEHeaderParameter
  *
  * @param token JWE/JWS/JWT token in any JOSE serialization.
  */
-function decodeProtectedHeader(token: string | object) {
+export function decodeProtectedHeader(token: string | object) {
   let protectedB64u!: string
 
   if (typeof token === 'string') {
@@ -60,6 +60,3 @@ function decodeProtectedHeader(token: string | object) {
     throw new TypeError('Invalid Token or Protected Header formatting')
   }
 }
-
-export { decodeProtectedHeader }
-export default decodeProtectedHeader

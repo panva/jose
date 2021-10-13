@@ -1,4 +1,4 @@
-import FlattenedSign from '../flattened/sign.js'
+import { FlattenedSign } from '../flattened/sign.js'
 import { JWSInvalid } from '../../util/errors.js'
 
 import type { KeyLike, GeneralJWS, JWSHeaderParameters, SignOptions } from '../../types.d'
@@ -97,7 +97,7 @@ class IndividualSignature implements Signature {
  * import { GeneralSign } from 'https://deno.land/x/jose@VERSION/index.ts'
  * ```
  */
-class GeneralSign {
+export class GeneralSign {
   private _payload: Uint8Array
 
   private _signatures: IndividualSignature[] = []
@@ -158,6 +158,4 @@ class GeneralSign {
   }
 }
 
-export { GeneralSign }
-export default GeneralSign
 export type { KeyLike, GeneralJWS, JWSHeaderParameters }

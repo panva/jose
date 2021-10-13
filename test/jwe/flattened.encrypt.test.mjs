@@ -2,7 +2,7 @@ import test from 'ava';
 
 const root = !('WEBCRYPTO' in process.env) ? '#dist' : '#dist/webcrypto';
 import(`${root}/jwe/flattened/encrypt`).then(
-  ({ default: FlattenedEncrypt }) => {
+  ({ FlattenedEncrypt }) => {
     test.before(async (t) => {
       const encode = TextEncoder.prototype.encode.bind(new TextEncoder());
       t.context.plaintext = encode('It’s a dangerous business, Frodo, going out your door.');

@@ -7,7 +7,6 @@
 - [JWEHeaderParameters](jwt_encrypt.md#jweheaderparameters)
 - [JWTPayload](jwt_encrypt.md#jwtpayload)
 - [KeyLike](jwt_encrypt.md#keylike)
-- [default](jwt_encrypt.md#default)
 
 ### Classes
 
@@ -30,9 +29,3 @@ ___
 ### KeyLike
 
 Re-exports: [KeyLike](../types/types.KeyLike.md)
-
-___
-
-### default
-
-Renames and exports: [EncryptJWT](../classes/jwt_encrypt.EncryptJWT.md)

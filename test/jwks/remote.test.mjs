@@ -22,12 +22,7 @@ Promise.all([
   import(`${keyRoot}/key/import`),
   import(`${keyRoot}/jwks/remote`),
 ]).then(
-  ([
-    { default: jwtVerify },
-    { default: SignJWT },
-    { importJWK },
-    { default: createRemoteJWKSet },
-  ]) => {
+  ([{ jwtVerify }, { SignJWT }, { importJWK }, { createRemoteJWKSet }]) => {
     const now = 1604416038;
 
     test.before(async (t) => {

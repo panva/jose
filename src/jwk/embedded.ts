@@ -40,7 +40,7 @@ import { JWSInvalid } from '../util/errors.js'
  * import { EmbeddedJWK } from 'https://deno.land/x/jose@VERSION/index.ts'
  * ```
  */
-async function EmbeddedJWK(protectedHeader: JWSHeaderParameters, token: FlattenedJWSInput) {
+export async function EmbeddedJWK(protectedHeader: JWSHeaderParameters, token: FlattenedJWSInput) {
   const joseHeader = {
     ...protectedHeader,
     ...token.header,
@@ -57,6 +57,3 @@ async function EmbeddedJWK(protectedHeader: JWSHeaderParameters, token: Flattene
 
   return key
 }
-
-export { EmbeddedJWK }
-export default EmbeddedJWK

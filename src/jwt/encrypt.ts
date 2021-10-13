@@ -1,4 +1,4 @@
-import CompactEncrypt from '../jwe/compact/encrypt.js'
+import { CompactEncrypt } from '../jwe/compact/encrypt.js'
 import type {
   EncryptOptions,
   JWEHeaderParameters,
@@ -40,7 +40,7 @@ import { ProduceJWT } from './produce.js'
  * import { EncryptJWT } from 'https://deno.land/x/jose@VERSION/index.ts'
  * ```
  */
-class EncryptJWT extends ProduceJWT {
+export class EncryptJWT extends ProduceJWT {
   private _cek!: Uint8Array
 
   private _iv!: Uint8Array
@@ -176,6 +176,4 @@ class EncryptJWT extends ProduceJWT {
   }
 }
 
-export { EncryptJWT }
-export default EncryptJWT
 export type { JWEHeaderParameters, JWTPayload, KeyLike }

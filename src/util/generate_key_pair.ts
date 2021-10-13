@@ -69,12 +69,9 @@ export interface GenerateKeyPairOptions {
  * @param alg JWA Algorithm Identifier to be used with the generated key pair.
  * @param options Additional options passed down to the key pair generation.
  */
-async function generateKeyPair(
+export async function generateKeyPair(
   alg: string,
   options?: GenerateKeyPairOptions,
 ): Promise<GenerateKeyPairResult> {
   return generate(alg, options)
 }
-
-export { generateKeyPair }
-export default generateKeyPair

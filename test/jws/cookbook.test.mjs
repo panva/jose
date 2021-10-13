@@ -19,13 +19,7 @@ Promise.all([
   import(`${root}/jws/compact/verify`),
   import(`${keyRoot}/key/import`),
 ]).then(
-  ([
-    { default: FlattenedSign },
-    { default: flattenedVerify },
-    { default: CompactSign },
-    { default: compactVerify },
-    { importJWK },
-  ]) => {
+  ([{ FlattenedSign }, { flattenedVerify }, { CompactSign }, { compactVerify }, { importJWK }]) => {
     const flattened = {
       Sign: FlattenedSign,
       verify: flattenedVerify,

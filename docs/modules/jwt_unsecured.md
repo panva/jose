@@ -6,7 +6,6 @@
 
 - [JWSHeaderParameters](jwt_unsecured.md#jwsheaderparameters)
 - [JWTPayload](jwt_unsecured.md#jwtpayload)
-- [default](jwt_unsecured.md#default)
 
 ### Classes
 
@@ -27,9 +26,3 @@ ___
 ### JWTPayload
 
 Re-exports: [JWTPayload](../interfaces/types.JWTPayload.md)
-
-___
-
-### default
-
-Renames and exports: [UnsecuredJWT](../classes/jwt_unsecured.UnsecuredJWT.md)

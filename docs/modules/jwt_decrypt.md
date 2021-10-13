@@ -8,7 +8,6 @@
 - [JWTDecryptResult](jwt_decrypt.md#jwtdecryptresult)
 - [JWTPayload](jwt_decrypt.md#jwtpayload)
 - [KeyLike](jwt_decrypt.md#keylike)
-- [default](jwt_decrypt.md#default)
 
 ### Interfaces
 
@@ -42,9 +41,3 @@ ___
 ### KeyLike
 
 Re-exports: [KeyLike](../types/types.KeyLike.md)
-
-___
-
-### default
-
-Renames and exports: [jwtDecrypt](../functions/jwt_decrypt.jwtDecrypt.md)

@@ -250,12 +250,9 @@ class RemoteJWKSet {
  * @param url URL to fetch the JSON Web Key Set from.
  * @param options Options for the remote JSON Web Key Set.
  */
-function createRemoteJWKSet(
+export function createRemoteJWKSet(
   url: URL,
   options?: RemoteJWKSetOptions,
 ): GetKeyFunction<JWSHeaderParameters, FlattenedJWSInput> {
   return RemoteJWKSet.prototype.getKey.bind(new RemoteJWKSet(url, options))
 }
-
-export { createRemoteJWKSet }
-export default createRemoteJWKSet

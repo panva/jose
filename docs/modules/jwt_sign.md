@@ -7,7 +7,6 @@
 - [JWSHeaderParameters](jwt_sign.md#jwsheaderparameters)
 - [JWTPayload](jwt_sign.md#jwtpayload)
 - [KeyLike](jwt_sign.md#keylike)
-- [default](jwt_sign.md#default)
 
 ### Classes
 
@@ -30,9 +29,3 @@ ___
 ### KeyLike
 
 Re-exports: [KeyLike](../types/types.KeyLike.md)
-
-___
-
-### default
-
-Renames and exports: [SignJWT](../classes/jwt_sign.SignJWT.md)

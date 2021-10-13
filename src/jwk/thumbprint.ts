@@ -46,7 +46,7 @@ const check = (value: unknown, description: string) => {
  * import { calculateJwkThumbprint } from 'https://deno.land/x/jose@VERSION/index.ts'
  * ```
  */
-async function calculateJwkThumbprint(
+export async function calculateJwkThumbprint(
   jwk: JWK,
   digestAlgorithm: 'sha256' | 'sha384' | 'sha512' = 'sha256',
 ): Promise<string> {
@@ -84,6 +84,4 @@ async function calculateJwkThumbprint(
   return base64url(await digest(digestAlgorithm, data))
 }
 
-export { calculateJwkThumbprint }
-export default calculateJwkThumbprint
 export type { JWK }

@@ -1,4 +1,4 @@
-import verify from '../jws/compact/verify.js'
+import { compactVerify } from '../jws/compact/verify.js'
 import type {
   KeyLike,
   VerifyOptions,
@@ -62,7 +62,7 @@ export interface JWTVerifyGetKey extends GetKeyFunction<JWSHeaderParameters, Fla
  * import { jwtVerify } from 'https://deno.land/x/jose@VERSION/index.ts'
  * ```
  */
-async function jwtVerify(
+export async function jwtVerify(
   jwt: string | Uint8Array,
   key: KeyLike | Uint8Array,
   options?: JWTVerifyOptions,
@@ -72,17 +72,17 @@ async function jwtVerify(
  * @param getKey Function resolving a key to verify the JWT with.
  * @param options JWT Decryption and JWT Claims Set validation options.
  */
-async function jwtVerify(
+export async function jwtVerify(
   jwt: string | Uint8Array,
   getKey: JWTVerifyGetKey,
   options?: JWTVerifyOptions,
 ): Promise<JWTVerifyResult & ResolvedKey>
-async function jwtVerify(
+export async function jwtVerify(
   jwt: string | Uint8Array,
   key: KeyLike | Uint8Array | JWTVerifyGetKey,
   options?: JWTVerifyOptions,
 ) {
-  const verified = await verify(jwt, <Parameters<typeof verify>[1]>key, options)
+  const verified = await compactVerify(jwt, <Parameters<typeof compactVerify>[1]>key, options)
   if (verified.protectedHeader.crit?.includes('b64') && verified.protectedHeader.b64 === false) {
     throw new JWTInvalid('JWTs MUST NOT use unencoded payload')
   }
@@ -94,8 +94,6 @@ async function jwtVerify(
   return result
 }
 
-export { jwtVerify }
-export default jwtVerify
 export type {
   KeyLike,
   JWTPayload,

@@ -3,7 +3,7 @@ import timekeeper from 'timekeeper';
 
 const root = !('WEBCRYPTO' in process.env) ? '#dist' : '#dist/webcrypto';
 import(`${root}/jwt/unsecured`).then(
-  ({ default: UnsecuredJWT }) => {
+  ({ UnsecuredJWT }) => {
     const now = 1604416038;
 
     test.before(async (t) => {

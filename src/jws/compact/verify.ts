@@ -1,4 +1,4 @@
-import verify from '../flattened/verify.js'
+import { flattenedVerify } from '../flattened/verify.js'
 import { JWSInvalid } from '../../util/errors.js'
 import { decoder } from '../../lib/buffer_utils.js'
 import type {
@@ -54,7 +54,7 @@ export interface CompactVerifyGetKey
  * import { compactVerify } from 'https://deno.land/x/jose@VERSION/index.ts'
  * ```
  */
-function compactVerify(
+export function compactVerify(
   jws: string | Uint8Array,
   key: KeyLike | Uint8Array,
   options?: VerifyOptions,
@@ -64,12 +64,12 @@ function compactVerify(
  * @param getKey Function resolving a key to verify the JWS with.
  * @param options JWS Verify options.
  */
-function compactVerify(
+export function compactVerify(
   jws: string | Uint8Array,
   getKey: CompactVerifyGetKey,
   options?: VerifyOptions,
 ): Promise<CompactVerifyResult & ResolvedKey>
-async function compactVerify(
+export async function compactVerify(
   jws: string | Uint8Array,
   key: KeyLike | Uint8Array | CompactVerifyGetKey,
   options?: VerifyOptions,
@@ -87,13 +87,13 @@ async function compactVerify(
     throw new JWSInvalid('Invalid Compact JWS')
   }
 
-  const verified = await verify(
+  const verified = await flattenedVerify(
     {
       payload: <string>(payload || undefined),
       protected: protectedHeader || undefined,
       signature: <string>(signature || undefined),
     },
-    <Parameters<typeof verify>[1]>key,
+    <Parameters<typeof flattenedVerify>[1]>key,
     options,
   )
 
@@ -106,6 +106,4 @@ async function compactVerify(
   return result
 }
 
-export { compactVerify }
-export default compactVerify
 export type { KeyLike, VerifyOptions, CompactVerifyResult }

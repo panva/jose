@@ -1,4 +1,4 @@
-import decrypt from '../flattened/decrypt.js'
+import { flattenedDecrypt } from '../flattened/decrypt.js'
 import { JWEInvalid } from '../../util/errors.js'
 import { decoder } from '../../lib/buffer_utils.js'
 import type {
@@ -50,7 +50,7 @@ export interface CompactDecryptGetKey extends GetKeyFunction<JWEHeaderParameters
  * import { compactDecrypt } from 'https://deno.land/x/jose@VERSION/index.ts'
  * ```
  */
-async function compactDecrypt(
+export async function compactDecrypt(
   jwe: string | Uint8Array,
   key: KeyLike | Uint8Array,
   options?: DecryptOptions,
@@ -60,12 +60,12 @@ async function compactDecrypt(
  * @param getKey Function resolving Private Key or Secret to decrypt the JWE with.
  * @param options JWE Decryption options.
  */
-async function compactDecrypt(
+export async function compactDecrypt(
   jwe: string | Uint8Array,
   getKey: CompactDecryptGetKey,
   options?: DecryptOptions,
 ): Promise<CompactDecryptResult & ResolvedKey>
-async function compactDecrypt(
+export async function compactDecrypt(
   jwe: string | Uint8Array,
   key: KeyLike | Uint8Array | CompactDecryptGetKey,
   options?: DecryptOptions,
@@ -90,7 +90,7 @@ async function compactDecrypt(
     throw new JWEInvalid('Invalid Compact JWE')
   }
 
-  const decrypted = await decrypt(
+  const decrypted = await flattenedDecrypt(
     {
       ciphertext: <string>(ciphertext || undefined),
       iv: <string>(iv || undefined),
@@ -98,7 +98,7 @@ async function compactDecrypt(
       tag: <string>(tag || undefined),
       encrypted_key: encryptedKey || undefined,
     },
-    <Parameters<typeof decrypt>[1]>key,
+    <Parameters<typeof flattenedDecrypt>[1]>key,
     options,
   )
 
@@ -111,6 +111,4 @@ async function compactDecrypt(
   return result
 }
 
-export { compactDecrypt }
-export default compactDecrypt
 export type { KeyLike, DecryptOptions, CompactDecryptResult }

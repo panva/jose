@@ -51,7 +51,7 @@ interface UnsecuredResult {
  * import { UnsecuredJWT } from 'https://deno.land/x/jose@VERSION/index.ts'
  * ```
  */
-class UnsecuredJWT extends ProduceJWT {
+export class UnsecuredJWT extends ProduceJWT {
   /**
    * Encodes the Unsecured JWT.
    */
@@ -92,6 +92,4 @@ class UnsecuredJWT extends ProduceJWT {
   }
 }
 
-export { UnsecuredJWT }
-export default UnsecuredJWT
 export type { JWSHeaderParameters, JWTPayload, UnsecuredResult }

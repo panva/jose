@@ -1,9 +1,9 @@
 import { assert, assertThrowsAsync } from 'https://deno.land/std@0.109.0/testing/asserts.ts';
 
-import generateKeyPair from '../dist/deno/util/generate_key_pair.ts';
-import FlattenedEncrypt from '../dist/deno/jwe/flattened/encrypt.ts';
-import decryptFlattened from '../dist/deno/jwe/flattened/decrypt.ts';
-import decodeProtectedHeader from '../dist/deno/util/decode_protected_header.ts';
+import { generateKeyPair } from '../dist/deno/util/generate_key_pair.ts';
+import { FlattenedEncrypt } from '../dist/deno/jwe/flattened/encrypt.ts';
+import { flattenedDecrypt } from '../dist/deno/jwe/flattened/decrypt.ts';
+import { decodeProtectedHeader } from '../dist/deno/util/decode_protected_header.ts';
 
 async function test(generate: () => ReturnType<typeof generateKeyPair>, alg: string) {
   const { publicKey, privateKey } = await generate();
@@ -14,7 +14,7 @@ async function test(generate: () => ReturnType<typeof generateKeyPair>, alg: str
     .encrypt(publicKey);
 
   assert(decodeProtectedHeader(jwe));
-  await decryptFlattened(jwe, privateKey);
+  await flattenedDecrypt(jwe, privateKey);
 }
 
 async function failing(generate: () => ReturnType<typeof generateKeyPair>, alg: string) {

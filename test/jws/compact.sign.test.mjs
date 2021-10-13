@@ -3,7 +3,7 @@ import test from 'ava';
 const root = !('WEBCRYPTO' in process.env) ? '#dist' : '#dist/webcrypto';
 
 import(`${root}/jws/compact/sign`).then(
-  ({ default: CompactSign }) => {
+  ({ CompactSign }) => {
     test.before((t) => {
       const encode = TextEncoder.prototype.encode.bind(new TextEncoder());
       t.context.payload = encode('It’s a dangerous business, Frodo, going out your door.');

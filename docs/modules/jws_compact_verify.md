@@ -7,7 +7,6 @@
 - [CompactVerifyResult](jws_compact_verify.md#compactverifyresult)
 - [KeyLike](jws_compact_verify.md#keylike)
 - [VerifyOptions](jws_compact_verify.md#verifyoptions)
-- [default](jws_compact_verify.md#default)
 
 ### Interfaces
 
@@ -34,9 +33,3 @@ ___
 ### VerifyOptions
 
 Re-exports: [VerifyOptions](../interfaces/types.VerifyOptions.md)
-
-___
-
-### default
-
-Renames and exports: [compactVerify](../functions/jws_compact_verify.compactVerify.md)

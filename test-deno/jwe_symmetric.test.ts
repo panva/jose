@@ -1,9 +1,9 @@
 import { assert } from 'https://deno.land/std@0.109.0/testing/asserts.ts';
 
-import generateSecret from '../dist/deno/util/generate_secret.ts';
-import FlattenedEncrypt from '../dist/deno/jwe/flattened/encrypt.ts';
-import decryptFlattened from '../dist/deno/jwe/flattened/decrypt.ts';
-import decodeProtectedHeader from '../dist/deno/util/decode_protected_header.ts';
+import { generateSecret } from '../dist/deno/util/generate_secret.ts';
+import { FlattenedEncrypt } from '../dist/deno/jwe/flattened/encrypt.ts';
+import { flattenedDecrypt } from '../dist/deno/jwe/flattened/decrypt.ts';
+import { decodeProtectedHeader } from '../dist/deno/util/decode_protected_header.ts';
 
 async function test(
   generate: () => ReturnType<typeof generateSecret>,
@@ -17,7 +17,7 @@ async function test(
     .encrypt(secretKey);
 
   assert(decodeProtectedHeader(jwe));
-  await decryptFlattened(jwe, secretKey);
+  await flattenedDecrypt(jwe, secretKey);
 }
 
 Deno.test(

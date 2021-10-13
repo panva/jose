@@ -16,7 +16,7 @@ Promise.all([
   import(`${keyRoot}/util/generate_key_pair`),
   import(`${keyRoot}/util/generate_secret`),
 ]).then(
-  ([{ default: generateKeyPair }, { default: generateSecret }]) => {
+  ([{ generateKeyPair }, { generateSecret }]) => {
     let checkModulusLength;
     let getNamedCurve;
     async function testKeyPair(t, alg, options) {

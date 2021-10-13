@@ -13,7 +13,7 @@ const rsaPssParams = major >= 17 || (major === 16 && minor >= 9);
 const electron = 'electron' in process.versions;
 
 Promise.all([import('jose/jws/flattened/sign'), import('jose/jws/flattened/verify')]).then(
-  ([{ default: FlattenedSign }, { default: flattenedVerify }]) => {
+  ([{ FlattenedSign }, { flattenedVerify }]) => {
     if (rsaPssParams) {
       for (const length of [256, 384, 512]) {
         test(`valid RSASSA-PSS-Params PS${length}`, async (t) => {

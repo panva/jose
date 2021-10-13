@@ -36,7 +36,7 @@ import validateCrit from '../../lib/validate_crit.js'
  * import { FlattenedSign } from 'https://deno.land/x/jose@VERSION/index.ts'
  * ```
  */
-class FlattenedSign {
+export class FlattenedSign {
   private _payload: Uint8Array
 
   private _protectedHeader!: JWSHeaderParameters
@@ -166,6 +166,4 @@ class FlattenedSign {
   }
 }
 
-export { FlattenedSign }
-export default FlattenedSign
 export type { KeyLike, FlattenedJWS, JWSHeaderParameters }

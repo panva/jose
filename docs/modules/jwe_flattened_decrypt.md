@@ -9,7 +9,6 @@
 - [FlattenedJWE](jwe_flattened_decrypt.md#flattenedjwe)
 - [JWEHeaderParameters](jwe_flattened_decrypt.md#jweheaderparameters)
 - [KeyLike](jwe_flattened_decrypt.md#keylike)
-- [default](jwe_flattened_decrypt.md#default)
 
 ### Interfaces
 
@@ -48,9 +47,3 @@ ___
 ### KeyLike
 
 Re-exports: [KeyLike](../types/types.KeyLike.md)
-
-___
-
-### default
-
-Renames and exports: [flattenedDecrypt](../functions/jwe_flattened_decrypt.flattenedDecrypt.md)

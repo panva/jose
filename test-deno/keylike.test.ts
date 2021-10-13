@@ -2,7 +2,7 @@ import { assertEquals, assertThrowsAsync } from 'https://deno.land/std@0.109.0/t
 
 import { importJWK } from '../dist/deno/key/import.ts';
 import { exportJWK } from '../dist/deno/key/export.ts';
-import calculateJwkThumbprint from '../dist/deno/jwk/thumbprint.ts';
+import { calculateJwkThumbprint } from '../dist/deno/jwk/thumbprint.ts';
 
 async function test(jwk: { [key: string]: unknown }, alg: string) {
   await calculateJwkThumbprint(jwk);

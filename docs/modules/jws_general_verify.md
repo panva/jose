@@ -8,7 +8,6 @@
 - [GeneralVerifyResult](jws_general_verify.md#generalverifyresult)
 - [KeyLike](jws_general_verify.md#keylike)
 - [VerifyOptions](jws_general_verify.md#verifyoptions)
-- [default](jws_general_verify.md#default)
 
 ### Interfaces
 
@@ -41,9 +40,3 @@ ___
 ### VerifyOptions
 
 Re-exports: [VerifyOptions](../interfaces/types.VerifyOptions.md)
-
-___
-
-### default
-
-Renames and exports: [generalVerify](../functions/jws_general_verify.generalVerify.md)

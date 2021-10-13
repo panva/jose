@@ -47,7 +47,7 @@ import validateCrit from '../../lib/validate_crit.js'
  * import { FlattenedEncrypt } from 'https://deno.land/x/jose@VERSION/index.ts'
  * ```
  */
-class FlattenedEncrypt {
+export class FlattenedEncrypt {
   private _plaintext: Uint8Array
 
   private _protectedHeader!: JWEHeaderParameters
@@ -314,6 +314,4 @@ class FlattenedEncrypt {
   }
 }
 
-export { FlattenedEncrypt }
-export default FlattenedEncrypt
 export type { KeyLike, FlattenedJWE, JWEHeaderParameters, JWEKeyManagementHeaderParameters }

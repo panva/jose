@@ -21,10 +21,10 @@ Promise.all([
   import(`${root}/util/base64url`),
 ]).then(
   ([
-    { default: FlattenedEncrypt },
-    { default: flattenedDecrypt },
-    { default: CompactEncrypt },
-    { default: compactDecrypt },
+    { FlattenedEncrypt },
+    { flattenedDecrypt },
+    { CompactEncrypt },
+    { compactDecrypt },
     { importJWK },
     base64url,
   ]) => {

@@ -3,7 +3,7 @@ import test from 'ava';
 const root = !('WEBCRYPTO' in process.env) ? '#dist' : '#dist/webcrypto';
 
 import(`${root}/util/decode_protected_header`).then(
-  ({ default: decodeProtectedHeader }) => {
+  ({ decodeProtectedHeader }) => {
     test('invalid inputs', (t) => {
       t.throws(() => decodeProtectedHeader(null), {
         instanceOf: TypeError,

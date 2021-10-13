@@ -7,7 +7,6 @@
 - [FlattenedJWS](jws_flattened_sign.md#flattenedjws)
 - [JWSHeaderParameters](jws_flattened_sign.md#jwsheaderparameters)
 - [KeyLike](jws_flattened_sign.md#keylike)
-- [default](jws_flattened_sign.md#default)
 
 ### Classes
 
@@ -30,9 +29,3 @@ ___
 ### KeyLike
 
 Re-exports: [KeyLike](../types/types.KeyLike.md)
-
-___
-
-### default
-
-Renames and exports: [FlattenedSign](../classes/jws_flattened_sign.FlattenedSign.md)

@@ -1,6 +1,6 @@
 import { assertThrowsAsync } from 'https://deno.land/std@0.109.0/testing/asserts.ts';
 
-import createRemoteJWKSet from '../dist/deno/jwks/remote.ts';
+import { createRemoteJWKSet } from '../dist/deno/jwks/remote.ts';
 import {
   JWKSTimeout,
   JWKSNoMatchingKey,

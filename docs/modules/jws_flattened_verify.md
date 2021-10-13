@@ -10,7 +10,6 @@
 - [JWSHeaderParameters](jws_flattened_verify.md#jwsheaderparameters)
 - [KeyLike](jws_flattened_verify.md#keylike)
 - [VerifyOptions](jws_flattened_verify.md#verifyoptions)
-- [default](jws_flattened_verify.md#default)
 
 ### Interfaces
 
@@ -55,9 +54,3 @@ ___
 ### VerifyOptions
 
 Re-exports: [VerifyOptions](../interfaces/types.VerifyOptions.md)
-
-___
-
-### default
-
-Renames and exports: [flattenedVerify](../functions/jws_flattened_verify.flattenedVerify.md)

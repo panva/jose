@@ -18,12 +18,7 @@ Promise.all([
   import(`${keyRoot}/key/import`),
   import(`${keyRoot}/jwk/embedded`),
 ]).then(
-  ([
-    { default: FlattenedSign },
-    { default: flattenedVerify },
-    { importJWK },
-    { default: EmbeddedJWK },
-  ]) => {
+  ([{ FlattenedSign }, { flattenedVerify }, { importJWK }, { EmbeddedJWK }]) => {
     function pubjwk(jwk) {
       const { d, p, q, dp, dq, qi, ext, alg, ...publicJwk } = jwk;
       return publicJwk;

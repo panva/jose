@@ -1,10 +1,10 @@
 import * as Bowser from 'bowser';
 
-import generateKeyPair from '../dist/browser/util/generate_key_pair';
-import generateSecret from '../dist/browser/util/generate_secret';
-import FlattenedSign from '../dist/browser/jws/flattened/sign';
-import verifyFlattened from '../dist/browser/jws/flattened/verify';
-import decodeProtectedHeader from '../dist/browser/util/decode_protected_header';
+import { generateKeyPair } from '../dist/browser/util/generate_key_pair';
+import { generateSecret } from '../dist/browser/util/generate_secret';
+import { FlattenedSign } from '../dist/browser/jws/flattened/sign';
+import { flattenedVerify } from '../dist/browser/jws/flattened/verify';
+import { decodeProtectedHeader } from '../dist/browser/util/decode_protected_header';
 
 const browser = Bowser.parse(window.navigator.userAgent);
 
@@ -25,7 +25,7 @@ async function test(generate, alg, assert) {
     .sign(privateKey);
 
   assert.ok(decodeProtectedHeader(jws));
-  await verifyFlattened(jws, publicKey);
+  await flattenedVerify(jws, publicKey);
   assert.ok(1);
 }
 

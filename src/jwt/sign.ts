@@ -1,4 +1,4 @@
-import CompactSign from '../jws/compact/sign.js'
+import { CompactSign } from '../jws/compact/sign.js'
 import { JWTInvalid } from '../util/errors.js'
 import type { JWSHeaderParameters, JWTPayload, KeyLike, SignOptions } from '../types.d'
 import { encoder } from '../lib/buffer_utils.js'
@@ -35,7 +35,7 @@ import { ProduceJWT } from './produce.js'
  * import { SignJWT } from 'https://deno.land/x/jose@VERSION/index.ts'
  * ```
  */
-class SignJWT extends ProduceJWT {
+export class SignJWT extends ProduceJWT {
   private _protectedHeader!: JWSHeaderParameters
 
   /**
@@ -68,6 +68,4 @@ class SignJWT extends ProduceJWT {
   }
 }
 
-export { SignJWT }
-export default SignJWT
 export type { JWSHeaderParameters, JWTPayload, KeyLike }

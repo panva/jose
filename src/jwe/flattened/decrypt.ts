@@ -72,7 +72,7 @@ export interface FlattenedDecryptGetKey
  * import { flattenedDecrypt } from 'https://deno.land/x/jose@VERSION/index.ts'
  * ```
  */
-function flattenedDecrypt(
+export function flattenedDecrypt(
   jwe: FlattenedJWE,
   key: KeyLike | Uint8Array,
   options?: DecryptOptions,
@@ -82,12 +82,12 @@ function flattenedDecrypt(
  * @param getKey Function resolving Private Key or Secret to decrypt the JWE with.
  * @param options JWE Decryption options.
  */
-function flattenedDecrypt(
+export function flattenedDecrypt(
   jwe: FlattenedJWE,
   getKey: FlattenedDecryptGetKey,
   options?: DecryptOptions,
 ): Promise<FlattenedDecryptResult & ResolvedKey>
-async function flattenedDecrypt(
+export async function flattenedDecrypt(
   jwe: FlattenedJWE,
   key: KeyLike | Uint8Array | FlattenedDecryptGetKey,
   options?: DecryptOptions,
@@ -262,6 +262,4 @@ async function flattenedDecrypt(
   return result
 }
 
-export { flattenedDecrypt }
-export default flattenedDecrypt
 export type { KeyLike, FlattenedJWE, JWEHeaderParameters, DecryptOptions, FlattenedDecryptResult }

@@ -8,7 +8,6 @@
 - [JWEHeaderParameters](jwe_flattened_encrypt.md#jweheaderparameters)
 - [JWEKeyManagementHeaderParameters](jwe_flattened_encrypt.md#jwekeymanagementheaderparameters)
 - [KeyLike](jwe_flattened_encrypt.md#keylike)
-- [default](jwe_flattened_encrypt.md#default)
 
 ### Classes
 
@@ -37,9 +36,3 @@ ___
 ### KeyLike
 
 Re-exports: [KeyLike](../types/types.KeyLike.md)
-
-___
-
-### default
-
-Renames and exports: [FlattenedEncrypt](../classes/jwe_flattened_encrypt.FlattenedEncrypt.md)

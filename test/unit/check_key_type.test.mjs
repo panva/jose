@@ -27,7 +27,7 @@ Promise.all([
   import(`${keyRoot}/util/generate_key_pair`),
   import(`${keyRoot}/util/generate_secret`),
 ]).then(
-  ([{ default: checkKeyType }, { default: generateKeyPair }, { default: generateSecret }]) => {
+  ([{ default: checkKeyType }, { generateKeyPair }, { generateSecret }]) => {
     test('lib/check_key_type.ts', async (t) => {
       const expected = {
         instanceOf: TypeError,

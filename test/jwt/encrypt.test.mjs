@@ -7,7 +7,7 @@ Promise.all([
   import(`${root}/jwe/compact/decrypt`),
   import(`${root}/jwt/decrypt`),
 ]).then(
-  ([{ default: EncryptJWT }, { default: compactDecrypt }, { default: jwtDecrypt }]) => {
+  ([{ EncryptJWT }, { compactDecrypt }, { jwtDecrypt }]) => {
     const now = 1604416038;
 
     test.before(async (t) => {

@@ -2,7 +2,7 @@ import * as Bowser from 'bowser';
 
 import { importJWK } from '../dist/browser/key/import.js';
 import { exportJWK } from '../dist/browser/key/export.js';
-import calculateJwkThumbprint from '../dist/browser/jwk/thumbprint.js';
+import { calculateJwkThumbprint } from '../dist/browser/jwk/thumbprint.js';
 
 const browser = Bowser.parse(window.navigator.userAgent);
 

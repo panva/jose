@@ -7,7 +7,6 @@
 - [JWEHeaderParameters](jwe_compact_encrypt.md#jweheaderparameters)
 - [JWEKeyManagementHeaderParameters](jwe_compact_encrypt.md#jwekeymanagementheaderparameters)
 - [KeyLike](jwe_compact_encrypt.md#keylike)
-- [default](jwe_compact_encrypt.md#default)
 
 ### Classes
 
@@ -30,9 +29,3 @@ ___
 ### KeyLike
 
 Re-exports: [KeyLike](../types/types.KeyLike.md)
-
-___
-
-### default
-
-Renames and exports: [CompactEncrypt](../classes/jwe_compact_encrypt.CompactEncrypt.md)

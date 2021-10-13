@@ -1,4 +1,4 @@
-import FlattenedSign from '../flattened/sign.js'
+import { FlattenedSign } from '../flattened/sign.js'
 import type { JWSHeaderParameters, KeyLike, SignOptions } from '../../types.d'
 
 /**
@@ -30,7 +30,7 @@ import type { JWSHeaderParameters, KeyLike, SignOptions } from '../../types.d'
  * import { CompactSign } from 'https://deno.land/x/jose@VERSION/index.ts'
  * ```
  */
-class CompactSign {
+export class CompactSign {
   private _flattened: FlattenedSign
 
   /**
@@ -67,6 +67,4 @@ class CompactSign {
   }
 }
 
-export { CompactSign }
-export default CompactSign
 export type { JWSHeaderParameters, KeyLike }

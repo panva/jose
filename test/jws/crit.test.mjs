@@ -3,7 +3,7 @@ import test from 'ava';
 const root = !('WEBCRYPTO' in process.env) ? '#dist' : '#dist/webcrypto';
 
 Promise.all([import(`${root}/jws/flattened/sign`), import(`${root}/jws/flattened/verify`)]).then(
-  ([{ default: FlattenedSign }, { default: flattenedVerify }]) => {
+  ([{ FlattenedSign }, { flattenedVerify }]) => {
     const encode = TextEncoder.prototype.encode.bind(new TextEncoder());
 
     test('crit member checks check', async (t) => {

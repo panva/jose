@@ -7,7 +7,7 @@ Promise.all([
   import(`${root}/jwt/verify`),
   import(`${root}/jws/compact/sign`),
 ]).then(
-  ([{ default: SignJWT }, { default: jwtVerify }, { default: CompactSign }]) => {
+  ([{ SignJWT }, { jwtVerify }, { CompactSign }]) => {
     const now = 1604416038;
 
     test.before(async (t) => {

@@ -3,7 +3,7 @@ import * as crypto from 'crypto';
 
 const root = !('WEBCRYPTO' in process.env) ? '#dist' : '#dist/webcrypto';
 Promise.all([import(`${root}/jws/general/sign`), import(`${root}/jws/general/verify`)]).then(
-  ([{ default: GeneralSign }, { default: generalVerify }]) => {
+  ([{ GeneralSign }, { generalVerify }]) => {
     test.before(async (t) => {
       const encode = TextEncoder.prototype.encode.bind(new TextEncoder());
       t.context.plaintext = encode('It’s a dangerous business, Frodo, going out your door.');

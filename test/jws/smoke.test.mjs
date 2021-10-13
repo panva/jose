@@ -22,12 +22,12 @@ Promise.all([
   import(`${keyRoot}/util/generate_secret`),
 ]).then(
   ([
-    { default: FlattenedSign },
-    { default: verifyFlattened },
+    { FlattenedSign },
+    { flattenedVerify },
     { encode: base64url },
     { importJWK },
-    { default: generateKeyPair },
-    { default: generateSecret },
+    { generateKeyPair },
+    { generateSecret },
   ]) => {
     function pubjwk(jwk) {
       const { d, p, q, dp, dq, qi, ...publicJwk } = jwk;
@@ -183,7 +183,7 @@ Promise.all([
           const jws = await new FlattenedSign(crypto.randomFillSync(new Uint8Array(256 >> 3)))
             .setProtectedHeader({ alg })
             .sign(priv);
-          await verifyFlattened(jws, pub);
+          await flattenedVerify(jws, pub);
         }),
         ...fixtures.algs.map(async (alg) => {
           let priv;
@@ -199,7 +199,7 @@ Promise.all([
           const jws = await new FlattenedSign(crypto.randomFillSync(new Uint8Array(256 >> 3)))
             .setProtectedHeader({ alg })
             .sign(priv);
-          await verifyFlattened(jws, pub);
+          await flattenedVerify(jws, pub);
         }),
       ]);
       t.pass();

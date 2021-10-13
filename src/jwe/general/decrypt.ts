@@ -1,4 +1,4 @@
-import decrypt from '../flattened/decrypt.js'
+import { flattenedDecrypt } from '../flattened/decrypt.js'
 import { JWEDecryptionFailed, JWEInvalid } from '../../util/errors.js'
 import type {
   KeyLike,
@@ -67,7 +67,7 @@ export interface GeneralDecryptGetKey extends GetKeyFunction<JWEHeaderParameters
  * console.log(decoder.decode(additionalAuthenticatedData))
  * ```
  */
-function generalDecrypt(
+export function generalDecrypt(
   jwe: GeneralJWE,
   key: KeyLike | Uint8Array,
   options?: DecryptOptions,
@@ -77,12 +77,12 @@ function generalDecrypt(
  * @param getKey Function resolving Private Key or Secret to decrypt the JWE with.
  * @param options JWE Decryption options.
  */
-function generalDecrypt(
+export function generalDecrypt(
   jwe: GeneralJWE,
   getKey: GeneralDecryptGetKey,
   options?: DecryptOptions,
 ): Promise<GeneralDecryptResult & ResolvedKey>
-async function generalDecrypt(
+export async function generalDecrypt(
   jwe: GeneralJWE,
   key: KeyLike | Uint8Array | GeneralDecryptGetKey,
   options?: DecryptOptions,
@@ -97,7 +97,7 @@ async function generalDecrypt(
 
   for (const recipient of jwe.recipients) {
     try {
-      return await decrypt(
+      return await flattenedDecrypt(
         {
           aad: jwe.aad,
           ciphertext: jwe.ciphertext,
@@ -108,7 +108,7 @@ async function generalDecrypt(
           tag: jwe.tag,
           unprotected: jwe.unprotected,
         },
-        <Parameters<typeof decrypt>[1]>key,
+        <Parameters<typeof flattenedDecrypt>[1]>key,
         options,
       )
     } catch {
@@ -118,6 +118,4 @@ async function generalDecrypt(
   throw new JWEDecryptionFailed()
 }
 
-export { generalDecrypt }
-export default generalDecrypt
 export type { KeyLike, GeneralJWE, DecryptOptions, GeneralDecryptResult }

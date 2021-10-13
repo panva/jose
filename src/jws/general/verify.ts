@@ -1,4 +1,4 @@
-import verify from '../flattened/verify.js'
+import { flattenedVerify } from '../flattened/verify.js'
 import type {
   GeneralJWSInput,
   GeneralVerifyResult,
@@ -63,7 +63,7 @@ export interface GeneralVerifyGetKey
  * import { generalVerify } from 'https://deno.land/x/jose@VERSION/index.ts'
  * ```
  */
-function generalVerify(
+export function generalVerify(
   jws: GeneralJWSInput,
   key: KeyLike | Uint8Array,
   options?: VerifyOptions,
@@ -73,12 +73,12 @@ function generalVerify(
  * @param getKey Function resolving a key to verify the JWS with.
  * @param options JWS Verify options.
  */
-function generalVerify(
+export function generalVerify(
   jws: GeneralJWSInput,
   getKey: GeneralVerifyGetKey,
   options?: VerifyOptions,
 ): Promise<GeneralVerifyResult & ResolvedKey>
-async function generalVerify(
+export async function generalVerify(
   jws: GeneralJWSInput,
   key: KeyLike | Uint8Array | GeneralVerifyGetKey,
   options?: VerifyOptions,
@@ -93,14 +93,14 @@ async function generalVerify(
 
   for (const signature of jws.signatures) {
     try {
-      return await verify(
+      return await flattenedVerify(
         {
           header: signature.header,
           payload: jws.payload,
           protected: signature.protected,
           signature: signature.signature,
         },
-        <Parameters<typeof verify>[1]>key,
+        <Parameters<typeof flattenedVerify>[1]>key,
         options,
       )
     } catch {
@@ -110,6 +110,4 @@ async function generalVerify(
   throw new JWSSignatureVerificationFailed()
 }
 
-export { generalVerify }
-export default generalVerify
 export type { KeyLike, GeneralJWSInput, VerifyOptions, GeneralVerifyResult }

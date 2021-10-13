@@ -8,7 +8,6 @@
 - [GeneralDecryptResult](jwe_general_decrypt.md#generaldecryptresult)
 - [GeneralJWE](jwe_general_decrypt.md#generaljwe)
 - [KeyLike](jwe_general_decrypt.md#keylike)
-- [default](jwe_general_decrypt.md#default)
 
 ### Interfaces
 
@@ -41,9 +40,3 @@ ___
 ### KeyLike
 
 Re-exports: [KeyLike](../types/types.KeyLike.md)
-
-___
-
-### default
-
-Renames and exports: [generalDecrypt](../functions/jwe_general_decrypt.generalDecrypt.md)
