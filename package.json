@@ -194,11 +194,6 @@
       "browser": "./dist/browser/util/generate_secret.js",
       "import": "./dist/node/esm/util/generate_secret.js",
       "require": "./dist/node/cjs/util/generate_secret.js"
-    },
-    "./util/random": {
-      "browser": "./dist/browser/util/random.js",
-      "import": "./dist/node/esm/util/random.js",
-      "require": "./dist/node/cjs/util/random.js"
     }
   },
   "typesVersions": {

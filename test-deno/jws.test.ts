@@ -6,7 +6,6 @@ import {
 
 import generateKeyPair from '../dist/deno/util/generate_key_pair.ts';
 import generateSecret from '../dist/deno/util/generate_secret.ts';
-import random from '../dist/deno/util/random.ts';
 import FlattenedSign from '../dist/deno/jws/flattened/sign.ts';
 import verifyFlattened from '../dist/deno/jws/flattened/verify.ts';
 import decodeProtectedHeader from '../dist/deno/util/decode_protected_header.ts';
@@ -26,7 +25,7 @@ async function test(
     ({ publicKey, privateKey } = generated);
   }
 
-  const jws = await new FlattenedSign(random(new Uint8Array(32)))
+  const jws = await new FlattenedSign(crypto.getRandomValues(new Uint8Array(32)))
     .setProtectedHeader({ alg })
     .sign(privateKey);
 

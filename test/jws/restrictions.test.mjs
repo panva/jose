@@ -18,7 +18,6 @@ Promise.all([
   import(`${root}/jws/flattened/verify`),
   import(`${root}/jwe/flattened/encrypt`),
   import(`${root}/jwe/flattened/decrypt`),
-  import(`${root}/util/random`),
   import(`${root}/util/base64url`),
   import(`${keyRoot}/util/generate_key_pair`),
   import(`${keyRoot}/key/import`),
@@ -28,7 +27,6 @@ Promise.all([
     { default: flattenedVerify },
     { default: FlattenedEncrypt },
     { default: flattenedDecrypt },
-    { default: random },
     base64url,
     { default: generateKeyPair },
     { importJWK },
@@ -68,7 +66,7 @@ Promise.all([
     async function testHMAC(t, alg) {
       const size = parseInt(alg.substr(-3), 10);
       const message = `${alg} requires symmetric keys to be ${size} bits or larger`;
-      const secret = random(new Uint8Array((size >> 3) - 1));
+      const secret = crypto.randomFillSync(new Uint8Array((size >> 3) - 1));
       await t.throwsAsync(
         new FlattenedSign(t.context.payload).setProtectedHeader({ alg }).sign(secret),
         { instanceOf: TypeError, message },
@@ -76,7 +74,7 @@ Promise.all([
 
       const jws = await new FlattenedSign(t.context.payload)
         .setProtectedHeader({ alg })
-        .sign(random(new Uint8Array(size >> 3)));
+        .sign(crypto.randomFillSync(new Uint8Array(size >> 3)));
 
       await t.throwsAsync(flattenedVerify(jws, secret), { instanceOf: TypeError, message });
     }

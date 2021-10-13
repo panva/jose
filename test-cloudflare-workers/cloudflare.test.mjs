@@ -465,16 +465,16 @@ test('A256KW', macro, async () => {
 });
 
 test('PBES2-HS256+A128KW', macro, async () => {
-  const secretKey = utilRandom(new Uint8Array(10));
+  const secretKey = crypto.getRandomValues(new Uint8Array(10));
   await jweSymmetricTest(secretKey, { alg: 'PBES2-HS256+A128KW', enc: 'A256GCM' });
 });
 
 test('PBES2-HS384+A192KW', macro, async () => {
-  const secretKey = utilRandom(new Uint8Array(10));
+  const secretKey = crypto.getRandomValues(new Uint8Array(10));
   await jweSymmetricTest(secretKey, { alg: 'PBES2-HS384+A192KW', enc: 'A256GCM' });
 });
 
 test('PBES2-HS512+A256KW', macro, async () => {
-  const secretKey = utilRandom(new Uint8Array(10));
+  const secretKey = crypto.getRandomValues(new Uint8Array(10));
   await jweSymmetricTest(secretKey, { alg: 'PBES2-HS512+A256KW', enc: 'A256GCM' });
 });

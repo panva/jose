@@ -1,12 +1,12 @@
 import test from 'ava';
+import * as crypto from 'crypto';
 
 const root = !('WEBCRYPTO' in process.env) ? '#dist' : '#dist/webcrypto';
 Promise.all([
   import(`${root}/jwe/flattened/encrypt`),
   import(`${root}/jwe/flattened/decrypt`),
-  import(`${root}/util/random`),
 ]).then(
-  ([{ default: FlattenedEncrypt }, { default: flattenedDecrypt }, { default: random }]) => {
+  ([{ default: FlattenedEncrypt }, { default: flattenedDecrypt }]) => {
     test.before(async (t) => {
       const encode = TextEncoder.prototype.encode.bind(new TextEncoder());
       t.context.plaintext = encode('It’s a dangerous business, Frodo, going out your door.');
@@ -187,7 +187,7 @@ Promise.all([
     });
 
     test('AES CBC + HMAC', async (t) => {
-      const secret = random(new Uint8Array(32));
+      const secret = crypto.randomFillSync(new Uint8Array(32));
       const jwe = await new FlattenedEncrypt(t.context.plaintext)
         .setProtectedHeader({ alg: 'dir', enc: 'A128CBC-HS256' })
         .encrypt(secret);

@@ -20,7 +20,6 @@ import jwtVerify from '../dist/browser/jwt/verify.js';
 import utilDecodeProtectedHeader from '../dist/browser/util/decode_protected_header.js';
 import utilGenerateKeyPair from '../dist/browser/util/generate_key_pair.js';
 import utilGenerateSecret from '../dist/browser/util/generate_secret.js';
-import utilRandom from '../dist/browser/util/random.js';
 import * as keyImport from '../dist/browser/key/import.js';
 import * as keyExport from '../dist/browser/key/export.js';
 
@@ -112,9 +111,9 @@ addEventListener('fetch', (event) => {
 });
 
 async function jweAsymmetricTest({ publicKey, privateKey }, alg) {
-  const jwe = await new jweFlattenedEncrypt(utilRandom(new Uint8Array(32)))
+  const jwe = await new jweFlattenedEncrypt(crypto.getRandomValues(new Uint8Array(32)))
     .setProtectedHeader({ alg, enc: 'A256GCM' })
-    .setAdditionalAuthenticatedData(utilRandom(new Uint8Array(32)))
+    .setAdditionalAuthenticatedData(crypto.getRandomValues(new Uint8Array(32)))
     .encrypt(publicKey);
 
   utilDecodeProtectedHeader(jwe);
@@ -122,7 +121,7 @@ async function jweAsymmetricTest({ publicKey, privateKey }, alg) {
 }
 
 async function jwsAsymmetricTest({ publicKey, privateKey }, alg) {
-  const jws = await new jwsFlattenedSign(utilRandom(new Uint8Array(32)))
+  const jws = await new jwsFlattenedSign(crypto.getRandomValues(new Uint8Array(32)))
     .setProtectedHeader({ alg })
     .sign(privateKey);
 
@@ -131,7 +130,7 @@ async function jwsAsymmetricTest({ publicKey, privateKey }, alg) {
 }
 
 async function jwsSymmetricTest(secretKey, alg) {
-  const jws = await new jwsFlattenedSign(utilRandom(new Uint8Array(32)))
+  const jws = await new jwsFlattenedSign(crypto.getRandomValues(new Uint8Array(32)))
     .setProtectedHeader({ alg })
     .sign(secretKey);
 
@@ -140,9 +139,9 @@ async function jwsSymmetricTest(secretKey, alg) {
 }
 
 async function jweSymmetricTest(secretKey, { alg, enc }) {
-  const jwe = await new jweFlattenedEncrypt(utilRandom(new Uint8Array(32)))
+  const jwe = await new jweFlattenedEncrypt(crypto.getRandomValues(new Uint8Array(32)))
     .setProtectedHeader({ alg, enc })
-    .setAdditionalAuthenticatedData(utilRandom(new Uint8Array(32)))
+    .setAdditionalAuthenticatedData(crypto.getRandomValues(new Uint8Array(32)))
     .encrypt(secretKey);
 
   utilDecodeProtectedHeader(jwe);

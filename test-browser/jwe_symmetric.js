@@ -1,7 +1,6 @@
 import * as Bowser from 'bowser';
 
 import generateSecret from '../dist/browser/util/generate_secret';
-import random from '../dist/browser/util/random';
 import FlattenedEncrypt from '../dist/browser/jwe/flattened/encrypt';
 import decryptFlattened from '../dist/browser/jwe/flattened/decrypt';
 import decodeProtectedHeader from '../dist/browser/util/decode_protected_header';
@@ -13,9 +12,9 @@ const aes192 = browser.engine.name !== 'Blink';
 async function test(generate, { alg, enc }, assert) {
   const secretKey = await generate();
 
-  const jwe = await new FlattenedEncrypt(random(new Uint8Array(32)))
+  const jwe = await new FlattenedEncrypt(crypto.getRandomValues(new Uint8Array(32)))
     .setProtectedHeader({ alg, enc })
-    .setAdditionalAuthenticatedData(random(new Uint8Array(32)))
+    .setAdditionalAuthenticatedData(crypto.getRandomValues(new Uint8Array(32)))
     .encrypt(secretKey);
 
   assert.ok(decodeProtectedHeader(jwe));
@@ -155,7 +154,7 @@ QUnit.test(
 
 QUnit.test(
   'PBES2-HS256+A128KW',
-  test.bind(undefined, () => random(new Uint8Array(10)), {
+  test.bind(undefined, () => crypto.getRandomValues(new Uint8Array(10)), {
     alg: 'PBES2-HS256+A128KW',
     enc: 'A256GCM',
   }),
@@ -163,7 +162,7 @@ QUnit.test(
 if (aes192) {
   QUnit.test(
     'PBES2-HS384+A192KW',
-    test.bind(undefined, () => random(new Uint8Array(10)), {
+    test.bind(undefined, () => crypto.getRandomValues(new Uint8Array(10)), {
       alg: 'PBES2-HS384+A192KW',
       enc: 'A256GCM',
     }),
@@ -171,7 +170,7 @@ if (aes192) {
 } else {
   QUnit.test('PBES2-HS384+A192KW', async (assert) => {
     await assert.rejects(
-      test.bind(undefined, () => random(new Uint8Array(10)), {
+      test.bind(undefined, () => crypto.getRandomValues(new Uint8Array(10)), {
         alg: 'PBES2-HS384+A192KW',
         enc: 'A256GCM',
       })(assert),
@@ -180,7 +179,7 @@ if (aes192) {
 }
 QUnit.test(
   'PBES2-HS512+A256KW',
-  test.bind(undefined, () => random(new Uint8Array(10)), {
+  test.bind(undefined, () => crypto.getRandomValues(new Uint8Array(10)), {
     alg: 'PBES2-HS512+A256KW',
     enc: 'A256GCM',
   }),

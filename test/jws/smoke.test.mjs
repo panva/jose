@@ -1,4 +1,5 @@
 import test from 'ava';
+import * as crypto from 'crypto';
 
 let root;
 let keyRoot;
@@ -15,7 +16,6 @@ if ('WEBCRYPTO' in process.env) {
 Promise.all([
   import(`${root}/jws/flattened/sign`),
   import(`${root}/jws/flattened/verify`),
-  import(`${root}/util/random`),
   import(`${root}/util/base64url`),
   import(`${keyRoot}/key/import`),
   import(`${keyRoot}/util/generate_key_pair`),
@@ -24,7 +24,6 @@ Promise.all([
   ([
     { default: FlattenedSign },
     { default: verifyFlattened },
-    { default: random },
     { encode: base64url },
     { importJWK },
     { default: generateKeyPair },
@@ -133,15 +132,27 @@ Promise.all([
           algs: ['ES512'],
         },
         oct256: {
-          secret: { ext: false, kty: 'oct', k: base64url(random(new Uint8Array(256 >> 3))) },
+          secret: {
+            ext: false,
+            kty: 'oct',
+            k: base64url(crypto.randomFillSync(new Uint8Array(256 >> 3))),
+          },
           algs: ['HS256'],
         },
         oct384: {
-          secret: { ext: false, kty: 'oct', k: base64url(random(new Uint8Array(384 >> 3))) },
+          secret: {
+            ext: false,
+            kty: 'oct',
+            k: base64url(crypto.randomFillSync(new Uint8Array(384 >> 3))),
+          },
           algs: ['HS256', 'HS384'],
         },
         oct512: {
-          secret: { ext: false, kty: 'oct', k: base64url(random(new Uint8Array(512 >> 3))) },
+          secret: {
+            ext: false,
+            kty: 'oct',
+            k: base64url(crypto.randomFillSync(new Uint8Array(512 >> 3))),
+          },
           algs: ['HS256', 'HS384', 'HS512'],
         },
       };
@@ -169,7 +180,7 @@ Promise.all([
             ]);
           }
 
-          const jws = await new FlattenedSign(random(new Uint8Array(256 >> 3)))
+          const jws = await new FlattenedSign(crypto.randomFillSync(new Uint8Array(256 >> 3)))
             .setProtectedHeader({ alg })
             .sign(priv);
           await verifyFlattened(jws, pub);
@@ -185,7 +196,7 @@ Promise.all([
             ({ privateKey: priv, publicKey: pub } = await generateKeyPair(alg, fixtures.generate));
           }
 
-          const jws = await new FlattenedSign(random(new Uint8Array(256 >> 3)))
+          const jws = await new FlattenedSign(crypto.randomFillSync(new Uint8Array(256 >> 3)))
             .setProtectedHeader({ alg })
             .sign(priv);
           await verifyFlattened(jws, pub);

@@ -2,7 +2,6 @@ import * as Bowser from 'bowser';
 
 import generateKeyPair from '../dist/browser/util/generate_key_pair';
 import generateSecret from '../dist/browser/util/generate_secret';
-import random from '../dist/browser/util/random';
 import FlattenedSign from '../dist/browser/jws/flattened/sign';
 import verifyFlattened from '../dist/browser/jws/flattened/verify';
 import decodeProtectedHeader from '../dist/browser/util/decode_protected_header';
@@ -21,7 +20,7 @@ async function test(generate, alg, assert) {
     ({ publicKey, privateKey } = generated);
   }
 
-  const jws = await new FlattenedSign(random(new Uint8Array(32)))
+  const jws = await new FlattenedSign(crypto.getRandomValues(new Uint8Array(32)))
     .setProtectedHeader({ alg })
     .sign(privateKey);
 

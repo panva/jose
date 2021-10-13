@@ -1,4 +1,5 @@
 import test from 'ava';
+import * as crypto from 'crypto';
 
 let root;
 let keyRoot;
@@ -15,7 +16,6 @@ if ('WEBCRYPTO' in process.env) {
 Promise.all([
   import(`${root}/jwe/flattened/encrypt`),
   import(`${root}/jwe/flattened/decrypt`),
-  import(`${root}/util/random`),
   import(`${root}/util/base64url`),
   import(`${keyRoot}/key/import`),
   import(`${keyRoot}/util/generate_key_pair`),
@@ -24,7 +24,6 @@ Promise.all([
   ([
     { default: FlattenedEncrypt },
     { default: decryptFlattened },
-    { default: random },
     { encode: base64url },
     { importJWK },
     { default: generateKeyPair },
@@ -158,44 +157,72 @@ Promise.all([
           generate: { crv: 'P-521' },
         },
         octAny: {
-          secret: { ext: false, kty: 'oct', k: base64url(random(new Uint8Array(160 >> 3))) },
+          secret: {
+            ext: false,
+            kty: 'oct',
+            k: base64url(crypto.randomFillSync(new Uint8Array(160 >> 3))),
+          },
           algs: ['PBES2-HS256+A128KW', 'PBES2-HS384+A192KW', 'PBES2-HS512+A256KW'],
           generate: false,
         },
         oct128: {
-          secret: { ext: false, kty: 'oct', k: base64url(random(new Uint8Array(128 >> 3))) },
+          secret: {
+            ext: false,
+            kty: 'oct',
+            k: base64url(crypto.randomFillSync(new Uint8Array(128 >> 3))),
+          },
           algs: ['A128KW'],
         },
         oct192: {
-          secret: { ext: false, kty: 'oct', k: base64url(random(new Uint8Array(192 >> 3))) },
+          secret: {
+            ext: false,
+            kty: 'oct',
+            k: base64url(crypto.randomFillSync(new Uint8Array(192 >> 3))),
+          },
           algs: ['A192KW'],
         },
         oct256: {
-          secret: { ext: false, kty: 'oct', k: base64url(random(new Uint8Array(256 >> 3))) },
+          secret: {
+            ext: false,
+            kty: 'oct',
+            k: base64url(crypto.randomFillSync(new Uint8Array(256 >> 3))),
+          },
           algs: ['A256KW'],
         },
         oct128gcm: {
-          secret: { ext: false, kty: 'oct', k: base64url(random(new Uint8Array(128 >> 3))) },
+          secret: {
+            ext: false,
+            kty: 'oct',
+            k: base64url(crypto.randomFillSync(new Uint8Array(128 >> 3))),
+          },
           algs: ['A128GCM', 'A128GCMKW'],
         },
         oct192gcm: {
-          secret: { ext: false, kty: 'oct', k: base64url(random(new Uint8Array(192 >> 3))) },
+          secret: {
+            ext: false,
+            kty: 'oct',
+            k: base64url(crypto.randomFillSync(new Uint8Array(192 >> 3))),
+          },
           algs: ['A192GCM', 'A192GCMKW'],
         },
         oct256gcm: {
-          secret: { ext: false, kty: 'oct', k: base64url(random(new Uint8Array(256 >> 3))) },
+          secret: {
+            ext: false,
+            kty: 'oct',
+            k: base64url(crypto.randomFillSync(new Uint8Array(256 >> 3))),
+          },
           algs: ['A256GCM', 'A256GCMKW'],
         },
         oct256c: {
-          secret: { kty: 'oct', k: base64url(random(new Uint8Array(256 >> 3))) },
+          secret: { kty: 'oct', k: base64url(crypto.randomFillSync(new Uint8Array(256 >> 3))) },
           algs: ['A128CBC-HS256'],
         },
         oct384c: {
-          secret: { kty: 'oct', k: base64url(random(new Uint8Array(384 >> 3))) },
+          secret: { kty: 'oct', k: base64url(crypto.randomFillSync(new Uint8Array(384 >> 3))) },
           algs: ['A192CBC-HS384'],
         },
         oct512c: {
-          secret: { kty: 'oct', k: base64url(random(new Uint8Array(512 >> 3))) },
+          secret: { kty: 'oct', k: base64url(crypto.randomFillSync(new Uint8Array(512 >> 3))) },
           algs: ['A256CBC-HS512'],
         },
       };
@@ -227,7 +254,7 @@ Promise.all([
             ]);
           }
 
-          const jwe = await new FlattenedEncrypt(random(new Uint8Array(256 >> 3)))
+          const jwe = await new FlattenedEncrypt(crypto.randomFillSync(new Uint8Array(256 >> 3)))
             .setProtectedHeader({ 'urn:example:protected': true })
             .setUnprotectedHeader(
               alg.startsWith('A') && !alg.endsWith('KW')
@@ -239,7 +266,7 @@ Promise.all([
                 ? { alg: 'dir' }
                 : { alg, 'urn:example:unprotected': true },
             )
-            .setAdditionalAuthenticatedData(random(new Uint8Array(128 >> 3)))
+            .setAdditionalAuthenticatedData(crypto.randomFillSync(new Uint8Array(128 >> 3)))
             .encrypt(pub);
           await decryptFlattened(jwe, priv);
         }),
@@ -255,7 +282,7 @@ Promise.all([
             ({ privateKey: priv, publicKey: pub } = await generateKeyPair(alg, fixtures.generate));
           }
 
-          const jwe = await new FlattenedEncrypt(random(new Uint8Array(256 >> 3)))
+          const jwe = await new FlattenedEncrypt(crypto.randomFillSync(new Uint8Array(256 >> 3)))
             .setProtectedHeader({ 'urn:example:protected': true })
             .setUnprotectedHeader(
               alg.startsWith('A') && !alg.endsWith('KW')
@@ -267,7 +294,7 @@ Promise.all([
                 ? { alg: 'dir' }
                 : { alg, 'urn:example:unprotected': true },
             )
-            .setAdditionalAuthenticatedData(random(new Uint8Array(128 >> 3)))
+            .setAdditionalAuthenticatedData(crypto.randomFillSync(new Uint8Array(128 >> 3)))
             .encrypt(pub);
           await decryptFlattened(jwe, priv);
         }),
