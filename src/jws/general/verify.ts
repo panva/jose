@@ -109,5 +109,3 @@ export async function generalVerify(
   }
   throw new JWSSignatureVerificationFailed()
 }
-
-export type { KeyLike, GeneralJWSInput, VerifyOptions, GeneralVerifyResult }

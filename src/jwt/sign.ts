@@ -1,6 +1,6 @@
 import { CompactSign } from '../jws/compact/sign.js'
 import { JWTInvalid } from '../util/errors.js'
-import type { JWSHeaderParameters, JWTPayload, KeyLike, SignOptions } from '../types.d'
+import type { JWSHeaderParameters, KeyLike, SignOptions } from '../types.d'
 import { encoder } from '../lib/buffer_utils.js'
 import { ProduceJWT } from './produce.js'
 
@@ -67,5 +67,3 @@ export class SignJWT extends ProduceJWT {
     return sig.sign(key, options)
   }
 }
-
-export type { JWSHeaderParameters, JWTPayload, KeyLike }

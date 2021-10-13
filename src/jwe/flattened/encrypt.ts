@@ -313,5 +313,3 @@ export class FlattenedEncrypt {
     return jwe
   }
 }
-
-export type { KeyLike, FlattenedJWE, JWEHeaderParameters, JWEKeyManagementHeaderParameters }

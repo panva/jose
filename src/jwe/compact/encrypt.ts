@@ -105,5 +105,3 @@ export class CompactEncrypt {
     return [jwe.protected, jwe.encrypted_key, jwe.iv, jwe.ciphertext, jwe.tag].join('.')
   }
 }
-
-export type { KeyLike, JWEKeyManagementHeaderParameters, JWEHeaderParameters }

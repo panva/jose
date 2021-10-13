@@ -117,5 +117,3 @@ export async function generalDecrypt(
   }
   throw new JWEDecryptionFailed()
 }
-
-export type { KeyLike, GeneralJWE, DecryptOptions, GeneralDecryptResult }

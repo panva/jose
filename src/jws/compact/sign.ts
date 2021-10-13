@@ -66,5 +66,3 @@ export class CompactSign {
     return `${jws.protected}.${jws.payload}.${jws.signature}`
   }
 }
-
-export type { JWSHeaderParameters, KeyLike }

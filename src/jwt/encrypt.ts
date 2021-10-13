@@ -3,7 +3,6 @@ import type {
   EncryptOptions,
   JWEHeaderParameters,
   JWEKeyManagementHeaderParameters,
-  JWTPayload,
   KeyLike,
 } from '../types.d'
 import { encoder } from '../lib/buffer_utils.js'
@@ -175,5 +174,3 @@ export class EncryptJWT extends ProduceJWT {
     return enc.encrypt(key, options)
   }
 }
-
-export type { JWEHeaderParameters, JWTPayload, KeyLike }

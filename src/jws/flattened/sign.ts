@@ -165,5 +165,3 @@ export class FlattenedSign {
     return jws
   }
 }
-
-export type { KeyLike, FlattenedJWS, JWSHeaderParameters }

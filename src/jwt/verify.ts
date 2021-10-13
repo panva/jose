@@ -2,7 +2,6 @@ import { compactVerify } from '../jws/compact/verify.js'
 import type {
   KeyLike,
   VerifyOptions,
-  JWTPayload,
   JWTClaimVerificationOptions,
   JWSHeaderParameters,
   GetKeyFunction,
@@ -16,7 +15,7 @@ import { JWTInvalid } from '../util/errors.js'
 /**
  * Combination of JWS Verification options and JWT Claims Set verification options.
  */
-interface JWTVerifyOptions extends VerifyOptions, JWTClaimVerificationOptions {}
+export interface JWTVerifyOptions extends VerifyOptions, JWTClaimVerificationOptions {}
 
 /**
  * Interface for JWT Verification dynamic key resolution.
@@ -92,13 +91,4 @@ export async function jwtVerify(
     return { ...result, key: verified.key }
   }
   return result
-}
-
-export type {
-  KeyLike,
-  JWTPayload,
-  JWTVerifyOptions,
-  JWSHeaderParameters,
-  GetKeyFunction,
-  JWTVerifyResult,
 }

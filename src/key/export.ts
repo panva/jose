@@ -98,5 +98,3 @@ export async function exportPKCS8(key: KeyLike): Promise<string> {
 export async function exportJWK(key: KeyLike | Uint8Array): Promise<JWK> {
   return keyToJWK(key)
 }
-
-export type { KeyLike, JWK }

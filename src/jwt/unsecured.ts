@@ -6,7 +6,7 @@ import { JWTInvalid } from '../util/errors.js'
 import jwtPayload from '../lib/jwt_claims_set.js'
 import { ProduceJWT } from './produce.js'
 
-interface UnsecuredResult {
+export interface UnsecuredResult {
   payload: JWTPayload
   header: JWSHeaderParameters
 }
@@ -91,5 +91,3 @@ export class UnsecuredJWT extends ProduceJWT {
     return { payload, header }
   }
 }
-
-export type { JWSHeaderParameters, JWTPayload, UnsecuredResult }

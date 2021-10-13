@@ -2,7 +2,6 @@ import { compactDecrypt } from '../jwe/compact/decrypt.js'
 import type {
   KeyLike,
   DecryptOptions,
-  JWTPayload,
   JWTClaimVerificationOptions,
   GetKeyFunction,
   JWEHeaderParameters,
@@ -16,7 +15,7 @@ import { JWTClaimValidationFailed } from '../util/errors.js'
 /**
  * Combination of JWE Decryption options and JWT Claims Set verification options.
  */
-interface JWTDecryptOptions extends DecryptOptions, JWTClaimVerificationOptions {}
+export interface JWTDecryptOptions extends DecryptOptions, JWTClaimVerificationOptions {}
 
 /**
  * Interface for JWT Decryption dynamic key resolution.
@@ -119,5 +118,3 @@ export async function jwtDecrypt(
 
   return result
 }
-
-export type { KeyLike, DecryptOptions, JWTPayload, JWTDecryptOptions, JWTDecryptResult }

@@ -157,5 +157,3 @@ export class GeneralSign {
     return jws
   }
 }
-
-export type { KeyLike, GeneralJWS, JWSHeaderParameters }

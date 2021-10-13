@@ -319,5 +319,3 @@ export async function importJWK(
       throw new JOSENotSupported('Unsupported "kty" (Key Type) Parameter value')
   }
 }
-
-export type { KeyLike, JWK }

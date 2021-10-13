@@ -105,5 +105,3 @@ export async function compactVerify(
 
   return result
 }
-
-export type { KeyLike, VerifyOptions, CompactVerifyResult }

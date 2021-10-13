@@ -83,5 +83,3 @@ export async function calculateJwkThumbprint(
   const data = encoder.encode(JSON.stringify(components))
   return base64url(await digest(digestAlgorithm, data))
 }
-
-export type { JWK }

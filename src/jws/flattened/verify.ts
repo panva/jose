@@ -213,12 +213,3 @@ export async function flattenedVerify(
 
   return result
 }
-
-export type {
-  KeyLike,
-  FlattenedJWSInput,
-  GetKeyFunction,
-  JWSHeaderParameters,
-  VerifyOptions,
-  FlattenedVerifyResult,
-}
