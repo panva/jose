@@ -95,11 +95,6 @@
       "import": "./dist/node/esm/jwk/embedded.js",
       "require": "./dist/node/cjs/jwk/embedded.js"
     },
-    "./jwk/parse": {
-      "browser": "./dist/browser/jwk/parse.js",
-      "import": "./dist/node/esm/jwk/parse.js",
-      "require": "./dist/node/cjs/jwk/parse.js"
-    },
     "./jwk/thumbprint": {
       "browser": "./dist/browser/jwk/thumbprint.js",
       "import": "./dist/node/esm/jwk/thumbprint.js",

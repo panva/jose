@@ -19,13 +19,13 @@ if ('WEBCRYPTO' in process.env) {
 Promise.all([
   import(`${root}/jwt/verify`),
   import(`${root}/jwt/sign`),
-  import(`${keyRoot}/jwk/parse`),
+  import(`${keyRoot}/key/import`),
   import(`${keyRoot}/jwks/remote`),
 ]).then(
   ([
     { default: jwtVerify },
     { default: SignJWT },
-    { default: parseJwk },
+    { importJWK },
     { default: createRemoteJWKSet },
   ]) => {
     const now = 1604416038;
@@ -135,7 +135,7 @@ Promise.all([
       const JWKS = createRemoteJWKSet(url);
       {
         const [jwk] = keys;
-        const key = await parseJwk({ ...jwk, alg: 'PS256' });
+        const key = await importJWK({ ...jwk, alg: 'PS256' });
         const jwt = await new SignJWT({})
           .setProtectedHeader({ alg: 'PS256', kid: jwk.kid })
           .sign(key);
@@ -147,7 +147,7 @@ Promise.all([
       }
       {
         const [jwk] = keys;
-        const key = await parseJwk({ ...jwk, alg: 'RS256' });
+        const key = await importJWK({ ...jwk, alg: 'RS256' });
         const jwt = await new SignJWT({}).setProtectedHeader({ alg: 'RS256' }).sign(key);
         await t.throwsAsync(jwtVerify(jwt, JWKS), {
           code: 'ERR_JWKS_MULTIPLE_MATCHING_KEYS',
@@ -156,7 +156,7 @@ Promise.all([
       }
       {
         const [, jwk] = keys;
-        const key = await parseJwk({ ...jwk, alg: 'PS256' });
+        const key = await importJWK({ ...jwk, alg: 'PS256' });
         const jwt = await new SignJWT({})
           .setProtectedHeader({ alg: 'PS256', kid: jwk.kid })
           .sign(key);
@@ -167,7 +167,7 @@ Promise.all([
       }
       {
         const [, , jwk] = keys;
-        const key = await parseJwk({ ...jwk, alg: 'ES256' });
+        const key = await importJWK({ ...jwk, alg: 'ES256' });
         const jwt = await new SignJWT({}).setProtectedHeader({ alg: 'ES256' }).sign(key);
         await t.notThrowsAsync(jwtVerify(jwt, JWKS));
       }
@@ -198,7 +198,7 @@ Promise.all([
 
       const url = new URL('https://as.example.com/jwks');
       const JWKS = createRemoteJWKSet(url);
-      const key = await parseJwk({ ...jwk, alg: 'ES256' });
+      const key = await importJWK({ ...jwk, alg: 'ES256' });
       {
         const jwt = await new SignJWT({})
           .setProtectedHeader({ alg: 'ES256', kid: 'one' })

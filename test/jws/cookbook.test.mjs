@@ -17,14 +17,14 @@ Promise.all([
   import(`${root}/jws/flattened/verify`),
   import(`${root}/jws/compact/sign`),
   import(`${root}/jws/compact/verify`),
-  import(`${keyRoot}/jwk/parse`),
+  import(`${keyRoot}/key/import`),
 ]).then(
   ([
     { default: FlattenedSign },
     { default: flattenedVerify },
     { default: CompactSign },
     { default: compactVerify },
-    { default: parseJwk },
+    { importJWK },
   ]) => {
     const flattened = {
       Sign: FlattenedSign,
@@ -66,7 +66,7 @@ Promise.all([
             sign.setUnprotectedHeader(vector.signing.unprotected);
           }
 
-          const privateKey = await parseJwk(vector.input.key, vector.input.alg);
+          const privateKey = await importJWK(vector.input.key, vector.input.alg);
 
           const result = await sign.sign(privateKey);
 
@@ -95,14 +95,14 @@ Promise.all([
           sign.setUnprotectedHeader(vector.signing.unprotected);
         }
 
-        const privateKey = await parseJwk(vector.input.key, vector.input.alg);
-        const publicKey = await parseJwk(pubjwk(vector.input.key), vector.input.alg);
+        const privateKey = await importJWK(vector.input.key, vector.input.alg);
+        const publicKey = await importJWK(pubjwk(vector.input.key), vector.input.alg);
 
         const result = await sign.sign(privateKey);
         await t.notThrowsAsync(flattened.verify(result, publicKey));
       }
 
-      const publicKey = await parseJwk(pubjwk(vector.input.key), vector.input.alg);
+      const publicKey = await importJWK(pubjwk(vector.input.key), vector.input.alg);
 
       if (vector.output.json_flat) {
         await t.notThrowsAsync(flattened.verify(vector.output.json_flat, publicKey));

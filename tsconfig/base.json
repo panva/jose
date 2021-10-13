@@ -13,7 +13,6 @@
     "../src/jws/general/verify.ts",
     "../src/jws/general/sign.ts",
 
-    "../src/jwk/parse.ts",
     "../src/jwk/thumbprint.ts",
     "../src/jwk/embedded.ts",
 

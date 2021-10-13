@@ -17,7 +17,7 @@ Promise.all([
   import(`${root}/jws/flattened/verify`),
   import(`${root}/util/random`),
   import(`${root}/util/base64url`),
-  import(`${keyRoot}/jwk/parse`),
+  import(`${keyRoot}/key/import`),
   import(`${keyRoot}/util/generate_key_pair`),
   import(`${keyRoot}/util/generate_secret`),
 ]).then(
@@ -26,7 +26,7 @@ Promise.all([
     { default: verifyFlattened },
     { default: random },
     { encode: base64url },
-    { default: parseJwk },
+    { importJWK },
     { default: generateKeyPair },
     { default: generateSecret },
   ]) => {
@@ -154,7 +154,7 @@ Promise.all([
           let priv;
           let pub;
           if ('secret' in fixtures) {
-            const secret = await parseJwk(fixtures.secret, alg, octAsKeyObject);
+            const secret = await importJWK(fixtures.secret, alg, octAsKeyObject);
             if (octAsKeyObject) {
               t.false(secret instanceof Uint8Array);
             } else {
@@ -164,8 +164,8 @@ Promise.all([
             priv = secret;
           } else {
             [pub, priv] = await Promise.all([
-              parseJwk(fixtures.public, alg),
-              parseJwk(fixtures.private, alg),
+              importJWK(fixtures.public, alg),
+              importJWK(fixtures.private, alg),
             ]);
           }
 

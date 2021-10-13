@@ -17,7 +17,7 @@ Promise.all([
   import(`${root}/jwe/flattened/decrypt`),
   import(`${root}/util/random`),
   import(`${root}/util/base64url`),
-  import(`${keyRoot}/jwk/parse`),
+  import(`${keyRoot}/key/import`),
   import(`${keyRoot}/util/generate_key_pair`),
   import(`${keyRoot}/util/generate_secret`),
 ]).then(
@@ -26,7 +26,7 @@ Promise.all([
     { default: decryptFlattened },
     { default: random },
     { encode: base64url },
-    { default: parseJwk },
+    { importJWK },
     { default: generateKeyPair },
     { default: generateSecret },
   ]) => {
@@ -212,7 +212,7 @@ Promise.all([
               publicKeyUsages || privateKeyUsage
                 ? [...new Set([...publicKeyUsages, ...privateKeyUsage])]
                 : undefined;
-            const secret = await parseJwk({ ...fixtures.secret, key_ops }, alg, octAsKeyObject);
+            const secret = await importJWK({ ...fixtures.secret, key_ops }, alg, octAsKeyObject);
             if (octAsKeyObject) {
               t.false(secret instanceof Uint8Array);
             } else {
@@ -222,8 +222,8 @@ Promise.all([
             priv = secret;
           } else {
             [pub, priv] = await Promise.all([
-              parseJwk({ ...fixtures.public, key_ops: publicKeyUsages }, alg),
-              parseJwk({ ...fixtures.private, key_ops: privateKeyUsage }, alg),
+              importJWK({ ...fixtures.public, key_ops: publicKeyUsages }, alg),
+              importJWK({ ...fixtures.private, key_ops: privateKeyUsage }, alg),
             ]);
           }
 

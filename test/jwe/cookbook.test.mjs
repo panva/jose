@@ -17,7 +17,7 @@ Promise.all([
   import(`${root}/jwe/flattened/decrypt`),
   import(`${root}/jwe/compact/encrypt`),
   import(`${root}/jwe/compact/decrypt`),
-  import(`${keyRoot}/jwk/parse`),
+  import(`${keyRoot}/key/import`),
   import(`${root}/util/base64url`),
 ]).then(
   ([
@@ -25,7 +25,7 @@ Promise.all([
     { default: flattenedDecrypt },
     { default: CompactEncrypt },
     { default: compactDecrypt },
-    { default: parseJwk },
+    { importJWK },
     base64url,
   ]) => {
     const flattened = {
@@ -102,14 +102,14 @@ Promise.all([
           }
 
           if (vector.encrypting_key && vector.encrypting_key.epk) {
-            keyManagementParameters.epk = parseJwk(vector.encrypting_key.epk, 'ECDH');
+            keyManagementParameters.epk = importJWK(vector.encrypting_key.epk, 'ECDH');
           }
 
           if (Object.keys(keyManagementParameters) !== 0) {
             encrypt.setKeyManagementParameters(keyManagementParameters);
           }
 
-          const publicKey = await parseJwk(
+          const publicKey = await importJWK(
             pubjwk(toJWK(vector.input.pwd || vector.input.key)),
             dir ? vector.input.enc : vector.input.alg,
           );
@@ -135,7 +135,7 @@ Promise.all([
           encrypt.setUnprotectedHeader(vector.encrypting_content.unprotected);
         }
 
-        const privateKey = await parseJwk(
+        const privateKey = await importJWK(
           toJWK(vector.input.pwd || vector.input.key),
           dir ? vector.input.enc : vector.input.alg,
         );
@@ -143,7 +143,7 @@ Promise.all([
         if (privateKey.type === 'secret') {
           publicKey = privateKey;
         } else {
-          publicKey = await parseJwk(
+          publicKey = await importJWK(
             pubjwk(toJWK(vector.input.pwd || vector.input.key)),
             dir ? vector.input.enc : vector.input.alg,
           );
@@ -153,7 +153,7 @@ Promise.all([
         await t.notThrowsAsync(flattened.decrypt(result, privateKey));
       }
 
-      const privateKey = await parseJwk(
+      const privateKey = await importJWK(
         toJWK(vector.input.pwd || vector.input.key),
         dir ? vector.input.enc : vector.input.alg,
       );

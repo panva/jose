@@ -21,7 +21,7 @@ Promise.all([
   import(`${root}/util/random`),
   import(`${root}/util/base64url`),
   import(`${keyRoot}/util/generate_key_pair`),
-  import(`${keyRoot}/jwk/parse`),
+  import(`${keyRoot}/key/import`),
 ]).then(
   ([
     { default: FlattenedSign },
@@ -31,7 +31,7 @@ Promise.all([
     { default: random },
     base64url,
     { default: generateKeyPair },
-    { default: parseJwk },
+    { importJWK },
   ]) => {
     function pubjwk(jwk) {
       const { d, p, q, dp, dq, qi, ...publicJwk } = jwk;
@@ -94,15 +94,15 @@ Promise.all([
       await t.throwsAsync(
         new FlattenedSign(t.context.payload)
           .setProtectedHeader({ alg })
-          .sign(await parseJwk(keyBad, alg)),
+          .sign(await importJWK(keyBad, alg)),
         { instanceOf: TypeError, message },
       );
 
       const jws = await new FlattenedSign(t.context.payload)
         .setProtectedHeader({ alg })
-        .sign(await parseJwk(keyOk, alg));
+        .sign(await importJWK(keyOk, alg));
 
-      await t.throwsAsync(flattenedVerify(jws, await parseJwk(pubjwk(keyBad), alg)), {
+      await t.throwsAsync(flattenedVerify(jws, await importJWK(pubjwk(keyBad), alg)), {
         instanceOf: TypeError,
         message,
       });
@@ -117,15 +117,15 @@ Promise.all([
       await t.throwsAsync(
         new FlattenedEncrypt(t.context.payload)
           .setProtectedHeader({ alg, enc: 'A256GCM' })
-          .encrypt(await parseJwk(pubjwk(keyBad), alg)),
+          .encrypt(await importJWK(pubjwk(keyBad), alg)),
         { instanceOf: TypeError, message },
       );
 
       const jwe = await new FlattenedEncrypt(t.context.payload)
         .setProtectedHeader({ alg, enc: 'A256GCM' })
-        .encrypt(await parseJwk(pubjwk(keyOk), alg));
+        .encrypt(await importJWK(pubjwk(keyOk), alg));
 
-      await t.throwsAsync(flattenedDecrypt(jwe, await parseJwk(keyBad, alg)), {
+      await t.throwsAsync(flattenedDecrypt(jwe, await importJWK(keyBad, alg)), {
         instanceOf: TypeError,
         message,
       });

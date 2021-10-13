@@ -15,13 +15,13 @@ if ('WEBCRYPTO' in process.env) {
 Promise.all([
   import(`${root}/jws/flattened/sign`),
   import(`${root}/jws/flattened/verify`),
-  import(`${keyRoot}/jwk/parse`),
+  import(`${keyRoot}/key/import`),
   import(`${keyRoot}/jwk/embedded`),
 ]).then(
   ([
     { default: FlattenedSign },
     { default: flattenedVerify },
-    { default: parseJwk },
+    { importJWK },
     { default: EmbeddedJWK },
   ]) => {
     function pubjwk(jwk) {
@@ -41,7 +41,7 @@ Promise.all([
         kty: 'EC',
       };
 
-      const privateKey = await parseJwk(t.context.key);
+      const privateKey = await importJWK(t.context.key);
       t.context.token = await new FlattenedSign(
         encode('It’s a dangerous business, Frodo, going out your door.'),
       )
