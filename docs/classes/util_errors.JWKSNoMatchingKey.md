@@ -14,6 +14,9 @@ An error subclass thrown when no keys match from a JWKS.
 
 - [code](util_errors.JWKSNoMatchingKey.md#code)
 - [message](util_errors.JWKSNoMatchingKey.md#message)
+
+### Accessors
+
 - [code](util_errors.JWKSNoMatchingKey.md#code)
 
 ## Constructors
@@ -32,7 +35,7 @@ An error subclass thrown when no keys match from a JWKS.
 
 ### code
 
-• **code**: `string`
+• **code**: `string` = `'ERR_JWKS_NO_MATCHING_KEY'`
 
 A unique error code for the particular error subclass.
 
@@ -42,10 +45,14 @@ ___
 
 • **message**: `string` = `'no applicable key found in the JSON Web Key Set'`
 
-___
+## Accessors
 
 ### code
 
-▪ `Static` **code**: `string` = `'ERR_JWKS_NO_MATCHING_KEY'`
+• `Static` `get` **code**(): ``"ERR_JWKS_NO_MATCHING_KEY"``
 
 A unique error code for the particular error subclass.
+
+#### Returns
+
+``"ERR_JWKS_NO_MATCHING_KEY"``

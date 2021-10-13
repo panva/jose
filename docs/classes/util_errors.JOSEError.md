@@ -14,6 +14,9 @@ JOSE Error subclasses inherit from.
 ### Properties
 
 - [code](util_errors.JOSEError.md#code)
+
+### Accessors
+
 - [code](util_errors.JOSEError.md#code)
 
 ## Constructors
@@ -32,14 +35,18 @@ JOSE Error subclasses inherit from.
 
 ### code
 
-• **code**: `string`
+• **code**: `string` = `'ERR_JOSE_GENERIC'`
 
 A unique error code for the particular error subclass.
 
-___
+## Accessors
 
 ### code
 
-▪ `Static` **code**: `string` = `'ERR_JOSE_GENERIC'`
+• `Static` `get` **code**(): `string`
 
 A unique error code for the particular error subclass.
+
+#### Returns
+
+`string`

@@ -18,7 +18,7 @@ const { exportSPKI } = require('jose/key/export')
 
 **`example`** Deno import
 ```js
-import { exportSPKI } from 'https://deno.land/x/jose@v3.20.1/key/export.ts'
+import { exportSPKI } from 'https://deno.land/x/jose@v3.20.2/key/export.ts'
 ```
 
 **`example`** Usage

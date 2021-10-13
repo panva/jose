@@ -14,6 +14,9 @@ implementation or JOSE in general.
 ### Properties
 
 - [code](util_errors.JOSENotSupported.md#code)
+
+### Accessors
+
 - [code](util_errors.JOSENotSupported.md#code)
 
 ## Constructors
@@ -32,14 +35,18 @@ implementation or JOSE in general.
 
 ### code
 
-• **code**: `string`
+• **code**: `string` = `'ERR_JOSE_NOT_SUPPORTED'`
 
 A unique error code for the particular error subclass.
 
-___
+## Accessors
 
 ### code
 
-▪ `Static` **code**: `string` = `'ERR_JOSE_NOT_SUPPORTED'`
+• `Static` `get` **code**(): ``"ERR_JOSE_NOT_SUPPORTED"``
 
 A unique error code for the particular error subclass.
+
+#### Returns
+
+``"ERR_JOSE_NOT_SUPPORTED"``

@@ -14,6 +14,9 @@ An error subclass thrown when JWS signature verification fails.
 
 - [code](util_errors.JWSSignatureVerificationFailed.md#code)
 - [message](util_errors.JWSSignatureVerificationFailed.md#message)
+
+### Accessors
+
 - [code](util_errors.JWSSignatureVerificationFailed.md#code)
 
 ## Constructors
@@ -32,7 +35,7 @@ An error subclass thrown when JWS signature verification fails.
 
 ### code
 
-• **code**: `string`
+• **code**: `string` = `'ERR_JWS_SIGNATURE_VERIFICATION_FAILED'`
 
 A unique error code for the particular error subclass.
 
@@ -42,10 +45,14 @@ ___
 
 • **message**: `string` = `'signature verification failed'`
 
-___
+## Accessors
 
 ### code
 
-▪ `Static` **code**: `string` = `'ERR_JWS_SIGNATURE_VERIFICATION_FAILED'`
+• `Static` `get` **code**(): ``"ERR_JWS_SIGNATURE_VERIFICATION_FAILED"``
 
 A unique error code for the particular error subclass.
+
+#### Returns
+
+``"ERR_JWS_SIGNATURE_VERIFICATION_FAILED"``

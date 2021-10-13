@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [3.20.2](https://github.com/panva/jose/compare/v3.20.1...v3.20.2) (2021-10-13)
+
+
+### Bug Fixes
+
+* allow tree-shaking of errors ([0824301](https://github.com/panva/jose/commit/08243010d922c36d22002e35299ec5710654c695))
+
 ## [3.20.1](https://github.com/panva/jose/compare/v3.20.0...v3.20.1) (2021-10-06)
 
 

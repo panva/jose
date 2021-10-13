@@ -13,6 +13,9 @@ An error subclass thrown when a JWKS is invalid.
 ### Properties
 
 - [code](util_errors.JWKSInvalid.md#code)
+
+### Accessors
+
 - [code](util_errors.JWKSInvalid.md#code)
 
 ## Constructors
@@ -31,14 +34,18 @@ An error subclass thrown when a JWKS is invalid.
 
 ### code
 
-• **code**: `string`
+• **code**: `string` = `'ERR_JWKS_INVALID'`
 
 A unique error code for the particular error subclass.
 
-___
+## Accessors
 
 ### code
 
-▪ `Static` **code**: `string` = `'ERR_JWKS_INVALID'`
+• `Static` `get` **code**(): ``"ERR_JWKS_INVALID"``
 
 A unique error code for the particular error subclass.
+
+#### Returns
+
+``"ERR_JWKS_INVALID"``

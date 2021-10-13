@@ -15,6 +15,9 @@ An error subclass thrown when a JWT is expired.
 - [claim](util_errors.JWTExpired.md#claim)
 - [code](util_errors.JWTExpired.md#code)
 - [reason](util_errors.JWTExpired.md#reason)
+
+### Accessors
+
 - [code](util_errors.JWTExpired.md#code)
 
 ## Constructors
@@ -43,7 +46,7 @@ ___
 
 ### code
 
-• **code**: `string`
+• **code**: `string` = `'ERR_JWT_EXPIRED'`
 
 A unique error code for the particular error subclass.
 
@@ -55,10 +58,12 @@ ___
 
 Reason code for the validation failure.
 
-___
+## Accessors
 
 ### code
 
-▪ `Static` **code**: `string` = `'ERR_JWT_EXPIRED'`
+• `Static` `get` **code**(): ``"ERR_JWT_EXPIRED"``
 
-A unique error code for the particular error subclass.
+#### Returns
+
+``"ERR_JWT_EXPIRED"``

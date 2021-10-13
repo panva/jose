@@ -20,7 +20,7 @@ const { importPKCS8 } = require('jose/key/import')
 
 **`example`** Deno import
 ```js
-import { importPKCS8 } from 'https://deno.land/x/jose@v3.20.1/key/import.ts'
+import { importPKCS8 } from 'https://deno.land/x/jose@v3.20.2/key/import.ts'
 ```
 
 **`example`** Usage

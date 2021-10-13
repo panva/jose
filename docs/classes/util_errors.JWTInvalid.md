@@ -13,6 +13,9 @@ An error subclass thrown when a JWT is invalid.
 ### Properties
 
 - [code](util_errors.JWTInvalid.md#code)
+
+### Accessors
+
 - [code](util_errors.JWTInvalid.md#code)
 
 ## Constructors
@@ -31,14 +34,18 @@ An error subclass thrown when a JWT is invalid.
 
 ### code
 
-• **code**: `string`
+• **code**: `string` = `'ERR_JWT_INVALID'`
 
 A unique error code for the particular error subclass.
 
-___
+## Accessors
 
 ### code
 
-▪ `Static` **code**: `string` = `'ERR_JWT_INVALID'`
+• `Static` `get` **code**(): ``"ERR_JWT_INVALID"``
 
 A unique error code for the particular error subclass.
+
+#### Returns
+
+``"ERR_JWT_INVALID"``

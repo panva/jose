@@ -13,6 +13,9 @@ An error subclass thrown when a JWE is invalid.
 ### Properties
 
 - [code](util_errors.JWEInvalid.md#code)
+
+### Accessors
+
 - [code](util_errors.JWEInvalid.md#code)
 
 ## Constructors
@@ -31,14 +34,18 @@ An error subclass thrown when a JWE is invalid.
 
 ### code
 
-• **code**: `string`
+• **code**: `string` = `'ERR_JWE_INVALID'`
 
 A unique error code for the particular error subclass.
 
-___
+## Accessors
 
 ### code
 
-▪ `Static` **code**: `string` = `'ERR_JWE_INVALID'`
+• `Static` `get` **code**(): ``"ERR_JWE_INVALID"``
 
 A unique error code for the particular error subclass.
+
+#### Returns
+
+``"ERR_JWE_INVALID"``

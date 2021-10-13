@@ -14,6 +14,9 @@ Timeout was reached when retrieving the JWKS response.
 
 - [code](util_errors.JWKSTimeout.md#code)
 - [message](util_errors.JWKSTimeout.md#message)
+
+### Accessors
+
 - [code](util_errors.JWKSTimeout.md#code)
 
 ## Constructors
@@ -32,7 +35,7 @@ Timeout was reached when retrieving the JWKS response.
 
 ### code
 
-• **code**: `string`
+• **code**: `string` = `'ERR_JWKS_TIMEOUT'`
 
 A unique error code for the particular error subclass.
 
@@ -42,10 +45,14 @@ ___
 
 • **message**: `string` = `'request timed out'`
 
-___
+## Accessors
 
 ### code
 
-▪ `Static` **code**: `string` = `'ERR_JWKS_TIMEOUT'`
+• `Static` `get` **code**(): ``"ERR_JWKS_TIMEOUT"``
 
 A unique error code for the particular error subclass.
+
+#### Returns
+
+``"ERR_JWKS_TIMEOUT"``

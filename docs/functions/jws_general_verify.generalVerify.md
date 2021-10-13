@@ -18,7 +18,7 @@ const { generalVerify } = require('jose/jws/general/verify')
 
 **`example`** Deno import
 ```js
-import { generalVerify } from 'https://deno.land/x/jose@v3.20.1/jws/general/verify.ts'
+import { generalVerify } from 'https://deno.land/x/jose@v3.20.2/jws/general/verify.ts'
 ```
 
 **`example`** Usage

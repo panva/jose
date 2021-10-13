@@ -18,7 +18,7 @@ const { compactVerify } = require('jose/jws/compact/verify')
 
 **`example`** Deno import
 ```js
-import { compactVerify } from 'https://deno.land/x/jose@v3.20.1/jws/compact/verify.ts'
+import { compactVerify } from 'https://deno.land/x/jose@v3.20.2/jws/compact/verify.ts'
 ```
 
 **`example`** Usage

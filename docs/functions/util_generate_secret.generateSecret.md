@@ -21,7 +21,7 @@ const { generateSecret } = require('jose/util/generate_secret')
 
 **`example`** Deno import
 ```js
-import { generateSecret } from 'https://deno.land/x/jose@v3.20.1/util/generate_secret.ts'
+import { generateSecret } from 'https://deno.land/x/jose@v3.20.2/util/generate_secret.ts'
 ```
 
 **`example`** Usage

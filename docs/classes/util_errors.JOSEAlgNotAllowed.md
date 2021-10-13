@@ -13,6 +13,9 @@ An error subclass thrown when a JOSE Algorithm is not allowed per developer pref
 ### Properties
 
 - [code](util_errors.JOSEAlgNotAllowed.md#code)
+
+### Accessors
+
 - [code](util_errors.JOSEAlgNotAllowed.md#code)
 
 ## Constructors
@@ -31,14 +34,18 @@ An error subclass thrown when a JOSE Algorithm is not allowed per developer pref
 
 ### code
 
-• **code**: `string`
+• **code**: `string` = `'ERR_JOSE_ALG_NOT_ALLOWED'`
 
 A unique error code for the particular error subclass.
 
-___
+## Accessors
 
 ### code
 
-▪ `Static` **code**: `string` = `'ERR_JOSE_ALG_NOT_ALLOWED'`
+• `Static` `get` **code**(): ``"ERR_JOSE_ALG_NOT_ALLOWED"``
 
 A unique error code for the particular error subclass.
+
+#### Returns
+
+``"ERR_JOSE_ALG_NOT_ALLOWED"``

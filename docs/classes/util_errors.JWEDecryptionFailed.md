@@ -14,6 +14,9 @@ An error subclass thrown when a JWE ciphertext decryption fails.
 
 - [code](util_errors.JWEDecryptionFailed.md#code)
 - [message](util_errors.JWEDecryptionFailed.md#message)
+
+### Accessors
+
 - [code](util_errors.JWEDecryptionFailed.md#code)
 
 ## Constructors
@@ -32,7 +35,7 @@ An error subclass thrown when a JWE ciphertext decryption fails.
 
 ### code
 
-• **code**: `string`
+• **code**: `string` = `'ERR_JWE_DECRYPTION_FAILED'`
 
 A unique error code for the particular error subclass.
 
@@ -42,10 +45,14 @@ ___
 
 • **message**: `string` = `'decryption operation failed'`
 
-___
+## Accessors
 
 ### code
 
-▪ `Static` **code**: `string` = `'ERR_JWE_DECRYPTION_FAILED'`
+• `Static` `get` **code**(): ``"ERR_JWE_DECRYPTION_FAILED"``
 
 A unique error code for the particular error subclass.
+
+#### Returns
+
+``"ERR_JWE_DECRYPTION_FAILED"``

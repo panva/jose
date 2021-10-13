@@ -15,6 +15,9 @@ An error subclass thrown when a JWT Claim Set member validation fails.
 - [claim](util_errors.JWTClaimValidationFailed.md#claim)
 - [code](util_errors.JWTClaimValidationFailed.md#code)
 - [reason](util_errors.JWTClaimValidationFailed.md#reason)
+
+### Accessors
+
 - [code](util_errors.JWTClaimValidationFailed.md#code)
 
 ## Constructors
@@ -43,7 +46,7 @@ ___
 
 ### code
 
-• **code**: `string`
+• **code**: `string` = `'ERR_JWT_CLAIM_VALIDATION_FAILED'`
 
 A unique error code for the particular error subclass.
 
@@ -55,10 +58,14 @@ ___
 
 Reason code for the validation failure.
 
-___
+## Accessors
 
 ### code
 
-▪ `Static` **code**: `string` = `'ERR_JWT_CLAIM_VALIDATION_FAILED'`
+• `Static` `get` **code**(): ``"ERR_JWT_CLAIM_VALIDATION_FAILED"``
 
 A unique error code for the particular error subclass.
+
+#### Returns
+
+``"ERR_JWT_CLAIM_VALIDATION_FAILED"``
