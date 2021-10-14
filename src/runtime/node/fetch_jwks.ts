@@ -1,5 +1,5 @@
-import { get as http } from 'http'
-import { get as https } from 'https'
+import * as http from 'http'
+import * as https from 'https'
 import { once } from 'events'
 import type { ClientRequest, IncomingMessage } from 'http'
 import type { RequestOptions } from 'https'
@@ -8,11 +8,6 @@ import type { FetchFunction } from '../interfaces.d'
 import { JOSEError, JWKSTimeout } from '../../util/errors.js'
 import { concat, decoder } from '../../lib/buffer_utils.js'
 
-const protocols: { [protocol: string]: (...args: Parameters<typeof https>) => ClientRequest } = {
-  'https:': https,
-  'http:': http,
-}
-
 type AcceptedRequestOptions = Pick<RequestOptions, 'agent'>
 
 const fetchJwks: FetchFunction = async (
@@ -20,12 +15,20 @@ const fetchJwks: FetchFunction = async (
   timeout: number,
   options: AcceptedRequestOptions,
 ) => {
-  if (protocols[url.protocol] === undefined) {
-    throw new TypeError('Unsupported URL protocol.')
+  let get: (...args: Parameters<typeof https.get>) => ClientRequest
+  switch (url.protocol) {
+    case 'https:':
+      get = https.get
+      break
+    case 'http:':
+      get = http.get
+      break
+    default:
+      throw new TypeError('Unsupported URL protocol.')
   }
 
   const { agent } = options
-  const req = protocols[url.protocol](url.href, {
+  const req = get(url.href, {
     agent,
     timeout,
   })
