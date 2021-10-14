@@ -2,6 +2,35 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [4.0.0](https://github.com/panva/jose/compare/v3.20.3...v4.0.0) (2021-10-14)
+
+
+### ⚠ BREAKING CHANGES
+
+* All module named exports have moved from subpaths to
+just "jose". For example, `import { jwtVerify } from 'jose/jwt/verify'`
+is now just `import { jwtVerify } from 'jose'`.
+* All submodule default exports and named have been
+removed in favour of just "jose" named exports.
+* **typescript:** remove repeated type re-exports
+* The undocumented `jose/util/random` was removed.
+* The `jose/jwk/thumbprint` named export
+is renamed to `calculateJwkThumbprint`, now
+`import { calculateJwkThumbprint } from 'jose'`
+* The deprecated `jose/jwk/parse` module was
+removed, use `import { importJWK } from 'jose'` instead.
+* The deprecated `jose/jwk/from_key_like` module was
+removed, use `import { exportJWK } from 'jose'` instead.
+
+### Refactor
+
+* redo exports to support broader tooling ([dd2cf9e](https://github.com/panva/jose/commit/dd2cf9ed2d89488de6dc4536f721887ffc9bb34f))
+* remove util/random ([914e47f](https://github.com/panva/jose/commit/914e47fc9b6c207fd7e3469b1c3fac40f7a81031))
+* removed the deprecated jwk/from_key_like module ([ec1d0e7](https://github.com/panva/jose/commit/ec1d0e72fe39ec2bccc28e46b5bce2dc17711134))
+* removed the deprecated jwk/parse module ([8d3cc3b](https://github.com/panva/jose/commit/8d3cc3bb46e7e87e6511859dce58a651811ca551))
+* rename calculateThumprint to calculateJwkThumbprint ([5afb713](https://github.com/panva/jose/commit/5afb713fbb99e6c884bb3b1c68ae2cf490e54595))
+* **typescript:** remove repeated type re-exports ([3e137d2](https://github.com/panva/jose/commit/3e137d2427035d18397825074c2ee1e5db97515b))
+
 ## [3.20.3](https://github.com/panva/jose/compare/v3.20.2...v3.20.3) (2021-10-14)
 
 

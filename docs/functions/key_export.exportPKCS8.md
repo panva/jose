@@ -23,7 +23,7 @@ const { exportPKCS8 } = require('jose')
 
 **`example`** Deno import
 ```js
-import { exportPKCS8 } from 'https://deno.land/x/jose@v3.20.3/index.ts'
+import { exportPKCS8 } from 'https://deno.land/x/jose@v4.0.0/index.ts'
 ```
 
 #### Parameters
