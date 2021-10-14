@@ -5,7 +5,7 @@ delete pkg.devDependencies;
 delete pkg.scripts;
 delete pkg.imports;
 
-pkg.description = pkg.description.replace("Universal ", "(Browser Runtime) ");
+pkg.description = `(Browser Runtime) ${pkg.description}`;
 
 delete pkg.main;
 delete pkg.exports["."].import;

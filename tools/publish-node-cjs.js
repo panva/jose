@@ -5,10 +5,7 @@ delete pkg.devDependencies;
 delete pkg.scripts;
 delete pkg.imports;
 
-pkg.description = pkg.description.replace(
-  "Universal ",
-  "(Node.JS CJS Runtime) "
-);
+pkg.description = `(Node.JS CJS Runtime) ${pkg.description}`;
 
 delete pkg.browser;
 delete pkg.exports["."].browser;

@@ -1,6 +1,6 @@
 # jose
 
-> Universal "JSON Web Almost Everything" - JWA, JWS, JWE, JWT, JWK with no dependencies using native crypto runtimes
+> "JSON Web Almost Everything" - JWA, JWS, JWE, JWT, JWK, JWKS with no dependencies using runtime's native crypto in Node.js, Browser, Cloudflare Workers, Electron, and Deno.
 
 ## Implemented specs & features
 
@@ -73,20 +73,10 @@ If you or your business use `jose`, please consider becoming a [sponsor][support
 
 | Version | Security Fixes 🔑 | Other Bug Fixes 🐞 | New Features ⭐ |
 | ------- | --------- | -------- | -------- |
-| [3.x.x](https://github.com/panva/jose) | ✅ | ✅ | ✅ |
+| [4.x.x](https://github.com/panva/jose) | ✅ | ✅ | ✅ |
+| [3.x.x](https://github.com/panva/jose/tree/v3.x) | ✅ | ✅ until 2022-04-30 | ❌ |
 | [2.x.x](https://github.com/panva/jose/tree/v2.x) | ✅ | ✅ until 2022-04-30 | ❌ |
 | [1.x.x](https://github.com/panva/jose/tree/v1.x) | ✅ | ❌ | ❌ |
-
-#### What is new in v3.x?
-
-- Revised API
-- No dependencies
-- Browser, Cloudflare Workers, and Deno support (using [Web Cryptography API][webcrypto])
-- Promise-based API
-
-#### v2.x docs?
-
-[Here.](https://github.com/panva/jose/blob/v2.x/docs/README.md)
 
 #### Semver?
 
@@ -94,7 +84,7 @@ If you or your business use `jose`, please consider becoming a [sponsor][support
 
 #### How is it different from [`jws`](https://github.com/brianloveswords/node-jws), [`jwa`](https://github.com/brianloveswords/node-jwa) or [`jsonwebtoken`](https://github.com/auth0/node-jsonwebtoken)?
 
-- it supports the browser, Cloudflare Workers, and Deno runtimes
+- it supports Browser, Cloudflare Workers, and Deno runtimes
 - it supports encrypted JWTs (i.e. in JWE format)
 - supports secp256k1, Ed25519, Ed448, X25519, and X448
 - it supports JWK Key Format for all four key types (oct, RSA, EC and OKP)
@@ -111,8 +101,6 @@ polyfills and javascript implementation code in the form of
 of the modules with dependencies that either aren't ever used or have native implementation available
 in the runtime already, those are often times faster and more reliable.
 
-- it has smaller module footprint as it does not bundle unnecessary polyfills
-- it does not bundle [`node-forge`](https://github.com/digitalbazaar/forge) fallbacks when crypto runtime is unavailable
 - supports secp256k1, Ed25519, Ed448, X25519, and X448
 
 #### Uint8Array?!

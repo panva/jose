@@ -1,6 +1,6 @@
 # `jose` Modules API Documentation
 
-> "JSON Web Almost Everything" - JWA, JWS, JWE, JWT, JWK with no dependencies using native crypto runtimes
+> "JSON Web Almost Everything" - JWA, JWS, JWE, JWT, JWK, JWKS with no dependencies using runtime's native crypto.
 
 ## Support
 
