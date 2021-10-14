@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [4.0.1](https://github.com/panva/jose/compare/v4.0.0...v4.0.1) (2021-10-14)
+
+
+### Bug Fixes
+
+* **typescript:** re-export all types from index.d.ts ([d68f104](https://github.com/panva/jose/commit/d68f104d5895f639812b3317696a4616c3e5fb59))
+
 ## [4.0.0](https://github.com/panva/jose/compare/v3.20.3...v4.0.0) (2021-10-14)
 
 
