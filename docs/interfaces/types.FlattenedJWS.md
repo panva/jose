@@ -1,7 +1,5 @@
 # Interface: FlattenedJWS
 
-[types](../modules/types.md).FlattenedJWS
-
 Flattened JWS definition. Payload is returned as an empty
 string when JWS Unencoded Payload Option
 [RFC7797](https://tools.ietf.org/html/rfc7797) is used.

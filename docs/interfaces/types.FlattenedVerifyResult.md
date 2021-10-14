@@ -1,7 +1,5 @@
 # Interface: FlattenedVerifyResult
 
-[types](../modules/types.md).FlattenedVerifyResult
-
 ## Table of contents
 
 ### Properties

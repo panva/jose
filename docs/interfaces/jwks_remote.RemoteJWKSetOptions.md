@@ -1,7 +1,5 @@
 # Interface: RemoteJWKSetOptions
 
-[jwks/remote](../modules/jwks_remote.md).RemoteJWKSetOptions
-
 Options for the remote JSON Web Key Set.
 
 ## Table of contents

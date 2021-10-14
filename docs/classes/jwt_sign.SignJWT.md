@@ -1,7 +1,5 @@
 # Class: SignJWT
 
-[jwt/sign](../modules/jwt_sign.md).SignJWT
-
 The SignJWT class is a utility for creating Compact JWS formatted JWT strings.
 
 **`example`** ESM import

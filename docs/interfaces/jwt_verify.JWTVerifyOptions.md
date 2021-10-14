@@ -1,7 +1,5 @@
 # Interface: JWTVerifyOptions
 
-[jwt/verify](../modules/jwt_verify.md).JWTVerifyOptions
-
 Combination of JWS Verification options and JWT Claims Set verification options.
 
 ## Table of contents

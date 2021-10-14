@@ -1,7 +1,5 @@
 # Interface: JWTClaimVerificationOptions
 
-[types](../modules/types.md).JWTClaimVerificationOptions
-
 JWT Claims Set verification options.
 
 ## Table of contents

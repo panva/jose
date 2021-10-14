@@ -1,7 +1,5 @@
 # Interface: JWTDecryptGetKey
 
-[jwt/decrypt](../modules/jwt_decrypt.md).JWTDecryptGetKey
-
 ## Callable
 
 ### JWTDecryptGetKey

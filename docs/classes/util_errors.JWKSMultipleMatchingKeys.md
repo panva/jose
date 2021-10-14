@@ -1,7 +1,5 @@
 # Class: JWKSMultipleMatchingKeys
 
-[util/errors](../modules/util_errors.md).JWKSMultipleMatchingKeys
-
 An error subclass thrown when multiple keys match from a JWKS.
 
 ## Table of contents

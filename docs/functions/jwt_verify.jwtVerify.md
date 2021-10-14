@@ -1,7 +1,5 @@
 # Function: jwtVerify
 
-[jwt/verify](../modules/jwt_verify.md).jwtVerify
-
 ▸ **jwtVerify**(`jwt`, `key`, `options?`): `Promise`<[`JWTVerifyResult`](../interfaces/types.JWTVerifyResult.md)\>
 
 Verifies the JWT format (to be a JWS Compact format), verifies the JWS signature, validates the JWT Claims Set.

@@ -1,7 +1,5 @@
 # Interface: GeneralVerifyGetKey
 
-[jws/general/verify](../modules/jws_general_verify.md).GeneralVerifyGetKey
-
 ## Callable
 
 ### GeneralVerifyGetKey

@@ -1,7 +1,5 @@
 # Function: random
 
-[util/random](../modules/util_random.md).random
-
 ▸ `Const` **random**(`array`): `Uint8Array`
 
 #### Parameters

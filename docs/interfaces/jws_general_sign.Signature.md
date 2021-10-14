@@ -1,7 +1,5 @@
 # Interface: Signature
 
-[jws/general/sign](../modules/jws_general_sign.md).Signature
-
 ## Table of contents
 
 ### Methods

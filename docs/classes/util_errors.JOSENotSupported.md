@@ -1,7 +1,5 @@
 # Class: JOSENotSupported
 
-[util/errors](../modules/util_errors.md).JOSENotSupported
-
 An error subclass thrown when a particular feature or algorithm is not supported by this
 implementation or JOSE in general.
 

@@ -1,7 +1,5 @@
 # Function: generalVerify
 
-[jws/general/verify](../modules/jws_general_verify.md).generalVerify
-
 ▸ **generalVerify**(`jws`, `key`, `options?`): `Promise`<[`GeneralVerifyResult`](../interfaces/types.GeneralVerifyResult.md)\>
 
 Verifies the signature and format of and afterwards decodes the General JWS.

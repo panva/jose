@@ -1,7 +1,5 @@
 # Interface: JoseHeaderParameters
 
-[types](../modules/types.md).JoseHeaderParameters
-
 ## Table of contents
 
 ### Properties

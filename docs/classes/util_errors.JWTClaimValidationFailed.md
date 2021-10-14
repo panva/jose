@@ -1,7 +1,5 @@
 # Class: JWTClaimValidationFailed
 
-[util/errors](../modules/util_errors.md).JWTClaimValidationFailed
-
 An error subclass thrown when a JWT Claim Set member validation fails.
 
 ## Table of contents

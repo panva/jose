@@ -1,7 +1,5 @@
 # Interface: GetKeyFunction<T, T2\>
 
-[types](../modules/types.md).GetKeyFunction
-
 ## Type parameters
 
 | Name |

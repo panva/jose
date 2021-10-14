@@ -1,7 +1,5 @@
 # Class: JWKSTimeout
 
-[util/errors](../modules/util_errors.md).JWKSTimeout
-
 Timeout was reached when retrieving the JWKS response.
 
 ## Table of contents

@@ -1,7 +1,5 @@
 # Interface: ResolvedKey
 
-[types](../modules/types.md).ResolvedKey
-
 ## Table of contents
 
 ### Properties

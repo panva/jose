@@ -1,7 +1,5 @@
 # Function: importSPKI
 
-[key/import](../modules/key_import.md).importSPKI
-
 ▸ **importSPKI**(`spki`, `alg`, `options?`): `Promise`<[`KeyLike`](../types/types.KeyLike.md)\>
 
 Imports an PEM-encoded SPKI string as a runtime-specific public key representation (KeyObject or CryptoKey).

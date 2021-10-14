@@ -1,7 +1,5 @@
 # Interface: FlattenedDecryptGetKey
 
-[jwe/flattened/decrypt](../modules/jwe_flattened_decrypt.md).FlattenedDecryptGetKey
-
 ## Callable
 
 ### FlattenedDecryptGetKey

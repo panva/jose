@@ -1,7 +1,5 @@
 # Class: JWEDecryptionFailed
 
-[util/errors](../modules/util_errors.md).JWEDecryptionFailed
-
 An error subclass thrown when a JWE ciphertext decryption fails.
 
 ## Table of contents

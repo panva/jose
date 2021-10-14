@@ -1,7 +1,5 @@
 # Function: generateSecret
 
-[util/generate_secret](../modules/util_generate_secret.md).generateSecret
-
 ▸ **generateSecret**(`alg`, `options?`): `Promise`<[`KeyLike`](../types/types.KeyLike.md) \| `Uint8Array`\>
 
 Generates a symmetric secret key for a given JWA algorithm identifier.

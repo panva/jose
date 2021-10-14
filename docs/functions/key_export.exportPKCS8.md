@@ -1,7 +1,5 @@
 # Function: exportPKCS8
 
-[key/export](../modules/key_export.md).exportPKCS8
-
 ▸ **exportPKCS8**(`key`): `Promise`<`string`\>
 
 Exports a runtime-specific private key representation (KeyObject or CryptoKey) to an PEM-encoded PKCS8 string format.

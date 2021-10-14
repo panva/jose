@@ -1,7 +1,5 @@
 # Class: CompactEncrypt
 
-[jwe/compact/encrypt](../modules/jwe_compact_encrypt.md).CompactEncrypt
-
 The CompactEncrypt class is a utility for creating Compact JWE strings.
 
 **`example`** ESM import

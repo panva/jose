@@ -1,7 +1,5 @@
 # Function: flattenedVerify
 
-[jws/flattened/verify](../modules/jws_flattened_verify.md).flattenedVerify
-
 ▸ **flattenedVerify**(`jws`, `key`, `options?`): `Promise`<[`FlattenedVerifyResult`](../interfaces/types.FlattenedVerifyResult.md)\>
 
 Verifies the signature and format of and afterwards decodes the Flattened JWS.

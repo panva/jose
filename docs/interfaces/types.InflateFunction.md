@@ -1,7 +1,5 @@
 # Interface: InflateFunction
 
-[types](../modules/types.md).InflateFunction
-
 ## Callable
 
 ### InflateFunction

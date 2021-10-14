@@ -1,7 +1,5 @@
 # Interface: DecryptOptions
 
-[types](../modules/types.md).DecryptOptions
-
 JWE Decryption options.
 
 ## Table of contents

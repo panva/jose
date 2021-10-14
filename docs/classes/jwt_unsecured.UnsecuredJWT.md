@@ -1,7 +1,5 @@
 # Class: UnsecuredJWT
 
-[jwt/unsecured](../modules/jwt_unsecured.md).UnsecuredJWT
-
 The UnsecuredJWT class is a utility for dealing with `{ "alg": "none" }` Unsecured JWTs.
 
 **`example`** ESM import

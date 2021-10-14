@@ -1,7 +1,5 @@
 # Class: FlattenedSign
 
-[jws/flattened/sign](../modules/jws_flattened_sign.md).FlattenedSign
-
 The FlattenedSign class is a utility for creating Flattened JWS objects.
 
 **`example`** ESM import

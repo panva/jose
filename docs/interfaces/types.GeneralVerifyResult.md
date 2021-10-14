@@ -1,7 +1,5 @@
 # Interface: GeneralVerifyResult
 
-[types](../modules/types.md).GeneralVerifyResult
-
 ## Table of contents
 
 ### Properties

@@ -1,7 +1,5 @@
 # Interface: UnsecuredResult
 
-[jwt/unsecured](../modules/jwt_unsecured.md).UnsecuredResult
-
 ## Table of contents
 
 ### Properties

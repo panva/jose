@@ -1,7 +1,5 @@
 # Class: FlattenedEncrypt
 
-[jwe/flattened/encrypt](../modules/jwe_flattened_encrypt.md).FlattenedEncrypt
-
 The FlattenedEncrypt class is a utility for creating Flattened JWE
 objects.
 

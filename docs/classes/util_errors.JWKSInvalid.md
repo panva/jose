@@ -1,7 +1,5 @@
 # Class: JWKSInvalid
 
-[util/errors](../modules/util_errors.md).JWKSInvalid
-
 An error subclass thrown when a JWKS is invalid.
 
 ## Table of contents

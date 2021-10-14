@@ -1,7 +1,5 @@
 # Class: JWSInvalid
 
-[util/errors](../modules/util_errors.md).JWSInvalid
-
 An error subclass thrown when a JWS is invalid.
 
 ## Table of contents

@@ -1,7 +1,5 @@
 # Class: EncryptJWT
 
-[jwt/encrypt](../modules/jwt_encrypt.md).EncryptJWT
-
 The EncryptJWT class is a utility for creating Compact JWE formatted JWT strings.
 
 **`example`** ESM import

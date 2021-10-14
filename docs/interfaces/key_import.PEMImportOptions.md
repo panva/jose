@@ -1,7 +1,5 @@
 # Interface: PEMImportOptions
 
-[key/import](../modules/key_import.md).PEMImportOptions
-
 ## Table of contents
 
 ### Properties

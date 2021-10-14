@@ -1,7 +1,5 @@
 # Interface: EncryptOptions
 
-[types](../modules/types.md).EncryptOptions
-
 JWE Encryption options.
 
 ## Table of contents

@@ -1,7 +1,5 @@
 # Function: importX509
 
-[key/import](../modules/key_import.md).importX509
-
 ▸ **importX509**(`x509`, `alg`, `options?`): `Promise`<[`KeyLike`](../types/types.KeyLike.md)\>
 
 Imports the SPKI from an X.509 string certificate as a runtime-specific public key representation (KeyObject or CryptoKey).

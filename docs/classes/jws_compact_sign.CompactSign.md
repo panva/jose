@@ -1,7 +1,5 @@
 # Class: CompactSign
 
-[jws/compact/sign](../modules/jws_compact_sign.md).CompactSign
-
 The CompactSign class is a utility for creating Compact JWS strings.
 
 **`example`** ESM import

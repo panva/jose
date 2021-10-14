@@ -1,7 +1,5 @@
 # Type alias: KeyLike
 
-[types](../modules/types.md).KeyLike
-
 Ƭ **KeyLike**: `Object`
 
 KeyLike are runtime-specific classes representing asymmetric keys or symmetric secrets.

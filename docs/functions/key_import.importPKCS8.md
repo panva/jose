@@ -1,7 +1,5 @@
 # Function: importPKCS8
 
-[key/import](../modules/key_import.md).importPKCS8
-
 ▸ **importPKCS8**(`pkcs8`, `alg`, `options?`): `Promise`<[`KeyLike`](../types/types.KeyLike.md)\>
 
 Imports an PEM-encoded PKCS8 string as a runtime-specific private key representation (KeyObject or CryptoKey).

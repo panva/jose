@@ -1,7 +1,5 @@
 # Interface: CompactVerifyGetKey
 
-[jws/compact/verify](../modules/jws_compact_verify.md).CompactVerifyGetKey
-
 ## Callable
 
 ### CompactVerifyGetKey

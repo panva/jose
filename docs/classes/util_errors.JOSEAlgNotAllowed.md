@@ -1,7 +1,5 @@
 # Class: JOSEAlgNotAllowed
 
-[util/errors](../modules/util_errors.md).JOSEAlgNotAllowed
-
 An error subclass thrown when a JOSE Algorithm is not allowed per developer preference.
 
 ## Table of contents

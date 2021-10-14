@@ -1,7 +1,5 @@
 # Function: exportJWK
 
-[key/export](../modules/key_export.md).exportJWK
-
 ▸ **exportJWK**(`key`): `Promise`<[`JWK`](../interfaces/types.JWK.md)\>
 
 Exports a runtime-specific key representation (KeyLike) to a JWK.

@@ -1,7 +1,5 @@
 # Function: createRemoteJWKSet
 
-[jwks/remote](../modules/jwks_remote.md).createRemoteJWKSet
-
 ▸ **createRemoteJWKSet**(`url`, `options?`): [`GetKeyFunction`](../interfaces/types.GetKeyFunction.md)<[`JWSHeaderParameters`](../interfaces/types.JWSHeaderParameters.md), [`FlattenedJWSInput`](../interfaces/types.FlattenedJWSInput.md)\>
 
 Returns a function that resolves to a key object downloaded from a

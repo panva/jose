@@ -1,7 +1,5 @@
 # Interface: JWTPayload
 
-[types](../modules/types.md).JWTPayload
-
 Recognized JWT Claims Set members, any other members
 may also be present.
 

@@ -1,7 +1,5 @@
 # Interface: FlattenedDecryptResult
 
-[types](../modules/types.md).FlattenedDecryptResult
-
 ## Table of contents
 
 ### Properties

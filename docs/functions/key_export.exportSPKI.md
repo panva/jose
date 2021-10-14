@@ -1,7 +1,5 @@
 # Function: exportSPKI
 
-[key/export](../modules/key_export.md).exportSPKI
-
 ▸ **exportSPKI**(`key`): `Promise`<`string`\>
 
 Exports a runtime-specific public key representation (KeyObject or CryptoKey) to an PEM-encoded SPKI string format.

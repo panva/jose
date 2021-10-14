@@ -1,7 +1,5 @@
 # Class: JWKSNoMatchingKey
 
-[util/errors](../modules/util_errors.md).JWKSNoMatchingKey
-
 An error subclass thrown when no keys match from a JWKS.
 
 ## Table of contents

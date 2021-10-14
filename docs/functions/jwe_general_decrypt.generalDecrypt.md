@@ -1,7 +1,5 @@
 # Function: generalDecrypt
 
-[jwe/general/decrypt](../modules/jwe_general_decrypt.md).generalDecrypt
-
 ▸ **generalDecrypt**(`jwe`, `key`, `options?`): `Promise`<[`GeneralDecryptResult`](../interfaces/types.GeneralDecryptResult.md)\>
 
 Decrypts a General JWE.

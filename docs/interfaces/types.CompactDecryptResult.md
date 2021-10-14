@@ -1,7 +1,5 @@
 # Interface: CompactDecryptResult
 
-[types](../modules/types.md).CompactDecryptResult
-
 ## Table of contents
 
 ### Properties

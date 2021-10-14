@@ -1,7 +1,5 @@
 # Function: decodeProtectedHeader
 
-[util/decode_protected_header](../modules/util_decode_protected_header.md).decodeProtectedHeader
-
 ▸ **decodeProtectedHeader**(`token`): [`ProtectedHeaderParameters`](../types/util_decode_protected_header.ProtectedHeaderParameters.md)
 
 Decodes the Protected Header of a JWE/JWS/JWT token utilizing any JOSE serialization.

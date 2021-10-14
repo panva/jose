@@ -1,7 +1,5 @@
 # Interface: GeneralJWSInput
 
-[types](../modules/types.md).GeneralJWSInput
-
 General JWS definition for verify function inputs, allows payload as
 Uint8Array for detached signature validation.
 

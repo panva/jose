@@ -1,7 +1,5 @@
 # Interface: JWTDecryptResult
 
-[types](../modules/types.md).JWTDecryptResult
-
 ## Table of contents
 
 ### Properties

@@ -1,7 +1,5 @@
 # Function: importJWK
 
-[key/import](../modules/key_import.md).importJWK
-
 ▸ **importJWK**(`jwk`, `alg?`, `octAsKeyObject?`): `Promise`<[`KeyLike`](../types/types.KeyLike.md) \| `Uint8Array`\>
 
 Imports a JWK to a runtime-specific key representation (KeyLike). Either

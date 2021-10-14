@@ -1,7 +1,5 @@
 # Function: compactDecrypt
 
-[jwe/compact/decrypt](../modules/jwe_compact_decrypt.md).compactDecrypt
-
 ▸ **compactDecrypt**(`jwe`, `key`, `options?`): `Promise`<[`CompactDecryptResult`](../interfaces/types.CompactDecryptResult.md)\>
 
 Decrypts a Compact JWE.

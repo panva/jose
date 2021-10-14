@@ -1,7 +1,5 @@
 # Class: GeneralSign
 
-[jws/general/sign](../modules/jws_general_sign.md).GeneralSign
-
 The GeneralSign class is a utility for creating General JWS objects.
 
 **`example`** ESM import

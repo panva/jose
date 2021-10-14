@@ -1,7 +1,5 @@
 # Interface: JWTVerifyGetKey
 
-[jwt/verify](../modules/jwt_verify.md).JWTVerifyGetKey
-
 ## Callable
 
 ### JWTVerifyGetKey

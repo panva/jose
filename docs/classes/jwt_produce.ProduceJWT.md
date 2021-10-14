@@ -1,7 +1,5 @@
 # Class: ProduceJWT
 
-[jwt/produce](../modules/jwt_produce.md).ProduceJWT
-
 Generic class for JWT producing.
 
 ## Table of contents

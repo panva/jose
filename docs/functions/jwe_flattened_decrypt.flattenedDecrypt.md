@@ -1,7 +1,5 @@
 # Function: flattenedDecrypt
 
-[jwe/flattened/decrypt](../modules/jwe_flattened_decrypt.md).flattenedDecrypt
-
 ▸ **flattenedDecrypt**(`jwe`, `key`, `options?`): `Promise`<[`FlattenedDecryptResult`](../interfaces/types.FlattenedDecryptResult.md)\>
 
 Decrypts a Flattened JWE.

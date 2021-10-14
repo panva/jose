@@ -1,7 +1,5 @@
 # Interface: FlattenedVerifyGetKey
 
-[jws/flattened/verify](../modules/jws_flattened_verify.md).FlattenedVerifyGetKey
-
 ## Callable
 
 ### FlattenedVerifyGetKey

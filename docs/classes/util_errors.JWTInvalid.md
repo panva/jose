@@ -1,7 +1,5 @@
 # Class: JWTInvalid
 
-[util/errors](../modules/util_errors.md).JWTInvalid
-
 An error subclass thrown when a JWT is invalid.
 
 ## Table of contents

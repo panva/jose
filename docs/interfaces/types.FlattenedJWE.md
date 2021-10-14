@@ -1,7 +1,5 @@
 # Interface: FlattenedJWE
 
-[types](../modules/types.md).FlattenedJWE
-
 Flattened JWE definition.
 
 ## Table of contents

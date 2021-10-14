@@ -1,7 +1,5 @@
 # Interface: GenerateSecretOptions
 
-[util/generate_secret](../modules/util_generate_secret.md).GenerateSecretOptions
-
 ## Table of contents
 
 ### Properties

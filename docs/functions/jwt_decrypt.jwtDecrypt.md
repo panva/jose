@@ -1,7 +1,5 @@
 # Function: jwtDecrypt
 
-[jwt/decrypt](../modules/jwt_decrypt.md).jwtDecrypt
-
 ▸ **jwtDecrypt**(`jwt`, `key`, `options?`): `Promise`<[`JWTDecryptResult`](../interfaces/types.JWTDecryptResult.md)\>
 
 Verifies the JWT format (to be a JWE Compact format), decrypts the ciphertext, validates the JWT Claims Set.

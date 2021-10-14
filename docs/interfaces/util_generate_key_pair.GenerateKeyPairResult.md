@@ -1,7 +1,5 @@
 # Interface: GenerateKeyPairResult
 
-[util/generate_key_pair](../modules/util_generate_key_pair.md).GenerateKeyPairResult
-
 ## Table of contents
 
 ### Properties

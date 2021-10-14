@@ -1,7 +1,5 @@
 # Function: generateKeyPair
 
-[util/generate_key_pair](../modules/util_generate_key_pair.md).generateKeyPair
-
 ▸ **generateKeyPair**(`alg`, `options?`): `Promise`<[`GenerateKeyPairResult`](../interfaces/util_generate_key_pair.GenerateKeyPairResult.md)\>
 
 Generates a private and a public key for a given JWA algorithm identifier.

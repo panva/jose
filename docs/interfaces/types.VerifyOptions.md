@@ -1,7 +1,5 @@
 # Interface: VerifyOptions
 
-[types](../modules/types.md).VerifyOptions
-
 JWS Verification options.
 
 ## Table of contents

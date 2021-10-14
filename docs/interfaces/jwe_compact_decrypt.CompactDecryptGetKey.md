@@ -1,7 +1,5 @@
 # Interface: CompactDecryptGetKey
 
-[jwe/compact/decrypt](../modules/jwe_compact_decrypt.md).CompactDecryptGetKey
-
 ## Callable
 
 ### CompactDecryptGetKey

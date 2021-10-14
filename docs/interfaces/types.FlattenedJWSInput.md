@@ -1,7 +1,5 @@
 # Interface: FlattenedJWSInput
 
-[types](../modules/types.md).FlattenedJWSInput
-
 Flattened JWS definition for verify function inputs, allows payload as
 Uint8Array for detached signature validation.
 

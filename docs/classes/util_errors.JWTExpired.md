@@ -1,7 +1,5 @@
 # Class: JWTExpired
 
-[util/errors](../modules/util_errors.md).JWTExpired
-
 An error subclass thrown when a JWT is expired.
 
 ## Table of contents
@@ -63,6 +61,8 @@ Reason code for the validation failure.
 ### code
 
 • `Static` `get` **code**(): ``"ERR_JWT_EXPIRED"``
+
+A unique error code for the particular error subclass.
 
 #### Returns
 

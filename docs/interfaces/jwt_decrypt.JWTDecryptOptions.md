@@ -1,7 +1,5 @@
 # Interface: JWTDecryptOptions
 
-[jwt/decrypt](../modules/jwt_decrypt.md).JWTDecryptOptions
-
 Combination of JWE Decryption options and JWT Claims Set verification options.
 
 ## Table of contents

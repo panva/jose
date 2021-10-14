@@ -1,7 +1,5 @@
 # Interface: SignOptions
 
-[types](../modules/types.md).SignOptions
-
 JWS Signing options.
 
 ## Table of contents

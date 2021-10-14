@@ -1,7 +1,5 @@
 # Interface: JWTVerifyResult
 
-[types](../modules/types.md).JWTVerifyResult
-
 ## Table of contents
 
 ### Properties

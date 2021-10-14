@@ -1,7 +1,5 @@
 # Interface: JWEKeyManagementHeaderParameters
 
-[types](../modules/types.md).JWEKeyManagementHeaderParameters
-
 Recognized JWE Key Management-related Header Parameters.
 
 ## Table of contents

@@ -1,7 +1,5 @@
 # Class: JWSSignatureVerificationFailed
 
-[util/errors](../modules/util_errors.md).JWSSignatureVerificationFailed
-
 An error subclass thrown when JWS signature verification fails.
 
 ## Table of contents

@@ -1,7 +1,5 @@
 # Interface: GeneralJWE
 
-[types](../modules/types.md).GeneralJWE
-
 ## Table of contents
 
 ### Properties

@@ -1,7 +1,5 @@
 # Interface: DeflateFunction
 
-[types](../modules/types.md).DeflateFunction
-
 ## Callable
 
 ### DeflateFunction

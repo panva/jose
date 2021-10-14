@@ -1,7 +1,5 @@
 # Interface: CompactVerifyResult
 
-[types](../modules/types.md).CompactVerifyResult
-
 ## Table of contents
 
 ### Properties

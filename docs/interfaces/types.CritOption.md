@@ -1,7 +1,5 @@
 # Interface: CritOption
 
-[types](../modules/types.md).CritOption
-
 Shared Interface with a "crit" property for all sign and verify operations.
 
 ## Table of contents

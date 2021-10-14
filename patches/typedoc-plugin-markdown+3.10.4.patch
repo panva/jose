@@ -69,3 +69,14 @@ index a999ee8..e69de29 100755
 -
 -{{/if}}
 \ No newline at end of file
+diff --git a/node_modules/typedoc-plugin-markdown/dist/resources/partials/title.hbs b/node_modules/typedoc-plugin-markdown/dist/resources/partials/title.hbs
+index ba8e5be..d9627dc 100644
+--- a/node_modules/typedoc-plugin-markdown/dist/resources/partials/title.hbs
++++ b/node_modules/typedoc-plugin-markdown/dist/resources/partials/title.hbs
+@@ -3,5 +3,3 @@
+ # {{{reflectionTitle true}}}
+ 
+ {{/ifShowPageTitle}}
+-
+-{{{reflectionPath}}}
+\ No newline at end of file

@@ -1,7 +1,5 @@
 # Interface: JWEHeaderParameters
 
-[types](../modules/types.md).JWEHeaderParameters
-
 Recognized JWE Header Parameters, any other Header members
 may also be present.
 

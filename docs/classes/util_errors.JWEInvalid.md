@@ -1,7 +1,5 @@
 # Class: JWEInvalid
 
-[util/errors](../modules/util_errors.md).JWEInvalid
-
 An error subclass thrown when a JWE is invalid.
 
 ## Table of contents

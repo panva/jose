@@ -1,7 +1,5 @@
 # Function: compactVerify
 
-[jws/compact/verify](../modules/jws_compact_verify.md).compactVerify
-
 ▸ **compactVerify**(`jws`, `key`, `options?`): `Promise`<[`CompactVerifyResult`](../interfaces/types.CompactVerifyResult.md)\>
 
 Verifies the signature and format of and afterwards decodes the Compact JWS.

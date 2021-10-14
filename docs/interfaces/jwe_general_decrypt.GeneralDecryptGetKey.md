@@ -1,7 +1,5 @@
 # Interface: GeneralDecryptGetKey
 
-[jwe/general/decrypt](../modules/jwe_general_decrypt.md).GeneralDecryptGetKey
-
 ## Callable
 
 ### GeneralDecryptGetKey

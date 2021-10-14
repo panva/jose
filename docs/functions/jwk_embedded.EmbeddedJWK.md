@@ -1,7 +1,5 @@
 # Function: EmbeddedJWK
 
-[jwk/embedded](../modules/jwk_embedded.md).EmbeddedJWK
-
 ▸ **EmbeddedJWK**(`protectedHeader`, `token`): `Promise`<[`KeyLike`](../types/types.KeyLike.md)\>
 
 EmbeddedJWK is an implementation of a GetKeyFunction intended to be used with the

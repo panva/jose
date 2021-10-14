@@ -1,7 +1,5 @@
 # Function: calculateThumbprint
 
-[jwk/thumbprint](../modules/jwk_thumbprint.md).calculateThumbprint
-
 ▸ **calculateThumbprint**(`jwk`, `digestAlgorithm?`): `Promise`<`string`\>
 
 Calculates a base64url-encoded JSON Web Key (JWK) Thumbprint as per

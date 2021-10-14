@@ -1,7 +1,5 @@
 # Interface: GeneralDecryptResult
 
-[types](../modules/types.md).GeneralDecryptResult
-
 ## Table of contents
 
 ### Properties

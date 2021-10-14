@@ -1,7 +1,5 @@
 # Interface: JWSHeaderParameters
 
-[types](../modules/types.md).JWSHeaderParameters
-
 Recognized JWS Header Parameters, any other Header Members
 may also be present.
 

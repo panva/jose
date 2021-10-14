@@ -1,7 +1,5 @@
 # Interface: GenerateKeyPairOptions
 
-[util/generate_key_pair](../modules/util_generate_key_pair.md).GenerateKeyPairOptions
-
 ## Table of contents
 
 ### Properties
