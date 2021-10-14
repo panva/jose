@@ -50,6 +50,33 @@ export class JWTClaimValidationFailed extends JOSEError {
 }
 
 /**
+ * An error subclass thrown when a JWT is expired.
+ */
+export class JWTExpired extends JOSEError implements JWTClaimValidationFailed {
+  static get code(): 'ERR_JWT_EXPIRED' {
+    return 'ERR_JWT_EXPIRED'
+  }
+
+  code = 'ERR_JWT_EXPIRED'
+
+  /**
+   * The Claim for which the validation failed.
+   */
+  claim: string
+
+  /**
+   * Reason code for the validation failure.
+   */
+  reason: string
+
+  constructor(message: string, claim = 'unspecified', reason = 'unspecified') {
+    super(message)
+    this.claim = claim
+    this.reason = reason
+  }
+}
+
+/**
  * An error subclass thrown when a JOSE Algorithm is not allowed per developer preference.
  */
 export class JOSEAlgNotAllowed extends JOSEError {
@@ -190,16 +217,4 @@ export class JWSSignatureVerificationFailed extends JOSEError {
   code = 'ERR_JWS_SIGNATURE_VERIFICATION_FAILED'
 
   message = 'signature verification failed'
-}
-
-/**
- * An error subclass thrown when a JWT is expired.
- */
-// @ts-expect-error
-export class JWTExpired extends JWTClaimValidationFailed {
-  static get code(): 'ERR_JWT_EXPIRED' {
-    return 'ERR_JWT_EXPIRED'
-  }
-
-  code = 'ERR_JWT_EXPIRED'
 }

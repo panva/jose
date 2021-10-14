@@ -80,3 +80,34 @@ index ba8e5be..d9627dc 100644
 -
 -{{{reflectionPath}}}
 \ No newline at end of file
+diff --git a/node_modules/typedoc-plugin-markdown/dist/resources/templates/reflection.hbs b/node_modules/typedoc-plugin-markdown/dist/resources/templates/reflection.hbs
+index ce29bc5..3301cfe 100755
+--- a/node_modules/typedoc-plugin-markdown/dist/resources/templates/reflection.hbs
++++ b/node_modules/typedoc-plugin-markdown/dist/resources/templates/reflection.hbs
+@@ -36,26 +36,6 @@
+ 
+ {{/ifShowTypeHierarchy}}
+ 
+-{{#if model.implementedTypes}}
+-
+-## Implements
+-
+-{{#each model.implementedTypes}}
+-- {{{type}}}
+-{{/each}}
+-
+-{{/if}}
+-
+-{{#if model.implementedBy}}
+-
+-## Implemented by
+-
+-{{#each model.implementedBy}}
+-- {{{type}}}
+-{{/each}}
+-
+-{{/if}}
+-
+ {{#if model.signatures}}
+ 
+ ## Callable
