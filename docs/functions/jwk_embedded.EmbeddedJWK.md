@@ -20,7 +20,7 @@ const { EmbeddedJWK } = require('jose/jwk/embedded')
 
 **`example`** Deno import
 ```js
-import { EmbeddedJWK } from 'https://deno.land/x/jose@v3.20.2/jwk/embedded.ts'
+import { EmbeddedJWK } from 'https://deno.land/x/jose@v3.20.3/jwk/embedded.ts'
 ```
 
 **`example`** Usage

@@ -16,7 +16,7 @@ const { compactDecrypt } = require('jose/jwe/compact/decrypt')
 
 **`example`** Deno import
 ```js
-import { compactDecrypt } from 'https://deno.land/x/jose@v3.20.2/jwe/compact/decrypt.ts'
+import { compactDecrypt } from 'https://deno.land/x/jose@v3.20.3/jwe/compact/decrypt.ts'
 ```
 
 **`example`** Usage

@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [3.20.3](https://github.com/panva/jose/compare/v3.20.2...v3.20.3) (2021-10-14)
+
+
+### Bug Fixes
+
+* remove clutter when tree shaking browser dist ([73ba370](https://github.com/panva/jose/commit/73ba3708d45e32215c76f17d9982b0f4e20b7f08))
+* **typescript:** JWTExpired error TS2417 ([373e0e4](https://github.com/panva/jose/commit/373e0e4b22fb48cefcf14385a19c5ea6a57a849e))
+
 ## [3.20.2](https://github.com/panva/jose/compare/v3.20.1...v3.20.2) (2021-10-13)
 
 

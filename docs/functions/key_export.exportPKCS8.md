@@ -16,7 +16,7 @@ const { exportPKCS8 } = require('jose/key/export')
 
 **`example`** Deno import
 ```js
-import { exportPKCS8 } from 'https://deno.land/x/jose@v3.20.2/key/export.ts'
+import { exportPKCS8 } from 'https://deno.land/x/jose@v3.20.3/key/export.ts'
 ```
 
 **`example`** Usage
