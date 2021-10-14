@@ -36,7 +36,7 @@ jobs:
           key: dist-${{ hashFiles('src/**/*.ts') }}-${{ hashFiles('tsconfig/*.json') }}-${{ hashFiles('.github/workflows/*.yml') }}-${{ hashFiles('package.json') }}
       - name: Prepare distribution
         run: node tools/publish-${{ matrix.prepare-script }}
-      - run: npm publish
+      - run: npm publish --tag previous
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
 
@@ -55,4 +55,3 @@ jobs:
           git config --local user.email "panva.ip@gmail.com"
           git config --local user.name "Filip Skokan"
           git commit -m "chore: cleanup after publish"
-      - run: git push origin HEAD:main
