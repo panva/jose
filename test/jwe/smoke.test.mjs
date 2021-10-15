@@ -331,12 +331,12 @@ Promise.all([
       return run;
     }
 
-    conditional({ webcrypto: 0 }, smoke, 'rsa1_5');
-    conditional({ webcrypto: 0, electron: 0 }, smoke, 'x25519');
-    conditional({ webcrypto: 0, electron: 0 }, smoke, 'x448');
-    conditional({ webcrypto: 0 }, 'as keyobject', smoke, 'oct256c', undefined, undefined, true);
-    conditional({ webcrypto: 0 }, 'as keyobject', smoke, 'oct384c', undefined, undefined, true);
-    conditional({ webcrypto: 0 }, 'as keyobject', smoke, 'oct512c', undefined, undefined, true);
+    conditional({ webcrypto: 0 })(smoke, 'rsa1_5');
+    conditional({ webcrypto: 0, electron: 0 })(smoke, 'x25519');
+    conditional({ webcrypto: 0, electron: 0 })(smoke, 'x448');
+    conditional({ webcrypto: 0 })('as keyobject', smoke, 'oct256c', undefined, undefined, true);
+    conditional({ webcrypto: 0 })('as keyobject', smoke, 'oct384c', undefined, undefined, true);
+    conditional({ webcrypto: 0 })('as keyobject', smoke, 'oct512c', undefined, undefined, true);
     conditional({ electron: 0 })(smoke, 'octAny');
     conditional({ electron: 0 })(
       'as keyobject (deriveBits)',
@@ -360,9 +360,9 @@ Promise.all([
     conditional({ electron: 0 })('as keyobject', smoke, 'oct192', ['wrapKey'], ['unwrapKey'], true);
     conditional({ electron: 0 })(smoke, 'oct256');
     conditional({ electron: 0 })('as keyobject', smoke, 'oct256', ['wrapKey'], ['unwrapKey'], true);
-    conditional({ electron: 0 }, smoke, 'p256kw');
-    conditional({ electron: 0 }, smoke, 'p384kw');
-    conditional({ electron: 0 }, smoke, 'p521kw');
+    conditional({ electron: 0 })(smoke, 'p256kw');
+    conditional({ electron: 0 })(smoke, 'p384kw');
+    conditional({ electron: 0 })(smoke, 'p521kw');
   },
   (err) => {
     test('failed to import', (t) => {
