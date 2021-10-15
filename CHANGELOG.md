@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [4.0.2](https://github.com/panva/jose/compare/v4.0.1...v4.0.2) (2021-10-15)
+
+
+### Bug Fixes
+
+* **typescript:** export ProduceJWT ([#285](https://github.com/panva/jose/issues/285)) ([2b8738e](https://github.com/panva/jose/commit/2b8738e38a4286c9a1411e3aef3159f61427317c))
+
 ## [4.0.1](https://github.com/panva/jose/compare/v4.0.0...v4.0.1) (2021-10-14)
 
 
