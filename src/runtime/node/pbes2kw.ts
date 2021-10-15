@@ -20,7 +20,7 @@ function getPassword(key: unknown, alg: string) {
     return key
   }
   if (isCryptoKey(key)) {
-    return getKeyObject(key, alg, new Set(['deriveBits', 'deriveKey'])).export()
+    return getKeyObject(key, alg, 'deriveBits', 'deriveKey').export()
   }
   throw new TypeError(invalidKeyInput(key, 'KeyObject', 'CryptoKey', 'Uint8Array'))
 }

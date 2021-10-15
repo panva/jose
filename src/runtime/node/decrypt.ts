@@ -98,7 +98,7 @@ const decrypt: DecryptFunction = async (
 ) => {
   let key: KeyObject | Uint8Array
   if (isCryptoKey(cek)) {
-    key = getKeyObject(cek, enc, new Set(['decrypt']))
+    key = getKeyObject(cek, enc, 'decrypt')
   } else if (cek instanceof Uint8Array || isKeyObject(cek)) {
     key = cek
   } else {

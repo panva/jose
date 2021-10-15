@@ -26,7 +26,7 @@ function getNamedCurve(alg: string) {
   }
 }
 
-export function getKeyObject(key: CryptoKey, alg?: string, usage?: Set<KeyUsage>) {
+export function checkCryptoKey(key: CryptoKey, alg?: string, ...usages: KeyUsage[]) {
   switch (alg) {
     case undefined:
       break
@@ -185,8 +185,7 @@ export function getKeyObject(key: CryptoKey, alg?: string, usage?: Set<KeyUsage>
       throw new TypeError('CryptoKey does not support this operation')
   }
 
-  if (usage && !key.usages.find(Set.prototype.has.bind(usage))) {
-    const usages = [...usage]
+  if (usages.length && !usages.some((expected) => key.usages.includes(expected))) {
     let msg = 'CryptoKey does not support this operation, its usages must include '
     if (usages.length > 2) {
       const last = usages.pop()
@@ -194,11 +193,14 @@ export function getKeyObject(key: CryptoKey, alg?: string, usage?: Set<KeyUsage>
     } else if (usages.length === 2) {
       msg += `one of ${usages[0]} or ${usages[1]}.`
     } else {
-      msg += ` ${usages[0]}.`
+      msg += `${usages[0]}.`
     }
 
     throw new TypeError(msg)
   }
+}
 
+export function getKeyObject(key: CryptoKey, alg?: string, ...usages: KeyUsage[]) {
+  checkCryptoKey(key, alg, ...usages)
   return crypto.KeyObject.from(key)
 }

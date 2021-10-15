@@ -46,7 +46,7 @@ function ensureKeyObject(key: unknown, alg: string, ...usages: KeyUsage[]) {
     return key
   }
   if (isCryptoKey(key)) {
-    return getKeyObject(key, alg, new Set(usages))
+    return getKeyObject(key, alg, ...usages)
   }
   throw new TypeError(invalidKeyInput(key, 'KeyObject', 'CryptoKey'))
 }

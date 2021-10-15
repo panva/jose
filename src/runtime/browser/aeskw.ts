@@ -1,6 +1,6 @@
 import type { AesKwUnwrapFunction, AesKwWrapFunction } from '../interfaces.d'
 import bogusWebCrypto from './bogus.js'
-import crypto, { isCryptoKey } from './webcrypto.js'
+import crypto, { checkCryptoKey, isCryptoKey } from './webcrypto.js'
 import invalidKeyInput from './invalid_key_input.js'
 
 function checkKeySize(key: CryptoKey, alg: string) {
@@ -9,8 +9,9 @@ function checkKeySize(key: CryptoKey, alg: string) {
   }
 }
 
-function getCryptoKey(key: unknown, usage: KeyUsage) {
+function getCryptoKey(key: unknown, alg: string, usage: KeyUsage) {
   if (isCryptoKey(key)) {
+    checkCryptoKey(key, alg, usage)
     return key
   }
 
@@ -22,7 +23,7 @@ function getCryptoKey(key: unknown, usage: KeyUsage) {
 }
 
 export const wrap: AesKwWrapFunction = async (alg: string, key: unknown, cek: Uint8Array) => {
-  const cryptoKey = await getCryptoKey(key, 'wrapKey')
+  const cryptoKey = await getCryptoKey(key, alg, 'wrapKey')
 
   checkKeySize(cryptoKey, alg)
 
@@ -37,7 +38,7 @@ export const unwrap: AesKwUnwrapFunction = async (
   key: unknown,
   encryptedKey: Uint8Array,
 ) => {
-  const cryptoKey = await getCryptoKey(key, 'unwrapKey')
+  const cryptoKey = await getCryptoKey(key, alg, 'unwrapKey')
 
   checkKeySize(cryptoKey, alg)
 

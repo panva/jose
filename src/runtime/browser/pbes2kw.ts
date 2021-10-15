@@ -4,15 +4,16 @@ import { p2s as concatSalt } from '../../lib/buffer_utils.js'
 import { encode as base64url } from './base64url.js'
 import { wrap, unwrap } from './aeskw.js'
 import checkP2s from '../../lib/check_p2s.js'
-import crypto, { isCryptoKey } from './webcrypto.js'
+import crypto, { checkCryptoKey, isCryptoKey } from './webcrypto.js'
 import invalidKeyInput from './invalid_key_input.js'
 
-function getCryptoKey(key: unknown) {
+function getCryptoKey(key: unknown, alg: string) {
   if (key instanceof Uint8Array) {
     return crypto.subtle.importKey('raw', key, 'PBKDF2', false, ['deriveBits'])
   }
 
   if (isCryptoKey(key)) {
+    checkCryptoKey(key, alg, 'deriveBits', 'deriveKey')
     return key
   }
 
@@ -41,7 +42,7 @@ export const encrypt: Pbes2KWEncryptFunction = async (
     name: 'AES-KW',
   }
 
-  const cryptoKey = await getCryptoKey(key)
+  const cryptoKey = await getCryptoKey(key, alg)
 
   let derived: CryptoKey | Uint8Array
   if (cryptoKey.usages.includes('deriveBits')) {
@@ -79,7 +80,7 @@ export const decrypt: Pbes2KWDecryptFunction = async (
     name: 'AES-KW',
   }
 
-  const cryptoKey = await getCryptoKey(key)
+  const cryptoKey = await getCryptoKey(key, alg)
 
   let derived: CryptoKey | Uint8Array
   if (cryptoKey.usages.includes('deriveBits')) {

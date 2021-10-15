@@ -14,7 +14,7 @@ export default function getSignVerifyKey(alg: string, key: unknown, usage: KeyUs
     return key
   }
   if (isCryptoKey(key)) {
-    return getKeyObject(key, alg, new Set([usage]))
+    return getKeyObject(key, alg, usage)
   }
   throw new TypeError(invalidKeyInput(key, 'KeyObject', 'CryptoKey', 'Uint8Array'))
 }

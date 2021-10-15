@@ -2,20 +2,22 @@ import { concat, uint64be } from '../../lib/buffer_utils.js'
 
 import type { DecryptFunction } from '../interfaces.d'
 import checkIvLength from '../../lib/check_iv_length.js'
-import checkCekLength from './check_cek_length.js'
 import timingSafeEqual from './timing_safe_equal.js'
 import { JOSENotSupported, JWEDecryptionFailed } from '../../util/errors.js'
-import crypto, { isCryptoKey } from './webcrypto.js'
+import crypto, { checkCryptoKey, isCryptoKey } from './webcrypto.js'
 import invalidKeyInput from './invalid_key_input.js'
 
 async function cbcDecrypt(
   enc: string,
-  cek: Uint8Array,
+  cek: Uint8Array | CryptoKey,
   ciphertext: Uint8Array,
   iv: Uint8Array,
   tag: Uint8Array,
   aad: Uint8Array,
 ) {
+  if (!(cek instanceof Uint8Array)) {
+    throw new TypeError(invalidKeyInput(cek, 'Uint8Array'))
+  }
   const keySize = parseInt(enc.substr(1, 3), 10)
   const encKey = await crypto.subtle.importKey(
     'raw',
@@ -66,16 +68,20 @@ async function cbcDecrypt(
 }
 
 async function gcmDecrypt(
+  enc: string,
   cek: Uint8Array | CryptoKey,
   ciphertext: Uint8Array,
   iv: Uint8Array,
   tag: Uint8Array,
   aad: Uint8Array,
 ) {
-  const encKey =
-    cek instanceof Uint8Array
-      ? await crypto.subtle.importKey('raw', cek, 'AES-GCM', false, ['decrypt'])
-      : cek
+  let encKey: CryptoKey
+  if (cek instanceof Uint8Array) {
+    encKey = await crypto.subtle.importKey('raw', cek, 'AES-GCM', false, ['decrypt'])
+  } else {
+    checkCryptoKey(cek, enc, 'decrypt')
+    encKey = cek
+  }
 
   try {
     return new Uint8Array(
@@ -108,18 +114,17 @@ const decrypt: DecryptFunction = async (
     throw new TypeError(invalidKeyInput(cek, 'CryptoKey', 'Uint8Array'))
   }
 
-  checkCekLength(enc, cek)
   checkIvLength(enc, iv)
 
   switch (enc) {
     case 'A128CBC-HS256':
     case 'A192CBC-HS384':
     case 'A256CBC-HS512':
-      return cbcDecrypt(enc, <Uint8Array>cek, ciphertext, iv, tag, aad)
+      return cbcDecrypt(enc, cek, ciphertext, iv, tag, aad)
     case 'A128GCM':
     case 'A192GCM':
     case 'A256GCM':
-      return gcmDecrypt(cek, ciphertext, iv, tag, aad)
+      return gcmDecrypt(enc, cek, ciphertext, iv, tag, aad)
     default:
       throw new JOSENotSupported('Unsupported JWE Content Encryption Algorithm')
   }

@@ -75,7 +75,7 @@ const encrypt: EncryptFunction = async (
 ) => {
   let key: KeyObject | Uint8Array
   if (isCryptoKey(cek)) {
-    key = getKeyObject(cek, enc, new Set(['encrypt']))
+    key = getKeyObject(cek, enc, 'encrypt')
   } else if (cek instanceof Uint8Array || isKeyObject(cek)) {
     key = cek
   } else {

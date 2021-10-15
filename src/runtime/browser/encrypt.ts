@@ -1,18 +1,20 @@
 import { concat, uint64be } from '../../lib/buffer_utils.js'
 import type { EncryptFunction } from '../interfaces.d'
 import checkIvLength from '../../lib/check_iv_length.js'
-import checkCekLength from './check_cek_length.js'
-import crypto, { isCryptoKey } from './webcrypto.js'
+import crypto, { checkCryptoKey, isCryptoKey } from './webcrypto.js'
 import invalidKeyInput from './invalid_key_input.js'
 import { JOSENotSupported } from '../../util/errors.js'
 
 async function cbcEncrypt(
   enc: string,
   plaintext: Uint8Array,
-  cek: Uint8Array,
+  cek: Uint8Array | CryptoKey,
   iv: Uint8Array,
   aad: Uint8Array,
 ) {
+  if (!(cek instanceof Uint8Array)) {
+    throw new TypeError(invalidKeyInput(cek, 'Uint8Array'))
+  }
   const keySize = parseInt(enc.substr(1, 3), 10)
   const encKey = await crypto.subtle.importKey(
     'raw',
@@ -52,15 +54,19 @@ async function cbcEncrypt(
 }
 
 async function gcmEncrypt(
+  enc: string,
   plaintext: Uint8Array,
   cek: Uint8Array | CryptoKey,
   iv: Uint8Array,
   aad: Uint8Array,
 ) {
-  const encKey =
-    cek instanceof Uint8Array
-      ? await crypto.subtle.importKey('raw', cek, 'AES-GCM', false, ['encrypt'])
-      : cek
+  let encKey: CryptoKey
+  if (cek instanceof Uint8Array) {
+    encKey = await crypto.subtle.importKey('raw', cek, 'AES-GCM', false, ['encrypt'])
+  } else {
+    checkCryptoKey(cek, enc, 'encrypt')
+    encKey = cek
+  }
 
   const encrypted = new Uint8Array(
     await crypto.subtle.encrypt(
@@ -93,7 +99,6 @@ const encrypt: EncryptFunction = async (
     throw new TypeError(invalidKeyInput(cek, 'CryptoKey', 'Uint8Array'))
   }
 
-  checkCekLength(enc, cek)
   checkIvLength(enc, iv)
 
   switch (enc) {
@@ -104,7 +109,7 @@ const encrypt: EncryptFunction = async (
     case 'A128GCM':
     case 'A192GCM':
     case 'A256GCM':
-      return gcmEncrypt(plaintext, cek, iv, aad)
+      return gcmEncrypt(enc, plaintext, cek, iv, aad)
     default:
       throw new JOSENotSupported('Unsupported JWE Content Encryption Algorithm')
   }

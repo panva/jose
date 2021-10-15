@@ -36,7 +36,7 @@ export const deriveKey: EcdhESDeriveKeyFunction = async (
 
   let privateKey: KeyObject
   if (isCryptoKey(privateKee)) {
-    privateKey = getKeyObject(privateKee, 'ECDH-ES', new Set(['deriveBits', 'deriveKey']))
+    privateKey = getKeyObject(privateKee, 'ECDH-ES', 'deriveBits', 'deriveKey')
   } else if (isKeyObject(privateKee)) {
     privateKey = privateKee
   } else {
