@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [4.0.3](https://github.com/panva/jose/compare/v4.0.2...v4.0.3) (2021-10-16)
+
+
+### Bug Fixes
+
+* **web:** checking cryptokey applicability early ([89dc2aa](https://github.com/panva/jose/commit/89dc2aab99d831e922ba865eccfb29b8229ed767))
+
 ## [4.0.2](https://github.com/panva/jose/compare/v4.0.1...v4.0.2) (2021-10-15)
 
 

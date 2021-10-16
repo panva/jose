@@ -25,7 +25,7 @@ const { CompactSign } = require('jose')
 
 **`example`** Deno import
 ```js
-import { CompactSign } from 'https://deno.land/x/jose@v4.0.2/index.ts'
+import { CompactSign } from 'https://deno.land/x/jose@v4.0.3/index.ts'
 ```
 
 ## Table of contents
