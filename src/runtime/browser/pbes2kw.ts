@@ -27,7 +27,7 @@ async function deriveKey(p2s: Uint8Array, alg: string, p2c: number, key: unknown
   const salt = concatSalt(alg, p2s)
   const keylen = parseInt(alg.substr(13, 3), 10)
   const subtleAlg = {
-    hash: { name: `SHA-${alg.substr(8, 3)}` },
+    hash: `SHA-${alg.substr(8, 3)}`,
     iterations: p2c,
     name: 'PBKDF2',
     salt,

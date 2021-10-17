@@ -29,7 +29,7 @@ async function cbcEncrypt(
     'raw',
     cek.subarray(0, keySize >> 3),
     {
-      hash: { name: `SHA-${keySize << 1}` },
+      hash: `SHA-${keySize << 1}`,
       name: 'HMAC',
     },
     false,

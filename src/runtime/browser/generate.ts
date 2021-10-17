@@ -14,7 +14,7 @@ export async function generateSecret(alg: string, options?: GenerateSecretOption
     case 'HS384':
     case 'HS512':
       length = parseInt(alg.substr(-3), 10)
-      algorithm = { name: 'HMAC', hash: { name: `SHA-${length}` }, length }
+      algorithm = { name: 'HMAC', hash: `SHA-${length}`, length }
       keyUsages = ['sign', 'verify']
       break
     case 'A128CBC-HS256':
@@ -68,7 +68,7 @@ export async function generateKeyPair(alg: string, options?: GenerateKeyPairOpti
     case 'PS512':
       algorithm = {
         name: 'RSA-PSS',
-        hash: { name: `SHA-${alg.substr(-3)}` },
+        hash: `SHA-${alg.substr(-3)}`,
         publicExponent: new Uint8Array([0x01, 0x00, 0x01]),
         modulusLength: getModulusLengthOption(options),
       }
@@ -79,7 +79,7 @@ export async function generateKeyPair(alg: string, options?: GenerateKeyPairOpti
     case 'RS512':
       algorithm = {
         name: 'RSASSA-PKCS1-v1_5',
-        hash: { name: `SHA-${alg.substr(-3)}` },
+        hash: `SHA-${alg.substr(-3)}`,
         publicExponent: new Uint8Array([0x01, 0x00, 0x01]),
         modulusLength: getModulusLengthOption(options),
       }
@@ -91,7 +91,7 @@ export async function generateKeyPair(alg: string, options?: GenerateKeyPairOpti
     case 'RSA-OAEP-512':
       algorithm = {
         name: 'RSA-OAEP',
-        hash: { name: `SHA-${parseInt(alg.substr(-3), 10) || 1}` },
+        hash: `SHA-${parseInt(alg.substr(-3), 10) || 1}`,
         publicExponent: new Uint8Array([0x01, 0x00, 0x01]),
         modulusLength: getModulusLengthOption(options),
       }

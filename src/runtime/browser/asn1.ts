@@ -97,13 +97,13 @@ const genericImport = async (
     case 'PS256':
     case 'PS384':
     case 'PS512':
-      algorithm = { name: 'RSA-PSS', hash: { name: `SHA-${alg.substr(-3)}` } }
+      algorithm = { name: 'RSA-PSS', hash: `SHA-${alg.substr(-3)}` }
       keyUsages = isPublic ? ['verify'] : ['sign']
       break
     case 'RS256':
     case 'RS384':
     case 'RS512':
-      algorithm = { name: 'RSASSA-PKCS1-v1_5', hash: { name: `SHA-${alg.substr(-3)}` } }
+      algorithm = { name: 'RSASSA-PKCS1-v1_5', hash: `SHA-${alg.substr(-3)}` }
       keyUsages = isPublic ? ['verify'] : ['sign']
       break
     case 'RSA-OAEP':
@@ -112,7 +112,7 @@ const genericImport = async (
     case 'RSA-OAEP-512':
       algorithm = {
         name: 'RSA-OAEP',
-        hash: { name: `SHA-${parseInt(alg.substr(-3), 10) || 1}` },
+        hash: `SHA-${parseInt(alg.substr(-3), 10) || 1}`,
       }
       keyUsages = isPublic ? ['encrypt', 'wrapKey'] : ['decrypt', 'unwrapKey']
       break
