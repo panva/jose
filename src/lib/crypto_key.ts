@@ -1,7 +1,15 @@
 import { isCloudflareWorkers, isNodeJs } from '../runtime/global.js'
 
+function unusable(name: string | number, prop = 'algorithm.name') {
+  return new TypeError(`CryptoKey does not support this operation, its ${prop} must be ${name}`)
+}
+
+function isAlgorithm<T = KeyAlgorithm>(algorithm: any, name: string): algorithm is T {
+  return algorithm.name === name
+}
+
 function getHashLength(hash: KeyAlgorithm) {
-  return parseInt(hash?.name.substr(4), 10)
+  return parseInt(hash.name.substr(4), 10)
 }
 
 function getNamedCurve(alg: string) {
@@ -12,6 +20,8 @@ function getNamedCurve(alg: string) {
       return 'P-384'
     case 'ES512':
       return 'P-521'
+    default:
+      throw new Error('unreachable')
   }
 }
 
@@ -36,89 +46,47 @@ export function checkSigCryptoKey(key: CryptoKey, alg: string, ...usages: KeyUsa
     case 'HS256':
     case 'HS384':
     case 'HS512': {
-      if (key.algorithm.name !== 'HMAC') {
-        throw new TypeError(
-          `CryptoKey does not support this operation, its algorithm.name must be HMAC.`,
-        )
-      }
-
+      if (!isAlgorithm<HmacKeyAlgorithm>(key.algorithm, 'HMAC')) throw unusable('HMAC')
       const expected = parseInt(alg.substr(2), 10)
-      const actual = getHashLength((<HmacKeyAlgorithm>key.algorithm).hash)
-      if (actual !== expected) {
-        throw new TypeError(
-          `CryptoKey does not support this operation, its algorithm.hash must be SHA-${expected}.`,
-        )
-      }
+      const actual = getHashLength(key.algorithm.hash)
+      if (actual !== expected) throw unusable(`SHA-${expected}`, 'algorithm.hash')
       break
     }
     case 'RS256':
     case 'RS384':
     case 'RS512': {
-      if (key.algorithm.name !== 'RSASSA-PKCS1-v1_5') {
-        throw new TypeError(
-          `CryptoKey does not support this operation, its algorithm.name must be RSASSA-PKCS1-v1_5.`,
-        )
-      }
-
+      if (!isAlgorithm<RsaHashedKeyAlgorithm>(key.algorithm, 'RSASSA-PKCS1-v1_5'))
+        throw unusable('RSASSA-PKCS1-v1_5')
       const expected = parseInt(alg.substr(2), 10)
-      const actual = getHashLength((<RsaHashedKeyAlgorithm>key.algorithm).hash)
-      if (actual !== expected) {
-        throw new TypeError(
-          `CryptoKey does not support this operation, its algorithm.hash must be SHA-${expected}.`,
-        )
-      }
+      const actual = getHashLength(key.algorithm.hash)
+      if (actual !== expected) throw unusable(`SHA-${expected}`, 'algorithm.hash')
       break
     }
     case 'PS256':
     case 'PS384':
     case 'PS512': {
-      if (key.algorithm.name !== 'RSA-PSS') {
-        throw new TypeError(
-          `CryptoKey does not support this operation, its algorithm.name must be RSA-PSS.`,
-        )
-      }
-
+      if (!isAlgorithm<RsaHashedKeyAlgorithm>(key.algorithm, 'RSA-PSS')) throw unusable('RSA-PSS')
       const expected = parseInt(alg.substr(2), 10)
-      const actual = getHashLength((<RsaHashedKeyAlgorithm>key.algorithm).hash)
-      if (actual !== expected) {
-        throw new TypeError(
-          `CryptoKey does not support this operation, its algorithm.hash must be SHA-${expected}.`,
-        )
-      }
+      const actual = getHashLength(key.algorithm.hash)
+      if (actual !== expected) throw unusable(`SHA-${expected}`, 'algorithm.hash')
       break
     }
     case isNodeJs() && 'EdDSA': {
-      if (key.algorithm.name !== 'NODE-ED25519' && key.algorithm.name !== 'NODE-ED448') {
-        throw new TypeError(
-          `CryptoKey does not support this operation, its algorithm.name must be NODE-ED25519 or NODE-ED448.`,
-        )
-      }
+      if (key.algorithm.name !== 'NODE-ED25519' && key.algorithm.name !== 'NODE-ED448')
+        throw unusable('NODE-ED25519 or NODE-ED448')
       break
     }
     case isCloudflareWorkers() && 'EdDSA': {
-      if (key.algorithm.name !== 'NODE-ED25519') {
-        throw new TypeError(
-          `CryptoKey does not support this operation, its algorithm.name must be NODE-ED25519.`,
-        )
-      }
+      if (!isAlgorithm(key.algorithm, 'NODE-ED25519')) throw unusable('NODE-ED25519')
       break
     }
     case 'ES256':
     case 'ES384':
     case 'ES512': {
-      if (key.algorithm.name !== 'ECDSA') {
-        throw new TypeError(
-          `CryptoKey does not support this operation, its algorithm.name must be ECDSA.`,
-        )
-      }
-
+      if (!isAlgorithm<EcKeyAlgorithm>(key.algorithm, 'ECDSA')) throw unusable('ECDSA')
       const expected = getNamedCurve(alg)
-      const actual = (<EcKeyAlgorithm>key.algorithm).namedCurve
-      if (actual !== expected) {
-        throw new TypeError(
-          `CryptoKey does not support this operation, its algorithm.namedCurve must be ${expected}.`,
-        )
-      }
+      const actual = key.algorithm.namedCurve
+      if (actual !== expected) throw unusable(expected, 'algorithm.namedCurve')
       break
     }
     default:
@@ -133,72 +101,37 @@ export function checkEncCryptoKey(key: CryptoKey, alg: string, ...usages: KeyUsa
     case 'A128GCM':
     case 'A192GCM':
     case 'A256GCM': {
-      if (key.algorithm.name !== 'AES-GCM') {
-        throw new TypeError(
-          `CryptoKey does not support this operation, its algorithm.name must be AES-GCM.`,
-        )
-      }
-
+      if (!isAlgorithm<AesKeyAlgorithm>(key.algorithm, 'AES-GCM')) throw unusable('AES-GCM')
       const expected = parseInt(alg.substr(1, 3), 10)
-      const actual = (<AesKeyAlgorithm>key.algorithm).length
-      if (actual !== expected) {
-        throw new TypeError(
-          `CryptoKey does not support this operation, its algorithm.length must be ${expected}.`,
-        )
-      }
+      const actual = key.algorithm.length
+      if (actual !== expected) throw unusable(expected, 'algorithm.length')
       break
     }
     case 'A128KW':
     case 'A192KW':
     case 'A256KW': {
-      if (key.algorithm.name !== 'AES-KW') {
-        throw new TypeError(
-          `CryptoKey does not support this operation, its algorithm.name must be AES-KW.`,
-        )
-      }
-
+      if (!isAlgorithm<AesKeyAlgorithm>(key.algorithm, 'AES-KW')) throw unusable('AES-KW')
       const expected = parseInt(alg.substr(1, 3), 10)
-      const actual = (<AesKeyAlgorithm>key.algorithm).length
-      if (actual !== expected) {
-        throw new TypeError(
-          `CryptoKey does not support this operation, its algorithm.length must be ${expected}.`,
-        )
-      }
+      const actual = key.algorithm.length
+      if (actual !== expected) throw unusable(expected, 'algorithm.length')
       break
     }
     case 'ECDH-ES':
-      if (key.algorithm.name !== 'ECDH') {
-        throw new TypeError(
-          `CryptoKey does not support this operation, its algorithm.name must be ECDH.`,
-        )
-      }
+      if (!isAlgorithm(key.algorithm, 'ECDH')) throw unusable('ECDH')
       break
     case 'PBES2-HS256+A128KW':
     case 'PBES2-HS384+A192KW':
     case 'PBES2-HS512+A256KW':
-      if (key.algorithm.name !== 'PBKDF2') {
-        throw new TypeError(
-          `CryptoKey does not support this operation, its algorithm.name must be PBKDF2.`,
-        )
-      }
+      if (!isAlgorithm(key.algorithm, 'PBKDF2')) throw unusable('PBKDF2')
       break
     case 'RSA-OAEP':
     case 'RSA-OAEP-256':
     case 'RSA-OAEP-384':
     case 'RSA-OAEP-512': {
-      if (key.algorithm.name !== 'RSA-OAEP') {
-        throw new TypeError(
-          `CryptoKey does not support this operation, its algorithm.name must be RSA-OAEP.`,
-        )
-      }
-
+      if (!isAlgorithm<RsaHashedKeyAlgorithm>(key.algorithm, 'RSA-OAEP')) throw unusable('RSA-OAEP')
       const expected = parseInt(alg.substr(9), 10) || 1
-      const actual = getHashLength((<RsaHashedKeyAlgorithm>key.algorithm).hash)
-      if (actual !== expected) {
-        throw new TypeError(
-          `CryptoKey does not support this operation, its algorithm.hash must be SHA-${expected}.`,
-        )
-      }
+      const actual = getHashLength(key.algorithm.hash)
+      if (actual !== expected) throw unusable(`SHA-${expected}`, 'algorithm.hash')
       break
     }
     default:
