@@ -1,6 +1,7 @@
 import type { AesKwUnwrapFunction, AesKwWrapFunction } from '../interfaces.d'
 import bogusWebCrypto from './bogus.js'
-import crypto, { checkCryptoKey, isCryptoKey } from './webcrypto.js'
+import crypto, { isCryptoKey } from './webcrypto.js'
+import { checkEncCryptoKey } from '../../lib/crypto_key.js'
 import invalidKeyInput from './invalid_key_input.js'
 
 function checkKeySize(key: CryptoKey, alg: string) {
@@ -11,7 +12,7 @@ function checkKeySize(key: CryptoKey, alg: string) {
 
 function getCryptoKey(key: unknown, alg: string, usage: KeyUsage) {
   if (isCryptoKey(key)) {
-    checkCryptoKey(key, alg, usage)
+    checkEncCryptoKey(key, alg, usage)
     return key
   }
 

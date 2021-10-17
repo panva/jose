@@ -1,7 +1,8 @@
 import { KeyObject, publicEncrypt, constants, privateDecrypt } from 'crypto'
 import type { RsaEsDecryptFunction, RsaEsEncryptFunction } from '../interfaces.d'
 import checkModulusLength from './check_modulus_length.js'
-import { isCryptoKey, getKeyObject } from './webcrypto.js'
+import { isCryptoKey } from './webcrypto.js'
+import { checkEncCryptoKey } from '../../lib/crypto_key.js'
 import isKeyObject from './is_key_object.js'
 import invalidKeyInput from './invalid_key_input.js'
 
@@ -46,7 +47,8 @@ function ensureKeyObject(key: unknown, alg: string, ...usages: KeyUsage[]) {
     return key
   }
   if (isCryptoKey(key)) {
-    return getKeyObject(key, alg, ...usages)
+    checkEncCryptoKey(key, alg, ...usages)
+    return KeyObject.from(key)
   }
   throw new TypeError(invalidKeyInput(key, 'KeyObject', 'CryptoKey'))
 }

@@ -1,6 +1,6 @@
 import { createPrivateKey, createPublicKey, KeyObject } from 'crypto'
 import { Buffer } from 'buffer'
-import { isCryptoKey, getKeyObject } from './webcrypto.js'
+import { isCryptoKey } from './webcrypto.js'
 import type { PEMExportFunction, PEMImportFunction } from '../interfaces.d'
 import isKeyObject from './is_key_object.js'
 import invalidKeyInput from './invalid_key_input.js'
@@ -15,7 +15,7 @@ const genericExport = (
     if (!key.extractable) {
       throw new TypeError('CryptoKey is not extractable')
     }
-    keyObject = getKeyObject(key)
+    keyObject = KeyObject.from(key)
   } else if (isKeyObject(key)) {
     keyObject = key
   } else {

@@ -6,7 +6,7 @@ import { wrap as aesGcmKw } from '../runtime/aesgcmkw.js'
 import { encode as base64url } from '../runtime/base64url.js'
 
 import type { KeyLike, JWEKeyManagementHeaderParameters, JWEHeaderParameters } from '../types.d'
-import generateCek, { bitLengths as cekLengths } from '../lib/cek.js'
+import generateCek, { bitLength as cekLength } from '../lib/cek.js'
 import { JOSENotSupported } from '../util/errors.js'
 import { exportJWK } from '../key/export.js'
 import checkKeyType from './check_key_type.js'
@@ -52,7 +52,7 @@ async function encryptKeyManagement(
         key,
         ephemeralKey,
         alg === 'ECDH-ES' ? enc : alg,
-        parseInt(alg.substr(-5, 3), 10) || <number>cekLengths.get(enc),
+        parseInt(alg.substr(-5, 3), 10) || cekLength(enc),
         apu,
         apv,
       )

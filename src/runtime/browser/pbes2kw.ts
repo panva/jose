@@ -4,7 +4,8 @@ import { p2s as concatSalt } from '../../lib/buffer_utils.js'
 import { encode as base64url } from './base64url.js'
 import { wrap, unwrap } from './aeskw.js'
 import checkP2s from '../../lib/check_p2s.js'
-import crypto, { checkCryptoKey, isCryptoKey } from './webcrypto.js'
+import crypto, { isCryptoKey } from './webcrypto.js'
+import { checkEncCryptoKey } from '../../lib/crypto_key.js'
 import invalidKeyInput from './invalid_key_input.js'
 
 function getCryptoKey(key: unknown, alg: string) {
@@ -13,7 +14,7 @@ function getCryptoKey(key: unknown, alg: string) {
   }
 
   if (isCryptoKey(key)) {
-    checkCryptoKey(key, alg, 'deriveBits', 'deriveKey')
+    checkEncCryptoKey(key, alg, 'deriveBits', 'deriveKey')
     return key
   }
 

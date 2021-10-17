@@ -1,8 +1,7 @@
 import { Buffer } from 'buffer'
-import type { KeyObject } from 'crypto'
-import { createPublicKey } from 'crypto'
+import { createPublicKey, KeyObject } from 'crypto'
 import { JOSENotSupported } from '../../util/errors.js'
-import { isCryptoKey, getKeyObject } from './webcrypto.js'
+import { isCryptoKey } from './webcrypto.js'
 import isKeyObject from './is_key_object.js'
 import invalidKeyInput from './invalid_key_input.js'
 
@@ -31,7 +30,7 @@ const namedCurveToJOSE = (namedCurve: string) => {
 const getNamedCurve = (kee: unknown, raw?: boolean): string => {
   let key: KeyObject
   if (isCryptoKey(kee)) {
-    key = getKeyObject(kee)
+    key = KeyObject.from(kee)
   } else if (isKeyObject(kee)) {
     key = kee
   } else {

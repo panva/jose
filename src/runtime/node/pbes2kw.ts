@@ -1,12 +1,13 @@
 import { promisify } from 'util'
-import { pbkdf2 as pbkdf2cb } from 'crypto'
+import { KeyObject, pbkdf2 as pbkdf2cb } from 'crypto'
 import type { Pbes2KWDecryptFunction, Pbes2KWEncryptFunction } from '../interfaces.d'
 import random from './random.js'
 import { p2s as concatSalt } from '../../lib/buffer_utils.js'
 import { encode as base64url } from './base64url.js'
 import { wrap, unwrap } from './aeskw.js'
 import checkP2s from '../../lib/check_p2s.js'
-import { isCryptoKey, getKeyObject } from './webcrypto.js'
+import { isCryptoKey } from './webcrypto.js'
+import { checkEncCryptoKey } from '../../lib/crypto_key.js'
 import isKeyObject from './is_key_object.js'
 import invalidKeyInput from './invalid_key_input.js'
 
@@ -20,7 +21,8 @@ function getPassword(key: unknown, alg: string) {
     return key
   }
   if (isCryptoKey(key)) {
-    return getKeyObject(key, alg, 'deriveBits', 'deriveKey').export()
+    checkEncCryptoKey(key, alg, 'deriveBits', 'deriveKey')
+    return KeyObject.from(key).export()
   }
   throw new TypeError(invalidKeyInput(key, 'KeyObject', 'CryptoKey', 'Uint8Array'))
 }

@@ -1,7 +1,9 @@
 import { concat, uint64be } from '../../lib/buffer_utils.js'
 import type { EncryptFunction } from '../interfaces.d'
 import checkIvLength from '../../lib/check_iv_length.js'
-import crypto, { checkCryptoKey, isCryptoKey } from './webcrypto.js'
+import checkCekLength from './check_cek_length.js'
+import crypto, { isCryptoKey } from './webcrypto.js'
+import { checkEncCryptoKey } from '../../lib/crypto_key.js'
 import invalidKeyInput from './invalid_key_input.js'
 import { JOSENotSupported } from '../../util/errors.js'
 
@@ -64,7 +66,7 @@ async function gcmEncrypt(
   if (cek instanceof Uint8Array) {
     encKey = await crypto.subtle.importKey('raw', cek, 'AES-GCM', false, ['encrypt'])
   } else {
-    checkCryptoKey(cek, enc, 'encrypt')
+    checkEncCryptoKey(cek, enc, 'encrypt')
     encKey = cek
   }
 
@@ -105,10 +107,12 @@ const encrypt: EncryptFunction = async (
     case 'A128CBC-HS256':
     case 'A192CBC-HS384':
     case 'A256CBC-HS512':
-      return cbcEncrypt(enc, plaintext, <Uint8Array>cek, iv, aad)
+      if (cek instanceof Uint8Array) checkCekLength(cek, parseInt(enc.substr(-3), 10))
+      return cbcEncrypt(enc, plaintext, cek, iv, aad)
     case 'A128GCM':
     case 'A192GCM':
     case 'A256GCM':
+      if (cek instanceof Uint8Array) checkCekLength(cek, parseInt(enc.substr(1, 3), 10))
       return gcmEncrypt(enc, plaintext, cek, iv, aad)
     default:
       throw new JOSENotSupported('Unsupported JWE Content Encryption Algorithm')

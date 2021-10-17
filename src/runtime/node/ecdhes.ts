@@ -1,5 +1,4 @@
-import type { KeyObject } from 'crypto'
-import { diffieHellman, generateKeyPair as generateKeyPairCb } from 'crypto'
+import { diffieHellman, generateKeyPair as generateKeyPairCb, KeyObject } from 'crypto'
 import { promisify } from 'util'
 
 import type {
@@ -11,7 +10,8 @@ import getNamedCurve from './get_named_curve.js'
 import { encoder, concat, uint32be, lengthAndInput, concatKdf } from '../../lib/buffer_utils.js'
 import digest from './digest.js'
 import { JOSENotSupported } from '../../util/errors.js'
-import { isCryptoKey, getKeyObject } from './webcrypto.js'
+import { isCryptoKey } from './webcrypto.js'
+import { checkEncCryptoKey } from '../../lib/crypto_key.js'
 import isKeyObject from './is_key_object.js'
 import invalidKeyInput from './invalid_key_input.js'
 
@@ -27,7 +27,8 @@ export const deriveKey: EcdhESDeriveKeyFunction = async (
 ) => {
   let publicKey: KeyObject
   if (isCryptoKey(publicKee)) {
-    publicKey = getKeyObject(publicKee, 'ECDH-ES')
+    checkEncCryptoKey(publicKee, 'ECDH-ES')
+    publicKey = KeyObject.from(publicKee)
   } else if (isKeyObject(publicKee)) {
     publicKey = publicKee
   } else {
@@ -36,7 +37,8 @@ export const deriveKey: EcdhESDeriveKeyFunction = async (
 
   let privateKey: KeyObject
   if (isCryptoKey(privateKee)) {
-    privateKey = getKeyObject(privateKee, 'ECDH-ES', 'deriveBits', 'deriveKey')
+    checkEncCryptoKey(privateKee, 'ECDH-ES', 'deriveBits', 'deriveKey')
+    privateKey = KeyObject.from(privateKee)
   } else if (isKeyObject(privateKee)) {
     privateKey = privateKee
   } else {
@@ -57,7 +59,7 @@ export const deriveKey: EcdhESDeriveKeyFunction = async (
 export const generateEpk: GenerateEpkFunction = async (kee: unknown) => {
   let key: KeyObject
   if (isCryptoKey(kee)) {
-    key = getKeyObject(kee)
+    key = KeyObject.from(kee)
   } else if (isKeyObject(kee)) {
     key = kee
   } else {

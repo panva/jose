@@ -1,12 +1,13 @@
-import { createCipheriv } from 'crypto'
-import type { KeyObject, CipherGCMTypes } from 'crypto'
+import { createCipheriv, KeyObject } from 'crypto'
+import type { CipherGCMTypes } from 'crypto'
 
 import type { EncryptFunction } from '../interfaces.d'
 import checkIvLength from '../../lib/check_iv_length.js'
 import checkCekLength from './check_cek_length.js'
 import { concat } from '../../lib/buffer_utils.js'
 import cbcTag from './cbc_tag.js'
-import { isCryptoKey, getKeyObject } from './webcrypto.js'
+import { isCryptoKey } from './webcrypto.js'
+import { checkEncCryptoKey } from '../../lib/crypto_key.js'
 import isKeyObject from './is_key_object.js'
 import invalidKeyInput from './invalid_key_input.js'
 import { JOSENotSupported } from '../../util/errors.js'
@@ -75,7 +76,8 @@ const encrypt: EncryptFunction = async (
 ) => {
   let key: KeyObject | Uint8Array
   if (isCryptoKey(cek)) {
-    key = getKeyObject(cek, enc, 'encrypt')
+    checkEncCryptoKey(cek, enc, 'encrypt')
+    key = KeyObject.from(cek)
   } else if (cek instanceof Uint8Array || isKeyObject(cek)) {
     key = cek
   } else {

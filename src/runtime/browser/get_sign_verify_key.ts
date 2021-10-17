@@ -1,9 +1,10 @@
-import crypto, { checkCryptoKey, isCryptoKey } from './webcrypto.js'
+import crypto, { isCryptoKey } from './webcrypto.js'
+import { checkSigCryptoKey } from '../../lib/crypto_key.js'
 import invalidKeyInput from './invalid_key_input.js'
 
 export default function getCryptoKey(alg: string, key: unknown, usage: KeyUsage) {
   if (isCryptoKey(key)) {
-    checkCryptoKey(key, alg, usage)
+    checkSigCryptoKey(key, alg, usage)
     return key
   }
 

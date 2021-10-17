@@ -4,7 +4,8 @@ import type {
   GenerateEpkFunction,
 } from '../interfaces.d'
 import { encoder, concat, uint32be, lengthAndInput, concatKdf } from '../../lib/buffer_utils.js'
-import crypto, { checkCryptoKey, isCryptoKey } from './webcrypto.js'
+import crypto, { isCryptoKey } from './webcrypto.js'
+import { checkEncCryptoKey } from '../../lib/crypto_key.js'
 import digest from './digest.js'
 import invalidKeyInput from './invalid_key_input.js'
 
@@ -19,11 +20,11 @@ export const deriveKey: EcdhESDeriveKeyFunction = async (
   if (!isCryptoKey(publicKey)) {
     throw new TypeError(invalidKeyInput(publicKey, 'CryptoKey'))
   }
-  checkCryptoKey(publicKey, 'ECDH-ES')
+  checkEncCryptoKey(publicKey, 'ECDH-ES')
   if (!isCryptoKey(privateKey)) {
     throw new TypeError(invalidKeyInput(privateKey, 'CryptoKey'))
   }
-  checkCryptoKey(privateKey, 'ECDH-ES', 'deriveBits', 'deriveKey')
+  checkEncCryptoKey(privateKey, 'ECDH-ES', 'deriveBits', 'deriveKey')
 
   const value = concat(
     lengthAndInput(encoder.encode(algorithm)),

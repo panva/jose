@@ -7,7 +7,7 @@ import { decode as base64url } from '../runtime/base64url.js'
 
 import type { JWEHeaderParameters, KeyLike, JWK } from '../types.d'
 import { JOSENotSupported, JWEInvalid } from '../util/errors.js'
-import { bitLengths as cekLengths } from '../lib/cek.js'
+import { bitLength as cekLength } from '../lib/cek.js'
 import { importJWK } from '../key/import.js'
 import checkKeyType from './check_key_type.js'
 import isObject from './is_object.js'
@@ -65,7 +65,7 @@ async function decryptKeyManagement(
         epk,
         key,
         alg === 'ECDH-ES' ? joseHeader.enc! : alg,
-        parseInt(alg.substr(-5, 3), 10) || <number>cekLengths.get(joseHeader.enc!),
+        parseInt(alg.substr(-5, 3), 10) || cekLength(joseHeader.enc!),
         partyUInfo,
         partyVInfo,
       )

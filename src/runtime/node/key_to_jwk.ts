@@ -5,7 +5,7 @@ import { encode as base64url } from './base64url.js'
 import Asn1SequenceDecoder from './asn1_sequence_decoder.js'
 import { JOSENotSupported } from '../../util/errors.js'
 import getNamedCurve from './get_named_curve.js'
-import { isCryptoKey, getKeyObject } from './webcrypto.js'
+import { isCryptoKey } from './webcrypto.js'
 import isKeyObject from './is_key_object.js'
 import invalidKeyInput from './invalid_key_input.js'
 
@@ -22,7 +22,7 @@ const keyToJWK: JWKExportFunction = (key: unknown): JWK => {
     if (!key.extractable) {
       throw new TypeError('CryptoKey is not extractable')
     }
-    keyObject = getKeyObject(key)
+    keyObject = KeyObject.from(key)
   } else if (isKeyObject(key)) {
     keyObject = key
   } else if (key instanceof Uint8Array) {

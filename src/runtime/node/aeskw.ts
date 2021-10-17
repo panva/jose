@@ -4,7 +4,8 @@ import { JOSENotSupported } from '../../util/errors.js'
 import type { AesKwUnwrapFunction, AesKwWrapFunction } from '../interfaces.d'
 import { concat } from '../../lib/buffer_utils.js'
 import getSecretKey from './secret_key.js'
-import { isCryptoKey, getKeyObject } from './webcrypto.js'
+import { isCryptoKey } from './webcrypto.js'
+import { checkEncCryptoKey } from '../../lib/crypto_key.js'
 import isKeyObject from './is_key_object.js'
 import invalidKeyInput from './invalid_key_input.js'
 import supported from './ciphers.js'
@@ -23,7 +24,8 @@ function ensureKeyObject(key: unknown, alg: string, usage: KeyUsage) {
     return getSecretKey(key)
   }
   if (isCryptoKey(key)) {
-    return getKeyObject(key, alg, usage)
+    checkEncCryptoKey(key, alg, usage)
+    return KeyObject.from(key)
   }
 
   throw new TypeError(invalidKeyInput(key, 'KeyObject', 'CryptoKey', 'Uint8Array'))
