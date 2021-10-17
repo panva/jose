@@ -7,7 +7,7 @@ import { JOSENotSupported } from '../../util/errors.js'
 import getNamedCurve from './get_named_curve.js'
 import { isCryptoKey } from './webcrypto.js'
 import isKeyObject from './is_key_object.js'
-import invalidKeyInput from './invalid_key_input.js'
+import invalidKeyInput from '../../lib/invalid_key_input.js'
 
 const [major, minor] = process.version
   .substr(1)

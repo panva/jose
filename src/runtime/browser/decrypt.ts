@@ -7,7 +7,7 @@ import timingSafeEqual from './timing_safe_equal.js'
 import { JOSENotSupported, JWEDecryptionFailed } from '../../util/errors.js'
 import crypto, { isCryptoKey } from './webcrypto.js'
 import { checkEncCryptoKey } from '../../lib/crypto_key.js'
-import invalidKeyInput from './invalid_key_input.js'
+import invalidKeyInput from '../../lib/invalid_key_input.js'
 
 async function cbcDecrypt(
   enc: string,

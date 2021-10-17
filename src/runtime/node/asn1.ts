@@ -3,7 +3,7 @@ import { Buffer } from 'buffer'
 import { isCryptoKey } from './webcrypto.js'
 import type { PEMExportFunction, PEMImportFunction } from '../interfaces.d'
 import isKeyObject from './is_key_object.js'
-import invalidKeyInput from './invalid_key_input.js'
+import invalidKeyInput from '../../lib/invalid_key_input.js'
 
 const genericExport = (
   keyType: 'private' | 'public',

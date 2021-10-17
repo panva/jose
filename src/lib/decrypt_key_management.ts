@@ -2,7 +2,6 @@ import { unwrap as aesKw } from '../runtime/aeskw.js'
 import * as ECDH from '../runtime/ecdhes.js'
 import { decrypt as pbes2Kw } from '../runtime/pbes2kw.js'
 import { decrypt as rsaEs } from '../runtime/rsaes.js'
-import { unwrap as aesGcmKw } from '../runtime/aesgcmkw.js'
 import { decode as base64url } from '../runtime/base64url.js'
 
 import type { JWEHeaderParameters, KeyLike, JWK } from '../types.d'
@@ -11,6 +10,7 @@ import { bitLength as cekLength } from '../lib/cek.js'
 import { importJWK } from '../key/import.js'
 import checkKeyType from './check_key_type.js'
 import isObject from './is_object.js'
+import { unwrap as aesGcmKw } from './aesgcmkw.js'
 
 async function decryptKeyManagement(
   alg: string,

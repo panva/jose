@@ -6,7 +6,7 @@ import { wrap, unwrap } from './aeskw.js'
 import checkP2s from '../../lib/check_p2s.js'
 import crypto, { isCryptoKey } from './webcrypto.js'
 import { checkEncCryptoKey } from '../../lib/crypto_key.js'
-import invalidKeyInput from './invalid_key_input.js'
+import invalidKeyInput from '../../lib/invalid_key_input.js'
 
 function getCryptoKey(key: unknown, alg: string) {
   if (key instanceof Uint8Array) {
@@ -21,13 +21,7 @@ function getCryptoKey(key: unknown, alg: string) {
   throw new TypeError(invalidKeyInput(key, 'CryptoKey', 'Uint8Array'))
 }
 
-export const encrypt: Pbes2KWEncryptFunction = async (
-  alg: string,
-  key: unknown,
-  cek: Uint8Array,
-  p2c: number = Math.floor(Math.random() * 2049) + 2048,
-  p2s: Uint8Array = random(new Uint8Array(16)),
-) => {
+async function deriveKey(p2s: Uint8Array, alg: string, p2c: number, key: unknown) {
   checkP2s(p2s)
 
   const salt = concatSalt(alg, p2s)
@@ -45,14 +39,25 @@ export const encrypt: Pbes2KWEncryptFunction = async (
 
   const cryptoKey = await getCryptoKey(key, alg)
 
-  let derived: CryptoKey | Uint8Array
   if (cryptoKey.usages.includes('deriveBits')) {
-    derived = new Uint8Array(await crypto.subtle.deriveBits(subtleAlg, cryptoKey, keylen))
-  } else if (cryptoKey.usages.includes('deriveKey')) {
-    derived = await crypto.subtle.deriveKey(subtleAlg, cryptoKey, wrapAlg, false, ['wrapKey'])
-  } else {
-    throw new TypeError('PBKDF2 key "usages" must include "deriveBits" or "deriveKey"')
+    return new Uint8Array(await crypto.subtle.deriveBits(subtleAlg, cryptoKey, keylen))
   }
+
+  if (cryptoKey.usages.includes('deriveKey')) {
+    return crypto.subtle.deriveKey(subtleAlg, cryptoKey, wrapAlg, false, ['wrapKey', 'unwrapKey'])
+  }
+
+  throw new TypeError('PBKDF2 key "usages" must include "deriveBits" or "deriveKey"')
+}
+
+export const encrypt: Pbes2KWEncryptFunction = async (
+  alg: string,
+  key: unknown,
+  cek: Uint8Array,
+  p2c: number = Math.floor(Math.random() * 2049) + 2048,
+  p2s: Uint8Array = random(new Uint8Array(16)),
+) => {
+  const derived = await deriveKey(p2s, alg, p2c, key)
 
   const encryptedKey = await wrap(alg.substr(-6), derived, cek)
 
@@ -66,31 +71,7 @@ export const decrypt: Pbes2KWDecryptFunction = async (
   p2c: number,
   p2s: Uint8Array,
 ) => {
-  checkP2s(p2s)
-
-  const salt = concatSalt(alg, p2s)
-  const keylen = parseInt(alg.substr(13, 3), 10)
-  const subtleAlg = {
-    hash: { name: `SHA-${alg.substr(8, 3)}` },
-    iterations: p2c,
-    name: 'PBKDF2',
-    salt,
-  }
-  const wrapAlg = {
-    length: keylen,
-    name: 'AES-KW',
-  }
-
-  const cryptoKey = await getCryptoKey(key, alg)
-
-  let derived: CryptoKey | Uint8Array
-  if (cryptoKey.usages.includes('deriveBits')) {
-    derived = new Uint8Array(await crypto.subtle.deriveBits(subtleAlg, cryptoKey, keylen))
-  } else if (cryptoKey.usages.includes('deriveKey')) {
-    derived = await crypto.subtle.deriveKey(subtleAlg, cryptoKey, wrapAlg, false, ['unwrapKey'])
-  } else {
-    throw new TypeError('PBKDF2 key "usages" must include "deriveBits" or "deriveKey"')
-  }
+  const derived = await deriveKey(p2s, alg, p2c, key)
 
   return unwrap(alg.substr(-6), derived, encryptedKey)
 }

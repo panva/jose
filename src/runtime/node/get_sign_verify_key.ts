@@ -2,7 +2,7 @@ import { KeyObject } from 'crypto'
 import { isCryptoKey } from './webcrypto.js'
 import { checkSigCryptoKey } from '../../lib/crypto_key.js'
 import getSecretKey from './secret_key.js'
-import invalidKeyInput from './invalid_key_input.js'
+import invalidKeyInput from '../../lib/invalid_key_input.js'
 
 export default function getSignVerifyKey(alg: string, key: unknown, usage: KeyUsage) {
   if (key instanceof Uint8Array) {

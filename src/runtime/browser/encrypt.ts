@@ -4,7 +4,7 @@ import checkIvLength from '../../lib/check_iv_length.js'
 import checkCekLength from './check_cek_length.js'
 import crypto, { isCryptoKey } from './webcrypto.js'
 import { checkEncCryptoKey } from '../../lib/crypto_key.js'
-import invalidKeyInput from './invalid_key_input.js'
+import invalidKeyInput from '../../lib/invalid_key_input.js'
 import { JOSENotSupported } from '../../util/errors.js'
 
 async function cbcEncrypt(

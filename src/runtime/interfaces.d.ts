@@ -24,22 +24,6 @@ export interface RsaEsEncryptFunction {
 export interface RsaEsDecryptFunction {
   (alg: string, key: unknown, encryptedKey: Uint8Array): Promise<Uint8Array>
 }
-export interface AesGcmKwWrapFunction {
-  (alg: string, key: unknown, cek: Uint8Array, iv?: Uint8Array): Promise<{
-    encryptedKey: Uint8Array
-    iv: string
-    tag: string
-  }>
-}
-export interface AesGcmKwUnwrapFunction {
-  (
-    alg: string,
-    key: unknown,
-    encryptedKey: Uint8Array,
-    iv: Uint8Array,
-    tag: Uint8Array,
-  ): Promise<Uint8Array>
-}
 export interface Pbes2KWEncryptFunction {
   (alg: string, key: unknown, cek: Uint8Array, p2c?: number, p2s?: Uint8Array): Promise<{
     encryptedKey: Uint8Array

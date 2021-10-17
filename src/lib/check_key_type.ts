@@ -1,4 +1,4 @@
-import invalidKeyInput from '../runtime/invalid_key_input.js'
+import invalidKeyInput from './invalid_key_input.js'
 import isKeyLike, { types } from '../runtime/is_key_like.js'
 
 const symmetricTypeCheck = (key: unknown) => {

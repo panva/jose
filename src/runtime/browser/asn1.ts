@@ -1,7 +1,7 @@
 import globalThis, { isCloudflareWorkers, isNodeJs } from './global.js'
 import crypto, { isCryptoKey } from './webcrypto.js'
 import type { PEMExportFunction, PEMImportFunction } from '../interfaces.d'
-import invalidKeyInput from './invalid_key_input.js'
+import invalidKeyInput from '../../lib/invalid_key_input.js'
 import { encodeBase64 } from './base64url.js'
 import formatPEM from '../../lib/format_pem.js'
 import { JOSENotSupported } from '../../util/errors.js'

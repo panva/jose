@@ -12,6 +12,11 @@ const [major, minor] = process.version
 
 const rsaPssParams = major >= 17 || (major === 16 && minor >= 9)
 
+const PSS = {
+  padding: constants.RSA_PKCS1_PSS_PADDING,
+  saltLength: constants.RSA_PSS_SALTLEN_DIGEST,
+}
+
 const ecCurveAlgMap = new Map([
   ['ES256', 'P-256'],
   ['ES256K', 'secp256k1'],
@@ -68,11 +73,7 @@ export default function keyForCrypto(alg: string, key: KeyObject): KeyObject | S
       }
       checkModulusLength(key, alg)
 
-      return {
-        key,
-        padding: constants.RSA_PKCS1_PSS_PADDING,
-        saltLength: constants.RSA_PSS_SALTLEN_DIGEST,
-      }
+      return { key, ...PSS }
 
     case !rsaPssParams && 'PS256':
     case !rsaPssParams && 'PS384':
@@ -82,11 +83,7 @@ export default function keyForCrypto(alg: string, key: KeyObject): KeyObject | S
       }
       checkModulusLength(key, alg)
 
-      return {
-        key,
-        padding: constants.RSA_PKCS1_PSS_PADDING,
-        saltLength: constants.RSA_PSS_SALTLEN_DIGEST,
-      }
+      return { key, ...PSS }
 
     case 'ES256':
     case 'ES256K':

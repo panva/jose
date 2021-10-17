@@ -1,7 +1,7 @@
 import crypto, { isCryptoKey } from './webcrypto.js'
 import type { JWKExportFunction } from '../interfaces.d'
 import type { JWK } from '../../types.d'
-import invalidKeyInput from './invalid_key_input.js'
+import invalidKeyInput from '../../lib/invalid_key_input.js'
 import { encode as base64url } from './base64url.js'
 
 const keyToJWK: JWKExportFunction = async (key: unknown): Promise<JWK> => {

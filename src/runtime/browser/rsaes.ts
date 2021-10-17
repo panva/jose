@@ -4,7 +4,7 @@ import bogusWebCrypto from './bogus.js'
 import crypto, { isCryptoKey } from './webcrypto.js'
 import { checkEncCryptoKey } from '../../lib/crypto_key.js'
 import checkKeyLength from './check_key_length.js'
-import invalidKeyInput from './invalid_key_input.js'
+import invalidKeyInput from '../../lib/invalid_key_input.js'
 
 export const encrypt: RsaEsEncryptFunction = async (alg: string, key: unknown, cek: Uint8Array) => {
   if (!isCryptoKey(key)) {
