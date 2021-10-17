@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [4.0.4](https://github.com/panva/jose/compare/v4.0.3...v4.0.4) (2021-10-17)
+
+
+### Bug Fixes
+
+* **web:** check Uint8Array CEK lengths, refactor for better tree-shaking ([e8299f2](https://github.com/panva/jose/commit/e8299f246b1dbf1665d8f1ed141b9bde34684293))
+
 ## [4.0.3](https://github.com/panva/jose/compare/v4.0.2...v4.0.3) (2021-10-16)
 
 

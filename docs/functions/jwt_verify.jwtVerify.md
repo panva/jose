@@ -29,7 +29,7 @@ const { jwtVerify } = require('jose')
 
 **`example`** Deno import
 ```js
-import { jwtVerify } from 'https://deno.land/x/jose@v4.0.3/index.ts'
+import { jwtVerify } from 'https://deno.land/x/jose@v4.0.4/index.ts'
 ```
 
 #### Parameters
