@@ -28,6 +28,9 @@ x({
 });
 execSync("npm run build:deno", opts);
 execSync("cp docs/README.md dist/deno/README.md");
+execSync("npm run build:browser-bundle", opts);
+execSync("npm run build:browser-bundle-min", opts);
+execSync("npm run build:browser-umd", opts);
 execSync(
   `sed -i '' -e 's/](/](https:\\/\\/github.com\\/panva\\/jose\\/blob\\/${tagName}\\/docs\\//g' dist/deno/README.md`
 );
