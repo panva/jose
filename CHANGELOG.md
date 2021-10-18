@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [4.1.0](https://github.com/panva/jose/compare/v4.0.4...v4.1.0) (2021-10-18)
+
+
+### Features
+
+* **web:** publish umd and bundle files to cdnjs.com ([3b3100a](https://github.com/panva/jose/commit/3b3100a8f115db5fb7c56482a0c5cf4814e0f838))
+
 ## [4.0.4](https://github.com/panva/jose/compare/v4.0.3...v4.0.4) (2021-10-17)
 
 

@@ -33,7 +33,7 @@ const { createRemoteJWKSet } = require('jose')
 
 **`example`** Deno import
 ```js
-import { createRemoteJWKSet } from 'https://deno.land/x/jose@v4.0.4/index.ts'
+import { createRemoteJWKSet } from 'https://deno.land/x/jose@v4.1.0/index.ts'
 ```
 
 #### Parameters

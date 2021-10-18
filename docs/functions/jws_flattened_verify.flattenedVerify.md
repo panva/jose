@@ -31,7 +31,7 @@ const { flattenedVerify } = require('jose')
 
 **`example`** Deno import
 ```js
-import { flattenedVerify } from 'https://deno.land/x/jose@v4.0.4/index.ts'
+import { flattenedVerify } from 'https://deno.land/x/jose@v4.1.0/index.ts'
 ```
 
 #### Parameters

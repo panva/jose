@@ -25,7 +25,7 @@ const { exportJWK } = require('jose')
 
 **`example`** Deno import
 ```js
-import { exportJWK } from 'https://deno.land/x/jose@v4.0.4/index.ts'
+import { exportJWK } from 'https://deno.land/x/jose@v4.1.0/index.ts'
 ```
 
 #### Parameters
