@@ -135,11 +135,11 @@
     "prettier": "npx prettier --loglevel silent --write ./test ./src ./tools ./test-browser ./test-deno ./test-cloudflare-workers"
   },
   "devDependencies": {
-    "@types/node": "^16.9.6",
+    "@types/node": "^16.11.1",
     "ava": "^3.15.0",
     "bowser": "^2.11.0",
     "c8": "^7.10.0",
-    "esbuild": "^0.13.4",
+    "esbuild": "^0.13.8",
     "glob": "^7.1.7",
     "got": "^11.8.2",
     "karma": "^6.3.4",
