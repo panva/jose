@@ -67,7 +67,7 @@ function isJWKLike(key: unknown) {
 }
 
 class RemoteJWKSet {
-  private _url: URL
+  private _url: globalThis.URL
 
   private _timeoutDuration: number
 
@@ -83,7 +83,7 @@ class RemoteJWKSet {
 
   private _options: Pick<RemoteJWKSetOptions, 'agent'>
 
-  constructor(url: URL, options?: RemoteJWKSetOptions) {
+  constructor(url: unknown, options?: RemoteJWKSetOptions) {
     if (!(url instanceof URL)) {
       throw new TypeError('url must be an instance of URL')
     }
@@ -210,6 +210,10 @@ class RemoteJWKSet {
 
     await this._pendingFetch
   }
+}
+
+interface URL {
+  href: string
 }
 
 /**
