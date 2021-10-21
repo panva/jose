@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [4.1.1](https://github.com/panva/jose/compare/v4.1.0...v4.1.1) (2021-10-21)
+
+
+### Bug Fixes
+
+* **typescript:** work around potentially missing global URL from DOM lib ([7ed731c](https://github.com/panva/jose/commit/7ed731c567db6e64f0fbd618efe7e48d812af0c6)), closes [#295](https://github.com/panva/jose/issues/295)
+
 ## [4.1.0](https://github.com/panva/jose/compare/v4.0.4...v4.1.0) (2021-10-18)
 
 

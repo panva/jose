@@ -25,7 +25,7 @@ const { CompactEncrypt } = require('jose')
 
 **`example`** Deno import
 ```js
-import { CompactEncrypt } from 'https://deno.land/x/jose@v4.1.0/index.ts'
+import { CompactEncrypt } from 'https://deno.land/x/jose@v4.1.1/index.ts'
 ```
 
 ## Table of contents

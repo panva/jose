@@ -27,7 +27,7 @@ const { EncryptJWT } = require('jose')
 
 **`example`** Deno import
 ```js
-import { EncryptJWT } from 'https://deno.land/x/jose@v4.1.0/index.ts'
+import { EncryptJWT } from 'https://deno.land/x/jose@v4.1.1/index.ts'
 ```
 
 ## Table of contents
