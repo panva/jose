@@ -10,6 +10,7 @@ pkg.description = `(Node.JS ESM Runtime) ${pkg.description}`;
 delete pkg.browser;
 delete pkg.exports["."].browser;
 delete pkg.exports["."].require;
+pkg.main = pkg.exports["."].import;
 
 const deletedKeywords = new Set([
   "browser",

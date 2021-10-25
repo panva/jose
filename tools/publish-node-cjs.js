@@ -10,6 +10,7 @@ pkg.description = `(Node.JS CJS Runtime) ${pkg.description}`;
 delete pkg.browser;
 delete pkg.exports["."].browser;
 delete pkg.exports["."].import;
+pkg.main = pkg.exports["."].require;
 
 const deletedKeywords = new Set([
   "browser",
