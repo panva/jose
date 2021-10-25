@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [4.1.2](https://github.com/panva/jose/compare/v4.1.1...v4.1.2) (2021-10-25)
+
+
+### Bug Fixes
+
+* **build:** ensure cjs/esm specific packages have the right main entry ([2f4526a](https://github.com/panva/jose/commit/2f4526a22b9bd62727bdd825e326ef79695c8ea3))
+
 ## [4.1.1](https://github.com/panva/jose/compare/v4.1.0...v4.1.1) (2021-10-21)
 
 

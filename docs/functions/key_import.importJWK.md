@@ -37,7 +37,7 @@ const { importJWK } = require('jose')
 
 **`example`** Deno import
 ```js
-import { importJWK } from 'https://deno.land/x/jose@v4.1.1/index.ts'
+import { importJWK } from 'https://deno.land/x/jose@v4.1.2/index.ts'
 ```
 
 #### Parameters

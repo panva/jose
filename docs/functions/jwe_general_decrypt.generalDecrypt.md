@@ -16,7 +16,7 @@ const { generalDecrypt } = require('jose')
 
 **`example`** Deno import
 ```js
-import { generalDecrypt } from 'https://deno.land/x/jose@v4.1.1/index.ts'
+import { generalDecrypt } from 'https://deno.land/x/jose@v4.1.2/index.ts'
 ```
 
 **`example`** Usage

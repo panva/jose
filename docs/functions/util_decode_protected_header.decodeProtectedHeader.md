@@ -22,7 +22,7 @@ const { decodeProtectedHeader } = require('jose')
 
 **`example`** Deno import
 ```js
-import { decodeProtectedHeader } from 'https://deno.land/x/jose@v4.1.1/index.ts'
+import { decodeProtectedHeader } from 'https://deno.land/x/jose@v4.1.2/index.ts'
 ```
 
 #### Parameters
