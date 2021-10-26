@@ -61,9 +61,11 @@ jobs:
           - 12
           - 14.15.0
           - 14
+          - 16.13.0
+          - 16
         include:
           - experimental: true
-            node-version: '>=15'
+            node-version: '>=17'
 
     runs-on: ubuntu-latest
     steps:
