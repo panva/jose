@@ -1,20 +1,20 @@
-const fs = require("fs");
-const { execSync } = require("child_process");
+const fs = require('fs')
+const { execSync } = require('child_process')
 
-execSync("git show HEAD -- CHANGELOG.md > CHANGELOG.diff");
+execSync('git show HEAD -- CHANGELOG.md > CHANGELOG.diff')
 
-const tag = execSync("git tag --points-at HEAD").toString().trim();
+const tag = execSync('git tag --points-at HEAD').toString().trim()
 
 fs.writeFileSync(
-  "notes.md",
+  'notes.md',
   fs
-    .readFileSync("CHANGELOG.diff")
+    .readFileSync('CHANGELOG.diff')
     .toString()
-    .split("\n")
-    .filter((line) => line.startsWith("+") && !line.startsWith("+++"))
+    .split('\n')
+    .filter((line) => line.startsWith('+') && !line.startsWith('+++'))
     .map((line) => line.substr(1))
     .slice(3)
-    .join("\n")
-);
+    .join('\n'),
+)
 
-execSync(`gh release create ${tag} -dF notes.md`);
+execSync(`gh release create ${tag} -dF notes.md`)

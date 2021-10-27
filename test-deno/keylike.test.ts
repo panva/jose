@@ -1,16 +1,16 @@
-import { assertEquals, assertThrowsAsync } from 'https://deno.land/std@0.109.0/testing/asserts.ts';
+import { assertEquals, assertThrowsAsync } from 'https://deno.land/std@0.109.0/testing/asserts.ts'
 
-import { importJWK, exportJWK, calculateJwkThumbprint } from '../dist/deno/index.ts';
+import { importJWK, exportJWK, calculateJwkThumbprint } from '../dist/deno/index.ts'
 
 async function test(jwk: { [key: string]: unknown }, alg: string) {
-  await calculateJwkThumbprint(jwk);
-  const keyLike = await importJWK({ ...jwk, ext: true }, alg);
-  assertEquals(await exportJWK(keyLike), jwk);
+  await calculateJwkThumbprint(jwk)
+  const keyLike = await importJWK({ ...jwk, ext: true }, alg)
+  assertEquals(await exportJWK(keyLike), jwk)
 }
 
 async function failing(jwk: { [key: string]: unknown }, alg: string) {
-  await calculateJwkThumbprint(jwk);
-  return assertThrowsAsync(() => test(jwk, alg));
+  await calculateJwkThumbprint(jwk)
+  return assertThrowsAsync(() => test(jwk, alg))
 }
 
 for (const [alg, jwk] of [
@@ -53,7 +53,7 @@ for (const [alg, jwk] of [
     '{"kty":"oct","k":"2O5x_zEOhSIDiGcOAOYhB1dyDU_ZW27rl-_xDpKE-8tBlL91z6p_8aYo3by6AOsa6ycx6-JC9LBAio0amINXTQ"}',
   ],
 ]) {
-  Deno.test(`Key Import/Export ${alg}`, test.bind(undefined, JSON.parse(jwk), alg));
+  Deno.test(`Key Import/Export ${alg}`, test.bind(undefined, JSON.parse(jwk), alg))
 }
 
 for (const [alg, jwk] of [
@@ -75,5 +75,5 @@ for (const [alg, jwk] of [
   Deno.test(
     `(expecting failure) Key Import/Export ${alg}`,
     failing.bind(undefined, JSON.parse(jwk), alg),
-  );
+  )
 }

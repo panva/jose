@@ -1,19 +1,19 @@
-import test from 'ava';
-import nock from 'nock';
-import timekeeper from 'timekeeper';
-import { createServer } from 'http';
-import { once } from 'events';
+import test from 'ava'
+import nock from 'nock'
+import timekeeper from 'timekeeper'
+import { createServer } from 'http'
+import { once } from 'events'
 
-let root;
-let keyRoot;
+let root
+let keyRoot
 
 if ('WEBCRYPTO' in process.env) {
-  root = keyRoot = '#dist/webcrypto';
+  root = keyRoot = '#dist/webcrypto'
 } else if ('CRYPTOKEY' in process.env) {
-  root = '#dist';
-  keyRoot = '#dist/webcrypto';
+  root = '#dist'
+  keyRoot = '#dist/webcrypto'
 } else {
-  root = keyRoot = '#dist';
+  root = keyRoot = '#dist'
 }
 
 Promise.all([
@@ -23,31 +23,31 @@ Promise.all([
   import(`${keyRoot}/jwks/remote`),
 ]).then(
   ([{ jwtVerify }, { SignJWT }, { importJWK }, { createRemoteJWKSet }]) => {
-    const now = 1604416038;
+    const now = 1604416038
 
     test.before(async (t) => {
-      nock.disableNetConnect();
-      t.context.server = createServer().unref().listen(3000);
-      t.context.server.removeAllListeners('request');
-      await once(t.context.server, 'listening');
-    });
+      nock.disableNetConnect()
+      t.context.server = createServer().unref().listen(3000)
+      t.context.server.removeAllListeners('request')
+      await once(t.context.server, 'listening')
+    })
 
     test.after(async (t) => {
-      nock.enableNetConnect();
-      await new Promise((resolve) => t.context.server.close(resolve));
-    });
+      nock.enableNetConnect()
+      await new Promise((resolve) => t.context.server.close(resolve))
+    })
 
     test.afterEach(() => {
-      nock.disableNetConnect();
-    });
+      nock.disableNetConnect()
+    })
 
     test.afterEach((t) => {
-      t.context.server.removeAllListeners('request');
-      t.true(nock.isDone());
-      nock.cleanAll();
-    });
+      t.context.server.removeAllListeners('request')
+      t.true(nock.isDone())
+      nock.cleanAll()
+    })
 
-    test.afterEach(() => timekeeper.reset());
+    test.afterEach(() => timekeeper.reset())
 
     test.serial('RemoteJWKSet', async (t) => {
       const keys = [
@@ -84,7 +84,7 @@ Promise.all([
           kty: 'EC',
           kid: 'a-5xuiQoRqlLBtec9jRpXoGTVOP10SGnj2Und0CHHxw',
         },
-      ];
+      ]
       const jwks = {
         keys: [
           {
@@ -123,60 +123,60 @@ Promise.all([
             key_ops: [],
           },
         ],
-      };
+      }
 
-      nock('https://as.example.com').get('/jwks').reply(200, jwks);
-      const url = new URL('https://as.example.com/jwks');
-      const JWKS = createRemoteJWKSet(url);
+      nock('https://as.example.com').get('/jwks').reply(200, jwks)
+      const url = new URL('https://as.example.com/jwks')
+      const JWKS = createRemoteJWKSet(url)
       {
-        const [jwk] = keys;
-        const key = await importJWK({ ...jwk, alg: 'PS256' });
+        const [jwk] = keys
+        const key = await importJWK({ ...jwk, alg: 'PS256' })
         const jwt = await new SignJWT({})
           .setProtectedHeader({ alg: 'PS256', kid: jwk.kid })
-          .sign(key);
+          .sign(key)
         await t.notThrowsAsync(async () => {
-          const { key: resolvedKey } = await jwtVerify(jwt, JWKS);
-          t.truthy(resolvedKey);
-          t.is(resolvedKey.type, 'public');
-        });
+          const { key: resolvedKey } = await jwtVerify(jwt, JWKS)
+          t.truthy(resolvedKey)
+          t.is(resolvedKey.type, 'public')
+        })
       }
       {
-        const [jwk] = keys;
-        const key = await importJWK({ ...jwk, alg: 'RS256' });
-        const jwt = await new SignJWT({}).setProtectedHeader({ alg: 'RS256' }).sign(key);
+        const [jwk] = keys
+        const key = await importJWK({ ...jwk, alg: 'RS256' })
+        const jwt = await new SignJWT({}).setProtectedHeader({ alg: 'RS256' }).sign(key)
         await t.throwsAsync(jwtVerify(jwt, JWKS), {
           code: 'ERR_JWKS_MULTIPLE_MATCHING_KEYS',
           message: 'multiple matching keys found in the JSON Web Key Set',
-        });
+        })
       }
       {
-        const [, jwk] = keys;
-        const key = await importJWK({ ...jwk, alg: 'PS256' });
+        const [, jwk] = keys
+        const key = await importJWK({ ...jwk, alg: 'PS256' })
         const jwt = await new SignJWT({})
           .setProtectedHeader({ alg: 'PS256', kid: jwk.kid })
-          .sign(key);
+          .sign(key)
         await t.throwsAsync(jwtVerify(jwt, JWKS), {
           code: 'ERR_JWKS_NO_MATCHING_KEY',
           message: 'no applicable key found in the JSON Web Key Set',
-        });
+        })
       }
       {
-        const [, , jwk] = keys;
-        const key = await importJWK({ ...jwk, alg: 'ES256' });
-        const jwt = await new SignJWT({}).setProtectedHeader({ alg: 'ES256' }).sign(key);
-        await t.notThrowsAsync(jwtVerify(jwt, JWKS));
+        const [, , jwk] = keys
+        const key = await importJWK({ ...jwk, alg: 'ES256' })
+        const jwt = await new SignJWT({}).setProtectedHeader({ alg: 'ES256' }).sign(key)
+        await t.notThrowsAsync(jwtVerify(jwt, JWKS))
       }
-    });
+    })
 
     test.serial('refreshes the JWKS once off cooldown', async (t) => {
-      timekeeper.freeze(now * 1000);
+      timekeeper.freeze(now * 1000)
       let jwk = {
         crv: 'P-256',
         x: 'fqCXPnWs3sSfwztvwYU9SthmRdoT4WCXxS8eD8icF6U',
         y: 'nP6GIc42c61hoKqPcZqkvzhzIJkBV3Jw3g8sGG7UeP8',
         d: 'XikZvoy8ayRpOnuz7ont2DkgMxp_kmmg1EKcuIJWX_E',
         kty: 'EC',
-      };
+      }
       const jwks = {
         keys: [
           {
@@ -187,124 +187,120 @@ Promise.all([
             kid: 'one',
           },
         ],
-      };
+      }
 
-      const scope = nock('https://as.example.com').get('/jwks').once().reply(200, jwks);
+      const scope = nock('https://as.example.com').get('/jwks').once().reply(200, jwks)
 
-      const url = new URL('https://as.example.com/jwks');
-      const JWKS = createRemoteJWKSet(url);
-      const key = await importJWK({ ...jwk, alg: 'ES256' });
+      const url = new URL('https://as.example.com/jwks')
+      const JWKS = createRemoteJWKSet(url)
+      const key = await importJWK({ ...jwk, alg: 'ES256' })
       {
-        const jwt = await new SignJWT({})
-          .setProtectedHeader({ alg: 'ES256', kid: 'one' })
-          .sign(key);
-        await t.notThrowsAsync(jwtVerify(jwt, JWKS));
-        await t.notThrowsAsync(jwtVerify(jwt, JWKS));
+        const jwt = await new SignJWT({}).setProtectedHeader({ alg: 'ES256', kid: 'one' }).sign(key)
+        await t.notThrowsAsync(jwtVerify(jwt, JWKS))
+        await t.notThrowsAsync(jwtVerify(jwt, JWKS))
       }
       {
-        const jwt = await new SignJWT({})
-          .setProtectedHeader({ alg: 'ES256', kid: 'two' })
-          .sign(key);
+        const jwt = await new SignJWT({}).setProtectedHeader({ alg: 'ES256', kid: 'two' }).sign(key)
         await t.throwsAsync(jwtVerify(jwt, JWKS), {
           code: 'ERR_JWKS_NO_MATCHING_KEY',
           message: 'no applicable key found in the JSON Web Key Set',
-        });
-        jwks.keys[0].kid = 'two';
-        scope.get('/jwks').once().reply(200, jwks);
-        timekeeper.travel((now + 30) * 1000);
-        await t.notThrowsAsync(jwtVerify(jwt, JWKS));
+        })
+        jwks.keys[0].kid = 'two'
+        scope.get('/jwks').once().reply(200, jwks)
+        timekeeper.travel((now + 30) * 1000)
+        await t.notThrowsAsync(jwtVerify(jwt, JWKS))
       }
-    });
+    })
 
     test.serial('throws on invalid JWKSet', async (t) => {
-      const scope = nock('https://as.example.com').get('/jwks').once().reply(200, 'null');
+      const scope = nock('https://as.example.com').get('/jwks').once().reply(200, 'null')
 
-      const url = new URL('https://as.example.com/jwks');
-      const JWKS = createRemoteJWKSet(url);
+      const url = new URL('https://as.example.com/jwks')
+      const JWKS = createRemoteJWKSet(url)
       await t.throwsAsync(JWKS({ alg: 'RS256' }), {
         code: 'ERR_JWKS_INVALID',
         message: 'JSON Web Key Set malformed',
-      });
+      })
 
-      scope.get('/jwks').once().reply(200, {});
+      scope.get('/jwks').once().reply(200, {})
       await t.throwsAsync(JWKS({ alg: 'RS256' }), {
         code: 'ERR_JWKS_INVALID',
         message: 'JSON Web Key Set malformed',
-      });
+      })
 
-      scope.get('/jwks').once().reply(200, { keys: null });
+      scope.get('/jwks').once().reply(200, { keys: null })
       await t.throwsAsync(JWKS({ alg: 'RS256' }), {
         code: 'ERR_JWKS_INVALID',
         message: 'JSON Web Key Set malformed',
-      });
+      })
 
       scope
         .get('/jwks')
         .once()
-        .reply(200, { keys: [null] });
+        .reply(200, { keys: [null] })
       await t.throwsAsync(JWKS({ alg: 'RS256' }), {
         code: 'ERR_JWKS_INVALID',
         message: 'JSON Web Key Set malformed',
-      });
+      })
 
-      scope.get('/jwks').once().reply(404);
+      scope.get('/jwks').once().reply(404)
       await t.throwsAsync(JWKS({ alg: 'RS256' }), {
         code: 'ERR_JOSE_GENERIC',
         message: 'Expected 200 OK from the JSON Web Key Set HTTP response',
-      });
+      })
 
-      scope.get('/jwks').once().reply(200, '{');
+      scope.get('/jwks').once().reply(200, '{')
       await t.throwsAsync(JWKS({ alg: 'RS256' }), {
         code: 'ERR_JOSE_GENERIC',
         message: 'Failed to parse the JSON Web Key Set HTTP response as JSON',
-      });
-    });
+      })
+    })
 
     test('handles ENOTFOUND', async (t) => {
-      nock.enableNetConnect();
-      const url = new URL('https://op.example.com/jwks');
-      const JWKS = createRemoteJWKSet(url);
+      nock.enableNetConnect()
+      const url = new URL('https://op.example.com/jwks')
+      const JWKS = createRemoteJWKSet(url)
       await t.throwsAsync(JWKS({ alg: 'RS256' }), {
         code: 'ENOTFOUND',
-      });
-    });
+      })
+    })
 
     test('handles ECONNREFUSED', async (t) => {
-      nock.enableNetConnect();
-      const url = new URL('http://localhost:3001/jwks');
-      const JWKS = createRemoteJWKSet(url);
+      nock.enableNetConnect()
+      const url = new URL('http://localhost:3001/jwks')
+      const JWKS = createRemoteJWKSet(url)
       await t.throwsAsync(JWKS({ alg: 'RS256' }), {
         code: 'ECONNREFUSED',
-      });
-    });
+      })
+    })
 
     test('handles ECONNRESET', async (t) => {
-      nock.enableNetConnect();
-      const url = new URL('http://localhost:3000/jwks');
+      nock.enableNetConnect()
+      const url = new URL('http://localhost:3000/jwks')
       t.context.server.once('connection', (socket) => {
-        socket.destroy();
-      });
-      const JWKS = createRemoteJWKSet(url);
+        socket.destroy()
+      })
+      const JWKS = createRemoteJWKSet(url)
       await t.throwsAsync(JWKS({ alg: 'RS256' }), {
         code: 'ECONNRESET',
-      });
-    });
+      })
+    })
 
     test('handles a timeout', async (t) => {
-      t.timeout(1000);
-      nock.enableNetConnect();
-      const url = new URL('http://localhost:3000/jwks');
+      t.timeout(1000)
+      nock.enableNetConnect()
+      const url = new URL('http://localhost:3000/jwks')
       const JWKS = createRemoteJWKSet(url, {
         timeoutDuration: 500,
-      });
+      })
       await t.throwsAsync(JWKS({ alg: 'RS256' }), {
         code: 'ERR_JWKS_TIMEOUT',
-      });
-    });
+      })
+    })
   },
   (err) => {
     test('failed to import', (t) => {
-      t.fail();
-    });
+      t.fail()
+    })
   },
-);
+)

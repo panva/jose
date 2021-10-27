@@ -1,10 +1,10 @@
-import test from 'ava';
+import test from 'ava'
 
-const root = !('WEBCRYPTO' in process.env) ? '#dist' : '#dist/webcrypto';
+const root = !('WEBCRYPTO' in process.env) ? '#dist' : '#dist/webcrypto'
 
 Promise.all([import(`${root}/jws/flattened/sign`), import(`${root}/jws/flattened/verify`)]).then(
   ([{ FlattenedSign }, { flattenedVerify }]) => {
-    const encode = TextEncoder.prototype.encode.bind(new TextEncoder());
+    const encode = TextEncoder.prototype.encode.bind(new TextEncoder())
 
     test('crit member checks check', async (t) => {
       await t.throwsAsync(
@@ -16,7 +16,7 @@ Promise.all([import(`${root}/jws/flattened/sign`), import(`${root}/jws/flattened
           code: 'ERR_JWS_INVALID',
           message: '"crit" (Critical) Header Parameter MUST be integrity protected',
         },
-      );
+      )
       await t.throwsAsync(
         new FlattenedSign(encode('foo'))
           .setProtectedHeader({ alg: 'HS256', crit: [null], b64: false })
@@ -26,7 +26,7 @@ Promise.all([import(`${root}/jws/flattened/sign`), import(`${root}/jws/flattened
           message:
             '"crit" (Critical) Header Parameter MUST be an array of non-empty strings when present',
         },
-      );
+      )
       await t.throwsAsync(
         new FlattenedSign(encode('foo'))
           .setProtectedHeader({ alg: 'HS256', crit: ['nope'], nope: 'foo' })
@@ -35,7 +35,7 @@ Promise.all([import(`${root}/jws/flattened/sign`), import(`${root}/jws/flattened
           code: 'ERR_JOSE_NOT_SUPPORTED',
           message: 'Extension Header Parameter "nope" is not recognized',
         },
-      );
-    });
+      )
+    })
   },
-);
+)

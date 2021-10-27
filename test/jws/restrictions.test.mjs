@@ -1,16 +1,16 @@
-import test from 'ava';
-import * as crypto from 'crypto';
+import test from 'ava'
+import * as crypto from 'crypto'
 
-let root;
-let keyRoot;
+let root
+let keyRoot
 
 if ('WEBCRYPTO' in process.env) {
-  root = keyRoot = '#dist/webcrypto';
+  root = keyRoot = '#dist/webcrypto'
 } else if ('CRYPTOKEY' in process.env) {
-  root = '#dist';
-  keyRoot = '#dist/webcrypto';
+  root = '#dist'
+  keyRoot = '#dist/webcrypto'
 } else {
-  root = keyRoot = '#dist';
+  root = keyRoot = '#dist'
 }
 
 Promise.all([
@@ -32,13 +32,13 @@ Promise.all([
     { importJWK },
   ]) => {
     function pubjwk(jwk) {
-      const { d, p, q, dp, dq, qi, ...publicJwk } = jwk;
-      return publicJwk;
+      const { d, p, q, dp, dq, qi, ...publicJwk } = jwk
+      return publicJwk
     }
 
     test.before((t) => {
-      const encode = TextEncoder.prototype.encode.bind(new TextEncoder());
-      t.context.payload = encode('It’s a dangerous business, Frodo, going out your door.');
+      const encode = TextEncoder.prototype.encode.bind(new TextEncoder())
+      t.context.payload = encode('It’s a dangerous business, Frodo, going out your door.')
       t.context.rsa2040 = {
         e: 'AQAB',
         n: '4waoB9XUAsGc-bhkfY-v3hKEqmLYF4nS-8nji5R5KoOOeWC2hCkvbMfd2IlKRdMU7EmGXNx2BD2FVIqN9mWyZKJlzR2125lgJ-VxCymGv1A9057LEAFIrXsCUqwjPO07hCzZNv8IAAQzq53pnlAgb3TbfrxW24tamhCtaKHb5upAwo4jhYnfzex2--vD7mPxMoTuikno-eD_hxYmA52Uh1gu3wEWy44KA6aFJBpP7m4G5StuHSCXxiOWDaqMeFsMX1jqrom7SwbGJ7j0sf3ZqWrZR4x1pB3wk5Sixi_lmDfOkXhiizYnvJJ5rzr_f0bVdXeAe2U8vpEJSQeA36T7',
@@ -49,7 +49,7 @@ Promise.all([
         dq: 'Bv-nBfkVdr6PRu2gZ4i7P_GTMQTMirai_KYT1rnnb2emm6HI7oJj7PwoZ73GJA5DX2jphwnPrCApHI6ExLtNRW7NaD0qo7-WaufXq9EGgqYoTom8y0MuwPxK0hazcW4mborqDUmOJsxml5yjsvWscbIhDxI3No3d1sxneQ6Y4Cs',
         qi: 'AkpKJwYKvaB73G7IQK5yxXCOvypwSEUK1bOcbhOZSQPPNtKvov11dVsGs-pqHo0Su06IXQv0Ayyy3uxXvsY8CyZ3CbPWMXM06Z3Gr0kZWWfNu8NiFwXvkbe24P-KeXIQGFTfdqSMTfm2an1YNE9e9F36rZ0EkhdKzmwzudA7jtw',
         kty: 'RSA',
-      };
+      }
       t.context.rsa2048 = {
         e: 'AQAB',
         n: '3egkthDOqRIif9azx83Q-HKcVNUeDALom8e5L1rjljB82EKYt5zgfKlgLW4NuJQgLDx5jA7Ez_nz-8lIcVTez-C75_M-Thv2wLhk4ZAYAZZPEmZr76zH8-lClnhxcqFnkOABqLmopr2gF1gBG_IkqEnH_h_yH486YkCd0G2ZNJAzjCOCQMR5pzBnIxC4YUAX7r_-9ilQ8Lv3MSJ0MLv6cujJTneyjWnoh_SfOXRsY6f3gkfR9APj9Q5A8PA8gvbYyN8EHr4OYb1KwNjs_0_X0Aq0e1NJx3H5eiZe6UaFleIbEVZYoNtlNJO3kmGESaxepkWTRAqBZVTfj4KnKX_9Ow',
@@ -60,131 +60,128 @@ Promise.all([
         dq: 'UqK8VY0ftJlHLHXwDrV9yHqRZdEFP76c5jAXbFee-epAL_3bX4QW8WYxeAW7P1BMU7SkR_pNDh8d-6CC7Oz04aaxLd49nXhTDLHaDmP4rE4rB2CSZtnyfSIVwk3PBJOy80EtUjePWCTEx8-AkA_5sf7zr7ytkkvc_yd-1CggTdE',
         qi: 'd72eV7EbpvaSA3ZiQdGXpMMr41o0ih1WnV80Bxraugj1vMqxLlhVdDhDCVoF3LEoXVz8n2NEl1F6k2o3Gt9C5pXUDJwRGS41FwYVp8RN-aWviJM43mM0oQndJomZyDzjOKzpTzlNlAkFQQbfoagc4sbg-0JxK9rWdnMDW5AR1BU',
         kty: 'RSA',
-      };
-    });
+      }
+    })
 
     async function testHMAC(t, alg) {
-      const size = parseInt(alg.substr(-3), 10);
-      const message = `${alg} requires symmetric keys to be ${size} bits or larger`;
-      const secret = crypto.randomFillSync(new Uint8Array((size >> 3) - 1));
+      const size = parseInt(alg.substr(-3), 10)
+      const message = `${alg} requires symmetric keys to be ${size} bits or larger`
+      const secret = crypto.randomFillSync(new Uint8Array((size >> 3) - 1))
       await t.throwsAsync(
         new FlattenedSign(t.context.payload).setProtectedHeader({ alg }).sign(secret),
         { instanceOf: TypeError, message },
-      );
+      )
 
       const jws = await new FlattenedSign(t.context.payload)
         .setProtectedHeader({ alg })
-        .sign(crypto.randomFillSync(new Uint8Array(size >> 3)));
+        .sign(crypto.randomFillSync(new Uint8Array(size >> 3)))
 
-      await t.throwsAsync(flattenedVerify(jws, secret), { instanceOf: TypeError, message });
+      await t.throwsAsync(flattenedVerify(jws, secret), { instanceOf: TypeError, message })
     }
     testHMAC.title = (title, alg) =>
-      `${alg} requires symmetric keys to be ${alg.substr(-3)} bits or larger`;
+      `${alg} requires symmetric keys to be ${alg.substr(-3)} bits or larger`
 
-    test(testHMAC, 'HS256');
-    test(testHMAC, 'HS384');
-    test(testHMAC, 'HS512');
+    test(testHMAC, 'HS256')
+    test(testHMAC, 'HS384')
+    test(testHMAC, 'HS512')
 
     async function testRSAsig(t, alg) {
-      const message = `${alg} requires key modulusLength to be 2048 bits or larger`;
-      const keyBad = t.context.rsa2040;
-      const keyOk = t.context.rsa2048;
+      const message = `${alg} requires key modulusLength to be 2048 bits or larger`
+      const keyBad = t.context.rsa2040
+      const keyOk = t.context.rsa2048
       await t.throwsAsync(
         new FlattenedSign(t.context.payload)
           .setProtectedHeader({ alg })
           .sign(await importJWK(keyBad, alg)),
         { instanceOf: TypeError, message },
-      );
+      )
 
       const jws = await new FlattenedSign(t.context.payload)
         .setProtectedHeader({ alg })
-        .sign(await importJWK(keyOk, alg));
+        .sign(await importJWK(keyOk, alg))
 
       await t.throwsAsync(flattenedVerify(jws, await importJWK(pubjwk(keyBad), alg)), {
         instanceOf: TypeError,
         message,
-      });
+      })
     }
-    testRSAsig.title = (title, alg) =>
-      `${alg} requires key modulusLength to be 2048 bits or larger`;
+    testRSAsig.title = (title, alg) => `${alg} requires key modulusLength to be 2048 bits or larger`
 
     async function testRSAenc(t, alg) {
-      const message = `${alg} requires key modulusLength to be 2048 bits or larger`;
-      const keyBad = t.context.rsa2040;
-      const keyOk = t.context.rsa2048;
+      const message = `${alg} requires key modulusLength to be 2048 bits or larger`
+      const keyBad = t.context.rsa2040
+      const keyOk = t.context.rsa2048
       await t.throwsAsync(
         new FlattenedEncrypt(t.context.payload)
           .setProtectedHeader({ alg, enc: 'A256GCM' })
           .encrypt(await importJWK(pubjwk(keyBad), alg)),
         { instanceOf: TypeError, message },
-      );
+      )
 
       const jwe = await new FlattenedEncrypt(t.context.payload)
         .setProtectedHeader({ alg, enc: 'A256GCM' })
-        .encrypt(await importJWK(pubjwk(keyOk), alg));
+        .encrypt(await importJWK(pubjwk(keyOk), alg))
 
       await t.throwsAsync(flattenedDecrypt(jwe, await importJWK(keyBad, alg)), {
         instanceOf: TypeError,
         message,
-      });
+      })
     }
-    testRSAenc.title = (title, alg) =>
-      `${alg} requires key modulusLength to be 2048 bits or larger`;
+    testRSAenc.title = (title, alg) => `${alg} requires key modulusLength to be 2048 bits or larger`
 
     async function testECDSASigEncoding(t, alg) {
-      const { privateKey, publicKey } = await generateKeyPair(alg);
+      const { privateKey, publicKey } = await generateKeyPair(alg)
 
       const jws = await new FlattenedSign(t.context.payload)
         .setProtectedHeader({ alg })
-        .sign(privateKey);
+        .sign(privateKey)
 
       const derEncodedSignature = base64url.encode(
         crypto.sign(`sha${alg.substr(2, 3)}`, Buffer.from('foo'), privateKey),
-      );
+      )
 
       await t.throwsAsync(flattenedVerify({ ...jws, signature: derEncodedSignature }, publicKey), {
         message: 'signature verification failed',
         code: 'ERR_JWS_SIGNATURE_VERIFICATION_FAILED',
-      });
+      })
     }
-    testECDSASigEncoding.title = (title, alg) =>
-      `${alg} swallows invalid signature encoding errors`;
+    testECDSASigEncoding.title = (title, alg) => `${alg} swallows invalid signature encoding errors`
 
-    test(testRSAsig, 'RS256');
-    test(testRSAsig, 'PS256');
-    test(testRSAsig, 'RS384');
-    test(testRSAsig, 'PS384');
-    test(testRSAsig, 'RS512');
-    test(testRSAsig, 'PS512');
+    test(testRSAsig, 'RS256')
+    test(testRSAsig, 'PS256')
+    test(testRSAsig, 'RS384')
+    test(testRSAsig, 'PS384')
+    test(testRSAsig, 'RS512')
+    test(testRSAsig, 'PS512')
 
-    test(testRSAenc, 'RSA-OAEP');
-    test(testRSAenc, 'RSA-OAEP-256');
-    test(testRSAenc, 'RSA-OAEP-384');
-    test(testRSAenc, 'RSA-OAEP-512');
+    test(testRSAenc, 'RSA-OAEP')
+    test(testRSAenc, 'RSA-OAEP-256')
+    test(testRSAenc, 'RSA-OAEP-384')
+    test(testRSAenc, 'RSA-OAEP-512')
 
-    test(testECDSASigEncoding, 'ES256');
-    test(testECDSASigEncoding, 'ES384');
-    test(testECDSASigEncoding, 'ES512');
+    test(testECDSASigEncoding, 'ES256')
+    test(testECDSASigEncoding, 'ES384')
+    test(testECDSASigEncoding, 'ES512')
 
     function conditional({ webcrypto = 1, electron = 1 } = {}) {
-      let run = test;
+      let run = test
       if (!webcrypto && ('WEBCRYPTO' in process.env || 'CRYPTOKEY' in process.env)) {
-        run = run.failing;
+        run = run.failing
       }
 
       if (!electron && 'electron' in process.versions) {
-        run = run.failing;
+        run = run.failing
       }
-      return run;
+      return run
     }
 
-    conditional({ webcrypto: 0 })(testRSAenc, 'RSA1_5');
-    conditional({ webcrypto: 0, electron: 0 })(testECDSASigEncoding, 'ES256K');
+    conditional({ webcrypto: 0 })(testRSAenc, 'RSA1_5')
+    conditional({ webcrypto: 0, electron: 0 })(testECDSASigEncoding, 'ES256K')
   },
   (err) => {
     test('failed to import', (t) => {
-      console.error(err);
-      t.fail();
-    });
+      console.error(err)
+      t.fail()
+    })
   },
-);
+)

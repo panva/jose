@@ -116,7 +116,7 @@
     "docs:generate": "typedoc --allReflectionsHaveOwnDocument --disableSources --excludePrivate --excludeProtected --gitRevision main --readme none --plugin typedoc-plugin-markdown --out docs --excludeExternals --tsconfig ./tsconfig/browser.json  --hideGenerator --hideBreadcrumbs src/types.d.ts src/jwt/*.ts src/jwe/**/*.ts src/jws/**/*.ts src/jwk/*.ts src/jwks/*.ts src/util/*.ts src/key/*.ts",
     "esbuild-find": "find src -type f -name '*.ts' -not -path '*/runtime/*/*' -not -name '*.d.ts' -print0",
     "runtime-browser": "run-s runtime:clear runtime:browser:* runtime:refs",
-    "runtime-deno": "npm run-script runtime-browser && mkdir -p dist/deno && cp -r src/. dist/deno && rm -r dist/deno/runtime/browser dist/deno/runtime/node && rm dist/deno/.prettierrc.json",
+    "runtime-deno": "npm run-script runtime-browser && mkdir -p dist/deno && cp -r src/. dist/deno && rm -r dist/deno/runtime/browser dist/deno/runtime/node",
     "runtime-node": "run-s runtime:clear runtime:node:* runtime:refs",
     "runtime-node-webcrypto": "run-s runtime:clear runtime:browser:* && cp ./src/runtime/node/webcrypto.ts ./src/runtime/ && cp ./src/runtime/node/fetch_jwks.ts ./src/runtime/ && cp ./src/runtime/node/base64url.ts ./src/runtime/ && cp ./src/runtime/node/zlib.ts ./src/runtime/ && run-s runtime:refs",
     "runtime:browser:copy": "cp ./src/runtime/browser/*.ts ./src/runtime",

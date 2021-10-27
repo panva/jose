@@ -1,38 +1,38 @@
-const { readFileSync, writeFileSync, unlinkSync } = require("fs");
+const { readFileSync, writeFileSync, unlinkSync } = require('fs')
 
-const pkg = JSON.parse(readFileSync("./package.json"));
-delete pkg.devDependencies;
-delete pkg.scripts;
-delete pkg.imports;
+const pkg = JSON.parse(readFileSync('./package.json'))
+delete pkg.devDependencies
+delete pkg.scripts
+delete pkg.imports
 
-pkg.description = `(Browser Runtime) ${pkg.description}`;
+pkg.description = `(Browser Runtime) ${pkg.description}`
 
-delete pkg.main;
-delete pkg.exports["."].import;
-delete pkg.exports["."].require;
+delete pkg.main
+delete pkg.exports['.'].import
+delete pkg.exports['.'].require
 
 const deletedKeywords = new Set([
-  "deno",
-  "eddsa",
-  "electron",
-  "isomorphic",
-  "okp",
-  "secp256k1",
-  "universal",
-]);
+  'deno',
+  'eddsa',
+  'electron',
+  'isomorphic',
+  'okp',
+  'secp256k1',
+  'universal',
+])
 pkg.keywords = pkg.keywords.filter((keyword) => {
-  return !deletedKeywords.has(keyword);
-});
+  return !deletedKeywords.has(keyword)
+})
 
-pkg.files.push("!dist/node/**/*");
-pkg.files.push("!dist/**/package.json");
+pkg.files.push('!dist/node/**/*')
+pkg.files.push('!dist/**/package.json')
 
-pkg.name = "jose-browser-runtime";
-pkg.type = "module";
+pkg.name = 'jose-browser-runtime'
+pkg.type = 'module'
 
-writeFileSync("./package.json", JSON.stringify(pkg, null, 2) + "\n");
+writeFileSync('./package.json', JSON.stringify(pkg, null, 2) + '\n')
 writeFileSync(
-  "./README.md",
+  './README.md',
   `# jose
 
 > ${pkg.description} using Web Cryptography API.
@@ -55,9 +55,9 @@ npm install ${pkg.name}
 
 ## Documentation
 
-See [${pkg.homepage.replace("https://", "")}](${pkg.homepage})
+See [${pkg.homepage.replace('https://', '')}](${pkg.homepage})
 
 [support-sponsor]: https://github.com/sponsors/panva
-`
-);
-unlinkSync("./CHANGELOG.md");
+`,
+)
+unlinkSync('./CHANGELOG.md')

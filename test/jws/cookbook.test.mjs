@@ -1,15 +1,15 @@
-import test from 'ava';
+import test from 'ava'
 
-let root;
-let keyRoot;
+let root
+let keyRoot
 
 if ('WEBCRYPTO' in process.env) {
-  root = keyRoot = '#dist/webcrypto';
+  root = keyRoot = '#dist/webcrypto'
 } else if ('CRYPTOKEY' in process.env) {
-  root = '#dist';
-  keyRoot = '#dist/webcrypto';
+  root = '#dist'
+  keyRoot = '#dist/webcrypto'
 } else {
-  root = keyRoot = '#dist';
+  root = keyRoot = '#dist'
 }
 
 Promise.all([
@@ -23,46 +23,46 @@ Promise.all([
     const flattened = {
       Sign: FlattenedSign,
       verify: flattenedVerify,
-    };
+    }
     const compact = {
       Sign: CompactSign,
       verify: compactVerify,
-    };
+    }
 
-    const encode = TextEncoder.prototype.encode.bind(new TextEncoder());
+    const encode = TextEncoder.prototype.encode.bind(new TextEncoder())
 
-    const pubjwk = ({ d, p, q, dp, dq, qi, ...jwk }) => jwk;
+    const pubjwk = ({ d, p, q, dp, dq, qi, ...jwk }) => jwk
 
     async function testCookbook(t, vector) {
-      const reproducible = !!vector.reproducible;
+      const reproducible = !!vector.reproducible
 
       if (reproducible) {
         // sign and compare results are the same
-        const runs = [[flattened, vector.output.json_flat]];
+        const runs = [[flattened, vector.output.json_flat]]
         if (
           !vector.signing.protected ||
           !('b64' in vector.signing.protected) ||
           vector.signing.protected.b64 === true
         ) {
-          runs.push([compact, vector.output.compact]);
+          runs.push([compact, vector.output.compact])
         }
         for (const [serialization, expectedResult] of runs) {
           if (!expectedResult) {
-            continue;
+            continue
           }
-          const sign = new serialization.Sign(encode(vector.input.payload));
+          const sign = new serialization.Sign(encode(vector.input.payload))
 
           if (vector.signing.protected) {
-            sign.setProtectedHeader(vector.signing.protected);
+            sign.setProtectedHeader(vector.signing.protected)
           }
 
           if (vector.signing.unprotected) {
-            sign.setUnprotectedHeader(vector.signing.unprotected);
+            sign.setUnprotectedHeader(vector.signing.unprotected)
           }
 
-          const privateKey = await importJWK(vector.input.key, vector.input.alg);
+          const privateKey = await importJWK(vector.input.key, vector.input.alg)
 
-          const result = await sign.sign(privateKey);
+          const result = await sign.sign(privateKey)
 
           if (typeof result === 'object') {
             Object.entries(expectedResult).forEach(([prop, expected]) => {
@@ -71,41 +71,41 @@ Promise.all([
                 vector.signing.protected &&
                 vector.signing.protected.b64 === false
               )
-                return;
-              t.is(JSON.stringify(result[prop]), JSON.stringify(expected));
-            });
+                return
+              t.is(JSON.stringify(result[prop]), JSON.stringify(expected))
+            })
           } else {
-            t.is(result, expectedResult);
+            t.is(result, expectedResult)
           }
         }
       } else {
-        const sign = new flattened.Sign(encode(vector.input.payload));
+        const sign = new flattened.Sign(encode(vector.input.payload))
 
         if (vector.signing.protected) {
-          sign.setProtectedHeader(vector.signing.protected);
+          sign.setProtectedHeader(vector.signing.protected)
         }
 
         if (vector.signing.unprotected) {
-          sign.setUnprotectedHeader(vector.signing.unprotected);
+          sign.setUnprotectedHeader(vector.signing.unprotected)
         }
 
-        const privateKey = await importJWK(vector.input.key, vector.input.alg);
-        const publicKey = await importJWK(pubjwk(vector.input.key), vector.input.alg);
+        const privateKey = await importJWK(vector.input.key, vector.input.alg)
+        const publicKey = await importJWK(pubjwk(vector.input.key), vector.input.alg)
 
-        const result = await sign.sign(privateKey);
-        await t.notThrowsAsync(flattened.verify(result, publicKey));
+        const result = await sign.sign(privateKey)
+        await t.notThrowsAsync(flattened.verify(result, publicKey))
       }
 
-      const publicKey = await importJWK(pubjwk(vector.input.key), vector.input.alg);
+      const publicKey = await importJWK(pubjwk(vector.input.key), vector.input.alg)
 
       if (vector.output.json_flat) {
-        await t.notThrowsAsync(flattened.verify(vector.output.json_flat, publicKey));
+        await t.notThrowsAsync(flattened.verify(vector.output.json_flat, publicKey))
       }
       if (vector.output.compact) {
-        await t.notThrowsAsync(compact.verify(vector.output.compact, publicKey));
+        await t.notThrowsAsync(compact.verify(vector.output.compact, publicKey))
       }
     }
-    testCookbook.title = (title, vector) => `${vector.title}${title ? ` ${title}` : ''}`;
+    testCookbook.title = (title, vector) => `${vector.title}${title ? ` ${title}` : ''}`
 
     const vectors = [
       {
@@ -484,25 +484,25 @@ Promise.all([
           },
         },
       },
-    ];
+    ]
 
     for (const vector of vectors) {
-      let conditional;
+      let conditional
       if (
         ('WEBCRYPTO' in process.env || 'CRYPTOKEY' in process.env) &&
         vector.webcrypto === false
       ) {
-        conditional = test.failing;
+        conditional = test.failing
       } else {
-        conditional = test;
+        conditional = test
       }
       if (vector.skip) {
-        conditional = test.skip;
+        conditional = test.skip
       }
       if (vector.only) {
-        conditional = test.only;
+        conditional = test.only
       }
-      conditional(testCookbook, vector);
+      conditional(testCookbook, vector)
     }
   },
-);
+)

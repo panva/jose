@@ -1,25 +1,25 @@
-import { assert } from 'https://deno.land/std@0.109.0/testing/asserts.ts';
+import { assert } from 'https://deno.land/std@0.109.0/testing/asserts.ts'
 
 import {
   generateSecret,
   FlattenedEncrypt,
   flattenedDecrypt,
   decodeProtectedHeader,
-} from '../dist/deno/index.ts';
+} from '../dist/deno/index.ts'
 
 async function test(
   generate: () => ReturnType<typeof generateSecret>,
   { alg, enc }: { [key: string]: string },
 ) {
-  const secretKey = await generate();
+  const secretKey = await generate()
 
   const jwe = await new FlattenedEncrypt(crypto.getRandomValues(new Uint8Array(32)))
     .setProtectedHeader({ alg, enc })
     .setAdditionalAuthenticatedData(crypto.getRandomValues(new Uint8Array(32)))
-    .encrypt(secretKey);
+    .encrypt(secretKey)
 
-  assert(decodeProtectedHeader(jwe));
-  await flattenedDecrypt(jwe, secretKey);
+  assert(decodeProtectedHeader(jwe))
+  await flattenedDecrypt(jwe, secretKey)
 }
 
 Deno.test(
@@ -28,7 +28,7 @@ Deno.test(
     alg: 'dir',
     enc: 'A128CBC-HS256',
   }),
-);
+)
 
 Deno.test(
   'Encrypt/Decrypt A128GCM',
@@ -36,7 +36,7 @@ Deno.test(
     alg: 'dir',
     enc: 'A128GCM',
   }),
-);
+)
 
 Deno.test(
   'Encrypt/Decrypt A192CBC-HS384',
@@ -44,7 +44,7 @@ Deno.test(
     alg: 'dir',
     enc: 'A192CBC-HS384',
   }),
-);
+)
 
 Deno.test(
   'Encrypt/Decrypt A192GCM',
@@ -52,7 +52,7 @@ Deno.test(
     alg: 'dir',
     enc: 'A192GCM',
   }),
-);
+)
 
 Deno.test(
   'Encrypt/Decrypt A256CBC-HS512',
@@ -60,7 +60,7 @@ Deno.test(
     alg: 'dir',
     enc: 'A256CBC-HS512',
   }),
-);
+)
 
 Deno.test(
   'Encrypt/Decrypt A256GCM',
@@ -68,7 +68,7 @@ Deno.test(
     alg: 'dir',
     enc: 'A256GCM',
   }),
-);
+)
 
 Deno.test(
   'Encrypt/Decrypt A128GCMKW',
@@ -76,7 +76,7 @@ Deno.test(
     alg: 'A128GCMKW',
     enc: 'A192CBC-HS384',
   }),
-);
+)
 
 Deno.test(
   'Encrypt/Decrypt A128KW',
@@ -84,7 +84,7 @@ Deno.test(
     alg: 'A128KW',
     enc: 'A192CBC-HS384',
   }),
-);
+)
 
 Deno.test(
   'Encrypt/Decrypt A192GCMKW',
@@ -92,7 +92,7 @@ Deno.test(
     alg: 'A192GCMKW',
     enc: 'A192CBC-HS384',
   }),
-);
+)
 
 Deno.test(
   'Encrypt/Decrypt A192KW',
@@ -100,7 +100,7 @@ Deno.test(
     alg: 'A192KW',
     enc: 'A192CBC-HS384',
   }),
-);
+)
 
 Deno.test(
   'Encrypt/Decrypt A256GCMKW',
@@ -108,7 +108,7 @@ Deno.test(
     alg: 'A256GCMKW',
     enc: 'A192CBC-HS384',
   }),
-);
+)
 
 Deno.test(
   'Encrypt/Decrypt A256KW',
@@ -116,7 +116,7 @@ Deno.test(
     alg: 'A256KW',
     enc: 'A192CBC-HS384',
   }),
-);
+)
 
 Deno.test(
   'Encrypt/Decrypt PBES2-HS256+A128KW',
@@ -124,7 +124,7 @@ Deno.test(
     alg: 'PBES2-HS256+A128KW',
     enc: 'A192CBC-HS384',
   }),
-);
+)
 
 Deno.test(
   'Encrypt/Decrypt PBES2-HS384+A192KW',
@@ -132,7 +132,7 @@ Deno.test(
     alg: 'PBES2-HS384+A192KW',
     enc: 'A192CBC-HS384',
   }),
-);
+)
 
 Deno.test(
   'Encrypt/Decrypt PBES2-HS512+A256KW',
@@ -140,4 +140,4 @@ Deno.test(
     alg: 'PBES2-HS512+A256KW',
     enc: 'A192CBC-HS384',
   }),
-);
+)

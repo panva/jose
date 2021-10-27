@@ -1,20 +1,20 @@
-import * as Bowser from 'bowser';
+import * as Bowser from 'bowser'
 
-import { importJWK, exportJWK, calculateJwkThumbprint } from '../dist/browser/index.js';
+import { importJWK, exportJWK, calculateJwkThumbprint } from '../dist/browser/index.js'
 
-const browser = Bowser.parse(window.navigator.userAgent);
+const browser = Bowser.parse(window.navigator.userAgent)
 
-const p521 = browser.engine.name !== 'WebKit';
+const p521 = browser.engine.name !== 'WebKit'
 
 async function test(jwk, alg, assert) {
-  await calculateJwkThumbprint(jwk);
-  const keyLike = await importJWK({ ...jwk, ext: true }, alg);
-  assert.deepEqual(await exportJWK(keyLike), jwk);
+  await calculateJwkThumbprint(jwk)
+  const keyLike = await importJWK({ ...jwk, ext: true }, alg)
+  assert.deepEqual(await exportJWK(keyLike), jwk)
 }
 
 async function failing(jwk, alg, assert) {
-  await calculateJwkThumbprint(jwk);
-  await assert.rejects(test.bind(undefined, jwk, alg)(assert));
+  await calculateJwkThumbprint(jwk)
+  await assert.rejects(test.bind(undefined, jwk, alg)(assert))
 }
 
 const expectSuccess = [
@@ -56,7 +56,7 @@ const expectSuccess = [
     'HS512',
     '{"kty":"oct","k":"2O5x_zEOhSIDiGcOAOYhB1dyDU_ZW27rl-_xDpKE-8tBlL91z6p_8aYo3by6AOsa6ycx6-JC9LBAio0amINXTQ"}',
   ],
-];
+]
 const expectFailure = [
   ['EdDSA', '{"kty":"OKP","crv":"Ed25519","x":"zjV_JsgzH--qhtVlJEYDFeRFITSD0k6lYSSpOKBarZQ"}'],
   ['ECDH-ES', '{"kty":"OKP","crv":"X25519","x":"HqyMxA2utODyDFMeCiTiOXmHIG_ih52vOX89gbCI71U"}'],
@@ -68,26 +68,26 @@ const expectFailure = [
     'ECDH-ES',
     '{"kty":"OKP","crv":"X448","x":"v3Lhxa_bdhGUK7NUYHizRQA55sDS68WeZTGYNvFhdxhL519MkWQTt_LlviW84i6ARWyVxlKgBF0"}',
   ],
-];
+]
 
 const ES512 = [
   'ES512',
   '{"kty":"EC","crv":"P-521","x":"AIwG869tNnEGIDg2hSyvXKIOk9rWPO_riIixGliBGBV0kB57QoTrjK-g5JCtazDTcBT23igX9gvAVkLvr2oFTQ9p","y":"AeGZ0Z3JHM1rQWvmmpdfVu0zSNpmu0xPjGUE2hGhloRqF-JJV3aVMS72ZhGlbWi-O7OCcypIfndhpYgrc3qx0Y1w"}',
-];
+]
 
 if (p521) {
-  expectSuccess.push(ES512);
+  expectSuccess.push(ES512)
 } else {
-  expectFailure.push(ES512);
+  expectFailure.push(ES512)
 }
 
 for (const [alg, jwk] of expectSuccess) {
-  QUnit.test(`Key Import/Export ${alg}`, test.bind(undefined, JSON.parse(jwk), alg));
+  QUnit.test(`Key Import/Export ${alg}`, test.bind(undefined, JSON.parse(jwk), alg))
 }
 
 for (const [alg, jwk] of expectFailure) {
   QUnit.test(
     `(expecting failure) Key Import/Export ${alg}`,
     failing.bind(undefined, JSON.parse(jwk), alg),
-  );
+  )
 }

@@ -1,15 +1,15 @@
-import test from 'ava';
+import test from 'ava'
 
-let root;
-let keyRoot;
+let root
+let keyRoot
 
 if ('WEBCRYPTO' in process.env) {
-  root = keyRoot = '#dist/webcrypto';
+  root = keyRoot = '#dist/webcrypto'
 } else if ('CRYPTOKEY' in process.env) {
-  root = '#dist';
-  keyRoot = '#dist/webcrypto';
+  root = '#dist'
+  keyRoot = '#dist/webcrypto'
 } else {
-  root = keyRoot = '#dist';
+  root = keyRoot = '#dist'
 }
 
 Promise.all([import(`${keyRoot}/key/import`), import(`${keyRoot}/key/export`)]).then(
@@ -18,71 +18,71 @@ Promise.all([import(`${keyRoot}/key/import`), import(`${keyRoot}/key/export`)]).
       await t.throwsAsync(importJWK(true), {
         instanceOf: TypeError,
         message: 'JWK must be an object',
-      });
+      })
       await t.throwsAsync(importJWK(null), {
         instanceOf: TypeError,
         message: 'JWK must be an object',
-      });
+      })
       await t.throwsAsync(importJWK(Boolean), {
         instanceOf: TypeError,
         message: 'JWK must be an object',
-      });
+      })
       await t.throwsAsync(importJWK([]), {
         instanceOf: TypeError,
         message: 'JWK must be an object',
-      });
+      })
       await t.throwsAsync(importJWK(''), {
         instanceOf: TypeError,
         message: 'JWK must be an object',
-      });
-      const nullPrototype = Object.create(null);
-      nullPrototype.crv = 'P-256';
-      nullPrototype.kty = 'EC';
-      nullPrototype.x = 'q3zAwR_kUwtdLEwtB2oVfucXiLHmEhu9bJUFYjJxYGs';
-      nullPrototype.y = '8h0D-ONoU-iZqrq28TyUxEULxuGwJZGMJYTMbeMshvI';
-      await t.notThrowsAsync(importJWK(nullPrototype, 'ES256'));
-    });
+      })
+      const nullPrototype = Object.create(null)
+      nullPrototype.crv = 'P-256'
+      nullPrototype.kty = 'EC'
+      nullPrototype.x = 'q3zAwR_kUwtdLEwtB2oVfucXiLHmEhu9bJUFYjJxYGs'
+      nullPrototype.y = '8h0D-ONoU-iZqrq28TyUxEULxuGwJZGMJYTMbeMshvI'
+      await t.notThrowsAsync(importJWK(nullPrototype, 'ES256'))
+    })
 
     test('JWK kty must be recognized', async (t) => {
       await t.throwsAsync(importJWK({ kty: 'unrecognized' }, 'HS256'), {
         code: 'ERR_JOSE_NOT_SUPPORTED',
         message: 'Unsupported "kty" (Key Type) Parameter value',
-      });
-    });
+      })
+    })
 
     test('alg argument must be present if jwk does not have alg', async (t) => {
       const oct = {
         k: 'FyCq1CKBflh3I5gikEjpYrdOXllzxB_yc02za8ERknI',
         kty: 'oct',
-      };
+      }
       await t.throwsAsync(importJWK(oct), {
         instanceOf: TypeError,
         message: '"alg" argument is required when "jwk.alg" is not present',
-      });
-      await t.notThrowsAsync(importJWK(oct, 'HS256'));
-      await t.notThrowsAsync(importJWK({ ...oct, alg: 'HS256' }));
-    });
+      })
+      await t.notThrowsAsync(importJWK(oct, 'HS256'))
+      await t.notThrowsAsync(importJWK({ ...oct, alg: 'HS256' }))
+    })
 
     test('oct JWK must have "k"', async (t) => {
       await t.throwsAsync(importJWK({ kty: 'oct' }, 'HS256'), {
         instanceOf: TypeError,
         message: 'missing "k" (Key Value) Parameter value',
-      });
-    });
+      })
+    })
 
     test('RSA JWK with oth is not supported', async (t) => {
       await t.throwsAsync(importJWK({ kty: 'RSA', oth: [] }, 'RS256'), {
         code: 'ERR_JOSE_NOT_SUPPORTED',
         message: 'RSA JWK "oth" (Other Primes Info) Parameter value is not supported',
-      });
-    });
+      })
+    })
 
     test('oct JWK (ext: true)', async (t) => {
       const oct = {
         k: 'FyCq1CKBflh3I5gikEjpYrdOXllzxB_yc02za8ERknI',
         kty: 'oct',
         ext: true,
-      };
+      }
 
       t.deepEqual(
         [...(await importJWK(oct, 'HS256'))],
@@ -90,62 +90,62 @@ Promise.all([import(`${keyRoot}/key/import`), import(`${keyRoot}/key/export`)]).
           23, 32, 170, 212, 34, 129, 126, 88, 119, 35, 152, 34, 144, 72, 233, 98, 183, 78, 94, 89,
           115, 196, 31, 242, 115, 77, 179, 107, 193, 17, 146, 114,
         ],
-      );
-    });
+      )
+    })
 
     test('oct JWK (ext: false)', async (t) => {
       const oct = {
         k: 'FyCq1CKBflh3I5gikEjpYrdOXllzxB_yc02za8ERknI',
         kty: 'oct',
         ext: false,
-      };
+      }
 
-      const k = await importJWK(oct, 'HS256');
+      const k = await importJWK(oct, 'HS256')
 
-      t.true('type' in k);
-      t.is(k.type, 'secret');
-    });
+      t.true('type' in k)
+      t.is(k.type, 'secret')
+    })
 
     test('oct JWK (ext missing)', async (t) => {
       const oct = {
         k: 'FyCq1CKBflh3I5gikEjpYrdOXllzxB_yc02za8ERknI',
         kty: 'oct',
-      };
+      }
 
-      const k = await importJWK(oct, 'HS256');
+      const k = await importJWK(oct, 'HS256')
 
-      t.true('type' in k);
-      t.is(k.type, 'secret');
-    });
+      t.true('type' in k)
+      t.is(k.type, 'secret')
+    })
 
     async function testKeyImportExport(t, jwk) {
       await t.notThrowsAsync(async () => {
-        let key = await importJWK({ ...jwk, ext: true });
-        t.is(key.type, 'private');
-        const exportedJwk = await exportJWK(key);
-        key = await importJWK(exportedJwk, jwk.alg);
-        t.is(key.type, 'private');
-      });
+        let key = await importJWK({ ...jwk, ext: true })
+        t.is(key.type, 'private')
+        const exportedJwk = await exportJWK(key)
+        key = await importJWK(exportedJwk, jwk.alg)
+        t.is(key.type, 'private')
+      })
       await t.notThrowsAsync(async () => {
-        const { d, p, q, dp, dq, qi, ...publicJwk } = jwk;
-        const key = await importJWK(publicJwk);
-        t.is(key.type, 'public');
-      });
+        const { d, p, q, dp, dq, qi, ...publicJwk } = jwk
+        const key = await importJWK(publicJwk)
+        t.is(key.type, 'public')
+      })
       await t.notThrowsAsync(async () => {
-        const { ext, key_ops, alg, use, ...expectedExport } = jwk;
-        const key = await importJWK({ ...jwk, ext: true });
-        t.is(key.type, 'private');
-        t.deepEqual(await exportJWK(key), expectedExport);
-      });
+        const { ext, key_ops, alg, use, ...expectedExport } = jwk
+        const key = await importJWK({ ...jwk, ext: true })
+        t.is(key.type, 'private')
+        t.deepEqual(await exportJWK(key), expectedExport)
+      })
       await t.notThrowsAsync(async () => {
-        const { d, p, q, dp, dq, qi, ...publicJwk } = jwk;
-        const { ext, key_ops, alg, use, ...expectedExport } = publicJwk;
-        const key = await importJWK({ ...publicJwk, ext: true });
-        t.is(key.type, 'public');
-        t.deepEqual(await exportJWK(key), expectedExport);
-      });
+        const { d, p, q, dp, dq, qi, ...publicJwk } = jwk
+        const { ext, key_ops, alg, use, ...expectedExport } = publicJwk
+        const key = await importJWK({ ...publicJwk, ext: true })
+        t.is(key.type, 'public')
+        t.deepEqual(await exportJWK(key), expectedExport)
+      })
     }
-    testKeyImportExport.title = (_, jwk) => `${jwk.kty} ${jwk.crv} JWK (${jwk.alg})`;
+    testKeyImportExport.title = (_, jwk) => `${jwk.kty} ${jwk.crv} JWK (${jwk.alg})`
 
     const ec = {
       crv: 'P-256',
@@ -153,10 +153,10 @@ Promise.all([import(`${keyRoot}/key/import`), import(`${keyRoot}/key/export`)]).
       y: 'lZmecT2quXe0i9f7b4qHvDAFDpxs0oxCoJx4tOOqsks',
       d: 'hRVo5TGE_d_4tQC1KEQIlCdo9rteZmLSmaMPpFOjeDI',
       kty: 'EC',
-    };
-    test(testKeyImportExport, { ...ec, alg: 'ES256' });
-    test(testKeyImportExport, { ...ec, alg: 'ECDH-ES' });
-    test(testKeyImportExport, { ...ec, alg: 'ECDH-ES+A128KW' });
+    }
+    test(testKeyImportExport, { ...ec, alg: 'ES256' })
+    test(testKeyImportExport, { ...ec, alg: 'ECDH-ES' })
+    test(testKeyImportExport, { ...ec, alg: 'ECDH-ES+A128KW' })
     test(testKeyImportExport, {
       crv: 'P-384',
       x: 'H50cO3PJnVhAoF6_jPKpCl60cnvmoygN2u29jVN19x8C2PymixZS4Y5d1FfMMK3L',
@@ -164,7 +164,7 @@ Promise.all([import(`${keyRoot}/key/import`), import(`${keyRoot}/key/export`)]).
       d: 'HDUcH8y8xr22EroPYBK3PvpNjA3pCJjvHpBXKejxOiQCoXhZ5PhX_nxb7lU0mlDE',
       kty: 'EC',
       alg: 'ES384',
-    });
+    })
     test(testKeyImportExport, {
       crv: 'P-521',
       x: 'AFy8VTdHeJx7rrUajpeqIjGZsjtx0tftQ7pdL1qkTRpnvY0WVVKXjib3HINNLMA72gA7JujbvEtGvkvoo0P7pGVK',
@@ -172,7 +172,7 @@ Promise.all([import(`${keyRoot}/key/import`), import(`${keyRoot}/key/export`)]).
       d: 'AL123tYK7y-iViaReLOHe7XxKNSeoUMk4RRmcP6nSVuZrYJHtyYPak4gUmWB6A_GzED3zXkrkcssZEzHrYQILw5c',
       kty: 'EC',
       alg: 'ES512',
-    });
+    })
     const rsa = {
       e: 'AQAB',
       n: 'rPOe2kdmQY1wN2ADn-EIKsPO_kXotIqPjbZQOoW6sIHPGS8xJqrR60JLTBir5jG8Prrp4_KoEDGm3zYlWb5EJr9BMAVHAUYB2ZMXjdojpIkKeJ_cMI0lLcSUTkKkOA6u2DnVJBlnQgeyVZ927h65cJ5zsnSqG6MHh5tVPAwocEsfH27Tik_Fp-dCidmr_-rCrPfoAuASadvuFr5oAa7aAKdlLz6P0GgmCs2KzTAR6FiBMm48hd1YkrIaGzljKOwCgh0KYA3tnetbOCFEuzsmn9wmQHUA0iPQqYGlFJVfQ64949hQk42uWxCXtaO_wlXqy_TVki5LTQ7hO4reUiMXpQ',
@@ -183,11 +183,11 @@ Promise.all([import(`${keyRoot}/key/import`), import(`${keyRoot}/key/export`)]).
       dq: 'uX6ijefyWiCZF8K7DL_YX7l1q8dhcxXC7TUyLOA2DR1Qirj4XEaDaCO5tJqdpVDvIsz7FhKrkgNIAV7Xh-eLIBIWE6M9iGVkQyuMspl-DFp2ilMmcLLbowZvEf5KgxafgXSRSfrvirTwM9yy5HRxPRMzOSxRrHm_0D26Z1we1B0',
       qi: 'htPHLViOVG6QrldfuHn9evfdlD-UEuViOWNx8aKR3IBv0qegpJ78vYB4hdAcJZtBslKI97En5rzOAN3Y6Y8MbI4oN77WeiePJl2cMrS64evmlERvjJ6ZTs8jK0iV5q_gIZ9Qg9drmolUgb_CccQOBFbqSL6YkXwCBxlkCrzTlhc',
       kty: 'RSA',
-    };
-    test(testKeyImportExport, { ...rsa, alg: 'RS256' });
-    test(testKeyImportExport, { ...rsa, alg: 'PS256' });
-    test(testKeyImportExport, { ...rsa, alg: 'RSA-OAEP' });
-    test(testKeyImportExport, { ...rsa, alg: 'RSA-OAEP-256' });
+    }
+    test(testKeyImportExport, { ...rsa, alg: 'RS256' })
+    test(testKeyImportExport, { ...rsa, alg: 'PS256' })
+    test(testKeyImportExport, { ...rsa, alg: 'RSA-OAEP' })
+    test(testKeyImportExport, { ...rsa, alg: 'RSA-OAEP-256' })
 
     test('Uin8tArray can be transformed to a JWK', async (t) => {
       t.deepEqual(
@@ -196,19 +196,19 @@ Promise.all([import(`${keyRoot}/key/import`), import(`${keyRoot}/key/export`)]).
           k: 'AQIDBAUGBwgJCgsMDQ4P',
           kty: 'oct',
         },
-      );
-    });
+      )
+    })
 
     function conditional({ webcrypto = 1, electron = 1 } = {}) {
-      let run = test;
+      let run = test
       if (!webcrypto && ('WEBCRYPTO' in process.env || 'CRYPTOKEY' in process.env)) {
-        run = run.failing;
+        run = run.failing
       }
 
       if (!electron && 'electron' in process.versions) {
-        run = run.failing;
+        run = run.failing
       }
-      return run;
+      return run
     }
 
     conditional({ webcrypto: 0 })('secret key object can be transformed to a JWK', async (t) => {
@@ -220,12 +220,12 @@ Promise.all([import(`${keyRoot}/key/import`), import(`${keyRoot}/key/export`)]).
         },
         'HS256',
         true,
-      );
+      )
       t.deepEqual(await exportJWK(keylike), {
         k: 'AQIDBAUGBwgJCgsMDQ4P',
         kty: 'oct',
-      });
-    });
+      })
+    })
 
     const secp256k1 = {
       crv: 'secp256k1',
@@ -233,44 +233,44 @@ Promise.all([import(`${keyRoot}/key/import`), import(`${keyRoot}/key/export`)]).
       y: 'yejzoIE2tLzM_av8Pbd3rW7adTxlUqys2Ajk-JCBLp8',
       d: '47Iw2GXvj-hpfgGsfF3F2mekHKaDc2qv7WTqtAkU1H0',
       kty: 'EC',
-    };
+    }
     conditional({ webcrypto: 0, electron: 0 })(testKeyImportExport, {
       ...secp256k1,
       alg: 'ES256K',
-    });
+    })
     const ed25519 = {
       crv: 'Ed25519',
       x: 'GVLslCt7dY6H8p_yatNaGOtpdrCho5qaLvIvNTMd29M',
       d: 'FRaWZohbbDyzhYpTCS9m4fv2xoK6HG83bw6jq6zNxEs',
       kty: 'OKP',
-    };
-    conditional({ webcrypto: 1 })(testKeyImportExport, { ...ed25519, alg: 'EdDSA' });
+    }
+    conditional({ webcrypto: 1 })(testKeyImportExport, { ...ed25519, alg: 'EdDSA' })
     const ed448 = {
       crv: 'Ed448',
       x: 'KYWcaDwgH77xdAwcbzOgvCVcGMy9I6prRQBhQTTdKXUcr-VquTz7Fd5adJO0wT2VHysF3bk3kBoA',
       d: 'UhC3-vN5vp_g9PnTknXZgfXUez7Xvw-OfuJ0pYkuwzpYkcTvacqoFkV_O05WMHpyXkzH9q2wzx5n',
       kty: 'OKP',
-    };
-    conditional({ webcrypto: 1, electron: 0 })(testKeyImportExport, { ...ed448, alg: 'EdDSA' });
+    }
+    conditional({ webcrypto: 1, electron: 0 })(testKeyImportExport, { ...ed448, alg: 'EdDSA' })
     const x25519 = {
       crv: 'X25519',
       x: 'axR8Q7PEd74nY9nWaAoAYpMe3gp5sWbau6V6X1inPw4',
       d: 'aCvvb3jEBnxJJBjCIN2a9ZDTL-HG6LVgBbij4m8-d3Y',
       kty: 'OKP',
-    };
-    conditional({ webcrypto: 0 })(testKeyImportExport, { ...x25519, alg: 'ECDH-ES' });
+    }
+    conditional({ webcrypto: 0 })(testKeyImportExport, { ...x25519, alg: 'ECDH-ES' })
     const x448 = {
       crv: 'X448',
       x: 'z8s0Ej7D4pgIDu233UHoDW48EbiEm5eFv8_LuFwRr0xVREHhCtdxH75x6J8egZbjDGweOSbeHbY',
       d: 'xBrCwLlrHa1ov2cbmD4eMw4t6DoN_MWsBT_mxcA_QWsCS_9sKMRyFpphNN9_2iKrGPTC9pWCS5w',
       kty: 'OKP',
-    };
-    conditional({ webcrypto: 0, electron: 0 })(testKeyImportExport, { ...x448, alg: 'ECDH-ES' });
+    }
+    conditional({ webcrypto: 0, electron: 0 })(testKeyImportExport, { ...x448, alg: 'ECDH-ES' })
   },
   (err) => {
     test('failed to import', (t) => {
-      console.error(err);
-      t.fail();
-    });
+      console.error(err)
+      t.fail()
+    })
   },
-);
+)

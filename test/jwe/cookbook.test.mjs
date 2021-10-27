@@ -1,15 +1,15 @@
-import test from 'ava';
+import test from 'ava'
 
-let root;
-let keyRoot;
+let root
+let keyRoot
 
 if ('WEBCRYPTO' in process.env) {
-  root = keyRoot = '#dist/webcrypto';
+  root = keyRoot = '#dist/webcrypto'
 } else if ('CRYPTOKEY' in process.env) {
-  root = '#dist';
-  keyRoot = '#dist/webcrypto';
+  root = '#dist'
+  keyRoot = '#dist/webcrypto'
 } else {
-  root = keyRoot = '#dist';
+  root = keyRoot = '#dist'
 }
 
 Promise.all([
@@ -31,28 +31,28 @@ Promise.all([
     const flattened = {
       Encrypt: FlattenedEncrypt,
       decrypt: flattenedDecrypt,
-    };
+    }
     const compact = {
       Encrypt: CompactEncrypt,
       decrypt: compactDecrypt,
-    };
-    const encode = TextEncoder.prototype.encode.bind(new TextEncoder());
+    }
+    const encode = TextEncoder.prototype.encode.bind(new TextEncoder())
 
     const toJWK = (input) => {
       if (typeof input === 'string') {
         return {
           kty: 'oct',
           k: base64url.encode(encode(input)),
-        };
+        }
       }
-      return input;
-    };
-    const pubjwk = ({ d, p, q, dp, dq, qi, ...jwk }) => jwk;
+      return input
+    }
+    const pubjwk = ({ d, p, q, dp, dq, qi, ...jwk }) => jwk
 
     async function testCookbook(t, vector) {
-      const dir = vector.input.alg === 'dir';
+      const dir = vector.input.alg === 'dir'
 
-      const reproducible = !!vector.reproducible;
+      const reproducible = !!vector.reproducible
 
       if (reproducible) {
         // sign and compare results are the same
@@ -61,110 +61,110 @@ Promise.all([
           [compact, vector.output.compact],
         ]) {
           if (!expectedResult) {
-            continue;
+            continue
           }
-          const encrypt = new serialization.Encrypt(encode(vector.input.plaintext));
+          const encrypt = new serialization.Encrypt(encode(vector.input.plaintext))
 
           if (vector.encrypting_content.protected) {
-            encrypt.setProtectedHeader(vector.encrypting_content.protected);
+            encrypt.setProtectedHeader(vector.encrypting_content.protected)
           }
 
           if (vector.encrypting_content.unprotected) {
-            encrypt.setSharedUnprotectedHeader(vector.encrypting_content.unprotected);
+            encrypt.setSharedUnprotectedHeader(vector.encrypting_content.unprotected)
           }
 
-          const { cek, iv } = vector.generated;
+          const { cek, iv } = vector.generated
 
           if (cek) {
-            encrypt.setContentEncryptionKey(base64url.decode(cek));
+            encrypt.setContentEncryptionKey(base64url.decode(cek))
           }
 
           if (iv) {
-            encrypt.setInitializationVector(base64url.decode(iv));
+            encrypt.setInitializationVector(base64url.decode(iv))
           }
 
           if (vector.input.aad) {
-            encrypt.setAdditionalAuthenticatedData(encode(vector.input.aad));
+            encrypt.setAdditionalAuthenticatedData(encode(vector.input.aad))
           }
 
-          const keyManagementParameters = {};
+          const keyManagementParameters = {}
 
           if (vector.encrypting_key && vector.encrypting_key.iv) {
-            keyManagementParameters.iv = base64url.decode(vector.encrypting_key.iv);
+            keyManagementParameters.iv = base64url.decode(vector.encrypting_key.iv)
           }
 
           if (vector.encrypting_key && vector.encrypting_key.iteration_count) {
-            keyManagementParameters.p2c = vector.encrypting_key.iteration_count;
+            keyManagementParameters.p2c = vector.encrypting_key.iteration_count
           }
 
           if (vector.encrypting_key && vector.encrypting_key.salt) {
-            keyManagementParameters.p2s = base64url.decode(vector.encrypting_key.salt);
+            keyManagementParameters.p2s = base64url.decode(vector.encrypting_key.salt)
           }
 
           if (vector.encrypting_key && vector.encrypting_key.epk) {
-            keyManagementParameters.epk = importJWK(vector.encrypting_key.epk, 'ECDH');
+            keyManagementParameters.epk = importJWK(vector.encrypting_key.epk, 'ECDH')
           }
 
           if (Object.keys(keyManagementParameters) !== 0) {
-            encrypt.setKeyManagementParameters(keyManagementParameters);
+            encrypt.setKeyManagementParameters(keyManagementParameters)
           }
 
           const publicKey = await importJWK(
             pubjwk(toJWK(vector.input.pwd || vector.input.key)),
             dir ? vector.input.enc : vector.input.alg,
-          );
+          )
 
-          const result = await encrypt.encrypt(publicKey);
+          const result = await encrypt.encrypt(publicKey)
 
           if (typeof result === 'object') {
             Object.entries(expectedResult).forEach(([prop, expected]) => {
-              t.is(JSON.stringify(result[prop]), JSON.stringify(expected));
-            });
+              t.is(JSON.stringify(result[prop]), JSON.stringify(expected))
+            })
           } else {
-            t.is(result, expectedResult);
+            t.is(result, expectedResult)
           }
         }
       } else {
-        const encrypt = new flattened.Encrypt(encode(vector.input.plaintext));
+        const encrypt = new flattened.Encrypt(encode(vector.input.plaintext))
 
         if (vector.encrypting_content.protected) {
-          encrypt.setProtectedHeader(vector.encrypting_content.protected);
+          encrypt.setProtectedHeader(vector.encrypting_content.protected)
         }
 
         if (vector.encrypting_content.unprotected) {
-          encrypt.setUnprotectedHeader(vector.encrypting_content.unprotected);
+          encrypt.setUnprotectedHeader(vector.encrypting_content.unprotected)
         }
 
         const privateKey = await importJWK(
           toJWK(vector.input.pwd || vector.input.key),
           dir ? vector.input.enc : vector.input.alg,
-        );
-        let publicKey;
+        )
+        let publicKey
         if (privateKey.type === 'secret') {
-          publicKey = privateKey;
+          publicKey = privateKey
         } else {
           publicKey = await importJWK(
             pubjwk(toJWK(vector.input.pwd || vector.input.key)),
             dir ? vector.input.enc : vector.input.alg,
-          );
+          )
         }
 
-        const result = await encrypt.encrypt(publicKey);
-        await t.notThrowsAsync(flattened.decrypt(result, privateKey));
+        const result = await encrypt.encrypt(publicKey)
+        await t.notThrowsAsync(flattened.decrypt(result, privateKey))
       }
 
       const privateKey = await importJWK(
         toJWK(vector.input.pwd || vector.input.key),
         dir ? vector.input.enc : vector.input.alg,
-      );
+      )
       if (vector.output.json_flat) {
-        await t.notThrowsAsync(flattened.decrypt(vector.output.json_flat, privateKey));
+        await t.notThrowsAsync(flattened.decrypt(vector.output.json_flat, privateKey))
       }
       if (vector.output.compact) {
-        await t.notThrowsAsync(compact.decrypt(vector.output.compact, privateKey));
+        await t.notThrowsAsync(compact.decrypt(vector.output.compact, privateKey))
       }
     }
-    testCookbook.title = (title, vector) => `${vector.title}${title ? ` ${title}` : ''}`;
+    testCookbook.title = (title, vector) => `${vector.title}${title ? ` ${title}` : ''}`
 
     const vectors = [
       {
@@ -925,26 +925,26 @@ Promise.all([
           },
         },
       },
-    ];
+    ]
 
     for (const vector of vectors) {
-      let run = test;
+      let run = test
       if (
         ('WEBCRYPTO' in process.env || 'CRYPTOKEY' in process.env) &&
         vector.webcrypto === false
       ) {
-        run = run.failing;
+        run = run.failing
       }
       if ('electron' in process.versions && vector.electron === false) {
-        run = run.failing;
+        run = run.failing
       }
       if (vector.skip) {
-        run = run.skip;
+        run = run.skip
       }
       if (vector.only) {
-        run = run.only;
+        run = run.only
       }
-      run(testCookbook, vector);
+      run(testCookbook, vector)
     }
   },
-);
+)

@@ -1,38 +1,38 @@
-const { readFileSync, writeFileSync, unlinkSync } = require("fs");
+const { readFileSync, writeFileSync, unlinkSync } = require('fs')
 
-const pkg = JSON.parse(readFileSync("./package.json"));
-delete pkg.devDependencies;
-delete pkg.scripts;
-delete pkg.imports;
+const pkg = JSON.parse(readFileSync('./package.json'))
+delete pkg.devDependencies
+delete pkg.scripts
+delete pkg.imports
 
-pkg.description = `(Node.JS CJS Runtime) ${pkg.description}`;
+pkg.description = `(Node.JS CJS Runtime) ${pkg.description}`
 
-delete pkg.browser;
-delete pkg.exports["."].browser;
-delete pkg.exports["."].import;
-pkg.main = pkg.exports["."].require;
+delete pkg.browser
+delete pkg.exports['.'].browser
+delete pkg.exports['.'].import
+pkg.main = pkg.exports['.'].require
 
 const deletedKeywords = new Set([
-  "browser",
-  "cloudflare",
-  "deno",
-  "isomorphic",
-  "universal",
-  "webcrypto",
-  "workers",
-]);
+  'browser',
+  'cloudflare',
+  'deno',
+  'isomorphic',
+  'universal',
+  'webcrypto',
+  'workers',
+])
 pkg.keywords = pkg.keywords.filter((keyword) => {
-  return !deletedKeywords.has(keyword);
-});
+  return !deletedKeywords.has(keyword)
+})
 
-pkg.files.push("!dist/browser/**/*");
-pkg.files.push("!dist/node/esm/**/*");
+pkg.files.push('!dist/browser/**/*')
+pkg.files.push('!dist/node/esm/**/*')
 
-pkg.name = "jose-node-cjs-runtime";
+pkg.name = 'jose-node-cjs-runtime'
 
-writeFileSync("./package.json", JSON.stringify(pkg, null, 2) + "\n");
+writeFileSync('./package.json', JSON.stringify(pkg, null, 2) + '\n')
 writeFileSync(
-  "./README.md",
+  './README.md',
   `# jose
 
 > ${pkg.description} using the Node.js \`crypto\` module.
@@ -55,9 +55,9 @@ npm install ${pkg.name}
 
 ## Documentation
 
-See [${pkg.homepage.replace("https://", "")}](${pkg.homepage})
+See [${pkg.homepage.replace('https://', '')}](${pkg.homepage})
 
 [support-sponsor]: https://github.com/sponsors/panva
-`
-);
-unlinkSync("./CHANGELOG.md");
+`,
+)
+unlinkSync('./CHANGELOG.md')

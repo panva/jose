@@ -1,11 +1,11 @@
-import * as Bowser from 'bowser';
+import * as Bowser from 'bowser'
 
-import * as jose from '../dist/browser/index.js';
+import * as jose from '../dist/browser/index.js'
 
-const browser = Bowser.parse(window.navigator.userAgent);
+const browser = Bowser.parse(window.navigator.userAgent)
 
-const p521 = browser.engine.name !== 'WebKit';
-const noPKCS8 = browser.browser.name === 'Firefox' && parseInt(browser.browser.version, 10) < 93;
+const p521 = browser.engine.name !== 'WebKit'
+const noPKCS8 = browser.browser.name === 'Firefox' && parseInt(browser.browser.version, 10) < 93
 
 const keys = {
   rsa: {
@@ -76,26 +76,26 @@ const keys = {
     publicKey:
       '-----BEGIN PUBLIC KEY-----\nMEIwBQYDK2VvAzkAiGwV8Vh450I0cq0eEGLNz6SSkSJHbdDZ718xfi57qy816aIW\nW/OYjf111Kyzu/2hnQGseMOXn8U=\n-----END PUBLIC KEY-----\n',
   },
-};
+}
 
 async function failing(test, assert) {
-  await assert.rejects(test(assert));
+  await assert.rejects(test(assert))
 }
 
 const testSPKI = async (pem, alg, assert) => {
-  const key = await jose.importSPKI(pem, alg, { extractable: true });
-  await jose.exportSPKI(key);
-  assert.ok(1);
-};
+  const key = await jose.importSPKI(pem, alg, { extractable: true })
+  await jose.exportSPKI(key)
+  assert.ok(1)
+}
 const testPKCS8 = async (pem, alg, assert) => {
-  const key = await jose.importPKCS8(pem, alg, { extractable: true });
-  await jose.exportPKCS8(key);
-  assert.ok(1);
-};
+  const key = await jose.importPKCS8(pem, alg, { extractable: true })
+  await jose.exportPKCS8(key)
+  assert.ok(1)
+}
 const testX509 = async (x509, alg, assert) => {
-  await jose.importX509(x509, alg, { extractable: true });
-  assert.ok(1);
-};
+  await jose.importX509(x509, alg, { extractable: true })
+  assert.ok(1)
+}
 
 for (const alg of [
   'RS256',
@@ -109,54 +109,48 @@ for (const alg of [
   'RSA-OAEP-384',
   'RSA-OAEP-512',
 ]) {
-  QUnit.test(`import SPKI RSA for ${alg}`, testSPKI.bind(undefined, keys.rsa.publicKey, alg));
-  QUnit.test(`import X509 RSA for ${alg}`, testX509.bind(undefined, keys.rsa.certificate, alg));
-  QUnit.test(`import PKCS8 RSA for ${alg}`, testPKCS8.bind(undefined, keys.rsa.privateKey, alg));
+  QUnit.test(`import SPKI RSA for ${alg}`, testSPKI.bind(undefined, keys.rsa.publicKey, alg))
+  QUnit.test(`import X509 RSA for ${alg}`, testX509.bind(undefined, keys.rsa.certificate, alg))
+  QUnit.test(`import PKCS8 RSA for ${alg}`, testPKCS8.bind(undefined, keys.rsa.privateKey, alg))
 }
 
 QUnit.test(
   `(expecting failure) import SPKI RSA for RSA1_5`,
   failing.bind(undefined, testSPKI.bind(undefined, keys.rsa.publicKey, 'RSA1_5')),
-);
+)
 QUnit.test(
   `(expecting failure) import PKCS8 RSA for RSA1_5`,
   failing.bind(undefined, testPKCS8.bind(undefined, keys.rsa.privateKey, 'RSA1_5')),
-);
+)
 
 for (const alg of ['ES256', 'ECDH-ES', 'ECDH-ES+A128KW', 'ECDH-ES+A192KW', 'ECDH-ES+A256KW']) {
-  QUnit.test(
-    `import SPKI P-256 for ${alg}`,
-    testSPKI.bind(undefined, keys['P-256'].publicKey, alg),
-  );
+  QUnit.test(`import SPKI P-256 for ${alg}`, testSPKI.bind(undefined, keys['P-256'].publicKey, alg))
   QUnit.test(
     `import X509 P-256 for ${alg}`,
     testX509.bind(undefined, keys['P-256'].certificate, alg),
-  );
+  )
   QUnit.test(
     `import PKCS8 P-256 for ${alg}`,
     (noPKCS8 ? failing : (a, ...args) => a(...args)).bind(
       undefined,
       testPKCS8.bind(undefined, keys['P-256'].privateKey, alg),
     ),
-  );
+  )
 }
 
 for (const alg of ['ES384', 'ECDH-ES', 'ECDH-ES+A128KW', 'ECDH-ES+A192KW', 'ECDH-ES+A256KW']) {
-  QUnit.test(
-    `import SPKI P-384 for ${alg}`,
-    testSPKI.bind(undefined, keys['P-384'].publicKey, alg),
-  );
+  QUnit.test(`import SPKI P-384 for ${alg}`, testSPKI.bind(undefined, keys['P-384'].publicKey, alg))
   QUnit.test(
     `import X509 P-384 for ${alg}`,
     testX509.bind(undefined, keys['P-384'].certificate, alg),
-  );
+  )
   QUnit.test(
     `import PKCS8 P-384 for ${alg}`,
     (noPKCS8 ? failing : (a, ...args) => a(...args)).bind(
       undefined,
       testPKCS8.bind(undefined, keys['P-384'].privateKey, alg),
     ),
-  );
+  )
 }
 
 for (const alg of ['ES512', 'ECDH-ES', 'ECDH-ES+A128KW', 'ECDH-ES+A192KW', 'ECDH-ES+A256KW']) {
@@ -164,27 +158,27 @@ for (const alg of ['ES512', 'ECDH-ES', 'ECDH-ES+A128KW', 'ECDH-ES+A192KW', 'ECDH
     QUnit.test(
       `import SPKI P-521 for ${alg}`,
       testSPKI.bind(undefined, keys['P-521'].publicKey, alg),
-    );
+    )
     QUnit.test(
       `import X509 P-521 for ${alg}`,
       testX509.bind(undefined, keys['P-521'].certificate, alg),
-    );
+    )
     QUnit.test(
       `import PKCS8 P-521 for ${alg}`,
       (noPKCS8 ? failing : (a, ...args) => a(...args)).bind(
         undefined,
         testPKCS8.bind(undefined, keys['P-521'].privateKey, alg),
       ),
-    );
+    )
   } else {
     QUnit.test(
       `(expecting failure) import SPKI P-521 for ${alg}`,
       failing.bind(undefined, testSPKI.bind(undefined, keys['P-521'].publicKey, alg)),
-    );
+    )
     QUnit.test(
       `(expecting failure) import PKCS8 P-521 for ${alg}`,
       failing.bind(undefined, testPKCS8.bind(undefined, keys['P-521'].privateKey, alg)),
-    );
+    )
   }
 }
 
@@ -192,47 +186,47 @@ for (const alg of ['ES256K']) {
   QUnit.test(
     `(expecting failure) import SPKI secp256k1 for ${alg}`,
     failing.bind(undefined, testSPKI.bind(undefined, keys.secp256k1.publicKey, alg)),
-  );
+  )
   QUnit.test(
     `(expecting failure) import PKCS8 secp256k1 for ${alg}`,
     failing.bind(undefined, testPKCS8.bind(undefined, keys.secp256k1.privateKey, alg)),
-  );
+  )
 }
 
 for (const alg of ['EdDSA']) {
   QUnit.test(
     `(expecting failure) import SPKI ed25519 for ${alg}`,
     failing.bind(undefined, testSPKI.bind(undefined, keys.ed25519.publicKey, alg)),
-  );
+  )
   QUnit.test(
     `(expecting failure) import PKCS8 ed25519 for ${alg}`,
     failing.bind(undefined, testPKCS8.bind(undefined, keys.ed25519.privateKey, alg)),
-  );
+  )
   QUnit.test(
     `(expecting failure) import SPKI ed448 for ${alg}`,
     failing.bind(undefined, testSPKI.bind(undefined, keys.ed448.publicKey, alg)),
-  );
+  )
   QUnit.test(
     `(expecting failure) import PKCS8 ed448 for ${alg}`,
     failing.bind(undefined, testPKCS8.bind(undefined, keys.ed448.privateKey, alg)),
-  );
+  )
 }
 
 for (const alg of ['ECDH-ES', 'ECDH-ES+A128KW', 'ECDH-ES+A192KW', 'ECDH-ES+A256KW']) {
   QUnit.test(
     `(expecting failure) import SPKI x25519 for ${alg}`,
     failing.bind(undefined, testSPKI.bind(undefined, keys.x25519.publicKey, alg)),
-  );
+  )
   QUnit.test(
     `(expecting failure) import PKCS8 x25519 for ${alg}`,
     failing.bind(undefined, testPKCS8.bind(undefined, keys.x25519.privateKey, alg)),
-  );
+  )
   QUnit.test(
     `(expecting failure) import SPKI x448 for ${alg}`,
     failing.bind(undefined, testSPKI.bind(undefined, keys.x448.publicKey, alg)),
-  );
+  )
   QUnit.test(
     `(expecting failure) import PKCS8 x448 for ${alg}`,
     failing.bind(undefined, testPKCS8.bind(undefined, keys.x448.privateKey, alg)),
-  );
+  )
 }

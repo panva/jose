@@ -1,4 +1,4 @@
-import * as jose from '../dist/browser/index.js';
+import * as jose from '../dist/browser/index.js'
 
 const fixtures = {
   keys: {
@@ -71,70 +71,70 @@ const fixtures = {
         '-----BEGIN PUBLIC KEY-----\nMEIwBQYDK2VvAzkAiGwV8Vh450I0cq0eEGLNz6SSkSJHbdDZ718xfi57qy816aIW\nW/OYjf111Kyzu/2hnQGseMOXn8U=\n-----END PUBLIC KEY-----\n',
     },
   },
-};
-
-const headers = { 'content-type': 'application/json' };
-function respond(status, error) {
-  const body = {};
-  if (status !== 200) {
-    body.error = error.stack;
-  }
-  return new Response(JSON.stringify(body), { headers, status });
 }
-const success = respond.bind(undefined, 200);
-const failure = respond.bind(undefined, 400);
+
+const headers = { 'content-type': 'application/json' }
+function respond(status, error) {
+  const body = {}
+  if (status !== 200) {
+    body.error = error.stack
+  }
+  return new Response(JSON.stringify(body), { headers, status })
+}
+const success = respond.bind(undefined, 200)
+const failure = respond.bind(undefined, 400)
 addEventListener('fetch', (event) => {
-  event.respondWith(test().then(success, failure));
-});
+  event.respondWith(test().then(success, failure))
+})
 
 async function jweAsymmetricTest({ publicKey, privateKey }, alg) {
   const jwe = await new jose.FlattenedEncrypt(crypto.getRandomValues(new Uint8Array(32)))
     .setProtectedHeader({ alg, enc: 'A256GCM' })
     .setAdditionalAuthenticatedData(crypto.getRandomValues(new Uint8Array(32)))
-    .encrypt(publicKey);
+    .encrypt(publicKey)
 
-  jose.decodeProtectedHeader(jwe);
-  await jose.flattenedDecrypt(jwe, privateKey);
+  jose.decodeProtectedHeader(jwe)
+  await jose.flattenedDecrypt(jwe, privateKey)
 }
 
 async function jwsAsymmetricTest({ publicKey, privateKey }, alg) {
   const jws = await new jose.FlattenedSign(crypto.getRandomValues(new Uint8Array(32)))
     .setProtectedHeader({ alg })
-    .sign(privateKey);
+    .sign(privateKey)
 
-  jose.decodeProtectedHeader(jws);
-  await jose.flattenedVerify(jws, publicKey);
+  jose.decodeProtectedHeader(jws)
+  await jose.flattenedVerify(jws, publicKey)
 }
 
 async function jwsSymmetricTest(secretKey, alg) {
   const jws = await new jose.FlattenedSign(crypto.getRandomValues(new Uint8Array(32)))
     .setProtectedHeader({ alg })
-    .sign(secretKey);
+    .sign(secretKey)
 
-  jose.decodeProtectedHeader(jws);
-  await jose.flattenedVerify(jws, secretKey);
+  jose.decodeProtectedHeader(jws)
+  await jose.flattenedVerify(jws, secretKey)
 }
 
 async function jweSymmetricTest(secretKey, { alg, enc }) {
   const jwe = await new jose.FlattenedEncrypt(crypto.getRandomValues(new Uint8Array(32)))
     .setProtectedHeader({ alg, enc })
     .setAdditionalAuthenticatedData(crypto.getRandomValues(new Uint8Array(32)))
-    .encrypt(secretKey);
+    .encrypt(secretKey)
 
-  jose.decodeProtectedHeader(jwe);
-  await jose.flattenedDecrypt(jwe, secretKey);
+  jose.decodeProtectedHeader(jwe)
+  await jose.flattenedDecrypt(jwe, secretKey)
 }
 
 async function testSPKI(pem, alg) {
-  const key = await jose.importSPKI(pem, alg, { extractable: true });
-  await jose.exportSPKI(key);
+  const key = await jose.importSPKI(pem, alg, { extractable: true })
+  await jose.exportSPKI(key)
 }
 
 async function testPKCS8(pem, alg) {
-  const key = await jose.importPKCS8(pem, alg, { extractable: true });
-  await jose.exportPKCS8(key);
+  const key = await jose.importPKCS8(pem, alg, { extractable: true })
+  await jose.exportPKCS8(key)
 }
 
 async function testX509(x509, alg) {
-  await jose.importX509(x509, alg, { extractable: true });
+  await jose.importX509(x509, alg, { extractable: true })
 }

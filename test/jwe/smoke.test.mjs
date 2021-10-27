@@ -1,16 +1,16 @@
-import test from 'ava';
-import * as crypto from 'crypto';
+import test from 'ava'
+import * as crypto from 'crypto'
 
-let root;
-let keyRoot;
+let root
+let keyRoot
 
 if ('WEBCRYPTO' in process.env) {
-  root = keyRoot = '#dist/webcrypto';
+  root = keyRoot = '#dist/webcrypto'
 } else if ('CRYPTOKEY' in process.env) {
-  root = '#dist';
-  keyRoot = '#dist/webcrypto';
+  root = '#dist'
+  keyRoot = '#dist/webcrypto'
 } else {
-  root = keyRoot = '#dist';
+  root = keyRoot = '#dist'
 }
 
 Promise.all([
@@ -30,8 +30,8 @@ Promise.all([
     { generateSecret },
   ]) => {
     function pubjwk(jwk) {
-      const { d, p, q, dp, dq, qi, ...publicJwk } = jwk;
-      return publicJwk;
+      const { d, p, q, dp, dq, qi, ...publicJwk } = jwk
+      return publicJwk
     }
 
     const randomEnc = () => {
@@ -42,9 +42,9 @@ Promise.all([
         'A128CBC-HS256',
         'A192CBC-HS384',
         'A256CBC-HS512',
-      ];
-      return encs[Math.floor(Math.random() * encs.length)];
-    };
+      ]
+      return encs[Math.floor(Math.random() * encs.length)]
+    }
 
     test.before(async (t) => {
       const p256 = {
@@ -54,7 +54,7 @@ Promise.all([
         y: 'lZmecT2quXe0i9f7b4qHvDAFDpxs0oxCoJx4tOOqsks',
         d: 'hRVo5TGE_d_4tQC1KEQIlCdo9rteZmLSmaMPpFOjeDI',
         kty: 'EC',
-      };
+      }
       const p384 = {
         ext: false,
         crv: 'P-384',
@@ -62,7 +62,7 @@ Promise.all([
         y: 'ATQ-4QWyYTtEaBW3CFQZEX0NdDE5g_9F24B0y2xxQgVmWa5Uz0QerlhzFoYU7Z_F',
         d: 'HDUcH8y8xr22EroPYBK3PvpNjA3pCJjvHpBXKejxOiQCoXhZ5PhX_nxb7lU0mlDE',
         kty: 'EC',
-      };
+      }
       const p521 = {
         ext: false,
         crv: 'P-521',
@@ -70,7 +70,7 @@ Promise.all([
         y: 'AfMRSFv9qfcH_XMHfPoltBMYLhDbS3Pw1GL7NO9SI_vF4JsiAta1Bq6teCl2z8klFtRCWXHfPqEF3cmXS8bDQVoT',
         d: 'AL123tYK7y-iViaReLOHe7XxKNSeoUMk4RRmcP6nSVuZrYJHtyYPak4gUmWB6A_GzED3zXkrkcssZEzHrYQILw5c',
         kty: 'EC',
-      };
+      }
       const rsa = {
         ext: false,
         e: 'AQAB',
@@ -82,21 +82,21 @@ Promise.all([
         dq: 'uX6ijefyWiCZF8K7DL_YX7l1q8dhcxXC7TUyLOA2DR1Qirj4XEaDaCO5tJqdpVDvIsz7FhKrkgNIAV7Xh-eLIBIWE6M9iGVkQyuMspl-DFp2ilMmcLLbowZvEf5KgxafgXSRSfrvirTwM9yy5HRxPRMzOSxRrHm_0D26Z1we1B0',
         qi: 'htPHLViOVG6QrldfuHn9evfdlD-UEuViOWNx8aKR3IBv0qegpJ78vYB4hdAcJZtBslKI97En5rzOAN3Y6Y8MbI4oN77WeiePJl2cMrS64evmlERvjJ6ZTs8jK0iV5q_gIZ9Qg9drmolUgb_CccQOBFbqSL6YkXwCBxlkCrzTlhc',
         kty: 'RSA',
-      };
+      }
       const x25519 = {
         ext: false,
         crv: 'X25519',
         x: 'i0CfuN5lAHXdv-_OeozwEDIL0-TAC47Gx1iFb6Si6wc',
         d: 'UEmf0e90dkN0jc1VW2k9Ensb03r5wbuQfYs5xNrT7Xw',
         kty: 'OKP',
-      };
+      }
       const x448 = {
         ext: false,
         crv: 'X448',
         x: 'FXL1VnZUBAAXhO7I2BrECCQGQmTzPzcsB3G-5VCgqOrBHDIWUqhg4hgisgF3EOuV87RjfjR43FE',
         d: 'YETRz89J2Di6UTLBE_qZtENzsb5YoBjl_Hh7sR69YkP0mDhnndkzEyIZuo6kbqPMtqlLDXKrSbI',
         kty: 'OKP',
-      };
+      }
       t.context.keys = {
         rsa: {
           public: pubjwk(rsa),
@@ -225,33 +225,33 @@ Promise.all([
           secret: { kty: 'oct', k: base64url(crypto.randomFillSync(new Uint8Array(512 >> 3))) },
           algs: ['A256CBC-HS512'],
         },
-      };
-    });
+      }
+    })
 
     async function smoke(t, ref, publicKeyUsages, privateKeyUsage, octAsKeyObject = false) {
-      const fixtures = t.context.keys[ref];
+      const fixtures = t.context.keys[ref]
       await Promise.all([
         ...fixtures.algs.map(async (alg) => {
-          let priv;
-          let pub;
+          let priv
+          let pub
           if ('secret' in fixtures) {
             const key_ops =
               publicKeyUsages || privateKeyUsage
                 ? [...new Set([...publicKeyUsages, ...privateKeyUsage])]
-                : undefined;
-            const secret = await importJWK({ ...fixtures.secret, key_ops }, alg, octAsKeyObject);
+                : undefined
+            const secret = await importJWK({ ...fixtures.secret, key_ops }, alg, octAsKeyObject)
             if (octAsKeyObject) {
-              t.false(secret instanceof Uint8Array);
+              t.false(secret instanceof Uint8Array)
             } else {
-              t.true(secret instanceof Uint8Array);
+              t.true(secret instanceof Uint8Array)
             }
-            pub = secret;
-            priv = secret;
+            pub = secret
+            priv = secret
           } else {
-            [pub, priv] = await Promise.all([
+            ;[pub, priv] = await Promise.all([
               importJWK({ ...fixtures.public, key_ops: publicKeyUsages }, alg),
               importJWK({ ...fixtures.private, key_ops: privateKeyUsage }, alg),
-            ]);
+            ])
           }
 
           const jwe = await new FlattenedEncrypt(crypto.randomFillSync(new Uint8Array(256 >> 3)))
@@ -267,19 +267,19 @@ Promise.all([
                 : { alg, 'urn:example:unprotected': true },
             )
             .setAdditionalAuthenticatedData(crypto.randomFillSync(new Uint8Array(128 >> 3)))
-            .encrypt(pub);
-          await flattenedDecrypt(jwe, priv);
+            .encrypt(pub)
+          await flattenedDecrypt(jwe, priv)
         }),
         ...fixtures.algs.map(async (alg) => {
-          let priv;
-          let pub;
+          let priv
+          let pub
           if ('secret' in fixtures) {
-            if (fixtures.generate === false) return;
-            const secret = await generateSecret(alg);
-            pub = secret;
-            priv = secret;
+            if (fixtures.generate === false) return
+            const secret = await generateSecret(alg)
+            pub = secret
+            priv = secret
           } else {
-            ({ privateKey: priv, publicKey: pub } = await generateKeyPair(alg, fixtures.generate));
+            ;({ privateKey: priv, publicKey: pub } = await generateKeyPair(alg, fixtures.generate))
           }
 
           const jwe = await new FlattenedEncrypt(crypto.randomFillSync(new Uint8Array(256 >> 3)))
@@ -295,49 +295,49 @@ Promise.all([
                 : { alg, 'urn:example:unprotected': true },
             )
             .setAdditionalAuthenticatedData(crypto.randomFillSync(new Uint8Array(128 >> 3)))
-            .encrypt(pub);
-          await flattenedDecrypt(jwe, priv);
+            .encrypt(pub)
+          await flattenedDecrypt(jwe, priv)
         }),
-      ]);
-      t.pass();
+      ])
+      t.pass()
     }
-    smoke.title = (title, ref) => `${ref.toUpperCase()}${title ? ` ${title}` : ''}`;
+    smoke.title = (title, ref) => `${ref.toUpperCase()}${title ? ` ${title}` : ''}`
 
-    test(smoke, 'rsa');
-    test('with wrap ops', smoke, 'rsa', ['wrapKey'], ['unwrapKey']);
-    test('with enc ops', smoke, 'rsa', ['encrypt'], ['decrypt']);
-    test(smoke, 'p256dir');
-    test(smoke, 'p384dir');
-    test(smoke, 'p521dir');
-    test(smoke, 'oct128gcm');
-    test('as keyobject', smoke, 'oct128gcm', ['encrypt'], ['decrypt'], true);
-    test(smoke, 'oct192gcm');
-    test('as keyobject', smoke, 'oct192gcm', ['encrypt'], ['decrypt'], true);
-    test(smoke, 'oct256gcm');
-    test('as keyobject', smoke, 'oct256gcm', ['encrypt'], ['decrypt'], true);
-    test(smoke, 'oct256c');
-    test(smoke, 'oct384c');
-    test(smoke, 'oct512c');
+    test(smoke, 'rsa')
+    test('with wrap ops', smoke, 'rsa', ['wrapKey'], ['unwrapKey'])
+    test('with enc ops', smoke, 'rsa', ['encrypt'], ['decrypt'])
+    test(smoke, 'p256dir')
+    test(smoke, 'p384dir')
+    test(smoke, 'p521dir')
+    test(smoke, 'oct128gcm')
+    test('as keyobject', smoke, 'oct128gcm', ['encrypt'], ['decrypt'], true)
+    test(smoke, 'oct192gcm')
+    test('as keyobject', smoke, 'oct192gcm', ['encrypt'], ['decrypt'], true)
+    test(smoke, 'oct256gcm')
+    test('as keyobject', smoke, 'oct256gcm', ['encrypt'], ['decrypt'], true)
+    test(smoke, 'oct256c')
+    test(smoke, 'oct384c')
+    test(smoke, 'oct512c')
 
     function conditional({ webcrypto = 1, electron = 1 } = {}) {
-      let run = test;
+      let run = test
       if (!webcrypto && ('WEBCRYPTO' in process.env || 'CRYPTOKEY' in process.env)) {
-        run = run.failing;
+        run = run.failing
       }
 
       if (!electron && 'electron' in process.versions) {
-        run = run.failing;
+        run = run.failing
       }
-      return run;
+      return run
     }
 
-    conditional({ webcrypto: 0 })(smoke, 'rsa1_5');
-    conditional({ webcrypto: 0, electron: 0 })(smoke, 'x25519');
-    conditional({ webcrypto: 0, electron: 0 })(smoke, 'x448');
-    conditional({ webcrypto: 0 })('as keyobject', smoke, 'oct256c', undefined, undefined, true);
-    conditional({ webcrypto: 0 })('as keyobject', smoke, 'oct384c', undefined, undefined, true);
-    conditional({ webcrypto: 0 })('as keyobject', smoke, 'oct512c', undefined, undefined, true);
-    conditional({ electron: 0 })(smoke, 'octAny');
+    conditional({ webcrypto: 0 })(smoke, 'rsa1_5')
+    conditional({ webcrypto: 0, electron: 0 })(smoke, 'x25519')
+    conditional({ webcrypto: 0, electron: 0 })(smoke, 'x448')
+    conditional({ webcrypto: 0 })('as keyobject', smoke, 'oct256c', undefined, undefined, true)
+    conditional({ webcrypto: 0 })('as keyobject', smoke, 'oct384c', undefined, undefined, true)
+    conditional({ webcrypto: 0 })('as keyobject', smoke, 'oct512c', undefined, undefined, true)
+    conditional({ electron: 0 })(smoke, 'octAny')
     conditional({ electron: 0 })(
       'as keyobject (deriveBits)',
       smoke,
@@ -345,7 +345,7 @@ Promise.all([
       ['deriveBits'],
       ['deriveBits'],
       true,
-    );
+    )
     conditional({ electron: 0 })(
       'as keyobject (deriveKey)',
       smoke,
@@ -353,21 +353,21 @@ Promise.all([
       ['deriveKey'],
       ['deriveKey'],
       true,
-    );
-    conditional({ electron: 0 })(smoke, 'oct128');
-    conditional({ electron: 0 })('as keyobject', smoke, 'oct128', ['wrapKey'], ['unwrapKey'], true);
-    conditional({ electron: 0 })(smoke, 'oct192');
-    conditional({ electron: 0 })('as keyobject', smoke, 'oct192', ['wrapKey'], ['unwrapKey'], true);
-    conditional({ electron: 0 })(smoke, 'oct256');
-    conditional({ electron: 0 })('as keyobject', smoke, 'oct256', ['wrapKey'], ['unwrapKey'], true);
-    conditional({ electron: 0 })(smoke, 'p256kw');
-    conditional({ electron: 0 })(smoke, 'p384kw');
-    conditional({ electron: 0 })(smoke, 'p521kw');
+    )
+    conditional({ electron: 0 })(smoke, 'oct128')
+    conditional({ electron: 0 })('as keyobject', smoke, 'oct128', ['wrapKey'], ['unwrapKey'], true)
+    conditional({ electron: 0 })(smoke, 'oct192')
+    conditional({ electron: 0 })('as keyobject', smoke, 'oct192', ['wrapKey'], ['unwrapKey'], true)
+    conditional({ electron: 0 })(smoke, 'oct256')
+    conditional({ electron: 0 })('as keyobject', smoke, 'oct256', ['wrapKey'], ['unwrapKey'], true)
+    conditional({ electron: 0 })(smoke, 'p256kw')
+    conditional({ electron: 0 })(smoke, 'p384kw')
+    conditional({ electron: 0 })(smoke, 'p521kw')
   },
   (err) => {
     test('failed to import', (t) => {
-      console.error(err);
-      t.fail();
-    });
+      console.error(err)
+      t.fail()
+    })
   },
-);
+)
