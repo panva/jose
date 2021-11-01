@@ -5,21 +5,21 @@ All notable changes to this project will be documented in this file. See [standa
 ## [4.1.3](https://github.com/panva/jose/compare/v4.1.2...v4.1.3) (2021-11-01)
 
 
-### Bug Fixes
+### Fixes
 
 * **edge-functions:** don't use globalThis ([3952030](https://github.com/panva/jose/commit/39520302d078da2273b5a24f8254f6c221195c63))
 
 ## [4.1.2](https://github.com/panva/jose/compare/v4.1.1...v4.1.2) (2021-10-25)
 
 
-### Bug Fixes
+### Fixes
 
 * **build:** ensure cjs/esm specific packages have the right main entry ([2f4526a](https://github.com/panva/jose/commit/2f4526a22b9bd62727bdd825e326ef79695c8ea3))
 
 ## [4.1.1](https://github.com/panva/jose/compare/v4.1.0...v4.1.1) (2021-10-21)
 
 
-### Bug Fixes
+### Fixes
 
 * **typescript:** work around potentially missing global URL from DOM lib ([7ed731c](https://github.com/panva/jose/commit/7ed731c567db6e64f0fbd618efe7e48d812af0c6)), closes [#295](https://github.com/panva/jose/issues/295)
 
@@ -33,28 +33,28 @@ All notable changes to this project will be documented in this file. See [standa
 ## [4.0.4](https://github.com/panva/jose/compare/v4.0.3...v4.0.4) (2021-10-17)
 
 
-### Bug Fixes
+### Fixes
 
 * **web:** check Uint8Array CEK lengths, refactor for better tree-shaking ([e8299f2](https://github.com/panva/jose/commit/e8299f246b1dbf1665d8f1ed141b9bde34684293))
 
 ## [4.0.3](https://github.com/panva/jose/compare/v4.0.2...v4.0.3) (2021-10-16)
 
 
-### Bug Fixes
+### Fixes
 
 * **web:** checking cryptokey applicability early ([89dc2aa](https://github.com/panva/jose/commit/89dc2aab99d831e922ba865eccfb29b8229ed767))
 
 ## [4.0.2](https://github.com/panva/jose/compare/v4.0.1...v4.0.2) (2021-10-15)
 
 
-### Bug Fixes
+### Fixes
 
 * **typescript:** export ProduceJWT ([#285](https://github.com/panva/jose/issues/285)) ([2b8738e](https://github.com/panva/jose/commit/2b8738e38a4286c9a1411e3aef3159f61427317c))
 
 ## [4.0.1](https://github.com/panva/jose/compare/v4.0.0...v4.0.1) (2021-10-14)
 
 
-### Bug Fixes
+### Fixes
 
 * **typescript:** re-export all types from index.d.ts ([d68f104](https://github.com/panva/jose/commit/d68f104d5895f639812b3317696a4616c3e5fb59))
 
@@ -90,7 +90,7 @@ removed, use `import { exportJWK } from 'jose'` instead.
 ## [3.20.3](https://github.com/panva/jose/compare/v3.20.2...v3.20.3) (2021-10-14)
 
 
-### Bug Fixes
+### Fixes
 
 * remove clutter when tree shaking browser dist ([73ba370](https://github.com/panva/jose/commit/73ba3708d45e32215c76f17d9982b0f4e20b7f08))
 * **typescript:** JWTExpired error TS2417 ([373e0e4](https://github.com/panva/jose/commit/373e0e4b22fb48cefcf14385a19c5ea6a57a849e))
@@ -98,14 +98,14 @@ removed, use `import { exportJWK } from 'jose'` instead.
 ## [3.20.2](https://github.com/panva/jose/compare/v3.20.1...v3.20.2) (2021-10-13)
 
 
-### Bug Fixes
+### Fixes
 
 * allow tree-shaking of errors ([0824301](https://github.com/panva/jose/commit/08243010d922c36d22002e35299ec5710654c695))
 
 ## [3.20.1](https://github.com/panva/jose/compare/v3.20.0...v3.20.1) (2021-10-06)
 
 
-### Bug Fixes
+### Fixes
 
 * **typescript:** PEM import functions always resolve a KeyLike, never a Uint8Array ([8ef3a8e](https://github.com/panva/jose/commit/8ef3a8ebb78b592e664102cb593542ae6259d72a))
 
@@ -117,7 +117,7 @@ removed, use `import { exportJWK } from 'jose'` instead.
 * improve key input type errors, remove dependency on @types/node ([a13eb04](https://github.com/panva/jose/commit/a13eb045d86d96e56f7a250cdc808f8c5aa0e62a))
 
 
-### Bug Fixes
+### Fixes
 
 * proper createRemoteJWKSet timeoutDuration handling ([efa1619](https://github.com/panva/jose/commit/efa16195173f9f66b21d4f41039caaad0ccfa92a)), closes [#277](https://github.com/panva/jose/issues/277)
 
@@ -145,7 +145,7 @@ removed, use `import { exportJWK } from 'jose'` instead.
 ## [3.16.1](https://github.com/panva/jose/compare/v3.16.0...v3.16.1) (2021-09-08)
 
 
-### Bug Fixes
+### Fixes
 
 * guard Sign payloads and Encrypt plaintext argument types ([10a18f2](https://github.com/panva/jose/commit/10a18f28a0f845e91579afab3573730c9b1ae478))
 
@@ -159,14 +159,14 @@ removed, use `import { exportJWK } from 'jose'` instead.
 ## [3.15.5](https://github.com/panva/jose/compare/v3.15.4...v3.15.5) (2021-09-02)
 
 
-### Bug Fixes
+### Fixes
 
 * omit some fetch options when running in Cloudflare Workers env ([ced065a](https://github.com/panva/jose/commit/ced065aa9754c625ea88a598025962503e078ae9)), closes [#255](https://github.com/panva/jose/issues/255)
 
 ## [3.15.4](https://github.com/panva/jose/compare/v3.15.3...v3.15.4) (2021-08-20)
 
 
-### Bug Fixes
+### Fixes
 
 * **deno:** ignore incomplete webcrypto api type errors ([c5f2262](https://github.com/panva/jose/commit/c5f226290ead93b7f43f664fc05c5fec90f38be8))
 * **typescript:** generateKeyPair never returns Uint8Array ([73adc01](https://github.com/panva/jose/commit/73adc014ad9827067637153a97f230bfdd72cb9b))
@@ -174,7 +174,7 @@ removed, use `import { exportJWK } from 'jose'` instead.
 ## [3.15.3](https://github.com/panva/jose/compare/v3.15.2...v3.15.3) (2021-08-20)
 
 
-### Bug Fixes
+### Fixes
 
 * **typescript:** GeneralJWSInput and GeneralJWS omit ([bc0b42f](https://github.com/panva/jose/commit/bc0b42f0f58e802721910ac1bc4d62eb704910ff))
 
@@ -183,7 +183,7 @@ removed, use `import { exportJWK } from 'jose'` instead.
 ## [3.15.1](https://github.com/panva/jose/compare/v3.15.0...v3.15.1) (2021-08-20)
 
 
-### Bug Fixes
+### Fixes
 
 * **typescript:** remove file extensions from types/**/*.d.ts files ([0c432e5](https://github.com/panva/jose/commit/0c432e554e7b1f0382efefe44c0053a446c9dcc4)), closes [#222](https://github.com/panva/jose/issues/222)
 
@@ -195,14 +195,14 @@ removed, use `import { exportJWK } from 'jose'` instead.
 * experimental Deno build & publish ([5c7d265](https://github.com/panva/jose/commit/5c7d2656b6e5659a19c6cb3c4fed73e724fe2f6e))
 
 
-### Bug Fixes
+### Fixes
 
 * **typescript:** allow sign results to be passed to verify ([59aa96d](https://github.com/panva/jose/commit/59aa96d28dd259d9d8b03fcf37b5a703c5e36874))
 
 ## [3.14.4](https://github.com/panva/jose/compare/v3.14.3...v3.14.4) (2021-08-16)
 
 
-### Bug Fixes
+### Fixes
 
 * throw JWEInvalid when jwe protected header is invalid ([991d435](https://github.com/panva/jose/commit/991d4350d0357ebad17080644c24bccec844c3b9))
 * throw JWSInvalid when jws protected header is invalid ([#244](https://github.com/panva/jose/issues/244)) ([1fc79aa](https://github.com/panva/jose/commit/1fc79aa8315fa25e28f63f1c5534d0630fc781dc))
@@ -210,21 +210,21 @@ removed, use `import { exportJWK } from 'jose'` instead.
 ## [3.14.3](https://github.com/panva/jose/compare/v3.14.2...v3.14.3) (2021-07-21)
 
 
-### Bug Fixes
+### Fixes
 
 * **docs:** update doc links again ([26c4361](https://github.com/panva/jose/commit/26c4361c007e3bc7e6ee60b65f9535cecf447fe6))
 
 ## [3.14.2](https://github.com/panva/jose/compare/v3.14.1...v3.14.2) (2021-07-21)
 
 
-### Bug Fixes
+### Fixes
 
 * **docs:** update doc links ([86f9134](https://github.com/panva/jose/commit/86f9134248a1746904f4c9f79ee404007ab68858))
 
 ## [3.14.1](https://github.com/panva/jose/compare/v3.14.0...v3.14.1) (2021-07-21)
 
 
-### Bug Fixes
+### Fixes
 
 * **typescript:** export generate key pair result interface ([2b5cc28](https://github.com/panva/jose/commit/2b5cc28684bd9cd09de2f774d7326bffe61fe6ea))
 
@@ -236,7 +236,7 @@ removed, use `import { exportJWK } from 'jose'` instead.
 * add verbose key type error messages ([df56b94](https://github.com/panva/jose/commit/df56b942c64dfdbb14cb860a403742f25ec60b49))
 
 
-### Bug Fixes
+### Fixes
 
 * **typescript:** remove file extensions from .d.ts files ([e091f0f](https://github.com/panva/jose/commit/e091f0f24537541e350e803bd1e657348f428da2)), closes [#222](https://github.com/panva/jose/issues/222)
 * AES Key Wrap input type check ([b83821b](https://github.com/panva/jose/commit/b83821b2bf99fe2051d4d4d89fe4ff18a8559722))
@@ -253,7 +253,7 @@ removed, use `import { exportJWK } from 'jose'` instead.
 ## [3.12.3](https://github.com/panva/jose/compare/v3.12.2...v3.12.3) (2021-06-02)
 
 
-### Bug Fixes
+### Fixes
 
 * **browser:** remove the use of a node std-lib in decodeProtectedHeader ([d9d4a5f](https://github.com/panva/jose/commit/d9d4a5f2e88ca5172ff753a503bfbdb50522d094)), closes [#206](https://github.com/panva/jose/issues/206)
 
@@ -267,7 +267,7 @@ removed, use `import { exportJWK } from 'jose'` instead.
 ## [3.12.1](https://github.com/panva/jose/compare/v3.12.0...v3.12.1) (2021-05-14)
 
 
-### Bug Fixes
+### Fixes
 
 * **browser:** avoid global-conflicting variable name fetch ([#199](https://github.com/panva/jose/issues/199)) ([b2c6273](https://github.com/panva/jose/commit/b2c6273eccad5e34cbe0219c521c6453ba71e6c4))
 
@@ -281,42 +281,42 @@ removed, use `import { exportJWK } from 'jose'` instead.
 ## [3.11.6](https://github.com/panva/jose/compare/v3.11.5...v3.11.6) (2021-04-30)
 
 
-### Bug Fixes
+### Fixes
 
 * swallow promisified crypto.verify errors ([d512ede](https://github.com/panva/jose/commit/d512ede0730155051707d60ae8c69ba0492d858f))
 
 ## [3.11.5](https://github.com/panva/jose/compare/v3.11.4...v3.11.5) (2021-04-13)
 
 
-### Bug Fixes
+### Fixes
 
 * isObject helper in different vm contexts or jest re-assigned globals ([7819df7](https://github.com/panva/jose/commit/7819df73ebf6391377ef3e7623948d8329ac47f5)), closes [#178](https://github.com/panva/jose/issues/178)
 
 ## [3.11.4](https://github.com/panva/jose/compare/v3.11.3...v3.11.4) (2021-04-09)
 
 
-### Bug Fixes
+### Fixes
 
 * defer AES CBC w/ HMAC decryption after tag verification passes ([579485c](https://github.com/panva/jose/commit/579485cb806e9989643e32a66752d3235cd43f09))
 
 ## [3.11.3](https://github.com/panva/jose/compare/v3.11.2...v3.11.3) (2021-04-01)
 
 
-### Bug Fixes
+### Fixes
 
 * **node:** check CryptoKey algorithm & usage before exporting KeyObject ([dab4b2f](https://github.com/panva/jose/commit/dab4b2f03efc5772773e66fdb757db5571deee4d))
 
 ## [3.11.2](https://github.com/panva/jose/compare/v3.11.1...v3.11.2) (2021-03-30)
 
 
-### Bug Fixes
+### Fixes
 
 * assert KeyLike input types, change "any" types to "unknown" ([edb83a8](https://github.com/panva/jose/commit/edb83a846a880d316d77ace485641330dd0debb6))
 
 ## [3.11.1](https://github.com/panva/jose/compare/v3.11.0...v3.11.1) (2021-03-26)
 
 
-### Bug Fixes
+### Fixes
 
 * **node:** crypto.verify callback invocation with a private keyobject ([d3d4acd](https://github.com/panva/jose/commit/d3d4acd8be612850999309ef7de86c549d5de9c0))
 
@@ -354,7 +354,7 @@ removed, use `import { exportJWK } from 'jose'` instead.
 ## [3.7.1](https://github.com/panva/jose/compare/v3.7.0...v3.7.1) (2021-03-11)
 
 
-### Bug Fixes
+### Fixes
 
 * swallow invalid signature encoding errors ([e0adf49](https://github.com/panva/jose/commit/e0adf49e5789f9fc23afb1e2bd3e330e34b46b78))
 
@@ -366,7 +366,7 @@ removed, use `import { exportJWK } from 'jose'` instead.
 * electron >=12.0.0 is now supported (and tested on ci) ([8fffd3e](https://github.com/panva/jose/commit/8fffd3e2e1ec0c5f3517a779b42974a4c1beae27))
 
 
-### Bug Fixes
+### Fixes
 
 * **electron:** only call (de)cipher.setAAD() when aad is not empty ([a5a6c4d](https://github.com/panva/jose/commit/a5a6c4dc9f459b88de5f243cf1d4ea620def8d98))
 * **electron:** properly ASN.1 encode [0x00] when converting RSA JWKs ([433f020](https://github.com/panva/jose/commit/433f020246a9131f63705a3e1aa99492dac50947))
@@ -374,14 +374,14 @@ removed, use `import { exportJWK } from 'jose'` instead.
 ## [3.6.2](https://github.com/panva/jose/compare/v3.6.1...v3.6.2) (2021-02-16)
 
 
-### Bug Fixes
+### Fixes
 
 * **typescript:** update maxTokenAge type and examples ([2c358e0](https://github.com/panva/jose/commit/2c358e0ea550f19896ccf43724ee8224aa04a664))
 
 ## [3.6.1](https://github.com/panva/jose/compare/v3.6.0...v3.6.1) (2021-02-10)
 
 
-### Bug Fixes
+### Fixes
 
 * node runtime json fetch handles connection errors properly ([fc584b2](https://github.com/panva/jose/commit/fc584b2efd9a6e7bf2ac83c6fb0ddf96fb0ca6a5))
 
@@ -395,14 +395,14 @@ removed, use `import { exportJWK } from 'jose'` instead.
 ## [3.5.4](https://github.com/panva/jose/compare/v3.5.3...v3.5.4) (2021-01-26)
 
 
-### Bug Fixes
+### Fixes
 
 * export package.json ([8c29107](https://github.com/panva/jose/commit/8c29107aea26a54869d8adadceaf0bbf70fb18cd)), closes [#157](https://github.com/panva/jose/issues/157)
 
 ## [3.5.3](https://github.com/panva/jose/compare/v3.5.2...v3.5.3) (2021-01-20)
 
 
-### Bug Fixes
+### Fixes
 
 * workaround downstream dependency issues messing with http ([2e58005](https://github.com/panva/jose/commit/2e5800535ab72ab35f3abfaab7493163d8b0494e)), closes [#154](https://github.com/panva/jose/issues/154)
 
@@ -417,7 +417,7 @@ removed, use `import { exportJWK } from 'jose'` instead.
 ## [3.5.1](https://github.com/panva/jose/compare/v3.5.0...v3.5.1) (2021-01-10)
 
 
-### Bug Fixes
+### Fixes
 
 * workaround for RangeError in browser runtime base64url ([ed32b0d](https://github.com/panva/jose/commit/ed32b0d46ee570e405e0d88b43aecd8ef6fea129))
 
@@ -440,14 +440,14 @@ removed, use `import { exportJWK } from 'jose'` instead.
 ## [3.3.2](https://github.com/panva/jose/compare/v3.3.1...v3.3.2) (2020-12-14)
 
 
-### Bug Fixes
+### Fixes
 
 * **typescript:** ref dom lib via triple-slash to fix some compile issues ([175f273](https://github.com/panva/jose/commit/175f273819785c29b9ad822dcb5d70073523f504)), closes [#126](https://github.com/panva/jose/issues/126)
 
 ## [3.3.1](https://github.com/panva/jose/compare/v3.3.0...v3.3.1) (2020-12-06)
 
 
-### Bug Fixes
+### Fixes
 
 * botched v3.3.0 release ([1c3e116](https://github.com/panva/jose/commit/1c3e116976c997f205b917405f010b568d1bd3b9))
 
@@ -459,7 +459,7 @@ removed, use `import { exportJWK } from 'jose'` instead.
 * support recognizing proprietary `crit` header parameters ([5163116](https://github.com/panva/jose/commit/5163116ca1c091871ed0c601c9fbc1dbe94599cd)), closes [#123](https://github.com/panva/jose/issues/123)
 
 
-### Bug Fixes
+### Fixes
 
 * reject JWTs with b64: false ([691b44a](https://github.com/panva/jose/commit/691b44ad4717c82a06539facfedff48fa0e9c6a9))
 
@@ -473,21 +473,21 @@ removed, use `import { exportJWK } from 'jose'` instead.
 ## [3.1.3](https://github.com/panva/jose/compare/v3.1.2...v3.1.3) (2020-11-26)
 
 
-### Bug Fixes
+### Fixes
 
 * **typescript:** refactored how types are published ([2937363](https://github.com/panva/jose/commit/29373633bc540ff1e7bfe8fb3e5c5b391e79c2d9)), closes [#119](https://github.com/panva/jose/issues/119)
 
 ## [3.1.2](https://github.com/panva/jose/compare/v3.1.1...v3.1.2) (2020-11-24)
 
 
-### Bug Fixes
+### Fixes
 
 * handle globalThis undefined in legacy browsers ([b83c59b](https://github.com/panva/jose/commit/b83c59bb43ad14ac932cd0c662f7dfc2c4c62753))
 
 ## [3.1.1](https://github.com/panva/jose/compare/v3.1.0...v3.1.1) (2020-11-24)
 
 
-### Bug Fixes
+### Fixes
 
 * global detection in a browser worker runtime ([56ff8fa](https://github.com/panva/jose/commit/56ff8fa65aa045411c6c6a67d80b67c1099576a0))
 
@@ -503,14 +503,14 @@ removed, use `import { exportJWK } from 'jose'` instead.
 ## [3.0.2](https://github.com/panva/jose/compare/v3.0.1...v3.0.2) (2020-11-15)
 
 
-### Bug Fixes
+### Fixes
 
 * **build:** publish esm submodules ([7b6364f](https://github.com/panva/jose/commit/7b6364f26f7654368c9e33af58043ee40e77ec77)), closes [#104](https://github.com/panva/jose/issues/104)
 
 ## [3.0.1](https://github.com/panva/jose/compare/v3.0.0...v3.0.1) (2020-11-15)
 
 
-### Bug Fixes
+### Fixes
 
 * **typescript:** fix compiling by adding .d.ts files for runtime modules ([d9cb573](https://github.com/panva/jose/commit/d9cb5734d779df26c3e717a9f4f23d18b856dc5f))
 
@@ -531,21 +531,21 @@ removed, use `import { exportJWK } from 'jose'` instead.
 ## [2.0.3](https://github.com/panva/jose/compare/v2.0.2...v2.0.3) (2020-10-29)
 
 
-### Bug Fixes
+### Fixes
 
 * allow stubbing of the JWT.decode function ([6c3b92f](https://github.com/panva/jose/commit/6c3b92f4394a5d7092d7336922eda61e311e6f8c))
 
 ## [2.0.2](https://github.com/panva/jose/compare/v2.0.1...v2.0.2) (2020-09-14)
 
 
-### Bug Fixes
+### Fixes
 
 * **esm:** include esm files in the published package ([1956746](https://github.com/panva/jose/commit/1956746df6542c00bc33af750f93394805b5d603))
 
 ## [2.0.1](https://github.com/panva/jose/compare/v2.0.0...v2.0.1) (2020-09-10)
 
 
-### Bug Fixes
+### Fixes
 
 * allow plugins such as jose-chacha to work in newer node runtime ([30f1dc2](https://github.com/panva/jose/commit/30f1dc2c41e5554d322167b84b610a99bf5e69c5))
 
@@ -596,7 +596,7 @@ and aad arguments swapped places
 * decrypt allowlists for both key management and content encryption ([30e5c46](https://github.com/panva/jose/commit/30e5c46ecf00a498e65a551ced88bc897531c2a4))
 
 
-### Bug Fixes
+### Fixes
 
 * **typescript:** allow Buffer when verifying detached signature ([cadbd04](https://github.com/panva/jose/commit/cadbd047ca953d6d8171439f2efd7bb98a5d8e73))
 * **typescript:** properly type all decode/verify/decrypt fn options ([4c23bd6](https://github.com/panva/jose/commit/4c23bd65fe6fa634726a5eb73c6d590f7348a97e))
@@ -622,7 +622,7 @@ and aad arguments swapped places
 ## [1.27.3](https://github.com/panva/jose/compare/v1.27.2...v1.27.3) (2020-08-04)
 
 
-### Bug Fixes
+### Fixes
 
 * do not mutate unencoded payload when signing for multiple parties ([1695423](https://github.com/panva/jose/commit/169542363f884e4028db9f80086d631e626eb469)), closes [#89](https://github.com/panva/jose/issues/89)
 * ensure "b64" is the same for all recipients edge cases ([d56ec9f](https://github.com/panva/jose/commit/d56ec9f5ddc2612e5ff21fe35d45a56e7153e0e4))
@@ -632,7 +632,7 @@ and aad arguments swapped places
 ## [1.27.2](https://github.com/panva/jose/compare/v1.27.1...v1.27.2) (2020-07-01)
 
 
-### Bug Fixes
+### Fixes
 
 * handle private EC keys without public component ([#86](https://github.com/panva/jose/issues/86)) ([e8ad389](https://github.com/panva/jose/commit/e8ad38993e29747098f7fd1594dde4ce893ba802)), closes [#85](https://github.com/panva/jose/issues/85)
 
@@ -641,7 +641,7 @@ and aad arguments swapped places
 ## [1.27.1](https://github.com/panva/jose/compare/v1.27.0...v1.27.1) (2020-06-01)
 
 
-### Bug Fixes
+### Fixes
 
 * allow any JSON numeric value for timestamp values ([7ba4922](https://github.com/panva/jose/commit/7ba492237aaf788914166c134d50fb046041efa0))
 
@@ -659,7 +659,7 @@ and aad arguments swapped places
 ## [1.26.1](https://github.com/panva/jose/compare/v1.26.0...v1.26.1) (2020-04-27)
 
 
-### Bug Fixes
+### Fixes
 
 * **typescript:** types of key generate functions without overloads ([7e60722](https://github.com/panva/jose/commit/7e60722ae7054f8acf833e015c22679d56fbc0ca)), closes [#80](https://github.com/panva/jose/issues/80)
 * "typ" content-type validation, case insensitive and handled prefix ([0691586](https://github.com/panva/jose/commit/06915861b32c0ae252dcc84791050bc3716ce102))
@@ -684,7 +684,7 @@ the claims `iat` and `jti` are now REQUIRED (was RECOMMENDED).
 ## [1.25.2](https://github.com/panva/jose/compare/v1.25.1...v1.25.2) (2020-04-15)
 
 
-### Bug Fixes
+### Fixes
 
 * **build:** don't publish junk files ([6e98c1a](https://github.com/panva/jose/commit/6e98c1a5f994224b9412fc47c4065b468c89fe2c))
 
@@ -693,7 +693,7 @@ the claims `iat` and `jti` are now REQUIRED (was RECOMMENDED).
 ## [1.25.1](https://github.com/panva/jose/compare/v1.25.0...v1.25.1) (2020-04-15)
 
 
-### Bug Fixes
+### Fixes
 
 * use native openssl AES Key Wrap 🤦 ([dcf8d75](https://github.com/panva/jose/commit/dcf8d75a8aca4f05fe04df64fdd2ba50bbc75bc9))
 
@@ -711,7 +711,7 @@ the claims `iat` and `jti` are now REQUIRED (was RECOMMENDED).
 ## [1.24.1](https://github.com/panva/jose/compare/v1.24.0...v1.24.1) (2020-03-05)
 
 
-### Bug Fixes
+### Fixes
 
 * allow importing simpler passphrases as `oct` keys ([f86bda3](https://github.com/panva/jose/commit/f86bda3bb709f29e4264fb8de45242f518128744))
 
@@ -729,7 +729,7 @@ the claims `iat` and `jti` are now REQUIRED (was RECOMMENDED).
 ## [1.23.0](https://github.com/panva/jose/compare/v1.22.2...v1.23.0) (2020-02-18)
 
 
-### Bug Fixes
+### Fixes
 
 * **typescript:** add optional JWK.Key props and make them readonly ([b92079c](https://github.com/panva/jose/commit/b92079cb64216b8ea91082adc07ac03972dbbb0e)), closes [#67](https://github.com/panva/jose/issues/67)
 
@@ -753,7 +753,7 @@ the claims `iat` and `jti` are now REQUIRED (was RECOMMENDED).
 ## [1.22.1](https://github.com/panva/jose/compare/v1.22.0...v1.22.1) (2020-02-03)
 
 
-### Bug Fixes
+### Fixes
 
 * actually remove the base64url proper encoding check ([eae01b5](https://github.com/panva/jose/commit/eae01b57ab9f33e8c621ffcd2a77d513a51d22b2))
 
@@ -776,7 +776,7 @@ the claims `iat` and `jti` are now REQUIRED (was RECOMMENDED).
 ## [1.21.1](https://github.com/panva/jose/compare/v1.21.0...v1.21.1) (2020-01-25)
 
 
-### Bug Fixes
+### Fixes
 
 * contactKDF iteration count fixed for key sizes larger than 256 bits ([70ff222](https://github.com/panva/jose/commit/70ff22227ad303e57228dc8351688531499a833a))
 
@@ -785,7 +785,7 @@ the claims `iat` and `jti` are now REQUIRED (was RECOMMENDED).
 ## [1.21.0](https://github.com/panva/jose/compare/v1.20.0...v1.21.0) (2020-01-23)
 
 
-### Bug Fixes
+### Fixes
 
 * **typescript:** don't expose non existant classes, fix decode key ([0f8bf88](https://github.com/panva/jose/commit/0f8bf886da1b5d02cd0d968d0ec02a58673df258))
 
@@ -817,7 +817,7 @@ the claims `iat` and `jti` are now REQUIRED (was RECOMMENDED).
 ## [1.18.2](https://github.com/panva/jose/compare/v1.18.1...v1.18.2) (2020-01-08)
 
 
-### Bug Fixes
+### Fixes
 
 * ensure asn1.js version to remove Buffer deprecation notice ([13b1106](https://github.com/panva/jose/commit/13b1106048fdeae00b09d54f05245dded85b14a7))
 * expose JOSENotSupported key import errors on unsupported runtimes ([bc81e5d](https://github.com/panva/jose/commit/bc81e5dec2987f6ce6dc3fa5daa23dfe620c0a34))
@@ -828,7 +828,7 @@ the claims `iat` and `jti` are now REQUIRED (was RECOMMENDED).
 ## [1.18.1](https://github.com/panva/jose/compare/v1.18.0...v1.18.1) (2020-01-01)
 
 
-### Bug Fixes
+### Fixes
 
 * force iat past check when maxTokenAge option is used + JWT refactor ([828ad5a](https://github.com/panva/jose/commit/828ad5a33dc0cc0049923b69f43f97463295456e))
 
@@ -846,7 +846,7 @@ the claims `iat` and `jti` are now REQUIRED (was RECOMMENDED).
 ## [1.17.2](https://github.com/panva/jose/compare/v1.17.1...v1.17.2) (2019-12-17)
 
 
-### Bug Fixes
+### Fixes
 
 * skip validating iat is in the past when exp is present ([0ed5025](https://github.com/panva/jose/commit/0ed5025de30a754de95ae2587ce0f4573909b006))
 
@@ -855,7 +855,7 @@ the claims `iat` and `jti` are now REQUIRED (was RECOMMENDED).
 ## [1.17.1](https://github.com/panva/jose/compare/v1.17.0...v1.17.1) (2019-12-10)
 
 
-### Bug Fixes
+### Fixes
 
 * properly fail to import unsupported openssh keys ([bee5744](https://github.com/panva/jose/commit/bee574457f29597ccab09d51ac61b85dd7a7146a))
 
@@ -873,7 +873,7 @@ the claims `iat` and `jti` are now REQUIRED (was RECOMMENDED).
 ## [1.16.2](https://github.com/panva/jose/compare/v1.16.1...v1.16.2) (2019-12-05)
 
 
-### Bug Fixes
+### Fixes
 
 * handle Unencoded Payload (b64:false) with arbitrary buffer payloads ([daabedc](https://github.com/panva/jose/commit/daabedc776617f4fde427b3a5e79d8c176293132)), closes [#57](https://github.com/panva/jose/issues/57)
 
@@ -882,7 +882,7 @@ the claims `iat` and `jti` are now REQUIRED (was RECOMMENDED).
 ## [1.16.1](https://github.com/panva/jose/compare/v1.16.0...v1.16.1) (2019-12-05)
 
 
-### Bug Fixes
+### Fixes
 
 * allow PBES2 for the correct JWK `use` values ([f0d7194](https://github.com/panva/jose/commit/f0d719416ec9ca041ea88b8a983b5d899a6aa107))
 
@@ -900,7 +900,7 @@ the claims `iat` and `jti` are now REQUIRED (was RECOMMENDED).
 ## [1.15.1](https://github.com/panva/jose/compare/v1.15.0...v1.15.1) (2019-11-30)
 
 
-### Bug Fixes
+### Fixes
 
 * **typescript:** export Key Input types ([0277fcd](https://github.com/panva/jose/commit/0277fcd1896af497e79190212b0719f7e62366c1))
 
@@ -909,7 +909,7 @@ the claims `iat` and `jti` are now REQUIRED (was RECOMMENDED).
 ## [1.15.0](https://github.com/panva/jose/compare/v1.14.0...v1.15.0) (2019-11-27)
 
 
-### Bug Fixes
+### Fixes
 
 * default JWT.sign `kid` option value is false for HMAC signatures ([ce77388](https://github.com/panva/jose/commit/ce7738825403f8cdb8f99cb51c096baf0dfa3af7))
 
@@ -963,7 +963,7 @@ the claims `iat` and `jti` are now REQUIRED (was RECOMMENDED).
 ## [1.10.2](https://github.com/panva/jose/compare/v1.10.1...v1.10.2) (2019-10-29)
 
 
-### Bug Fixes
+### Fixes
 
 * only use secp256k1 keys for signing/verification ([9588223](https://github.com/panva/jose/commit/95882232d6d409a321b6a8c168f5b78ebbdabf95))
 
@@ -972,7 +972,7 @@ the claims `iat` and `jti` are now REQUIRED (was RECOMMENDED).
 ## [1.10.1](https://github.com/panva/jose/compare/v1.10.0...v1.10.1) (2019-10-04)
 
 
-### Bug Fixes
+### Fixes
 
 * throw proper error when runtime doesn't support OKP ([0a16efb](https://github.com/panva/jose/commit/0a16efb)), closes [#48](https://github.com/panva/jose/issues/48)
 
@@ -990,7 +990,7 @@ the claims `iat` and `jti` are now REQUIRED (was RECOMMENDED).
 ## [1.9.2](https://github.com/panva/jose/compare/v1.9.1...v1.9.2) (2019-09-16)
 
 
-### Bug Fixes
+### Fixes
 
 * keystore.toJWKS(true) does not throw on public keys ([81abdfa](https://github.com/panva/jose/commit/81abdfa)), closes [#42](https://github.com/panva/jose/issues/42)
 
@@ -1030,7 +1030,7 @@ the claims `iat` and `jti` are now REQUIRED (was RECOMMENDED).
 ## [1.6.1](https://github.com/panva/jose/compare/v1.6.0...v1.6.1) (2019-07-29)
 
 
-### Bug Fixes
+### Fixes
 
 * properly pad calculated RSA primes ([dd121ce](https://github.com/panva/jose/commit/dd121ce))
 
@@ -1039,7 +1039,7 @@ the claims `iat` and `jti` are now REQUIRED (was RECOMMENDED).
 ## [1.6.0](https://github.com/panva/jose/compare/v1.5.2...v1.6.0) (2019-07-27)
 
 
-### Bug Fixes
+### Fixes
 
 * use the correct ECPrivateKey version when importing EC JWK ([24acd20](https://github.com/panva/jose/commit/24acd20))
 
@@ -1053,7 +1053,7 @@ the claims `iat` and `jti` are now REQUIRED (was RECOMMENDED).
 ## [1.5.2](https://github.com/panva/jose/compare/v1.5.1...v1.5.2) (2019-07-27)
 
 
-### Bug Fixes
+### Fixes
 
 * importing x5c in electron requires the input split ([181fd09](https://github.com/panva/jose/commit/181fd09))
 
@@ -1062,7 +1062,7 @@ the claims `iat` and `jti` are now REQUIRED (was RECOMMENDED).
 ## [1.5.1](https://github.com/panva/jose/compare/v1.5.0...v1.5.1) (2019-07-27)
 
 
-### Bug Fixes
+### Fixes
 
 * correctly pad integers when importing RSA JWK ([1dc7f35](https://github.com/panva/jose/commit/1dc7f35))
 
@@ -1080,7 +1080,7 @@ the claims `iat` and `jti` are now REQUIRED (was RECOMMENDED).
 ## [1.4.1](https://github.com/panva/jose/compare/v1.4.0...v1.4.1) (2019-07-14)
 
 
-### Bug Fixes
+### Fixes
 
 * honour the JWT.sign `jti` option ([36c9ce2](https://github.com/panva/jose/commit/36c9ce2)), closes [#33](https://github.com/panva/jose/issues/33)
 
@@ -1104,7 +1104,7 @@ the claims `iat` and `jti` are now REQUIRED (was RECOMMENDED).
 * add support for JWK x5c, x5t and x5t#S256 ([9d46c48](https://github.com/panva/jose/commit/9d46c48))
 * instances of JWKS.KeyStore are now iterable (e.g. for ... of) ([2eae293](https://github.com/panva/jose/commit/2eae293))
 
-### Bug Fixes
+### Fixes
 
 * limit calculation of missing RSA private components ([5b53cb0](https://github.com/panva/jose/commit/5b53cb0))
 * reject rsa keys without all factors and exponents with a specific message ([b0ff436](https://github.com/panva/jose/commit/b0ff436))
@@ -1134,7 +1134,7 @@ its original on-by-default form - v1.1.0 and v1.2.0
 ## [1.0.2](https://github.com/panva/jose/compare/v1.0.1...v1.0.2) (2019-05-13)
 
 
-### Bug Fixes
+### Fixes
 
 * add missing keystore.toJWKS() .d.ts definition ([c7a8606](https://github.com/panva/jose/commit/c7a8606)), closes [#25](https://github.com/panva/jose/issues/25)
 
@@ -1143,7 +1143,7 @@ its original on-by-default form - v1.1.0 and v1.2.0
 ## [1.0.1](https://github.com/panva/jose/compare/v1.0.0...v1.0.1) (2019-04-27)
 
 
-### Bug Fixes
+### Fixes
 
 * oct key ts "k" type fix ([0750d2c](https://github.com/panva/jose/commit/0750d2c))
 
@@ -1152,7 +1152,7 @@ its original on-by-default form - v1.1.0 and v1.2.0
 ## [1.0.0](https://github.com/panva/jose/compare/v0.12.0...v1.0.0) (2019-04-23)
 
 
-### Bug Fixes
+### Fixes
 
 * fail to import invalid PEM formatted strings and buffers ([857dc2b](https://github.com/panva/jose/commit/857dc2b))
 
@@ -1203,7 +1203,7 @@ IETF WG decides on what the final names will be.
 ## [0.11.4](https://github.com/panva/jose/compare/v0.11.3...v0.11.4) (2019-03-28)
 
 
-### Bug Fixes
+### Fixes
 
 * properly restrict EC curves in generate(Sync) ([764b863](https://github.com/panva/jose/commit/764b863))
 * remove unintended exposure of private material via enumerables ([946d9df](https://github.com/panva/jose/commit/946d9df))
@@ -1213,7 +1213,7 @@ IETF WG decides on what the final names will be.
 ## [0.11.3](https://github.com/panva/jose/compare/v0.11.2...v0.11.3) (2019-03-27)
 
 
-### Bug Fixes
+### Fixes
 
 * throw on unsupported EC curves ([cfa4222](https://github.com/panva/jose/commit/cfa4222))
 
@@ -1227,7 +1227,7 @@ IETF WG decides on what the final names will be.
 ## [0.11.2](https://github.com/panva/jose/compare/v0.11.1...v0.11.2) (2019-03-19)
 
 
-### Bug Fixes
+### Fixes
 
 * internal symbol method is now really a symbol ([925d47c](https://github.com/panva/jose/commit/925d47c))
 * key.toJWK() fixed on windows ([57f1692](https://github.com/panva/jose/commit/57f1692)), closes [#17](https://github.com/panva/jose/issues/17)
@@ -1236,7 +1236,7 @@ IETF WG decides on what the final names will be.
 ## [0.11.1](https://github.com/panva/jose/compare/v0.11.0...v0.11.1) (2019-03-17)
 
 
-### Bug Fixes
+### Fixes
 
 * restrict RS key algorithms by the key's bit size ([9af295b](https://github.com/panva/jose/commit/9af295b))
 
@@ -1244,7 +1244,7 @@ IETF WG decides on what the final names will be.
 ## [0.11.0](https://github.com/panva/jose/compare/v0.10.0...v0.11.0) (2019-03-16)
 
 
-### Bug Fixes
+### Fixes
 
 * all JWA defined RSA operations require key of 2048 or more ([cc70c5d](https://github.com/panva/jose/commit/cc70c5d))
 * use correct salt length for RSASSA-PSS ([e936d54](https://github.com/panva/jose/commit/e936d54))
@@ -1260,7 +1260,7 @@ RSA based operations require key size of 2048 bits or more.
 ## [0.10.0](https://github.com/panva/jose/compare/v0.9.2...v0.10.0) (2019-03-12)
 
 
-### Bug Fixes
+### Fixes
 
 * do not list "dir" under wrap/unwrapKey operations ([17b37d3](https://github.com/panva/jose/commit/17b37d3))
 
@@ -1280,7 +1280,7 @@ operation
 ## [0.9.2](https://github.com/panva/jose/compare/v0.9.1...v0.9.2) (2019-03-05)
 
 
-### Bug Fixes
+### Fixes
 
 * "dir" is only available on keys with correct lengths ([6854860](https://github.com/panva/jose/commit/6854860))
 * do not 'in' operator when importing keys as string ([be3f4e4](https://github.com/panva/jose/commit/be3f4e4))
@@ -1290,7 +1290,7 @@ operation
 ## [0.9.1](https://github.com/panva/jose/compare/v0.9.0...v0.9.1) (2019-03-02)
 
 
-### Bug Fixes
+### Fixes
 
 * only import RSA, EC and oct successfully ([e5e02fc](https://github.com/panva/jose/commit/e5e02fc))
 
