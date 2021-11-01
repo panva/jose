@@ -1,4 +1,4 @@
-import { isCloudflareWorkers, isNodeJs } from './global.js'
+import { isCloudflareWorkers, isNodeJs } from './env.js'
 import { JOSENotSupported } from '../../util/errors.js'
 
 export default function subtleDsa(alg: string, namedCurve?: string) {

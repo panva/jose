@@ -1,4 +1,4 @@
-import { isCloudflareWorkers, isNodeJs } from './global.js'
+import { isCloudflareWorkers, isNodeJs } from './env.js'
 import crypto from './webcrypto.js'
 import { JOSENotSupported } from '../../util/errors.js'
 import random from './random.js'

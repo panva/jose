@@ -1,10 +1,14 @@
-import globalThis from './global.js'
-
-export default globalThis.crypto
+export default crypto
 
 export function isCryptoKey(key: unknown): key is CryptoKey {
-  if (typeof globalThis.CryptoKey === 'undefined') {
+  try {
+    return (
+      key != null &&
+      typeof (<CryptoKey>key).extractable === 'boolean' &&
+      typeof (<CryptoKey>key).algorithm.name === 'string' &&
+      typeof (<CryptoKey>key).type === 'string'
+    )
+  } catch {
     return false
   }
-  return key != null && key instanceof globalThis.CryptoKey
 }

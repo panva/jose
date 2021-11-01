@@ -1,4 +1,4 @@
-import globalThis, { isCloudflareWorkers, isNodeJs } from './global.js'
+import { isCloudflareWorkers, isNodeJs } from './env.js'
 import crypto, { isCryptoKey } from './webcrypto.js'
 import type { PEMExportFunction, PEMImportFunction } from '../interfaces.d'
 import invalidKeyInput from '../../lib/invalid_key_input.js'
@@ -85,8 +85,7 @@ const genericImport = async (
   let keyUsages: KeyUsage[]
 
   const keyData = new Uint8Array(
-    globalThis
-      .atob(pem.replace(replace, ''))
+    atob(pem.replace(replace, ''))
       .split('')
       .map((c) => c.charCodeAt(0)),
   )

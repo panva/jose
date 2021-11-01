@@ -1,5 +1,4 @@
 import { encoder, decoder } from '../../lib/buffer_utils.js'
-import globalThis from './global.js'
 
 export const encodeBase64 = (input: Uint8Array | string) => {
   let unencoded = input
@@ -12,7 +11,7 @@ export const encodeBase64 = (input: Uint8Array | string) => {
     // @ts-expect-error
     arr.push(String.fromCharCode.apply(null, unencoded.subarray(i, i + CHUNK_SIZE)))
   }
-  return globalThis.btoa(arr.join(''))
+  return btoa(arr.join(''))
 }
 
 export const encode = (input: Uint8Array | string) => {
@@ -21,8 +20,7 @@ export const encode = (input: Uint8Array | string) => {
 
 export const decodeBase64 = (encoded: string): Uint8Array => {
   return new Uint8Array(
-    globalThis
-      .atob(encoded)
+    atob(encoded)
       .split('')
       .map((c) => c.charCodeAt(0)),
   )

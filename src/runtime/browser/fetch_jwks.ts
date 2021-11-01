@@ -1,6 +1,6 @@
 import type { FetchFunction } from '../interfaces.d'
 import { JOSEError, JWKSTimeout } from '../../util/errors.js'
-import globalThis, { isCloudflareWorkers } from './global.js'
+import { isCloudflareWorkers } from './env.js'
 
 const fetchJwks: FetchFunction = async (url: URL, timeout: number) => {
   let controller!: AbortController
@@ -14,23 +14,21 @@ const fetchJwks: FetchFunction = async (url: URL, timeout: number) => {
     }, timeout)
   }
 
-  const response = await globalThis
-    .fetch(url.href, {
-      signal: controller ? controller.signal : undefined,
-      redirect: 'manual',
-      method: 'GET',
-      ...(!isCloudflareWorkers()
-        ? {
-            referrerPolicy: 'no-referrer',
-            credentials: 'omit',
-            mode: 'cors',
-          }
-        : undefined),
-    })
-    .catch((err) => {
-      if (timedOut) throw new JWKSTimeout()
-      throw err
-    })
+  const response = await fetch(url.href, {
+    signal: controller ? controller.signal : undefined,
+    redirect: 'manual',
+    method: 'GET',
+    ...(!isCloudflareWorkers()
+      ? {
+          referrerPolicy: 'no-referrer',
+          credentials: 'omit',
+          mode: 'cors',
+        }
+      : undefined),
+  }).catch((err) => {
+    if (timedOut) throw new JWKSTimeout()
+    throw err
+  })
 
   if (id !== undefined) clearTimeout(id)
 

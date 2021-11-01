@@ -1,4 +1,4 @@
-import { isCloudflareWorkers, isNodeJs } from '../runtime/global.js'
+import { isCloudflareWorkers, isNodeJs } from '../runtime/env.js'
 
 function unusable(name: string | number, prop = 'algorithm.name') {
   return new TypeError(`CryptoKey does not support this operation, its ${prop} must be ${name}`)
