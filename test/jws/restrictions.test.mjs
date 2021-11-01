@@ -63,28 +63,6 @@ Promise.all([
       }
     })
 
-    async function testHMAC(t, alg) {
-      const size = parseInt(alg.substr(-3), 10)
-      const message = `${alg} requires symmetric keys to be ${size} bits or larger`
-      const secret = crypto.randomFillSync(new Uint8Array((size >> 3) - 1))
-      await t.throwsAsync(
-        new FlattenedSign(t.context.payload).setProtectedHeader({ alg }).sign(secret),
-        { instanceOf: TypeError, message },
-      )
-
-      const jws = await new FlattenedSign(t.context.payload)
-        .setProtectedHeader({ alg })
-        .sign(crypto.randomFillSync(new Uint8Array(size >> 3)))
-
-      await t.throwsAsync(flattenedVerify(jws, secret), { instanceOf: TypeError, message })
-    }
-    testHMAC.title = (title, alg) =>
-      `${alg} requires symmetric keys to be ${alg.substr(-3)} bits or larger`
-
-    test(testHMAC, 'HS256')
-    test(testHMAC, 'HS384')
-    test(testHMAC, 'HS512')
-
     async function testRSAsig(t, alg) {
       const message = `${alg} requires key modulusLength to be 2048 bits or larger`
       const keyBad = t.context.rsa2040

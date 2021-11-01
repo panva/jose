@@ -22,10 +22,6 @@ const sign: SignFunction = async (alg, key: unknown, data) => {
   const keyObject = getSignKey(alg, key, 'sign')
 
   if (alg.startsWith('HS')) {
-    const bitlen = parseInt(alg.substr(-3), 10)
-    if (!keyObject.symmetricKeySize || keyObject.symmetricKeySize << 3 < bitlen) {
-      throw new TypeError(`${alg} requires symmetric keys to be ${bitlen} bits or larger`)
-    }
     const hmac = crypto.createHmac(hmacDigest(alg), keyObject)
     hmac.update(data)
     return hmac.digest()
