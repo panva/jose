@@ -27,7 +27,7 @@ const { SignJWT } = require('jose')
 
 **`example`** Deno import
 ```js
-import { SignJWT } from 'https://deno.land/x/jose@v4.1.3/index.ts'
+import { SignJWT } from 'https://deno.land/x/jose@v4.1.4/index.ts'
 ```
 
 ## Table of contents

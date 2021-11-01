@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [4.1.4](https://github.com/panva/jose/compare/v4.1.3...v4.1.4) (2021-11-01)
+
+
+### Fixes
+
+* allow shorter HMAC secrets ([57126f1](https://github.com/panva/jose/commit/57126f1806493a2782647610c2a6b5d20ea3e516))
+
 ## [4.1.3](https://github.com/panva/jose/compare/v4.1.2...v4.1.3) (2021-11-01)
 
 
