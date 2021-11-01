@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [4.1.3](https://github.com/panva/jose/compare/v4.1.2...v4.1.3) (2021-11-01)
+
+
+### Bug Fixes
+
+* **edge-functions:** don't use globalThis ([3952030](https://github.com/panva/jose/commit/39520302d078da2273b5a24f8254f6c221195c63))
+
 ## [4.1.2](https://github.com/panva/jose/compare/v4.1.1...v4.1.2) (2021-10-25)
 
 
