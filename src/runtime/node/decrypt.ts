@@ -51,8 +51,8 @@ async function cbcDecrypt(
 
   let plaintext!: Uint8Array
   try {
-    const cipher = createDecipheriv(algorithm, encKey, iv)
-    plaintext = concat(cipher.update(ciphertext), cipher.final())
+    const decipher = createDecipheriv(algorithm, encKey, iv)
+    plaintext = concat(decipher.update(ciphertext), decipher.final())
   } catch {
     //
   }
@@ -77,13 +77,15 @@ async function gcmDecrypt(
     throw new JOSENotSupported(`alg ${enc} is not supported by your javascript runtime`)
   }
   try {
-    const cipher = createDecipheriv(algorithm, cek, iv, { authTagLength: 16 })
-    cipher.setAuthTag(tag)
+    const decipher = createDecipheriv(algorithm, cek, iv, { authTagLength: 16 })
+    decipher.setAuthTag(tag)
     if (aad.byteLength) {
-      cipher.setAAD(aad, { plaintextLength: ciphertext.length })
+      decipher.setAAD(aad, { plaintextLength: ciphertext.length })
     }
 
-    return concat(cipher.update(ciphertext), cipher.final())
+    const plaintext = decipher.update(ciphertext)
+    decipher.final()
+    return plaintext
   } catch {
     throw new JWEDecryptionFailed()
   }

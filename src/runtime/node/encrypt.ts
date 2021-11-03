@@ -61,7 +61,8 @@ async function gcmEncrypt(
     cipher.setAAD(aad, { plaintextLength: plaintext.length })
   }
 
-  const ciphertext = concat(cipher.update(plaintext), cipher.final())
+  const ciphertext = cipher.update(plaintext)
+  cipher.final()
   const tag = cipher.getAuthTag()
 
   return { ciphertext, tag }
