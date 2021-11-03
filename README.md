@@ -65,6 +65,7 @@ If you or your business use `jose`, please consider becoming a [sponsor][support
 - [Cloudflare Workers Support][]
 - [Deno Support][]
 - [Electron Support][]
+- [Next.js Middleware / Vercel Edge Functions Support][]
 - [Node.js Support][]
 
 ## FAQ
@@ -133,8 +134,10 @@ install size should not be a cause for concern.
 [webcrypto]: https://www.w3.org/TR/WebCryptoAPI/
 [nodewebcrypto]: https://nodejs.org/docs/latest-v15.x/api/webcrypto.html
 [deno.land/x/jose]: https://deno.land/x/jose
+
 [Browser Support]: https://github.com/panva/jose/issues/263
 [Cloudflare Workers Support]: https://github.com/panva/jose/issues/265
 [Deno Support]: https://github.com/panva/jose/issues/266
 [Electron Support]: https://github.com/panva/jose/issues/264
+[Next.js Middleware / Vercel Edge Functions Support]: https://github.com/panva/jose/issues/301
 [Node.js Support]: https://github.com/panva/jose/issues/262
