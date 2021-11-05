@@ -75,7 +75,8 @@ function parseElement(bytes: Uint8Array) {
 }
 
 function spkiFromX509(buf: Uint8Array) {
-  return encodeBase64(getElement(getElement(parseElement(buf).contents)[0].contents)[6].raw)
+  const tbsCertificate = getElement(getElement(parseElement(buf).contents)[0].contents)
+  return encodeBase64(tbsCertificate[tbsCertificate[0].raw[0] === 0xa0 ? 6 : 5].raw)
 }
 
 function getSPKI(x509: string): string {

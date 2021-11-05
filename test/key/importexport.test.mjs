@@ -74,6 +74,8 @@ const keys = {
       '-----BEGIN PRIVATE KEY-----\nMC4CAQAwBQYDK2VwBCIEIOcUcmmhP080PCEg3n1MojHqLRVqksuWi/mu6IL3oqcd\n-----END PRIVATE KEY-----\n',
     publicKey:
       '-----BEGIN PUBLIC KEY-----\nMCowBQYDK2VwAyEAYPirSLK5RYui0fLnPzF/zohd13Ey7usg/ZwQmyLBkfE=\n-----END PUBLIC KEY-----\n',
+    certificate:
+      '-----BEGIN CERTIFICATE-----\nMIIB0zCCAYUCFEAGUxyTR1mz/XyaVnqHUA1T0bg4MAUGAytlcDCBizELMAkGA1UE\nBhMCVVMxFTATBgNVBAgMDFBlbm5zeWx2YW5pYTETMBEGA1UEBwwKUGl0dHNidXJn\naDEWMBQGA1UECgwNRXhhbXBsZSwgSW5jLjEiMCAGCSqGSIb3DQEJARYTZXhhbXBs\nZUBleGFtcGxlLmNvbTEUMBIGA1UEAwwLZXhhbXBsZS5jb20wHhcNMjExMTA1MTkz\nNTQ4WhcNMjMxMDA2MTkzNTQ4WjCBizELMAkGA1UEBhMCVVMxFTATBgNVBAgMDFBl\nbm5zeWx2YW5pYTETMBEGA1UEBwwKUGl0dHNidXJnaDEWMBQGA1UECgwNRXhhbXBs\nZSwgSW5jLjEiMCAGCSqGSIb3DQEJARYTZXhhbXBsZUBleGFtcGxlLmNvbTEUMBIG\nA1UEAwwLZXhhbXBsZS5jb20wKjAFBgMrZXADIQCuVl9VNLFAflCTZDKRtWjGLqsD\ne/E5r+zIN1H6rWkE/DAFBgMrZXADQQDet6id3ZIBqQ4RP1GBRHN19epkb7euezw6\nYlmU09Tsz1j7utsNgs6ztF43GyzzVWrBtHkjne7qtnIONDqSvJoC\n-----END CERTIFICATE-----',
   },
   ed448: {
     privateKey:
@@ -178,6 +180,7 @@ Promise.all([import(`${keyRoot}/key/import`), import(`${keyRoot}/key/export`)]).
 
     for (const alg of ['EdDSA']) {
       test(`import SPKI ed25519 for ${alg}`, testSPKI, keys.ed25519.publicKey, alg)
+      test(`import X509 ed25519 for ${alg}`, testX509, keys.ed25519.certificate, alg)
       test(`import PKCS8 ed25519 for ${alg}`, testPKCS8, keys.ed25519.privateKey, alg)
       conditional({ webcrypto: 1, electron: 0 })(
         `import SPKI ed448 for ${alg}`,
