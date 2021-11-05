@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [4.1.5](https://github.com/panva/jose/compare/v4.1.4...v4.1.5) (2021-11-05)
+
+
+### Fixes
+
+* importX509 certificate values that do not include a version number ([51a18b6](https://github.com/panva/jose/commit/51a18b675a771ed573047398f79cd6f70d8f9fec)), closes [#308](https://github.com/panva/jose/issues/308)
+
 ## [4.1.4](https://github.com/panva/jose/compare/v4.1.3...v4.1.4) (2021-11-01)
 
 

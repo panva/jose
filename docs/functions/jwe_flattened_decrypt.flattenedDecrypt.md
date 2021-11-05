@@ -39,7 +39,7 @@ const { flattenedDecrypt } = require('jose')
 
 **`example`** Deno import
 ```js
-import { flattenedDecrypt } from 'https://deno.land/x/jose@v4.1.4/index.ts'
+import { flattenedDecrypt } from 'https://deno.land/x/jose@v4.1.5/index.ts'
 ```
 
 #### Parameters
