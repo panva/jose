@@ -31,7 +31,7 @@ const { GeneralSign } = require('jose')
 
 **`example`** Deno import
 ```js
-import { GeneralSign } from 'https://deno.land/x/jose@v4.1.5/index.ts'
+import { GeneralSign } from 'https://deno.land/x/jose@v4.2.0/index.ts'
 ```
 
 ## Table of contents
@@ -63,12 +63,14 @@ import { GeneralSign } from 'https://deno.land/x/jose@v4.1.5/index.ts'
 
 ▸ **addSignature**(`key`, `options?`): [`Signature`](../interfaces/jws_general_sign.Signature.md)
 
+Adds an additional signature for the General JWS object.
+
 #### Parameters
 
-| Name | Type |
-| :------ | :------ |
-| `key` | [`KeyLike`](../types/types.KeyLike.md) \| `Uint8Array` |
-| `options?` | [`SignOptions`](../interfaces/types.SignOptions.md) |
+| Name | Type | Description |
+| :------ | :------ | :------ |
+| `key` | [`KeyLike`](../types/types.KeyLike.md) \| `Uint8Array` | Private Key or Secret to sign the individual JWS signature with. |
+| `options?` | [`SignOptions`](../interfaces/types.SignOptions.md) | JWS Sign options. |
 
 #### Returns
 

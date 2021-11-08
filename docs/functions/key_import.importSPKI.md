@@ -28,7 +28,7 @@ const { importSPKI } = require('jose')
 
 **`example`** Deno import
 ```js
-import { importSPKI } from 'https://deno.land/x/jose@v4.1.5/index.ts'
+import { importSPKI } from 'https://deno.land/x/jose@v4.2.0/index.ts'
 ```
 
 #### Parameters

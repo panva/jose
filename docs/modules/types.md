@@ -9,6 +9,7 @@
 - [CritOption](../interfaces/types.CritOption.md)
 - [DecryptOptions](../interfaces/types.DecryptOptions.md)
 - [DeflateFunction](../interfaces/types.DeflateFunction.md)
+- [DeflateOption](../interfaces/types.DeflateOption.md)
 - [EncryptOptions](../interfaces/types.EncryptOptions.md)
 - [FlattenedDecryptResult](../interfaces/types.FlattenedDecryptResult.md)
 - [FlattenedJWE](../interfaces/types.FlattenedJWE.md)

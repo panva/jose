@@ -1,6 +1,7 @@
 # Interface: CritOption
 
-Shared Interface with a "crit" property for all sign and verify operations.
+Shared Interface with a "crit" property for all sign, verify, encrypt and decrypt
+operations.
 
 ## Table of contents
 

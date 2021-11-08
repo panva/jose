@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [4.2.0](https://github.com/panva/jose/compare/v4.1.5...v4.2.0) (2021-11-08)
+
+
+### Features
+
+* General JWE Encryption ([94eca81](https://github.com/panva/jose/commit/94eca816872527074d2a591a983ee6c5d64da30c))
+
 ## [4.1.5](https://github.com/panva/jose/compare/v4.1.4...v4.1.5) (2021-11-05)
 
 

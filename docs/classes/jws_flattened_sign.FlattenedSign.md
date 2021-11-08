@@ -24,7 +24,7 @@ const { FlattenedSign } = require('jose')
 
 **`example`** Deno import
 ```js
-import { FlattenedSign } from 'https://deno.land/x/jose@v4.1.5/index.ts'
+import { FlattenedSign } from 'https://deno.land/x/jose@v4.2.0/index.ts'
 ```
 
 ## Table of contents
