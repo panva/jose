@@ -20,7 +20,7 @@ If you or your business use `jose`, please consider becoming a [sponsor][support
   - [Public Key Import (X.509 Certificate)](functions/key_import.importX509.md#readme)
   - [Private Key Import (PKCS #8)](functions/key_import.importPKCS8.md#readme)
 - JSON Web Encryption (JWE)
-  - Encryption - [Compact](classes/jwe_compact_encrypt.CompactEncrypt.md#readme), [Flattened](classes/jwe_flattened_encrypt.FlattenedEncrypt.md#readme)
+  - Encryption - [Compact](classes/jwe_compact_encrypt.CompactEncrypt.md#readme), [Flattened](classes/jwe_flattened_encrypt.FlattenedEncrypt.md#readme), [General](classes/jwe_general_encrypt.GeneralEncrypt.md#readme)
   - Decryption - [Compact](functions/jwe_compact_decrypt.compactDecrypt.md#readme), [Flattened](functions/jwe_flattened_decrypt.flattenedDecrypt.md#readme), [General](functions/jwe_general_decrypt.generalDecrypt.md#readme)
 - JSON Web Signature (JWS)
   - Signing - [Compact](classes/jws_compact_sign.CompactSign.md#readme), [Flattened](classes/jws_flattened_sign.FlattenedSign.md#readme), [General](classes/jws_general_sign.GeneralSign.md#readme)

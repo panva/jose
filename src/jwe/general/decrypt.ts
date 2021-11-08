@@ -95,6 +95,10 @@ export async function generalDecrypt(
     throw new JWEInvalid('JWE Recipients missing or incorrect type')
   }
 
+  if (!jwe.recipients.length) {
+    throw new JWEInvalid('JWE Recipients has no members')
+  }
+
   for (const recipient of jwe.recipients) {
     try {
       return await flattenedDecrypt(

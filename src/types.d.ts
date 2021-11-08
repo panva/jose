@@ -437,7 +437,8 @@ export interface JWEHeaderParameters extends JoseHeaderParameters {
 }
 
 /**
- * Shared Interface with a "crit" property for all sign and verify operations.
+ * Shared Interface with a "crit" property for all sign, verify, encrypt and decrypt
+ * operations.
  */
 export interface CritOption {
   /**
@@ -489,15 +490,20 @@ export interface DecryptOptions extends CritOption {
 }
 
 /**
- * JWE Encryption options.
+ * JWE Deflate option.
  */
-export interface EncryptOptions extends CritOption {
+export interface DeflateOption {
   /**
    * In a browser runtime you have to provide an implementation for Deflate Raw
    * when you will be producing JWEs with compressed plaintext.
    */
   deflateRaw?: DeflateFunction
 }
+
+/**
+ * JWE Encryption options.
+ */
+export interface EncryptOptions extends CritOption, DeflateOption {}
 
 /**
  * JWT Claims Set verification options.

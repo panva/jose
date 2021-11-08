@@ -17,6 +17,11 @@ import { encoder, decoder, concat } from '../../lib/buffer_utils.js'
 import validateCrit from '../../lib/validate_crit.js'
 
 /**
+ * @private
+ */
+export const unprotected = Symbol()
+
+/**
  * The FlattenedEncrypt class is a utility for creating Flattened JWE
  * objects.
  *
@@ -248,10 +253,18 @@ export class FlattenedEncrypt {
       ))
 
       if (parameters) {
-        if (!this._protectedHeader) {
-          this.setProtectedHeader(parameters)
+        if (options && unprotected in options) {
+          if (!this._unprotectedHeader) {
+            this.setUnprotectedHeader(parameters)
+          } else {
+            this._unprotectedHeader = { ...this._unprotectedHeader, ...parameters }
+          }
         } else {
-          this._protectedHeader = { ...this._protectedHeader, ...parameters }
+          if (!this._protectedHeader) {
+            this.setProtectedHeader(parameters)
+          } else {
+            this._protectedHeader = { ...this._protectedHeader, ...parameters }
+          }
         }
       }
     }

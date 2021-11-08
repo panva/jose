@@ -4,6 +4,8 @@ export { flattenedDecrypt } from './jwe/flattened/decrypt.js'
 export type { FlattenedDecryptGetKey } from './jwe/flattened/decrypt.js'
 export { generalDecrypt } from './jwe/general/decrypt.js'
 export type { GeneralDecryptGetKey } from './jwe/general/decrypt.js'
+export { GeneralEncrypt } from './jwe/general/encrypt.js'
+export type { Recipient } from './jwe/general/encrypt.js'
 
 export { compactVerify } from './jws/compact/verify.js'
 export type { CompactVerifyGetKey } from './jws/compact/verify.js'
@@ -69,6 +71,7 @@ export type {
   GeneralJWE,
   JWEHeaderParameters,
   CritOption,
+  DeflateOption,
   DecryptOptions,
   EncryptOptions,
   JWTClaimVerificationOptions,
