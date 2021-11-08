@@ -188,7 +188,7 @@ export class FlattenedEncrypt {
       !isDisjoint(this._protectedHeader, this._unprotectedHeader, this._sharedUnprotectedHeader)
     ) {
       throw new JWEInvalid(
-        'JWE Shared Protected, JWE Shared Unprotected and JWE Per-Recipient Header Parameter names must be disjoint',
+        'JWE Protected, JWE Shared Unprotected and JWE Per-Recipient Header Parameter names must be disjoint',
       )
     }
 

@@ -179,7 +179,7 @@ import(`${root}/jwe/flattened/encrypt`).then(
         {
           code: 'ERR_JWE_INVALID',
           message:
-            'JWE Shared Protected, JWE Shared Unprotected and JWE Per-Recipient Header Parameter names must be disjoint',
+            'JWE Protected, JWE Shared Unprotected and JWE Per-Recipient Header Parameter names must be disjoint',
         },
       )
       await t.throwsAsync(
@@ -190,7 +190,7 @@ import(`${root}/jwe/flattened/encrypt`).then(
         {
           code: 'ERR_JWE_INVALID',
           message:
-            'JWE Shared Protected, JWE Shared Unprotected and JWE Per-Recipient Header Parameter names must be disjoint',
+            'JWE Protected, JWE Shared Unprotected and JWE Per-Recipient Header Parameter names must be disjoint',
         },
       )
     })
