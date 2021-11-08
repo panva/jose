@@ -109,6 +109,12 @@ export class GeneralSign {
     this._payload = payload
   }
 
+  /**
+   * Adds an additional signature for the General JWS object.
+   *
+   * @param key Private Key or Secret to sign the individual JWS signature with.
+   * @param options JWS Sign options.
+   */
   addSignature(key: KeyLike | Uint8Array, options?: SignOptions): Signature {
     const signature = new IndividualSignature()
     signatureRef.set(signature, { key, options })
