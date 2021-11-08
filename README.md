@@ -15,6 +15,7 @@ The following specifications are implemented by `jose`
 - JWS Unencoded Payload Option - [RFC7797][spec-b64]
 - CFRG Elliptic Curve ECDH and Signatures - [RFC8037][spec-okp]
 - secp256k1 EC Key curve support - [JOSE Registrations for WebAuthn Algorithms][spec-secp256k1]
+- Base64Url - [RFC4648][spec-base64url]
 
 The test suite utilizes examples defined in [RFC7520][spec-cookbook] to confirm its JOSE
 implementation is correct.
@@ -25,39 +26,18 @@ If you or your business use `jose`, please consider becoming a [sponsor][support
 
 ## Documentation
 
-- JSON Web Tokens (JWT)
-  - [Signing](docs/classes/jwt_sign.SignJWT.md#readme)
-  - [Verification & Claims Set Validation](docs/functions/jwt_verify.jwtVerify.md#readme)
-  - Encrypted JSON Web Tokens
-    - [Encryption](docs/classes/jwt_encrypt.EncryptJWT.md#readme)
-    - [Decryption & Claims Set Validation](docs/functions/jwt_decrypt.jwtDecrypt.md#readme)
-- Key Import
-  - [JWK Import](docs/functions/key_import.importJWK.md#readme)
-  - [Public Key Import (SPKI)](docs/functions/key_import.importSPKI.md#readme)
-  - [Public Key Import (X.509 Certificate)](docs/functions/key_import.importX509.md#readme)
-  - [Private Key Import (PKCS #8)](docs/functions/key_import.importPKCS8.md#readme)
-- JSON Web Encryption (JWE)
-  - Encryption - [Compact](docs/classes/jwe_compact_encrypt.CompactEncrypt.md#readme), [Flattened](docs/classes/jwe_flattened_encrypt.FlattenedEncrypt.md#readme)
-  - Decryption - [Compact](docs/functions/jwe_compact_decrypt.compactDecrypt.md#readme), [Flattened](docs/functions/jwe_flattened_decrypt.flattenedDecrypt.md#readme), [General](docs/functions/jwe_general_decrypt.generalDecrypt.md#readme)
-- JSON Web Signature (JWS)
-  - Signing - [Compact](docs/classes/jws_compact_sign.CompactSign.md#readme), [Flattened](docs/classes/jws_flattened_sign.FlattenedSign.md#readme), [General](docs/classes/jws_general_sign.GeneralSign.md#readme)
-  - Verification - [Compact](docs/functions/jws_compact_verify.compactVerify.md#readme), [Flattened](docs/functions/jws_flattened_verify.flattenedVerify.md#readme), [General](docs/functions/jws_general_verify.generalVerify.md#readme)
-- JSON Web Key (JWK)
-  - [Thumbprints](docs/functions/jwk_thumbprint.calculateJwkThumbprint.md#readme)
-  - [EmbeddedJWK](docs/functions/jwk_embedded.EmbeddedJWK.md#readme)
-- JSON Web Key Set (JWKS)
-  - [Verify using a remote JWKSet](docs/functions/jwks_remote.createRemoteJWKSet.md#readme)
-- Key Pair or Secret Generation
-  - [Asymmetric Key Pair Generation](docs/functions/key_generate_key_pair.generateKeyPair.md#readme)
-  - [Symmetric Secret Generation](docs/functions/key_generate_secret.generateSecret.md#readme)
-- Key Export
-  - [JWK Export](docs/functions/key_export.exportJWK.md#readme)
-  - [Private Key Export](docs/functions/key_export.exportPKCS8.md#readme)
-  - [Public Key Export](docs/functions/key_export.exportSPKI.md#readme)
-- Utilities
-  - [Decoding Token's Protected Header](docs/functions/util_decode_protected_header.decodeProtectedHeader.md#readme)
-- [Unsecured JWT](docs/classes/jwt_unsecured.UnsecuredJWT.md#readme)
-- [JOSE Errors](docs/modules/util_errors.md#readme)
+| Spec  | Documentation |
+| :---- | :------------ | 
+| JSON Web Signature (**JWS**)<br/>*RFC7515* | Signing<br/>[Compact](docs/classes/jws_compact_sign.CompactSign.md#readme), [Flattened](docs/classes/jws_flattened_sign.FlattenedSign.md#readme), [General](docs/classes/jws_general_sign.GeneralSign.md#readme)<br/><br/>Verification<br/>[Compact](docs/functions/jws_compact_verify.compactVerify.md#readme), [Flattened](docs/functions/jws_flattened_verify.flattenedVerify.md#readme), [General](docs/functions/jws_general_verify.generalVerify.md#readme) |
+| JSON Web Encryption (**JWE**)<br/>*RFC7516*| Encryption<br/>[Compact](docs/classes/jwe_compact_encrypt.CompactEncrypt.md#readme), [Flattened](docs/classes/jwe_flattened_encrypt.FlattenedEncrypt.md#readme)<br/><br/>Decryption<br/>[Compact](docs/functions/jwe_compact_decrypt.compactDecrypt.md#readme), [Flattened](docs/functions/jwe_flattened_decrypt.flattenedDecrypt.md#readme), [General](docs/functions/jwe_general_decrypt.generalDecrypt.md#readme) |
+| JSON Web Key (**JWK**)<br/>*RFC7517* | [EmbeddedJWK](docs/functions/jwk_embedded.EmbeddedJWK.md#readme) |
+| JSON Web Token (**JWT**)<br/>*RFC7519* | [Signing](docs/classes/jwt_sign.SignJWT.md#readme)<br/>[Verification & Claims Set Validation](docs/functions/jwt_verify.jwtVerify.md#readme)<br/><br/>Encrypted JSON Web Token<br/>[Encryption](docs/classes/jwt_encrypt.EncryptJWT.md#readme)<br/>[Decryption & Claims Set Validation](docs/functions/jwt_decrypt.jwtDecrypt.md#readme) |
+| JSON Web Key Thumbprint<br/>*RFC7638* | [Thumbprints](docs/functions/jwk_thumbprint.calculateJwkThumbprint.md#readme) |
+| Key Pair or Secret Generation | [Asymmetric Key Pair Generation](docs/functions/key_generate_key_pair.generateKeyPair.md#readme)<br/>[Symmetric Secret Generation](docs/functions/key_generate_secret.generateSecret.md#readme) |
+| Key Import| [JWK Import](docs/functions/key_import.importJWK.md#readme)<br/>[Public Key Import (SPKI)](docs/functions/key_import.importSPKI.md#readme)<br/>[Public Key Import (X.509 Certificate)](docs/functions/key_import.importX509.md#readme)<br/>[Private Key Import (PKCS #8)](docs/functions/key_import.importPKCS8.md#readme) |
+| Key Export | [JWK Export](docs/functions/key_export.exportJWK.md#readme)<br/>[Private Key Export](docs/functions/key_export.exportPKCS8.md#readme)<br/>[Public Key Export](docs/functions/key_export.exportSPKI.md#readme) |
+| Base64Url<br/>*RFC4648* | [Base64Url Encode](docs/functions/util_base64url.encode.md)<br/>[Base64Url Decode](docs/functions/util_base64url.decode.md) |
+| Utilities | [Decoding Token's Protected Header](docs/functions/util_decode_protected_header.decodeProtectedHeader.md#readme)<br/>[Unsecured JWT](docs/classes/jwt_unsecured.UnsecuredJWT.md#readme)<br/>[JOSE Errors](docs/modules/util_errors.md#readme)<br/> |
 
 ## Supported Runtimes, Environments, Platforms
 
@@ -119,16 +99,17 @@ install size should not be a cause for concern.
 
 [documentation]: /docs/README.md
 [node-jose]: https://github.com/cisco/node-jose
+[spec-base64url]: https://tools.ietf.org/html/rfc4648#section-5
 [spec-b64]: https://tools.ietf.org/html/rfc7797
 [spec-cookbook]: https://tools.ietf.org/html/rfc7520
-[spec-jwa]: https://tools.ietf.org/html/rfc7518
+[spec-jws]: https://tools.ietf.org/html/rfc7515
 [spec-jwe]: https://tools.ietf.org/html/rfc7516
 [spec-jwk]: https://tools.ietf.org/html/rfc7517
-[spec-jws]: https://tools.ietf.org/html/rfc7515
+[spec-jwa]: https://tools.ietf.org/html/rfc7518
 [spec-jwt]: https://tools.ietf.org/html/rfc7519
 [spec-okp]: https://tools.ietf.org/html/rfc8037
-[spec-secp256k1]: https://tools.ietf.org/html/rfc8812
 [spec-thumbprint]: https://tools.ietf.org/html/rfc7638
+[spec-secp256k1]: https://tools.ietf.org/html/rfc8812
 [support-sponsor]: https://github.com/sponsors/panva
 [conditional-exports]: https://nodejs.org/api/packages.html#packages_conditional_exports
 [webcrypto]: https://www.w3.org/TR/WebCryptoAPI/
