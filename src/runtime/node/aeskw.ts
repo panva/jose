@@ -31,7 +31,7 @@ function ensureKeyObject(key: unknown, alg: string, usage: KeyUsage) {
   throw new TypeError(invalidKeyInput(key, 'KeyObject', 'CryptoKey', 'Uint8Array'))
 }
 
-export const wrap: AesKwWrapFunction = async (alg: string, key: unknown, cek: Uint8Array) => {
+export const wrap: AesKwWrapFunction = (alg: string, key: unknown, cek: Uint8Array) => {
   const size = parseInt(alg.substr(1, 3), 10)
   const algorithm = `aes${size}-wrap`
   if (!supported(algorithm)) {
@@ -45,7 +45,7 @@ export const wrap: AesKwWrapFunction = async (alg: string, key: unknown, cek: Ui
   return concat(cipher.update(cek), cipher.final())
 }
 
-export const unwrap: AesKwUnwrapFunction = async (
+export const unwrap: AesKwUnwrapFunction = (
   alg: string,
   key: unknown,
   encryptedKey: Uint8Array,

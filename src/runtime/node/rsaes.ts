@@ -53,7 +53,7 @@ function ensureKeyObject(key: unknown, alg: string, ...usages: KeyUsage[]) {
   throw new TypeError(invalidKeyInput(key, 'KeyObject', 'CryptoKey'))
 }
 
-export const encrypt: RsaEsEncryptFunction = async (alg: string, key: unknown, cek: Uint8Array) => {
+export const encrypt: RsaEsEncryptFunction = (alg: string, key: unknown, cek: Uint8Array) => {
   const padding = resolvePadding(alg)
   const oaepHash = resolveOaepHash(alg)
   const keyObject = ensureKeyObject(key, alg, 'wrapKey', 'encrypt')
@@ -62,7 +62,7 @@ export const encrypt: RsaEsEncryptFunction = async (alg: string, key: unknown, c
   return publicEncrypt({ key: keyObject, oaepHash, padding }, cek)
 }
 
-export const decrypt: RsaEsDecryptFunction = async (
+export const decrypt: RsaEsDecryptFunction = (
   alg: string,
   key: unknown,
   encryptedKey: Uint8Array,

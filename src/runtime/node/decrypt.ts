@@ -92,7 +92,7 @@ function gcmDecrypt(
   }
 }
 
-const decrypt: DecryptFunction = async (
+const decrypt: DecryptFunction = (
   enc: string,
   cek: unknown,
   ciphertext: Uint8Array,

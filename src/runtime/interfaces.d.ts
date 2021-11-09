@@ -13,16 +13,16 @@ export interface VerifyFunction {
   (alg: string, key: unknown, signature: Uint8Array, data: Uint8Array): Promise<boolean>
 }
 export interface AesKwWrapFunction {
-  (alg: string, key: unknown, cek: Uint8Array): Promise<Uint8Array>
+  (alg: string, key: unknown, cek: Uint8Array): AsyncOrSync<Uint8Array>
 }
 export interface AesKwUnwrapFunction {
-  (alg: string, key: unknown, encryptedKey: Uint8Array): Promise<Uint8Array>
+  (alg: string, key: unknown, encryptedKey: Uint8Array): AsyncOrSync<Uint8Array>
 }
 export interface RsaEsEncryptFunction {
-  (alg: string, key: unknown, cek: Uint8Array): Promise<Uint8Array>
+  (alg: string, key: unknown, cek: Uint8Array): AsyncOrSync<Uint8Array>
 }
 export interface RsaEsDecryptFunction {
-  (alg: string, key: unknown, encryptedKey: Uint8Array): Promise<Uint8Array>
+  (alg: string, key: unknown, encryptedKey: Uint8Array): AsyncOrSync<Uint8Array>
 }
 export interface Pbes2KWEncryptFunction {
   (alg: string, key: unknown, cek: Uint8Array, p2c?: number, p2s?: Uint8Array): Promise<{
@@ -48,7 +48,7 @@ export interface EcdhESDeriveKeyFunction {
     keyLength: number,
     apu?: Uint8Array,
     apv?: Uint8Array,
-  ): Promise<Uint8Array>
+  ): AsyncOrSync<Uint8Array>
 }
 export interface EcdhAllowedFunction {
   (key: unknown): boolean
@@ -57,7 +57,7 @@ export interface GenerateEpkFunction {
   (key: unknown): Promise<KeyLike>
 }
 export interface EncryptFunction {
-  (enc: string, plaintext: Uint8Array, cek: unknown, iv: Uint8Array, aad: Uint8Array): Promise<{
+  (enc: string, plaintext: Uint8Array, cek: unknown, iv: Uint8Array, aad: Uint8Array): AsyncOrSync<{
     ciphertext: Uint8Array
     tag: Uint8Array
   }>
@@ -70,7 +70,7 @@ export interface DecryptFunction {
     iv: Uint8Array,
     tag: Uint8Array,
     additionalData: Uint8Array,
-  ): Promise<Uint8Array>
+  ): AsyncOrSync<Uint8Array>
 }
 export interface FetchFunction {
   (url: URL, timeout: number, options?: any): Promise<{ [propName: string]: unknown }>

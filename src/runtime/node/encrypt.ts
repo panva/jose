@@ -69,7 +69,7 @@ function gcmEncrypt(
   return { ciphertext, tag }
 }
 
-const encrypt: EncryptFunction = async (
+const encrypt: EncryptFunction = (
   enc: string,
   plaintext: Uint8Array,
   cek: unknown,

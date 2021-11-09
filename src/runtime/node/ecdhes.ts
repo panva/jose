@@ -17,7 +17,7 @@ import invalidKeyInput from '../../lib/invalid_key_input.js'
 
 const generateKeyPair = promisify(generateKeyPairCb)
 
-export const deriveKey: EcdhESDeriveKeyFunction = async (
+export const deriveKey: EcdhESDeriveKeyFunction = (
   publicKee: unknown,
   privateKee: unknown,
   algorithm: string,
