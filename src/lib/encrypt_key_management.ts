@@ -52,7 +52,7 @@ async function encryptKeyManagement(
         key,
         ephemeralKey,
         alg === 'ECDH-ES' ? enc : alg,
-        parseInt(alg.substr(-5, 3), 10) || cekLength(enc),
+        alg === 'ECDH-ES' ? cekLength(enc) : parseInt(alg.substr(-5, 3), 10),
         apu,
         apv,
       )

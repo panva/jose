@@ -65,7 +65,7 @@ async function decryptKeyManagement(
         epk,
         key,
         alg === 'ECDH-ES' ? joseHeader.enc! : alg,
-        parseInt(alg.substr(-5, 3), 10) || cekLength(joseHeader.enc!),
+        alg === 'ECDH-ES' ? cekLength(joseHeader.enc!) : parseInt(alg.substr(-5, 3), 10),
         partyUInfo,
         partyVInfo,
       )

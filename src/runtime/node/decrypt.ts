@@ -14,7 +14,7 @@ import isKeyObject from './is_key_object.js'
 import invalidKeyInput from '../../lib/invalid_key_input.js'
 import supported from './ciphers.js'
 
-async function cbcDecrypt(
+function cbcDecrypt(
   enc: string,
   cek: KeyObject | Uint8Array,
   ciphertext: Uint8Array,
@@ -62,7 +62,8 @@ async function cbcDecrypt(
 
   return plaintext
 }
-async function gcmDecrypt(
+
+function gcmDecrypt(
   enc: string,
   cek: KeyObject | Uint8Array,
   ciphertext: Uint8Array,

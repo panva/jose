@@ -13,7 +13,7 @@ import invalidKeyInput from '../../lib/invalid_key_input.js'
 import { JOSENotSupported } from '../../util/errors.js'
 import supported from './ciphers.js'
 
-async function cbcEncrypt(
+function cbcEncrypt(
   enc: string,
   plaintext: Uint8Array,
   cek: KeyObject | Uint8Array,
@@ -42,7 +42,8 @@ async function cbcEncrypt(
 
   return { ciphertext, tag }
 }
-async function gcmEncrypt(
+
+function gcmEncrypt(
   enc: string,
   plaintext: Uint8Array,
   cek: KeyObject | Uint8Array,
