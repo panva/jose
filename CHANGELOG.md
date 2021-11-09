@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [4.2.1](https://github.com/panva/jose/compare/v4.2.0...v4.2.1) (2021-11-09)
+
+
+### Fixes
+
+* **node:** dont mention CryptoKey in versions without webcrypto ([401cabf](https://github.com/panva/jose/commit/401cabf97419768cea1d685dc73d933fa38d6c26))
+
 ## [4.2.0](https://github.com/panva/jose/compare/v4.1.5...v4.2.0) (2021-11-08)
 
 
