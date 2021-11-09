@@ -108,16 +108,16 @@ Promise.all([
           private: rsa,
           algs: ['RSA1_5'],
         },
-        x25519: {
+        x25519kw: {
           public: pubjwk(x25519),
           private: x25519,
-          algs: ['ECDH-ES', 'ECDH-ES+A128KW', 'ECDH-ES+A192KW', 'ECDH-ES+A256KW'],
+          algs: ['ECDH-ES+A128KW', 'ECDH-ES+A192KW', 'ECDH-ES+A256KW'],
           generate: { crv: 'X25519' },
         },
-        x448: {
+        x448kw: {
           public: pubjwk(x448),
           private: x448,
-          algs: ['ECDH-ES', 'ECDH-ES+A128KW', 'ECDH-ES+A192KW', 'ECDH-ES+A256KW'],
+          algs: ['ECDH-ES+A128KW', 'ECDH-ES+A192KW', 'ECDH-ES+A256KW'],
           generate: { crv: 'X448' },
         },
         p256kw: {
@@ -126,22 +126,10 @@ Promise.all([
           algs: ['ECDH-ES+A128KW', 'ECDH-ES+A192KW', 'ECDH-ES+A256KW'],
           generate: { crv: 'P-256' },
         },
-        p256dir: {
-          public: pubjwk(p256),
-          private: p256,
-          algs: ['ECDH-ES'],
-          generate: { crv: 'P-256' },
-        },
         p384kw: {
           public: pubjwk(p384),
           private: p384,
           algs: ['ECDH-ES+A128KW', 'ECDH-ES+A192KW', 'ECDH-ES+A256KW'],
-          generate: { crv: 'P-384' },
-        },
-        p384dir: {
-          public: pubjwk(p384),
-          private: p384,
-          algs: ['ECDH-ES'],
           generate: { crv: 'P-384' },
         },
         p521kw: {
@@ -149,6 +137,30 @@ Promise.all([
           private: p521,
           algs: ['ECDH-ES+A128KW', 'ECDH-ES+A192KW', 'ECDH-ES+A256KW'],
           generate: { crv: 'P-521' },
+        },
+        x25519dir: {
+          public: pubjwk(x25519),
+          private: x25519,
+          algs: ['ECDH-ES'],
+          generate: { crv: 'X25519' },
+        },
+        x448dir: {
+          public: pubjwk(x448),
+          private: x448,
+          algs: ['ECDH-ES'],
+          generate: { crv: 'X448' },
+        },
+        p256dir: {
+          public: pubjwk(p256),
+          private: p256,
+          algs: ['ECDH-ES'],
+          generate: { crv: 'P-256' },
+        },
+        p384dir: {
+          public: pubjwk(p384),
+          private: p384,
+          algs: ['ECDH-ES'],
+          generate: { crv: 'P-384' },
         },
         p521dir: {
           public: pubjwk(p521),
@@ -228,6 +240,10 @@ Promise.all([
       }
     })
 
+    function dir(alg) {
+      return alg.startsWith('A') && !alg.endsWith('KW')
+    }
+
     async function smoke(t, ref, publicKeyUsages, privateKeyUsage, octAsKeyObject = false) {
       const fixtures = t.context.keys[ref]
       await Promise.all([
@@ -257,14 +273,10 @@ Promise.all([
           const jwe = await new FlattenedEncrypt(crypto.randomFillSync(new Uint8Array(256 >> 3)))
             .setProtectedHeader({ 'urn:example:protected': true })
             .setUnprotectedHeader(
-              alg.startsWith('A') && !alg.endsWith('KW')
-                ? { enc: alg }
-                : { enc: randomEnc(), 'urn:example:header': true },
+              dir(alg) ? { enc: alg } : { enc: randomEnc(), 'urn:example:header': true },
             )
             .setSharedUnprotectedHeader(
-              alg.startsWith('A') && !alg.endsWith('KW')
-                ? { alg: 'dir' }
-                : { alg, 'urn:example:unprotected': true },
+              dir(alg) ? { alg: 'dir' } : { alg, 'urn:example:unprotected': true },
             )
             .setAdditionalAuthenticatedData(crypto.randomFillSync(new Uint8Array(128 >> 3)))
             .encrypt(pub)
@@ -285,14 +297,10 @@ Promise.all([
           const jwe = await new FlattenedEncrypt(crypto.randomFillSync(new Uint8Array(256 >> 3)))
             .setProtectedHeader({ 'urn:example:protected': true })
             .setUnprotectedHeader(
-              alg.startsWith('A') && !alg.endsWith('KW')
-                ? { enc: alg }
-                : { enc: randomEnc(), 'urn:example:header': true },
+              dir(alg) ? { enc: alg } : { enc: randomEnc(), 'urn:example:header': true },
             )
             .setSharedUnprotectedHeader(
-              alg.startsWith('A') && !alg.endsWith('KW')
-                ? { alg: 'dir' }
-                : { alg, 'urn:example:unprotected': true },
+              dir(alg) ? { alg: 'dir' } : { alg, 'urn:example:unprotected': true },
             )
             .setAdditionalAuthenticatedData(crypto.randomFillSync(new Uint8Array(128 >> 3)))
             .encrypt(pub)
@@ -332,8 +340,10 @@ Promise.all([
     }
 
     conditional({ webcrypto: 0 })(smoke, 'rsa1_5')
-    conditional({ webcrypto: 0, electron: 0 })(smoke, 'x25519')
-    conditional({ webcrypto: 0, electron: 0 })(smoke, 'x448')
+    conditional({ webcrypto: 0, electron: 0 })(smoke, 'x25519kw')
+    conditional({ webcrypto: 0 })(smoke, 'x25519dir')
+    conditional({ webcrypto: 0, electron: 0 })(smoke, 'x448kw')
+    conditional({ webcrypto: 0, electron: 0 })(smoke, 'x448dir')
     conditional({ webcrypto: 0 })('as keyobject', smoke, 'oct256c', undefined, undefined, true)
     conditional({ webcrypto: 0 })('as keyobject', smoke, 'oct384c', undefined, undefined, true)
     conditional({ webcrypto: 0 })('as keyobject', smoke, 'oct512c', undefined, undefined, true)
