@@ -108,25 +108,25 @@ Promise.all([
     testKeyPair.title = (title, alg) => `generate ${alg} key pair${title ? ` ${title}` : ''}`
 
     test(testKeyPair, 'PS256')
-    test('with modulusLength', testKeyPair, 'PS256', { modulusLength: 3072 })
+    test('with modulusLength', testKeyPair, 'PS256', { modulusLength: 4096 })
     test(testKeyPair, 'PS384')
-    test('with modulusLength', testKeyPair, 'PS384', { modulusLength: 3072 })
+    test('with modulusLength', testKeyPair, 'PS384', { modulusLength: 4096 })
     test(testKeyPair, 'PS512')
-    test('with modulusLength', testKeyPair, 'PS512', { modulusLength: 3072 })
+    test('with modulusLength', testKeyPair, 'PS512', { modulusLength: 4096 })
     test(testKeyPair, 'RS256')
-    test('with modulusLength', testKeyPair, 'RS256', { modulusLength: 3072 })
+    test('with modulusLength', testKeyPair, 'RS256', { modulusLength: 4096 })
     test(testKeyPair, 'RS384')
-    test('with modulusLength', testKeyPair, 'RS384', { modulusLength: 3072 })
+    test('with modulusLength', testKeyPair, 'RS384', { modulusLength: 4096 })
     test(testKeyPair, 'RS512')
-    test('with modulusLength', testKeyPair, 'RS512', { modulusLength: 3072 })
+    test('with modulusLength', testKeyPair, 'RS512', { modulusLength: 4096 })
     test(testKeyPair, 'RSA-OAEP')
-    test('with modulusLength', testKeyPair, 'RSA-OAEP', { modulusLength: 3072 })
+    test('with modulusLength', testKeyPair, 'RSA-OAEP', { modulusLength: 4096 })
     test(testKeyPair, 'RSA-OAEP-256')
-    test('with modulusLength', testKeyPair, 'RSA-OAEP-256', { modulusLength: 3072 })
+    test('with modulusLength', testKeyPair, 'RSA-OAEP-256', { modulusLength: 4096 })
     test(testKeyPair, 'RSA-OAEP-384')
-    test('with modulusLength', testKeyPair, 'RSA-OAEP-384', { modulusLength: 3072 })
+    test('with modulusLength', testKeyPair, 'RSA-OAEP-384', { modulusLength: 4096 })
     test(testKeyPair, 'RSA-OAEP-512')
-    test('with modulusLength', testKeyPair, 'RSA-OAEP-512', { modulusLength: 3072 })
+    test('with modulusLength', testKeyPair, 'RSA-OAEP-512', { modulusLength: 4096 })
     test(testKeyPair, 'ES256')
     test(testKeyPair, 'ES384')
     test(testKeyPair, 'ES512')
@@ -166,7 +166,7 @@ Promise.all([
     conditional({ webcrypto: 0, electron: 0 })(testKeyPair, 'ES256K')
     conditional({ webcrypto: 0 })(testKeyPair, 'RSA1_5')
     conditional({ webcrypto: 0 })('with modulusLength', testKeyPair, 'RSA1_5', {
-      modulusLength: 3072,
+      modulusLength: 4096,
     })
     for (const crv of ['X25519', 'X448']) {
       conditional({ webcrypto: 0, electron: crv === 'X25519' })(
