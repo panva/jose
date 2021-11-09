@@ -7,6 +7,7 @@ import checkP2s from '../../lib/check_p2s.js'
 import crypto, { isCryptoKey } from './webcrypto.js'
 import { checkEncCryptoKey } from '../../lib/crypto_key.js'
 import invalidKeyInput from '../../lib/invalid_key_input.js'
+import { types } from './is_key_like.js'
 
 function getCryptoKey(key: unknown, alg: string) {
   if (key instanceof Uint8Array) {
@@ -18,7 +19,7 @@ function getCryptoKey(key: unknown, alg: string) {
     return key
   }
 
-  throw new TypeError(invalidKeyInput(key, 'CryptoKey', 'Uint8Array'))
+  throw new TypeError(invalidKeyInput(key, ...types, 'Uint8Array'))
 }
 
 async function deriveKey(p2s: Uint8Array, alg: string, p2c: number, key: unknown) {

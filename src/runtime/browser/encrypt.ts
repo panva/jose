@@ -6,6 +6,7 @@ import crypto, { isCryptoKey } from './webcrypto.js'
 import { checkEncCryptoKey } from '../../lib/crypto_key.js'
 import invalidKeyInput from '../../lib/invalid_key_input.js'
 import { JOSENotSupported } from '../../util/errors.js'
+import { types } from './is_key_like.js'
 
 async function cbcEncrypt(
   enc: string,
@@ -98,7 +99,7 @@ const encrypt: EncryptFunction = async (
   aad: Uint8Array,
 ) => {
   if (!isCryptoKey(cek) && !(cek instanceof Uint8Array)) {
-    throw new TypeError(invalidKeyInput(cek, 'CryptoKey', 'Uint8Array'))
+    throw new TypeError(invalidKeyInput(cek, ...types, 'Uint8Array'))
   }
 
   checkIvLength(enc, iv)

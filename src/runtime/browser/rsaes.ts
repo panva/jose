@@ -5,10 +5,11 @@ import crypto, { isCryptoKey } from './webcrypto.js'
 import { checkEncCryptoKey } from '../../lib/crypto_key.js'
 import checkKeyLength from './check_key_length.js'
 import invalidKeyInput from '../../lib/invalid_key_input.js'
+import { types } from './is_key_like.js'
 
 export const encrypt: RsaEsEncryptFunction = async (alg: string, key: unknown, cek: Uint8Array) => {
   if (!isCryptoKey(key)) {
-    throw new TypeError(invalidKeyInput(key, 'CryptoKey'))
+    throw new TypeError(invalidKeyInput(key, ...types))
   }
   checkEncCryptoKey(key, alg, 'encrypt', 'wrapKey')
   checkKeyLength(alg, key)
@@ -36,7 +37,7 @@ export const decrypt: RsaEsDecryptFunction = async (
   encryptedKey: Uint8Array,
 ) => {
   if (!isCryptoKey(key)) {
-    throw new TypeError(invalidKeyInput(key, 'CryptoKey'))
+    throw new TypeError(invalidKeyInput(key, ...types))
   }
   checkEncCryptoKey(key, alg, 'decrypt', 'unwrapKey')
   checkKeyLength(alg, key)

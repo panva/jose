@@ -8,6 +8,7 @@ import crypto, { isCryptoKey } from './webcrypto.js'
 import { checkEncCryptoKey } from '../../lib/crypto_key.js'
 import digest from './digest.js'
 import invalidKeyInput from '../../lib/invalid_key_input.js'
+import { types } from './is_key_like.js'
 
 export const deriveKey: EcdhESDeriveKeyFunction = async (
   publicKey: unknown,
@@ -18,11 +19,11 @@ export const deriveKey: EcdhESDeriveKeyFunction = async (
   apv: Uint8Array = new Uint8Array(0),
 ) => {
   if (!isCryptoKey(publicKey)) {
-    throw new TypeError(invalidKeyInput(publicKey, 'CryptoKey'))
+    throw new TypeError(invalidKeyInput(publicKey, ...types))
   }
   checkEncCryptoKey(publicKey, 'ECDH-ES')
   if (!isCryptoKey(privateKey)) {
-    throw new TypeError(invalidKeyInput(privateKey, 'CryptoKey'))
+    throw new TypeError(invalidKeyInput(privateKey, ...types))
   }
   checkEncCryptoKey(privateKey, 'ECDH-ES', 'deriveBits', 'deriveKey')
 
@@ -54,7 +55,7 @@ export const deriveKey: EcdhESDeriveKeyFunction = async (
 
 export const generateEpk: GenerateEpkFunction = async (key: unknown) => {
   if (!isCryptoKey(key)) {
-    throw new TypeError(invalidKeyInput(key, 'CryptoKey'))
+    throw new TypeError(invalidKeyInput(key, ...types))
   }
 
   return (<{ publicKey: CryptoKey; privateKey: CryptoKey }>(
@@ -68,7 +69,7 @@ export const generateEpk: GenerateEpkFunction = async (key: unknown) => {
 
 export const ecdhAllowed: EcdhAllowedFunction = (key: unknown) => {
   if (!isCryptoKey(key)) {
-    throw new TypeError(invalidKeyInput(key, 'CryptoKey'))
+    throw new TypeError(invalidKeyInput(key, ...types))
   }
   return ['P-256', 'P-384', 'P-521'].includes((<EcKeyAlgorithm>key.algorithm).namedCurve)
 }
