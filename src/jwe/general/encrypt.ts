@@ -33,19 +33,12 @@ const recipientRef: WeakMap<IndividualRecipient, RecipientReference> = new WeakM
 
 class IndividualRecipient implements Recipient {
   setUnprotectedHeader(unprotectedHeader: JWEHeaderParameters) {
-    if (this._unprotectedHeader) {
+    const ref = recipientRef.get(this)!
+    if (ref.unprotectedHeader) {
       throw new TypeError('setUnprotectedHeader can only be called once')
     }
-    this._unprotectedHeader = unprotectedHeader
+    ref.unprotectedHeader = unprotectedHeader
     return this
-  }
-
-  private set _unprotectedHeader(value: JWEHeaderParameters) {
-    recipientRef.get(this)!.unprotectedHeader = value
-  }
-
-  private get _unprotectedHeader(): JWEHeaderParameters {
-    return recipientRef.get(this)!.unprotectedHeader!
   }
 }
 

@@ -30,35 +30,21 @@ const signatureRef: WeakMap<IndividualSignature, SignatureReference> = new WeakM
 
 class IndividualSignature implements Signature {
   setProtectedHeader(protectedHeader: JWSHeaderParameters) {
-    if (this._protectedHeader) {
+    const ref = signatureRef.get(this)!
+    if (ref.protectedHeader) {
       throw new TypeError('setProtectedHeader can only be called once')
     }
-    this._protectedHeader = protectedHeader
+    ref.protectedHeader = protectedHeader
     return this
   }
 
   setUnprotectedHeader(unprotectedHeader: JWSHeaderParameters) {
-    if (this._unprotectedHeader) {
+    const ref = signatureRef.get(this)!
+    if (ref.unprotectedHeader) {
       throw new TypeError('setUnprotectedHeader can only be called once')
     }
-    this._unprotectedHeader = unprotectedHeader
+    ref.unprotectedHeader = unprotectedHeader
     return this
-  }
-
-  private set _protectedHeader(value: JWSHeaderParameters) {
-    signatureRef.get(this)!.protectedHeader = value
-  }
-
-  private get _protectedHeader(): JWSHeaderParameters {
-    return signatureRef.get(this)!.protectedHeader!
-  }
-
-  private set _unprotectedHeader(value: JWSHeaderParameters) {
-    signatureRef.get(this)!.unprotectedHeader = value
-  }
-
-  private get _unprotectedHeader(): JWSHeaderParameters {
-    return signatureRef.get(this)!.unprotectedHeader!
   }
 }
 
