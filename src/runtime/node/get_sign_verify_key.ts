@@ -3,11 +3,12 @@ import { isCryptoKey } from './webcrypto.js'
 import { checkSigCryptoKey } from '../../lib/crypto_key.js'
 import getSecretKey from './secret_key.js'
 import invalidKeyInput from '../../lib/invalid_key_input.js'
+import { types } from './is_key_like.js'
 
 export default function getSignVerifyKey(alg: string, key: unknown, usage: KeyUsage) {
   if (key instanceof Uint8Array) {
     if (!alg.startsWith('HS')) {
-      throw new TypeError(invalidKeyInput(key, 'KeyObject', 'CryptoKey'))
+      throw new TypeError(invalidKeyInput(key, ...types))
     }
     return getSecretKey(key)
   }
@@ -18,5 +19,5 @@ export default function getSignVerifyKey(alg: string, key: unknown, usage: KeyUs
     checkSigCryptoKey(key, alg, usage)
     return KeyObject.from(key)
   }
-  throw new TypeError(invalidKeyInput(key, 'KeyObject', 'CryptoKey', 'Uint8Array'))
+  throw new TypeError(invalidKeyInput(key, ...types, 'Uint8Array'))
 }

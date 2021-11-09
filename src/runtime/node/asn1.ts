@@ -4,6 +4,7 @@ import { isCryptoKey } from './webcrypto.js'
 import type { PEMExportFunction, PEMImportFunction } from '../interfaces.d'
 import isKeyObject from './is_key_object.js'
 import invalidKeyInput from '../../lib/invalid_key_input.js'
+import { types } from './is_key_like.js'
 
 const genericExport = (
   keyType: 'private' | 'public',
@@ -19,7 +20,7 @@ const genericExport = (
   } else if (isKeyObject(key)) {
     keyObject = key
   } else {
-    throw new TypeError(invalidKeyInput(key, 'KeyObject', 'CryptoKey'))
+    throw new TypeError(invalidKeyInput(key, ...types))
   }
 
   if (keyObject.type !== keyType) {

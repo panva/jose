@@ -8,6 +8,7 @@ import getNamedCurve from './get_named_curve.js'
 import { isCryptoKey } from './webcrypto.js'
 import isKeyObject from './is_key_object.js'
 import invalidKeyInput from '../../lib/invalid_key_input.js'
+import { types } from './is_key_like.js'
 
 const [major, minor] = process.version
   .substr(1)
@@ -31,7 +32,7 @@ const keyToJWK: JWKExportFunction = (key: unknown): JWK => {
       k: base64url(key),
     }
   } else {
-    throw new TypeError(invalidKeyInput(key, 'KeyObject', 'CryptoKey', 'Uint8Array'))
+    throw new TypeError(invalidKeyInput(key, ...types, 'Uint8Array'))
   }
 
   if (jwkExportSupported) {

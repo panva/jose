@@ -9,6 +9,7 @@ import { checkEncCryptoKey } from '../../lib/crypto_key.js'
 import isKeyObject from './is_key_object.js'
 import invalidKeyInput from '../../lib/invalid_key_input.js'
 import supported from './ciphers.js'
+import { types } from './is_key_like.js'
 
 function checkKeySize(key: KeyObject, alg: string) {
   if (key.symmetricKeySize! << 3 !== parseInt(alg.substr(1, 3), 10)) {
@@ -28,7 +29,7 @@ function ensureKeyObject(key: unknown, alg: string, usage: KeyUsage) {
     return KeyObject.from(key)
   }
 
-  throw new TypeError(invalidKeyInput(key, 'KeyObject', 'CryptoKey', 'Uint8Array'))
+  throw new TypeError(invalidKeyInput(key, ...types, 'Uint8Array'))
 }
 
 export const wrap: AesKwWrapFunction = (alg: string, key: unknown, cek: Uint8Array) => {

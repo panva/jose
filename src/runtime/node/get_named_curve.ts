@@ -4,6 +4,7 @@ import { JOSENotSupported } from '../../util/errors.js'
 import { isCryptoKey } from './webcrypto.js'
 import isKeyObject from './is_key_object.js'
 import invalidKeyInput from '../../lib/invalid_key_input.js'
+import { types } from './is_key_like.js'
 
 const p256 = Buffer.from([42, 134, 72, 206, 61, 3, 1, 7])
 const p384 = Buffer.from([43, 129, 4, 0, 34])
@@ -34,7 +35,7 @@ const getNamedCurve = (kee: unknown, raw?: boolean): string => {
   } else if (isKeyObject(kee)) {
     key = kee
   } else {
-    throw new TypeError(invalidKeyInput(kee, 'KeyObject', 'CryptoKey'))
+    throw new TypeError(invalidKeyInput(kee, ...types))
   }
 
   if (key.type === 'secret') {

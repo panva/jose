@@ -5,6 +5,7 @@ import { isCryptoKey } from './webcrypto.js'
 import { checkEncCryptoKey } from '../../lib/crypto_key.js'
 import isKeyObject from './is_key_object.js'
 import invalidKeyInput from '../../lib/invalid_key_input.js'
+import { types } from './is_key_like.js'
 
 const checkKey = (key: KeyObject, alg: string) => {
   if (key.asymmetricKeyType !== 'rsa') {
@@ -50,7 +51,7 @@ function ensureKeyObject(key: unknown, alg: string, ...usages: KeyUsage[]) {
     checkEncCryptoKey(key, alg, ...usages)
     return KeyObject.from(key)
   }
-  throw new TypeError(invalidKeyInput(key, 'KeyObject', 'CryptoKey'))
+  throw new TypeError(invalidKeyInput(key, ...types))
 }
 
 export const encrypt: RsaEsEncryptFunction = (alg: string, key: unknown, cek: Uint8Array) => {

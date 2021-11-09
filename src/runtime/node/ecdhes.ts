@@ -14,6 +14,7 @@ import { isCryptoKey } from './webcrypto.js'
 import { checkEncCryptoKey } from '../../lib/crypto_key.js'
 import isKeyObject from './is_key_object.js'
 import invalidKeyInput from '../../lib/invalid_key_input.js'
+import { types } from './is_key_like.js'
 
 const generateKeyPair = promisify(generateKeyPairCb)
 
@@ -32,7 +33,7 @@ export const deriveKey: EcdhESDeriveKeyFunction = (
   } else if (isKeyObject(publicKee)) {
     publicKey = publicKee
   } else {
-    throw new TypeError(invalidKeyInput(publicKee, 'KeyObject', 'CryptoKey'))
+    throw new TypeError(invalidKeyInput(publicKee, ...types))
   }
 
   let privateKey: KeyObject
@@ -42,7 +43,7 @@ export const deriveKey: EcdhESDeriveKeyFunction = (
   } else if (isKeyObject(privateKee)) {
     privateKey = privateKee
   } else {
-    throw new TypeError(invalidKeyInput(privateKee, 'KeyObject', 'CryptoKey'))
+    throw new TypeError(invalidKeyInput(privateKee, ...types))
   }
 
   const value = concat(
@@ -63,7 +64,7 @@ export const generateEpk: GenerateEpkFunction = async (kee: unknown) => {
   } else if (isKeyObject(kee)) {
     key = kee
   } else {
-    throw new TypeError(invalidKeyInput(kee, 'KeyObject', 'CryptoKey'))
+    throw new TypeError(invalidKeyInput(kee, ...types))
   }
 
   switch (key.asymmetricKeyType) {

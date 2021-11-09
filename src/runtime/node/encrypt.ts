@@ -12,6 +12,7 @@ import isKeyObject from './is_key_object.js'
 import invalidKeyInput from '../../lib/invalid_key_input.js'
 import { JOSENotSupported } from '../../util/errors.js'
 import supported from './ciphers.js'
+import { types } from './is_key_like.js'
 
 function cbcEncrypt(
   enc: string,
@@ -83,7 +84,7 @@ const encrypt: EncryptFunction = (
   } else if (cek instanceof Uint8Array || isKeyObject(cek)) {
     key = cek
   } else {
-    throw new TypeError(invalidKeyInput(cek, 'KeyObject', 'CryptoKey', 'Uint8Array'))
+    throw new TypeError(invalidKeyInput(cek, ...types, 'Uint8Array'))
   }
 
   checkCekLength(enc, key)
