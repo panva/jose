@@ -21,6 +21,7 @@ Promise.all([
   import(`${root}/util/base64url`),
   import(`${keyRoot}/key/generate_key_pair`),
   import(`${keyRoot}/key/import`),
+  import(`${keyRoot}/key/export`),
 ]).then(
   ([
     { FlattenedSign },
@@ -30,6 +31,7 @@ Promise.all([
     base64url,
     { generateKeyPair },
     { importJWK },
+    { exportPKCS8 },
   ]) => {
     function pubjwk(jwk) {
       const { d, p, q, dp, dq, qi, ...publicJwk } = jwk
@@ -108,14 +110,14 @@ Promise.all([
     testRSAenc.title = (title, alg) => `${alg} requires key modulusLength to be 2048 bits or larger`
 
     async function testECDSASigEncoding(t, alg) {
-      const { privateKey, publicKey } = await generateKeyPair(alg)
+      let { privateKey, publicKey } = await generateKeyPair(alg, { extractable: true })
 
       const jws = await new FlattenedSign(t.context.payload)
         .setProtectedHeader({ alg })
         .sign(privateKey)
 
       const derEncodedSignature = base64url.encode(
-        crypto.sign(`sha${alg.substr(2, 3)}`, Buffer.from('foo'), privateKey),
+        crypto.sign(`sha${alg.substr(2, 3)}`, Buffer.from('foo'), await exportPKCS8(privateKey)),
       )
 
       await t.throwsAsync(flattenedVerify({ ...jws, signature: derEncodedSignature }, publicKey), {
