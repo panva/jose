@@ -20,26 +20,11 @@ const {
   plaintext,
   protectedHeader,
   additionalAuthenticatedData
-} = await flattenedDecrypt(jwe, privateKey)
+} = await jose.flattenedDecrypt(jwe, privateKey)
 
 console.log(protectedHeader)
 console.log(decoder.decode(plaintext))
 console.log(decoder.decode(additionalAuthenticatedData))
-```
-
-**`example`** ESM import
-```js
-import { flattenedDecrypt } from 'jose'
-```
-
-**`example`** CJS import
-```js
-const { flattenedDecrypt } = require('jose')
-```
-
-**`example`** Deno import
-```js
-import { flattenedDecrypt } from 'https://deno.land/x/jose@v4.2.1/index.ts'
 ```
 
 #### Parameters

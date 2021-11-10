@@ -8,28 +8,13 @@ Verifies the JWT format (to be a JWE Compact format), decrypts the ciphertext, v
 ```js
 const jwt = 'eyJhbGciOiJkaXIiLCJlbmMiOiJBMjU2R0NNIn0..KVcNLqK-3-8ZkYIC.xSwF4VxO0kUMUD2W-cifsNUxnr-swyBq-nADBptyt6y9n79-iNc5b0AALJpRwc0wwDkJw8hNOMjApNUTMsK9b-asToZ3DXFMvwfJ6n1aWefvd7RsoZ2LInWFfVAuttJDzoGB.uuexQoWHwrLMEYRElT8pBQ'
 
-const { payload, protectedHeader } = await jwtDecrypt(jwt, secretKey, {
+const { payload, protectedHeader } = await jose.jwtDecrypt(jwt, secretKey, {
   issuer: 'urn:example:issuer',
   audience: 'urn:example:audience'
 })
 
 console.log(protectedHeader)
 console.log(payload)
-```
-
-**`example`** ESM import
-```js
-import { jwtDecrypt } from 'jose'
-```
-
-**`example`** CJS import
-```js
-const { jwtDecrypt } = require('jose')
-```
-
-**`example`** Deno import
-```js
-import { jwtDecrypt } from 'https://deno.land/x/jose@v4.2.1/index.ts'
 ```
 
 #### Parameters

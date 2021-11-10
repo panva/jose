@@ -9,23 +9,8 @@ Note: Under Web Cryptography API runtime the secret key is generated with
 
 **`example`** Usage
 ```js
-const secret = await generateSecret('HS256')
+const secret = await jose.generateSecret('HS256')
 console.log(secret)
-```
-
-**`example`** ESM import
-```js
-import { generateSecret } from 'jose'
-```
-
-**`example`** CJS import
-```js
-const { generateSecret } = require('jose')
-```
-
-**`example`** Deno import
-```js
-import { generateSecret } from 'https://deno.land/x/jose@v4.2.1/index.ts'
 ```
 
 #### Parameters

@@ -6,26 +6,11 @@ The CompactSign class is a utility for creating Compact JWS strings.
 ```js
 const encoder = new TextEncoder()
 
-const jws = await new CompactSign(encoder.encode('It’s a dangerous business, Frodo, going out your door.'))
+const jws = await new jose.CompactSign(encoder.encode('It’s a dangerous business, Frodo, going out your door.'))
   .setProtectedHeader({ alg: 'ES256' })
   .sign(privateKey)
 
 console.log(jws)
-```
-
-**`example`** ESM import
-```js
-import { CompactSign } from 'jose'
-```
-
-**`example`** CJS import
-```js
-const { CompactSign } = require('jose')
-```
-
-**`example`** Deno import
-```js
-import { CompactSign } from 'https://deno.land/x/jose@v4.2.1/index.ts'
 ```
 
 ## Table of contents

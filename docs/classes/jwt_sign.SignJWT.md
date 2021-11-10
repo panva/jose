@@ -4,7 +4,7 @@ The SignJWT class is a utility for creating Compact JWS formatted JWT strings.
 
 **`example`** Usage
 ```js
-const jwt = await new SignJWT({ 'urn:example:claim': true })
+const jwt = await new jose.SignJWT({ 'urn:example:claim': true })
   .setProtectedHeader({ alg: 'ES256' })
   .setIssuedAt()
   .setIssuer('urn:example:issuer')
@@ -13,21 +13,6 @@ const jwt = await new SignJWT({ 'urn:example:claim': true })
   .sign(privateKey)
 
 console.log(jwt)
-```
-
-**`example`** ESM import
-```js
-import { SignJWT } from 'jose'
-```
-
-**`example`** CJS import
-```js
-const { SignJWT } = require('jose')
-```
-
-**`example`** Deno import
-```js
-import { SignJWT } from 'https://deno.land/x/jose@v4.2.1/index.ts'
 ```
 
 ## Table of contents

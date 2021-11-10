@@ -17,25 +17,10 @@ const jws = {
   ]
 }
 
-const { payload, protectedHeader } = await generalVerify(jws, publicKey)
+const { payload, protectedHeader } = await jose.generalVerify(jws, publicKey)
 
 console.log(protectedHeader)
 console.log(decoder.decode(payload))
-```
-
-**`example`** ESM import
-```js
-import { generalVerify } from 'jose'
-```
-
-**`example`** CJS import
-```js
-const { generalVerify } = require('jose')
-```
-
-**`example`** Deno import
-```js
-import { generalVerify } from 'https://deno.land/x/jose@v4.2.1/index.ts'
 ```
 
 #### Parameters

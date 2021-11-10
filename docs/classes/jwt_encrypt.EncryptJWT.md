@@ -4,7 +4,7 @@ The EncryptJWT class is a utility for creating Compact JWE formatted JWT strings
 
 **`example`** Usage
 ```js
-const jwt = await new EncryptJWT({ 'urn:example:claim': true })
+const jwt = await new jose.EncryptJWT({ 'urn:example:claim': true })
   .setProtectedHeader({ alg: 'dir', enc: 'A256GCM' })
   .setIssuedAt()
   .setIssuer('urn:example:issuer')
@@ -13,21 +13,6 @@ const jwt = await new EncryptJWT({ 'urn:example:claim': true })
   .encrypt(secretKey)
 
 console.log(jwt)
-```
-
-**`example`** ESM import
-```js
-import { EncryptJWT } from 'jose'
-```
-
-**`example`** CJS import
-```js
-const { EncryptJWT } = require('jose')
-```
-
-**`example`** Deno import
-```js
-import { EncryptJWT } from 'https://deno.land/x/jose@v4.2.1/index.ts'
 ```
 
 ## Table of contents

@@ -6,24 +6,9 @@ Exports a runtime-specific private key representation (KeyObject or CryptoKey) t
 
 **`example`** Usage
 ```js
-const pkcs8Pem = await exportPKCS8(privateKey)
+const pkcs8Pem = await jose.exportPKCS8(privateKey)
 
 console.log(pkcs8Pem)
-```
-
-**`example`** ESM import
-```js
-import { exportPKCS8 } from 'jose'
-```
-
-**`example`** CJS import
-```js
-const { exportPKCS8 } = require('jose')
-```
-
-**`example`** Deno import
-```js
-import { exportPKCS8 } from 'https://deno.land/x/jose@v4.2.1/index.ts'
 ```
 
 #### Parameters

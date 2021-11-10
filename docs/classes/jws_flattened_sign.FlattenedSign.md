@@ -6,25 +6,10 @@ The FlattenedSign class is a utility for creating Flattened JWS objects.
 ```js
 const encoder = new TextEncoder()
 
-const jws = await new FlattenedSign(encoder.encode('It’s a dangerous business, Frodo, going out your door.'))
+const jws = await new jose.FlattenedSign(encoder.encode('It’s a dangerous business, Frodo, going out your door.'))
   .setProtectedHeader({ alg: 'ES256' })
   .sign(privateKey)
 console.log(jws)
-```
-
-**`example`** ESM import
-```js
-import { FlattenedSign } from 'jose'
-```
-
-**`example`** CJS import
-```js
-const { FlattenedSign } = require('jose')
-```
-
-**`example`** Deno import
-```js
-import { FlattenedSign } from 'https://deno.land/x/jose@v4.2.1/index.ts'
 ```
 
 ## Table of contents

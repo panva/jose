@@ -14,22 +14,7 @@ MIGHAgEAMBMGByqGSM49AgEGCCqGSM49AwEHBG0wawIBAQQgiyvo0X+VQ0yIrOaN
 nlrnUclopnvuuMfoc8HHly3505OhRANCAAQWUcdZ8uTSAsFuwtNy4KtsKqgeqYxg
 l6kwL5D4N3pEGYGIDjV69Sw0zAt43480WqJv7HCL0mQnyqFmSrxj8jMa
 -----END PRIVATE KEY-----`
-const ecPrivateKey = await importPKCS8(pkcs8, algorithm)
-```
-
-**`example`** ESM import
-```js
-import { importPKCS8 } from 'jose'
-```
-
-**`example`** CJS import
-```js
-const { importPKCS8 } = require('jose')
-```
-
-**`example`** Deno import
-```js
-import { importPKCS8 } from 'https://deno.land/x/jose@v4.2.1/index.ts'
+const ecPrivateKey = await jose.importPKCS8(pkcs8, algorithm)
 ```
 
 #### Parameters

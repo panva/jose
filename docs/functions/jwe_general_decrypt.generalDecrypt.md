@@ -4,21 +4,6 @@
 
 Decrypts a General JWE.
 
-**`example`** ESM import
-```js
-import { generalDecrypt } from 'jose'
-```
-
-**`example`** CJS import
-```js
-const { generalDecrypt } = require('jose')
-```
-
-**`example`** Deno import
-```js
-import { generalDecrypt } from 'https://deno.land/x/jose@v4.2.1/index.ts'
-```
-
 **`example`** Usage
 ```js
 const decoder = new TextDecoder()
@@ -39,7 +24,7 @@ const {
   plaintext,
   protectedHeader,
   additionalAuthenticatedData
-} = await generalDecrypt(jwe, privateKey)
+} = await jose.generalDecrypt(jwe, privateKey)
 
 console.log(protectedHeader)
 console.log(decoder.decode(plaintext))

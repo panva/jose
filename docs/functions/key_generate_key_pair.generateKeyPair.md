@@ -11,24 +11,9 @@ Note: Under Web Cryptography API runtime the `privateKey` is generated with
 
 **`example`** Usage
 ```js
-const { publicKey, privateKey } = await generateKeyPair('PS256')
+const { publicKey, privateKey } = await jose.generateKeyPair('PS256')
 console.log(publicKey)
 console.log(privateKey)
-```
-
-**`example`** ESM import
-```js
-import { generateKeyPair } from 'jose'
-```
-
-**`example`** CJS import
-```js
-const { generateKeyPair } = require('jose')
-```
-
-**`example`** Deno import
-```js
-import { generateKeyPair } from 'https://deno.land/x/jose@v4.2.1/index.ts'
 ```
 
 #### Parameters

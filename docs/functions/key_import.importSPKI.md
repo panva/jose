@@ -13,22 +13,7 @@ const spki = `-----BEGIN PUBLIC KEY-----
 MFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAEFlHHWfLk0gLBbsLTcuCrbCqoHqmM
 YJepMC+Q+Dd6RBmBiA41evUsNMwLeN+PNFqib+xwi9JkJ8qhZkq8Y/IzGg==
 -----END PUBLIC KEY-----`
-const ecPublicKey = await importSPKI(spki, algorithm)
-```
-
-**`example`** ESM import
-```js
-import { importSPKI } from 'jose'
-```
-
-**`example`** CJS import
-```js
-const { importSPKI } = require('jose')
-```
-
-**`example`** Deno import
-```js
-import { importSPKI } from 'https://deno.land/x/jose@v4.2.1/index.ts'
+const ecPublicKey = await jose.importSPKI(spki, algorithm)
 ```
 
 #### Parameters

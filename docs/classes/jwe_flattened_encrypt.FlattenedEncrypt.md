@@ -7,27 +7,12 @@ objects.
 ```js
 const encoder = new TextEncoder()
 
-const jwe = await new FlattenedEncrypt(encoder.encode('It’s a dangerous business, Frodo, going out your door.'))
+const jwe = await new jose.FlattenedEncrypt(encoder.encode('It’s a dangerous business, Frodo, going out your door.'))
   .setProtectedHeader({ alg: 'RSA-OAEP-256', enc: 'A256GCM' })
   .setAdditionalAuthenticatedData(encoder.encode('The Fellowship of the Ring'))
   .encrypt(publicKey)
 
 console.log(jwe)
-```
-
-**`example`** ESM import
-```js
-import { FlattenedEncrypt } from 'jose'
-```
-
-**`example`** CJS import
-```js
-const { FlattenedEncrypt } = require('jose')
-```
-
-**`example`** Deno import
-```js
-import { FlattenedEncrypt } from 'https://deno.land/x/jose@v4.2.1/index.ts'
 ```
 
 ## Table of contents

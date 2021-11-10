@@ -9,31 +9,14 @@ the selection process.
 
 **`example`** Usage
 ```js
-import { jwtVerify } from 'jose'
+const JWKS = jose.createRemoteJWKSet(new URL('https://www.googleapis.com/oauth2/v3/certs'))
 
-const JWKS = createRemoteJWKSet(new URL('https://www.googleapis.com/oauth2/v3/certs'))
-
-const { payload, protectedHeader } = await jwtVerify(jwt, JWKS, {
+const { payload, protectedHeader } = await jose.jwtVerify(jwt, JWKS, {
   issuer: 'urn:example:issuer',
   audience: 'urn:example:audience'
 })
 console.log(protectedHeader)
 console.log(payload)
-```
-
-**`example`** ESM import
-```js
-import { createRemoteJWKSet } from 'jose'
-```
-
-**`example`** CJS import
-```js
-const { createRemoteJWKSet } = require('jose')
-```
-
-**`example`** Deno import
-```js
-import { createRemoteJWKSet } from 'https://deno.land/x/jose@v4.2.1/index.ts'
 ```
 
 #### Parameters

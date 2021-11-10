@@ -13,25 +13,10 @@ const jws = {
   protected: 'eyJhbGciOiJFUzI1NiJ9'
 }
 
-const { payload, protectedHeader } = await flattenedVerify(jws, publicKey)
+const { payload, protectedHeader } = await jose.flattenedVerify(jws, publicKey)
 
 console.log(protectedHeader)
 console.log(decoder.decode(payload))
-```
-
-**`example`** ESM import
-```js
-import { flattenedVerify } from 'jose'
-```
-
-**`example`** CJS import
-```js
-const { flattenedVerify } = require('jose')
-```
-
-**`example`** Deno import
-```js
-import { flattenedVerify } from 'https://deno.land/x/jose@v4.2.1/index.ts'
 ```
 
 #### Parameters

@@ -6,24 +6,9 @@ Exports a runtime-specific public key representation (KeyObject or CryptoKey) to
 
 **`example`** Usage
 ```js
-const spkiPem = await exportSPKI(publicKey)
+const spkiPem = await jose.exportSPKI(publicKey)
 
 console.log(spkiPem)
-```
-
-**`example`** ESM import
-```js
-import { exportSPKI } from 'jose'
-```
-
-**`example`** CJS import
-```js
-const { exportSPKI } = require('jose')
-```
-
-**`example`** Deno import
-```js
-import { exportSPKI } from 'https://deno.land/x/jose@v4.2.1/index.ts'
 ```
 
 #### Parameters

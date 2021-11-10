@@ -19,22 +19,7 @@ UH+kBKDnphJO3odpPZ5gvgKs2nwRWcrDnUjYLDAKBggqhkjOPQQDAgNIADBFAiEA
 1yyMTRe66MhEXID9+uVub7woMkNYd0LhSHwKSPMUUTkCIFQGsfm1ecXOpeGOufAh
 v+A1QWZMuTWqYt+uh/YSRNDn
 -----END CERTIFICATE-----`
-const ecPublicKey = await importX509(x509, algorithm)
-```
-
-**`example`** ESM import
-```js
-import { importX509 } from 'jose'
-```
-
-**`example`** CJS import
-```js
-const { importX509 } = require('jose')
-```
-
-**`example`** Deno import
-```js
-import { importX509 } from 'https://deno.land/x/jose@v4.2.1/index.ts'
+const ecPublicKey = await jose.importX509(x509, algorithm)
 ```
 
 #### Parameters

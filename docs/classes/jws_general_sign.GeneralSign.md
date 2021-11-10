@@ -6,7 +6,7 @@ The GeneralSign class is a utility for creating General JWS objects.
 ```js
 const encoder = new TextEncoder()
 
-const sign = new GeneralSign(encoder.encode('It’s a dangerous business, Frodo, going out your door.'))
+const sign = new jose.GeneralSign(encoder.encode('It’s a dangerous business, Frodo, going out your door.'))
 
 sign
   .addSignature(ecPrivateKey)
@@ -17,21 +17,6 @@ sign
   .setProtectedHeader({ alg: 'PS256' })
 
 const jws = await sign.sign()
-```
-
-**`example`** ESM import
-```js
-import { GeneralSign } from 'jose'
-```
-
-**`example`** CJS import
-```js
-const { GeneralSign } = require('jose')
-```
-
-**`example`** Deno import
-```js
-import { GeneralSign } from 'https://deno.land/x/jose@v4.2.1/index.ts'
 ```
 
 ## Table of contents
