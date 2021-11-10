@@ -1,7 +1,8 @@
 module.exports = {
+  require: [
+    "./test/.require.mjs"
+  ],
   files: [
-    "test/**/*.test.mjs",
-    "test/**/*.test.cjs",
-    "test/**/*.test.js",
+    "./test/**/*.test.mjs"
   ],
 };

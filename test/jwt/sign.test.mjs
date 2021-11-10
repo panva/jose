@@ -2,127 +2,115 @@ import test from 'ava'
 import timekeeper from 'timekeeper'
 
 const root = !('WEBCRYPTO' in process.env) ? '#dist' : '#dist/webcrypto'
-Promise.all([
-  import(`${root}/jwt/sign`),
-  import(`${root}/jws/compact/verify`),
-  import(`${root}/jwt/verify`),
-]).then(
-  ([{ SignJWT }, { compactVerify }, { jwtVerify }]) => {
-    const now = 1604416038
+const { SignJWT, compactVerify, jwtVerify } = await import(root)
 
-    test.before(async (t) => {
-      t.context.secret = new Uint8Array(32)
-      t.context.payload = { 'urn:example:claim': true }
+const now = 1604416038
 
-      timekeeper.freeze(now * 1000)
-    })
+test.before(async (t) => {
+  t.context.secret = new Uint8Array(32)
+  t.context.payload = { 'urn:example:claim': true }
 
-    test.after(timekeeper.reset)
+  timekeeper.freeze(now * 1000)
+})
 
-    test('SignJWT', async (t) => {
-      const jwt = await new SignJWT(t.context.payload)
-        .setProtectedHeader({ alg: 'HS256' })
-        .sign(t.context.secret)
-      t.is(
-        jwt,
-        'eyJhbGciOiJIUzI1NiJ9.eyJ1cm46ZXhhbXBsZTpjbGFpbSI6dHJ1ZX0.yPnOE--rxp3rJaYy0iZaW2Vswvus05G6_ZBdXqIdjGo',
-      )
-    })
+test.after(timekeeper.reset)
 
-    test('SignJWT w/crit', async (t) => {
-      const expected =
-        'eyJhbGciOiJIUzI1NiIsImNyaXQiOlsiaHR0cDovL29wZW5iYW5raW5nLm9yZy51ay9pYXQiXSwiaHR0cDovL29wZW5iYW5raW5nLm9yZy51ay9pYXQiOjB9.eyJ1cm46ZXhhbXBsZTpjbGFpbSI6dHJ1ZX0.YzOrPZaNql7PpCo43HAJdj-LASP8lOmtb-Bzj9OrNAk'
-      await t.throwsAsync(
-        new SignJWT(t.context.payload)
-          .setProtectedHeader({
-            alg: 'HS256',
-            crit: ['http://openbanking.org.uk/iat'],
-            'http://openbanking.org.uk/iat': 0,
-          })
-          .sign(t.context.secret),
-        {
-          code: 'ERR_JOSE_NOT_SUPPORTED',
-          message: 'Extension Header Parameter "http://openbanking.org.uk/iat" is not recognized',
-        },
-      )
+test('SignJWT', async (t) => {
+  const jwt = await new SignJWT(t.context.payload)
+    .setProtectedHeader({ alg: 'HS256' })
+    .sign(t.context.secret)
+  t.is(
+    jwt,
+    'eyJhbGciOiJIUzI1NiJ9.eyJ1cm46ZXhhbXBsZTpjbGFpbSI6dHJ1ZX0.yPnOE--rxp3rJaYy0iZaW2Vswvus05G6_ZBdXqIdjGo',
+  )
+})
 
-      await t.notThrowsAsync(async () => {
-        const jwt = await new SignJWT(t.context.payload)
-          .setProtectedHeader({
-            alg: 'HS256',
-            crit: ['http://openbanking.org.uk/iat'],
-            'http://openbanking.org.uk/iat': 0,
-          })
-          .sign(t.context.secret, { crit: { 'http://openbanking.org.uk/iat': true } })
-        t.is(jwt, expected)
+test('SignJWT w/crit', async (t) => {
+  const expected =
+    'eyJhbGciOiJIUzI1NiIsImNyaXQiOlsiaHR0cDovL29wZW5iYW5raW5nLm9yZy51ay9pYXQiXSwiaHR0cDovL29wZW5iYW5raW5nLm9yZy51ay9pYXQiOjB9.eyJ1cm46ZXhhbXBsZTpjbGFpbSI6dHJ1ZX0.YzOrPZaNql7PpCo43HAJdj-LASP8lOmtb-Bzj9OrNAk'
+  await t.throwsAsync(
+    new SignJWT(t.context.payload)
+      .setProtectedHeader({
+        alg: 'HS256',
+        crit: ['http://openbanking.org.uk/iat'],
+        'http://openbanking.org.uk/iat': 0,
       })
+      .sign(t.context.secret),
+    {
+      code: 'ERR_JOSE_NOT_SUPPORTED',
+      message: 'Extension Header Parameter "http://openbanking.org.uk/iat" is not recognized',
+    },
+  )
 
-      await t.throwsAsync(jwtVerify(expected, t.context.secret), {
-        code: 'ERR_JOSE_NOT_SUPPORTED',
-        message: 'Extension Header Parameter "http://openbanking.org.uk/iat" is not recognized',
+  await t.notThrowsAsync(async () => {
+    const jwt = await new SignJWT(t.context.payload)
+      .setProtectedHeader({
+        alg: 'HS256',
+        crit: ['http://openbanking.org.uk/iat'],
+        'http://openbanking.org.uk/iat': 0,
       })
-      await t.notThrowsAsync(
-        jwtVerify(expected, t.context.secret, { crit: { 'http://openbanking.org.uk/iat': true } }),
-      )
-    })
+      .sign(t.context.secret, { crit: { 'http://openbanking.org.uk/iat': true } })
+    t.is(jwt, expected)
+  })
 
-    test('new SignJWT', (t) => {
-      t.throws(() => new SignJWT(), {
-        instanceOf: TypeError,
-        message: 'JWT Claims Set MUST be an object',
-      })
-    })
+  await t.throwsAsync(jwtVerify(expected, t.context.secret), {
+    code: 'ERR_JOSE_NOT_SUPPORTED',
+    message: 'Extension Header Parameter "http://openbanking.org.uk/iat" is not recognized',
+  })
+  await t.notThrowsAsync(
+    jwtVerify(expected, t.context.secret, { crit: { 'http://openbanking.org.uk/iat': true } }),
+  )
+})
 
-    test('Signed JWTs cannot use unencoded payload', async (t) => {
-      await t.throwsAsync(
-        () =>
-          new SignJWT({})
-            .setProtectedHeader({ alg: 'HS256', crit: ['b64'], b64: false })
-            .sign(t.context.secret),
-        { code: 'ERR_JWT_INVALID', message: 'JWTs MUST NOT use unencoded payload' },
-      )
-      await t.throwsAsync(() => new SignJWT({}).sign(t.context.secret), {
-        code: 'ERR_JWS_INVALID',
-        message: 'either setProtectedHeader or setUnprotectedHeader must be called before #sign()',
-      })
-    })
+test('new SignJWT', (t) => {
+  t.throws(() => new SignJWT(), {
+    instanceOf: TypeError,
+    message: 'JWT Claims Set MUST be an object',
+  })
+})
 
-    async function testJWTsetFunction(t, method, claim, value, expected = value) {
-      const jwt = await new SignJWT({})
-        .setProtectedHeader({ alg: 'HS256' })
-        [method](value)
-        .sign(t.context.secret)
-      const { payload, key: resolvedKey } = await compactVerify(jwt, async (header, token) => {
-        t.true('alg' in header)
-        t.is(header.alg, 'HS256')
-        t.true('payload' in token)
-        t.true('protected' in token)
-        t.true('signature' in token)
-        return t.context.secret
-      })
-      t.is(resolvedKey, t.context.secret)
-      const claims = JSON.parse(new TextDecoder().decode(payload))
-      t.true(claim in claims)
-      t.is(claims[claim], expected)
-    }
-    testJWTsetFunction.title = (title, method, claim, value) =>
-      `SignJWT.prototype.${method} called with ${value}`
+test('Signed JWTs cannot use unencoded payload', async (t) => {
+  await t.throwsAsync(
+    () =>
+      new SignJWT({})
+        .setProtectedHeader({ alg: 'HS256', crit: ['b64'], b64: false })
+        .sign(t.context.secret),
+    { code: 'ERR_JWT_INVALID', message: 'JWTs MUST NOT use unencoded payload' },
+  )
+  await t.throwsAsync(() => new SignJWT({}).sign(t.context.secret), {
+    code: 'ERR_JWS_INVALID',
+    message: 'either setProtectedHeader or setUnprotectedHeader must be called before #sign()',
+  })
+})
 
-    test(testJWTsetFunction, 'setIssuer', 'iss', 'urn:example:issuer')
-    test(testJWTsetFunction, 'setSubject', 'sub', 'urn:example:subject')
-    test(testJWTsetFunction, 'setAudience', 'aud', 'urn:example:audience')
-    test(testJWTsetFunction, 'setJti', 'jti', 'urn:example:jti')
-    test(testJWTsetFunction, 'setIssuedAt', 'iat', 0)
-    test(testJWTsetFunction, 'setIssuedAt', 'iat', undefined, now)
-    test(testJWTsetFunction, 'setExpirationTime', 'exp', 0)
-    test(testJWTsetFunction, 'setExpirationTime', 'exp', '10s', now + 10)
-    test(testJWTsetFunction, 'setNotBefore', 'nbf', 0)
-    test(testJWTsetFunction, 'setNotBefore', 'nbf', '10s', now + 10)
-  },
-  (err) => {
-    test('failed to import', (t) => {
-      console.error(err)
-      t.fail()
-    })
-  },
-)
+async function testJWTsetFunction(t, method, claim, value, expected = value) {
+  const jwt = await new SignJWT({})
+    .setProtectedHeader({ alg: 'HS256' })
+    [method](value)
+    .sign(t.context.secret)
+  const { payload, key: resolvedKey } = await compactVerify(jwt, async (header, token) => {
+    t.true('alg' in header)
+    t.is(header.alg, 'HS256')
+    t.true('payload' in token)
+    t.true('protected' in token)
+    t.true('signature' in token)
+    return t.context.secret
+  })
+  t.is(resolvedKey, t.context.secret)
+  const claims = JSON.parse(new TextDecoder().decode(payload))
+  t.true(claim in claims)
+  t.is(claims[claim], expected)
+}
+testJWTsetFunction.title = (title, method, claim, value) =>
+  `SignJWT.prototype.${method} called with ${value}`
+
+test(testJWTsetFunction, 'setIssuer', 'iss', 'urn:example:issuer')
+test(testJWTsetFunction, 'setSubject', 'sub', 'urn:example:subject')
+test(testJWTsetFunction, 'setAudience', 'aud', 'urn:example:audience')
+test(testJWTsetFunction, 'setJti', 'jti', 'urn:example:jti')
+test(testJWTsetFunction, 'setIssuedAt', 'iat', 0)
+test(testJWTsetFunction, 'setIssuedAt', 'iat', undefined, now)
+test(testJWTsetFunction, 'setExpirationTime', 'exp', 0)
+test(testJWTsetFunction, 'setExpirationTime', 'exp', '10s', now + 10)
+test(testJWTsetFunction, 'setNotBefore', 'nbf', 0)
+test(testJWTsetFunction, 'setNotBefore', 'nbf', '10s', now + 10)

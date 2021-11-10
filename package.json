@@ -54,6 +54,10 @@
   "author": "Filip Skokan <panva.ip@gmail.com>",
   "sideEffects": false,
   "imports": {
+    "#dist": {
+      "import": "./dist/node/esm/index.js",
+      "require": "./dist/node/cjs/index.js"
+    },
     "#dist/*": {
       "import": "./dist/node/esm/*.js",
       "require": "./dist/node/cjs/*.js"
@@ -61,6 +65,10 @@
     "#dist/webcrypto/*": {
       "import": "./dist/node/webcrypto/esm/*.js",
       "require": "./dist/node/webcrypto/cjs/*.js"
+    },
+    "#dist/webcrypto": {
+      "import": "./dist/node/webcrypto/esm/index.js",
+      "require": "./dist/node/webcrypto/cjs/index.js"
     }
   },
   "exports": {
@@ -125,11 +133,10 @@
     "types:find": "find dist/types -name '*.d.ts' -type f -print0",
     "runtime:node:copy": "cp ./src/runtime/node/*.ts ./src/runtime",
     "runtime:refs": "run-s -s runtime:find | xargs -0 sed -i '' -e \"s/'\\.\\.\\//'\\.\\//g\" -e \"s/'\\.\\/\\.\\./'../g\"",
-    "test": "npm run-script test-cjs && ava",
+    "test": "ava",
     "test-cloudflare-workers": "ava --timeout=5m --config ./test-cloudflare-workers.config.cjs",
     "test-deno": "deno test --reload --jobs --allow-net --allow-read test-deno",
     "test-browsers": "find test-browser -type f -name '*.js' -print0 | xargs -0 npx esbuild --log-level=warning --outdir=dist-browser-tests --bundle && karma start",
-    "test-cjs": "rm -rf test/cjs && find test -type f -name '*.mjs' -print0 | xargs -0 npx esbuild --log-level=warning --target=esnext --outdir=test/cjs --format=cjs",
     "test-cryptokey": "CRYPTOKEY=true npm test",
     "test-webcrypto": "WEBCRYPTO=true npm test",
     "prettier": "npx prettier --loglevel silent --write ./test ./src ./tools ./test-browser ./test-deno ./test-cloudflare-workers"

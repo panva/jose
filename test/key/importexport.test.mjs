@@ -12,6 +12,8 @@ if ('WEBCRYPTO' in process.env) {
   root = keyRoot = '#dist'
 }
 
+const jose = await import(keyRoot)
+
 function conditional({ webcrypto = 1, electron = 1 } = {}) {
   let run = test
   if (!webcrypto && ('WEBCRYPTO' in process.env || 'CRYPTOKEY' in process.env)) {
@@ -97,136 +99,126 @@ const keys = {
   },
 }
 
-Promise.all([import(`${keyRoot}/key/import`), import(`${keyRoot}/key/export`)]).then(
-  ([importKey, exportKey]) => {
-    const testSPKI = async (t, pem, alg) => {
-      const key = await importKey.importSPKI(pem, alg, { extractable: true })
-      t.is((await exportKey.exportSPKI(key)).trim(), pem.trim())
-    }
-    const testPKCS8 = async (t, pem, alg) => {
-      const key = await importKey.importPKCS8(pem, alg, { extractable: true })
-      t.is((await exportKey.exportPKCS8(key)).trim(), pem.trim())
-    }
-    const testX509 = async (t, x509, alg) => {
-      await importKey.importX509(x509, alg, { extractable: true })
-      t.pass()
-    }
+const testSPKI = async (t, pem, alg) => {
+  const key = await jose.importSPKI(pem, alg, { extractable: true })
+  t.is((await jose.exportSPKI(key)).trim(), pem.trim())
+}
+const testPKCS8 = async (t, pem, alg) => {
+  const key = await jose.importPKCS8(pem, alg, { extractable: true })
+  t.is((await jose.exportPKCS8(key)).trim(), pem.trim())
+}
+const testX509 = async (t, x509, alg) => {
+  await jose.importX509(x509, alg, { extractable: true })
+  t.pass()
+}
 
-    for (const alg of [
-      'RS256',
-      'RS384',
-      'RS512',
-      'PS256',
-      'PS384',
-      'PS512',
-      'RSA-OAEP',
-      'RSA-OAEP-256',
-      'RSA-OAEP-384',
-      'RSA-OAEP-512',
-      'RSA1_5',
-    ]) {
-      conditional({ webcrypto: alg !== 'RSA1_5', electron: 1 })(
-        `import SPKI RSA for ${alg}`,
-        testSPKI,
-        keys.rsa.publicKey,
-        alg,
-      )
-      conditional({ webcrypto: alg !== 'RSA1_5', electron: 1 })(
-        `import X509 RSA for ${alg}`,
-        testX509,
-        keys.rsa.certificate,
-        alg,
-      )
-      conditional({ webcrypto: alg !== 'RSA1_5', electron: 1 })(
-        `import PKCS8 RSA for ${alg}`,
-        testPKCS8,
-        keys.rsa.privateKey,
-        alg,
-      )
-    }
+for (const alg of [
+  'RS256',
+  'RS384',
+  'RS512',
+  'PS256',
+  'PS384',
+  'PS512',
+  'RSA-OAEP',
+  'RSA-OAEP-256',
+  'RSA-OAEP-384',
+  'RSA-OAEP-512',
+  'RSA1_5',
+]) {
+  conditional({ webcrypto: alg !== 'RSA1_5', electron: 1 })(
+    `import SPKI RSA for ${alg}`,
+    testSPKI,
+    keys.rsa.publicKey,
+    alg,
+  )
+  conditional({ webcrypto: alg !== 'RSA1_5', electron: 1 })(
+    `import X509 RSA for ${alg}`,
+    testX509,
+    keys.rsa.certificate,
+    alg,
+  )
+  conditional({ webcrypto: alg !== 'RSA1_5', electron: 1 })(
+    `import PKCS8 RSA for ${alg}`,
+    testPKCS8,
+    keys.rsa.privateKey,
+    alg,
+  )
+}
 
-    for (const alg of ['ES256', 'ECDH-ES', 'ECDH-ES+A128KW', 'ECDH-ES+A192KW', 'ECDH-ES+A256KW']) {
-      test(`import SPKI P-256 for ${alg}`, testSPKI, keys['P-256'].publicKey, alg)
-      test(`import X509 P-256 for ${alg}`, testX509, keys['P-256'].certificate, alg)
-      test(`import PKCS8 P-256 for ${alg}`, testPKCS8, keys['P-256'].privateKey, alg)
-    }
+for (const alg of ['ES256', 'ECDH-ES', 'ECDH-ES+A128KW', 'ECDH-ES+A192KW', 'ECDH-ES+A256KW']) {
+  test(`import SPKI P-256 for ${alg}`, testSPKI, keys['P-256'].publicKey, alg)
+  test(`import X509 P-256 for ${alg}`, testX509, keys['P-256'].certificate, alg)
+  test(`import PKCS8 P-256 for ${alg}`, testPKCS8, keys['P-256'].privateKey, alg)
+}
 
-    for (const alg of ['ES384', 'ECDH-ES', 'ECDH-ES+A128KW', 'ECDH-ES+A192KW', 'ECDH-ES+A256KW']) {
-      test(`import SPKI P-384 for ${alg}`, testSPKI, keys['P-384'].publicKey, alg)
-      test(`import X509 P-384 for ${alg}`, testX509, keys['P-384'].certificate, alg)
-      test(`import PKCS8 P-384 for ${alg}`, testPKCS8, keys['P-384'].privateKey, alg)
-    }
+for (const alg of ['ES384', 'ECDH-ES', 'ECDH-ES+A128KW', 'ECDH-ES+A192KW', 'ECDH-ES+A256KW']) {
+  test(`import SPKI P-384 for ${alg}`, testSPKI, keys['P-384'].publicKey, alg)
+  test(`import X509 P-384 for ${alg}`, testX509, keys['P-384'].certificate, alg)
+  test(`import PKCS8 P-384 for ${alg}`, testPKCS8, keys['P-384'].privateKey, alg)
+}
 
-    for (const alg of ['ES512', 'ECDH-ES', 'ECDH-ES+A128KW', 'ECDH-ES+A192KW', 'ECDH-ES+A256KW']) {
-      test(`import SPKI P-521 for ${alg}`, testSPKI, keys['P-521'].publicKey, alg)
-      test(`import X509 P-521 for ${alg}`, testX509, keys['P-521'].certificate, alg)
-      test(`import PKCS8 P-521 for ${alg}`, testPKCS8, keys['P-521'].privateKey, alg)
-    }
+for (const alg of ['ES512', 'ECDH-ES', 'ECDH-ES+A128KW', 'ECDH-ES+A192KW', 'ECDH-ES+A256KW']) {
+  test(`import SPKI P-521 for ${alg}`, testSPKI, keys['P-521'].publicKey, alg)
+  test(`import X509 P-521 for ${alg}`, testX509, keys['P-521'].certificate, alg)
+  test(`import PKCS8 P-521 for ${alg}`, testPKCS8, keys['P-521'].privateKey, alg)
+}
 
-    for (const alg of ['ES256K']) {
-      conditional({ webcrypto: 0, electron: 0 })(
-        `import SPKI secp256k1 for ${alg}`,
-        testSPKI,
-        keys.secp256k1.publicKey,
-        alg,
-      )
-      conditional({ webcrypto: 0, electron: 0 })(
-        `import PKCS8 secp256k1 for ${alg}`,
-        testPKCS8,
-        keys.secp256k1.privateKey,
-        alg,
-      )
-    }
+for (const alg of ['ES256K']) {
+  conditional({ webcrypto: 0, electron: 0 })(
+    `import SPKI secp256k1 for ${alg}`,
+    testSPKI,
+    keys.secp256k1.publicKey,
+    alg,
+  )
+  conditional({ webcrypto: 0, electron: 0 })(
+    `import PKCS8 secp256k1 for ${alg}`,
+    testPKCS8,
+    keys.secp256k1.privateKey,
+    alg,
+  )
+}
 
-    for (const alg of ['EdDSA']) {
-      test(`import SPKI ed25519 for ${alg}`, testSPKI, keys.ed25519.publicKey, alg)
-      test(`import X509 ed25519 for ${alg}`, testX509, keys.ed25519.certificate, alg)
-      test(`import PKCS8 ed25519 for ${alg}`, testPKCS8, keys.ed25519.privateKey, alg)
-      conditional({ webcrypto: 1, electron: 0 })(
-        `import SPKI ed448 for ${alg}`,
-        testSPKI,
-        keys.ed448.publicKey,
-        alg,
-      )
-      conditional({ webcrypto: 1, electron: 0 })(
-        `import PKCS8 ed448 for ${alg}`,
-        testPKCS8,
-        keys.ed448.privateKey,
-        alg,
-      )
-    }
+for (const alg of ['EdDSA']) {
+  test(`import SPKI ed25519 for ${alg}`, testSPKI, keys.ed25519.publicKey, alg)
+  test(`import X509 ed25519 for ${alg}`, testX509, keys.ed25519.certificate, alg)
+  test(`import PKCS8 ed25519 for ${alg}`, testPKCS8, keys.ed25519.privateKey, alg)
+  conditional({ webcrypto: 1, electron: 0 })(
+    `import SPKI ed448 for ${alg}`,
+    testSPKI,
+    keys.ed448.publicKey,
+    alg,
+  )
+  conditional({ webcrypto: 1, electron: 0 })(
+    `import PKCS8 ed448 for ${alg}`,
+    testPKCS8,
+    keys.ed448.privateKey,
+    alg,
+  )
+}
 
-    for (const alg of ['ECDH-ES', 'ECDH-ES+A128KW', 'ECDH-ES+A192KW', 'ECDH-ES+A256KW']) {
-      conditional({ webcrypto: 0, electron: 1 })(
-        `import SPKI x25519 for ${alg}`,
-        testSPKI,
-        keys.x25519.publicKey,
-        alg,
-      )
-      conditional({ webcrypto: 0, electron: 1 })(
-        `import PKCS8 x25519 for ${alg}`,
-        testPKCS8,
-        keys.x25519.privateKey,
-        alg,
-      )
-      conditional({ webcrypto: 0, electron: 0 })(
-        `import SPKI x448 for ${alg}`,
-        testSPKI,
-        keys.x448.publicKey,
-        alg,
-      )
-      conditional({ webcrypto: 0, electron: 0 })(
-        `import PKCS8 x448 for ${alg}`,
-        testPKCS8,
-        keys.x448.privateKey,
-        alg,
-      )
-    }
-  },
-  (err) => {
-    test('failed to import', (t) => {
-      console.error(err)
-      t.fail()
-    })
-  },
-)
+for (const alg of ['ECDH-ES', 'ECDH-ES+A128KW', 'ECDH-ES+A192KW', 'ECDH-ES+A256KW']) {
+  conditional({ webcrypto: 0, electron: 1 })(
+    `import SPKI x25519 for ${alg}`,
+    testSPKI,
+    keys.x25519.publicKey,
+    alg,
+  )
+  conditional({ webcrypto: 0, electron: 1 })(
+    `import PKCS8 x25519 for ${alg}`,
+    testPKCS8,
+    keys.x25519.privateKey,
+    alg,
+  )
+  conditional({ webcrypto: 0, electron: 0 })(
+    `import SPKI x448 for ${alg}`,
+    testSPKI,
+    keys.x448.publicKey,
+    alg,
+  )
+  conditional({ webcrypto: 0, electron: 0 })(
+    `import PKCS8 x448 for ${alg}`,
+    testPKCS8,
+    keys.x448.privateKey,
+    alg,
+  )
+}

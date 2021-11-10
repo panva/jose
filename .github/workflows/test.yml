@@ -95,6 +95,8 @@ jobs:
         with:
           path: dist
           key: dist-${{ hashFiles('src/**/*.ts') }}-${{ hashFiles('tsconfig/*.json') }}-${{ hashFiles('.github/workflows/*.yml') }}-${{ hashFiles('package.json') }}
+      - run: find test -type f -name '*.mjs' -print0 | xargs -0 sed -i -e "s/await import(/require(/g"
+        if: ${{ startsWith(matrix.node-version, '12')  }}
       - name: Test Node.js crypto
         run: npm run test
       - name: Test Node.js crypto w/ CryptoKey
