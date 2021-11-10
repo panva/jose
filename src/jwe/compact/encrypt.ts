@@ -13,26 +13,11 @@ import type {
  * ```js
  * const encoder = new TextEncoder()
  *
- * const jwe = await new CompactEncrypt(encoder.encode('It’s a dangerous business, Frodo, going out your door.'))
+ * const jwe = await new jose.CompactEncrypt(encoder.encode('It’s a dangerous business, Frodo, going out your door.'))
  *   .setProtectedHeader({ alg: 'RSA-OAEP-256', enc: 'A256GCM' })
  *   .encrypt(publicKey)
  *
  * console.log(jwe)
- * ```
- *
- * @example ESM import
- * ```js
- * import { CompactEncrypt } from 'jose'
- * ```
- *
- * @example CJS import
- * ```js
- * const { CompactEncrypt } = require('jose')
- * ```
- *
- * @example Deno import
- * ```js
- * import { CompactEncrypt } from 'https://deno.land/x/jose@VERSION/index.ts'
  * ```
  */
 export class CompactEncrypt {

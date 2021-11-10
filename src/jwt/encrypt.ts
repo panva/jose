@@ -13,7 +13,7 @@ import { ProduceJWT } from './produce.js'
  *
  * @example Usage
  * ```js
- * const jwt = await new EncryptJWT({ 'urn:example:claim': true })
+ * const jwt = await new jose.EncryptJWT({ 'urn:example:claim': true })
  *   .setProtectedHeader({ alg: 'dir', enc: 'A256GCM' })
  *   .setIssuedAt()
  *   .setIssuer('urn:example:issuer')
@@ -22,21 +22,6 @@ import { ProduceJWT } from './produce.js'
  *   .encrypt(secretKey)
  *
  * console.log(jwt)
- * ```
- *
- * @example ESM import
- * ```js
- * import { EncryptJWT } from 'jose'
- * ```
- *
- * @example CJS import
- * ```js
- * const { EncryptJWT } = require('jose')
- * ```
- *
- * @example Deno import
- * ```js
- * import { EncryptJWT } from 'https://deno.land/x/jose@VERSION/index.ts'
  * ```
  */
 export class EncryptJWT extends ProduceJWT {

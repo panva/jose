@@ -9,7 +9,7 @@ import { ProduceJWT } from './produce.js'
  *
  * @example Usage
  * ```js
- * const jwt = await new SignJWT({ 'urn:example:claim': true })
+ * const jwt = await new jose.SignJWT({ 'urn:example:claim': true })
  *   .setProtectedHeader({ alg: 'ES256' })
  *   .setIssuedAt()
  *   .setIssuer('urn:example:issuer')
@@ -18,21 +18,6 @@ import { ProduceJWT } from './produce.js'
  *   .sign(privateKey)
  *
  * console.log(jwt)
- * ```
- *
- * @example ESM import
- * ```js
- * import { SignJWT } from 'jose'
- * ```
- *
- * @example CJS import
- * ```js
- * const { SignJWT } = require('jose')
- * ```
- *
- * @example Deno import
- * ```js
- * import { SignJWT } from 'https://deno.land/x/jose@VERSION/index.ts'
  * ```
  */
 export class SignJWT extends ProduceJWT {

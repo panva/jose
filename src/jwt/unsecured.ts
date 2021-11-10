@@ -16,7 +16,7 @@ export interface UnsecuredResult {
  *
  * @example Encoding
  * ```js *
- * const unsecuredJwt = new UnsecuredJWT({ 'urn:example:claim': true })
+ * const unsecuredJwt = new jose.UnsecuredJWT({ 'urn:example:claim': true })
  *   .setIssuedAt()
  *   .setIssuer('urn:example:issuer')
  *   .setAudience('urn:example:audience')
@@ -28,27 +28,12 @@ export interface UnsecuredResult {
  *
  * @example Decoding
  * ```js *
- * const payload = new UnsecuredJWT.decode(jwt, {
+ * const payload = new jose.UnsecuredJWT.decode(jwt, {
  *   issuer: 'urn:example:issuer',
  *   audience: 'urn:example:audience'
  * })
  *
  * console.log(payload)
- * ```
- *
- * @example ESM import
- * ```js
- * import { UnsecuredJWT } from 'jose'
- * ```
- *
- * @example CJS import
- * ```js
- * const { UnsecuredJWT } = require('jose')
- * ```
- *
- * @example Deno import
- * ```js
- * import { UnsecuredJWT } from 'https://deno.land/x/jose@VERSION/index.ts'
  * ```
  */
 export class UnsecuredJWT extends ProduceJWT {

@@ -44,30 +44,15 @@ export interface GenerateKeyPairOptions {
  * Note: Under Web Cryptography API runtime the `privateKey` is generated with
  * `extractable` set to `false` by default.
  *
+ * @param alg JWA Algorithm Identifier to be used with the generated key pair.
+ * @param options Additional options passed down to the key pair generation.
+ *
  * @example Usage
  * ```js
- * const { publicKey, privateKey } = await generateKeyPair('PS256')
+ * const { publicKey, privateKey } = await jose.generateKeyPair('PS256')
  * console.log(publicKey)
  * console.log(privateKey)
  * ```
- *
- * @example ESM import
- * ```js
- * import { generateKeyPair } from 'jose'
- * ```
- *
- * @example CJS import
- * ```js
- * const { generateKeyPair } = require('jose')
- * ```
- *
- * @example Deno import
- * ```js
- * import { generateKeyPair } from 'https://deno.land/x/jose@VERSION/index.ts'
- * ```
- *
- * @param alg JWA Algorithm Identifier to be used with the generated key pair.
- * @param options Additional options passed down to the key pair generation.
  */
 export async function generateKeyPair(
   alg: string,

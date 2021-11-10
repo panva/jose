@@ -109,22 +109,7 @@ export interface PEMImportOptions {
  * MFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAEFlHHWfLk0gLBbsLTcuCrbCqoHqmM
  * YJepMC+Q+Dd6RBmBiA41evUsNMwLeN+PNFqib+xwi9JkJ8qhZkq8Y/IzGg==
  * -----END PUBLIC KEY-----`
- * const ecPublicKey = await importSPKI(spki, algorithm)
- * ```
- *
- * @example ESM import
- * ```js
- * import { importSPKI } from 'jose'
- * ```
- *
- * @example CJS import
- * ```js
- * const { importSPKI } = require('jose')
- * ```
- *
- * @example Deno import
- * ```js
- * import { importSPKI } from 'https://deno.land/x/jose@VERSION/index.ts'
+ * const ecPublicKey = await jose.importSPKI(spki, algorithm)
  * ```
  */
 export async function importSPKI(
@@ -159,22 +144,7 @@ export async function importSPKI(
  * 1yyMTRe66MhEXID9+uVub7woMkNYd0LhSHwKSPMUUTkCIFQGsfm1ecXOpeGOufAh
  * v+A1QWZMuTWqYt+uh/YSRNDn
  * -----END CERTIFICATE-----`
- * const ecPublicKey = await importX509(x509, algorithm)
- * ```
- *
- * @example ESM import
- * ```js
- * import { importX509 } from 'jose'
- * ```
- *
- * @example CJS import
- * ```js
- * const { importX509 } = require('jose')
- * ```
- *
- * @example Deno import
- * ```js
- * import { importX509 } from 'https://deno.land/x/jose@VERSION/index.ts'
+ * const ecPublicKey = await jose.importX509(x509, algorithm)
  * ```
  */
 export async function importX509(
@@ -205,22 +175,7 @@ export async function importX509(
  * nlrnUclopnvuuMfoc8HHly3505OhRANCAAQWUcdZ8uTSAsFuwtNy4KtsKqgeqYxg
  * l6kwL5D4N3pEGYGIDjV69Sw0zAt43480WqJv7HCL0mQnyqFmSrxj8jMa
  * -----END PRIVATE KEY-----`
- * const ecPrivateKey = await importPKCS8(pkcs8, algorithm)
- * ```
- *
- * @example ESM import
- * ```js
- * import { importPKCS8 } from 'jose'
- * ```
- *
- * @example CJS import
- * ```js
- * const { importPKCS8 } = require('jose')
- * ```
- *
- * @example Deno import
- * ```js
- * import { importPKCS8 } from 'https://deno.land/x/jose@VERSION/index.ts'
+ * const ecPrivateKey = await jose.importPKCS8(pkcs8, algorithm)
  * ```
  */
 export async function importPKCS8(
@@ -250,33 +205,18 @@ export async function importPKCS8(
  *
  * @example Usage
  * ```js
- * const ecPublicKey = await importJWK({
+ * const ecPublicKey = await jose.importJWK({
  *   crv: 'P-256',
  *   kty: 'EC',
  *   x: 'ySK38C1jBdLwDsNWKzzBHqKYEE5Cgv-qjWvorUXk9fw',
  *   y: '_LeQBw07cf5t57Iavn4j-BqJsAD1dpoz8gokd3sBsOo'
  * }, 'ES256')
  *
- * const rsaPublicKey = await importJWK({
+ * const rsaPublicKey = await jose.importJWK({
  *   kty: 'RSA',
  *   e: 'AQAB',
  *   n: '12oBZRhCiZFJLcPg59LkZZ9mdhSMTKAQZYq32k_ti5SBB6jerkh-WzOMAO664r_qyLkqHUSp3u5SbXtseZEpN3XPWGKSxjsy-1JyEFTdLSYe6f9gfrmxkUF_7DTpq0gn6rntP05g2-wFW50YO7mosfdslfrTJYWHFhJALabAeYirYD7-9kqq9ebfFMF4sRRELbv9oi36As6Q9B3Qb5_C1rAzqfao_PCsf9EPsTZsVVVkA5qoIAr47lo1ipfiBPxUCCNSdvkmDTYgvvRm6ZoMjFbvOtgyts55fXKdMWv7I9HMD5HwE9uW839PWA514qhbcIsXEYSFMPMV6fnlsiZvQQ'
  * }, 'PS256')
- * ```
- *
- * @example ESM import
- * ```js
- * import { importJWK } from 'jose'
- * ```
- *
- * @example CJS import
- * ```js
- * const { importJWK } = require('jose')
- * ```
- *
- * @example Deno import
- * ```js
- * import { importJWK } from 'https://deno.land/x/jose@VERSION/index.ts'
  * ```
  */
 export async function importJWK(

@@ -25,21 +25,6 @@ export interface GeneralDecryptGetKey extends GetKeyFunction<JWEHeaderParameters
  * @param key Private Key or Secret to decrypt the JWE with.
  * @param options JWE Decryption options.
  *
- * @example ESM import
- * ```js
- * import { generalDecrypt } from 'jose'
- * ```
- *
- * @example CJS import
- * ```js
- * const { generalDecrypt } = require('jose')
- * ```
- *
- * @example Deno import
- * ```js
- * import { generalDecrypt } from 'https://deno.land/x/jose@VERSION/index.ts'
- * ```
- *
  * @example Usage
  * ```js
  * const decoder = new TextDecoder()
@@ -60,7 +45,7 @@ export interface GeneralDecryptGetKey extends GetKeyFunction<JWEHeaderParameters
  *   plaintext,
  *   protectedHeader,
  *   additionalAuthenticatedData
- * } = await generalDecrypt(jwe, privateKey)
+ * } = await jose.generalDecrypt(jwe, privateKey)
  *
  * console.log(protectedHeader)
  * console.log(decoder.decode(plaintext))

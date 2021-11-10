@@ -37,28 +37,13 @@ export interface JWTVerifyGetKey extends GetKeyFunction<JWSHeaderParameters, Fla
  * ```js
  * const jwt = 'eyJhbGciOiJFUzI1NiJ9.eyJ1cm46ZXhhbXBsZTpjbGFpbSI6dHJ1ZSwiaWF0IjoxNjA0MzE1MDc0LCJpc3MiOiJ1cm46ZXhhbXBsZTppc3N1ZXIiLCJhdWQiOiJ1cm46ZXhhbXBsZTphdWRpZW5jZSJ9.hx1nOfAT5LlXuzu8O-bhjXBGpklWDt2EsHw7-MDn49NrnwvVsstNhEnkW2ddauB7eSikFtUNeumLpFI9CWDBsg'
  *
- * const { payload, protectedHeader } = await jwtVerify(jwt, publicKey, {
+ * const { payload, protectedHeader } = await jose.jwtVerify(jwt, publicKey, {
  *   issuer: 'urn:example:issuer',
  *   audience: 'urn:example:audience'
  * })
  *
  * console.log(protectedHeader)
  * console.log(payload)
- * ```
- *
- * @example ESM import
- * ```js
- * import { jwtVerify } from 'jose'
- * ```
- *
- * @example CJS import
- * ```js
- * const { jwtVerify } = require('jose')
- * ```
- *
- * @example Deno import
- * ```js
- * import { jwtVerify } from 'https://deno.land/x/jose@VERSION/index.ts'
  * ```
  */
 export async function jwtVerify(

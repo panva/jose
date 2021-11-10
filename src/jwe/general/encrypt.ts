@@ -49,7 +49,7 @@ class IndividualRecipient implements Recipient {
  * ```js
  * const encoder = new TextEncoder()
  *
- * const encrypt = new GeneralEncrypt(encoder.encode('It’s a dangerous business, Frodo, going out your door.'))
+ * const encrypt = new jose.GeneralEncrypt(encoder.encode('It’s a dangerous business, Frodo, going out your door.'))
  *   .setProtectedHeader({ enc: 'A256GCM' })
  *
  * encrypt
@@ -61,21 +61,6 @@ class IndividualRecipient implements Recipient {
  *   .setUnprotectedHeader({ alg: 'RSA-OAEP-384' })
  *
  * const jwe = await encrypt.encrypt()
- * ```
- *
- * @example ESM import
- * ```js
- * import { GeneralEncrypt } from 'jose'
- * ```
- *
- * @example CJS import
- * ```js
- * const { GeneralEncrypt } = require('jose')
- * ```
- *
- * @example Deno import
- * ```js
- * import { GeneralEncrypt } from 'https://deno.land/x/jose@VERSION/index.ts'
  * ```
  */
 export class GeneralEncrypt {

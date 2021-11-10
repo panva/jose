@@ -222,37 +222,20 @@ interface URL {
  * an OAuth 2.0 or OIDC jwks_uri. Only a single public key must match
  * the selection process.
  *
+ * @param url URL to fetch the JSON Web Key Set from.
+ * @param options Options for the remote JSON Web Key Set.
+ *
  * @example Usage
  * ```js
- * import { jwtVerify } from 'jose'
+ * const JWKS = jose.createRemoteJWKSet(new URL('https://www.googleapis.com/oauth2/v3/certs'))
  *
- * const JWKS = createRemoteJWKSet(new URL('https://www.googleapis.com/oauth2/v3/certs'))
- *
- * const { payload, protectedHeader } = await jwtVerify(jwt, JWKS, {
+ * const { payload, protectedHeader } = await jose.jwtVerify(jwt, JWKS, {
  *   issuer: 'urn:example:issuer',
  *   audience: 'urn:example:audience'
  * })
  * console.log(protectedHeader)
  * console.log(payload)
  * ```
- *
- * @example ESM import
- * ```js
- * import { createRemoteJWKSet } from 'jose'
- * ```
- *
- * @example CJS import
- * ```js
- * const { createRemoteJWKSet } = require('jose')
- * ```
- *
- * @example Deno import
- * ```js
- * import { createRemoteJWKSet } from 'https://deno.land/x/jose@VERSION/index.ts'
- * ```
- *
- * @param url URL to fetch the JSON Web Key Set from.
- * @param options Options for the remote JSON Web Key Set.
  */
 export function createRemoteJWKSet(
   url: URL,

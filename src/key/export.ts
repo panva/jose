@@ -11,24 +11,9 @@ import type { JWK, KeyLike } from '../types.d'
  *
  * @example Usage
  * ```js
- * const spkiPem = await exportSPKI(publicKey)
+ * const spkiPem = await jose.exportSPKI(publicKey)
  *
  * console.log(spkiPem)
- * ```
- *
- * @example ESM import
- * ```js
- * import { exportSPKI } from 'jose'
- * ```
- *
- * @example CJS import
- * ```js
- * const { exportSPKI } = require('jose')
- * ```
- *
- * @example Deno import
- * ```js
- * import { exportSPKI } from 'https://deno.land/x/jose@VERSION/index.ts'
  * ```
  */
 export async function exportSPKI(key: KeyLike): Promise<string> {
@@ -42,24 +27,9 @@ export async function exportSPKI(key: KeyLike): Promise<string> {
  *
  * @example Usage
  * ```js
- * const pkcs8Pem = await exportPKCS8(privateKey)
+ * const pkcs8Pem = await jose.exportPKCS8(privateKey)
  *
  * console.log(pkcs8Pem)
- * ```
- *
- * @example ESM import
- * ```js
- * import { exportPKCS8 } from 'jose'
- * ```
- *
- * @example CJS import
- * ```js
- * const { exportPKCS8 } = require('jose')
- * ```
- *
- * @example Deno import
- * ```js
- * import { exportPKCS8 } from 'https://deno.land/x/jose@VERSION/index.ts'
  * ```
  */
 export async function exportPKCS8(key: KeyLike): Promise<string> {
@@ -73,26 +43,11 @@ export async function exportPKCS8(key: KeyLike): Promise<string> {
  *
  * @example Usage
  * ```js
- * const privateJwk = await exportJWK(privateKey)
- * const publicJwk = await exportJWK(publicKey)
+ * const privateJwk = await jose.exportJWK(privateKey)
+ * const publicJwk = await jose.exportJWK(publicKey)
  *
  * console.log(privateJwk)
  * console.log(publicJwk)
- * ```
- *
- * @example ESM import
- * ```js
- * import { exportJWK } from 'jose'
- * ```
- *
- * @example CJS import
- * ```js
- * const { exportJWK } = require('jose')
- * ```
- *
- * @example Deno import
- * ```js
- * import { exportJWK } from 'https://deno.land/x/jose@VERSION/index.ts'
  * ```
  */
 export async function exportJWK(key: KeyLike | Uint8Array): Promise<JWK> {

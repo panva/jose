@@ -8,6 +8,21 @@ If you or your business use `jose`, please consider becoming a [sponsor][support
 
 ## Available modules
 
+**`example`** ESM import
+```js
+import * as jose from 'jose'
+```
+
+**`example`** CJS require
+```js
+const jose = require('jose')
+```
+
+**`example`** Deno import
+```js
+import * as jose from 'https://deno.land/x/jose/index.ts'
+```
+
 - JSON Web Tokens (JWT)
   - [Signing](classes/jwt_sign.SignJWT.md#readme)
   - [Verification & Claims Set Validation](functions/jwt_verify.jwtVerify.md#readme)

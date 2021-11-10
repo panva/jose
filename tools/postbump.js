@@ -11,10 +11,7 @@ const opts = { stdio: 'inherit' }
 execSync('git rm -f docs/**/*.md', opts)
 execSync('find docs -type d | grep "docs/" | xargs rm -rf', opts)
 execSync('npx patch-package', opts)
-execSync(
-  `npm run docs:generate -- --plugin ./tools/typedoc-replace-version --gitRevision ${tagName}`,
-  opts,
-)
+execSync(`npm run docs:generate -- --gitRevision ${tagName}`, opts)
 writeFileSync('docs/README.md', readme)
 execSync('npm pack', opts)
 execSync('rm -rf dist', opts)
@@ -27,7 +24,16 @@ x({
   sync: true,
 })
 execSync('npm run build:deno', opts)
-execSync('cp docs/README.md dist/deno/README.md')
+writeFileSync(
+  'dist/deno/README.md',
+  readFileSync('docs/readme.md', { encoding: 'utf-8' }).replace(
+    /\*\*[\s\S]+```/gm,
+    `**\`example\`** Deno import
+\`\`\`js
+import * as jose from 'https://deno.land/x/jose@${tagName}/index.ts'
+\`\`\``,
+  ),
+)
 execSync('npm run build:browser-bundle', opts)
 execSync('npm run build:browser-bundle-min', opts)
 execSync('npm run build:browser-umd', opts)

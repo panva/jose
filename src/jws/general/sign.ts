@@ -55,7 +55,7 @@ class IndividualSignature implements Signature {
  * ```js
  * const encoder = new TextEncoder()
  *
- * const sign = new GeneralSign(encoder.encode('It’s a dangerous business, Frodo, going out your door.'))
+ * const sign = new jose.GeneralSign(encoder.encode('It’s a dangerous business, Frodo, going out your door.'))
  *
  * sign
  *   .addSignature(ecPrivateKey)
@@ -66,21 +66,6 @@ class IndividualSignature implements Signature {
  *   .setProtectedHeader({ alg: 'PS256' })
  *
  * const jws = await sign.sign()
- * ```
- *
- * @example ESM import
- * ```js
- * import { GeneralSign } from 'jose'
- * ```
- *
- * @example CJS import
- * ```js
- * const { GeneralSign } = require('jose')
- * ```
- *
- * @example Deno import
- * ```js
- * import { GeneralSign } from 'https://deno.land/x/jose@VERSION/index.ts'
  * ```
  */
 export class GeneralSign {
