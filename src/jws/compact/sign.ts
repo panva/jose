@@ -1,5 +1,5 @@
 import { FlattenedSign } from '../flattened/sign.js'
-import type { JWSHeaderParameters, KeyLike, SignOptions } from '../../types.d'
+import type { CompactJWSHeaderParameters, KeyLike, SignOptions } from '../../types.d'
 
 /**
  * The CompactSign class is a utility for creating Compact JWS strings.
@@ -32,7 +32,7 @@ export class CompactSign {
    *
    * @param protectedHeader JWS Protected Header.
    */
-  setProtectedHeader(protectedHeader: JWSHeaderParameters) {
+  setProtectedHeader(protectedHeader: CompactJWSHeaderParameters) {
     this._flattened.setProtectedHeader(protectedHeader)
     return this
   }

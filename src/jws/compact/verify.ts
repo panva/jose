@@ -5,7 +5,7 @@ import type {
   CompactVerifyResult,
   FlattenedJWSInput,
   GetKeyFunction,
-  JWSHeaderParameters,
+  CompactJWSHeaderParameters,
   KeyLike,
   VerifyOptions,
   ResolvedKey,
@@ -19,7 +19,7 @@ import type {
  * to verify using a remote JSON Web Key Set.
  */
 export interface CompactVerifyGetKey
-  extends GetKeyFunction<JWSHeaderParameters, FlattenedJWSInput> {}
+  extends GetKeyFunction<CompactJWSHeaderParameters, FlattenedJWSInput> {}
 
 /**
  * Verifies the signature and format of and afterwards decodes the Compact JWS.

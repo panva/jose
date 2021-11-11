@@ -722,6 +722,14 @@ export interface ResolvedKey {
 }
 
 /**
+ * Recognized Compact JWS Header Parameters, any other Header Members
+ * may also be present.
+ */
+export interface CompactJWSHeaderParameters extends JWSHeaderParameters {
+  alg: string
+}
+
+/**
  * Recognized Compact JWE Header Parameters, any other Header Members
  * may also be present.
  */
