@@ -4,9 +4,11 @@ The CompactSign class is a utility for creating Compact JWS strings.
 
 **`example`** Usage
 ```js
-const encoder = new TextEncoder()
-
-const jws = await new jose.CompactSign(encoder.encode('It’s a dangerous business, Frodo, going out your door.'))
+const jws = await new jose.CompactSign(
+  new TextEncoder().encode(
+    'It’s a dangerous business, Frodo, going out your door.'
+  )
+)
   .setProtectedHeader({ alg: 'ES256' })
   .sign(privateKey)
 

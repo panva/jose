@@ -4,10 +4,43 @@
 
 ### Methods
 
+- [addSignature](jws_general_sign.Signature.md#addsignature)
+- [done](jws_general_sign.Signature.md#done)
 - [setProtectedHeader](jws_general_sign.Signature.md#setprotectedheader)
 - [setUnprotectedHeader](jws_general_sign.Signature.md#setunprotectedheader)
+- [sign](jws_general_sign.Signature.md#sign)
 
 ## Methods
+
+### addSignature
+
+▸ **addSignature**(...`args`): [`Signature`](jws_general_sign.Signature.md)
+
+A shorthand for calling addSignature() on the enclosing GeneralSign instance
+
+#### Parameters
+
+| Name | Type |
+| :------ | :------ |
+| `...args` | [key: KeyLike \| Uint8Array, options?: SignOptions] |
+
+#### Returns
+
+[`Signature`](jws_general_sign.Signature.md)
+
+___
+
+### done
+
+▸ **done**(): [`GeneralSign`](../classes/jws_general_sign.GeneralSign.md)
+
+Returns the enclosing GeneralSign
+
+#### Returns
+
+[`GeneralSign`](../classes/jws_general_sign.GeneralSign.md)
+
+___
 
 ### setProtectedHeader
 
@@ -42,3 +75,21 @@ Sets the JWS Unprotected Header on the Signature object.
 #### Returns
 
 [`Signature`](jws_general_sign.Signature.md)
+
+___
+
+### sign
+
+▸ **sign**(...`args`): `Promise`<[`GeneralJWS`](types.GeneralJWS.md)\>
+
+A shorthand for calling encrypt() on the enclosing GeneralSign instance
+
+#### Parameters
+
+| Name | Type |
+| :------ | :------ |
+| `...args` | [] |
+
+#### Returns
+
+`Promise`<[`GeneralJWS`](types.GeneralJWS.md)\>

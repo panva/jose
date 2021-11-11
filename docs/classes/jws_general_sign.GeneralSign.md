@@ -4,19 +4,18 @@ The GeneralSign class is a utility for creating General JWS objects.
 
 **`example`** Usage
 ```js
-const encoder = new TextEncoder()
-
-const sign = new jose.GeneralSign(encoder.encode('It’s a dangerous business, Frodo, going out your door.'))
-
-sign
+const jws = await new jose.GeneralSign(
+  new TextEncoder().encode(
+    'It’s a dangerous business, Frodo, going out your door.'
+  )
+)
   .addSignature(ecPrivateKey)
   .setProtectedHeader({ alg: 'ES256' })
-
-sign
   .addSignature(rsaPrivateKey)
   .setProtectedHeader({ alg: 'PS256' })
+  .sign()
 
-const jws = await sign.sign()
+console.log(jws)
 ```
 
 ## Table of contents

@@ -4,20 +4,19 @@ The GeneralEncrypt class is a utility for creating General JWE objects.
 
 **`example`** Usage
 ```js
-const encoder = new TextEncoder()
-
-const encrypt = new jose.GeneralEncrypt(encoder.encode('It’s a dangerous business, Frodo, going out your door.'))
+const jwe = await new jose.GeneralEncrypt(
+  new TextEncoder().encode(
+    'It’s a dangerous business, Frodo, going out your door.'
+  )
+)
   .setProtectedHeader({ enc: 'A256GCM' })
-
-encrypt
   .addRecipient(ecPrivateKey)
   .setUnprotectedHeader({ alg: 'ECDH-ES+A256KW' })
-
-encrypt
   .addRecipient(rsaPrivateKey)
   .setUnprotectedHeader({ alg: 'RSA-OAEP-384' })
+  .encrypt()
 
-const jwe = await encrypt.encrypt()
+console.log(jwe)
 ```
 
 ## Table of contents

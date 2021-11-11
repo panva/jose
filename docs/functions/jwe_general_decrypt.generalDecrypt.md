@@ -6,7 +6,6 @@ Decrypts a General JWE.
 
 **`example`** Usage
 ```js
-const decoder = new TextDecoder()
 const jwe = {
   ciphertext: '9EzjFISUyoG-ifC2mSihfP0DPC80yeyrxhTzKt1C_VJBkxeBG0MI4Te61Pk45RAGubUvBpU9jm4',
   iv: '8Fy7A_IuoX5VXG9s',
@@ -27,6 +26,7 @@ const {
 } = await jose.generalDecrypt(jwe, privateKey)
 
 console.log(protectedHeader)
+const decoder = new TextDecoder()
 console.log(decoder.decode(plaintext))
 console.log(decoder.decode(additionalAuthenticatedData))
 ```

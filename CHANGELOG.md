@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [4.3.0](https://github.com/panva/jose/compare/v4.2.1...v4.3.0) (2021-11-11)
+
+
+### Features
+
+* add GeneralSign signature and GeneralEncrypt recipient builder chaining ([cfc93f5](https://github.com/panva/jose/commit/cfc93f5daf4729a189ef5caabae4a9ec9ad45378))
+
 ## [4.2.1](https://github.com/panva/jose/compare/v4.2.0...v4.2.1) (2021-11-09)
 
 

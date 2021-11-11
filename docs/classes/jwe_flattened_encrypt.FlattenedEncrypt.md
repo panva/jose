@@ -5,9 +5,11 @@ objects.
 
 **`example`** Usage
 ```js
-const encoder = new TextEncoder()
-
-const jwe = await new jose.FlattenedEncrypt(encoder.encode('It’s a dangerous business, Frodo, going out your door.'))
+const jwe = await new jose.FlattenedEncrypt(
+  new TextEncoder().encode(
+    'It’s a dangerous business, Frodo, going out your door.'
+  )
+)
   .setProtectedHeader({ alg: 'RSA-OAEP-256', enc: 'A256GCM' })
   .setAdditionalAuthenticatedData(encoder.encode('The Fellowship of the Ring'))
   .encrypt(publicKey)
