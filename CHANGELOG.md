@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [4.3.3](https://github.com/panva/jose/compare/v4.3.2...v4.3.3) (2021-11-11)
+
+
+### Fixes
+
+* **typescript:** apply updated compact and jwt headers to compact/jwt verify and decrypt results ([0c1946c](https://github.com/panva/jose/commit/0c1946c3e2a95e082b9a9095bf035756d8f17730))
+
 ## [4.3.2](https://github.com/panva/jose/compare/v4.3.0...v4.3.2) (2021-11-11)
 
 

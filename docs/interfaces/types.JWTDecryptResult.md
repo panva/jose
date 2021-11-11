@@ -19,6 +19,6 @@ ___
 
 ### protectedHeader
 
-• **protectedHeader**: [`JWEHeaderParameters`](types.JWEHeaderParameters.md)
+• **protectedHeader**: [`CompactJWEHeaderParameters`](types.CompactJWEHeaderParameters.md)
 
 JWE Protected Header.
