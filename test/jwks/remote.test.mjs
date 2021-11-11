@@ -209,19 +209,19 @@ test.serial('throws on invalid JWKSet', async (t) => {
 
   const url = new URL('https://as.example.com/jwks')
   const JWKS = createRemoteJWKSet(url)
-  await t.throwsAsync(JWKS({ alg: 'RS256' }), {
+  await t.throwsAsync(JWKS({ alg: 'RS256' }, {}), {
     code: 'ERR_JWKS_INVALID',
     message: 'JSON Web Key Set malformed',
   })
 
   scope.get('/jwks').once().reply(200, {})
-  await t.throwsAsync(JWKS({ alg: 'RS256' }), {
+  await t.throwsAsync(JWKS({ alg: 'RS256' }, {}), {
     code: 'ERR_JWKS_INVALID',
     message: 'JSON Web Key Set malformed',
   })
 
   scope.get('/jwks').once().reply(200, { keys: null })
-  await t.throwsAsync(JWKS({ alg: 'RS256' }), {
+  await t.throwsAsync(JWKS({ alg: 'RS256' }, {}), {
     code: 'ERR_JWKS_INVALID',
     message: 'JSON Web Key Set malformed',
   })
@@ -230,19 +230,19 @@ test.serial('throws on invalid JWKSet', async (t) => {
     .get('/jwks')
     .once()
     .reply(200, { keys: [null] })
-  await t.throwsAsync(JWKS({ alg: 'RS256' }), {
+  await t.throwsAsync(JWKS({ alg: 'RS256' }, {}), {
     code: 'ERR_JWKS_INVALID',
     message: 'JSON Web Key Set malformed',
   })
 
   scope.get('/jwks').once().reply(404)
-  await t.throwsAsync(JWKS({ alg: 'RS256' }), {
+  await t.throwsAsync(JWKS({ alg: 'RS256' }, {}), {
     code: 'ERR_JOSE_GENERIC',
     message: 'Expected 200 OK from the JSON Web Key Set HTTP response',
   })
 
   scope.get('/jwks').once().reply(200, '{')
-  await t.throwsAsync(JWKS({ alg: 'RS256' }), {
+  await t.throwsAsync(JWKS({ alg: 'RS256' }, {}), {
     code: 'ERR_JOSE_GENERIC',
     message: 'Failed to parse the JSON Web Key Set HTTP response as JSON',
   })
@@ -252,7 +252,7 @@ test('handles ENOTFOUND', async (t) => {
   nock.enableNetConnect()
   const url = new URL('https://op.example.com/jwks')
   const JWKS = createRemoteJWKSet(url)
-  await t.throwsAsync(JWKS({ alg: 'RS256' }), {
+  await t.throwsAsync(JWKS({ alg: 'RS256' }, {}), {
     code: 'ENOTFOUND',
   })
 })
@@ -261,7 +261,7 @@ test('handles ECONNREFUSED', async (t) => {
   nock.enableNetConnect()
   const url = new URL('http://localhost:3001/jwks')
   const JWKS = createRemoteJWKSet(url)
-  await t.throwsAsync(JWKS({ alg: 'RS256' }), {
+  await t.throwsAsync(JWKS({ alg: 'RS256' }, {}), {
     code: 'ECONNREFUSED',
   })
 })
@@ -273,7 +273,7 @@ test('handles ECONNRESET', async (t) => {
     socket.destroy()
   })
   const JWKS = createRemoteJWKSet(url)
-  await t.throwsAsync(JWKS({ alg: 'RS256' }), {
+  await t.throwsAsync(JWKS({ alg: 'RS256' }, {}), {
     code: 'ECONNRESET',
   })
 })
@@ -285,7 +285,7 @@ test('handles a timeout', async (t) => {
   const JWKS = createRemoteJWKSet(url, {
     timeoutDuration: 500,
   })
-  await t.throwsAsync(JWKS({ alg: 'RS256' }), {
+  await t.throwsAsync(JWKS({ alg: 'RS256' }, {}), {
     code: 'ERR_JWKS_TIMEOUT',
   })
 })

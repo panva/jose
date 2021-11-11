@@ -103,23 +103,28 @@ class RemoteJWKSet {
     return Date.now() < this._cooldownStarted + this._cooldownDuration
   }
 
-  async getKey(protectedHeader: JWSHeaderParameters): Promise<KeyLike> {
+  async getKey(protectedHeader: JWSHeaderParameters, token: FlattenedJWSInput): Promise<KeyLike> {
+    const joseHeader = {
+      ...protectedHeader,
+      ...token.header,
+    }
+
     if (!this._jwks) {
       await this.reload()
     }
 
     const candidates = this._jwks!.keys.filter((jwk) => {
       // filter keys based on the mapping of signature algorithms to Key Type
-      let candidate = jwk.kty === getKtyFromAlg(protectedHeader.alg)
+      let candidate = jwk.kty === getKtyFromAlg(joseHeader.alg)
 
       // filter keys based on the JWK Key ID in the header
-      if (candidate && typeof protectedHeader.kid === 'string') {
-        candidate = protectedHeader.kid === jwk.kid
+      if (candidate && typeof joseHeader.kid === 'string') {
+        candidate = joseHeader.kid === jwk.kid
       }
 
       // filter keys based on the key's declared Algorithm
       if (candidate && typeof jwk.alg === 'string') {
-        candidate = protectedHeader.alg === jwk.alg
+        candidate = joseHeader.alg === jwk.alg
       }
 
       // filter keys based on the key's declared Public Key Use
@@ -133,13 +138,13 @@ class RemoteJWKSet {
       }
 
       // filter out non-applicable OKP Sub Types
-      if (candidate && protectedHeader.alg === 'EdDSA') {
+      if (candidate && joseHeader.alg === 'EdDSA') {
         candidate = jwk.crv === 'Ed25519' || jwk.crv === 'Ed448'
       }
 
       // filter out non-applicable EC curves
       if (candidate) {
-        switch (protectedHeader.alg) {
+        switch (joseHeader.alg) {
           case 'ES256':
             candidate = jwk.crv === 'P-256'
             break
@@ -164,7 +169,7 @@ class RemoteJWKSet {
     if (length === 0) {
       if (this.coolingDown() === false) {
         await this.reload()
-        return this.getKey(protectedHeader)
+        return this.getKey(joseHeader, token)
       }
       throw new JWKSNoMatchingKey()
     } else if (length !== 1) {
@@ -172,17 +177,17 @@ class RemoteJWKSet {
     }
 
     const cached = this._cached.get(jwk) || this._cached.set(jwk, {}).get(jwk)!
-    if (cached[protectedHeader.alg!] === undefined) {
-      const keyObject = await importJWK({ ...jwk, ext: true }, protectedHeader.alg!)
+    if (cached[joseHeader.alg!] === undefined) {
+      const keyObject = await importJWK({ ...jwk, ext: true }, joseHeader.alg!)
 
       if (keyObject instanceof Uint8Array || keyObject.type !== 'public') {
         throw new JWKSInvalid('JSON Web Key Set members must be public keys')
       }
 
-      cached[protectedHeader.alg!] = keyObject
+      cached[joseHeader.alg!] = keyObject
     }
 
-    return cached[protectedHeader.alg!]
+    return cached[joseHeader.alg!]
   }
 
   async reload() {

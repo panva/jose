@@ -346,13 +346,13 @@ test('createRemoteJWKSet', macro, async () => {
   const response = await fetch(jwksUri).then((r) => r.json())
   const { alg, kid } = response.keys[0]
   const jwks = jose.createRemoteJWKSet(new URL(jwksUri))
-  await jwks({ alg, kid })
+  await jwks({ alg, kid }, {})
 })
 
 test('remote jwk set timeout', macro, async () => {
   const jwksUri = 'https://www.googleapis.com/oauth2/v3/certs'
   const jwks = jose.createRemoteJWKSet(new URL(jwksUri), { timeoutDuration: 0 })
-  await jwks({ alg: 'RS256' }).then(
+  await jwks({ alg: 'RS256' }, {}).then(
     () => {
       throw new Error('should fail')
     },
