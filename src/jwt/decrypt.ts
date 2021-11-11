@@ -4,7 +4,7 @@ import type {
   DecryptOptions,
   JWTClaimVerificationOptions,
   GetKeyFunction,
-  JWEHeaderParameters,
+  CompactJWEHeaderParameters,
   FlattenedJWE,
   JWTDecryptResult,
   ResolvedKey,
@@ -21,7 +21,8 @@ export interface JWTDecryptOptions extends DecryptOptions, JWTClaimVerificationO
  * Interface for JWT Decryption dynamic key resolution.
  * No token components have been verified at the time of this function call.
  */
-export interface JWTDecryptGetKey extends GetKeyFunction<JWEHeaderParameters, FlattenedJWE> {}
+export interface JWTDecryptGetKey
+  extends GetKeyFunction<CompactJWEHeaderParameters, FlattenedJWE> {}
 
 /**
  * Verifies the JWT format (to be a JWE Compact format), decrypts the ciphertext, validates the JWT Claims Set.

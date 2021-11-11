@@ -720,3 +720,12 @@ export interface ResolvedKey {
    */
   key: KeyLike | Uint8Array
 }
+
+/**
+ * Recognized Compact JWE Header Parameters, any other Header Members
+ * may also be present.
+ */
+export interface CompactJWEHeaderParameters extends JWEHeaderParameters {
+  alg: string
+  enc: string
+}

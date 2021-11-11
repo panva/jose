@@ -4,7 +4,7 @@ import { decoder } from '../../lib/buffer_utils.js'
 import type {
   KeyLike,
   DecryptOptions,
-  JWEHeaderParameters,
+  CompactJWEHeaderParameters,
   GetKeyFunction,
   FlattenedJWE,
   CompactDecryptResult,
@@ -15,7 +15,8 @@ import type {
  * Interface for Compact JWE Decryption dynamic key resolution.
  * No token components have been verified at the time of this function call.
  */
-export interface CompactDecryptGetKey extends GetKeyFunction<JWEHeaderParameters, FlattenedJWE> {}
+export interface CompactDecryptGetKey
+  extends GetKeyFunction<CompactJWEHeaderParameters, FlattenedJWE> {}
 
 /**
  * Decrypts a Compact JWE.

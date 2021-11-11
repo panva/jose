@@ -2,7 +2,7 @@ import { FlattenedEncrypt } from '../flattened/encrypt.js'
 import type {
   KeyLike,
   JWEKeyManagementHeaderParameters,
-  JWEHeaderParameters,
+  CompactJWEHeaderParameters,
   EncryptOptions,
 } from '../../types.d'
 
@@ -63,7 +63,7 @@ export class CompactEncrypt {
    *
    * @param protectedHeader JWE Protected Header object.
    */
-  setProtectedHeader(protectedHeader: JWEHeaderParameters) {
+  setProtectedHeader(protectedHeader: CompactJWEHeaderParameters) {
     this._flattened.setProtectedHeader(protectedHeader)
     return this
   }

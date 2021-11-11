@@ -1,7 +1,7 @@
 import { CompactEncrypt } from '../jwe/compact/encrypt.js'
 import type {
   EncryptOptions,
-  JWEHeaderParameters,
+  CompactJWEHeaderParameters,
   JWEKeyManagementHeaderParameters,
   KeyLike,
 } from '../types.d'
@@ -31,7 +31,7 @@ export class EncryptJWT extends ProduceJWT {
 
   private _keyManagementParameters!: JWEKeyManagementHeaderParameters
 
-  private _protectedHeader!: JWEHeaderParameters
+  private _protectedHeader!: CompactJWEHeaderParameters
 
   private _replicateIssuerAsHeader!: boolean
 
@@ -46,7 +46,7 @@ export class EncryptJWT extends ProduceJWT {
    * Must contain an "alg" (JWE Algorithm) and "enc" (JWE
    * Encryption Algorithm) properties.
    */
-  setProtectedHeader(protectedHeader: JWEHeaderParameters) {
+  setProtectedHeader(protectedHeader: CompactJWEHeaderParameters) {
     if (this._protectedHeader) {
       throw new TypeError('setProtectedHeader can only be called once')
     }
