@@ -50,7 +50,7 @@ Sets the JWS Protected Header on the Sign object.
 
 | Name | Type | Description |
 | :------ | :------ | :------ |
-| `protectedHeader` | [`JWSHeaderParameters`](../interfaces/types.JWSHeaderParameters.md) | JWS Protected Header. |
+| `protectedHeader` | [`CompactJWSHeaderParameters`](../interfaces/types.CompactJWSHeaderParameters.md) | JWS Protected Header. |
 
 #### Returns
 

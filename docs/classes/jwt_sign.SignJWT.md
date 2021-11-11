@@ -165,7 +165,7 @@ Sets the JWS Protected Header on the SignJWT object.
 
 | Name | Type | Description |
 | :------ | :------ | :------ |
-| `protectedHeader` | [`JWSHeaderParameters`](../interfaces/types.JWSHeaderParameters.md) | JWS Protected Header. Must contain an "alg" (JWS Algorithm) property. |
+| `protectedHeader` | [`JWTHeaderParameters`](../interfaces/types.JWTHeaderParameters.md) | JWS Protected Header. Must contain an "alg" (JWS Algorithm) property. |
 
 #### Returns
 

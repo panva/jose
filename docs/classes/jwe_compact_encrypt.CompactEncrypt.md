@@ -134,7 +134,7 @@ Sets the JWE Protected Header on the CompactEncrypt object.
 
 | Name | Type | Description |
 | :------ | :------ | :------ |
-| `protectedHeader` | [`JWEHeaderParameters`](../interfaces/types.JWEHeaderParameters.md) | JWE Protected Header object. |
+| `protectedHeader` | [`CompactJWEHeaderParameters`](../interfaces/types.CompactJWEHeaderParameters.md) | JWE Protected Header object. |
 
 #### Returns
 

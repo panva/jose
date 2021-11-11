@@ -13,7 +13,7 @@ No token components have been verified at the time of this function call.
 
 | Name | Type |
 | :------ | :------ |
-| `protectedHeader` | [`JWEHeaderParameters`](types.JWEHeaderParameters.md) |
+| `protectedHeader` | [`CompactJWEHeaderParameters`](types.CompactJWEHeaderParameters.md) |
 | `token` | [`FlattenedJWE`](types.FlattenedJWE.md) |
 
 #### Returns

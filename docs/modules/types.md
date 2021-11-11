@@ -5,6 +5,8 @@
 ### Interfaces
 
 - [CompactDecryptResult](../interfaces/types.CompactDecryptResult.md)
+- [CompactJWEHeaderParameters](../interfaces/types.CompactJWEHeaderParameters.md)
+- [CompactJWSHeaderParameters](../interfaces/types.CompactJWSHeaderParameters.md)
 - [CompactVerifyResult](../interfaces/types.CompactVerifyResult.md)
 - [CritOption](../interfaces/types.CritOption.md)
 - [DecryptOptions](../interfaces/types.DecryptOptions.md)
@@ -29,6 +31,7 @@
 - [JWSHeaderParameters](../interfaces/types.JWSHeaderParameters.md)
 - [JWTClaimVerificationOptions](../interfaces/types.JWTClaimVerificationOptions.md)
 - [JWTDecryptResult](../interfaces/types.JWTDecryptResult.md)
+- [JWTHeaderParameters](../interfaces/types.JWTHeaderParameters.md)
 - [JWTPayload](../interfaces/types.JWTPayload.md)
 - [JWTVerifyResult](../interfaces/types.JWTVerifyResult.md)
 - [JoseHeaderParameters](../interfaces/types.JoseHeaderParameters.md)

@@ -16,7 +16,7 @@ to verify using a remote JSON Web Key Set.
 
 | Name | Type |
 | :------ | :------ |
-| `protectedHeader` | [`JWSHeaderParameters`](types.JWSHeaderParameters.md) |
+| `protectedHeader` | [`JWTHeaderParameters`](types.JWTHeaderParameters.md) |
 | `token` | [`FlattenedJWSInput`](types.FlattenedJWSInput.md) |
 
 #### Returns
