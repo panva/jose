@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [4.3.2](https://github.com/panva/jose/compare/v4.3.0...v4.3.2) (2021-11-11)
+
+
+### Fixes
+
+* createRemoteJWKSet handles all JWS syntaxes ([aaba8f3](https://github.com/panva/jose/commit/aaba8f3000b76b41733567367b9000348a839c17))
+* **typescript:** Compact JWS Header Parameters has alg and enc as required ([0fa87af](https://github.com/panva/jose/commit/0fa87af64b8e9f0f0cb68264f4dc22cc985acf91))
+* **typescript:** Compact JWS Header Parameters has alg as required ([c7fabd0](https://github.com/panva/jose/commit/c7fabd0f012513f3c9161b0f59befae1d7430e16))
+* **typescript:** Signed JWT Header Parameters has alg as required and b64 as never ([79cbd82](https://github.com/panva/jose/commit/79cbd82d3dd36f9ef87e4d306d77d9694a1c5836))
+
 ## [4.3.0](https://github.com/panva/jose/compare/v4.2.1...v4.3.0) (2021-11-11)
 
 
