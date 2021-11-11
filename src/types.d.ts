@@ -656,7 +656,7 @@ export interface CompactDecryptResult {
   /**
    * JWE Protected Header.
    */
-  protectedHeader: JWEHeaderParameters
+  protectedHeader: CompactJWEHeaderParameters
 }
 
 export interface FlattenedVerifyResult {
@@ -687,7 +687,7 @@ export interface CompactVerifyResult {
   /**
    * JWS Protected Header.
    */
-  protectedHeader: JWSHeaderParameters
+  protectedHeader: CompactJWSHeaderParameters
 }
 
 export interface JWTVerifyResult {
@@ -699,7 +699,7 @@ export interface JWTVerifyResult {
   /**
    * JWS Protected Header.
    */
-  protectedHeader: JWSHeaderParameters
+  protectedHeader: JWTHeaderParameters
 }
 
 export interface JWTDecryptResult {
@@ -711,7 +711,7 @@ export interface JWTDecryptResult {
   /**
    * JWE Protected Header.
    */
-  protectedHeader: JWEHeaderParameters
+  protectedHeader: CompactJWEHeaderParameters
 }
 
 export interface ResolvedKey {
