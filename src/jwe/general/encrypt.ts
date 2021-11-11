@@ -38,40 +38,36 @@ export interface Recipient {
   done(): GeneralEncrypt
 }
 
-interface RecipientReference {
-  unprotectedHeader?: JWEHeaderParameters
-  options?: CritOption
-  key: KeyLike | Uint8Array
-}
-
-const recipientRef: WeakMap<IndividualRecipient, RecipientReference> = new WeakMap()
-
 class IndividualRecipient implements Recipient {
-  private _back: GeneralEncrypt
+  private parent: GeneralEncrypt
+  unprotectedHeader?: JWEHeaderParameters
+  key: KeyLike | Uint8Array
+  options: CritOption
 
-  constructor(enc: GeneralEncrypt) {
-    this._back = enc
+  constructor(enc: GeneralEncrypt, key: KeyLike | Uint8Array, options: CritOption) {
+    this.parent = enc
+    this.key = key
+    this.options = options
   }
 
   setUnprotectedHeader(unprotectedHeader: JWEHeaderParameters) {
-    const ref = recipientRef.get(this)!
-    if (ref.unprotectedHeader) {
+    if (this.unprotectedHeader) {
       throw new TypeError('setUnprotectedHeader can only be called once')
     }
-    ref.unprotectedHeader = unprotectedHeader
+    this.unprotectedHeader = unprotectedHeader
     return this
   }
 
   addRecipient(...args: Parameters<GeneralEncrypt['addRecipient']>) {
-    return this._back.addRecipient(...args)
+    return this.parent.addRecipient(...args)
   }
 
   encrypt(...args: Parameters<GeneralEncrypt['encrypt']>) {
-    return this._back.encrypt(...args)
+    return this.parent.encrypt(...args)
   }
 
   done() {
-    return this._back
+    return this.parent
   }
 }
 
@@ -120,8 +116,7 @@ export class GeneralEncrypt {
    * @param options JWE Encryption options.
    */
   addRecipient(key: KeyLike | Uint8Array, options?: CritOption): Recipient {
-    const recipient = new IndividualRecipient(this)
-    recipientRef.set(recipient, { key, options: { crit: options?.crit } })
+    const recipient = new IndividualRecipient(this, key, { crit: options?.crit })
     this._recipients.push(recipient)
     return recipient
   }
@@ -175,18 +170,14 @@ export class GeneralEncrypt {
     options = { deflateRaw: options?.deflateRaw }
 
     if (this._recipients.length === 1) {
-      const {
-        unprotectedHeader,
-        options: recipientOpts,
-        key,
-      } = recipientRef.get(this._recipients[0])!
+      const [recipient] = this._recipients
 
       const flattened = await new FlattenedEncrypt(this._plaintext)
         .setAdditionalAuthenticatedData(this._aad)
         .setProtectedHeader(this._protectedHeader)
         .setSharedUnprotectedHeader(this._unprotectedHeader)
-        .setUnprotectedHeader(unprotectedHeader!)
-        .encrypt(key, { ...recipientOpts, ...options })
+        .setUnprotectedHeader(recipient.unprotectedHeader!)
+        .encrypt(recipient.key, { ...recipient.options, ...options })
 
       let jwe: GeneralJWE = {
         ciphertext: flattened.ciphertext,
@@ -207,8 +198,9 @@ export class GeneralEncrypt {
     let enc!: string
     for (let i = 0; i < this._recipients.length; i++) {
       const recipient = this._recipients[i]
-      const { unprotectedHeader, options: recipientOpts } = recipientRef.get(recipient)!
-      if (!isDisjoint(this._protectedHeader, this._unprotectedHeader, unprotectedHeader)) {
+      if (
+        !isDisjoint(this._protectedHeader, this._unprotectedHeader, recipient.unprotectedHeader)
+      ) {
         throw new JWEInvalid(
           'JWE Protected, JWE Shared Unprotected and JWE Per-Recipient Header Parameter names must be disjoint',
         )
@@ -217,7 +209,7 @@ export class GeneralEncrypt {
       const joseHeader = {
         ...this._protectedHeader,
         ...this._unprotectedHeader,
-        ...unprotectedHeader,
+        ...recipient.unprotectedHeader,
       }
 
       const { alg } = joseHeader
@@ -242,7 +234,7 @@ export class GeneralEncrypt {
         )
       }
 
-      validateCrit(JWEInvalid, new Map(), recipientOpts?.crit, this._protectedHeader, joseHeader)
+      validateCrit(JWEInvalid, new Map(), recipient.options.crit, this._protectedHeader, joseHeader)
 
       if (joseHeader.zip !== undefined) {
         if (!this._protectedHeader || !this._protectedHeader.zip) {
@@ -261,11 +253,11 @@ export class GeneralEncrypt {
       recipients: [],
       tag: '',
     }
+
     for (let i = 0; i < this._recipients.length; i++) {
       const recipient = this._recipients[i]
       const target: Record<string, string | JWEHeaderParameters> = {}
       jwe.recipients!.push(target)
-      const { unprotectedHeader, options: recipientOpts, key } = recipientRef.get(recipient)!
 
       if (i === 0) {
         const flattened = await new FlattenedEncrypt(this._plaintext)
@@ -273,9 +265,9 @@ export class GeneralEncrypt {
           .setContentEncryptionKey(cek)
           .setProtectedHeader(this._protectedHeader)
           .setSharedUnprotectedHeader(this._unprotectedHeader)
-          .setUnprotectedHeader(unprotectedHeader!)
-          .encrypt(key, {
-            ...recipientOpts,
+          .setUnprotectedHeader(recipient.unprotectedHeader!)
+          .encrypt(recipient.key, {
+            ...recipient.options,
             ...options,
             // @ts-expect-error
             [unprotected]: true,
@@ -296,13 +288,16 @@ export class GeneralEncrypt {
       }
 
       const { encryptedKey, parameters } = await encryptKeyManagement(
-        unprotectedHeader?.alg! || this._protectedHeader?.alg! || this._unprotectedHeader?.alg!,
+        recipient.unprotectedHeader?.alg! ||
+          this._protectedHeader?.alg! ||
+          this._unprotectedHeader?.alg!,
         enc,
-        key,
+        recipient.key,
         cek,
       )
       target.encrypted_key = base64url(encryptedKey!)
-      if (unprotectedHeader || parameters) target.header = { ...unprotectedHeader, ...parameters }
+      if (recipient.unprotectedHeader || parameters)
+        target.header = { ...recipient.unprotectedHeader, ...parameters }
     }
 
     return <GeneralJWE>jwe
