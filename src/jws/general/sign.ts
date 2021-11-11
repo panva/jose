@@ -34,50 +34,46 @@ export interface Signature {
   done(): GeneralSign
 }
 
-interface SignatureReference {
+class IndividualSignature implements Signature {
+  private parent: GeneralSign
+
   protectedHeader?: JWSHeaderParameters
   unprotectedHeader?: JWSHeaderParameters
   options?: SignOptions
   key: KeyLike | Uint8Array
-}
 
-const signatureRef: WeakMap<IndividualSignature, SignatureReference> = new WeakMap()
-
-class IndividualSignature implements Signature {
-  private _back: GeneralSign
-
-  constructor(sig: GeneralSign) {
-    this._back = sig
+  constructor(sig: GeneralSign, key: KeyLike | Uint8Array, options?: SignOptions) {
+    this.parent = sig
+    this.key = key
+    this.options = options
   }
 
   setProtectedHeader(protectedHeader: JWSHeaderParameters) {
-    const ref = signatureRef.get(this)!
-    if (ref.protectedHeader) {
+    if (this.protectedHeader) {
       throw new TypeError('setProtectedHeader can only be called once')
     }
-    ref.protectedHeader = protectedHeader
+    this.protectedHeader = protectedHeader
     return this
   }
 
   setUnprotectedHeader(unprotectedHeader: JWSHeaderParameters) {
-    const ref = signatureRef.get(this)!
-    if (ref.unprotectedHeader) {
+    if (this.unprotectedHeader) {
       throw new TypeError('setUnprotectedHeader can only be called once')
     }
-    ref.unprotectedHeader = unprotectedHeader
+    this.unprotectedHeader = unprotectedHeader
     return this
   }
 
   addSignature(...args: Parameters<GeneralSign['addSignature']>) {
-    return this._back.addSignature(...args)
+    return this.parent.addSignature(...args)
   }
 
   sign(...args: Parameters<GeneralSign['sign']>) {
-    return this._back.sign(...args)
+    return this.parent.sign(...args)
   }
 
   done() {
-    return this._back
+    return this.parent
   }
 }
 
@@ -119,8 +115,7 @@ export class GeneralSign {
    * @param options JWS Sign options.
    */
   addSignature(key: KeyLike | Uint8Array, options?: SignOptions): Signature {
-    const signature = new IndividualSignature(this)
-    signatureRef.set(signature, { key, options })
+    const signature = new IndividualSignature(this, key, options)
     this._signatures.push(signature)
     return signature
   }
@@ -138,29 +133,20 @@ export class GeneralSign {
       payload: '',
     }
 
-    let payloads = new Set()
-    await Promise.all(
-      this._signatures.map(async (sig) => {
-        const { protectedHeader, unprotectedHeader, options, key } = signatureRef.get(sig)!
-        const flattened = new FlattenedSign(this._payload)
+    for (let i = 0; i < this._signatures.length; i++) {
+      const signature = this._signatures[i]
+      const flattened = new FlattenedSign(this._payload)
 
-        if (protectedHeader) {
-          flattened.setProtectedHeader(protectedHeader)
-        }
+      flattened.setProtectedHeader(signature.protectedHeader!)
+      flattened.setUnprotectedHeader(signature.unprotectedHeader!)
 
-        if (unprotectedHeader) {
-          flattened.setUnprotectedHeader(unprotectedHeader)
-        }
-
-        const { payload, ...rest } = await flattened.sign(key, options)
-        payloads.add(payload)
+      const { payload, ...rest } = await flattened.sign(signature.key, signature.options)
+      if (i === 0) {
         jws.payload = payload
-        jws.signatures.push(rest)
-      }),
-    )
-
-    if (payloads.size !== 1) {
-      throw new JWSInvalid('inconsistent use of JWS Unencoded Payload Option (RFC7797)')
+      } else if (jws.payload !== payload) {
+        throw new JWSInvalid('inconsistent use of JWS Unencoded Payload Option (RFC7797)')
+      }
+      jws.signatures.push(rest)
     }
 
     return jws
