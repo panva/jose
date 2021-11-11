@@ -169,7 +169,7 @@ class RemoteJWKSet {
     if (length === 0) {
       if (this.coolingDown() === false) {
         await this.reload()
-        return this.getKey(joseHeader, token)
+        return this.getKey(protectedHeader, token)
       }
       throw new JWKSNoMatchingKey()
     } else if (length !== 1) {
