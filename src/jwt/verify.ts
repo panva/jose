@@ -3,7 +3,7 @@ import type {
   KeyLike,
   VerifyOptions,
   JWTClaimVerificationOptions,
-  JWSHeaderParameters,
+  JWTHeaderParameters,
   GetKeyFunction,
   FlattenedJWSInput,
   JWTVerifyResult,
@@ -24,7 +24,7 @@ export interface JWTVerifyOptions extends VerifyOptions, JWTClaimVerificationOpt
  * See [createRemoteJWKSet](../functions/jwks_remote.createRemoteJWKSet.md#function-createremotejwkset)
  * to verify using a remote JSON Web Key Set.
  */
-export interface JWTVerifyGetKey extends GetKeyFunction<JWSHeaderParameters, FlattenedJWSInput> {}
+export interface JWTVerifyGetKey extends GetKeyFunction<JWTHeaderParameters, FlattenedJWSInput> {}
 
 /**
  * Verifies the JWT format (to be a JWS Compact format), verifies the JWS signature, validates the JWT Claims Set.

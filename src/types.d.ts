@@ -730,6 +730,14 @@ export interface CompactJWSHeaderParameters extends JWSHeaderParameters {
 }
 
 /**
+ * Recognized Signed JWT Header Parameters, any other Header Members
+ * may also be present.
+ */
+export interface JWTHeaderParameters extends CompactJWSHeaderParameters {
+  b64: never
+}
+
+/**
  * Recognized Compact JWE Header Parameters, any other Header Members
  * may also be present.
  */

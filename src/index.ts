@@ -91,4 +91,5 @@ export type {
   ResolvedKey,
   CompactJWEHeaderParameters,
   CompactJWSHeaderParameters,
+  JWTHeaderParameters,
 } from './types.d'

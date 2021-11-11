@@ -1,6 +1,6 @@
 import { CompactSign } from '../jws/compact/sign.js'
 import { JWTInvalid } from '../util/errors.js'
-import type { JWSHeaderParameters, KeyLike, SignOptions } from '../types.d'
+import type { JWTHeaderParameters, KeyLike, SignOptions } from '../types.d'
 import { encoder } from '../lib/buffer_utils.js'
 import { ProduceJWT } from './produce.js'
 
@@ -21,7 +21,7 @@ import { ProduceJWT } from './produce.js'
  * ```
  */
 export class SignJWT extends ProduceJWT {
-  private _protectedHeader!: JWSHeaderParameters
+  private _protectedHeader!: JWTHeaderParameters
 
   /**
    * Sets the JWS Protected Header on the SignJWT object.
@@ -29,7 +29,7 @@ export class SignJWT extends ProduceJWT {
    * @param protectedHeader JWS Protected Header.
    * Must contain an "alg" (JWS Algorithm) property.
    */
-  setProtectedHeader(protectedHeader: JWSHeaderParameters) {
+  setProtectedHeader(protectedHeader: JWTHeaderParameters) {
     this._protectedHeader = protectedHeader
     return this
   }
