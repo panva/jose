@@ -11,9 +11,11 @@ import type {
  *
  * @example Usage
  * ```js
- * const encoder = new TextEncoder()
- *
- * const jwe = await new jose.CompactEncrypt(encoder.encode('It’s a dangerous business, Frodo, going out your door.'))
+ * const jwe = await new jose.CompactEncrypt(
+ *   new TextEncoder().encode(
+ *     'It’s a dangerous business, Frodo, going out your door.'
+ *   )
+ * )
  *   .setProtectedHeader({ alg: 'RSA-OAEP-256', enc: 'A256GCM' })
  *   .encrypt(publicKey)
  *

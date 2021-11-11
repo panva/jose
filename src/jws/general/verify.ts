@@ -31,7 +31,6 @@ export interface GeneralVerifyGetKey
  *
  * @example Usage
  * ```js
- * const decoder = new TextDecoder()
  * const jws = {
  *   payload: 'SXTigJlzIGEgZGFuZ2Vyb3VzIGJ1c2luZXNzLCBGcm9kbywgZ29pbmcgb3V0IHlvdXIgZG9vci4',
  *   signatures: [
@@ -45,7 +44,7 @@ export interface GeneralVerifyGetKey
  * const { payload, protectedHeader } = await jose.generalVerify(jws, publicKey)
  *
  * console.log(protectedHeader)
- * console.log(decoder.decode(payload))
+ * console.log(new TextDecoder().decode(payload))
  * ```
  */
 export function generalVerify(

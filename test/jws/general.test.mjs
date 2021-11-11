@@ -11,19 +11,14 @@ test.before(async (t) => {
 })
 
 test('General JWS signing', async (t) => {
-  const sig = new GeneralSign(t.context.plaintext)
-
-  sig
+  const generalJws = await new GeneralSign(t.context.plaintext)
     .addSignature(t.context.secret)
     .setProtectedHeader({ bar: 'baz' })
     .setUnprotectedHeader({ alg: 'HS256' })
-
-  sig
     .addSignature(t.context.secret)
     .setProtectedHeader({ bar: 'baz' })
     .setUnprotectedHeader({ alg: 'HS384' })
-
-  const generalJws = await sig.sign()
+    .sign()
 
   t.is(
     generalJws.payload,
@@ -33,19 +28,14 @@ test('General JWS signing', async (t) => {
 })
 
 test('General JWS signing b64:false', async (t) => {
-  const sig = new GeneralSign(t.context.plaintext)
-
-  sig
+  const generalJws = await new GeneralSign(t.context.plaintext)
     .addSignature(t.context.secret)
     .setProtectedHeader({ bar: 'baz', b64: false, crit: ['b64'] })
     .setUnprotectedHeader({ alg: 'HS256' })
-
-  sig
     .addSignature(t.context.secret)
     .setProtectedHeader({ bar: 'baz', b64: false, crit: ['b64'] })
     .setUnprotectedHeader({ alg: 'HS384' })
-
-  const generalJws = await sig.sign()
+    .sign()
 
   t.is(generalJws.payload, '')
   t.is(generalJws.signatures.length, 2)

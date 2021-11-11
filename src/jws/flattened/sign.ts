@@ -13,11 +13,14 @@ import validateCrit from '../../lib/validate_crit.js'
  *
  * @example Usage
  * ```js
- * const encoder = new TextEncoder()
- *
- * const jws = await new jose.FlattenedSign(encoder.encode('It’s a dangerous business, Frodo, going out your door.'))
+ * const jws = await new jose.FlattenedSign(
+ *   new TextEncoder().encode(
+ *     'It’s a dangerous business, Frodo, going out your door.'
+ *   )
+ * )
  *   .setProtectedHeader({ alg: 'ES256' })
  *   .sign(privateKey)
+ *
  * console.log(jws)
  * ```
  */

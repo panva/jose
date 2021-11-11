@@ -30,13 +30,12 @@ export interface CompactVerifyGetKey
  *
  * @example Usage
  * ```js
- * const decoder = new TextDecoder()
  * const jws = 'eyJhbGciOiJFUzI1NiJ9.SXTigJlzIGEgZGFuZ2Vyb3VzIGJ1c2luZXNzLCBGcm9kbywgZ29pbmcgb3V0IHlvdXIgZG9vci4.kkAs_gPPxWMI3rHuVlxHaTPfDWDoqdI8jSvuSmqV-8IHIWXg9mcAeC9ggV-45ZHRbiRJ3obUIFo1rHphPA5URg'
  *
  * const { payload, protectedHeader } = await jose.compactVerify(jws, publicKey)
  *
  * console.log(protectedHeader)
- * console.log(decoder.decode(payload))
+ * console.log(new TextDecoder().decode(payload))
  * ```
  */
 export function compactVerify(

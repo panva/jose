@@ -14,16 +14,15 @@ test.before(async (t) => {
 })
 
 test('General JWE encryption', async (t) => {
-  const enc = new GeneralEncrypt(t.context.plaintext)
+  const generalJwe = await new GeneralEncrypt(t.context.plaintext)
     .setAdditionalAuthenticatedData(t.context.additionalAuthenticatedData)
     .setProtectedHeader({ enc: 'A256GCM' })
     .setSharedUnprotectedHeader({ foo: 'bar' })
-
-  enc.addRecipient(t.context.secret).setUnprotectedHeader({ alg: 'A256GCMKW' })
-
-  enc.addRecipient(t.context.secret2).setUnprotectedHeader({ alg: 'A128GCMKW' })
-
-  const generalJwe = await enc.encrypt()
+    .addRecipient(t.context.secret)
+    .setUnprotectedHeader({ alg: 'A256GCMKW' })
+    .addRecipient(t.context.secret2)
+    .setUnprotectedHeader({ alg: 'A128GCMKW' })
+    .encrypt()
 
   t.true(generalJwe.aad && typeof generalJwe.aad === 'string')
   t.true(generalJwe.ciphertext && typeof generalJwe.ciphertext === 'string')
@@ -52,14 +51,12 @@ test('General JWE encryption', async (t) => {
 })
 
 test('General JWE encryption (single recipient dir)', async (t) => {
-  const enc = new GeneralEncrypt(t.context.plaintext)
+  const generalJwe = await new GeneralEncrypt(t.context.plaintext)
     .setAdditionalAuthenticatedData(t.context.additionalAuthenticatedData)
     .setProtectedHeader({ enc: 'A256GCM' })
     .setSharedUnprotectedHeader({ alg: 'A256GCMKW' })
-
-  enc.addRecipient(t.context.secret)
-
-  const generalJwe = await enc.encrypt()
+    .addRecipient(t.context.secret)
+    .encrypt()
 
   t.true(generalJwe.aad && typeof generalJwe.aad === 'string')
   t.true(generalJwe.ciphertext && typeof generalJwe.ciphertext === 'string')
@@ -84,14 +81,12 @@ test('General JWE encryption (single recipient dir)', async (t) => {
 
 test('General JWE encryption (single recipient ECDH-ES)', async (t) => {
   const kp = await generateKeyPair('ECDH-ES')
-  const enc = new GeneralEncrypt(t.context.plaintext)
+  const generalJwe = await new GeneralEncrypt(t.context.plaintext)
     .setAdditionalAuthenticatedData(t.context.additionalAuthenticatedData)
     .setProtectedHeader({ enc: 'A256GCM' })
     .setSharedUnprotectedHeader({ alg: 'ECDH-ES' })
-
-  enc.addRecipient(kp.publicKey)
-
-  const generalJwe = await enc.encrypt()
+    .addRecipient(kp.publicKey)
+    .encrypt()
 
   t.true(generalJwe.aad && typeof generalJwe.aad === 'string')
   t.true(generalJwe.ciphertext && typeof generalJwe.ciphertext === 'string')

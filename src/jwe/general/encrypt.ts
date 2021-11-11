@@ -21,6 +21,21 @@ export interface Recipient {
    * @param unprotectedHeader JWE Per-Recipient Unprotected Header.
    */
   setUnprotectedHeader(unprotectedHeader: JWEHeaderParameters): Recipient
+
+  /**
+   * A shorthand for calling addRecipient() on the enclosing GeneralEncrypt instance
+   */
+  addRecipient(...args: Parameters<GeneralEncrypt['addRecipient']>): Recipient
+
+  /**
+   * A shorthand for calling encrypt() on the enclosing GeneralEncrypt instance
+   */
+  encrypt(...args: Parameters<GeneralEncrypt['encrypt']>): Promise<GeneralJWE>
+
+  /**
+   * Returns the enclosing GeneralEncrypt
+   */
+  done(): GeneralEncrypt
 }
 
 interface RecipientReference {
@@ -32,6 +47,12 @@ interface RecipientReference {
 const recipientRef: WeakMap<IndividualRecipient, RecipientReference> = new WeakMap()
 
 class IndividualRecipient implements Recipient {
+  private _back: GeneralEncrypt
+
+  constructor(enc: GeneralEncrypt) {
+    this._back = enc
+  }
+
   setUnprotectedHeader(unprotectedHeader: JWEHeaderParameters) {
     const ref = recipientRef.get(this)!
     if (ref.unprotectedHeader) {
@@ -40,6 +61,18 @@ class IndividualRecipient implements Recipient {
     ref.unprotectedHeader = unprotectedHeader
     return this
   }
+
+  addRecipient(...args: Parameters<GeneralEncrypt['addRecipient']>) {
+    return this._back.addRecipient(...args)
+  }
+
+  encrypt(...args: Parameters<GeneralEncrypt['encrypt']>) {
+    return this._back.encrypt(...args)
+  }
+
+  done() {
+    return this._back
+  }
 }
 
 /**
@@ -47,20 +80,19 @@ class IndividualRecipient implements Recipient {
  *
  * @example Usage
  * ```js
- * const encoder = new TextEncoder()
- *
- * const encrypt = new jose.GeneralEncrypt(encoder.encode('It’s a dangerous business, Frodo, going out your door.'))
+ * const jwe = await new jose.GeneralEncrypt(
+ *   new TextEncoder().encode(
+ *     'It’s a dangerous business, Frodo, going out your door.'
+ *   )
+ * )
  *   .setProtectedHeader({ enc: 'A256GCM' })
- *
- * encrypt
  *   .addRecipient(ecPrivateKey)
  *   .setUnprotectedHeader({ alg: 'ECDH-ES+A256KW' })
- *
- * encrypt
  *   .addRecipient(rsaPrivateKey)
  *   .setUnprotectedHeader({ alg: 'RSA-OAEP-384' })
+ *   .encrypt()
  *
- * const jwe = await encrypt.encrypt()
+ * console.log(jwe)
  * ```
  */
 export class GeneralEncrypt {
@@ -88,7 +120,7 @@ export class GeneralEncrypt {
    * @param options JWE Encryption options.
    */
   addRecipient(key: KeyLike | Uint8Array, options?: CritOption): Recipient {
-    const recipient = new IndividualRecipient()
+    const recipient = new IndividualRecipient(this)
     recipientRef.set(recipient, { key, options: { crit: options?.crit } })
     this._recipients.push(recipient)
     return recipient
@@ -242,8 +274,12 @@ export class GeneralEncrypt {
           .setProtectedHeader(this._protectedHeader)
           .setSharedUnprotectedHeader(this._unprotectedHeader)
           .setUnprotectedHeader(unprotectedHeader!)
-          // @ts-expect-error
-          .encrypt(key, { ...recipientOpts, ...options, [unprotected]: true })
+          .encrypt(key, {
+            ...recipientOpts,
+            ...options,
+            // @ts-expect-error
+            [unprotected]: true,
+          })
 
         jwe.ciphertext = flattened.ciphertext
         jwe.iv = flattened.iv

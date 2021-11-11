@@ -17,6 +17,21 @@ export interface Signature {
    * @param unprotectedHeader JWS Unprotected Header.
    */
   setUnprotectedHeader(unprotectedHeader: JWSHeaderParameters): Signature
+
+  /**
+   * A shorthand for calling addSignature() on the enclosing GeneralSign instance
+   */
+  addSignature(...args: Parameters<GeneralSign['addSignature']>): Signature
+
+  /**
+   * A shorthand for calling encrypt() on the enclosing GeneralSign instance
+   */
+  sign(...args: Parameters<GeneralSign['sign']>): Promise<GeneralJWS>
+
+  /**
+   * Returns the enclosing GeneralSign
+   */
+  done(): GeneralSign
 }
 
 interface SignatureReference {
@@ -29,6 +44,12 @@ interface SignatureReference {
 const signatureRef: WeakMap<IndividualSignature, SignatureReference> = new WeakMap()
 
 class IndividualSignature implements Signature {
+  private _back: GeneralSign
+
+  constructor(sig: GeneralSign) {
+    this._back = sig
+  }
+
   setProtectedHeader(protectedHeader: JWSHeaderParameters) {
     const ref = signatureRef.get(this)!
     if (ref.protectedHeader) {
@@ -46,6 +67,18 @@ class IndividualSignature implements Signature {
     ref.unprotectedHeader = unprotectedHeader
     return this
   }
+
+  addSignature(...args: Parameters<GeneralSign['addSignature']>) {
+    return this._back.addSignature(...args)
+  }
+
+  sign(...args: Parameters<GeneralSign['sign']>) {
+    return this._back.sign(...args)
+  }
+
+  done() {
+    return this._back
+  }
 }
 
 /**
@@ -53,19 +86,18 @@ class IndividualSignature implements Signature {
  *
  * @example Usage
  * ```js
- * const encoder = new TextEncoder()
- *
- * const sign = new jose.GeneralSign(encoder.encode('It’s a dangerous business, Frodo, going out your door.'))
- *
- * sign
+ * const jws = await new jose.GeneralSign(
+ *   new TextEncoder().encode(
+ *     'It’s a dangerous business, Frodo, going out your door.'
+ *   )
+ * )
  *   .addSignature(ecPrivateKey)
  *   .setProtectedHeader({ alg: 'ES256' })
- *
- * sign
  *   .addSignature(rsaPrivateKey)
  *   .setProtectedHeader({ alg: 'PS256' })
+ *   .sign()
  *
- * const jws = await sign.sign()
+ * console.log(jws)
  * ```
  */
 export class GeneralSign {
@@ -87,7 +119,7 @@ export class GeneralSign {
    * @param options JWS Sign options.
    */
   addSignature(key: KeyLike | Uint8Array, options?: SignOptions): Signature {
-    const signature = new IndividualSignature()
+    const signature = new IndividualSignature(this)
     signatureRef.set(signature, { key, options })
     this._signatures.push(signature)
     return signature
