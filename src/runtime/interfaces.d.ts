@@ -1,7 +1,7 @@
 import type { JWK, KeyLike } from '../types.d'
 import type { PEMImportOptions } from '../key/import.js'
 
-type AsyncOrSync<T> = PromiseLike<T> | T
+type AsyncOrSync<T> = Promise<T> | T
 
 export interface TimingSafeEqual {
   (a: Uint8Array, b: Uint8Array): boolean
