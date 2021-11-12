@@ -16,7 +16,16 @@ if ('WEBCRYPTO' in process.env) {
   root = keyRoot = '#dist'
 }
 
-const { jwtVerify, SignJWT } = await import(root)
+const {
+  jwtVerify,
+  SignJWT,
+  FlattenedSign,
+  flattenedVerify,
+  GeneralSign,
+  generalVerify,
+  CompactSign,
+  compactVerify,
+} = await import(root)
 const { importJWK, createRemoteJWKSet } = await import(keyRoot)
 
 const now = 1604416038
@@ -124,12 +133,55 @@ test.serial('RemoteJWKSet', async (t) => {
   nock('https://as.example.com').get('/jwks').reply(200, jwks)
   const url = new URL('https://as.example.com/jwks')
   const JWKS = createRemoteJWKSet(url)
+  // Signed JWT
   {
     const [jwk] = keys
     const key = await importJWK({ ...jwk, alg: 'PS256' })
     const jwt = await new SignJWT({}).setProtectedHeader({ alg: 'PS256', kid: jwk.kid }).sign(key)
     await t.notThrowsAsync(async () => {
       const { key: resolvedKey } = await jwtVerify(jwt, JWKS)
+      t.truthy(resolvedKey)
+      t.is(resolvedKey.type, 'public')
+    })
+  }
+  // Compact JWS
+  {
+    const [jwk] = keys
+    const key = await importJWK({ ...jwk, alg: 'PS256' })
+    const jws = await new CompactSign(new Uint8Array(1))
+      .setProtectedHeader({ alg: 'PS256', kid: jwk.kid })
+      .sign(key)
+    await t.notThrowsAsync(async () => {
+      const { key: resolvedKey } = await compactVerify(jws, JWKS)
+      t.truthy(resolvedKey)
+      t.is(resolvedKey.type, 'public')
+    })
+  }
+  // Flattened JWS
+  {
+    const [jwk] = keys
+    const key = await importJWK({ ...jwk, alg: 'PS256' })
+    const jws = await new FlattenedSign(new Uint8Array(1))
+      .setProtectedHeader({ alg: 'PS256' })
+      .setUnprotectedHeader({ kid: jwk.kid })
+      .sign(key)
+    await t.notThrowsAsync(async () => {
+      const { key: resolvedKey } = await flattenedVerify(jws, JWKS)
+      t.truthy(resolvedKey)
+      t.is(resolvedKey.type, 'public')
+    })
+  }
+  // General JWS
+  {
+    const [jwk] = keys
+    const key = await importJWK({ ...jwk, alg: 'PS256' })
+    const jws = await new GeneralSign(new Uint8Array(1))
+      .addSignature(key)
+      .setProtectedHeader({ alg: 'PS256' })
+      .setUnprotectedHeader({ kid: jwk.kid })
+      .sign()
+    await t.notThrowsAsync(async () => {
+      const { key: resolvedKey } = await generalVerify(jws, JWKS)
       t.truthy(resolvedKey)
       t.is(resolvedKey.type, 'public')
     })
