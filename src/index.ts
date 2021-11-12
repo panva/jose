@@ -1,3 +1,4 @@
+// Copyright 2021 adamjmcgrath
 export { compactDecrypt } from './jwe/compact/decrypt.js'
 export type { CompactDecryptGetKey } from './jwe/compact/decrypt.js'
 export { flattenedDecrypt } from './jwe/flattened/decrypt.js'
