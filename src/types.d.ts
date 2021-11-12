@@ -734,7 +734,7 @@ export interface CompactJWSHeaderParameters extends JWSHeaderParameters {
  * may also be present.
  */
 export interface JWTHeaderParameters extends CompactJWSHeaderParameters {
-  b64: never
+  b64?: never
 }
 
 /**
