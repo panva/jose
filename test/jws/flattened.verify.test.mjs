@@ -35,6 +35,17 @@ test('JWS format validation', async (t) => {
   }
 
   {
+    await t.notThrowsAsync(async () => {
+      await flattenedVerify(
+        await new FlattenedSign(new Uint8Array())
+          .setProtectedHeader({ alg: 'HS256' })
+          .sign(t.context.secret),
+        t.context.secret,
+      )
+    })
+  }
+
+  {
     const jws = { ...fullJws }
     delete jws.signature
     const assertion = {

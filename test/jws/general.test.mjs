@@ -82,6 +82,18 @@ test('General JWS verify format validation', async (t) => {
   const generalJws = await sig.sign()
 
   {
+    await t.notThrowsAsync(async () => {
+      await generalVerify(
+        await new GeneralSign(new Uint8Array())
+          .addSignature(t.context.secret)
+          .setProtectedHeader({ alg: 'HS256' })
+          .sign(),
+        t.context.secret,
+      )
+    })
+  }
+
+  {
     await t.throwsAsync(generalVerify(null, t.context.secret), {
       message: 'General JWS must be an object',
       code: 'ERR_JWS_INVALID',
