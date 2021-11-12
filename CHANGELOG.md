@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [4.3.5](https://github.com/panva/jose/compare/v4.3.4...v4.3.5) (2021-11-12)
+
+
+### Fixes
+
+* **typescript:** b64 header regression ([#324](https://github.com/panva/jose/issues/324)) ([9da0a7f](https://github.com/panva/jose/commit/9da0a7f49cf763314748eb01303320ce5af69762))
+
 ## [4.3.4](https://github.com/panva/jose/compare/v4.3.3...v4.3.4) (2021-11-12)
 
 
