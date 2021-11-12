@@ -9,10 +9,26 @@ on:
     paths-ignore:
       - "**.md"
       - "tools/**"
+  pull_request_target:
+    paths-ignore:
+      - "**.md"
+      - "tools/**"
+    types:
+      - labeled
   schedule:
     - cron: 0 11 * * 1-5
 
 jobs:
+  unlabel:
+    if: ${{ github.event_name == 'pull_request_target' && github.event.label.name == 'full-ci' }}
+    runs-on: ubuntu-latest
+    steps:
+      - run: gh pr edit $PR --repo $REPO --remove-label "full-ci"
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          PR: ${{ github.event.number }}
+          REPO: ${{ github.event.repository.full_name }}
+
   build:
     runs-on: ubuntu-latest
     steps:
@@ -133,6 +149,7 @@ jobs:
 
   test-cloudflare:
     concurrency: test-cloudflare
+    if: ${{ !startsWith(github.event_name, 'pull_request') || (github.event_name == 'pull_request_target' && github.event.label.name == 'full-ci') }}
     needs:
       - build
 
@@ -217,7 +234,7 @@ jobs:
 
   test-browsers:
     concurrency: test-browsers
-    if: ${{ github.event_name != 'pull_request' }}
+    if: ${{ !startsWith(github.event_name, 'pull_request') || (github.event_name == 'pull_request_target' && github.event.label.name == 'full-ci') }}
     env:
       BROWSERSTACK_USERNAME: ${{ secrets.BROWSERSTACK_USERNAME }}
       BROWSERSTACK_ACCESS_KEY: ${{ secrets.BROWSERSTACK_ACCESS_KEY }}
