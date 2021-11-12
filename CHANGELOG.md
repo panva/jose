@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [4.3.4](https://github.com/panva/jose/compare/v4.3.3...v4.3.4) (2021-11-12)
+
+
+### Fixes
+
+* Compact JWS verification handles a zero-length payload string ([7c70e7b](https://github.com/panva/jose/commit/7c70e7b9700886dfad8e7555b909da8e079c88da))
+
 ## [4.3.3](https://github.com/panva/jose/compare/v4.3.2...v4.3.3) (2021-11-11)
 
 
