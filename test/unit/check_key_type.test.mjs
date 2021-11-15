@@ -28,7 +28,7 @@ const { generateKeyPair, generateSecret } = await import(keyRoot)
 test('lib/check_key_type.ts', async (t) => {
   const expected = {
     instanceOf: TypeError,
-    message: new RegExp(`^Key must be (?:one )?of type ${types}\.`),
+    message: new RegExp(`^Key must be (?:one )?of type ${types}.`),
   }
 
   t.throws(() => checkKeyType('HS256'), expected)
