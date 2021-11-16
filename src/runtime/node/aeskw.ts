@@ -1,9 +1,8 @@
 import { Buffer } from 'buffer'
-import { KeyObject, createDecipheriv, createCipheriv } from 'crypto'
+import { KeyObject, createDecipheriv, createCipheriv, createSecretKey } from 'crypto'
 import { JOSENotSupported } from '../../util/errors.js'
 import type { AesKwUnwrapFunction, AesKwWrapFunction } from '../interfaces.d'
 import { concat } from '../../lib/buffer_utils.js'
-import getSecretKey from './secret_key.js'
 import { isCryptoKey } from './webcrypto.js'
 import { checkEncCryptoKey } from '../../lib/crypto_key.js'
 import isKeyObject from './is_key_object.js'
@@ -22,7 +21,7 @@ function ensureKeyObject(key: unknown, alg: string, usage: KeyUsage) {
     return key
   }
   if (key instanceof Uint8Array) {
-    return getSecretKey(key)
+    return createSecretKey(key)
   }
   if (isCryptoKey(key)) {
     checkEncCryptoKey(key, alg, usage)
