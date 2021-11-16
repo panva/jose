@@ -10,7 +10,8 @@ const [major, minor] = process.version
   .split('.')
   .map((str) => parseInt(str, 10))
 
-const rsaPssParams = major >= 17 || (major === 16 && minor >= 9)
+const electron = 'electron' in process.versions
+const rsaPssParams = !electron && (major >= 17 || (major === 16 && minor >= 9))
 
 const PSS = {
   padding: constants.RSA_PKCS1_PSS_PADDING,
