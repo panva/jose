@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [4.3.6](https://github.com/panva/jose/compare/v4.3.5...v4.3.6) (2021-11-16)
+
+
+### Fixes
+
+* **electron:** rsa-pss keys are never supported ([188c1f7](https://github.com/panva/jose/commit/188c1f709002302da99105cfc8fc6863a95761d9))
+
 ## [4.3.5](https://github.com/panva/jose/compare/v4.3.4...v4.3.5) (2021-11-12)
 
 
