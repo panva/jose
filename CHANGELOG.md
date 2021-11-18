@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [4.3.7](https://github.com/panva/jose/compare/v4.3.6...v4.3.7) (2021-11-18)
+
+
+### Fixes
+
+* **typescript:** b64: true is fine to use in JWT, its useless, but allowed ([#324](https://github.com/panva/jose/issues/324)) ([ee401c9](https://github.com/panva/jose/commit/ee401c9e0f23f10ff5c0484798cb0cb3e9074b84))
+
 ## [4.3.6](https://github.com/panva/jose/compare/v4.3.5...v4.3.6) (2021-11-16)
 
 

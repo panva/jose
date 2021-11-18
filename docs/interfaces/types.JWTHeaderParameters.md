@@ -31,7 +31,7 @@ ___
 
 ### b64
 
-• `Optional` **b64**: `undefined`
+• `Optional` **b64**: ``true``
 
 This JWS Extension Header Parameter modifies the JWS Payload
 representation and the JWS Signing Input computation as per
