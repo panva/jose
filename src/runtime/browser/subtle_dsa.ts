@@ -24,6 +24,8 @@ export default function subtleDsa(alg: string, algorithm: KeyAlgorithm | EcKeyAl
     case isCloudflareWorkers() && 'EdDSA':
       const { namedCurve } = <EcKeyAlgorithm>algorithm
       return <EcKeyAlgorithm>{ name: namedCurve, namedCurve }
+    case 'EdDSA':
+      return { name: algorithm.name }
     default:
       throw new JOSENotSupported(
         `alg ${alg} is not supported either by JOSE or your javascript runtime`,

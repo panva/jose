@@ -66,20 +66,14 @@ jobs:
   test:
     needs:
       - build
-    continue-on-error: ${{ matrix.experimental || false }}
     strategy:
       fail-fast: false
       matrix:
         node-version:
-          - 12.20.0
           - 12
-          - 14.15.0
           - 14
-          - 16.13.0
           - 16
-        include:
-          - experimental: true
-            node-version: '>=17'
+          - 18
 
     runs-on: ubuntu-latest
     steps:
@@ -116,7 +110,7 @@ jobs:
         if: ${{ !startsWith(matrix.node-version, '14') && !startsWith(matrix.node-version, '12') }}
       - name: Test with Node.js Web API
         run: npm run test-webapi
-        if: ${{ matrix.experimental }}
+        if: ${{ !startsWith(matrix.node-version, '14') && !startsWith(matrix.node-version, '12') }}
 
   test-deno:
     needs:

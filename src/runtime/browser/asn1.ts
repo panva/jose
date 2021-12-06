@@ -60,8 +60,14 @@ const getNamedCurve = (keyData: Uint8Array): string => {
       return 'P-384'
     case findOid(keyData, [0x2b, 0x81, 0x04, 0x00, 0x23]):
       return 'P-521'
-    case isCloudflareWorkers() && findOid(keyData, [0x2b, 0x65, 0x70]):
+    case findOid(keyData, [0x2b, 0x65, 0x6e]):
+      return 'X25519'
+    case findOid(keyData, [0x2b, 0x65, 0x6f]):
+      return 'X448'
+    case findOid(keyData, [0x2b, 0x65, 0x70]):
       return 'Ed25519'
+    case findOid(keyData, [0x2b, 0x65, 0x71]):
+      return 'Ed448'
     default:
       throw new JOSENotSupported('Invalid or unsupported EC Key Curve or OKP Key Sub Type')
   }
@@ -123,13 +129,20 @@ const genericImport = async (
     case 'ECDH-ES':
     case 'ECDH-ES+A128KW':
     case 'ECDH-ES+A192KW':
-    case 'ECDH-ES+A256KW':
-      algorithm = { name: 'ECDH', namedCurve: getNamedCurve(keyData) }
+    case 'ECDH-ES+A256KW': {
+      const namedCurve = getNamedCurve(keyData)
+      algorithm = namedCurve.startsWith('P-') ? { name: 'ECDH', namedCurve } : { name: namedCurve }
       keyUsages = isPublic ? [] : ['deriveBits']
       break
-    case isCloudflareWorkers() && 'EdDSA':
+    }
+    case isCloudflareWorkers() && 'EdDSA': {
       const namedCurve = getNamedCurve(keyData).toUpperCase()
       algorithm = { name: `NODE-${namedCurve}`, namedCurve: `NODE-${namedCurve}` }
+      keyUsages = isPublic ? ['verify'] : ['sign']
+      break
+    }
+    case 'EdDSA':
+      algorithm = { name: getNamedCurve(keyData) }
       keyUsages = isPublic ? ['verify'] : ['sign']
       break
     default:
