@@ -28,14 +28,24 @@ export async function deriveKey(
     uint32be(keyLength),
   )
 
+  let length: number
+  if (publicKey.algorithm.name === 'X25519') {
+    length = 256
+  } else if (publicKey.algorithm.name === 'X448') {
+    length = 448
+  } else {
+    length =
+      Math.ceil(parseInt((<EcKeyAlgorithm>publicKey.algorithm).namedCurve.substr(-3), 10) / 8) << 3
+  }
+
   const sharedSecret = new Uint8Array(
     await crypto.subtle.deriveBits(
       {
-        name: 'ECDH',
+        name: publicKey.algorithm.name,
         public: publicKey,
       },
       privateKey,
-      Math.ceil(parseInt((<EcKeyAlgorithm>privateKey.algorithm).namedCurve.slice(-3), 10) / 8) << 3,
+      length,
     ),
   )
 
@@ -54,5 +64,9 @@ export function ecdhAllowed(key: unknown) {
   if (!isCryptoKey(key)) {
     throw new TypeError(invalidKeyInput(key, ...types))
   }
-  return ['P-256', 'P-384', 'P-521'].includes((<EcKeyAlgorithm>key.algorithm).namedCurve)
+  return (
+    ['P-256', 'P-384', 'P-521'].includes((<EcKeyAlgorithm>key.algorithm).namedCurve) ||
+    key.algorithm.name === 'X25519' ||
+    key.algorithm.name === 'X448'
+  )
 }

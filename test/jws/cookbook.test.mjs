@@ -146,7 +146,7 @@ const vectors = [
   },
   {
     title: 'https://www.rfc-editor.org/rfc/rfc8037#appendix-A.4 - Ed25519 Signing',
-    webcrypto: false,
+    webcrypto: true,
     reproducible: true,
     input: {
       payload: 'Example of Ed25519 signing',

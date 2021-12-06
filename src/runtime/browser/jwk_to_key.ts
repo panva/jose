@@ -116,11 +116,26 @@ function subtleMapping(jwk: JWK): {
           keyUsages = jwk.d ? ['sign'] : ['verify']
           break
         default:
-          throw new JOSENotSupported(
-            'Invalid or unsupported JWK "crv" (Subtype of Key Pair) Parameter value',
-          )
+          throw new JOSENotSupported('Invalid or unsupported JWK "alg" (Algorithm) Parameter value')
+      }
+    case 'OKP': {
+      switch (jwk.alg) {
+        case 'EdDSA':
+          algorithm = { name: jwk.crv! }
+          keyUsages = jwk.d ? ['sign'] : ['verify']
+          break
+        case 'ECDH-ES':
+        case 'ECDH-ES+A128KW':
+        case 'ECDH-ES+A192KW':
+        case 'ECDH-ES+A256KW':
+          algorithm = { name: jwk.crv! }
+          keyUsages = jwk.d ? ['deriveBits'] : []
+          break
+        default:
+          throw new JOSENotSupported('Invalid or unsupported JWK "alg" (Algorithm) Parameter value')
       }
       break
+    }
     default:
       throw new JOSENotSupported('Invalid or unsupported JWK "kty" (Key Type) Parameter value')
   }

@@ -156,31 +156,11 @@ for (const alg of ['ES256K']) {
 }
 
 for (const alg of ['EdDSA']) {
-  conditional({ webcrypto: 0 })(
-    `import SPKI ed25519 for ${alg}`,
-    testSPKI,
-    keys.ed25519.publicKey,
-    alg,
-  )
-  conditional({ webcrypto: 0 })(
-    `import X509 ed25519 for ${alg}`,
-    testX509,
-    keys.ed25519.certificate,
-    alg,
-  )
-  conditional({ webcrypto: 0 })(
-    `import PKCS8 ed25519 for ${alg}`,
-    testPKCS8,
-    keys.ed25519.privateKey,
-    alg,
-  )
-  conditional({ webcrypto: 0, electron: 0 })(
-    `import SPKI ed448 for ${alg}`,
-    testSPKI,
-    keys.ed448.publicKey,
-    alg,
-  )
-  conditional({ webcrypto: 0, electron: 0 })(
+  test(`import SPKI ed25519 for ${alg}`, testSPKI, keys.ed25519.publicKey, alg)
+  test(`import X509 ed25519 for ${alg}`, testX509, keys.ed25519.certificate, alg)
+  test(`import PKCS8 ed25519 for ${alg}`, testPKCS8, keys.ed25519.privateKey, alg)
+  conditional({ electron: 0 })(`import SPKI ed448 for ${alg}`, testSPKI, keys.ed448.publicKey, alg)
+  conditional({ electron: 0 })(
     `import PKCS8 ed448 for ${alg}`,
     testPKCS8,
     keys.ed448.privateKey,
@@ -189,28 +169,8 @@ for (const alg of ['EdDSA']) {
 }
 
 for (const alg of ['ECDH-ES', 'ECDH-ES+A128KW', 'ECDH-ES+A192KW', 'ECDH-ES+A256KW']) {
-  conditional({ webcrypto: 0, electron: 1 })(
-    `import SPKI x25519 for ${alg}`,
-    testSPKI,
-    keys.x25519.publicKey,
-    alg,
-  )
-  conditional({ webcrypto: 0, electron: 1 })(
-    `import PKCS8 x25519 for ${alg}`,
-    testPKCS8,
-    keys.x25519.privateKey,
-    alg,
-  )
-  conditional({ webcrypto: 0, electron: 0 })(
-    `import SPKI x448 for ${alg}`,
-    testSPKI,
-    keys.x448.publicKey,
-    alg,
-  )
-  conditional({ webcrypto: 0, electron: 0 })(
-    `import PKCS8 x448 for ${alg}`,
-    testPKCS8,
-    keys.x448.privateKey,
-    alg,
-  )
+  test(`import SPKI x25519 for ${alg}`, testSPKI, keys.x25519.publicKey, alg)
+  test(`import PKCS8 x25519 for ${alg}`, testPKCS8, keys.x25519.privateKey, alg)
+  conditional({ electron: 0 })(`import SPKI x448 for ${alg}`, testSPKI, keys.x448.publicKey, alg)
+  conditional({ electron: 0 })(`import PKCS8 x448 for ${alg}`, testPKCS8, keys.x448.privateKey, alg)
 }
