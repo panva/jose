@@ -40,35 +40,30 @@ export const toPKCS8: PEMExportFunction = (key) => {
   return genericExport('private', 'pkcs8', key)
 }
 
+const findOid = (keyData: Uint8Array, oid: number[], from = 0): boolean => {
+  if (from === 0) {
+    oid.unshift(oid.length)
+    oid.unshift(0x06)
+  }
+  let i = keyData.indexOf(oid[0], from)
+  if (i === -1) return false
+  const s = keyData.subarray(i, i + oid.length)
+  if (s.length !== oid.length) return false
+  const match = s.every((value, index) => value === oid[index])
+  return match || findOid(keyData, oid, i + 1)
+}
+
 const getNamedCurve = (keyData: Uint8Array): string => {
-  const keyDataStr = keyData.toString()
   switch (true) {
-    case keyDataStr.includes(
-      new Uint8Array([
-        0x06, 0x07, 0x2a, 0x86, 0x48, 0xce, 0x3d, 0x02, 0x01, 0x06, 0x08, 0x2a, 0x86, 0x48, 0xce,
-        0x3d, 0x03, 0x01, 0x07,
-      ]).toString(),
-    ):
+    case findOid(keyData, [0x2a, 0x86, 0x48, 0xce, 0x3d, 0x03, 0x01, 0x07]):
       return 'P-256'
-    case keyDataStr.includes(
-      new Uint8Array([
-        0x06, 0x07, 0x2a, 0x86, 0x48, 0xce, 0x3d, 0x02, 0x01, 0x06, 0x05, 0x2b, 0x81, 0x04, 0x00,
-        0x22,
-      ]).toString(),
-    ):
+    case findOid(keyData, [0x2b, 0x81, 0x04, 0x00, 0x22]):
       return 'P-384'
-    case keyDataStr.includes(
-      new Uint8Array([
-        0x06, 0x07, 0x2a, 0x86, 0x48, 0xce, 0x3d, 0x02, 0x01, 0x06, 0x05, 0x2b, 0x81, 0x04, 0x00,
-        0x23,
-      ]).toString(),
-    ):
+    case findOid(keyData, [0x2b, 0x81, 0x04, 0x00, 0x23]):
       return 'P-521'
-    case (isCloudflareWorkers() || isNodeJs()) &&
-      keyDataStr.includes(new Uint8Array([0x06, 0x03, 0x2b, 0x65, 0x70]).toString()):
+    case (isCloudflareWorkers() || isNodeJs()) && findOid(keyData, [0x2b, 0x65, 0x70]):
       return 'Ed25519'
-    case isNodeJs() &&
-      keyDataStr.includes(new Uint8Array([0x06, 0x03, 0x2b, 0x65, 0x71]).toString()):
+    case isNodeJs() && findOid(keyData, [0x2b, 0x65, 0x71]):
       return 'Ed448'
     default:
       throw new JOSENotSupported('Invalid or unsupported EC Key Curve or OKP Key Sub Type')
