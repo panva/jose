@@ -47,10 +47,9 @@ const findOid = (keyData: Uint8Array, oid: number[], from = 0): boolean => {
   }
   let i = keyData.indexOf(oid[0], from)
   if (i === -1) return false
-  const s = keyData.subarray(i, i + oid.length)
-  if (s.length !== oid.length) return false
-  const match = s.every((value, index) => value === oid[index])
-  return match || findOid(keyData, oid, i + 1)
+  const sub = keyData.subarray(i, i + oid.length)
+  if (sub.length !== oid.length) return false
+  return sub.every((value, index) => value === oid[index]) || findOid(keyData, oid, i + 1)
 }
 
 const getNamedCurve = (keyData: Uint8Array): string => {
