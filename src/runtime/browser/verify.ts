@@ -7,7 +7,7 @@ import getVerifyKey from './get_sign_verify_key.js'
 const verify: VerifyFunction = async (alg, key: unknown, signature, data) => {
   const cryptoKey = await getVerifyKey(alg, key, 'verify')
   checkKeyLength(alg, cryptoKey)
-  const algorithm = subtleAlgorithm(alg, (<EcKeyAlgorithm>cryptoKey.algorithm).namedCurve)
+  const algorithm = subtleAlgorithm(alg, cryptoKey.algorithm)
   try {
     return await crypto.subtle.verify(algorithm, cryptoKey, signature, data)
   } catch {
