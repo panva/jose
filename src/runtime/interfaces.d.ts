@@ -40,22 +40,6 @@ export interface Pbes2KWDecryptFunction {
     p2s: Uint8Array,
   ): Promise<Uint8Array>
 }
-export interface EcdhESDeriveKeyFunction {
-  (
-    publicKey: unknown,
-    privateKey: unknown,
-    enc: string,
-    keyLength: number,
-    apu?: Uint8Array,
-    apv?: Uint8Array,
-  ): AsyncOrSync<Uint8Array>
-}
-export interface EcdhAllowedFunction {
-  (key: unknown): boolean
-}
-export interface GenerateEpkFunction {
-  (key: unknown): Promise<KeyLike>
-}
 export interface EncryptFunction {
   (enc: string, plaintext: Uint8Array, cek: unknown, iv: Uint8Array, aad: Uint8Array): AsyncOrSync<{
     ciphertext: Uint8Array

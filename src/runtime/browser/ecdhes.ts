@@ -1,8 +1,3 @@
-import type {
-  EcdhAllowedFunction,
-  EcdhESDeriveKeyFunction,
-  GenerateEpkFunction,
-} from '../interfaces.d'
 import { encoder, concat, uint32be, lengthAndInput, concatKdf } from '../../lib/buffer_utils.js'
 import crypto, { isCryptoKey } from './webcrypto.js'
 import { checkEncCryptoKey } from '../../lib/crypto_key.js'
@@ -10,14 +5,14 @@ import digest from './digest.js'
 import invalidKeyInput from '../../lib/invalid_key_input.js'
 import { types } from './is_key_like.js'
 
-export const deriveKey: EcdhESDeriveKeyFunction = async (
+export async function deriveKey(
   publicKey: unknown,
   privateKey: unknown,
   algorithm: string,
   keyLength: number,
   apu: Uint8Array = new Uint8Array(0),
   apv: Uint8Array = new Uint8Array(0),
-) => {
+) {
   if (!isCryptoKey(publicKey)) {
     throw new TypeError(invalidKeyInput(publicKey, ...types))
   }
@@ -53,21 +48,15 @@ export const deriveKey: EcdhESDeriveKeyFunction = async (
   return concatKdf(digest, sharedSecret, keyLength, value)
 }
 
-export const generateEpk: GenerateEpkFunction = async (key: unknown) => {
+export async function generateEpk(key: unknown) {
   if (!isCryptoKey(key)) {
     throw new TypeError(invalidKeyInput(key, ...types))
   }
 
-  return (<{ publicKey: CryptoKey; privateKey: CryptoKey }>(
-    await crypto.subtle.generateKey(
-      { name: 'ECDH', namedCurve: (<EcKeyAlgorithm>key.algorithm).namedCurve },
-      true,
-      ['deriveBits'],
-    )
-  )).privateKey
+  return crypto.subtle.generateKey(<EcKeyAlgorithm>key.algorithm, true, ['deriveBits'])
 }
 
-export const ecdhAllowed: EcdhAllowedFunction = (key: unknown) => {
+export function ecdhAllowed(key: unknown) {
   if (!isCryptoKey(key)) {
     throw new TypeError(invalidKeyInput(key, ...types))
   }

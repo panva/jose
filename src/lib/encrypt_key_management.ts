@@ -46,8 +46,8 @@ async function encryptKeyManagement(
       }
       const { apu, apv } = providedParameters
       let { epk: ephemeralKey } = providedParameters
-      ephemeralKey ||= await ECDH.generateEpk(key)
-      const { x, y, crv, kty } = await exportJWK(ephemeralKey)
+      ephemeralKey ||= (await ECDH.generateEpk(key)).privateKey
+      const { x, y, crv, kty } = await exportJWK(ephemeralKey!)
       const sharedSecret = await ECDH.deriveKey(
         key,
         ephemeralKey,
