@@ -30,7 +30,7 @@ export async function generateSecret(alg: string, options?: GenerateSecretOption
     case 'A128GCM':
     case 'A192GCM':
     case 'A256GCM':
-      length = parseInt(alg.substring(1, 4), 10)
+      length = parseInt(alg.substr(1, 3), 10)
       break
     default:
       throw new JOSENotSupported('Invalid or unsupported JWK "alg" (Algorithm) Parameter value')

@@ -25,7 +25,7 @@ export async function generateSecret(alg: string, options?: GenerateSecretOption
     case 'A128KW':
     case 'A192KW':
     case 'A256KW':
-      length = parseInt(alg.substring(1, 4), 10)
+      length = parseInt(alg.substr(1, 3), 10)
       algorithm = { name: 'AES-KW', length }
       keyUsages = ['wrapKey', 'unwrapKey']
       break
@@ -35,7 +35,7 @@ export async function generateSecret(alg: string, options?: GenerateSecretOption
     case 'A128GCM':
     case 'A192GCM':
     case 'A256GCM':
-      length = parseInt(alg.substring(1, 4), 10)
+      length = parseInt(alg.substr(1, 3), 10)
       algorithm = { name: 'AES-GCM', length }
       keyUsages = ['encrypt', 'decrypt']
       break
