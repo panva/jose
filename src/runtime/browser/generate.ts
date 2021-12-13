@@ -13,19 +13,19 @@ export async function generateSecret(alg: string, options?: GenerateSecretOption
     case 'HS256':
     case 'HS384':
     case 'HS512':
-      length = parseInt(alg.substr(-3), 10)
+      length = parseInt(alg.slice(-3), 10)
       algorithm = { name: 'HMAC', hash: `SHA-${length}`, length }
       keyUsages = ['sign', 'verify']
       break
     case 'A128CBC-HS256':
     case 'A192CBC-HS384':
     case 'A256CBC-HS512':
-      length = parseInt(alg.substr(-3), 10)
+      length = parseInt(alg.slice(-3), 10)
       return random(new Uint8Array(length >> 3))
     case 'A128KW':
     case 'A192KW':
     case 'A256KW':
-      length = parseInt(alg.substr(1, 3), 10)
+      length = parseInt(alg.slice(1, 4), 10)
       algorithm = { name: 'AES-KW', length }
       keyUsages = ['wrapKey', 'unwrapKey']
       break
@@ -35,7 +35,7 @@ export async function generateSecret(alg: string, options?: GenerateSecretOption
     case 'A128GCM':
     case 'A192GCM':
     case 'A256GCM':
-      length = parseInt(alg.substr(1, 3), 10)
+      length = parseInt(alg.slice(1, 4), 10)
       algorithm = { name: 'AES-GCM', length }
       keyUsages = ['encrypt', 'decrypt']
       break
@@ -68,7 +68,7 @@ export async function generateKeyPair(alg: string, options?: GenerateKeyPairOpti
     case 'PS512':
       algorithm = {
         name: 'RSA-PSS',
-        hash: `SHA-${alg.substr(-3)}`,
+        hash: `SHA-${alg.slice(-3)}`,
         publicExponent: new Uint8Array([0x01, 0x00, 0x01]),
         modulusLength: getModulusLengthOption(options),
       }
@@ -79,7 +79,7 @@ export async function generateKeyPair(alg: string, options?: GenerateKeyPairOpti
     case 'RS512':
       algorithm = {
         name: 'RSASSA-PKCS1-v1_5',
-        hash: `SHA-${alg.substr(-3)}`,
+        hash: `SHA-${alg.slice(-3)}`,
         publicExponent: new Uint8Array([0x01, 0x00, 0x01]),
         modulusLength: getModulusLengthOption(options),
       }
@@ -91,7 +91,7 @@ export async function generateKeyPair(alg: string, options?: GenerateKeyPairOpti
     case 'RSA-OAEP-512':
       algorithm = {
         name: 'RSA-OAEP',
-        hash: `SHA-${parseInt(alg.substr(-3), 10) || 1}`,
+        hash: `SHA-${parseInt(alg.slice(-3), 10) || 1}`,
         publicExponent: new Uint8Array([0x01, 0x00, 0x01]),
         modulusLength: getModulusLengthOption(options),
       }

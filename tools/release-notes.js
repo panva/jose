@@ -12,7 +12,7 @@ fs.writeFileSync(
     .toString()
     .split('\n')
     .filter((line) => line.startsWith('+') && !line.startsWith('+++'))
-    .map((line) => line.substr(1))
+    .map((line) => line.slice(1))
     .slice(3)
     .join('\n'),
 )

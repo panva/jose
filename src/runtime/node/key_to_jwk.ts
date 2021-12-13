@@ -11,7 +11,7 @@ import invalidKeyInput from '../../lib/invalid_key_input.js'
 import { types } from './is_key_like.js'
 
 const [major, minor] = process.version
-  .substr(1)
+  .slice(1)
   .split('.')
   .map((str) => parseInt(str, 10))
 

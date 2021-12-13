@@ -52,7 +52,7 @@ async function encryptKeyManagement(
         key,
         ephemeralKey,
         alg === 'ECDH-ES' ? enc : alg,
-        alg === 'ECDH-ES' ? cekLength(enc) : parseInt(alg.substr(-5, 3), 10),
+        alg === 'ECDH-ES' ? cekLength(enc) : parseInt(alg.slice(-5, -2), 10),
         apu,
         apv,
       )
@@ -67,7 +67,7 @@ async function encryptKeyManagement(
 
       // Key Agreement with Key Wrapping
       cek = providedCek || generateCek(enc)
-      const kwAlg = alg.substr(-6)
+      const kwAlg = alg.slice(-6)
       encryptedKey = await aesKw(kwAlg, sharedSecret, cek)
       break
     }

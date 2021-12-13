@@ -6,7 +6,7 @@ import { JOSENotSupported } from '../../util/errors.js'
 import checkModulusLength from './check_modulus_length.js'
 
 const [major, minor] = process.version
-  .substr(1)
+  .slice(1)
   .split('.')
   .map((str) => parseInt(str, 10))
 
@@ -52,7 +52,7 @@ export default function keyForCrypto(alg: string, key: KeyObject): KeyObject | S
       if (key.asymmetricKeyType === 'rsa-pss') {
         const { hashAlgorithm, mgf1HashAlgorithm, saltLength } = key.asymmetricKeyDetails!
 
-        const length = parseInt(alg.substr(-3), 10)
+        const length = parseInt(alg.slice(-3), 10)
 
         if (
           hashAlgorithm !== undefined &&

@@ -101,7 +101,7 @@ async function testECDSASigEncoding(t, alg) {
     .sign(privateKey)
 
   const derEncodedSignature = base64url.encode(
-    crypto.sign(`sha${alg.substr(2, 3)}`, Buffer.from('foo'), await exportPKCS8(privateKey)),
+    crypto.sign(`sha${alg.slice(2, 5)}`, Buffer.from('foo'), await exportPKCS8(privateKey)),
   )
 
   await t.throwsAsync(flattenedVerify({ ...jws, signature: derEncodedSignature }, publicKey), {

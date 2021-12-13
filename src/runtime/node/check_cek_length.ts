@@ -8,12 +8,12 @@ const checkCekLength = (enc: string, cek: KeyObject | Uint8Array) => {
     case 'A128CBC-HS256':
     case 'A192CBC-HS384':
     case 'A256CBC-HS512':
-      expected = parseInt(enc.substr(-3), 10)
+      expected = parseInt(enc.slice(-3), 10)
       break
     case 'A128GCM':
     case 'A192GCM':
     case 'A256GCM':
-      expected = parseInt(enc.substr(1, 3), 10)
+      expected = parseInt(enc.slice(1, 4), 10)
       break
     default:
       throw new JOSENotSupported(

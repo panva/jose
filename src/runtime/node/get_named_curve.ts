@@ -45,10 +45,10 @@ const getNamedCurve = (kee: unknown, raw?: boolean): string => {
   switch (key.asymmetricKeyType) {
     case 'ed25519':
     case 'ed448':
-      return `Ed${key.asymmetricKeyType.substr(2)}`
+      return `Ed${key.asymmetricKeyType.slice(2)}`
     case 'x25519':
     case 'x448':
-      return `X${key.asymmetricKeyType.substr(1)}`
+      return `X${key.asymmetricKeyType.slice(1)}`
     case 'ec': {
       if (weakMap.has(key)) {
         return weakMap.get(key)!

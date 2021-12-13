@@ -21,7 +21,7 @@ function cbcEncrypt(
   iv: Uint8Array,
   aad: Uint8Array,
 ) {
-  const keySize = parseInt(enc.substr(1, 3), 10)
+  const keySize = parseInt(enc.slice(1, 4), 10)
 
   if (isKeyObject(cek)) {
     cek = cek.export()
@@ -38,7 +38,7 @@ function cbcEncrypt(
   const cipher = createCipheriv(algorithm, encKey, iv)
   const ciphertext = concat(cipher.update(plaintext), cipher.final())
 
-  const macSize = parseInt(enc.substr(-3), 10)
+  const macSize = parseInt(enc.slice(-3), 10)
   const tag = cbcTag(aad, iv, ciphertext, macSize, macKey, keySize)
 
   return { ciphertext, tag }
@@ -51,7 +51,7 @@ function gcmEncrypt(
   iv: Uint8Array,
   aad: Uint8Array,
 ) {
-  const keySize = parseInt(enc.substr(1, 3), 10)
+  const keySize = parseInt(enc.slice(1, 4), 10)
 
   const algorithm = <CipherGCMTypes>`aes-${keySize}-gcm`
   if (!supported(algorithm)) {

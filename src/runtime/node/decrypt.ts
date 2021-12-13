@@ -23,7 +23,7 @@ function cbcDecrypt(
   tag: Uint8Array,
   aad: Uint8Array,
 ) {
-  const keySize = parseInt(enc.substr(1, 3), 10)
+  const keySize = parseInt(enc.slice(1, 4), 10)
 
   if (isKeyObject(cek)) {
     cek = cek.export()
@@ -31,7 +31,7 @@ function cbcDecrypt(
 
   const encKey = cek.subarray(keySize >> 3)
   const macKey = cek.subarray(0, keySize >> 3)
-  const macSize = parseInt(enc.substr(-3), 10)
+  const macSize = parseInt(enc.slice(-3), 10)
 
   const algorithm = `aes-${keySize}-cbc`
   if (!supported(algorithm)) {
@@ -72,7 +72,7 @@ function gcmDecrypt(
   tag: Uint8Array,
   aad: Uint8Array,
 ) {
-  const keySize = parseInt(enc.substr(1, 3), 10)
+  const keySize = parseInt(enc.slice(1, 4), 10)
 
   const algorithm = <CipherGCMTypes>`aes-${keySize}-gcm`
   if (!supported(algorithm)) {

@@ -8,7 +8,7 @@ import sign from './sign.js'
 import getVerifyKey from './get_sign_verify_key.js'
 
 const [major, minor] = process.version
-  .substr(1)
+  .slice(1)
   .split('.')
   .map((str) => parseInt(str, 10))
 

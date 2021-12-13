@@ -17,7 +17,7 @@ import {
 import isObject from '../lib/is_object.js'
 
 function getKtyFromAlg(alg: unknown) {
-  switch (typeof alg === 'string' && alg.substr(0, 2)) {
+  switch (typeof alg === 'string' && alg.slice(0, 2)) {
     case 'RS':
     case 'PS':
       return 'RSA'

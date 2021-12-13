@@ -6,7 +6,7 @@ import invalidKeyInput from '../../lib/invalid_key_input.js'
 import { types } from './is_key_like.js'
 
 function checkKeySize(key: CryptoKey, alg: string) {
-  if ((<AesKeyAlgorithm>key.algorithm).length !== parseInt(alg.substr(1, 3), 10)) {
+  if ((<AesKeyAlgorithm>key.algorithm).length !== parseInt(alg.slice(1, 4), 10)) {
     throw new TypeError(`Invalid key size for alg: ${alg}`)
   }
 }

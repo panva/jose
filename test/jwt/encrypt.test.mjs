@@ -79,7 +79,7 @@ async function testJWTsetFunction(t, method, claim, value, duplicate = false, ex
   let enc = new EncryptJWT({}).setProtectedHeader({ alg: 'dir', enc: 'A128GCM' })[method](value)
 
   if (duplicate) {
-    enc = enc[`replicate${method.substr(3)}AsHeader`]()
+    enc = enc[`replicate${method.slice(3)}AsHeader`]()
   }
 
   const jwt = await enc.encrypt(t.context.secret)

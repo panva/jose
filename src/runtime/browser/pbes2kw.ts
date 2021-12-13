@@ -26,9 +26,9 @@ async function deriveKey(p2s: Uint8Array, alg: string, p2c: number, key: unknown
   checkP2s(p2s)
 
   const salt = concatSalt(alg, p2s)
-  const keylen = parseInt(alg.substr(13, 3), 10)
+  const keylen = parseInt(alg.slice(13, 16), 10)
   const subtleAlg = {
-    hash: `SHA-${alg.substr(8, 3)}`,
+    hash: `SHA-${alg.slice(8, 11)}`,
     iterations: p2c,
     name: 'PBKDF2',
     salt,
@@ -60,7 +60,7 @@ export const encrypt: Pbes2KWEncryptFunction = async (
 ) => {
   const derived = await deriveKey(p2s, alg, p2c, key)
 
-  const encryptedKey = await wrap(alg.substr(-6), derived, cek)
+  const encryptedKey = await wrap(alg.slice(-6), derived, cek)
 
   return { encryptedKey, p2c, p2s: base64url(p2s) }
 }
@@ -74,5 +74,5 @@ export const decrypt: Pbes2KWDecryptFunction = async (
 ) => {
   const derived = await deriveKey(p2s, alg, p2c, key)
 
-  return unwrap(alg.substr(-6), derived, encryptedKey)
+  return unwrap(alg.slice(-6), derived, encryptedKey)
 }

@@ -16,7 +16,7 @@ export default function getCryptoKey(alg: string, key: unknown, usage: KeyUsage)
     return crypto.subtle.importKey(
       'raw',
       key,
-      { hash: `SHA-${alg.substr(-3)}`, name: 'HMAC' },
+      { hash: `SHA-${alg.slice(-3)}`, name: 'HMAC' },
       false,
       [usage],
     )

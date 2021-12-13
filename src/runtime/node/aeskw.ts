@@ -11,7 +11,7 @@ import supported from './ciphers.js'
 import { types } from './is_key_like.js'
 
 function checkKeySize(key: KeyObject, alg: string) {
-  if (key.symmetricKeySize! << 3 !== parseInt(alg.substr(1, 3), 10)) {
+  if (key.symmetricKeySize! << 3 !== parseInt(alg.slice(1, 4), 10)) {
     throw new TypeError(`Invalid key size for alg: ${alg}`)
   }
 }
@@ -32,7 +32,7 @@ function ensureKeyObject(key: unknown, alg: string, usage: KeyUsage) {
 }
 
 export const wrap: AesKwWrapFunction = (alg: string, key: unknown, cek: Uint8Array) => {
-  const size = parseInt(alg.substr(1, 3), 10)
+  const size = parseInt(alg.slice(1, 4), 10)
   const algorithm = `aes${size}-wrap`
   if (!supported(algorithm)) {
     throw new JOSENotSupported(
@@ -50,7 +50,7 @@ export const unwrap: AesKwUnwrapFunction = (
   key: unknown,
   encryptedKey: Uint8Array,
 ) => {
-  const size = parseInt(alg.substr(1, 3), 10)
+  const size = parseInt(alg.slice(1, 4), 10)
   const algorithm = `aes${size}-wrap`
   if (!supported(algorithm)) {
     throw new JOSENotSupported(

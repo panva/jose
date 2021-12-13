@@ -65,7 +65,7 @@ async function decryptKeyManagement(
         epk,
         key,
         alg === 'ECDH-ES' ? joseHeader.enc! : alg,
-        alg === 'ECDH-ES' ? cekLength(joseHeader.enc!) : parseInt(alg.substr(-5, 3), 10),
+        alg === 'ECDH-ES' ? cekLength(joseHeader.enc!) : parseInt(alg.slice(-5, -2), 10),
         partyUInfo,
         partyVInfo,
       )
@@ -75,7 +75,7 @@ async function decryptKeyManagement(
       // Key Agreement with Key Wrapping
       if (encryptedKey === undefined) throw new JWEInvalid('JWE Encrypted Key missing')
 
-      return aesKw(alg.substr(-6), sharedSecret, encryptedKey)
+      return aesKw(alg.slice(-6), sharedSecret, encryptedKey)
     }
     case 'RSA1_5':
     case 'RSA-OAEP':

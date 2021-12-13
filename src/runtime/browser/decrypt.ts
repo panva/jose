@@ -21,7 +21,7 @@ async function cbcDecrypt(
   if (!(cek instanceof Uint8Array)) {
     throw new TypeError(invalidKeyInput(cek, 'Uint8Array'))
   }
-  const keySize = parseInt(enc.substr(1, 3), 10)
+  const keySize = parseInt(enc.slice(1, 4), 10)
   const encKey = await crypto.subtle.importKey(
     'raw',
     cek.subarray(keySize >> 3),
@@ -123,12 +123,12 @@ const decrypt: DecryptFunction = async (
     case 'A128CBC-HS256':
     case 'A192CBC-HS384':
     case 'A256CBC-HS512':
-      if (cek instanceof Uint8Array) checkCekLength(cek, parseInt(enc.substr(-3), 10))
+      if (cek instanceof Uint8Array) checkCekLength(cek, parseInt(enc.slice(-3), 10))
       return cbcDecrypt(enc, cek, ciphertext, iv, tag, aad)
     case 'A128GCM':
     case 'A192GCM':
     case 'A256GCM':
-      if (cek instanceof Uint8Array) checkCekLength(cek, parseInt(enc.substr(1, 3), 10))
+      if (cek instanceof Uint8Array) checkCekLength(cek, parseInt(enc.slice(1, 4), 10))
       return gcmDecrypt(enc, cek, ciphertext, iv, tag, aad)
     default:
       throw new JOSENotSupported('Unsupported JWE Content Encryption Algorithm')

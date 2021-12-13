@@ -9,7 +9,7 @@ function isAlgorithm<T = KeyAlgorithm>(algorithm: any, name: string): algorithm 
 }
 
 function getHashLength(hash: KeyAlgorithm) {
-  return parseInt(hash.name.substr(4), 10)
+  return parseInt(hash.name.slice(4), 10)
 }
 
 function getNamedCurve(alg: string) {
@@ -47,7 +47,7 @@ export function checkSigCryptoKey(key: CryptoKey, alg: string, ...usages: KeyUsa
     case 'HS384':
     case 'HS512': {
       if (!isAlgorithm<HmacKeyAlgorithm>(key.algorithm, 'HMAC')) throw unusable('HMAC')
-      const expected = parseInt(alg.substr(2), 10)
+      const expected = parseInt(alg.slice(2), 10)
       const actual = getHashLength(key.algorithm.hash)
       if (actual !== expected) throw unusable(`SHA-${expected}`, 'algorithm.hash')
       break
@@ -57,7 +57,7 @@ export function checkSigCryptoKey(key: CryptoKey, alg: string, ...usages: KeyUsa
     case 'RS512': {
       if (!isAlgorithm<RsaHashedKeyAlgorithm>(key.algorithm, 'RSASSA-PKCS1-v1_5'))
         throw unusable('RSASSA-PKCS1-v1_5')
-      const expected = parseInt(alg.substr(2), 10)
+      const expected = parseInt(alg.slice(2), 10)
       const actual = getHashLength(key.algorithm.hash)
       if (actual !== expected) throw unusable(`SHA-${expected}`, 'algorithm.hash')
       break
@@ -66,7 +66,7 @@ export function checkSigCryptoKey(key: CryptoKey, alg: string, ...usages: KeyUsa
     case 'PS384':
     case 'PS512': {
       if (!isAlgorithm<RsaHashedKeyAlgorithm>(key.algorithm, 'RSA-PSS')) throw unusable('RSA-PSS')
-      const expected = parseInt(alg.substr(2), 10)
+      const expected = parseInt(alg.slice(2), 10)
       const actual = getHashLength(key.algorithm.hash)
       if (actual !== expected) throw unusable(`SHA-${expected}`, 'algorithm.hash')
       break
@@ -102,7 +102,7 @@ export function checkEncCryptoKey(key: CryptoKey, alg: string, ...usages: KeyUsa
     case 'A192GCM':
     case 'A256GCM': {
       if (!isAlgorithm<AesKeyAlgorithm>(key.algorithm, 'AES-GCM')) throw unusable('AES-GCM')
-      const expected = parseInt(alg.substr(1, 3), 10)
+      const expected = parseInt(alg.slice(1, 4), 10)
       const actual = key.algorithm.length
       if (actual !== expected) throw unusable(expected, 'algorithm.length')
       break
@@ -111,7 +111,7 @@ export function checkEncCryptoKey(key: CryptoKey, alg: string, ...usages: KeyUsa
     case 'A192KW':
     case 'A256KW': {
       if (!isAlgorithm<AesKeyAlgorithm>(key.algorithm, 'AES-KW')) throw unusable('AES-KW')
-      const expected = parseInt(alg.substr(1, 3), 10)
+      const expected = parseInt(alg.slice(1, 4), 10)
       const actual = key.algorithm.length
       if (actual !== expected) throw unusable(expected, 'algorithm.length')
       break
@@ -129,7 +129,7 @@ export function checkEncCryptoKey(key: CryptoKey, alg: string, ...usages: KeyUsa
     case 'RSA-OAEP-384':
     case 'RSA-OAEP-512': {
       if (!isAlgorithm<RsaHashedKeyAlgorithm>(key.algorithm, 'RSA-OAEP')) throw unusable('RSA-OAEP')
-      const expected = parseInt(alg.substr(9), 10) || 1
+      const expected = parseInt(alg.slice(9), 10) || 1
       const actual = getHashLength(key.algorithm.hash)
       if (actual !== expected) throw unusable(`SHA-${expected}`, 'algorithm.hash')
       break

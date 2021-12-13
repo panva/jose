@@ -2,7 +2,7 @@ import { isCloudflareWorkers, isNodeJs } from './env.js'
 import { JOSENotSupported } from '../../util/errors.js'
 
 export default function subtleDsa(alg: string, algorithm: KeyAlgorithm | EcKeyAlgorithm) {
-  const hash = `SHA-${alg.substr(-3)}`
+  const hash = `SHA-${alg.slice(-3)}`
   switch (alg) {
     case 'HS256':
     case 'HS384':
@@ -12,7 +12,7 @@ export default function subtleDsa(alg: string, algorithm: KeyAlgorithm | EcKeyAl
     case 'PS384':
     case 'PS512':
       // @ts-expect-error
-      return { hash, name: 'RSA-PSS', saltLength: alg.substr(-3) >> 3 }
+      return { hash, name: 'RSA-PSS', saltLength: alg.slice(-3) >> 3 }
     case 'RS256':
     case 'RS384':
     case 'RS512':

@@ -5,7 +5,7 @@ import { promisify } from 'util'
 const generateKeyPair = promisify(crypto.generateKeyPair)
 
 const [major, minor] = process.version
-  .substr(1)
+  .slice(1)
   .split('.')
   .map((str) => parseInt(str, 10))
 

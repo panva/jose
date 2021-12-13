@@ -37,11 +37,11 @@ export const encrypt: Pbes2KWEncryptFunction = async (
 ) => {
   checkP2s(p2s)
   const salt = concatSalt(alg, p2s)
-  const keylen = parseInt(alg.substr(13, 3), 10) >> 3
+  const keylen = parseInt(alg.slice(13, 16), 10) >> 3
   const password = getPassword(key, alg)
 
-  const derivedKey = await pbkdf2(password, salt, p2c, keylen, `sha${alg.substr(8, 3)}`)
-  const encryptedKey = await wrap(alg.substr(-6), derivedKey, cek)
+  const derivedKey = await pbkdf2(password, salt, p2c, keylen, `sha${alg.slice(8, 11)}`)
+  const encryptedKey = await wrap(alg.slice(-6), derivedKey, cek)
 
   return { encryptedKey, p2c, p2s: base64url(p2s) }
 }
@@ -55,10 +55,10 @@ export const decrypt: Pbes2KWDecryptFunction = async (
 ) => {
   checkP2s(p2s)
   const salt = concatSalt(alg, p2s)
-  const keylen = parseInt(alg.substr(13, 3), 10) >> 3
+  const keylen = parseInt(alg.slice(13, 16), 10) >> 3
   const password = getPassword(key, alg)
 
-  const derivedKey = await pbkdf2(password, salt, p2c, keylen, `sha${alg.substr(8, 3)}`)
+  const derivedKey = await pbkdf2(password, salt, p2c, keylen, `sha${alg.slice(8, 11)}`)
 
-  return unwrap(alg.substr(-6), derivedKey, encryptedKey)
+  return unwrap(alg.slice(-6), derivedKey, encryptedKey)
 }

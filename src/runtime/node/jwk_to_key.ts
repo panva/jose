@@ -11,7 +11,7 @@ import Asn1SequenceEncoder from './asn1_sequence_encoder.js'
 import type { JWK } from '../../types.d'
 
 const [major, minor] = process.version
-  .substr(1)
+  .slice(1)
   .split('.')
   .map((str) => parseInt(str, 10))
 
