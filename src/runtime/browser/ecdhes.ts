@@ -40,8 +40,7 @@ export async function deriveKey(
         public: publicKey,
       },
       privateKey,
-      Math.ceil(parseInt((<EcKeyAlgorithm>privateKey.algorithm).namedCurve.slice(-3), 10) / 8) <<
-        3,
+      Math.ceil(parseInt((<EcKeyAlgorithm>privateKey.algorithm).namedCurve.slice(-3), 10) / 8) << 3,
     ),
   )
 
