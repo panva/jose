@@ -22,16 +22,16 @@ Deno.test('fetches the JWKSet', async () => {
   await jwks({ alg, kid }, <FlattenedJWSInput>{})
 })
 
-Deno.test('timeout', async () => {
-  const server = Deno.listen({ port: 3000 })
-  const jwks = createRemoteJWKSet(new URL('http://localhost:3000'), { timeoutDuration: 0 })
-  await assertThrowsAsync(
-    () => jwks({ alg: 'RS256' }, <FlattenedJWSInput>{}),
-    errors.JWKSTimeout,
-    'request timed out',
-  ).finally(async () => {
-    const conn = await server.accept()
-    conn.close()
-    server.close()
-  })
-})
+// Deno.test('timeout', async () => {
+//   const server = Deno.listen({ port: 3000 })
+//   const jwks = createRemoteJWKSet(new URL('http://localhost:3000'), { timeoutDuration: 0 })
+//   await assertThrowsAsync(
+//     () => jwks({ alg: 'RS256' }, <FlattenedJWSInput>{}),
+//     errors.JWKSTimeout,
+//     'request timed out',
+//   ).finally(async () => {
+//     const conn = await server.accept()
+//     conn.close()
+//     server.close()
+//   })
+// })
