@@ -47,6 +47,7 @@ body:
       required: true
   - type: checkboxes
     attributes:
+      label: Required
       options:
         - label: I have searched the issues tracker and discussions for similar topics and couldn't find anything related.
           required: true
