@@ -47,7 +47,6 @@ export const decrypt: RsaEsDecryptFunction = async (
   }
 
   if (key.usages.includes('unwrapKey')) {
-    // @deno-expect-error
     const cryptoKeyCek = await crypto.subtle.unwrapKey(
       'raw',
       encryptedKey,

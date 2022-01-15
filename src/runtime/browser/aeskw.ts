@@ -44,7 +44,6 @@ export const unwrap: AesKwUnwrapFunction = async (
 
   checkKeySize(cryptoKey, alg)
 
-  // @deno-expect-error
   const cryptoKeyCek = await crypto.subtle.unwrapKey(
     'raw',
     encryptedKey,
