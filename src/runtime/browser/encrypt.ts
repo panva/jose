@@ -74,7 +74,6 @@ async function gcmEncrypt(
   const encrypted = new Uint8Array(
     await crypto.subtle.encrypt(
       {
-        // @deno-expect-error
         additionalData: aad,
         iv,
         name: 'AES-GCM',
