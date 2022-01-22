@@ -6,6 +6,9 @@ Returns a function that resolves to a key object downloaded from a
 remote endpoint returning a JSON Web Key Set, that is, for example,
 an OAuth 2.0 or OIDC jwks_uri. Only a single public key must match
 the selection process.
+The JSON Web Key Set is fetched when no key matches the selection
+process but only as frequently as the `cooldownDuration` option allows,
+to prevent abuse.
 
 **`example`** Usage
 ```js

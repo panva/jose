@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [4.3.9](https://github.com/panva/jose/compare/v4.3.8...v4.3.9) (2022-01-22)
+
+
+### Fixes
+
+* only add y to the epk header parameter when EC keys are used ([dd6775e](https://github.com/panva/jose/commit/dd6775eed00b60c14b7038ddec85c8bb3cf05781)), closes [#348](https://github.com/panva/jose/issues/348)
+
 ## [4.3.8](https://github.com/panva/jose/compare/v4.3.7...v4.3.8) (2022-01-09)
 
 ## [4.3.7](https://github.com/panva/jose/compare/v4.3.6...v4.3.7) (2021-11-18)
