@@ -39,13 +39,13 @@ interface Cache {
  */
 export interface RemoteJWKSetOptions {
   /**
-   * Timeout for the HTTP request. When reached the request will be
+   * Timeout (in milliseconds) for the HTTP request. When reached the request will be
    * aborted and the verification will fail. Default is 5000.
    */
   timeoutDuration?: number
 
   /**
-   * Duration for which no more HTTP requests will be triggered
+   * Duration (in milliseconds) for which no more HTTP requests will be triggered
    * after a previous successful fetch. Default is 30000.
    */
   cooldownDuration?: number
