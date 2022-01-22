@@ -4,7 +4,12 @@ import { encrypt as pbes2Kw } from '../runtime/pbes2kw.js'
 import { encrypt as rsaEs } from '../runtime/rsaes.js'
 import { encode as base64url } from '../runtime/base64url.js'
 
-import type { KeyLike, JWEKeyManagementHeaderParameters, JWEHeaderParameters } from '../types.d'
+import type {
+  KeyLike,
+  JWEKeyManagementHeaderParameters,
+  JWEHeaderParameters,
+  JWK,
+} from '../types.d'
 import generateCek, { bitLength as cekLength } from '../lib/cek.js'
 import { JOSENotSupported } from '../util/errors.js'
 import { exportJWK } from '../key/export.js'
@@ -23,7 +28,7 @@ async function encryptKeyManagement(
   parameters?: JWEHeaderParameters
 }> {
   let encryptedKey: Uint8Array | undefined
-  let parameters: JWEHeaderParameters | undefined
+  let parameters: (JWEHeaderParameters & { epk?: JWK }) | undefined
   let cek: KeyLike | Uint8Array
 
   checkKeyType(alg, key, 'encrypt')
@@ -56,7 +61,8 @@ async function encryptKeyManagement(
         apu,
         apv,
       )
-      parameters = { epk: { x, y, crv, kty } }
+      parameters = { epk: { x, crv, kty } }
+      if (kty === 'EC') parameters.epk!.y = y
       if (apu) parameters.apu = base64url(apu)
       if (apv) parameters.apv = base64url(apv)
 
