@@ -226,9 +226,9 @@ interface URL {
  * remote endpoint returning a JSON Web Key Set, that is, for example,
  * an OAuth 2.0 or OIDC jwks_uri. Only a single public key must match
  * the selection process.
- * The Remote JWKS is fetched whenever there is no matching key cached
- * and limited to the cooldownDuration option, so manually reloading
- * is not required.
+ * The JSON Web Key Set is fetched when no key matches the selection
+ * process but only as frequently as the `cooldownDuration` option allows,
+ * to prevent abuse.
  *
  * @param url URL to fetch the JSON Web Key Set from.
  * @param options Options for the remote JSON Web Key Set.
