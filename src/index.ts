@@ -34,6 +34,7 @@ export { EncryptJWT } from './jwt/encrypt.js'
 export { calculateJwkThumbprint } from './jwk/thumbprint.js'
 export { EmbeddedJWK } from './jwk/embedded.js'
 
+export { createLocalJWKSet } from './jwks/local.js'
 export { createRemoteJWKSet } from './jwks/remote.js'
 export type { RemoteJWKSetOptions } from './jwks/remote.js'
 
@@ -92,4 +93,5 @@ export type {
   CompactJWEHeaderParameters,
   CompactJWSHeaderParameters,
   JWTHeaderParameters,
+  JSONWebKeySet,
 } from './types.d'

@@ -745,3 +745,10 @@ export interface CompactJWEHeaderParameters extends JWEHeaderParameters {
   alg: string
   enc: string
 }
+
+/**
+ * JSON Web Key Set
+ */
+export interface JSONWebKeySet {
+  keys: JWK[]
+}
