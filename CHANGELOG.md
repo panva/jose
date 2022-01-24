@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [4.4.0](https://github.com/panva/jose/compare/v4.3.9...v4.4.0) (2022-01-24)
+
+
+### Features
+
+* add createLocalJWKSet, resolver to verify using a local JWKSet ([bd7bf37](https://github.com/panva/jose/commit/bd7bf3789c146d765bbee2db0c93ba035020b24c))
+
 ## [4.3.9](https://github.com/panva/jose/compare/v4.3.8...v4.3.9) (2022-01-22)
 
 

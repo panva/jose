@@ -25,6 +25,7 @@
 - [GeneralVerifyResult](../interfaces/types.GeneralVerifyResult.md)
 - [GetKeyFunction](../interfaces/types.GetKeyFunction.md)
 - [InflateFunction](../interfaces/types.InflateFunction.md)
+- [JSONWebKeySet](../interfaces/types.JSONWebKeySet.md)
 - [JWEHeaderParameters](../interfaces/types.JWEHeaderParameters.md)
 - [JWEKeyManagementHeaderParameters](../interfaces/types.JWEKeyManagementHeaderParameters.md)
 - [JWK](../interfaces/types.JWK.md)
