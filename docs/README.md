@@ -44,6 +44,7 @@ import * as jose from 'https://deno.land/x/jose/index.ts'
   - [Thumbprints](functions/jwk_thumbprint.calculateJwkThumbprint.md#readme)
   - [EmbeddedJWK](functions/jwk_embedded.EmbeddedJWK.md#readme)
 - JSON Web Key Set (JWKS)
+  - [Verify using a local JWKSet](functions/jwks_local.createLocalJWKSet.md#readme)
   - [Verify using a remote JWKSet](functions/jwks_remote.createRemoteJWKSet.md#readme)
 - Key Pair or Secret Generation
   - [Asymmetric Key Pair Generation](functions/key_generate_key_pair.generateKeyPair.md#readme)
