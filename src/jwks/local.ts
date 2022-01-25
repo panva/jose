@@ -78,23 +78,20 @@ export class LocalJWKSet {
   }
 
   async getKey(protectedHeader: JWSHeaderParameters, token: FlattenedJWSInput): Promise<KeyLike> {
-    const joseHeader = {
-      ...protectedHeader,
-      ...token.header,
-    }
+    const { alg, kid } = { ...protectedHeader, ...token.header }
 
     const candidates = this._jwks!.keys.filter((jwk) => {
       // filter keys based on the mapping of signature algorithms to Key Type
-      let candidate = jwk.kty === getKtyFromAlg(joseHeader.alg)
+      let candidate = jwk.kty === getKtyFromAlg(alg)
 
       // filter keys based on the JWK Key ID in the header
-      if (candidate && typeof joseHeader.kid === 'string') {
-        candidate = joseHeader.kid === jwk.kid
+      if (candidate && typeof kid === 'string') {
+        candidate = kid === jwk.kid
       }
 
       // filter keys based on the key's declared Algorithm
       if (candidate && typeof jwk.alg === 'string') {
-        candidate = joseHeader.alg === jwk.alg
+        candidate = alg === jwk.alg
       }
 
       // filter keys based on the key's declared Public Key Use
@@ -108,13 +105,13 @@ export class LocalJWKSet {
       }
 
       // filter out non-applicable OKP Sub Types
-      if (candidate && joseHeader.alg === 'EdDSA') {
+      if (candidate && alg === 'EdDSA') {
         candidate = jwk.crv === 'Ed25519' || jwk.crv === 'Ed448'
       }
 
       // filter out non-applicable EC curves
       if (candidate) {
-        switch (joseHeader.alg) {
+        switch (alg) {
           case 'ES256':
             candidate = jwk.crv === 'P-256'
             break
@@ -127,7 +124,6 @@ export class LocalJWKSet {
           case 'ES512':
             candidate = jwk.crv === 'P-521'
             break
-          default:
         }
       }
 
@@ -143,17 +139,17 @@ export class LocalJWKSet {
     }
 
     const cached = this._cached.get(jwk) || this._cached.set(jwk, {}).get(jwk)!
-    if (cached[joseHeader.alg!] === undefined) {
-      const keyObject = await importJWK({ ...jwk, ext: true }, joseHeader.alg!)
+    if (cached[alg!] === undefined) {
+      const keyObject = await importJWK({ ...jwk, ext: true }, alg)
 
       if (keyObject instanceof Uint8Array || keyObject.type !== 'public') {
         throw new JWKSInvalid('JSON Web Key Set members must be public keys')
       }
 
-      cached[joseHeader.alg!] = keyObject
+      cached[alg!] = keyObject
     }
 
-    return cached[joseHeader.alg!]
+    return cached[alg!]
   }
 }
 
