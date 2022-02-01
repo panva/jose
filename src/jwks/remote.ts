@@ -1,4 +1,5 @@
 import fetchJwks from '../runtime/fetch_jwks.js'
+import { isCloudflareWorkers } from '../runtime/env.js'
 
 import type { KeyLike, JWSHeaderParameters, FlattenedJWSInput, GetKeyFunction } from '../types.d'
 import { JWKSInvalid, JWKSNoMatchingKey } from '../util/errors.js'
@@ -89,6 +90,20 @@ class RemoteJWKSet extends LocalJWKSet {
   }
 
   async reload() {
+    // see https://github.com/panva/jose/issues/355
+    if (this._pendingFetch && isCloudflareWorkers()) {
+      return new Promise<void>((resolve) => {
+        const isDone = () => {
+          if (this._pendingFetch === undefined) {
+            resolve()
+          } else {
+            setTimeout(isDone, 5)
+          }
+        }
+        isDone()
+      })
+    }
+
     if (!this._pendingFetch) {
       this._pendingFetch = fetchJwks(this._url, this._timeoutDuration, this._options)
         .then((json) => {
