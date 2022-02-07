@@ -2,6 +2,18 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [4.5.0](https://github.com/panva/jose/compare/v4.4.0...v4.5.0) (2022-02-07)
+
+
+### Features
+
+* add jose.decodeJwt utility ([3d2a2b8](https://github.com/panva/jose/commit/3d2a2b8eee18c9b60debbfae284b2bc3d2947dd2))
+
+
+### Fixes
+
+* concurrent fetch await in cloudflare ([e44cd18](https://github.com/panva/jose/commit/e44cd18ea4cf8af173f874ca3a847fc315eee592)), closes [#355](https://github.com/panva/jose/issues/355)
+
 ## [4.4.0](https://github.com/panva/jose/compare/v4.3.9...v4.4.0) (2022-01-24)
 
 
