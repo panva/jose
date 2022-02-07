@@ -47,6 +47,7 @@ export { importSPKI, importPKCS8, importX509, importJWK } from './key/import.js'
 export type { PEMImportOptions } from './key/import.js'
 
 export { decodeProtectedHeader } from './util/decode_protected_header.js'
+export { decodeJwt } from './util/decode_jwt.js'
 export type { ProtectedHeaderParameters } from './util/decode_protected_header.js'
 
 export * as errors from './util/errors.js'

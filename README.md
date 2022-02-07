@@ -42,10 +42,10 @@ import * as jose from 'https://deno.land/x/jose/index.ts'
 
 - JSON Web Tokens (JWT)
   - [Signing](docs/classes/jwt_sign.SignJWT.md#readme)
-  - [Verification & Claims Set Validation](docs/functions/jwt_verify.jwtVerify.md#readme)
+  - [Verification & JWT Claims Set Validation](docs/functions/jwt_verify.jwtVerify.md#readme)
   - Encrypted JSON Web Tokens
     - [Encryption](docs/classes/jwt_encrypt.EncryptJWT.md#readme)
-    - [Decryption & Claims Set Validation](docs/functions/jwt_decrypt.jwtDecrypt.md#readme)
+    - [Decryption & JWT Claims Set Validation](docs/functions/jwt_decrypt.jwtDecrypt.md#readme)
 - Key Import
   - [JWK Import](docs/functions/key_import.importJWK.md#readme)
   - [Public Key Import (SPKI)](docs/functions/key_import.importSPKI.md#readme)
@@ -72,6 +72,7 @@ import * as jose from 'https://deno.land/x/jose/index.ts'
   - [Public Key Export](docs/functions/key_export.exportSPKI.md#readme)
 - Utilities
   - [Decoding Token's Protected Header](docs/functions/util_decode_protected_header.decodeProtectedHeader.md#readme)
+  - [Decoding JWT Claims Set](docs/functions/util_decode_jwt.decodeJwt.md#readme)
 - [Unsecured JWT](docs/classes/jwt_unsecured.UnsecuredJWT.md#readme)
 - [JOSE Errors](docs/modules/util_errors.md#readme)
 
