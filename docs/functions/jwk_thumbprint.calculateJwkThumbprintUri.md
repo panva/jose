@@ -1,16 +1,15 @@
-# Function: calculateJwkThumbprint
+# Function: calculateJwkThumbprintUri
 
 [💗 Help the project](https://github.com/sponsors/panva)
 
-▸ **calculateJwkThumbprint**(`jwk`, `digestAlgorithm?`): `Promise`<`string`\>
+▸ **calculateJwkThumbprintUri**(`jwk`, `digestAlgorithm?`): `Promise`<`string`\>
 
-Calculates a base64url-encoded JSON Web Key (JWK) Thumbprint as per
-[RFC7638](https://www.rfc-editor.org/rfc/rfc7638).
+Calculates a JSON Web Key (JWK) Thumbprint URI as per [RFC9278](https://www.rfc-editor.org/rfc/rfc9278).
 
 **`example`** Usage
 
 ```js
-const thumbprint = await jose.calculateJwkThumbprint({
+const thumbprintUri = await jose.calculateJwkThumbprintUri({
   kty: 'EC',
   crv: 'P-256',
   x: 'jJ6Flys3zK9jUhnOHf6G49Dyp5hah6CNP84-gY-n9eo',
@@ -18,7 +17,7 @@ const thumbprint = await jose.calculateJwkThumbprint({
 })
 
 console.log(thumbprint)
-// 'w9eYdC6_s_tLQ8lH6PUpc0mddazaqtPgeC2IgWDiqY8'
+// 'urn:ietf:params:oauth:jwk-thumbprint:sha-256:w9eYdC6_s_tLQ8lH6PUpc0mddazaqtPgeC2IgWDiqY8'
 ```
 
 #### Parameters

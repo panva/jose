@@ -31,7 +31,7 @@ export type { Signature } from './jws/general/sign.js'
 export { SignJWT } from './jwt/sign.js'
 export { EncryptJWT } from './jwt/encrypt.js'
 
-export { calculateJwkThumbprint } from './jwk/thumbprint.js'
+export { calculateJwkThumbprint, calculateJwkThumbprintUri } from './jwk/thumbprint.js'
 export { EmbeddedJWK } from './jwk/embedded.js'
 
 export { createLocalJWKSet } from './jwks/local.js'

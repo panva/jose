@@ -12,6 +12,7 @@ The following specifications are implemented by `jose`
 - JSON Web Algorithms (JWA) - [RFC7518][spec-jwa]
 - JSON Web Token (JWT) - [RFC7519][spec-jwt]
 - JSON Web Key Thumbprint - [RFC7638][spec-thumbprint]
+- JSON Web Key Thumbprint URI - [RFC9278][spec-thumbprint-uri]
 - JWS Unencoded Payload Option - [RFC7797][spec-b64]
 - CFRG Elliptic Curve ECDH and Signatures - [RFC8037][spec-okp]
 - secp256k1 EC Key curve support - [JOSE Registrations for WebAuthn Algorithms][spec-secp256k1]
@@ -56,8 +57,9 @@ import * as jose from 'https://deno.land/x/jose/index.ts'
   - Signing - [Compact](docs/classes/jws_compact_sign.CompactSign.md#readme), [Flattened](docs/classes/jws_flattened_sign.FlattenedSign.md#readme), [General](docs/classes/jws_general_sign.GeneralSign.md#readme)
   - Verification - [Compact](docs/functions/jws_compact_verify.compactVerify.md#readme), [Flattened](docs/functions/jws_flattened_verify.flattenedVerify.md#readme), [General](docs/functions/jws_general_verify.generalVerify.md#readme)
 - JSON Web Key (JWK)
-  - [Thumbprints](docs/functions/jwk_thumbprint.calculateJwkThumbprint.md#readme)
-  - [EmbeddedJWK](docs/functions/jwk_embedded.EmbeddedJWK.md#readme)
+  - [Calculating JWK Thumbprint](docs/functions/jwk_thumbprint.calculateJwkThumbprint.md#readme)
+  - [Calculating JWK Thumbprint URI](docs/functions/jwk_thumbprint.calculateJwkThumbprintUri.md#readme)
+  - [Verification using a JWK Embedded in a JWS Header](docs/functions/jwk_embedded.EmbeddedJWK.md#readme)
 - JSON Web Key Set (JWKS)
   - [Verify using a local JWKSet](docs/functions/jwks_local.createLocalJWKSet.md#readme)
   - [Verify using a remote JWKSet](docs/functions/jwks_remote.createRemoteJWKSet.md#readme)
@@ -142,6 +144,7 @@ install size should not be a cause for concern.
 [spec-okp]: https://www.rfc-editor.org/rfc/rfc8037
 [spec-secp256k1]: https://www.rfc-editor.org/rfc/rfc8812
 [spec-thumbprint]: https://www.rfc-editor.org/rfc/rfc7638
+[spec-thumbprint-uri]: https://www.rfc-editor.org/rfc/rfc9278
 [support-sponsor]: https://github.com/sponsors/panva
 [conditional-exports]: https://nodejs.org/api/packages.html#packages_conditional_exports
 [webcrypto]: https://www.w3.org/TR/WebCryptoAPI/

@@ -7,3 +7,4 @@
 ### Functions
 
 - [calculateJwkThumbprint](../functions/jwk_thumbprint.calculateJwkThumbprint.md)
+- [calculateJwkThumbprintUri](../functions/jwk_thumbprint.calculateJwkThumbprintUri.md)

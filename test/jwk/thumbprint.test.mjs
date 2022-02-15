@@ -1,17 +1,44 @@
 import test from 'ava'
 import { keyRoot } from '../dist.mjs'
 
-const { calculateJwkThumbprint } = await import(keyRoot)
+const { calculateJwkThumbprint, calculateJwkThumbprintUri } = await import(keyRoot)
+
+const jwk = {
+  kty: 'RSA',
+  n: '0vx7agoebGcQSuuPiLJXZptN9nndrQmbXEps2aiAFbWhM78LhWx4cbbfAAtVT86zwu1RK7aPFFxuhDR1L6tSoc_BJECPebWKRXjBZCiFV4n3oknjhMstn64tZ_2W-5JsGY4Hc5n9yBXArwl93lqt7_RN5w6Cf0h4QyQ5v-65YGjQR0_FDW2QvzqY368QQMicAtaSqzs8KJZgnYb9c7d0zgdAZHzu6qMQvRL5hajrn1n91CbOpbISD08qNLyrdkt-bFTWhAI4vMQFh6WeZu0fM4lFd2NcRwr3XPksINHaQ-G_xBniIqbw0Ls1jF44-csFCur-kEgU8awapJzKnqDKgw',
+  e: 'AQAB',
+  alg: 'RS256',
+}
 
 test('https://www.rfc-editor.org/rfc/rfc7638#section-3.1', async (t) => {
+  t.is(await calculateJwkThumbprint(jwk), 'NzbLsXh8uDCcd-6MNwXF4W_7noWXFZAfHkxZsRGC9Xs')
+  t.is(await calculateJwkThumbprint(jwk, 'sha256'), 'NzbLsXh8uDCcd-6MNwXF4W_7noWXFZAfHkxZsRGC9Xs')
   t.is(
-    await calculateJwkThumbprint({
-      kty: 'RSA',
-      n: '0vx7agoebGcQSuuPiLJXZptN9nndrQmbXEps2aiAFbWhM78LhWx4cbbfAAtVT86zwu1RK7aPFFxuhDR1L6tSoc_BJECPebWKRXjBZCiFV4n3oknjhMstn64tZ_2W-5JsGY4Hc5n9yBXArwl93lqt7_RN5w6Cf0h4QyQ5v-65YGjQR0_FDW2QvzqY368QQMicAtaSqzs8KJZgnYb9c7d0zgdAZHzu6qMQvRL5hajrn1n91CbOpbISD08qNLyrdkt-bFTWhAI4vMQFh6WeZu0fM4lFd2NcRwr3XPksINHaQ-G_xBniIqbw0Ls1jF44-csFCur-kEgU8awapJzKnqDKgw',
-      e: 'AQAB',
-      alg: 'RS256',
-    }),
-    'NzbLsXh8uDCcd-6MNwXF4W_7noWXFZAfHkxZsRGC9Xs',
+    await calculateJwkThumbprint(jwk, 'sha384'),
+    'R9_OfJjSjaw8Fuum86UzK5ixTdN9bo9BaqPSiseq89DWfmqCdpSgUHus-cxDUNc8',
+  )
+  t.is(
+    await calculateJwkThumbprint(jwk, 'sha512'),
+    'DpvEwocfn3FjeWWQjcJHzWrpKTIymKwgoL1xVgQcud48-qZDSRCr1zfWZQdHAJn_ciqXqPTSARyg-L-NyNGpVA',
+  )
+})
+
+test('https://www.rfc-editor.org/rfc/rfc9278', async (t) => {
+  t.is(
+    await calculateJwkThumbprintUri(jwk),
+    'urn:ietf:params:oauth:jwk-thumbprint:sha-256:NzbLsXh8uDCcd-6MNwXF4W_7noWXFZAfHkxZsRGC9Xs',
+  )
+  t.is(
+    await calculateJwkThumbprintUri(jwk, 'sha256'),
+    'urn:ietf:params:oauth:jwk-thumbprint:sha-256:NzbLsXh8uDCcd-6MNwXF4W_7noWXFZAfHkxZsRGC9Xs',
+  )
+  t.is(
+    await calculateJwkThumbprintUri(jwk, 'sha384'),
+    'urn:ietf:params:oauth:jwk-thumbprint:sha-384:R9_OfJjSjaw8Fuum86UzK5ixTdN9bo9BaqPSiseq89DWfmqCdpSgUHus-cxDUNc8',
+  )
+  t.is(
+    await calculateJwkThumbprintUri(jwk, 'sha512'),
+    'urn:ietf:params:oauth:jwk-thumbprint:sha-512:DpvEwocfn3FjeWWQjcJHzWrpKTIymKwgoL1xVgQcud48-qZDSRCr1zfWZQdHAJn_ciqXqPTSARyg-L-NyNGpVA',
   )
 })
 
