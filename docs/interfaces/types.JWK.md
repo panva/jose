@@ -1,6 +1,6 @@
 # Interface: JWK
 
-JSON Web Key ([JWK](https://tools.ietf.org/html/rfc7517)).
+JSON Web Key ([JWK](https://www.rfc-editor.org/rfc/rfc7517)).
 "RSA", "EC", "OKP", and "oct" key types are supported.
 
 ## Indexable

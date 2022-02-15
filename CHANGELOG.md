@@ -1360,7 +1360,7 @@ IETF WG decides on what the final names will be.
 
 ### BREAKING CHANGES
 
-* all [JWA](https://tools.ietf.org/html/rfc7518) defined
+* all [JWA](https://www.rfc-editor.org/rfc/rfc7518) defined
 RSA based operations require key size of 2048 bits or more.
 
 
@@ -1451,10 +1451,10 @@ Initial release
 | AES GCM | ✓ | A128GCM, A192GCM, A256GCM |
 | AES_CBC_HMAC_SHA2 | ✓ |  A128CBC-HS256, A192CBC-HS384, A256CBC-HS512 |
 
-[spec-b64]: https://tools.ietf.org/html/rfc7797
-[spec-jwa]: https://tools.ietf.org/html/rfc7518
-[spec-jwe]: https://tools.ietf.org/html/rfc7516
-[spec-jwk]: https://tools.ietf.org/html/rfc7517
-[spec-jws]: https://tools.ietf.org/html/rfc7515
-[spec-jwt]: https://tools.ietf.org/html/rfc7519
-[spec-thumbprint]: https://tools.ietf.org/html/rfc7638
+[spec-b64]: https://www.rfc-editor.org/rfc/rfc7797
+[spec-jwa]: https://www.rfc-editor.org/rfc/rfc7518
+[spec-jwe]: https://www.rfc-editor.org/rfc/rfc7516
+[spec-jwk]: https://www.rfc-editor.org/rfc/rfc7517
+[spec-jws]: https://www.rfc-editor.org/rfc/rfc7515
+[spec-jwt]: https://www.rfc-editor.org/rfc/rfc7519
+[spec-thumbprint]: https://www.rfc-editor.org/rfc/rfc7638

@@ -77,7 +77,7 @@ ___
 ▸ **replicateAudienceAsHeader**(): [`EncryptJWT`](jwt_encrypt.EncryptJWT.md)
 
 Replicates the "aud" (Audience) Claim as a JWE Protected Header Parameter as per
-[RFC7519#section-5.3](https://tools.ietf.org/html/rfc7519#section-5.3).
+[RFC7519#section-5.3](https://www.rfc-editor.org/rfc/rfc7519#section-5.3).
 
 #### Returns
 
@@ -90,7 +90,7 @@ ___
 ▸ **replicateIssuerAsHeader**(): [`EncryptJWT`](jwt_encrypt.EncryptJWT.md)
 
 Replicates the "iss" (Issuer) Claim as a JWE Protected Header Parameter as per
-[RFC7519#section-5.3](https://tools.ietf.org/html/rfc7519#section-5.3).
+[RFC7519#section-5.3](https://www.rfc-editor.org/rfc/rfc7519#section-5.3).
 
 #### Returns
 
@@ -103,7 +103,7 @@ ___
 ▸ **replicateSubjectAsHeader**(): [`EncryptJWT`](jwt_encrypt.EncryptJWT.md)
 
 Replicates the "sub" (Subject) Claim as a JWE Protected Header Parameter as per
-[RFC7519#section-5.3](https://tools.ietf.org/html/rfc7519#section-5.3).
+[RFC7519#section-5.3](https://www.rfc-editor.org/rfc/rfc7519#section-5.3).
 
 #### Returns
 

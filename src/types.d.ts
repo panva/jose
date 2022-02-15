@@ -89,7 +89,7 @@
 export type KeyLike = { type: string }
 
 /**
- * JSON Web Key ([JWK](https://tools.ietf.org/html/rfc7517)).
+ * JSON Web Key ([JWK](https://www.rfc-editor.org/rfc/rfc7517)).
  * "RSA", "EC", "OKP", and "oct" key types are supported.
  */
 export interface JWK {
@@ -226,7 +226,7 @@ export interface GeneralJWSInput {
 /**
  * Flattened JWS definition. Payload is returned as an empty
  * string when JWS Unencoded Payload Option
- * [RFC7797](https://tools.ietf.org/html/rfc7797) is used.
+ * [RFC7797](https://www.rfc-editor.org/rfc/rfc7797) is used.
  */
 export interface FlattenedJWS extends Partial<FlattenedJWSInput> {
   payload: string
@@ -236,7 +236,7 @@ export interface FlattenedJWS extends Partial<FlattenedJWSInput> {
 /**
  * General JWS definition. Payload is returned as an empty
  * string when JWS Unencoded Payload Option
- * [RFC7797](https://tools.ietf.org/html/rfc7797) is used.
+ * [RFC7797](https://www.rfc-editor.org/rfc/rfc7797) is used.
  */
 export interface GeneralJWS {
   payload: string
@@ -298,7 +298,7 @@ export interface JWSHeaderParameters extends JoseHeaderParameters {
   /**
    * This JWS Extension Header Parameter modifies the JWS Payload
    * representation and the JWS Signing Input computation as per
-   * [RFC7797](https://tools.ietf.org/html/rfc7797).
+   * [RFC7797](https://www.rfc-editor.org/rfc/rfc7797).
    */
   b64?: boolean
 
@@ -564,37 +564,37 @@ export interface SignOptions extends CritOption {}
  */
 export interface JWTPayload {
   /**
-   * JWT Issuer - [RFC7519#section-4.1.1](https://tools.ietf.org/html/rfc7519#section-4.1.1).
+   * JWT Issuer - [RFC7519#section-4.1.1](https://www.rfc-editor.org/rfc/rfc7519#section-4.1.1).
    */
   iss?: string
 
   /**
-   * JWT Subject - [RFC7519#section-4.1.2](https://tools.ietf.org/html/rfc7519#section-4.1.2).
+   * JWT Subject - [RFC7519#section-4.1.2](https://www.rfc-editor.org/rfc/rfc7519#section-4.1.2).
    */
   sub?: string
 
   /**
-   * JWT Audience [RFC7519#section-4.1.3](https://tools.ietf.org/html/rfc7519#section-4.1.3).
+   * JWT Audience [RFC7519#section-4.1.3](https://www.rfc-editor.org/rfc/rfc7519#section-4.1.3).
    */
   aud?: string | string[]
 
   /**
-   * JWT ID - [RFC7519#section-4.1.7](https://tools.ietf.org/html/rfc7519#section-4.1.7).
+   * JWT ID - [RFC7519#section-4.1.7](https://www.rfc-editor.org/rfc/rfc7519#section-4.1.7).
    */
   jti?: string
 
   /**
-   * JWT Not Before - [RFC7519#section-4.1.5](https://tools.ietf.org/html/rfc7519#section-4.1.5).
+   * JWT Not Before - [RFC7519#section-4.1.5](https://www.rfc-editor.org/rfc/rfc7519#section-4.1.5).
    */
   nbf?: number
 
   /**
-   * JWT Expiration Time - [RFC7519#section-4.1.4](https://tools.ietf.org/html/rfc7519#section-4.1.4).
+   * JWT Expiration Time - [RFC7519#section-4.1.4](https://www.rfc-editor.org/rfc/rfc7519#section-4.1.4).
    */
   exp?: number
 
   /**
-   * JWT Issued At - [RFC7519#section-4.1.6](https://tools.ietf.org/html/rfc7519#section-4.1.6).
+   * JWT Issued At - [RFC7519#section-4.1.6](https://www.rfc-editor.org/rfc/rfc7519#section-4.1.6).
    */
   iat?: number
 

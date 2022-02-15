@@ -35,7 +35,7 @@ ___
 
 This JWS Extension Header Parameter modifies the JWS Payload
 representation and the JWS Signing Input computation as per
-[RFC7797](https://tools.ietf.org/html/rfc7797).
+[RFC7797](https://www.rfc-editor.org/rfc/rfc7797).
 
 ___
 

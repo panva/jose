@@ -136,16 +136,16 @@ install size should not be a cause for concern.
 
 [documentation]: /docs/README.md
 [node-jose]: https://github.com/cisco/node-jose
-[spec-b64]: https://tools.ietf.org/html/rfc7797
-[spec-cookbook]: https://tools.ietf.org/html/rfc7520
-[spec-jwa]: https://tools.ietf.org/html/rfc7518
-[spec-jwe]: https://tools.ietf.org/html/rfc7516
-[spec-jwk]: https://tools.ietf.org/html/rfc7517
-[spec-jws]: https://tools.ietf.org/html/rfc7515
-[spec-jwt]: https://tools.ietf.org/html/rfc7519
-[spec-okp]: https://tools.ietf.org/html/rfc8037
-[spec-secp256k1]: https://tools.ietf.org/html/rfc8812
-[spec-thumbprint]: https://tools.ietf.org/html/rfc7638
+[spec-b64]: https://www.rfc-editor.org/rfc/rfc7797
+[spec-cookbook]: https://www.rfc-editor.org/rfc/rfc7520
+[spec-jwa]: https://www.rfc-editor.org/rfc/rfc7518
+[spec-jwe]: https://www.rfc-editor.org/rfc/rfc7516
+[spec-jwk]: https://www.rfc-editor.org/rfc/rfc7517
+[spec-jws]: https://www.rfc-editor.org/rfc/rfc7515
+[spec-jwt]: https://www.rfc-editor.org/rfc/rfc7519
+[spec-okp]: https://www.rfc-editor.org/rfc/rfc8037
+[spec-secp256k1]: https://www.rfc-editor.org/rfc/rfc8812
+[spec-thumbprint]: https://www.rfc-editor.org/rfc/rfc7638
 [support-sponsor]: https://github.com/sponsors/panva
 [conditional-exports]: https://nodejs.org/api/packages.html#packages_conditional_exports
 [webcrypto]: https://www.w3.org/TR/WebCryptoAPI/

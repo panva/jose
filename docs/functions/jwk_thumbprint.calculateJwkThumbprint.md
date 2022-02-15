@@ -3,7 +3,7 @@
 ▸ **calculateJwkThumbprint**(`jwk`, `digestAlgorithm?`): `Promise`<`string`\>
 
 Calculates a base64url-encoded JSON Web Key (JWK) Thumbprint as per
-[RFC7638](https://tools.ietf.org/html/rfc7638).
+[RFC7638](https://www.rfc-editor.org/rfc/rfc7638).
 
 **`example`** Usage
 ```js

@@ -14,7 +14,7 @@ if ('WEBCRYPTO' in process.env) {
 
 const { calculateJwkThumbprint } = await import(keyRoot)
 
-test('https://tools.ietf.org/html/rfc7638#section-3.1', async (t) => {
+test('https://www.rfc-editor.org/rfc/rfc7638#section-3.1', async (t) => {
   t.is(
     await calculateJwkThumbprint({
       kty: 'RSA',

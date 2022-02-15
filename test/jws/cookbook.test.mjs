@@ -104,7 +104,7 @@ testCookbook.title = (title, vector) => `${vector.title}${title ? ` ${title}` : 
 
 const vectors = [
   {
-    title: 'https://tools.ietf.org/html/rfc7520#section-4.1 - RSA v1.5 Signature',
+    title: 'https://www.rfc-editor.org/rfc/rfc7520#section-4.1 - RSA v1.5 Signature',
     webcrypto: true,
     reproducible: true,
     input: {
@@ -156,7 +156,7 @@ const vectors = [
     },
   },
   {
-    title: 'https://tools.ietf.org/html/rfc8037#appendix-A.4 - Ed25519 Signing',
+    title: 'https://www.rfc-editor.org/rfc/rfc8037#appendix-A.4 - Ed25519 Signing',
     webcrypto: true,
     reproducible: true,
     input: {
@@ -197,7 +197,7 @@ const vectors = [
     },
   },
   {
-    title: 'https://tools.ietf.org/html/rfc7520#section-4.2 - RSA-PSS Signature',
+    title: 'https://www.rfc-editor.org/rfc/rfc7520#section-4.2 - RSA-PSS Signature',
     webcrypto: true,
     input: {
       payload:
@@ -248,7 +248,7 @@ const vectors = [
     },
   },
   {
-    title: 'https://tools.ietf.org/html/rfc7520#section-4.3 - ECDSA Signature',
+    title: 'https://www.rfc-editor.org/rfc/rfc7520#section-4.3 - ECDSA Signature',
     webcrypto: true,
     input: {
       payload:
@@ -295,7 +295,7 @@ const vectors = [
     },
   },
   {
-    title: 'https://tools.ietf.org/html/rfc7520#section-4.4 - HMAC-SHA2 Integrity Protection',
+    title: 'https://www.rfc-editor.org/rfc/rfc7520#section-4.4 - HMAC-SHA2 Integrity Protection',
     webcrypto: true,
     reproducible: true,
     input: {
@@ -341,7 +341,7 @@ const vectors = [
     },
   },
   {
-    title: 'https://tools.ietf.org/html/rfc7520#section-4.6 - Protecting Specific Header Fields',
+    title: 'https://www.rfc-editor.org/rfc/rfc7520#section-4.6 - Protecting Specific Header Fields',
     reproducible: true,
     input: {
       payload:
@@ -390,7 +390,7 @@ const vectors = [
     },
   },
   {
-    title: 'https://tools.ietf.org/html/rfc7520#section-4.7 - Protecting Content Only',
+    title: 'https://www.rfc-editor.org/rfc/rfc7520#section-4.7 - Protecting Content Only',
     webcrypto: true,
     reproducible: true,
     input: {
@@ -438,7 +438,7 @@ const vectors = [
     },
   },
   {
-    title: 'https://tools.ietf.org/html/rfc7797#section-4.1 - { "b64": false } JSON only',
+    title: 'https://www.rfc-editor.org/rfc/rfc7797#section-4.1 - { "b64": false } JSON only',
     webcrypto: true,
     reproducible: true,
     input: {

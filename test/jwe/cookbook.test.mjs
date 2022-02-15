@@ -157,7 +157,7 @@ testCookbook.title = (title, vector) => `${vector.title}${title ? ` ${title}` : 
 const vectors = [
   {
     title:
-      'https://tools.ietf.org/html/rfc7520#section-5.1 - Key Encryption using RSA v1.5 and AES-HMAC-SHA2',
+      'https://www.rfc-editor.org/rfc/rfc7520#section-5.1 - Key Encryption using RSA v1.5 and AES-HMAC-SHA2',
     webcrypto: false,
     electron: true,
     reproducible: false,
@@ -224,7 +224,7 @@ const vectors = [
   },
   {
     title:
-      'https://tools.ietf.org/html/rfc7520#section-5.2 - Key Encryption using RSA-OAEP with AES-GCM',
+      'https://www.rfc-editor.org/rfc/rfc7520#section-5.2 - Key Encryption using RSA-OAEP with AES-GCM',
     webcrypto: true,
     electron: true,
     input: {
@@ -291,7 +291,7 @@ const vectors = [
   },
   {
     title:
-      'https://tools.ietf.org/html/rfc7520#section-5.3 - Key Wrap using PBES2-AES-KeyWrap with AES-CBC-HMAC-SHA2',
+      'https://www.rfc-editor.org/rfc/rfc7520#section-5.3 - Key Wrap using PBES2-AES-KeyWrap with AES-CBC-HMAC-SHA2',
     webcrypto: true,
     electron: false,
     reproducible: true,
@@ -348,7 +348,7 @@ const vectors = [
   },
   {
     title:
-      'https://tools.ietf.org/html/rfc7520#section-5.4 - Key Agreement with Key Wrapping using ECDH-ES and AES-KeyWrap with AES-GCM',
+      'https://www.rfc-editor.org/rfc/rfc7520#section-5.4 - Key Agreement with Key Wrapping using ECDH-ES and AES-KeyWrap with AES-GCM',
     webcrypto: true,
     electron: false,
     input: {
@@ -422,7 +422,7 @@ const vectors = [
   },
   {
     title:
-      'https://tools.ietf.org/html/rfc7520#section-5.5 - Key Agreement using ECDH-ES with AES-CBC-HMAC-SHA2',
+      'https://www.rfc-editor.org/rfc/rfc7520#section-5.5 - Key Agreement using ECDH-ES with AES-CBC-HMAC-SHA2',
     webcrypto: true,
     electron: true,
     input: {
@@ -489,7 +489,8 @@ const vectors = [
     },
   },
   {
-    title: 'https://tools.ietf.org/html/rfc7520#section-5.6 - Direction Encryption using AES-GCM',
+    title:
+      'https://www.rfc-editor.org/rfc/rfc7520#section-5.6 - Direction Encryption using AES-GCM',
     webcrypto: true,
     electron: true,
     reproducible: true,
@@ -540,7 +541,7 @@ const vectors = [
   },
   {
     title:
-      'https://tools.ietf.org/html/rfc7520#section-5.6 - Key Wrap using AES-GCM KeyWrap with AES-CBC-HMAC-SHA2',
+      'https://www.rfc-editor.org/rfc/rfc7520#section-5.6 - Key Wrap using AES-GCM KeyWrap with AES-CBC-HMAC-SHA2',
     webcrypto: true,
     electron: true,
     reproducible: true,
@@ -604,7 +605,7 @@ const vectors = [
   },
   {
     title:
-      'https://tools.ietf.org/html/rfc7520#section-5.8 - Key Wrap using AES-KeyWrap with AES-GCM',
+      'https://www.rfc-editor.org/rfc/rfc7520#section-5.8 - Key Wrap using AES-KeyWrap with AES-GCM',
     webcrypto: true,
     electron: false,
     reproducible: true,
@@ -662,7 +663,7 @@ const vectors = [
     },
   },
   {
-    title: 'https://tools.ietf.org/html/rfc7520#section-5.9 - Compressed Content',
+    title: 'https://www.rfc-editor.org/rfc/rfc7520#section-5.9 - Compressed Content',
     webcrypto: true,
     electron: false,
     reproducible: true,
@@ -725,7 +726,7 @@ const vectors = [
   },
   {
     title:
-      'https://tools.ietf.org/html/rfc7520#section-5.10 - Including Additional Authenticated Data',
+      'https://www.rfc-editor.org/rfc/rfc7520#section-5.10 - Including Additional Authenticated Data',
     webcrypto: true,
     electron: false,
     reproducible: true,
@@ -786,7 +787,8 @@ const vectors = [
     },
   },
   {
-    title: 'https://tools.ietf.org/html/rfc7520#section-5.11 - Protecting Specific Header Fields',
+    title:
+      'https://www.rfc-editor.org/rfc/rfc7520#section-5.11 - Protecting Specific Header Fields',
     webcrypto: true,
     electron: false,
     reproducible: true,
@@ -850,7 +852,7 @@ const vectors = [
     },
   },
   {
-    title: 'https://tools.ietf.org/html/rfc7520#section-5.12 - Protecting Content Only',
+    title: 'https://www.rfc-editor.org/rfc/rfc7520#section-5.12 - Protecting Content Only',
     webcrypto: true,
     electron: false,
     reproducible: true,

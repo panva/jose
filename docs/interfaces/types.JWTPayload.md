@@ -27,7 +27,7 @@ Any other JWT Claim Set member.
 
 • `Optional` **aud**: `string` \| `string`[]
 
-JWT Audience [RFC7519#section-4.1.3](https://tools.ietf.org/html/rfc7519#section-4.1.3).
+JWT Audience [RFC7519#section-4.1.3](https://www.rfc-editor.org/rfc/rfc7519#section-4.1.3).
 
 ___
 
@@ -35,7 +35,7 @@ ___
 
 • `Optional` **exp**: `number`
 
-JWT Expiration Time - [RFC7519#section-4.1.4](https://tools.ietf.org/html/rfc7519#section-4.1.4).
+JWT Expiration Time - [RFC7519#section-4.1.4](https://www.rfc-editor.org/rfc/rfc7519#section-4.1.4).
 
 ___
 
@@ -43,7 +43,7 @@ ___
 
 • `Optional` **iat**: `number`
 
-JWT Issued At - [RFC7519#section-4.1.6](https://tools.ietf.org/html/rfc7519#section-4.1.6).
+JWT Issued At - [RFC7519#section-4.1.6](https://www.rfc-editor.org/rfc/rfc7519#section-4.1.6).
 
 ___
 
@@ -51,7 +51,7 @@ ___
 
 • `Optional` **iss**: `string`
 
-JWT Issuer - [RFC7519#section-4.1.1](https://tools.ietf.org/html/rfc7519#section-4.1.1).
+JWT Issuer - [RFC7519#section-4.1.1](https://www.rfc-editor.org/rfc/rfc7519#section-4.1.1).
 
 ___
 
@@ -59,7 +59,7 @@ ___
 
 • `Optional` **jti**: `string`
 
-JWT ID - [RFC7519#section-4.1.7](https://tools.ietf.org/html/rfc7519#section-4.1.7).
+JWT ID - [RFC7519#section-4.1.7](https://www.rfc-editor.org/rfc/rfc7519#section-4.1.7).
 
 ___
 
@@ -67,7 +67,7 @@ ___
 
 • `Optional` **nbf**: `number`
 
-JWT Not Before - [RFC7519#section-4.1.5](https://tools.ietf.org/html/rfc7519#section-4.1.5).
+JWT Not Before - [RFC7519#section-4.1.5](https://www.rfc-editor.org/rfc/rfc7519#section-4.1.5).
 
 ___
 
@@ -75,4 +75,4 @@ ___
 
 • `Optional` **sub**: `string`
 
-JWT Subject - [RFC7519#section-4.1.2](https://tools.ietf.org/html/rfc7519#section-4.1.2).
+JWT Subject - [RFC7519#section-4.1.2](https://www.rfc-editor.org/rfc/rfc7519#section-4.1.2).

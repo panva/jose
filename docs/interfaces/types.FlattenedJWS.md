@@ -2,7 +2,7 @@
 
 Flattened JWS definition. Payload is returned as an empty
 string when JWS Unencoded Payload Option
-[RFC7797](https://tools.ietf.org/html/rfc7797) is used.
+[RFC7797](https://www.rfc-editor.org/rfc/rfc7797) is used.
 
 ## Table of contents
 
