@@ -44,7 +44,7 @@ export async function calculateJwkThumbprint(
     digestAlgorithm !== 'sha384' &&
     digestAlgorithm !== 'sha512'
   ) {
-    throw new TypeError('digestAlgorithm must one of "sha256", "sha384, or "sha512"')
+    throw new TypeError('digestAlgorithm must one of "sha256", "sha384", or "sha512"')
   }
 
   let components: JWK
