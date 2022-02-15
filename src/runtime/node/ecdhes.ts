@@ -3,7 +3,6 @@ import { promisify } from 'util'
 
 import getNamedCurve from './get_named_curve.js'
 import { encoder, concat, uint32be, lengthAndInput, concatKdf } from '../../lib/buffer_utils.js'
-import digest from './digest.js'
 import { JOSENotSupported } from '../../util/errors.js'
 import { isCryptoKey } from './webcrypto.js'
 import { checkEncCryptoKey } from '../../lib/crypto_key.js'
@@ -49,7 +48,7 @@ export async function deriveKey(
   )
 
   const sharedSecret = diffieHellman({ privateKey, publicKey })
-  return concatKdf(digest, sharedSecret, keyLength, value)
+  return concatKdf(sharedSecret, keyLength, value)
 }
 
 export async function generateEpk(kee: unknown) {

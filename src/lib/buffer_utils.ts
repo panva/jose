@@ -1,4 +1,4 @@
-import type { DigestFunction } from '../runtime/interfaces.d'
+import digest from '../runtime/digest.js'
 
 export const encoder = new TextEncoder()
 export const decoder = new TextDecoder()
@@ -46,12 +46,7 @@ export function lengthAndInput(input: Uint8Array) {
   return concat(uint32be(input.length), input)
 }
 
-export async function concatKdf(
-  digest: DigestFunction,
-  secret: Uint8Array,
-  bits: number,
-  value: Uint8Array,
-) {
+export async function concatKdf(secret: Uint8Array, bits: number, value: Uint8Array) {
   const iterations = Math.ceil((bits >> 3) / 32)
   let res!: Uint8Array
 

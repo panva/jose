@@ -1,7 +1,6 @@
 import { encoder, concat, uint32be, lengthAndInput, concatKdf } from '../../lib/buffer_utils.js'
 import crypto, { isCryptoKey } from './webcrypto.js'
 import { checkEncCryptoKey } from '../../lib/crypto_key.js'
-import digest from './digest.js'
 import invalidKeyInput from '../../lib/invalid_key_input.js'
 import { types } from './is_key_like.js'
 
@@ -44,7 +43,7 @@ export async function deriveKey(
     ),
   )
 
-  return concatKdf(digest, sharedSecret, keyLength, value)
+  return concatKdf(sharedSecret, keyLength, value)
 }
 
 export async function generateEpk(key: unknown) {
