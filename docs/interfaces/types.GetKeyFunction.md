@@ -11,7 +11,7 @@
 
 ### GetKeyFunction
 
-▸ **GetKeyFunction**(`protectedHeader`, `token`): `Promise`<[`KeyLike`](../types/types.KeyLike.md) \| `Uint8Array`\>
+▸ **GetKeyFunction**(`protectedHeader`, `token`): [`KeyLike`](../types/types.KeyLike.md) \| `Uint8Array` \| `Promise`<[`KeyLike`](../types/types.KeyLike.md) \| `Uint8Array`\>
 
 Generic Interface for consuming operations dynamic key resolution.
 No token components have been verified at the time of this function call.
@@ -27,4 +27,4 @@ If you cannot match a key suitable for the token, throw an error instead.
 
 #### Returns
 
-`Promise`<[`KeyLike`](../types/types.KeyLike.md) \| `Uint8Array`\>
+[`KeyLike`](../types/types.KeyLike.md) \| `Uint8Array` \| `Promise`<[`KeyLike`](../types/types.KeyLike.md) \| `Uint8Array`\>

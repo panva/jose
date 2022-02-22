@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [4.5.1](https://github.com/panva/jose/compare/v4.5.0...v4.5.1) (2022-02-22)
+
+
+### Fixes
+
+* **typescript:** allow synchronous get key functions ([7c99153](https://github.com/panva/jose/commit/7c99153a9e8ae45a35de7eff45fcf6e60e1b088b))
+
 ## [4.5.0](https://github.com/panva/jose/compare/v4.4.0...v4.5.0) (2022-02-07)
 
 

@@ -4,7 +4,7 @@
 
 ### CompactDecryptGetKey
 
-▸ **CompactDecryptGetKey**(`protectedHeader`, `token`): `Promise`<[`KeyLike`](../types/types.KeyLike.md) \| `Uint8Array`\>
+▸ **CompactDecryptGetKey**(`protectedHeader`, `token`): [`KeyLike`](../types/types.KeyLike.md) \| `Uint8Array` \| `Promise`<[`KeyLike`](../types/types.KeyLike.md) \| `Uint8Array`\>
 
 Interface for Compact JWE Decryption dynamic key resolution.
 No token components have been verified at the time of this function call.
@@ -18,4 +18,4 @@ No token components have been verified at the time of this function call.
 
 #### Returns
 
-`Promise`<[`KeyLike`](../types/types.KeyLike.md) \| `Uint8Array`\>
+[`KeyLike`](../types/types.KeyLike.md) \| `Uint8Array` \| `Promise`<[`KeyLike`](../types/types.KeyLike.md) \| `Uint8Array`\>

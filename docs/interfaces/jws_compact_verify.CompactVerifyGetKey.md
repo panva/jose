@@ -4,7 +4,7 @@
 
 ### CompactVerifyGetKey
 
-▸ **CompactVerifyGetKey**(`protectedHeader`, `token`): `Promise`<[`KeyLike`](../types/types.KeyLike.md) \| `Uint8Array`\>
+▸ **CompactVerifyGetKey**(`protectedHeader`, `token`): [`KeyLike`](../types/types.KeyLike.md) \| `Uint8Array` \| `Promise`<[`KeyLike`](../types/types.KeyLike.md) \| `Uint8Array`\>
 
 Interface for Compact JWS Verification dynamic key resolution.
 No token components have been verified at the time of this function call.
@@ -21,4 +21,4 @@ to verify using a remote JSON Web Key Set.
 
 #### Returns
 
-`Promise`<[`KeyLike`](../types/types.KeyLike.md) \| `Uint8Array`\>
+[`KeyLike`](../types/types.KeyLike.md) \| `Uint8Array` \| `Promise`<[`KeyLike`](../types/types.KeyLike.md) \| `Uint8Array`\>
