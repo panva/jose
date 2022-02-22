@@ -164,7 +164,7 @@ export interface JWK {
  * @param token The consumed JWE or JWS token.
  */
 export interface GetKeyFunction<T, T2> {
-  (protectedHeader: T, token: T2): Promise<KeyLike | Uint8Array>
+  (protectedHeader: T, token: T2): Promise<KeyLike | Uint8Array> | KeyLike | Uint8Array
 }
 
 /**
