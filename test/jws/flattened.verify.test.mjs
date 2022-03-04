@@ -138,3 +138,14 @@ test('JWS format validation', async (t) => {
     await t.throwsAsync(flattenedVerify(jws, crypto.randomFillSync(new Uint8Array(32))), assertion)
   }
 })
+
+test('sign empty data', async (t) => {
+  const jws = await new FlattenedSign(new Uint8Array(0))
+    .setProtectedHeader({ alg: 'HS256' })
+    .sign(new Uint8Array(32))
+
+  t.is(jws.payload, '')
+
+  const { payload } = await flattenedVerify(jws, new Uint8Array(32))
+  t.is(payload.byteLength, 0)
+})

@@ -141,3 +141,15 @@ test('General JWS verify format validation', async (t) => {
     await t.notThrowsAsync(generalVerify(jws, t.context.secret))
   }
 })
+
+test('sign empty data', async (t) => {
+  const jws = await new GeneralSign(new Uint8Array(0))
+    .addSignature(new Uint8Array(32))
+    .setProtectedHeader({ alg: 'HS256' })
+    .sign()
+
+  t.is(jws.payload, '')
+
+  const { payload } = await generalVerify(jws, new Uint8Array(32))
+  t.is(payload.byteLength, 0)
+})
