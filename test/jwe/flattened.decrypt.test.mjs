@@ -217,3 +217,14 @@ test('AES CBC + HMAC', async (t) => {
     })
   }
 })
+
+test('decrypt empty data', async (t) => {
+  const jwe = await new FlattenedEncrypt(new Uint8Array(0))
+    .setProtectedHeader({ alg: 'dir', enc: 'A128GCM' })
+    .encrypt(new Uint8Array(16))
+
+  t.is(jwe.ciphertext, '')
+
+  const { plaintext } = await flattenedDecrypt(jwe, new Uint8Array(16))
+  t.is(plaintext.byteLength, 0)
+})

@@ -16,13 +16,12 @@ test('JWE format validation', async (t) => {
 
 test('decrypt empty data', async (t) => {
   const jwe = await new CompactEncrypt(new Uint8Array(0))
-    .setInitializationVector(new Uint8Array(12))
     .setProtectedHeader({ alg: 'dir', enc: 'A128GCM' })
     .encrypt(new Uint8Array(16))
 
   const { 3: ciphertext } = jwe.split('.')
-  t.deepEqual(ciphertext, '')
+  t.is(ciphertext, '')
 
   const { plaintext } = await compactDecrypt(jwe, new Uint8Array(16))
-  t.deepEqual(plaintext.length, 0)
+  t.is(plaintext.byteLength, 0)
 })
