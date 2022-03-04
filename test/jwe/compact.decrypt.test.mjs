@@ -19,8 +19,7 @@ test('decrypt empty data', async (t) => {
     .setProtectedHeader({ alg: 'dir', enc: 'A128GCM' })
     .encrypt(new Uint8Array(16))
 
-  const { 3: ciphertext } = jwe.split('.')
-  t.is(ciphertext, '')
+  t.is(jwe.split('.')[3], '')
 
   const { plaintext } = await compactDecrypt(jwe, new Uint8Array(16))
   t.is(plaintext.byteLength, 0)
