@@ -1,6 +1,6 @@
 {
   "name": "jose",
-  "version": "4.5.1",
+  "version": "4.5.2",
   "description": "'JSON Web Almost Everything' - JWA, JWS, JWE, JWT, JWK, JWKS with no dependencies using runtime's native crypto",
   "keywords": [
     "browser",
