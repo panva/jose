@@ -77,7 +77,7 @@ export async function compactDecrypt(
 
   const decrypted = await flattenedDecrypt(
     {
-      ciphertext: <string>(ciphertext || undefined),
+      ciphertext,
       iv: <string>(iv || undefined),
       protected: protectedHeader || undefined,
       tag: <string>(tag || undefined),
