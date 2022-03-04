@@ -1,7 +1,7 @@
 import test from 'ava'
 
 const root = !('WEBCRYPTO' in process.env) ? '#dist' : '#dist/webcrypto'
-const { CompactEncrypt, compactDecrypt } = await import(root)
+const { CompactEncrypt, compactDecrypt, base64url } = await import(root)
 
 test('JWE format validation', async (t) => {
   await t.throwsAsync(compactDecrypt(null, new Uint8Array(0)), {
@@ -14,7 +14,7 @@ test('JWE format validation', async (t) => {
   })
 })
 
-test('decrypt empty data', async (t) => {
+test('decrypt empty data (GCM)', async (t) => {
   const jwe = await new CompactEncrypt(new Uint8Array(0))
     .setProtectedHeader({ alg: 'dir', enc: 'A128GCM' })
     .encrypt(new Uint8Array(16))
@@ -22,5 +22,16 @@ test('decrypt empty data', async (t) => {
   t.is(jwe.split('.')[3], '')
 
   const { plaintext } = await compactDecrypt(jwe, new Uint8Array(16))
+  t.is(plaintext.byteLength, 0)
+})
+
+test('decrypt empty data (CBC)', async (t) => {
+  const jwe = await new CompactEncrypt(new Uint8Array(0))
+    .setProtectedHeader({ alg: 'dir', enc: 'A128CBC-HS256' })
+    .encrypt(new Uint8Array(32))
+
+  t.is(base64url.decode(jwe.split('.')[3]).byteLength, 16)
+
+  const { plaintext } = await compactDecrypt(jwe, new Uint8Array(32))
   t.is(plaintext.byteLength, 0)
 })

@@ -2,7 +2,7 @@ import test from 'ava'
 import * as crypto from 'crypto'
 
 const root = !('WEBCRYPTO' in process.env) ? '#dist' : '#dist/webcrypto'
-const { FlattenedEncrypt, flattenedDecrypt } = await import(root)
+const { FlattenedEncrypt, flattenedDecrypt, base64url } = await import(root)
 
 test.before(async (t) => {
   const encode = TextEncoder.prototype.encode.bind(new TextEncoder())
@@ -218,7 +218,7 @@ test('AES CBC + HMAC', async (t) => {
   }
 })
 
-test('decrypt empty data', async (t) => {
+test('decrypt empty data (GCM)', async (t) => {
   const jwe = await new FlattenedEncrypt(new Uint8Array(0))
     .setProtectedHeader({ alg: 'dir', enc: 'A128GCM' })
     .encrypt(new Uint8Array(16))
@@ -226,5 +226,16 @@ test('decrypt empty data', async (t) => {
   t.is(jwe.ciphertext, '')
 
   const { plaintext } = await flattenedDecrypt(jwe, new Uint8Array(16))
+  t.is(plaintext.byteLength, 0)
+})
+
+test('decrypt empty data (CBC)', async (t) => {
+  const jwe = await new FlattenedEncrypt(new Uint8Array(0))
+    .setProtectedHeader({ alg: 'dir', enc: 'A128CBC-HS256' })
+    .encrypt(new Uint8Array(32))
+
+  t.is(base64url.decode(jwe.ciphertext).byteLength, 16)
+
+  const { plaintext } = await flattenedDecrypt(jwe, new Uint8Array(32))
   t.is(plaintext.byteLength, 0)
 })
