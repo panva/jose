@@ -170,3 +170,15 @@ test('General JWE format validation', async (t) => {
     await t.notThrowsAsync(generalDecrypt(jwe, t.context.secret))
   }
 })
+
+test('decrypt empty data', async (t) => {
+  const jwe = await new GeneralEncrypt(new Uint8Array(0))
+    .setProtectedHeader({ alg: 'dir', enc: 'A128GCM' })
+    .addRecipient(new Uint8Array(16))
+    .encrypt()
+
+  t.is(jwe.ciphertext, '')
+
+  const { plaintext } = await generalDecrypt(jwe, new Uint8Array(16))
+  t.is(plaintext.byteLength, 0)
+})
