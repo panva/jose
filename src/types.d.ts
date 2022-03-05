@@ -319,10 +319,26 @@ export interface JWSHeaderParameters extends JoseHeaderParameters {
 export interface JWEKeyManagementHeaderParameters {
   apu?: Uint8Array
   apv?: Uint8Array
-  epk?: KeyLike
-  iv?: Uint8Array
+  /**
+   * @deprecated You should not use this parameter. It is only really intended
+   * for test and vector validation purposes.
+   */
   p2c?: number
+  /**
+   * @deprecated You should not use this parameter. It is only really intended
+   * for test and vector validation purposes.
+   */
   p2s?: Uint8Array
+  /**
+   * @deprecated You should not use this parameter. It is only really intended
+   * for test and vector validation purposes.
+   */
+  iv?: Uint8Array
+  /**
+   * @deprecated You should not use this parameter. It is only really intended
+   * for test and vector validation purposes.
+   */
+  epk?: KeyLike
 }
 
 /**
