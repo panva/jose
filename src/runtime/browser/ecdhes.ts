@@ -15,11 +15,11 @@ export async function deriveKey(
   if (!isCryptoKey(publicKey)) {
     throw new TypeError(invalidKeyInput(publicKey, ...types))
   }
-  checkEncCryptoKey(publicKey, 'ECDH-ES')
+  checkEncCryptoKey(publicKey, 'ECDH')
   if (!isCryptoKey(privateKey)) {
     throw new TypeError(invalidKeyInput(privateKey, ...types))
   }
-  checkEncCryptoKey(privateKey, 'ECDH-ES', 'deriveBits', 'deriveKey')
+  checkEncCryptoKey(privateKey, 'ECDH', 'deriveBits')
 
   const value = concat(
     lengthAndInput(encoder.encode(algorithm)),
@@ -27,10 +27,6 @@ export async function deriveKey(
     lengthAndInput(apv),
     uint32be(keyLength),
   )
-
-  if (!privateKey.usages.includes('deriveBits')) {
-    throw new TypeError('ECDH-ES private key "usages" must include "deriveBits"')
-  }
 
   const sharedSecret = new Uint8Array(
     await crypto.subtle.deriveBits(

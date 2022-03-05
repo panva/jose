@@ -46,7 +46,7 @@ async function encryptKeyManagement(
       // Direct Key Agreement
       if (!ECDH.ecdhAllowed(key)) {
         throw new JOSENotSupported(
-          'ECDH-ES with the provided key is not allowed or not supported by your javascript runtime',
+          'ECDH with the provided key is not allowed or not supported by your javascript runtime',
         )
       }
       const { apu, apv } = providedParameters

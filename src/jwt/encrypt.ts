@@ -56,7 +56,7 @@ export class EncryptJWT extends ProduceJWT {
 
   /**
    * Sets the JWE Key Management parameters to be used when encrypting.
-   * Use of this is method is really only needed for ECDH-ES based algorithms
+   * Use of this is method is really only needed for ECDH based algorithms
    * when utilizing the Agreement PartyUInfo or Agreement PartyVInfo parameters.
    * Other parameters will always be randomly generated when needed and missing.
    *

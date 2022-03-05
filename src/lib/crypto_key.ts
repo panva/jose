@@ -116,7 +116,7 @@ export function checkEncCryptoKey(key: CryptoKey, alg: string, ...usages: KeyUsa
       if (actual !== expected) throw unusable(expected, 'algorithm.length')
       break
     }
-    case 'ECDH-ES':
+    case 'ECDH':
       if (!isAlgorithm(key.algorithm, 'ECDH')) throw unusable('ECDH')
       break
     case 'PBES2-HS256+A128KW':

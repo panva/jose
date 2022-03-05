@@ -22,7 +22,7 @@ export async function deriveKey(
 ) {
   let publicKey: KeyObject
   if (isCryptoKey(publicKee)) {
-    checkEncCryptoKey(publicKee, 'ECDH-ES')
+    checkEncCryptoKey(publicKee, 'ECDH')
     publicKey = KeyObject.from(publicKee)
   } else if (isKeyObject(publicKee)) {
     publicKey = publicKee
@@ -32,7 +32,7 @@ export async function deriveKey(
 
   let privateKey: KeyObject
   if (isCryptoKey(privateKee)) {
-    checkEncCryptoKey(privateKee, 'ECDH-ES', 'deriveBits', 'deriveKey')
+    checkEncCryptoKey(privateKee, 'ECDH', 'deriveBits')
     privateKey = KeyObject.from(privateKee)
   } else if (isKeyObject(privateKee)) {
     privateKey = privateKee
