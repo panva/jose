@@ -82,9 +82,9 @@ class IndividualRecipient implements Recipient {
  *   )
  * )
  *   .setProtectedHeader({ enc: 'A256GCM' })
- *   .addRecipient(ecPrivateKey)
+ *   .addRecipient(ecPublicKey)
  *   .setUnprotectedHeader({ alg: 'ECDH-ES+A256KW' })
- *   .addRecipient(rsaPrivateKey)
+ *   .addRecipient(rsaPublicKey)
  *   .setUnprotectedHeader({ alg: 'RSA-OAEP-384' })
  *   .encrypt()
  *
