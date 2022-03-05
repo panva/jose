@@ -111,7 +111,7 @@
     "build:browser-bundle-min": "npx esbuild --minify --bundle dist/browser/index.js --format=esm --target=es2018 --outfile=dist/browser/index.bundle.min.js",
     "build:browser-umd": "npx rollup dist/browser/index.bundle.js --format umd --name jose -o dist/browser/index.umd.js && npx rollup dist/browser/index.bundle.min.js --compact --format umd --name jose -o dist/browser/index.umd.min.js",
     "build:deno": "npm run-script runtime-deno && find dist/deno -name '*.ts' -type f -print0 | xargs -0 sed -i '' -e \"s/@deno\\-expect\\-error/@ts-ignore/g\" -e \"s/\\.js'/.ts'/g\" -e \"s/\\.d'/.d.ts'/g\"",
-    "build:types": "npm run-script build -- -p ./tsconfig/types.json && cd src && find . -name '*.d.ts' -maxdepth 2 -type f -exec gcp --parents \"{}\" ../dist/types  \\; && cd .. && node ./tools/strip-dts-comments && run-s -s types:find | xargs -0 sed -i '' -e \"s/\\.js'/'/g\" -e \"s/\\.d'/'/g\"",
+    "build:types": "npm run-script build -- -p ./tsconfig/types.json && cd src && find . -name '*.d.ts' -maxdepth 2 -type f -exec gcp --parents \"{}\" ../dist/types  \\; && cd .. && run-s -s types:find | xargs -0 sed -i '' -e \"s/\\.js'/'/g\" -e \"s/\\.d'/'/g\"",
     "build:node-cjs": "run-s runtime-node 'build -- -p ./tsconfig/node-cjs.json'",
     "build:node-esm": "run-s runtime-node 'build -- -p ./tsconfig/node-esm.json' && echo '{\"type\": \"module\"}'> dist/node/esm/package.json",
     "build:node-webcrypto-cjs": "run-s runtime-node-webcrypto 'build -- -p ./tsconfig/node-webcrypto-cjs.json'",

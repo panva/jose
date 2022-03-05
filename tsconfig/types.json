@@ -4,6 +4,7 @@
     "target": "ESNext",
     "outDir": "../dist/types",
     "declaration": true,
-    "emitDeclarationOnly": true
+    "emitDeclarationOnly": true,
+    "removeComments": false
   }
 }
