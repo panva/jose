@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [4.5.3](https://github.com/panva/jose/compare/v4.5.2...v4.5.3) (2022-03-05)
+
+
+### Fixes
+
+* **web api runtime:** rely on default fetch init values ([df6d966](https://github.com/panva/jose/commit/df6d96651d4ddeeb4a9b05bd2d778bd58528dad2))
+
 ## [4.5.2](https://github.com/panva/jose/compare/v4.5.1...v4.5.2) (2022-03-04)
 
 
