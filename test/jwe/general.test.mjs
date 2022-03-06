@@ -1,6 +1,6 @@
 import test from 'ava'
 import * as crypto from 'crypto'
-import { root } from '../dist.mjs'
+import { root, conditional } from '../dist.mjs'
 
 const { GeneralEncrypt, generalDecrypt, generateKeyPair, base64url } = await import(root)
 
@@ -193,4 +193,17 @@ test('decrypt empty data (CBC)', async (t) => {
 
   const { plaintext } = await generalDecrypt(jwe, new Uint8Array(32))
   t.is(plaintext.byteLength, 0)
+})
+
+conditional({ electron: 0 })('Default PBES2 Count', async (t) => {
+  const jwe = await new GeneralEncrypt(t.context.plaintext)
+    .setProtectedHeader({ alg: 'PBES2-HS256+A128KW', enc: 'A128GCM' })
+    .addRecipient(t.context.secret)
+    .addRecipient(t.context.secret)
+    .encrypt(t.context.secret)
+
+  const [{ header: bob }, { header: charlie }] = jwe.recipients
+  t.is(bob.p2c, 2048)
+  t.true(bob.p2c < charlie.p2c)
+  t.true(bob.p2s !== charlie.p2s)
 })

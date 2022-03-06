@@ -259,6 +259,14 @@ export class GeneralEncrypt {
       const target: Record<string, string | JWEHeaderParameters> = {}
       jwe.recipients!.push(target)
 
+      const joseHeader = {
+        ...this._protectedHeader,
+        ...this._unprotectedHeader,
+        ...recipient.unprotectedHeader,
+      }
+
+      const p2c = joseHeader.alg!.startsWith('PBES2') ? 2048 + i : undefined
+
       if (i === 0) {
         const flattened = await new FlattenedEncrypt(this._plaintext)
           .setAdditionalAuthenticatedData(this._aad)
@@ -266,6 +274,7 @@ export class GeneralEncrypt {
           .setProtectedHeader(this._protectedHeader)
           .setSharedUnprotectedHeader(this._unprotectedHeader)
           .setUnprotectedHeader(recipient.unprotectedHeader!)
+          .setKeyManagementParameters({ p2c })
           .encrypt(recipient.key, {
             ...recipient.options,
             ...options,
@@ -294,6 +303,7 @@ export class GeneralEncrypt {
         enc,
         recipient.key,
         cek,
+        { p2c },
       )
       target.encrypted_key = base64url(encryptedKey!)
       if (recipient.unprotectedHeader || parameters)

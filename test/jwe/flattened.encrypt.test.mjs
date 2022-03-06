@@ -1,7 +1,7 @@
 import test from 'ava'
-import { root } from '../dist.mjs'
+import { conditional, root } from '../dist.mjs'
 
-const { FlattenedEncrypt } = await import(root)
+const { FlattenedEncrypt, decodeProtectedHeader } = await import(root)
 
 test.before(async (t) => {
   const encode = TextEncoder.prototype.encode.bind(new TextEncoder())
@@ -213,5 +213,16 @@ test('FlattenedEncrypt.prototype.encrypt JOSE header have an enc', async (t) => 
       code: 'ERR_JWE_INVALID',
       message: 'JWE "enc" (Encryption Algorithm) Header Parameter missing or invalid',
     },
+  )
+})
+
+conditional({ electron: 0 })('Default PBES2 Count', async (t) => {
+  t.is(
+    decodeProtectedHeader(
+      await new FlattenedEncrypt(t.context.plaintext)
+        .setProtectedHeader({ alg: 'PBES2-HS256+A128KW', enc: 'A128GCM' })
+        .encrypt(t.context.secret),
+    ).p2c,
+    2048,
   )
 })
