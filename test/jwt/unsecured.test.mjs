@@ -1,7 +1,7 @@
 import test from 'ava'
 import timekeeper from 'timekeeper'
+import { root } from '../dist.mjs'
 
-const root = !('WEBCRYPTO' in process.env) ? '#dist' : '#dist/webcrypto'
 const { UnsecuredJWT } = await import(root)
 
 const now = 1604416038

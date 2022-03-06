@@ -1,7 +1,7 @@
 import test from 'ava'
 import * as crypto from 'crypto'
+import { root } from '../dist.mjs'
 
-const root = !('WEBCRYPTO' in process.env) ? '#dist' : '#dist/webcrypto'
 const { GeneralEncrypt, generalDecrypt, generateKeyPair, base64url } = await import(root)
 
 test.before(async (t) => {

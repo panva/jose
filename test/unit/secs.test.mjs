@@ -1,6 +1,6 @@
 import test from 'ava'
+import { root } from '../dist.mjs'
 
-const root = !('WEBCRYPTO' in process.env) ? '#dist' : '#dist/webcrypto'
 const { default: secs } = await import(`${root}/lib/secs`)
 
 test('lib/secs.ts', (t) => {

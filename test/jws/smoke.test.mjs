@@ -1,17 +1,6 @@
 import test from 'ava'
 import * as crypto from 'crypto'
-
-let root
-let keyRoot
-
-if ('WEBCRYPTO' in process.env) {
-  root = keyRoot = '#dist/webcrypto'
-} else if ('CRYPTOKEY' in process.env) {
-  root = '#dist'
-  keyRoot = '#dist/webcrypto'
-} else {
-  root = keyRoot = '#dist'
-}
+import { conditional, root, keyRoot } from '../dist.mjs'
 
 const {
   FlattenedSign,
@@ -207,18 +196,6 @@ test(smoke, 'oct512')
 test('as keyobject', smoke, 'oct256', true)
 test('as keyobject', smoke, 'oct384', true)
 test('as keyobject', smoke, 'oct512', true)
-
-function conditional({ webcrypto = 1, electron = 1 } = {}) {
-  let run = test
-  if (!webcrypto && ('WEBCRYPTO' in process.env || 'CRYPTOKEY' in process.env)) {
-    run = run.failing
-  }
-
-  if (!electron && 'electron' in process.versions) {
-    run = run.failing
-  }
-  return run
-}
 
 conditional({ webcrypto: 0, electron: 0 })(smoke, 'secp256k1')
 conditional({ webcrypto: 1 })(smoke, 'ed25519')

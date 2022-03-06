@@ -3,18 +3,10 @@ import nock from 'nock'
 import timekeeper from 'timekeeper'
 import { createServer } from 'http'
 import { once } from 'events'
+import { root, keyRoot } from '../dist.mjs'
 
-let root
-let keyRoot
-
-if ('WEBCRYPTO' in process.env) {
-  root = keyRoot = '#dist/webcrypto'
-} else if ('CRYPTOKEY' in process.env) {
-  root = '#dist'
-  keyRoot = '#dist/webcrypto'
-} else {
-  root = keyRoot = '#dist'
-}
+const skipOnUndiciTest = 'WEBAPI' in process.env ? test.skip : test
+const skipOnUndiciTestSerial = 'WEBAPI' in process.env ? test.skip : test.serial
 
 const {
   jwtVerify,
@@ -54,7 +46,7 @@ test.afterEach((t) => {
 
 test.afterEach(() => timekeeper.reset())
 
-test.serial('RemoteJWKSet', async (t) => {
+skipOnUndiciTestSerial('RemoteJWKSet', async (t) => {
   const keys = [
     {
       e: 'AQAB',
@@ -212,7 +204,7 @@ test.serial('RemoteJWKSet', async (t) => {
   }
 })
 
-test.serial('refreshes the JWKS once off cooldown', async (t) => {
+skipOnUndiciTestSerial('refreshes the JWKS once off cooldown', async (t) => {
   timekeeper.freeze(now * 1000)
   let jwk = {
     crv: 'P-256',
@@ -256,7 +248,7 @@ test.serial('refreshes the JWKS once off cooldown', async (t) => {
   }
 })
 
-test.serial('throws on invalid JWKSet', async (t) => {
+skipOnUndiciTestSerial('throws on invalid JWKSet', async (t) => {
   const scope = nock('https://as.example.com').get('/jwks').once().reply(200, 'null')
 
   const url = new URL('https://as.example.com/jwks')
@@ -300,7 +292,7 @@ test.serial('throws on invalid JWKSet', async (t) => {
   })
 })
 
-test('handles ENOTFOUND', async (t) => {
+skipOnUndiciTest('handles ENOTFOUND', async (t) => {
   nock.enableNetConnect()
   const url = new URL('https://op.example.com/jwks')
   const JWKS = createRemoteJWKSet(url)
@@ -309,7 +301,7 @@ test('handles ENOTFOUND', async (t) => {
   })
 })
 
-test('handles ECONNREFUSED', async (t) => {
+skipOnUndiciTest('handles ECONNREFUSED', async (t) => {
   nock.enableNetConnect()
   const url = new URL('http://localhost:3001/jwks')
   const JWKS = createRemoteJWKSet(url)
@@ -318,7 +310,7 @@ test('handles ECONNREFUSED', async (t) => {
   })
 })
 
-test('handles ECONNRESET', async (t) => {
+skipOnUndiciTest('handles ECONNRESET', async (t) => {
   nock.enableNetConnect()
   const url = new URL('http://localhost:3000/jwks')
   t.context.server.once('connection', (socket) => {
@@ -330,7 +322,7 @@ test('handles ECONNRESET', async (t) => {
   })
 })
 
-test('handles a timeout', async (t) => {
+skipOnUndiciTest('handles a timeout', async (t) => {
   t.timeout(1000)
   nock.enableNetConnect()
   const url = new URL('http://localhost:3000/jwks')

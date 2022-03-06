@@ -1,17 +1,6 @@
 import test from 'ava'
 import * as crypto from 'crypto'
-
-let root
-let keyRoot
-
-if ('WEBCRYPTO' in process.env) {
-  root = keyRoot = '#dist/webcrypto'
-} else if ('CRYPTOKEY' in process.env) {
-  root = '#dist'
-  keyRoot = '#dist/webcrypto'
-} else {
-  root = keyRoot = '#dist'
-}
+import { conditional, root, keyRoot } from '../dist.mjs'
 
 const {
   FlattenedEncrypt,
@@ -310,18 +299,6 @@ test('as keyobject', smoke, 'oct256gcm', ['encrypt'], ['decrypt'], true)
 test(smoke, 'oct256c')
 test(smoke, 'oct384c')
 test(smoke, 'oct512c')
-
-function conditional({ webcrypto = 1, electron = 1 } = {}) {
-  let run = test
-  if (!webcrypto && ('WEBCRYPTO' in process.env || 'CRYPTOKEY' in process.env)) {
-    run = run.failing
-  }
-
-  if (!electron && 'electron' in process.versions) {
-    run = run.failing
-  }
-  return run
-}
 
 conditional({ webcrypto: 0 })(smoke, 'rsa1_5')
 conditional({ webcrypto: 0, electron: 0 })(smoke, 'x25519kw')

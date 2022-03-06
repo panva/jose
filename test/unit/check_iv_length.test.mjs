@@ -1,6 +1,6 @@
 import test from 'ava'
+import { root } from '../dist.mjs'
 
-const root = !('WEBCRYPTO' in process.env) ? '#dist' : '#dist/webcrypto'
 const { default: checkIvLength } = await import(`${root}/lib/check_iv_length`)
 
 test('lib/check_iv_length.ts', (t) => {

@@ -1,16 +1,5 @@
 import test from 'ava'
-
-let root
-let keyRoot
-
-if ('WEBCRYPTO' in process.env) {
-  root = keyRoot = '#dist/webcrypto'
-} else if ('CRYPTOKEY' in process.env) {
-  root = '#dist'
-  keyRoot = '#dist/webcrypto'
-} else {
-  root = keyRoot = '#dist'
-}
+import { conditional, root, keyRoot } from '../dist.mjs'
 
 const { generateKeyPair, generateSecret } = await import(keyRoot)
 
@@ -141,18 +130,6 @@ for (const crv of ['P-256', 'P-384', 'P-521']) {
 
 if ('WEBCRYPTO' in process.env || 'CRYPTOKEY' in process.env) {
   test('with extractable: true', testKeyPair, 'PS256', { extractable: true })
-}
-
-function conditional({ webcrypto = 1, electron = 1 } = {}) {
-  let run = test
-  if (!webcrypto && ('WEBCRYPTO' in process.env || 'CRYPTOKEY' in process.env)) {
-    run = run.failing
-  }
-
-  if (!electron && 'electron' in process.versions) {
-    run = run.failing
-  }
-  return run
 }
 
 conditional({ webcrypto: 1 })(testKeyPair, 'EdDSA')

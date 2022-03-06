@@ -1,20 +1,9 @@
 import test from 'ava'
-
-let root
-let keyRoot
-
-if ('WEBCRYPTO' in process.env) {
-  root = keyRoot = '#dist/webcrypto'
-} else if ('CRYPTOKEY' in process.env) {
-  root = '#dist'
-  keyRoot = '#dist/webcrypto'
-} else {
-  root = keyRoot = '#dist'
-}
+import { root, keyRoot } from '../dist.mjs'
 
 let types = 'KeyObject or Uint8Array'
 let asymmetricTypes = 'KeyObject'
-if ('WEBCRYPTO' in process.env) {
+if ('WEBCRYPTO' in process.env || 'WEBAPI' in process.env) {
   types = 'CryptoKey or Uint8Array'
   asymmetricTypes = 'CryptoKey'
 } else if (parseInt(process.versions.node) >= 16) {
@@ -78,7 +67,7 @@ test('lib/check_key_type.ts', async (t) => {
     message: `${asymmetricTypes} instances for symmetric algorithms must be of type "secret"`,
   })
 
-  if (keyRoot.includes('webcrypto')) {
+  if (keyRoot.includes('web')) {
     t.throws(() => checkKeyType('PS256', keypair.privateKey, 'verify'), {
       ...expected,
       message: `${asymmetricTypes} instances for asymmetric algorithm verifying must be of type "public"`,
@@ -93,7 +82,7 @@ test('lib/check_key_type.ts', async (t) => {
     message: `${asymmetricTypes} instances for asymmetric algorithm decryption must be of type "private"`,
   })
 
-  if (keyRoot.includes('webcrypto')) {
+  if (keyRoot.includes('web')) {
     t.throws(() => checkKeyType('ECDH-ES', keypair.privateKey, 'encrypt'), {
       ...expected,
       message: `${asymmetricTypes} instances for asymmetric algorithm encryption must be of type "public"`,

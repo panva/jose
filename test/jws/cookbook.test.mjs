@@ -1,16 +1,5 @@
 import test from 'ava'
-
-let root
-let keyRoot
-
-if ('WEBCRYPTO' in process.env) {
-  root = keyRoot = '#dist/webcrypto'
-} else if ('CRYPTOKEY' in process.env) {
-  root = '#dist'
-  keyRoot = '#dist/webcrypto'
-} else {
-  root = keyRoot = '#dist'
-}
+import { root, keyRoot } from '../dist.mjs'
 
 const { FlattenedSign, flattenedVerify, CompactSign, compactVerify } = await import(root)
 const { importJWK } = await import(keyRoot)
@@ -479,7 +468,10 @@ const vectors = [
 
 for (const vector of vectors) {
   let conditional
-  if (('WEBCRYPTO' in process.env || 'CRYPTOKEY' in process.env) && vector.webcrypto === false) {
+  if (
+    ('WEBCRYPTO' in process.env || 'CRYPTOKEY' in process.env || 'WEBAPI' in process.env) &&
+    vector.webcrypto === false
+  ) {
     conditional = test.failing
   } else {
     conditional = test

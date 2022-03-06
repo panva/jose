@@ -69,6 +69,12 @@
     "#dist/webcrypto": {
       "import": "./dist/node/webcrypto/esm/index.js",
       "require": "./dist/node/webcrypto/cjs/index.js"
+    },
+    "#dist/webapi/*": {
+      "import": "./dist/browser/*.js"
+    },
+    "#dist/webapi": {
+      "import": "./dist/browser/index.js"
     }
   },
   "exports": {
@@ -138,6 +144,7 @@
     "test-deno": "deno test --reload --jobs --allow-net --allow-read test-deno",
     "test-browsers": "find test-browser -type f -name '*.js' -print0 | xargs -0 npx esbuild --log-level=warning --outdir=dist-browser-tests --bundle && karma start",
     "test-cryptokey": "CRYPTOKEY=true npm test",
+    "test-webapi": "WEBAPI=true NODE_OPTIONS='--experimental-fetch --experimental-global-webcrypto --no-warnings' npm test",
     "test-webcrypto": "WEBCRYPTO=true npm test",
     "prettier": "npx prettier --loglevel silent --write ./test ./src ./tools ./test-browser ./test-deno ./test-cloudflare-workers"
   },

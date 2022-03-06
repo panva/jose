@@ -1,16 +1,5 @@
 import test from 'ava'
-
-let root
-let keyRoot
-
-if ('WEBCRYPTO' in process.env) {
-  root = keyRoot = '#dist/webcrypto'
-} else if ('CRYPTOKEY' in process.env) {
-  root = '#dist'
-  keyRoot = '#dist/webcrypto'
-} else {
-  root = keyRoot = '#dist'
-}
+import { keyRoot } from '../dist.mjs'
 
 const { calculateJwkThumbprint } = await import(keyRoot)
 

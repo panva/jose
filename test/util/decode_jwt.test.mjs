@@ -1,6 +1,6 @@
 import test from 'ava'
+import { root } from '../dist.mjs'
 
-const root = !('WEBCRYPTO' in process.env) ? '#dist' : '#dist/webcrypto'
 const { decodeJwt, errors, base64url } = await import(root)
 
 test('invalid inputs', (t) => {

@@ -1,16 +1,5 @@
 import test from 'ava'
-
-let root
-let keyRoot
-
-if ('WEBCRYPTO' in process.env) {
-  root = keyRoot = '#dist/webcrypto'
-} else if ('CRYPTOKEY' in process.env) {
-  root = '#dist'
-  keyRoot = '#dist/webcrypto'
-} else {
-  root = keyRoot = '#dist'
-}
+import { root, keyRoot } from '../dist.mjs'
 
 const { FlattenedEncrypt, flattenedDecrypt, CompactEncrypt, compactDecrypt, base64url } =
   await import(root)
@@ -665,6 +654,7 @@ const vectors = [
   {
     title: 'https://www.rfc-editor.org/rfc/rfc7520#section-5.9 - Compressed Content',
     webcrypto: true,
+    webapi: false,
     electron: false,
     reproducible: true,
     input: {
@@ -917,7 +907,13 @@ const vectors = [
 
 for (const vector of vectors) {
   let run = test
-  if (('WEBCRYPTO' in process.env || 'CRYPTOKEY' in process.env) && vector.webcrypto === false) {
+  if (
+    ('WEBCRYPTO' in process.env || 'CRYPTOKEY' in process.env || 'WEBAPI' in process.env) &&
+    vector.webcrypto === false
+  ) {
+    run = run.failing
+  }
+  if ('WEBAPI' in process.env && vector.webapi === false) {
     run = run.failing
   }
   if ('electron' in process.versions && vector.electron === false) {

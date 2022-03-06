@@ -1,16 +1,5 @@
 import test from 'ava'
-
-let root
-let keyRoot
-
-if ('WEBCRYPTO' in process.env) {
-  root = keyRoot = '#dist/webcrypto'
-} else if ('CRYPTOKEY' in process.env) {
-  root = '#dist'
-  keyRoot = '#dist/webcrypto'
-} else {
-  root = keyRoot = '#dist'
-}
+import { conditional, keyRoot } from '../dist.mjs'
 
 const { importJWK, exportJWK } = await import(keyRoot)
 
@@ -198,18 +187,6 @@ test('Uin8tArray can be transformed to a JWK', async (t) => {
     },
   )
 })
-
-function conditional({ webcrypto = 1, electron = 1 } = {}) {
-  let run = test
-  if (!webcrypto && ('WEBCRYPTO' in process.env || 'CRYPTOKEY' in process.env)) {
-    run = run.failing
-  }
-
-  if (!electron && 'electron' in process.versions) {
-    run = run.failing
-  }
-  return run
-}
 
 conditional({ webcrypto: 0 })('secret key object can be transformed to a JWK', async (t) => {
   const keylike = await importJWK(

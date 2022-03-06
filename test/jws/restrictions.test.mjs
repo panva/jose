@@ -1,17 +1,6 @@
 import test from 'ava'
 import * as crypto from 'crypto'
-
-let root
-let keyRoot
-
-if ('WEBCRYPTO' in process.env) {
-  root = keyRoot = '#dist/webcrypto'
-} else if ('CRYPTOKEY' in process.env) {
-  root = '#dist'
-  keyRoot = '#dist/webcrypto'
-} else {
-  root = keyRoot = '#dist'
-}
+import { conditional, root, keyRoot } from '../dist.mjs'
 
 const { FlattenedSign, flattenedVerify, FlattenedEncrypt, flattenedDecrypt, base64url } =
   await import(root)
@@ -126,18 +115,6 @@ test(testRSAenc, 'RSA-OAEP-512')
 test(testECDSASigEncoding, 'ES256')
 test(testECDSASigEncoding, 'ES384')
 test(testECDSASigEncoding, 'ES512')
-
-function conditional({ webcrypto = 1, electron = 1 } = {}) {
-  let run = test
-  if (!webcrypto && ('WEBCRYPTO' in process.env || 'CRYPTOKEY' in process.env)) {
-    run = run.failing
-  }
-
-  if (!electron && 'electron' in process.versions) {
-    run = run.failing
-  }
-  return run
-}
 
 conditional({ webcrypto: 0 })(testRSAenc, 'RSA1_5')
 conditional({ webcrypto: 0, electron: 0 })(testECDSASigEncoding, 'ES256K')
