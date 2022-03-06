@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [4.6.0](https://github.com/panva/jose/compare/v4.5.3...v4.6.0) (2022-03-06)
+
+
+### Features
+
+* mark APIs and parameters that can lead to footguns as deprecated ([0ddbcc6](https://github.com/panva/jose/commit/0ddbcc6725ecb2d68efdaf0951cec4db31cc9b16))
+* **types:** include JSDoc in the types ([74187a9](https://github.com/panva/jose/commit/74187a9aa97cac70c42035949dd847177025af7c))
+
 ## [4.5.3](https://github.com/panva/jose/compare/v4.5.2...v4.5.3) (2022-03-05)
 
 

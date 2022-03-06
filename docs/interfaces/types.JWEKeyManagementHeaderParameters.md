@@ -31,11 +31,17 @@ ___
 
 • `Optional` **epk**: [`KeyLike`](../types/types.KeyLike.md)
 
+**`deprecated`** You should not use this parameter. It is only really intended
+for test and vector validation purposes.
+
 ___
 
 ### iv
 
 • `Optional` **iv**: `Uint8Array`
+
+**`deprecated`** You should not use this parameter. It is only really intended
+for test and vector validation purposes.
 
 ___
 
@@ -43,8 +49,14 @@ ___
 
 • `Optional` **p2c**: `number`
 
+**`deprecated`** You should not use this parameter. It is only really intended
+for test and vector validation purposes.
+
 ___
 
 ### p2s
 
 • `Optional` **p2s**: `Uint8Array`
+
+**`deprecated`** You should not use this parameter. It is only really intended
+for test and vector validation purposes.

@@ -135,8 +135,9 @@ ___
 
 Sets a content encryption key to use, by default a random suitable one
 is generated for the JWE enc" (Encryption Algorithm) Header Parameter.
-You do not need to invoke this method, it is only really intended for
-test and vector validation purposes.
+
+**`deprecated`** You should not use this method. It is only really intended
+for test and vector validation purposes.
 
 #### Parameters
 
@@ -174,8 +175,10 @@ ___
 
 Sets the JWE Initialization Vector to use for content encryption, by default
 a random suitable one is generated for the JWE enc" (Encryption Algorithm)
-Header Parameter. You do not need to invoke this method, it is only really
-intended for test and vector validation purposes.
+Header Parameter.
+
+**`deprecated`** You should not use this method. It is only really intended
+for test and vector validation purposes.
 
 #### Parameters
 
@@ -248,7 +251,7 @@ ___
 ▸ **setKeyManagementParameters**(`parameters`): [`EncryptJWT`](jwt_encrypt.EncryptJWT.md)
 
 Sets the JWE Key Management parameters to be used when encrypting.
-Use of this is method is really only needed for ECDH-ES based algorithms
+Use of this is method is really only needed for ECDH based algorithms
 when utilizing the Agreement PartyUInfo or Agreement PartyVInfo parameters.
 Other parameters will always be randomly generated when needed and missing.
 
