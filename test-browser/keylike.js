@@ -1,10 +1,5 @@
-import * as Bowser from 'bowser'
-
+import { p521 } from './helpers.js'
 import { importJWK, exportJWK, calculateJwkThumbprint } from '../dist/browser/index.js'
-
-const browser = Bowser.parse(window.navigator.userAgent)
-
-const p521 = browser.engine.name !== 'WebKit'
 
 async function test(jwk, alg, assert) {
   await calculateJwkThumbprint(jwk)

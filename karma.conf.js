@@ -9,59 +9,46 @@ const browsers = {
     base: "BrowserStack",
     browser: "chrome",
     os: "Windows",
-    os_version: "10",
+    os_version: "11",
   },
   chrome_lowest: {
     base: "BrowserStack",
     browser: "chrome",
     os: "Windows",
     browser_version: "63.0",
-    os_version: "10",
+    os_version: "11",
   },
   firefox_latest: {
     base: "BrowserStack",
     browser: "firefox",
     os: "Windows",
-    os_version: "10",
+    os_version: "11",
   },
   firefox_lowest: {
     base: "BrowserStack",
     browser: "firefox",
     os: "Windows",
     browser_version: "57.0",
-    os_version: "10",
+    os_version: "11",
   },
   edge_latest: {
     base: "BrowserStack",
     browser: "edge",
     os: "Windows",
-    os_version: "10",
+    os_version: "11",
   },
   edge_lowest: {
     base: "BrowserStack",
     browser: "edge",
     os: "Windows",
     browser_version: "80.0",
-    os_version: "10",
-  },
-  opera_latest: {
-    base: "BrowserStack",
-    browser: "opera",
-    os: "Windows",
-    os_version: "10",
-  },
-  opera_lowest: {
-    base: "BrowserStack",
-    browser: "opera",
-    os: "Windows",
-    browser_version: "50.0",
-    os_version: "10",
+    os_version: "11",
   },
   safari_latest: {
     base: "BrowserStack",
     browser: "safari",
     os: "OS X",
-    os_version: "Catalina",
+    os_version: "Monterey",
   },
   safari_lowest: {
     base: "BrowserStack",
@@ -69,28 +56,17 @@ const browsers = {
     os: "OS X",
     os_version: "High Sierra",
   },
-  ios_latest: {
-    base: "BrowserStack",
-    device: "iPhone 12 Pro",
-    os: "ios",
-    real_mobile: true,
-    os_version: "14",
-  },
-  ios_lowest: {
-    base: "BrowserStack",
-    device: "iPhone XS Max",
-    os: "ios",
-    real_mobile: true,
-    os_version: "12",
-  },
-  android_latest: {
-    base: "BrowserStack",
-    device: "Google Pixel 4",
-    os: "android",
-    real_mobile: true,
-    os_version: "11.0",
-  },
 };
+
+// TODO: 15, but it doesn't get secureContext anymore >,<
+for (const ios of [12, 13, 14]) {
+  browsers[`ios_${ios}`] = {
+    base: "BrowserStack",
+    device: "iPhone XS",
+    os: "ios",
+    os_version: `${ios}`,
+  }
+}
 
 module.exports = function (config) {
   config.set({

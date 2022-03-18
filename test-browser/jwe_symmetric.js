@@ -1,15 +1,10 @@
-import * as Bowser from 'bowser'
-
+import { aes192 } from './helpers.js'
 import {
   generateSecret,
   FlattenedEncrypt,
   flattenedDecrypt,
   decodeProtectedHeader,
 } from '../dist/browser/index.js'
-
-const browser = Bowser.parse(window.navigator.userAgent)
-
-const aes192 = browser.engine.name !== 'Blink'
 
 async function test(generate, { alg, enc }, assert) {
   const secretKey = await generate()

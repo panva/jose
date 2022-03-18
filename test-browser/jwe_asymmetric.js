@@ -1,15 +1,10 @@
-import * as Bowser from 'bowser'
-
+import { p521 } from './helpers.js'
 import {
   generateKeyPair,
   FlattenedEncrypt,
   flattenedDecrypt,
   decodeProtectedHeader,
 } from '../dist/browser/index.js'
-
-const browser = Bowser.parse(window.navigator.userAgent)
-
-const p521 = browser.engine.name !== 'WebKit'
 
 async function test(generate, alg, assert) {
   const { publicKey, privateKey } = await generate()
