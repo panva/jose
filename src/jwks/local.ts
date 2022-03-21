@@ -79,10 +79,11 @@ export class LocalJWKSet {
 
   async getKey(protectedHeader: JWSHeaderParameters, token: FlattenedJWSInput): Promise<KeyLike> {
     const { alg, kid } = { ...protectedHeader, ...token.header }
+    const kty = getKtyFromAlg(alg)
 
     const candidates = this._jwks!.keys.filter((jwk) => {
       // filter keys based on the mapping of signature algorithms to Key Type
-      let candidate = jwk.kty === getKtyFromAlg(alg)
+      let candidate = kty === jwk.kty;
 
       // filter keys based on the JWK Key ID in the header
       if (candidate && typeof kid === 'string') {
