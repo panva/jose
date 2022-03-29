@@ -83,7 +83,7 @@ export class LocalJWKSet {
 
     const candidates = this._jwks!.keys.filter((jwk) => {
       // filter keys based on the mapping of signature algorithms to Key Type
-      let candidate = kty === jwk.kty;
+      let candidate = kty === jwk.kty
 
       // filter keys based on the JWK Key ID in the header
       if (candidate && typeof kid === 'string') {
