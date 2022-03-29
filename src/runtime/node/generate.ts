@@ -91,12 +91,13 @@ export async function generateKeyPair(alg: string, options?: GenerateKeyPairOpti
     case 'ECDH-ES+A128KW':
     case 'ECDH-ES+A192KW':
     case 'ECDH-ES+A256KW':
-      switch (options?.crv) {
+      const crv = options?.crv ?? 'P-256'
+      switch (crv) {
         case undefined:
         case 'P-256':
         case 'P-384':
         case 'P-521':
-          return generate('ec', { namedCurve: options?.crv ?? 'P-256' })
+          return generate('ec', { namedCurve: crv })
         case 'X25519':
           return generate('x25519')
         case 'X448':
