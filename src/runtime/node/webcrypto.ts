@@ -1,7 +1,7 @@
 import * as crypto from 'crypto'
 import * as util from 'util'
 
-// @ts-expect-error
+// @ts-ignore
 const webcrypto = <Crypto>crypto.webcrypto
 
 export default webcrypto
