@@ -19,11 +19,12 @@ export const encode = (input: Uint8Array | string) => {
 }
 
 export const decodeBase64 = (encoded: string): Uint8Array => {
-  return new Uint8Array(
-    atob(encoded)
-      .split('')
-      .map((c) => c.charCodeAt(0)),
-  )
+  const binary = atob(encoded)
+  const bytes = new Uint8Array(binary.length)
+  for (let i = 0; i < binary.length; i++) {
+    bytes[i] = binary.charCodeAt(i)
+  }
+  return bytes
 }
 
 export const decode = (input: Uint8Array | string) => {
