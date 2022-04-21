@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [4.7.0](https://github.com/panva/jose/compare/v4.6.2...v4.7.0) (2022-04-21)
+
+
+### Features
+
+* add createRemoteJWKSet cacheMaxAge option ([5017d95](https://github.com/panva/jose/commit/5017d95764b3aca551631c1a2fbe7cc40cbb6055)), closes [#394](https://github.com/panva/jose/issues/394)
+
 ## [4.6.2](https://github.com/panva/jose/compare/v4.6.1...v4.6.2) (2022-04-19)
 
 
