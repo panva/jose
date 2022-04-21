@@ -248,6 +248,76 @@ skipOnUndiciTestSerial('refreshes the JWKS once off cooldown', async (t) => {
   }
 })
 
+skipOnUndiciTestSerial('refreshes the JWKS once stale', async (t) => {
+  timekeeper.freeze(now * 1000)
+  let jwk = {
+    crv: 'P-256',
+    x: 'fqCXPnWs3sSfwztvwYU9SthmRdoT4WCXxS8eD8icF6U',
+    y: 'nP6GIc42c61hoKqPcZqkvzhzIJkBV3Jw3g8sGG7UeP8',
+    d: 'XikZvoy8ayRpOnuz7ont2DkgMxp_kmmg1EKcuIJWX_E',
+    kty: 'EC',
+  }
+  const jwks = {
+    keys: [
+      {
+        crv: 'P-256',
+        x: 'fqCXPnWs3sSfwztvwYU9SthmRdoT4WCXxS8eD8icF6U',
+        y: 'nP6GIc42c61hoKqPcZqkvzhzIJkBV3Jw3g8sGG7UeP8',
+        kty: 'EC',
+        kid: 'one',
+      },
+    ],
+  }
+
+  nock('https://as.example.com').get('/jwks').twice().reply(200, jwks)
+
+  const url = new URL('https://as.example.com/jwks')
+  const JWKS = createRemoteJWKSet(url, { cacheMaxAge: 60 * 10 * 1000 })
+  const key = await importJWK({ ...jwk, alg: 'ES256' })
+  {
+    const jwt = await new SignJWT({}).setProtectedHeader({ alg: 'ES256', kid: 'one' }).sign(key)
+    await t.notThrowsAsync(jwtVerify(jwt, JWKS))
+    await t.notThrowsAsync(jwtVerify(jwt, JWKS))
+    timekeeper.travel((now + 60 * 10) * 1000)
+    await t.notThrowsAsync(jwtVerify(jwt, JWKS))
+  }
+})
+
+skipOnUndiciTestSerial('can be configured to never be stale', async (t) => {
+  timekeeper.freeze(now * 1000)
+  let jwk = {
+    crv: 'P-256',
+    x: 'fqCXPnWs3sSfwztvwYU9SthmRdoT4WCXxS8eD8icF6U',
+    y: 'nP6GIc42c61hoKqPcZqkvzhzIJkBV3Jw3g8sGG7UeP8',
+    d: 'XikZvoy8ayRpOnuz7ont2DkgMxp_kmmg1EKcuIJWX_E',
+    kty: 'EC',
+  }
+  const jwks = {
+    keys: [
+      {
+        crv: 'P-256',
+        x: 'fqCXPnWs3sSfwztvwYU9SthmRdoT4WCXxS8eD8icF6U',
+        y: 'nP6GIc42c61hoKqPcZqkvzhzIJkBV3Jw3g8sGG7UeP8',
+        kty: 'EC',
+        kid: 'one',
+      },
+    ],
+  }
+
+  nock('https://as.example.com').get('/jwks').once().reply(200, jwks)
+
+  const url = new URL('https://as.example.com/jwks')
+  const JWKS = createRemoteJWKSet(url, { cacheMaxAge: Infinity })
+  const key = await importJWK({ ...jwk, alg: 'ES256' })
+  {
+    const jwt = await new SignJWT({}).setProtectedHeader({ alg: 'ES256', kid: 'one' }).sign(key)
+    await t.notThrowsAsync(jwtVerify(jwt, JWKS))
+    await t.notThrowsAsync(jwtVerify(jwt, JWKS))
+    timekeeper.travel((now + 60 * 10) * 1000)
+    await t.notThrowsAsync(jwtVerify(jwt, JWKS))
+  }
+})
+
 skipOnUndiciTestSerial('throws on invalid JWKSet', async (t) => {
   const scope = nock('https://as.example.com').get('/jwks').once().reply(200, 'null')
 
