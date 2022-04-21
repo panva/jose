@@ -23,6 +23,14 @@ export interface RemoteJWKSetOptions {
   cooldownDuration?: number
 
   /**
+   * The maximum time (in milliseconds) the cached JWKS is used from the cache. If not
+   * set it will only update the cached JWKS if the Key for a token cannot be found.
+   * If set, it will also look for an update if the cache is older than this TTL.
+   * Default is 0 ( = not set )
+   */
+  cacheTimeToLive?: number
+
+  /**
    * An instance of [http.Agent](https://nodejs.org/api/http.html#http_class_http_agent)
    * or [https.Agent](https://nodejs.org/api/https.html#https_class_https_agent) to pass
    * to the [http.get](https://nodejs.org/api/http.html#http_http_get_options_callback)
@@ -43,6 +51,10 @@ class RemoteJWKSet extends LocalJWKSet {
 
   private _cooldownStarted?: number
 
+  private _cacheTimeToLive: number
+
+  private _cacheLastUpdated?: number
+
   private _pendingFetch?: Promise<unknown>
 
   private _options: Pick<RemoteJWKSetOptions, 'agent'>
@@ -61,6 +73,8 @@ class RemoteJWKSet extends LocalJWKSet {
       typeof options?.timeoutDuration === 'number' ? options?.timeoutDuration : 5000
     this._cooldownDuration =
       typeof options?.cooldownDuration === 'number' ? options?.cooldownDuration : 30000
+    this._cacheTimeToLive =
+      typeof options?.cacheTimeToLive === 'number' ? options?.cacheTimeToLive : 0
   }
 
   coolingDown() {
@@ -71,8 +85,19 @@ class RemoteJWKSet extends LocalJWKSet {
     return Date.now() < this._cooldownStarted + this._cooldownDuration
   }
 
+  cacheIsValid() {
+    if (!this._cacheLastUpdated) {
+      return false;
+    }
+    if (!this._cacheTimeToLive) {
+      return true
+    }
+
+    return Date.now() < this._cacheLastUpdated + this._cacheTimeToLive
+  }
+
   async getKey(protectedHeader: JWSHeaderParameters, token: FlattenedJWSInput): Promise<KeyLike> {
-    if (!this._jwks) {
+    if (!this._jwks || !this.cacheIsValid()) {
       await this.reload()
     }
 
@@ -112,6 +137,7 @@ class RemoteJWKSet extends LocalJWKSet {
           }
 
           this._jwks = { keys: json.keys }
+          this._cacheLastUpdated = Date.now()
           this._cooldownStarted = Date.now()
           this._pendingFetch = undefined
         })
