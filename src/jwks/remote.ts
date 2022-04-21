@@ -11,25 +11,35 @@ import { isJWKSLike, LocalJWKSet } from './local.js'
  */
 export interface RemoteJWKSetOptions {
   /**
-   * Timeout (in milliseconds) for the HTTP request. When reached the request will be
-   * aborted and the verification will fail. Default is 5000.
+   * Timeout (in milliseconds) for the HTTP request. When reached the request
+   * will be aborted and the verification will fail. Default is 5000 (5
+   * seconds).
    */
   timeoutDuration?: number
 
   /**
-   * Duration (in milliseconds) for which no more HTTP requests will be triggered
-   * after a previous successful fetch. Default is 30000.
+   * Duration (in milliseconds) for which no more HTTP requests will be
+   * triggered after a previous successful fetch. Default is 30000 (30 seconds).
    */
   cooldownDuration?: number
 
   /**
-   * An instance of [http.Agent](https://nodejs.org/api/http.html#http_class_http_agent)
-   * or [https.Agent](https://nodejs.org/api/https.html#https_class_https_agent) to pass
-   * to the [http.get](https://nodejs.org/api/http.html#http_http_get_options_callback)
-   * or [https.get](https://nodejs.org/api/https.html#https_https_get_options_callback)
-   * method's options. Use when behind an http(s) proxy.
-   * This is a Node.js runtime specific option, it is ignored
-   * when used outside of Node.js runtime.
+   * Maximum time (in milliseconds) between successful HTTP requests. Default is
+   * 600000 (10 minutes).
+   */
+  cacheMaxAge?: number | typeof Infinity
+
+  /**
+   * An instance of
+   * [http.Agent](https://nodejs.org/api/http.html#http_class_http_agent) or
+   * [https.Agent](https://nodejs.org/api/https.html#https_class_https_agent) to
+   * pass to the
+   * [http.get](https://nodejs.org/api/http.html#http_http_get_options_callback)
+   * or
+   * [https.get](https://nodejs.org/api/https.html#https_https_get_options_callback)
+   * method's options. Use when behind an http(s) proxy. This is a Node.js
+   * runtime specific option, it is ignored when used outside of Node.js
+   * runtime.
    */
   agent?: any
 }
@@ -41,7 +51,9 @@ class RemoteJWKSet extends LocalJWKSet {
 
   private _cooldownDuration: number
 
-  private _cooldownStarted?: number
+  private _cacheMaxAge: number
+
+  private _jwksTimestamp?: number
 
   private _pendingFetch?: Promise<unknown>
 
@@ -61,18 +73,23 @@ class RemoteJWKSet extends LocalJWKSet {
       typeof options?.timeoutDuration === 'number' ? options?.timeoutDuration : 5000
     this._cooldownDuration =
       typeof options?.cooldownDuration === 'number' ? options?.cooldownDuration : 30000
+    this._cacheMaxAge = typeof options?.cacheMaxAge === 'number' ? options?.cacheMaxAge : 600000
   }
 
   coolingDown() {
-    if (!this._cooldownStarted) {
-      return false
-    }
+    return typeof this._jwksTimestamp === 'number'
+      ? Date.now() < this._jwksTimestamp + this._cooldownDuration
+      : false
+  }
 
-    return Date.now() < this._cooldownStarted + this._cooldownDuration
+  fresh() {
+    return typeof this._jwksTimestamp === 'number'
+      ? Date.now() < this._jwksTimestamp + this._cacheMaxAge
+      : false
   }
 
   async getKey(protectedHeader: JWSHeaderParameters, token: FlattenedJWSInput): Promise<KeyLike> {
-    if (!this._jwks) {
+    if (!this._jwks || !this.fresh()) {
       await this.reload()
     }
 
@@ -112,7 +129,7 @@ class RemoteJWKSet extends LocalJWKSet {
           }
 
           this._jwks = { keys: json.keys }
-          this._cooldownStarted = Date.now()
+          this._jwksTimestamp = Date.now()
           this._pendingFetch = undefined
         })
         .catch((err: Error) => {
