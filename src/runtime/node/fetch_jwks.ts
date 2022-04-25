@@ -1,14 +1,13 @@
-import * as http from 'http'
-import * as https from 'https'
 import { once } from 'events'
 import type { ClientRequest, IncomingMessage } from 'http'
+import * as http from 'http'
 import type { RequestOptions } from 'https'
-
-import type { FetchFunction } from '../interfaces.d'
-import { JOSEError, JWKSTimeout } from '../../util/errors.js'
+import * as https from 'https'
 import { concat, decoder } from '../../lib/buffer_utils.js'
+import { JOSEError, JWKSTimeout } from '../../util/errors.js'
+import type { FetchFunction } from '../interfaces.d'
 
-type AcceptedRequestOptions = Pick<RequestOptions, 'agent'>
+type AcceptedRequestOptions = Pick<RequestOptions, 'agent' | 'headers'>
 
 const fetchJwks: FetchFunction = async (
   url: URL,
@@ -27,10 +26,11 @@ const fetchJwks: FetchFunction = async (
       throw new TypeError('Unsupported URL protocol.')
   }
 
-  const { agent } = options
+  const { agent, headers } = options
   const req = get(url.href, {
     agent,
     timeout,
+    headers,
   })
 
   const [response] = <[IncomingMessage]>(
