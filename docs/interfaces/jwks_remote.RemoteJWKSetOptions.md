@@ -9,6 +9,7 @@ Options for the remote JSON Web Key Set.
 - [agent](jwks_remote.RemoteJWKSetOptions.md#agent)
 - [cacheMaxAge](jwks_remote.RemoteJWKSetOptions.md#cachemaxage)
 - [cooldownDuration](jwks_remote.RemoteJWKSetOptions.md#cooldownduration)
+- [headers](jwks_remote.RemoteJWKSetOptions.md#headers)
 - [timeoutDuration](jwks_remote.RemoteJWKSetOptions.md#timeoutduration)
 
 ## Properties
@@ -45,6 +46,14 @@ ___
 
 Duration (in milliseconds) for which no more HTTP requests will be
 triggered after a previous successful fetch. Default is 30000 (30 seconds).
+
+___
+
+### headers
+
+• `Optional` **headers**: `Record`<`string`, `string`\>
+
+Optional headers to be sent with the HTTP request.
 
 ___
 

@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [4.8.0](https://github.com/panva/jose/compare/v4.7.0...v4.8.0) (2022-04-26)
+
+
+### Features
+
+* add "worker" export in package.json ([#400](https://github.com/panva/jose/issues/400)) ([c58c80a](https://github.com/panva/jose/commit/c58c80ae98b7a55b3b95e72438040983ae9a23de))
+* optional headers options for createRemoteJWKSet ([#397](https://github.com/panva/jose/issues/397)) ([b4612f5](https://github.com/panva/jose/commit/b4612f5d256b773ab7a1144ac839bdf0f8ccff53))
+
 ## [4.7.0](https://github.com/panva/jose/compare/v4.6.2...v4.7.0) (2022-04-21)
 
 
