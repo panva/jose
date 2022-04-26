@@ -7,6 +7,6 @@ const webcrypto = <Crypto>crypto.webcrypto
 export default webcrypto
 
 export const isCryptoKey = util.types.isCryptoKey
-  ? (obj: unknown): obj is CryptoKey => util.types.isCryptoKey(obj)
+  ? (key: unknown): key is CryptoKey => util.types.isCryptoKey(key)
   : // @ts-expect-error
-    (obj: unknown): obj is CryptoKey => false
+    (key: unknown): key is CryptoKey => false
