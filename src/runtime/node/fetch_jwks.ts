@@ -8,7 +8,7 @@ import type { FetchFunction } from '../interfaces.d'
 import { JOSEError, JWKSTimeout } from '../../util/errors.js'
 import { concat, decoder } from '../../lib/buffer_utils.js'
 
-type AcceptedRequestOptions = Pick<RequestOptions, 'agent'>
+type AcceptedRequestOptions = Pick<RequestOptions, 'agent' | 'headers'>
 
 const fetchJwks: FetchFunction = async (
   url: URL,
@@ -27,10 +27,11 @@ const fetchJwks: FetchFunction = async (
       throw new TypeError('Unsupported URL protocol.')
   }
 
-  const { agent } = options
+  const { agent, headers } = options
   const req = get(url.href, {
     agent,
     timeout,
+    headers,
   })
 
   const [response] = <[IncomingMessage]>(

@@ -362,6 +362,22 @@ skipOnUndiciTestSerial('throws on invalid JWKSet', async (t) => {
   })
 })
 
+skipOnUndiciTestSerial('can have headers configured', async (t) => {
+  const scope = nock('https://as.example.com', {
+    reqheaders: {
+      'x-custom': 'foo',
+    },
+  })
+    .get('/jwks')
+    .once()
+    .reply(200, 'null')
+
+  const url = new URL('https://as.example.com/jwks')
+  const JWKS = createRemoteJWKSet(url, { headers: { 'x-custom': 'foo' } })
+  await JWKS().catch(() => {})
+  t.true(scope.isDone())
+})
+
 skipOnUndiciTest('handles ENOTFOUND', async (t) => {
   nock.enableNetConnect()
   const url = new URL('https://op.example.com/jwks')

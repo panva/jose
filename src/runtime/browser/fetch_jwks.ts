@@ -1,7 +1,13 @@
 import type { FetchFunction } from '../interfaces.d'
 import { JOSEError, JWKSTimeout } from '../../util/errors.js'
 
-const fetchJwks: FetchFunction = async (url: URL, timeout: number) => {
+type AcceptedRequestOptions = Pick<RequestInit, 'headers'>
+
+const fetchJwks: FetchFunction = async (
+  url: URL,
+  timeout: number,
+  options: AcceptedRequestOptions,
+) => {
   let controller!: AbortController
   let id!: ReturnType<typeof setTimeout>
   let timedOut = false
@@ -16,6 +22,7 @@ const fetchJwks: FetchFunction = async (url: URL, timeout: number) => {
   const response = await fetch(url.href, {
     signal: controller ? controller.signal : undefined,
     redirect: 'manual',
+    headers: options.headers,
   }).catch((err) => {
     if (timedOut) throw new JWKSTimeout()
     throw err

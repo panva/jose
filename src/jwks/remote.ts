@@ -42,6 +42,11 @@ export interface RemoteJWKSetOptions {
    * runtime.
    */
   agent?: any
+
+  /**
+   * Optional headers to be sent with the HTTP request.
+   */
+  headers?: Record<string, string>
 }
 
 class RemoteJWKSet extends LocalJWKSet {
@@ -57,7 +62,7 @@ class RemoteJWKSet extends LocalJWKSet {
 
   private _pendingFetch?: Promise<unknown>
 
-  private _options: Pick<RemoteJWKSetOptions, 'agent'>
+  private _options: Pick<RemoteJWKSetOptions, 'agent' | 'headers'>
 
   constructor(url: unknown, options?: RemoteJWKSetOptions) {
     super({ keys: [] })
@@ -68,7 +73,7 @@ class RemoteJWKSet extends LocalJWKSet {
       throw new TypeError('url must be an instance of URL')
     }
     this._url = new URL(url.href)
-    this._options = { agent: options?.agent }
+    this._options = { agent: options?.agent, headers: options?.headers }
     this._timeoutDuration =
       typeof options?.timeoutDuration === 'number' ? options?.timeoutDuration : 5000
     this._cooldownDuration =
