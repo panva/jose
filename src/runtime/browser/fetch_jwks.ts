@@ -22,7 +22,7 @@ const fetchJwks: FetchFunction = async (
   const response = await fetch(url.href, {
     signal: controller ? controller.signal : undefined,
     redirect: 'manual',
-    headers: options.headers
+    headers: options.headers,
   }).catch((err) => {
     if (timedOut) throw new JWKSTimeout()
     throw err
