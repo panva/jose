@@ -1,11 +1,12 @@
+import * as http from 'http'
+import * as https from 'https'
 import { once } from 'events'
 import type { ClientRequest, IncomingMessage } from 'http'
-import * as http from 'http'
 import type { RequestOptions } from 'https'
-import * as https from 'https'
-import { concat, decoder } from '../../lib/buffer_utils.js'
-import { JOSEError, JWKSTimeout } from '../../util/errors.js'
+
 import type { FetchFunction } from '../interfaces.d'
+import { JOSEError, JWKSTimeout } from '../../util/errors.js'
+import { concat, decoder } from '../../lib/buffer_utils.js'
 
 type AcceptedRequestOptions = Pick<RequestOptions, 'agent' | 'headers'>
 

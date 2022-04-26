@@ -1,7 +1,9 @@
-import { isCloudflareWorkers } from '../runtime/env.js'
 import fetchJwks from '../runtime/fetch_jwks.js'
-import type { FlattenedJWSInput, GetKeyFunction, JWSHeaderParameters, KeyLike } from '../types.d'
+import { isCloudflareWorkers } from '../runtime/env.js'
+
+import type { KeyLike, JWSHeaderParameters, FlattenedJWSInput, GetKeyFunction } from '../types.d'
 import { JWKSInvalid, JWKSNoMatchingKey } from '../util/errors.js'
+
 import { isJWKSLike, LocalJWKSet } from './local.js'
 
 /**
