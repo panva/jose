@@ -82,7 +82,8 @@
       "browser": "./dist/browser/index.js",
       "worker": "./dist/browser/index.js",
       "import": "./dist/node/esm/index.js",
-      "require": "./dist/node/cjs/index.js"
+      "require": "./dist/node/cjs/index.js",
+      "types": "./dist/types/index.d.ts"
     },
     "./package.json": "./package.json"
   },
