@@ -91,10 +91,8 @@ import * as jose from 'https://deno.land/x/jose/index.ts'
 
 | Version | Security Fixes 🔑 | Other Bug Fixes 🐞 | New Features ⭐ |
 | ------- | --------- | -------- | -------- |
-| [4.x.x](https://github.com/panva/jose/tree/v4.x) | ✅ | ✅ | ✅ |
-| [3.x.x](https://github.com/panva/jose/tree/v3.x) | ✅ | ❌ | ❌ |
-| [2.x.x](https://github.com/panva/jose/tree/v2.x) | ✅ | ❌ | ❌ |
-| [1.x.x](https://github.com/panva/jose/tree/v1.x) | ✅ | ❌ | ❌ |
+| [v4.x](https://github.com/panva/jose/tree/v4.x) | ✅ | ✅ | ✅ |
+| [v3.x](https://github.com/panva/jose/tree/v3.x), [v2.x](https://github.com/panva/jose/tree/v2.x), [v1.x](https://github.com/panva/jose/tree/v1.x) | ✅ | ❌ | ❌ |
 
 #### Semver?
 
