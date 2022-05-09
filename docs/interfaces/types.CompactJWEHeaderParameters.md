@@ -8,9 +8,9 @@ may also be present.
 ### Properties
 
 - [alg](types.CompactJWEHeaderParameters.md#alg)
+- [enc](types.CompactJWEHeaderParameters.md#enc)
 - [crit](types.CompactJWEHeaderParameters.md#crit)
 - [cty](types.CompactJWEHeaderParameters.md#cty)
-- [enc](types.CompactJWEHeaderParameters.md#enc)
 - [jku](types.CompactJWEHeaderParameters.md#jku)
 - [jwk](types.CompactJWEHeaderParameters.md#jwk)
 - [kid](types.CompactJWEHeaderParameters.md#kid)
@@ -30,6 +30,14 @@ JWE "alg" (Algorithm) Header Parameter.
 
 ___
 
+### enc
+
+• **enc**: `string`
+
+JWE "enc" (Encryption Algorithm) Header Parameter.
+
+___
+
 ### crit
 
 • `Optional` **crit**: `string`[]
@@ -43,14 +51,6 @@ ___
 • `Optional` **cty**: `string`
 
 "cty" (Content Type) Header Parameter.
-
-___
-
-### enc
-
-• **enc**: `string`
-
-JWE "enc" (Encryption Algorithm) Header Parameter.
 
 ___
 

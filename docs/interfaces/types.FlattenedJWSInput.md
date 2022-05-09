@@ -7,12 +7,31 @@ Uint8Array for detached signature validation.
 
 ### Properties
 
-- [header](types.FlattenedJWSInput.md#header)
 - [payload](types.FlattenedJWSInput.md#payload)
-- [protected](types.FlattenedJWSInput.md#protected)
 - [signature](types.FlattenedJWSInput.md#signature)
+- [header](types.FlattenedJWSInput.md#header)
+- [protected](types.FlattenedJWSInput.md#protected)
 
 ## Properties
+
+### payload
+
+• **payload**: `string` \| `Uint8Array`
+
+The "payload" member MUST be present and contain the value
+BASE64URL(JWS Payload). When RFC7797 "b64": false is used
+the value passed may also be a Uint8Array.
+
+___
+
+### signature
+
+• **signature**: `string`
+
+The "signature" member MUST be present and contain the value
+BASE64URL(JWS Signature).
+
+___
 
 ### header
 
@@ -26,16 +45,6 @@ Parameter values are not integrity protected.
 
 ___
 
-### payload
-
-• **payload**: `string` \| `Uint8Array`
-
-The "payload" member MUST be present and contain the value
-BASE64URL(JWS Payload). When RFC7797 "b64": false is used
-the value passed may also be a Uint8Array.
-
-___
-
 ### protected
 
 • `Optional` **protected**: `string`
@@ -44,12 +53,3 @@ The "protected" member MUST be present and contain the value
 BASE64URL(UTF8(JWS Protected Header)) when the JWS Protected
 Header value is non-empty; otherwise, it MUST be absent.  These
 Header Parameter values are integrity protected.
-
-___
-
-### signature
-
-• **signature**: `string`
-
-The "signature" member MUST be present and contain the value
-BASE64URL(JWS Signature).

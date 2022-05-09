@@ -32,6 +32,7 @@ console.log(payload)
 
 ### Methods
 
+- [decode](jwt_unsecured.UnsecuredJWT.md#decode)
 - [encode](jwt_unsecured.UnsecuredJWT.md#encode)
 - [setAudience](jwt_unsecured.UnsecuredJWT.md#setaudience)
 - [setExpirationTime](jwt_unsecured.UnsecuredJWT.md#setexpirationtime)
@@ -40,7 +41,6 @@ console.log(payload)
 - [setJti](jwt_unsecured.UnsecuredJWT.md#setjti)
 - [setNotBefore](jwt_unsecured.UnsecuredJWT.md#setnotbefore)
 - [setSubject](jwt_unsecured.UnsecuredJWT.md#setsubject)
-- [decode](jwt_unsecured.UnsecuredJWT.md#decode)
 
 ## Constructors
 
@@ -55,6 +55,25 @@ console.log(payload)
 | `payload` | [`JWTPayload`](../interfaces/types.JWTPayload.md) | The JWT Claims Set object. |
 
 ## Methods
+
+### decode
+
+▸ `Static` **decode**(`jwt`, `options?`): [`UnsecuredResult`](../interfaces/jwt_unsecured.UnsecuredResult.md)
+
+Decodes an unsecured JWT.
+
+#### Parameters
+
+| Name | Type | Description |
+| :------ | :------ | :------ |
+| `jwt` | `string` | Unsecured JWT to decode the payload of. |
+| `options?` | [`JWTClaimVerificationOptions`](../interfaces/types.JWTClaimVerificationOptions.md) | JWT Claims Set validation options. |
+
+#### Returns
+
+[`UnsecuredResult`](../interfaces/jwt_unsecured.UnsecuredResult.md)
+
+___
 
 ### encode
 
@@ -191,22 +210,3 @@ Set "sub" (Subject) Claim.
 #### Returns
 
 [`UnsecuredJWT`](jwt_unsecured.UnsecuredJWT.md)
-
-___
-
-### decode
-
-▸ `Static` **decode**(`jwt`, `options?`): [`UnsecuredResult`](../interfaces/jwt_unsecured.UnsecuredResult.md)
-
-Decodes an unsecured JWT.
-
-#### Parameters
-
-| Name | Type | Description |
-| :------ | :------ | :------ |
-| `jwt` | `string` | Unsecured JWT to decode the payload of. |
-| `options?` | [`JWTClaimVerificationOptions`](../interfaces/types.JWTClaimVerificationOptions.md) | JWT Claims Set validation options. |
-
-#### Returns
-
-[`UnsecuredResult`](../interfaces/jwt_unsecured.UnsecuredResult.md)

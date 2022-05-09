@@ -4,27 +4,27 @@
 
 ### Properties
 
-- [additionalAuthenticatedData](types.FlattenedDecryptResult.md#additionalauthenticateddata)
 - [plaintext](types.FlattenedDecryptResult.md#plaintext)
+- [additionalAuthenticatedData](types.FlattenedDecryptResult.md#additionalauthenticateddata)
 - [protectedHeader](types.FlattenedDecryptResult.md#protectedheader)
 - [sharedUnprotectedHeader](types.FlattenedDecryptResult.md#sharedunprotectedheader)
 - [unprotectedHeader](types.FlattenedDecryptResult.md#unprotectedheader)
 
 ## Properties
 
-### additionalAuthenticatedData
-
-• `Optional` **additionalAuthenticatedData**: `Uint8Array`
-
-JWE AAD.
-
-___
-
 ### plaintext
 
 • **plaintext**: `Uint8Array`
 
 Plaintext.
+
+___
+
+### additionalAuthenticatedData
+
+• `Optional` **additionalAuthenticatedData**: `Uint8Array`
+
+JWE AAD.
 
 ___
 

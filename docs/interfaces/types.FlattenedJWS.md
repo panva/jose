@@ -8,12 +8,24 @@ string when JWS Unencoded Payload Option
 
 ### Properties
 
-- [header](types.FlattenedJWS.md#header)
 - [payload](types.FlattenedJWS.md#payload)
-- [protected](types.FlattenedJWS.md#protected)
 - [signature](types.FlattenedJWS.md#signature)
+- [header](types.FlattenedJWS.md#header)
+- [protected](types.FlattenedJWS.md#protected)
 
 ## Properties
+
+### payload
+
+• **payload**: `string`
+
+___
+
+### signature
+
+• **signature**: `string`
+
+___
 
 ### header
 
@@ -27,12 +39,6 @@ Parameter values are not integrity protected.
 
 ___
 
-### payload
-
-• **payload**: `string`
-
-___
-
 ### protected
 
 • `Optional` **protected**: `string`
@@ -41,9 +47,3 @@ The "protected" member MUST be present and contain the value
 BASE64URL(UTF8(JWS Protected Header)) when the JWS Protected
 Header value is non-empty; otherwise, it MUST be absent.  These
 Header Parameter values are integrity protected.
-
-___
-
-### signature
-
-• **signature**: `string`
