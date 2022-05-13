@@ -6,6 +6,7 @@ on:
 
 jobs:
   lock:
+    continue-on-error: true
     runs-on: ubuntu-latest
     steps:
       - uses: dessant/lock-threads@v3
