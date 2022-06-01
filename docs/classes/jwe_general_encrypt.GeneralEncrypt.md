@@ -1,5 +1,7 @@
 # Class: GeneralEncrypt
 
+[💗 Help the project](https://github.com/sponsors/panva)
+
 The GeneralEncrypt class is a utility for creating General JWE objects.
 
 **`example`** Usage
@@ -57,7 +59,7 @@ Adds an additional recipient for the General JWE object.
 
 | Name | Type | Description |
 | :------ | :------ | :------ |
-| `key` | [`KeyLike`](../types/types.KeyLike.md) \| `Uint8Array` | Public Key or Secret to encrypt the Content Encryption Key for the recipient with. |
+| `key` | `Uint8Array` \| [`KeyLike`](../types/types.KeyLike.md) | Public Key or Secret to encrypt the Content Encryption Key for the recipient with. |
 | `options?` | [`CritOption`](../interfaces/types.CritOption.md) | JWE Encryption options. |
 
 #### Returns

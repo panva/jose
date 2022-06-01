@@ -1,5 +1,7 @@
 # Interface: CritOption
 
+[💗 Help the project](https://github.com/sponsors/panva)
+
 Shared Interface with a "crit" property for all sign, verify, encrypt and decrypt
 operations.
 
@@ -33,7 +35,3 @@ profile's validation steps after the operation succeeds.
 The JWS extension Header Parameter `b64` is always recognized and processed
 properly. No other registered Header Parameters that need this kind of
 default built-in treatment are currently available.
-
-#### Index signature
-
-▪ [propName: `string`]: `boolean`

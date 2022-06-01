@@ -1,6 +1,8 @@
 # Function: decode
 
-▸ `Const` **decode**(`input`): `Uint8Array`
+[💗 Help the project](https://github.com/sponsors/panva)
+
+▸ **decode**(`input`): `Uint8Array`
 
 #### Parameters
 

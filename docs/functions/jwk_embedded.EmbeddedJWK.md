@@ -1,5 +1,7 @@
 # Function: EmbeddedJWK
 
+[💗 Help the project](https://github.com/sponsors/panva)
+
 ▸ **EmbeddedJWK**(`protectedHeader`, `token`): `Promise`<[`KeyLike`](../types/types.KeyLike.md)\>
 
 EmbeddedJWK is an implementation of a GetKeyFunction intended to be used with the

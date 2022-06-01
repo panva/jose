@@ -1,5 +1,7 @@
 # Interface: FlattenedJWE
 
+[💗 Help the project](https://github.com/sponsors/panva)
+
 Flattened JWE definition.
 
 ## Table of contents

@@ -1,6 +1,12 @@
 # Class: JWTClaimValidationFailed
 
+[💗 Help the project](https://github.com/sponsors/panva)
+
 An error subclass thrown when a JWT Claim Set member validation fails.
+
+## Implemented by
+
+- [`JWTExpired`](util_errors.JWTExpired.md)
 
 ## Table of contents
 
@@ -16,7 +22,7 @@ An error subclass thrown when a JWT Claim Set member validation fails.
 
 ### Accessors
 
-- [code](util_errors.JWTClaimValidationFailed.md#code)
+- [code](util_errors.JWTClaimValidationFailed.md#code-1)
 
 ## Constructors
 
@@ -61,8 +67,6 @@ Reason code for the validation failure.
 ### code
 
 • `Static` `get` **code**(): ``"ERR_JWT_CLAIM_VALIDATION_FAILED"``
-
-A unique error code for the particular error subclass.
 
 #### Returns
 

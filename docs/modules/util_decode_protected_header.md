@@ -1,11 +1,13 @@
 # Module: util/decode\_protected\_header
 
+[💗 Help the project](https://github.com/sponsors/panva)
+
 ## Table of contents
-
-### Type aliases
-
-- [ProtectedHeaderParameters](../types/util_decode_protected_header.ProtectedHeaderParameters.md)
 
 ### Functions
 
 - [decodeProtectedHeader](../functions/util_decode_protected_header.decodeProtectedHeader.md)
+
+### Type Aliases
+
+- [ProtectedHeaderParameters](../types/util_decode_protected_header.ProtectedHeaderParameters.md)

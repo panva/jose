@@ -1,5 +1,7 @@
 # Interface: JWTClaimVerificationOptions
 
+[💗 Help the project](https://github.com/sponsors/panva)
+
 JWT Claims Set verification options.
 
 ## Table of contents

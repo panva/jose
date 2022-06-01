@@ -1,5 +1,7 @@
 # Function: importX509
 
+[💗 Help the project](https://github.com/sponsors/panva)
+
 ▸ **importX509**(`x509`, `alg`, `options?`): `Promise`<[`KeyLike`](../types/types.KeyLike.md)\>
 
 Imports the SPKI from an X.509 string certificate as a runtime-specific public key representation (KeyObject or CryptoKey).

@@ -1,5 +1,7 @@
 # Class: FlattenedSign
 
+[💗 Help the project](https://github.com/sponsors/panva)
+
 The FlattenedSign class is a utility for creating Flattened JWS objects.
 
 **`example`** Usage
@@ -87,7 +89,7 @@ Signs and resolves the value of the Flattened JWS object.
 
 | Name | Type | Description |
 | :------ | :------ | :------ |
-| `key` | [`KeyLike`](../types/types.KeyLike.md) \| `Uint8Array` | Private Key or Secret to sign the JWS with. |
+| `key` | `Uint8Array` \| [`KeyLike`](../types/types.KeyLike.md) | Private Key or Secret to sign the JWS with. |
 | `options?` | [`SignOptions`](../interfaces/types.SignOptions.md) | JWS Sign options. |
 
 #### Returns

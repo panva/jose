@@ -1,5 +1,7 @@
 # Class: ProduceJWT
 
+[💗 Help the project](https://github.com/sponsors/panva)
+
 Generic class for JWT producing.
 
 ## Table of contents

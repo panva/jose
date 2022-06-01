@@ -1,5 +1,7 @@
 # Function: exportSPKI
 
+[💗 Help the project](https://github.com/sponsors/panva)
+
 ▸ **exportSPKI**(`key`): `Promise`<`string`\>
 
 Exports a runtime-specific public key representation (KeyObject or CryptoKey) to an PEM-encoded SPKI string format.

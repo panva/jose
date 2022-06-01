@@ -1,5 +1,7 @@
 # Class: GeneralSign
 
+[💗 Help the project](https://github.com/sponsors/panva)
+
 The GeneralSign class is a utility for creating General JWS objects.
 
 **`example`** Usage
@@ -53,7 +55,7 @@ Adds an additional signature for the General JWS object.
 
 | Name | Type | Description |
 | :------ | :------ | :------ |
-| `key` | [`KeyLike`](../types/types.KeyLike.md) \| `Uint8Array` | Private Key or Secret to sign the individual JWS signature with. |
+| `key` | `Uint8Array` \| [`KeyLike`](../types/types.KeyLike.md) | Private Key or Secret to sign the individual JWS signature with. |
 | `options?` | [`SignOptions`](../interfaces/types.SignOptions.md) | JWS Sign options. |
 
 #### Returns

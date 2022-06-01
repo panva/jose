@@ -1,5 +1,7 @@
 # Function: importPKCS8
 
+[💗 Help the project](https://github.com/sponsors/panva)
+
 ▸ **importPKCS8**(`pkcs8`, `alg`, `options?`): `Promise`<[`KeyLike`](../types/types.KeyLike.md)\>
 
 Imports an PEM-encoded PKCS8 string as a runtime-specific private key representation (KeyObject or CryptoKey).

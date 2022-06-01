@@ -1,5 +1,7 @@
 # Interface: Recipient
 
+[💗 Help the project](https://github.com/sponsors/panva)
+
 ## Table of contents
 
 ### Methods
@@ -21,7 +23,7 @@ A shorthand for calling addRecipient() on the enclosing GeneralEncrypt instance
 
 | Name | Type |
 | :------ | :------ |
-| `...args` | [key: KeyLike \| Uint8Array, options?: CritOption] |
+| `...args` | [key: Uint8Array \| KeyLike, options?: CritOption] |
 
 #### Returns
 

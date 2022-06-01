@@ -1,5 +1,7 @@
 # Class: EncryptJWT
 
+[💗 Help the project](https://github.com/sponsors/panva)
+
 The EncryptJWT class is a utility for creating Compact JWE formatted JWT strings.
 
 **`example`** Usage
@@ -63,7 +65,7 @@ Encrypts and returns the JWT.
 
 | Name | Type | Description |
 | :------ | :------ | :------ |
-| `key` | [`KeyLike`](../types/types.KeyLike.md) \| `Uint8Array` | Public Key or Secret to encrypt the JWT with. |
+| `key` | `Uint8Array` \| [`KeyLike`](../types/types.KeyLike.md) | Public Key or Secret to encrypt the JWT with. |
 | `options?` | [`EncryptOptions`](../interfaces/types.EncryptOptions.md) | JWE Encryption options. |
 
 #### Returns

@@ -1,5 +1,7 @@
 # Interface: JSONWebKeySet
 
+[💗 Help the project](https://github.com/sponsors/panva)
+
 JSON Web Key Set
 
 ## Table of contents

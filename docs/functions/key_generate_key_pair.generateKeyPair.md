@@ -1,5 +1,7 @@
 # Function: generateKeyPair
 
+[💗 Help the project](https://github.com/sponsors/panva)
+
 ▸ **generateKeyPair**(`alg`, `options?`): `Promise`<[`GenerateKeyPairResult`](../interfaces/key_generate_key_pair.GenerateKeyPairResult.md)\>
 
 Generates a private and a public key for a given JWA algorithm identifier.

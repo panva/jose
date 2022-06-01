@@ -1,5 +1,7 @@
 # Interface: JWTVerifyOptions
 
+[💗 Help the project](https://github.com/sponsors/panva)
+
 Combination of JWS Verification options and JWT Claims Set verification options.
 
 ## Table of contents
@@ -68,10 +70,6 @@ profile's validation steps after the operation succeeds.
 The JWS extension Header Parameter `b64` is always recognized and processed
 properly. No other registered Header Parameters that need this kind of
 default built-in treatment are currently available.
-
-#### Index signature
-
-▪ [propName: `string`]: `boolean`
 
 ___
 

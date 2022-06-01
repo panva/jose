@@ -1,5 +1,7 @@
 # Class: FlattenedEncrypt
 
+[💗 Help the project](https://github.com/sponsors/panva)
+
 The FlattenedEncrypt class is a utility for creating Flattened JWE
 objects.
 
@@ -58,7 +60,7 @@ Encrypts and resolves the value of the Flattened JWE object.
 
 | Name | Type | Description |
 | :------ | :------ | :------ |
-| `key` | [`KeyLike`](../types/types.KeyLike.md) \| `Uint8Array` | Public Key or Secret to encrypt the JWE with. |
+| `key` | `Uint8Array` \| [`KeyLike`](../types/types.KeyLike.md) | Public Key or Secret to encrypt the JWE with. |
 | `options?` | [`EncryptOptions`](../interfaces/types.EncryptOptions.md) | JWE Encryption options. |
 
 #### Returns

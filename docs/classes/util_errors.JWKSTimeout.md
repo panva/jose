@@ -1,5 +1,7 @@
 # Class: JWKSTimeout
 
+[💗 Help the project](https://github.com/sponsors/panva)
+
 Timeout was reached when retrieving the JWKS response.
 
 ## Table of contents
@@ -15,7 +17,7 @@ Timeout was reached when retrieving the JWKS response.
 
 ### Accessors
 
-- [code](util_errors.JWKSTimeout.md#code)
+- [code](util_errors.JWKSTimeout.md#code-1)
 
 ## Constructors
 
@@ -48,8 +50,6 @@ ___
 ### code
 
 • `Static` `get` **code**(): ``"ERR_JWKS_TIMEOUT"``
-
-A unique error code for the particular error subclass.
 
 #### Returns
 

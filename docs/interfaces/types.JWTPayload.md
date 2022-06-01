@@ -1,13 +1,9 @@
 # Interface: JWTPayload
 
+[💗 Help the project](https://github.com/sponsors/panva)
+
 Recognized JWT Claims Set members, any other members
 may also be present.
-
-## Indexable
-
-▪ [propName: `string`]: `unknown`
-
-Any other JWT Claim Set member.
 
 ## Table of contents
 

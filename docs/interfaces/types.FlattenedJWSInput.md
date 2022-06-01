@@ -1,5 +1,7 @@
 # Interface: FlattenedJWSInput
 
+[💗 Help the project](https://github.com/sponsors/panva)
+
 Flattened JWS definition for verify function inputs, allows payload as
 Uint8Array for detached signature validation.
 

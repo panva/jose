@@ -1,5 +1,7 @@
 # Interface: DeflateOption
 
+[💗 Help the project](https://github.com/sponsors/panva)
+
 JWE Deflate option.
 
 ## Table of contents

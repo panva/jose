@@ -1,5 +1,7 @@
 # Class: JWEInvalid
 
+[💗 Help the project](https://github.com/sponsors/panva)
+
 An error subclass thrown when a JWE is invalid.
 
 ## Table of contents
@@ -14,7 +16,7 @@ An error subclass thrown when a JWE is invalid.
 
 ### Accessors
 
-- [code](util_errors.JWEInvalid.md#code)
+- [code](util_errors.JWEInvalid.md#code-1)
 
 ## Constructors
 
@@ -41,8 +43,6 @@ A unique error code for the particular error subclass.
 ### code
 
 • `Static` `get` **code**(): ``"ERR_JWE_INVALID"``
-
-A unique error code for the particular error subclass.
 
 #### Returns
 

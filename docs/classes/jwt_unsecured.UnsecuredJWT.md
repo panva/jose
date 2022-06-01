@@ -1,5 +1,7 @@
 # Class: UnsecuredJWT
 
+[💗 Help the project](https://github.com/sponsors/panva)
+
 The UnsecuredJWT class is a utility for dealing with `{ "alg": "none" }` Unsecured JWTs.
 
 **`example`** Encoding

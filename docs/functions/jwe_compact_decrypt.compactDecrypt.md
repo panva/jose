@@ -1,5 +1,7 @@
 # Function: compactDecrypt
 
+[💗 Help the project](https://github.com/sponsors/panva)
+
 ▸ **compactDecrypt**(`jwe`, `key`, `options?`): `Promise`<[`CompactDecryptResult`](../interfaces/types.CompactDecryptResult.md)\>
 
 Decrypts a Compact JWE.
@@ -19,7 +21,7 @@ console.log(new TextDecoder().decode(plaintext))
 | Name | Type | Description |
 | :------ | :------ | :------ |
 | `jwe` | `string` \| `Uint8Array` | Compact JWE. |
-| `key` | [`KeyLike`](../types/types.KeyLike.md) \| `Uint8Array` | Private Key or Secret to decrypt the JWE with. |
+| `key` | `Uint8Array` \| [`KeyLike`](../types/types.KeyLike.md) | Private Key or Secret to decrypt the JWE with. |
 | `options?` | [`DecryptOptions`](../interfaces/types.DecryptOptions.md) | JWE Decryption options. |
 
 #### Returns

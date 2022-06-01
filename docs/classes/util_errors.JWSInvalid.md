@@ -1,5 +1,7 @@
 # Class: JWSInvalid
 
+[💗 Help the project](https://github.com/sponsors/panva)
+
 An error subclass thrown when a JWS is invalid.
 
 ## Table of contents
@@ -14,7 +16,7 @@ An error subclass thrown when a JWS is invalid.
 
 ### Accessors
 
-- [code](util_errors.JWSInvalid.md#code)
+- [code](util_errors.JWSInvalid.md#code-1)
 
 ## Constructors
 
@@ -41,8 +43,6 @@ A unique error code for the particular error subclass.
 ### code
 
 • `Static` `get` **code**(): ``"ERR_JWS_INVALID"``
-
-A unique error code for the particular error subclass.
 
 #### Returns
 

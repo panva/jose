@@ -1,13 +1,9 @@
 # Interface: JWEHeaderParameters
 
+[💗 Help the project](https://github.com/sponsors/panva)
+
 Recognized JWE Header Parameters, any other Header members
 may also be present.
-
-## Indexable
-
-▪ [propName: `string`]: `unknown`
-
-Any other JWE Header member.
 
 ## Table of contents
 
@@ -70,7 +66,7 @@ ___
 
 ### jwk
 
-• `Optional` **jwk**: `Pick`<[`JWK`](types.JWK.md), ``"kty"`` \| ``"crv"`` \| ``"x"`` \| ``"y"`` \| ``"e"`` \| ``"n"``\>
+• `Optional` **jwk**: `Pick`<[`JWK`](types.JWK.md), ``"crv"`` \| ``"e"`` \| ``"kty"`` \| ``"n"`` \| ``"x"`` \| ``"y"``\>
 
 "jwk" (JSON Web Key) Header Parameter.
 

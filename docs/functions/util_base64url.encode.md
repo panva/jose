@@ -1,6 +1,8 @@
 # Function: encode
 
-▸ `Const` **encode**(`input`): `string`
+[💗 Help the project](https://github.com/sponsors/panva)
+
+▸ **encode**(`input`): `string`
 
 #### Parameters
 

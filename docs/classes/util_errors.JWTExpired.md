@@ -1,6 +1,12 @@
 # Class: JWTExpired
 
+[💗 Help the project](https://github.com/sponsors/panva)
+
 An error subclass thrown when a JWT is expired.
+
+## Implements
+
+- [`JWTClaimValidationFailed`](util_errors.JWTClaimValidationFailed.md)
 
 ## Table of contents
 
@@ -16,7 +22,7 @@ An error subclass thrown when a JWT is expired.
 
 ### Accessors
 
-- [code](util_errors.JWTExpired.md#code)
+- [code](util_errors.JWTExpired.md#code-1)
 
 ## Constructors
 
@@ -61,8 +67,6 @@ Reason code for the validation failure.
 ### code
 
 • `Static` `get` **code**(): ``"ERR_JWT_EXPIRED"``
-
-A unique error code for the particular error subclass.
 
 #### Returns
 

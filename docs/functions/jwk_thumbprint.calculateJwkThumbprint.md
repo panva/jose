@@ -1,5 +1,7 @@
 # Function: calculateJwkThumbprint
 
+[💗 Help the project](https://github.com/sponsors/panva)
+
 ▸ **calculateJwkThumbprint**(`jwk`, `digestAlgorithm?`): `Promise`<`string`\>
 
 Calculates a base64url-encoded JSON Web Key (JWK) Thumbprint as per

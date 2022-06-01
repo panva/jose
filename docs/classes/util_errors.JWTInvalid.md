@@ -1,5 +1,7 @@
 # Class: JWTInvalid
 
+[💗 Help the project](https://github.com/sponsors/panva)
+
 An error subclass thrown when a JWT is invalid.
 
 ## Table of contents
@@ -14,7 +16,7 @@ An error subclass thrown when a JWT is invalid.
 
 ### Accessors
 
-- [code](util_errors.JWTInvalid.md#code)
+- [code](util_errors.JWTInvalid.md#code-1)
 
 ## Constructors
 
@@ -41,8 +43,6 @@ A unique error code for the particular error subclass.
 ### code
 
 • `Static` `get` **code**(): ``"ERR_JWT_INVALID"``
-
-A unique error code for the particular error subclass.
 
 #### Returns
 

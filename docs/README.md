@@ -1,62 +1,39 @@
-# `jose` Modules API Documentation
+# jose
 
-> "JSON Web Almost Everything" - JWA, JWS, JWE, JWT, JWK, JWKS with no dependencies using runtime's native crypto.
+[💗 Help the project](https://github.com/sponsors/panva)
 
-## Support
+## Table of contents
 
-If you or your business use `jose`, please consider becoming a [sponsor][support-sponsor] so I can continue maintaining it and adding new features carefree.
+### Modules
 
-## Available modules
-
-**`example`** ESM import
-```js
-import * as jose from 'jose'
-```
-
-**`example`** CJS require
-```js
-const jose = require('jose')
-```
-
-**`example`** Deno import
-```js
-import * as jose from 'https://deno.land/x/jose/index.ts'
-```
-
-- JSON Web Tokens (JWT)
-  - [Signing](classes/jwt_sign.SignJWT.md#readme)
-  - [Verification & JWT Claims Set Validation](functions/jwt_verify.jwtVerify.md#readme)
-  - Encrypted JSON Web Tokens
-    - [Encryption](classes/jwt_encrypt.EncryptJWT.md#readme)
-    - [Decryption & JWT Claims Set Validation](functions/jwt_decrypt.jwtDecrypt.md#readme)
-- Key Import
-  - [JWK Import](functions/key_import.importJWK.md#readme)
-  - [Public Key Import (SPKI)](functions/key_import.importSPKI.md#readme)
-  - [Public Key Import (X.509 Certificate)](functions/key_import.importX509.md#readme)
-  - [Private Key Import (PKCS #8)](functions/key_import.importPKCS8.md#readme)
-- JSON Web Encryption (JWE)
-  - Encryption - [Compact](classes/jwe_compact_encrypt.CompactEncrypt.md#readme), [Flattened](classes/jwe_flattened_encrypt.FlattenedEncrypt.md#readme), [General](classes/jwe_general_encrypt.GeneralEncrypt.md#readme)
-  - Decryption - [Compact](functions/jwe_compact_decrypt.compactDecrypt.md#readme), [Flattened](functions/jwe_flattened_decrypt.flattenedDecrypt.md#readme), [General](functions/jwe_general_decrypt.generalDecrypt.md#readme)
-- JSON Web Signature (JWS)
-  - Signing - [Compact](classes/jws_compact_sign.CompactSign.md#readme), [Flattened](classes/jws_flattened_sign.FlattenedSign.md#readme), [General](classes/jws_general_sign.GeneralSign.md#readme)
-  - Verification - [Compact](functions/jws_compact_verify.compactVerify.md#readme), [Flattened](functions/jws_flattened_verify.flattenedVerify.md#readme), [General](functions/jws_general_verify.generalVerify.md#readme)
-- JSON Web Key (JWK)
-  - [Thumbprints](functions/jwk_thumbprint.calculateJwkThumbprint.md#readme)
-  - [EmbeddedJWK](functions/jwk_embedded.EmbeddedJWK.md#readme)
-- JSON Web Key Set (JWKS)
-  - [Verify using a local JWKSet](functions/jwks_local.createLocalJWKSet.md#readme)
-  - [Verify using a remote JWKSet](functions/jwks_remote.createRemoteJWKSet.md#readme)
-- Key Pair or Secret Generation
-  - [Asymmetric Key Pair Generation](functions/key_generate_key_pair.generateKeyPair.md#readme)
-  - [Symmetric Secret Generation](functions/key_generate_secret.generateSecret.md#readme)
-- Key Export
-  - [JWK Export](functions/key_export.exportJWK.md#readme)
-  - [Private Key Export](functions/key_export.exportPKCS8.md#readme)
-  - [Public Key Export](functions/key_export.exportSPKI.md#readme)
-- Utilities
-  - [Decoding Token's Protected Header](functions/util_decode_protected_header.decodeProtectedHeader.md#readme)
-  - [Decoding JWT Claims Set](functions/util_decode_jwt.decodeJwt.md#readme)
-- [Unsecured JWT](classes/jwt_unsecured.UnsecuredJWT.md#readme)
-- [JOSE Errors](modules/util_errors.md#readme)
-
-[support-sponsor]: https://github.com/sponsors/panva
+- [jwe/compact/decrypt](modules/jwe_compact_decrypt.md)
+- [jwe/compact/encrypt](modules/jwe_compact_encrypt.md)
+- [jwe/flattened/decrypt](modules/jwe_flattened_decrypt.md)
+- [jwe/flattened/encrypt](modules/jwe_flattened_encrypt.md)
+- [jwe/general/decrypt](modules/jwe_general_decrypt.md)
+- [jwe/general/encrypt](modules/jwe_general_encrypt.md)
+- [jwk/embedded](modules/jwk_embedded.md)
+- [jwk/thumbprint](modules/jwk_thumbprint.md)
+- [jwks/local](modules/jwks_local.md)
+- [jwks/remote](modules/jwks_remote.md)
+- [jws/compact/sign](modules/jws_compact_sign.md)
+- [jws/compact/verify](modules/jws_compact_verify.md)
+- [jws/flattened/sign](modules/jws_flattened_sign.md)
+- [jws/flattened/verify](modules/jws_flattened_verify.md)
+- [jws/general/sign](modules/jws_general_sign.md)
+- [jws/general/verify](modules/jws_general_verify.md)
+- [jwt/decrypt](modules/jwt_decrypt.md)
+- [jwt/encrypt](modules/jwt_encrypt.md)
+- [jwt/produce](modules/jwt_produce.md)
+- [jwt/sign](modules/jwt_sign.md)
+- [jwt/unsecured](modules/jwt_unsecured.md)
+- [jwt/verify](modules/jwt_verify.md)
+- [key/export](modules/key_export.md)
+- [key/generate\_key\_pair](modules/key_generate_key_pair.md)
+- [key/generate\_secret](modules/key_generate_secret.md)
+- [key/import](modules/key_import.md)
+- [types](modules/types.md)
+- [util/base64url](modules/util_base64url.md)
+- [util/decode\_jwt](modules/util_decode_jwt.md)
+- [util/decode\_protected\_header](modules/util_decode_protected_header.md)
+- [util/errors](modules/util_errors.md)

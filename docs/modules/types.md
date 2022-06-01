@@ -1,6 +1,12 @@
 # Module: types
 
+[💗 Help the project](https://github.com/sponsors/panva)
+
 ## Table of contents
+
+### Type Aliases
+
+- [KeyLike](../types/types.KeyLike.md)
 
 ### Interfaces
 
@@ -39,7 +45,3 @@
 - [ResolvedKey](../interfaces/types.ResolvedKey.md)
 - [SignOptions](../interfaces/types.SignOptions.md)
 - [VerifyOptions](../interfaces/types.VerifyOptions.md)
-
-### Type aliases
-
-- [KeyLike](../types/types.KeyLike.md)

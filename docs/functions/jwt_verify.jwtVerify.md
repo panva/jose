@@ -1,5 +1,7 @@
 # Function: jwtVerify
 
+[💗 Help the project](https://github.com/sponsors/panva)
+
 ▸ **jwtVerify**(`jwt`, `key`, `options?`): `Promise`<[`JWTVerifyResult`](../interfaces/types.JWTVerifyResult.md)\>
 
 Verifies the JWT format (to be a JWS Compact format), verifies the JWS signature, validates the JWT Claims Set.
@@ -22,7 +24,7 @@ console.log(payload)
 | Name | Type | Description |
 | :------ | :------ | :------ |
 | `jwt` | `string` \| `Uint8Array` | JSON Web Token value (encoded as JWS). |
-| `key` | [`KeyLike`](../types/types.KeyLike.md) \| `Uint8Array` | Key to verify the JWT with. |
+| `key` | `Uint8Array` \| [`KeyLike`](../types/types.KeyLike.md) | Key to verify the JWT with. |
 | `options?` | [`JWTVerifyOptions`](../interfaces/jwt_verify.JWTVerifyOptions.md) | JWT Decryption and JWT Claims Set validation options. |
 
 #### Returns

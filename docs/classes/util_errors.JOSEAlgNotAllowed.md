@@ -1,5 +1,7 @@
 # Class: JOSEAlgNotAllowed
 
+[💗 Help the project](https://github.com/sponsors/panva)
+
 An error subclass thrown when a JOSE Algorithm is not allowed per developer preference.
 
 ## Table of contents
@@ -14,7 +16,7 @@ An error subclass thrown when a JOSE Algorithm is not allowed per developer pref
 
 ### Accessors
 
-- [code](util_errors.JOSEAlgNotAllowed.md#code)
+- [code](util_errors.JOSEAlgNotAllowed.md#code-1)
 
 ## Constructors
 
@@ -41,8 +43,6 @@ A unique error code for the particular error subclass.
 ### code
 
 • `Static` `get` **code**(): ``"ERR_JOSE_ALG_NOT_ALLOWED"``
-
-A unique error code for the particular error subclass.
 
 #### Returns
 

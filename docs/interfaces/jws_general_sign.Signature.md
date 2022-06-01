@@ -1,5 +1,7 @@
 # Interface: Signature
 
+[💗 Help the project](https://github.com/sponsors/panva)
+
 ## Table of contents
 
 ### Methods
@@ -22,7 +24,7 @@ A shorthand for calling addSignature() on the enclosing GeneralSign instance
 
 | Name | Type |
 | :------ | :------ |
-| `...args` | [key: KeyLike \| Uint8Array, options?: SignOptions] |
+| `...args` | [key: Uint8Array \| KeyLike, options?: SignOptions] |
 
 #### Returns
 

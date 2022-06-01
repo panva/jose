@@ -1,5 +1,7 @@
 # Class: JWKSNoMatchingKey
 
+[💗 Help the project](https://github.com/sponsors/panva)
+
 An error subclass thrown when no keys match from a JWKS.
 
 ## Table of contents
@@ -15,7 +17,7 @@ An error subclass thrown when no keys match from a JWKS.
 
 ### Accessors
 
-- [code](util_errors.JWKSNoMatchingKey.md#code)
+- [code](util_errors.JWKSNoMatchingKey.md#code-1)
 
 ## Constructors
 
@@ -48,8 +50,6 @@ ___
 ### code
 
 • `Static` `get` **code**(): ``"ERR_JWKS_NO_MATCHING_KEY"``
-
-A unique error code for the particular error subclass.
 
 #### Returns
 

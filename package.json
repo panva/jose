@@ -129,7 +129,7 @@
     "coverage-cryptokey": "npm run-script runtime-node && c8 npm run-script test-cryptokey",
     "coverage-webcrypto": "npm run-script runtime-node-webcrypto && c8 npm run-script test-webcrypto",
     "docs": "run-s docs:*",
-    "docs:generate": "typedoc --allReflectionsHaveOwnDocument --disableSources --excludePrivate --excludeProtected --gitRevision main --readme none --sort kind --sort static-first --sort required-first --sort alphabetical --plugin typedoc-plugin-markdown --out docs --excludeExternals --tsconfig ./tsconfig/browser.json  --hideGenerator --hideBreadcrumbs src/types.d.ts src/jwt/*.ts src/jwe/**/*.ts src/jws/**/*.ts src/jwk/*.ts src/jwks/*.ts src/util/*.ts src/key/*.ts",
+    "docs:generate": "typedoc",
     "esbuild-find": "find src -type f -name '*.ts' -not -path '*/runtime/*/*' -not -name '*.d.ts' -print0",
     "runtime-browser": "run-s runtime:clear runtime:browser:* runtime:refs",
     "runtime-deno": "npm run-script runtime-browser && mkdir -p dist/deno && cp -r src/. dist/deno && rm -r dist/deno/runtime/browser dist/deno/runtime/node",
@@ -152,6 +152,7 @@
   },
   "devDependencies": {
     "@types/node": "^16.11.1",
+    "@typescript/lib-dom": "npm:@types/web",
     "ava": "^3.15.0",
     "bowser": "^2.11.0",
     "c8": "^7.10.0",
@@ -171,8 +172,8 @@
     "rollup": "^2.58.0",
     "tar": "^6.1.11",
     "timekeeper": "^2.2.0",
-    "typedoc": "0.21.9",
-    "typedoc-plugin-markdown": "~3.10.4",
-    "typescript": "^4.4.3"
+    "typedoc": "^0.22.17",
+    "typedoc-plugin-markdown": "^3.12.1",
+    "typescript": "^4.7.2"
   }
 }

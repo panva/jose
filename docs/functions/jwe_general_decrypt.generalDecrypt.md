@@ -1,5 +1,7 @@
 # Function: generalDecrypt
 
+[💗 Help the project](https://github.com/sponsors/panva)
+
 ▸ **generalDecrypt**(`jwe`, `key`, `options?`): `Promise`<[`GeneralDecryptResult`](../interfaces/types.GeneralDecryptResult.md)\>
 
 Decrypts a General JWE.
@@ -36,7 +38,7 @@ console.log(decoder.decode(additionalAuthenticatedData))
 | Name | Type | Description |
 | :------ | :------ | :------ |
 | `jwe` | [`GeneralJWE`](../interfaces/types.GeneralJWE.md) | General JWE. |
-| `key` | [`KeyLike`](../types/types.KeyLike.md) \| `Uint8Array` | Private Key or Secret to decrypt the JWE with. |
+| `key` | `Uint8Array` \| [`KeyLike`](../types/types.KeyLike.md) | Private Key or Secret to decrypt the JWE with. |
 | `options?` | [`DecryptOptions`](../interfaces/types.DecryptOptions.md) | JWE Decryption options. |
 
 #### Returns

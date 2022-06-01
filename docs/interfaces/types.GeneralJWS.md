@@ -1,5 +1,7 @@
 # Interface: GeneralJWS
 
+[💗 Help the project](https://github.com/sponsors/panva)
+
 General JWS definition. Payload is returned as an empty
 string when JWS Unencoded Payload Option
 [RFC7797](https://www.rfc-editor.org/rfc/rfc7797) is used.

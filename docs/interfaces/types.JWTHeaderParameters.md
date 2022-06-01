@@ -1,5 +1,7 @@
 # Interface: JWTHeaderParameters
 
+[💗 Help the project](https://github.com/sponsors/panva)
+
 Recognized Signed JWT Header Parameters, any other Header Members
 may also be present.
 
@@ -65,7 +67,7 @@ ___
 
 ### jwk
 
-• `Optional` **jwk**: `Pick`<[`JWK`](types.JWK.md), ``"kty"`` \| ``"crv"`` \| ``"x"`` \| ``"y"`` \| ``"e"`` \| ``"n"``\>
+• `Optional` **jwk**: `Pick`<[`JWK`](types.JWK.md), ``"crv"`` \| ``"e"`` \| ``"kty"`` \| ``"n"`` \| ``"x"`` \| ``"y"``\>
 
 "jwk" (JSON Web Key) Header Parameter.
 

@@ -1,5 +1,7 @@
 # Class: JWEDecryptionFailed
 
+[💗 Help the project](https://github.com/sponsors/panva)
+
 An error subclass thrown when a JWE ciphertext decryption fails.
 
 ## Table of contents
@@ -15,7 +17,7 @@ An error subclass thrown when a JWE ciphertext decryption fails.
 
 ### Accessors
 
-- [code](util_errors.JWEDecryptionFailed.md#code)
+- [code](util_errors.JWEDecryptionFailed.md#code-1)
 
 ## Constructors
 
@@ -48,8 +50,6 @@ ___
 ### code
 
 • `Static` `get` **code**(): ``"ERR_JWE_DECRYPTION_FAILED"``
-
-A unique error code for the particular error subclass.
 
 #### Returns
 

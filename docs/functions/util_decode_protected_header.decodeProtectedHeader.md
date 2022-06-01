@@ -1,5 +1,7 @@
 # Function: decodeProtectedHeader
 
+[💗 Help the project](https://github.com/sponsors/panva)
+
 ▸ **decodeProtectedHeader**(`token`): [`ProtectedHeaderParameters`](../types/util_decode_protected_header.ProtectedHeaderParameters.md)
 
 Decodes the Protected Header of a JWE/JWS/JWT token utilizing any JOSE serialization.

@@ -1,5 +1,7 @@
 # Interface: JoseHeaderParameters
 
+[💗 Help the project](https://github.com/sponsors/panva)
+
 ## Table of contents
 
 ### Properties
@@ -33,7 +35,7 @@ ___
 
 ### jwk
 
-• `Optional` **jwk**: `Pick`<[`JWK`](types.JWK.md), ``"kty"`` \| ``"crv"`` \| ``"x"`` \| ``"y"`` \| ``"e"`` \| ``"n"``\>
+• `Optional` **jwk**: `Pick`<[`JWK`](types.JWK.md), ``"crv"`` \| ``"e"`` \| ``"kty"`` \| ``"n"`` \| ``"x"`` \| ``"y"``\>
 
 "jwk" (JSON Web Key) Header Parameter.
 

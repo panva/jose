@@ -19,9 +19,7 @@ The following specifications are implemented by `jose`
 The test suite utilizes examples defined in [RFC7520][spec-cookbook] to confirm its JOSE
 implementation is correct.
 
-## Support
-
-If you or your business use `jose`, please consider becoming a [sponsor][support-sponsor] so I can continue maintaining it and adding new features carefree.
+## [💗 Help the project](https://github.com/sponsors/panva)
 
 ## Documentation
 

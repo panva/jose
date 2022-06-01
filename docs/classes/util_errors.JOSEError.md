@@ -1,5 +1,7 @@
 # Class: JOSEError
 
+[💗 Help the project](https://github.com/sponsors/panva)
+
 A generic Error subclass that all other specific
 JOSE Error subclasses inherit from.
 
@@ -15,7 +17,7 @@ JOSE Error subclasses inherit from.
 
 ### Accessors
 
-- [code](util_errors.JOSEError.md#code)
+- [code](util_errors.JOSEError.md#code-1)
 
 ## Constructors
 

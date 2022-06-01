@@ -1,5 +1,7 @@
 # Interface: RemoteJWKSetOptions
 
+[💗 Help the project](https://github.com/sponsors/panva)
+
 Options for the remote JSON Web Key Set.
 
 ## Table of contents

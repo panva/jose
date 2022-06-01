@@ -1,5 +1,7 @@
 # Interface: DeflateFunction
 
+[💗 Help the project](https://github.com/sponsors/panva)
+
 ## Callable
 
 ### DeflateFunction

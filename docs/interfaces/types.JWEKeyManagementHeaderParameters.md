@@ -1,5 +1,7 @@
 # Interface: JWEKeyManagementHeaderParameters
 
+[💗 Help the project](https://github.com/sponsors/panva)
+
 Recognized JWE Key Management-related Header Parameters.
 
 ## Table of contents

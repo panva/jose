@@ -1,5 +1,7 @@
 # Type alias: KeyLike
 
+[💗 Help the project](https://github.com/sponsors/panva)
+
 Ƭ **KeyLike**: `Object`
 
 KeyLike are runtime-specific classes representing asymmetric keys or symmetric secrets.

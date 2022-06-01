@@ -1,5 +1,7 @@
 # Class: SignJWT
 
+[💗 Help the project](https://github.com/sponsors/panva)
+
 The SignJWT class is a utility for creating Compact JWS formatted JWT strings.
 
 **`example`** Usage
@@ -201,7 +203,7 @@ Signs and returns the JWT.
 
 | Name | Type | Description |
 | :------ | :------ | :------ |
-| `key` | [`KeyLike`](../types/types.KeyLike.md) \| `Uint8Array` | Private Key or Secret to sign the JWT with. |
+| `key` | `Uint8Array` \| [`KeyLike`](../types/types.KeyLike.md) | Private Key or Secret to sign the JWT with. |
 | `options?` | [`SignOptions`](../interfaces/types.SignOptions.md) | JWT Sign options. |
 
 #### Returns

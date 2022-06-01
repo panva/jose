@@ -1,11 +1,13 @@
 # Module: jws/flattened/verify
 
+[💗 Help the project](https://github.com/sponsors/panva)
+
 ## Table of contents
-
-### Interfaces
-
-- [FlattenedVerifyGetKey](../interfaces/jws_flattened_verify.FlattenedVerifyGetKey.md)
 
 ### Functions
 
 - [flattenedVerify](../functions/jws_flattened_verify.flattenedVerify.md)
+
+### Interfaces
+
+- [FlattenedVerifyGetKey](../interfaces/jws_flattened_verify.FlattenedVerifyGetKey.md)

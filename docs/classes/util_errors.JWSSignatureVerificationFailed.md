@@ -1,5 +1,7 @@
 # Class: JWSSignatureVerificationFailed
 
+[💗 Help the project](https://github.com/sponsors/panva)
+
 An error subclass thrown when JWS signature verification fails.
 
 ## Table of contents
@@ -15,7 +17,7 @@ An error subclass thrown when JWS signature verification fails.
 
 ### Accessors
 
-- [code](util_errors.JWSSignatureVerificationFailed.md#code)
+- [code](util_errors.JWSSignatureVerificationFailed.md#code-1)
 
 ## Constructors
 
@@ -48,8 +50,6 @@ ___
 ### code
 
 • `Static` `get` **code**(): ``"ERR_JWS_SIGNATURE_VERIFICATION_FAILED"``
-
-A unique error code for the particular error subclass.
 
 #### Returns
 

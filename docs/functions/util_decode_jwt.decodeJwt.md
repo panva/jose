@@ -1,5 +1,7 @@
 # Function: decodeJwt
 
+[💗 Help the project](https://github.com/sponsors/panva)
+
 ▸ **decodeJwt**(`jwt`): [`JWTPayload`](../interfaces/types.JWTPayload.md)
 
 Decodes a signed JSON Web Token payload. This does not validate the JWT Claims Set

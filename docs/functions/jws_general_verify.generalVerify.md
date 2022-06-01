@@ -1,5 +1,7 @@
 # Function: generalVerify
 
+[💗 Help the project](https://github.com/sponsors/panva)
+
 ▸ **generalVerify**(`jws`, `key`, `options?`): `Promise`<[`GeneralVerifyResult`](../interfaces/types.GeneralVerifyResult.md)\>
 
 Verifies the signature and format of and afterwards decodes the General JWS.
@@ -27,7 +29,7 @@ console.log(new TextDecoder().decode(payload))
 | Name | Type | Description |
 | :------ | :------ | :------ |
 | `jws` | [`GeneralJWSInput`](../interfaces/types.GeneralJWSInput.md) | General JWS. |
-| `key` | [`KeyLike`](../types/types.KeyLike.md) \| `Uint8Array` | Key to verify the JWS with. |
+| `key` | `Uint8Array` \| [`KeyLike`](../types/types.KeyLike.md) | Key to verify the JWS with. |
 | `options?` | [`VerifyOptions`](../interfaces/types.VerifyOptions.md) | JWS Verify options. |
 
 #### Returns

@@ -1,5 +1,7 @@
 # Function: jwtDecrypt
 
+[💗 Help the project](https://github.com/sponsors/panva)
+
 ▸ **jwtDecrypt**(`jwt`, `key`, `options?`): `Promise`<[`JWTDecryptResult`](../interfaces/types.JWTDecryptResult.md)\>
 
 Verifies the JWT format (to be a JWE Compact format), decrypts the ciphertext, validates the JWT Claims Set.
@@ -22,7 +24,7 @@ console.log(payload)
 | Name | Type | Description |
 | :------ | :------ | :------ |
 | `jwt` | `string` \| `Uint8Array` | JSON Web Token value (encoded as JWE). |
-| `key` | [`KeyLike`](../types/types.KeyLike.md) \| `Uint8Array` | Private Key or Secret to decrypt and verify the JWT with. |
+| `key` | `Uint8Array` \| [`KeyLike`](../types/types.KeyLike.md) | Private Key or Secret to decrypt and verify the JWT with. |
 | `options?` | [`JWTDecryptOptions`](../interfaces/jwt_decrypt.JWTDecryptOptions.md) | JWT Decryption and JWT Claims Set validation options. |
 
 #### Returns

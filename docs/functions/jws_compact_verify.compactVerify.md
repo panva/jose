@@ -1,5 +1,7 @@
 # Function: compactVerify
 
+[💗 Help the project](https://github.com/sponsors/panva)
+
 ▸ **compactVerify**(`jws`, `key`, `options?`): `Promise`<[`CompactVerifyResult`](../interfaces/types.CompactVerifyResult.md)\>
 
 Verifies the signature and format of and afterwards decodes the Compact JWS.
@@ -19,7 +21,7 @@ console.log(new TextDecoder().decode(payload))
 | Name | Type | Description |
 | :------ | :------ | :------ |
 | `jws` | `string` \| `Uint8Array` | Compact JWS. |
-| `key` | [`KeyLike`](../types/types.KeyLike.md) \| `Uint8Array` | Key to verify the JWS with. |
+| `key` | `Uint8Array` \| [`KeyLike`](../types/types.KeyLike.md) | Key to verify the JWS with. |
 | `options?` | [`VerifyOptions`](../interfaces/types.VerifyOptions.md) | JWS Verify options. |
 
 #### Returns

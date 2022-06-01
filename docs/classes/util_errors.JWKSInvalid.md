@@ -1,5 +1,7 @@
 # Class: JWKSInvalid
 
+[💗 Help the project](https://github.com/sponsors/panva)
+
 An error subclass thrown when a JWKS is invalid.
 
 ## Table of contents
@@ -14,7 +16,7 @@ An error subclass thrown when a JWKS is invalid.
 
 ### Accessors
 
-- [code](util_errors.JWKSInvalid.md#code)
+- [code](util_errors.JWKSInvalid.md#code-1)
 
 ## Constructors
 
@@ -41,8 +43,6 @@ A unique error code for the particular error subclass.
 ### code
 
 • `Static` `get` **code**(): ``"ERR_JWKS_INVALID"``
-
-A unique error code for the particular error subclass.
 
 #### Returns
 

@@ -1,5 +1,7 @@
 # Function: generateSecret
 
+[💗 Help the project](https://github.com/sponsors/panva)
+
 ▸ **generateSecret**(`alg`, `options?`): `Promise`<[`KeyLike`](../types/types.KeyLike.md) \| `Uint8Array`\>
 
 Generates a symmetric secret key for a given JWA algorithm identifier.
