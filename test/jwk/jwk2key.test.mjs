@@ -221,14 +221,14 @@ const ed25519 = {
   d: 'FRaWZohbbDyzhYpTCS9m4fv2xoK6HG83bw6jq6zNxEs',
   kty: 'OKP',
 }
-conditional({ webcrypto: 1 })(testKeyImportExport, { ...ed25519, alg: 'EdDSA' })
+conditional({ webcrypto: 0 })(testKeyImportExport, { ...ed25519, alg: 'EdDSA' })
 const ed448 = {
   crv: 'Ed448',
   x: 'KYWcaDwgH77xdAwcbzOgvCVcGMy9I6prRQBhQTTdKXUcr-VquTz7Fd5adJO0wT2VHysF3bk3kBoA',
   d: 'UhC3-vN5vp_g9PnTknXZgfXUez7Xvw-OfuJ0pYkuwzpYkcTvacqoFkV_O05WMHpyXkzH9q2wzx5n',
   kty: 'OKP',
 }
-conditional({ webcrypto: 1, electron: 0 })(testKeyImportExport, { ...ed448, alg: 'EdDSA' })
+conditional({ webcrypto: 0, electron: 0 })(testKeyImportExport, { ...ed448, alg: 'EdDSA' })
 const x25519 = {
   crv: 'X25519',
   x: 'axR8Q7PEd74nY9nWaAoAYpMe3gp5sWbau6V6X1inPw4',

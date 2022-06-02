@@ -156,16 +156,16 @@ for (const alg of ['ES256K']) {
 }
 
 for (const alg of ['EdDSA']) {
-  test(`import SPKI ed25519 for ${alg}`, testSPKI, keys.ed25519.publicKey, alg)
-  test(`import X509 ed25519 for ${alg}`, testX509, keys.ed25519.certificate, alg)
-  test(`import PKCS8 ed25519 for ${alg}`, testPKCS8, keys.ed25519.privateKey, alg)
-  conditional({ webcrypto: 1, electron: 0 })(
+  conditional({ webcrypto: 0 })(`import SPKI ed25519 for ${alg}`, testSPKI, keys.ed25519.publicKey, alg)
+  conditional({ webcrypto: 0 })(`import X509 ed25519 for ${alg}`, testX509, keys.ed25519.certificate, alg)
+  conditional({ webcrypto: 0 })(`import PKCS8 ed25519 for ${alg}`, testPKCS8, keys.ed25519.privateKey, alg)
+  conditional({ webcrypto: 0, electron: 0 })(
     `import SPKI ed448 for ${alg}`,
     testSPKI,
     keys.ed448.publicKey,
     alg,
   )
-  conditional({ webcrypto: 1, electron: 0 })(
+  conditional({ webcrypto: 0, electron: 0 })(
     `import PKCS8 ed448 for ${alg}`,
     testPKCS8,
     keys.ed448.privateKey,

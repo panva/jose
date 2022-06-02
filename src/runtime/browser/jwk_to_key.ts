@@ -1,4 +1,4 @@
-import { isCloudflareWorkers, isNodeJs } from './env.js'
+import { isCloudflareWorkers } from './env.js'
 import crypto from './webcrypto.js'
 import type { JWKImportFunction } from '../interfaces.d'
 import { JOSENotSupported } from '../../util/errors.js'
@@ -106,17 +106,13 @@ function subtleMapping(jwk: JWK): {
       }
       break
     }
-    case (isCloudflareWorkers() || isNodeJs()) && 'OKP':
+    case isCloudflareWorkers() && 'OKP':
       if (jwk.alg !== 'EdDSA') {
         throw new JOSENotSupported('Invalid or unsupported JWK "alg" (Algorithm) Parameter value')
       }
       switch (jwk.crv) {
         case 'Ed25519':
           algorithm = { name: 'NODE-ED25519', namedCurve: 'NODE-ED25519' }
-          keyUsages = jwk.d ? ['sign'] : ['verify']
-          break
-        case isNodeJs() && 'Ed448':
-          algorithm = { name: 'NODE-ED448', namedCurve: 'NODE-ED448' }
           keyUsages = jwk.d ? ['sign'] : ['verify']
           break
         default:
