@@ -117,9 +117,7 @@ export async function generateKeyPair(alg: string, options?: GenerateKeyPairOpti
           keyUsages = ['sign', 'verify']
           break
         default:
-          throw new JOSENotSupported(
-            'Invalid or unsupported crv option provided',
-          )
+          throw new JOSENotSupported('Invalid or unsupported crv option provided')
       }
       break
     case 'ECDH-ES':
