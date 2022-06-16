@@ -4,7 +4,7 @@
 
 ▸ **exportPKCS8**(`key`): `Promise`<`string`\>
 
-Exports a runtime-specific private key representation (KeyObject or CryptoKey) to an PEM-encoded PKCS8 string format.
+Exports a runtime-specific private key representation (KeyObject or CryptoKey) to a PEM-encoded PKCS8 string format.
 
 **`example`** Usage
 ```js
@@ -17,7 +17,7 @@ console.log(pkcs8Pem)
 
 | Name | Type | Description |
 | :------ | :------ | :------ |
-| `key` | [`KeyLike`](../types/types.KeyLike.md) | Key representation to transform to an PEM-encoded PKCS8 string format. |
+| `key` | [`KeyLike`](../types/types.KeyLike.md) | Key representation to transform to a PEM-encoded PKCS8 string format. |
 
 #### Returns
 

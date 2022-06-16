@@ -5,9 +5,9 @@ import keyToJWK from '../runtime/key_to_jwk.js'
 import type { JWK, KeyLike } from '../types.d'
 
 /**
- * Exports a runtime-specific public key representation (KeyObject or CryptoKey) to an PEM-encoded SPKI string format.
+ * Exports a runtime-specific public key representation (KeyObject or CryptoKey) to a PEM-encoded SPKI string format.
  *
- * @param key Key representation to transform to an PEM-encoded SPKI string format.
+ * @param key Key representation to transform to a PEM-encoded SPKI string format.
  *
  * @example Usage
  * ```js
@@ -21,9 +21,9 @@ export async function exportSPKI(key: KeyLike): Promise<string> {
 }
 
 /**
- * Exports a runtime-specific private key representation (KeyObject or CryptoKey) to an PEM-encoded PKCS8 string format.
+ * Exports a runtime-specific private key representation (KeyObject or CryptoKey) to a PEM-encoded PKCS8 string format.
  *
- * @param key Key representation to transform to an PEM-encoded PKCS8 string format.
+ * @param key Key representation to transform to a PEM-encoded PKCS8 string format.
  *
  * @example Usage
  * ```js

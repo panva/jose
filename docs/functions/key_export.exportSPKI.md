@@ -4,7 +4,7 @@
 
 ▸ **exportSPKI**(`key`): `Promise`<`string`\>
 
-Exports a runtime-specific public key representation (KeyObject or CryptoKey) to an PEM-encoded SPKI string format.
+Exports a runtime-specific public key representation (KeyObject or CryptoKey) to a PEM-encoded SPKI string format.
 
 **`example`** Usage
 ```js
@@ -17,7 +17,7 @@ console.log(spkiPem)
 
 | Name | Type | Description |
 | :------ | :------ | :------ |
-| `key` | [`KeyLike`](../types/types.KeyLike.md) | Key representation to transform to an PEM-encoded SPKI string format. |
+| `key` | [`KeyLike`](../types/types.KeyLike.md) | Key representation to transform to a PEM-encoded SPKI string format. |
 
 #### Returns
 
