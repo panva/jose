@@ -152,7 +152,6 @@
   },
   "devDependencies": {
     "@types/node": "^16.11.1",
-    "@typescript/lib-dom": "npm:@types/web",
     "ava": "^3.15.0",
     "bowser": "^2.11.0",
     "c8": "^7.10.0",
