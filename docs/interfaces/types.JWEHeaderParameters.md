@@ -2,8 +2,7 @@
 
 [💗 Help the project](https://github.com/sponsors/panva)
 
-Recognized JWE Header Parameters, any other Header members
-may also be present.
+Recognized JWE Header Parameters, any other Header members may also be present.
 
 ## Table of contents
 

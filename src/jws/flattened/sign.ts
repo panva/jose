@@ -12,11 +12,10 @@ import validateCrit from '../../lib/validate_crit.js'
  * The FlattenedSign class is a utility for creating Flattened JWS objects.
  *
  * @example Usage
+ *
  * ```js
  * const jws = await new jose.FlattenedSign(
- *   new TextEncoder().encode(
- *     'It’s a dangerous business, Frodo, going out your door.'
- *   )
+ *   new TextEncoder().encode('It’s a dangerous business, Frodo, going out your door.'),
  * )
  *   .setProtectedHeader({ alg: 'ES256' })
  *   .sign(privateKey)
@@ -31,9 +30,7 @@ export class FlattenedSign {
 
   private _unprotectedHeader!: JWSHeaderParameters
 
-  /**
-   * @param payload Binary representation of the payload to sign.
-   */
+  /** @param payload Binary representation of the payload to sign. */
   constructor(payload: Uint8Array) {
     if (!(payload instanceof Uint8Array)) {
       throw new TypeError('payload must be an instance of Uint8Array')

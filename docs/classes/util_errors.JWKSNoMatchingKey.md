@@ -51,6 +51,8 @@ ___
 
 • `Static` `get` **code**(): ``"ERR_JWKS_NO_MATCHING_KEY"``
 
+A unique error code for the particular error subclass.
+
 #### Returns
 
 ``"ERR_JWKS_NO_MATCHING_KEY"``

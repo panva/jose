@@ -44,6 +44,8 @@ A unique error code for the particular error subclass.
 
 • `Static` `get` **code**(): ``"ERR_JOSE_ALG_NOT_ALLOWED"``
 
+A unique error code for the particular error subclass.
+
 #### Returns
 
 ``"ERR_JOSE_ALG_NOT_ALLOWED"``

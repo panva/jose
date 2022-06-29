@@ -5,11 +5,10 @@ import type { CompactJWSHeaderParameters, KeyLike, SignOptions } from '../../typ
  * The CompactSign class is a utility for creating Compact JWS strings.
  *
  * @example Usage
+ *
  * ```js
  * const jws = await new jose.CompactSign(
- *   new TextEncoder().encode(
- *     'It’s a dangerous business, Frodo, going out your door.'
- *   )
+ *   new TextEncoder().encode('It’s a dangerous business, Frodo, going out your door.'),
  * )
  *   .setProtectedHeader({ alg: 'ES256' })
  *   .sign(privateKey)
@@ -20,9 +19,7 @@ import type { CompactJWSHeaderParameters, KeyLike, SignOptions } from '../../typ
 export class CompactSign {
   private _flattened: FlattenedSign
 
-  /**
-   * @param payload Binary representation of the payload to sign.
-   */
+  /** @param payload Binary representation of the payload to sign. */
   constructor(payload: Uint8Array) {
     this._flattened = new FlattenedSign(payload)
   }

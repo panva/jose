@@ -12,10 +12,11 @@ import type {
 } from '../../types.d'
 
 /**
- * Interface for Compact JWS Verification dynamic key resolution.
- * No token components have been verified at the time of this function call.
+ * Interface for Compact JWS Verification dynamic key resolution. No token components have been
+ * verified at the time of this function call.
  *
- * See [createRemoteJWKSet](../functions/jwks_remote.createRemoteJWKSet.md#function-createremotejwkset)
+ * See
+ * [createRemoteJWKSet](../functions/jwks_remote.createRemoteJWKSet.md#function-createremotejwkset)
  * to verify using a remote JSON Web Key Set.
  */
 export interface CompactVerifyGetKey
@@ -24,19 +25,21 @@ export interface CompactVerifyGetKey
 /**
  * Verifies the signature and format of and afterwards decodes the Compact JWS.
  *
- * @param jws Compact JWS.
- * @param key Key to verify the JWS with.
- * @param options JWS Verify options.
- *
  * @example Usage
+ *
  * ```js
- * const jws = 'eyJhbGciOiJFUzI1NiJ9.SXTigJlzIGEgZGFuZ2Vyb3VzIGJ1c2luZXNzLCBGcm9kbywgZ29pbmcgb3V0IHlvdXIgZG9vci4.kkAs_gPPxWMI3rHuVlxHaTPfDWDoqdI8jSvuSmqV-8IHIWXg9mcAeC9ggV-45ZHRbiRJ3obUIFo1rHphPA5URg'
+ * const jws =
+ *   'eyJhbGciOiJFUzI1NiJ9.SXTigJlzIGEgZGFuZ2Vyb3VzIGJ1c2luZXNzLCBGcm9kbywgZ29pbmcgb3V0IHlvdXIgZG9vci4.kkAs_gPPxWMI3rHuVlxHaTPfDWDoqdI8jSvuSmqV-8IHIWXg9mcAeC9ggV-45ZHRbiRJ3obUIFo1rHphPA5URg'
  *
  * const { payload, protectedHeader } = await jose.compactVerify(jws, publicKey)
  *
  * console.log(protectedHeader)
  * console.log(new TextDecoder().decode(payload))
  * ```
+ *
+ * @param jws Compact JWS.
+ * @param key Key to verify the JWS with.
+ * @param options JWS Verify options.
  */
 export function compactVerify(
   jws: string | Uint8Array,

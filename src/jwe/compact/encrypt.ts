@@ -10,11 +10,10 @@ import type {
  * The CompactEncrypt class is a utility for creating Compact JWE strings.
  *
  * @example Usage
+ *
  * ```js
  * const jwe = await new jose.CompactEncrypt(
- *   new TextEncoder().encode(
- *     'It’s a dangerous business, Frodo, going out your door.'
- *   )
+ *   new TextEncoder().encode('It’s a dangerous business, Frodo, going out your door.'),
  * )
  *   .setProtectedHeader({ alg: 'RSA-OAEP-256', enc: 'A256GCM' })
  *   .encrypt(publicKey)
@@ -25,21 +24,18 @@ import type {
 export class CompactEncrypt {
   private _flattened: FlattenedEncrypt
 
-  /**
-   * @param plaintext Binary representation of the plaintext to encrypt.
-   */
+  /** @param plaintext Binary representation of the plaintext to encrypt. */
   constructor(plaintext: Uint8Array) {
     this._flattened = new FlattenedEncrypt(plaintext)
   }
 
   /**
-   * Sets a content encryption key to use, by default a random suitable one
-   * is generated for the JWE enc" (Encryption Algorithm) Header Parameter.
+   * Sets a content encryption key to use, by default a random suitable one is generated for the JWE
+   * enc" (Encryption Algorithm) Header Parameter.
    *
+   * @deprecated You should not use this method. It is only really intended for test and vector
+   *   validation purposes.
    * @param cek JWE Content Encryption Key.
-   *
-   * @deprecated You should not use this method. It is only really intended
-   * for test and vector validation purposes.
    */
   setContentEncryptionKey(cek: Uint8Array) {
     this._flattened.setContentEncryptionKey(cek)
@@ -47,14 +43,12 @@ export class CompactEncrypt {
   }
 
   /**
-   * Sets the JWE Initialization Vector to use for content encryption, by default
-   * a random suitable one is generated for the JWE enc" (Encryption Algorithm)
-   * Header Parameter.
+   * Sets the JWE Initialization Vector to use for content encryption, by default a random suitable
+   * one is generated for the JWE enc" (Encryption Algorithm) Header Parameter.
    *
+   * @deprecated You should not use this method. It is only really intended for test and vector
+   *   validation purposes.
    * @param iv JWE Initialization Vector.
-   *
-   * @deprecated You should not use this method. It is only really intended
-   * for test and vector validation purposes.
    */
   setInitializationVector(iv: Uint8Array) {
     this._flattened.setInitializationVector(iv)
@@ -72,9 +66,9 @@ export class CompactEncrypt {
   }
 
   /**
-   * Sets the JWE Key Management parameters to be used when encrypting the Content
-   * Encryption Key. You do not need to invoke this method, it is only really
-   * intended for test and vector validation purposes.
+   * Sets the JWE Key Management parameters to be used when encrypting the Content Encryption Key.
+   * You do not need to invoke this method, it is only really intended for test and vector
+   * validation purposes.
    *
    * @param parameters JWE Key Management parameters.
    */

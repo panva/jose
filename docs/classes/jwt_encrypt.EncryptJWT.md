@@ -5,6 +5,7 @@
 The EncryptJWT class is a utility for creating Compact JWE formatted JWT strings.
 
 **`example`** Usage
+
 ```js
 const jwt = await new jose.EncryptJWT({ 'urn:example:claim': true })
   .setProtectedHeader({ alg: 'dir', enc: 'A256GCM' })
@@ -135,11 +136,11 @@ ___
 
 ▸ **setContentEncryptionKey**(`cek`): [`EncryptJWT`](jwt_encrypt.EncryptJWT.md)
 
-Sets a content encryption key to use, by default a random suitable one
-is generated for the JWE enc" (Encryption Algorithm) Header Parameter.
+Sets a content encryption key to use, by default a random suitable one is generated for the JWE
+enc" (Encryption Algorithm) Header Parameter.
 
-**`deprecated`** You should not use this method. It is only really intended
-for test and vector validation purposes.
+**`deprecated`** You should not use this method. It is only really intended for test and vector
+  validation purposes.
 
 #### Parameters
 
@@ -163,7 +164,7 @@ Set "exp" (Expiration Time) Claim.
 
 | Name | Type | Description |
 | :------ | :------ | :------ |
-| `input` | `string` \| `number` | "exp" (Expiration Time) Claim value to set on the JWT Claims Set. When number is passed that is used as a value, when string is passed it is resolved to a time span and added to the current timestamp. |
+| `input` | `string` \| `number` | "exp" (Expiration Time) Claim value to set on the JWT Claims Set. When number is   passed that is used as a value, when string is passed it is resolved to a time span and added   to the current timestamp. |
 
 #### Returns
 
@@ -175,12 +176,11 @@ ___
 
 ▸ **setInitializationVector**(`iv`): [`EncryptJWT`](jwt_encrypt.EncryptJWT.md)
 
-Sets the JWE Initialization Vector to use for content encryption, by default
-a random suitable one is generated for the JWE enc" (Encryption Algorithm)
-Header Parameter.
+Sets the JWE Initialization Vector to use for content encryption, by default a random suitable
+one is generated for the JWE enc" (Encryption Algorithm) Header Parameter.
 
-**`deprecated`** You should not use this method. It is only really intended
-for test and vector validation purposes.
+**`deprecated`** You should not use this method. It is only really intended for test and vector
+  validation purposes.
 
 #### Parameters
 
@@ -252,10 +252,10 @@ ___
 
 ▸ **setKeyManagementParameters**(`parameters`): [`EncryptJWT`](jwt_encrypt.EncryptJWT.md)
 
-Sets the JWE Key Management parameters to be used when encrypting.
-Use of this is method is really only needed for ECDH based algorithms
-when utilizing the Agreement PartyUInfo or Agreement PartyVInfo parameters.
-Other parameters will always be randomly generated when needed and missing.
+Sets the JWE Key Management parameters to be used when encrypting. Use of this is method is
+really only needed for ECDH based algorithms when utilizing the Agreement PartyUInfo or
+Agreement PartyVInfo parameters. Other parameters will always be randomly generated when needed
+and missing.
 
 #### Parameters
 
@@ -279,7 +279,7 @@ Set "nbf" (Not Before) Claim.
 
 | Name | Type | Description |
 | :------ | :------ | :------ |
-| `input` | `string` \| `number` | "nbf" (Not Before) Claim value to set on the JWT Claims Set. When number is passed that is used as a value, when string is passed it is resolved to a time span and added to the current timestamp. |
+| `input` | `string` \| `number` | "nbf" (Not Before) Claim value to set on the JWT Claims Set. When number is passed   that is used as a value, when string is passed it is resolved to a time span and added to the   current timestamp. |
 
 #### Returns
 
@@ -297,7 +297,7 @@ Sets the JWE Protected Header on the EncryptJWT object.
 
 | Name | Type | Description |
 | :------ | :------ | :------ |
-| `protectedHeader` | [`CompactJWEHeaderParameters`](../interfaces/types.CompactJWEHeaderParameters.md) | JWE Protected Header. Must contain an "alg" (JWE Algorithm) and "enc" (JWE Encryption Algorithm) properties. |
+| `protectedHeader` | [`CompactJWEHeaderParameters`](../interfaces/types.CompactJWEHeaderParameters.md) | JWE Protected Header. Must contain an "alg" (JWE Algorithm) and "enc"   (JWE Encryption Algorithm) properties. |
 
 #### Returns
 

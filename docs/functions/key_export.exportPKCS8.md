@@ -4,9 +4,11 @@
 
 ▸ **exportPKCS8**(`key`): `Promise`<`string`\>
 
-Exports a runtime-specific private key representation (KeyObject or CryptoKey) to a PEM-encoded PKCS8 string format.
+Exports a runtime-specific private key representation (KeyObject or CryptoKey) to a PEM-encoded
+PKCS8 string format.
 
 **`example`** Usage
+
 ```js
 const pkcs8Pem = await jose.exportPKCS8(privateKey)
 

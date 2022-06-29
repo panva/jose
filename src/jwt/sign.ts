@@ -8,6 +8,7 @@ import { ProduceJWT } from './produce.js'
  * The SignJWT class is a utility for creating Compact JWS formatted JWT strings.
  *
  * @example Usage
+ *
  * ```js
  * const jwt = await new jose.SignJWT({ 'urn:example:claim': true })
  *   .setProtectedHeader({ alg: 'ES256' })
@@ -26,8 +27,7 @@ export class SignJWT extends ProduceJWT {
   /**
    * Sets the JWS Protected Header on the SignJWT object.
    *
-   * @param protectedHeader JWS Protected Header.
-   * Must contain an "alg" (JWS Algorithm) property.
+   * @param protectedHeader JWS Protected Header. Must contain an "alg" (JWS Algorithm) property.
    */
   setProtectedHeader(protectedHeader: JWTHeaderParameters) {
     this._protectedHeader = protectedHeader

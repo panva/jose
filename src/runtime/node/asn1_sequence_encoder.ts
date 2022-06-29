@@ -34,9 +34,7 @@ const oids = new Map<string, Buffer>([
   ['Ed448', Buffer.from('06 03 2B 65 71'.replace(/ /g, ''), 'hex')],
 ])
 
-/**
- * The end justifies the means.
- */
+/** The end justifies the means. */
 export default class DumbAsn1Encoder {
   length: number
 

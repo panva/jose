@@ -2,8 +2,7 @@
 
 [💗 Help the project](https://github.com/sponsors/panva)
 
-Recognized Compact JWS Header Parameters, any other Header Members
-may also be present.
+Recognized Compact JWS Header Parameters, any other Header Members may also be present.
 
 ## Table of contents
 
@@ -35,9 +34,8 @@ ___
 
 • `Optional` **b64**: `boolean`
 
-This JWS Extension Header Parameter modifies the JWS Payload
-representation and the JWS Signing Input computation as per
-[RFC7797](https://www.rfc-editor.org/rfc/rfc7797).
+This JWS Extension Header Parameter modifies the JWS Payload representation and the JWS Signing
+Input computation as per [RFC7797](https://www.rfc-editor.org/rfc/rfc7797).
 
 ___
 

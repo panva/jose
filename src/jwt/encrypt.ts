@@ -12,6 +12,7 @@ import { ProduceJWT } from './produce.js'
  * The EncryptJWT class is a utility for creating Compact JWE formatted JWT strings.
  *
  * @example Usage
+ *
  * ```js
  * const jwt = await new jose.EncryptJWT({ 'urn:example:claim': true })
  *   .setProtectedHeader({ alg: 'dir', enc: 'A256GCM' })
@@ -42,9 +43,8 @@ export class EncryptJWT extends ProduceJWT {
   /**
    * Sets the JWE Protected Header on the EncryptJWT object.
    *
-   * @param protectedHeader JWE Protected Header.
-   * Must contain an "alg" (JWE Algorithm) and "enc" (JWE
-   * Encryption Algorithm) properties.
+   * @param protectedHeader JWE Protected Header. Must contain an "alg" (JWE Algorithm) and "enc"
+   *   (JWE Encryption Algorithm) properties.
    */
   setProtectedHeader(protectedHeader: CompactJWEHeaderParameters) {
     if (this._protectedHeader) {
@@ -55,10 +55,10 @@ export class EncryptJWT extends ProduceJWT {
   }
 
   /**
-   * Sets the JWE Key Management parameters to be used when encrypting.
-   * Use of this is method is really only needed for ECDH based algorithms
-   * when utilizing the Agreement PartyUInfo or Agreement PartyVInfo parameters.
-   * Other parameters will always be randomly generated when needed and missing.
+   * Sets the JWE Key Management parameters to be used when encrypting. Use of this is method is
+   * really only needed for ECDH based algorithms when utilizing the Agreement PartyUInfo or
+   * Agreement PartyVInfo parameters. Other parameters will always be randomly generated when needed
+   * and missing.
    *
    * @param parameters JWE Key Management parameters.
    */
@@ -71,13 +71,12 @@ export class EncryptJWT extends ProduceJWT {
   }
 
   /**
-   * Sets a content encryption key to use, by default a random suitable one
-   * is generated for the JWE enc" (Encryption Algorithm) Header Parameter.
+   * Sets a content encryption key to use, by default a random suitable one is generated for the JWE
+   * enc" (Encryption Algorithm) Header Parameter.
    *
+   * @deprecated You should not use this method. It is only really intended for test and vector
+   *   validation purposes.
    * @param cek JWE Content Encryption Key.
-   *
-   * @deprecated You should not use this method. It is only really intended
-   * for test and vector validation purposes.
    */
   setContentEncryptionKey(cek: Uint8Array) {
     if (this._cek) {
@@ -88,14 +87,12 @@ export class EncryptJWT extends ProduceJWT {
   }
 
   /**
-   * Sets the JWE Initialization Vector to use for content encryption, by default
-   * a random suitable one is generated for the JWE enc" (Encryption Algorithm)
-   * Header Parameter.
+   * Sets the JWE Initialization Vector to use for content encryption, by default a random suitable
+   * one is generated for the JWE enc" (Encryption Algorithm) Header Parameter.
    *
+   * @deprecated You should not use this method. It is only really intended for test and vector
+   *   validation purposes.
    * @param iv JWE Initialization Vector.
-   *
-   * @deprecated You should not use this method. It is only really intended
-   * for test and vector validation purposes.
    */
   setInitializationVector(iv: Uint8Array) {
     if (this._iv) {

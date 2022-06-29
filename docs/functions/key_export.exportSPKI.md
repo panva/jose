@@ -4,9 +4,11 @@
 
 ▸ **exportSPKI**(`key`): `Promise`<`string`\>
 
-Exports a runtime-specific public key representation (KeyObject or CryptoKey) to a PEM-encoded SPKI string format.
+Exports a runtime-specific public key representation (KeyObject or CryptoKey) to a PEM-encoded
+SPKI string format.
 
 **`example`** Usage
+
 ```js
 const spkiPem = await jose.exportSPKI(publicKey)
 

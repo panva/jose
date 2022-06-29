@@ -7,6 +7,7 @@
 Decodes the Protected Header of a JWE/JWS/JWT token utilizing any JOSE serialization.
 
 **`example`** Usage
+
 ```js
 const protectedHeader = jose.decodeProtectedHeader(token)
 console.log(protectedHeader)

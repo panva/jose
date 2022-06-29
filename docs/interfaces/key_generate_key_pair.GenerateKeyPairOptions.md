@@ -16,9 +16,8 @@
 
 • `Optional` **crv**: `string`
 
-The EC "crv" (Curve) or OKP "crv" (Subtype of Key Pair) value to generate.
-The curve must be both supported on the runtime as well as applicable for
-the given JWA algorithm identifier.
+The EC "crv" (Curve) or OKP "crv" (Subtype of Key Pair) value to generate. The curve must be
+both supported on the runtime as well as applicable for the given JWA algorithm identifier.
 
 ___
 
@@ -36,5 +35,5 @@ ___
 
 • `Optional` **modulusLength**: `number`
 
-A hint for RSA algorithms to generate an RSA key of a given `modulusLength`
-(Key size in bits). JOSE requires 2048 bits or larger. Default is 2048.
+A hint for RSA algorithms to generate an RSA key of a given `modulusLength` (Key size in bits).
+JOSE requires 2048 bits or larger. Default is 2048.

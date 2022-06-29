@@ -7,12 +7,14 @@
 Verifies the signature and format of and afterwards decodes the Flattened JWS.
 
 **`example`** Usage
+
 ```js
 const decoder = new TextDecoder()
 const jws = {
-  signature: 'FVVOXwj6kD3DqdfD9yYqfT2W9jv-Nop4kOehp_DeDGNB5dQNSPRvntBY6xH3uxlCxE8na9d_kyhYOcanpDJ0EA',
+  signature:
+    'FVVOXwj6kD3DqdfD9yYqfT2W9jv-Nop4kOehp_DeDGNB5dQNSPRvntBY6xH3uxlCxE8na9d_kyhYOcanpDJ0EA',
   payload: 'SXTigJlzIGEgZGFuZ2Vyb3VzIGJ1c2luZXNzLCBGcm9kbywgZ29pbmcgb3V0IHlvdXIgZG9vci4',
-  protected: 'eyJhbGciOiJFUzI1NiJ9'
+  protected: 'eyJhbGciOiJFUzI1NiJ9',
 }
 
 const { payload, protectedHeader } = await jose.flattenedVerify(jws, publicKey)

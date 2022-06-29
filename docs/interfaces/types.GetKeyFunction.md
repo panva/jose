@@ -15,8 +15,8 @@
 
 ▸ **GetKeyFunction**(`protectedHeader`, `token`): `Uint8Array` \| [`KeyLike`](../types/types.KeyLike.md) \| `Promise`<`Uint8Array` \| [`KeyLike`](../types/types.KeyLike.md)\>
 
-Generic Interface for consuming operations dynamic key resolution.
-No token components have been verified at the time of this function call.
+Generic Interface for consuming operations dynamic key resolution. No token components have been
+verified at the time of this function call.
 
 If you cannot match a key suitable for the token, throw an error instead.
 

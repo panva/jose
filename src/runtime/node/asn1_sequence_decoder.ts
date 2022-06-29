@@ -1,9 +1,7 @@
 const tagInteger = 0x02
 const tagSequence = 0x30
 
-/**
- * The end justifies the means.
- */
+/** The end justifies the means. */
 export default class Asn1SequenceDecoder {
   buffer: Buffer
 

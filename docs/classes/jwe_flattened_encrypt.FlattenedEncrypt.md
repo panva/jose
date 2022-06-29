@@ -2,15 +2,13 @@
 
 [💗 Help the project](https://github.com/sponsors/panva)
 
-The FlattenedEncrypt class is a utility for creating Flattened JWE
-objects.
+The FlattenedEncrypt class is a utility for creating Flattened JWE objects.
 
 **`example`** Usage
+
 ```js
 const jwe = await new jose.FlattenedEncrypt(
-  new TextEncoder().encode(
-    'It’s a dangerous business, Frodo, going out your door.'
-  )
+  new TextEncoder().encode('It’s a dangerous business, Frodo, going out your door.'),
 )
   .setProtectedHeader({ alg: 'RSA-OAEP-256', enc: 'A256GCM' })
   .setAdditionalAuthenticatedData(encoder.encode('The Fellowship of the Ring'))
@@ -91,11 +89,11 @@ ___
 
 ▸ **setContentEncryptionKey**(`cek`): [`FlattenedEncrypt`](jwe_flattened_encrypt.FlattenedEncrypt.md)
 
-Sets a content encryption key to use, by default a random suitable one
-is generated for the JWE enc" (Encryption Algorithm) Header Parameter.
+Sets a content encryption key to use, by default a random suitable one is generated for the JWE
+enc" (Encryption Algorithm) Header Parameter.
 
-**`deprecated`** You should not use this method. It is only really intended
-for test and vector validation purposes.
+**`deprecated`** You should not use this method. It is only really intended for test and vector
+  validation purposes.
 
 #### Parameters
 
@@ -113,12 +111,11 @@ ___
 
 ▸ **setInitializationVector**(`iv`): [`FlattenedEncrypt`](jwe_flattened_encrypt.FlattenedEncrypt.md)
 
-Sets the JWE Initialization Vector to use for content encryption, by default
-a random suitable one is generated for the JWE enc" (Encryption Algorithm)
-Header Parameter.
+Sets the JWE Initialization Vector to use for content encryption, by default a random suitable
+one is generated for the JWE enc" (Encryption Algorithm) Header Parameter.
 
-**`deprecated`** You should not use this method. It is only really intended
-for test and vector validation purposes.
+**`deprecated`** You should not use this method. It is only really intended for test and vector
+  validation purposes.
 
 #### Parameters
 
@@ -136,10 +133,10 @@ ___
 
 ▸ **setKeyManagementParameters**(`parameters`): [`FlattenedEncrypt`](jwe_flattened_encrypt.FlattenedEncrypt.md)
 
-Sets the JWE Key Management parameters to be used when encrypting.
-Use of this is method is really only needed for ECDH based algorithms
-when utilizing the Agreement PartyUInfo or Agreement PartyVInfo parameters.
-Other parameters will always be randomly generated when needed and missing.
+Sets the JWE Key Management parameters to be used when encrypting. Use of this is method is
+really only needed for ECDH based algorithms when utilizing the Agreement PartyUInfo or
+Agreement PartyVInfo parameters. Other parameters will always be randomly generated when needed
+and missing.
 
 #### Parameters
 

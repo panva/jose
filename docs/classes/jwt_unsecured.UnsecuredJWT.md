@@ -5,6 +5,7 @@
 The UnsecuredJWT class is a utility for dealing with `{ "alg": "none" }` Unsecured JWTs.
 
 **`example`** Encoding
+
 ```js
 const unsecuredJwt = new jose.UnsecuredJWT({ 'urn:example:claim': true })
   .setIssuedAt()
@@ -17,10 +18,11 @@ console.log(unsecuredJwt)
 ```
 
 **`example`** Decoding
+
 ```js
 const payload = jose.UnsecuredJWT.decode(jwt, {
   issuer: 'urn:example:issuer',
-  audience: 'urn:example:audience'
+  audience: 'urn:example:audience',
 })
 
 console.log(payload)
@@ -117,7 +119,7 @@ Set "exp" (Expiration Time) Claim.
 
 | Name | Type | Description |
 | :------ | :------ | :------ |
-| `input` | `string` \| `number` | "exp" (Expiration Time) Claim value to set on the JWT Claims Set. When number is passed that is used as a value, when string is passed it is resolved to a time span and added to the current timestamp. |
+| `input` | `string` \| `number` | "exp" (Expiration Time) Claim value to set on the JWT Claims Set. When number is   passed that is used as a value, when string is passed it is resolved to a time span and added   to the current timestamp. |
 
 #### Returns
 
@@ -189,7 +191,7 @@ Set "nbf" (Not Before) Claim.
 
 | Name | Type | Description |
 | :------ | :------ | :------ |
-| `input` | `string` \| `number` | "nbf" (Not Before) Claim value to set on the JWT Claims Set. When number is passed that is used as a value, when string is passed it is resolved to a time span and added to the current timestamp. |
+| `input` | `string` \| `number` | "nbf" (Not Before) Claim value to set on the JWT Claims Set. When number is passed   that is used as a value, when string is passed it is resolved to a time span and added to the   current timestamp. |
 
 #### Returns
 

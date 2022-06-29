@@ -51,6 +51,8 @@ ___
 
 • `Static` `get` **code**(): ``"ERR_JWS_SIGNATURE_VERIFICATION_FAILED"``
 
+A unique error code for the particular error subclass.
+
 #### Returns
 
 ``"ERR_JWS_SIGNATURE_VERIFICATION_FAILED"``

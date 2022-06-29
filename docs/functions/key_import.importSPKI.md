@@ -4,11 +4,12 @@
 
 ▸ **importSPKI**(`spki`, `alg`, `options?`): `Promise`<[`KeyLike`](../types/types.KeyLike.md)\>
 
-Imports a PEM-encoded SPKI string as a runtime-specific public key representation (KeyObject or CryptoKey).
-See [Algorithm Key Requirements](https://github.com/panva/jose/issues/210) to learn about key to algorithm
-requirements and mapping.
+Imports a PEM-encoded SPKI string as a runtime-specific public key representation (KeyObject or
+CryptoKey). See [Algorithm Key Requirements](https://github.com/panva/jose/issues/210) to learn
+about key to algorithm requirements and mapping.
 
 **`example`** Usage
+
 ```js
 const algorithm = 'ES256'
 const spki = `-----BEGIN PUBLIC KEY-----

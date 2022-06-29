@@ -2,8 +2,7 @@
 
 [💗 Help the project](https://github.com/sponsors/panva)
 
-Recognized JWT Claims Set members, any other members
-may also be present.
+Recognized JWT Claims Set members, any other members may also be present.
 
 ## Table of contents
 

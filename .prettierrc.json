@@ -2,5 +2,10 @@
   "trailingComma": "all",
   "singleQuote": true,
   "printWidth": 100,
-  "semi": false
+  "semi": false,
+  "plugins": ["prettier-plugin-jsdoc"],
+  "tsdoc": true,
+  "jsdocSeparateReturnsFromParam": true,
+  "jsdocSeparateTagGroups": true,
+  "jsdocPrintWidth": 100
 }

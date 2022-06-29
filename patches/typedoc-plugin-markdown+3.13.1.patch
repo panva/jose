@@ -45,7 +45,7 @@ index 32c9e62..03a30b0 100644
  
  {{#if type.declaration.children}}
 diff --git a/node_modules/typedoc-plugin-markdown/dist/resources/partials/member.sources.hbs b/node_modules/typedoc-plugin-markdown/dist/resources/partials/member.sources.hbs
-index f642b49..89d6772 100644
+index f642b49..8b3c942 100644
 --- a/node_modules/typedoc-plugin-markdown/dist/resources/partials/member.sources.hbs
 +++ b/node_modules/typedoc-plugin-markdown/dist/resources/partials/member.sources.hbs
 @@ -1,39 +1,3 @@

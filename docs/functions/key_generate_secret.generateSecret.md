@@ -6,10 +6,11 @@
 
 Generates a symmetric secret key for a given JWA algorithm identifier.
 
-Note: Under Web Cryptography API runtime the secret key is generated with
-`extractable` set to `false` by default.
+Note: Under Web Cryptography API runtime the secret key is generated with `extractable` set to
+`false` by default.
 
 **`example`** Usage
+
 ```js
 const secret = await jose.generateSecret('HS256')
 console.log(secret)

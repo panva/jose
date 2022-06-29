@@ -2,8 +2,8 @@
 
 [💗 Help the project](https://github.com/sponsors/panva)
 
-JSON Web Key ([JWK](https://www.rfc-editor.org/rfc/rfc7517)).
-"RSA", "EC", "OKP", and "oct" key types are supported.
+JSON Web Key ([JWK](https://www.rfc-editor.org/rfc/rfc7517)). "RSA", "EC", "OKP", and "oct" key
+types are supported.
 
 ## Table of contents
 

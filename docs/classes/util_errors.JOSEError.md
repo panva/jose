@@ -2,8 +2,7 @@
 
 [💗 Help the project](https://github.com/sponsors/panva)
 
-A generic Error subclass that all other specific
-JOSE Error subclasses inherit from.
+A generic Error subclass that all other specific JOSE Error subclasses inherit from.
 
 ## Table of contents
 

@@ -22,19 +22,13 @@ export interface Recipient {
    */
   setUnprotectedHeader(unprotectedHeader: JWEHeaderParameters): Recipient
 
-  /**
-   * A shorthand for calling addRecipient() on the enclosing GeneralEncrypt instance
-   */
+  /** A shorthand for calling addRecipient() on the enclosing GeneralEncrypt instance */
   addRecipient(...args: Parameters<GeneralEncrypt['addRecipient']>): Recipient
 
-  /**
-   * A shorthand for calling encrypt() on the enclosing GeneralEncrypt instance
-   */
+  /** A shorthand for calling encrypt() on the enclosing GeneralEncrypt instance */
   encrypt(...args: Parameters<GeneralEncrypt['encrypt']>): Promise<GeneralJWE>
 
-  /**
-   * Returns the enclosing GeneralEncrypt
-   */
+  /** Returns the enclosing GeneralEncrypt */
   done(): GeneralEncrypt
 }
 
@@ -75,11 +69,10 @@ class IndividualRecipient implements Recipient {
  * The GeneralEncrypt class is a utility for creating General JWE objects.
  *
  * @example Usage
+ *
  * ```js
  * const jwe = await new jose.GeneralEncrypt(
- *   new TextEncoder().encode(
- *     'It’s a dangerous business, Frodo, going out your door.'
- *   )
+ *   new TextEncoder().encode('It’s a dangerous business, Frodo, going out your door.'),
  * )
  *   .setProtectedHeader({ enc: 'A256GCM' })
  *   .addRecipient(ecPublicKey)
@@ -102,9 +95,7 @@ export class GeneralEncrypt {
 
   private _aad!: Uint8Array
 
-  /**
-   * @param plaintext Binary representation of the plaintext to encrypt.
-   */
+  /** @param plaintext Binary representation of the plaintext to encrypt. */
   constructor(plaintext: Uint8Array) {
     this._plaintext = plaintext
   }

@@ -2,8 +2,7 @@
 
 [💗 Help the project](https://github.com/sponsors/panva)
 
-Recognized Compact JWE Header Parameters, any other Header Members
-may also be present.
+Recognized Compact JWE Header Parameters, any other Header Members may also be present.
 
 ## Table of contents
 

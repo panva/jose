@@ -44,6 +44,8 @@ A unique error code for the particular error subclass.
 
 • `Static` `get` **code**(): ``"ERR_JWT_INVALID"``
 
+A unique error code for the particular error subclass.
+
 #### Returns
 
 ``"ERR_JWT_INVALID"``

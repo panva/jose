@@ -13,10 +13,11 @@ import { JWSInvalid, JWSSignatureVerificationFailed } from '../../util/errors.js
 import isObject from '../../lib/is_object.js'
 
 /**
- * Interface for General JWS Verification dynamic key resolution.
- * No token components have been verified at the time of this function call.
+ * Interface for General JWS Verification dynamic key resolution. No token components have been
+ * verified at the time of this function call.
  *
- * See [createRemoteJWKSet](../functions/jwks_remote.createRemoteJWKSet.md#function-createremotejwkset)
+ * See
+ * [createRemoteJWKSet](../functions/jwks_remote.createRemoteJWKSet.md#function-createremotejwkset)
  * to verify using a remote JSON Web Key Set.
  */
 export interface GeneralVerifyGetKey
@@ -25,20 +26,18 @@ export interface GeneralVerifyGetKey
 /**
  * Verifies the signature and format of and afterwards decodes the General JWS.
  *
- * @param jws General JWS.
- * @param key Key to verify the JWS with.
- * @param options JWS Verify options.
- *
  * @example Usage
+ *
  * ```js
  * const jws = {
  *   payload: 'SXTigJlzIGEgZGFuZ2Vyb3VzIGJ1c2luZXNzLCBGcm9kbywgZ29pbmcgb3V0IHlvdXIgZG9vci4',
  *   signatures: [
  *     {
- *       signature: 'FVVOXwj6kD3DqdfD9yYqfT2W9jv-Nop4kOehp_DeDGNB5dQNSPRvntBY6xH3uxlCxE8na9d_kyhYOcanpDJ0EA',
- *       protected: 'eyJhbGciOiJFUzI1NiJ9'
- *     }
- *   ]
+ *       signature:
+ *         'FVVOXwj6kD3DqdfD9yYqfT2W9jv-Nop4kOehp_DeDGNB5dQNSPRvntBY6xH3uxlCxE8na9d_kyhYOcanpDJ0EA',
+ *       protected: 'eyJhbGciOiJFUzI1NiJ9',
+ *     },
+ *   ],
  * }
  *
  * const { payload, protectedHeader } = await jose.generalVerify(jws, publicKey)
@@ -46,6 +45,10 @@ export interface GeneralVerifyGetKey
  * console.log(protectedHeader)
  * console.log(new TextDecoder().decode(payload))
  * ```
+ *
+ * @param jws General JWS.
+ * @param key Key to verify the JWS with.
+ * @param options JWS Verify options.
  */
 export function generalVerify(
   jws: GeneralJWSInput,

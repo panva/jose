@@ -3,15 +3,11 @@ import epoch from '../lib/epoch.js'
 import isObject from '../lib/is_object.js'
 import secs from '../lib/secs.js'
 
-/**
- * Generic class for JWT producing.
- */
+/** Generic class for JWT producing. */
 export class ProduceJWT {
   protected _payload!: JWTPayload
 
-  /**
-   * @param payload The JWT Claims Set object.
-   */
+  /** @param payload The JWT Claims Set object. */
   constructor(payload: JWTPayload) {
     if (!isObject(payload)) {
       throw new TypeError('JWT Claims Set MUST be an object')
@@ -62,9 +58,9 @@ export class ProduceJWT {
   /**
    * Set "nbf" (Not Before) Claim.
    *
-   * @param input "nbf" (Not Before) Claim value to set on the JWT Claims Set.
-   * When number is passed that is used as a value, when string is passed
-   * it is resolved to a time span and added to the current timestamp.
+   * @param input "nbf" (Not Before) Claim value to set on the JWT Claims Set. When number is passed
+   *   that is used as a value, when string is passed it is resolved to a time span and added to the
+   *   current timestamp.
    */
   setNotBefore(input: number | string) {
     if (typeof input === 'number') {
@@ -78,9 +74,9 @@ export class ProduceJWT {
   /**
    * Set "exp" (Expiration Time) Claim.
    *
-   * @param input "exp" (Expiration Time) Claim value to set on the JWT Claims Set.
-   * When number is passed that is used as a value, when string is passed
-   * it is resolved to a time span and added to the current timestamp.
+   * @param input "exp" (Expiration Time) Claim value to set on the JWT Claims Set. When number is
+   *   passed that is used as a value, when string is passed it is resolved to a time span and added
+   *   to the current timestamp.
    */
   setExpirationTime(input: number | string) {
     if (typeof input === 'number') {
@@ -94,8 +90,7 @@ export class ProduceJWT {
   /**
    * Set "iat" (Issued At) Claim.
    *
-   * @param input "iat" (Issued At) Claim value to set on the JWT Claims Set.
-   * Default is current timestamp.
+   * @param input "iat" (Issued At) Claim value to set on the JWT Claims Set. Default is current timestamp.
    */
   setIssuedAt(input?: number) {
     if (typeof input === 'undefined') {

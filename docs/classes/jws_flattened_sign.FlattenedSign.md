@@ -5,11 +5,10 @@
 The FlattenedSign class is a utility for creating Flattened JWS objects.
 
 **`example`** Usage
+
 ```js
 const jws = await new jose.FlattenedSign(
-  new TextEncoder().encode(
-    'It’s a dangerous business, Frodo, going out your door.'
-  )
+  new TextEncoder().encode('It’s a dangerous business, Frodo, going out your door.'),
 )
   .setProtectedHeader({ alg: 'ES256' })
   .sign(privateKey)

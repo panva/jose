@@ -68,6 +68,8 @@ Reason code for the validation failure.
 
 • `Static` `get` **code**(): ``"ERR_JWT_EXPIRED"``
 
+A unique error code for the particular error subclass.
+
 #### Returns
 
 ``"ERR_JWT_EXPIRED"``

@@ -51,6 +51,8 @@ ___
 
 • `Static` `get` **code**(): ``"ERR_JWE_DECRYPTION_FAILED"``
 
+A unique error code for the particular error subclass.
+
 #### Returns
 
 ``"ERR_JWE_DECRYPTION_FAILED"``

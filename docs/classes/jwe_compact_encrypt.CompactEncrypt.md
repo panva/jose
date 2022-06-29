@@ -5,11 +5,10 @@
 The CompactEncrypt class is a utility for creating Compact JWE strings.
 
 **`example`** Usage
+
 ```js
 const jwe = await new jose.CompactEncrypt(
-  new TextEncoder().encode(
-    'It’s a dangerous business, Frodo, going out your door.'
-  )
+  new TextEncoder().encode('It’s a dangerous business, Frodo, going out your door.'),
 )
   .setProtectedHeader({ alg: 'RSA-OAEP-256', enc: 'A256GCM' })
   .encrypt(publicKey)
@@ -68,11 +67,11 @@ ___
 
 ▸ **setContentEncryptionKey**(`cek`): [`CompactEncrypt`](jwe_compact_encrypt.CompactEncrypt.md)
 
-Sets a content encryption key to use, by default a random suitable one
-is generated for the JWE enc" (Encryption Algorithm) Header Parameter.
+Sets a content encryption key to use, by default a random suitable one is generated for the JWE
+enc" (Encryption Algorithm) Header Parameter.
 
-**`deprecated`** You should not use this method. It is only really intended
-for test and vector validation purposes.
+**`deprecated`** You should not use this method. It is only really intended for test and vector
+  validation purposes.
 
 #### Parameters
 
@@ -90,12 +89,11 @@ ___
 
 ▸ **setInitializationVector**(`iv`): [`CompactEncrypt`](jwe_compact_encrypt.CompactEncrypt.md)
 
-Sets the JWE Initialization Vector to use for content encryption, by default
-a random suitable one is generated for the JWE enc" (Encryption Algorithm)
-Header Parameter.
+Sets the JWE Initialization Vector to use for content encryption, by default a random suitable
+one is generated for the JWE enc" (Encryption Algorithm) Header Parameter.
 
-**`deprecated`** You should not use this method. It is only really intended
-for test and vector validation purposes.
+**`deprecated`** You should not use this method. It is only really intended for test and vector
+  validation purposes.
 
 #### Parameters
 
@@ -113,9 +111,9 @@ ___
 
 ▸ **setKeyManagementParameters**(`parameters`): [`CompactEncrypt`](jwe_compact_encrypt.CompactEncrypt.md)
 
-Sets the JWE Key Management parameters to be used when encrypting the Content
-Encryption Key. You do not need to invoke this method, it is only really
-intended for test and vector validation purposes.
+Sets the JWE Key Management parameters to be used when encrypting the Content Encryption Key.
+You do not need to invoke this method, it is only really intended for test and vector
+validation purposes.
 
 #### Parameters
 

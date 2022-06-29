@@ -6,46 +6,34 @@ import { JWKSInvalid, JWKSNoMatchingKey } from '../util/errors.js'
 
 import { isJWKSLike, LocalJWKSet } from './local.js'
 
-/**
- * Options for the remote JSON Web Key Set.
- */
+/** Options for the remote JSON Web Key Set. */
 export interface RemoteJWKSetOptions {
   /**
-   * Timeout (in milliseconds) for the HTTP request. When reached the request
-   * will be aborted and the verification will fail. Default is 5000 (5
-   * seconds).
+   * Timeout (in milliseconds) for the HTTP request. When reached the request will be aborted and
+   * the verification will fail. Default is 5000 (5 seconds).
    */
   timeoutDuration?: number
 
   /**
-   * Duration (in milliseconds) for which no more HTTP requests will be
-   * triggered after a previous successful fetch. Default is 30000 (30 seconds).
+   * Duration (in milliseconds) for which no more HTTP requests will be triggered after a previous
+   * successful fetch. Default is 30000 (30 seconds).
    */
   cooldownDuration?: number
 
-  /**
-   * Maximum time (in milliseconds) between successful HTTP requests. Default is
-   * 600000 (10 minutes).
-   */
+  /** Maximum time (in milliseconds) between successful HTTP requests. Default is 600000 (10 minutes). */
   cacheMaxAge?: number | typeof Infinity
 
   /**
-   * An instance of
-   * [http.Agent](https://nodejs.org/api/http.html#http_class_http_agent) or
-   * [https.Agent](https://nodejs.org/api/https.html#https_class_https_agent) to
-   * pass to the
-   * [http.get](https://nodejs.org/api/http.html#http_http_get_options_callback)
-   * or
-   * [https.get](https://nodejs.org/api/https.html#https_https_get_options_callback)
-   * method's options. Use when behind an http(s) proxy. This is a Node.js
-   * runtime specific option, it is ignored when used outside of Node.js
-   * runtime.
+   * An instance of [http.Agent](https://nodejs.org/api/http.html#http_class_http_agent) or
+   * [https.Agent](https://nodejs.org/api/https.html#https_class_https_agent) to pass to the
+   * [http.get](https://nodejs.org/api/http.html#http_http_get_options_callback) or
+   * [https.get](https://nodejs.org/api/https.html#https_https_get_options_callback) method's
+   * options. Use when behind an http(s) proxy. This is a Node.js runtime specific option, it is
+   * ignored when used outside of Node.js runtime.
    */
   agent?: any
 
-  /**
-   * Optional headers to be sent with the HTTP request.
-   */
+  /** Optional headers to be sent with the HTTP request. */
   headers?: Record<string, string>
 }
 
@@ -152,28 +140,26 @@ interface URL {
 }
 
 /**
- * Returns a function that resolves to a key object downloaded from a
- * remote endpoint returning a JSON Web Key Set, that is, for example,
- * an OAuth 2.0 or OIDC jwks_uri. Only a single public key must match
- * the selection process.
- * The JSON Web Key Set is fetched when no key matches the selection
- * process but only as frequently as the `cooldownDuration` option allows,
- * to prevent abuse.
- *
- * @param url URL to fetch the JSON Web Key Set from.
- * @param options Options for the remote JSON Web Key Set.
+ * Returns a function that resolves to a key object downloaded from a remote endpoint returning a
+ * JSON Web Key Set, that is, for example, an OAuth 2.0 or OIDC jwks_uri. Only a single public key
+ * must match the selection process. The JSON Web Key Set is fetched when no key matches the
+ * selection process but only as frequently as the `cooldownDuration` option allows, to prevent abuse.
  *
  * @example Usage
+ *
  * ```js
  * const JWKS = jose.createRemoteJWKSet(new URL('https://www.googleapis.com/oauth2/v3/certs'))
  *
  * const { payload, protectedHeader } = await jose.jwtVerify(jwt, JWKS, {
  *   issuer: 'urn:example:issuer',
- *   audience: 'urn:example:audience'
+ *   audience: 'urn:example:audience',
  * })
  * console.log(protectedHeader)
  * console.log(payload)
  * ```
+ *
+ * @param url URL to fetch the JSON Web Key Set from.
+ * @param options Options for the remote JSON Web Key Set.
  */
 export function createRemoteJWKSet(
   url: URL,

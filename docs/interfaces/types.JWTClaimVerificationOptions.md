@@ -31,8 +31,9 @@ ___
 • `Optional` **clockTolerance**: `string` \| `number`
 
 Expected clock tolerance
-- in seconds when number (e.g. 5)
-- parsed as seconds when a string (e.g. "5 seconds", "10 minutes", "2 hours").
+
+- In seconds when number (e.g. 5)
+- Parsed as seconds when a string (e.g. "5 seconds", "10 minutes", "2 hours").
 
 ___
 
@@ -57,8 +58,9 @@ ___
 • `Optional` **maxTokenAge**: `string` \| `number`
 
 Maximum time elapsed (in seconds) from the JWT "iat" (Issued At) Claim value.
-- in seconds when number (e.g. 5)
-- parsed as seconds when a string (e.g. "5 seconds", "10 minutes", "2 hours").
+
+- In seconds when number (e.g. 5)
+- Parsed as seconds when a string (e.g. "5 seconds", "10 minutes", "2 hours").
 
 ___
 

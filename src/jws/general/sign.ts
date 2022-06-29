@@ -18,19 +18,13 @@ export interface Signature {
    */
   setUnprotectedHeader(unprotectedHeader: JWSHeaderParameters): Signature
 
-  /**
-   * A shorthand for calling addSignature() on the enclosing GeneralSign instance
-   */
+  /** A shorthand for calling addSignature() on the enclosing GeneralSign instance */
   addSignature(...args: Parameters<GeneralSign['addSignature']>): Signature
 
-  /**
-   * A shorthand for calling encrypt() on the enclosing GeneralSign instance
-   */
+  /** A shorthand for calling encrypt() on the enclosing GeneralSign instance */
   sign(...args: Parameters<GeneralSign['sign']>): Promise<GeneralJWS>
 
-  /**
-   * Returns the enclosing GeneralSign
-   */
+  /** Returns the enclosing GeneralSign */
   done(): GeneralSign
 }
 
@@ -81,11 +75,10 @@ class IndividualSignature implements Signature {
  * The GeneralSign class is a utility for creating General JWS objects.
  *
  * @example Usage
+ *
  * ```js
  * const jws = await new jose.GeneralSign(
- *   new TextEncoder().encode(
- *     'It’s a dangerous business, Frodo, going out your door.'
- *   )
+ *   new TextEncoder().encode('It’s a dangerous business, Frodo, going out your door.'),
  * )
  *   .addSignature(ecPrivateKey)
  *   .setProtectedHeader({ alg: 'ES256' })
@@ -101,9 +94,7 @@ export class GeneralSign {
 
   private _signatures: IndividualSignature[] = []
 
-  /**
-   * @param payload Binary representation of the payload to sign.
-   */
+  /** @param payload Binary representation of the payload to sign. */
   constructor(payload: Uint8Array) {
     this._payload = payload
   }
@@ -120,9 +111,7 @@ export class GeneralSign {
     return signature
   }
 
-  /**
-   * Signs and resolves the value of the General JWS object.
-   */
+  /** Signs and resolves the value of the General JWS object. */
   async sign(): Promise<GeneralJWS> {
     if (!this._signatures.length) {
       throw new JWSInvalid('at least one signature must be added')

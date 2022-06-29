@@ -3,28 +3,23 @@ import { generateKeyPair as generate } from '../runtime/generate.js'
 import type { KeyLike } from '../types.d'
 
 export interface GenerateKeyPairResult {
-  /**
-   * The generated Private Key.
-   */
+  /** The generated Private Key. */
   privateKey: KeyLike
 
-  /**
-   * Public Key corresponding to the generated Private Key.
-   */
+  /** Public Key corresponding to the generated Private Key. */
   publicKey: KeyLike
 }
 
 export interface GenerateKeyPairOptions {
   /**
-   * The EC "crv" (Curve) or OKP "crv" (Subtype of Key Pair) value to generate.
-   * The curve must be both supported on the runtime as well as applicable for
-   * the given JWA algorithm identifier.
+   * The EC "crv" (Curve) or OKP "crv" (Subtype of Key Pair) value to generate. The curve must be
+   * both supported on the runtime as well as applicable for the given JWA algorithm identifier.
    */
   crv?: string
 
   /**
-   * A hint for RSA algorithms to generate an RSA key of a given `modulusLength`
-   * (Key size in bits). JOSE requires 2048 bits or larger. Default is 2048.
+   * A hint for RSA algorithms to generate an RSA key of a given `modulusLength` (Key size in bits).
+   * JOSE requires 2048 bits or larger. Default is 2048.
    */
   modulusLength?: number
 
@@ -37,22 +32,22 @@ export interface GenerateKeyPairOptions {
 }
 
 /**
- * Generates a private and a public key for a given JWA algorithm identifier.
- * This can only generate asymmetric key pairs. For symmetric secrets use the
- * `generateSecret` function.
+ * Generates a private and a public key for a given JWA algorithm identifier. This can only generate
+ * asymmetric key pairs. For symmetric secrets use the `generateSecret` function.
  *
- * Note: Under Web Cryptography API runtime the `privateKey` is generated with
- * `extractable` set to `false` by default.
- *
- * @param alg JWA Algorithm Identifier to be used with the generated key pair.
- * @param options Additional options passed down to the key pair generation.
+ * Note: Under Web Cryptography API runtime the `privateKey` is generated with `extractable` set to
+ * `false` by default.
  *
  * @example Usage
+ *
  * ```js
  * const { publicKey, privateKey } = await jose.generateKeyPair('PS256')
  * console.log(publicKey)
  * console.log(privateKey)
  * ```
+ *
+ * @param alg JWA Algorithm Identifier to be used with the generated key pair.
+ * @param options Additional options passed down to the key pair generation.
  */
 export async function generateKeyPair(
   alg: string,

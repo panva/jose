@@ -7,15 +7,17 @@
 Verifies the signature and format of and afterwards decodes the General JWS.
 
 **`example`** Usage
+
 ```js
 const jws = {
   payload: 'SXTigJlzIGEgZGFuZ2Vyb3VzIGJ1c2luZXNzLCBGcm9kbywgZ29pbmcgb3V0IHlvdXIgZG9vci4',
   signatures: [
     {
-      signature: 'FVVOXwj6kD3DqdfD9yYqfT2W9jv-Nop4kOehp_DeDGNB5dQNSPRvntBY6xH3uxlCxE8na9d_kyhYOcanpDJ0EA',
-      protected: 'eyJhbGciOiJFUzI1NiJ9'
-    }
-  ]
+      signature:
+        'FVVOXwj6kD3DqdfD9yYqfT2W9jv-Nop4kOehp_DeDGNB5dQNSPRvntBY6xH3uxlCxE8na9d_kyhYOcanpDJ0EA',
+      protected: 'eyJhbGciOiJFUzI1NiJ9',
+    },
+  ],
 }
 
 const { payload, protectedHeader } = await jose.generalVerify(jws, publicKey)

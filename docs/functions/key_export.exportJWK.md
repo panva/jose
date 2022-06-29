@@ -7,6 +7,7 @@
 Exports a runtime-specific key representation (KeyLike) to a JWK.
 
 **`example`** Usage
+
 ```js
 const privateJwk = await jose.exportJWK(privateKey)
 const publicJwk = await jose.exportJWK(publicKey)

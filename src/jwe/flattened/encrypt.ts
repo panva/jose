@@ -16,21 +16,17 @@ import isDisjoint from '../../lib/is_disjoint.js'
 import { encoder, decoder, concat } from '../../lib/buffer_utils.js'
 import validateCrit from '../../lib/validate_crit.js'
 
-/**
- * @private
- */
+/** @private */
 export const unprotected = Symbol()
 
 /**
- * The FlattenedEncrypt class is a utility for creating Flattened JWE
- * objects.
+ * The FlattenedEncrypt class is a utility for creating Flattened JWE objects.
  *
  * @example Usage
+ *
  * ```js
  * const jwe = await new jose.FlattenedEncrypt(
- *   new TextEncoder().encode(
- *     'It’s a dangerous business, Frodo, going out your door.'
- *   )
+ *   new TextEncoder().encode('It’s a dangerous business, Frodo, going out your door.'),
  * )
  *   .setProtectedHeader({ alg: 'RSA-OAEP-256', enc: 'A256GCM' })
  *   .setAdditionalAuthenticatedData(encoder.encode('The Fellowship of the Ring'))
@@ -56,9 +52,7 @@ export class FlattenedEncrypt {
 
   private _keyManagementParameters!: JWEKeyManagementHeaderParameters
 
-  /**
-   * @param plaintext Binary representation of the plaintext to encrypt.
-   */
+  /** @param plaintext Binary representation of the plaintext to encrypt. */
   constructor(plaintext: Uint8Array) {
     if (!(plaintext instanceof Uint8Array)) {
       throw new TypeError('plaintext must be an instance of Uint8Array')
@@ -67,10 +61,10 @@ export class FlattenedEncrypt {
   }
 
   /**
-   * Sets the JWE Key Management parameters to be used when encrypting.
-   * Use of this is method is really only needed for ECDH based algorithms
-   * when utilizing the Agreement PartyUInfo or Agreement PartyVInfo parameters.
-   * Other parameters will always be randomly generated when needed and missing.
+   * Sets the JWE Key Management parameters to be used when encrypting. Use of this is method is
+   * really only needed for ECDH based algorithms when utilizing the Agreement PartyUInfo or
+   * Agreement PartyVInfo parameters. Other parameters will always be randomly generated when needed
+   * and missing.
    *
    * @param parameters JWE Key Management parameters.
    */
@@ -132,13 +126,12 @@ export class FlattenedEncrypt {
   }
 
   /**
-   * Sets a content encryption key to use, by default a random suitable one
-   * is generated for the JWE enc" (Encryption Algorithm) Header Parameter.
+   * Sets a content encryption key to use, by default a random suitable one is generated for the JWE
+   * enc" (Encryption Algorithm) Header Parameter.
    *
+   * @deprecated You should not use this method. It is only really intended for test and vector
+   *   validation purposes.
    * @param cek JWE Content Encryption Key.
-   *
-   * @deprecated You should not use this method. It is only really intended
-   * for test and vector validation purposes.
    */
   setContentEncryptionKey(cek: Uint8Array) {
     if (this._cek) {
@@ -149,14 +142,12 @@ export class FlattenedEncrypt {
   }
 
   /**
-   * Sets the JWE Initialization Vector to use for content encryption, by default
-   * a random suitable one is generated for the JWE enc" (Encryption Algorithm)
-   * Header Parameter.
+   * Sets the JWE Initialization Vector to use for content encryption, by default a random suitable
+   * one is generated for the JWE enc" (Encryption Algorithm) Header Parameter.
    *
+   * @deprecated You should not use this method. It is only really intended for test and vector
+   *   validation purposes.
    * @param iv JWE Initialization Vector.
-   *
-   * @deprecated You should not use this method. It is only really intended
-   * for test and vector validation purposes.
    */
   setInitializationVector(iv: Uint8Array) {
     if (this._iv) {
