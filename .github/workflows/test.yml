@@ -51,7 +51,7 @@ jobs:
           path: node_modules
           key: ${{ runner.os }}-node_modules-${{ hashFiles('package.json') }}-${{ steps.node.outputs.version }}
       - name: Install dependencies
-        run: npx panva/npm-install-retry
+        run: npm clean-install
         if: ${{ steps.node_modules.outputs.cache-hit != 'true' }}
       - name: Cache dist
         uses: actions/cache@v2
@@ -104,7 +104,7 @@ jobs:
           path: node_modules
           key: ${{ runner.os }}-node_modules-${{ hashFiles('package.json') }}-${{ steps.node.outputs.version }}
       - name: Install dependencies
-        run: npx panva/npm-install-retry
+        run: npm clean-install
         if: ${{ steps.node_modules.outputs.cache-hit != 'true' }}
       - name: Load cached dist
         uses: actions/cache@v2
@@ -188,7 +188,7 @@ jobs:
           path: node_modules
           key: ${{ runner.os }}-node_modules-${{ hashFiles('package.json') }}-${{ steps.node.outputs.version }}
       - name: Install dependencies
-        run: npx panva/npm-install-retry
+        run: npm clean-install
         if: ${{ steps.node_modules.outputs.cache-hit != 'true' }}
       - name: Load cached dist
         uses: actions/cache@v2
@@ -232,7 +232,7 @@ jobs:
           path: node_modules
           key: ${{ runner.os }}-node_modules-${{ hashFiles('package.json') }}-${{ steps.node.outputs.version }}
       - name: Install dependencies
-        run: npx panva/npm-install-retry
+        run: npm clean-install
         if: ${{ steps.node_modules.outputs.cache-hit != 'true' }}
       - name: Load cached dist
         uses: actions/cache@v2
@@ -276,7 +276,7 @@ jobs:
           path: node_modules
           key: ${{ runner.os }}-node_modules-${{ hashFiles('package.json') }}-${{ steps.node.outputs.version }}
       - name: Install dependencies
-        run: npx panva/npm-install-retry
+        run: npm clean-install
         if: ${{ steps.node_modules.outputs.cache-hit != 'true' }}
       - name: Load cached dist
         uses: actions/cache@v2
