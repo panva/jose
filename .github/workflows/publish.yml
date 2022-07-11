@@ -24,16 +24,21 @@ jobs:
       - name: Setup node
         uses: actions/setup-node@v2
         with:
-          node-version: 14
+          node-version: 16
           registry-url: https://registry.npmjs.org
           always-auth: true
-      - run: npm install --global npm@7
       - name: Load cached dist
         uses: actions/cache@v2
         id: dist
         with:
           path: dist
-          key: dist-${{ hashFiles('src/**/*.ts') }}-${{ hashFiles('tsconfig/*.json') }}-${{ hashFiles('.github/workflows/*.yml') }}-${{ hashFiles('package.json') }}
+          key: dist-${{ hashFiles('src/**/*.ts') }}-${{ hashFiles('tsconfig/*.json') }}-${{ hashFiles('.github/workflows/*.yml') }}-${{ hashFiles('package-lock.json') }}
+      - name: Abort if dist isn't cached
+        if: ${{ steps.dist.outputs.cache-hit != 'true' }}
+        uses: actions/github-script@v6
+        with:
+          script: |
+              core.setFailed('dist cache hit failed')
       - name: Prepare distribution
         run: node tools/publish-${{ matrix.prepare-script }}
       - run: npm publish
