@@ -121,24 +121,13 @@ jobs:
   test-deno:
     needs:
       - build
-    continue-on-error: ${{ matrix.experimental || false }}
-    strategy:
-      fail-fast: false
-      matrix:
-        deno-version:
-          - v1.18.0
-          - v1
-        include:
-          - experimental: true
-            deno-version: canary
-
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
         uses: actions/checkout@v2
       - uses: denoland/setup-deno@v1
         with:
-          deno-version: ${{ matrix.deno-version }}
+          deno-version: v1.x
       - name: Load cached dist
         uses: actions/cache@v2
         id: dist
@@ -152,7 +141,7 @@ jobs:
           script: |
               core.setFailed('dist cache hit failed')
       - name: Test Deno Definitions
-        run: npm run test-deno -- --no-run
+        run: deno check dist/deno/index.ts
       - name: Test Deno
         run: npm run test-deno -- --no-check
 
