@@ -17,13 +17,13 @@ formatted asymmetric keys and certificates to these runtime-specific representat
 In Node.js the [Buffer](https://nodejs.org/api/buffer.html#buffer_buffer) class is a subclass of
 Uint8Array and so Buffer can be provided for symmetric secrets as well.
 
-[KeyObject](https://nodejs.org/api/crypto.html#crypto_class_keyobject) is a representation of a
+[KeyObject](https://nodejs.org/api/crypto.html#class-keyobject) is a representation of a
 key/secret available in the Node.js runtime. In addition to the import functions of this library
 you may use the runtime APIs
-[crypto.createPublicKey](https://nodejs.org/api/crypto.html#crypto_crypto_createpublickey_key),
-[crypto.createPrivateKey](https://nodejs.org/api/crypto.html#crypto_crypto_createprivatekey_key),
+[crypto.createPublicKey](https://nodejs.org/api/crypto.html#cryptocreatepublickeykey),
+[crypto.createPrivateKey](https://nodejs.org/api/crypto.html#cryptocreateprivatekeykey),
 and
-[crypto.createSecretKey](https://nodejs.org/api/crypto.html#crypto_crypto_createsecretkey_key_encoding)
+[crypto.createSecretKey](https://nodejs.org/api/crypto.html#cryptocreatesecretkeykey-encoding)
 to obtain a KeyObject from your existing key material.
 
 [CryptoKey](https://developer.mozilla.org/en-US/docs/Web/API/CryptoKey) is a representation of a
