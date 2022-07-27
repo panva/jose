@@ -1,15 +1,14 @@
 /**
  * KeyLike are runtime-specific classes representing asymmetric keys or symmetric secrets. These are
  * instances of [CryptoKey](https://developer.mozilla.org/en-US/docs/Web/API/CryptoKey) and
- * additionally [KeyObject](https://nodejs.org/api/crypto.html#crypto_class_keyobject) in Node.js
- * runtime.
+ * additionally [KeyObject](https://nodejs.org/api/crypto.html#class-keyobject) in Node.js runtime.
  * [Uint8Array](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Uint8Array)
  * instances are also accepted as symmetric secret representation only.
  *
  * [Key Import Functions](../modules/key_import.md#readme) can be used to import PEM, or JWK
  * formatted asymmetric keys and certificates to these runtime-specific representations.
  *
- * In Node.js the [Buffer](https://nodejs.org/api/buffer.html#buffer_buffer) class is a subclass of
+ * In Node.js the [Buffer](https://nodejs.org/api/buffer.html#buffer) class is a subclass of
  * Uint8Array and so Buffer can be provided for symmetric secrets as well.
  *
  * [KeyObject](https://nodejs.org/api/crypto.html#class-keyobject) is a representation of a
@@ -491,7 +490,7 @@ export interface JWTPayload {
 
 /**
  * Deflate Raw implementation, e.g. promisified
- * [zlib.deflateRaw](https://nodejs.org/api/zlib.html#zlib_zlib_deflateraw_buffer_options_callback).
+ * [zlib.deflateRaw](https://nodejs.org/api/zlib.html#zlibdeflaterawbuffer-options-callback).
  */
 export interface DeflateFunction {
   (input: Uint8Array): Promise<Uint8Array>
@@ -499,7 +498,7 @@ export interface DeflateFunction {
 
 /**
  * Inflate Raw implementation, e.g. promisified
- * [zlib.inflateRaw](https://nodejs.org/api/zlib.html#zlib_zlib_inflateraw_buffer_options_callback).
+ * [zlib.inflateRaw](https://nodejs.org/api/zlib.html#zlibinflaterawbuffer-options-callback).
  */
 export interface InflateFunction {
   (input: Uint8Array): Promise<Uint8Array>
