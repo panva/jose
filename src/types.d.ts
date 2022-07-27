@@ -16,10 +16,9 @@
  * key/secret available in the Node.js runtime. In addition to the import functions of this library
  * you may use the runtime APIs
  * [crypto.createPublicKey](https://nodejs.org/api/crypto.html#cryptocreatepublickeykey),
- * [crypto.createPrivateKey](https://nodejs.org/api/crypto.html#cryptocreateprivatekeykey),
- * and
- * [crypto.createSecretKey](https://nodejs.org/api/crypto.html#cryptocreatesecretkeykey-encoding)
- * to obtain a KeyObject from your existing key material.
+ * [crypto.createPrivateKey](https://nodejs.org/api/crypto.html#cryptocreateprivatekeykey), and
+ * [crypto.createSecretKey](https://nodejs.org/api/crypto.html#cryptocreatesecretkeykey-encoding) to
+ * obtain a KeyObject from your existing key material.
  *
  * [CryptoKey](https://developer.mozilla.org/en-US/docs/Web/API/CryptoKey) is a representation of a
  * key/secret available in the Browser and Deno runtimes. In addition to the import functions of
