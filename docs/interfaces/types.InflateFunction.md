@@ -9,7 +9,7 @@
 ▸ **InflateFunction**(`input`): `Promise`<`Uint8Array`\>
 
 Inflate Raw implementation, e.g. promisified
-[zlib.inflateRaw](https://nodejs.org/api/zlib.html#zlib_zlib_inflateraw_buffer_options_callback).
+[zlib.inflateRaw](https://nodejs.org/api/zlib.html#zlibinflaterawbuffer-options-callback).
 
 #### Parameters
 

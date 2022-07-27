@@ -9,7 +9,7 @@
 ▸ **DeflateFunction**(`input`): `Promise`<`Uint8Array`\>
 
 Deflate Raw implementation, e.g. promisified
-[zlib.deflateRaw](https://nodejs.org/api/zlib.html#zlib_zlib_deflateraw_buffer_options_callback).
+[zlib.deflateRaw](https://nodejs.org/api/zlib.html#zlibdeflaterawbuffer-options-callback).
 
 #### Parameters
 
