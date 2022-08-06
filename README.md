@@ -104,7 +104,7 @@ import * as jose from 'https://deno.land/x/jose/index.ts'
 - it supports JWK Key Format for all four key types (oct, RSA, EC and OKP)
 - it is exclusively using native platform Key object representations (CryptoKey and KeyObject)
 - there is JSON Web Encryption support
-- it supports the flattened JWS / JWE Serialization Syntaxes
+- it supports the General and Flattened JSON Serialization Syntaxes
 - it supports the "crit" member validations to make sure extensions are handled correctly
 
 #### How is it different from [`node-jose`](https://github.com/cisco/node-jose)?
