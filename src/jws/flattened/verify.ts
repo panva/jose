@@ -100,8 +100,8 @@ export async function flattenedVerify(
 
   let parsedProt: JWSHeaderParameters = {}
   if (jws.protected) {
-    const protectedHeader = base64url(jws.protected)
     try {
+      const protectedHeader = base64url(jws.protected)
       parsedProt = JSON.parse(decoder.decode(protectedHeader))
     } catch {
       throw new JWSInvalid('JWS Protected Header is invalid')
