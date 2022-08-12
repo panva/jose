@@ -36,6 +36,12 @@ const keyToJWK: JWKExportFunction = (key: unknown): JWK => {
   }
 
   if (jwkExportSupported) {
+    if (
+      keyObject.type !== 'secret' &&
+      !['rsa', 'ec', 'ed25519', 'x25519', 'ed448', 'x448'].includes(keyObject.asymmetricKeyType!)
+    ) {
+      throw new JOSENotSupported('Unsupported key asymmetricKeyType')
+    }
     return keyObject.export({ format: 'jwk' })
   }
 
