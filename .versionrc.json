@@ -29,7 +29,7 @@
     {
       "type": "refactor",
       "section": "Refactor",
-      "hidden": true
+      "hidden": false
     },
     {
       "type": "perf",
