@@ -2,6 +2,19 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [4.9.0](https://github.com/panva/jose/compare/v4.8.3...v4.9.0) (2022-08-17)
+
+
+### Features
+
+* add support for RFC 9278 - JWK Thumbprint URI ([d06ce65](https://github.com/panva/jose/commit/d06ce654666c5f584716f39843534118407c14e0))
+
+
+### Refactor
+
+* consume some base64url decode errors ([#436](https://github.com/panva/jose/issues/436)) ([caaf2c3](https://github.com/panva/jose/commit/caaf2c38dc51209d7adc493029f416c61759b1b1))
+* unify JOSENotSupported throw on key export ([fe5d093](https://github.com/panva/jose/commit/fe5d093bf74b812ecd3ee92d40dd02619e88e06c))
+
 ## [4.8.3](https://github.com/panva/jose/compare/v4.8.1...v4.8.3) (2022-06-29)
 
 ## [4.8.1](https://github.com/panva/jose/compare/v4.8.0...v4.8.1) (2022-05-02)
