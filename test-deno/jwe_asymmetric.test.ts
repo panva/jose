@@ -28,8 +28,8 @@ Deno.test(
   test.bind(undefined, generateKeyPair.bind(undefined, 'ECDH-ES', { crv: 'P-256' }), 'ECDH-ES'),
 )
 Deno.test(
-  '(expecting failure) Encrypt/Decrypt ECDH-ES crv: P-384',
-  failing.bind(undefined, generateKeyPair.bind(undefined, 'ECDH-ES', { crv: 'P-384' }), 'ECDH-ES'),
+  'Encrypt/Decrypt ECDH-ES crv: P-384',
+  test.bind(undefined, generateKeyPair.bind(undefined, 'ECDH-ES', { crv: 'P-384' }), 'ECDH-ES'),
 )
 Deno.test(
   '(expecting failure) Encrypt/Decrypt ECDH-ES crv: P-521',
