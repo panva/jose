@@ -80,6 +80,7 @@
   "exports": {
     ".": {
       "types": "./dist/types/index.d.ts",
+      "deno": "./dist/browser/index.js",
       "browser": "./dist/browser/index.js",
       "worker": "./dist/browser/index.js",
       "import": "./dist/node/esm/index.js",
@@ -175,5 +176,6 @@
     "typedoc": "^0.23.2",
     "typedoc-plugin-markdown": "^3.13.1",
     "typescript": "^4.7.2"
-  }
+  },
+  "deno": "./dist/browser/index.js"
 }

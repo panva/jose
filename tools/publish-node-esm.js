@@ -7,7 +7,9 @@ delete pkg.scripts
 delete pkg.imports
 delete pkg.description
 delete pkg.browser
+delete pkg.deno
 delete pkg.exports['.'].browser
+delete pkg.exports['.'].deno
 delete pkg.exports['.'].require
 delete pkg.keywords
 
