@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [4.9.1](https://github.com/panva/jose/compare/v4.9.0...v4.9.1) (2022-08-29)
+
+
+### Fixes
+
+* **deno:** add a Deno package entrypoint ([9f3c459](https://github.com/panva/jose/commit/9f3c459e30b71eec54163d500edb59f5c72bf7c9))
+
 ## [4.9.0](https://github.com/panva/jose/compare/v4.8.3...v4.9.0) (2022-08-17)
 
 
