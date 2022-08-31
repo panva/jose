@@ -9,7 +9,7 @@ import { bitLengths as cekLengths } from '../lib/cek.js';
 import { importJWK } from '../key/import.js';
 import checkKeyType from './check_key_type.js';
 import isObject from './is_object.js';
-async function decryptKeyManagement(alg, key, encryptedKey, joseHeader) {
+async function decryptKeyManagement(alg, key, encryptedKey, joseHeader, options) {
     checkKeyType(alg, key, 'decrypt');
     switch (alg) {
         case 'dir': {
@@ -63,6 +63,9 @@ async function decryptKeyManagement(alg, key, encryptedKey, joseHeader) {
                 throw new JWEInvalid('JWE Encrypted Key missing');
             if (typeof joseHeader.p2c !== 'number')
                 throw new JWEInvalid(`JOSE Header "p2c" (PBES2 Count) missing or invalid`);
+            const p2cLimit = (options === null || options === void 0 ? void 0 : options.maxPBES2Count) || 10000;
+            if (joseHeader.p2c > p2cLimit)
+                throw new JWEInvalid(`JOSE Header "p2c" (PBES2 Count) out is of acceptable bounds`);
             if (typeof joseHeader.p2s !== 'string')
                 throw new JWEInvalid(`JOSE Header "p2s" (PBES2 Salt) missing or invalid`);
             return pbes2Kw(alg, key, encryptedKey, joseHeader.p2c, base64url(joseHeader.p2s));

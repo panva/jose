@@ -199,6 +199,7 @@ export interface DecryptOptions extends CritOption {
   keyManagementAlgorithms?: string[]
   contentEncryptionAlgorithms?: string[]
   inflateRaw?: InflateFunction
+  maxPBES2Count?: number
 }
 export interface EncryptOptions extends CritOption {
   deflateRaw?: DeflateFunction

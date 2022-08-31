@@ -5,7 +5,7 @@ import { decrypt as rsaEs } from '../runtime/rsaes.ts'
 import { unwrap as aesGcmKw } from '../runtime/aesgcmkw.ts'
 import { decode as base64url } from '../runtime/base64url.ts'
 
-import type { JWEHeaderParameters, KeyLike, JWK } from '../types.d.ts'
+import type { DecryptOptions, JWEHeaderParameters, KeyLike, JWK } from '../types.d.ts'
 import { JOSENotSupported, JWEInvalid } from '../util/errors.ts'
 import { bitLengths as cekLengths } from '../lib/cek.ts'
 import { importJWK } from '../key/import.ts'
@@ -17,6 +17,7 @@ async function decryptKeyManagement(
   key: KeyLike | Uint8Array,
   encryptedKey: Uint8Array | undefined,
   joseHeader: JWEHeaderParameters,
+  options?: DecryptOptions,
 ): Promise<KeyLike | Uint8Array> {
   checkKeyType(alg, key, 'decrypt')
 
@@ -95,6 +96,11 @@ async function decryptKeyManagement(
 
       if (typeof joseHeader.p2c !== 'number')
         throw new JWEInvalid(`JOSE Header "p2c" (PBES2 Count) missing or invalid`)
+
+      const p2cLimit = options?.maxPBES2Count || 10_000
+
+      if (joseHeader.p2c > p2cLimit)
+        throw new JWEInvalid(`JOSE Header "p2c" (PBES2 Count) out is of acceptable bounds`)
 
       if (typeof joseHeader.p2s !== 'string')
         throw new JWEInvalid(`JOSE Header "p2s" (PBES2 Salt) missing or invalid`)

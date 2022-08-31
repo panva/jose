@@ -180,8 +180,8 @@ Promise.all([
         jwe.encrypted_key = 'foo';
 
         await t.throwsAsync(flattenedDecrypt(jwe, t.context.secret), {
-          message: 'decryption operation failed',
-          code: 'ERR_JWE_DECRYPTION_FAILED',
+          message: 'Encountered unexpected JWE Encrypted Key',
+          code: 'ERR_JWE_INVALID',
         });
       }
     });
@@ -220,6 +220,20 @@ Promise.all([
         });
       }
     });
+
+    if (!('electron' in process.versions)) {
+      test('decrypt PBES2 p2c limit', async (t) => {
+        const jwe = await new FlattenedEncrypt(new Uint8Array(0))
+          .setProtectedHeader({ alg: 'PBES2-HS256+A128KW', enc: 'A128CBC-HS256' })
+          .setKeyManagementParameters({ p2c: 2049 })
+          .encrypt(new Uint8Array(32));
+
+        await t.throwsAsync(flattenedDecrypt(jwe, new Uint8Array(32), { maxPBES2Count: 2048 }), {
+          code: 'ERR_JWE_INVALID',
+          message: 'JOSE Header "p2c" (PBES2 Count) out is of acceptable bounds',
+        });
+      });
+    }
   },
   (err) => {
     test('failed to import', (t) => {

@@ -11,7 +11,7 @@ const cek_js_1 = require("../lib/cek.js");
 const import_js_1 = require("../key/import.js");
 const check_key_type_js_1 = require("./check_key_type.js");
 const is_object_js_1 = require("./is_object.js");
-async function decryptKeyManagement(alg, key, encryptedKey, joseHeader) {
+async function decryptKeyManagement(alg, key, encryptedKey, joseHeader, options) {
     (0, check_key_type_js_1.default)(alg, key, 'decrypt');
     switch (alg) {
         case 'dir': {
@@ -65,6 +65,9 @@ async function decryptKeyManagement(alg, key, encryptedKey, joseHeader) {
                 throw new errors_js_1.JWEInvalid('JWE Encrypted Key missing');
             if (typeof joseHeader.p2c !== 'number')
                 throw new errors_js_1.JWEInvalid(`JOSE Header "p2c" (PBES2 Count) missing or invalid`);
+            const p2cLimit = (options === null || options === void 0 ? void 0 : options.maxPBES2Count) || 10000;
+            if (joseHeader.p2c > p2cLimit)
+                throw new errors_js_1.JWEInvalid(`JOSE Header "p2c" (PBES2 Count) out is of acceptable bounds`);
             if (typeof joseHeader.p2s !== 'string')
                 throw new errors_js_1.JWEInvalid(`JOSE Header "p2s" (PBES2 Salt) missing or invalid`);
             return (0, pbes2kw_js_1.decrypt)(alg, key, encryptedKey, joseHeader.p2c, (0, base64url_js_1.decode)(joseHeader.p2s));

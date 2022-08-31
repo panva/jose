@@ -486,6 +486,13 @@ export interface DecryptOptions extends CritOption {
    * when you expect JWEs with compressed plaintext.
    */
   inflateRaw?: InflateFunction
+
+  /**
+   * (PBES2 Key Management Algorithms only) Maximum allowed "p2c" (PBES2 Count) Header Parameter
+   * value. The PBKDF2 iteration count defines the algorithm's computational expense. By default
+   * this value is set to 10000.
+   */
+  maxPBES2Count?: number
 }
 
 /**

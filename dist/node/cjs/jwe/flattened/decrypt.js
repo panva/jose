@@ -98,10 +98,10 @@ async function flattenedDecrypt(jwe, key, options) {
     }
     let cek;
     try {
-        cek = await (0, decrypt_key_management_js_1.default)(alg, key, encryptedKey, joseHeader);
+        cek = await (0, decrypt_key_management_js_1.default)(alg, key, encryptedKey, joseHeader, options);
     }
     catch (err) {
-        if (err instanceof TypeError) {
+        if (err instanceof TypeError || err instanceof errors_js_1.JWEInvalid || err instanceof errors_js_1.JOSENotSupported) {
             throw err;
         }
         cek = (0, cek_js_1.default)(enc);
