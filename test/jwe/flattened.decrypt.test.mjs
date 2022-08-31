@@ -1,6 +1,6 @@
 import test from 'ava'
 import * as crypto from 'crypto'
-import { root } from '../dist.mjs'
+import { root, conditional } from '../dist.mjs'
 
 const { FlattenedEncrypt, flattenedDecrypt, base64url } = await import(root)
 
@@ -177,8 +177,8 @@ test('JWE format validation', async (t) => {
     jwe.encrypted_key = 'foo'
 
     await t.throwsAsync(flattenedDecrypt(jwe, t.context.secret), {
-      message: 'decryption operation failed',
-      code: 'ERR_JWE_DECRYPTION_FAILED',
+      message: 'Encountered unexpected JWE Encrypted Key',
+      code: 'ERR_JWE_INVALID',
     })
   }
 })
@@ -238,4 +238,16 @@ test('decrypt empty data (CBC)', async (t) => {
 
   const { plaintext } = await flattenedDecrypt(jwe, new Uint8Array(32))
   t.is(plaintext.byteLength, 0)
+})
+
+conditional({ electron: 0 })('decrypt PBES2 p2c limit', async (t) => {
+  const jwe = await new FlattenedEncrypt(new Uint8Array(0))
+    .setProtectedHeader({ alg: 'PBES2-HS256+A128KW', enc: 'A128CBC-HS256' })
+    .setKeyManagementParameters({ p2c: 2049 })
+    .encrypt(new Uint8Array(32))
+
+  await t.throwsAsync(flattenedDecrypt(jwe, new Uint8Array(32), { maxPBES2Count: 2048 }), {
+    message: 'JOSE Header "p2c" (PBES2 Count) out is of acceptable bounds',
+    code: 'ERR_JWE_INVALID',
+  })
 })
