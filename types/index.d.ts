@@ -406,6 +406,7 @@ export namespace JWE {
     complete?: komplet;
     crit?: string[];
     algorithms?: string[];
+    maxPBES2Count?: number;
   }
 
   interface completeDecrypt {

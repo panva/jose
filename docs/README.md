@@ -1472,6 +1472,10 @@ operation.
   - `algorithms`: `string[]` Array of Algorithms to accept, when the JWE does not use an
     Key Management algorithm from this list the decryption will fail. **Default:** 'undefined' -
     accepts all algorithms available on the keys
+  - `maxPBES2Count`: `number` (PBES2 Key Management Algorithms only) Maximum allowed "p2c" (PBES2
+    Count) Header Parameter value. The PBKDF2 iteration count defines the algorithm's computational
+    expense.
+    **Default:** '10000'
   - `complete`: `<boolean>` When true returns an object with the parsed headers, verified
     AAD, the content encryption key, the key that was used to unwrap or derive the content
     encryption key, and cleartext instead of only the cleartext.
