@@ -606,3 +606,13 @@ test('"enc" value must be supported error (when no alg was specified)', t => {
     JWE.encrypt('foo', k, { enc: 'foo' })
   }, { instanceOf: errors.JOSENotSupported, message: 'unsupported encrypt alg: foo' })
 })
+
+if (!('electron' in process.versions)) {
+  test('decrypt PBES2 p2c limit', t => {
+    const k = generateSync('oct', 256)
+    const jwe = JWE.encrypt('foo', k, { alg: 'PBES2-HS256+A128KW' })
+    t.throws(() => {
+      JWE.decrypt(jwe, k, { maxPBES2Count: 1000 })
+    }, { instanceOf: errors.JWEInvalid, message: 'JOSE Header "p2c" (PBES2 Count) out is of acceptable bounds' })
+  })
+}
