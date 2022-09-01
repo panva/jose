@@ -49,7 +49,6 @@ node_modules/
 jspm_packages/
 yarn.lock
 npm-shrinkwrap.json
-package-lock.json
 
 # Snowpack dependency directory (https://snowpack.dev/)
 web_modules/
