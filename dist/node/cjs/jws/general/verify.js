@@ -5,7 +5,7 @@ const verify_js_1 = require("../flattened/verify.js");
 const errors_js_1 = require("../../util/errors.js");
 const is_object_js_1 = require("../../lib/is_object.js");
 async function generalVerify(jws, key, options) {
-    if (!(0, is_object_js_1.default)(jws)) {
+    if (!is_object_js_1.default(jws)) {
         throw new errors_js_1.JWSInvalid('General JWS must be an object');
     }
     if (!Array.isArray(jws.signatures) || !jws.signatures.every(is_object_js_1.default)) {
@@ -13,7 +13,7 @@ async function generalVerify(jws, key, options) {
     }
     for (const signature of jws.signatures) {
         try {
-            return await (0, verify_js_1.default)({
+            return await verify_js_1.default({
                 header: signature.header,
                 payload: jws.payload,
                 protected: signature.protected,

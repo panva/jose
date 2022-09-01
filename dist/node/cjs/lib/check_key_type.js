@@ -5,16 +5,16 @@ const is_key_like_js_1 = require("../runtime/is_key_like.js");
 const symmetricTypeCheck = (key) => {
     if (key instanceof Uint8Array)
         return;
-    if (!(0, is_key_like_js_1.default)(key)) {
-        throw new TypeError((0, invalid_key_input_js_1.default)(key, ...is_key_like_js_1.types, 'Uint8Array'));
+    if (!is_key_like_js_1.default(key)) {
+        throw new TypeError(invalid_key_input_js_1.default(key, ...is_key_like_js_1.types, 'Uint8Array'));
     }
     if (key.type !== 'secret') {
         throw new TypeError(`${is_key_like_js_1.types.join(' or ')} instances for symmetric algorithms must be of type "secret"`);
     }
 };
 const asymmetricTypeCheck = (key, usage) => {
-    if (!(0, is_key_like_js_1.default)(key)) {
-        throw new TypeError((0, invalid_key_input_js_1.default)(key, ...is_key_like_js_1.types));
+    if (!is_key_like_js_1.default(key)) {
+        throw new TypeError(invalid_key_input_js_1.default(key, ...is_key_like_js_1.types));
     }
     if (key.type === 'secret') {
         throw new TypeError(`${is_key_like_js_1.types.join(' or ')} instances for asymmetric algorithms must not be of type "secret"`);

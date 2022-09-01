@@ -14,7 +14,7 @@ const validate_crit_js_1 = require("../../lib/validate_crit.js");
 const validate_algorithms_js_1 = require("../../lib/validate_algorithms.js");
 async function flattenedDecrypt(jwe, key, options) {
     var _a;
-    if (!(0, is_object_js_1.default)(jwe)) {
+    if (!is_object_js_1.default(jwe)) {
         throw new errors_js_1.JWEInvalid('Flattened JWE must be an object');
     }
     if (jwe.protected === undefined && jwe.header === undefined && jwe.unprotected === undefined) {
@@ -38,15 +38,15 @@ async function flattenedDecrypt(jwe, key, options) {
     if (jwe.aad !== undefined && typeof jwe.aad !== 'string') {
         throw new errors_js_1.JWEInvalid('JWE AAD incorrect type');
     }
-    if (jwe.header !== undefined && !(0, is_object_js_1.default)(jwe.header)) {
+    if (jwe.header !== undefined && !is_object_js_1.default(jwe.header)) {
         throw new errors_js_1.JWEInvalid('JWE Shared Unprotected Header incorrect type');
     }
-    if (jwe.unprotected !== undefined && !(0, is_object_js_1.default)(jwe.unprotected)) {
+    if (jwe.unprotected !== undefined && !is_object_js_1.default(jwe.unprotected)) {
         throw new errors_js_1.JWEInvalid('JWE Per-Recipient Unprotected Header incorrect type');
     }
     let parsedProt;
     if (jwe.protected) {
-        const protectedHeader = (0, base64url_js_1.decode)(jwe.protected);
+        const protectedHeader = base64url_js_1.decode(jwe.protected);
         try {
             parsedProt = JSON.parse(buffer_utils_js_1.decoder.decode(protectedHeader));
         }
@@ -54,7 +54,7 @@ async function flattenedDecrypt(jwe, key, options) {
             throw new errors_js_1.JWEInvalid('JWE Protected Header is invalid');
         }
     }
-    if (!(0, is_disjoint_js_1.default)(parsedProt, jwe.header, jwe.unprotected)) {
+    if (!is_disjoint_js_1.default(parsedProt, jwe.header, jwe.unprotected)) {
         throw new errors_js_1.JWEInvalid('JWE Protected, JWE Unprotected Header, and JWE Per-Recipient Unprotected Header Parameter names must be disjoint');
     }
     const joseHeader = {
@@ -62,7 +62,7 @@ async function flattenedDecrypt(jwe, key, options) {
         ...jwe.header,
         ...jwe.unprotected,
     };
-    (0, validate_crit_js_1.default)(errors_js_1.JWEInvalid, new Map(), options === null || options === void 0 ? void 0 : options.crit, parsedProt, joseHeader);
+    validate_crit_js_1.default(errors_js_1.JWEInvalid, new Map(), options === null || options === void 0 ? void 0 : options.crit, parsedProt, joseHeader);
     if (joseHeader.zip !== undefined) {
         if (!parsedProt || !parsedProt.zip) {
             throw new errors_js_1.JWEInvalid('JWE "zip" (Compression Algorithm) Header MUST be integrity protected');
@@ -78,9 +78,9 @@ async function flattenedDecrypt(jwe, key, options) {
     if (typeof enc !== 'string' || !enc) {
         throw new errors_js_1.JWEInvalid('missing JWE Encryption Algorithm (enc) in JWE Header');
     }
-    const keyManagementAlgorithms = options && (0, validate_algorithms_js_1.default)('keyManagementAlgorithms', options.keyManagementAlgorithms);
+    const keyManagementAlgorithms = options && validate_algorithms_js_1.default('keyManagementAlgorithms', options.keyManagementAlgorithms);
     const contentEncryptionAlgorithms = options &&
-        (0, validate_algorithms_js_1.default)('contentEncryptionAlgorithms', options.contentEncryptionAlgorithms);
+        validate_algorithms_js_1.default('contentEncryptionAlgorithms', options.contentEncryptionAlgorithms);
     if (keyManagementAlgorithms && !keyManagementAlgorithms.has(alg)) {
         throw new errors_js_1.JOSEAlgNotAllowed('"alg" (Algorithm) Header Parameter not allowed');
     }
@@ -89,7 +89,7 @@ async function flattenedDecrypt(jwe, key, options) {
     }
     let encryptedKey;
     if (jwe.encrypted_key !== undefined) {
-        encryptedKey = (0, base64url_js_1.decode)(jwe.encrypted_key);
+        encryptedKey = base64url_js_1.decode(jwe.encrypted_key);
     }
     let resolvedKey = false;
     if (typeof key === 'function') {
@@ -98,25 +98,25 @@ async function flattenedDecrypt(jwe, key, options) {
     }
     let cek;
     try {
-        cek = await (0, decrypt_key_management_js_1.default)(alg, key, encryptedKey, joseHeader, options);
+        cek = await decrypt_key_management_js_1.default(alg, key, encryptedKey, joseHeader, options);
     }
     catch (err) {
         if (err instanceof TypeError || err instanceof errors_js_1.JWEInvalid || err instanceof errors_js_1.JOSENotSupported) {
             throw err;
         }
-        cek = (0, cek_js_1.default)(enc);
+        cek = cek_js_1.default(enc);
     }
-    const iv = (0, base64url_js_1.decode)(jwe.iv);
-    const tag = (0, base64url_js_1.decode)(jwe.tag);
+    const iv = base64url_js_1.decode(jwe.iv);
+    const tag = base64url_js_1.decode(jwe.tag);
     const protectedHeader = buffer_utils_js_1.encoder.encode((_a = jwe.protected) !== null && _a !== void 0 ? _a : '');
     let additionalData;
     if (jwe.aad !== undefined) {
-        additionalData = (0, buffer_utils_js_1.concat)(protectedHeader, buffer_utils_js_1.encoder.encode('.'), buffer_utils_js_1.encoder.encode(jwe.aad));
+        additionalData = buffer_utils_js_1.concat(protectedHeader, buffer_utils_js_1.encoder.encode('.'), buffer_utils_js_1.encoder.encode(jwe.aad));
     }
     else {
         additionalData = protectedHeader;
     }
-    let plaintext = await (0, decrypt_js_1.default)(enc, cek, (0, base64url_js_1.decode)(jwe.ciphertext), iv, tag, additionalData);
+    let plaintext = await decrypt_js_1.default(enc, cek, base64url_js_1.decode(jwe.ciphertext), iv, tag, additionalData);
     if (joseHeader.zip === 'DEF') {
         plaintext = await ((options === null || options === void 0 ? void 0 : options.inflateRaw) || zlib_js_1.inflate)(plaintext);
     }
@@ -125,7 +125,7 @@ async function flattenedDecrypt(jwe, key, options) {
         result.protectedHeader = parsedProt;
     }
     if (jwe.aad !== undefined) {
-        result.additionalAuthenticatedData = (0, base64url_js_1.decode)(jwe.aad);
+        result.additionalAuthenticatedData = base64url_js_1.decode(jwe.aad);
     }
     if (jwe.unprotected !== undefined) {
         result.sharedUnprotectedHeader = jwe.unprotected;

@@ -10,7 +10,7 @@ const checkKey = (key, alg) => {
     if (key.asymmetricKeyType !== 'rsa') {
         throw new TypeError('Invalid key for this operation, its asymmetricKeyType must be rsa');
     }
-    (0, check_modulus_length_js_1.default)(key, alg);
+    check_modulus_length_js_1.default(key, alg);
 };
 const resolvePadding = (alg) => {
     switch (alg) {
@@ -40,20 +40,20 @@ const resolveOaepHash = (alg) => {
     }
 };
 function ensureKeyObject(key, alg, ...usages) {
-    if ((0, is_key_object_js_1.default)(key)) {
+    if (is_key_object_js_1.default(key)) {
         return key;
     }
-    if ((0, webcrypto_js_1.isCryptoKey)(key)) {
-        return (0, webcrypto_js_1.getKeyObject)(key, alg, new Set(usages));
+    if (webcrypto_js_1.isCryptoKey(key)) {
+        return webcrypto_js_1.getKeyObject(key, alg, new Set(usages));
     }
-    throw new TypeError((0, invalid_key_input_js_1.default)(key, 'KeyObject', 'CryptoKey'));
+    throw new TypeError(invalid_key_input_js_1.default(key, 'KeyObject', 'CryptoKey'));
 }
 const encrypt = async (alg, key, cek) => {
     const padding = resolvePadding(alg);
     const oaepHash = resolveOaepHash(alg);
     const keyObject = ensureKeyObject(key, alg, 'wrapKey', 'encrypt');
     checkKey(keyObject, alg);
-    return (0, crypto_1.publicEncrypt)({ key: keyObject, oaepHash, padding }, cek);
+    return crypto_1.publicEncrypt({ key: keyObject, oaepHash, padding }, cek);
 };
 exports.encrypt = encrypt;
 const decrypt = async (alg, key, encryptedKey) => {
@@ -61,6 +61,6 @@ const decrypt = async (alg, key, encryptedKey) => {
     const oaepHash = resolveOaepHash(alg);
     const keyObject = ensureKeyObject(key, alg, 'unwrapKey', 'decrypt');
     checkKey(keyObject, alg);
-    return (0, crypto_1.privateDecrypt)({ key: keyObject, oaepHash, padding }, encryptedKey);
+    return crypto_1.privateDecrypt({ key: keyObject, oaepHash, padding }, encryptedKey);
 };
 exports.decrypt = decrypt;

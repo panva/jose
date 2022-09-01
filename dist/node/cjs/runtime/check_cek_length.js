@@ -24,7 +24,7 @@ const checkCekLength = (enc, cek) => {
         }
         return;
     }
-    if ((0, is_key_object_js_1.default)(cek) && cek.type === 'secret') {
+    if (is_key_object_js_1.default(cek) && cek.type === 'secret') {
         if (cek.symmetricKeySize << 3 !== expected) {
             throw new errors_js_1.JWEInvalid('Invalid Content Encryption Key length');
         }

@@ -28,14 +28,14 @@ const namedCurveToJOSE = (namedCurve) => {
 const getNamedCurve = (kee, raw) => {
     var _a;
     let key;
-    if ((0, webcrypto_js_1.isCryptoKey)(kee)) {
-        key = (0, webcrypto_js_1.getKeyObject)(kee);
+    if (webcrypto_js_1.isCryptoKey(kee)) {
+        key = webcrypto_js_1.getKeyObject(kee);
     }
-    else if ((0, is_key_object_js_1.default)(kee)) {
+    else if (is_key_object_js_1.default(kee)) {
         key = kee;
     }
     else {
-        throw new TypeError((0, invalid_key_input_js_1.default)(kee, 'KeyObject', 'CryptoKey'));
+        throw new TypeError(invalid_key_input_js_1.default(kee, 'KeyObject', 'CryptoKey'));
     }
     if (key.type === 'secret') {
         throw new TypeError('only "private" or "public" type keys can be used for this operation');
@@ -53,7 +53,7 @@ const getNamedCurve = (kee, raw) => {
             }
             let namedCurve = (_a = key.asymmetricKeyDetails) === null || _a === void 0 ? void 0 : _a.namedCurve;
             if (!namedCurve && key.type === 'private') {
-                namedCurve = getNamedCurve((0, crypto_1.createPublicKey)(key), true);
+                namedCurve = getNamedCurve(crypto_1.createPublicKey(key), true);
             }
             else if (!namedCurve) {
                 const buf = key.export({ format: 'der', type: 'spki' });

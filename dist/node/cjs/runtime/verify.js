@@ -13,15 +13,15 @@ const [major, minor] = process.version
 const oneShotCallbackSupported = major >= 16 || (major === 15 && minor >= 13);
 let oneShotVerify;
 if (crypto.verify.length > 4 && oneShotCallbackSupported) {
-    oneShotVerify = (0, util_1.promisify)(crypto.verify);
+    oneShotVerify = util_1.promisify(crypto.verify);
 }
 else {
     oneShotVerify = crypto.verify;
 }
 const verify = async (alg, key, signature, data) => {
-    const keyObject = (0, get_sign_verify_key_js_1.default)(alg, key, 'verify');
+    const keyObject = get_sign_verify_key_js_1.default(alg, key, 'verify');
     if (alg.startsWith('HS')) {
-        const expected = await (0, sign_js_1.default)(alg, keyObject, data);
+        const expected = await sign_js_1.default(alg, keyObject, data);
         const actual = signature;
         try {
             return crypto.timingSafeEqual(actual, expected);
@@ -30,8 +30,8 @@ const verify = async (alg, key, signature, data) => {
             return false;
         }
     }
-    const algorithm = (0, dsa_digest_js_1.default)(alg);
-    const keyInput = (0, node_key_js_1.default)(alg, keyObject);
+    const algorithm = dsa_digest_js_1.default(alg);
+    const keyInput = node_key_js_1.default(alg, keyObject);
     try {
         return await oneShotVerify(algorithm, data, keyInput, signature);
     }

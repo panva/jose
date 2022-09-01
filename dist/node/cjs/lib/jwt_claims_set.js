@@ -28,7 +28,7 @@ exports.default = (protectedHeader, encodedPayload, options = {}) => {
     }
     catch {
     }
-    if (!(0, is_object_js_1.default)(payload)) {
+    if (!is_object_js_1.default(payload)) {
         throw new errors_js_1.JWTInvalid('JWT Claims Set must be a top-level JSON object');
     }
     const { issuer } = options;
@@ -47,7 +47,7 @@ exports.default = (protectedHeader, encodedPayload, options = {}) => {
     let tolerance;
     switch (typeof options.clockTolerance) {
         case 'string':
-            tolerance = (0, secs_js_1.default)(options.clockTolerance);
+            tolerance = secs_js_1.default(options.clockTolerance);
             break;
         case 'number':
             tolerance = options.clockTolerance;
@@ -59,7 +59,7 @@ exports.default = (protectedHeader, encodedPayload, options = {}) => {
             throw new TypeError('Invalid clockTolerance option type');
     }
     const { currentDate } = options;
-    const now = (0, epoch_js_1.default)(currentDate || new Date());
+    const now = epoch_js_1.default(currentDate || new Date());
     if (payload.iat !== undefined || options.maxTokenAge) {
         if (typeof payload.iat !== 'number') {
             throw new errors_js_1.JWTClaimValidationFailed('"iat" claim must be a number', 'iat', 'invalid');
@@ -86,7 +86,7 @@ exports.default = (protectedHeader, encodedPayload, options = {}) => {
     }
     if (options.maxTokenAge) {
         const age = now - payload.iat;
-        const max = typeof options.maxTokenAge === 'number' ? options.maxTokenAge : (0, secs_js_1.default)(options.maxTokenAge);
+        const max = typeof options.maxTokenAge === 'number' ? options.maxTokenAge : secs_js_1.default(options.maxTokenAge);
         if (age - tolerance > max) {
             throw new errors_js_1.JWTExpired('"iat" claim timestamp check failed (too far in the past)', 'iat', 'check_failed');
         }

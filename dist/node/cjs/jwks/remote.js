@@ -19,7 +19,7 @@ function getKtyFromAlg(alg) {
     }
 }
 function isJWKLike(key) {
-    return (0, is_object_js_1.default)(key);
+    return is_object_js_1.default(key);
 }
 class RemoteJWKSet {
     constructor(url, options) {
@@ -93,7 +93,7 @@ class RemoteJWKSet {
         }
         const cached = this._cached.get(jwk) || this._cached.set(jwk, {}).get(jwk);
         if (cached[protectedHeader.alg] === undefined) {
-            const keyObject = await (0, import_js_1.importJWK)({ ...jwk, ext: true }, protectedHeader.alg);
+            const keyObject = await import_js_1.importJWK({ ...jwk, ext: true }, protectedHeader.alg);
             if (keyObject instanceof Uint8Array || keyObject.type !== 'public') {
                 throw new errors_js_1.JWKSInvalid('JSON Web Key Set members must be public keys');
             }
@@ -103,7 +103,7 @@ class RemoteJWKSet {
     }
     async reload() {
         if (!this._pendingFetch) {
-            this._pendingFetch = (0, fetch_jwks_js_1.default)(this._url, this._timeoutDuration, this._options)
+            this._pendingFetch = fetch_jwks_js_1.default(this._url, this._timeoutDuration, this._options)
                 .then((json) => {
                 if (typeof json !== 'object' ||
                     !json ||

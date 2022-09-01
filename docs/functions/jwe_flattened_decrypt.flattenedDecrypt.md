@@ -16,7 +16,7 @@ const { flattenedDecrypt } = require('jose/jwe/flattened/decrypt')
 
 **`example`** Deno import
 ```js
-import { flattenedDecrypt } from 'https://deno.land/x/jose@v3.20.3/jwe/flattened/decrypt.ts'
+import { flattenedDecrypt } from 'https://deno.land/x/jose@v3.20.4/jwe/flattened/decrypt.ts'
 ```
 
 **`example`** Usage

@@ -67,7 +67,7 @@ class FlattenedEncrypt {
         if (!this._protectedHeader && !this._unprotectedHeader && !this._sharedUnprotectedHeader) {
             throw new errors_js_1.JWEInvalid('either setProtectedHeader, setUnprotectedHeader, or sharedUnprotectedHeader must be called before #encrypt()');
         }
-        if (!(0, is_disjoint_js_1.default)(this._protectedHeader, this._unprotectedHeader, this._sharedUnprotectedHeader)) {
+        if (!is_disjoint_js_1.default(this._protectedHeader, this._unprotectedHeader, this._sharedUnprotectedHeader)) {
             throw new errors_js_1.JWEInvalid('JWE Shared Protected, JWE Shared Unprotected and JWE Per-Recipient Header Parameter names must be disjoint');
         }
         const joseHeader = {
@@ -75,7 +75,7 @@ class FlattenedEncrypt {
             ...this._unprotectedHeader,
             ...this._sharedUnprotectedHeader,
         };
-        (0, validate_crit_js_1.default)(errors_js_1.JWEInvalid, new Map(), options === null || options === void 0 ? void 0 : options.crit, this._protectedHeader, joseHeader);
+        validate_crit_js_1.default(errors_js_1.JWEInvalid, new Map(), options === null || options === void 0 ? void 0 : options.crit, this._protectedHeader, joseHeader);
         if (joseHeader.zip !== undefined) {
             if (!this._protectedHeader || !this._protectedHeader.zip) {
                 throw new errors_js_1.JWEInvalid('JWE "zip" (Compression Algorithm) Header MUST be integrity protected');
@@ -105,7 +105,7 @@ class FlattenedEncrypt {
         let cek;
         {
             let parameters;
-            ({ cek, encryptedKey, parameters } = await (0, encrypt_key_management_js_1.default)(alg, enc, key, this._cek, this._keyManagementParameters));
+            ({ cek, encryptedKey, parameters } = await encrypt_key_management_js_1.default(alg, enc, key, this._cek, this._keyManagementParameters));
             if (parameters) {
                 if (!this._protectedHeader) {
                     this.setProtectedHeader(parameters);
@@ -115,19 +115,19 @@ class FlattenedEncrypt {
                 }
             }
         }
-        this._iv || (this._iv = (0, iv_js_1.default)(enc));
+        this._iv || (this._iv = iv_js_1.default(enc));
         let additionalData;
         let protectedHeader;
         let aadMember;
         if (this._protectedHeader) {
-            protectedHeader = buffer_utils_js_1.encoder.encode((0, base64url_js_1.encode)(JSON.stringify(this._protectedHeader)));
+            protectedHeader = buffer_utils_js_1.encoder.encode(base64url_js_1.encode(JSON.stringify(this._protectedHeader)));
         }
         else {
             protectedHeader = buffer_utils_js_1.encoder.encode('');
         }
         if (this._aad) {
-            aadMember = (0, base64url_js_1.encode)(this._aad);
-            additionalData = (0, buffer_utils_js_1.concat)(protectedHeader, buffer_utils_js_1.encoder.encode('.'), buffer_utils_js_1.encoder.encode(aadMember));
+            aadMember = base64url_js_1.encode(this._aad);
+            additionalData = buffer_utils_js_1.concat(protectedHeader, buffer_utils_js_1.encoder.encode('.'), buffer_utils_js_1.encoder.encode(aadMember));
         }
         else {
             additionalData = protectedHeader;
@@ -136,19 +136,19 @@ class FlattenedEncrypt {
         let tag;
         if (joseHeader.zip === 'DEF') {
             const deflated = await ((options === null || options === void 0 ? void 0 : options.deflateRaw) || zlib_js_1.deflate)(this._plaintext);
-            ({ ciphertext, tag } = await (0, encrypt_js_1.default)(enc, deflated, cek, this._iv, additionalData));
+            ({ ciphertext, tag } = await encrypt_js_1.default(enc, deflated, cek, this._iv, additionalData));
         }
         else {
             ;
-            ({ ciphertext, tag } = await (0, encrypt_js_1.default)(enc, this._plaintext, cek, this._iv, additionalData));
+            ({ ciphertext, tag } = await encrypt_js_1.default(enc, this._plaintext, cek, this._iv, additionalData));
         }
         const jwe = {
-            ciphertext: (0, base64url_js_1.encode)(ciphertext),
-            iv: (0, base64url_js_1.encode)(this._iv),
-            tag: (0, base64url_js_1.encode)(tag),
+            ciphertext: base64url_js_1.encode(ciphertext),
+            iv: base64url_js_1.encode(this._iv),
+            tag: base64url_js_1.encode(tag),
         };
         if (encryptedKey) {
-            jwe.encrypted_key = (0, base64url_js_1.encode)(encryptedKey);
+            jwe.encrypted_key = base64url_js_1.encode(encryptedKey);
         }
         if (aadMember) {
             jwe.aad = aadMember;

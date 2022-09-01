@@ -24,12 +24,12 @@ exports.default = (actual, ...types) => {
             msg += ` Received an instance of ${actual.constructor.name}`;
         }
         else {
-            const inspected = (0, util_1.inspect)(actual, { depth: -1 });
+            const inspected = util_1.inspect(actual, { depth: -1 });
             msg += ` Received ${inspected}`;
         }
     }
     else {
-        let inspected = (0, util_1.inspect)(actual, { colors: false });
+        let inspected = util_1.inspect(actual, { colors: false });
         if (inspected.length > 25)
             inspected = `${inspected.slice(0, 25)}...`;
         msg += ` Received type ${typeof actual} (${inspected})`;

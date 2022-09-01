@@ -14,7 +14,7 @@ async function encryptKeyManagement(alg, enc, key, providedCek, providedParamete
     let encryptedKey;
     let parameters;
     let cek;
-    (0, check_key_type_js_1.default)(alg, key, 'encrypt');
+    check_key_type_js_1.default(alg, key, 'encrypt');
     switch (alg) {
         case 'dir': {
             cek = key;
@@ -30,20 +30,20 @@ async function encryptKeyManagement(alg, enc, key, providedCek, providedParamete
             const { apu, apv } = providedParameters;
             let { epk: ephemeralKey } = providedParameters;
             ephemeralKey || (ephemeralKey = await ECDH.generateEpk(key));
-            const { x, y, crv, kty } = await (0, export_js_1.exportJWK)(ephemeralKey);
+            const { x, y, crv, kty } = await export_js_1.exportJWK(ephemeralKey);
             const sharedSecret = await ECDH.deriveKey(key, ephemeralKey, alg === 'ECDH-ES' ? enc : alg, parseInt(alg.substr(-5, 3), 10) || cek_js_1.bitLengths.get(enc), apu, apv);
             parameters = { epk: { x, y, crv, kty } };
             if (apu)
-                parameters.apu = (0, base64url_js_1.encode)(apu);
+                parameters.apu = base64url_js_1.encode(apu);
             if (apv)
-                parameters.apv = (0, base64url_js_1.encode)(apv);
+                parameters.apv = base64url_js_1.encode(apv);
             if (alg === 'ECDH-ES') {
                 cek = sharedSecret;
                 break;
             }
-            cek = providedCek || (0, cek_js_1.default)(enc);
+            cek = providedCek || cek_js_1.default(enc);
             const kwAlg = alg.substr(-6);
-            encryptedKey = await (0, aeskw_js_1.wrap)(kwAlg, sharedSecret, cek);
+            encryptedKey = await aeskw_js_1.wrap(kwAlg, sharedSecret, cek);
             break;
         }
         case 'RSA1_5':
@@ -51,31 +51,31 @@ async function encryptKeyManagement(alg, enc, key, providedCek, providedParamete
         case 'RSA-OAEP-256':
         case 'RSA-OAEP-384':
         case 'RSA-OAEP-512': {
-            cek = providedCek || (0, cek_js_1.default)(enc);
-            encryptedKey = await (0, rsaes_js_1.encrypt)(alg, key, cek);
+            cek = providedCek || cek_js_1.default(enc);
+            encryptedKey = await rsaes_js_1.encrypt(alg, key, cek);
             break;
         }
         case 'PBES2-HS256+A128KW':
         case 'PBES2-HS384+A192KW':
         case 'PBES2-HS512+A256KW': {
-            cek = providedCek || (0, cek_js_1.default)(enc);
+            cek = providedCek || cek_js_1.default(enc);
             const { p2c, p2s } = providedParameters;
-            ({ encryptedKey, ...parameters } = await (0, pbes2kw_js_1.encrypt)(alg, key, cek, p2c, p2s));
+            ({ encryptedKey, ...parameters } = await pbes2kw_js_1.encrypt(alg, key, cek, p2c, p2s));
             break;
         }
         case 'A128KW':
         case 'A192KW':
         case 'A256KW': {
-            cek = providedCek || (0, cek_js_1.default)(enc);
-            encryptedKey = await (0, aeskw_js_1.wrap)(alg, key, cek);
+            cek = providedCek || cek_js_1.default(enc);
+            encryptedKey = await aeskw_js_1.wrap(alg, key, cek);
             break;
         }
         case 'A128GCMKW':
         case 'A192GCMKW':
         case 'A256GCMKW': {
-            cek = providedCek || (0, cek_js_1.default)(enc);
+            cek = providedCek || cek_js_1.default(enc);
             const { iv } = providedParameters;
-            ({ encryptedKey, ...parameters } = await (0, aesgcmkw_js_1.wrap)(alg, key, cek, iv));
+            ({ encryptedKey, ...parameters } = await aesgcmkw_js_1.wrap(alg, key, cek, iv));
             break;
         }
         default: {

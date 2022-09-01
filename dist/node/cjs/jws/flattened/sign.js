@@ -33,14 +33,14 @@ class FlattenedSign {
         if (!this._protectedHeader && !this._unprotectedHeader) {
             throw new errors_js_1.JWSInvalid('either setProtectedHeader or setUnprotectedHeader must be called before #sign()');
         }
-        if (!(0, is_disjoint_js_1.default)(this._protectedHeader, this._unprotectedHeader)) {
+        if (!is_disjoint_js_1.default(this._protectedHeader, this._unprotectedHeader)) {
             throw new errors_js_1.JWSInvalid('JWS Protected and JWS Unprotected Header Parameter names must be disjoint');
         }
         const joseHeader = {
             ...this._protectedHeader,
             ...this._unprotectedHeader,
         };
-        const extensions = (0, validate_crit_js_1.default)(errors_js_1.JWSInvalid, new Map([['b64', true]]), options === null || options === void 0 ? void 0 : options.crit, this._protectedHeader, joseHeader);
+        const extensions = validate_crit_js_1.default(errors_js_1.JWSInvalid, new Map([['b64', true]]), options === null || options === void 0 ? void 0 : options.crit, this._protectedHeader, joseHeader);
         let b64 = true;
         if (extensions.has('b64')) {
             b64 = this._protectedHeader.b64;
@@ -52,22 +52,22 @@ class FlattenedSign {
         if (typeof alg !== 'string' || !alg) {
             throw new errors_js_1.JWSInvalid('JWS "alg" (Algorithm) Header Parameter missing or invalid');
         }
-        (0, check_key_type_js_1.default)(alg, key, 'sign');
+        check_key_type_js_1.default(alg, key, 'sign');
         let payload = this._payload;
         if (b64) {
-            payload = buffer_utils_js_1.encoder.encode((0, base64url_js_1.encode)(payload));
+            payload = buffer_utils_js_1.encoder.encode(base64url_js_1.encode(payload));
         }
         let protectedHeader;
         if (this._protectedHeader) {
-            protectedHeader = buffer_utils_js_1.encoder.encode((0, base64url_js_1.encode)(JSON.stringify(this._protectedHeader)));
+            protectedHeader = buffer_utils_js_1.encoder.encode(base64url_js_1.encode(JSON.stringify(this._protectedHeader)));
         }
         else {
             protectedHeader = buffer_utils_js_1.encoder.encode('');
         }
-        const data = (0, buffer_utils_js_1.concat)(protectedHeader, buffer_utils_js_1.encoder.encode('.'), payload);
-        const signature = await (0, sign_js_1.default)(alg, key, data);
+        const data = buffer_utils_js_1.concat(protectedHeader, buffer_utils_js_1.encoder.encode('.'), payload);
+        const signature = await sign_js_1.default(alg, key, data);
         const jws = {
-            signature: (0, base64url_js_1.encode)(signature),
+            signature: base64url_js_1.encode(signature),
             payload: '',
         };
         if (b64) {

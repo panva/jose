@@ -18,7 +18,7 @@ const { importX509 } = require('jose/key/import')
 
 **`example`** Deno import
 ```js
-import { importX509 } from 'https://deno.land/x/jose@v3.20.3/key/import.ts'
+import { importX509 } from 'https://deno.land/x/jose@v3.20.4/key/import.ts'
 ```
 
 **`example`** Usage

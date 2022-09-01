@@ -16,7 +16,7 @@ const { flattenedVerify } = require('jose/jws/flattened/verify')
 
 **`example`** Deno import
 ```js
-import { flattenedVerify } from 'https://deno.land/x/jose@v3.20.3/jws/flattened/verify.ts'
+import { flattenedVerify } from 'https://deno.land/x/jose@v3.20.4/jws/flattened/verify.ts'
 ```
 
 **`example`** Usage

@@ -18,7 +18,7 @@ const fetchJwks = async (url, timeout, options) => {
         agent,
         timeout,
     });
-    const [response] = (await Promise.race([(0, events_1.once)(req, 'response'), (0, events_1.once)(req, 'timeout')]));
+    const [response] = (await Promise.race([events_1.once(req, 'response'), events_1.once(req, 'timeout')]));
     if (!response) {
         req.destroy();
         throw new errors_js_1.JWKSTimeout();
@@ -31,7 +31,7 @@ const fetchJwks = async (url, timeout, options) => {
         parts.push(part);
     }
     try {
-        return JSON.parse(buffer_utils_js_1.decoder.decode((0, buffer_utils_js_1.concat)(...parts)));
+        return JSON.parse(buffer_utils_js_1.decoder.decode(buffer_utils_js_1.concat(...parts)));
     }
     catch {
         throw new errors_js_1.JOSEError('Failed to parse the JSON Web Key Set HTTP response as JSON');

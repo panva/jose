@@ -15,7 +15,7 @@ async function compactVerify(jws, key, options) {
     if (length !== 3) {
         throw new errors_js_1.JWSInvalid('Invalid Compact JWS');
     }
-    const verified = await (0, verify_js_1.default)({
+    const verified = await verify_js_1.default({
         payload: (payload || undefined),
         protected: protectedHeader || undefined,
         signature: (signature || undefined),

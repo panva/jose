@@ -12,7 +12,7 @@ const check = (value, description) => {
     }
 };
 async function calculateThumbprint(jwk, digestAlgorithm = 'sha256') {
-    if (!(0, is_object_js_1.default)(jwk)) {
+    if (!is_object_js_1.default(jwk)) {
         throw new TypeError('JWK must be an object');
     }
     let components;
@@ -41,7 +41,7 @@ async function calculateThumbprint(jwk, digestAlgorithm = 'sha256') {
             throw new errors_js_1.JOSENotSupported('"kty" (Key Type) Parameter missing or unsupported');
     }
     const data = buffer_utils_js_1.encoder.encode(JSON.stringify(components));
-    return (0, base64url_js_1.encode)(await (0, digest_js_1.default)(digestAlgorithm, data));
+    return base64url_js_1.encode(await digest_js_1.default(digestAlgorithm, data));
 }
 exports.calculateThumbprint = calculateThumbprint;
 exports.default = calculateThumbprint;

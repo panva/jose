@@ -25,8 +25,8 @@ function decodeProtectedHeader(token) {
         if (typeof protectedB64u !== 'string' || !protectedB64u) {
             throw new Error();
         }
-        const result = JSON.parse(buffer_utils_js_1.decoder.decode((0, base64url_js_1.decode)(protectedB64u)));
-        if (!(0, is_object_js_1.default)(result)) {
+        const result = JSON.parse(buffer_utils_js_1.decoder.decode(base64url_js_1.decode(protectedB64u)));
+        if (!is_object_js_1.default(result)) {
             throw new Error();
         }
         return result;

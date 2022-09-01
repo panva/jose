@@ -9,10 +9,10 @@ async function EmbeddedJWK(protectedHeader, token) {
         ...protectedHeader,
         ...token.header,
     };
-    if (!(0, is_object_js_1.default)(joseHeader.jwk)) {
+    if (!is_object_js_1.default(joseHeader.jwk)) {
         throw new errors_js_1.JWSInvalid('"jwk" (JSON Web Key) Header Parameter must be a JSON object');
     }
-    const key = await (0, import_js_1.importJWK)({ ...joseHeader.jwk, ext: true }, joseHeader.alg, true);
+    const key = await import_js_1.importJWK({ ...joseHeader.jwk, ext: true }, joseHeader.alg, true);
     if (key instanceof Uint8Array || key.type !== 'public') {
         throw new errors_js_1.JWSInvalid('"jwk" (JSON Web Key) Header Parameter must be a public key');
     }

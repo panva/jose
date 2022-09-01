@@ -4,7 +4,7 @@ const crypto_1 = require("crypto");
 function getSecretKey(key) {
     let keyObject;
     if (key instanceof Uint8Array) {
-        keyObject = (0, crypto_1.createSecretKey)(key);
+        keyObject = crypto_1.createSecretKey(key);
     }
     else {
         keyObject = key;

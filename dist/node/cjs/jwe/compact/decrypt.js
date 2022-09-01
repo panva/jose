@@ -15,7 +15,7 @@ async function compactDecrypt(jwe, key, options) {
     if (length !== 5) {
         throw new errors_js_1.JWEInvalid('Invalid Compact JWE');
     }
-    const decrypted = await (0, decrypt_js_1.default)({
+    const decrypted = await decrypt_js_1.default({
         ciphertext: (ciphertext || undefined),
         iv: (iv || undefined),
         protected: protectedHeader || undefined,

@@ -7,16 +7,16 @@ const invalid_key_input_js_1 = require("./invalid_key_input.js");
 function getSignVerifyKey(alg, key, usage) {
     if (key instanceof Uint8Array) {
         if (!alg.startsWith('HS')) {
-            throw new TypeError((0, invalid_key_input_js_1.default)(key, 'KeyObject', 'CryptoKey'));
+            throw new TypeError(invalid_key_input_js_1.default(key, 'KeyObject', 'CryptoKey'));
         }
-        return (0, secret_key_js_1.default)(key);
+        return secret_key_js_1.default(key);
     }
     if (key instanceof crypto.KeyObject) {
         return key;
     }
-    if ((0, webcrypto_js_1.isCryptoKey)(key)) {
-        return (0, webcrypto_js_1.getKeyObject)(key, alg, new Set([usage]));
+    if (webcrypto_js_1.isCryptoKey(key)) {
+        return webcrypto_js_1.getKeyObject(key, alg, new Set([usage]));
     }
-    throw new TypeError((0, invalid_key_input_js_1.default)(key, 'KeyObject', 'CryptoKey', 'Uint8Array'));
+    throw new TypeError(invalid_key_input_js_1.default(key, 'KeyObject', 'CryptoKey', 'Uint8Array'));
 }
 exports.default = getSignVerifyKey;

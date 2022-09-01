@@ -6,7 +6,7 @@ const is_object_js_1 = require("../lib/is_object.js");
 const secs_js_1 = require("../lib/secs.js");
 class ProduceJWT {
     constructor(payload) {
-        if (!(0, is_object_js_1.default)(payload)) {
+        if (!is_object_js_1.default(payload)) {
             throw new TypeError('JWT Claims Set MUST be an object');
         }
         this._payload = payload;
@@ -32,7 +32,7 @@ class ProduceJWT {
             this._payload = { ...this._payload, nbf: input };
         }
         else {
-            this._payload = { ...this._payload, nbf: (0, epoch_js_1.default)(new Date()) + (0, secs_js_1.default)(input) };
+            this._payload = { ...this._payload, nbf: epoch_js_1.default(new Date()) + secs_js_1.default(input) };
         }
         return this;
     }
@@ -41,13 +41,13 @@ class ProduceJWT {
             this._payload = { ...this._payload, exp: input };
         }
         else {
-            this._payload = { ...this._payload, exp: (0, epoch_js_1.default)(new Date()) + (0, secs_js_1.default)(input) };
+            this._payload = { ...this._payload, exp: epoch_js_1.default(new Date()) + secs_js_1.default(input) };
         }
         return this;
     }
     setIssuedAt(input) {
         if (typeof input === 'undefined') {
-            this._payload = { ...this._payload, iat: (0, epoch_js_1.default)(new Date()) };
+            this._payload = { ...this._payload, iat: epoch_js_1.default(new Date()) };
         }
         else {
             this._payload = { ...this._payload, iat: input };

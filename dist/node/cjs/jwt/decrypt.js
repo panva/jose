@@ -5,8 +5,8 @@ const decrypt_js_1 = require("../jwe/compact/decrypt.js");
 const jwt_claims_set_js_1 = require("../lib/jwt_claims_set.js");
 const errors_js_1 = require("../util/errors.js");
 async function jwtDecrypt(jwt, key, options) {
-    const decrypted = await (0, decrypt_js_1.default)(jwt, key, options);
-    const payload = (0, jwt_claims_set_js_1.default)(decrypted.protectedHeader, decrypted.plaintext, options);
+    const decrypted = await decrypt_js_1.default(jwt, key, options);
+    const payload = jwt_claims_set_js_1.default(decrypted.protectedHeader, decrypted.plaintext, options);
     const { protectedHeader } = decrypted;
     if (protectedHeader.iss !== undefined && protectedHeader.iss !== payload.iss) {
         throw new errors_js_1.JWTClaimValidationFailed('replicated "iss" claim header parameter mismatch', 'iss', 'mismatch');

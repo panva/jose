@@ -29,7 +29,7 @@ class UnsecuredJWT extends produce_js_1.ProduceJWT {
         catch {
             throw new errors_js_1.JWTInvalid('Invalid Unsecured JWT');
         }
-        const payload = (0, jwt_claims_set_js_1.default)(header, base64url.decode(encodedPayload), options);
+        const payload = jwt_claims_set_js_1.default(header, base64url.decode(encodedPayload), options);
         return { payload, header };
     }
 }

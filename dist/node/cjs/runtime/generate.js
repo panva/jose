@@ -6,7 +6,7 @@ const util_1 = require("util");
 const random_js_1 = require("./random.js");
 const check_modulus_length_js_1 = require("./check_modulus_length.js");
 const errors_js_1 = require("../util/errors.js");
-const generate = (0, util_1.promisify)(crypto_1.generateKeyPair);
+const generate = util_1.promisify(crypto_1.generateKeyPair);
 async function generateSecret(alg, options) {
     let length;
     switch (alg) {
@@ -32,7 +32,7 @@ async function generateSecret(alg, options) {
         default:
             throw new errors_js_1.JOSENotSupported('Invalid or unsupported JWK "alg" (Algorithm) Parameter value');
     }
-    return (0, crypto_1.createSecretKey)((0, random_js_1.default)(new Uint8Array(length >> 3)));
+    return crypto_1.createSecretKey(random_js_1.default(new Uint8Array(length >> 3)));
 }
 exports.generateSecret = generateSecret;
 async function generateKeyPair(alg, options) {
@@ -57,8 +57,8 @@ async function generateKeyPair(alg, options) {
                 modulusLength,
                 publicExponent: 0x10001,
             });
-            (0, check_modulus_length_js_1.setModulusLength)(keypair.privateKey, modulusLength);
-            (0, check_modulus_length_js_1.setModulusLength)(keypair.publicKey, modulusLength);
+            check_modulus_length_js_1.setModulusLength(keypair.privateKey, modulusLength);
+            check_modulus_length_js_1.setModulusLength(keypair.publicKey, modulusLength);
             return keypair;
         }
         case 'ES256':

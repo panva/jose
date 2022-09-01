@@ -28,7 +28,7 @@ function keyForCrypto(alg, key) {
             if (key.asymmetricKeyType !== 'rsa') {
                 throw new TypeError('Invalid key for this operation, its asymmetricKeyType must be rsa');
             }
-            (0, check_modulus_length_js_1.default)(key, alg);
+            check_modulus_length_js_1.default(key, alg);
             return key;
         case rsaPssParams && 'PS256':
         case rsaPssParams && 'PS384':
@@ -47,7 +47,7 @@ function keyForCrypto(alg, key) {
             else if (key.asymmetricKeyType !== 'rsa') {
                 throw new TypeError('Invalid key for this operation, its asymmetricKeyType must be rsa or rsa-pss');
             }
-            (0, check_modulus_length_js_1.default)(key, alg);
+            check_modulus_length_js_1.default(key, alg);
             return {
                 key,
                 padding: crypto_1.constants.RSA_PKCS1_PSS_PADDING,
@@ -59,7 +59,7 @@ function keyForCrypto(alg, key) {
             if (key.asymmetricKeyType !== 'rsa') {
                 throw new TypeError('Invalid key for this operation, its asymmetricKeyType must be rsa');
             }
-            (0, check_modulus_length_js_1.default)(key, alg);
+            check_modulus_length_js_1.default(key, alg);
             return {
                 key,
                 padding: crypto_1.constants.RSA_PKCS1_PSS_PADDING,
@@ -72,7 +72,7 @@ function keyForCrypto(alg, key) {
             if (key.asymmetricKeyType !== 'ec') {
                 throw new TypeError('Invalid key for this operation, its asymmetricKeyType must be ec');
             }
-            const actual = (0, get_named_curve_js_1.default)(key);
+            const actual = get_named_curve_js_1.default(key);
             const expected = ecCurveAlgMap.get(alg);
             if (actual !== expected) {
                 throw new TypeError(`Invalid key curve for the algorithm, its curve must be ${expected}, got ${actual}`);

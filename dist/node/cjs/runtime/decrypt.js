@@ -13,20 +13,20 @@ const invalid_key_input_js_1 = require("./invalid_key_input.js");
 const ciphers_js_1 = require("./ciphers.js");
 async function cbcDecrypt(enc, cek, ciphertext, iv, tag, aad) {
     const keySize = parseInt(enc.substr(1, 3), 10);
-    if ((0, is_key_object_js_1.default)(cek)) {
+    if (is_key_object_js_1.default(cek)) {
         cek = cek.export();
     }
     const encKey = cek.subarray(keySize >> 3);
     const macKey = cek.subarray(0, keySize >> 3);
     const macSize = parseInt(enc.substr(-3), 10);
     const algorithm = `aes-${keySize}-cbc`;
-    if (!(0, ciphers_js_1.default)(algorithm)) {
+    if (!ciphers_js_1.default(algorithm)) {
         throw new errors_js_1.JOSENotSupported(`alg ${enc} is not supported by your javascript runtime`);
     }
-    const expectedTag = (0, cbc_tag_js_1.default)(aad, iv, ciphertext, macSize, macKey, keySize);
+    const expectedTag = cbc_tag_js_1.default(aad, iv, ciphertext, macSize, macKey, keySize);
     let macCheckPassed;
     try {
-        macCheckPassed = (0, timing_safe_equal_js_1.default)(tag, expectedTag);
+        macCheckPassed = timing_safe_equal_js_1.default(tag, expectedTag);
     }
     catch {
     }
@@ -35,8 +35,8 @@ async function cbcDecrypt(enc, cek, ciphertext, iv, tag, aad) {
     }
     let plaintext;
     try {
-        const cipher = (0, crypto_1.createDecipheriv)(algorithm, encKey, iv);
-        plaintext = (0, buffer_utils_js_1.concat)(cipher.update(ciphertext), cipher.final());
+        const cipher = crypto_1.createDecipheriv(algorithm, encKey, iv);
+        plaintext = buffer_utils_js_1.concat(cipher.update(ciphertext), cipher.final());
     }
     catch {
     }
@@ -48,16 +48,16 @@ async function cbcDecrypt(enc, cek, ciphertext, iv, tag, aad) {
 async function gcmDecrypt(enc, cek, ciphertext, iv, tag, aad) {
     const keySize = parseInt(enc.substr(1, 3), 10);
     const algorithm = `aes-${keySize}-gcm`;
-    if (!(0, ciphers_js_1.default)(algorithm)) {
+    if (!ciphers_js_1.default(algorithm)) {
         throw new errors_js_1.JOSENotSupported(`alg ${enc} is not supported by your javascript runtime`);
     }
     try {
-        const cipher = (0, crypto_1.createDecipheriv)(algorithm, cek, iv, { authTagLength: 16 });
+        const cipher = crypto_1.createDecipheriv(algorithm, cek, iv, { authTagLength: 16 });
         cipher.setAuthTag(tag);
         if (aad.byteLength) {
             cipher.setAAD(aad, { plaintextLength: ciphertext.length });
         }
-        return (0, buffer_utils_js_1.concat)(cipher.update(ciphertext), cipher.final());
+        return buffer_utils_js_1.concat(cipher.update(ciphertext), cipher.final());
     }
     catch {
         throw new errors_js_1.JWEDecryptionFailed();
@@ -65,17 +65,17 @@ async function gcmDecrypt(enc, cek, ciphertext, iv, tag, aad) {
 }
 const decrypt = async (enc, cek, ciphertext, iv, tag, aad) => {
     let key;
-    if ((0, webcrypto_js_1.isCryptoKey)(cek)) {
-        key = (0, webcrypto_js_1.getKeyObject)(cek, enc, new Set(['decrypt']));
+    if (webcrypto_js_1.isCryptoKey(cek)) {
+        key = webcrypto_js_1.getKeyObject(cek, enc, new Set(['decrypt']));
     }
-    else if (cek instanceof Uint8Array || (0, is_key_object_js_1.default)(cek)) {
+    else if (cek instanceof Uint8Array || is_key_object_js_1.default(cek)) {
         key = cek;
     }
     else {
-        throw new TypeError((0, invalid_key_input_js_1.default)(cek, 'KeyObject', 'CryptoKey', 'Uint8Array'));
+        throw new TypeError(invalid_key_input_js_1.default(cek, 'KeyObject', 'CryptoKey', 'Uint8Array'));
     }
-    (0, check_cek_length_js_1.default)(enc, key);
-    (0, check_iv_length_js_1.default)(enc, iv);
+    check_cek_length_js_1.default(enc, key);
+    check_iv_length_js_1.default(enc, iv);
     switch (enc) {
         case 'A128CBC-HS256':
         case 'A192CBC-HS384':

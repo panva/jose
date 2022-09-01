@@ -17,6 +17,6 @@ const generateCek = (alg) => {
     if (!bitLength) {
         throw new errors_js_1.JOSENotSupported(`Unsupported JWE Algorithm: ${alg}`);
     }
-    return (0, random_js_1.default)(new Uint8Array(bitLength >> 3));
+    return random_js_1.default(new Uint8Array(bitLength >> 3));
 };
 exports.default = generateCek;

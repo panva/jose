@@ -15,38 +15,38 @@ function checkKeySize(key, alg) {
     }
 }
 function ensureKeyObject(key, alg, usage) {
-    if ((0, is_key_object_js_1.default)(key)) {
+    if (is_key_object_js_1.default(key)) {
         return key;
     }
     if (key instanceof Uint8Array) {
-        return (0, secret_key_js_1.default)(key);
+        return secret_key_js_1.default(key);
     }
-    if ((0, webcrypto_js_1.isCryptoKey)(key)) {
-        return (0, webcrypto_js_1.getKeyObject)(key, alg, new Set([usage]));
+    if (webcrypto_js_1.isCryptoKey(key)) {
+        return webcrypto_js_1.getKeyObject(key, alg, new Set([usage]));
     }
-    throw new TypeError((0, invalid_key_input_js_1.default)(key, 'KeyObject', 'CryptoKey', 'Uint8Array'));
+    throw new TypeError(invalid_key_input_js_1.default(key, 'KeyObject', 'CryptoKey', 'Uint8Array'));
 }
 const wrap = async (alg, key, cek) => {
     const size = parseInt(alg.substr(1, 3), 10);
     const algorithm = `aes${size}-wrap`;
-    if (!(0, ciphers_js_1.default)(algorithm)) {
+    if (!ciphers_js_1.default(algorithm)) {
         throw new errors_js_1.JOSENotSupported(`alg ${alg} is not supported either by JOSE or your javascript runtime`);
     }
     const keyObject = ensureKeyObject(key, alg, 'wrapKey');
     checkKeySize(keyObject, alg);
-    const cipher = (0, crypto_1.createCipheriv)(algorithm, keyObject, Buffer.alloc(8, 0xa6));
-    return (0, buffer_utils_js_1.concat)(cipher.update(cek), cipher.final());
+    const cipher = crypto_1.createCipheriv(algorithm, keyObject, Buffer.alloc(8, 0xa6));
+    return buffer_utils_js_1.concat(cipher.update(cek), cipher.final());
 };
 exports.wrap = wrap;
 const unwrap = async (alg, key, encryptedKey) => {
     const size = parseInt(alg.substr(1, 3), 10);
     const algorithm = `aes${size}-wrap`;
-    if (!(0, ciphers_js_1.default)(algorithm)) {
+    if (!ciphers_js_1.default(algorithm)) {
         throw new errors_js_1.JOSENotSupported(`alg ${alg} is not supported either by JOSE or your javascript runtime`);
     }
     const keyObject = ensureKeyObject(key, alg, 'unwrapKey');
     checkKeySize(keyObject, alg);
-    const cipher = (0, crypto_1.createDecipheriv)(algorithm, keyObject, Buffer.alloc(8, 0xa6));
-    return (0, buffer_utils_js_1.concat)(cipher.update(encryptedKey), cipher.final());
+    const cipher = crypto_1.createDecipheriv(algorithm, keyObject, Buffer.alloc(8, 0xa6));
+    return buffer_utils_js_1.concat(cipher.update(encryptedKey), cipher.final());
 };
 exports.unwrap = unwrap;
