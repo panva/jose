@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [2.0.6](https://github.com/panva/jose/compare/v2.0.5...v2.0.6) (2022-09-01)
+
+
+### Bug Fixes
+
+* limit default PBES2 alg's computational expense ([c1512be](https://github.com/panva/jose/commit/c1512be6601a8b6e5a8193fbda9ecdf25349a1c2))
+
 ## [2.0.5](https://github.com/panva/jose/compare/v2.0.4...v2.0.5) (2021-04-09)
 
 
