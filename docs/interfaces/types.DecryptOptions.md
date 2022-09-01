@@ -12,6 +12,7 @@ JWE Decryption options.
 - [crit](types.DecryptOptions.md#crit)
 - [inflateRaw](types.DecryptOptions.md#inflateraw)
 - [keyManagementAlgorithms](types.DecryptOptions.md#keymanagementalgorithms)
+- [maxPBES2Count](types.DecryptOptions.md#maxpbes2count)
 
 ## Properties
 
@@ -60,3 +61,13 @@ ___
 • `Optional` **keyManagementAlgorithms**: `string`[]
 
 A list of accepted JWE "alg" (Algorithm) Header Parameter values.
+
+___
+
+### maxPBES2Count
+
+• `Optional` **maxPBES2Count**: `number`
+
+(PBES2 Key Management Algorithms only) Maximum allowed "p2c" (PBES2 Count) Header Parameter
+value. The PBKDF2 iteration count defines the algorithm's computational expense. By default
+this value is set to 10000.

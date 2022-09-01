@@ -16,6 +16,7 @@ Combination of JWE Decryption options and JWT Claims Set verification options.
 - [inflateRaw](jwt_decrypt.JWTDecryptOptions.md#inflateraw)
 - [issuer](jwt_decrypt.JWTDecryptOptions.md#issuer)
 - [keyManagementAlgorithms](jwt_decrypt.JWTDecryptOptions.md#keymanagementalgorithms)
+- [maxPBES2Count](jwt_decrypt.JWTDecryptOptions.md#maxpbes2count)
 - [maxTokenAge](jwt_decrypt.JWTDecryptOptions.md#maxtokenage)
 - [subject](jwt_decrypt.JWTDecryptOptions.md#subject)
 - [typ](jwt_decrypt.JWTDecryptOptions.md#typ)
@@ -102,6 +103,16 @@ ___
 • `Optional` **keyManagementAlgorithms**: `string`[]
 
 A list of accepted JWE "alg" (Algorithm) Header Parameter values.
+
+___
+
+### maxPBES2Count
+
+• `Optional` **maxPBES2Count**: `number`
+
+(PBES2 Key Management Algorithms only) Maximum allowed "p2c" (PBES2 Count) Header Parameter
+value. The PBKDF2 iteration count defines the algorithm's computational expense. By default
+this value is set to 10000.
 
 ___
 
