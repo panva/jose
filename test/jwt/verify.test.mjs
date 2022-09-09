@@ -380,3 +380,14 @@ test('Signed JWTs cannot use unencoded payload', async (t) => {
     { code: 'ERR_JWT_INVALID', message: 'JWTs MUST NOT use unencoded payload' },
   )
 })
+
+test('signatures are compared before claim set', async (t) => {
+  // https://github.com/panva/jose/discussions/447
+  const jwt = await new SignJWT({ exp: 0 }).setProtectedHeader({ alg: 'HS256' }).sign(t.context.secret);
+
+  // with valid secret should throw exp failing to verify
+  await t.throwsAsync(jwtVerify(jwt, t.context.secret), { code: 'ERR_JWT_EXPIRED' })
+
+  // with invalid secret should throw signature failing to verify
+  await t.throwsAsync(jwtVerify(jwt, new Uint8Array([0x00, 0x01])), { code: 'ERR_JWS_SIGNATURE_VERIFICATION_FAILED' })
+})
