@@ -22,6 +22,8 @@ implementation is correct.
 
 ## [💗 Help the project](https://github.com/sponsors/panva)
 
+## Dependencies: 0
+
 ## Documentation
 
 **`example`** ESM import
