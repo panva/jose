@@ -2,6 +2,15 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [4.9.3](https://github.com/panva/jose/compare/v4.9.2...v4.9.3) (2022-09-15)
+
+
+### Refactor
+
+* update CEK length validation error message ([81a92a9](https://github.com/panva/jose/commit/81a92a9a9803022b82ea67577bde3fc0da3ecc6f))
+* update key input validation error messages ([2eac34a](https://github.com/panva/jose/commit/2eac34aa8f02c800a5f0b944e03fbe681c962b9c))
+* update keylike description for WinterCG ([6741679](https://github.com/panva/jose/commit/6741679936acf78f00c6effd559b4698cc92f123))
+
 ## [4.9.2](https://github.com/panva/jose/compare/v4.9.1...v4.9.2) (2022-09-01)
 
 
