@@ -20,8 +20,8 @@
  * obtain a KeyObject from your existing key material.
  *
  * [CryptoKey](https://developer.mozilla.org/en-US/docs/Web/API/CryptoKey) is a representation of a
- * key/secret available in the Browser and Deno runtimes. In addition to the import functions of
- * this library you may use the
+ * key/secret available in the Browser and Web-interoperable runtimes. In addition to the import
+ * functions of this library you may use the
  * [SubtleCrypto.importKey](https://developer.mozilla.org/en-US/docs/Web/API/SubtleCrypto/importKey)
  * API to obtain a CryptoKey from your existing key material.
  *

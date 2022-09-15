@@ -1,8 +1,11 @@
 import { JWEInvalid } from '../../util/errors.js'
 
 const checkCekLength = (cek: Uint8Array, expected: number) => {
-  if (cek.length << 3 !== expected) {
-    throw new JWEInvalid('Invalid Content Encryption Key length')
+  const actual = cek.byteLength << 3
+  if (actual !== expected) {
+    throw new JWEInvalid(
+      `Invalid Content Encryption Key length. Expected ${expected} bits, got ${actual} bits`,
+    )
   }
 }
 

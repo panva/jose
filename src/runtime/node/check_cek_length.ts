@@ -22,15 +22,21 @@ const checkCekLength = (enc: string, cek: KeyObject | Uint8Array) => {
   }
 
   if (cek instanceof Uint8Array) {
-    if (cek.length << 3 !== expected) {
-      throw new JWEInvalid('Invalid Content Encryption Key length')
+    const actual = cek.byteLength << 3
+    if (actual !== expected) {
+      throw new JWEInvalid(
+        `Invalid Content Encryption Key length. Expected ${expected} bits, got ${actual} bits`,
+      )
     }
     return
   }
 
   if (isKeyObject(cek) && cek.type === 'secret') {
-    if (cek.symmetricKeySize! << 3 !== expected) {
-      throw new JWEInvalid('Invalid Content Encryption Key length')
+    const actual = cek.symmetricKeySize! << 3
+    if (actual !== expected) {
+      throw new JWEInvalid(
+        `Invalid Content Encryption Key length. Expected ${expected} bits, got ${actual} bits`,
+      )
     }
     return
   }
