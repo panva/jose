@@ -1,6 +1,7 @@
 {
   "extends": "./base.json",
   "compilerOptions": {
+    "types": ["node"],
     "target": "ES2019",
     "module": "CommonJS",
     "outDir": "../dist/node/cjs"

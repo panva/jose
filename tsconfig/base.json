@@ -3,7 +3,8 @@
     "../src/index.ts"
   ],
   "compilerOptions": {
-    "lib": ["ES6", "DOM"],
+    "lib": ["ES2017", "DOM"],
+    "types": [],
     "strict": true,
     "forceConsistentCasingInFileNames": true,
     "noUnusedLocals": true,
