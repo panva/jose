@@ -100,7 +100,7 @@ import * as jose from 'https://deno.land/x/jose/index.ts'
 
 #### How is it different from [`jws`](https://github.com/brianloveswords/node-jws), [`jwa`](https://github.com/brianloveswords/node-jwa) or [`jsonwebtoken`](https://github.com/auth0/node-jsonwebtoken)?
 
-- it supports Browser, Cloudflare Workers, and Deno runtimes
+- it supports Browser, Deno, Cloudflare Workers, and other Web-interoperable runtimes
 - it supports encrypted JWTs (i.e. in JWE format)
 - supports secp256k1, Ed25519, Ed448, X25519, and X448
 - it supports JWK Key Format for all four key types (oct, RSA, EC and OKP)
