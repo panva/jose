@@ -1,11 +1,11 @@
-import invalidKeyInput from './invalid_key_input.js'
+import { withAlg as invalidKeyInput } from './invalid_key_input.js'
 import isKeyLike, { types } from '../runtime/is_key_like.js'
 
-const symmetricTypeCheck = (key: unknown) => {
+const symmetricTypeCheck = (alg: string, key: unknown) => {
   if (key instanceof Uint8Array) return
 
   if (!isKeyLike(key)) {
-    throw new TypeError(invalidKeyInput(key, ...types, 'Uint8Array'))
+    throw new TypeError(invalidKeyInput(alg, key, ...types, 'Uint8Array'))
   }
 
   if (key.type !== 'secret') {
@@ -15,9 +15,9 @@ const symmetricTypeCheck = (key: unknown) => {
   }
 }
 
-const asymmetricTypeCheck = (key: unknown, usage: string) => {
+const asymmetricTypeCheck = (alg: string, key: unknown, usage: string) => {
   if (!isKeyLike(key)) {
-    throw new TypeError(invalidKeyInput(key, ...types))
+    throw new TypeError(invalidKeyInput(alg, key, ...types))
   }
 
   if (key.type === 'secret') {
@@ -65,9 +65,9 @@ const checkKeyType = (alg: string, key: unknown, usage: string): void => {
     /^A\d{3}(?:GCM)?KW$/.test(alg)
 
   if (symmetric) {
-    symmetricTypeCheck(key)
+    symmetricTypeCheck(alg, key)
   } else {
-    asymmetricTypeCheck(key, usage)
+    asymmetricTypeCheck(alg, key, usage)
   }
 }
 

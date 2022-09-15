@@ -17,7 +17,7 @@ const { generateKeyPair, generateSecret } = await import(keyRoot)
 test('lib/check_key_type.ts', async (t) => {
   const expected = {
     instanceOf: TypeError,
-    message: new RegExp(`^Key must be (?:one )?of type ${types}.`),
+    message: new RegExp(`^Key for the .+ algorithm must be (?:one )?of type ${types}\\.`),
   }
 
   t.throws(() => checkKeyType('HS256'), expected)
@@ -33,7 +33,7 @@ test('lib/check_key_type.ts', async (t) => {
 
   t.throws(() => checkKeyType('PS256', new Uint8Array()), {
     ...expected,
-    message: new RegExp(`^Key must be (?:one )?of type ${asymmetricTypes}\.`),
+    message: new RegExp(`^Key for the .+ algorithm must be (?:one )?of type ${asymmetricTypes}\\.`),
   })
   let secret = await generateSecret('HS256')
   t.throws(() => checkKeyType('PS256', secret), {
