@@ -23,11 +23,10 @@ export function decodeJwt(jwt: string) {
   if (typeof jwt !== 'string')
     throw new JWTInvalid('JWTs must use Compact JWS serialization, JWT must be a string')
 
-  const { 1: payload, length } = jwt.split('.')
+  const { 0: header, 1: payload, length } = jwt.split('.')
 
   if (length === 5) throw new JWTInvalid('Only JWTs using Compact JWS serialization can be decoded')
-  if (length !== 3) throw new JWTInvalid('Invalid JWT')
-  if (!payload) throw new JWTInvalid('JWTs must contain a payload')
+  if (!header && !payload) throw new JWTInvalid('JWTs must contain a header and a payload')
 
   let decoded: Uint8Array
   try {
