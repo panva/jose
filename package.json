@@ -129,7 +129,6 @@
     "coverage": "npm run-script runtime-node && c8 npm run-script test",
     "coverage-cryptokey": "npm run-script runtime-node && c8 npm run-script test-cryptokey",
     "coverage-webcrypto": "npm run-script runtime-node-webcrypto && c8 npm run-script test-webcrypto",
-    "docs": "run-s docs:*",
     "docs:generate": "typedoc",
     "esbuild-find": "find src -type f -name '*.ts' -not -path '*/runtime/*/*' -not -name '*.d.ts' -print0",
     "runtime-browser": "run-s runtime:clear runtime:browser:* runtime:refs",
