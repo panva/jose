@@ -41,20 +41,13 @@ function parseElement(bytes: Uint8Array) {
   if (bytes[position] < 0x80) {
     length = bytes[position]
     position++
-  } else {
-    let numberOfDigits = bytes[position] & 0x7f
-    position++
-    length = 0
-    for (let i = 0; i < numberOfDigits; i++) {
-      length = length * 256 + bytes[position]
-      position++
-    }
-  }
-
-  if (length === 0x80) {
+  } else if (length === 0x80) {
     length = 0
 
     while (bytes[position + length] !== 0 || bytes[position + length + 1] !== 0) {
+      if (length > bytes.byteLength) {
+        throw new TypeError('invalid indefinite form length')
+      }
       length++
     }
 
@@ -63,6 +56,14 @@ function parseElement(bytes: Uint8Array) {
       byteLength,
       contents: bytes.subarray(position, position + length),
       raw: bytes.subarray(0, byteLength),
+    }
+  } else {
+    let numberOfDigits = bytes[position] & 0x7f
+    position++
+    length = 0
+    for (let i = 0; i < numberOfDigits; i++) {
+      length = length * 256 + bytes[position]
+      position++
     }
   }
 
@@ -158,7 +159,13 @@ export async function importX509(
   if (typeof x509 !== 'string' || x509.indexOf('-----BEGIN CERTIFICATE-----') !== 0) {
     throw new TypeError('"x509" must be X.509 formatted string')
   }
-  const spki = getSPKI(x509)
+  let spki: string
+  try {
+    spki = getSPKI(x509)
+  } catch (cause) {
+    // @ts-ignore
+    throw new TypeError('failed to parse the X.509 certificate', { cause })
+  }
   return importPublic(spki, alg, options)
 }
 
