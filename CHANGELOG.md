@@ -2,6 +2,18 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [4.10.0](https://github.com/panva/jose/compare/v4.9.3...v4.10.0) (2022-09-27)
+
+
+### Features
+
+* Curve25519, and Curve448 support for WebCryptoAPI runtimes ([fea359a](https://github.com/panva/jose/commit/fea359a2055aa1b65170999a7f8e1bb23a3a1cb5))
+
+
+### Fixes
+
+* **importX509:** handle length encodings better ([47d0d77](https://github.com/panva/jose/commit/47d0d777a1ac90ff2ed0368fdab536db3d17aa8c)), closes [#459](https://github.com/panva/jose/issues/459)
+
 ## [4.9.3](https://github.com/panva/jose/compare/v4.9.2...v4.9.3) (2022-09-15)
 
 
