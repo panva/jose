@@ -36,6 +36,14 @@ Deno.test(
   failing.bind(undefined, generateKeyPair.bind(undefined, 'ECDH-ES', { crv: 'P-521' }), 'ECDH-ES'),
 )
 Deno.test(
+  '(expecting failure) Encrypt/Decrypt ECDH-ES crv: X25519',
+  failing.bind(undefined, generateKeyPair.bind(undefined, 'ECDH-ES', { crv: 'X25519' }), 'ECDH-ES'),
+)
+Deno.test(
+  '(expecting failure) Encrypt/Decrypt ECDH-ES crv: X448',
+  failing.bind(undefined, generateKeyPair.bind(undefined, 'ECDH-ES', { crv: 'X448' }), 'ECDH-ES'),
+)
+Deno.test(
   'Encrypt/Decrypt RSA-OAEP-256',
   test.bind(undefined, generateKeyPair.bind(undefined, 'RSA-OAEP-256'), 'RSA-OAEP-256'),
 )

@@ -162,13 +162,10 @@ for (const alg of ['ES256K']) {
 }
 
 for (const alg of ['EdDSA']) {
+  Deno.test(`import SPKI Ed25519 for ${alg}`, testSPKI.bind(undefined, keys.ed25519.publicKey, alg))
   Deno.test(
-    `(expecting failure) import SPKI ed25519 for ${alg}`,
-    failing.bind(undefined, testSPKI.bind(undefined, keys.ed25519.publicKey, alg)),
-  )
-  Deno.test(
-    `(expecting failure) import PKCS8 ed25519 for ${alg}`,
-    failing.bind(undefined, testPKCS8.bind(undefined, keys.ed25519.privateKey, alg)),
+    `import PKCS8 Ed25519 for ${alg}`,
+    testPKCS8.bind(undefined, keys.ed25519.privateKey, alg),
   )
   Deno.test(
     `(expecting failure) import SPKI ed448 for ${alg}`,
@@ -181,20 +178,17 @@ for (const alg of ['EdDSA']) {
 }
 
 for (const alg of ['ECDH-ES', 'ECDH-ES+A128KW', 'ECDH-ES+A192KW', 'ECDH-ES+A256KW']) {
+  Deno.test(`import SPKI X25519 for ${alg}`, testSPKI.bind(undefined, keys.x25519.publicKey, alg))
   Deno.test(
-    `(expecting failure) import SPKI x25519 for ${alg}`,
-    failing.bind(undefined, testSPKI.bind(undefined, keys.x25519.publicKey, alg)),
+    `import PKCS8 X25519 for ${alg}`,
+    testPKCS8.bind(undefined, keys.x25519.privateKey, alg),
   )
   Deno.test(
-    `(expecting failure) import PKCS8 x25519 for ${alg}`,
-    failing.bind(undefined, testPKCS8.bind(undefined, keys.x25519.privateKey, alg)),
-  )
-  Deno.test(
-    `(expecting failure) import SPKI x448 for ${alg}`,
+    `(expecting failure) import SPKI X448 for ${alg}`,
     failing.bind(undefined, testSPKI.bind(undefined, keys.x448.publicKey, alg)),
   )
   Deno.test(
-    `(expecting failure) import PKCS8 x448 for ${alg}`,
+    `(expecting failure) import PKCS8 X448 for ${alg}`,
     failing.bind(undefined, testPKCS8.bind(undefined, keys.x448.privateKey, alg)),
   )
 }

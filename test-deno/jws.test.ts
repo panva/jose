@@ -101,3 +101,18 @@ Deno.test(
   'Sign/Verify RS512',
   test.bind(undefined, () => generateKeyPair('RS512'), 'RS512'),
 )
+
+Deno.test(
+  'Sign/Verify EdDSA',
+  test.bind(undefined, () => generateKeyPair('EdDSA'), 'EdDSA'),
+)
+
+Deno.test(
+  'Sign/Verify EdDSA (crv: Ed25519)',
+  test.bind(undefined, () => generateKeyPair('EdDSA', { crv: 'Ed25519' }), 'EdDSA'),
+)
+
+Deno.test(
+  '(expecting failure) Sign/Verify EdDSA (crv: Ed448)',
+  failing.bind(undefined, () => generateKeyPair('EdDSA', { crv: 'Ed448' }), 'EdDSA'),
+)
