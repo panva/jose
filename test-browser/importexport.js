@@ -1,4 +1,3 @@
-import { p521, ecPkcs8 } from './helpers.js'
 import * as jose from '../dist/browser/index.js'
 
 const keys = {
@@ -125,10 +124,7 @@ for (const alg of ['ES256', 'ECDH-ES', 'ECDH-ES+A128KW', 'ECDH-ES+A192KW', 'ECDH
   )
   QUnit.test(
     `import PKCS8 P-256 for ${alg}`,
-    (ecPkcs8 ? (a, ...args) => a(...args) : failing).bind(
-      undefined,
-      testPKCS8.bind(undefined, keys['P-256'].privateKey, alg),
-    ),
+    testPKCS8.bind(undefined, keys['P-256'].privateKey, alg),
   )
 }
 
@@ -140,40 +136,20 @@ for (const alg of ['ES384', 'ECDH-ES', 'ECDH-ES+A128KW', 'ECDH-ES+A192KW', 'ECDH
   )
   QUnit.test(
     `import PKCS8 P-384 for ${alg}`,
-    (ecPkcs8 ? (a, ...args) => a(...args) : failing).bind(
-      undefined,
-      testPKCS8.bind(undefined, keys['P-384'].privateKey, alg),
-    ),
+    testPKCS8.bind(undefined, keys['P-384'].privateKey, alg),
   )
 }
 
 for (const alg of ['ES512', 'ECDH-ES', 'ECDH-ES+A128KW', 'ECDH-ES+A192KW', 'ECDH-ES+A256KW']) {
-  if (p521) {
-    QUnit.test(
-      `import SPKI P-521 for ${alg}`,
-      testSPKI.bind(undefined, keys['P-521'].publicKey, alg),
-    )
-    QUnit.test(
-      `import X509 P-521 for ${alg}`,
-      testX509.bind(undefined, keys['P-521'].certificate, alg),
-    )
-    QUnit.test(
-      `import PKCS8 P-521 for ${alg}`,
-      (ecPkcs8 ? (a, ...args) => a(...args) : failing).bind(
-        undefined,
-        testPKCS8.bind(undefined, keys['P-521'].privateKey, alg),
-      ),
-    )
-  } else {
-    QUnit.test(
-      `(expecting failure) import SPKI P-521 for ${alg}`,
-      failing.bind(undefined, testSPKI.bind(undefined, keys['P-521'].publicKey, alg)),
-    )
-    QUnit.test(
-      `(expecting failure) import PKCS8 P-521 for ${alg}`,
-      failing.bind(undefined, testPKCS8.bind(undefined, keys['P-521'].privateKey, alg)),
-    )
-  }
+  QUnit.test(`import SPKI P-521 for ${alg}`, testSPKI.bind(undefined, keys['P-521'].publicKey, alg))
+  QUnit.test(
+    `import X509 P-521 for ${alg}`,
+    testX509.bind(undefined, keys['P-521'].certificate, alg),
+  )
+  QUnit.test(
+    `import PKCS8 P-521 for ${alg}`,
+    testPKCS8.bind(undefined, keys['P-521'].privateKey, alg),
+  )
 }
 
 for (const alg of ['ES256K']) {
@@ -189,38 +165,38 @@ for (const alg of ['ES256K']) {
 
 for (const alg of ['EdDSA']) {
   QUnit.test(
-    `(expecting failure) import SPKI ed25519 for ${alg}`,
+    `(expecting failure) import SPKI Ed25519 for ${alg}`,
     failing.bind(undefined, testSPKI.bind(undefined, keys.ed25519.publicKey, alg)),
   )
   QUnit.test(
-    `(expecting failure) import PKCS8 ed25519 for ${alg}`,
+    `(expecting failure) import PKCS8 Ed25519 for ${alg}`,
     failing.bind(undefined, testPKCS8.bind(undefined, keys.ed25519.privateKey, alg)),
   )
   QUnit.test(
-    `(expecting failure) import SPKI ed448 for ${alg}`,
+    `(expecting failure) import SPKI Ed448 for ${alg}`,
     failing.bind(undefined, testSPKI.bind(undefined, keys.ed448.publicKey, alg)),
   )
   QUnit.test(
-    `(expecting failure) import PKCS8 ed448 for ${alg}`,
+    `(expecting failure) import PKCS8 Ed448 for ${alg}`,
     failing.bind(undefined, testPKCS8.bind(undefined, keys.ed448.privateKey, alg)),
   )
 }
 
 for (const alg of ['ECDH-ES', 'ECDH-ES+A128KW', 'ECDH-ES+A192KW', 'ECDH-ES+A256KW']) {
   QUnit.test(
-    `(expecting failure) import SPKI x25519 for ${alg}`,
+    `(expecting failure) import SPKI X25519 for ${alg}`,
     failing.bind(undefined, testSPKI.bind(undefined, keys.x25519.publicKey, alg)),
   )
   QUnit.test(
-    `(expecting failure) import PKCS8 x25519 for ${alg}`,
+    `(expecting failure) import PKCS8 X25519 for ${alg}`,
     failing.bind(undefined, testPKCS8.bind(undefined, keys.x25519.privateKey, alg)),
   )
   QUnit.test(
-    `(expecting failure) import SPKI x448 for ${alg}`,
+    `(expecting failure) import SPKI X448 for ${alg}`,
     failing.bind(undefined, testSPKI.bind(undefined, keys.x448.publicKey, alg)),
   )
   QUnit.test(
-    `(expecting failure) import PKCS8 x448 for ${alg}`,
+    `(expecting failure) import PKCS8 X448 for ${alg}`,
     failing.bind(undefined, testPKCS8.bind(undefined, keys.x448.privateKey, alg)),
   )
 }

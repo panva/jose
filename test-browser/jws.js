@@ -1,4 +1,3 @@
-import { p521 } from './helpers.js'
 import {
   generateKeyPair,
   generateSecret,
@@ -31,15 +30,7 @@ QUnit.test('HS384', test.bind(undefined, generateSecret.bind(undefined, 'HS384')
 QUnit.test('HS512', test.bind(undefined, generateSecret.bind(undefined, 'HS512'), 'HS512'))
 QUnit.test('ES256', test.bind(undefined, generateKeyPair.bind(undefined, 'ES256'), 'ES256'))
 QUnit.test('ES384', test.bind(undefined, generateKeyPair.bind(undefined, 'ES384'), 'ES384'))
-if (p521) {
-  QUnit.test('ES512', test.bind(undefined, generateKeyPair.bind(undefined, 'ES512'), 'ES512'))
-} else {
-  QUnit.test('ES512', async (assert) => {
-    await assert.rejects(
-      test.bind(undefined, generateKeyPair.bind(undefined, 'ES512'), 'ES512')(assert),
-    )
-  })
-}
+QUnit.test('ES512', test.bind(undefined, generateKeyPair.bind(undefined, 'ES512'), 'ES512'))
 QUnit.test('PS256', test.bind(undefined, generateKeyPair.bind(undefined, 'PS256'), 'PS256'))
 QUnit.test('PS384', test.bind(undefined, generateKeyPair.bind(undefined, 'PS384'), 'PS384'))
 QUnit.test('PS512', test.bind(undefined, generateKeyPair.bind(undefined, 'PS512'), 'PS512'))

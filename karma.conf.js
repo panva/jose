@@ -11,24 +11,10 @@ const browsers = {
     os: "Windows",
     os_version: "11",
   },
-  chrome_lowest: {
-    base: "BrowserStack",
-    browser: "chrome",
-    os: "Windows",
-    browser_version: "63.0",
-    os_version: "11",
-  },
   firefox_latest: {
     base: "BrowserStack",
     browser: "firefox",
     os: "Windows",
-    os_version: "11",
-  },
-  firefox_lowest: {
-    base: "BrowserStack",
-    browser: "firefox",
-    os: "Windows",
-    browser_version: "57.0",
     os_version: "11",
   },
   edge_latest: {
@@ -37,36 +23,13 @@ const browsers = {
     os: "Windows",
     os_version: "11",
   },
-  edge_lowest: {
-    base: "BrowserStack",
-    browser: "edge",
-    os: "Windows",
-    browser_version: "80.0",
-    os_version: "11",
-  },
   safari_latest: {
     base: "BrowserStack",
     browser: "safari",
     os: "OS X",
     os_version: "Monterey",
   },
-  safari_lowest: {
-    base: "BrowserStack",
-    browser: "safari",
-    os: "OS X",
-    os_version: "High Sierra",
-  },
 };
-
-// TODO: 15, but it doesn't get secureContext anymore >,<
-for (const ios of [12, 13, 14]) {
-  browsers[`ios_${ios}`] = {
-    base: "BrowserStack",
-    device: "iPhone XS",
-    os: "ios",
-    os_version: `${ios}`,
-  }
-}
 
 module.exports = function (config) {
   config.set({
