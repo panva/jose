@@ -9,34 +9,18 @@ on:
     paths-ignore:
       - "**.md"
       - "tools/**"
-  pull_request_target:
-    paths-ignore:
-      - "**.md"
-      - "tools/**"
-    types:
-      - labeled
   schedule:
     - cron: 0 11 * * 1-5
   workflow_dispatch:
 
 jobs:
-  unlabel:
-    if: ${{ github.event_name == 'pull_request_target' && github.event.label.name == 'full-ci' }}
-    runs-on: ubuntu-latest
-    steps:
-      - run: gh pr edit $PR --repo $REPO --remove-label "full-ci"
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          PR: ${{ github.event.number }}
-          REPO: ${{ github.event.repository.full_name }}
-
   build:
     runs-on: ubuntu-latest
     outputs:
       cache-key: ${{ steps.cache-key.outputs.value }}
     steps:
       - name: Checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
       - name: Setup node
         uses: actions/setup-node@v3
         with:
@@ -47,7 +31,7 @@ jobs:
       - id: cache-key
         run: echo "::set-output name=value::dist-${{ hashFiles('src/**/*.ts') }}-${{ hashFiles('tsconfig/*.json') }}-${{ hashFiles('.github/workflows/*.yml') }}-${{ hashFiles('package-lock.json') }}"
       - name: Cache dist
-        uses: actions/cache@v2
+        uses: actions/cache@v3
         id: dist
         with:
           path: dist
@@ -63,7 +47,7 @@ jobs:
           path: dist
       - run: git reset HEAD --hard
 
-  test:
+  node:
     needs:
       - build
     strategy:
@@ -78,7 +62,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
       - name: Setup node
         uses: actions/setup-node@v3
         with:
@@ -87,7 +71,7 @@ jobs:
       - name: Install dependencies
         run: npm clean-install
       - name: Load cached dist
-        uses: actions/cache@v2
+        uses: actions/cache@v3
         id: dist
         with:
           path: dist
@@ -112,18 +96,18 @@ jobs:
         run: npm run test-webapi
         if: ${{ !startsWith(matrix.node-version, '14') && !startsWith(matrix.node-version, '12') }}
 
-  test-deno:
+  deno:
     needs:
       - build
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
       - uses: denoland/setup-deno@v1
         with:
           deno-version: v1.x
       - name: Load cached dist
-        uses: actions/cache@v2
+        uses: actions/cache@v3
         id: dist
         with:
           path: dist
@@ -136,23 +120,23 @@ jobs:
               core.setFailed('dist cache hit failed')
       - name: Test Deno Definitions
         run: deno check dist/deno/index.ts
+      - name: Setup node
+        uses: actions/setup-node@v3
+        with:
+          node-version: 16
+          cache: 'npm'
+      - name: Install dependencies
+        run: npm clean-install
       - name: Test Deno
-        run: npm run test-deno -- --no-check
+        run: npm run tap:deno
 
-  test-cloudflare:
-    concurrency: test-cloudflare
-    if: ${{ !startsWith(github.event_name, 'pull_request') || (github.event_name == 'pull_request_target' && github.event.label.name == 'full-ci') }}
+  workers:
     needs:
       - build
-      - test
-
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v2
-      - uses: denoland/setup-deno@v1
-        with:
-          deno-version: v1.x
+        uses: actions/checkout@v3
       - name: Setup node
         uses: actions/setup-node@v3
         with:
@@ -161,7 +145,7 @@ jobs:
       - name: Install dependencies
         run: npm clean-install
       - name: Load cached dist
-        uses: actions/cache@v2
+        uses: actions/cache@v3
         id: dist
         with:
           path: dist
@@ -172,13 +156,84 @@ jobs:
         with:
           script: |
               core.setFailed('dist cache hit failed')
-      - name: Test Cloudflare Workers
-        run: npm run test-cloudflare-workers
-        env:
-          CF_ACCOUNT_ID: ${{ secrets.CF_ACCOUNT_ID }}
-          CF_API_TOKEN: ${{ secrets.CF_API_TOKEN }}
+      - name: Run Test Suite
+        run: npm run tap:workers
 
-  test-electron:
+  edge-runtime:
+    needs:
+      - build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+      - name: Setup node
+        uses: actions/setup-node@v3
+        with:
+          node-version: 16
+          cache: 'npm'
+      - name: Install dependencies
+        run: npm clean-install
+      - name: Load cached dist
+        uses: actions/cache@v3
+        id: dist
+        with:
+          path: dist
+          key: ${{ needs.build.outputs.cache-key }}
+      - name: Abort if dist isn't cached
+        if: ${{ steps.dist.outputs.cache-hit != 'true' }}
+        uses: actions/github-script@v6
+        with:
+          script: |
+              core.setFailed('dist cache hit failed')
+      - name: Run Test Suite
+        run: npm run tap:edge-runtime | tee edge-runtime.tap
+      - id: parse
+        uses: Coderlane/tap-action@d5de2302c571f90ccb2d2e9416eaca4efe3185dd
+      - if: ${{ steps.parse.outputs.tap_fail != '0' }}
+        uses: actions/github-script@v6
+        with:
+          script: |
+              core.setFailed('npm run tap:edge-runtime failed')
+
+  browsers:
+    needs:
+      - build
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        browser:
+          - chrome:headless
+          - firefox:headless
+          - edge:headless
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+      - name: Setup node
+        uses: actions/setup-node@v3
+        with:
+          node-version: 16
+          cache: 'npm'
+      - name: Install dependencies
+        run: npm clean-install
+      - name: Load cached dist
+        uses: actions/cache@v3
+        id: dist
+        with:
+          path: dist
+          key: ${{ needs.build.outputs.cache-key }}
+      - name: Abort if dist isn't cached
+        if: ${{ steps.dist.outputs.cache-hit != 'true' }}
+        uses: actions/github-script@v6
+        with:
+          script: |
+              core.setFailed('dist cache hit failed')
+      - name: Run Test Suite
+        run: npm run tap:browsers
+        env:
+          BROWSER: ${{ matrix.browser }}
+
+  electron:
     needs:
       - build
     strategy:
@@ -190,7 +245,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
       - name: Setup node
         uses: actions/setup-node@v3
         with:
@@ -199,7 +254,7 @@ jobs:
       - name: Install dependencies
         run: npm clean-install
       - name: Load cached dist
-        uses: actions/cache@v2
+        uses: actions/cache@v3
         id: dist
         with:
           path: dist
@@ -215,55 +270,19 @@ jobs:
       - name: Test Electron crypto
         run: xvfb-maybe electron ./test/.electron
 
-  test-browsers:
-    concurrency: test-browsers
-    if: ${{ !startsWith(github.event_name, 'pull_request') || (github.event_name == 'pull_request_target' && github.event.label.name == 'full-ci') }}
-    env:
-      BROWSERSTACK_USERNAME: ${{ secrets.BROWSERSTACK_USERNAME }}
-      BROWSERSTACK_ACCESS_KEY: ${{ secrets.BROWSERSTACK_ACCESS_KEY }}
-    needs:
-      - build
-      - test
-    runs-on: ubuntu-latest
-    steps:
-      - uses: denoland/setup-deno@v1
-        with:
-          deno-version: v1.x
-      - name: Checkout
-        uses: actions/checkout@v2
-      - name: Setup node
-        uses: actions/setup-node@v3
-        with:
-          node-version: 16
-          cache: 'npm'
-      - name: Install dependencies
-        run: npm clean-install
-      - name: Load cached dist
-        uses: actions/cache@v2
-        id: dist
-        with:
-          path: dist
-          key: ${{ needs.build.outputs.cache-key }}
-      - name: Abort if dist isn't cached
-        if: ${{ steps.dist.outputs.cache-hit != 'true' }}
-        uses: actions/github-script@v6
-        with:
-          script: |
-              core.setFailed('dist cache hit failed')
-      - run: npx retry-cli npm run test-browsers
-
   prepare-release:
     needs:
-      - test
-      - test-browsers
-      - test-electron
-      - test-deno
-      - test-cloudflare
+      - browsers
+      - deno
+      - electron
+      - node
+      - workers
+      - edge-runtime
     runs-on: ubuntu-latest
     if: ${{ github.event_name == 'push' && startsWith(github.ref, 'refs/tags') && github.repository == 'panva/jose' }}
     steps:
       - name: Checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
         with:
           fetch-depth: 2
       - name: Setup node

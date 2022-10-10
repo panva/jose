@@ -1,0 +1,129 @@
+name: Browserstack
+
+on:
+  push:
+    paths-ignore:
+      - "**.md"
+      - "tools/**"
+  pull_request:
+    paths-ignore:
+      - "**.md"
+      - "tools/**"
+  pull_request_target:
+    paths-ignore:
+      - "**.md"
+      - "tools/**"
+    types:
+      - labeled
+  schedule:
+    - cron: 0 11 * * 1-5
+  workflow_dispatch:
+
+jobs:
+  unlabel:
+    if: ${{ github.event_name == 'pull_request_target' && github.event.label.name == 'trigger-browserstack' }}
+    runs-on: ubuntu-latest
+    steps:
+      - run: gh pr edit $PR --repo $REPO --remove-label "trigger-browserstack"
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          PR: ${{ github.event.number }}
+          REPO: ${{ github.event.repository.full_name }}
+
+  cert:
+    if: ${{ !startsWith(github.event_name, 'pull_request') || (github.event_name == 'pull_request_target' && github.event.label.name == 'trigger-browserstack') }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Get current time
+        uses: josStorer/get-current-time@v2.0.1
+        id: current-time
+        with:
+          format: YYYYMM
+      - name: Cache letsencrypt
+        uses: actions/cache@v3
+        id: cert
+        with:
+          path: letsencrypt
+          key: letsencrypt-${{ steps.current-time.outputs.formattedTime }}
+      - name: Get test certificate
+        if: ${{ steps.cert.outputs.cache-hit != 'true' }}
+        run: |
+          sudo snap install core
+          sudo snap refresh core
+          sudo snap install --classic certbot
+          sudo snap set certbot trust-plugin-with-root=ok
+          sudo snap install certbot-dns-route53
+          certbot certonly -n -m 'panva.ip@gmail.com' \
+            --agree-tos \
+            --dns-route53 \
+            --config-dir 'letsencrypt/config' \
+            --work-dir 'letsencrypt/work' \
+            --logs-dir 'letsencrypt/logs' \
+            -d jose.panva.me
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+
+  browserstack:
+    needs:
+      - cert
+    if: ${{ !startsWith(github.event_name, 'pull_request') || (github.event_name == 'pull_request_target' && github.event.label.name == 'trigger-browserstack') }}
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        browser:
+          - browserstack:ios
+          - browserstack:safari
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+      - name: Get current time
+        uses: josStorer/get-current-time@v2.0.1
+        id: current-time
+        with:
+          format: YYYYMM
+      - name: Cache letsencrypt
+        id: cert
+        uses: actions/cache@v3
+        with:
+          path: letsencrypt
+          key: letsencrypt-${{ steps.current-time.outputs.formattedTime }}
+      - name: Abort if cert isn't cached
+        if: ${{ steps.cert.outputs.cache-hit != 'true' }}
+        uses: actions/github-script@v6
+        with:
+          script: |
+              core.setFailed('cert cache hit failed')
+      - name: Setup node
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18
+          check-latest: true
+          cache: 'npm'
+      - run: npm clean-install
+      - run: sed -i -e "s/-i ''/-i/g" package.json
+      - run: sed -i -e "s/gcp/cp/g" package.json
+      - run: npm run build:browser
+      - name: BrowserStack Env Setup
+        uses: browserstack/github-actions/setup-env@master
+        with:
+          username:  ${{ secrets.BROWSERSTACK_USERNAME }}
+          access-key: ${{ secrets.BROWSERSTACK_ACCESS_KEY }}
+          build-name: 'BUILD_INFO'
+          project-name: 'REPO_NAME'
+      - name: Start BrowserStackLocal Tunnel
+        uses: browserstack/github-actions/setup-local@master
+        with:
+          local-testing: 'start'
+          local-logging-level: 'all-logs'
+          local-identifier: 'random'
+      - name: Run Test Suite
+        run: npm run tap:browsers
+        env:
+          BROWSER: ${{ matrix.browser }}
+      - name: Stop BrowserStackLocal
+        if: ${{ always() }}
+        uses: browserstack/github-actions/setup-local@master
+        with:
+          local-testing: 'stop'

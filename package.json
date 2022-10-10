@@ -142,19 +142,22 @@
     "runtime:node:copy": "cp ./src/runtime/node/*.ts ./src/runtime",
     "runtime:refs": "run-s -s runtime:find | xargs -0 sed -i '' -e \"s/'\\.\\.\\//'\\.\\//g\" -e \"s/'\\.\\/\\.\\./'../g\"",
     "test": "ava",
-    "test-cloudflare-workers": "ava --timeout=5m --config ./test-cloudflare-workers.config.cjs",
-    "test-deno": "deno test --reload --jobs --allow-net --allow-read test-deno",
-    "test-browsers": "find test-browser -type f -name '*.js' -print0 | xargs -0 esbuild --log-level=warning --outdir=dist-browser-tests --bundle && karma start",
     "test-cryptokey": "CRYPTOKEY=true npm test",
     "test-webapi": "WEBAPI=true NODE_OPTIONS='--experimental-fetch --experimental-global-webcrypto --no-warnings' npm test",
     "test-webcrypto": "WEBCRYPTO=true npm test",
-    "prettier": "prettier --loglevel silent --write ./test ./src ./tools ./test-browser ./test-deno ./test-cloudflare-workers"
+    "format": "prettier --loglevel silent --write ./test ./tap ./src ./tools",
+    "tap:deno": "./tap/.deno.sh",
+    "tap:edge-runtime": "./tap/.edge-runtime.sh",
+    "tap:workers": "./tap/.workers.sh",
+    "tap:browsers": "./tap/.browsers.sh"
   },
   "devDependencies": {
     "@types/node": "^16.11.1",
+    "@types/qunit": "^2.19.3",
     "ava": "^3.15.0",
     "bowser": "^2.11.0",
     "c8": "^7.10.0",
+    "edge-runtime": "^1.1.0-beta.31",
     "esbuild": "^0.14.3",
     "glob": "^7.1.7",
     "got": "^11.8.2",
@@ -168,13 +171,16 @@
     "patch-package": "^6.4.7",
     "prettier": "^2.4.1",
     "prettier-plugin-jsdoc": "^0.3.38",
-    "qunit": "^2.17.2",
+    "qunit": "^2.19.1",
     "rollup": "^2.58.0",
     "tar": "^6.1.11",
+    "testcafe": "^2.0.1",
+    "testcafe-browser-provider-browserstack": "^1.14.0",
     "timekeeper": "^2.2.0",
     "typedoc": "^0.23.2",
     "typedoc-plugin-markdown": "^3.13.1",
-    "typescript": "^4.7.2"
+    "typescript": "^4.7.2",
+    "workerd": "^1.20220926.3"
   },
   "deno": "./dist/browser/index.js"
 }
