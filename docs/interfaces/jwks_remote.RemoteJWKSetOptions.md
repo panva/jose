@@ -33,7 +33,8 @@ ___
 
 • `Optional` **cacheMaxAge**: `number`
 
-Maximum time (in milliseconds) between successful HTTP requests. Default is 600000 (10 minutes).
+Maximum time (in milliseconds) between successful HTTP requests. Default is 600000 (10
+minutes).
 
 ___
 

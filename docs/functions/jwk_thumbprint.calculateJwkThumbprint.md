@@ -4,8 +4,7 @@
 
 ▸ **calculateJwkThumbprint**(`jwk`, `digestAlgorithm?`): `Promise`<`string`\>
 
-Calculates a base64url-encoded JSON Web Key (JWK) Thumbprint as per
-[RFC7638](https://www.rfc-editor.org/rfc/rfc7638).
+Calculates a base64url-encoded JSON Web Key (JWK) Thumbprint
 
 **`example`** Usage
 
@@ -21,12 +20,14 @@ console.log(thumbprint)
 // 'w9eYdC6_s_tLQ8lH6PUpc0mddazaqtPgeC2IgWDiqY8'
 ```
 
+**`see`** [RFC7638](https://www.rfc-editor.org/rfc/rfc7638)
+
 #### Parameters
 
 | Name | Type | Description |
 | :------ | :------ | :------ |
 | `jwk` | [`JWK`](../interfaces/types.JWK.md) | JSON Web Key. |
-| `digestAlgorithm?` | ``"sha256"`` \| ``"sha384"`` \| ``"sha512"`` | Digest Algorithm to use for calculating the thumbprint. Default is "sha256". |
+| `digestAlgorithm?` | ``"sha256"`` \| ``"sha384"`` \| ``"sha512"`` | Digest Algorithm to use for calculating the thumbprint. Default is   "sha256". |
 
 #### Returns
 

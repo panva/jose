@@ -368,7 +368,7 @@ export interface CritOption {
    * for those is either `true` or `false`. `true` when the Header Parameter MUST be integrity
    * protected, `false` when it's irrelevant.
    *
-   * This makes the "Extension Header Parameter "${parameter}" is not recognized" error go away.
+   * This makes the "Extension Header Parameter "..." is not recognized" error go away.
    *
    * Use this when a given JWS/JWT/JWE profile requires the use of proprietary non-registered "crit"
    * (Critical) Header Parameters. This will only make sure the Header Parameter is syntactically
@@ -378,7 +378,8 @@ export interface CritOption {
    * the operation succeeds.
    *
    * The JWS extension Header Parameter `b64` is always recognized and processed properly. No other
-   * registered Header Parameters that need this kind of default built-in treatment are currently available.
+   * registered Header Parameters that need this kind of default built-in treatment are currently
+   * available.
    */
   crit?: {
     [propName: string]: boolean
@@ -460,7 +461,8 @@ export interface JWTClaimVerificationOptions {
 export interface VerifyOptions extends CritOption {
   /**
    * A list of accepted JWS "alg" (Algorithm) Header Parameter values. By default all "alg"
-   * (Algorithm) values applicable for the used key/secret are allowed. Note: "none" is never accepted.
+   * (Algorithm) values applicable for the used key/secret are allowed. Note: "none" is never
+   * accepted.
    */
   algorithms?: string[]
 }
@@ -470,25 +472,49 @@ export interface SignOptions extends CritOption {}
 
 /** Recognized JWT Claims Set members, any other members may also be present. */
 export interface JWTPayload {
-  /** JWT Issuer - [RFC7519#section-4.1.1](https://www.rfc-editor.org/rfc/rfc7519#section-4.1.1). */
+  /**
+   * JWT Issuer
+   *
+   * @see [RFC7519#section-4.1.1](https://www.rfc-editor.org/rfc/rfc7519#section-4.1.1)
+   */
   iss?: string
 
-  /** JWT Subject - [RFC7519#section-4.1.2](https://www.rfc-editor.org/rfc/rfc7519#section-4.1.2). */
+  /**
+   * JWT Subject
+   *
+   * @see [RFC7519#section-4.1.2](https://www.rfc-editor.org/rfc/rfc7519#section-4.1.2)
+   */
   sub?: string
 
   /** JWT Audience [RFC7519#section-4.1.3](https://www.rfc-editor.org/rfc/rfc7519#section-4.1.3). */
   aud?: string | string[]
 
-  /** JWT ID - [RFC7519#section-4.1.7](https://www.rfc-editor.org/rfc/rfc7519#section-4.1.7). */
+  /**
+   * JWT ID
+   *
+   * @see [RFC7519#section-4.1.7](https://www.rfc-editor.org/rfc/rfc7519#section-4.1.7)
+   */
   jti?: string
 
-  /** JWT Not Before - [RFC7519#section-4.1.5](https://www.rfc-editor.org/rfc/rfc7519#section-4.1.5). */
+  /**
+   * JWT Not Before
+   *
+   * @see [RFC7519#section-4.1.5](https://www.rfc-editor.org/rfc/rfc7519#section-4.1.5)
+   */
   nbf?: number
 
-  /** JWT Expiration Time - [RFC7519#section-4.1.4](https://www.rfc-editor.org/rfc/rfc7519#section-4.1.4). */
+  /**
+   * JWT Expiration Time
+   *
+   * @see [RFC7519#section-4.1.4](https://www.rfc-editor.org/rfc/rfc7519#section-4.1.4)
+   */
   exp?: number
 
-  /** JWT Issued At - [RFC7519#section-4.1.6](https://www.rfc-editor.org/rfc/rfc7519#section-4.1.6). */
+  /**
+   * JWT Issued At
+   *
+   * @see [RFC7519#section-4.1.6](https://www.rfc-editor.org/rfc/rfc7519#section-4.1.6)
+   */
   iat?: number
 
   /** Any other JWT Claim Set member. */

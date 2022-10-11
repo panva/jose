@@ -90,7 +90,8 @@ export class ProduceJWT {
   /**
    * Set "iat" (Issued At) Claim.
    *
-   * @param input "iat" (Issued At) Claim value to set on the JWT Claims Set. Default is current timestamp.
+   * @param input "iat" (Issued At) Claim value to set on the JWT Claims Set. Default is current
+   *   timestamp.
    */
   setIssuedAt(input?: number) {
     if (typeof input === 'undefined') {

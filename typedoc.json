@@ -41,11 +41,10 @@
   "excludeProtected": true,
   "gitRevision": "main",
   "hideGenerator": true,
-  "intentionallyNotExported": ["URL"],
   "out": "docs",
-  "plugin": ["typedoc-plugin-markdown"],
+  "plugin": ["typedoc-plugin-markdown", "./.mdn_links.cjs"],
   "readme": "none",
-  "sort": ["kind", "static-first", "required-first", "alphabetical"],
   "tsconfig": "./tsconfig/browser.json",
+  "sort": ["kind", "static-first", "required-first", "alphabetical"],
   "githubPages": false
 }

@@ -1,0 +1,13 @@
+diff --git a/node_modules/typedoc/dist/lib/converter/plugins/CommentPlugin.js b/node_modules/typedoc/dist/lib/converter/plugins/CommentPlugin.js
+index 3937272..edef6ae 100644
+--- a/node_modules/typedoc/dist/lib/converter/plugins/CommentPlugin.js
++++ b/node_modules/typedoc/dist/lib/converter/plugins/CommentPlugin.js
+@@ -203,7 +203,7 @@ let CommentPlugin = class CommentPlugin extends components_1.ConverterComponent
+                 context.logger.warn(`The label "${reflection.label}" for ${reflection.getFriendlyFullName()} cannot be referenced with a declaration reference. ` +
+                     `Labels may only contain A-Z, 0-9, and _, and may not start with a number.`);
+             }
+-            mergeSeeTags(reflection.comment);
++            // mergeSeeTags(reflection.comment);
+         }
+         if (!(reflection instanceof models_1.DeclarationReflection)) {
+             return;

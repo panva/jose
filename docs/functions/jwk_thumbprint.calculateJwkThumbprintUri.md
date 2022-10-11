@@ -4,7 +4,7 @@
 
 ▸ **calculateJwkThumbprintUri**(`jwk`, `digestAlgorithm?`): `Promise`<`string`\>
 
-Calculates a JSON Web Key (JWK) Thumbprint URI as per [RFC9278](https://www.rfc-editor.org/rfc/rfc9278).
+Calculates a JSON Web Key (JWK) Thumbprint URI
 
 **`example`** Usage
 
@@ -20,12 +20,14 @@ console.log(thumbprint)
 // 'urn:ietf:params:oauth:jwk-thumbprint:sha-256:w9eYdC6_s_tLQ8lH6PUpc0mddazaqtPgeC2IgWDiqY8'
 ```
 
+**`see`** [RFC9278](https://www.rfc-editor.org/rfc/rfc9278)
+
 #### Parameters
 
 | Name | Type | Description |
 | :------ | :------ | :------ |
 | `jwk` | [`JWK`](../interfaces/types.JWK.md) | JSON Web Key. |
-| `digestAlgorithm?` | ``"sha256"`` \| ``"sha384"`` \| ``"sha512"`` | Digest Algorithm to use for calculating the thumbprint. Default is "sha256". |
+| `digestAlgorithm?` | ``"sha256"`` \| ``"sha384"`` \| ``"sha512"`` | Digest Algorithm to use for calculating the thumbprint. Default is   "sha256". |
 
 #### Returns
 

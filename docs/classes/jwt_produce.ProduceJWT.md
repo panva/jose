@@ -80,7 +80,7 @@ Set "iat" (Issued At) Claim.
 
 | Name | Type | Description |
 | :------ | :------ | :------ |
-| `input?` | `number` | "iat" (Issued At) Claim value to set on the JWT Claims Set. Default is current timestamp. |
+| `input?` | `number` | "iat" (Issued At) Claim value to set on the JWT Claims Set. Default is current   timestamp. |
 
 #### Returns
 
