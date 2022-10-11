@@ -7,6 +7,7 @@
     "./aeskw.js": "./aeskw.ts",
     "./ecdh.js": "./ecdh.ts",
     "./env.js": "./env.ts",
+    "./fixtures.js": "./fixtures.ts",
     "./hmac.js": "./hmac.ts",
     "./jwk.js": "./jwk.ts",
     "./jwks.js": "./jwks.ts",
