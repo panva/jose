@@ -125,3 +125,4 @@ dist-browser-tests
 
 .npmrc
 tap/*.js
+*.bak

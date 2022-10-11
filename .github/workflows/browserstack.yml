@@ -102,8 +102,6 @@ jobs:
           check-latest: true
           cache: 'npm'
       - run: npm clean-install
-      - run: sed -i -e "s/-i ''/-i/g" package.json
-      - run: sed -i -e "s/gcp/cp/g" package.json
       - run: npm run build:browser
       - name: BrowserStack Env Setup
         uses: browserstack/github-actions/setup-env@master
