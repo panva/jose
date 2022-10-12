@@ -33,18 +33,17 @@ jobs:
   cert:
     if: ${{ !startsWith(github.event_name, 'pull_request') || (github.event_name == 'pull_request_target' && github.event.label.name == 'trigger-browserstack') }}
     runs-on: ubuntu-latest
+    outputs:
+      cache-key: ${{ steps.cache-key.outputs.value }}
     steps:
-      - name: Get current time
-        uses: josStorer/get-current-time@v2.0.1
-        id: current-time
-        with:
-          format: YYYYMM
+      - id: cache-key
+        run: echo "value=letsencrypt-$(date +"%Y%m")" >> $GITHUB_OUTPUT
       - name: Cache letsencrypt
         uses: actions/cache@v3
         id: cert
         with:
           path: letsencrypt
-          key: letsencrypt-${{ steps.current-time.outputs.formattedTime }}
+          key: ${{ steps.cache-key.outputs.value }}
       - name: Get test certificate
         if: ${{ steps.cert.outputs.cache-hit != 'true' }}
         run: |
@@ -79,17 +78,12 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v3
-      - name: Get current time
-        uses: josStorer/get-current-time@v2.0.1
-        id: current-time
-        with:
-          format: YYYYMM
       - name: Cache letsencrypt
         id: cert
         uses: actions/cache@v3
         with:
           path: letsencrypt
-          key: letsencrypt-${{ steps.current-time.outputs.formattedTime }}
+          key: ${{ needs.cert.outputs.cache-key }}
       - name: Abort if cert isn't cached
         if: ${{ steps.cert.outputs.cache-hit != 'true' }}
         uses: actions/github-script@v6
