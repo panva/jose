@@ -96,31 +96,6 @@ import * as jose from 'https://deno.land/x/jose/index.ts'
 | [v4.x](https://github.com/panva/jose/tree/v4.x) | ✅ | ✅ | ✅ |
 | [v3.x](https://github.com/panva/jose/tree/v3.x), [v2.x](https://github.com/panva/jose/tree/v2.x), [v1.x](https://github.com/panva/jose/tree/v1.x) | ✅ | ❌ | ❌ |
 
-#### Semver?
-
-**Yes.** All module's public API is subject to [Semantic Versioning 2.0.0](https://semver.org/spec/v2.0.0.html).
-
-#### How is it different from [`jws`](https://github.com/brianloveswords/node-jws), [`jwa`](https://github.com/brianloveswords/node-jwa) or [`jsonwebtoken`](https://github.com/auth0/node-jsonwebtoken)?
-
-- it supports Browser, Deno, Cloudflare Workers, and other Web-interoperable runtimes
-- it supports encrypted JWTs (i.e. in JWE format)
-- supports secp256k1, Ed25519, Ed448, X25519, and X448
-- it supports JWK Key Format for all four key types (oct, RSA, EC and OKP)
-- it is exclusively using native platform Key object representations (CryptoKey and KeyObject)
-- there is JSON Web Encryption support
-- it supports the General and Flattened JSON Serialization Syntaxes
-- it supports the "crit" member validations to make sure extensions are handled correctly
-
-#### How is it different from [`node-jose`](https://github.com/cisco/node-jose)?
-
-`node-jose` is built to work in any javascript runtime, to be able to do that it packs a lot of
-polyfills and javascript implementation code in the form of
-[`node-forge`](https://github.com/digitalbazaar/forge), this significantly increases the footprint
-of the modules with dependencies that either aren't ever used or have native implementation available
-in the runtime already, those are often times faster and more reliable.
-
-- supports secp256k1, Ed25519, Ed448, X25519, and X448
-
 #### Uint8Array?!
 
 - Whenever `Uint8Array` is a valid input, so is [`Buffer`](https://nodejs.org/api/buffer.html#buffer_buffer) since buffers are instances of Uint8Array.
