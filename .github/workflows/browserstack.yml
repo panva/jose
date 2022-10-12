@@ -73,6 +73,7 @@ jobs:
       fail-fast: false
       matrix:
         browser:
+          - browserstack:android
           - browserstack:ios
           - browserstack:safari
     steps:

@@ -11,6 +11,16 @@ const browserlist = await browserstack.getBrowserList()
 
 let result
 switch (identifier) {
+  case 'browserstack:android':
+    ;[result] = browserlist
+      .filter((id) => id.startsWith('Google Pixel'))
+      .sort((a, b) => {
+        const va = parseFloat(a.split('@')[1])
+        const vb = parseFloat(b.split('@')[1])
+
+        return va < vb ? 1 : -1
+      })
+    break
   case 'browserstack:safari':
     ;[result] = browserlist.filter(
       (id) => !!new RegExp(`safari@\\\d+\\\.\\\d+:OS X Monterey`).exec(id),
