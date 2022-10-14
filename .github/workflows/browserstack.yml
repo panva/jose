@@ -99,14 +99,14 @@ jobs:
       - run: npm clean-install
       - run: npm run build:browser
       - name: BrowserStack Env Setup
-        uses: browserstack/github-actions/setup-env@master
+        uses: browserstack/github-actions/setup-env@00ce173eae311a7838f80682a5fad5144c4219ad
         with:
           username:  ${{ secrets.BROWSERSTACK_USERNAME }}
           access-key: ${{ secrets.BROWSERSTACK_ACCESS_KEY }}
           build-name: 'BUILD_INFO'
           project-name: 'REPO_NAME'
       - name: Start BrowserStackLocal Tunnel
-        uses: browserstack/github-actions/setup-local@master
+        uses: browserstack/github-actions/setup-local@00ce173eae311a7838f80682a5fad5144c4219ad
         with:
           local-testing: 'start'
           local-logging-level: 'all-logs'
@@ -117,6 +117,6 @@ jobs:
           BROWSER: ${{ matrix.browser }}
       - name: Stop BrowserStackLocal
         if: ${{ always() }}
-        uses: browserstack/github-actions/setup-local@master
+        uses: browserstack/github-actions/setup-local@00ce173eae311a7838f80682a5fad5144c4219ad
         with:
           local-testing: 'stop'
