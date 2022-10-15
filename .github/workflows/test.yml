@@ -1,4 +1,4 @@
-name: Continuous Integration
+name: Test
 
 on:
   push:
@@ -52,16 +52,18 @@ jobs:
       fail-fast: false
       matrix:
         node-version:
-          - 12
-          - 14
-          - 16
-          - 18
+          - lts/erbium
+          - lts/fermium
+          - lts/gallium
+          # - lts/hydrogen
+          - current
 
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
         uses: actions/checkout@v3
       - name: Setup node
+        id: node
         uses: actions/setup-node@v3
         with:
           node-version: ${{ matrix.node-version }}
@@ -81,18 +83,18 @@ jobs:
           script: |
               core.setFailed('dist cache hit failed')
       - run: find test -type f -name '*.mjs' -print0 | xargs -0 sed -i -e "s/await import(/require(/g"
-        if: ${{ startsWith(matrix.node-version, '12') }}
+        if: ${{ startsWith(steps.node.outputs.node-version, 'v12') }}
       - name: Test with Node.js crypto module
         run: npm run test
       - name: Test with Node.js crypto module w/ CryptoKey
         run: npm run test-cryptokey
-        if: ${{ !startsWith(matrix.node-version, '14') && !startsWith(matrix.node-version, '12') }}
+        if: ${{ !startsWith(steps.node.outputs.node-version, 'v14') && !startsWith(steps.node.outputs.node-version, 'v12') }}
       - name: Test with Node.js Web Cryptography API
         run: npm run test-webcrypto
-        if: ${{ !startsWith(matrix.node-version, '14') && !startsWith(matrix.node-version, '12') }}
+        if: ${{ !startsWith(steps.node.outputs.node-version, 'v14') && !startsWith(steps.node.outputs.node-version, 'v12') }}
       - name: Test with Node.js Web API
         run: npm run test-webapi
-        if: ${{ !startsWith(matrix.node-version, '14') && !startsWith(matrix.node-version, '12') }}
+        if: ${{ !startsWith(steps.node.outputs.node-version, 'v14') && !startsWith(steps.node.outputs.node-version, 'v12') }}
 
   deno:
     needs:
