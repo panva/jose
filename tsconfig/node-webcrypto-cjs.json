@@ -1,7 +1,0 @@
-{
-  "extends": "./node-cjs.json",
-  "compilerOptions": {
-    "target": "ESNext",
-    "outDir": "../dist/node/webcrypto/cjs"
-  }
-}

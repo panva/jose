@@ -63,12 +63,10 @@
       "require": "./dist/node/cjs/*.js"
     },
     "#dist/webcrypto/*": {
-      "import": "./dist/node/webcrypto/esm/*.js",
-      "require": "./dist/node/webcrypto/cjs/*.js"
+      "import": "./dist/node/webcrypto/*.js"
     },
     "#dist/webcrypto": {
-      "import": "./dist/node/webcrypto/esm/index.js",
-      "require": "./dist/node/webcrypto/cjs/index.js"
+      "import": "./dist/node/webcrypto/index.js"
     },
     "#dist/webapi/*": {
       "import": "./dist/browser/*.js"
@@ -113,8 +111,7 @@
     "build-fast:deno": "npm run-script build:deno",
     "build-fast:node-cjs": "npm run-script runtime-node && npm run-script -s esbuild-find | xargs -0 esbuild --log-level=warning --platform=node --target=node12 --outdir=dist/node/cjs --format=cjs",
     "build-fast:node-esm": "npm run-script runtime-node && npm run-script -s esbuild-find | xargs -0 esbuild --log-level=warning --platform=node --target=node12 --outdir=dist/node/esm --format=esm && echo '{\"type\": \"module\"}'> dist/node/esm/package.json",
-    "build-fast:node-webcrypto-cjs": "npm run-script runtime-node-webcrypto && npm run-script -s esbuild-find | xargs -0 esbuild --log-level=warning --platform=node --target=esnext --outdir=dist/node/webcrypto/cjs --format=cjs",
-    "build-fast:node-webcrypto-esm": "npm run-script runtime-node-webcrypto && npm run-script -s esbuild-find | xargs -0 esbuild --log-level=warning --platform=node --target=esnext --outdir=dist/node/webcrypto/esm --format=esm && echo '{\"type\": \"module\"}'> dist/node/webcrypto/esm/package.json",
+    "build-fast:node-webcrypto": "npm run-script runtime-node-webcrypto && npm run-script -s esbuild-find | xargs -0 esbuild --log-level=warning --platform=node --target=esnext --outdir=dist/node/webcrypto --format=esm && echo '{\"type\": \"module\"}'> dist/node/webcrypto/package.json",
     "build:browser": "run-s runtime-browser 'build -- -p ./tsconfig/browser.json' && echo '{\"type\": \"module\"}'> dist/browser/package.json",
     "build:browser-bundle": "esbuild --bundle dist/browser/index.js --format=esm --target=es2018 --outfile=dist/browser/index.bundle.js",
     "build:browser-bundle-min": "esbuild --minify --bundle dist/browser/index.js --format=esm --target=es2018 --outfile=dist/browser/index.bundle.min.js",
@@ -123,8 +120,7 @@
     "build:types": "npm run-script build -- -p ./tsconfig/types.json && cd src && find . -name '*.d.ts' -maxdepth 2 -type f -exec rsync -R \"{}\" ../dist/types  \\; && cd .. && run-s -s types:find | xargs -0 sed -i.bak -e \"s/\\.js'/'/g\" -e \"s/\\.d'/'/g\" && npm run-script sedcleanup",
     "build:node-cjs": "run-s runtime-node 'build -- -p ./tsconfig/node-cjs.json'",
     "build:node-esm": "run-s runtime-node 'build -- -p ./tsconfig/node-esm.json' && echo '{\"type\": \"module\"}'> dist/node/esm/package.json",
-    "build:node-webcrypto-cjs": "run-s runtime-node-webcrypto 'build -- -p ./tsconfig/node-webcrypto-cjs.json'",
-    "build:node-webcrypto-esm": "run-s runtime-node-webcrypto 'build -- -p ./tsconfig/node-webcrypto-esm.json' && echo '{\"type\": \"module\"}'> dist/node/webcrypto/esm/package.json",
+    "build:node-webcrypto": "run-s runtime-node-webcrypto 'build -- -p ./tsconfig/node-webcrypto.json' && echo '{\"type\": \"module\"}'> dist/node/webcrypto/package.json",
     "clear": "rm -Rf dist",
     "sedcleanup": "find . -name '*.bak' -type f -print0 | xargs -0 rm -f",
     "coverage": "npm run-script runtime-node && c8 npm run-script test",

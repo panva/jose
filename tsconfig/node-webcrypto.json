@@ -2,6 +2,6 @@
   "extends": "./node-esm.json",
   "compilerOptions": {
     "target": "ESNext",
-    "outDir": "../dist/node/webcrypto/esm"
+    "outDir": "../dist/node/webcrypto"
   }
 }
