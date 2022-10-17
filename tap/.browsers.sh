@@ -1,5 +1,5 @@
 #!/bin/bash
-npx esbuild --format=esm --bundle --target=esnext tap/run-browser.ts > tap/run-browser.js
+./node_modules/.bin/esbuild --format=esm --bundle --target=esnext tap/run-browser.ts > tap/run-browser.js
 
 HOSTNAME="localhost"
 SSL=""
@@ -16,4 +16,4 @@ else
   fi
 fi
 
-npx testcafe "$BROWSER" --skip-js-errors --ssl "$SSL" --hostname "$HOSTNAME" tap/.browser.ts
+./node_modules/.bin/testcafe "$BROWSER" --skip-js-errors --ssl "$SSL" --hostname "$HOSTNAME" tap/.browser.ts
