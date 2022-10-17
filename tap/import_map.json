@@ -1,6 +1,6 @@
 {
   "imports": {
-    "qunit": "https://cdnjs.cloudflare.com/ajax/libs/qunit/2.19.1/qunit.js",
+    "qunit": "https://cdnjs.cloudflare.com/ajax/libs/qunit/2.19.2/qunit.js",
     "bowser": "https://cdn.jsdelivr.net/npm/bowser@2.11.0/src/bowser.js",
     "#dist/webapi": "../dist/deno/index.ts",
     "./aes.js": "./aes.ts",

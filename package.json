@@ -172,7 +172,7 @@
     "patch-package": "^6.4.7",
     "prettier": "^2.4.1",
     "prettier-plugin-jsdoc": "^0.4.2",
-    "qunit": "^2.19.1",
+    "qunit": "^2.19.2",
     "rollup": "^2.79.1",
     "tar": "^6.1.11",
     "testcafe": "^2.0.1",
