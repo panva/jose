@@ -236,12 +236,6 @@ jobs:
   electron:
     needs:
       - build
-    strategy:
-      fail-fast: false
-      matrix:
-        electron-version:
-          - 12.0.0
-          - latest
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -266,7 +260,7 @@ jobs:
           script: |
               core.setFailed('dist cache hit failed')
       - name: Install Electron
-        run: npm install --global xvfb-maybe electron@${{ matrix.electron-version }}
+        run: npm install --global xvfb-maybe electron
       - name: Test Electron crypto
         run: xvfb-maybe electron ./test/.electron
 
