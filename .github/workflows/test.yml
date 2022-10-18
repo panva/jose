@@ -186,14 +186,7 @@ jobs:
           script: |
               core.setFailed('dist cache hit failed')
       - name: Run Test Suite
-        run: npm run tap:edge-runtime | tee edge-runtime.tap
-      - id: parse
-        uses: Coderlane/tap-action@d5de2302c571f90ccb2d2e9416eaca4efe3185dd
-      - if: ${{ steps.parse.outputs.tap_fail != '0' }}
-        uses: actions/github-script@v6
-        with:
-          script: |
-              core.setFailed('npm run tap:edge-runtime failed')
+        run: npm run tap:edge-runtime
 
   browsers:
     needs:
