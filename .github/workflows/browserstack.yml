@@ -86,6 +86,7 @@ jobs:
         with:
           node-version: 18 # lts/hydrogen
           cache: 'npm'
+          check-latest: true
       - run: npm clean-install
       - run: npm run build:browser
       - name: BrowserStack Env Setup

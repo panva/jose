@@ -20,6 +20,7 @@ jobs:
         with:
           node-version: 18 # lts/hydrogen
           cache: 'npm'
+          check-latest: true
       - name: Install dependencies
         run: npm clean-install
       - id: cache-key
@@ -62,6 +63,7 @@ jobs:
         with:
           node-version: ${{ matrix.node-version }}
           cache: 'npm'
+          check-latest: true
       - name: Install dependencies
         run: npm clean-install
       - name: Load cached dist
@@ -119,6 +121,7 @@ jobs:
         with:
           node-version: 18 # lts/hydrogen
           cache: 'npm'
+          check-latest: true
       - name: Install dependencies
         run: npm clean-install
       - name: Test Deno
@@ -136,6 +139,7 @@ jobs:
         with:
           node-version: 18 # lts/hydrogen
           cache: 'npm'
+          check-latest: true
       - name: Install dependencies
         run: npm clean-install
       - name: Load cached dist
@@ -165,6 +169,7 @@ jobs:
         with:
           node-version: 18 # lts/hydrogen
           cache: 'npm'
+          check-latest: true
       - name: Install dependencies
         run: npm clean-install
       - name: Load cached dist
@@ -201,6 +206,7 @@ jobs:
         with:
           node-version: 18 # lts/hydrogen
           cache: 'npm'
+          check-latest: true
       - name: Install dependencies
         run: npm clean-install
       - name: Load cached dist
@@ -232,6 +238,7 @@ jobs:
         with:
           node-version: 18 # lts/hydrogen
           cache: 'npm'
+          check-latest: true
       - name: Install dependencies
         run: npm clean-install
       - name: Load cached dist
@@ -271,6 +278,7 @@ jobs:
         with:
           node-version: 18 # lts/hydrogen
           cache: 'npm'
+          check-latest: true
       - run: node tools/release-notes
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
