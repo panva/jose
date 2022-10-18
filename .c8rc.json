@@ -1,7 +1,0 @@
-{
-  "src": "./src",
-  "reporter": [
-    "lcov",
-    "text-summary"
-  ]
-}

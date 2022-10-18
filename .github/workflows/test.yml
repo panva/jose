@@ -2,13 +2,7 @@ name: Test
 
 on:
   push:
-    paths-ignore:
-      - "**.md"
-      - "tools/**"
   pull_request:
-    paths-ignore:
-      - "**.md"
-      - "tools/**"
   schedule:
     - cron: 0 11 * * 1-5
   workflow_dispatch:
@@ -24,7 +18,7 @@ jobs:
       - name: Setup node
         uses: actions/setup-node@v3
         with:
-          node-version: 18
+          node-version: 18 # lts/hydrogen
           cache: 'npm'
       - name: Install dependencies
         run: npm clean-install
@@ -52,10 +46,10 @@ jobs:
       fail-fast: false
       matrix:
         node-version:
-          - lts/erbium
-          - lts/fermium
-          - lts/gallium
-          # - lts/hydrogen
+          - lts/erbium # 12
+          - lts/fermium # 14
+          - lts/gallium # 16
+          - 18 # lts/hydrogen
           - current
 
     runs-on: ubuntu-latest
@@ -123,7 +117,7 @@ jobs:
       - name: Setup node
         uses: actions/setup-node@v3
         with:
-          node-version: 18
+          node-version: 18 # lts/hydrogen
           cache: 'npm'
       - name: Install dependencies
         run: npm clean-install
@@ -140,7 +134,7 @@ jobs:
       - name: Setup node
         uses: actions/setup-node@v3
         with:
-          node-version: 18
+          node-version: 18 # lts/hydrogen
           cache: 'npm'
       - name: Install dependencies
         run: npm clean-install
@@ -169,7 +163,7 @@ jobs:
       - name: Setup node
         uses: actions/setup-node@v3
         with:
-          node-version: 18
+          node-version: 18 # lts/hydrogen
           cache: 'npm'
       - name: Install dependencies
         run: npm clean-install
@@ -205,7 +199,7 @@ jobs:
       - name: Setup node
         uses: actions/setup-node@v3
         with:
-          node-version: 18
+          node-version: 18 # lts/hydrogen
           cache: 'npm'
       - name: Install dependencies
         run: npm clean-install
@@ -236,7 +230,7 @@ jobs:
       - name: Setup node
         uses: actions/setup-node@v3
         with:
-          node-version: 18
+          node-version: 18 # lts/hydrogen
           cache: 'npm'
       - name: Install dependencies
         run: npm clean-install
@@ -275,7 +269,7 @@ jobs:
       - name: Setup node
         uses: actions/setup-node@v3
         with:
-          node-version: 18
+          node-version: 18 # lts/hydrogen
           cache: 'npm'
       - run: node tools/release-notes
         env:

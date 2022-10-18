@@ -22,9 +22,9 @@ jobs:
         with:
           fetch-depth: 0
       - name: Setup node
-        uses: actions/setup-node@v2
+        uses: actions/setup-node@v3
         with:
-          node-version: 18
+          node-version: 18 # lts/hydrogen
           registry-url: https://registry.npmjs.org
           always-auth: true
       - name: Load cached dist

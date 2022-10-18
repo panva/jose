@@ -2,17 +2,8 @@ name: Browserstack
 
 on:
   push:
-    paths-ignore:
-      - "**.md"
-      - "tools/**"
   pull_request:
-    paths-ignore:
-      - "**.md"
-      - "tools/**"
   pull_request_target:
-    paths-ignore:
-      - "**.md"
-      - "tools/**"
     types:
       - labeled
   schedule:
@@ -93,8 +84,7 @@ jobs:
       - name: Setup node
         uses: actions/setup-node@v3
         with:
-          node-version: 18
-          check-latest: true
+          node-version: 18 # lts/hydrogen
           cache: 'npm'
       - run: npm clean-install
       - run: npm run build:browser
