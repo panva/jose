@@ -102,19 +102,19 @@ for (const alg of [
   'RSA-OAEP-512',
   'RSA1_5',
 ]) {
-  conditional({ webcrypto: alg !== 'RSA1_5', electron: 1 })(
+  conditional({ webcrypto: alg !== 'RSA1_5' })(
     `import SPKI RSA for ${alg}`,
     testSPKI,
     keys.rsa.publicKey,
     alg,
   )
-  conditional({ webcrypto: alg !== 'RSA1_5', electron: 1 })(
+  conditional({ webcrypto: alg !== 'RSA1_5' })(
     `import X509 RSA for ${alg}`,
     testX509,
     keys.rsa.certificate,
     alg,
   )
-  conditional({ webcrypto: alg !== 'RSA1_5', electron: 1 })(
+  conditional({ webcrypto: alg !== 'RSA1_5' })(
     `import PKCS8 RSA for ${alg}`,
     testPKCS8,
     keys.rsa.privateKey,

@@ -9,8 +9,7 @@ const [major, minor] = process.version
   .split('.')
   .map((str) => parseInt(str, 10))
 
-const electron = 'electron' in process.versions
-const rsaPssParams = !electron && (major >= 17 || (major === 16 && minor >= 9))
+const rsaPssParams = major >= 17 || (major === 16 && minor >= 9)
 
 const { FlattenedSign, flattenedVerify } = await import('#dist')
 
@@ -126,7 +125,7 @@ if (rsaPssParams) {
       )
     })
   }
-} else if (!electron) {
+} else {
   test('does not support rsa-pss', async (t) => {
     const { privateKey, publicKey } = await generateKeyPair('rsa-pss', { modulusLength: 2048 })
     await t.throwsAsync(
