@@ -7,7 +7,8 @@ import { root, keyRoot } from '../dist.mjs'
 
 const skipOnUndiciTest = 'WEBAPI' in process.env ? test.skip : test
 const skipOnUndiciTestSerial = 'WEBAPI' in process.env ? test.skip : test.serial
-const skipOnUndiciTestAndCI = 'WEBAPI' in process.env || 'CI' in process.env ? test.skip : test.serial
+const skipOnUndiciTestAndCI =
+  'WEBAPI' in process.env || 'CI' in process.env ? test.skip : test.serial
 
 const {
   jwtVerify,
