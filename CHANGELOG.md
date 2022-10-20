@@ -2,6 +2,8 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [4.10.1](https://github.com/panva/jose/compare/v4.10.0...v4.10.1) (2022-10-20)
+
 ## [4.10.0](https://github.com/panva/jose/compare/v4.9.3...v4.10.0) (2022-09-27)
 
 
