@@ -94,7 +94,6 @@ testCookbook.title = (title, vector) => `${vector.title}${title ? ` ${title}` : 
 const vectors = [
   {
     title: 'https://www.rfc-editor.org/rfc/rfc7520#section-4.1 - RSA v1.5 Signature',
-    webcrypto: true,
     reproducible: true,
     input: {
       payload:
@@ -146,7 +145,6 @@ const vectors = [
   },
   {
     title: 'https://www.rfc-editor.org/rfc/rfc8037#appendix-A.4 - Ed25519 Signing',
-    webcrypto: true,
     reproducible: true,
     input: {
       payload: 'Example of Ed25519 signing',
@@ -187,7 +185,6 @@ const vectors = [
   },
   {
     title: 'https://www.rfc-editor.org/rfc/rfc7520#section-4.2 - RSA-PSS Signature',
-    webcrypto: true,
     input: {
       payload:
         "It’s a dangerous business, Frodo, going out your door. You step onto the road, and if you don't keep your feet, there’s no knowing where you might be swept off to.",
@@ -238,7 +235,6 @@ const vectors = [
   },
   {
     title: 'https://www.rfc-editor.org/rfc/rfc7520#section-4.3 - ECDSA Signature',
-    webcrypto: true,
     input: {
       payload:
         "It’s a dangerous business, Frodo, going out your door. You step onto the road, and if you don't keep your feet, there’s no knowing where you might be swept off to.",
@@ -285,7 +281,6 @@ const vectors = [
   },
   {
     title: 'https://www.rfc-editor.org/rfc/rfc7520#section-4.4 - HMAC-SHA2 Integrity Protection',
-    webcrypto: true,
     reproducible: true,
     input: {
       payload:
@@ -380,7 +375,6 @@ const vectors = [
   },
   {
     title: 'https://www.rfc-editor.org/rfc/rfc7520#section-4.7 - Protecting Content Only',
-    webcrypto: true,
     reproducible: true,
     input: {
       payload:
@@ -428,7 +422,6 @@ const vectors = [
   },
   {
     title: 'https://www.rfc-editor.org/rfc/rfc7797#section-4.1 - { "b64": false } JSON only',
-    webcrypto: true,
     reproducible: true,
     input: {
       payload: '$.02',
@@ -467,20 +460,12 @@ const vectors = [
 ]
 
 for (const vector of vectors) {
-  let conditional
+  let run = test
   if (
     ('WEBCRYPTO' in process.env || 'CRYPTOKEY' in process.env || 'WEBAPI' in process.env) &&
     vector.webcrypto === false
   ) {
-    conditional = test.failing
-  } else {
-    conditional = test
+    run = run.failing
   }
-  if (vector.skip) {
-    conditional = test.skip
-  }
-  if (vector.only) {
-    conditional = test.only
-  }
-  conditional(testCookbook, vector)
+  run(testCookbook, vector)
 }
