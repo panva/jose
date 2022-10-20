@@ -7,6 +7,7 @@ import { root, keyRoot } from '../dist.mjs'
 
 const skipOnUndiciTest = 'WEBAPI' in process.env ? test.skip : test
 const skipOnUndiciTestSerial = 'WEBAPI' in process.env ? test.skip : test.serial
+const skipOnUndiciTestAndCI = 'WEBAPI' in process.env || 'CI' in process.env ? test.skip : test.serial
 
 const {
   jwtVerify,
@@ -396,7 +397,7 @@ skipOnUndiciTest('handles ECONNREFUSED', async (t) => {
   })
 })
 
-skipOnUndiciTest('handles ECONNRESET', async (t) => {
+skipOnUndiciTestAndCI('handles ECONNRESET', async (t) => {
   nock.enableNetConnect()
   const url = new URL('http://localhost:3000/jwks')
   t.context.server.once('connection', (socket) => {
@@ -408,7 +409,7 @@ skipOnUndiciTest('handles ECONNRESET', async (t) => {
   })
 })
 
-skipOnUndiciTest('handles a timeout', async (t) => {
+skipOnUndiciTestAndCI('handles a timeout', async (t) => {
   t.timeout(1000)
   nock.enableNetConnect()
   const url = new URL('http://localhost:3000/jwks')
