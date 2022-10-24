@@ -24,7 +24,7 @@ jobs:
       - name: Install dependencies
         run: npm clean-install
       - id: cache-key
-        run: echo "value=dist-${{ hashFiles('src/**/*.ts') }}-${{ hashFiles('tsconfig/*.json') }}-${{ hashFiles('.github/workflows/*.yml') }}-${{ hashFiles('package-lock.json') }}" >> $GITHUB_OUTPUT
+        run: echo "value=dist-${{ hashFiles('src/**/*.ts', 'tsconfig/*.json', '.github/workflows/*.yml', 'package-lock.json') }}" >> $GITHUB_OUTPUT
       - name: Cache dist
         uses: actions/cache@v3
         id: dist

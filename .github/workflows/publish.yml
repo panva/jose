@@ -32,7 +32,7 @@ jobs:
         id: dist
         with:
           path: dist
-          key: dist-${{ hashFiles('src/**/*.ts') }}-${{ hashFiles('tsconfig/*.json') }}-${{ hashFiles('.github/workflows/*.yml') }}-${{ hashFiles('package-lock.json') }}
+          key: dist-${{ hashFiles('src/**/*.ts', 'tsconfig/*.json', '.github/workflows/*.yml', 'package-lock.json') }}
       - name: Abort if dist isn't cached
         if: ${{ steps.dist.outputs.cache-hit != 'true' }}
         uses: actions/github-script@v6
