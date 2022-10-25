@@ -78,14 +78,20 @@ import * as jose from 'https://deno.land/x/jose/index.ts'
 - [Unsecured JWT](docs/classes/jwt_unsecured.UnsecuredJWT.md#readme)
 - [JOSE Errors](docs/modules/util_errors.md#readme)
 
-## Supported Runtimes, Environments, Platforms
+## Supported Runtimes
 
-- [Browser Support][]
-- [Cloudflare Workers Support][]
-- [Deno Support][]
-- [Electron Support][]
-- [Next.js Middleware / Vercel Edge Functions Support][]
-- [Node.js Support][]
+The supported JavaScript runtimes include ones that
+
+- support the utilized Web API globals and standard built-in objects or are Node.js
+- These are
+  - _(This is not an exhaustive list)_
+  - [Browsers](https://github.com/panva/jose/issues/263)
+  - [Cloudflare Workers](https://github.com/panva/jose/issues/265)
+  - [Deno](https://github.com/panva/jose/issues/266)
+  - [Electron](https://github.com/panva/jose/issues/264)
+  - [Netlify Edge](https://github.com/panva/jose/issues/266)
+  - [Node.js](https://github.com/panva/jose/issues/262)
+  - [Vercel's Edge Runtime](https://github.com/panva/jose/issues/301)
 
 ## FAQ
 
@@ -109,8 +115,6 @@ multiple times so that it can remain truly without dependencies and be universal
 Nevertheless, since each module can be required independently and is fully tree-shakeable, the
 install size should not be a cause for concern.
 
-[documentation]: /docs/README.md
-[node-jose]: https://github.com/cisco/node-jose
 [spec-b64]: https://www.rfc-editor.org/rfc/rfc7797
 [spec-cookbook]: https://www.rfc-editor.org/rfc/rfc7520
 [spec-jwa]: https://www.rfc-editor.org/rfc/rfc7518
@@ -122,15 +126,3 @@ install size should not be a cause for concern.
 [spec-secp256k1]: https://www.rfc-editor.org/rfc/rfc8812
 [spec-thumbprint]: https://www.rfc-editor.org/rfc/rfc7638
 [spec-thumbprint-uri]: https://www.rfc-editor.org/rfc/rfc9278
-[support-sponsor]: https://github.com/sponsors/panva
-[conditional-exports]: https://nodejs.org/api/packages.html#packages_conditional_exports
-[webcrypto]: https://www.w3.org/TR/WebCryptoAPI/
-[nodewebcrypto]: https://nodejs.org/docs/latest-v15.x/api/webcrypto.html
-[deno.land/x/jose]: https://deno.land/x/jose
-
-[Browser Support]: https://github.com/panva/jose/issues/263
-[Cloudflare Workers Support]: https://github.com/panva/jose/issues/265
-[Deno Support]: https://github.com/panva/jose/issues/266
-[Electron Support]: https://github.com/panva/jose/issues/264
-[Next.js Middleware / Vercel Edge Functions Support]: https://github.com/panva/jose/issues/301
-[Node.js Support]: https://github.com/panva/jose/issues/262
