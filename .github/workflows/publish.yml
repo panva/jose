@@ -24,7 +24,8 @@ jobs:
       - name: Setup node
         uses: actions/setup-node@v3
         with:
-          node-version: 18 # lts/hydrogen
+          node-version: lts/hydrogen # 18
+          check-latest: true
           registry-url: https://registry.npmjs.org
           always-auth: true
       - name: Load cached dist

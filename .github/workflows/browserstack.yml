@@ -84,7 +84,7 @@ jobs:
       - name: Setup node
         uses: actions/setup-node@v3
         with:
-          node-version: 18 # lts/hydrogen
+          node-version: lts/hydrogen # 18
           cache: 'npm'
           check-latest: true
       - run: npm clean-install
