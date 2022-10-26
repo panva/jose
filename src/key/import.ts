@@ -195,7 +195,7 @@ export async function importPKCS8(
   options?: PEMImportOptions,
 ): Promise<KeyLike> {
   if (typeof pkcs8 !== 'string' || pkcs8.indexOf('-----BEGIN PRIVATE KEY-----') !== 0) {
-    throw new TypeError('"pkcs8" must be PCKS8 formatted string')
+    throw new TypeError('"pkcs8" must be PKCS8 formatted string')
   }
   return importPrivate(pkcs8, alg, options)
 }
