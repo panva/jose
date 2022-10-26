@@ -80,18 +80,16 @@ import * as jose from 'https://deno.land/x/jose/index.ts'
 
 ## Supported Runtimes
 
-The supported JavaScript runtimes include ones that
+The supported JavaScript runtimes include ones that support the utilized Web API globals and standard built-in objects or are Node.js
 
-- support the utilized Web API globals and standard built-in objects or are Node.js
-- These are
-  - _(This is not an exhaustive list)_
-  - [Browsers](https://github.com/panva/jose/issues/263)
-  - [Cloudflare Workers](https://github.com/panva/jose/issues/265)
-  - [Deno](https://github.com/panva/jose/issues/266)
-  - [Electron](https://github.com/panva/jose/issues/264)
-  - [Netlify Edge](https://github.com/panva/jose/issues/266)
-  - [Node.js](https://github.com/panva/jose/issues/262)
-  - [Vercel's Edge Runtime](https://github.com/panva/jose/issues/301)
+These are _(this is not an exhaustive list)_:
+- [Browsers](https://github.com/panva/jose/issues/263)
+- [Cloudflare Workers](https://github.com/panva/jose/issues/265)
+- [Deno](https://github.com/panva/jose/issues/266)
+- [Electron](https://github.com/panva/jose/issues/264)
+- [Netlify Edge](https://github.com/panva/jose/issues/266)
+- [Node.js](https://github.com/panva/jose/issues/262)
+- [Vercel's Edge Runtime](https://github.com/panva/jose/issues/301)
 
 ## FAQ
 
