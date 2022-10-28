@@ -158,6 +158,7 @@ const parse: JWKImportFunction = async (jwk: JWK): Promise<CryptoKey> => {
 
   const keyData: JWK = { ...jwk }
   delete keyData.alg
+  delete keyData.use
   return crypto.subtle.importKey('jwk', keyData, ...rest)
 }
 export default parse

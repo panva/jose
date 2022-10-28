@@ -67,11 +67,6 @@ export default (QUnit: QUnit) => {
             sign.setUnprotectedHeader(vector.signing.unprotected)
           }
 
-          // TODO: https://github.com/denoland/deno/pull/16465
-          if (env.isDeno && vector.input.alg.startsWith('HS')) {
-            delete vector.input.key.use
-          }
-
           const privateKey = await lib.importJWK(vector.input.key, vector.input.alg)
 
           const result = await sign.sign(privateKey)
@@ -167,11 +162,6 @@ export default (QUnit: QUnit) => {
       const dir = vector.input.alg === 'dir'
 
       const reproducible = !!vector.reproducible
-
-      // TODO: https://github.com/cloudflare/workerd/issues/138
-      if (env.isWorkers && vector.input.key?.use) {
-        delete vector.input.key.use
-      }
 
       if (reproducible) {
         // sign and compare results are the same
