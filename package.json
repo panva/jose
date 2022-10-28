@@ -1,6 +1,6 @@
 {
   "name": "jose",
-  "version": "4.10.3",
+  "version": "4.10.4",
   "description": "'JSON Web Almost Everything' - JWA, JWS, JWE, JWT, JWK, JWKS for Node.js, Browser, Cloudflare Workers, Deno, and other Web-interoperable runtimes",
   "keywords": [
     "browser",

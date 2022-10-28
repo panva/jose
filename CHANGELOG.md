@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [4.10.4](https://github.com/panva/jose/compare/v4.10.3...v4.10.4) (2022-10-28)
+
+
+### Fixes
+
+* typo in importPKSC8 error message ([#468](https://github.com/panva/jose/issues/468)) ([746bc64](https://github.com/panva/jose/commit/746bc64675636f2a09a6745e71cba8a2bdf3718f))
+* workaround for invalid use checks on CF Workers and Deno ([e4d04eb](https://github.com/panva/jose/commit/e4d04eb65f72041784d948eaa8432e4b64193729))
+
 ## [4.10.3](https://github.com/panva/jose/compare/v4.10.2...v4.10.3) (2022-10-20)
 
 ## [4.10.2](https://github.com/panva/jose/compare/v4.10.1...v4.10.2) (2022-10-20)
