@@ -1,6 +1,8 @@
 import Bowser from 'bowser'
 
 // @ts-ignore
+export const isBun = typeof Bun !== 'undefined'
+// @ts-ignore
 export const isDeno = typeof Deno !== 'undefined'
 // @ts-ignore
 export const isEdgeRuntime = typeof EdgeRuntime !== 'undefined'

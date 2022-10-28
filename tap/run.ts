@@ -8,6 +8,7 @@ export default async (QUnit: QUnit, done?: (details: QUnit.DoneDetails) => void)
   const modules = await Promise.all([
     import('./aes.js'),
     import('./aeskw.js'),
+    import('./cookbook.js'),
     import('./ecdh.js'),
     import('./hmac.js'),
     import('./jwk.js'),

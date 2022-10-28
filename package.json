@@ -144,7 +144,7 @@
     "test-cryptokey": "npm test -- --config ava.cryptokey.config.cjs",
     "test-webapi": "npm test -- --config ava.webapi.config.cjs",
     "test-webcrypto": "npm test -- --config ava.webcrypto.config.cjs",
-    "format": "prettier --loglevel silent --write ./test ./tap ./src ./tools",
+    "format": "prettier --loglevel silent --write ./test ./tap ./src ./tools ./cookbook",
     "tap:deno": "./tap/.deno.sh",
     "tap:edge-runtime": "./tap/.edge-runtime.sh",
     "tap:workers": "./tap/.workers.sh",

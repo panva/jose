@@ -1,4 +1,5 @@
 import type QUnit from 'qunit'
+// @ts-ignore
 import * as lib from '#dist/webapi'
 
 export default (QUnit: QUnit) => {
