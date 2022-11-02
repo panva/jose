@@ -13,8 +13,8 @@ export default (QUnit: QUnit) => {
     ['ECDH-ES', { crv: 'P-384' }, true],
     ['ECDH-ES', { crv: 'P-521' }, !env.isDeno],
     ['ECDH-ES', { crv: 'secp256k1' }, false],
-    ['ECDH-ES', { crv: 'X25519' }, false],
-    ['ECDH-ES', { crv: 'X448' }, false],
+    ['ECDH-ES', { crv: 'X25519' }, env.isNode],
+    ['ECDH-ES', { crv: 'X448' }, env.isNode],
   ]
 
   function title(vector: Vector) {

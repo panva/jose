@@ -9,8 +9,8 @@ export default (QUnit: QUnit) => {
 
   type Vector = [string, undefined | lib.GenerateKeyPairOptions, boolean]
   const algorithms: Vector[] = [
-    ['EdDSA', { crv: 'Ed25519' }, env.isDeno || env.isWorkers],
-    ['EdDSA', { crv: 'Ed448' }, false],
+    ['EdDSA', { crv: 'Ed25519' }, env.isDeno || env.isWorkers || env.isNode],
+    ['EdDSA', { crv: 'Ed448' }, env.isNode],
     ['ES256', undefined, true],
     ['ES256K', undefined, false],
     ['ES384', undefined, true],

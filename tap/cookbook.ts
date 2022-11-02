@@ -35,7 +35,7 @@ export default (QUnit: QUnit) => {
         return !env.isDeno
       }
       if (vector.input.alg === 'EdDSA') {
-        return env.isDeno || env.isWorkers
+        return env.isDeno || env.isWorkers || env.isNode
       }
       return true
     }

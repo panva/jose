@@ -145,10 +145,11 @@
     "test-webapi": "npm test -- --config ava.webapi.config.cjs",
     "test-webcrypto": "npm test -- --config ava.webcrypto.config.cjs",
     "format": "prettier --loglevel silent --write ./test ./tap ./src ./tools ./cookbook",
+    "tap:browsers": "./tap/.browsers.sh",
     "tap:deno": "./tap/.deno.sh",
     "tap:edge-runtime": "./tap/.edge-runtime.sh",
-    "tap:workers": "./tap/.workers.sh",
-    "tap:browsers": "./tap/.browsers.sh"
+    "tap:node": "bash -c './tap/.node.sh'",
+    "tap:workers": "./tap/.workers.sh"
   },
   "devDependencies": {
     "@types/node": "^18.11.9",
