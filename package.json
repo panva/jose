@@ -151,11 +151,11 @@
     "tap:browsers": "./tap/.browsers.sh"
   },
   "devDependencies": {
-    "@types/node": "^18.11.8",
+    "@types/node": "^18.11.9",
     "@types/qunit": "^2.19.3",
     "ava": "^3.15.0",
     "bowser": "^2.11.0",
-    "edge-runtime": "^2.0.0",
+    "edge-runtime": "^2.0.1",
     "esbuild": "^0.15.11",
     "glob": "^8.0.3",
     "got": "^11.8.2",
@@ -166,7 +166,7 @@
     "prettier-plugin-jsdoc": "^0.4.2",
     "qunit": "^2.19.2",
     "rollup": "^3.2.5",
-    "tar": "^6.1.11",
+    "tar": "^6.1.12",
     "testcafe": "^2.0.2",
     "testcafe-browser-provider-browserstack": "^1.14.0",
     "timekeeper": "^2.2.0",
