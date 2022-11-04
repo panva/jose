@@ -141,13 +141,13 @@ for (const alg of ['ES512', 'ECDH-ES', 'ECDH-ES+A128KW', 'ECDH-ES+A192KW', 'ECDH
 }
 
 for (const alg of ['ES256K']) {
-  conditional({ webcrypto: 0, electron: 0 })(
+  conditional({ webcrypto: 0 })(
     `import SPKI secp256k1 for ${alg}`,
     testSPKI,
     keys.secp256k1.publicKey,
     alg,
   )
-  conditional({ webcrypto: 0, electron: 0 })(
+  conditional({ webcrypto: 0 })(
     `import PKCS8 secp256k1 for ${alg}`,
     testPKCS8,
     keys.secp256k1.privateKey,
@@ -159,18 +159,13 @@ for (const alg of ['EdDSA']) {
   test(`import SPKI ed25519 for ${alg}`, testSPKI, keys.ed25519.publicKey, alg)
   test(`import X509 ed25519 for ${alg}`, testX509, keys.ed25519.certificate, alg)
   test(`import PKCS8 ed25519 for ${alg}`, testPKCS8, keys.ed25519.privateKey, alg)
-  conditional({ electron: 0 })(`import SPKI ed448 for ${alg}`, testSPKI, keys.ed448.publicKey, alg)
-  conditional({ electron: 0 })(
-    `import PKCS8 ed448 for ${alg}`,
-    testPKCS8,
-    keys.ed448.privateKey,
-    alg,
-  )
+  test(`import SPKI ed448 for ${alg}`, testSPKI, keys.ed448.publicKey, alg)
+  test(`import PKCS8 ed448 for ${alg}`, testPKCS8, keys.ed448.privateKey, alg)
 }
 
 for (const alg of ['ECDH-ES', 'ECDH-ES+A128KW', 'ECDH-ES+A192KW', 'ECDH-ES+A256KW']) {
   test(`import SPKI x25519 for ${alg}`, testSPKI, keys.x25519.publicKey, alg)
   test(`import PKCS8 x25519 for ${alg}`, testPKCS8, keys.x25519.privateKey, alg)
-  conditional({ electron: 0 })(`import SPKI x448 for ${alg}`, testSPKI, keys.x448.publicKey, alg)
-  conditional({ electron: 0 })(`import PKCS8 x448 for ${alg}`, testPKCS8, keys.x448.privateKey, alg)
+  test(`import SPKI x448 for ${alg}`, testSPKI, keys.x448.publicKey, alg)
+  test(`import PKCS8 x448 for ${alg}`, testPKCS8, keys.x448.privateKey, alg)
 }

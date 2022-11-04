@@ -133,7 +133,6 @@ export default [
   {
     title:
       'https://www.rfc-editor.org/rfc/rfc7520#section-5.3 - Key Wrap using PBES2-AES-KeyWrap with AES-CBC-HMAC-SHA2',
-    electron: false,
     reproducible: true,
     input: {
       plaintext:
@@ -189,7 +188,6 @@ export default [
   {
     title:
       'https://www.rfc-editor.org/rfc/rfc7520#section-5.4 - Key Agreement with Key Wrapping using ECDH-ES and AES-KeyWrap with AES-GCM',
-    electron: false,
     input: {
       plaintext:
         'You can trust us to stick with you through thick and thin–to the bitter end. And you can trust us to keep any secret of yours–closer than you keep it yourself. But you cannot trust us to let you face trouble alone, and go off without a word. We are your friends, Frodo.',
@@ -439,7 +437,6 @@ export default [
   {
     title:
       'https://www.rfc-editor.org/rfc/rfc7520#section-5.8 - Key Wrap using AES-KeyWrap with AES-GCM',
-    electron: false,
     reproducible: true,
     input: {
       plaintext:
@@ -497,7 +494,6 @@ export default [
   {
     title: 'https://www.rfc-editor.org/rfc/rfc7520#section-5.9 - Compressed Content',
     webapi: false,
-    electron: false,
     reproducible: true,
     input: {
       plaintext:
@@ -559,7 +555,6 @@ export default [
   {
     title:
       'https://www.rfc-editor.org/rfc/rfc7520#section-5.10 - Including Additional Authenticated Data',
-    electron: false,
     reproducible: true,
     input: {
       plaintext:
@@ -620,7 +615,6 @@ export default [
   {
     title:
       'https://www.rfc-editor.org/rfc/rfc7520#section-5.11 - Protecting Specific Header Fields',
-    electron: false,
     reproducible: true,
     input: {
       plaintext:
@@ -683,7 +677,6 @@ export default [
   },
   {
     title: 'https://www.rfc-editor.org/rfc/rfc7520#section-5.12 - Protecting Content Only',
-    electron: false,
     reproducible: true,
     input: {
       plaintext:

@@ -117,4 +117,4 @@ test(testECDSASigEncoding, 'ES384')
 test(testECDSASigEncoding, 'ES512')
 
 conditional({ webcrypto: 0 })(testRSAenc, 'RSA1_5')
-conditional({ webcrypto: 0, electron: 0 })(testECDSASigEncoding, 'ES256K')
+conditional({ webcrypto: 0 })(testECDSASigEncoding, 'ES256K')

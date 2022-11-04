@@ -302,35 +302,21 @@ test(smoke, 'oct512c')
 test(smoke, 'x25519dir')
 
 conditional({ webcrypto: 0 })(smoke, 'rsa1_5')
-conditional({ electron: 0 })(smoke, 'x25519kw')
-conditional({ electron: 0 })(smoke, 'x448kw')
-conditional({ electron: 0 })(smoke, 'x448dir')
+test(smoke, 'x25519kw')
+test(smoke, 'x448kw')
+test(smoke, 'x448dir')
 conditional({ webcrypto: 0 })('as keyobject', smoke, 'oct256c', undefined, undefined, true)
 conditional({ webcrypto: 0 })('as keyobject', smoke, 'oct384c', undefined, undefined, true)
 conditional({ webcrypto: 0 })('as keyobject', smoke, 'oct512c', undefined, undefined, true)
-conditional({ electron: 0 })(smoke, 'octAny')
-conditional({ electron: 0 })(
-  'as keyobject (deriveBits)',
-  smoke,
-  'octAny',
-  ['deriveBits'],
-  ['deriveBits'],
-  true,
-)
-conditional({ electron: 0 })(
-  'as keyobject (deriveKey)',
-  smoke,
-  'octAny',
-  ['deriveKey'],
-  ['deriveKey'],
-  true,
-)
-conditional({ electron: 0 })(smoke, 'oct128')
-conditional({ electron: 0 })('as keyobject', smoke, 'oct128', ['wrapKey'], ['unwrapKey'], true)
-conditional({ electron: 0 })(smoke, 'oct192')
-conditional({ electron: 0 })('as keyobject', smoke, 'oct192', ['wrapKey'], ['unwrapKey'], true)
-conditional({ electron: 0 })(smoke, 'oct256')
-conditional({ electron: 0 })('as keyobject', smoke, 'oct256', ['wrapKey'], ['unwrapKey'], true)
-conditional({ electron: 0 })(smoke, 'p256kw')
-conditional({ electron: 0 })(smoke, 'p384kw')
-conditional({ electron: 0 })(smoke, 'p521kw')
+test(smoke, 'octAny')
+test('as keyobject (deriveBits)', smoke, 'octAny', ['deriveBits'], ['deriveBits'], true)
+test('as keyobject (deriveKey)', smoke, 'octAny', ['deriveKey'], ['deriveKey'], true)
+test(smoke, 'oct128')
+test('as keyobject', smoke, 'oct128', ['wrapKey'], ['unwrapKey'], true)
+test(smoke, 'oct192')
+test('as keyobject', smoke, 'oct192', ['wrapKey'], ['unwrapKey'], true)
+test(smoke, 'oct256')
+test('as keyobject', smoke, 'oct256', ['wrapKey'], ['unwrapKey'], true)
+test(smoke, 'p256kw')
+test(smoke, 'p384kw')
+test(smoke, 'p521kw')

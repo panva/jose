@@ -155,8 +155,5 @@ for (const vector of vectors) {
   if ('WEBAPI' in process.env && vector.webapi === false) {
     run = run.failing
   }
-  if ('electron' in process.versions && vector.electron === false) {
-    run = run.failing
-  }
   run(testCookbook, vector)
 }

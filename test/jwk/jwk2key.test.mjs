@@ -236,9 +236,9 @@ conditional({ webcrypto: 0 })('secret key object can be transformed to a JWK', a
     kty: 'oct',
   })
 })
-conditional({ webcrypto: 0, electron: 0 })(testKeyImportExport, {
+conditional({ webcrypto: 0 })(testKeyImportExport, {
   ...secp256k1,
   alg: 'ES256K',
 })
-conditional({ electron: 0 })(testKeyImportExport, { ...ed448, alg: 'EdDSA' })
-conditional({ electron: 0 })(testKeyImportExport, { ...x448, alg: 'ECDH-ES' })
+test(testKeyImportExport, { ...ed448, alg: 'EdDSA' })
+test(testKeyImportExport, { ...x448, alg: 'ECDH-ES' })

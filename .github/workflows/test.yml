@@ -230,43 +230,10 @@ jobs:
         env:
           BROWSER: ${{ matrix.browser }}
 
-  # electron:
-  #   needs:
-  #     - build
-  #   runs-on: ubuntu-latest
-  #   steps:
-  #     - name: Checkout
-  #       uses: actions/checkout@v3
-  #     - name: Setup node
-  #       uses: actions/setup-node@v3
-  #       with:
-  #         node-version: lts/hydrogen # 18
-  #         cache: 'npm'
-  #         check-latest: true
-  #     - name: Install dependencies
-  #       run: npm clean-install
-  #     - name: Load cached dist
-  #       uses: actions/cache@v3
-  #       id: dist
-  #       with:
-  #         path: dist
-  #         key: ${{ needs.build.outputs.cache-key }}
-  #     - name: Abort if dist isn't cached
-  #       if: ${{ steps.dist.outputs.cache-hit != 'true' }}
-  #       uses: actions/github-script@v6
-  #       with:
-  #         script: |
-  #             core.setFailed('dist cache hit failed')
-  #     - name: Install Electron
-  #       run: npm install --global xvfb-maybe electron
-  #     - name: Test Electron crypto
-  #       run: xvfb-maybe electron ./test/.electron
-
   prepare-release:
     needs:
       - browsers
       - deno
-      # - electron
       - node
       - workers
       - edge-runtime

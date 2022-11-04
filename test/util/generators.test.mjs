@@ -134,19 +134,19 @@ if ('WEBCRYPTO' in process.env || 'CRYPTOKEY' in process.env) {
 
 test(testKeyPair, 'EdDSA')
 test('crv: Ed25519', testKeyPair, 'EdDSA', { crv: 'Ed25519' })
-conditional({ electron: 0 })('crv: Ed448', testKeyPair, 'EdDSA', { crv: 'Ed448' })
-conditional({ webcrypto: 0, electron: 0 })(testKeyPair, 'ES256K')
+test('crv: Ed448', testKeyPair, 'EdDSA', { crv: 'Ed448' })
+conditional({ webcrypto: 0 })(testKeyPair, 'ES256K')
 conditional({ webcrypto: 0 })(testKeyPair, 'RSA1_5')
 conditional({ webcrypto: 0 })('with modulusLength', testKeyPair, 'RSA1_5', {
   modulusLength: 4096,
 })
 for (const crv of ['X25519', 'X448']) {
-  conditional({ electron: crv === 'X25519' })(`crv: ${crv}`, testKeyPair, 'ECDH-ES', {
+  test(`crv: ${crv}`, testKeyPair, 'ECDH-ES', {
     crv,
   })
-  conditional({ electron: crv === 'X25519' })(`crv: ${crv}`, testKeyPair, 'ECDH-ES+A128KW', { crv })
-  conditional({ electron: crv === 'X25519' })(`crv: ${crv}`, testKeyPair, 'ECDH-ES+A192KW', { crv })
-  conditional({ electron: crv === 'X25519' })(`crv: ${crv}`, testKeyPair, 'ECDH-ES+A256KW', { crv })
+  test(`crv: ${crv}`, testKeyPair, 'ECDH-ES+A128KW', { crv })
+  test(`crv: ${crv}`, testKeyPair, 'ECDH-ES+A192KW', { crv })
+  test(`crv: ${crv}`, testKeyPair, 'ECDH-ES+A256KW', { crv })
 }
 
 async function testSecret(t, alg, expectedLength, options) {

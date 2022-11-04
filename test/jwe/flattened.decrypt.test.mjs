@@ -1,6 +1,6 @@
 import test from 'ava'
 import * as crypto from 'crypto'
-import { root, conditional } from '../dist.mjs'
+import { root } from '../dist.mjs'
 
 const { FlattenedEncrypt, flattenedDecrypt, base64url } = await import(root)
 
@@ -240,7 +240,7 @@ test('decrypt empty data (CBC)', async (t) => {
   t.is(plaintext.byteLength, 0)
 })
 
-conditional({ electron: 0 })('decrypt PBES2 p2c limit', async (t) => {
+test('decrypt PBES2 p2c limit', async (t) => {
   const jwe = await new FlattenedEncrypt(new Uint8Array(0))
     .setProtectedHeader({ alg: 'PBES2-HS256+A128KW', enc: 'A128CBC-HS256' })
     .setKeyManagementParameters({ p2c: 2049 })

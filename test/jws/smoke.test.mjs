@@ -198,5 +198,5 @@ test('as keyobject', smoke, 'oct256', true)
 test('as keyobject', smoke, 'oct384', true)
 test('as keyobject', smoke, 'oct512', true)
 
-conditional({ webcrypto: 0, electron: 0 })(smoke, 'secp256k1')
-conditional({ electron: 0 })(smoke, 'ed448')
+conditional({ webcrypto: 0 })(smoke, 'secp256k1')
+test(smoke, 'ed448')

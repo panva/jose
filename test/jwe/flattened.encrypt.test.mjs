@@ -1,5 +1,5 @@
 import test from 'ava'
-import { conditional, root } from '../dist.mjs'
+import { root } from '../dist.mjs'
 
 const { FlattenedEncrypt, decodeProtectedHeader } = await import(root)
 
@@ -216,7 +216,7 @@ test('FlattenedEncrypt.prototype.encrypt JOSE header have an enc', async (t) => 
   )
 })
 
-conditional({ electron: 0 })('Default PBES2 Count', async (t) => {
+test('Default PBES2 Count', async (t) => {
   t.is(
     decodeProtectedHeader(
       await new FlattenedEncrypt(t.context.plaintext)

@@ -16,7 +16,7 @@ if ('WEBCRYPTO' in process.env) {
 
 export { root, keyRoot }
 
-export function conditional({ webcrypto = 1, electron = 1 } = {}) {
+export function conditional({ webcrypto = 1 } = {}) {
   let run = test
   if (
     !webcrypto &&
@@ -25,8 +25,5 @@ export function conditional({ webcrypto = 1, electron = 1 } = {}) {
     run = run.failing
   }
 
-  if (!electron && 'electron' in process.versions) {
-    run = run.failing
-  }
   return run
 }
