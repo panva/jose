@@ -154,12 +154,10 @@
   "devDependencies": {
     "@types/node": "^18.11.9",
     "@types/qunit": "^2.19.3",
-    "ava": "^3.15.0",
+    "ava": "^4.3.3",
     "bowser": "^2.11.0",
     "edge-runtime": "^2.0.1",
     "esbuild": "^0.15.13",
-    "glob": "^8.0.3",
-    "got": "^11.8.2",
     "nock": "^13.1.3",
     "npm-run-all": "^4.1.5",
     "patch-package": "^6.5.0",
