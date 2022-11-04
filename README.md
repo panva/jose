@@ -87,7 +87,6 @@ These are _(this is not an exhaustive list)_:
 - [Cloudflare Workers](https://github.com/panva/jose/issues/265)
 - [Deno](https://github.com/panva/jose/issues/266)
 - [Electron](https://github.com/panva/jose/issues/264)
-- [Netlify Edge](https://github.com/panva/jose/issues/266)
 - [Node.js](https://github.com/panva/jose/issues/262)
 - [Vercel's Edge Runtime](https://github.com/panva/jose/issues/301)
 
