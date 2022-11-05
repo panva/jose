@@ -1,17 +1,16 @@
 import type QUnit from 'qunit'
-// @ts-ignore
-import * as lib from '#dist/webapi'
 import * as env from './env.js'
+import type * as jose from '../src/index.js'
 
-export default (QUnit: QUnit) => {
+export default (QUnit: QUnit, lib: typeof jose) => {
   const { module, test } = QUnit
   module('aeskw.ts')
 
   type Vector = [string, boolean]
   const algorithms: Vector[] = [
-    ['A128KW', true],
-    ['A192KW', !env.isChromium],
-    ['A256KW', true],
+    ['A128KW', !env.isElectron],
+    ['A192KW', !(env.isChromium || env.isElectron)],
+    ['A256KW', !env.isElectron],
     ['A128GCMKW', true],
     ['A192GCMKW', !env.isChromium],
     ['A256GCMKW', true],

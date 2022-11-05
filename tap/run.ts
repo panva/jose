@@ -1,6 +1,11 @@
 import type QUnit from 'qunit'
+import type * as jose from '../src/index.js'
 
-export default async (QUnit: QUnit, done?: (details: QUnit.DoneDetails) => void) => {
+export default async (
+  QUnit: QUnit,
+  lib: typeof jose,
+  done: (details: QUnit.DoneDetails) => void,
+) => {
   // @ts-ignore
   QUnit.reporters.tap.init(QUnit)
   QUnit.config.autostart = false
@@ -19,10 +24,8 @@ export default async (QUnit: QUnit, done?: (details: QUnit.DoneDetails) => void)
     import('./rsaes.js'),
   ])
   for (const { default: module } of modules) {
-    await module(QUnit)
+    await module(QUnit, lib)
   }
   QUnit.start()
-  if (done) {
-    QUnit.done(done)
-  }
+  QUnit.done(done)
 }

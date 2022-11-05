@@ -1,8 +1,7 @@
 import type QUnit from 'qunit'
-// @ts-ignore
-import * as lib from '#dist/webapi'
+import type * as jose from '../src/index.js'
 
-export default (QUnit: QUnit) => {
+export default (QUnit: QUnit, lib: typeof jose) => {
   const { module, test } = QUnit
   module('jwks.ts')
 
@@ -13,13 +12,13 @@ export default (QUnit: QUnit) => {
     const { alg, kid } = response.keys[0]
     const jwks = lib.createRemoteJWKSet(new URL(jwksUri))
     await t.rejects(
-      jwks({ alg: 'RS256' }, {}),
+      (async () => jwks({ alg: 'RS256' }, <any>{}))(),
       'multiple matching keys found in the JSON Web Key Set',
     )
     await t.rejects(
-      jwks({ kid: 'foo', alg: 'RS256' }, {}),
+      (async () => jwks({ kid: 'foo', alg: 'RS256' }, <any>{}))(),
       'no applicable key found in the JSON Web Key Set',
     )
-    t.ok(await jwks({ alg, kid }, {}))
+    t.ok(await jwks({ alg, kid }, <any>{}))
   })
 }

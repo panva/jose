@@ -148,6 +148,7 @@
     "tap:browsers": "./tap/.browsers.sh",
     "tap:deno": "./tap/.deno.sh",
     "tap:edge-runtime": "./tap/.edge-runtime.sh",
+    "tap:electron": "./tap/.electron.sh",
     "tap:node": "bash -c './tap/.node.sh'",
     "tap:workers": "./tap/.workers.sh"
   },

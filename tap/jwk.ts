@@ -1,10 +1,9 @@
 import type QUnit from 'qunit'
-// @ts-ignore
-import * as lib from '#dist/webapi'
 import * as env from './env.js'
 import { KEYS } from './fixtures.js'
+import type * as jose from '../src/index.js'
 
-export default (QUnit: QUnit) => {
+export default (QUnit: QUnit, lib: typeof jose) => {
   const { module, test } = QUnit
   module('jwk.ts')
 
@@ -13,12 +12,12 @@ export default (QUnit: QUnit) => {
     ['ECDH-ES', KEYS.P256.jwk, true],
     ['ECDH-ES', KEYS.P384.jwk, true],
     ['ECDH-ES', KEYS.P521.jwk, !env.isDeno],
-    ['ECDH-ES', KEYS.X25519.jwk, env.isDeno || env.isNode],
+    ['ECDH-ES', KEYS.X25519.jwk, env.isDeno || env.isNode || env.isElectron],
     ['ECDH-ES', KEYS.X448.jwk, env.isNode],
-    ['EdDSA', KEYS.Ed25519.jwk, env.isDeno || env.isNode || env.isWorkers],
+    ['EdDSA', KEYS.Ed25519.jwk, env.isDeno || env.isNode || env.isElectron || env.isWorkers],
     ['EdDSA', KEYS.Ed448.jwk, env.isNode],
     ['ES256', KEYS.P256.jwk, true],
-    ['ES256K', KEYS.secp256k1.jwk, false],
+    ['ES256K', KEYS.secp256k1.jwk, env.isNodeCrypto],
     ['ES384', KEYS.P384.jwk, true],
     ['ES512', KEYS.P521.jwk, !env.isDeno],
     ['PS256', KEYS.RSA.jwk, true],
@@ -31,7 +30,7 @@ export default (QUnit: QUnit) => {
     ['RSA-OAEP-384', KEYS.RSA.jwk, true],
     ['RSA-OAEP-512', KEYS.RSA.jwk, true],
     ['RSA-OAEP', KEYS.RSA.jwk, true],
-    ['RSA1_5', KEYS.RSA.jwk, false],
+    ['RSA1_5', KEYS.RSA.jwk, env.isNodeCrypto || env.isElectron],
   ]
 
   function publicJwk(jwk: JsonWebKey) {

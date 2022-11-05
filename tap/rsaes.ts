@@ -1,14 +1,14 @@
 import type QUnit from 'qunit'
-// @ts-ignore
-import * as lib from '#dist/webapi'
+import * as env from './env.js'
+import type * as jose from '../src/index.js'
 
-export default (QUnit: QUnit) => {
+export default (QUnit: QUnit, lib: typeof jose) => {
   const { module, test } = QUnit
   module('rsaes.ts')
 
   type Vector = [string, boolean]
   const algorithms: Vector[] = [
-    ['RSA1_5', false],
+    ['RSA1_5', env.isNodeCrypto || env.isElectron],
     ['RSA-OAEP', true],
     ['RSA-OAEP-256', true],
     ['RSA-OAEP-384', true],

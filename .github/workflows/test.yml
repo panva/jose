@@ -77,8 +77,7 @@ jobs:
         if: ${{ steps.dist.outputs.cache-hit != 'true' }}
         uses: actions/github-script@v6
         with:
-          script: |
-              core.setFailed('dist cache hit failed')
+          script: core.setFailed('dist cache hit failed')
       - run: find test -type f -name '*.mjs' -print0 | xargs -0 sed -i -e "s/await import(/require(/g"
         if: ${{ startsWith(steps.node.outputs.node-version, 'v12') }}
       - name: Test with Node.js crypto module
@@ -92,7 +91,7 @@ jobs:
       - name: Test with Node.js Web API
         run: npm run test-webapi
         if: ${{ !startsWith(steps.node.outputs.node-version, 'v14') && !startsWith(steps.node.outputs.node-version, 'v12') }}
-      - name: TAP Suite with Node.js Web API
+      - name: TAP Suite with both Node.js runtimes
         run: npm run tap:node
         if: ${{ !startsWith(steps.node.outputs.node-version, 'v14') && !startsWith(steps.node.outputs.node-version, 'v12') }}
 
@@ -116,8 +115,7 @@ jobs:
         if: ${{ steps.dist.outputs.cache-hit != 'true' }}
         uses: actions/github-script@v6
         with:
-          script: |
-              core.setFailed('dist cache hit failed')
+          script: core.setFailed('dist cache hit failed')
       - name: Test Deno Definitions
         run: deno check dist/deno/index.ts
       - name: Setup node
@@ -156,8 +154,7 @@ jobs:
         if: ${{ steps.dist.outputs.cache-hit != 'true' }}
         uses: actions/github-script@v6
         with:
-          script: |
-              core.setFailed('dist cache hit failed')
+          script: core.setFailed('dist cache hit failed')
       - name: Run Test Suite
         run: npm run tap:workers
 
@@ -186,8 +183,7 @@ jobs:
         if: ${{ steps.dist.outputs.cache-hit != 'true' }}
         uses: actions/github-script@v6
         with:
-          script: |
-              core.setFailed('dist cache hit failed')
+          script: core.setFailed('dist cache hit failed')
       - name: Run Test Suite
         run: npm run tap:edge-runtime
 
@@ -223,17 +219,48 @@ jobs:
         if: ${{ steps.dist.outputs.cache-hit != 'true' }}
         uses: actions/github-script@v6
         with:
-          script: |
-              core.setFailed('dist cache hit failed')
+          script: core.setFailed('dist cache hit failed')
       - name: Run Test Suite
         run: npm run tap:browsers
         env:
           BROWSER: ${{ matrix.browser }}
 
+  electron:
+    needs:
+      - build
+    runs-on: macos-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+      - name: Setup node
+        uses: actions/setup-node@v3
+        with:
+          node-version: lts/hydrogen # 18
+          cache: 'npm'
+          check-latest: true
+      - name: Install dependencies
+        run: npm clean-install
+      - name: Load cached dist
+        uses: actions/cache@v3
+        id: dist
+        with:
+          path: dist
+          key: ${{ needs.build.outputs.cache-key }}
+      - name: Abort if dist isn't cached
+        if: ${{ steps.dist.outputs.cache-hit != 'true' }}
+        uses: actions/github-script@v6
+        with:
+          script: core.setFailed('dist cache hit failed')
+      - name: Install Electron
+        run: npm install --global electron
+      - name: Run Test Suite
+        run: npm run tap:electron
+
   prepare-release:
     needs:
       - browsers
       - deno
+      - electron
       - node
       - workers
       - edge-runtime

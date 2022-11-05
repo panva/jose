@@ -1,9 +1,8 @@
 import type QUnit from 'qunit'
-// @ts-ignore
-import * as lib from '#dist/webapi'
 import * as env from './env.js'
+import type * as jose from '../src/index.js'
 
-export default (QUnit: QUnit) => {
+export default (QUnit: QUnit, lib: typeof jose) => {
   const { module, test } = QUnit
   module('aes.ts')
 

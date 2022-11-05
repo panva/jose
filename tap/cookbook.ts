@@ -1,19 +1,18 @@
 import type QUnit from 'qunit'
-// @ts-ignore
-import * as lib from '#dist/webapi'
 import * as env from './env.js'
+import type * as jose from '../src/index.js'
 
 // @ts-ignore
 import jwsVectors from '../cookbook/jws.mjs'
 // @ts-ignore
 import jweVectors from '../cookbook/jwe.mjs'
 
-export default (QUnit: QUnit) => {
+export default (QUnit: QUnit, lib: typeof jose) => {
   const { module, test } = QUnit
 
   const encode = TextEncoder.prototype.encode.bind(new TextEncoder())
 
-  const pubjwk = (jwk: JsonWebKey) => {
+  const pubjwk = (jwk: jose.JWK) => {
     let { d, p, q, dp, dq, qi, ...publicJwk } = jwk
     return publicJwk
   }
@@ -35,7 +34,7 @@ export default (QUnit: QUnit) => {
         return !env.isDeno
       }
       if (vector.input.alg === 'EdDSA') {
-        return env.isDeno || env.isWorkers || env.isNode
+        return env.isDeno || env.isWorkers || env.isNode || env.isElectron
       }
       return true
     }
@@ -139,16 +138,19 @@ export default (QUnit: QUnit) => {
     }
 
     function supported(vector: any) {
-      if (vector.webcrypto === false) {
+      if (vector.webcrypto === false && !(env.isNodeCrypto || env.isElectron)) {
         return false
       }
-      if (vector.input.zip) {
+      if (env.isElectron && vector.electron === false) {
+        return false
+      }
+      if (vector.input.zip && !env.isNodeCrypto) {
         return false
       }
       return true
     }
 
-    const toJWK = (input: string | JsonWebKey) => {
+    const toJWK = (input: string | jose.JWK) => {
       if (typeof input === 'string') {
         return {
           kty: 'oct',
@@ -196,7 +198,7 @@ export default (QUnit: QUnit) => {
             encrypt.setAdditionalAuthenticatedData(encode(vector.input.aad))
           }
 
-          const keyManagementParameters: lib.JWEKeyManagementHeaderParameters = {}
+          const keyManagementParameters: jose.JWEKeyManagementHeaderParameters = {}
 
           if (vector.encrypting_key && vector.encrypting_key.iv) {
             keyManagementParameters.iv = lib.base64url.decode(vector.encrypting_key.iv)
@@ -211,7 +213,9 @@ export default (QUnit: QUnit) => {
           }
 
           if (vector.encrypting_key && vector.encrypting_key.epk) {
-            keyManagementParameters.epk = lib.importJWK(vector.encrypting_key.epk, 'ECDH')
+            keyManagementParameters.epk = <jose.KeyLike>(
+              await lib.importJWK(vector.encrypting_key.epk, vector.input.alg)
+            )
           }
 
           if (Object.keys(keyManagementParameters).length !== 0) {
@@ -244,9 +248,12 @@ export default (QUnit: QUnit) => {
           encrypt.setUnprotectedHeader(vector.encrypting_content.unprotected)
         }
 
-        const privateKey = await lib.importJWK(
-          toJWK(vector.input.pwd || vector.input.key),
-          dir ? vector.input.enc : vector.input.alg,
+        const privateKey = <jose.KeyLike>(
+          await lib.importJWK(
+            toJWK(vector.input.pwd || vector.input.key),
+            dir ? vector.input.enc : vector.input.alg,
+            true,
+          )
         )
         let publicKey
         if (privateKey.type === 'secret') {

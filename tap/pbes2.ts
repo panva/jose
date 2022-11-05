@@ -1,17 +1,16 @@
 import type QUnit from 'qunit'
-// @ts-ignore
-import * as lib from '#dist/webapi'
 import * as env from './env.js'
+import type * as jose from '../src/index.js'
 
-export default (QUnit: QUnit) => {
+export default (QUnit: QUnit, lib: typeof jose) => {
   const { module, test } = QUnit
   module('pbes2.ts')
 
   type Vector = [string, boolean]
   const algorithms: Vector[] = [
-    ['PBES2-HS256+A128KW', true],
-    ['PBES2-HS384+A192KW', !env.isChromium],
-    ['PBES2-HS512+A256KW', true],
+    ['PBES2-HS256+A128KW', !env.isElectron],
+    ['PBES2-HS384+A192KW', !env.isChromium && !env.isElectron],
+    ['PBES2-HS512+A256KW', !env.isElectron],
   ]
 
   function title(vector: Vector) {

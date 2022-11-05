@@ -1,18 +1,17 @@
 import type QUnit from 'qunit'
-// @ts-ignore
-import * as lib from '#dist/webapi'
 import * as env from './env.js'
+import type * as jose from '../src/index.js'
 
-export default (QUnit: QUnit) => {
+export default (QUnit: QUnit, lib: typeof jose) => {
   const { module, test } = QUnit
   module('jws.ts')
 
-  type Vector = [string, undefined | lib.GenerateKeyPairOptions, boolean]
+  type Vector = [string, undefined | jose.GenerateKeyPairOptions, boolean]
   const algorithms: Vector[] = [
-    ['EdDSA', { crv: 'Ed25519' }, env.isDeno || env.isWorkers || env.isNode],
+    ['EdDSA', { crv: 'Ed25519' }, env.isDeno || env.isWorkers || env.isNode || env.isElectron],
     ['EdDSA', { crv: 'Ed448' }, env.isNode],
     ['ES256', undefined, true],
-    ['ES256K', undefined, false],
+    ['ES256K', undefined, env.isNodeCrypto],
     ['ES384', undefined, true],
     ['ES512', undefined, !env.isDeno],
     ['PS256', undefined, true],

@@ -1,19 +1,18 @@
 import type QUnit from 'qunit'
-// @ts-ignore
-import * as lib from '#dist/webapi'
 import * as env from './env.js'
+import type * as jose from '../src/index.js'
 
-export default (QUnit: QUnit) => {
+export default (QUnit: QUnit, lib: typeof jose) => {
   const { module, test } = QUnit
   module('ecdh.ts')
 
-  type Vector = [string, undefined | lib.GenerateKeyPairOptions, boolean]
+  type Vector = [string, jose.GenerateKeyPairOptions, boolean]
   const algorithms: Vector[] = [
     ['ECDH-ES', { crv: 'P-256' }, true],
     ['ECDH-ES', { crv: 'P-384' }, true],
     ['ECDH-ES', { crv: 'P-521' }, !env.isDeno],
     ['ECDH-ES', { crv: 'secp256k1' }, false],
-    ['ECDH-ES', { crv: 'X25519' }, env.isNode],
+    ['ECDH-ES', { crv: 'X25519' }, env.isNode || env.isElectron],
     ['ECDH-ES', { crv: 'X448' }, env.isNode],
   ]
 
