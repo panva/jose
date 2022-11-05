@@ -79,8 +79,7 @@ jobs:
         if: ${{ steps.cert.outputs.cache-hit != 'true' }}
         uses: actions/github-script@v6
         with:
-          script: |
-              core.setFailed('cert cache hit failed')
+          script: core.setFailed('cert cache hit failed')
       - name: Setup node
         uses: actions/setup-node@v3
         with:

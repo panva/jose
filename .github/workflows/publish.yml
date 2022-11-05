@@ -38,8 +38,7 @@ jobs:
         if: ${{ steps.dist.outputs.cache-hit != 'true' }}
         uses: actions/github-script@v6
         with:
-          script: |
-              core.setFailed('dist cache hit failed')
+          script: core.setFailed('dist cache hit failed')
       - name: Prepare distribution
         run: node tools/publish-${{ matrix.prepare-script }}
       - run: npm publish
