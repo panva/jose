@@ -228,7 +228,7 @@ jobs:
   electron:
     needs:
       - build
-    runs-on: ubuntu-latest
+    runs-on: macos-latest
     steps:
       - name: Checkout
         uses: actions/checkout@v3
@@ -252,7 +252,7 @@ jobs:
         with:
           script: core.setFailed('dist cache hit failed')
       - name: Install Electron
-        run: npm install --global xvfb-maybe electron
+        run: npm install --global electron
       - name: Run Test Suite
         run: npm run tap:electron
 
