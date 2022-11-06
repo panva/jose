@@ -1,9 +1,10 @@
 {
   "name": "jose",
   "version": "4.10.4",
-  "description": "'JSON Web Almost Everything' - JWA, JWS, JWE, JWT, JWK, JWKS for Node.js, Browser, Cloudflare Workers, Deno, and other Web-interoperable runtimes",
+  "description": "'JSON Web Almost Everything' - JWA, JWS, JWE, JWT, JWK, JWKS for Node.js, Browser, Cloudflare Workers, Deno, Bun, and other Web-interoperable runtimes",
   "keywords": [
     "browser",
+    "bun",
     "cloudflare",
     "compact",
     "decode",
@@ -77,6 +78,7 @@
   "exports": {
     ".": {
       "types": "./dist/types/index.d.ts",
+      "bun": "./dist/browser/index.js",
       "deno": "./dist/browser/index.js",
       "browser": "./dist/browser/index.js",
       "worker": "./dist/browser/index.js",
@@ -125,6 +127,7 @@
     "test": "ava",
     "format": "prettier --loglevel silent --write ./test ./tap ./src ./tools ./cookbook",
     "tap:browsers": "./tap/.browsers.sh",
+    "tap:bun": "./tap/.bun.sh",
     "tap:deno": "./tap/.deno.sh",
     "tap:edge-runtime": "./tap/.edge-runtime.sh",
     "tap:electron": "./tap/.electron.sh",

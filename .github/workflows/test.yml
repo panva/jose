@@ -120,6 +120,37 @@ jobs:
       - name: Test Deno
         run: npm run tap:deno
 
+  bun:
+    needs:
+      - build
+    runs-on: ubuntu-latest
+    continue-on-error: true
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+      - run: curl https://bun.sh/install | bash
+      - name: Load cached dist
+        uses: actions/cache@v3
+        id: dist
+        with:
+          path: dist
+          key: ${{ needs.build.outputs.cache-key }}
+      - name: Abort if dist isn't cached
+        if: ${{ steps.dist.outputs.cache-hit != 'true' }}
+        uses: actions/github-script@v6
+        with:
+          script: core.setFailed('dist cache hit failed')
+      - name: Setup node
+        uses: actions/setup-node@v3
+        with:
+          node-version: lts/hydrogen # 18
+          cache: 'npm'
+          check-latest: true
+      - name: Install dependencies
+        run: npm clean-install
+      - name: Test Bun
+        run: npm run tap:bun
+
   workers:
     needs:
       - build
@@ -250,11 +281,12 @@ jobs:
   prepare-release:
     needs:
       - browsers
+      - bun
       - deno
+      - edge-runtime
       - electron
       - node
       - workers
-      - edge-runtime
     runs-on: ubuntu-latest
     if: ${{ github.event_name == 'push' && startsWith(github.ref, 'refs/tags') && github.repository == 'panva/jose' }}
     steps:

@@ -127,3 +127,4 @@ dist-browser-tests
 tap/*.js
 tap/run-*.mjs
 *.bak
+*.bun

@@ -1,6 +1,6 @@
 # jose
 
-> "JSON Web Almost Everything" - JWA, JWS, JWE, JWT, JWK, JWKS for Node.js, Browser, Cloudflare Workers, Deno, and other Web-interoperable runtimes.
+> "JSON Web Almost Everything" - JWA, JWS, JWE, JWT, JWK, JWKS for Node.js, Browser, Cloudflare Workers, Deno, Bun, and other Web-interoperable runtimes.
 
 ## Implemented specs & features
 
@@ -83,6 +83,7 @@ import * as jose from 'https://deno.land/x/jose/index.ts'
 The supported JavaScript runtimes include ones that support the utilized Web API globals and standard built-in objects or are Node.js
 
 These are _(this is not an exhaustive list)_:
+- [Bun](https://github.com/panva/jose/issues/471)
 - [Browsers](https://github.com/panva/jose/issues/263)
 - [Cloudflare Workers](https://github.com/panva/jose/issues/265)
 - [Deno](https://github.com/panva/jose/issues/266)

@@ -55,6 +55,8 @@ export default (QUnit: QUnit, lib: typeof jose) => {
 
     if (works) {
       test(title(vector), execute)
+
+      // TODO: https://github.com/oven-sh/bun/issues/1466
       test(title(vector, 'empty cleartext'), emptyClearText)
     } else {
       test(title(vector), async (t) => {
