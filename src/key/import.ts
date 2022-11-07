@@ -261,7 +261,7 @@ export async function importJWK(
       octAsKeyObject ??= jwk.ext !== true
 
       if (octAsKeyObject) {
-        return asKeyObject({ ...jwk, alg, ext: false })
+        return asKeyObject({ ...jwk, alg, ext: jwk.ext ?? false })
       }
 
       return decodeBase64URL(jwk.k)

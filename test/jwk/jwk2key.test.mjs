@@ -80,6 +80,13 @@ test('oct JWK (ext: true)', async (t) => {
       196, 31, 242, 115, 77, 179, 107, 193, 17, 146, 114,
     ],
   )
+
+  const k = await importJWK(oct, 'HS256', true)
+  t.true('type' in k)
+  t.is(k.type, 'secret')
+  if ('extractable' in k) {
+    t.is(k.extractable, true)
+  }
 })
 
 test('oct JWK (ext: false)', async (t) => {
@@ -89,10 +96,13 @@ test('oct JWK (ext: false)', async (t) => {
     ext: false,
   }
 
-  const k = await importJWK(oct, 'HS256')
+  const k = await importJWK(oct, 'HS256', true)
 
   t.true('type' in k)
   t.is(k.type, 'secret')
+  if ('extractable' in k) {
+    t.is(k.extractable, false)
+  }
 })
 
 test('oct JWK (ext missing)', async (t) => {
@@ -101,10 +111,13 @@ test('oct JWK (ext missing)', async (t) => {
     kty: 'oct',
   }
 
-  const k = await importJWK(oct, 'HS256')
+  const k = await importJWK(oct, 'HS256', true)
 
   t.true('type' in k)
   t.is(k.type, 'secret')
+  if ('extractable' in k) {
+    t.is(k.extractable, false)
+  }
 })
 
 async function testKeyImportExport(t, jwk) {
@@ -221,7 +234,7 @@ test('Uin8tArray can be transformed to a JWK', async (t) => {
   )
 })
 
-conditional({ webcrypto: 0 })('secret key object can be transformed to a JWK', async (t) => {
+test('secret KeyLike can be transformed to a JWK', async (t) => {
   const keylike = await importJWK(
     {
       ext: true,
