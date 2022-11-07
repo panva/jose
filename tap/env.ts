@@ -10,10 +10,10 @@ export const isElectron = typeof process !== 'undefined' && process.versions.ele
 export const isNode = !isBun && !isElectron && typeof process !== 'undefined'
 
 // @ts-ignore
-export const isNodeCrypto = isNode && process.argv.at(-1) === '#dist'
+export const isNodeCrypto = isNode && [...process.argv].reverse()[0] === '#dist'
 
 // @ts-ignore
-export const isNodeWebCrypto = isNode && process.argv.at(-1) === '#dist/webapi'
+export const isNodeWebCrypto = isNode && [...process.argv].reverse()[0] !== '#dist'
 
 // @ts-ignore
 export const isDeno = typeof Deno !== 'undefined'
@@ -29,3 +29,6 @@ export const isWorkers =
 
 export const isChromium =
   isBrowser && Bowser.parse(window.navigator.userAgent).engine.name === 'Blink'
+
+// @ts-ignore
+export const hasZlib = isNode && [...process.argv].reverse()[0] !== '#dist/webapi'

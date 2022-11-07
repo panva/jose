@@ -144,7 +144,7 @@ export default (QUnit: QUnit, lib: typeof jose) => {
       if (env.isElectron && vector.electron === false) {
         return false
       }
-      if (vector.input.zip && !env.isNodeCrypto) {
+      if (vector.input.zip && !env.hasZlib) {
         return false
       }
       return true

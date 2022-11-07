@@ -218,28 +218,6 @@ test('AES CBC + HMAC', async (t) => {
   }
 })
 
-test('decrypt empty data (GCM)', async (t) => {
-  const jwe = await new FlattenedEncrypt(new Uint8Array(0))
-    .setProtectedHeader({ alg: 'dir', enc: 'A128GCM' })
-    .encrypt(new Uint8Array(16))
-
-  t.is(jwe.ciphertext, '')
-
-  const { plaintext } = await flattenedDecrypt(jwe, new Uint8Array(16))
-  t.is(plaintext.byteLength, 0)
-})
-
-test('decrypt empty data (CBC)', async (t) => {
-  const jwe = await new FlattenedEncrypt(new Uint8Array(0))
-    .setProtectedHeader({ alg: 'dir', enc: 'A128CBC-HS256' })
-    .encrypt(new Uint8Array(32))
-
-  t.is(base64url.decode(jwe.ciphertext).byteLength, 16)
-
-  const { plaintext } = await flattenedDecrypt(jwe, new Uint8Array(32))
-  t.is(plaintext.byteLength, 0)
-})
-
 test('decrypt PBES2 p2c limit', async (t) => {
   const jwe = await new FlattenedEncrypt(new Uint8Array(0))
     .setProtectedHeader({ alg: 'PBES2-HS256+A128KW', enc: 'A128CBC-HS256' })

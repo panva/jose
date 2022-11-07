@@ -3,7 +3,6 @@
   --log-level=warning \
   --format=esm \
   --bundle \
-  --minify-syntax \
   --target=esnext \
   --outfile=tap/run-edge-runtime.js \
   tap/run-edge-runtime.ts

@@ -1,6 +1,8 @@
 import type QUnit from 'qunit'
 import * as env from './env.js'
 import type * as jose from '../src/index.js'
+import random from './random.js'
+import roundtrip from './encrypt.js'
 
 export default (QUnit: QUnit, lib: typeof jose) => {
   const { module, test } = QUnit
@@ -16,36 +18,50 @@ export default (QUnit: QUnit, lib: typeof jose) => {
     ['A256CBC-HS512', true],
   ]
 
-  function title(vector: Vector) {
+  function title(vector: Vector, label = '') {
     const [enc, works] = vector
     let result = ''
     if (!works) {
       result = '[not supported] '
     }
     result += `${enc}`
+    if (label) {
+      result += ` ${label}`
+    }
     return result
+  }
+
+  function secretsFor(enc: string) {
+    return [
+      lib.generateSecret(enc),
+      random(parseInt(enc.endsWith('GCM') ? enc.slice(1, 4) : enc.slice(-3)) >> 3),
+    ]
   }
 
   for (const vector of algorithms) {
     const [enc, works] = vector
 
     const execute = async (t: typeof QUnit.assert) => {
-      const secret = await lib.generateSecret(enc)
+      for await (const secret of secretsFor(enc)) {
+        await roundtrip(t, lib, 'dir', enc, secret)
+      }
+    }
 
-      const jwe = await new lib.FlattenedEncrypt(crypto.getRandomValues(new Uint8Array(32)))
-        .setProtectedHeader({ alg: 'dir', enc })
-        .setAdditionalAuthenticatedData(crypto.getRandomValues(new Uint8Array(32)))
-        .encrypt(secret)
-
-      await lib.flattenedDecrypt(jwe, secret)
-      t.ok(1)
+    const emptyClearText = async (t: typeof QUnit.assert) => {
+      for await (const secret of secretsFor(enc)) {
+        await roundtrip(t, lib, 'dir', enc, secret, new Uint8Array())
+      }
     }
 
     if (works) {
       test(title(vector), execute)
+      test(title(vector, 'empty cleartext'), emptyClearText)
     } else {
       test(title(vector), async (t) => {
         await t.rejects(execute(t))
+      })
+      test(title(vector, 'empty cleartext'), async (t) => {
+        await t.rejects(emptyClearText(t))
       })
     }
   }

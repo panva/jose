@@ -1,6 +1,7 @@
 import type QUnit from 'qunit'
 import * as env from './env.js'
 import type * as jose from '../src/index.js'
+import roundtrip from './encrypt.js'
 
 export default (QUnit: QUnit, lib: typeof jose) => {
   const { module, test } = QUnit
@@ -29,15 +30,8 @@ export default (QUnit: QUnit, lib: typeof jose) => {
     const [alg, works] = vector
 
     const execute = async (t: typeof QUnit.assert) => {
-      const { privateKey, publicKey } = await lib.generateKeyPair(alg)
-
-      const jwe = await new lib.FlattenedEncrypt(crypto.getRandomValues(new Uint8Array(32)))
-        .setProtectedHeader({ alg, enc: 'A256GCM' })
-        .setAdditionalAuthenticatedData(crypto.getRandomValues(new Uint8Array(32)))
-        .encrypt(publicKey)
-
-      await lib.flattenedDecrypt(jwe, privateKey)
-      t.ok(1)
+      const kp = await lib.generateKeyPair(alg)
+      await roundtrip(t, lib, alg, 'A128GCM', kp)
     }
 
     if (works) {

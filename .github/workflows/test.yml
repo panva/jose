@@ -78,22 +78,13 @@ jobs:
         uses: actions/github-script@v6
         with:
           script: core.setFailed('dist cache hit failed')
+      - name: Test (TAP)
+        run: npm run tap:node
+        if: ${{ !startsWith(steps.node.outputs.node-version, 'v12') }}
       - run: find test -type f -name '*.mjs' -print0 | xargs -0 sed -i -e "s/await import(/require(/g"
         if: ${{ startsWith(steps.node.outputs.node-version, 'v12') }}
-      - name: Test with Node.js crypto module
+      - name: Test (AVA)
         run: npm run test
-      - name: Test with Node.js crypto module w/ CryptoKey
-        run: npm run test-cryptokey
-        if: ${{ !startsWith(steps.node.outputs.node-version, 'v14') && !startsWith(steps.node.outputs.node-version, 'v12') }}
-      - name: Test with Node.js Web Cryptography API
-        run: npm run test-webcrypto
-        if: ${{ !startsWith(steps.node.outputs.node-version, 'v14') && !startsWith(steps.node.outputs.node-version, 'v12') }}
-      - name: Test with Node.js Web API
-        run: npm run test-webapi
-        if: ${{ !startsWith(steps.node.outputs.node-version, 'v14') && !startsWith(steps.node.outputs.node-version, 'v12') }}
-      - name: TAP Suite with both Node.js runtimes
-        run: npm run tap:node
-        if: ${{ !startsWith(steps.node.outputs.node-version, 'v14') && !startsWith(steps.node.outputs.node-version, 'v12') }}
 
   deno:
     needs:

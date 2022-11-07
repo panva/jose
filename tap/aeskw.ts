@@ -1,6 +1,8 @@
 import type QUnit from 'qunit'
 import * as env from './env.js'
 import type * as jose from '../src/index.js'
+import random from './random.js'
+import roundtrip from './encrypt.js'
 
 export default (QUnit: QUnit, lib: typeof jose) => {
   const { module, test } = QUnit
@@ -26,19 +28,17 @@ export default (QUnit: QUnit, lib: typeof jose) => {
     return result
   }
 
+  function secretsFor(alg: string) {
+    return [lib.generateSecret(alg), random(parseInt(alg.slice(1, 4), 10) >> 3)]
+  }
+
   for (const vector of algorithms) {
     const [alg, works] = vector
 
     const execute = async (t: typeof QUnit.assert) => {
-      const secret = await lib.generateSecret(alg)
-
-      const jwe = await new lib.FlattenedEncrypt(crypto.getRandomValues(new Uint8Array(32)))
-        .setProtectedHeader({ alg, enc: 'A256GCM' })
-        .setAdditionalAuthenticatedData(crypto.getRandomValues(new Uint8Array(32)))
-        .encrypt(secret)
-
-      await lib.flattenedDecrypt(jwe, secret)
-      t.ok(1)
+      for await (const secret of secretsFor(alg)) {
+        await roundtrip(t, lib, alg, 'A128GCM', secret)
+      }
     }
 
     if (works) {

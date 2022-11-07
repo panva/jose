@@ -3,7 +3,6 @@
   --log-level=warning \
   --format=esm \
   --bundle \
-  --minify-syntax \
   --target=esnext \
   --outfile=tap/run-workers.js \
   tap/run-workers.ts

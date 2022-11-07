@@ -171,30 +171,6 @@ test('General JWE format validation', async (t) => {
   }
 })
 
-test('decrypt empty data (GCM)', async (t) => {
-  const jwe = await new GeneralEncrypt(new Uint8Array(0))
-    .setProtectedHeader({ alg: 'dir', enc: 'A128GCM' })
-    .addRecipient(new Uint8Array(16))
-    .encrypt()
-
-  t.is(jwe.ciphertext, '')
-
-  const { plaintext } = await generalDecrypt(jwe, new Uint8Array(16))
-  t.is(plaintext.byteLength, 0)
-})
-
-test('decrypt empty data (CBC)', async (t) => {
-  const jwe = await new GeneralEncrypt(new Uint8Array(0))
-    .setProtectedHeader({ alg: 'dir', enc: 'A128CBC-HS256' })
-    .addRecipient(new Uint8Array(32))
-    .encrypt()
-
-  t.is(base64url.decode(jwe.ciphertext).byteLength, 16)
-
-  const { plaintext } = await generalDecrypt(jwe, new Uint8Array(32))
-  t.is(plaintext.byteLength, 0)
-})
-
 test('Default PBES2 Count', async (t) => {
   const jwe = await new GeneralEncrypt(t.context.plaintext)
     .setProtectedHeader({ alg: 'PBES2-HS256+A128KW', enc: 'A128GCM' })

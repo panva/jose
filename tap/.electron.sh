@@ -3,10 +3,9 @@
   --log-level=warning \
   --format=esm \
   --bundle \
+  --platform=node \
   --external:electron \
   --external:#dist \
-  --platform=node \
-  --minify-syntax \
   --target=esnext \
   --outfile=tap/run-electron.js \
   tap/run-electron.ts

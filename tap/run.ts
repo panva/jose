@@ -15,12 +15,13 @@ export default async (
     import('./aeskw.js'),
     import('./cookbook.js'),
     import('./ecdh.js'),
+    import('./generate_options.js'),
     import('./hmac.js'),
     import('./jwk.js'),
-    import('./jwks.js'),
+    typeof fetch !== 'undefined' ? import('./jwks.js') : import('./noop.js'),
     import('./jws.js'),
-    import('./pem.js'),
     import('./pbes2.js'),
+    import('./pem.js'),
     import('./rsaes.js'),
   ])
   for (const { default: module } of modules) {

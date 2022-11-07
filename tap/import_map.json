@@ -7,15 +7,20 @@
     "./aeskw.js": "./aeskw.ts",
     "./cookbook.js": "./cookbook.ts",
     "./ecdh.js": "./ecdh.ts",
+    "./encrypt.js": "./encrypt.ts",
     "./env.js": "./env.ts",
     "./fixtures.js": "./fixtures.ts",
+    "./generate_options.js": "./generate_options.ts",
     "./hmac.js": "./hmac.ts",
     "./jwk.js": "./jwk.ts",
     "./jwks.js": "./jwks.ts",
     "./jws.js": "./jws.ts",
+    "./noop.js": "./noop.ts",
     "./pbes2.js": "./pbes2.ts",
     "./pem.js": "./pem.ts",
+    "./random.js": "./random.ts",
     "./rsaes.js": "./rsaes.ts",
-    "./run.js": "./run.ts"
+    "./run.js": "./run.ts",
+    "./sign.js": "./sign.ts"
   }
 }
