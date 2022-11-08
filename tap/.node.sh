@@ -30,11 +30,11 @@ HYBRID=$?
 
 echo ""
 echo "node:crypto"
-test $WEB_CRYPTO_API -eq 0 && echo "  passed" || echo "  failed"
+test $NODE_CRYPTO_API -eq 0 && echo "  passed" || echo "  failed"
 
 echo ""
 echo "WebCryptoAPI"
-test $NODE_CRYPTO_API -eq 0 && echo "  passed" || echo "  failed"
+test $WEB_CRYPTO_API -eq 0 && echo "  passed" || echo "  failed"
 
 echo ""
 echo "node:crypto with CryptoKey"
