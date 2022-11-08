@@ -2,6 +2,18 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [4.11.0](https://github.com/panva/jose/compare/v4.10.4...v4.11.0) (2022-11-08)
+
+
+### Features
+
+* add bun as a supported runtime ([3a63631](https://github.com/panva/jose/commit/3a636318914866decd934d455d7c3789d304992c))
+
+
+### Fixes
+
+* respect JWK ext for symmetric keys ([20557fc](https://github.com/panva/jose/commit/20557fccf1ce0ebd7dd5d18cc33aa64d6f7b35ba))
+
 ## [4.10.4](https://github.com/panva/jose/compare/v4.10.3...v4.10.4) (2022-10-28)
 
 
