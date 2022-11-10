@@ -7,6 +7,32 @@
   --outfile=tap/run-workers.js \
   tap/run-workers.ts
 
+cat <<EOT > tap/.workers.capnp
+using Workerd = import "/workerd/workerd.capnp";
+
+const config :Workerd.Config = (
+  services = [
+    (name = "main", worker = .tapWorker),
+  ],
+
+  sockets = [
+    # Serve HTTP on port 8080.
+    ( name = "http",
+      address = "*:8080",
+      http = (),
+      service = "main"
+    ),
+  ]
+);
+
+const tapWorker :Workerd.Worker = (
+  modules = [
+    (name = "worker", esModule = embed "run-workers.js")
+  ],
+  compatibilityDate = "$(node -p "require('workerd').compatibilityDate")",
+);
+EOT
+
 ./node_modules/.bin/workerd serve --verbose tap/.workers.capnp &
 sleep 1
 failed=$(curl -s http://localhost:8080 | jq '.failed')

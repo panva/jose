@@ -128,3 +128,4 @@ tap/*.js
 tap/run-*.mjs
 *.bak
 *.bun
+tap/.workers.capnp
