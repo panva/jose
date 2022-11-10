@@ -18,8 +18,8 @@ else
       HOSTNAME="jose.panva.me"
       SSL="key=./letsencrypt/config/live/jose.panva.me/privkey.pem;cert=./letsencrypt/config/live/jose.panva.me/cert.pem;rejectUnauthorized=true;"
     fi
-    BROWSER=$(node ./tap/browserstack.mjs $BROWSER)
+    BROWSER=$(NODE_PATH=$(npm root -g) node ./tap/browserstack.cjs $BROWSER)
   fi
 fi
 
-./node_modules/.bin/testcafe "$BROWSER" --skip-js-errors --ssl "$SSL" --hostname "$HOSTNAME" tap/.browser.ts
+testcafe "$BROWSER" --skip-js-errors --ssl "$SSL" --hostname "$HOSTNAME" tap/.browser.ts

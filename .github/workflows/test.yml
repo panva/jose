@@ -228,6 +228,7 @@ jobs:
           cache: 'npm'
           check-latest: true
       - run: npm clean-install
+      - run: npm install --global testcafe@2
       - name: Load cached dist
         uses: actions/cache@v3
         id: dist
