@@ -21,8 +21,7 @@ jobs:
           node-version: lts/hydrogen # 18
           cache: 'npm'
           check-latest: true
-      - name: Install dependencies
-        run: npm clean-install
+      - run: npm clean-install
       - id: cache-key
         run: echo "value=dist-${{ hashFiles('src/**/*.ts', 'tsconfig/*.json', '.github/workflows/*.yml', 'package-lock.json') }}" >> $GITHUB_OUTPUT
       - name: Cache dist
@@ -65,8 +64,9 @@ jobs:
           node-version: ${{ matrix.node-version }}
           cache: 'npm'
           check-latest: true
-      - name: Install dependencies
-        run: npm clean-install
+      - run: npm install --global npm@8
+        if: ${{ startsWith(steps.node.outputs.node-version, 'v12') || startsWith(steps.node.outputs.node-version, 'v14') }}
+      - run: npm clean-install
       - name: Load cached dist
         uses: actions/cache@v3
         id: dist
@@ -81,7 +81,9 @@ jobs:
       - name: Test (TAP)
         run: npm run tap:node
         if: ${{ !startsWith(steps.node.outputs.node-version, 'v12') }}
-      - run: find test -type f -name '*.mjs' -print0 | xargs -0 sed -i -e "s/await import(/require(/g"
+      - run: |
+          find test -type f -name '*.mjs' -print0 | xargs -0 sed -i -e "s/await import(/require(/g"
+          npm install --save-dev ava@4
         if: ${{ startsWith(steps.node.outputs.node-version, 'v12') }}
       - name: Test (AVA)
         run: npm run test
@@ -115,8 +117,7 @@ jobs:
           node-version: lts/hydrogen # 18
           cache: 'npm'
           check-latest: true
-      - name: Install dependencies
-        run: npm clean-install
+      - run: npm clean-install
       - name: Test Deno
         run: npm run tap:deno
 
@@ -146,8 +147,7 @@ jobs:
           node-version: lts/hydrogen # 18
           cache: 'npm'
           check-latest: true
-      - name: Install dependencies
-        run: npm clean-install
+      - run: npm clean-install
       - name: Test Bun
         run: npm run tap:bun
 
@@ -164,8 +164,7 @@ jobs:
           node-version: lts/hydrogen # 18
           cache: 'npm'
           check-latest: true
-      - name: Install dependencies
-        run: npm clean-install
+      - run: npm clean-install
       - name: Load cached dist
         uses: actions/cache@v3
         id: dist
@@ -193,8 +192,7 @@ jobs:
           node-version: lts/hydrogen # 18
           cache: 'npm'
           check-latest: true
-      - name: Install dependencies
-        run: npm clean-install
+      - run: npm clean-install
       - name: Load cached dist
         uses: actions/cache@v3
         id: dist
@@ -229,8 +227,7 @@ jobs:
           node-version: lts/hydrogen # 18
           cache: 'npm'
           check-latest: true
-      - name: Install dependencies
-        run: npm clean-install
+      - run: npm clean-install
       - name: Load cached dist
         uses: actions/cache@v3
         id: dist
@@ -260,8 +257,7 @@ jobs:
           node-version: lts/hydrogen # 18
           cache: 'npm'
           check-latest: true
-      - name: Install dependencies
-        run: npm clean-install
+      - run: npm clean-install
       - name: Load cached dist
         uses: actions/cache@v3
         id: dist
