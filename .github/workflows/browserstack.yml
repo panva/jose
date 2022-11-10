@@ -87,6 +87,7 @@ jobs:
           cache: 'npm'
           check-latest: true
       - run: npm clean-install
+      - run: npm install --save-dev testcafe-browser-provider-browserstack@1
       - run: npm run build:browser
       - name: BrowserStack Env Setup
         uses: browserstack/github-actions/setup-env@00ce173eae311a7838f80682a5fad5144c4219ad
