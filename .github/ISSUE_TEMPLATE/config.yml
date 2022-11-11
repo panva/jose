@@ -13,9 +13,3 @@ contact_links:
     about:
       Are you asking your nth question? Relying on jose for critical operations? Consider
       supporting the project so that it may continue being maintained.
-  - name: Report a security vulnerability
-    url: https://en.wikipedia.org/wiki/Responsible_disclosure
-    about:
-      Do not disclose vulnerabilities via issues or discussions. Reach out to the project team
-      via e.g. email, we'll work together on patching the vulnerability and follow some form of
-      Responsible disclosure once fixed. Thank you.
