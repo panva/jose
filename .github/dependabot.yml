@@ -12,4 +12,3 @@ updates:
     versioning-strategy: "increase"
     allow:
       - dependency-name: "edge-runtime"
-      - dependency-name: "workerd"
