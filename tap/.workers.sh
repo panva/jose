@@ -1,13 +1,18 @@
 #!/bin/bash
+
+COMPATIBILITY_DATE=$(NODE_PATH=$(npm root -g) node -p "require('workerd').compatibilityDate")
+WORKERD_VERSION=$(npm ls --global --json | jq '.dependencies.workerd.version')
+
 ./node_modules/.bin/esbuild \
   --log-level=warning \
   --format=esm \
   --bundle \
+  --define:WORKERD_VERSION=$WORKERD_VERSION \
   --target=esnext \
   --outfile=tap/run-workers.js \
   tap/run-workers.ts
 
-cat <<EOT > tap/.workers.capnp
+cat <<EOT > $(pwd)/tap/.workers.capnp
 using Workerd = import "/workerd/workerd.capnp";
 
 const config :Workerd.Config = (
@@ -29,11 +34,11 @@ const tapWorker :Workerd.Worker = (
   modules = [
     (name = "worker", esModule = embed "run-workers.js")
   ],
-  compatibilityDate = "$(node -p "require('workerd').compatibilityDate")",
+  compatibilityDate = "$COMPATIBILITY_DATE",
 );
 EOT
 
-./node_modules/.bin/workerd serve --verbose tap/.workers.capnp &
+workerd serve --verbose $(pwd)/tap/.workers.capnp &
 sleep 1
 failed=$(curl -s http://localhost:8080 | jq '.failed')
 kill $(ps aux | grep 'workerd' | grep -v 'grep' | awk '{print $2}')
