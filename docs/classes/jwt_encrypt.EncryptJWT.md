@@ -7,13 +7,14 @@ The EncryptJWT class is a utility for creating Compact JWE formatted JWT strings
 **`example`** Usage
 
 ```js
+const secret = jose.base64url.decode('zH4NRP1HMALxxCFnRZABFA7GOJtzU_gIj02alfL1lvI')
 const jwt = await new jose.EncryptJWT({ 'urn:example:claim': true })
-  .setProtectedHeader({ alg: 'dir', enc: 'A256GCM' })
+  .setProtectedHeader({ alg: 'dir', enc: 'A128CBC-HS256' })
   .setIssuedAt()
   .setIssuer('urn:example:issuer')
   .setAudience('urn:example:audience')
   .setExpirationTime('2h')
-  .encrypt(secretKey)
+  .encrypt(secret)
 
 console.log(jwt)
 ```

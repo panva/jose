@@ -170,9 +170,9 @@ export async function importX509(
 }
 
 /**
- * Imports a PEM-encoded PKCS8 string as a runtime-specific private key representation (KeyObject or
- * CryptoKey). See [Algorithm Key Requirements](https://github.com/panva/jose/issues/210) to learn
- * about key to algorithm requirements and mapping. Encrypted keys are not supported.
+ * Imports a PEM-encoded PKCS#8 string as a runtime-specific private key representation (KeyObject
+ * or CryptoKey). See [Algorithm Key Requirements](https://github.com/panva/jose/issues/210) to
+ * learn about key to algorithm requirements and mapping. Encrypted keys are not supported.
  *
  * @example Usage
  *
@@ -186,7 +186,7 @@ export async function importX509(
  * const ecPrivateKey = await jose.importPKCS8(pkcs8, algorithm)
  * ```
  *
- * @param pem PEM-encoded PKCS8 string
+ * @param pem PEM-encoded PKCS#8 string
  * @param alg JSON Web Algorithm identifier to be used with the imported key.
  */
 export async function importPKCS8(
@@ -195,7 +195,7 @@ export async function importPKCS8(
   options?: PEMImportOptions,
 ): Promise<KeyLike> {
   if (typeof pkcs8 !== 'string' || pkcs8.indexOf('-----BEGIN PRIVATE KEY-----') !== 0) {
-    throw new TypeError('"pkcs8" must be PKCS8 formatted string')
+    throw new TypeError('"pkcs8" must be PKCS#8 formatted string')
   }
   return importPrivate(pkcs8, alg, options)
 }
