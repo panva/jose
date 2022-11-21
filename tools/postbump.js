@@ -43,3 +43,11 @@ execSync(
 )
 execSync('git add docs/**/*.md', opts)
 execSync('git add dist/**/* -f', opts)
+
+for (const path of ['./README.md', './docs/README.md']) {
+  writeFileSync(
+    path,
+    readFileSync(path, { encoding: 'utf-8' }).replace(/jose@v\d+\.\d+\.\d+/gm, `jose@v${version}`),
+  )
+  execSync(`git add ${path}`, { stdio: 'inherit' })
+}
