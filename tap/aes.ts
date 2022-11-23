@@ -2,7 +2,7 @@ import type QUnit from 'qunit'
 import * as env from './env.js'
 import type * as jose from '../src/index.js'
 import random from './random.js'
-import roundtrip from './encrypt.js'
+import * as roundtrip from './encrypt.js'
 
 export default (QUnit: QUnit, lib: typeof jose) => {
   const { module, test } = QUnit
@@ -18,16 +18,13 @@ export default (QUnit: QUnit, lib: typeof jose) => {
     ['A256CBC-HS512', true],
   ]
 
-  function title(vector: Vector, label = '') {
+  function title(vector: Vector) {
     const [enc, works] = vector
     let result = ''
     if (!works) {
       result = '[not supported] '
     }
     result += `${enc}`
-    if (label) {
-      result += ` ${label}`
-    }
     return result
   }
 
@@ -43,27 +40,20 @@ export default (QUnit: QUnit, lib: typeof jose) => {
 
     const execute = async (t: typeof QUnit.assert) => {
       for await (const secret of secretsFor(enc)) {
-        await roundtrip(t, lib, 'dir', enc, secret)
+        await roundtrip.jwe(t, lib, 'dir', enc, secret)
       }
     }
 
-    const emptyClearText = async (t: typeof QUnit.assert) => {
-      for await (const secret of secretsFor(enc)) {
-        await roundtrip(t, lib, 'dir', enc, secret, new Uint8Array())
-      }
+    const jwt = async (t: typeof QUnit.assert) => {
+      await roundtrip.jwt(t, lib, 'dir', enc, await secretsFor(enc)[0])
     }
 
     if (works) {
       test(title(vector), execute)
-
-      // TODO: https://github.com/oven-sh/bun/issues/1466
-      test(title(vector, 'empty cleartext'), emptyClearText)
+      test(`${title(vector)} JWT`, jwt)
     } else {
       test(title(vector), async (t) => {
         await t.rejects(execute(t))
-      })
-      test(title(vector, 'empty cleartext'), async (t) => {
-        await t.rejects(emptyClearText(t))
       })
     }
   }

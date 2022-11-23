@@ -15,6 +15,7 @@ export default async (
   QUnit.config.autostart = false
 
   const modules = await Promise.all([
+    !skipFetch ? import('./jwks.js') : import('./noop.js'),
     import('./aes.js'),
     import('./aeskw.js'),
     import('./cookbook.js'),
@@ -22,7 +23,6 @@ export default async (
     import('./generate_options.js'),
     import('./hmac.js'),
     import('./jwk.js'),
-    !skipFetch ? import('./jwks.js') : import('./noop.js'),
     import('./jws.js'),
     import('./pbes2.js'),
     import('./pem.js'),

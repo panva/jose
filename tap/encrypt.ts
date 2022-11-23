@@ -8,14 +8,14 @@ function isKeyPair(
   return 'publicKey' in input && 'privateKey' in input
 }
 
-export default async (
+export async function jwe(
   t: typeof QUnit.assert,
   lib: typeof jose,
   alg: string,
   enc: string,
   secretOrKeyPair: Uint8Array | jose.KeyLike | jose.GenerateKeyPairResult,
   cleartext = random(),
-) => {
+) {
   const eKey = isKeyPair(secretOrKeyPair) ? secretOrKeyPair.publicKey : secretOrKeyPair
   const dKey = isKeyPair(secretOrKeyPair) ? secretOrKeyPair.privateKey : secretOrKeyPair
   const aad = random()
@@ -28,4 +28,30 @@ export default async (
   const decrypted = await lib.flattenedDecrypt(jwe, dKey)
   t.deepEqual([...decrypted.plaintext], [...cleartext])
   t.deepEqual([...decrypted.additionalAuthenticatedData!], [...aad])
+}
+
+export async function jwt(
+  t: typeof QUnit.assert,
+  lib: typeof jose,
+  alg: string,
+  enc: string,
+  secretOrKeyPair: Uint8Array | jose.KeyLike | jose.GenerateKeyPairResult,
+) {
+  const eKey = isKeyPair(secretOrKeyPair) ? secretOrKeyPair.publicKey : secretOrKeyPair
+  const dKey = isKeyPair(secretOrKeyPair) ? secretOrKeyPair.privateKey : secretOrKeyPair
+
+  const jwt = await new lib.EncryptJWT({ foo: 'bar' })
+    .setProtectedHeader({ alg, enc })
+    .encrypt(eKey)
+
+  const decrypted = await lib.jwtDecrypt(jwt, dKey)
+  t.propContains(decrypted, {
+    payload: {
+      foo: 'bar',
+    },
+    protectedHeader: {
+      alg,
+      enc,
+    },
+  })
 }

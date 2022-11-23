@@ -1,7 +1,7 @@
 import type QUnit from 'qunit'
 import * as env from './env.js'
 import type * as jose from '../src/index.js'
-import roundtrip from './sign.js'
+import * as roundtrip from './sign.js'
 
 export default (QUnit: QUnit, lib: typeof jose) => {
   const { module, test } = QUnit
@@ -25,16 +25,13 @@ export default (QUnit: QUnit, lib: typeof jose) => {
 
   const kps: Record<string, jose.GenerateKeyPairResult> = {}
 
-  function title(vector: Vector, label = '') {
+  function title(vector: Vector) {
     const [alg, works, options] = vector
     let result = ''
     if (!works) {
       result = '[not supported] '
     }
     result += `${alg}`
-    if (label) {
-      result += ` ${label}`
-    }
     if (options) {
       result += `, ${JSON.stringify(options)}`
     }
@@ -49,25 +46,22 @@ export default (QUnit: QUnit, lib: typeof jose) => {
       if (!kps[k]) {
         kps[k] = await lib.generateKeyPair(alg, options)
       }
-      await roundtrip(t, lib, alg, kps[k])
+      await roundtrip.jws(t, lib, alg, kps[k])
     }
 
-    const emptyPayload = async (t: typeof QUnit.assert) => {
+    const jwt = async (t: typeof QUnit.assert) => {
       if (!kps[k]) {
         kps[k] = await lib.generateKeyPair(alg, options)
       }
-      await roundtrip(t, lib, alg, kps[k], new Uint8Array())
+      await roundtrip.jwt(t, lib, alg, kps[k])
     }
 
     if (works) {
       test(title(vector), execute)
-      test(title(vector, 'empty payload'), emptyPayload)
+      test(`${title(vector)} JWT`, jwt)
     } else {
       test(title(vector), async (t) => {
         await t.rejects(execute(t))
-      })
-      test(title(vector, 'empty payload'), async (t) => {
-        await t.rejects(emptyPayload(t))
       })
     }
   }

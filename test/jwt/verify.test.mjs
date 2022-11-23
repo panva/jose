@@ -35,8 +35,8 @@ test('Basic JWT Claims Set verification', async (t) => {
     .setIssuedAt(iat)
     .sign(t.context.secret)
 
-  await t.notThrowsAsync(
-    jwtVerify(jwt, t.context.secret, {
+  t.deepEqual(
+    await jwtVerify(jwt, t.context.secret, {
       issuer,
       subject,
       audience,
@@ -44,6 +44,22 @@ test('Basic JWT Claims Set verification', async (t) => {
       typ,
       maxTokenAge: '30s',
     }),
+    {
+      payload: {
+        aud: 'urn:example:audience',
+        exp: 1604416048,
+        iat: 1604416018,
+        iss: 'urn:example:issuer',
+        jti: 'urn:example:jti',
+        nbf: 1604416028,
+        sub: 'urn:example:subject',
+        'urn:example:claim': true,
+      },
+      protectedHeader: {
+        alg: 'HS256',
+        typ: 'urn:example:typ',
+      },
+    },
   )
   await t.notThrowsAsync(jwtVerify(new TextEncoder().encode(jwt), t.context.secret))
 })

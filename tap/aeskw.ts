@@ -2,7 +2,7 @@ import type QUnit from 'qunit'
 import * as env from './env.js'
 import type * as jose from '../src/index.js'
 import random from './random.js'
-import roundtrip from './encrypt.js'
+import * as roundtrip from './encrypt.js'
 
 export default (QUnit: QUnit, lib: typeof jose) => {
   const { module, test } = QUnit
@@ -37,12 +37,17 @@ export default (QUnit: QUnit, lib: typeof jose) => {
 
     const execute = async (t: typeof QUnit.assert) => {
       for await (const secret of secretsFor(alg)) {
-        await roundtrip(t, lib, alg, 'A128GCM', secret)
+        await roundtrip.jwe(t, lib, alg, 'A128GCM', secret)
       }
+    }
+
+    const jwt = async (t: typeof QUnit.assert) => {
+      await roundtrip.jwt(t, lib, alg, 'A128GCM', await secretsFor(alg)[0])
     }
 
     if (works) {
       test(title(vector), execute)
+      test(`${title(vector)} JWT`, jwt)
     } else {
       test(title(vector), async (t) => {
         await t.rejects(execute(t))

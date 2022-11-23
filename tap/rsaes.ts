@@ -1,11 +1,13 @@
 import type QUnit from 'qunit'
 import * as env from './env.js'
 import type * as jose from '../src/index.js'
-import roundtrip from './encrypt.js'
+import * as roundtrip from './encrypt.js'
 
 export default (QUnit: QUnit, lib: typeof jose) => {
   const { module, test } = QUnit
   module('rsaes.ts')
+
+  const kps: Record<string, jose.GenerateKeyPairResult> = {}
 
   type Vector = [string, boolean]
   const algorithms: Vector[] = [
@@ -30,12 +32,24 @@ export default (QUnit: QUnit, lib: typeof jose) => {
     const [alg, works] = vector
 
     const execute = async (t: typeof QUnit.assert) => {
-      const kp = await lib.generateKeyPair(alg)
-      await roundtrip(t, lib, alg, 'A128GCM', kp)
+      if (!kps[alg]) {
+        kps[alg] = await lib.generateKeyPair(alg)
+      }
+
+      await roundtrip.jwe(t, lib, alg, 'A128GCM', kps[alg])
+    }
+
+    const jwt = async (t: typeof QUnit.assert) => {
+      if (!kps[alg]) {
+        kps[alg] = await lib.generateKeyPair(alg)
+      }
+
+      await roundtrip.jwt(t, lib, alg, 'A128GCM', kps[alg])
     }
 
     if (works) {
       test(title(vector), execute)
+      test(`${title(vector)} JWT`, jwt)
     } else {
       test(title(vector), async (t) => {
         await t.rejects(execute(t))

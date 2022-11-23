@@ -1,11 +1,13 @@
 import type QUnit from 'qunit'
 import * as env from './env.js'
 import type * as jose from '../src/index.js'
-import roundtrip from './encrypt.js'
+import * as roundtrip from './encrypt.js'
 
 export default (QUnit: QUnit, lib: typeof jose) => {
   const { module, test } = QUnit
   module('ecdh.ts')
+
+  const kps: Record<string, jose.GenerateKeyPairResult> = {}
 
   type Vector = [string, boolean] | [string, boolean, jose.GenerateKeyPairOptions]
   const algorithms: Vector[] = [
@@ -29,14 +31,25 @@ export default (QUnit: QUnit, lib: typeof jose) => {
 
   for (const vector of algorithms) {
     const [alg, works, options] = vector
+    const k = options?.crv || alg
 
     const execute = async (t: typeof QUnit.assert) => {
-      const kp = await lib.generateKeyPair(alg, options)
-      await roundtrip(t, lib, alg, 'A128GCM', kp)
+      if (!kps[k]) {
+        kps[k] = await lib.generateKeyPair(alg, options)
+      }
+      await roundtrip.jwe(t, lib, alg, 'A128GCM', kps[k])
+    }
+
+    const jwt = async (t: typeof QUnit.assert) => {
+      if (!kps[k]) {
+        kps[k] = await lib.generateKeyPair(alg, options)
+      }
+      await roundtrip.jwt(t, lib, alg, 'A128GCM', kps[k])
     }
 
     if (works) {
       test(title(vector), execute)
+      test(`${title(vector)} JWT`, jwt)
     } else {
       test(title(vector), async (t) => {
         await t.rejects(execute(t))

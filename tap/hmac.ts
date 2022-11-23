@@ -1,7 +1,7 @@
 import type QUnit from 'qunit'
 import type * as jose from '../src/index.js'
 import random from './random.js'
-import roundtrip from './sign.js'
+import * as roundtrip from './sign.js'
 
 export default (QUnit: QUnit, lib: typeof jose) => {
   const { module, test } = QUnit
@@ -21,14 +21,18 @@ export default (QUnit: QUnit, lib: typeof jose) => {
   for (const alg of algorithms) {
     test(alg, async (t) => {
       for await (const secret of digestSizeSecretsFor(alg)) {
-        await roundtrip(t, lib, alg, secret)
+        await roundtrip.jws(t, lib, alg, secret)
       }
     })
 
     test(`${alg} w/ non-digest output length secrets`, async (t) => {
       for await (const secret of nonDigestSizeSecretFor(alg)) {
-        await roundtrip(t, lib, alg, secret)
+        await roundtrip.jws(t, lib, alg, secret)
       }
+    })
+
+    test(`${alg} JWT`, async (t) => {
+      await roundtrip.jwt(t, lib, alg, await digestSizeSecretsFor(alg)[0])
     })
   }
 }

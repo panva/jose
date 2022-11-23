@@ -1,7 +1,7 @@
 import type QUnit from 'qunit'
 import * as env from './env.js'
 import type * as jose from '../src/index.js'
-import roundtrip from './encrypt.js'
+import * as roundtrip from './encrypt.js'
 
 export default (QUnit: QUnit, lib: typeof jose) => {
   const { module, test } = QUnit
@@ -29,11 +29,17 @@ export default (QUnit: QUnit, lib: typeof jose) => {
 
     const execute = async (t: typeof QUnit.assert) => {
       const password = new TextEncoder().encode('letmein')
-      await roundtrip(t, lib, alg, 'A128GCM', password)
+      await roundtrip.jwe(t, lib, alg, 'A128GCM', password)
+    }
+
+    const jwt = async (t: typeof QUnit.assert) => {
+      const password = new TextEncoder().encode('letmein')
+      await roundtrip.jwt(t, lib, alg, 'A128GCM', password)
     }
 
     if (works) {
       test(title(vector), execute)
+      test(`${title(vector)} JWT`, jwt)
     } else {
       test(title(vector), async (t) => {
         await t.rejects(execute(t))
