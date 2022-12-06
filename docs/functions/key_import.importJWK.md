@@ -39,8 +39,8 @@ const rsaPublicKey = await jose.importJWK(
 | Name | Type | Description |
 | :------ | :------ | :------ |
 | `jwk` | [`JWK`](../interfaces/types.JWK.md) | JSON Web Key. |
-| `alg?` | `string` | JSON Web Algorithm identifier to be used with the imported key. Default is the "alg"   property on the JWK. |
-| `octAsKeyObject?` | `boolean` | Forces a symmetric key to be imported to a KeyObject or CryptoKey. Default   is true unless JWK "ext" (Extractable) is true. |
+| `alg?` | `string` | JSON Web Algorithm identifier to be used with the imported key. Default is the "alg" property on the JWK. |
+| `octAsKeyObject?` | `boolean` | Forces a symmetric key to be imported to a KeyObject or CryptoKey. Default is true unless JWK "ext" (Extractable) is true. |
 
 #### Returns
 

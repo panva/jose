@@ -27,7 +27,7 @@ console.log(thumbprint)
 | Name | Type | Description |
 | :------ | :------ | :------ |
 | `jwk` | [`JWK`](../interfaces/types.JWK.md) | JSON Web Key. |
-| `digestAlgorithm?` | ``"sha256"`` \| ``"sha384"`` \| ``"sha512"`` | Digest Algorithm to use for calculating the thumbprint. Default is   "sha256". |
+| `digestAlgorithm?` | ``"sha256"`` \| ``"sha384"`` \| ``"sha512"`` | Digest Algorithm to use for calculating the thumbprint. Default is "sha256". |
 
 #### Returns
 

@@ -16,7 +16,7 @@
 
 ### addSignature
 
-▸ **addSignature**(...`args`): [`Signature`](jws_general_sign.Signature.md)
+▸ **addSignature**(`...args`): [`Signature`](jws_general_sign.Signature.md)
 
 A shorthand for calling addSignature() on the enclosing GeneralSign instance
 
@@ -82,7 +82,7 @@ ___
 
 ### sign
 
-▸ **sign**(...`args`): `Promise`<[`GeneralJWS`](types.GeneralJWS.md)\>
+▸ **sign**(`...args`): `Promise`<[`GeneralJWS`](types.GeneralJWS.md)\>
 
 A shorthand for calling encrypt() on the enclosing GeneralSign instance
 

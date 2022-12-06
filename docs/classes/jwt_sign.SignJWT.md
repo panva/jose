@@ -156,7 +156,7 @@ Set "exp" (Expiration Time) Claim.
 
 | Name | Type | Description |
 | :------ | :------ | :------ |
-| `input` | `string` \| `number` | "exp" (Expiration Time) Claim value to set on the JWT Claims Set. When number is   passed that is used as a value, when string is passed it is resolved to a time span and added   to the current timestamp. |
+| `input` | `string` \| `number` | "exp" (Expiration Time) Claim value to set on the JWT Claims Set. When number is passed that is used as a value, when string is passed it is resolved to a time span and added to the current timestamp. |
 
 #### Returns
 
@@ -174,7 +174,7 @@ Set "iat" (Issued At) Claim.
 
 | Name | Type | Description |
 | :------ | :------ | :------ |
-| `input?` | `number` | "iat" (Issued At) Claim value to set on the JWT Claims Set. Default is current   timestamp. |
+| `input?` | `number` | "iat" (Issued At) Claim value to set on the JWT Claims Set. Default is current timestamp. |
 
 #### Returns
 
@@ -228,7 +228,7 @@ Set "nbf" (Not Before) Claim.
 
 | Name | Type | Description |
 | :------ | :------ | :------ |
-| `input` | `string` \| `number` | "nbf" (Not Before) Claim value to set on the JWT Claims Set. When number is passed   that is used as a value, when string is passed it is resolved to a time span and added to the   current timestamp. |
+| `input` | `string` \| `number` | "nbf" (Not Before) Claim value to set on the JWT Claims Set. When number is passed that is used as a value, when string is passed it is resolved to a time span and added to the current timestamp. |
 
 #### Returns
 

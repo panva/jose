@@ -15,7 +15,7 @@
 
 ### addRecipient
 
-▸ **addRecipient**(...`args`): [`Recipient`](jwe_general_encrypt.Recipient.md)
+▸ **addRecipient**(`...args`): [`Recipient`](jwe_general_encrypt.Recipient.md)
 
 A shorthand for calling addRecipient() on the enclosing GeneralEncrypt instance
 
@@ -45,7 +45,7 @@ ___
 
 ### encrypt
 
-▸ **encrypt**(...`args`): `Promise`<[`GeneralJWE`](types.GeneralJWE.md)\>
+▸ **encrypt**(`...args`): `Promise`<[`GeneralJWE`](types.GeneralJWE.md)\>
 
 A shorthand for calling encrypt() on the enclosing GeneralEncrypt instance
 
