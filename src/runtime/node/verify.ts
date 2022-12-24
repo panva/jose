@@ -6,13 +6,7 @@ import nodeDigest from './dsa_digest.js'
 import nodeKey from './node_key.js'
 import sign from './sign.js'
 import getVerifyKey from './get_sign_verify_key.js'
-
-const [major, minor] = process.version
-  .slice(1)
-  .split('.')
-  .map((str) => parseInt(str, 10))
-
-const oneShotCallbackSupported = major >= 16 || (major === 15 && minor >= 13)
+import { oneShotCallback } from './flags.js'
 
 let oneShotVerify: (
   alg: string | undefined,
@@ -20,7 +14,7 @@ let oneShotVerify: (
   key: ReturnType<typeof nodeKey>,
   signature: Uint8Array,
 ) => Promise<boolean> | boolean
-if (crypto.verify.length > 4 && oneShotCallbackSupported) {
+if (crypto.verify.length > 4 && oneShotCallback) {
   oneShotVerify = promisify(crypto.verify)
 } else {
   oneShotVerify = crypto.verify

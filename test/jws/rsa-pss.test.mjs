@@ -4,11 +4,7 @@ import { promisify } from 'util'
 
 const generateKeyPair = promisify(crypto.generateKeyPair)
 
-const [major, minor] = process.version
-  .slice(1)
-  .split('.')
-  .map((str) => parseInt(str, 10))
-
+const [major, minor] = process.versions.node.split('.').map((str) => parseInt(str, 10))
 const rsaPssParams = major >= 17 || (major === 16 && minor >= 9)
 
 const { FlattenedSign, flattenedVerify } = await import('#dist')

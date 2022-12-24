@@ -4,14 +4,7 @@ import type { KeyObject, SignKeyObjectInput } from 'crypto'
 import getNamedCurve from './get_named_curve.js'
 import { JOSENotSupported } from '../../util/errors.js'
 import checkModulusLength from './check_modulus_length.js'
-
-const [major, minor] = process.version
-  .slice(1)
-  .split('.')
-  .map((str) => parseInt(str, 10))
-
-const electron = 'electron' in process.versions
-const rsaPssParams = !electron && (major >= 17 || (major === 16 && minor >= 9))
+import { rsaPssParams } from './flags.js'
 
 const PSS = {
   padding: constants.RSA_PKCS1_PSS_PADDING,

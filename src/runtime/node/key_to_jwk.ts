@@ -9,13 +9,7 @@ import { isCryptoKey } from './webcrypto.js'
 import isKeyObject from './is_key_object.js'
 import invalidKeyInput from '../../lib/invalid_key_input.js'
 import { types } from './is_key_like.js'
-
-const [major, minor] = process.version
-  .slice(1)
-  .split('.')
-  .map((str) => parseInt(str, 10))
-
-const jwkExportSupported = major >= 16 || (major === 15 && minor >= 9)
+import { jwkExport } from './flags.js'
 
 const keyToJWK: JWKExportFunction = (key: unknown): JWK => {
   let keyObject: KeyObject
@@ -35,7 +29,7 @@ const keyToJWK: JWKExportFunction = (key: unknown): JWK => {
     throw new TypeError(invalidKeyInput(key, ...types, 'Uint8Array'))
   }
 
-  if (jwkExportSupported) {
+  if (jwkExport) {
     if (
       keyObject.type !== 'secret' &&
       !['rsa', 'ec', 'ed25519', 'x25519', 'ed448', 'x448'].includes(keyObject.asymmetricKeyType!)

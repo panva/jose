@@ -9,16 +9,10 @@ import { setCurve } from './get_named_curve.js'
 import { setModulusLength } from './check_modulus_length.js'
 import Asn1SequenceEncoder from './asn1_sequence_encoder.js'
 import type { JWK } from '../../types.d'
-
-const [major, minor] = process.version
-  .slice(1)
-  .split('.')
-  .map((str) => parseInt(str, 10))
-
-const jwkImportSupported = major >= 16 || (major === 15 && minor >= 12)
+import { jwkImport } from './flags.js'
 
 const parse: JWKImportFunction = (jwk: JWK): KeyObject => {
-  if (jwkImportSupported && jwk.kty !== 'oct') {
+  if (jwkImport && jwk.kty !== 'oct') {
     return jwk.d
       ? createPrivateKey({ format: 'jwk', key: jwk })
       : createPublicKey({ format: 'jwk', key: jwk })
