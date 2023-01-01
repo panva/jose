@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [4.11.2](https://github.com/panva/jose/compare/v4.11.1...v4.11.2) (2023-01-01)
+
+
+### Refactor
+
+* **node:** dry node version checks ([aff2f7c](https://github.com/panva/jose/commit/aff2f7c00f28b599ee72dd9f0a36c3783f1e195f))
+
 ## [4.11.1](https://github.com/panva/jose/compare/v4.11.0...v4.11.1) (2022-11-22)
 
 ## [4.11.0](https://github.com/panva/jose/compare/v4.10.4...v4.11.0) (2022-11-08)
