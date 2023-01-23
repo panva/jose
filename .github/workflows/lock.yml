@@ -9,7 +9,7 @@ jobs:
     continue-on-error: true
     runs-on: ubuntu-latest
     steps:
-      - uses: dessant/lock-threads@e460dfeb36e731f3aeb214be6b0c9a9d9a67eda6
+      - uses: dessant/lock-threads@c1b35ae # v4.0.0
         with:
           github-token: ${{ github.token }}
           issue-inactive-days: "90"
