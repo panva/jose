@@ -22,9 +22,14 @@ browserstack
           })
         break
       case 'browserstack:safari':
-        ;[result] = browserlist.filter(
-          (id) => !!new RegExp(`safari@\\\d+\\\.\\\d+:OS X Monterey`).exec(id),
-        )
+        ;[result] = browserlist
+          .filter((id) => !!new RegExp(`safari@\\\d+\\\.\\\d+:[^W]`).exec(id))
+          .sort((a, b) => {
+            const va = parseFloat(a.split('@')[1])
+            const vb = parseFloat(b.split('@')[1])
+
+            return va < vb ? 1 : -1
+          })
         break
       case 'browserstack:ios':
         ;[result] = browserlist
