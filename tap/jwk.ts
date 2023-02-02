@@ -7,12 +7,12 @@ export default (QUnit: QUnit, lib: typeof jose) => {
   const { module, test } = QUnit
   module('jwk.ts')
 
-  type Vector = [string, JsonWebKey, boolean | ((jwk: JsonWebKey) => boolean)]
+  type Vector = [string, JsonWebKey, boolean] | [string, JsonWebKey, boolean, boolean]
   const algorithms: Vector[] = [
     ['ECDH-ES', KEYS.P256.jwk, true],
     ['ECDH-ES', KEYS.P384.jwk, true],
     ['ECDH-ES', KEYS.P521.jwk, !env.isDeno],
-    ['ECDH-ES', KEYS.X25519.jwk, env.isDeno || env.isNode || env.isElectron],
+    ['ECDH-ES', KEYS.X25519.jwk, env.isDeno || env.isNode || env.isElectron, env.isDeno],
     ['ECDH-ES', KEYS.X448.jwk, env.isNode],
     ['EdDSA', KEYS.Ed25519.jwk, env.isDeno || env.isNode || env.isElectron || env.isWorkers],
     ['EdDSA', KEYS.Ed448.jwk, env.isNode],
@@ -34,7 +34,7 @@ export default (QUnit: QUnit, lib: typeof jose) => {
   ]
 
   function publicJwk(jwk: JsonWebKey) {
-    const { d, k, dp, dq, q, qi, ...result } = jwk
+    const { d, p, q, dp, dq, qi, k, ...result } = jwk
     return result
   }
 
@@ -58,14 +58,25 @@ export default (QUnit: QUnit, lib: typeof jose) => {
 
   for (const vector of algorithms) {
     const [alg, jwk] = vector
-    let [, , works] = vector
-
-    if (typeof works === 'function') {
-      works = works(jwk)
-    }
+    let [, , works, exportNotImplemented] = vector
 
     const execute = async (t: typeof QUnit.assert) => {
-      await lib.importJWK({ ...jwk, ext: true }, alg)
+      const key = await lib.importJWK({ ...jwk, ext: true }, alg)
+      if (exportNotImplemented) {
+        try {
+          await lib.exportJWK(key)
+          throw new Error()
+        } catch (err) {
+          t.strictEqual((<Error>err).name, 'NotSupportedError')
+        }
+      } else {
+        const exported = await lib.exportJWK(key)
+
+        for (const prop of [...new Set([...Object.keys(jwk), ...Object.keys(exported)])]) {
+          t.strictEqual(exported[prop], jwk[<keyof JsonWebKey>prop], `${prop} mismatch`)
+        }
+      }
+
       t.ok(1)
     }
 

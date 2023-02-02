@@ -30,7 +30,7 @@ export const isChromium =
   (await import(
     // @ts-ignore
     'https://cdn.jsdelivr.net/npm/bowser@2.11.0/src/bowser.js'
-  ).then(({ default: QUnit }) => QUnit.parse(window.navigator.userAgent).engine.name === 'Blink'))
+  ).then(({ default: Bowser }) => Bowser.parse(window.navigator.userAgent).engine.name === 'Blink'))
 
 // @ts-ignore
 export const hasZlib = isNode && [...process.argv].reverse()[0] !== '#dist/webapi'

@@ -3,6 +3,10 @@ import * as env from './env.js'
 import { KEYS } from './fixtures.js'
 import type * as jose from '../src/index.js'
 
+function normalize(pem: string) {
+  return pem.replace(/\s+$/, '')
+}
+
 export default (QUnit: QUnit, lib: typeof jose) => {
   const { module, test } = QUnit
   module('pem.ts')
@@ -111,18 +115,21 @@ export default (QUnit: QUnit, lib: typeof jose) => {
       ;[alg, crv] = alg
     }
 
-    let method: typeof lib.importSPKI | typeof lib.importPKCS8 | typeof lib.importX509
+    let importFn: typeof lib.importSPKI | typeof lib.importPKCS8 | typeof lib.importX509
+    let exportFn: typeof lib.exportSPKI | typeof lib.exportPKCS8 | undefined = undefined
     switch (true) {
       case pem.startsWith('-----BEGIN PRIVATE KEY-----'): {
-        method = lib.importPKCS8
+        importFn = lib.importPKCS8
+        exportFn = lib.exportPKCS8
         break
       }
       case pem.startsWith('-----BEGIN PUBLIC KEY-----'): {
-        method = lib.importSPKI
+        importFn = lib.importSPKI
+        exportFn = lib.exportSPKI
         break
       }
       case pem.startsWith('-----BEGIN CERTIFICATE-----'): {
-        method = lib.importX509
+        importFn = lib.importX509
         break
       }
       default:
@@ -130,7 +137,11 @@ export default (QUnit: QUnit, lib: typeof jose) => {
     }
 
     const execute = async (t: typeof QUnit.assert) => {
-      await method(pem, <string>alg)
+      const k = await importFn(pem, <string>alg, { extractable: true })
+
+      if (exportFn) {
+        t.strictEqual(normalize(await exportFn(k)), normalize(pem))
+      }
       t.ok(1)
     }
 
