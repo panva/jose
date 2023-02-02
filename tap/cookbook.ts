@@ -42,14 +42,13 @@ export default (QUnit: QUnit, lib: typeof jose) => {
     const execute = (vector: any) => async (t: typeof QUnit.assert) => {
       const reproducible = !!vector.reproducible
 
+      const privateKey = await lib.importJWK(vector.input.key, vector.input.alg)
+      const publicKey = await lib.importJWK(pubjwk(vector.input.key), vector.input.alg)
+
       if (reproducible) {
         // sign and compare results are the same
         const runs = [[flattened, vector.output.json_flat]]
-        if (
-          !vector.signing.protected ||
-          !('b64' in vector.signing.protected) ||
-          vector.signing.protected.b64 === true
-        ) {
+        if (vector.signing.protected?.b64 !== undefined) {
           runs.push([compact, vector.output.compact])
         }
         for (const [serialization, expectedResult] of runs) {
@@ -66,18 +65,22 @@ export default (QUnit: QUnit, lib: typeof jose) => {
             sign.setUnprotectedHeader(vector.signing.unprotected)
           }
 
-          const privateKey = await lib.importJWK(vector.input.key, vector.input.alg)
-
           const result = await sign.sign(privateKey)
+
+          if (vector.signing.protected?.b64 === false) {
+            await serialization.verify(
+              { ...result, payload: encode(vector.input.payload) },
+              publicKey,
+            )
+          } else {
+            await serialization.verify(result, publicKey)
+          }
 
           if (typeof result === 'object') {
             Object.entries(expectedResult).forEach(([prop, expected]) => {
-              if (
-                prop === 'payload' &&
-                vector.signing.protected &&
-                vector.signing.protected.b64 === false
-              )
+              if (prop === 'payload' && vector.signing.protected?.b64 === false) {
                 return
+              }
               t.equal(JSON.stringify(result[prop]), JSON.stringify(expected))
             })
           } else {
@@ -95,14 +98,9 @@ export default (QUnit: QUnit, lib: typeof jose) => {
           sign.setUnprotectedHeader(vector.signing.unprotected)
         }
 
-        const privateKey = await lib.importJWK(vector.input.key, vector.input.alg)
-        const publicKey = await lib.importJWK(pubjwk(vector.input.key), vector.input.alg)
-
         const result = await sign.sign(privateKey)
         await flattened.verify(result, publicKey)
       }
-
-      const publicKey = await lib.importJWK(pubjwk(vector.input.key), vector.input.alg)
 
       if (vector.output.json_flat) {
         await flattened.verify(vector.output.json_flat, publicKey)
