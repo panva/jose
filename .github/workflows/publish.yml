@@ -17,6 +17,8 @@ jobs:
           - node-esm
           - universal
     steps:
+      - name: Environment Information
+        run: npx envinfo
       - name: Checkout
         uses: actions/checkout@v3
         with:
@@ -50,6 +52,8 @@ jobs:
       - publish
     runs-on: ubuntu-latest
     steps:
+      - name: Environment Information
+        run: npx envinfo
       - name: Checkout
         uses: actions/checkout@v3
         with:

@@ -13,6 +13,8 @@ jobs:
     outputs:
       cache-key: ${{ steps.cache-key.outputs.value }}
     steps:
+      - name: Environment Information
+        run: npx envinfo
       - name: Checkout
         uses: actions/checkout@v3
       - name: Setup node
@@ -55,6 +57,8 @@ jobs:
 
     runs-on: ubuntu-latest
     steps:
+      - name: Environment Information
+        run: npx envinfo
       - name: Checkout
         uses: actions/checkout@v3
       - name: Setup node
@@ -93,6 +97,8 @@ jobs:
       - build
     runs-on: ubuntu-latest
     steps:
+      - name: Environment Information
+        run: npx envinfo
       - name: Checkout
         uses: actions/checkout@v3
       - uses: denoland/setup-deno@v1
@@ -127,6 +133,8 @@ jobs:
     runs-on: ubuntu-latest
     continue-on-error: true
     steps:
+      - name: Environment Information
+        run: npx envinfo
       - name: Checkout
         uses: actions/checkout@v3
       - run: curl https://bun.sh/install | bash
@@ -154,8 +162,10 @@ jobs:
   workers:
     needs:
       - build
-    runs-on: macos-latest
+    runs-on: ubuntu-latest
     steps:
+      - name: Environment Information
+        run: npx envinfo
       - name: Checkout
         uses: actions/checkout@v3
       - name: Setup node
@@ -185,6 +195,8 @@ jobs:
       - build
     runs-on: ubuntu-latest
     steps:
+      - name: Environment Information
+        run: npx envinfo
       - name: Checkout
         uses: actions/checkout@v3
       - name: Setup node
@@ -220,6 +232,8 @@ jobs:
           - firefox:headless
           - edge:headless
     steps:
+      - name: Environment Information
+        run: npx envinfo
       - name: Checkout
         uses: actions/checkout@v3
       - name: Setup node
@@ -251,6 +265,8 @@ jobs:
       - build
     runs-on: macos-latest
     steps:
+      - name: Environment Information
+        run: npx envinfo
       - name: Checkout
         uses: actions/checkout@v3
       - name: Setup node
@@ -288,6 +304,8 @@ jobs:
     runs-on: ubuntu-latest
     if: ${{ github.event_name == 'push' && startsWith(github.ref, 'refs/tags') && github.repository == 'panva/jose' }}
     steps:
+      - name: Environment Information
+        run: npx envinfo
       - name: Checkout
         uses: actions/checkout@v3
         with:
