@@ -2,10 +2,12 @@ name: Browserstack
 
 on:
   push:
+    branches: [main]
   pull_request:
+    branches: [main]
   pull_request_target:
-    types:
-      - labeled
+    types: [labeled]
+    branches: [main]
   schedule:
     - cron: '11 11 * * 1'
   workflow_dispatch:
