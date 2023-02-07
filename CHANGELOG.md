@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [4.11.3](https://github.com/panva/jose/compare/v4.11.2...v4.11.3) (2023-02-07)
+
+
+### Fixes
+
+* **CF Workers:** improve miniflare compat with different Node.js versions, get ready for future non-proprietary support ([3406b9f](https://github.com/panva/jose/commit/3406b9f73b1884b5db9c60675a68fe85794d48e0)), closes [#446](https://github.com/panva/jose/issues/446) [#495](https://github.com/panva/jose/issues/495) [#497](https://github.com/panva/jose/issues/497)
+
 ## [4.11.2](https://github.com/panva/jose/compare/v4.11.1...v4.11.2) (2023-01-01)
 
 
