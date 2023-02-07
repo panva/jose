@@ -135,12 +135,6 @@ const genericImport = async (
       keyUsages = isPublic ? [] : ['deriveBits']
       break
     }
-    case isCloudflareWorkers() && 'EdDSA': {
-      const namedCurve = getNamedCurve(keyData).toUpperCase()
-      algorithm = { name: `NODE-${namedCurve}`, namedCurve: `NODE-${namedCurve}` }
-      keyUsages = isPublic ? ['verify'] : ['sign']
-      break
-    }
     case 'EdDSA':
       algorithm = { name: getNamedCurve(keyData) }
       keyUsages = isPublic ? ['verify'] : ['sign']
@@ -149,13 +143,31 @@ const genericImport = async (
       throw new JOSENotSupported('Invalid or unsupported "alg" (Algorithm) value')
   }
 
-  return crypto.subtle.importKey(
-    keyFormat,
-    keyData,
-    algorithm,
-    options?.extractable ?? false,
-    keyUsages,
-  )
+  try {
+    return await crypto.subtle.importKey(
+      keyFormat,
+      keyData,
+      algorithm,
+      options?.extractable ?? false,
+      keyUsages,
+    )
+  } catch (err) {
+    if (
+      algorithm.name === 'Ed25519' &&
+      (<Error>err)?.name === 'NotSupportedError' &&
+      isCloudflareWorkers()
+    ) {
+      algorithm = { name: 'NODE-ED25519', namedCurve: 'NODE-ED25519' }
+      return await crypto.subtle.importKey(
+        keyFormat,
+        keyData,
+        algorithm,
+        options?.extractable ?? false,
+        keyUsages,
+      )
+    }
+    throw err
+  }
 }
 
 export const fromPKCS8: PEMImportFunction = (pem, alg, options?) => {

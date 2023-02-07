@@ -21,10 +21,11 @@ export default function subtleDsa(alg: string, algorithm: KeyAlgorithm | EcKeyAl
     case 'ES384':
     case 'ES512':
       return { hash, name: 'ECDSA', namedCurve: (<EcKeyAlgorithm>algorithm).namedCurve }
-    case isCloudflareWorkers() && 'EdDSA':
-      const { namedCurve } = <EcKeyAlgorithm>algorithm
-      return <EcKeyAlgorithm>{ name: namedCurve, namedCurve }
     case 'EdDSA':
+      if (isCloudflareWorkers() && algorithm.name === 'NODE-ED25519') {
+        return { name: 'NODE-ED25519', namedCurve: 'NODE-ED25519' }
+      }
+
       return { name: algorithm.name }
     default:
       throw new JOSENotSupported(

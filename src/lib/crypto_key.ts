@@ -71,12 +71,12 @@ export function checkSigCryptoKey(key: CryptoKey, alg: string, ...usages: KeyUsa
       if (actual !== expected) throw unusable(`SHA-${expected}`, 'algorithm.hash')
       break
     }
-    case isCloudflareWorkers() && 'EdDSA': {
-      if (!isAlgorithm(key.algorithm, 'NODE-ED25519')) throw unusable('NODE-ED25519')
-      break
-    }
     case 'EdDSA': {
       if (key.algorithm.name !== 'Ed25519' && key.algorithm.name !== 'Ed448') {
+        if (isCloudflareWorkers()) {
+          if (isAlgorithm(key.algorithm, 'NODE-ED25519')) break
+          throw unusable('Ed25519, Ed448, or NODE-ED25519')
+        }
         throw unusable('Ed25519 or Ed448')
       }
       break

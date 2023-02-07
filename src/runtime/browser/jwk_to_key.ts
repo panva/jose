@@ -106,19 +106,6 @@ function subtleMapping(jwk: JWK): {
       }
       break
     }
-    case isCloudflareWorkers() && 'OKP':
-      if (jwk.alg !== 'EdDSA') {
-        throw new JOSENotSupported('Invalid or unsupported JWK "alg" (Algorithm) Parameter value')
-      }
-      switch (jwk.crv) {
-        case 'Ed25519':
-          algorithm = { name: 'NODE-ED25519', namedCurve: 'NODE-ED25519' }
-          keyUsages = jwk.d ? ['sign'] : ['verify']
-          break
-        default:
-          throw new JOSENotSupported('Invalid or unsupported JWK "alg" (Algorithm) Parameter value')
-      }
-      break
     case 'OKP': {
       switch (jwk.alg) {
         case 'EdDSA':
@@ -159,6 +146,18 @@ const parse: JWKImportFunction = async (jwk: JWK): Promise<CryptoKey> => {
   const keyData: JWK = { ...jwk }
   delete keyData.alg
   delete keyData.use
-  return crypto.subtle.importKey('jwk', keyData, ...rest)
+  try {
+    return await crypto.subtle.importKey('jwk', keyData, ...rest)
+  } catch (err) {
+    if (
+      algorithm.name === 'Ed25519' &&
+      (<Error>err)?.name === 'NotSupportedError' &&
+      isCloudflareWorkers()
+    ) {
+      rest[0] = { name: 'NODE-ED25519', namedCurve: 'NODE-ED25519' }
+      return await crypto.subtle.importKey('jwk', keyData, ...rest)
+    }
+    throw err
+  }
 }
 export default parse

@@ -109,17 +109,6 @@ export async function generateKeyPair(alg: string, options?: GenerateKeyPairOpti
       algorithm = { name: 'ECDSA', namedCurve: 'P-521' }
       keyUsages = ['sign', 'verify']
       break
-    case isCloudflareWorkers() && 'EdDSA':
-      switch (options?.crv) {
-        case undefined:
-        case 'Ed25519':
-          algorithm = { name: 'NODE-ED25519', namedCurve: 'NODE-ED25519' }
-          keyUsages = ['sign', 'verify']
-          break
-        default:
-          throw new JOSENotSupported('Invalid or unsupported crv option provided')
-      }
-      break
     case 'EdDSA':
       keyUsages = ['sign', 'verify']
       const crv = options?.crv ?? 'Ed25519'
@@ -160,7 +149,21 @@ export async function generateKeyPair(alg: string, options?: GenerateKeyPairOpti
       throw new JOSENotSupported('Invalid or unsupported JWK "alg" (Algorithm) Parameter value')
   }
 
-  return <Promise<{ publicKey: CryptoKey; privateKey: CryptoKey }>>(
-    crypto.subtle.generateKey(algorithm, options?.extractable ?? false, keyUsages)
-  )
+  try {
+    return <{ publicKey: CryptoKey; privateKey: CryptoKey }>(
+      await crypto.subtle.generateKey(algorithm, options?.extractable ?? false, keyUsages)
+    )
+  } catch (err) {
+    if (
+      algorithm.name === 'Ed25519' &&
+      (<Error>err)?.name === 'NotSupportedError' &&
+      isCloudflareWorkers()
+    ) {
+      algorithm = { name: 'NODE-ED25519', namedCurve: 'NODE-ED25519' }
+      return <{ publicKey: CryptoKey; privateKey: CryptoKey }>(
+        await crypto.subtle.generateKey(algorithm, options?.extractable ?? false, keyUsages)
+      )
+    }
+    throw err
+  }
 }
