@@ -99,7 +99,8 @@
     "!dist/**/*.min.js",
     "!dist/node/webcrypto/**/*",
     "!dist/types/runtime/*",
-    "!dist/types/lib/*"
+    "!dist/types/lib/*",
+    "!dist/deno/**/*"
   ],
   "scripts": {
     "build": "tsc",
