@@ -34,7 +34,7 @@ export default (QUnit: QUnit, lib: typeof jose) => {
         return !env.isDeno
       }
       if (vector.input.alg === 'EdDSA') {
-        return env.isDeno || env.isWorkers || env.isNode || env.isElectron
+        return !(env.isBrowser || env.isEdgeRuntime)
       }
       return true
     }
