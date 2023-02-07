@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [4.11.4](https://github.com/panva/jose/compare/v4.11.3...v4.11.4) (2023-02-07)
+
+
+### Fixes
+
+* **build:** ignore deno files in npm publishes ([b3d6a11](https://github.com/panva/jose/commit/b3d6a11bf0803c37e1e9d0368ccec1f1264eef74))
+
 ## [4.11.3](https://github.com/panva/jose/compare/v4.11.2...v4.11.3) (2023-02-07)
 
 
