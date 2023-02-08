@@ -54,7 +54,7 @@ C5ayaqCqN1voWYUdGzxU2IA1E/5kVo5O8FesJeOhAoGBAImJbZFf+D5kA32Xxhac
 59lLWBCsocvvbd1cvDMNlRywAAyhsCb1SuX4nEAK9mrSBdfmoF2Nm3eilfsOds0f
 K5mX069IKG82CMqh3Mzptd7e7lyb9lsoGO0BAtjho3cWtha/UZ70vfaMzGuZ6JmQ
 ak6k+8+UFd93M4z0Qo74OhXB
------END PRIVATE KEY----`
+-----END PRIVATE KEY-----`
 const privateKey = await jose.importPKCS8(pkcs8, alg)
 
 const jwt = await new jose.SignJWT({ 'urn:example:claim': true })
