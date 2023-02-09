@@ -82,11 +82,7 @@ jobs:
         with:
           path: letsencrypt
           key: ${{ needs.cert.outputs.cache-key }}
-      - name: Abort if cert isn't cached
-        if: ${{ steps.cert.outputs.cache-hit != 'true' }}
-        uses: actions/github-script@v6
-        with:
-          script: core.setFailed('cert cache hit failed')
+          fail-on-cache-miss: true
       - name: Setup node
         uses: actions/setup-node@v3
         with:

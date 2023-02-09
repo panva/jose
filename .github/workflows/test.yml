@@ -80,11 +80,7 @@ jobs:
         with:
           path: dist
           key: ${{ needs.build.outputs.cache-key }}
-      - name: Abort if dist isn't cached
-        if: ${{ steps.dist.outputs.cache-hit != 'true' }}
-        uses: actions/github-script@v6
-        with:
-          script: core.setFailed('dist cache hit failed')
+          fail-on-cache-miss: true
       - name: Test (TAP)
         run: npm run tap:node
         if: ${{ !startsWith(steps.node.outputs.node-version, 'v12') }}
@@ -113,11 +109,7 @@ jobs:
         with:
           path: dist
           key: ${{ needs.build.outputs.cache-key }}
-      - name: Abort if dist isn't cached
-        if: ${{ steps.dist.outputs.cache-hit != 'true' }}
-        uses: actions/github-script@v6
-        with:
-          script: core.setFailed('dist cache hit failed')
+          fail-on-cache-miss: true
       - name: Test Deno Definitions
         run: deno check dist/deno/index.ts
       - name: Setup node
@@ -147,11 +139,7 @@ jobs:
         with:
           path: dist
           key: ${{ needs.build.outputs.cache-key }}
-      - name: Abort if dist isn't cached
-        if: ${{ steps.dist.outputs.cache-hit != 'true' }}
-        uses: actions/github-script@v6
-        with:
-          script: core.setFailed('dist cache hit failed')
+          fail-on-cache-miss: true
       - name: Setup node
         uses: actions/setup-node@v3
         with:
@@ -185,11 +173,7 @@ jobs:
         with:
           path: dist
           key: ${{ needs.build.outputs.cache-key }}
-      - name: Abort if dist isn't cached
-        if: ${{ steps.dist.outputs.cache-hit != 'true' }}
-        uses: actions/github-script@v6
-        with:
-          script: core.setFailed('dist cache hit failed')
+          fail-on-cache-miss: true
       - name: Run Test Suite
         run: npm run tap:workers
 
@@ -215,11 +199,7 @@ jobs:
         with:
           path: dist
           key: ${{ needs.build.outputs.cache-key }}
-      - name: Abort if dist isn't cached
-        if: ${{ steps.dist.outputs.cache-hit != 'true' }}
-        uses: actions/github-script@v6
-        with:
-          script: core.setFailed('dist cache hit failed')
+          fail-on-cache-miss: true
       - name: Run Test Suite
         run: npm run tap:edge-runtime
 
@@ -253,11 +233,7 @@ jobs:
         with:
           path: dist
           key: ${{ needs.build.outputs.cache-key }}
-      - name: Abort if dist isn't cached
-        if: ${{ steps.dist.outputs.cache-hit != 'true' }}
-        uses: actions/github-script@v6
-        with:
-          script: core.setFailed('dist cache hit failed')
+          fail-on-cache-miss: true
       - name: Run Test Suite
         run: npm run tap:browsers
         env:
@@ -285,11 +261,7 @@ jobs:
         with:
           path: dist
           key: ${{ needs.build.outputs.cache-key }}
-      - name: Abort if dist isn't cached
-        if: ${{ steps.dist.outputs.cache-hit != 'true' }}
-        uses: actions/github-script@v6
-        with:
-          script: core.setFailed('dist cache hit failed')
+          fail-on-cache-miss: true
       - name: Install Electron
         run: npm install --global electron
       - name: Run Test Suite
