@@ -26,38 +26,12 @@ jobs:
 
   cert:
     if: ${{ !startsWith(github.event_name, 'pull_request') || (github.event_name == 'pull_request_target' && github.event.label.name == 'trigger-browserstack') }}
-    runs-on: ubuntu-latest
-    outputs:
-      cache-key: ${{ steps.cache-key.outputs.value }}
-    steps:
-      - name: Environment Information
-        run: npx envinfo
-      - id: cache-key
-        run: echo "value=letsencrypt-$(date +"%Y%m")" >> $GITHUB_OUTPUT
-      - name: Cache letsencrypt
-        uses: actions/cache@v3
-        id: cert
-        with:
-          path: letsencrypt
-          key: ${{ steps.cache-key.outputs.value }}
-      - name: Get test certificate
-        if: ${{ steps.cert.outputs.cache-hit != 'true' }}
-        run: |
-          sudo snap install core
-          sudo snap refresh core
-          sudo snap install --classic certbot
-          sudo snap set certbot trust-plugin-with-root=ok
-          sudo snap install certbot-dns-route53
-          certbot certonly -n -m 'panva.ip@gmail.com' \
-            --agree-tos \
-            --dns-route53 \
-            --config-dir 'letsencrypt/config' \
-            --work-dir 'letsencrypt/work' \
-            --logs-dir 'letsencrypt/logs' \
-            -d jose.panva.me
-        env:
-          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+    uses: panva/.github/.github/workflows/cert-for-browserstack.yml@main
+    with:
+      subdomain: jose
+    secrets:
+      AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+      AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
 
   browserstack:
     needs:
