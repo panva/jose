@@ -184,10 +184,29 @@ skipOnUndiciTestSerial('RemoteJWKSet', async (t) => {
     const [jwk] = keys
     const key = await importJWK({ ...jwk, alg: 'RS256' })
     const jwt = await new SignJWT({}).setProtectedHeader({ alg: 'RS256' }).sign(key)
-    await t.throwsAsync(jwtVerify(jwt, JWKS), {
+    let error = await t.throwsAsync(jwtVerify(jwt, JWKS), {
       code: 'ERR_JWKS_MULTIPLE_MATCHING_KEYS',
       message: 'multiple matching keys found in the JSON Web Key Set',
     })
+
+    // async iterator (KeyLike)
+    {
+      const cache = new WeakSet()
+      for await (const ko of error) {
+        t.like(ko, { type: 'public' })
+        cache.add(ko)
+      }
+      error = await t.throwsAsync(jwtVerify(jwt, JWKS), {
+        code: 'ERR_JWKS_MULTIPLE_MATCHING_KEYS',
+        message: 'multiple matching keys found in the JSON Web Key Set',
+      })
+      let i = 0
+      for await (const ko of error) {
+        i++
+        t.true(cache.has(ko))
+      }
+      t.is(i, 2)
+    }
   }
   {
     const [, jwk] = keys

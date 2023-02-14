@@ -4,7 +4,6 @@ import type {
   JWK,
   JSONWebKeySet,
   FlattenedJWSInput,
-  GetKeyFunction,
 } from '../types.d'
 import { importJWK } from '../key/import.js'
 import {
@@ -73,8 +72,8 @@ export class LocalJWKSet {
     this._jwks = clone<JSONWebKeySet>(jwks)
   }
 
-  async getKey(protectedHeader: JWSHeaderParameters, token: FlattenedJWSInput): Promise<KeyLike> {
-    const { alg, kid } = { ...protectedHeader, ...token.header }
+  async getKey(protectedHeader?: JWSHeaderParameters, token?: FlattenedJWSInput): Promise<KeyLike> {
+    const { alg, kid } = { ...protectedHeader, ...token?.header }
     const kty = getKtyFromAlg(alg)
 
     const candidates = this._jwks!.keys.filter((jwk) => {
@@ -132,29 +131,53 @@ export class LocalJWKSet {
     if (length === 0) {
       throw new JWKSNoMatchingKey()
     } else if (length !== 1) {
-      throw new JWKSMultipleMatchingKeys()
-    }
+      const error = new JWKSMultipleMatchingKeys()
 
-    const cached = this._cached.get(jwk) || this._cached.set(jwk, {}).get(jwk)!
-    if (cached[alg!] === undefined) {
-      const keyObject = await importJWK({ ...jwk, ext: true }, alg)
-
-      if (keyObject instanceof Uint8Array || keyObject.type !== 'public') {
-        throw new JWKSInvalid('JSON Web Key Set members must be public keys')
+      const { _cached } = this
+      error[Symbol.asyncIterator] = async function* () {
+        for (const jwk of candidates) {
+          try {
+            yield await importWithAlgCache(_cached, jwk, alg!)
+          } catch {
+            continue
+          }
+        }
       }
 
-      cached[alg!] = keyObject
+      throw error
     }
 
-    return cached[alg!]
+    return importWithAlgCache(this._cached, jwk, alg!)
   }
+}
+
+async function importWithAlgCache(cache: WeakMap<JWK, Cache>, jwk: JWK, alg: string) {
+  const cached = cache.get(jwk) || cache.set(jwk, {}).get(jwk)!
+  if (cached[alg] === undefined) {
+    const keyObject = <KeyLike>await importJWK({ ...jwk, ext: true }, alg)
+
+    if (keyObject.type !== 'public') {
+      throw new JWKSInvalid('JSON Web Key Set members must be public keys')
+    }
+
+    cached[alg] = keyObject
+  }
+
+  return cached[alg]
 }
 
 /**
  * Returns a function that resolves to a key object from a locally stored, or otherwise available,
  * JSON Web Key Set.
  *
- * Only a single public key must match the selection process.
+ * It uses the "alg" (JWS Algorithm) Header Parameter to determine the right JWK "kty" (Key Type),
+ * then proceeds to match the JWK "kid" (Key ID) with one found in the JWS Header Parameters (if
+ * there is one) while also respecting the JWK "use" (Public Key Use) and JWK "key_ops" (Key
+ * Operations) Parameters (if they are present on the JWK).
+ *
+ * Only a single public key must match the selection process. As shown in the example below when
+ * multiple keys get matched it is possible to opt-in to iterate over the matched keys and attempt
+ * verification in an iterative manner.
  *
  * @example Usage
  *
@@ -185,10 +208,38 @@ export class LocalJWKSet {
  * console.log(payload)
  * ```
  *
+ * @example Opting-in to multiple JWKS matches using `createLocalJWKSet`
+ *
+ * ```js
+ * const options = {
+ *   issuer: 'urn:example:issuer',
+ *   audience: 'urn:example:audience',
+ * }
+ * const { payload, protectedHeader } = await jose
+ *   .jwtVerify(jwt, JWKS, options)
+ *   .catch(async (error) => {
+ *     if (error?.code === 'ERR_JWKS_MULTIPLE_MATCHING_KEYS') {
+ *       for await (const publicKey of error) {
+ *         try {
+ *           return await jose.jwtVerify(jwt, publicKey, options)
+ *         } catch (innerError) {
+ *           if (innerError?.code === 'ERR_JWS_SIGNATURE_VERIFICATION_FAILED') {
+ *             continue
+ *           }
+ *           throw innerError
+ *         }
+ *       }
+ *       throw new jose.errors.JWSSignatureVerificationFailed()
+ *     }
+ *
+ *     throw error
+ *   })
+ * console.log(protectedHeader)
+ * console.log(payload)
+ * ```
+ *
  * @param jwks JSON Web Key Set formatted object.
  */
-export function createLocalJWKSet(
-  jwks: JSONWebKeySet,
-): GetKeyFunction<JWSHeaderParameters, FlattenedJWSInput> {
+export function createLocalJWKSet(jwks: JSONWebKeySet) {
   return LocalJWKSet.prototype.getKey.bind(new LocalJWKSet(jwks))
 }

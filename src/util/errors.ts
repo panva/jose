@@ -1,3 +1,5 @@
+import type { KeyLike } from '../types.d'
+
 /** A generic Error subclass that all other specific JOSE Error subclasses inherit from. */
 export class JOSEError extends Error {
   /** A unique error code for the particular error subclass. */
@@ -148,6 +150,9 @@ export class JWKSNoMatchingKey extends JOSEError {
 
 /** An error subclass thrown when multiple keys match from a JWKS. */
 export class JWKSMultipleMatchingKeys extends JOSEError {
+  /** @ignore */
+  [Symbol.asyncIterator]!: () => AsyncIterableIterator<KeyLike>
+
   static get code(): 'ERR_JWKS_MULTIPLE_MATCHING_KEYS' {
     return 'ERR_JWKS_MULTIPLE_MATCHING_KEYS'
   }

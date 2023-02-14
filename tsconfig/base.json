@@ -3,7 +3,7 @@
     "../src/index.ts"
   ],
   "compilerOptions": {
-    "lib": ["ES2017", "DOM"],
+    "lib": ["ES2017", "DOM", "ES2018.asynciterable"],
     "types": [],
     "strict": true,
     "forceConsistentCasingInFileNames": true,

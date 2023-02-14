@@ -1,7 +1,7 @@
 import fetchJwks from '../runtime/fetch_jwks.js'
 import { isCloudflareWorkers } from '../runtime/env.js'
 
-import type { KeyLike, JWSHeaderParameters, FlattenedJWSInput, GetKeyFunction } from '../types.d'
+import type { KeyLike, JWSHeaderParameters, FlattenedJWSInput } from '../types.d'
 import { JWKSInvalid, JWKSNoMatchingKey } from '../util/errors.js'
 
 import { isJWKSLike, LocalJWKSet } from './local.js'
@@ -84,7 +84,7 @@ class RemoteJWKSet extends LocalJWKSet {
       : false
   }
 
-  async getKey(protectedHeader: JWSHeaderParameters, token: FlattenedJWSInput): Promise<KeyLike> {
+  async getKey(protectedHeader?: JWSHeaderParameters, token?: FlattenedJWSInput): Promise<KeyLike> {
     if (!this._jwks || !this.fresh()) {
       await this.reload()
     }
@@ -140,10 +140,18 @@ class RemoteJWKSet extends LocalJWKSet {
 
 /**
  * Returns a function that resolves to a key object downloaded from a remote endpoint returning a
- * JSON Web Key Set, that is, for example, an OAuth 2.0 or OIDC jwks_uri. Only a single public key
- * must match the selection process. The JSON Web Key Set is fetched when no key matches the
- * selection process but only as frequently as the `cooldownDuration` option allows, to prevent
- * abuse.
+ * JSON Web Key Set, that is, for example, an OAuth 2.0 or OIDC jwks_uri. The JSON Web Key Set is
+ * fetched when no key matches the selection process but only as frequently as the
+ * `cooldownDuration` option allows to prevent abuse.
+ *
+ * It uses the "alg" (JWS Algorithm) Header Parameter to determine the right JWK "kty" (Key Type),
+ * then proceeds to match the JWK "kid" (Key ID) with one found in the JWS Header Parameters (if
+ * there is one) while also respecting the JWK "use" (Public Key Use) and JWK "key_ops" (Key
+ * Operations) Parameters (if they are present on the JWK).
+ *
+ * Only a single public key must match the selection process. As shown in the example below when
+ * multiple keys get matched it is possible to opt-in to iterate over the matched keys and attempt
+ * verification in an iterative manner.
  *
  * @example Usage
  *
@@ -158,12 +166,39 @@ class RemoteJWKSet extends LocalJWKSet {
  * console.log(payload)
  * ```
  *
+ * @example Opting-in to multiple JWKS matches using `createRemoteJWKSet`
+ *
+ * ```js
+ * const options = {
+ *   issuer: 'urn:example:issuer',
+ *   audience: 'urn:example:audience',
+ * }
+ * const { payload, protectedHeader } = await jose
+ *   .jwtVerify(jwt, JWKS, options)
+ *   .catch(async (error) => {
+ *     if (error?.code === 'ERR_JWKS_MULTIPLE_MATCHING_KEYS') {
+ *       for await (const publicKey of error) {
+ *         try {
+ *           return await jose.jwtVerify(jwt, publicKey, options)
+ *         } catch (innerError) {
+ *           if (innerError?.code === 'ERR_JWS_SIGNATURE_VERIFICATION_FAILED') {
+ *             continue
+ *           }
+ *           throw innerError
+ *         }
+ *       }
+ *       throw new jose.errors.JWSSignatureVerificationFailed()
+ *     }
+ *
+ *     throw error
+ *   })
+ * console.log(protectedHeader)
+ * console.log(payload)
+ * ```
+ *
  * @param url URL to fetch the JSON Web Key Set from.
  * @param options Options for the remote JSON Web Key Set.
  */
-export function createRemoteJWKSet(
-  url: URL,
-  options?: RemoteJWKSetOptions,
-): GetKeyFunction<JWSHeaderParameters, FlattenedJWSInput> {
+export function createRemoteJWKSet(url: URL, options?: RemoteJWKSetOptions) {
   return RemoteJWKSet.prototype.getKey.bind(new RemoteJWKSet(url, options))
 }
