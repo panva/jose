@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [4.12.0](https://github.com/panva/jose/compare/v4.11.4...v4.12.0) (2023-02-15)
+
+
+### Features
+
+* enable key iteration over JWKSMultipleMatchingKeys ([a278acd](https://github.com/panva/jose/commit/a278acdb0f458e555abdc1d048920e7da4fb7981))
+
 ## [4.11.4](https://github.com/panva/jose/compare/v4.11.3...v4.11.4) (2023-02-07)
 
 
