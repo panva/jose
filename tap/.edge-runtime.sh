@@ -1,4 +1,7 @@
 #!/bin/bash
+
+echo "Using edge-runtime $(cat package-lock.json | jq -r '.packages["node_modules/edge-runtime"].version')"
+
 ./node_modules/.bin/esbuild \
   --log-level=warning \
   --format=esm \
