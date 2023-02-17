@@ -62,7 +62,6 @@ jobs:
         with:
           node-version: lts/hydrogen # 18
           cache: 'npm'
-          check-latest: true
       - run: npm clean-install
       - run: npm install --global testcafe@2 testcafe-browser-provider-browserstack@1
       - run: npm run build:browser

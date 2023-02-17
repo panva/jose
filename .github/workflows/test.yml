@@ -25,7 +25,6 @@ jobs:
         with:
           node-version: lts/hydrogen # 18
           cache: 'npm'
-          check-latest: true
       - run: npm clean-install
       - id: cache-key
         run: echo "value=dist-${{ hashFiles('src/**/*.ts', 'tsconfig/*.json', '.github/workflows/*.yml', 'package-lock.json') }}" >> $GITHUB_OUTPUT
@@ -75,7 +74,6 @@ jobs:
         with:
           node-version: ${{ matrix.node-version }}
           cache: 'npm'
-          check-latest: true
       - run: npm install --global npm@8
         if: ${{ startsWith(steps.node.outputs.node-version, 'v12') || startsWith(steps.node.outputs.node-version, 'v14') }}
       - run: npm clean-install
@@ -119,7 +117,6 @@ jobs:
         with:
           node-version: lts/hydrogen # 18
           cache: 'npm'
-          check-latest: true
       - run: npm clean-install
       - name: Test Deno
         run: npm run tap:deno
@@ -147,7 +144,6 @@ jobs:
         with:
           node-version: lts/hydrogen # 18
           cache: 'npm'
-          check-latest: true
       - run: npm clean-install
       - name: Test Bun
         run: npm run tap:bun
@@ -166,7 +162,6 @@ jobs:
         with:
           node-version: lts/hydrogen # 18
           cache: 'npm'
-          check-latest: true
       - run: npm clean-install
       - run: npm install --global workerd
       - name: Load cached dist
@@ -193,7 +188,6 @@ jobs:
         with:
           node-version: lts/hydrogen # 18
           cache: 'npm'
-          check-latest: true
       - run: npm clean-install
       - name: Load cached dist
         uses: actions/cache@v3
@@ -226,7 +220,6 @@ jobs:
         with:
           node-version: lts/hydrogen # 18
           cache: 'npm'
-          check-latest: true
       - run: npm clean-install
       - run: npm install --global testcafe@2
       - name: Load cached dist
@@ -255,7 +248,6 @@ jobs:
         with:
           node-version: lts/hydrogen # 18
           cache: 'npm'
-          check-latest: true
       - run: npm clean-install
       - name: Load cached dist
         uses: actions/cache@v3
@@ -292,7 +284,6 @@ jobs:
         with:
           node-version: lts/hydrogen # 18
           cache: 'npm'
-          check-latest: true
       - run: node tools/release-notes
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
