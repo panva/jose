@@ -2,7 +2,7 @@ import { isCloudflareWorkers } from './env.js'
 import crypto, { isCryptoKey } from './webcrypto.js'
 import type { PEMExportFunction, PEMImportFunction } from '../interfaces.d'
 import invalidKeyInput from '../../lib/invalid_key_input.js'
-import { encodeBase64 } from './base64url.js'
+import { encodeBase64, decodeBase64 } from './base64url.js'
 import formatPEM from '../../lib/format_pem.js'
 import { JOSENotSupported } from '../../util/errors.js'
 import { types } from './is_key_like.js'
@@ -176,4 +176,93 @@ export const fromPKCS8: PEMImportFunction = (pem, alg, options?) => {
 
 export const fromSPKI: PEMImportFunction = (pem, alg, options?) => {
   return genericImport(/(?:-----(?:BEGIN|END) PUBLIC KEY-----|\s)/g, 'spki', pem, alg, options)
+}
+
+function getElement(seq: Uint8Array) {
+  let result = []
+  let next = 0
+
+  while (next < seq.length) {
+    let nextPart = parseElement(seq.subarray(next))
+    result.push(nextPart)
+    next += nextPart.byteLength
+  }
+  return result
+}
+
+function parseElement(bytes: Uint8Array) {
+  let position = 0
+
+  // tag
+  let tag = bytes[0] & 0x1f
+  position++
+  if (tag === 0x1f) {
+    tag = 0
+    while (bytes[position] >= 0x80) {
+      tag = tag * 128 + bytes[position] - 0x80
+      position++
+    }
+    tag = tag * 128 + bytes[position] - 0x80
+    position++
+  }
+
+  // length
+  let length = 0
+  if (bytes[position] < 0x80) {
+    length = bytes[position]
+    position++
+  } else if (length === 0x80) {
+    length = 0
+
+    while (bytes[position + length] !== 0 || bytes[position + length + 1] !== 0) {
+      if (length > bytes.byteLength) {
+        throw new TypeError('invalid indefinite form length')
+      }
+      length++
+    }
+
+    const byteLength = position + length + 2
+    return {
+      byteLength,
+      contents: bytes.subarray(position, position + length),
+      raw: bytes.subarray(0, byteLength),
+    }
+  } else {
+    let numberOfDigits = bytes[position] & 0x7f
+    position++
+    length = 0
+    for (let i = 0; i < numberOfDigits; i++) {
+      length = length * 256 + bytes[position]
+      position++
+    }
+  }
+
+  const byteLength = position + length
+  return {
+    byteLength,
+    contents: bytes.subarray(position, byteLength),
+    raw: bytes.subarray(0, byteLength),
+  }
+}
+
+function spkiFromX509(buf: Uint8Array) {
+  const tbsCertificate = getElement(getElement(parseElement(buf).contents)[0].contents)
+  return encodeBase64(tbsCertificate[tbsCertificate[0].raw[0] === 0xa0 ? 6 : 5].raw)
+}
+
+function getSPKI(x509: string): string {
+  const pem = x509.replace(/(?:-----(?:BEGIN|END) CERTIFICATE-----|\s)/g, '')
+  const raw = decodeBase64(pem)
+  return formatPEM(spkiFromX509(raw), 'PUBLIC KEY')
+}
+
+export const fromX509: PEMImportFunction = (pem, alg, options?) => {
+  let spki: string
+  try {
+    spki = getSPKI(pem)
+  } catch (cause) {
+    // @ts-ignore
+    throw new TypeError('failed to parse the X.509 certificate', { cause })
+  }
+  return fromSPKI(spki, alg, options)
 }

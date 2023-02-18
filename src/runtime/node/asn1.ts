@@ -51,3 +51,10 @@ export const fromSPKI: PEMImportFunction = (pem) =>
     type: 'spki',
     format: 'der',
   })
+
+export const fromX509: PEMImportFunction = (pem) =>
+  createPublicKey({
+    key: pem,
+    type: 'spki',
+    format: 'pem',
+  })

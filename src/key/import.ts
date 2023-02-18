@@ -1,90 +1,10 @@
-import { decode as decodeBase64URL, encodeBase64, decodeBase64 } from '../runtime/base64url.js'
-import { fromSPKI as importPublic } from '../runtime/asn1.js'
-import { fromPKCS8 as importPrivate } from '../runtime/asn1.js'
+import { decode as decodeBase64URL } from '../runtime/base64url.js'
+import { fromSPKI, fromPKCS8, fromX509 } from '../runtime/asn1.js'
 import asKeyObject from '../runtime/jwk_to_key.js'
 
 import { JOSENotSupported } from '../util/errors.js'
-import formatPEM from '../lib/format_pem.js'
 import isObject from '../lib/is_object.js'
 import type { JWK, KeyLike } from '../types.d'
-
-function getElement(seq: Uint8Array) {
-  let result = []
-  let next = 0
-
-  while (next < seq.length) {
-    let nextPart = parseElement(seq.subarray(next))
-    result.push(nextPart)
-    next += nextPart.byteLength
-  }
-  return result
-}
-
-function parseElement(bytes: Uint8Array) {
-  let position = 0
-
-  // tag
-  let tag = bytes[0] & 0x1f
-  position++
-  if (tag === 0x1f) {
-    tag = 0
-    while (bytes[position] >= 0x80) {
-      tag = tag * 128 + bytes[position] - 0x80
-      position++
-    }
-    tag = tag * 128 + bytes[position] - 0x80
-    position++
-  }
-
-  // length
-  let length = 0
-  if (bytes[position] < 0x80) {
-    length = bytes[position]
-    position++
-  } else if (length === 0x80) {
-    length = 0
-
-    while (bytes[position + length] !== 0 || bytes[position + length + 1] !== 0) {
-      if (length > bytes.byteLength) {
-        throw new TypeError('invalid indefinite form length')
-      }
-      length++
-    }
-
-    const byteLength = position + length + 2
-    return {
-      byteLength,
-      contents: bytes.subarray(position, position + length),
-      raw: bytes.subarray(0, byteLength),
-    }
-  } else {
-    let numberOfDigits = bytes[position] & 0x7f
-    position++
-    length = 0
-    for (let i = 0; i < numberOfDigits; i++) {
-      length = length * 256 + bytes[position]
-      position++
-    }
-  }
-
-  const byteLength = position + length
-  return {
-    byteLength,
-    contents: bytes.subarray(position, byteLength),
-    raw: bytes.subarray(0, byteLength),
-  }
-}
-
-function spkiFromX509(buf: Uint8Array) {
-  const tbsCertificate = getElement(getElement(parseElement(buf).contents)[0].contents)
-  return encodeBase64(tbsCertificate[tbsCertificate[0].raw[0] === 0xa0 ? 6 : 5].raw)
-}
-
-function getSPKI(x509: string): string {
-  const pem = x509.replace(/(?:-----(?:BEGIN|END) CERTIFICATE-----|\s)/g, '')
-  const raw = decodeBase64(pem)
-  return formatPEM(spkiFromX509(raw), 'PUBLIC KEY')
-}
 
 export interface PEMImportOptions {
   /**
@@ -122,7 +42,7 @@ export async function importSPKI(
   if (typeof spki !== 'string' || spki.indexOf('-----BEGIN PUBLIC KEY-----') !== 0) {
     throw new TypeError('"spki" must be SPKI formatted string')
   }
-  return importPublic(spki, alg, options)
+  return fromSPKI(spki, alg, options)
 }
 
 /**
@@ -159,14 +79,7 @@ export async function importX509(
   if (typeof x509 !== 'string' || x509.indexOf('-----BEGIN CERTIFICATE-----') !== 0) {
     throw new TypeError('"x509" must be X.509 formatted string')
   }
-  let spki: string
-  try {
-    spki = getSPKI(x509)
-  } catch (cause) {
-    // @ts-ignore
-    throw new TypeError('failed to parse the X.509 certificate', { cause })
-  }
-  return importPublic(spki, alg, options)
+  return fromX509(x509, alg, options)
 }
 
 /**
@@ -197,7 +110,7 @@ export async function importPKCS8(
   if (typeof pkcs8 !== 'string' || pkcs8.indexOf('-----BEGIN PRIVATE KEY-----') !== 0) {
     throw new TypeError('"pkcs8" must be PKCS#8 formatted string')
   }
-  return importPrivate(pkcs8, alg, options)
+  return fromPKCS8(pkcs8, alg, options)
 }
 
 /**
