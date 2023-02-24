@@ -66,14 +66,14 @@ jobs:
       - run: npm install --global testcafe@2 testcafe-browser-provider-browserstack@1
       - run: npm run build:browser
       - name: BrowserStack Env Setup
-        uses: browserstack/github-actions/setup-env@00ce173eae311a7838f80682a5fad5144c4219ad
+        uses: browserstack/github-actions/setup-env@eede0bfff248c2bea3f4039fea92e2416ce9898d
         with:
           username:  ${{ secrets.BROWSERSTACK_USERNAME }}
           access-key: ${{ secrets.BROWSERSTACK_ACCESS_KEY }}
           build-name: 'BUILD_INFO'
           project-name: 'REPO_NAME'
       - name: Start BrowserStackLocal Tunnel
-        uses: browserstack/github-actions/setup-local@00ce173eae311a7838f80682a5fad5144c4219ad
+        uses: browserstack/github-actions/setup-local@eede0bfff248c2bea3f4039fea92e2416ce9898d
         with:
           local-testing: 'start'
           local-logging-level: 'all-logs'
@@ -84,6 +84,6 @@ jobs:
           BROWSER: ${{ matrix.browser }}
       - name: Stop BrowserStackLocal
         if: ${{ always() }}
-        uses: browserstack/github-actions/setup-local@00ce173eae311a7838f80682a5fad5144c4219ad
+        uses: browserstack/github-actions/setup-local@eede0bfff248c2bea3f4039fea92e2416ce9898d
         with:
           local-testing: 'stop'
