@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [4.12.1](https://github.com/panva/jose/compare/v4.12.0...v4.12.1) (2023-02-27)
+
+
+### Refactor
+
+* clarify when alg is used and required on key imports ([19e525f](https://github.com/panva/jose/commit/19e525fdee04ba6281f70bd20523b878408aa7ee))
+* **node:** have node:crypto deal with x509 parsing ([45bb45d](https://github.com/panva/jose/commit/45bb45d42b6c96cbfcab7242d5cc366fb34481f1))
+
 ## [4.12.0](https://github.com/panva/jose/compare/v4.11.4...v4.12.0) (2023-02-15)
 
 

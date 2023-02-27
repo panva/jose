@@ -25,7 +25,7 @@ const ecPrivateKey = await jose.importPKCS8(pkcs8, algorithm)
 | Name | Type | Description |
 | :------ | :------ | :------ |
 | `pkcs8` | `string` | - |
-| `alg` | `string` | JSON Web Algorithm identifier to be used with the imported key. |
+| `alg` | `string` | (Only effective in Web Crypto API runtimes) JSON Web Algorithm identifier to be used with the imported key, its presence is only enforced in Web Crypto API runtimes. |
 | `options?` | [`PEMImportOptions`](../interfaces/key_import.PEMImportOptions.md) | - |
 
 #### Returns

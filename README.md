@@ -38,7 +38,7 @@ const jose = require('jose')
 
 **`example`** Deno import
 ```js
-import * as jose from 'https://deno.land/x/jose@v4.12.0/index.ts'
+import * as jose from 'https://deno.land/x/jose@v4.12.1/index.ts'
 ```
 
 - JSON Web Tokens (JWT)

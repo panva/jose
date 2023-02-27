@@ -6,8 +6,8 @@
 
 Generates a symmetric secret key for a given JWA algorithm identifier.
 
-Note: Under Web Cryptography API runtime the secret key is generated with `extractable` set to
-`false` by default.
+Note: Under Web Crypto API runtime the secret key is generated with `extractable` set to `false`
+by default.
 
 **`example`** Usage
 

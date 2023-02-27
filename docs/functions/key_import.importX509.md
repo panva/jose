@@ -31,7 +31,7 @@ const ecPublicKey = await jose.importX509(x509, algorithm)
 | Name | Type | Description |
 | :------ | :------ | :------ |
 | `x509` | `string` | - |
-| `alg` | `string` | JSON Web Algorithm identifier to be used with the imported key. |
+| `alg` | `string` | (Only effective in Web Crypto API runtimes) JSON Web Algorithm identifier to be used with the imported key, its presence is only enforced in Web Crypto API runtimes. |
 | `options?` | [`PEMImportOptions`](../interfaces/key_import.PEMImportOptions.md) | - |
 
 #### Returns

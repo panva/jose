@@ -14,6 +14,6 @@
 
 • `Optional` **extractable**: `boolean`
 
-(Web Cryptography API specific) The value to use as
+(Only effective in Web Crypto API runtimes) The value to use as
 [SubtleCrypto.generateKey()](https://developer.mozilla.org/en-US/docs/Web/API/SubtleCrypto/generateKey)
 `extractable` argument. Default is false.
