@@ -1,4 +1,4 @@
-import type { FlattenedJWSInput, JWSHeaderParameters } from '../types.d'
+import type { KeyLike, FlattenedJWSInput, JWSHeaderParameters } from '../types.d'
 import { importJWK } from '../key/import.js'
 import isObject from '../lib/is_object.js'
 import { JWSInvalid } from '../util/errors.js'
@@ -24,7 +24,10 @@ import { JWSInvalid } from '../util/errors.js'
  * console.log(payload)
  * ```
  */
-export async function EmbeddedJWK(protectedHeader: JWSHeaderParameters, token: FlattenedJWSInput) {
+export async function EmbeddedJWK(
+  protectedHeader: JWSHeaderParameters,
+  token: FlattenedJWSInput,
+): Promise<KeyLike> {
   const joseHeader = {
     ...protectedHeader,
     ...token.header,
