@@ -132,6 +132,10 @@ function subtleMapping(jwk: JWK): {
 }
 
 const parse: JWKImportFunction = async (jwk: JWK): Promise<CryptoKey> => {
+  if (!jwk.alg) {
+    throw new TypeError('"alg" argument is required when "jwk.alg" is not present')
+  }
+
   const { algorithm, keyUsages } = subtleMapping(jwk)
   const rest: [RsaHashedImportParams | EcKeyAlgorithm | Algorithm, boolean, KeyUsage[]] = [
     algorithm,

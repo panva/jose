@@ -8,7 +8,7 @@ import type { JWK, KeyLike } from '../types.d'
 
 export interface PEMImportOptions {
   /**
-   * (Web Cryptography API specific) The value to use as
+   * (Only effective in Web Crypto API runtimes) The value to use as
    * [SubtleCrypto.importKey()](https://developer.mozilla.org/en-US/docs/Web/API/SubtleCrypto/importKey)
    * `extractable` argument. Default is false.
    */
@@ -32,7 +32,8 @@ export interface PEMImportOptions {
  * ```
  *
  * @param pem PEM-encoded SPKI string
- * @param alg JSON Web Algorithm identifier to be used with the imported key.
+ * @param alg (Only effective in Web Crypto API runtimes) JSON Web Algorithm identifier to be used
+ *   with the imported key, its presence is only enforced in Web Crypto API runtimes.
  */
 export async function importSPKI(
   spki: string,
@@ -69,7 +70,8 @@ export async function importSPKI(
  * ```
  *
  * @param pem X.509 certificate string
- * @param alg JSON Web Algorithm identifier to be used with the imported key.
+ * @param alg (Only effective in Web Crypto API runtimes) JSON Web Algorithm identifier to be used
+ *   with the imported key, its presence is only enforced in Web Crypto API runtimes.
  */
 export async function importX509(
   x509: string,
@@ -100,7 +102,8 @@ export async function importX509(
  * ```
  *
  * @param pem PEM-encoded PKCS#8 string
- * @param alg JSON Web Algorithm identifier to be used with the imported key.
+ * @param alg (Only effective in Web Crypto API runtimes) JSON Web Algorithm identifier to be used
+ *   with the imported key, its presence is only enforced in Web Crypto API runtimes.
  */
 export async function importPKCS8(
   pkcs8: string,
@@ -145,8 +148,9 @@ export async function importPKCS8(
  * ```
  *
  * @param jwk JSON Web Key.
- * @param alg JSON Web Algorithm identifier to be used with the imported key. Default is the "alg"
- *   property on the JWK.
+ * @param alg (Only effective in Web Crypto API runtimes) JSON Web Algorithm identifier to be used
+ *   with the imported key. Default is the "alg" property on the JWK, its presence is only enforced
+ *   in Web Crypto API runtimes.
  * @param octAsKeyObject Forces a symmetric key to be imported to a KeyObject or CryptoKey. Default
  *   is true unless JWK "ext" (Extractable) is true.
  */
@@ -160,10 +164,6 @@ export async function importJWK(
   }
 
   alg ||= jwk.alg
-
-  if (typeof alg !== 'string' || !alg) {
-    throw new TypeError('"alg" argument is required when "jwk.alg" is not present')
-  }
 
   switch (jwk.kty) {
     case 'oct':

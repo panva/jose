@@ -24,7 +24,7 @@ export interface GenerateKeyPairOptions {
   modulusLength?: number
 
   /**
-   * (Web Cryptography API specific) The value to use as
+   * (Only effective in Web Crypto API runtimes) The value to use as
    * [SubtleCrypto.generateKey()](https://developer.mozilla.org/en-US/docs/Web/API/SubtleCrypto/generateKey)
    * `extractable` argument. Default is false.
    */
@@ -35,7 +35,7 @@ export interface GenerateKeyPairOptions {
  * Generates a private and a public key for a given JWA algorithm identifier. This can only generate
  * asymmetric key pairs. For symmetric secrets use the `generateSecret` function.
  *
- * Note: Under Web Cryptography API runtime the `privateKey` is generated with `extractable` set to
+ * Note: Under Web Crypto API runtime the `privateKey` is generated with `extractable` set to
  * `false` by default.
  *
  * @example Usage

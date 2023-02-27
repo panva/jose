@@ -4,7 +4,7 @@ import type { KeyLike } from '../types.d'
 
 export interface GenerateSecretOptions {
   /**
-   * (Web Cryptography API specific) The value to use as
+   * (Only effective in Web Crypto API runtimes) The value to use as
    * [SubtleCrypto.generateKey()](https://developer.mozilla.org/en-US/docs/Web/API/SubtleCrypto/generateKey)
    * `extractable` argument. Default is false.
    */
@@ -14,8 +14,8 @@ export interface GenerateSecretOptions {
 /**
  * Generates a symmetric secret key for a given JWA algorithm identifier.
  *
- * Note: Under Web Cryptography API runtime the secret key is generated with `extractable` set to
- * `false` by default.
+ * Note: Under Web Crypto API runtime the secret key is generated with `extractable` set to `false`
+ * by default.
  *
  * @example Usage
  *

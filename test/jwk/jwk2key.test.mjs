@@ -39,19 +39,6 @@ test('JWK kty must be recognized', async (t) => {
   })
 })
 
-test('alg argument must be present if jwk does not have alg', async (t) => {
-  const oct = {
-    k: 'FyCq1CKBflh3I5gikEjpYrdOXllzxB_yc02za8ERknI',
-    kty: 'oct',
-  }
-  await t.throwsAsync(importJWK(oct), {
-    instanceOf: TypeError,
-    message: '"alg" argument is required when "jwk.alg" is not present',
-  })
-  await t.notThrowsAsync(importJWK(oct, 'HS256'))
-  await t.notThrowsAsync(importJWK({ ...oct, alg: 'HS256' }))
-})
-
 test('oct JWK must have "k"', async (t) => {
   await t.throwsAsync(importJWK({ kty: 'oct' }, 'HS256'), {
     instanceOf: TypeError,

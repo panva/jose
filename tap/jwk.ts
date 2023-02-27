@@ -88,4 +88,28 @@ export default (QUnit: QUnit, lib: typeof jose) => {
       })
     }
   }
+
+  if (env.isNodeCrypto || env.isElectron) {
+    test('alg argument and jwk.alg is ignored', async (t) => {
+      const oct = {
+        k: 'FyCq1CKBflh3I5gikEjpYrdOXllzxB_yc02za8ERknI',
+        kty: 'oct',
+      }
+      await lib.importJWK(oct)
+      t.ok(1)
+    })
+  } else {
+    test('alg argument must be present if jwk does not have alg', async (t) => {
+      const oct = {
+        k: 'FyCq1CKBflh3I5gikEjpYrdOXllzxB_yc02za8ERknI',
+        kty: 'oct',
+      }
+      await t.rejects(
+        lib.importJWK(oct),
+        '"alg" argument is required when "jwk.alg" is not present',
+      )
+      await lib.importJWK(oct, 'HS256')
+      await lib.importJWK({ ...oct, alg: 'HS256' })
+    })
+  }
 }
