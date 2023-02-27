@@ -60,11 +60,11 @@ export function generalVerify(
  * @param getKey Function resolving a key to verify the JWS with.
  * @param options JWS Verify options.
  */
-export function generalVerify(
+export function generalVerify<T extends KeyLike = KeyLike>(
   jws: GeneralJWSInput,
   getKey: GeneralVerifyGetKey,
   options?: VerifyOptions,
-): Promise<GeneralVerifyResult & ResolvedKey>
+): Promise<GeneralVerifyResult & ResolvedKey<T>>
 export async function generalVerify(
   jws: GeneralJWSInput,
   key: KeyLike | Uint8Array | GeneralVerifyGetKey,

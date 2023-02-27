@@ -64,11 +64,11 @@ export function flattenedVerify(
  * @param getKey Function resolving a key to verify the JWS with.
  * @param options JWS Verify options.
  */
-export function flattenedVerify(
+export function flattenedVerify<T extends KeyLike = KeyLike>(
   jws: FlattenedJWSInput,
   getKey: FlattenedVerifyGetKey,
   options?: VerifyOptions,
-): Promise<FlattenedVerifyResult & ResolvedKey>
+): Promise<FlattenedVerifyResult & ResolvedKey<T>>
 export async function flattenedVerify(
   jws: FlattenedJWSInput,
   key: KeyLike | Uint8Array | FlattenedVerifyGetKey,

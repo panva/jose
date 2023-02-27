@@ -51,11 +51,11 @@ export function compactVerify(
  * @param getKey Function resolving a key to verify the JWS with.
  * @param options JWS Verify options.
  */
-export function compactVerify(
+export function compactVerify<T extends KeyLike = KeyLike>(
   jws: string | Uint8Array,
   getKey: CompactVerifyGetKey,
   options?: VerifyOptions,
-): Promise<CompactVerifyResult & ResolvedKey>
+): Promise<CompactVerifyResult & ResolvedKey<T>>
 export async function compactVerify(
   jws: string | Uint8Array,
   key: KeyLike | Uint8Array | CompactVerifyGetKey,

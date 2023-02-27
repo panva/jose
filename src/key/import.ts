@@ -35,14 +35,15 @@ export interface PEMImportOptions {
  * @param alg (Only effective in Web Crypto API runtimes) JSON Web Algorithm identifier to be used
  *   with the imported key, its presence is only enforced in Web Crypto API runtimes.
  */
-export async function importSPKI(
+export async function importSPKI<T extends KeyLike = KeyLike>(
   spki: string,
   alg: string,
   options?: PEMImportOptions,
-): Promise<KeyLike> {
+): Promise<T> {
   if (typeof spki !== 'string' || spki.indexOf('-----BEGIN PUBLIC KEY-----') !== 0) {
     throw new TypeError('"spki" must be SPKI formatted string')
   }
+  // @ts-ignore
   return fromSPKI(spki, alg, options)
 }
 
@@ -73,14 +74,15 @@ export async function importSPKI(
  * @param alg (Only effective in Web Crypto API runtimes) JSON Web Algorithm identifier to be used
  *   with the imported key, its presence is only enforced in Web Crypto API runtimes.
  */
-export async function importX509(
+export async function importX509<T extends KeyLike = KeyLike>(
   x509: string,
   alg: string,
   options?: PEMImportOptions,
-): Promise<KeyLike> {
+): Promise<T> {
   if (typeof x509 !== 'string' || x509.indexOf('-----BEGIN CERTIFICATE-----') !== 0) {
     throw new TypeError('"x509" must be X.509 formatted string')
   }
+  // @ts-ignore
   return fromX509(x509, alg, options)
 }
 
@@ -105,14 +107,15 @@ export async function importX509(
  * @param alg (Only effective in Web Crypto API runtimes) JSON Web Algorithm identifier to be used
  *   with the imported key, its presence is only enforced in Web Crypto API runtimes.
  */
-export async function importPKCS8(
+export async function importPKCS8<T extends KeyLike = KeyLike>(
   pkcs8: string,
   alg: string,
   options?: PEMImportOptions,
-): Promise<KeyLike> {
+): Promise<T> {
   if (typeof pkcs8 !== 'string' || pkcs8.indexOf('-----BEGIN PRIVATE KEY-----') !== 0) {
     throw new TypeError('"pkcs8" must be PKCS#8 formatted string')
   }
+  // @ts-ignore
   return fromPKCS8(pkcs8, alg, options)
 }
 
@@ -154,11 +157,11 @@ export async function importPKCS8(
  * @param octAsKeyObject Forces a symmetric key to be imported to a KeyObject or CryptoKey. Default
  *   is true unless JWK "ext" (Extractable) is true.
  */
-export async function importJWK(
+export async function importJWK<T extends KeyLike = KeyLike>(
   jwk: JWK,
   alg?: string,
   octAsKeyObject?: boolean,
-): Promise<KeyLike | Uint8Array> {
+): Promise<T | Uint8Array> {
   if (!isObject(jwk)) {
     throw new TypeError('JWK must be an object')
   }
@@ -174,6 +177,7 @@ export async function importJWK(
       octAsKeyObject ??= jwk.ext !== true
 
       if (octAsKeyObject) {
+        // @ts-ignore
         return asKeyObject({ ...jwk, alg, ext: jwk.ext ?? false })
       }
 
@@ -186,6 +190,7 @@ export async function importJWK(
       }
     case 'EC':
     case 'OKP':
+      // @ts-ignore
       return asKeyObject({ ...jwk, alg })
     default:
       throw new JOSENotSupported('Unsupported "kty" (Key Type) Parameter value')

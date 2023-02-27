@@ -56,11 +56,11 @@ export async function jwtDecrypt(
  * @param getKey Function resolving Private Key or Secret to decrypt and verify the JWT with.
  * @param options JWT Decryption and JWT Claims Set validation options.
  */
-export async function jwtDecrypt(
+export async function jwtDecrypt<T extends KeyLike = KeyLike>(
   jwt: string | Uint8Array,
   getKey: JWTDecryptGetKey,
   options?: JWTDecryptOptions,
-): Promise<JWTDecryptResult & ResolvedKey>
+): Promise<JWTDecryptResult & ResolvedKey<T>>
 export async function jwtDecrypt(
   jwt: string | Uint8Array,
   key: KeyLike | Uint8Array | JWTDecryptGetKey,

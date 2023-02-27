@@ -61,11 +61,11 @@ export function generalDecrypt(
  * @param getKey Function resolving Private Key or Secret to decrypt the JWE with.
  * @param options JWE Decryption options.
  */
-export function generalDecrypt(
+export function generalDecrypt<T extends KeyLike = KeyLike>(
   jwe: GeneralJWE,
   getKey: GeneralDecryptGetKey,
   options?: DecryptOptions,
-): Promise<GeneralDecryptResult & ResolvedKey>
+): Promise<GeneralDecryptResult & ResolvedKey<T>>
 export async function generalDecrypt(
   jwe: GeneralJWE,
   key: KeyLike | Uint8Array | GeneralDecryptGetKey,

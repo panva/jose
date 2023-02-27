@@ -601,9 +601,9 @@ export interface JWTDecryptResult {
   protectedHeader: CompactJWEHeaderParameters
 }
 
-export interface ResolvedKey {
+export interface ResolvedKey<T extends KeyLike = KeyLike> {
   /** Key resolved from the key resolver function. */
-  key: KeyLike | Uint8Array
+  key: T | Uint8Array
 }
 
 /** Recognized Compact JWS Header Parameters, any other Header Members may also be present. */

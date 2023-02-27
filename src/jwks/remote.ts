@@ -40,7 +40,7 @@ export interface RemoteJWKSetOptions {
   headers?: Record<string, string>
 }
 
-class RemoteJWKSet extends LocalJWKSet {
+class RemoteJWKSet<T extends KeyLike = KeyLike> extends LocalJWKSet<T> {
   private _url: URL
 
   private _timeoutDuration: number
@@ -84,7 +84,7 @@ class RemoteJWKSet extends LocalJWKSet {
       : false
   }
 
-  async getKey(protectedHeader?: JWSHeaderParameters, token?: FlattenedJWSInput): Promise<KeyLike> {
+  async getKey(protectedHeader?: JWSHeaderParameters, token?: FlattenedJWSInput): Promise<T> {
     if (!this._jwks || !this.fresh()) {
       await this.reload()
     }
@@ -199,6 +199,15 @@ class RemoteJWKSet extends LocalJWKSet {
  * @param url URL to fetch the JSON Web Key Set from.
  * @param options Options for the remote JSON Web Key Set.
  */
-export function createRemoteJWKSet(url: URL, options?: RemoteJWKSetOptions) {
-  return RemoteJWKSet.prototype.getKey.bind(new RemoteJWKSet(url, options))
+export function createRemoteJWKSet<T extends KeyLike = KeyLike>(
+  url: URL,
+  options?: RemoteJWKSetOptions,
+) {
+  const set = new RemoteJWKSet<T>(url, options)
+  return async function (
+    protectedHeader?: JWSHeaderParameters,
+    token?: FlattenedJWSInput,
+  ): Promise<T> {
+    return set.getKey(protectedHeader, token)
+  }
 }

@@ -66,11 +66,11 @@ export function flattenedDecrypt(
  * @param getKey Function resolving Private Key or Secret to decrypt the JWE with.
  * @param options JWE Decryption options.
  */
-export function flattenedDecrypt(
+export function flattenedDecrypt<T extends KeyLike = KeyLike>(
   jwe: FlattenedJWE,
   getKey: FlattenedDecryptGetKey,
   options?: DecryptOptions,
-): Promise<FlattenedDecryptResult & ResolvedKey>
+): Promise<FlattenedDecryptResult & ResolvedKey<T>>
 export async function flattenedDecrypt(
   jwe: FlattenedJWE,
   key: KeyLike | Uint8Array | FlattenedDecryptGetKey,

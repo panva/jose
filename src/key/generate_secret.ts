@@ -27,9 +27,10 @@ export interface GenerateSecretOptions {
  * @param alg JWA Algorithm Identifier to be used with the generated secret.
  * @param options Additional options passed down to the secret generation.
  */
-export async function generateSecret(
+export async function generateSecret<T extends KeyLike = KeyLike>(
   alg: string,
   options?: GenerateSecretOptions,
-): Promise<KeyLike | Uint8Array> {
+): Promise<T | Uint8Array> {
+  // @ts-ignore
   return generate(alg, options)
 }

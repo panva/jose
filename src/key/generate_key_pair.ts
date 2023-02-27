@@ -2,12 +2,12 @@ import { generateKeyPair as generate } from '../runtime/generate.js'
 
 import type { KeyLike } from '../types.d'
 
-export interface GenerateKeyPairResult {
+export interface GenerateKeyPairResult<T extends KeyLike = KeyLike> {
   /** The generated Private Key. */
-  privateKey: KeyLike
+  privateKey: T
 
   /** Public Key corresponding to the generated Private Key. */
-  publicKey: KeyLike
+  publicKey: T
 }
 
 export interface GenerateKeyPairOptions {
@@ -49,9 +49,10 @@ export interface GenerateKeyPairOptions {
  * @param alg JWA Algorithm Identifier to be used with the generated key pair.
  * @param options Additional options passed down to the key pair generation.
  */
-export async function generateKeyPair(
+export async function generateKeyPair<T extends KeyLike = KeyLike>(
   alg: string,
   options?: GenerateKeyPairOptions,
-): Promise<GenerateKeyPairResult> {
+): Promise<GenerateKeyPairResult<T>> {
+  // @ts-ignore
   return generate(alg, options)
 }

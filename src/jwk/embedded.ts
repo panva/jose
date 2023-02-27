@@ -24,10 +24,10 @@ import { JWSInvalid } from '../util/errors.js'
  * console.log(payload)
  * ```
  */
-export async function EmbeddedJWK(
-): Promise<KeyLike> {
+export async function EmbeddedJWK<T extends KeyLike = KeyLike>(
   protectedHeader?: JWSHeaderParameters,
   token?: FlattenedJWSInput,
+): Promise<T> {
   const joseHeader = {
     ...protectedHeader,
     ...token?.header,
@@ -36,7 +36,7 @@ export async function EmbeddedJWK(
     throw new JWSInvalid('"jwk" (JSON Web Key) Header Parameter must be a JSON object')
   }
 
-  const key = await importJWK({ ...joseHeader.jwk, ext: true }, joseHeader.alg!, true)
+  const key = await importJWK<T>({ ...joseHeader.jwk, ext: true }, joseHeader.alg!, true)
 
   if (key instanceof Uint8Array || key.type !== 'public') {
     throw new JWSInvalid('"jwk" (JSON Web Key) Header Parameter must be a public key')

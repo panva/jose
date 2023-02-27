@@ -47,11 +47,11 @@ export async function compactDecrypt(
  * @param getKey Function resolving Private Key or Secret to decrypt the JWE with.
  * @param options JWE Decryption options.
  */
-export async function compactDecrypt(
+export async function compactDecrypt<T extends KeyLike = KeyLike>(
   jwe: string | Uint8Array,
   getKey: CompactDecryptGetKey,
   options?: DecryptOptions,
-): Promise<CompactDecryptResult & ResolvedKey>
+): Promise<CompactDecryptResult & ResolvedKey<T>>
 export async function compactDecrypt(
   jwe: string | Uint8Array,
   key: KeyLike | Uint8Array | CompactDecryptGetKey,

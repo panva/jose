@@ -123,11 +123,11 @@ export async function jwtVerify(
  * @param getKey Function resolving a key to verify the JWT with.
  * @param options JWT Decryption and JWT Claims Set validation options.
  */
-export async function jwtVerify(
+export async function jwtVerify<T extends KeyLike = KeyLike>(
   jwt: string | Uint8Array,
   getKey: JWTVerifyGetKey,
   options?: JWTVerifyOptions,
-): Promise<JWTVerifyResult & ResolvedKey>
+): Promise<JWTVerifyResult & ResolvedKey<T>>
 
 export async function jwtVerify(
   jwt: string | Uint8Array,
