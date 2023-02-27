@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [4.12.2](https://github.com/panva/jose/compare/v4.12.1...v4.12.2) (2023-02-27)
+
+
+### Fixes
+
+* **types:** declare explicit return from EmbeddedJWK ([46934ac](https://github.com/panva/jose/commit/46934ac474ba0119976c5ac15cce4ea7bf50de8c))
+
 ## [4.12.1](https://github.com/panva/jose/compare/v4.12.0...v4.12.1) (2023-02-27)
 
 
