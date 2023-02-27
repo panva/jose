@@ -2,7 +2,7 @@
 
 [💗 Help the project](https://github.com/sponsors/panva)
 
-▸ **EmbeddedJWK**(`protectedHeader`, `token`): `Promise`<[`KeyLike`](../types/types.KeyLike.md)\>
+▸ **EmbeddedJWK**<`T`\>(`protectedHeader?`, `token?`): `Promise`<`T`\>
 
 EmbeddedJWK is an implementation of a GetKeyFunction intended to be used with the JWS/JWT verify
 operations whenever you need to opt-in to verify signatures with a public key embedded in the
@@ -24,13 +24,19 @@ console.log(protectedHeader)
 console.log(payload)
 ```
 
+#### Type parameters
+
+| Name | Type |
+| :------ | :------ |
+| `T` | extends [`KeyLike`](../types/types.KeyLike.md) = [`KeyLike`](../types/types.KeyLike.md) |
+
 #### Parameters
 
 | Name | Type |
 | :------ | :------ |
-| `protectedHeader` | [`JWSHeaderParameters`](../interfaces/types.JWSHeaderParameters.md) |
-| `token` | [`FlattenedJWSInput`](../interfaces/types.FlattenedJWSInput.md) |
+| `protectedHeader?` | [`JWSHeaderParameters`](../interfaces/types.JWSHeaderParameters.md) |
+| `token?` | [`FlattenedJWSInput`](../interfaces/types.FlattenedJWSInput.md) |
 
 #### Returns
 
-`Promise`<[`KeyLike`](../types/types.KeyLike.md)\>
+`Promise`<`T`\>

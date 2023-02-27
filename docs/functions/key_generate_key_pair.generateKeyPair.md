@@ -2,7 +2,7 @@
 
 [💗 Help the project](https://github.com/sponsors/panva)
 
-▸ **generateKeyPair**(`alg`, `options?`): `Promise`<[`GenerateKeyPairResult`](../interfaces/key_generate_key_pair.GenerateKeyPairResult.md)\>
+▸ **generateKeyPair**<`T`\>(`alg`, `options?`): `Promise`<[`GenerateKeyPairResult`](../interfaces/key_generate_key_pair.GenerateKeyPairResult.md)<`T`\>\>
 
 Generates a private and a public key for a given JWA algorithm identifier. This can only generate
 asymmetric key pairs. For symmetric secrets use the `generateSecret` function.
@@ -18,6 +18,12 @@ console.log(publicKey)
 console.log(privateKey)
 ```
 
+#### Type parameters
+
+| Name | Type |
+| :------ | :------ |
+| `T` | extends [`KeyLike`](../types/types.KeyLike.md) = [`KeyLike`](../types/types.KeyLike.md) |
+
 #### Parameters
 
 | Name | Type | Description |
@@ -27,4 +33,4 @@ console.log(privateKey)
 
 #### Returns
 
-`Promise`<[`GenerateKeyPairResult`](../interfaces/key_generate_key_pair.GenerateKeyPairResult.md)\>
+`Promise`<[`GenerateKeyPairResult`](../interfaces/key_generate_key_pair.GenerateKeyPairResult.md)<`T`\>\>

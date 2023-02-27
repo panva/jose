@@ -2,7 +2,7 @@
 
 [💗 Help the project](https://github.com/sponsors/panva)
 
-▸ **importJWK**(`jwk`, `alg?`, `octAsKeyObject?`): `Promise`<[`KeyLike`](../types/types.KeyLike.md) \| `Uint8Array`\>
+▸ **importJWK**<`T`\>(`jwk`, `alg?`, `octAsKeyObject?`): `Promise`<`T` \| `Uint8Array`\>
 
 Imports a JWK to a runtime-specific key representation (KeyLike). Either JWK "alg" (Algorithm)
 Parameter must be present or the optional "alg" argument. When running on a runtime using [Web
@@ -34,6 +34,12 @@ const rsaPublicKey = await jose.importJWK(
 )
 ```
 
+#### Type parameters
+
+| Name | Type |
+| :------ | :------ |
+| `T` | extends [`KeyLike`](../types/types.KeyLike.md) = [`KeyLike`](../types/types.KeyLike.md) |
+
 #### Parameters
 
 | Name | Type | Description |
@@ -44,4 +50,4 @@ const rsaPublicKey = await jose.importJWK(
 
 #### Returns
 
-`Promise`<[`KeyLike`](../types/types.KeyLike.md) \| `Uint8Array`\>
+`Promise`<`T` \| `Uint8Array`\>

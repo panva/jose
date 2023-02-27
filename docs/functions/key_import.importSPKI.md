@@ -2,7 +2,7 @@
 
 [💗 Help the project](https://github.com/sponsors/panva)
 
-▸ **importSPKI**(`spki`, `alg`, `options?`): `Promise`<[`KeyLike`](../types/types.KeyLike.md)\>
+▸ **importSPKI**<`T`\>(`spki`, `alg`, `options?`): `Promise`<`T`\>
 
 Imports a PEM-encoded SPKI string as a runtime-specific public key representation (KeyObject or
 CryptoKey). See [Algorithm Key Requirements](https://github.com/panva/jose/issues/210) to learn
@@ -19,6 +19,12 @@ YJepMC+Q+Dd6RBmBiA41evUsNMwLeN+PNFqib+xwi9JkJ8qhZkq8Y/IzGg==
 const ecPublicKey = await jose.importSPKI(spki, algorithm)
 ```
 
+#### Type parameters
+
+| Name | Type |
+| :------ | :------ |
+| `T` | extends [`KeyLike`](../types/types.KeyLike.md) = [`KeyLike`](../types/types.KeyLike.md) |
+
 #### Parameters
 
 | Name | Type | Description |
@@ -29,4 +35,4 @@ const ecPublicKey = await jose.importSPKI(spki, algorithm)
 
 #### Returns
 
-`Promise`<[`KeyLike`](../types/types.KeyLike.md)\>
+`Promise`<`T`\>

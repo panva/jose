@@ -40,7 +40,13 @@ console.log(decoder.decode(additionalAuthenticatedData))
 
 `Promise`<[`FlattenedDecryptResult`](../interfaces/types.FlattenedDecryptResult.md)\>
 
-▸ **flattenedDecrypt**(`jwe`, `getKey`, `options?`): `Promise`<[`FlattenedDecryptResult`](../interfaces/types.FlattenedDecryptResult.md) & [`ResolvedKey`](../interfaces/types.ResolvedKey.md)\>
+▸ **flattenedDecrypt**<`T`\>(`jwe`, `getKey`, `options?`): `Promise`<[`FlattenedDecryptResult`](../interfaces/types.FlattenedDecryptResult.md) & [`ResolvedKey`](../interfaces/types.ResolvedKey.md)<`T`\>\>
+
+#### Type parameters
+
+| Name | Type |
+| :------ | :------ |
+| `T` | extends [`KeyLike`](../types/types.KeyLike.md) = [`KeyLike`](../types/types.KeyLike.md) |
 
 #### Parameters
 
@@ -52,4 +58,4 @@ console.log(decoder.decode(additionalAuthenticatedData))
 
 #### Returns
 
-`Promise`<[`FlattenedDecryptResult`](../interfaces/types.FlattenedDecryptResult.md) & [`ResolvedKey`](../interfaces/types.ResolvedKey.md)\>
+`Promise`<[`FlattenedDecryptResult`](../interfaces/types.FlattenedDecryptResult.md) & [`ResolvedKey`](../interfaces/types.ResolvedKey.md)<`T`\>\>

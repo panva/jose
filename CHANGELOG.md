@@ -2,6 +2,18 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [4.13.0](https://github.com/panva/jose/compare/v4.12.2...v4.13.0) (2023-02-27)
+
+
+### Features
+
+* **types:** allow generics to aid in CryptoKey or KeyObject narrowing of KeyLike ([6effa4d](https://github.com/panva/jose/commit/6effa4d35cfa984a5859d228f750e96af0c0a5e5))
+
+
+### Fixes
+
+* make jose.EmbeddedJWK arguments optional ([20610a9](https://github.com/panva/jose/commit/20610a930d337c25756de107d93b84ccc52707a3))
+
 ## [4.12.2](https://github.com/panva/jose/compare/v4.12.1...v4.12.2) (2023-02-27)
 
 

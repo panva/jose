@@ -1,6 +1,12 @@
-# Interface: ResolvedKey
+# Interface: ResolvedKey<T\>
 
 [💗 Help the project](https://github.com/sponsors/panva)
+
+## Type parameters
+
+| Name | Type |
+| :------ | :------ |
+| `T` | extends [`KeyLike`](../types/types.KeyLike.md) = [`KeyLike`](../types/types.KeyLike.md) |
 
 ## Table of contents
 
@@ -12,6 +18,6 @@
 
 ### key
 
-• **key**: `Uint8Array` \| [`KeyLike`](../types/types.KeyLike.md)
+• **key**: `Uint8Array` \| `T`
 
 Key resolved from the key resolver function.

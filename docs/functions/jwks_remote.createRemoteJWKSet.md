@@ -2,7 +2,7 @@
 
 [💗 Help the project](https://github.com/sponsors/panva)
 
-▸ **createRemoteJWKSet**(`url`, `options?`): (`protectedHeader?`: [`JWSHeaderParameters`](../interfaces/types.JWSHeaderParameters.md), `token?`: [`FlattenedJWSInput`](../interfaces/types.FlattenedJWSInput.md)) => `Promise`<[`KeyLike`](../types/types.KeyLike.md)\>
+▸ **createRemoteJWKSet**<`T`\>(`url`, `options?`): (`protectedHeader?`: [`JWSHeaderParameters`](../interfaces/types.JWSHeaderParameters.md), `token?`: [`FlattenedJWSInput`](../interfaces/types.FlattenedJWSInput.md)) => `Promise`<`T`\>
 
 Returns a function that resolves to a key object downloaded from a remote endpoint returning a
 JSON Web Key Set, that is, for example, an OAuth 2.0 or OIDC jwks_uri. The JSON Web Key Set is
@@ -61,6 +61,12 @@ console.log(protectedHeader)
 console.log(payload)
 ```
 
+#### Type parameters
+
+| Name | Type |
+| :------ | :------ |
+| `T` | extends [`KeyLike`](../types/types.KeyLike.md) = [`KeyLike`](../types/types.KeyLike.md) |
+
 #### Parameters
 
 | Name | Type | Description |
@@ -72,7 +78,7 @@ console.log(payload)
 
 `fn`
 
-▸ (`protectedHeader?`, `token?`): `Promise`<[`KeyLike`](../types/types.KeyLike.md)\>
+▸ (`protectedHeader?`, `token?`): `Promise`<`T`\>
 
 ##### Parameters
 
@@ -83,4 +89,4 @@ console.log(payload)
 
 ##### Returns
 
-`Promise`<[`KeyLike`](../types/types.KeyLike.md)\>
+`Promise`<`T`\>

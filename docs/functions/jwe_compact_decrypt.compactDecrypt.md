@@ -30,7 +30,13 @@ console.log(new TextDecoder().decode(plaintext))
 
 `Promise`<[`CompactDecryptResult`](../interfaces/types.CompactDecryptResult.md)\>
 
-▸ **compactDecrypt**(`jwe`, `getKey`, `options?`): `Promise`<[`CompactDecryptResult`](../interfaces/types.CompactDecryptResult.md) & [`ResolvedKey`](../interfaces/types.ResolvedKey.md)\>
+▸ **compactDecrypt**<`T`\>(`jwe`, `getKey`, `options?`): `Promise`<[`CompactDecryptResult`](../interfaces/types.CompactDecryptResult.md) & [`ResolvedKey`](../interfaces/types.ResolvedKey.md)<`T`\>\>
+
+#### Type parameters
+
+| Name | Type |
+| :------ | :------ |
+| `T` | extends [`KeyLike`](../types/types.KeyLike.md) = [`KeyLike`](../types/types.KeyLike.md) |
 
 #### Parameters
 
@@ -42,4 +48,4 @@ console.log(new TextDecoder().decode(plaintext))
 
 #### Returns
 
-`Promise`<[`CompactDecryptResult`](../interfaces/types.CompactDecryptResult.md) & [`ResolvedKey`](../interfaces/types.ResolvedKey.md)\>
+`Promise`<[`CompactDecryptResult`](../interfaces/types.CompactDecryptResult.md) & [`ResolvedKey`](../interfaces/types.ResolvedKey.md)<`T`\>\>

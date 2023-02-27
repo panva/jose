@@ -2,7 +2,7 @@
 
 [💗 Help the project](https://github.com/sponsors/panva)
 
-▸ **importPKCS8**(`pkcs8`, `alg`, `options?`): `Promise`<[`KeyLike`](../types/types.KeyLike.md)\>
+▸ **importPKCS8**<`T`\>(`pkcs8`, `alg`, `options?`): `Promise`<`T`\>
 
 Imports a PEM-encoded PKCS#8 string as a runtime-specific private key representation (KeyObject
 or CryptoKey). See [Algorithm Key Requirements](https://github.com/panva/jose/issues/210) to
@@ -20,6 +20,12 @@ l6kwL5D4N3pEGYGIDjV69Sw0zAt43480WqJv7HCL0mQnyqFmSrxj8jMa
 const ecPrivateKey = await jose.importPKCS8(pkcs8, algorithm)
 ```
 
+#### Type parameters
+
+| Name | Type |
+| :------ | :------ |
+| `T` | extends [`KeyLike`](../types/types.KeyLike.md) = [`KeyLike`](../types/types.KeyLike.md) |
+
 #### Parameters
 
 | Name | Type | Description |
@@ -30,4 +36,4 @@ const ecPrivateKey = await jose.importPKCS8(pkcs8, algorithm)
 
 #### Returns
 
-`Promise`<[`KeyLike`](../types/types.KeyLike.md)\>
+`Promise`<`T`\>

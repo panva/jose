@@ -2,7 +2,7 @@
 
 [💗 Help the project](https://github.com/sponsors/panva)
 
-▸ **generateSecret**(`alg`, `options?`): `Promise`<[`KeyLike`](../types/types.KeyLike.md) \| `Uint8Array`\>
+▸ **generateSecret**<`T`\>(`alg`, `options?`): `Promise`<`T` \| `Uint8Array`\>
 
 Generates a symmetric secret key for a given JWA algorithm identifier.
 
@@ -16,6 +16,12 @@ const secret = await jose.generateSecret('HS256')
 console.log(secret)
 ```
 
+#### Type parameters
+
+| Name | Type |
+| :------ | :------ |
+| `T` | extends [`KeyLike`](../types/types.KeyLike.md) = [`KeyLike`](../types/types.KeyLike.md) |
+
 #### Parameters
 
 | Name | Type | Description |
@@ -25,4 +31,4 @@ console.log(secret)
 
 #### Returns
 
-`Promise`<[`KeyLike`](../types/types.KeyLike.md) \| `Uint8Array`\>
+`Promise`<`T` \| `Uint8Array`\>

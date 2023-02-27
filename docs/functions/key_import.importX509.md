@@ -2,7 +2,7 @@
 
 [💗 Help the project](https://github.com/sponsors/panva)
 
-▸ **importX509**(`x509`, `alg`, `options?`): `Promise`<[`KeyLike`](../types/types.KeyLike.md)\>
+▸ **importX509**<`T`\>(`x509`, `alg`, `options?`): `Promise`<`T`\>
 
 Imports the SPKI from an X.509 string certificate as a runtime-specific public key representation
 (KeyObject or CryptoKey). See [Algorithm Key
@@ -26,6 +26,12 @@ v+A1QWZMuTWqYt+uh/YSRNDn
 const ecPublicKey = await jose.importX509(x509, algorithm)
 ```
 
+#### Type parameters
+
+| Name | Type |
+| :------ | :------ |
+| `T` | extends [`KeyLike`](../types/types.KeyLike.md) = [`KeyLike`](../types/types.KeyLike.md) |
+
 #### Parameters
 
 | Name | Type | Description |
@@ -36,4 +42,4 @@ const ecPublicKey = await jose.importX509(x509, algorithm)
 
 #### Returns
 
-`Promise`<[`KeyLike`](../types/types.KeyLike.md)\>
+`Promise`<`T`\>

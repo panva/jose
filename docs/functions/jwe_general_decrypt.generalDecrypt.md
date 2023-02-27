@@ -44,7 +44,13 @@ console.log(decoder.decode(additionalAuthenticatedData))
 
 `Promise`<[`GeneralDecryptResult`](../interfaces/types.GeneralDecryptResult.md)\>
 
-▸ **generalDecrypt**(`jwe`, `getKey`, `options?`): `Promise`<[`GeneralDecryptResult`](../interfaces/types.GeneralDecryptResult.md) & [`ResolvedKey`](../interfaces/types.ResolvedKey.md)\>
+▸ **generalDecrypt**<`T`\>(`jwe`, `getKey`, `options?`): `Promise`<[`GeneralDecryptResult`](../interfaces/types.GeneralDecryptResult.md) & [`ResolvedKey`](../interfaces/types.ResolvedKey.md)<`T`\>\>
+
+#### Type parameters
+
+| Name | Type |
+| :------ | :------ |
+| `T` | extends [`KeyLike`](../types/types.KeyLike.md) = [`KeyLike`](../types/types.KeyLike.md) |
 
 #### Parameters
 
@@ -56,4 +62,4 @@ console.log(decoder.decode(additionalAuthenticatedData))
 
 #### Returns
 
-`Promise`<[`GeneralDecryptResult`](../interfaces/types.GeneralDecryptResult.md) & [`ResolvedKey`](../interfaces/types.ResolvedKey.md)\>
+`Promise`<[`GeneralDecryptResult`](../interfaces/types.GeneralDecryptResult.md) & [`ResolvedKey`](../interfaces/types.ResolvedKey.md)<`T`\>\>

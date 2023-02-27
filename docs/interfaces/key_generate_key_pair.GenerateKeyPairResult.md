@@ -1,6 +1,12 @@
-# Interface: GenerateKeyPairResult
+# Interface: GenerateKeyPairResult<T\>
 
 [💗 Help the project](https://github.com/sponsors/panva)
+
+## Type parameters
+
+| Name | Type |
+| :------ | :------ |
+| `T` | extends [`KeyLike`](../types/types.KeyLike.md) = [`KeyLike`](../types/types.KeyLike.md) |
 
 ## Table of contents
 
@@ -13,7 +19,7 @@
 
 ### privateKey
 
-• **privateKey**: [`KeyLike`](../types/types.KeyLike.md)
+• **privateKey**: `T`
 
 The generated Private Key.
 
@@ -21,6 +27,6 @@ ___
 
 ### publicKey
 
-• **publicKey**: [`KeyLike`](../types/types.KeyLike.md)
+• **publicKey**: `T`
 
 Public Key corresponding to the generated Private Key.

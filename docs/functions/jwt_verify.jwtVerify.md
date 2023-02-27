@@ -85,7 +85,7 @@ console.log(payload)
 
 `Promise`<[`JWTVerifyResult`](../interfaces/types.JWTVerifyResult.md)\>
 
-▸ **jwtVerify**(`jwt`, `getKey`, `options?`): `Promise`<[`JWTVerifyResult`](../interfaces/types.JWTVerifyResult.md) & [`ResolvedKey`](../interfaces/types.ResolvedKey.md)\>
+▸ **jwtVerify**<`T`\>(`jwt`, `getKey`, `options?`): `Promise`<[`JWTVerifyResult`](../interfaces/types.JWTVerifyResult.md) & [`ResolvedKey`](../interfaces/types.ResolvedKey.md)<`T`\>\>
 
 **`example`** Usage with a public JSON Web Key Set hosted on a remote URL
 
@@ -100,6 +100,12 @@ console.log(protectedHeader)
 console.log(payload)
 ```
 
+#### Type parameters
+
+| Name | Type |
+| :------ | :------ |
+| `T` | extends [`KeyLike`](../types/types.KeyLike.md) = [`KeyLike`](../types/types.KeyLike.md) |
+
 #### Parameters
 
 | Name | Type | Description |
@@ -110,4 +116,4 @@ console.log(payload)
 
 #### Returns
 
-`Promise`<[`JWTVerifyResult`](../interfaces/types.JWTVerifyResult.md) & [`ResolvedKey`](../interfaces/types.ResolvedKey.md)\>
+`Promise`<[`JWTVerifyResult`](../interfaces/types.JWTVerifyResult.md) & [`ResolvedKey`](../interfaces/types.ResolvedKey.md)<`T`\>\>

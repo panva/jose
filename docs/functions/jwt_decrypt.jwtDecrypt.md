@@ -35,7 +35,13 @@ console.log(payload)
 
 `Promise`<[`JWTDecryptResult`](../interfaces/types.JWTDecryptResult.md)\>
 
-▸ **jwtDecrypt**(`jwt`, `getKey`, `options?`): `Promise`<[`JWTDecryptResult`](../interfaces/types.JWTDecryptResult.md) & [`ResolvedKey`](../interfaces/types.ResolvedKey.md)\>
+▸ **jwtDecrypt**<`T`\>(`jwt`, `getKey`, `options?`): `Promise`<[`JWTDecryptResult`](../interfaces/types.JWTDecryptResult.md) & [`ResolvedKey`](../interfaces/types.ResolvedKey.md)<`T`\>\>
+
+#### Type parameters
+
+| Name | Type |
+| :------ | :------ |
+| `T` | extends [`KeyLike`](../types/types.KeyLike.md) = [`KeyLike`](../types/types.KeyLike.md) |
 
 #### Parameters
 
@@ -47,4 +53,4 @@ console.log(payload)
 
 #### Returns
 
-`Promise`<[`JWTDecryptResult`](../interfaces/types.JWTDecryptResult.md) & [`ResolvedKey`](../interfaces/types.ResolvedKey.md)\>
+`Promise`<[`JWTDecryptResult`](../interfaces/types.JWTDecryptResult.md) & [`ResolvedKey`](../interfaces/types.ResolvedKey.md)<`T`\>\>

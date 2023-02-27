@@ -2,7 +2,7 @@
 
 [💗 Help the project](https://github.com/sponsors/panva)
 
-▸ **createLocalJWKSet**(`jwks`): (`protectedHeader?`: [`JWSHeaderParameters`](../interfaces/types.JWSHeaderParameters.md), `token?`: [`FlattenedJWSInput`](../interfaces/types.FlattenedJWSInput.md)) => `Promise`<[`KeyLike`](../types/types.KeyLike.md)\>
+▸ **createLocalJWKSet**<`T`\>(`jwks`): (`protectedHeader?`: [`JWSHeaderParameters`](../interfaces/types.JWSHeaderParameters.md), `token?`: [`FlattenedJWSInput`](../interfaces/types.FlattenedJWSInput.md)) => `Promise`<`T`\>
 
 Returns a function that resolves to a key object from a locally stored, or otherwise available,
 JSON Web Key Set.
@@ -75,6 +75,12 @@ console.log(protectedHeader)
 console.log(payload)
 ```
 
+#### Type parameters
+
+| Name | Type |
+| :------ | :------ |
+| `T` | extends [`KeyLike`](../types/types.KeyLike.md) = [`KeyLike`](../types/types.KeyLike.md) |
+
 #### Parameters
 
 | Name | Type | Description |
@@ -85,7 +91,7 @@ console.log(payload)
 
 `fn`
 
-▸ (`protectedHeader?`, `token?`): `Promise`<[`KeyLike`](../types/types.KeyLike.md)\>
+▸ (`protectedHeader?`, `token?`): `Promise`<`T`\>
 
 ##### Parameters
 
@@ -96,4 +102,4 @@ console.log(payload)
 
 ##### Returns
 
-`Promise`<[`KeyLike`](../types/types.KeyLike.md)\>
+`Promise`<`T`\>
