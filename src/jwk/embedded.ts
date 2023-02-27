@@ -25,12 +25,12 @@ import { JWSInvalid } from '../util/errors.js'
  * ```
  */
 export async function EmbeddedJWK(
-  protectedHeader: JWSHeaderParameters,
-  token: FlattenedJWSInput,
 ): Promise<KeyLike> {
+  protectedHeader?: JWSHeaderParameters,
+  token?: FlattenedJWSInput,
   const joseHeader = {
     ...protectedHeader,
-    ...token.header,
+    ...token?.header,
   }
   if (!isObject(joseHeader.jwk)) {
     throw new JWSInvalid('"jwk" (JSON Web Key) Header Parameter must be a JSON object')
