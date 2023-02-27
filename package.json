@@ -125,7 +125,7 @@
     "types:find": "find dist/types -name '*.d.ts' -type f -print0",
     "runtime:node:copy": "cp ./src/runtime/node/*.ts ./src/runtime",
     "runtime:refs": "run-s -s runtime:find | xargs -0 sed -i.bak -e \"s/'\\.\\.\\//'\\.\\//g\" -e \"s/'\\.\\/\\.\\./'../g\" && npm run-script sedcleanup",
-    "test": "ava",
+    "test": "ava && tsd -f test/types",
     "format": "prettier --loglevel silent --write ./test ./tap ./src ./tools ./cookbook",
     "tap:browsers": "./tap/.browsers.sh",
     "tap:bun": "./tap/.bun.sh",
@@ -150,6 +150,7 @@
     "rollup": "^3.4.0",
     "tar": "^6.1.12",
     "timekeeper": "^2.2.0",
+    "tsd": "^0.25.0",
     "typedoc": "^0.23.21",
     "typedoc-plugin-markdown": "^3.13.6",
     "typescript": "^4.9.3"
