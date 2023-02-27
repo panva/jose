@@ -36,7 +36,7 @@
  * const ecPublicKey = await jose.importSPKI(spki, algorithm)
  * ```
  *
- * @example Import a X.509 Certificate
+ * @example Import SPKI from an X.509 Certificate
  *
  * ```js
  * const algorithm = 'ES256'
