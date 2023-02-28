@@ -13,8 +13,6 @@ jobs:
     outputs:
       cache-key: ${{ steps.cache-key.outputs.value }}
     steps:
-      - name: Environment Information
-        run: npx envinfo
       - name: Checkout
         uses: actions/checkout@v3
       - name: Setup node
