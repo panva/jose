@@ -43,6 +43,32 @@ jobs:
           path: dist
       - run: git reset HEAD --hard
 
+  typings:
+    needs:
+      - build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Environment Information
+        run: npx envinfo
+      - name: Checkout
+        uses: actions/checkout@v3
+      - name: Setup node
+        id: node
+        uses: actions/setup-node@v3
+        with:
+          node-version: lts/hydrogen # 18
+          cache: 'npm'
+      - run: npm clean-install
+      - name: Load cached dist
+        uses: actions/cache@v3
+        id: dist
+        with:
+          path: dist
+          key: ${{ needs.build.outputs.cache-key }}
+          fail-on-cache-miss: true
+      - name: Check TypeScript type definitions
+        run: npm run test:types
+
   node:
     needs:
       - build
@@ -269,6 +295,7 @@ jobs:
       - edge-runtime
       - electron
       - node
+      - typings
       - workers
     runs-on: ubuntu-latest
     if: ${{ github.event_name == 'push' && startsWith(github.ref, 'refs/tags') && github.repository == 'panva/jose' }}
