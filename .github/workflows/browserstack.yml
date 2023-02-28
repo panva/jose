@@ -25,6 +25,7 @@ jobs:
           REPO: ${{ github.event.repository.full_name }}
 
   build:
+    if: ${{ !startsWith(github.event_name, 'pull_request') || (github.event_name == 'pull_request_target' && github.event.label.name == 'trigger-browserstack') }}
     uses: ./.github/workflows/build.yml
 
   cert:
