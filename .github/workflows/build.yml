@@ -1,0 +1,40 @@
+name: Build
+
+on:
+  workflow_call:
+    outputs:
+      cache-key:
+        value: ${{ jobs.build.outputs.cache-key }}
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    outputs:
+      cache-key: ${{ steps.cache-key.outputs.value }}
+    steps:
+      - name: Environment Information
+        run: npx envinfo
+      - name: Checkout
+        uses: actions/checkout@v3
+      - name: Setup node
+        uses: actions/setup-node@v3
+        with:
+          node-version: lts/hydrogen # 18
+          cache: 'npm'
+      - run: npm clean-install
+      - id: cache-key
+        run: echo "value=dist-${{ hashFiles('src/**/*.ts', 'tsconfig/*.json', '.github/workflows/*.yml', 'package-lock.json') }}" >> $GITHUB_OUTPUT
+      - name: Cache dist
+        uses: actions/cache@v3
+        id: dist
+        with:
+          path: dist
+          key: ${{ steps.cache-key.outputs.value }}
+      - name: Build
+        run: npm run build-all
+        if: ${{ steps.dist.outputs.cache-hit != 'true' }}
+      - uses: actions/upload-artifact@v3
+        with:
+          name: dist
+          path: dist
+      - run: git reset HEAD --hard

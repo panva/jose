@@ -24,6 +24,9 @@ jobs:
           PR: ${{ github.event.number }}
           REPO: ${{ github.event.repository.full_name }}
 
+  build:
+    uses: ./.github/workflows/build.yml
+
   cert:
     if: ${{ !startsWith(github.event_name, 'pull_request') || (github.event_name == 'pull_request_target' && github.event.label.name == 'trigger-browserstack') }}
     uses: panva/.github/.github/workflows/cert-for-browserstack.yml@main
@@ -35,6 +38,7 @@ jobs:
 
   browserstack:
     needs:
+      - build
       - cert
     if: ${{ !startsWith(github.event_name, 'pull_request') || (github.event_name == 'pull_request_target' && github.event.label.name == 'trigger-browserstack') }}
     runs-on: ubuntu-latest
@@ -65,7 +69,13 @@ jobs:
           cache: 'npm'
       - run: npm clean-install
       - run: npm install --global testcafe@2 testcafe-browser-provider-browserstack@1
-      - run: npm run build:browser
+      - name: Load cached dist
+        uses: actions/cache@v3
+        id: dist
+        with:
+          path: dist
+          key: ${{ needs.build.outputs.cache-key }}
+          fail-on-cache-miss: true
       - name: BrowserStack Env Setup
         uses: browserstack/github-actions/setup-env@eede0bfff248c2bea3f4039fea92e2416ce9898d
         with:
