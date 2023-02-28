@@ -24,12 +24,20 @@ jobs:
           PR: ${{ github.event.number }}
           REPO: ${{ github.event.repository.full_name }}
 
-  build:
+  gate:
+    runs-on: ubuntu-latest
     if: ${{ !startsWith(github.event_name, 'pull_request') || (github.event_name == 'pull_request_target' && github.event.label.name == 'trigger-browserstack') }}
+    steps:
+      - run: echo The Show Must Go On
+
+  build:
+    needs:
+      - gate
     uses: ./.github/workflows/build.yml
 
   cert:
-    if: ${{ !startsWith(github.event_name, 'pull_request') || (github.event_name == 'pull_request_target' && github.event.label.name == 'trigger-browserstack') }}
+    needs:
+      - gate
     uses: panva/.github/.github/workflows/cert-for-browserstack.yml@main
     with:
       subdomain: jose
@@ -41,7 +49,6 @@ jobs:
     needs:
       - build
       - cert
-    if: ${{ !startsWith(github.event_name, 'pull_request') || (github.event_name == 'pull_request_target' && github.event.label.name == 'trigger-browserstack') }}
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false
