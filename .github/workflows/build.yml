@@ -8,6 +8,7 @@ on:
 
 jobs:
   build:
+    concurrency: build-${{ github.ref }}
     runs-on: ubuntu-latest
     outputs:
       cache-key: ${{ steps.cache-key.outputs.value }}
