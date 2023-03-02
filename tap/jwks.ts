@@ -16,7 +16,7 @@ export default (QUnit: QUnit, lib: typeof jose) => {
       jwks({ kid: 'foo', alg: 'RS256' }),
       'no applicable key found in the JSON Web Key Set',
     )
-    t.ok(await jwks({ alg, kid }))
+    t.ok(await Promise.all([jwks({ alg, kid }), jwks({ alg, kid })]))
   })
 
   test('[createLocalJWKSet] establishes local JWKSet', async (t: typeof QUnit.assert) => {

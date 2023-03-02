@@ -103,36 +103,26 @@ class RemoteJWKSet<T extends KeyLike = KeyLike> extends LocalJWKSet<T> {
   }
 
   async reload() {
-    // see https://github.com/panva/jose/issues/355
+    // Do not assume a fetch created in another request reliably resolves
+    // see https://github.com/panva/jose/issues/355 and https://github.com/panva/jose/issues/509
     if (this._pendingFetch && isCloudflareWorkers()) {
-      return new Promise<void>((resolve) => {
-        const isDone = () => {
-          if (this._pendingFetch === undefined) {
-            resolve()
-          } else {
-            setTimeout(isDone, 5)
-          }
+      this._pendingFetch = undefined
+    }
+
+    this._pendingFetch ||= fetchJwks(this._url, this._timeoutDuration, this._options)
+      .then((json) => {
+        if (!isJWKSLike(json)) {
+          throw new JWKSInvalid('JSON Web Key Set malformed')
         }
-        isDone()
+
+        this._jwks = { keys: json.keys }
+        this._jwksTimestamp = Date.now()
+        this._pendingFetch = undefined
       })
-    }
-
-    if (!this._pendingFetch) {
-      this._pendingFetch = fetchJwks(this._url, this._timeoutDuration, this._options)
-        .then((json) => {
-          if (!isJWKSLike(json)) {
-            throw new JWKSInvalid('JSON Web Key Set malformed')
-          }
-
-          this._jwks = { keys: json.keys }
-          this._jwksTimestamp = Date.now()
-          this._pendingFetch = undefined
-        })
-        .catch((err: Error) => {
-          this._pendingFetch = undefined
-          throw err
-        })
-    }
+      .catch((err: Error) => {
+        this._pendingFetch = undefined
+        throw err
+      })
 
     await this._pendingFetch
   }
