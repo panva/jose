@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [4.13.1](https://github.com/panva/jose/compare/v4.13.0...v4.13.1) (2023-03-02)
+
+
+### Fixes
+
+* **workerd:** avoid "The script will never generate a response" edge cases completely ([96a8c99](https://github.com/panva/jose/commit/96a8c99189f2399e9816ae1bca04b6d9cff93c26)), closes [#355](https://github.com/panva/jose/issues/355) [#509](https://github.com/panva/jose/issues/509)
+
 ## [4.13.0](https://github.com/panva/jose/compare/v4.12.2...v4.13.0) (2023-02-27)
 
 
