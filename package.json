@@ -140,7 +140,7 @@
     "@types/node": "^18.14.2",
     "@types/qunit": "^2.19.4",
     "ava": "^5.2.0",
-    "edge-runtime": "^2.1.1",
+    "edge-runtime": "^2.1.2",
     "esbuild": "^0.17.10",
     "nock": "^13.3.0",
     "npm-run-all2": "^6.0.4",
