@@ -67,6 +67,7 @@ jobs:
         with:
           node-version: ${{ matrix.node-version }}
           cache: 'npm'
+          check-latest: true
       - run: npm install --global npm@8
         if: ${{ startsWith(steps.node.outputs.node-version, 'v12') || startsWith(steps.node.outputs.node-version, 'v14') }}
       - run: npm clean-install
