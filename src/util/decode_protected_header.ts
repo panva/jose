@@ -18,7 +18,7 @@ export type ProtectedHeaderParameters = JWSHeaderParameters & JWEHeaderParameter
  * @param token JWE/JWS/JWT token in any JOSE serialization.
  */
 export function decodeProtectedHeader(token: string | object) {
-  let protectedB64u!: string
+  let protectedB64u!: unknown
 
   if (typeof token === 'string') {
     const parts = token.split('.')
@@ -27,7 +27,7 @@ export function decodeProtectedHeader(token: string | object) {
     }
   } else if (typeof token === 'object' && token) {
     if ('protected' in token) {
-      protectedB64u = (<{ protected: string }>token).protected
+      protectedB64u = token.protected
     } else {
       throw new TypeError('Token does not contain a Protected Header')
     }
