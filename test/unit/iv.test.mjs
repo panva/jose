@@ -1,7 +1,6 @@
 import test from 'ava'
-import { root } from '../dist.mjs'
 
-const { default: iv } = await import(`${root}/lib/iv`)
+const { default: iv } = await import('#dist/lib/iv')
 
 test('lib/iv.ts', (t) => {
   t.throws(() => iv('foo'), {

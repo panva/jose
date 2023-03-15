@@ -1,8 +1,7 @@
 import test from 'ava'
 import * as crypto from 'crypto'
-import { root } from '../dist.mjs'
 
-const { GeneralEncrypt, generalDecrypt, generateKeyPair, base64url } = await import(root)
+const { GeneralEncrypt, generalDecrypt, generateKeyPair } = await import('#dist')
 
 test.before(async (t) => {
   const encode = TextEncoder.prototype.encode.bind(new TextEncoder())

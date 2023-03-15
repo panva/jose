@@ -1,7 +1,6 @@
 import test from 'ava'
-import { keyRoot } from '../dist.mjs'
 
-const { importX509 } = await import(keyRoot)
+const { importX509 } = await import('#dist')
 
 const cert = `-----BEGIN CERTIFICATE-----
 MIID5jCCAs6gAwIBAgIBAjANBgkqhkiG9w0BAQsFADB7MQswCQYDVQQGEwJVUzEL

@@ -1,7 +1,6 @@
 import test from 'ava'
-import { root } from '../dist.mjs'
 
-const { CompactSign } = await import(root)
+const { CompactSign } = await import('#dist')
 
 test.before((t) => {
   const encode = TextEncoder.prototype.encode.bind(new TextEncoder())

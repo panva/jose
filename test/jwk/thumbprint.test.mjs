@@ -1,7 +1,6 @@
 import test from 'ava'
-import { keyRoot } from '../dist.mjs'
 
-const { calculateJwkThumbprint, calculateJwkThumbprintUri } = await import(keyRoot)
+const { calculateJwkThumbprint, calculateJwkThumbprintUri } = await import('#dist')
 
 const jwk = {
   kty: 'RSA',

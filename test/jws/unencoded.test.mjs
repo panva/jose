@@ -1,7 +1,6 @@
 import test from 'ava'
-import { root } from '../dist.mjs'
 
-const { FlattenedSign, flattenedVerify } = await import(root)
+const { FlattenedSign, flattenedVerify } = await import('#dist')
 const encode = TextEncoder.prototype.encode.bind(new TextEncoder())
 
 test('JSON Web Signature (JWS) Unencoded Payload Option', async (t) => {

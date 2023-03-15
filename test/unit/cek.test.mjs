@@ -1,7 +1,6 @@
 import test from 'ava'
-import { root } from '../dist.mjs'
 
-const { default: cek } = await import(`${root}/lib/cek`)
+const { default: cek } = await import('#dist/lib/cek')
 
 test('lib/cek.ts', (t) => {
   t.throws(() => cek('foo'), {

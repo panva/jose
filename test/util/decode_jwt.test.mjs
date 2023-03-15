@@ -1,7 +1,6 @@
 import test from 'ava'
-import { root } from '../dist.mjs'
 
-const { decodeJwt, errors, base64url } = await import(root)
+const { decodeJwt, errors, base64url } = await import('#dist')
 
 test('invalid inputs', (t) => {
   const jwt =

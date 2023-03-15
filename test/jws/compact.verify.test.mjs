@@ -1,8 +1,7 @@
 import test from 'ava'
 import * as crypto from 'crypto'
-import { root } from '../dist.mjs'
 
-const { compactVerify, CompactSign } = await import(root)
+const { compactVerify, CompactSign } = await import('#dist')
 
 test.before(async (t) => {
   t.context.secret = crypto.randomFillSync(new Uint8Array(32))

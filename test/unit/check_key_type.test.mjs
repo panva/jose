@@ -1,18 +1,14 @@
 import test from 'ava'
-import { root, keyRoot } from '../dist.mjs'
 
 let types = 'KeyObject or Uint8Array'
 let asymmetricTypes = 'KeyObject'
-if ('WEBCRYPTO' in process.env || 'WEBAPI' in process.env) {
-  types = 'CryptoKey or Uint8Array'
-  asymmetricTypes = 'CryptoKey'
-} else if (parseInt(process.versions.node) >= 16) {
+if (parseInt(process.versions.node) >= 16) {
   types = 'KeyObject, CryptoKey, or Uint8Array'
   asymmetricTypes = 'KeyObject or CryptoKey'
 }
 
-const { default: checkKeyType } = await import(`${root}/lib/check_key_type`)
-const { generateKeyPair, generateSecret } = await import(keyRoot)
+const { default: checkKeyType } = await import('#dist/lib/check_key_type')
+const { generateKeyPair, generateSecret } = await import('#dist')
 
 test('lib/check_key_type.ts', async (t) => {
   const expected = {
@@ -67,14 +63,7 @@ test('lib/check_key_type.ts', async (t) => {
     message: `${asymmetricTypes} instances for symmetric algorithms must be of type "secret"`,
   })
 
-  if (keyRoot.includes('web')) {
-    t.throws(() => checkKeyType('PS256', keypair.privateKey, 'verify'), {
-      ...expected,
-      message: `${asymmetricTypes} instances for asymmetric algorithm verifying must be of type "public"`,
-    })
-  } else {
-    t.notThrows(() => checkKeyType('PS256', keypair.privateKey, 'verify'))
-  }
+  t.notThrows(() => checkKeyType('PS256', keypair.privateKey, 'verify'))
 
   keypair = await generateKeyPair('ECDH-ES')
   t.throws(() => checkKeyType('ECDH-ES', keypair.publicKey, 'decrypt'), {
@@ -82,12 +71,5 @@ test('lib/check_key_type.ts', async (t) => {
     message: `${asymmetricTypes} instances for asymmetric algorithm decryption must be of type "private"`,
   })
 
-  if (keyRoot.includes('web')) {
-    t.throws(() => checkKeyType('ECDH-ES', keypair.privateKey, 'encrypt'), {
-      ...expected,
-      message: `${asymmetricTypes} instances for asymmetric algorithm encryption must be of type "public"`,
-    })
-  } else {
-    t.notThrows(() => checkKeyType('ECDH-ES', keypair.privateKey, 'encrypt'))
-  }
+  t.notThrows(() => checkKeyType('ECDH-ES', keypair.privateKey, 'encrypt'))
 })

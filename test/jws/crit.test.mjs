@@ -1,7 +1,6 @@
 import test from 'ava'
-import { root } from '../dist.mjs'
 
-const { FlattenedSign } = await import(root)
+const { FlattenedSign } = await import('#dist')
 
 const encode = TextEncoder.prototype.encode.bind(new TextEncoder())
 

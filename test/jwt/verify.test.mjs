@@ -1,8 +1,7 @@
 import test from 'ava'
 import timekeeper from 'timekeeper'
-import { root } from '../dist.mjs'
 
-const { SignJWT, jwtVerify, CompactSign } = await import(root)
+const { SignJWT, jwtVerify, CompactSign } = await import('#dist')
 
 const now = 1604416038
 

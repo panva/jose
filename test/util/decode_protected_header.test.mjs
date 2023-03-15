@@ -1,7 +1,6 @@
 import test from 'ava'
-import { root } from '../dist.mjs'
 
-const { decodeProtectedHeader } = await import(root)
+const { decodeProtectedHeader } = await import('#dist')
 
 test('invalid inputs', (t) => {
   t.throws(() => decodeProtectedHeader(null), {

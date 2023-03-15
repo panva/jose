@@ -3,12 +3,6 @@ import nock from 'nock'
 import timekeeper from 'timekeeper'
 import { createServer } from 'http'
 import { once } from 'events'
-import { root, keyRoot } from '../dist.mjs'
-
-const skipOnUndiciTest = 'WEBAPI' in process.env ? test.skip : test
-const skipOnUndiciTestSerial = 'WEBAPI' in process.env ? test.skip : test.serial
-const skipOnUndiciTestAndCI =
-  'WEBAPI' in process.env || 'CI' in process.env ? test.skip : test.serial
 
 const {
   jwtVerify,
@@ -18,9 +12,10 @@ const {
   GeneralSign,
   generalVerify,
   CompactSign,
+  importJWK,
+  createRemoteJWKSet,
   compactVerify,
-} = await import(root)
-const { importJWK, createRemoteJWKSet } = await import(keyRoot)
+} = await import('#dist')
 
 const now = 1604416038
 
@@ -48,7 +43,7 @@ test.afterEach((t) => {
 
 test.afterEach(() => timekeeper.reset())
 
-skipOnUndiciTestSerial('RemoteJWKSet', async (t) => {
+test.serial('RemoteJWKSet', async (t) => {
   const keys = [
     {
       e: 'AQAB',
@@ -225,7 +220,7 @@ skipOnUndiciTestSerial('RemoteJWKSet', async (t) => {
   }
 })
 
-skipOnUndiciTestSerial('refreshes the JWKS once off cooldown', async (t) => {
+test.serial('refreshes the JWKS once off cooldown', async (t) => {
   timekeeper.freeze(now * 1000)
   let jwk = {
     crv: 'P-256',
@@ -269,7 +264,7 @@ skipOnUndiciTestSerial('refreshes the JWKS once off cooldown', async (t) => {
   }
 })
 
-skipOnUndiciTestSerial('refreshes the JWKS once stale', async (t) => {
+test.serial('refreshes the JWKS once stale', async (t) => {
   timekeeper.freeze(now * 1000)
   let jwk = {
     crv: 'P-256',
@@ -304,7 +299,7 @@ skipOnUndiciTestSerial('refreshes the JWKS once stale', async (t) => {
   }
 })
 
-skipOnUndiciTestSerial('can be configured to never be stale', async (t) => {
+test.serial('can be configured to never be stale', async (t) => {
   timekeeper.freeze(now * 1000)
   let jwk = {
     crv: 'P-256',
@@ -339,7 +334,7 @@ skipOnUndiciTestSerial('can be configured to never be stale', async (t) => {
   }
 })
 
-skipOnUndiciTestSerial('throws on invalid JWKSet', async (t) => {
+test.serial('throws on invalid JWKSet', async (t) => {
   const scope = nock('https://as.example.com').get('/jwks').once().reply(200, 'null')
 
   const url = new URL('https://as.example.com/jwks')
@@ -383,7 +378,7 @@ skipOnUndiciTestSerial('throws on invalid JWKSet', async (t) => {
   })
 })
 
-skipOnUndiciTestSerial('can have headers configured', async (t) => {
+test.serial('can have headers configured', async (t) => {
   const scope = nock('https://as.example.com', {
     reqheaders: {
       'x-custom': 'foo',
@@ -399,7 +394,7 @@ skipOnUndiciTestSerial('can have headers configured', async (t) => {
   t.true(scope.isDone())
 })
 
-skipOnUndiciTest('handles ENOTFOUND', async (t) => {
+test('handles ENOTFOUND', async (t) => {
   nock.enableNetConnect()
   const url = new URL('https://op.example.com/jwks')
   const JWKS = createRemoteJWKSet(url)
@@ -408,7 +403,7 @@ skipOnUndiciTest('handles ENOTFOUND', async (t) => {
   })
 })
 
-skipOnUndiciTest('handles ECONNREFUSED', async (t) => {
+test('handles ECONNREFUSED', async (t) => {
   nock.enableNetConnect()
   const url = new URL('http://localhost:3001/jwks')
   const JWKS = createRemoteJWKSet(url)
@@ -417,7 +412,7 @@ skipOnUndiciTest('handles ECONNREFUSED', async (t) => {
   })
 })
 
-skipOnUndiciTestAndCI('handles ECONNRESET', async (t) => {
+test.serial('handles ECONNRESET', async (t) => {
   nock.enableNetConnect()
   const url = new URL('http://localhost:3000/jwks')
   t.context.server.once('connection', (socket) => {
@@ -429,7 +424,7 @@ skipOnUndiciTestAndCI('handles ECONNRESET', async (t) => {
   })
 })
 
-skipOnUndiciTestAndCI('handles a timeout', async (t) => {
+test.serial('handles a timeout', async (t) => {
   t.timeout(1000)
   nock.enableNetConnect()
   const url = new URL('http://localhost:3000/jwks')

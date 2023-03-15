@@ -1,7 +1,6 @@
 import test from 'ava'
-import { conditional, keyRoot } from '../dist.mjs'
 
-const { importJWK, exportJWK } = await import(keyRoot)
+const { importJWK, exportJWK } = await import('#dist')
 
 test('JWK must be an object', async (t) => {
   await t.throwsAsync(importJWK(true), {

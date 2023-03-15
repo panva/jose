@@ -1,10 +1,16 @@
 import test from 'ava'
 import * as crypto from 'crypto'
-import { conditional, root, keyRoot } from '../dist.mjs'
 
-const { FlattenedSign, flattenedVerify, FlattenedEncrypt, flattenedDecrypt, base64url } =
-  await import(root)
-const { generateKeyPair, importJWK, exportPKCS8 } = await import(keyRoot)
+const {
+  base64url,
+  exportPKCS8,
+  flattenedDecrypt,
+  FlattenedEncrypt,
+  FlattenedSign,
+  flattenedVerify,
+  generateKeyPair,
+  importJWK,
+} = await import('#dist')
 
 function pubjwk(jwk) {
   const { d, p, q, dp, dq, qi, ...publicJwk } = jwk
@@ -116,5 +122,5 @@ test(testECDSASigEncoding, 'ES256')
 test(testECDSASigEncoding, 'ES384')
 test(testECDSASigEncoding, 'ES512')
 
-conditional({ webcrypto: 0 })(testRSAenc, 'RSA1_5')
-conditional({ webcrypto: 0 })(testECDSASigEncoding, 'ES256K')
+test(testRSAenc, 'RSA1_5')
+test(testECDSASigEncoding, 'ES256K')

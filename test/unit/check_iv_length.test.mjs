@@ -1,7 +1,6 @@
 import test from 'ava'
-import { root } from '../dist.mjs'
 
-const { default: checkIvLength } = await import(`${root}/lib/check_iv_length`)
+const { default: checkIvLength } = await import('#dist/lib/check_iv_length')
 
 test('lib/check_iv_length.ts', (t) => {
   t.throws(() => checkIvLength('A256GCM', new Uint8Array(13)), {

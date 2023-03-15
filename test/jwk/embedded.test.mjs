@@ -1,8 +1,6 @@
 import test from 'ava'
-import { root, keyRoot } from '../dist.mjs'
 
-const { FlattenedSign, flattenedVerify } = await import(root)
-const { importJWK, EmbeddedJWK } = await import(keyRoot)
+const { importJWK, EmbeddedJWK, FlattenedSign, flattenedVerify } = await import('#dist')
 
 function pubjwk(jwk) {
   const { d, p, q, dp, dq, qi, ext, alg, ...publicJwk } = jwk

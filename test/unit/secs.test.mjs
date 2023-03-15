@@ -1,7 +1,6 @@
 import test from 'ava'
-import { root } from '../dist.mjs'
 
-const { default: secs } = await import(`${root}/lib/secs`)
+const { default: secs } = await import('#dist/lib/secs')
 
 test('lib/secs.ts', (t) => {
   for (const v of ['sec', 'secs', 'second', 'seconds', 's']) {

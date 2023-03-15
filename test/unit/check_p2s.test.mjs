@@ -1,7 +1,6 @@
 import test from 'ava'
-import { root } from '../dist.mjs'
 
-const { default: checkP2s } = await import(`${root}/lib/check_p2s`)
+const { default: checkP2s } = await import('#dist/lib/check_p2s')
 
 test('lib/check_p2s.ts', (t) => {
   t.throws(() => checkP2s(null), {

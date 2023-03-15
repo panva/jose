@@ -1,7 +1,6 @@
 import test from 'ava'
-import { root } from '../dist.mjs'
 
-const { uint32be } = await import(`${root}/lib/buffer_utils`)
+const { uint32be } = await import('#dist/lib/buffer_utils')
 
 test('lib/buffer_utils.ts', (t) => {
   t.throws(() => uint32be(-1), { instanceOf: RangeError })

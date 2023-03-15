@@ -1,7 +1,6 @@
 import test from 'ava'
-import { root } from '../dist.mjs'
 
-const { CompactEncrypt, compactDecrypt, base64url } = await import(root)
+const { compactDecrypt } = await import('#dist')
 
 test('JWE format validation', async (t) => {
   await t.throwsAsync(compactDecrypt(null, new Uint8Array(0)), {

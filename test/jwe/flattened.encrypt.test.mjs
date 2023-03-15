@@ -1,7 +1,6 @@
 import test from 'ava'
-import { root } from '../dist.mjs'
 
-const { FlattenedEncrypt, decodeProtectedHeader } = await import(root)
+const { FlattenedEncrypt, decodeProtectedHeader } = await import('#dist')
 
 test.before(async (t) => {
   const encode = TextEncoder.prototype.encode.bind(new TextEncoder())

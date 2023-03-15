@@ -1,7 +1,6 @@
 import test from 'ava'
-import { keyRoot } from '../dist.mjs'
 
-const { createLocalJWKSet } = await import(keyRoot)
+const { createLocalJWKSet } = await import('#dist')
 
 test('LocalJWKSet', async (t) => {
   for (const f of [
