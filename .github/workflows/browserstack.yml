@@ -82,14 +82,14 @@ jobs:
           key: ${{ needs.build.outputs.cache-key }}
           fail-on-cache-miss: true
       - name: BrowserStack Env Setup
-        uses: browserstack/github-actions/setup-env@eede0bfff248c2bea3f4039fea92e2416ce9898d
+        uses: browserstack/github-actions/setup-env@63b648e87c6c2b48039b6e7af80b259c60d85f99
         with:
           username:  ${{ secrets.BROWSERSTACK_USERNAME }}
           access-key: ${{ secrets.BROWSERSTACK_ACCESS_KEY }}
           build-name: 'BUILD_INFO'
           project-name: 'REPO_NAME'
       - name: Start BrowserStackLocal Tunnel
-        uses: browserstack/github-actions/setup-local@eede0bfff248c2bea3f4039fea92e2416ce9898d
+        uses: browserstack/github-actions/setup-local@63b648e87c6c2b48039b6e7af80b259c60d85f99
         with:
           local-testing: 'start'
           local-logging-level: 'all-logs'
@@ -100,6 +100,6 @@ jobs:
           BROWSER: ${{ matrix.browser }}
       - name: Stop BrowserStackLocal
         if: ${{ always() }}
-        uses: browserstack/github-actions/setup-local@eede0bfff248c2bea3f4039fea92e2416ce9898d
+        uses: browserstack/github-actions/setup-local@63b648e87c6c2b48039b6e7af80b259c60d85f99
         with:
           local-testing: 'stop'

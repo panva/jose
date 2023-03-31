@@ -137,7 +137,7 @@
     "tap:workers": "./tap/.workers.sh"
   },
   "devDependencies": {
-    "@types/node": "^18.15.10",
+    "@types/node": "^18.15.11",
     "@types/qunit": "^2.19.4",
     "ava": "^5.2.0",
     "edge-runtime": "^2.1.2",
@@ -151,10 +151,10 @@
     "rollup": "^3.20.2",
     "tar": "^6.1.13",
     "timekeeper": "^2.2.0",
-    "tsd": "^0.28.0",
+    "tsd": "^0.28.1",
     "typedoc": "^0.23.28",
     "typedoc-plugin-markdown": "^3.14.0",
-    "typescript": "^5.0.2"
+    "typescript": "^5.0.3"
   },
   "deno": "./dist/browser/index.js"
 }
