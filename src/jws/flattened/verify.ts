@@ -51,7 +51,8 @@ export interface FlattenedVerifyGetKey
  * ```
  *
  * @param jws Flattened JWS.
- * @param key Key to verify the JWS with.
+ * @param key Key to verify the JWS with. See also
+ *   {@link https://github.com/panva/jose/issues/210 Algorithm Key Requirements}.
  * @param options JWS Verify options.
  */
 export function flattenedVerify(
@@ -61,7 +62,8 @@ export function flattenedVerify(
 ): Promise<FlattenedVerifyResult>
 /**
  * @param jws Flattened JWS.
- * @param getKey Function resolving a key to verify the JWS with.
+ * @param getKey Function resolving a key to verify the JWS with. See also
+ *   {@link https://github.com/panva/jose/issues/210 Algorithm Key Requirements}.
  * @param options JWS Verify options.
  */
 export function flattenedVerify<T extends KeyLike = KeyLike>(

@@ -96,7 +96,8 @@ export interface JWTVerifyGetKey extends GetKeyFunction<JWTHeaderParameters, Fla
  * ```
  *
  * @param jwt JSON Web Token value (encoded as JWS).
- * @param key Key to verify the JWT with.
+ * @param key Key to verify the JWT with. See also
+ *   {@link https://github.com/panva/jose/issues/210 Algorithm Key Requirements}.
  * @param options JWT Decryption and JWT Claims Set validation options.
  */
 export async function jwtVerify(
@@ -120,7 +121,8 @@ export async function jwtVerify(
  * ```
  *
  * @param jwt JSON Web Token value (encoded as JWS).
- * @param getKey Function resolving a key to verify the JWT with.
+ * @param getKey Function resolving a key to verify the JWT with. See also
+ *   {@link https://github.com/panva/jose/issues/210 Algorithm Key Requirements}.
  * @param options JWT Decryption and JWT Claims Set validation options.
  */
 export async function jwtVerify<T extends KeyLike = KeyLike>(

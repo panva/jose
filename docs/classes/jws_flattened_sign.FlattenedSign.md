@@ -88,7 +88,7 @@ Signs and resolves the value of the Flattened JWS object.
 
 | Name | Type | Description |
 | :------ | :------ | :------ |
-| `key` | [`Uint8Array`]( https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Uint8Array ) \| [`KeyLike`](../types/types.KeyLike.md) | Private Key or Secret to sign the JWS with. |
+| `key` | [`Uint8Array`]( https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Uint8Array ) \| [`KeyLike`](../types/types.KeyLike.md) | Private Key or Secret to sign the JWS with. See also [Algorithm Key Requirements](https://github.com/panva/jose/issues/210). |
 | `options?` | [`SignOptions`](../interfaces/types.SignOptions.md) | JWS Sign options. |
 
 #### Returns

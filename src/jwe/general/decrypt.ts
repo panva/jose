@@ -48,7 +48,8 @@ export interface GeneralDecryptGetKey extends GetKeyFunction<JWEHeaderParameters
  * ```
  *
  * @param jwe General JWE.
- * @param key Private Key or Secret to decrypt the JWE with.
+ * @param key Private Key or Secret to decrypt the JWE with. See also
+ *   {@link https://github.com/panva/jose/issues/210 Algorithm Key Requirements}.
  * @param options JWE Decryption options.
  */
 export function generalDecrypt(
@@ -58,7 +59,8 @@ export function generalDecrypt(
 ): Promise<GeneralDecryptResult>
 /**
  * @param jwe General JWE.
- * @param getKey Function resolving Private Key or Secret to decrypt the JWE with.
+ * @param getKey Function resolving Private Key or Secret to decrypt the JWE with. See also
+ *   {@link https://github.com/panva/jose/issues/210 Algorithm Key Requirements}.
  * @param options JWE Decryption options.
  */
 export function generalDecrypt<T extends KeyLike = KeyLike>(

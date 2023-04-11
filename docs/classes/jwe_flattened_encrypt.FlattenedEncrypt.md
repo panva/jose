@@ -58,7 +58,7 @@ Encrypts and resolves the value of the Flattened JWE object.
 
 | Name | Type | Description |
 | :------ | :------ | :------ |
-| `key` | [`Uint8Array`]( https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Uint8Array ) \| [`KeyLike`](../types/types.KeyLike.md) | Public Key or Secret to encrypt the JWE with. |
+| `key` | [`Uint8Array`]( https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Uint8Array ) \| [`KeyLike`](../types/types.KeyLike.md) | Public Key or Secret to encrypt the JWE with. See also [Algorithm Key Requirements](https://github.com/panva/jose/issues/210). |
 | `options?` | [`EncryptOptions`](../interfaces/types.EncryptOptions.md) | JWE Encryption options. |
 
 #### Returns

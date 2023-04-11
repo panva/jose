@@ -102,7 +102,8 @@ export class GeneralSign {
   /**
    * Adds an additional signature for the General JWS object.
    *
-   * @param key Private Key or Secret to sign the individual JWS signature with.
+   * @param key Private Key or Secret to sign the individual JWS signature with. See also
+   *   {@link https://github.com/panva/jose/issues/210 Algorithm Key Requirements}.
    * @param options JWS Sign options.
    */
   addSignature(key: KeyLike | Uint8Array, options?: SignOptions): Signature {

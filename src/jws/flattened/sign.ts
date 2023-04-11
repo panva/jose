@@ -67,7 +67,8 @@ export class FlattenedSign {
   /**
    * Signs and resolves the value of the Flattened JWS object.
    *
-   * @param key Private Key or Secret to sign the JWS with.
+   * @param key Private Key or Secret to sign the JWS with. See also
+   *   {@link https://github.com/panva/jose/issues/210 Algorithm Key Requirements}.
    * @param options JWS Sign options.
    */
   async sign(key: KeyLike | Uint8Array, options?: SignOptions): Promise<FlattenedJWS> {

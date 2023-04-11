@@ -37,7 +37,8 @@ export class CompactSign {
   /**
    * Signs and resolves the value of the Compact JWS string.
    *
-   * @param key Private Key or Secret to sign the JWS with.
+   * @param key Private Key or Secret to sign the JWS with. See also
+   *   {@link https://github.com/panva/jose/issues/210 Algorithm Key Requirements}.
    * @param options JWS Sign options.
    */
   async sign(key: KeyLike | Uint8Array, options?: SignOptions): Promise<string> {

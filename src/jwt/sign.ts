@@ -115,7 +115,8 @@ export class SignJWT extends ProduceJWT {
   /**
    * Signs and returns the JWT.
    *
-   * @param key Private Key or Secret to sign the JWT with.
+   * @param key Private Key or Secret to sign the JWT with. See also
+   *   {@link https://github.com/panva/jose/issues/210 Algorithm Key Requirements}.
    * @param options JWT Sign options.
    */
   async sign(key: KeyLike | Uint8Array, options?: SignOptions): Promise<string> {
