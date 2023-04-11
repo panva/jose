@@ -44,13 +44,13 @@ console.log(jwe)
 
 | Name | Type | Description |
 | :------ | :------ | :------ |
-| `plaintext` | `Uint8Array` | Binary representation of the plaintext to encrypt. |
+| `plaintext` | [`Uint8Array`]( https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Uint8Array ) | Binary representation of the plaintext to encrypt. |
 
 ## Methods
 
 ### encrypt
 
-▸ **encrypt**(`key`, `options?`): `Promise`<[`FlattenedJWE`](../interfaces/types.FlattenedJWE.md)\>
+▸ **encrypt**(`key`, `options?`): [`Promise`]( https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise )<[`FlattenedJWE`](../interfaces/types.FlattenedJWE.md)\>
 
 Encrypts and resolves the value of the Flattened JWE object.
 
@@ -58,12 +58,12 @@ Encrypts and resolves the value of the Flattened JWE object.
 
 | Name | Type | Description |
 | :------ | :------ | :------ |
-| `key` | `Uint8Array` \| [`KeyLike`](../types/types.KeyLike.md) | Public Key or Secret to encrypt the JWE with. |
+| `key` | [`Uint8Array`]( https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Uint8Array ) \| [`KeyLike`](../types/types.KeyLike.md) | Public Key or Secret to encrypt the JWE with. |
 | `options?` | [`EncryptOptions`](../interfaces/types.EncryptOptions.md) | JWE Encryption options. |
 
 #### Returns
 
-`Promise`<[`FlattenedJWE`](../interfaces/types.FlattenedJWE.md)\>
+[`Promise`]( https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise )<[`FlattenedJWE`](../interfaces/types.FlattenedJWE.md)\>
 
 ___
 
@@ -77,7 +77,7 @@ Sets the Additional Authenticated Data on the FlattenedEncrypt object.
 
 | Name | Type | Description |
 | :------ | :------ | :------ |
-| `aad` | `Uint8Array` | Additional Authenticated Data. |
+| `aad` | [`Uint8Array`]( https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Uint8Array ) | Additional Authenticated Data. |
 
 #### Returns
 
@@ -99,7 +99,7 @@ enc" (Encryption Algorithm) Header Parameter.
 
 | Name | Type | Description |
 | :------ | :------ | :------ |
-| `cek` | `Uint8Array` | JWE Content Encryption Key. |
+| `cek` | [`Uint8Array`]( https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Uint8Array ) | JWE Content Encryption Key. |
 
 #### Returns
 
@@ -121,7 +121,7 @@ one is generated for the JWE enc" (Encryption Algorithm) Header Parameter.
 
 | Name | Type | Description |
 | :------ | :------ | :------ |
-| `iv` | `Uint8Array` | JWE Initialization Vector. |
+| `iv` | [`Uint8Array`]( https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Uint8Array ) | JWE Initialization Vector. |
 
 #### Returns
 

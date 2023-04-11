@@ -39,7 +39,7 @@ ___
 
 ### currentDate
 
-• `Optional` **currentDate**: `Date`
+• `Optional` **currentDate**: [`Date`]( https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date )
 
 Date to use when comparing NumericDate claims, defaults to `new Date()`.
 

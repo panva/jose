@@ -2,7 +2,7 @@
 
 [💗 Help the project](https://github.com/sponsors/panva)
 
-▸ **calculateJwkThumbprint**(`jwk`, `digestAlgorithm?`): `Promise`<`string`\>
+▸ **calculateJwkThumbprint**(`jwk`, `digestAlgorithm?`): [`Promise`]( https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise )<`string`\>
 
 Calculates a base64url-encoded JSON Web Key (JWK) Thumbprint
 
@@ -31,4 +31,4 @@ console.log(thumbprint)
 
 #### Returns
 
-`Promise`<`string`\>
+[`Promise`]( https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise )<`string`\>

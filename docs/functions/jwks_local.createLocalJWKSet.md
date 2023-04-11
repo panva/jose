@@ -2,7 +2,7 @@
 
 [💗 Help the project](https://github.com/sponsors/panva)
 
-▸ **createLocalJWKSet**<`T`\>(`jwks`): (`protectedHeader?`: [`JWSHeaderParameters`](../interfaces/types.JWSHeaderParameters.md), `token?`: [`FlattenedJWSInput`](../interfaces/types.FlattenedJWSInput.md)) => `Promise`<`T`\>
+▸ **createLocalJWKSet**<`T`\>(`jwks`): (`protectedHeader?`: [`JWSHeaderParameters`](../interfaces/types.JWSHeaderParameters.md), `token?`: [`FlattenedJWSInput`](../interfaces/types.FlattenedJWSInput.md)) => [`Promise`]( https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise )<`T`\>
 
 Returns a function that resolves to a key object from a locally stored, or otherwise available,
 JSON Web Key Set.
@@ -91,7 +91,7 @@ console.log(payload)
 
 `fn`
 
-▸ (`protectedHeader?`, `token?`): `Promise`<`T`\>
+▸ (`protectedHeader?`, `token?`): [`Promise`]( https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise )<`T`\>
 
 ##### Parameters
 
@@ -102,4 +102,4 @@ console.log(payload)
 
 ##### Returns
 
-`Promise`<`T`\>
+[`Promise`]( https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise )<`T`\>

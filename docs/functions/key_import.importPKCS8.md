@@ -2,7 +2,7 @@
 
 [💗 Help the project](https://github.com/sponsors/panva)
 
-▸ **importPKCS8**<`T`\>(`pkcs8`, `alg`, `options?`): `Promise`<`T`\>
+▸ **importPKCS8**<`T`\>(`pkcs8`, `alg`, `options?`): [`Promise`]( https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise )<`T`\>
 
 Imports a PEM-encoded PKCS#8 string as a runtime-specific private key representation (KeyObject
 or CryptoKey). See [Algorithm Key Requirements](https://github.com/panva/jose/issues/210) to
@@ -36,4 +36,4 @@ const ecPrivateKey = await jose.importPKCS8(pkcs8, algorithm)
 
 #### Returns
 
-`Promise`<`T`\>
+[`Promise`]( https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise )<`T`\>

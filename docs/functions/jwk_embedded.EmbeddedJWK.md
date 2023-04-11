@@ -2,7 +2,7 @@
 
 [💗 Help the project](https://github.com/sponsors/panva)
 
-▸ **EmbeddedJWK**<`T`\>(`protectedHeader?`, `token?`): `Promise`<`T`\>
+▸ **EmbeddedJWK**<`T`\>(`protectedHeader?`, `token?`): [`Promise`]( https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise )<`T`\>
 
 EmbeddedJWK is an implementation of a GetKeyFunction intended to be used with the JWS/JWT verify
 operations whenever you need to opt-in to verify signatures with a public key embedded in the
@@ -39,4 +39,4 @@ console.log(payload)
 
 #### Returns
 
-`Promise`<`T`\>
+[`Promise`]( https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise )<`T`\>

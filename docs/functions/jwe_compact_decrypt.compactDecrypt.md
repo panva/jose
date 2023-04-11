@@ -2,7 +2,7 @@
 
 [💗 Help the project](https://github.com/sponsors/panva)
 
-▸ **compactDecrypt**(`jwe`, `key`, `options?`): `Promise`<[`CompactDecryptResult`](../interfaces/types.CompactDecryptResult.md)\>
+▸ **compactDecrypt**(`jwe`, `key`, `options?`): [`Promise`]( https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise )<[`CompactDecryptResult`](../interfaces/types.CompactDecryptResult.md)\>
 
 Decrypts a Compact JWE.
 
@@ -22,15 +22,15 @@ console.log(new TextDecoder().decode(plaintext))
 
 | Name | Type | Description |
 | :------ | :------ | :------ |
-| `jwe` | `string` \| `Uint8Array` | Compact JWE. |
-| `key` | `Uint8Array` \| [`KeyLike`](../types/types.KeyLike.md) | Private Key or Secret to decrypt the JWE with. |
+| `jwe` | `string` \| [`Uint8Array`]( https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Uint8Array ) | Compact JWE. |
+| `key` | [`Uint8Array`]( https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Uint8Array ) \| [`KeyLike`](../types/types.KeyLike.md) | Private Key or Secret to decrypt the JWE with. |
 | `options?` | [`DecryptOptions`](../interfaces/types.DecryptOptions.md) | JWE Decryption options. |
 
 #### Returns
 
-`Promise`<[`CompactDecryptResult`](../interfaces/types.CompactDecryptResult.md)\>
+[`Promise`]( https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise )<[`CompactDecryptResult`](../interfaces/types.CompactDecryptResult.md)\>
 
-▸ **compactDecrypt**<`T`\>(`jwe`, `getKey`, `options?`): `Promise`<[`CompactDecryptResult`](../interfaces/types.CompactDecryptResult.md) & [`ResolvedKey`](../interfaces/types.ResolvedKey.md)<`T`\>\>
+▸ **compactDecrypt**<`T`\>(`jwe`, `getKey`, `options?`): [`Promise`]( https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise )<[`CompactDecryptResult`](../interfaces/types.CompactDecryptResult.md) & [`ResolvedKey`](../interfaces/types.ResolvedKey.md)<`T`\>\>
 
 #### Type parameters
 
@@ -42,10 +42,10 @@ console.log(new TextDecoder().decode(plaintext))
 
 | Name | Type | Description |
 | :------ | :------ | :------ |
-| `jwe` | `string` \| `Uint8Array` | Compact JWE. |
+| `jwe` | `string` \| [`Uint8Array`]( https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Uint8Array ) | Compact JWE. |
 | `getKey` | [`CompactDecryptGetKey`](../interfaces/jwe_compact_decrypt.CompactDecryptGetKey.md) | Function resolving Private Key or Secret to decrypt the JWE with. |
 | `options?` | [`DecryptOptions`](../interfaces/types.DecryptOptions.md) | JWE Decryption options. |
 
 #### Returns
 
-`Promise`<[`CompactDecryptResult`](../interfaces/types.CompactDecryptResult.md) & [`ResolvedKey`](../interfaces/types.ResolvedKey.md)<`T`\>\>
+[`Promise`]( https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise )<[`CompactDecryptResult`](../interfaces/types.CompactDecryptResult.md) & [`ResolvedKey`](../interfaces/types.ResolvedKey.md)<`T`\>\>

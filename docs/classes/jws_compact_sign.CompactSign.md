@@ -37,7 +37,7 @@ console.log(jws)
 
 | Name | Type | Description |
 | :------ | :------ | :------ |
-| `payload` | `Uint8Array` | Binary representation of the payload to sign. |
+| `payload` | [`Uint8Array`]( https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Uint8Array ) | Binary representation of the payload to sign. |
 
 ## Methods
 
@@ -61,7 +61,7 @@ ___
 
 ### sign
 
-▸ **sign**(`key`, `options?`): `Promise`<`string`\>
+▸ **sign**(`key`, `options?`): [`Promise`]( https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise )<`string`\>
 
 Signs and resolves the value of the Compact JWS string.
 
@@ -69,9 +69,9 @@ Signs and resolves the value of the Compact JWS string.
 
 | Name | Type | Description |
 | :------ | :------ | :------ |
-| `key` | `Uint8Array` \| [`KeyLike`](../types/types.KeyLike.md) | Private Key or Secret to sign the JWS with. |
+| `key` | [`Uint8Array`]( https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Uint8Array ) \| [`KeyLike`](../types/types.KeyLike.md) | Private Key or Secret to sign the JWS with. |
 | `options?` | [`SignOptions`](../interfaces/types.SignOptions.md) | JWS Sign options. |
 
 #### Returns
 
-`Promise`<`string`\>
+[`Promise`]( https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise )<`string`\>

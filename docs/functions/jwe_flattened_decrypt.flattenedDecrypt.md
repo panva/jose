@@ -2,7 +2,7 @@
 
 [💗 Help the project](https://github.com/sponsors/panva)
 
-▸ **flattenedDecrypt**(`jwe`, `key`, `options?`): `Promise`<[`FlattenedDecryptResult`](../interfaces/types.FlattenedDecryptResult.md)\>
+▸ **flattenedDecrypt**(`jwe`, `key`, `options?`): [`Promise`]( https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise )<[`FlattenedDecryptResult`](../interfaces/types.FlattenedDecryptResult.md)\>
 
 Decrypts a Flattened JWE.
 
@@ -33,14 +33,14 @@ console.log(decoder.decode(additionalAuthenticatedData))
 | Name | Type | Description |
 | :------ | :------ | :------ |
 | `jwe` | [`FlattenedJWE`](../interfaces/types.FlattenedJWE.md) | Flattened JWE. |
-| `key` | `Uint8Array` \| [`KeyLike`](../types/types.KeyLike.md) | Private Key or Secret to decrypt the JWE with. |
+| `key` | [`Uint8Array`]( https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Uint8Array ) \| [`KeyLike`](../types/types.KeyLike.md) | Private Key or Secret to decrypt the JWE with. |
 | `options?` | [`DecryptOptions`](../interfaces/types.DecryptOptions.md) | JWE Decryption options. |
 
 #### Returns
 
-`Promise`<[`FlattenedDecryptResult`](../interfaces/types.FlattenedDecryptResult.md)\>
+[`Promise`]( https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise )<[`FlattenedDecryptResult`](../interfaces/types.FlattenedDecryptResult.md)\>
 
-▸ **flattenedDecrypt**<`T`\>(`jwe`, `getKey`, `options?`): `Promise`<[`FlattenedDecryptResult`](../interfaces/types.FlattenedDecryptResult.md) & [`ResolvedKey`](../interfaces/types.ResolvedKey.md)<`T`\>\>
+▸ **flattenedDecrypt**<`T`\>(`jwe`, `getKey`, `options?`): [`Promise`]( https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise )<[`FlattenedDecryptResult`](../interfaces/types.FlattenedDecryptResult.md) & [`ResolvedKey`](../interfaces/types.ResolvedKey.md)<`T`\>\>
 
 #### Type parameters
 
@@ -58,4 +58,4 @@ console.log(decoder.decode(additionalAuthenticatedData))
 
 #### Returns
 
-`Promise`<[`FlattenedDecryptResult`](../interfaces/types.FlattenedDecryptResult.md) & [`ResolvedKey`](../interfaces/types.ResolvedKey.md)<`T`\>\>
+[`Promise`]( https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise )<[`FlattenedDecryptResult`](../interfaces/types.FlattenedDecryptResult.md) & [`ResolvedKey`](../interfaces/types.ResolvedKey.md)<`T`\>\>

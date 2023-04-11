@@ -2,7 +2,7 @@
 
 [💗 Help the project](https://github.com/sponsors/panva)
 
-▸ **importJWK**<`T`\>(`jwk`, `alg?`, `octAsKeyObject?`): `Promise`<`T` \| `Uint8Array`\>
+▸ **importJWK**<`T`\>(`jwk`, `alg?`, `octAsKeyObject?`): [`Promise`]( https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise )<`T` \| [`Uint8Array`]( https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Uint8Array )\>
 
 Imports a JWK to a runtime-specific key representation (KeyLike). Either JWK "alg" (Algorithm)
 Parameter must be present or the optional "alg" argument. When running on a runtime using [Web
@@ -50,4 +50,4 @@ const rsaPublicKey = await jose.importJWK(
 
 #### Returns
 
-`Promise`<`T` \| `Uint8Array`\>
+[`Promise`]( https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise )<`T` \| [`Uint8Array`]( https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Uint8Array )\>

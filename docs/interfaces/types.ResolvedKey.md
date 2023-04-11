@@ -18,6 +18,6 @@
 
 ### key
 
-• **key**: `Uint8Array` \| `T`
+• **key**: [`Uint8Array`]( https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Uint8Array ) \| `T`
 
 Key resolved from the key resolver function.

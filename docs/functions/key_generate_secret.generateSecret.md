@@ -2,7 +2,7 @@
 
 [💗 Help the project](https://github.com/sponsors/panva)
 
-▸ **generateSecret**<`T`\>(`alg`, `options?`): `Promise`<`T` \| `Uint8Array`\>
+▸ **generateSecret**<`T`\>(`alg`, `options?`): [`Promise`]( https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise )<`T` \| [`Uint8Array`]( https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Uint8Array )\>
 
 Generates a symmetric secret key for a given JWA algorithm identifier.
 
@@ -31,4 +31,4 @@ console.log(secret)
 
 #### Returns
 
-`Promise`<`T` \| `Uint8Array`\>
+[`Promise`]( https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise )<`T` \| [`Uint8Array`]( https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Uint8Array )\>

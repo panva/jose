@@ -38,7 +38,7 @@ console.log(jws)
 
 | Name | Type | Description |
 | :------ | :------ | :------ |
-| `payload` | `Uint8Array` | Binary representation of the payload to sign. |
+| `payload` | [`Uint8Array`]( https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Uint8Array ) | Binary representation of the payload to sign. |
 
 ## Methods
 
@@ -80,7 +80,7 @@ ___
 
 ### sign
 
-▸ **sign**(`key`, `options?`): `Promise`<[`FlattenedJWS`](../interfaces/types.FlattenedJWS.md)\>
+▸ **sign**(`key`, `options?`): [`Promise`]( https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise )<[`FlattenedJWS`](../interfaces/types.FlattenedJWS.md)\>
 
 Signs and resolves the value of the Flattened JWS object.
 
@@ -88,9 +88,9 @@ Signs and resolves the value of the Flattened JWS object.
 
 | Name | Type | Description |
 | :------ | :------ | :------ |
-| `key` | `Uint8Array` \| [`KeyLike`](../types/types.KeyLike.md) | Private Key or Secret to sign the JWS with. |
+| `key` | [`Uint8Array`]( https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Uint8Array ) \| [`KeyLike`](../types/types.KeyLike.md) | Private Key or Secret to sign the JWS with. |
 | `options?` | [`SignOptions`](../interfaces/types.SignOptions.md) | JWS Sign options. |
 
 #### Returns
 
-`Promise`<[`FlattenedJWS`](../interfaces/types.FlattenedJWS.md)\>
+[`Promise`]( https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise )<[`FlattenedJWS`](../interfaces/types.FlattenedJWS.md)\>

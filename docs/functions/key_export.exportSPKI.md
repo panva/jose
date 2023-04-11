@@ -2,7 +2,7 @@
 
 [💗 Help the project](https://github.com/sponsors/panva)
 
-▸ **exportSPKI**(`key`): `Promise`<`string`\>
+▸ **exportSPKI**(`key`): [`Promise`]( https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise )<`string`\>
 
 Exports a runtime-specific public key representation (KeyObject or CryptoKey) to a PEM-encoded
 SPKI string format.
@@ -23,4 +23,4 @@ console.log(spkiPem)
 
 #### Returns
 
-`Promise`<`string`\>
+[`Promise`]( https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise )<`string`\>

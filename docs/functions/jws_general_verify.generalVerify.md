@@ -2,7 +2,7 @@
 
 [💗 Help the project](https://github.com/sponsors/panva)
 
-▸ **generalVerify**(`jws`, `key`, `options?`): `Promise`<[`GeneralVerifyResult`](../interfaces/types.GeneralVerifyResult.md)\>
+▸ **generalVerify**(`jws`, `key`, `options?`): [`Promise`]( https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise )<[`GeneralVerifyResult`](../interfaces/types.GeneralVerifyResult.md)\>
 
 Verifies the signature and format of and afterwards decodes the General JWS.
 
@@ -31,14 +31,14 @@ console.log(new TextDecoder().decode(payload))
 | Name | Type | Description |
 | :------ | :------ | :------ |
 | `jws` | [`GeneralJWSInput`](../interfaces/types.GeneralJWSInput.md) | General JWS. |
-| `key` | `Uint8Array` \| [`KeyLike`](../types/types.KeyLike.md) | Key to verify the JWS with. |
+| `key` | [`Uint8Array`]( https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Uint8Array ) \| [`KeyLike`](../types/types.KeyLike.md) | Key to verify the JWS with. |
 | `options?` | [`VerifyOptions`](../interfaces/types.VerifyOptions.md) | JWS Verify options. |
 
 #### Returns
 
-`Promise`<[`GeneralVerifyResult`](../interfaces/types.GeneralVerifyResult.md)\>
+[`Promise`]( https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise )<[`GeneralVerifyResult`](../interfaces/types.GeneralVerifyResult.md)\>
 
-▸ **generalVerify**<`T`\>(`jws`, `getKey`, `options?`): `Promise`<[`GeneralVerifyResult`](../interfaces/types.GeneralVerifyResult.md) & [`ResolvedKey`](../interfaces/types.ResolvedKey.md)<`T`\>\>
+▸ **generalVerify**<`T`\>(`jws`, `getKey`, `options?`): [`Promise`]( https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise )<[`GeneralVerifyResult`](../interfaces/types.GeneralVerifyResult.md) & [`ResolvedKey`](../interfaces/types.ResolvedKey.md)<`T`\>\>
 
 #### Type parameters
 
@@ -56,4 +56,4 @@ console.log(new TextDecoder().decode(payload))
 
 #### Returns
 
-`Promise`<[`GeneralVerifyResult`](../interfaces/types.GeneralVerifyResult.md) & [`ResolvedKey`](../interfaces/types.ResolvedKey.md)<`T`\>\>
+[`Promise`]( https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise )<[`GeneralVerifyResult`](../interfaces/types.GeneralVerifyResult.md) & [`ResolvedKey`](../interfaces/types.ResolvedKey.md)<`T`\>\>

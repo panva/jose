@@ -2,7 +2,7 @@
 
 [💗 Help the project](https://github.com/sponsors/panva)
 
-▸ **compactVerify**(`jws`, `key`, `options?`): `Promise`<[`CompactVerifyResult`](../interfaces/types.CompactVerifyResult.md)\>
+▸ **compactVerify**(`jws`, `key`, `options?`): [`Promise`]( https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise )<[`CompactVerifyResult`](../interfaces/types.CompactVerifyResult.md)\>
 
 Verifies the signature and format of and afterwards decodes the Compact JWS.
 
@@ -22,15 +22,15 @@ console.log(new TextDecoder().decode(payload))
 
 | Name | Type | Description |
 | :------ | :------ | :------ |
-| `jws` | `string` \| `Uint8Array` | Compact JWS. |
-| `key` | `Uint8Array` \| [`KeyLike`](../types/types.KeyLike.md) | Key to verify the JWS with. |
+| `jws` | `string` \| [`Uint8Array`]( https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Uint8Array ) | Compact JWS. |
+| `key` | [`Uint8Array`]( https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Uint8Array ) \| [`KeyLike`](../types/types.KeyLike.md) | Key to verify the JWS with. |
 | `options?` | [`VerifyOptions`](../interfaces/types.VerifyOptions.md) | JWS Verify options. |
 
 #### Returns
 
-`Promise`<[`CompactVerifyResult`](../interfaces/types.CompactVerifyResult.md)\>
+[`Promise`]( https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise )<[`CompactVerifyResult`](../interfaces/types.CompactVerifyResult.md)\>
 
-▸ **compactVerify**<`T`\>(`jws`, `getKey`, `options?`): `Promise`<[`CompactVerifyResult`](../interfaces/types.CompactVerifyResult.md) & [`ResolvedKey`](../interfaces/types.ResolvedKey.md)<`T`\>\>
+▸ **compactVerify**<`T`\>(`jws`, `getKey`, `options?`): [`Promise`]( https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise )<[`CompactVerifyResult`](../interfaces/types.CompactVerifyResult.md) & [`ResolvedKey`](../interfaces/types.ResolvedKey.md)<`T`\>\>
 
 #### Type parameters
 
@@ -42,10 +42,10 @@ console.log(new TextDecoder().decode(payload))
 
 | Name | Type | Description |
 | :------ | :------ | :------ |
-| `jws` | `string` \| `Uint8Array` | Compact JWS. |
+| `jws` | `string` \| [`Uint8Array`]( https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Uint8Array ) | Compact JWS. |
 | `getKey` | [`CompactVerifyGetKey`](../interfaces/jws_compact_verify.CompactVerifyGetKey.md) | Function resolving a key to verify the JWS with. |
 | `options?` | [`VerifyOptions`](../interfaces/types.VerifyOptions.md) | JWS Verify options. |
 
 #### Returns
 
-`Promise`<[`CompactVerifyResult`](../interfaces/types.CompactVerifyResult.md) & [`ResolvedKey`](../interfaces/types.ResolvedKey.md)<`T`\>\>
+[`Promise`]( https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise )<[`CompactVerifyResult`](../interfaces/types.CompactVerifyResult.md) & [`ResolvedKey`](../interfaces/types.ResolvedKey.md)<`T`\>\>

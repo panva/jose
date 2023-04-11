@@ -19,13 +19,13 @@ Recognized JWE Key Management-related Header Parameters.
 
 ### apu
 
-• `Optional` **apu**: `Uint8Array`
+• `Optional` **apu**: [`Uint8Array`]( https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Uint8Array )
 
 ___
 
 ### apv
 
-• `Optional` **apv**: `Uint8Array`
+• `Optional` **apv**: [`Uint8Array`]( https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Uint8Array )
 
 ___
 
@@ -40,7 +40,7 @@ ___
 
 ### iv
 
-• `Optional` **iv**: `Uint8Array`
+• `Optional` **iv**: [`Uint8Array`]( https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Uint8Array )
 
 **`deprecated`** You should not use this parameter. It is only really intended for test and vector
   validation purposes.
@@ -58,7 +58,7 @@ ___
 
 ### p2s
 
-• `Optional` **p2s**: `Uint8Array`
+• `Optional` **p2s**: [`Uint8Array`]( https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Uint8Array )
 
 **`deprecated`** You should not use this parameter. It is only really intended for test and vector
   validation purposes.

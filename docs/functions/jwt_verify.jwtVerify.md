@@ -2,7 +2,7 @@
 
 [💗 Help the project](https://github.com/sponsors/panva)
 
-▸ **jwtVerify**(`jwt`, `key`, `options?`): `Promise`<[`JWTVerifyResult`](../interfaces/types.JWTVerifyResult.md)\>
+▸ **jwtVerify**(`jwt`, `key`, `options?`): [`Promise`]( https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise )<[`JWTVerifyResult`](../interfaces/types.JWTVerifyResult.md)\>
 
 Verifies the JWT format (to be a JWS Compact format), verifies the JWS signature, validates the
 JWT Claims Set.
@@ -77,15 +77,15 @@ console.log(payload)
 
 | Name | Type | Description |
 | :------ | :------ | :------ |
-| `jwt` | `string` \| `Uint8Array` | JSON Web Token value (encoded as JWS). |
-| `key` | `Uint8Array` \| [`KeyLike`](../types/types.KeyLike.md) | Key to verify the JWT with. |
+| `jwt` | `string` \| [`Uint8Array`]( https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Uint8Array ) | JSON Web Token value (encoded as JWS). |
+| `key` | [`Uint8Array`]( https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Uint8Array ) \| [`KeyLike`](../types/types.KeyLike.md) | Key to verify the JWT with. |
 | `options?` | [`JWTVerifyOptions`](../interfaces/jwt_verify.JWTVerifyOptions.md) | JWT Decryption and JWT Claims Set validation options. |
 
 #### Returns
 
-`Promise`<[`JWTVerifyResult`](../interfaces/types.JWTVerifyResult.md)\>
+[`Promise`]( https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise )<[`JWTVerifyResult`](../interfaces/types.JWTVerifyResult.md)\>
 
-▸ **jwtVerify**<`T`\>(`jwt`, `getKey`, `options?`): `Promise`<[`JWTVerifyResult`](../interfaces/types.JWTVerifyResult.md) & [`ResolvedKey`](../interfaces/types.ResolvedKey.md)<`T`\>\>
+▸ **jwtVerify**<`T`\>(`jwt`, `getKey`, `options?`): [`Promise`]( https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise )<[`JWTVerifyResult`](../interfaces/types.JWTVerifyResult.md) & [`ResolvedKey`](../interfaces/types.ResolvedKey.md)<`T`\>\>
 
 **`example`** Usage with a public JSON Web Key Set hosted on a remote URL
 
@@ -110,10 +110,10 @@ console.log(payload)
 
 | Name | Type | Description |
 | :------ | :------ | :------ |
-| `jwt` | `string` \| `Uint8Array` | JSON Web Token value (encoded as JWS). |
+| `jwt` | `string` \| [`Uint8Array`]( https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Uint8Array ) | JSON Web Token value (encoded as JWS). |
 | `getKey` | [`JWTVerifyGetKey`](../interfaces/jwt_verify.JWTVerifyGetKey.md) | Function resolving a key to verify the JWT with. |
 | `options?` | [`JWTVerifyOptions`](../interfaces/jwt_verify.JWTVerifyOptions.md) | JWT Decryption and JWT Claims Set validation options. |
 
 #### Returns
 
-`Promise`<[`JWTVerifyResult`](../interfaces/types.JWTVerifyResult.md) & [`ResolvedKey`](../interfaces/types.ResolvedKey.md)<`T`\>\>
+[`Promise`]( https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise )<[`JWTVerifyResult`](../interfaces/types.JWTVerifyResult.md) & [`ResolvedKey`](../interfaces/types.ResolvedKey.md)<`T`\>\>

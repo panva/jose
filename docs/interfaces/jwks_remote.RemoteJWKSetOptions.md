@@ -49,7 +49,7 @@ ___
 
 ### headers
 
-• `Optional` **headers**: `Record`<`string`, `string`\>
+• `Optional` **headers**: [`Record`]( https://www.typescriptlang.org/docs/handbook/utility-types.html#recordkeys-type )<`string`, `string`\>
 
 Optional headers to be sent with the HTTP request.
 

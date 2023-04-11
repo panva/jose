@@ -2,7 +2,7 @@
 
 [💗 Help the project](https://github.com/sponsors/panva)
 
-▸ **exportPKCS8**(`key`): `Promise`<`string`\>
+▸ **exportPKCS8**(`key`): [`Promise`]( https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise )<`string`\>
 
 Exports a runtime-specific private key representation (KeyObject or CryptoKey) to a PEM-encoded
 PKCS8 string format.
@@ -23,4 +23,4 @@ console.log(pkcs8Pem)
 
 #### Returns
 
-`Promise`<`string`\>
+[`Promise`]( https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise )<`string`\>

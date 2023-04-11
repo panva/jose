@@ -22,4 +22,4 @@ ___
 
 ### signatures
 
-• **signatures**: `Omit`<[`FlattenedJWSInput`](types.FlattenedJWSInput.md), ``"payload"``\>[]
+• **signatures**: [`Omit`]( https://www.typescriptlang.org/docs/handbook/utility-types.html#omittype-keys )<[`FlattenedJWSInput`](types.FlattenedJWSInput.md), ``"payload"``\>[]

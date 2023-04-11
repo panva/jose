@@ -6,7 +6,7 @@
 
 ### InflateFunction
 
-▸ **InflateFunction**(`input`): `Promise`<`Uint8Array`\>
+▸ **InflateFunction**(`input`): [`Promise`]( https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise )<[`Uint8Array`]( https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Uint8Array )\>
 
 Inflate Raw implementation, e.g. promisified
 [zlib.inflateRaw](https://nodejs.org/api/zlib.html#zlibinflaterawbuffer-options-callback).
@@ -15,8 +15,8 @@ Inflate Raw implementation, e.g. promisified
 
 | Name | Type |
 | :------ | :------ |
-| `input` | `Uint8Array` |
+| `input` | [`Uint8Array`]( https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Uint8Array ) |
 
 #### Returns
 
-`Promise`<`Uint8Array`\>
+[`Promise`]( https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise )<[`Uint8Array`]( https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Uint8Array )\>

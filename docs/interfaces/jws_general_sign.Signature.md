@@ -82,7 +82,7 @@ ___
 
 ### sign
 
-▸ **sign**(`...args`): `Promise`<[`GeneralJWS`](types.GeneralJWS.md)\>
+▸ **sign**(`...args`): [`Promise`]( https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise )<[`GeneralJWS`](types.GeneralJWS.md)\>
 
 A shorthand for calling encrypt() on the enclosing GeneralSign instance
 
@@ -94,4 +94,4 @@ A shorthand for calling encrypt() on the enclosing GeneralSign instance
 
 #### Returns
 
-`Promise`<[`GeneralJWS`](types.GeneralJWS.md)\>
+[`Promise`]( https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise )<[`GeneralJWS`](types.GeneralJWS.md)\>

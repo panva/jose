@@ -2,7 +2,7 @@
 
 [💗 Help the project](https://github.com/sponsors/panva)
 
-▸ **importX509**<`T`\>(`x509`, `alg`, `options?`): `Promise`<`T`\>
+▸ **importX509**<`T`\>(`x509`, `alg`, `options?`): [`Promise`]( https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise )<`T`\>
 
 Imports the SPKI from an X.509 string certificate as a runtime-specific public key representation
 (KeyObject or CryptoKey). See [Algorithm Key
@@ -42,4 +42,4 @@ const ecPublicKey = await jose.importX509(x509, algorithm)
 
 #### Returns
 
-`Promise`<`T`\>
+[`Promise`]( https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise )<`T`\>

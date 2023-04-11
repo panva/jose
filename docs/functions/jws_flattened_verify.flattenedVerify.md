@@ -2,7 +2,7 @@
 
 [💗 Help the project](https://github.com/sponsors/panva)
 
-▸ **flattenedVerify**(`jws`, `key`, `options?`): `Promise`<[`FlattenedVerifyResult`](../interfaces/types.FlattenedVerifyResult.md)\>
+▸ **flattenedVerify**(`jws`, `key`, `options?`): [`Promise`]( https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise )<[`FlattenedVerifyResult`](../interfaces/types.FlattenedVerifyResult.md)\>
 
 Verifies the signature and format of and afterwards decodes the Flattened JWS.
 
@@ -28,14 +28,14 @@ console.log(decoder.decode(payload))
 | Name | Type | Description |
 | :------ | :------ | :------ |
 | `jws` | [`FlattenedJWSInput`](../interfaces/types.FlattenedJWSInput.md) | Flattened JWS. |
-| `key` | `Uint8Array` \| [`KeyLike`](../types/types.KeyLike.md) | Key to verify the JWS with. |
+| `key` | [`Uint8Array`]( https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Uint8Array ) \| [`KeyLike`](../types/types.KeyLike.md) | Key to verify the JWS with. |
 | `options?` | [`VerifyOptions`](../interfaces/types.VerifyOptions.md) | JWS Verify options. |
 
 #### Returns
 
-`Promise`<[`FlattenedVerifyResult`](../interfaces/types.FlattenedVerifyResult.md)\>
+[`Promise`]( https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise )<[`FlattenedVerifyResult`](../interfaces/types.FlattenedVerifyResult.md)\>
 
-▸ **flattenedVerify**<`T`\>(`jws`, `getKey`, `options?`): `Promise`<[`FlattenedVerifyResult`](../interfaces/types.FlattenedVerifyResult.md) & [`ResolvedKey`](../interfaces/types.ResolvedKey.md)<`T`\>\>
+▸ **flattenedVerify**<`T`\>(`jws`, `getKey`, `options?`): [`Promise`]( https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise )<[`FlattenedVerifyResult`](../interfaces/types.FlattenedVerifyResult.md) & [`ResolvedKey`](../interfaces/types.ResolvedKey.md)<`T`\>\>
 
 #### Type parameters
 
@@ -53,4 +53,4 @@ console.log(decoder.decode(payload))
 
 #### Returns
 
-`Promise`<[`FlattenedVerifyResult`](../interfaces/types.FlattenedVerifyResult.md) & [`ResolvedKey`](../interfaces/types.ResolvedKey.md)<`T`\>\>
+[`Promise`]( https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise )<[`FlattenedVerifyResult`](../interfaces/types.FlattenedVerifyResult.md) & [`ResolvedKey`](../interfaces/types.ResolvedKey.md)<`T`\>\>

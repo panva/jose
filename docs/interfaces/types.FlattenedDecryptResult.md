@@ -16,7 +16,7 @@
 
 ### plaintext
 
-• **plaintext**: `Uint8Array`
+• **plaintext**: [`Uint8Array`]( https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Uint8Array )
 
 Plaintext.
 
@@ -24,7 +24,7 @@ ___
 
 ### additionalAuthenticatedData
 
-• `Optional` **additionalAuthenticatedData**: `Uint8Array`
+• `Optional` **additionalAuthenticatedData**: [`Uint8Array`]( https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Uint8Array )
 
 JWE AAD.
 

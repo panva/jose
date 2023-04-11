@@ -2,7 +2,7 @@
 
 [💗 Help the project](https://github.com/sponsors/panva)
 
-▸ **exportJWK**(`key`): `Promise`<[`JWK`](../interfaces/types.JWK.md)\>
+▸ **exportJWK**(`key`): [`Promise`]( https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise )<[`JWK`](../interfaces/types.JWK.md)\>
 
 Exports a runtime-specific key representation (KeyLike) to a JWK.
 
@@ -20,8 +20,8 @@ console.log(publicJwk)
 
 | Name | Type | Description |
 | :------ | :------ | :------ |
-| `key` | `Uint8Array` \| [`KeyLike`](../types/types.KeyLike.md) | Key representation to export as JWK. |
+| `key` | [`Uint8Array`]( https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Uint8Array ) \| [`KeyLike`](../types/types.KeyLike.md) | Key representation to export as JWK. |
 
 #### Returns
 
-`Promise`<[`JWK`](../interfaces/types.JWK.md)\>
+[`Promise`]( https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise )<[`JWK`](../interfaces/types.JWK.md)\>

@@ -2,7 +2,7 @@
 
 [💗 Help the project](https://github.com/sponsors/panva)
 
-▸ **importSPKI**<`T`\>(`spki`, `alg`, `options?`): `Promise`<`T`\>
+▸ **importSPKI**<`T`\>(`spki`, `alg`, `options?`): [`Promise`]( https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise )<`T`\>
 
 Imports a PEM-encoded SPKI string as a runtime-specific public key representation (KeyObject or
 CryptoKey). See [Algorithm Key Requirements](https://github.com/panva/jose/issues/210) to learn
@@ -35,4 +35,4 @@ const ecPublicKey = await jose.importSPKI(spki, algorithm)
 
 #### Returns
 
-`Promise`<`T`\>
+[`Promise`]( https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise )<`T`\>

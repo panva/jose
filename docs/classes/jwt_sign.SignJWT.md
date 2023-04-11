@@ -274,7 +274,7 @@ ___
 
 ### sign
 
-▸ **sign**(`key`, `options?`): `Promise`<`string`\>
+▸ **sign**(`key`, `options?`): [`Promise`]( https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise )<`string`\>
 
 Signs and returns the JWT.
 
@@ -282,9 +282,9 @@ Signs and returns the JWT.
 
 | Name | Type | Description |
 | :------ | :------ | :------ |
-| `key` | `Uint8Array` \| [`KeyLike`](../types/types.KeyLike.md) | Private Key or Secret to sign the JWT with. |
+| `key` | [`Uint8Array`]( https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Uint8Array ) \| [`KeyLike`](../types/types.KeyLike.md) | Private Key or Secret to sign the JWT with. |
 | `options?` | [`SignOptions`](../interfaces/types.SignOptions.md) | JWT Sign options. |
 
 #### Returns
 
-`Promise`<`string`\>
+[`Promise`]( https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise )<`string`\>

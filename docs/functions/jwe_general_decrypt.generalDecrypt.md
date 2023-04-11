@@ -2,7 +2,7 @@
 
 [💗 Help the project](https://github.com/sponsors/panva)
 
-▸ **generalDecrypt**(`jwe`, `key`, `options?`): `Promise`<[`GeneralDecryptResult`](../interfaces/types.GeneralDecryptResult.md)\>
+▸ **generalDecrypt**(`jwe`, `key`, `options?`): [`Promise`]( https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise )<[`GeneralDecryptResult`](../interfaces/types.GeneralDecryptResult.md)\>
 
 Decrypts a General JWE.
 
@@ -37,14 +37,14 @@ console.log(decoder.decode(additionalAuthenticatedData))
 | Name | Type | Description |
 | :------ | :------ | :------ |
 | `jwe` | [`GeneralJWE`](../interfaces/types.GeneralJWE.md) | General JWE. |
-| `key` | `Uint8Array` \| [`KeyLike`](../types/types.KeyLike.md) | Private Key or Secret to decrypt the JWE with. |
+| `key` | [`Uint8Array`]( https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Uint8Array ) \| [`KeyLike`](../types/types.KeyLike.md) | Private Key or Secret to decrypt the JWE with. |
 | `options?` | [`DecryptOptions`](../interfaces/types.DecryptOptions.md) | JWE Decryption options. |
 
 #### Returns
 
-`Promise`<[`GeneralDecryptResult`](../interfaces/types.GeneralDecryptResult.md)\>
+[`Promise`]( https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise )<[`GeneralDecryptResult`](../interfaces/types.GeneralDecryptResult.md)\>
 
-▸ **generalDecrypt**<`T`\>(`jwe`, `getKey`, `options?`): `Promise`<[`GeneralDecryptResult`](../interfaces/types.GeneralDecryptResult.md) & [`ResolvedKey`](../interfaces/types.ResolvedKey.md)<`T`\>\>
+▸ **generalDecrypt**<`T`\>(`jwe`, `getKey`, `options?`): [`Promise`]( https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise )<[`GeneralDecryptResult`](../interfaces/types.GeneralDecryptResult.md) & [`ResolvedKey`](../interfaces/types.ResolvedKey.md)<`T`\>\>
 
 #### Type parameters
 
@@ -62,4 +62,4 @@ console.log(decoder.decode(additionalAuthenticatedData))
 
 #### Returns
 
-`Promise`<[`GeneralDecryptResult`](../interfaces/types.GeneralDecryptResult.md) & [`ResolvedKey`](../interfaces/types.ResolvedKey.md)<`T`\>\>
+[`Promise`]( https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise )<[`GeneralDecryptResult`](../interfaces/types.GeneralDecryptResult.md) & [`ResolvedKey`](../interfaces/types.ResolvedKey.md)<`T`\>\>

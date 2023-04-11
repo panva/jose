@@ -6,7 +6,7 @@
 
 ### DeflateFunction
 
-▸ **DeflateFunction**(`input`): `Promise`<`Uint8Array`\>
+▸ **DeflateFunction**(`input`): [`Promise`]( https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise )<[`Uint8Array`]( https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Uint8Array )\>
 
 Deflate Raw implementation, e.g. promisified
 [zlib.deflateRaw](https://nodejs.org/api/zlib.html#zlibdeflaterawbuffer-options-callback).
@@ -15,8 +15,8 @@ Deflate Raw implementation, e.g. promisified
 
 | Name | Type |
 | :------ | :------ |
-| `input` | `Uint8Array` |
+| `input` | [`Uint8Array`]( https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Uint8Array ) |
 
 #### Returns
 
-`Promise`<`Uint8Array`\>
+[`Promise`]( https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise )<[`Uint8Array`]( https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Uint8Array )\>

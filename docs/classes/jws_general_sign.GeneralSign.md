@@ -40,7 +40,7 @@ console.log(jws)
 
 | Name | Type | Description |
 | :------ | :------ | :------ |
-| `payload` | `Uint8Array` | Binary representation of the payload to sign. |
+| `payload` | [`Uint8Array`]( https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Uint8Array ) | Binary representation of the payload to sign. |
 
 ## Methods
 
@@ -54,7 +54,7 @@ Adds an additional signature for the General JWS object.
 
 | Name | Type | Description |
 | :------ | :------ | :------ |
-| `key` | `Uint8Array` \| [`KeyLike`](../types/types.KeyLike.md) | Private Key or Secret to sign the individual JWS signature with. |
+| `key` | [`Uint8Array`]( https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Uint8Array ) \| [`KeyLike`](../types/types.KeyLike.md) | Private Key or Secret to sign the individual JWS signature with. |
 | `options?` | [`SignOptions`](../interfaces/types.SignOptions.md) | JWS Sign options. |
 
 #### Returns
@@ -65,10 +65,10 @@ ___
 
 ### sign
 
-▸ **sign**(): `Promise`<[`GeneralJWS`](../interfaces/types.GeneralJWS.md)\>
+▸ **sign**(): [`Promise`]( https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise )<[`GeneralJWS`](../interfaces/types.GeneralJWS.md)\>
 
 Signs and resolves the value of the General JWS object.
 
 #### Returns
 
-`Promise`<[`GeneralJWS`](../interfaces/types.GeneralJWS.md)\>
+[`Promise`]( https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise )<[`GeneralJWS`](../interfaces/types.GeneralJWS.md)\>

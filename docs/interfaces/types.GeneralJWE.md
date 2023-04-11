@@ -35,7 +35,7 @@ ___
 
 ### recipients
 
-• **recipients**: `Pick`<[`FlattenedJWE`](types.FlattenedJWE.md), ``"header"`` \| ``"encrypted_key"``\>[]
+• **recipients**: [`Pick`]( https://www.typescriptlang.org/docs/handbook/utility-types.html#picktype-keys )<[`FlattenedJWE`](types.FlattenedJWE.md), ``"header"`` \| ``"encrypted_key"``\>[]
 
 ___
 
