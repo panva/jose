@@ -48,7 +48,7 @@ export interface GeneralVerifyGetKey
  *
  * @param jws General JWS.
  * @param key Key to verify the JWS with. See also
- *   {@link https://github.com/panva/jose/issues/210 Algorithm Key Requirements}.
+ *   {@link https://github.com/panva/jose/issues/210#jws-alg Algorithm Key Requirements}.
  * @param options JWS Verify options.
  */
 export function generalVerify(
@@ -59,7 +59,7 @@ export function generalVerify(
 /**
  * @param jws General JWS.
  * @param getKey Function resolving a key to verify the JWS with. See also
- *   {@link https://github.com/panva/jose/issues/210 Algorithm Key Requirements}.
+ *   {@link https://github.com/panva/jose/issues/210#jws-alg Algorithm Key Requirements}.
  * @param options JWS Verify options.
  */
 export function generalVerify<T extends KeyLike = KeyLike>(

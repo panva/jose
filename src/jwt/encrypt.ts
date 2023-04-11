@@ -134,7 +134,7 @@ export class EncryptJWT extends ProduceJWT {
    * Encrypts and returns the JWT.
    *
    * @param key Public Key or Secret to encrypt the JWT with. See also
-   *   {@link https://github.com/panva/jose/issues/210 Algorithm Key Requirements}.
+   *   {@link https://github.com/panva/jose/issues/210#jwe-alg Algorithm Key Requirements}.
    * @param options JWE Encryption options.
    */
   async encrypt(key: KeyLike | Uint8Array, options?: EncryptOptions): Promise<string> {

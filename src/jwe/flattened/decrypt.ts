@@ -54,7 +54,7 @@ export interface FlattenedDecryptGetKey
  *
  * @param jwe Flattened JWE.
  * @param key Private Key or Secret to decrypt the JWE with. See also
- *   {@link https://github.com/panva/jose/issues/210 Algorithm Key Requirements}.
+ *   {@link https://github.com/panva/jose/issues/210#jwe-alg Algorithm Key Requirements}.
  * @param options JWE Decryption options.
  */
 export function flattenedDecrypt(
@@ -65,7 +65,7 @@ export function flattenedDecrypt(
 /**
  * @param jwe Flattened JWE.
  * @param getKey Function resolving Private Key or Secret to decrypt the JWE with. See also
- *   {@link https://github.com/panva/jose/issues/210 Algorithm Key Requirements}.
+ *   {@link https://github.com/panva/jose/issues/210#jwe-alg Algorithm Key Requirements}.
  * @param options JWE Decryption options.
  */
 export function flattenedDecrypt<T extends KeyLike = KeyLike>(

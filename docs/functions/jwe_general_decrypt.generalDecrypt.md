@@ -37,7 +37,7 @@ console.log(decoder.decode(additionalAuthenticatedData))
 | Name | Type | Description |
 | :------ | :------ | :------ |
 | `jwe` | [`GeneralJWE`](../interfaces/types.GeneralJWE.md) | General JWE. |
-| `key` | [`Uint8Array`]( https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Uint8Array ) \| [`KeyLike`](../types/types.KeyLike.md) | Private Key or Secret to decrypt the JWE with. See also [Algorithm Key Requirements](https://github.com/panva/jose/issues/210). |
+| `key` | [`Uint8Array`]( https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Uint8Array ) \| [`KeyLike`](../types/types.KeyLike.md) | Private Key or Secret to decrypt the JWE with. See also [Algorithm Key Requirements](https://github.com/panva/jose/issues/210#jwe-alg). |
 | `options?` | [`DecryptOptions`](../interfaces/types.DecryptOptions.md) | JWE Decryption options. |
 
 #### Returns
@@ -57,7 +57,7 @@ console.log(decoder.decode(additionalAuthenticatedData))
 | Name | Type | Description |
 | :------ | :------ | :------ |
 | `jwe` | [`GeneralJWE`](../interfaces/types.GeneralJWE.md) | General JWE. |
-| `getKey` | [`GeneralDecryptGetKey`](../interfaces/jwe_general_decrypt.GeneralDecryptGetKey.md) | Function resolving Private Key or Secret to decrypt the JWE with. See also [Algorithm Key Requirements](https://github.com/panva/jose/issues/210). |
+| `getKey` | [`GeneralDecryptGetKey`](../interfaces/jwe_general_decrypt.GeneralDecryptGetKey.md) | Function resolving Private Key or Secret to decrypt the JWE with. See also [Algorithm Key Requirements](https://github.com/panva/jose/issues/210#jwe-alg). |
 | `options?` | [`DecryptOptions`](../interfaces/types.DecryptOptions.md) | JWE Decryption options. |
 
 #### Returns
