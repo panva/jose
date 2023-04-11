@@ -141,7 +141,7 @@
     "@types/qunit": "^2.19.4",
     "ava": "^5.2.0",
     "edge-runtime": "^2.1.2",
-    "esbuild": "^0.17.15",
+    "esbuild": "^0.17.16",
     "nock": "^13.3.0",
     "npm-run-all2": "^6.0.5",
     "patch-package": "^6.5.1",
@@ -152,9 +152,10 @@
     "tar": "^6.1.13",
     "timekeeper": "^2.2.0",
     "tsd": "^0.28.1",
-    "typedoc": "^0.23.28",
-    "typedoc-plugin-markdown": "^3.14.0",
-    "typescript": "^5.0.3"
+    "typedoc": "^0.24.1",
+    "typedoc-plugin-markdown": "^3.15.1",
+    "typedoc-plugin-mdn-links": "^3.0.3",
+    "typescript": "^5.0.4"
   },
   "deno": "./dist/browser/index.js"
 }

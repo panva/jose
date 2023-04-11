@@ -42,7 +42,7 @@
   "gitRevision": "main",
   "hideGenerator": true,
   "out": "docs",
-  "plugin": ["typedoc-plugin-markdown", "./.mdn_links.cjs"],
+  "plugin": ["typedoc-plugin-markdown", "typedoc-plugin-mdn-links"],
   "readme": "none",
   "tsconfig": "./tsconfig/browser.json",
   "sort": ["kind", "static-first", "required-first", "alphabetical"],
