@@ -1,4 +1,5 @@
 const { x } = require('tar')
+const { globSync } = require('glob')
 
 const { execSync } = require('child_process')
 const { readFileSync, writeFileSync } = require('fs')
@@ -42,7 +43,6 @@ execSync('npm run build:browser-bundle', opts)
 execSync('npm run build:browser-bundle-min', opts)
 execSync('npm run build:browser-umd', opts)
 execSync('git add docs/**/*.md', opts)
-execSync('git add dist/**/* -f', opts)
 
 for (const path of ['./README.md', './docs/README.md']) {
   writeFileSync(
@@ -51,3 +51,48 @@ for (const path of ['./README.md', './docs/README.md']) {
   )
   execSync(`git add ${path}`, { stdio: 'inherit' })
 }
+
+const ts = globSync('dist/**/**.ts')
+
+function filterExamples(file) {
+  let inExample = false
+  return file
+    .split('\n')
+    .filter((line) => {
+      let remove = inExample
+      if (line.includes('* @example')) {
+        remove = inExample = true
+      } else if (line.includes('```') && !line.includes('```js')) {
+        inExample = false
+      } else if (inExample) {
+        remove = true
+      }
+      return remove === false
+    })
+    .join('\n')
+}
+
+function trimExcessComment(file) {
+  let previousWasEmpty = false
+  return file
+    .split('\n')
+    .filter((line) => {
+      let remove = false
+      if (line.trim() === '*' && previousWasEmpty) {
+        remove = true
+      } else if (line.trim() === '*' || line.trim() === '/**') {
+        previousWasEmpty = true
+      } else {
+        previousWasEmpty = false
+      }
+
+      return remove === false
+    })
+    .join('\n')
+}
+
+for (const file of ts) {
+  writeFileSync(file, trimExcessComment(filterExamples(readFileSync(file, { encoding: 'utf-8' }))))
+}
+
+execSync('git add dist/**/* -f', opts)
