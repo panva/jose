@@ -27,20 +27,20 @@ x({
 execSync('npm run build:deno', opts)
 writeFileSync(
   'dist/deno/README.md',
-  readFileSync('docs/readme.md', { encoding: 'utf-8' }).replace(
-    /\*\*[\s\S]+```/gm,
-    `**\`example\`** Deno import
+  readFileSync('docs/readme.md', { encoding: 'utf-8' })
+    .replace(/^`jose` is distributed.+$\n\n/m, '')
+    .replace(
+      /\*\*[\s\S]+```/gm,
+      `**\`example\`** Deno import
 \`\`\`js
 import * as jose from 'https://deno.land/x/jose@${tagName}/index.ts'
 \`\`\``,
-  ),
+    )
+    .replace(/(\]\()(?!https)/gm, `](https://github.com/panva/jose/blob/${tagName}/docs/`),
 )
 execSync('npm run build:browser-bundle', opts)
 execSync('npm run build:browser-bundle-min', opts)
 execSync('npm run build:browser-umd', opts)
-execSync(
-  `sed -i '' -e 's/](/](https:\\/\\/github.com\\/panva\\/jose\\/blob\\/${tagName}\\/docs\\//g' dist/deno/README.md`,
-)
 execSync('git add docs/**/*.md', opts)
 execSync('git add dist/**/* -f', opts)
 
