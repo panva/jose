@@ -65,7 +65,7 @@ test('General JWS signing validations', async (t) => {
   )
 
   await t.throwsAsync(sig.sign(), {
-    message: 'inconsistent use of JWS Unencoded Payload Option (RFC7797)',
+    message: 'inconsistent use of JWS Unencoded Payload (RFC7797)',
     code: 'ERR_JWS_INVALID',
   })
 })
