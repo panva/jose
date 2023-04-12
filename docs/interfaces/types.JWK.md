@@ -1,9 +1,13 @@
 # Interface: JWK
 
-[💗 Help the project](https://github.com/sponsors/panva)
+## [💗 Help the project](https://github.com/sponsors/panva)
 
-JSON Web Key ([JWK](https://www.rfc-editor.org/rfc/rfc7517)). "RSA", "EC", "OKP", and "oct" key
-types are supported.
+Support from the community to continue maintaining and improving this module is welcome. If you find the module useful, please consider supporting the project by [becoming a sponsor](https://github.com/sponsors/panva).
+
+---
+
+JSON Web Key ([JWK](https://www.rfc-editor.org/rfc/rfc7517)). "RSA", "EC", "OKP", and "oct"
+key types are supported.
 
 ## Table of contents
 

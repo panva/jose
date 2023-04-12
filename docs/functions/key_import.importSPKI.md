@@ -1,12 +1,15 @@
 # Function: importSPKI
 
-[💗 Help the project](https://github.com/sponsors/panva)
+## [💗 Help the project](https://github.com/sponsors/panva)
+
+Support from the community to continue maintaining and improving this module is welcome. If you find the module useful, please consider supporting the project by [becoming a sponsor](https://github.com/sponsors/panva).
+
+---
 
 ▸ **importSPKI**<`T`\>(`spki`, `alg`, `options?`): [`Promise`]( https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise )<`T`\>
 
 Imports a PEM-encoded SPKI string as a runtime-specific public key representation (KeyObject or
-CryptoKey). See [Algorithm Key Requirements](https://github.com/panva/jose/issues/210) to learn
-about key to algorithm requirements and mapping.
+CryptoKey).
 
 **`example`** Usage
 
@@ -30,7 +33,7 @@ const ecPublicKey = await jose.importSPKI(spki, algorithm)
 | Name | Type | Description |
 | :------ | :------ | :------ |
 | `spki` | `string` | - |
-| `alg` | `string` | (Only effective in Web Crypto API runtimes) JSON Web Algorithm identifier to be used with the imported key, its presence is only enforced in Web Crypto API runtimes. |
+| `alg` | `string` | (Only effective in Web Crypto API runtimes) JSON Web Algorithm identifier to be used with the imported key, its presence is only enforced in Web Crypto API runtimes. See [Algorithm Key Requirements](https://github.com/panva/jose/issues/210). |
 | `options?` | [`PEMImportOptions`](../interfaces/key_import.PEMImportOptions.md) | - |
 
 #### Returns

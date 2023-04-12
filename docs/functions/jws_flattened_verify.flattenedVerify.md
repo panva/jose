@@ -1,6 +1,10 @@
 # Function: flattenedVerify
 
-[💗 Help the project](https://github.com/sponsors/panva)
+## [💗 Help the project](https://github.com/sponsors/panva)
+
+Support from the community to continue maintaining and improving this module is welcome. If you find the module useful, please consider supporting the project by [becoming a sponsor](https://github.com/sponsors/panva).
+
+---
 
 ▸ **flattenedVerify**(`jws`, `key`, `options?`): [`Promise`]( https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise )<[`FlattenedVerifyResult`](../interfaces/types.FlattenedVerifyResult.md)\>
 
@@ -28,7 +32,7 @@ console.log(decoder.decode(payload))
 | Name | Type | Description |
 | :------ | :------ | :------ |
 | `jws` | [`FlattenedJWSInput`](../interfaces/types.FlattenedJWSInput.md) | Flattened JWS. |
-| `key` | [`Uint8Array`]( https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Uint8Array ) \| [`KeyLike`](../types/types.KeyLike.md) | Key to verify the JWS with. See also [Algorithm Key Requirements](https://github.com/panva/jose/issues/210#jws-alg). |
+| `key` | [`Uint8Array`]( https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Uint8Array ) \| [`KeyLike`](../types/types.KeyLike.md) | Key to verify the JWS with. See [Algorithm Key Requirements](https://github.com/panva/jose/issues/210#jws-alg). |
 | `options?` | [`VerifyOptions`](../interfaces/types.VerifyOptions.md) | JWS Verify options. |
 
 #### Returns
@@ -48,7 +52,7 @@ console.log(decoder.decode(payload))
 | Name | Type | Description |
 | :------ | :------ | :------ |
 | `jws` | [`FlattenedJWSInput`](../interfaces/types.FlattenedJWSInput.md) | Flattened JWS. |
-| `getKey` | [`FlattenedVerifyGetKey`](../interfaces/jws_flattened_verify.FlattenedVerifyGetKey.md) | Function resolving a key to verify the JWS with. See also [Algorithm Key Requirements](https://github.com/panva/jose/issues/210#jws-alg). |
+| `getKey` | [`FlattenedVerifyGetKey`](../interfaces/jws_flattened_verify.FlattenedVerifyGetKey.md) | Function resolving a key to verify the JWS with. See [Algorithm Key Requirements](https://github.com/panva/jose/issues/210#jws-alg). |
 | `options?` | [`VerifyOptions`](../interfaces/types.VerifyOptions.md) | JWS Verify options. |
 
 #### Returns

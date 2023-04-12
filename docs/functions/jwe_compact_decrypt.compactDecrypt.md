@@ -1,6 +1,10 @@
 # Function: compactDecrypt
 
-[💗 Help the project](https://github.com/sponsors/panva)
+## [💗 Help the project](https://github.com/sponsors/panva)
+
+Support from the community to continue maintaining and improving this module is welcome. If you find the module useful, please consider supporting the project by [becoming a sponsor](https://github.com/sponsors/panva).
+
+---
 
 ▸ **compactDecrypt**(`jwe`, `key`, `options?`): [`Promise`]( https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise )<[`CompactDecryptResult`](../interfaces/types.CompactDecryptResult.md)\>
 
@@ -23,7 +27,7 @@ console.log(new TextDecoder().decode(plaintext))
 | Name | Type | Description |
 | :------ | :------ | :------ |
 | `jwe` | `string` \| [`Uint8Array`]( https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Uint8Array ) | Compact JWE. |
-| `key` | [`Uint8Array`]( https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Uint8Array ) \| [`KeyLike`](../types/types.KeyLike.md) | Private Key or Secret to decrypt the JWE with. See also [Algorithm Key Requirements](https://github.com/panva/jose/issues/210#jwe-alg). |
+| `key` | [`Uint8Array`]( https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Uint8Array ) \| [`KeyLike`](../types/types.KeyLike.md) | Private Key or Secret to decrypt the JWE with. See [Algorithm Key Requirements](https://github.com/panva/jose/issues/210#jwe-alg). |
 | `options?` | [`DecryptOptions`](../interfaces/types.DecryptOptions.md) | JWE Decryption options. |
 
 #### Returns
@@ -43,7 +47,7 @@ console.log(new TextDecoder().decode(plaintext))
 | Name | Type | Description |
 | :------ | :------ | :------ |
 | `jwe` | `string` \| [`Uint8Array`]( https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Uint8Array ) | Compact JWE. |
-| `getKey` | [`CompactDecryptGetKey`](../interfaces/jwe_compact_decrypt.CompactDecryptGetKey.md) | Function resolving Private Key or Secret to decrypt the JWE with. See also [Algorithm Key Requirements](https://github.com/panva/jose/issues/210#jwe-alg). |
+| `getKey` | [`CompactDecryptGetKey`](../interfaces/jwe_compact_decrypt.CompactDecryptGetKey.md) | Function resolving Private Key or Secret to decrypt the JWE with. See [Algorithm Key Requirements](https://github.com/panva/jose/issues/210#jwe-alg). |
 | `options?` | [`DecryptOptions`](../interfaces/types.DecryptOptions.md) | JWE Decryption options. |
 
 #### Returns

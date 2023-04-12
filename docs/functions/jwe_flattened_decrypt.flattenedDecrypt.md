@@ -1,6 +1,10 @@
 # Function: flattenedDecrypt
 
-[💗 Help the project](https://github.com/sponsors/panva)
+## [💗 Help the project](https://github.com/sponsors/panva)
+
+Support from the community to continue maintaining and improving this module is welcome. If you find the module useful, please consider supporting the project by [becoming a sponsor](https://github.com/sponsors/panva).
+
+---
 
 ▸ **flattenedDecrypt**(`jwe`, `key`, `options?`): [`Promise`]( https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise )<[`FlattenedDecryptResult`](../interfaces/types.FlattenedDecryptResult.md)\>
 
@@ -33,7 +37,7 @@ console.log(decoder.decode(additionalAuthenticatedData))
 | Name | Type | Description |
 | :------ | :------ | :------ |
 | `jwe` | [`FlattenedJWE`](../interfaces/types.FlattenedJWE.md) | Flattened JWE. |
-| `key` | [`Uint8Array`]( https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Uint8Array ) \| [`KeyLike`](../types/types.KeyLike.md) | Private Key or Secret to decrypt the JWE with. See also [Algorithm Key Requirements](https://github.com/panva/jose/issues/210#jwe-alg). |
+| `key` | [`Uint8Array`]( https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Uint8Array ) \| [`KeyLike`](../types/types.KeyLike.md) | Private Key or Secret to decrypt the JWE with. See [Algorithm Key Requirements](https://github.com/panva/jose/issues/210#jwe-alg). |
 | `options?` | [`DecryptOptions`](../interfaces/types.DecryptOptions.md) | JWE Decryption options. |
 
 #### Returns
@@ -53,7 +57,7 @@ console.log(decoder.decode(additionalAuthenticatedData))
 | Name | Type | Description |
 | :------ | :------ | :------ |
 | `jwe` | [`FlattenedJWE`](../interfaces/types.FlattenedJWE.md) | Flattened JWE. |
-| `getKey` | [`FlattenedDecryptGetKey`](../interfaces/jwe_flattened_decrypt.FlattenedDecryptGetKey.md) | Function resolving Private Key or Secret to decrypt the JWE with. See also [Algorithm Key Requirements](https://github.com/panva/jose/issues/210#jwe-alg). |
+| `getKey` | [`FlattenedDecryptGetKey`](../interfaces/jwe_flattened_decrypt.FlattenedDecryptGetKey.md) | Function resolving Private Key or Secret to decrypt the JWE with. See [Algorithm Key Requirements](https://github.com/panva/jose/issues/210#jwe-alg). |
 | `options?` | [`DecryptOptions`](../interfaces/types.DecryptOptions.md) | JWE Decryption options. |
 
 #### Returns

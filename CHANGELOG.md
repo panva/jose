@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [4.13.2](https://github.com/panva/jose/compare/v4.13.1...v4.13.2) (2023-04-12)
+
+
+### Refactor
+
+* src/util/decode_protected_header.ts ([5716725](https://github.com/panva/jose/commit/5716725d7eb6fa8a416638db9d448840f839f620))
+
 ## [4.13.1](https://github.com/panva/jose/compare/v4.13.0...v4.13.1) (2023-03-02)
 
 

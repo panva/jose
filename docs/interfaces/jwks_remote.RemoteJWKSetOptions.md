@@ -1,6 +1,10 @@
 # Interface: RemoteJWKSetOptions
 
-[💗 Help the project](https://github.com/sponsors/panva)
+## [💗 Help the project](https://github.com/sponsors/panva)
+
+Support from the community to continue maintaining and improving this module is welcome. If you find the module useful, please consider supporting the project by [becoming a sponsor](https://github.com/sponsors/panva).
+
+---
 
 Options for the remote JSON Web Key Set.
 
@@ -23,8 +27,8 @@ Options for the remote JSON Web Key Set.
 An instance of [http.Agent](https://nodejs.org/api/http.html#class-httpagent) or
 [https.Agent](https://nodejs.org/api/https.html#class-httpsagent) to pass to the
 [http.get](https://nodejs.org/api/http.html#httpgetoptions-callback) or
-[https.get](https://nodejs.org/api/https.html#httpsgetoptions-callback) method's options. Use
-when behind an http(s) proxy. This is a Node.js runtime specific option, it is ignored when
+[https.get](https://nodejs.org/api/https.html#httpsgetoptions-callback) method's options.
+Use when behind an http(s) proxy. This is a Node.js runtime specific option, it is ignored when
 used outside of Node.js runtime.
 
 ___

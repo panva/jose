@@ -1,8 +1,12 @@
 # Class: GeneralEncrypt
 
-[💗 Help the project](https://github.com/sponsors/panva)
+## [💗 Help the project](https://github.com/sponsors/panva)
 
-The GeneralEncrypt class is a utility for creating General JWE objects.
+Support from the community to continue maintaining and improving this module is welcome. If you find the module useful, please consider supporting the project by [becoming a sponsor](https://github.com/sponsors/panva).
+
+---
+
+The GeneralEncrypt class is used to build and encrypt General JWE objects.
 
 **`example`** Usage
 
@@ -58,7 +62,7 @@ Adds an additional recipient for the General JWE object.
 
 | Name | Type | Description |
 | :------ | :------ | :------ |
-| `key` | [`Uint8Array`]( https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Uint8Array ) \| [`KeyLike`](../types/types.KeyLike.md) | Public Key or Secret to encrypt the Content Encryption Key for the recipient with. See also [Algorithm Key Requirements](https://github.com/panva/jose/issues/210#jwe-alg). |
+| `key` | [`Uint8Array`]( https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Uint8Array ) \| [`KeyLike`](../types/types.KeyLike.md) | Public Key or Secret to encrypt the Content Encryption Key for the recipient with. See [Algorithm Key Requirements](https://github.com/panva/jose/issues/210#jwe-alg). |
 | `options?` | [`CritOption`](../interfaces/types.CritOption.md) | JWE Encryption options. |
 
 #### Returns

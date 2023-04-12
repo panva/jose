@@ -1,17 +1,22 @@
 # Type alias: KeyLike
 
-[💗 Help the project](https://github.com/sponsors/panva)
+## [💗 Help the project](https://github.com/sponsors/panva)
+
+Support from the community to continue maintaining and improving this module is welcome. If you find the module useful, please consider supporting the project by [becoming a sponsor](https://github.com/sponsors/panva).
+
+---
 
 Ƭ **KeyLike**: `Object`
 
 KeyLike are runtime-specific classes representing asymmetric keys or symmetric secrets. These are
 instances of [CryptoKey](https://developer.mozilla.org/en-US/docs/Web/API/CryptoKey) and
-additionally [KeyObject](https://nodejs.org/api/crypto.html#class-keyobject) in Node.js runtime.
+additionally [KeyObject](https://nodejs.org/api/crypto.html#class-keyobject) in Node.js
+runtime.
 [Uint8Array](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Uint8Array)
 instances are also accepted as symmetric secret representation only.
 
-[Key Import Functions](../modules/key_import.md#readme) can be used to import PEM, or JWK
-formatted asymmetric keys and certificates to these runtime-specific representations.
+[Key Import Functions](../modules/key_import.md) can be used to import PEM, or JWK formatted
+asymmetric keys and certificates to these runtime-specific representations.
 
 In Node.js the [Buffer](https://nodejs.org/api/buffer.html#buffer) class is a subclass of
 Uint8Array and so Buffer can be provided for symmetric secrets as well.
@@ -21,12 +26,12 @@ key/secret available in the Node.js runtime. In addition to the import functions
 you may use the runtime APIs
 [crypto.createPublicKey](https://nodejs.org/api/crypto.html#cryptocreatepublickeykey),
 [crypto.createPrivateKey](https://nodejs.org/api/crypto.html#cryptocreateprivatekeykey), and
-[crypto.createSecretKey](https://nodejs.org/api/crypto.html#cryptocreatesecretkeykey-encoding) to
-obtain a KeyObject from your existing key material.
+[crypto.createSecretKey](https://nodejs.org/api/crypto.html#cryptocreatesecretkeykey-encoding)
+to obtain a `KeyObject` from your existing key material.
 
-[CryptoKey](https://developer.mozilla.org/en-US/docs/Web/API/CryptoKey) is a representation of a
-key/secret available in the Browser and Web-interoperable runtimes. In addition to the import
-functions of this library you may use the
+[CryptoKey](https://developer.mozilla.org/en-US/docs/Web/API/CryptoKey) is a representation
+of a key/secret available in the Browser and Web-interoperable runtimes. In addition to the
+import functions of this library you may use the
 [SubtleCrypto.importKey](https://developer.mozilla.org/en-US/docs/Web/API/SubtleCrypto/importKey)
 API to obtain a CryptoKey from your existing key material.
 

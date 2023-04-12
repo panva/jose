@@ -1,6 +1,10 @@
 # Interface: GeneralVerifyGetKey
 
-[💗 Help the project](https://github.com/sponsors/panva)
+## [💗 Help the project](https://github.com/sponsors/panva)
+
+Support from the community to continue maintaining and improving this module is welcome. If you find the module useful, please consider supporting the project by [becoming a sponsor](https://github.com/sponsors/panva).
+
+---
 
 ## Callable
 
@@ -11,9 +15,7 @@
 Interface for General JWS Verification dynamic key resolution. No token components have been
 verified at the time of this function call.
 
-See
-[createRemoteJWKSet](../functions/jwks_remote.createRemoteJWKSet.md#function-createremotejwkset)
-to verify using a remote JSON Web Key Set.
+**`see`** [createRemoteJWKSet](../functions/jwks_remote.createRemoteJWKSet.md#function-createremotejwkset) to verify using a remote JSON Web Key Set.
 
 #### Parameters
 

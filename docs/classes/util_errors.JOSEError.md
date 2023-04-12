@@ -1,8 +1,20 @@
 # Class: JOSEError
 
-[💗 Help the project](https://github.com/sponsors/panva)
+## [💗 Help the project](https://github.com/sponsors/panva)
 
-A generic Error subclass that all other specific JOSE Error subclasses inherit from.
+Support from the community to continue maintaining and improving this module is welcome. If you find the module useful, please consider supporting the project by [becoming a sponsor](https://github.com/sponsors/panva).
+
+---
+
+A generic Error that all other JOSE specific Error subclasses extend.
+
+**`example`** Checking thrown error is a JOSE one
+
+```js
+if (err instanceof jose.errors.JOSEError) {
+  // ...
+}
+```
 
 ## Table of contents
 

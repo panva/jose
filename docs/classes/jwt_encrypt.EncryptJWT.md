@@ -1,8 +1,12 @@
 # Class: EncryptJWT
 
-[💗 Help the project](https://github.com/sponsors/panva)
+## [💗 Help the project](https://github.com/sponsors/panva)
 
-The EncryptJWT class is a utility for creating Compact JWE formatted JWT strings.
+Support from the community to continue maintaining and improving this module is welcome. If you find the module useful, please consider supporting the project by [becoming a sponsor](https://github.com/sponsors/panva).
+
+---
+
+The EncryptJWT class is used to build and encrypt Compact JWE formatted JSON Web Tokens.
 
 **`example`** Usage
 
@@ -67,7 +71,7 @@ Encrypts and returns the JWT.
 
 | Name | Type | Description |
 | :------ | :------ | :------ |
-| `key` | [`Uint8Array`]( https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Uint8Array ) \| [`KeyLike`](../types/types.KeyLike.md) | Public Key or Secret to encrypt the JWT with. See also [Algorithm Key Requirements](https://github.com/panva/jose/issues/210#jwe-alg). |
+| `key` | [`Uint8Array`]( https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Uint8Array ) \| [`KeyLike`](../types/types.KeyLike.md) | Public Key or Secret to encrypt the JWT with. See [Algorithm Key Requirements](https://github.com/panva/jose/issues/210#jwe-alg). |
 | `options?` | [`EncryptOptions`](../interfaces/types.EncryptOptions.md) | JWE Encryption options. |
 
 #### Returns
@@ -80,8 +84,9 @@ ___
 
 ▸ **replicateAudienceAsHeader**(): [`EncryptJWT`](jwt_encrypt.EncryptJWT.md)
 
-Replicates the "aud" (Audience) Claim as a JWE Protected Header Parameter as per
-[RFC7519#section-5.3](https://www.rfc-editor.org/rfc/rfc7519#section-5.3).
+Replicates the "aud" (Audience) Claim as a JWE Protected Header Parameter.
+
+**`see`** [RFC7519#section-5.3](https://www.rfc-editor.org/rfc/rfc7519#section-5.3)
 
 #### Returns
 
@@ -93,8 +98,9 @@ ___
 
 ▸ **replicateIssuerAsHeader**(): [`EncryptJWT`](jwt_encrypt.EncryptJWT.md)
 
-Replicates the "iss" (Issuer) Claim as a JWE Protected Header Parameter as per
-[RFC7519#section-5.3](https://www.rfc-editor.org/rfc/rfc7519#section-5.3).
+Replicates the "iss" (Issuer) Claim as a JWE Protected Header Parameter.
+
+**`see`** [RFC7519#section-5.3](https://www.rfc-editor.org/rfc/rfc7519#section-5.3)
 
 #### Returns
 
@@ -106,8 +112,9 @@ ___
 
 ▸ **replicateSubjectAsHeader**(): [`EncryptJWT`](jwt_encrypt.EncryptJWT.md)
 
-Replicates the "sub" (Subject) Claim as a JWE Protected Header Parameter as per
-[RFC7519#section-5.3](https://www.rfc-editor.org/rfc/rfc7519#section-5.3).
+Replicates the "sub" (Subject) Claim as a JWE Protected Header Parameter.
+
+**`see`** [RFC7519#section-5.3](https://www.rfc-editor.org/rfc/rfc7519#section-5.3)
 
 #### Returns
 

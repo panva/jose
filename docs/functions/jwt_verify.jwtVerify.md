@@ -1,6 +1,10 @@
 # Function: jwtVerify
 
-[💗 Help the project](https://github.com/sponsors/panva)
+## [💗 Help the project](https://github.com/sponsors/panva)
+
+Support from the community to continue maintaining and improving this module is welcome. If you find the module useful, please consider supporting the project by [becoming a sponsor](https://github.com/sponsors/panva).
+
+---
 
 ▸ **jwtVerify**(`jwt`, `key`, `options?`): [`Promise`]( https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise )<[`JWTVerifyResult`](../interfaces/types.JWTVerifyResult.md)\>
 
@@ -78,7 +82,7 @@ console.log(payload)
 | Name | Type | Description |
 | :------ | :------ | :------ |
 | `jwt` | `string` \| [`Uint8Array`]( https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Uint8Array ) | JSON Web Token value (encoded as JWS). |
-| `key` | [`Uint8Array`]( https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Uint8Array ) \| [`KeyLike`](../types/types.KeyLike.md) | Key to verify the JWT with. See also [Algorithm Key Requirements](https://github.com/panva/jose/issues/210#jws-alg). |
+| `key` | [`Uint8Array`]( https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Uint8Array ) \| [`KeyLike`](../types/types.KeyLike.md) | Key to verify the JWT with. See [Algorithm Key Requirements](https://github.com/panva/jose/issues/210#jws-alg). |
 | `options?` | [`JWTVerifyOptions`](../interfaces/jwt_verify.JWTVerifyOptions.md) | JWT Decryption and JWT Claims Set validation options. |
 
 #### Returns
@@ -111,7 +115,7 @@ console.log(payload)
 | Name | Type | Description |
 | :------ | :------ | :------ |
 | `jwt` | `string` \| [`Uint8Array`]( https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Uint8Array ) | JSON Web Token value (encoded as JWS). |
-| `getKey` | [`JWTVerifyGetKey`](../interfaces/jwt_verify.JWTVerifyGetKey.md) | Function resolving a key to verify the JWT with. See also [Algorithm Key Requirements](https://github.com/panva/jose/issues/210#jws-alg). |
+| `getKey` | [`JWTVerifyGetKey`](../interfaces/jwt_verify.JWTVerifyGetKey.md) | Function resolving a key to verify the JWT with. See [Algorithm Key Requirements](https://github.com/panva/jose/issues/210#jws-alg). |
 | `options?` | [`JWTVerifyOptions`](../interfaces/jwt_verify.JWTVerifyOptions.md) | JWT Decryption and JWT Claims Set validation options. |
 
 #### Returns

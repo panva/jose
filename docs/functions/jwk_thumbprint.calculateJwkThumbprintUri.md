@@ -1,6 +1,10 @@
 # Function: calculateJwkThumbprintUri
 
-[💗 Help the project](https://github.com/sponsors/panva)
+## [💗 Help the project](https://github.com/sponsors/panva)
+
+Support from the community to continue maintaining and improving this module is welcome. If you find the module useful, please consider supporting the project by [becoming a sponsor](https://github.com/sponsors/panva).
+
+---
 
 ▸ **calculateJwkThumbprintUri**(`jwk`, `digestAlgorithm?`): [`Promise`]( https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise )<`string`\>
 
@@ -16,7 +20,7 @@ const thumbprintUri = await jose.calculateJwkThumbprintUri({
   y: 'nhI6iD5eFXgBTLt_1p3aip-5VbZeMhxeFSpjfEAf7Ww',
 })
 
-console.log(thumbprint)
+console.log(thumbprintUri)
 // 'urn:ietf:params:oauth:jwk-thumbprint:sha-256:w9eYdC6_s_tLQ8lH6PUpc0mddazaqtPgeC2IgWDiqY8'
 ```
 

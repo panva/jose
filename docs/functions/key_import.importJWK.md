@@ -1,15 +1,17 @@
 # Function: importJWK
 
-[💗 Help the project](https://github.com/sponsors/panva)
+## [💗 Help the project](https://github.com/sponsors/panva)
+
+Support from the community to continue maintaining and improving this module is welcome. If you find the module useful, please consider supporting the project by [becoming a sponsor](https://github.com/sponsors/panva).
+
+---
 
 ▸ **importJWK**<`T`\>(`jwk`, `alg?`, `octAsKeyObject?`): [`Promise`]( https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise )<`T` \| [`Uint8Array`]( https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Uint8Array )\>
 
 Imports a JWK to a runtime-specific key representation (KeyLike). Either JWK "alg" (Algorithm)
-Parameter must be present or the optional "alg" argument. When running on a runtime using [Web
-Cryptography API](https://www.w3.org/TR/WebCryptoAPI/) the jwk parameters "use", "key_ops", and
-"ext" are also used in the resulting `CryptoKey`. See [Algorithm Key
-Requirements](https://github.com/panva/jose/issues/210) to learn about key to algorithm
-requirements and mapping.
+Parameter must be present or the optional "alg" argument. When running on a runtime using
+[Web Cryptography API](https://www.w3.org/TR/WebCryptoAPI/) the jwk parameters "use",
+"key_ops", and "ext" are also used in the resulting `CryptoKey`.
 
 **`example`** Usage
 
@@ -45,7 +47,7 @@ const rsaPublicKey = await jose.importJWK(
 | Name | Type | Description |
 | :------ | :------ | :------ |
 | `jwk` | [`JWK`](../interfaces/types.JWK.md) | JSON Web Key. |
-| `alg?` | `string` | (Only effective in Web Crypto API runtimes) JSON Web Algorithm identifier to be used with the imported key. Default is the "alg" property on the JWK, its presence is only enforced in Web Crypto API runtimes. |
+| `alg?` | `string` | (Only effective in Web Crypto API runtimes) JSON Web Algorithm identifier to be used with the imported key. Default is the "alg" property on the JWK, its presence is only enforced in Web Crypto API runtimes. See [Algorithm Key Requirements](https://github.com/panva/jose/issues/210). |
 | `octAsKeyObject?` | `boolean` | Forces a symmetric key to be imported to a KeyObject or CryptoKey. Default is true unless JWK "ext" (Extractable) is true. |
 
 #### Returns

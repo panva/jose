@@ -1,6 +1,10 @@
 # Function: jwtDecrypt
 
-[💗 Help the project](https://github.com/sponsors/panva)
+## [💗 Help the project](https://github.com/sponsors/panva)
+
+Support from the community to continue maintaining and improving this module is welcome. If you find the module useful, please consider supporting the project by [becoming a sponsor](https://github.com/sponsors/panva).
+
+---
 
 ▸ **jwtDecrypt**(`jwt`, `key`, `options?`): [`Promise`]( https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise )<[`JWTDecryptResult`](../interfaces/types.JWTDecryptResult.md)\>
 
@@ -28,7 +32,7 @@ console.log(payload)
 | Name | Type | Description |
 | :------ | :------ | :------ |
 | `jwt` | `string` \| [`Uint8Array`]( https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Uint8Array ) | JSON Web Token value (encoded as JWE). |
-| `key` | [`Uint8Array`]( https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Uint8Array ) \| [`KeyLike`](../types/types.KeyLike.md) | Private Key or Secret to decrypt and verify the JWT with. See also [Algorithm Key Requirements](https://github.com/panva/jose/issues/210#jwe-alg). |
+| `key` | [`Uint8Array`]( https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Uint8Array ) \| [`KeyLike`](../types/types.KeyLike.md) | Private Key or Secret to decrypt and verify the JWT with. See [Algorithm Key Requirements](https://github.com/panva/jose/issues/210#jwe-alg). |
 | `options?` | [`JWTDecryptOptions`](../interfaces/jwt_decrypt.JWTDecryptOptions.md) | JWT Decryption and JWT Claims Set validation options. |
 
 #### Returns
@@ -48,7 +52,7 @@ console.log(payload)
 | Name | Type | Description |
 | :------ | :------ | :------ |
 | `jwt` | `string` \| [`Uint8Array`]( https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Uint8Array ) | JSON Web Token value (encoded as JWE). |
-| `getKey` | [`JWTDecryptGetKey`](../interfaces/jwt_decrypt.JWTDecryptGetKey.md) | Function resolving Private Key or Secret to decrypt and verify the JWT with. See also [Algorithm Key Requirements](https://github.com/panva/jose/issues/210#jwe-alg). |
+| `getKey` | [`JWTDecryptGetKey`](../interfaces/jwt_decrypt.JWTDecryptGetKey.md) | Function resolving Private Key or Secret to decrypt and verify the JWT with. See [Algorithm Key Requirements](https://github.com/panva/jose/issues/210#jwe-alg). |
 | `options?` | [`JWTDecryptOptions`](../interfaces/jwt_decrypt.JWTDecryptOptions.md) | JWT Decryption and JWT Claims Set validation options. |
 
 #### Returns

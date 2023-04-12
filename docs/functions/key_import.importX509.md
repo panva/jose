@@ -1,13 +1,15 @@
 # Function: importX509
 
-[💗 Help the project](https://github.com/sponsors/panva)
+## [💗 Help the project](https://github.com/sponsors/panva)
+
+Support from the community to continue maintaining and improving this module is welcome. If you find the module useful, please consider supporting the project by [becoming a sponsor](https://github.com/sponsors/panva).
+
+---
 
 ▸ **importX509**<`T`\>(`x509`, `alg`, `options?`): [`Promise`]( https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise )<`T`\>
 
 Imports the SPKI from an X.509 string certificate as a runtime-specific public key representation
-(KeyObject or CryptoKey). See [Algorithm Key
-Requirements](https://github.com/panva/jose/issues/210) to learn about key to algorithm
-requirements and mapping.
+(KeyObject or CryptoKey).
 
 **`example`** Usage
 
@@ -37,7 +39,7 @@ const ecPublicKey = await jose.importX509(x509, algorithm)
 | Name | Type | Description |
 | :------ | :------ | :------ |
 | `x509` | `string` | - |
-| `alg` | `string` | (Only effective in Web Crypto API runtimes) JSON Web Algorithm identifier to be used with the imported key, its presence is only enforced in Web Crypto API runtimes. |
+| `alg` | `string` | (Only effective in Web Crypto API runtimes) JSON Web Algorithm identifier to be used with the imported key, its presence is only enforced in Web Crypto API runtimes. See [Algorithm Key Requirements](https://github.com/panva/jose/issues/210). |
 | `options?` | [`PEMImportOptions`](../interfaces/key_import.PEMImportOptions.md) | - |
 
 #### Returns

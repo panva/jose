@@ -1,6 +1,10 @@
 # Interface: JWTPayload
 
-[💗 Help the project](https://github.com/sponsors/panva)
+## [💗 Help the project](https://github.com/sponsors/panva)
+
+Support from the community to continue maintaining and improving this module is welcome. If you find the module useful, please consider supporting the project by [becoming a sponsor](https://github.com/sponsors/panva).
+
+---
 
 Recognized JWT Claims Set members, any other members may also be present.
 
@@ -22,7 +26,9 @@ Recognized JWT Claims Set members, any other members may also be present.
 
 • `Optional` **aud**: `string` \| `string`[]
 
-JWT Audience [RFC7519#section-4.1.3](https://www.rfc-editor.org/rfc/rfc7519#section-4.1.3).
+JWT Audience
+
+**`see`** [RFC7519#section-4.1.3](https://www.rfc-editor.org/rfc/rfc7519#section-4.1.3)
 
 ___
 
