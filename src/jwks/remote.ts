@@ -27,11 +27,11 @@ export interface RemoteJWKSetOptions {
   cacheMaxAge?: number | typeof Infinity
 
   /**
-   * An instance of [http.Agent](https://nodejs.org/api/http.html#class-httpagent) or
-   * [https.Agent](https://nodejs.org/api/https.html#class-httpsagent) to pass to the
-   * [http.get](https://nodejs.org/api/http.html#httpgetoptions-callback) or
-   * [https.get](https://nodejs.org/api/https.html#httpsgetoptions-callback) method's options. Use
-   * when behind an http(s) proxy. This is a Node.js runtime specific option, it is ignored when
+   * An instance of {@link https://nodejs.org/api/http.html#class-httpagent http.Agent} or
+   * {@link https://nodejs.org/api/https.html#class-httpsagent https.Agent} to pass to the
+   * {@link https://nodejs.org/api/http.html#httpgetoptions-callback http.get} or
+   * {@link https://nodejs.org/api/https.html#httpsgetoptions-callback https.get} method's options.
+   * Use when behind an http(s) proxy. This is a Node.js runtime specific option, it is ignored when
    * used outside of Node.js runtime.
    */
   agent?: any

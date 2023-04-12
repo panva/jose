@@ -34,7 +34,7 @@ export interface CompactDecryptGetKey
  * ```
  *
  * @param jwe Compact JWE.
- * @param key Private Key or Secret to decrypt the JWE with. See also
+ * @param key Private Key or Secret to decrypt the JWE with. See
  *   {@link https://github.com/panva/jose/issues/210#jwe-alg Algorithm Key Requirements}.
  * @param options JWE Decryption options.
  */
@@ -45,7 +45,7 @@ export async function compactDecrypt(
 ): Promise<CompactDecryptResult>
 /**
  * @param jwe Compact JWE.
- * @param getKey Function resolving Private Key or Secret to decrypt the JWE with. See also
+ * @param getKey Function resolving Private Key or Secret to decrypt the JWE with. See
  *   {@link https://github.com/panva/jose/issues/210#jwe-alg Algorithm Key Requirements}.
  * @param options JWE Decryption options.
  */

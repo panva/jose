@@ -1,28 +1,29 @@
 /**
  * KeyLike are runtime-specific classes representing asymmetric keys or symmetric secrets. These are
- * instances of [CryptoKey](https://developer.mozilla.org/en-US/docs/Web/API/CryptoKey) and
- * additionally [KeyObject](https://nodejs.org/api/crypto.html#class-keyobject) in Node.js runtime.
- * [Uint8Array](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Uint8Array)
+ * instances of {@link https://developer.mozilla.org/en-US/docs/Web/API/CryptoKey CryptoKey} and
+ * additionally {@link https://nodejs.org/api/crypto.html#class-keyobject KeyObject} in Node.js
+ * runtime.
+ * {@link https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Uint8Array Uint8Array}
  * instances are also accepted as symmetric secret representation only.
  *
- * [Key Import Functions](../modules/key_import.md#readme) can be used to import PEM, or JWK
- * formatted asymmetric keys and certificates to these runtime-specific representations.
+ * [Key Import Functions](../modules/key_import.md) can be used to import PEM, or JWK formatted
+ * asymmetric keys and certificates to these runtime-specific representations.
  *
- * In Node.js the [Buffer](https://nodejs.org/api/buffer.html#buffer) class is a subclass of
+ * In Node.js the {@link https://nodejs.org/api/buffer.html#buffer Buffer} class is a subclass of
  * Uint8Array and so Buffer can be provided for symmetric secrets as well.
  *
- * [KeyObject](https://nodejs.org/api/crypto.html#class-keyobject) is a representation of a
+ * {@link https://nodejs.org/api/crypto.html#class-keyobject KeyObject} is a representation of a
  * key/secret available in the Node.js runtime. In addition to the import functions of this library
  * you may use the runtime APIs
- * [crypto.createPublicKey](https://nodejs.org/api/crypto.html#cryptocreatepublickeykey),
- * [crypto.createPrivateKey](https://nodejs.org/api/crypto.html#cryptocreateprivatekeykey), and
- * [crypto.createSecretKey](https://nodejs.org/api/crypto.html#cryptocreatesecretkeykey-encoding) to
- * obtain a KeyObject from your existing key material.
+ * {@link https://nodejs.org/api/crypto.html#cryptocreatepublickeykey crypto.createPublicKey},
+ * {@link https://nodejs.org/api/crypto.html#cryptocreateprivatekeykey crypto.createPrivateKey}, and
+ * {@link https://nodejs.org/api/crypto.html#cryptocreatesecretkeykey-encoding crypto.createSecretKey}
+ * to obtain a `KeyObject` from your existing key material.
  *
- * [CryptoKey](https://developer.mozilla.org/en-US/docs/Web/API/CryptoKey) is a representation of a
- * key/secret available in the Browser and Web-interoperable runtimes. In addition to the import
- * functions of this library you may use the
- * [SubtleCrypto.importKey](https://developer.mozilla.org/en-US/docs/Web/API/SubtleCrypto/importKey)
+ * {@link https://developer.mozilla.org/en-US/docs/Web/API/CryptoKey CryptoKey} is a representation
+ * of a key/secret available in the Browser and Web-interoperable runtimes. In addition to the
+ * import functions of this library you may use the
+ * {@link https://developer.mozilla.org/en-US/docs/Web/API/SubtleCrypto/importKey SubtleCrypto.importKey}
  * API to obtain a CryptoKey from your existing key material.
  *
  * @example Import a PEM-encoded SPKI Public Key
@@ -91,8 +92,8 @@
 export type KeyLike = { type: string }
 
 /**
- * JSON Web Key ([JWK](https://www.rfc-editor.org/rfc/rfc7517)). "RSA", "EC", "OKP", and "oct" key
- * types are supported.
+ * JSON Web Key ({@link https://www.rfc-editor.org/rfc/rfc7517 JWK}). "RSA", "EC", "OKP", and "oct"
+ * key types are supported.
  */
 export interface JWK {
   /** JWK "alg" (Algorithm) Parameter. */
@@ -185,8 +186,9 @@ export interface FlattenedJWSInput {
  */
 export interface GeneralJWSInput {
   /**
-   * The "payload" member MUST be present and contain the value BASE64URL(JWS Payload). When RFC7797
-   * "b64": false is used the value passed may also be a Uint8Array.
+   * The "payload" member MUST be present and contain the value BASE64URL(JWS Payload). When when
+   * JWS Unencoded Payload ({@link https://www.rfc-editor.org/rfc/rfc7797 RFC7797}) "b64": false is
+   * used the value passed may also be a Uint8Array.
    */
   payload: string | Uint8Array
 
@@ -199,7 +201,7 @@ export interface GeneralJWSInput {
 
 /**
  * Flattened JWS definition. Payload is returned as an empty string when JWS Unencoded Payload
- * Option [RFC7797](https://www.rfc-editor.org/rfc/rfc7797) is used.
+ * ({@link https://www.rfc-editor.org/rfc/rfc7797 RFC7797}) is used.
  */
 export interface FlattenedJWS extends Partial<FlattenedJWSInput> {
   payload: string
@@ -207,8 +209,8 @@ export interface FlattenedJWS extends Partial<FlattenedJWSInput> {
 }
 
 /**
- * General JWS definition. Payload is returned as an empty string when JWS Unencoded Payload Option
- * [RFC7797](https://www.rfc-editor.org/rfc/rfc7797) is used.
+ * General JWS definition. Payload is returned as an empty string when JWS Unencoded Payload
+ * ({@link https://www.rfc-editor.org/rfc/rfc7797 RFC7797}) is used.
  */
 export interface GeneralJWS {
   payload: string
@@ -248,7 +250,7 @@ export interface JWSHeaderParameters extends JoseHeaderParameters {
 
   /**
    * This JWS Extension Header Parameter modifies the JWS Payload representation and the JWS Signing
-   * Input computation as per [RFC7797](https://www.rfc-editor.org/rfc/rfc7797).
+   * Input computation as per {@link https://www.rfc-editor.org/rfc/rfc7797 RFC7797}.
    */
   b64?: boolean
 
@@ -475,45 +477,49 @@ export interface JWTPayload {
   /**
    * JWT Issuer
    *
-   * @see [RFC7519#section-4.1.1](https://www.rfc-editor.org/rfc/rfc7519#section-4.1.1)
+   * @see {@link https://www.rfc-editor.org/rfc/rfc7519#section-4.1.1 RFC7519#section-4.1.1}
    */
   iss?: string
 
   /**
    * JWT Subject
    *
-   * @see [RFC7519#section-4.1.2](https://www.rfc-editor.org/rfc/rfc7519#section-4.1.2)
+   * @see {@link https://www.rfc-editor.org/rfc/rfc7519#section-4.1.2 RFC7519#section-4.1.2}
    */
   sub?: string
 
-  /** JWT Audience [RFC7519#section-4.1.3](https://www.rfc-editor.org/rfc/rfc7519#section-4.1.3). */
+  /**
+   * JWT Audience
+   *
+   * @see {@link https://www.rfc-editor.org/rfc/rfc7519#section-4.1.3 RFC7519#section-4.1.3}
+   */
   aud?: string | string[]
 
   /**
    * JWT ID
    *
-   * @see [RFC7519#section-4.1.7](https://www.rfc-editor.org/rfc/rfc7519#section-4.1.7)
+   * @see {@link https://www.rfc-editor.org/rfc/rfc7519#section-4.1.7 RFC7519#section-4.1.7}
    */
   jti?: string
 
   /**
    * JWT Not Before
    *
-   * @see [RFC7519#section-4.1.5](https://www.rfc-editor.org/rfc/rfc7519#section-4.1.5)
+   * @see {@link https://www.rfc-editor.org/rfc/rfc7519#section-4.1.5 RFC7519#section-4.1.5}
    */
   nbf?: number
 
   /**
    * JWT Expiration Time
    *
-   * @see [RFC7519#section-4.1.4](https://www.rfc-editor.org/rfc/rfc7519#section-4.1.4)
+   * @see {@link https://www.rfc-editor.org/rfc/rfc7519#section-4.1.4 RFC7519#section-4.1.4}
    */
   exp?: number
 
   /**
    * JWT Issued At
    *
-   * @see [RFC7519#section-4.1.6](https://www.rfc-editor.org/rfc/rfc7519#section-4.1.6)
+   * @see {@link https://www.rfc-editor.org/rfc/rfc7519#section-4.1.6 RFC7519#section-4.1.6}
    */
   iat?: number
 
@@ -523,7 +529,7 @@ export interface JWTPayload {
 
 /**
  * Deflate Raw implementation, e.g. promisified
- * [zlib.deflateRaw](https://nodejs.org/api/zlib.html#zlibdeflaterawbuffer-options-callback).
+ * {@link https://nodejs.org/api/zlib.html#zlibdeflaterawbuffer-options-callback zlib.deflateRaw}.
  */
 export interface DeflateFunction {
   (input: Uint8Array): Promise<Uint8Array>
@@ -531,7 +537,7 @@ export interface DeflateFunction {
 
 /**
  * Inflate Raw implementation, e.g. promisified
- * [zlib.inflateRaw](https://nodejs.org/api/zlib.html#zlibinflaterawbuffer-options-callback).
+ * {@link https://nodejs.org/api/zlib.html#zlibinflaterawbuffer-options-callback zlib.inflateRaw}.
  */
 export interface InflateFunction {
   (input: Uint8Array): Promise<Uint8Array>

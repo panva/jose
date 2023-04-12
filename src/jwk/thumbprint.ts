@@ -32,7 +32,7 @@ const check = (value: unknown, description: string) => {
  * @param jwk JSON Web Key.
  * @param digestAlgorithm Digest Algorithm to use for calculating the thumbprint. Default is
  *   "sha256".
- * @see [RFC7638](https://www.rfc-editor.org/rfc/rfc7638)
+ * @see {@link https://www.rfc-editor.org/rfc/rfc7638 RFC7638}
  */
 export async function calculateJwkThumbprint(
   jwk: JWK,
@@ -95,14 +95,14 @@ export async function calculateJwkThumbprint(
  *   y: 'nhI6iD5eFXgBTLt_1p3aip-5VbZeMhxeFSpjfEAf7Ww',
  * })
  *
- * console.log(thumbprint)
+ * console.log(thumbprintUri)
  * // 'urn:ietf:params:oauth:jwk-thumbprint:sha-256:w9eYdC6_s_tLQ8lH6PUpc0mddazaqtPgeC2IgWDiqY8'
  * ```
  *
  * @param jwk JSON Web Key.
  * @param digestAlgorithm Digest Algorithm to use for calculating the thumbprint. Default is
  *   "sha256".
- * @see [RFC9278](https://www.rfc-editor.org/rfc/rfc9278)
+ * @see {@link https://www.rfc-editor.org/rfc/rfc9278 RFC9278}
  */
 export async function calculateJwkThumbprintUri(
   jwk: JWK,

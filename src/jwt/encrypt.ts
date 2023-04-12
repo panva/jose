@@ -9,7 +9,7 @@ import { encoder } from '../lib/buffer_utils.js'
 import { ProduceJWT } from './produce.js'
 
 /**
- * The EncryptJWT class is a utility for creating Compact JWE formatted JWT strings.
+ * The EncryptJWT class is used to build and encrypt Compact JWE formatted JSON Web Tokens.
  *
  * @example Usage
  *
@@ -104,8 +104,9 @@ export class EncryptJWT extends ProduceJWT {
   }
 
   /**
-   * Replicates the "iss" (Issuer) Claim as a JWE Protected Header Parameter as per
-   * [RFC7519#section-5.3](https://www.rfc-editor.org/rfc/rfc7519#section-5.3).
+   * Replicates the "iss" (Issuer) Claim as a JWE Protected Header Parameter.
+   *
+   * @see {@link https://www.rfc-editor.org/rfc/rfc7519#section-5.3 RFC7519#section-5.3}
    */
   replicateIssuerAsHeader() {
     this._replicateIssuerAsHeader = true
@@ -113,8 +114,9 @@ export class EncryptJWT extends ProduceJWT {
   }
 
   /**
-   * Replicates the "sub" (Subject) Claim as a JWE Protected Header Parameter as per
-   * [RFC7519#section-5.3](https://www.rfc-editor.org/rfc/rfc7519#section-5.3).
+   * Replicates the "sub" (Subject) Claim as a JWE Protected Header Parameter.
+   *
+   * @see {@link https://www.rfc-editor.org/rfc/rfc7519#section-5.3 RFC7519#section-5.3}
    */
   replicateSubjectAsHeader() {
     this._replicateSubjectAsHeader = true
@@ -122,8 +124,9 @@ export class EncryptJWT extends ProduceJWT {
   }
 
   /**
-   * Replicates the "aud" (Audience) Claim as a JWE Protected Header Parameter as per
-   * [RFC7519#section-5.3](https://www.rfc-editor.org/rfc/rfc7519#section-5.3).
+   * Replicates the "aud" (Audience) Claim as a JWE Protected Header Parameter.
+   *
+   * @see {@link https://www.rfc-editor.org/rfc/rfc7519#section-5.3 RFC7519#section-5.3}
    */
   replicateAudienceAsHeader() {
     this._replicateAudienceAsHeader = true
@@ -133,7 +136,7 @@ export class EncryptJWT extends ProduceJWT {
   /**
    * Encrypts and returns the JWT.
    *
-   * @param key Public Key or Secret to encrypt the JWT with. See also
+   * @param key Public Key or Secret to encrypt the JWT with. See
    *   {@link https://github.com/panva/jose/issues/210#jwe-alg Algorithm Key Requirements}.
    * @param options JWE Encryption options.
    */

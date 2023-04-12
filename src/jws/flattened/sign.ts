@@ -9,7 +9,7 @@ import checkKeyType from '../../lib/check_key_type.js'
 import validateCrit from '../../lib/validate_crit.js'
 
 /**
- * The FlattenedSign class is a utility for creating Flattened JWS objects.
+ * The FlattenedSign class is used to build and sign Flattened JWS objects.
  *
  * @example Usage
  *
@@ -67,7 +67,7 @@ export class FlattenedSign {
   /**
    * Signs and resolves the value of the Flattened JWS object.
    *
-   * @param key Private Key or Secret to sign the JWS with. See also
+   * @param key Private Key or Secret to sign the JWS with. See
    *   {@link https://github.com/panva/jose/issues/210#jws-alg Algorithm Key Requirements}.
    * @param options JWS Sign options.
    */

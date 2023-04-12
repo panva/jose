@@ -5,7 +5,7 @@ import { encoder } from '../lib/buffer_utils.js'
 import { ProduceJWT } from './produce.js'
 
 /**
- * The SignJWT class is a utility for creating Compact JWS formatted JWT strings.
+ * The SignJWT class is used to build and sign Compact JWS formatted JSON Web Tokens.
  *
  * @example Usage with a symmetric secret
  *
@@ -115,7 +115,7 @@ export class SignJWT extends ProduceJWT {
   /**
    * Signs and returns the JWT.
    *
-   * @param key Private Key or Secret to sign the JWT with. See also
+   * @param key Private Key or Secret to sign the JWT with. See
    *   {@link https://github.com/panva/jose/issues/210#jws-alg Algorithm Key Requirements}.
    * @param options JWT Sign options.
    */

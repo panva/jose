@@ -72,7 +72,7 @@ class IndividualSignature implements Signature {
 }
 
 /**
- * The GeneralSign class is a utility for creating General JWS objects.
+ * The GeneralSign class is used to build and sign General JWS objects.
  *
  * @example Usage
  *
@@ -102,7 +102,7 @@ export class GeneralSign {
   /**
    * Adds an additional signature for the General JWS object.
    *
-   * @param key Private Key or Secret to sign the individual JWS signature with. See also
+   * @param key Private Key or Secret to sign the individual JWS signature with. See
    *   {@link https://github.com/panva/jose/issues/210#jws-alg Algorithm Key Requirements}.
    * @param options JWS Sign options.
    */
@@ -134,7 +134,7 @@ export class GeneralSign {
       if (i === 0) {
         jws.payload = payload
       } else if (jws.payload !== payload) {
-        throw new JWSInvalid('inconsistent use of JWS Unencoded Payload Option (RFC7797)')
+        throw new JWSInvalid('inconsistent use of JWS Unencoded Payload (RFC7797)')
       }
       jws.signatures.push(rest)
     }

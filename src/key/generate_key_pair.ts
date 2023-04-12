@@ -25,7 +25,7 @@ export interface GenerateKeyPairOptions {
 
   /**
    * (Only effective in Web Crypto API runtimes) The value to use as
-   * [SubtleCrypto.generateKey()](https://developer.mozilla.org/en-US/docs/Web/API/SubtleCrypto/generateKey)
+   * {@link https://developer.mozilla.org/en-US/docs/Web/API/SubtleCrypto/generateKey SubtleCrypto.generateKey()}
    * `extractable` argument. Default is false.
    */
   extractable?: boolean

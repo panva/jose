@@ -19,9 +19,7 @@ export interface JWTVerifyOptions extends VerifyOptions, JWTClaimVerificationOpt
  * Interface for JWT Verification dynamic key resolution. No token components have been verified at
  * the time of this function call.
  *
- * See
- * [createRemoteJWKSet](../functions/jwks_remote.createRemoteJWKSet.md#function-createremotejwkset)
- * to verify using a remote JSON Web Key Set.
+ * @see [createRemoteJWKSet](../functions/jwks_remote.createRemoteJWKSet.md#function-createremotejwkset) to verify using a remote JSON Web Key Set.
  */
 export interface JWTVerifyGetKey extends GetKeyFunction<JWTHeaderParameters, FlattenedJWSInput> {}
 
@@ -96,7 +94,7 @@ export interface JWTVerifyGetKey extends GetKeyFunction<JWTHeaderParameters, Fla
  * ```
  *
  * @param jwt JSON Web Token value (encoded as JWS).
- * @param key Key to verify the JWT with. See also
+ * @param key Key to verify the JWT with. See
  *   {@link https://github.com/panva/jose/issues/210#jws-alg Algorithm Key Requirements}.
  * @param options JWT Decryption and JWT Claims Set validation options.
  */
@@ -121,7 +119,7 @@ export async function jwtVerify(
  * ```
  *
  * @param jwt JSON Web Token value (encoded as JWS).
- * @param getKey Function resolving a key to verify the JWT with. See also
+ * @param getKey Function resolving a key to verify the JWT with. See
  *   {@link https://github.com/panva/jose/issues/210#jws-alg Algorithm Key Requirements}.
  * @param options JWT Decryption and JWT Claims Set validation options.
  */

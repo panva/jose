@@ -66,7 +66,7 @@ class IndividualRecipient implements Recipient {
 }
 
 /**
- * The GeneralEncrypt class is a utility for creating General JWE objects.
+ * The GeneralEncrypt class is used to build and encrypt General JWE objects.
  *
  * @example Usage
  *
@@ -104,7 +104,7 @@ export class GeneralEncrypt {
    * Adds an additional recipient for the General JWE object.
    *
    * @param key Public Key or Secret to encrypt the Content Encryption Key for the recipient with.
-   *   See also {@link https://github.com/panva/jose/issues/210#jwe-alg Algorithm Key Requirements}.
+   *   See {@link https://github.com/panva/jose/issues/210#jwe-alg Algorithm Key Requirements}.
    * @param options JWE Encryption options.
    */
   addRecipient(key: KeyLike | Uint8Array, options?: CritOption): Recipient {

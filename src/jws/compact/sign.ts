@@ -2,7 +2,7 @@ import { FlattenedSign } from '../flattened/sign.js'
 import type { CompactJWSHeaderParameters, KeyLike, SignOptions } from '../../types.d'
 
 /**
- * The CompactSign class is a utility for creating Compact JWS strings.
+ * The CompactSign class is used to build and sign Compact JWS strings.
  *
  * @example Usage
  *
@@ -37,7 +37,7 @@ export class CompactSign {
   /**
    * Signs and resolves the value of the Compact JWS string.
    *
-   * @param key Private Key or Secret to sign the JWS with. See also
+   * @param key Private Key or Secret to sign the JWS with. See
    *   {@link https://github.com/panva/jose/issues/210#jws-alg Algorithm Key Requirements}.
    * @param options JWS Sign options.
    */

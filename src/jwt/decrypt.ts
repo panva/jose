@@ -43,7 +43,7 @@ export interface JWTDecryptGetKey
  * ```
  *
  * @param jwt JSON Web Token value (encoded as JWE).
- * @param key Private Key or Secret to decrypt and verify the JWT with. See also
+ * @param key Private Key or Secret to decrypt and verify the JWT with. See
  *   {@link https://github.com/panva/jose/issues/210#jwe-alg Algorithm Key Requirements}.
  * @param options JWT Decryption and JWT Claims Set validation options.
  */
@@ -55,7 +55,7 @@ export async function jwtDecrypt(
 /**
  * @param jwt JSON Web Token value (encoded as JWE).
  * @param getKey Function resolving Private Key or Secret to decrypt and verify the JWT with. See
- *   also {@link https://github.com/panva/jose/issues/210#jwe-alg Algorithm Key Requirements}.
+ *   {@link https://github.com/panva/jose/issues/210#jwe-alg Algorithm Key Requirements}.
  * @param options JWT Decryption and JWT Claims Set validation options.
  */
 export async function jwtDecrypt<T extends KeyLike = KeyLike>(

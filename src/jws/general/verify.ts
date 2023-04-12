@@ -16,9 +16,7 @@ import isObject from '../../lib/is_object.js'
  * Interface for General JWS Verification dynamic key resolution. No token components have been
  * verified at the time of this function call.
  *
- * See
- * [createRemoteJWKSet](../functions/jwks_remote.createRemoteJWKSet.md#function-createremotejwkset)
- * to verify using a remote JSON Web Key Set.
+ * @see [createRemoteJWKSet](../functions/jwks_remote.createRemoteJWKSet.md#function-createremotejwkset) to verify using a remote JSON Web Key Set.
  */
 export interface GeneralVerifyGetKey
   extends GetKeyFunction<JWSHeaderParameters, FlattenedJWSInput> {}
@@ -47,7 +45,7 @@ export interface GeneralVerifyGetKey
  * ```
  *
  * @param jws General JWS.
- * @param key Key to verify the JWS with. See also
+ * @param key Key to verify the JWS with. See
  *   {@link https://github.com/panva/jose/issues/210#jws-alg Algorithm Key Requirements}.
  * @param options JWS Verify options.
  */
@@ -58,7 +56,7 @@ export function generalVerify(
 ): Promise<GeneralVerifyResult>
 /**
  * @param jws General JWS.
- * @param getKey Function resolving a key to verify the JWS with. See also
+ * @param getKey Function resolving a key to verify the JWS with. See
  *   {@link https://github.com/panva/jose/issues/210#jws-alg Algorithm Key Requirements}.
  * @param options JWS Verify options.
  */
