@@ -356,7 +356,13 @@ export interface JWEHeaderParameters extends JoseHeaderParameters {
   /** JWE "crit" (Critical) Header Parameter. */
   crit?: string[]
 
-  /** JWE "zip" (Compression Algorithm) Header Parameter. */
+  /**
+   * JWE "zip" (Compression Algorithm) Header Parameter.
+   *
+   * @deprecated Compression of data SHOULD NOT be done before encryption, because such compressed
+   *   data often reveals information about the plaintext.
+   * @see {@link https://www.rfc-editor.org/rfc/rfc8725#name-avoid-compression-of-encryp Avoid Compression of Encryption Inputs}
+   */
   zip?: string
 
   /** Any other JWE Header member. */
@@ -540,6 +546,10 @@ export interface JWTPayload {
 /**
  * Deflate Raw implementation, e.g. promisified
  * {@link https://nodejs.org/api/zlib.html#zlibdeflaterawbuffer-options-callback zlib.deflateRaw}.
+ *
+ * @deprecated Compression of data SHOULD NOT be done before encryption, because such compressed
+ *   data often reveals information about the plaintext.
+ * @see {@link https://www.rfc-editor.org/rfc/rfc8725#name-avoid-compression-of-encryp Avoid Compression of Encryption Inputs}
  */
 export interface DeflateFunction {
   (input: Uint8Array): Promise<Uint8Array>
@@ -548,6 +558,10 @@ export interface DeflateFunction {
 /**
  * Inflate Raw implementation, e.g. promisified
  * {@link https://nodejs.org/api/zlib.html#zlibinflaterawbuffer-options-callback zlib.inflateRaw}.
+ *
+ * @deprecated Compression of data SHOULD NOT be done before encryption, because such compressed
+ *   data often reveals information about the plaintext.
+ * @see {@link https://www.rfc-editor.org/rfc/rfc8725#name-avoid-compression-of-encryp Avoid Compression of Encryption Inputs}
  */
 export interface InflateFunction {
   (input: Uint8Array): Promise<Uint8Array>
