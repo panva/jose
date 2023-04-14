@@ -51,17 +51,27 @@ export default (
     throw new JWTInvalid('JWT Claims Set must be a top-level JSON object')
   }
 
-  const { issuer } = options
+  const { requiredClaims = [], issuer, subject, audience, maxTokenAge } = options
+
+  if (maxTokenAge !== undefined) requiredClaims.push('iat')
+  if (audience !== undefined) requiredClaims.push('aud')
+  if (subject !== undefined) requiredClaims.push('sub')
+  if (issuer !== undefined) requiredClaims.push('iss')
+
+  for (const claim of new Set(requiredClaims.reverse())) {
+    if (!(claim in payload)) {
+      throw new JWTClaimValidationFailed(`missing required "${claim}" claim`, claim, 'missing')
+    }
+  }
+
   if (issuer && !(<unknown[]>(Array.isArray(issuer) ? issuer : [issuer])).includes(payload.iss!)) {
     throw new JWTClaimValidationFailed('unexpected "iss" claim value', 'iss', 'check_failed')
   }
 
-  const { subject } = options
   if (subject && payload.sub !== subject) {
     throw new JWTClaimValidationFailed('unexpected "sub" claim value', 'sub', 'check_failed')
   }
 
-  const { audience } = options
   if (
     audience &&
     !checkAudiencePresence(payload.aud, typeof audience === 'string' ? [audience] : audience)
@@ -87,7 +97,7 @@ export default (
   const { currentDate } = options
   const now = epoch(currentDate || new Date())
 
-  if ((payload.iat !== undefined || options.maxTokenAge) && typeof payload.iat !== 'number') {
+  if ((payload.iat !== undefined || maxTokenAge) && typeof payload.iat !== 'number') {
     throw new JWTClaimValidationFailed('"iat" claim must be a number', 'iat', 'invalid')
   }
 
@@ -113,10 +123,9 @@ export default (
     }
   }
 
-  if (options.maxTokenAge) {
+  if (maxTokenAge) {
     const age = now - payload.iat!
-    const max =
-      typeof options.maxTokenAge === 'number' ? options.maxTokenAge : secs(options.maxTokenAge)
+    const max = typeof maxTokenAge === 'number' ? maxTokenAge : secs(maxTokenAge)
 
     if (age - tolerance > max) {
       throw new JWTExpired(

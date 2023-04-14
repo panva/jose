@@ -457,6 +457,16 @@ export interface JWTClaimVerificationOptions {
 
   /** Date to use when comparing NumericDate claims, defaults to `new Date()`. */
   currentDate?: Date
+
+  /**
+   * Array of required Claim Names that must be present in the JWT Claims Set. Default is that: if
+   * the {@link JWTClaimVerificationOptions.issuer issuer option} is set, then "iss" must be present;
+   * if the {@link JWTClaimVerificationOptions.audience audience option} is set, then "aud" must be
+   * present; if the {@link JWTClaimVerificationOptions.subject subject option} is set, then "sub"
+   * must be present; if the {@link JWTClaimVerificationOptions.maxTokenAge maxTokenAge option} is
+   * set, then "iat" must be present.
+   */
+  requiredClaims?: string[]
 }
 
 /** JWS Verification options. */
