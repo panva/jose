@@ -19,6 +19,7 @@ Combination of JWS Verification options and JWT Claims Set verification options.
 - [currentDate](jwt_verify.JWTVerifyOptions.md#currentdate)
 - [issuer](jwt_verify.JWTVerifyOptions.md#issuer)
 - [maxTokenAge](jwt_verify.JWTVerifyOptions.md#maxtokenage)
+- [requiredClaims](jwt_verify.JWTVerifyOptions.md#requiredclaims)
 - [subject](jwt_verify.JWTVerifyOptions.md#subject)
 - [typ](jwt_verify.JWTVerifyOptions.md#typ)
 
@@ -100,6 +101,19 @@ Maximum time elapsed (in seconds) from the JWT "iat" (Issued At) Claim value.
 
 - In seconds when number (e.g. 5)
 - Parsed as seconds when a string (e.g. "5 seconds", "10 minutes", "2 hours").
+
+___
+
+### requiredClaims
+
+• `Optional` **requiredClaims**: `string`[]
+
+Array of required Claim Names that must be present in the JWT Claims Set. Default is that: if
+the [issuer option](types.JWTClaimVerificationOptions.md#issuer) is set, then "iss" must be present;
+if the [audience option](types.JWTClaimVerificationOptions.md#audience) is set, then "aud" must be
+present; if the [subject option](types.JWTClaimVerificationOptions.md#subject) is set, then "sub"
+must be present; if the [maxTokenAge option](types.JWTClaimVerificationOptions.md#maxtokenage) is
+set, then "iat" must be present.
 
 ___
 

@@ -120,3 +120,8 @@ ___
 • `Optional` **zip**: `string`
 
 JWE "zip" (Compression Algorithm) Header Parameter.
+
+**`deprecated`** Compression of data SHOULD NOT be done before encryption, because such compressed
+  data often reveals information about the plaintext.
+
+**`see`** [Avoid Compression of Encryption Inputs](https://www.rfc-editor.org/rfc/rfc8725#name-avoid-compression-of-encryp)

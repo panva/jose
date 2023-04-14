@@ -15,6 +15,11 @@ Support from the community to continue maintaining and improving this module is 
 Inflate Raw implementation, e.g. promisified
 [zlib.inflateRaw](https://nodejs.org/api/zlib.html#zlibinflaterawbuffer-options-callback).
 
+**`deprecated`** Compression of data SHOULD NOT be done before encryption, because such compressed
+  data often reveals information about the plaintext.
+
+**`see`** [Avoid Compression of Encryption Inputs](https://www.rfc-editor.org/rfc/rfc8725#name-avoid-compression-of-encryp)
+
 #### Parameters
 
 | Name | Type |

@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [4.14.0](https://github.com/panva/jose/compare/v4.13.2...v4.14.0) (2023-04-14)
+
+
+### Features
+
+* add requiredClaims JWT validation option ([eeea91d](https://github.com/panva/jose/commit/eeea91df48cadda84e4fdce6bbba7251ca7af83f))
+
 ## [4.13.2](https://github.com/panva/jose/compare/v4.13.1...v4.13.2) (2023-04-12)
 
 
