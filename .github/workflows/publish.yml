@@ -8,6 +8,8 @@ jobs:
   publish:
     runs-on: ubuntu-latest
     continue-on-error: true
+    permissions:
+      id-token: write
     strategy:
       fail-fast: false
       matrix:
@@ -36,7 +38,8 @@ jobs:
           fail-on-cache-miss: true
       - name: Prepare distribution
         run: node tools/publish-${{ matrix.prepare-script }}
-      - run: npm publish
+      - run: npm install -g npm
+      - run: npm publish --provenance
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
 
