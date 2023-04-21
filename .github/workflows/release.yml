@@ -12,7 +12,6 @@ jobs:
     needs:
       - build
     runs-on: ubuntu-latest
-    continue-on-error: true
     permissions:
       id-token: write
     strategy:
