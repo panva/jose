@@ -9,7 +9,6 @@ jobs:
     runs-on: ubuntu-latest
     continue-on-error: true
     permissions:
-      contents: write
       id-token: write
     strategy:
       fail-fast: false
@@ -48,6 +47,8 @@ jobs:
     needs:
       - publish
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
     steps:
       - name: Checkout
         uses: actions/checkout@v3
