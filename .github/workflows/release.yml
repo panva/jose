@@ -64,7 +64,7 @@ jobs:
       - run: |
           git config --local user.name "github-actions[bot]"
           git config --local user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git commit -m "chore: cleanup after publish"
+          git commit -m "chore: cleanup after release"
       - run: git push origin HEAD:main
 
   github:
