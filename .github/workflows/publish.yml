@@ -9,6 +9,7 @@ jobs:
     runs-on: ubuntu-latest
     continue-on-error: true
     permissions:
+      contents: write
       id-token: write
     strategy:
       fail-fast: false
@@ -55,7 +56,7 @@ jobs:
       - run: git push origin $GITHUB_SHA:v4.x
       - run: git rm -r dist/**/*
       - run: |
-          git config --local user.email "panva.ip@gmail.com"
-          git config --local user.name "Filip Skokan"
+          git config --local user.name "github-actions[bot]"
+          git config --local user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git commit -m "chore: cleanup after publish"
       - run: git push origin HEAD:main
