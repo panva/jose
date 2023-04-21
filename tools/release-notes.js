@@ -17,4 +17,4 @@ fs.writeFileSync(
     .join('\n'),
 )
 
-execSync(`gh release create ${tag} -dF notes.md`)
+execSync(`gh release create ${tag} -F notes.md --discussion-category Releases`)

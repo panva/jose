@@ -1,11 +1,16 @@
-name: NPM Publish
+name: Release
 
 on:
-  release:
-    types: [published]
+  push:
+    tags: ['v[0-9]+.[0-9]+.[0-9]+']
 
 jobs:
-  publish:
+  build:
+    uses: ./.github/workflows/build.yml
+
+  npm:
+    needs:
+      - build
     runs-on: ubuntu-latest
     continue-on-error: true
     permissions:
@@ -43,9 +48,9 @@ jobs:
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
 
-  push:
+  cleanup:
     needs:
-      - publish
+      - npm
     runs-on: ubuntu-latest
     permissions:
       contents: write
@@ -61,3 +66,21 @@ jobs:
           git config --local user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git commit -m "chore: cleanup after publish"
       - run: git push origin HEAD:main
+
+  github:
+    needs:
+      - npm
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 2
+      - name: Setup node
+        uses: actions/setup-node@v3
+        with:
+          node-version: lts/hydrogen # 18
+          cache: 'npm'
+      - run: node tools/release-notes
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
