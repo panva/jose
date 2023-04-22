@@ -42,7 +42,6 @@ jobs:
           fail-on-cache-miss: true
       - name: Prepare distribution
         run: node tools/publish-${{ matrix.prepare-script }}
-      - run: npm install -g npm
       - run: npm publish --provenance
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
