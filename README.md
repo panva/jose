@@ -47,7 +47,7 @@ The `jose` module supports encrypted JSON Web Tokens and provides functionality 
 
 ### Key Utilities
 
-The `jose` module provides functionality for importing, exporting, and generating keys and secrets in various formats, including PEM formats like SPKI, X.509 certificate, and PKCS #8, as well as JSON Web Key (JWK).
+The `jose` module supports importing, exporting, and generating keys and secrets in various formats, including PEM formats like SPKI, X.509 certificate, and PKCS #8, as well as JSON Web Key (JWK).
 
 - Key Import Functions
   - [JWK Import](docs/functions/key_import.importJWK.md)
@@ -64,7 +64,7 @@ The `jose` module provides functionality for importing, exporting, and generatin
 
 ### JSON Web Signature (JWS)
 
-The `jose` modules supports signing and verification of JWS messages with arbitrary payloads in Compact, Flattened JSON, and General JSON serialization syntaxes.
+The `jose` module supports signing and verification of JWS messages with arbitrary payloads in Compact, Flattened JSON, and General JSON serialization syntaxes.
 
 - Signing - [Compact](docs/classes/jws_compact_sign.CompactSign.md), [Flattened JSON](docs/classes/jws_flattened_sign.FlattenedSign.md), [General JSON](docs/classes/jws_general_sign.GeneralSign.md)
 - Verification - [Compact](docs/functions/jws_compact_verify.compactVerify.md), [Flattened JSON](docs/functions/jws_flattened_verify.flattenedVerify.md), [General JSON](docs/functions/jws_general_verify.generalVerify.md)
@@ -75,7 +75,7 @@ The `jose` modules supports signing and verification of JWS messages with arbitr
 
 ### JSON Web Encryption (JWE)
 
-The `jose` modules supports encryption and decryption of JWE messages with arbitrary plaintext in Compact, Flattened JSON, and General JSON serialization syntaxes.
+The `jose` module supports encryption and decryption of JWE messages with arbitrary plaintext in Compact, Flattened JSON, and General JSON serialization syntaxes.
 
 - Encryption - [Compact](docs/classes/jwe_compact_encrypt.CompactEncrypt.md), [Flattened JSON](docs/classes/jwe_flattened_encrypt.FlattenedEncrypt.md), [General JSON](docs/classes/jwe_general_encrypt.GeneralEncrypt.md)
 - Decryption - [Compact](docs/functions/jwe_compact_decrypt.compactDecrypt.md), [Flattened JSON](docs/functions/jwe_flattened_decrypt.flattenedDecrypt.md), [General JSON](docs/functions/jwe_general_decrypt.generalDecrypt.md)
