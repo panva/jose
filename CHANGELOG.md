@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [4.14.2](https://github.com/panva/jose/compare/v4.14.1...v4.14.2) (2023-04-26)
+
+
+### Fixes
+
+* **types:** headers and payloads may only be JSON values and primitives ([24f306e](https://github.com/panva/jose/commit/24f306e7f33485daaba1e250dfc97b5f621079ad))
+
 ## [4.14.1](https://github.com/panva/jose/compare/v4.14.0...v4.14.1) (2023-04-20)
 
 ## [4.14.0](https://github.com/panva/jose/compare/v4.13.2...v4.14.0) (2023-04-14)
