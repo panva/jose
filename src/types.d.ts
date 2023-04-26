@@ -91,6 +91,11 @@
  */
 export type KeyLike = { type: string }
 
+type JsonObject = { [Key in string]?: JsonValue }
+type JsonArray = JsonValue[]
+type JsonPrimitive = string | number | boolean | null
+type JsonValue = JsonPrimitive | JsonObject | JsonArray
+
 /**
  * JSON Web Key ({@link https://www.rfc-editor.org/rfc/rfc7517 JWK}). "RSA", "EC", "OKP", and "oct"
  * key types are supported.
@@ -134,7 +139,7 @@ export interface JWK {
   /** JWK "x5u" (X.509 URL) Parameter. */
   x5u?: string
 
-  [propName: string]: unknown
+  [propName: string]: JsonValue | undefined
 }
 
 /**
@@ -258,7 +263,7 @@ export interface JWSHeaderParameters extends JoseHeaderParameters {
   crit?: string[]
 
   /** Any other JWS Header member. */
-  [propName: string]: unknown
+  [propName: string]: JsonValue | undefined
 }
 
 /** Recognized JWE Key Management-related Header Parameters. */
@@ -366,7 +371,7 @@ export interface JWEHeaderParameters extends JoseHeaderParameters {
   zip?: string
 
   /** Any other JWE Header member. */
-  [propName: string]: unknown
+  [propName: string]: JsonValue | undefined
 }
 
 /** Shared Interface with a "crit" property for all sign, verify, encrypt and decrypt operations. */
@@ -540,7 +545,7 @@ export interface JWTPayload {
   iat?: number
 
   /** Any other JWT Claim Set member. */
-  [propName: string]: unknown
+  [propName: string]: JsonValue | undefined
 }
 
 /**

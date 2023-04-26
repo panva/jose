@@ -1,4 +1,5 @@
 import type {
+  JsonValue,
   JWTPayload,
   JWTClaimVerificationOptions,
   JWEHeaderParameters,
@@ -40,7 +41,7 @@ export default (
     throw new JWTClaimValidationFailed('unexpected "typ" JWT header value', 'typ', 'check_failed')
   }
 
-  let payload!: { [propName: string]: unknown }
+  let payload!: { [propName: string]: JsonValue | undefined }
   try {
     payload = JSON.parse(decoder.decode(encodedPayload))
   } catch {

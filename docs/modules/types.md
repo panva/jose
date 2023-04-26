@@ -10,6 +10,10 @@ Support from the community to continue maintaining and improving this module is 
 
 ### Type Aliases
 
+- [JsonArray](../types/types.JsonArray.md)
+- [JsonObject](../types/types.JsonObject.md)
+- [JsonPrimitive](../types/types.JsonPrimitive.md)
+- [JsonValue](../types/types.JsonValue.md)
 - [KeyLike](../types/types.KeyLike.md)
 
 ### Interfaces

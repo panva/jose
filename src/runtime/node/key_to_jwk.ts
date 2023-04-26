@@ -36,7 +36,7 @@ const keyToJWK: JWKExportFunction = (key: unknown): JWK => {
     ) {
       throw new JOSENotSupported('Unsupported key asymmetricKeyType')
     }
-    return keyObject.export({ format: 'jwk' })
+    return <JWK>keyObject.export({ format: 'jwk' })
   }
 
   switch (keyObject.type) {
@@ -112,7 +112,7 @@ const keyToJWK: JWKExportFunction = (key: unknown): JWK => {
           if (der.length < 100) {
             offset += correction
           }
-          return {
+          return <JWK>{
             ...keyToJWK(createPublicKey(keyObject)),
             d: base64url(der.subarray(offset, offset + len / 2)),
           }
@@ -130,7 +130,7 @@ const keyToJWK: JWKExportFunction = (key: unknown): JWK => {
           }
 
           const der = keyObject.export({ type: 'pkcs8', format: 'der' })
-          return {
+          return <JWK>{
             ...keyToJWK(createPublicKey(keyObject)),
             d: base64url(der.subarray(-32)),
           }
@@ -148,7 +148,7 @@ const keyToJWK: JWKExportFunction = (key: unknown): JWK => {
           }
 
           const der = keyObject.export({ type: 'pkcs8', format: 'der' })
-          return {
+          return <JWK>{
             ...keyToJWK(createPublicKey(keyObject)),
             d: base64url(der.subarray(crv === 'Ed448' ? -57 : -56)),
           }

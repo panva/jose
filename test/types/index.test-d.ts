@@ -1,5 +1,5 @@
 import type { KeyObject } from 'crypto'
-import { expectType } from 'tsd'
+import { expectError, expectType } from 'tsd'
 
 import * as lib from '../../dist/types'
 
@@ -208,3 +208,47 @@ expectType<KeyObject>(await lib.createRemoteJWKSet<KeyObject>(new URL(''))())
 expectType<lib.KeyLike>(await lib.EmbeddedJWK())
 expectType<CryptoKey>(await lib.EmbeddedJWK())
 expectType<KeyObject>(await lib.EmbeddedJWK())
+
+{
+  const result = await lib.jwtVerify('', new Uint8Array())
+  switch (typeof result.payload.unknown) {
+    case 'bigint':
+    case 'function':
+    case 'symbol':
+      expectType<never>(result.payload.unknown)
+  }
+
+  switch (typeof result.protectedHeader.unknown) {
+    case 'bigint':
+    case 'function':
+    case 'symbol':
+      expectType<never>(result.protectedHeader.unknown)
+  }
+}
+
+{
+  const result = await lib.decodeJwt('')
+  switch (typeof result.unknown) {
+    case 'bigint':
+    case 'function':
+    case 'symbol':
+      expectType<never>(result.unknown)
+  }
+}
+
+{
+  const result = await lib.decodeProtectedHeader('')
+  switch (typeof result.unknown) {
+    case 'bigint':
+    case 'function':
+    case 'symbol':
+      expectType<never>(result.unknown)
+  }
+}
+
+expectError(new lib.SignJWT({ foo() {} }))
+expectError(new lib.SignJWT({}).setProtectedHeader({ foo() {} }))
+expectError(new lib.SignJWT({ foo: Symbol() }))
+expectError(new lib.SignJWT({}).setProtectedHeader({ foo: Symbol() }))
+expectError(new lib.SignJWT({ foo: 0n }))
+expectError(new lib.SignJWT({}).setProtectedHeader({ foo: 0n }))
