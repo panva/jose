@@ -137,7 +137,7 @@
     "tap:workers": "./tap/.workers.sh"
   },
   "devDependencies": {
-    "@types/node": "^18.16.0",
+    "@types/node": "^18.16.1",
     "@types/qunit": "^2.19.4",
     "ava": "^5.2.0",
     "edge-runtime": "^2.1.4",
@@ -145,7 +145,7 @@
     "glob": "^10.2.2",
     "nock": "^13.3.0",
     "npm-run-all2": "^6.0.5",
-    "patch-package": "^6.5.1",
+    "patch-package": "^7.0.0",
     "prettier": "^2.8.8",
     "prettier-plugin-jsdoc": "^0.4.2",
     "qunit": "^2.19.4",
