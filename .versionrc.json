@@ -32,6 +32,11 @@
       "hidden": false
     },
     {
+      "type": "revert",
+      "section": "Reverts",
+      "hidden": false
+    },
+    {
       "type": "perf",
       "section": "Performance",
       "hidden": false
