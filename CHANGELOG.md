@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [4.14.3](https://github.com/panva/jose/compare/v4.14.2...v4.14.3) (2023-04-27)
+
+
+### Reverts
+
+* Revert "fix(types): headers and payloads may only be JSON values and primitives" ([06d8101](https://github.com/panva/jose/commit/06d8101a5827a69bb25c2847b1a10d03f015db03)), closes [#534](https://github.com/panva/jose/issues/534)
+
 ## [4.14.2](https://github.com/panva/jose/compare/v4.14.1...v4.14.2) (2023-04-26)
 
 
