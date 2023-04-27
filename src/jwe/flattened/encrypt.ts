@@ -3,7 +3,6 @@ import encrypt from '../../runtime/encrypt.js'
 import { deflate } from '../../runtime/zlib.js'
 
 import type {
-  JsonValue,
   KeyLike,
   FlattenedJWE,
   JWEHeaderParameters,
@@ -226,7 +225,7 @@ export class FlattenedEncrypt {
 
     let cek: KeyLike | Uint8Array
     {
-      let parameters: { [parameter: string]: JsonValue | undefined } | undefined
+      let parameters: { [propName: string]: unknown } | undefined
       ;({ cek, encryptedKey, parameters } = await encryptKeyManagement(
         alg,
         enc,

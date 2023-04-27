@@ -1,4 +1,4 @@
-import type { JWK, KeyLike, JsonValue } from '../types.d'
+import type { JWK, KeyLike } from '../types.d'
 import type { PEMImportOptions } from '../key/import.js'
 
 type AsyncOrSync<T> = Promise<T> | T
@@ -57,9 +57,7 @@ export interface DecryptFunction {
   ): AsyncOrSync<Uint8Array>
 }
 export interface FetchFunction {
-  (url: URL, timeout: number, options?: any): Promise<{
-    [parameter: string]: JsonValue | undefined
-  }>
+  (url: URL, timeout: number, options?: any): Promise<{ [propName: string]: unknown }>
 }
 export interface DigestFunction {
   (digest: 'sha256' | 'sha384' | 'sha512', data: Uint8Array): AsyncOrSync<Uint8Array>

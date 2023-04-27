@@ -1,10 +1,9 @@
-import type { JsonValue } from '../types.d'
 import { JOSENotSupported, JWEInvalid, JWSInvalid } from '../util/errors.js'
 
 interface CritCheckHeader {
   b64?: boolean
   crit?: string[]
-  [propName: string]: JsonValue | undefined
+  [propName: string]: unknown
 }
 
 function validateCrit(
