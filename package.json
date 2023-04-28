@@ -135,10 +135,10 @@
     "tap:workers": "./tap/.workers.sh"
   },
   "devDependencies": {
-    "@types/node": "^18.16.1",
+    "@types/node": "^18.16.2",
     "@types/qunit": "^2.19.4",
     "ava": "^5.2.0",
-    "edge-runtime": "^2.1.4",
+    "edge-runtime": "^2.2.0",
     "esbuild": "^0.17.18",
     "glob": "^10.2.2",
     "nock": "^13.3.1",
