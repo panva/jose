@@ -12,7 +12,12 @@ export default (QUnit: QUnit, lib: typeof jose) => {
     ['ECDH-ES', KEYS.P256.jwk, true],
     ['ECDH-ES', KEYS.P384.jwk, true],
     ['ECDH-ES', KEYS.P521.jwk, !env.isDeno],
-    ['ECDH-ES', KEYS.X25519.jwk, env.isDeno || env.isNode || env.isElectron, env.isDeno],
+    [
+      'ECDH-ES',
+      KEYS.X25519.jwk,
+      env.isDeno || env.isNode || env.isElectron || env.isWorkerd,
+      env.isDeno,
+    ],
     ['ECDH-ES', KEYS.X448.jwk, env.isNode],
     ['EdDSA', KEYS.Ed25519.jwk, !(env.isBrowser || env.isEdgeRuntime)],
     ['EdDSA', KEYS.Ed448.jwk, env.isNode],

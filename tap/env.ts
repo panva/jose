@@ -22,7 +22,7 @@ export const isEdgeRuntime = typeof EdgeRuntime !== 'undefined'
 export const isBrowser =
   typeof navigator !== 'undefined' && navigator.userAgent?.startsWith?.('Mozilla/5.0 ')
 
-export const isWorkers =
+export const isWorkerd =
   typeof navigator !== 'undefined' && navigator.userAgent === 'Cloudflare-Workers'
 
 export const isChromium =

@@ -11,10 +11,10 @@ echo "Using workerd $WORKERD_VERSION, compatibility date $COMPATIBILITY_DATE"
   --bundle \
   --define:WORKERD_VERSION=\"$WORKERD_VERSION\" \
   --target=esnext \
-  --outfile=tap/run-workers.js \
-  tap/run-workers.ts
+  --outfile=tap/run-workerd.js \
+  tap/run-workerd.ts
 
-cat <<EOT > $(pwd)/tap/.workers.capnp
+cat <<EOT > $(pwd)/tap/.workerd.capnp
 using Workerd = import "/workerd/workerd.capnp";
 
 const config :Workerd.Config = (
@@ -25,10 +25,10 @@ const config :Workerd.Config = (
 
 const tapWorker :Workerd.Worker = (
   modules = [
-    (name = "worker", esModule = embed "run-workers.js")
+    (name = "worker", esModule = embed "run-workerd.js")
   ],
   compatibilityDate = "$COMPATIBILITY_DATE",
 );
 EOT
 
-workerd test --verbose $(pwd)/tap/.workers.capnp
+workerd test --verbose $(pwd)/tap/.workerd.capnp

@@ -137,7 +137,7 @@ jobs:
       - name: Test Bun
         run: npm run tap:bun
 
-  workers:
+  workerd:
     needs:
       - build
     runs-on: ubuntu-latest
@@ -159,7 +159,7 @@ jobs:
           key: ${{ needs.build.outputs.cache-key }}
           fail-on-cache-miss: true
       - name: Run Test Suite
-        run: npm run tap:workers
+        run: npm run tap:workerd
 
   edge-runtime:
     needs:

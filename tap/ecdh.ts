@@ -15,7 +15,7 @@ export default (QUnit: QUnit, lib: typeof jose) => {
     ['ECDH-ES', true, { crv: 'P-384' }],
     ['ECDH-ES', !env.isDeno, { crv: 'P-521' }],
     ['ECDH-ES', false, { crv: 'secp256k1' }],
-    ['ECDH-ES', env.isNode || env.isElectron, { crv: 'X25519' }],
+    ['ECDH-ES', env.isNode || env.isElectron || env.isWorkerd, { crv: 'X25519' }],
     ['ECDH-ES', env.isNode, { crv: 'X448' }],
   ]
 
