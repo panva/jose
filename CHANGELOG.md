@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [4.14.4](https://github.com/panva/jose/compare/v4.14.3...v4.14.4) (2023-04-30)
+
+
+### Refactor
+
+* cleanup NODE-ED25519 workerd workarounds ([072e83d](https://github.com/panva/jose/commit/072e83de5bf3a15775b0bf25ef8afa8851b8862d))
+
 ## [4.14.3](https://github.com/panva/jose/compare/v4.14.2...v4.14.3) (2023-04-27)
 
 
