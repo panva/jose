@@ -1,4 +1,3 @@
-import { isCloudflareWorkers } from './env.js'
 import crypto from './webcrypto.js'
 import { JOSENotSupported } from '../../util/errors.js'
 import random from './random.js'
@@ -149,21 +148,7 @@ export async function generateKeyPair(alg: string, options?: GenerateKeyPairOpti
       throw new JOSENotSupported('Invalid or unsupported JWK "alg" (Algorithm) Parameter value')
   }
 
-  try {
-    return <{ publicKey: CryptoKey; privateKey: CryptoKey }>(
-      await crypto.subtle.generateKey(algorithm, options?.extractable ?? false, keyUsages)
-    )
-  } catch (err) {
-    if (
-      algorithm.name === 'Ed25519' &&
-      (<Error>err)?.name === 'NotSupportedError' &&
-      isCloudflareWorkers()
-    ) {
-      algorithm = { name: 'NODE-ED25519', namedCurve: 'NODE-ED25519' }
-      return <{ publicKey: CryptoKey; privateKey: CryptoKey }>(
-        await crypto.subtle.generateKey(algorithm, options?.extractable ?? false, keyUsages)
-      )
-    }
-    throw err
-  }
+  return <Promise<{ publicKey: CryptoKey; privateKey: CryptoKey }>>(
+    crypto.subtle.generateKey(algorithm, options?.extractable ?? false, keyUsages)
+  )
 }

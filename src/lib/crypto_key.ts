@@ -1,5 +1,3 @@
-import { isCloudflareWorkers } from '../runtime/env.js'
-
 function unusable(name: string | number, prop = 'algorithm.name') {
   return new TypeError(`CryptoKey does not support this operation, its ${prop} must be ${name}`)
 }
@@ -73,10 +71,6 @@ export function checkSigCryptoKey(key: CryptoKey, alg: string, ...usages: KeyUsa
     }
     case 'EdDSA': {
       if (key.algorithm.name !== 'Ed25519' && key.algorithm.name !== 'Ed448') {
-        if (isCloudflareWorkers()) {
-          if (isAlgorithm(key.algorithm, 'NODE-ED25519')) break
-          throw unusable('Ed25519, Ed448, or NODE-ED25519')
-        }
         throw unusable('Ed25519 or Ed448')
       }
       break

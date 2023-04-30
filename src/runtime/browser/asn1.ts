@@ -1,4 +1,3 @@
-import { isCloudflareWorkers } from './env.js'
 import crypto, { isCryptoKey } from './webcrypto.js'
 import type { PEMExportFunction, PEMImportFunction } from '../interfaces.d'
 import invalidKeyInput from '../../lib/invalid_key_input.js'
@@ -143,31 +142,13 @@ const genericImport = async (
       throw new JOSENotSupported('Invalid or unsupported "alg" (Algorithm) value')
   }
 
-  try {
-    return await crypto.subtle.importKey(
-      keyFormat,
-      keyData,
-      algorithm,
-      options?.extractable ?? false,
-      keyUsages,
-    )
-  } catch (err) {
-    if (
-      algorithm.name === 'Ed25519' &&
-      (<Error>err)?.name === 'NotSupportedError' &&
-      isCloudflareWorkers()
-    ) {
-      algorithm = { name: 'NODE-ED25519', namedCurve: 'NODE-ED25519' }
-      return await crypto.subtle.importKey(
-        keyFormat,
-        keyData,
-        algorithm,
-        options?.extractable ?? false,
-        keyUsages,
-      )
-    }
-    throw err
-  }
+  return crypto.subtle.importKey(
+    keyFormat,
+    keyData,
+    algorithm,
+    options?.extractable ?? false,
+    keyUsages,
+  )
 }
 
 export const fromPKCS8: PEMImportFunction = (pem, alg, options?) => {

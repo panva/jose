@@ -1,10 +1,20 @@
 import fetchJwks from '../runtime/fetch_jwks.js'
-import { isCloudflareWorkers } from '../runtime/env.js'
 
 import type { KeyLike, JWSHeaderParameters, FlattenedJWSInput } from '../types.d'
 import { JWKSInvalid, JWKSNoMatchingKey } from '../util/errors.js'
 
 import { isJWKSLike, LocalJWKSet } from './local.js'
+
+function isCloudflareWorkers() {
+  return (
+    // @ts-ignore
+    typeof WebSocketPair !== 'undefined' ||
+    // @ts-ignore
+    (typeof navigator !== 'undefined' && navigator.userAgent === 'Cloudflare-Workers') ||
+    // @ts-ignore
+    (typeof EdgeRuntime !== 'undefined' && EdgeRuntime === 'vercel')
+  )
+}
 
 /** Options for the remote JSON Web Key Set. */
 export interface RemoteJWKSetOptions {

@@ -1,4 +1,3 @@
-import { isCloudflareWorkers } from './env.js'
 import { JOSENotSupported } from '../../util/errors.js'
 
 export default function subtleDsa(alg: string, algorithm: KeyAlgorithm | EcKeyAlgorithm) {
@@ -22,10 +21,6 @@ export default function subtleDsa(alg: string, algorithm: KeyAlgorithm | EcKeyAl
     case 'ES512':
       return { hash, name: 'ECDSA', namedCurve: (<EcKeyAlgorithm>algorithm).namedCurve }
     case 'EdDSA':
-      if (isCloudflareWorkers() && algorithm.name === 'NODE-ED25519') {
-        return { name: 'NODE-ED25519', namedCurve: 'NODE-ED25519' }
-      }
-
       return { name: algorithm.name }
     default:
       throw new JOSENotSupported(

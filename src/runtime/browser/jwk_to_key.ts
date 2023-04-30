@@ -1,4 +1,3 @@
-import { isCloudflareWorkers } from './env.js'
 import crypto from './webcrypto.js'
 import type { JWKImportFunction } from '../interfaces.d'
 import { JOSENotSupported } from '../../util/errors.js'
@@ -150,18 +149,6 @@ const parse: JWKImportFunction = async (jwk: JWK): Promise<CryptoKey> => {
   const keyData: JWK = { ...jwk }
   delete keyData.alg
   delete keyData.use
-  try {
-    return await crypto.subtle.importKey('jwk', keyData, ...rest)
-  } catch (err) {
-    if (
-      algorithm.name === 'Ed25519' &&
-      (<Error>err)?.name === 'NotSupportedError' &&
-      isCloudflareWorkers()
-    ) {
-      rest[0] = { name: 'NODE-ED25519', namedCurve: 'NODE-ED25519' }
-      return await crypto.subtle.importKey('jwk', keyData, ...rest)
-    }
-    throw err
-  }
+  return crypto.subtle.importKey('jwk', keyData, ...rest)
 }
 export default parse
