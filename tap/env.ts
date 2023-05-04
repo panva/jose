@@ -25,12 +25,18 @@ export const isBrowser =
 export const isWorkerd =
   typeof navigator !== 'undefined' && navigator.userAgent === 'Cloudflare-Workers'
 
-export const isChromium =
-  isBrowser &&
-  (await import(
-    // @ts-ignore
-    'https://cdn.jsdelivr.net/npm/bowser@2.11.0/src/bowser.js'
-  ).then(({ default: Bowser }) => Bowser.parse(window.navigator.userAgent).engine.name === 'Blink'))
+const BOWSER = 'https://cdn.jsdelivr.net/npm/bowser@2.11.0/src/bowser.js'
+
+async function isEngine(engine: string) {
+  const { default: Bowser } = await import(BOWSER)
+  return Bowser.parse(window.navigator.userAgent).engine.name === engine
+}
+
+export const isBlink = isBrowser && (await isEngine('Blink'))
+
+export const isWebKit = isBrowser && (await isEngine('WebKit'))
+
+export const isGecko = isBrowser && (await isEngine('Gecko'))
 
 // @ts-ignore
 export const hasZlib = isNode && [...process.argv].reverse()[0] !== '#dist/webapi'

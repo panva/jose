@@ -10,7 +10,7 @@ export default (QUnit: QUnit, lib: typeof jose) => {
   type Vector = [string, boolean]
   const algorithms: Vector[] = [
     ['PBES2-HS256+A128KW', !env.isElectron],
-    ['PBES2-HS384+A192KW', !env.isChromium && !env.isElectron],
+    ['PBES2-HS384+A192KW', !env.isBlink && !env.isElectron],
     ['PBES2-HS512+A256KW', !env.isElectron],
   ]
 
