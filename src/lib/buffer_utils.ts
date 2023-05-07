@@ -1,7 +1,7 @@
 import digest from '../runtime/digest.js'
-
-export const encoder = new TextEncoder()
-export const decoder = new TextDecoder()
+import { encoder as encoderRuntime, decoder as decoderRuntime } from '../runtime/encoding.js'
+export const encoder = encoderRuntime
+export const decoder = decoderRuntime
 
 const MAX_INT32 = 2 ** 32
 
