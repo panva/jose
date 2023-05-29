@@ -70,21 +70,21 @@ export default (QUnit: QUnit, lib: typeof jose) => {
     [
       ['ECDH-ES', 'X25519'],
       KEYS.X25519.pkcs8,
-      env.isDeno || env.isNode || env.isElectron || env.isWorkerd,
+      env.isDeno || env.isNode || env.isElectron || env.isWorkerd || env.isEdgeRuntime,
     ],
     [
       ['ECDH-ES', 'X25519'],
       KEYS.X25519.spki,
-      env.isDeno || env.isNode || env.isElectron || env.isWorkerd,
+      env.isDeno || env.isNode || env.isElectron || env.isWorkerd || env.isEdgeRuntime,
     ],
-    [['ECDH-ES', 'X448'], KEYS.X448.pkcs8, env.isNode],
-    [['ECDH-ES', 'X448'], KEYS.X448.spki, env.isNode],
-    [['EdDSA', 'Ed25519'], KEYS.Ed25519.pkcs8, !(env.isBrowser || env.isEdgeRuntime)],
-    [['EdDSA', 'Ed25519'], KEYS.Ed25519.spki, !(env.isBrowser || env.isEdgeRuntime)],
-    [['EdDSA', 'Ed25519'], KEYS.Ed25519.x509, !(env.isBrowser || env.isEdgeRuntime)],
-    [['EdDSA', 'Ed448'], KEYS.Ed448.pkcs8, env.isNode],
-    [['EdDSA', 'Ed448'], KEYS.Ed448.spki, env.isNode],
-    [['EdDSA', 'Ed448'], KEYS.Ed448.x509, env.isNode],
+    [['ECDH-ES', 'X448'], KEYS.X448.pkcs8, env.isNode || env.isEdgeRuntime],
+    [['ECDH-ES', 'X448'], KEYS.X448.spki, env.isNode || env.isEdgeRuntime],
+    [['EdDSA', 'Ed25519'], KEYS.Ed25519.pkcs8, !env.isBrowser],
+    [['EdDSA', 'Ed25519'], KEYS.Ed25519.spki, !env.isBrowser],
+    [['EdDSA', 'Ed25519'], KEYS.Ed25519.x509, !env.isBrowser],
+    [['EdDSA', 'Ed448'], KEYS.Ed448.pkcs8, env.isNode || env.isEdgeRuntime],
+    [['EdDSA', 'Ed448'], KEYS.Ed448.spki, env.isNode || env.isEdgeRuntime],
+    [['EdDSA', 'Ed448'], KEYS.Ed448.x509, env.isNode || env.isEdgeRuntime],
   ]
 
   function title(alg: string, crv: string | undefined, pem: string, works: boolean) {
