@@ -6,14 +6,14 @@ Support from the community to continue maintaining and improving this module is 
 
 ---
 
+Interface for Compact JWE Decryption dynamic key resolution. No token components have been
+verified at the time of this function call.
+
 ## Callable
 
 ### CompactDecryptGetKey
 
 ▸ **CompactDecryptGetKey**(`protectedHeader`, `token`): [`Uint8Array`]( https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Uint8Array ) \| [`KeyLike`](../types/types.KeyLike.md) \| [`Promise`]( https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise )<[`Uint8Array`]( https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Uint8Array ) \| [`KeyLike`](../types/types.KeyLike.md)\>
-
-Interface for Compact JWE Decryption dynamic key resolution. No token components have been
-verified at the time of this function call.
 
 #### Parameters
 

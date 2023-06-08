@@ -6,12 +6,6 @@ Support from the community to continue maintaining and improving this module is 
 
 ---
 
-## Callable
-
-### InflateFunction
-
-▸ **InflateFunction**(`input`): [`Promise`]( https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise )<[`Uint8Array`]( https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Uint8Array )\>
-
 Inflate Raw implementation, e.g. promisified
 [zlib.inflateRaw](https://nodejs.org/api/zlib.html#zlibinflaterawbuffer-options-callback).
 
@@ -19,6 +13,12 @@ Inflate Raw implementation, e.g. promisified
   data often reveals information about the plaintext.
 
 **`see`** [Avoid Compression of Encryption Inputs](https://www.rfc-editor.org/rfc/rfc8725#name-avoid-compression-of-encryp)
+
+## Callable
+
+### InflateFunction
+
+▸ **InflateFunction**(`input`): [`Promise`]( https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise )<[`Uint8Array`]( https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Uint8Array )\>
 
 #### Parameters
 
