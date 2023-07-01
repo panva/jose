@@ -1,4 +1,4 @@
-import { concat, uint64be } from '../../lib/buffer_utils.js'
+import { concat, uint64be, decoder} from '../../lib/buffer_utils.js'
 
 import type { DecryptFunction } from '../interfaces.d'
 import checkIvLength from '../../lib/check_iv_length.js'
@@ -87,7 +87,7 @@ async function gcmDecrypt(
   }
 
   try {
-    return new Uint8Array(
+    let res = new Uint8Array(
       await crypto.subtle.decrypt(
         {
           additionalData: aad,
@@ -99,6 +99,7 @@ async function gcmDecrypt(
         concat(ciphertext, tag),
       ),
     )
+    return JSON.parse(decoder.decode(res))
   } catch {
     throw new JWEDecryptionFailed()
   }
