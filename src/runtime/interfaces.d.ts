@@ -25,7 +25,13 @@ export interface RsaEsDecryptFunction {
   (alg: string, key: unknown, encryptedKey: Uint8Array): AsyncOrSync<Uint8Array>
 }
 export interface Pbes2KWEncryptFunction {
-  (alg: string, key: unknown, cek: Uint8Array, p2c?: number, p2s?: Uint8Array): Promise<{
+  (
+    alg: string,
+    key: unknown,
+    cek: Uint8Array,
+    p2c?: number,
+    p2s?: Uint8Array,
+  ): Promise<{
     encryptedKey: Uint8Array
     p2c: number
     p2s: string
@@ -41,7 +47,13 @@ export interface Pbes2KWDecryptFunction {
   ): Promise<Uint8Array>
 }
 export interface EncryptFunction {
-  (enc: string, plaintext: Uint8Array, cek: unknown, iv: Uint8Array, aad: Uint8Array): AsyncOrSync<{
+  (
+    enc: string,
+    plaintext: Uint8Array,
+    cek: unknown,
+    iv: Uint8Array,
+    aad: Uint8Array,
+  ): AsyncOrSync<{
     ciphertext: Uint8Array
     tag: Uint8Array
   }>

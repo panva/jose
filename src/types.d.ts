@@ -361,6 +361,7 @@ export interface JWEHeaderParameters extends JoseHeaderParameters {
    *
    * @deprecated Compression of data SHOULD NOT be done before encryption, because such compressed
    *   data often reveals information about the plaintext.
+   *
    * @see {@link https://www.rfc-editor.org/rfc/rfc8725#name-avoid-compression-of-encryp Avoid Compression of Encryption Inputs}
    */
   zip?: string
@@ -549,6 +550,7 @@ export interface JWTPayload {
  *
  * @deprecated Compression of data SHOULD NOT be done before encryption, because such compressed
  *   data often reveals information about the plaintext.
+ *
  * @see {@link https://www.rfc-editor.org/rfc/rfc8725#name-avoid-compression-of-encryp Avoid Compression of Encryption Inputs}
  */
 export interface DeflateFunction {
@@ -561,6 +563,7 @@ export interface DeflateFunction {
  *
  * @deprecated Compression of data SHOULD NOT be done before encryption, because such compressed
  *   data often reveals information about the plaintext.
+ *
  * @see {@link https://www.rfc-editor.org/rfc/rfc8725#name-avoid-compression-of-encryp Avoid Compression of Encryption Inputs}
  */
 export interface InflateFunction {

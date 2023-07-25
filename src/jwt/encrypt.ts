@@ -77,6 +77,7 @@ export class EncryptJWT extends ProduceJWT {
    *
    * @deprecated You should not use this method. It is only really intended for test and vector
    *   validation purposes.
+   *
    * @param cek JWE Content Encryption Key.
    */
   setContentEncryptionKey(cek: Uint8Array) {
@@ -93,6 +94,7 @@ export class EncryptJWT extends ProduceJWT {
    *
    * @deprecated You should not use this method. It is only really intended for test and vector
    *   validation purposes.
+   *
    * @param iv JWE Initialization Vector.
    */
   setInitializationVector(iv: Uint8Array) {
