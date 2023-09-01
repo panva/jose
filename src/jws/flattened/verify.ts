@@ -169,8 +169,9 @@ export async function flattenedVerify(
     encoder.encode('.'),
     typeof jws.payload === 'string' ? encoder.encode(jws.payload) : jws.payload,
   )
+  let signature: Uint8Array
   try {
-    const signature = base64url(jws.signature)
+    signature = base64url(jws.signature)
   } catch {
     throw new JWSInvalid('Failed to parse the base64url encoded signature')
   }
