@@ -110,6 +110,10 @@ export async function generateKeyPair(alg: string, options?: GenerateKeyPairOpti
       algorithm = { name: 'ECDSA', namedCurve: 'P-521' }
       keyUsages = ['sign', 'verify']
       break
+    case 'Ed25519':
+      algorithm = { name: 'Ed25519' }
+      keyUsages = ['sign', 'verify']
+      break
     case 'EdDSA': {
       keyUsages = ['sign', 'verify']
       const crv = options?.crv ?? 'Ed25519'

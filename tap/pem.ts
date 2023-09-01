@@ -94,6 +94,9 @@ export default (QUnit: QUnit, lib: typeof jose, keys: typeof jose) => {
     [['EdDSA', 'Ed448'], KEYS.Ed448.pkcs8, env.isNode || env.isEdgeRuntime],
     [['EdDSA', 'Ed448'], KEYS.Ed448.spki, env.isNode || env.isEdgeRuntime],
     [['EdDSA', 'Ed448'], KEYS.Ed448.x509, env.isNode || env.isEdgeRuntime],
+    ['Ed25519', KEYS.Ed25519.pkcs8, !env.isBlink],
+    ['Ed25519', KEYS.Ed25519.spki, !env.isBlink],
+    ['Ed25519', KEYS.Ed25519.x509, !env.isBlink],
   ]
 
   function title(alg: string, crv: string | undefined, pem: string, works: boolean) {

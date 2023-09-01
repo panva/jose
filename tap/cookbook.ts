@@ -41,7 +41,7 @@ export default (QUnit: QUnit, lib: typeof jose, keys: typeof jose) => {
       if (vector.input.alg === 'ES512') {
         return !env.isDeno
       }
-      if (vector.input.alg === 'EdDSA') {
+      if (vector.input.key?.crv === 'Ed25519') {
         return !env.isBlink
       }
       return true

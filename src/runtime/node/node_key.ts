@@ -52,6 +52,11 @@ export default function keyForCrypto<KeyObjectOptions, JWKOptions>(
 
   let options!: SigningOptions
   switch (alg) {
+    case 'Ed25519':
+      if (asymmetricKeyType !== 'ed25519') {
+        throw new TypeError(`Invalid key for this operation, its asymmetricKeyType must be ed25519`)
+      }
+      break
     case 'EdDSA':
       if (!['ed25519', 'ed448'].includes(asymmetricKeyType)) {
         throw new TypeError(
