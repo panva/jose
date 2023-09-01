@@ -169,7 +169,12 @@ export async function flattenedVerify(
     encoder.encode('.'),
     typeof jws.payload === 'string' ? encoder.encode(jws.payload) : jws.payload,
   )
-  const signature = base64url(jws.signature)
+  try {
+    const signature = base64url(jws.signature)
+  }
+  catch (err) {
+    throw new JWSSignatureVerificationFailed()
+  }
   const verified = await verify(alg, key, signature, data)
 
   if (!verified) {
