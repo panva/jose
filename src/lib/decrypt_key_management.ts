@@ -53,13 +53,21 @@ async function decryptKeyManagement(
       if (joseHeader.apu !== undefined) {
         if (typeof joseHeader.apu !== 'string')
           throw new JWEInvalid(`JOSE Header "apu" (Agreement PartyUInfo) invalid`)
-        partyUInfo = base64url(joseHeader.apu)
+        try {
+          partyUInfo = base64url(joseHeader.apu)
+        } catch {
+          throw new JWEInvalid('Failed to base64url decode the apu')
+        }
       }
 
       if (joseHeader.apv !== undefined) {
         if (typeof joseHeader.apv !== 'string')
           throw new JWEInvalid(`JOSE Header "apv" (Agreement PartyVInfo) invalid`)
-        partyVInfo = base64url(joseHeader.apv)
+        try {
+          partyVInfo = base64url(joseHeader.apv)
+        } catch {
+          throw new JWEInvalid('Failed to base64url decode the apv')
+        }
       }
 
       const sharedSecret = await ECDH.deriveKey(
@@ -105,7 +113,13 @@ async function decryptKeyManagement(
       if (typeof joseHeader.p2s !== 'string')
         throw new JWEInvalid(`JOSE Header "p2s" (PBES2 Salt) missing or invalid`)
 
-      return pbes2Kw(alg, key, encryptedKey, joseHeader.p2c, base64url(joseHeader.p2s))
+      let p2s: Uint8Array
+      try {
+        p2s = base64url(joseHeader.p2s)
+      } catch {
+        throw new JWEInvalid('Failed to base64url decode the p2s')
+      }
+      return pbes2Kw(alg, key, encryptedKey, joseHeader.p2c, p2s)
     }
     case 'A128KW':
     case 'A192KW':
@@ -127,8 +141,18 @@ async function decryptKeyManagement(
       if (typeof joseHeader.tag !== 'string')
         throw new JWEInvalid(`JOSE Header "tag" (Authentication Tag) missing or invalid`)
 
-      const iv = base64url(joseHeader.iv)
-      const tag = base64url(joseHeader.tag)
+      let iv: Uint8Array
+      try {
+        iv = base64url(joseHeader.iv)
+      } catch {
+        throw new JWEInvalid('Failed to base64url decode the iv')
+      }
+      let tag: Uint8Array
+      try {
+        tag = base64url(joseHeader.tag)
+      } catch {
+        throw new JWEInvalid('Failed to base64url decode the tag')
+      }
 
       return aesGcmKw(alg, key, encryptedKey, iv, tag)
     }

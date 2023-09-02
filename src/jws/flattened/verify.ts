@@ -173,7 +173,7 @@ export async function flattenedVerify(
   try {
     signature = base64url(jws.signature)
   } catch {
-    throw new JWSInvalid('Failed to parse the base64url encoded signature')
+    throw new JWSInvalid('Failed to base64url decode the signature')
   }
   const verified = await verify(alg, key, signature, data)
 
@@ -183,7 +183,11 @@ export async function flattenedVerify(
 
   let payload: Uint8Array
   if (b64) {
-    payload = base64url(jws.payload)
+    try {
+      payload = base64url(jws.payload)
+    } catch {
+      throw new JWSInvalid('Failed to base64url decode the payload')
+    }
   } else if (typeof jws.payload === 'string') {
     payload = encoder.encode(jws.payload)
   } else {

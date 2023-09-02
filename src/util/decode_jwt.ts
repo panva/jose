@@ -33,7 +33,7 @@ export function decodeJwt(jwt: string) {
   try {
     decoded = base64url(payload)
   } catch {
-    throw new JWTInvalid('Failed to parse the base64url encoded payload')
+    throw new JWTInvalid('Failed to base64url decode the payload')
   }
 
   let result: unknown

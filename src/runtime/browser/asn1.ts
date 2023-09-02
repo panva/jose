@@ -243,7 +243,7 @@ export const fromX509: PEMImportFunction = (pem, alg, options?) => {
     spki = getSPKI(pem)
   } catch (cause) {
     // @ts-ignore
-    throw new TypeError('failed to parse the X.509 certificate', { cause })
+    throw new TypeError('Failed to parse the X.509 certificate', { cause })
   }
   return fromSPKI(spki, alg, options)
 }

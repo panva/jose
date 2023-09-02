@@ -179,7 +179,11 @@ export async function flattenedDecrypt(
 
   let encryptedKey!: Uint8Array
   if (jwe.encrypted_key !== undefined) {
-    encryptedKey = base64url(jwe.encrypted_key!)
+    try {
+      encryptedKey = base64url(jwe.encrypted_key!)
+    } catch {
+      throw new JWEInvalid('Failed to base64url decode the encrypted_key')
+    }
   }
 
   let resolvedKey = false
@@ -205,8 +209,18 @@ export async function flattenedDecrypt(
     cek = generateCek(enc)
   }
 
-  const iv = base64url(jwe.iv)
-  const tag = base64url(jwe.tag)
+  let iv: Uint8Array
+  let tag: Uint8Array
+  try {
+    iv = base64url(jwe.iv)
+  } catch {
+    throw new JWEInvalid('Failed to base64url decode the iv')
+  }
+  try {
+    tag = base64url(jwe.tag)
+  } catch {
+    throw new JWEInvalid('Failed to base64url decode the tag')
+  }
 
   const protectedHeader: Uint8Array = encoder.encode(jwe.protected ?? '')
   let additionalData: Uint8Array
@@ -217,7 +231,13 @@ export async function flattenedDecrypt(
     additionalData = protectedHeader
   }
 
-  let plaintext = await decrypt(enc, cek, base64url(jwe.ciphertext), iv, tag, additionalData)
+  let ciphertext: Uint8Array
+  try {
+    ciphertext = base64url(jwe.ciphertext)
+  } catch {
+    throw new JWEInvalid('Failed to base64url decode the ciphertext')
+  }
+  let plaintext = await decrypt(enc, cek, ciphertext, iv, tag, additionalData)
 
   if (joseHeader.zip === 'DEF') {
     plaintext = await (options?.inflateRaw || inflate)(plaintext)
@@ -230,7 +250,11 @@ export async function flattenedDecrypt(
   }
 
   if (jwe.aad !== undefined) {
-    result.additionalAuthenticatedData = base64url(jwe.aad!)
+    try {
+      result.additionalAuthenticatedData = base64url(jwe.aad!)
+    } catch {
+      throw new JWEInvalid('Failed to base64url decode the aad')
+    }
   }
 
   if (jwe.unprotected !== undefined) {
