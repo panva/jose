@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [4.14.5](https://github.com/panva/jose/compare/v4.14.4...v4.14.5) (2023-09-02)
+
+
+### Refactor
+
+* catch type error when decoding base64url signature ([#569](https://github.com/panva/jose/issues/569)) ([935e920](https://github.com/panva/jose/commit/935e920d29d242e0446d365b1e4f0449d144c23c))
+* catch type errors when decoding various base64url strings ([9024e87](https://github.com/panva/jose/commit/9024e870ece4ef121205dadc733c36d7978b97ab))
+
 ## [4.14.4](https://github.com/panva/jose/compare/v4.14.3...v4.14.4) (2023-04-30)
 
 
