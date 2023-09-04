@@ -13,6 +13,9 @@ delete pkg.keywords
 
 pkg.files.push('!dist/**/package.json')
 pkg.files.push('!dist/node/**/*')
+pkg.files.push('dist/**/*.bundle.js')
+pkg.files.push('dist/**/*.umd.js')
+pkg.files.push('dist/**/*.min.js')
 pkg.name = 'jose-browser-runtime'
 pkg.type = 'module'
 
