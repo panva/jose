@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [4.14.6](https://github.com/panva/jose/compare/v4.14.5...v4.14.6) (2023-09-04)
+
+
+### Fixes
+
+* **build:** publish bundle and umd files with jose-browser-runtime module ([62fcbcc](https://github.com/panva/jose/commit/62fcbcc2170db00f5bbfc817839523dbf970239f)), closes [#571](https://github.com/panva/jose/issues/571)
+
 ## [4.14.5](https://github.com/panva/jose/compare/v4.14.4...v4.14.5) (2023-09-02)
 
 
