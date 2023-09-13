@@ -144,7 +144,7 @@
     "glob": "^10.3.4",
     "nock": "^13.3.3",
     "npm-run-all2": "^6.0.6",
-    "patch-package": "^7.0.2",
+    "patch-package": "^8.0.0",
     "prettier": "^3.0.3",
     "prettier-plugin-jsdoc": "^1.0.2",
     "qunit": "^2.19.4",
