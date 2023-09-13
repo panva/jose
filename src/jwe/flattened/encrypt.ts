@@ -22,7 +22,7 @@ export const unprotected = Symbol()
 /**
  * The FlattenedEncrypt class is used to build and encrypt Flattened JWE objects.
  *
- * @example Usage
+ * @example
  *
  * ```js
  * const jwe = await new jose.FlattenedEncrypt(

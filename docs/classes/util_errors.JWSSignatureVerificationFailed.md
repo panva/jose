@@ -8,7 +8,9 @@ Support from the community to continue maintaining and improving this module is 
 
 An error subclass thrown when JWS signature verification fails.
 
-**`example`** Checking thrown error is this one using a stable error code
+**`Example`**
+
+Checking thrown error is this one using a stable error code
 
 ```js
 if (err.code === 'ERR_JWS_SIGNATURE_VERIFICATION_FAILED') {
@@ -16,7 +18,9 @@ if (err.code === 'ERR_JWS_SIGNATURE_VERIFICATION_FAILED') {
 }
 ```
 
-**`example`** Checking thrown error is this one using `instanceof`
+**`Example`**
+
+Checking thrown error is this one using `instanceof`
 
 ```js
 if (err instanceof jose.errors.JWSSignatureVerificationFailed) {

@@ -10,16 +10,6 @@ Support from the community to continue maintaining and improving this module is 
 
 Exports a runtime-specific key representation (KeyLike) to a JWK.
 
-**`example`** Usage
-
-```js
-const privateJwk = await jose.exportJWK(privateKey)
-const publicJwk = await jose.exportJWK(publicKey)
-
-console.log(privateJwk)
-console.log(publicJwk)
-```
-
 #### Parameters
 
 | Name | Type | Description |
@@ -29,3 +19,13 @@ console.log(publicJwk)
 #### Returns
 
 [`Promise`]( https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise )<[`JWK`](../interfaces/types.JWK.md)\>
+
+**`Example`**
+
+```js
+const privateJwk = await jose.exportJWK(privateKey)
+const publicJwk = await jose.exportJWK(publicKey)
+
+console.log(privateJwk)
+console.log(publicJwk)
+```

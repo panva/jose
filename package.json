@@ -136,26 +136,26 @@
     "tap:workerd": "./tap/.workerd.sh"
   },
   "devDependencies": {
-    "@types/node": "^18.17.11",
+    "@types/node": "^18.17.15",
     "@types/qunit": "^2.19.6",
     "ava": "^5.3.1",
     "edge-runtime": "^2.5.3",
     "esbuild": "^0.19.2",
-    "glob": "^10.3.3",
+    "glob": "^10.3.4",
     "nock": "^13.3.3",
     "npm-run-all2": "^6.0.6",
     "patch-package": "^7.0.2",
-    "prettier": "^3.0.2",
-    "prettier-plugin-jsdoc": "^1.0.1",
+    "prettier": "^3.0.3",
+    "prettier-plugin-jsdoc": "^1.0.2",
     "qunit": "^2.19.4",
-    "rollup": "^3.28.1",
-    "tar": "^6.1.15",
+    "rollup": "^3.29.1",
+    "tar": "^6.2.0",
     "timekeeper": "^2.3.1",
-    "tsd": "^0.28.1",
-    "typedoc": "^0.24.8",
-    "typedoc-plugin-markdown": "^3.15.3",
-    "typedoc-plugin-mdn-links": "^3.0.3",
-    "typescript": "^5.1.6"
+    "tsd": "^0.29.0",
+    "typedoc": "^0.25.1",
+    "typedoc-plugin-markdown": "^3.16.0",
+    "typedoc-plugin-mdn-links": "^3.1.0",
+    "typescript": "^5.2.2"
   },
   "deno": "./dist/browser/index.js"
 }

@@ -8,7 +8,7 @@ Support from the community to continue maintaining and improving this module is 
 
 The EncryptJWT class is used to build and encrypt Compact JWE formatted JSON Web Tokens.
 
-**`example`** Usage
+**`Example`**
 
 ```js
 const secret = jose.base64url.decode('zH4NRP1HMALxxCFnRZABFA7GOJtzU_gIj02alfL1lvI')
@@ -86,11 +86,13 @@ ___
 
 Replicates the "aud" (Audience) Claim as a JWE Protected Header Parameter.
 
-**`see`** [RFC7519#section-5.3](https://www.rfc-editor.org/rfc/rfc7519#section-5.3)
-
 #### Returns
 
 [`EncryptJWT`](jwt_encrypt.EncryptJWT.md)
+
+**`See`**
+
+[RFC7519#section-5.3](https://www.rfc-editor.org/rfc/rfc7519#section-5.3)
 
 ___
 
@@ -100,11 +102,13 @@ ___
 
 Replicates the "iss" (Issuer) Claim as a JWE Protected Header Parameter.
 
-**`see`** [RFC7519#section-5.3](https://www.rfc-editor.org/rfc/rfc7519#section-5.3)
-
 #### Returns
 
 [`EncryptJWT`](jwt_encrypt.EncryptJWT.md)
+
+**`See`**
+
+[RFC7519#section-5.3](https://www.rfc-editor.org/rfc/rfc7519#section-5.3)
 
 ___
 
@@ -114,11 +118,13 @@ ___
 
 Replicates the "sub" (Subject) Claim as a JWE Protected Header Parameter.
 
-**`see`** [RFC7519#section-5.3](https://www.rfc-editor.org/rfc/rfc7519#section-5.3)
-
 #### Returns
 
 [`EncryptJWT`](jwt_encrypt.EncryptJWT.md)
+
+**`See`**
+
+[RFC7519#section-5.3](https://www.rfc-editor.org/rfc/rfc7519#section-5.3)
 
 ___
 
@@ -147,9 +153,6 @@ ___
 Sets a content encryption key to use, by default a random suitable one is generated for the JWE
 enc" (Encryption Algorithm) Header Parameter.
 
-**`deprecated`** You should not use this method. It is only really intended for test and vector
-  validation purposes.
-
 #### Parameters
 
 | Name | Type | Description |
@@ -159,6 +162,11 @@ enc" (Encryption Algorithm) Header Parameter.
 #### Returns
 
 [`EncryptJWT`](jwt_encrypt.EncryptJWT.md)
+
+**`Deprecated`**
+
+You should not use this method. It is only really intended for test and vector
+  validation purposes.
 
 ___
 
@@ -187,9 +195,6 @@ ___
 Sets the JWE Initialization Vector to use for content encryption, by default a random suitable
 one is generated for the JWE enc" (Encryption Algorithm) Header Parameter.
 
-**`deprecated`** You should not use this method. It is only really intended for test and vector
-  validation purposes.
-
 #### Parameters
 
 | Name | Type | Description |
@@ -199,6 +204,11 @@ one is generated for the JWE enc" (Encryption Algorithm) Header Parameter.
 #### Returns
 
 [`EncryptJWT`](jwt_encrypt.EncryptJWT.md)
+
+**`Deprecated`**
+
+You should not use this method. It is only really intended for test and vector
+  validation purposes.
 
 ___
 

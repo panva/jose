@@ -11,18 +11,6 @@ Support from the community to continue maintaining and improving this module is 
 Imports a PEM-encoded PKCS#8 string as a runtime-specific private key representation (KeyObject
 or CryptoKey).
 
-**`example`** Usage
-
-```js
-const algorithm = 'ES256'
-const pkcs8 = `-----BEGIN PRIVATE KEY-----
-MIGHAgEAMBMGByqGSM49AgEGCCqGSM49AwEHBG0wawIBAQQgiyvo0X+VQ0yIrOaN
-nlrnUclopnvuuMfoc8HHly3505OhRANCAAQWUcdZ8uTSAsFuwtNy4KtsKqgeqYxg
-l6kwL5D4N3pEGYGIDjV69Sw0zAt43480WqJv7HCL0mQnyqFmSrxj8jMa
------END PRIVATE KEY-----`
-const ecPrivateKey = await jose.importPKCS8(pkcs8, algorithm)
-```
-
 #### Type parameters
 
 | Name | Type |
@@ -40,3 +28,15 @@ const ecPrivateKey = await jose.importPKCS8(pkcs8, algorithm)
 #### Returns
 
 [`Promise`]( https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise )<`T`\>
+
+**`Example`**
+
+```js
+const algorithm = 'ES256'
+const pkcs8 = `-----BEGIN PRIVATE KEY-----
+MIGHAgEAMBMGByqGSM49AgEGCCqGSM49AwEHBG0wawIBAQQgiyvo0X+VQ0yIrOaN
+nlrnUclopnvuuMfoc8HHly3505OhRANCAAQWUcdZ8uTSAsFuwtNy4KtsKqgeqYxg
+l6kwL5D4N3pEGYGIDjV69Sw0zAt43480WqJv7HCL0mQnyqFmSrxj8jMa
+-----END PRIVATE KEY-----`
+const ecPrivateKey = await jose.importPKCS8(pkcs8, algorithm)
+```

@@ -9,7 +9,7 @@ import type {
 /**
  * The CompactEncrypt class is used to build and encrypt Compact JWE strings.
  *
- * @example Usage
+ * @example
  *
  * ```js
  * const jwe = await new jose.CompactEncrypt(

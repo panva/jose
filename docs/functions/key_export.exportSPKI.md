@@ -11,14 +11,6 @@ Support from the community to continue maintaining and improving this module is 
 Exports a runtime-specific public key representation (KeyObject or CryptoKey) to a PEM-encoded
 SPKI string format.
 
-**`example`** Usage
-
-```js
-const spkiPem = await jose.exportSPKI(publicKey)
-
-console.log(spkiPem)
-```
-
 #### Parameters
 
 | Name | Type | Description |
@@ -28,3 +20,11 @@ console.log(spkiPem)
 #### Returns
 
 [`Promise`]( https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise )<`string`\>
+
+**`Example`**
+
+```js
+const spkiPem = await jose.exportSPKI(publicKey)
+
+console.log(spkiPem)
+```

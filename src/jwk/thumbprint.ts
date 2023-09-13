@@ -15,7 +15,7 @@ const check = (value: unknown, description: string) => {
 /**
  * Calculates a base64url-encoded JSON Web Key (JWK) Thumbprint
  *
- * @example Usage
+ * @example
  *
  * ```js
  * const thumbprint = await jose.calculateJwkThumbprint({
@@ -86,7 +86,7 @@ export async function calculateJwkThumbprint(
 /**
  * Calculates a JSON Web Key (JWK) Thumbprint URI
  *
- * @example Usage
+ * @example
  *
  * ```js
  * const thumbprintUri = await jose.calculateJwkThumbprintUri({

@@ -9,7 +9,7 @@ import { JWSInvalid } from '../util/errors.js'
  * token's "jwk" (JSON Web Key) Header Parameter. It is recommended to combine this with the verify
  * function's `algorithms` option to define accepted JWS "alg" (Algorithm) Header Parameter values.
  *
- * @example Usage
+ * @example
  *
  * ```js
  * const jwt =

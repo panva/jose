@@ -8,7 +8,7 @@ Support from the community to continue maintaining and improving this module is 
 
 The FlattenedEncrypt class is used to build and encrypt Flattened JWE objects.
 
-**`example`** Usage
+**`Example`**
 
 ```js
 const jwe = await new jose.FlattenedEncrypt(
@@ -96,9 +96,6 @@ ___
 Sets a content encryption key to use, by default a random suitable one is generated for the JWE
 enc" (Encryption Algorithm) Header Parameter.
 
-**`deprecated`** You should not use this method. It is only really intended for test and vector
-  validation purposes.
-
 #### Parameters
 
 | Name | Type | Description |
@@ -109,6 +106,11 @@ enc" (Encryption Algorithm) Header Parameter.
 
 [`FlattenedEncrypt`](jwe_flattened_encrypt.FlattenedEncrypt.md)
 
+**`Deprecated`**
+
+You should not use this method. It is only really intended for test and vector
+  validation purposes.
+
 ___
 
 ### setInitializationVector
@@ -117,9 +119,6 @@ ___
 
 Sets the JWE Initialization Vector to use for content encryption, by default a random suitable
 one is generated for the JWE enc" (Encryption Algorithm) Header Parameter.
-
-**`deprecated`** You should not use this method. It is only really intended for test and vector
-  validation purposes.
 
 #### Parameters
 
@@ -130,6 +129,11 @@ one is generated for the JWE enc" (Encryption Algorithm) Header Parameter.
 #### Returns
 
 [`FlattenedEncrypt`](jwe_flattened_encrypt.FlattenedEncrypt.md)
+
+**`Deprecated`**
+
+You should not use this method. It is only really intended for test and vector
+  validation purposes.
 
 ___
 

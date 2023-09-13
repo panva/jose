@@ -8,7 +8,7 @@ Support from the community to continue maintaining and improving this module is 
 
 The FlattenedSign class is used to build and sign Flattened JWS objects.
 
-**`example`** Usage
+**`Example`**
 
 ```js
 const jws = await new jose.FlattenedSign(

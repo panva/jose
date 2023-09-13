@@ -4,7 +4,7 @@ import type { CompactJWSHeaderParameters, KeyLike, SignOptions } from '../../typ
 /**
  * The CompactSign class is used to build and sign Compact JWS strings.
  *
- * @example Usage
+ * @example
  *
  * ```js
  * const jws = await new jose.CompactSign(

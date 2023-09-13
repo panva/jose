@@ -24,7 +24,7 @@ export interface GeneralVerifyGetKey
 /**
  * Verifies the signature and format of and afterwards decodes the General JWS.
  *
- * @example Usage
+ * @example
  *
  * ```js
  * const jws = {

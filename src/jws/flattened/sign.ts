@@ -11,7 +11,7 @@ import validateCrit from '../../lib/validate_crit.js'
 /**
  * The FlattenedSign class is used to build and sign Flattened JWS objects.
  *
- * @example Usage
+ * @example
  *
  * ```js
  * const jws = await new jose.FlattenedSign(

@@ -11,23 +11,6 @@ Support from the community to continue maintaining and improving this module is 
 Imports the SPKI from an X.509 string certificate as a runtime-specific public key representation
 (KeyObject or CryptoKey).
 
-**`example`** Usage
-
-```js
-const algorithm = 'ES256'
-const x509 = `-----BEGIN CERTIFICATE-----
-MIIBXjCCAQSgAwIBAgIGAXvykuMKMAoGCCqGSM49BAMCMDYxNDAyBgNVBAMMK3Np
-QXBNOXpBdk1VaXhXVWVGaGtjZXg1NjJRRzFyQUhXaV96UlFQTVpQaG8wHhcNMjEw
-OTE3MDcwNTE3WhcNMjIwNzE0MDcwNTE3WjA2MTQwMgYDVQQDDCtzaUFwTTl6QXZN
-VWl4V1VlRmhrY2V4NTYyUUcxckFIV2lfelJRUE1aUGhvMFkwEwYHKoZIzj0CAQYI
-KoZIzj0DAQcDQgAE8PbPvCv5D5xBFHEZlBp/q5OEUymq7RIgWIi7tkl9aGSpYE35
-UH+kBKDnphJO3odpPZ5gvgKs2nwRWcrDnUjYLDAKBggqhkjOPQQDAgNIADBFAiEA
-1yyMTRe66MhEXID9+uVub7woMkNYd0LhSHwKSPMUUTkCIFQGsfm1ecXOpeGOufAh
-v+A1QWZMuTWqYt+uh/YSRNDn
------END CERTIFICATE-----`
-const ecPublicKey = await jose.importX509(x509, algorithm)
-```
-
 #### Type parameters
 
 | Name | Type |
@@ -45,3 +28,20 @@ const ecPublicKey = await jose.importX509(x509, algorithm)
 #### Returns
 
 [`Promise`]( https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise )<`T`\>
+
+**`Example`**
+
+```js
+const algorithm = 'ES256'
+const x509 = `-----BEGIN CERTIFICATE-----
+MIIBXjCCAQSgAwIBAgIGAXvykuMKMAoGCCqGSM49BAMCMDYxNDAyBgNVBAMMK3Np
+QXBNOXpBdk1VaXhXVWVGaGtjZXg1NjJRRzFyQUhXaV96UlFQTVpQaG8wHhcNMjEw
+OTE3MDcwNTE3WhcNMjIwNzE0MDcwNTE3WjA2MTQwMgYDVQQDDCtzaUFwTTl6QXZN
+VWl4V1VlRmhrY2V4NTYyUUcxckFIV2lfelJRUE1aUGhvMFkwEwYHKoZIzj0CAQYI
+KoZIzj0DAQcDQgAE8PbPvCv5D5xBFHEZlBp/q5OEUymq7RIgWIi7tkl9aGSpYE35
+UH+kBKDnphJO3odpPZ5gvgKs2nwRWcrDnUjYLDAKBggqhkjOPQQDAgNIADBFAiEA
+1yyMTRe66MhEXID9+uVub7woMkNYd0LhSHwKSPMUUTkCIFQGsfm1ecXOpeGOufAh
+v+A1QWZMuTWqYt+uh/YSRNDn
+-----END CERTIFICATE-----`
+const ecPublicKey = await jose.importX509(x509, algorithm)
+```

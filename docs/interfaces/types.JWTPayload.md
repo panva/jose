@@ -28,7 +28,9 @@ Recognized JWT Claims Set members, any other members may also be present.
 
 JWT Audience
 
-**`see`** [RFC7519#section-4.1.3](https://www.rfc-editor.org/rfc/rfc7519#section-4.1.3)
+**`See`**
+
+[RFC7519#section-4.1.3](https://www.rfc-editor.org/rfc/rfc7519#section-4.1.3)
 
 ___
 
@@ -38,7 +40,9 @@ ___
 
 JWT Expiration Time
 
-**`see`** [RFC7519#section-4.1.4](https://www.rfc-editor.org/rfc/rfc7519#section-4.1.4)
+**`See`**
+
+[RFC7519#section-4.1.4](https://www.rfc-editor.org/rfc/rfc7519#section-4.1.4)
 
 ___
 
@@ -48,7 +52,9 @@ ___
 
 JWT Issued At
 
-**`see`** [RFC7519#section-4.1.6](https://www.rfc-editor.org/rfc/rfc7519#section-4.1.6)
+**`See`**
+
+[RFC7519#section-4.1.6](https://www.rfc-editor.org/rfc/rfc7519#section-4.1.6)
 
 ___
 
@@ -58,7 +64,9 @@ ___
 
 JWT Issuer
 
-**`see`** [RFC7519#section-4.1.1](https://www.rfc-editor.org/rfc/rfc7519#section-4.1.1)
+**`See`**
+
+[RFC7519#section-4.1.1](https://www.rfc-editor.org/rfc/rfc7519#section-4.1.1)
 
 ___
 
@@ -68,7 +76,9 @@ ___
 
 JWT ID
 
-**`see`** [RFC7519#section-4.1.7](https://www.rfc-editor.org/rfc/rfc7519#section-4.1.7)
+**`See`**
+
+[RFC7519#section-4.1.7](https://www.rfc-editor.org/rfc/rfc7519#section-4.1.7)
 
 ___
 
@@ -78,7 +88,9 @@ ___
 
 JWT Not Before
 
-**`see`** [RFC7519#section-4.1.5](https://www.rfc-editor.org/rfc/rfc7519#section-4.1.5)
+**`See`**
+
+[RFC7519#section-4.1.5](https://www.rfc-editor.org/rfc/rfc7519#section-4.1.5)
 
 ___
 
@@ -88,4 +100,6 @@ ___
 
 JWT Subject
 
-**`see`** [RFC7519#section-4.1.2](https://www.rfc-editor.org/rfc/rfc7519#section-4.1.2)
+**`See`**
+
+[RFC7519#section-4.1.2](https://www.rfc-editor.org/rfc/rfc7519#section-4.1.2)

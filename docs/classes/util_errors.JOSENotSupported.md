@@ -9,7 +9,9 @@ Support from the community to continue maintaining and improving this module is 
 An error subclass thrown when a particular feature or algorithm is not supported by this
 implementation or JOSE in general.
 
-**`example`** Checking thrown error is this one using a stable error code
+**`Example`**
+
+Checking thrown error is this one using a stable error code
 
 ```js
 if (err.code === 'ERR_JOSE_NOT_SUPPORTED') {
@@ -17,7 +19,9 @@ if (err.code === 'ERR_JOSE_NOT_SUPPORTED') {
 }
 ```
 
-**`example`** Checking thrown error is this one using `instanceof`
+**`Example`**
+
+Checking thrown error is this one using `instanceof`
 
 ```js
 if (err instanceof jose.errors.JOSENotSupported) {

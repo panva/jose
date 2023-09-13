@@ -74,7 +74,7 @@ class IndividualSignature implements Signature {
 /**
  * The GeneralSign class is used to build and sign General JWS objects.
  *
- * @example Usage
+ * @example
  *
  * ```js
  * const jws = await new jose.GeneralSign(

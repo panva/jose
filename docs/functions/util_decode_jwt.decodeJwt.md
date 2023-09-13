@@ -13,13 +13,6 @@ values. This does not validate the JWS Signature. For a proper Signed JWT Claims
 and JWS signature verification use `jose.jwtVerify()`. For an encrypted JWT Claims Set validation
 and JWE decryption use `jose.jwtDecrypt()`.
 
-**`example`** Usage
-
-```js
-const claims = jose.decodeJwt(token)
-console.log(claims)
-```
-
 #### Parameters
 
 | Name | Type | Description |
@@ -29,3 +22,10 @@ console.log(claims)
 #### Returns
 
 [`JWTPayload`](../interfaces/types.JWTPayload.md)
+
+**`Example`**
+
+```js
+const claims = jose.decodeJwt(token)
+console.log(claims)
+```

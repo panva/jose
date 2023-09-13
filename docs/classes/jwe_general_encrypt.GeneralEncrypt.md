@@ -8,7 +8,7 @@ Support from the community to continue maintaining and improving this module is 
 
 The GeneralEncrypt class is used to build and encrypt General JWE objects.
 
-**`example`** Usage
+**`Example`**
 
 ```js
 const jwe = await new jose.GeneralEncrypt(

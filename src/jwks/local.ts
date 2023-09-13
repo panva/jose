@@ -183,7 +183,7 @@ async function importWithAlgCache<T extends KeyLike = KeyLike>(
  * multiple keys get matched it is possible to opt-in to iterate over the matched keys and attempt
  * verification in an iterative manner.
  *
- * @example Usage
+ * @example
  *
  * ```js
  * const JWKS = jose.createLocalJWKSet({

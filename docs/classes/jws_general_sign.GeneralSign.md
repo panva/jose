@@ -8,7 +8,7 @@ Support from the community to continue maintaining and improving this module is 
 
 The GeneralSign class is used to build and sign General JWS objects.
 
-**`example`** Usage
+**`Example`**
 
 ```js
 const jws = await new jose.GeneralSign(

@@ -30,7 +30,7 @@ export interface FlattenedDecryptGetKey
 /**
  * Decrypts a Flattened JWE.
  *
- * @example Usage
+ * @example
  *
  * ```js
  * const jwe = {

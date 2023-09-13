@@ -31,7 +31,7 @@ export interface FlattenedVerifyGetKey
 /**
  * Verifies the signature and format of and afterwards decodes the Flattened JWS.
  *
- * @example Usage
+ * @example
  *
  * ```js
  * const decoder = new TextDecoder()

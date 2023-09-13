@@ -19,7 +19,7 @@ export interface PEMImportOptions {
  * Imports a PEM-encoded SPKI string as a runtime-specific public key representation (KeyObject or
  * CryptoKey).
  *
- * @example Usage
+ * @example
  *
  * ```js
  * const algorithm = 'ES256'
@@ -51,7 +51,7 @@ export async function importSPKI<T extends KeyLike = KeyLike>(
  * Imports the SPKI from an X.509 string certificate as a runtime-specific public key representation
  * (KeyObject or CryptoKey).
  *
- * @example Usage
+ * @example
  *
  * ```js
  * const algorithm = 'ES256'
@@ -89,7 +89,7 @@ export async function importX509<T extends KeyLike = KeyLike>(
  * Imports a PEM-encoded PKCS#8 string as a runtime-specific private key representation (KeyObject
  * or CryptoKey).
  *
- * @example Usage
+ * @example
  *
  * ```js
  * const algorithm = 'ES256'
@@ -124,7 +124,7 @@ export async function importPKCS8<T extends KeyLike = KeyLike>(
  * {@link https://www.w3.org/TR/WebCryptoAPI/ Web Cryptography API} the jwk parameters "use",
  * "key_ops", and "ext" are also used in the resulting `CryptoKey`.
  *
- * @example Usage
+ * @example
  *
  * ```js
  * const ecPublicKey = await jose.importJWK(

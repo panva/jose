@@ -17,7 +17,7 @@ export interface GenerateSecretOptions {
  * Note: Under Web Crypto API runtime the secret key is generated with `extractable` set to `false`
  * by default.
  *
- * @example Usage
+ * @example
  *
  * ```js
  * const secret = await jose.generateSecret('HS256')

@@ -8,7 +8,7 @@ Support from the community to continue maintaining and improving this module is 
 
 The CompactSign class is used to build and sign Compact JWS strings.
 
-**`example`** Usage
+**`Example`**
 
 ```js
 const jws = await new jose.CompactSign(

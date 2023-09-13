@@ -8,7 +8,9 @@ Support from the community to continue maintaining and improving this module is 
 
 An error subclass thrown when a JWT is expired.
 
-**`example`** Checking thrown error is this one using a stable error code
+**`Example`**
+
+Checking thrown error is this one using a stable error code
 
 ```js
 if (err.code === 'ERR_JWT_EXPIRED') {
@@ -16,7 +18,9 @@ if (err.code === 'ERR_JWT_EXPIRED') {
 }
 ```
 
-**`example`** Checking thrown error is this one using `instanceof`
+**`Example`**
+
+Checking thrown error is this one using `instanceof`
 
 ```js
 if (err instanceof jose.errors.JWTExpired) {

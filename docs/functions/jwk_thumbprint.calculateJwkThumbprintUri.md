@@ -10,7 +10,18 @@ Support from the community to continue maintaining and improving this module is 
 
 Calculates a JSON Web Key (JWK) Thumbprint URI
 
-**`example`** Usage
+#### Parameters
+
+| Name | Type | Description |
+| :------ | :------ | :------ |
+| `jwk` | [`JWK`](../interfaces/types.JWK.md) | JSON Web Key. |
+| `digestAlgorithm?` | ``"sha256"`` \| ``"sha384"`` \| ``"sha512"`` | Digest Algorithm to use for calculating the thumbprint. Default is "sha256". |
+
+#### Returns
+
+[`Promise`]( https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise )<`string`\>
+
+**`Example`**
 
 ```js
 const thumbprintUri = await jose.calculateJwkThumbprintUri({
@@ -24,15 +35,6 @@ console.log(thumbprintUri)
 // 'urn:ietf:params:oauth:jwk-thumbprint:sha-256:w9eYdC6_s_tLQ8lH6PUpc0mddazaqtPgeC2IgWDiqY8'
 ```
 
-**`see`** [RFC9278](https://www.rfc-editor.org/rfc/rfc9278)
+**`See`**
 
-#### Parameters
-
-| Name | Type | Description |
-| :------ | :------ | :------ |
-| `jwk` | [`JWK`](../interfaces/types.JWK.md) | JSON Web Key. |
-| `digestAlgorithm?` | ``"sha256"`` \| ``"sha384"`` \| ``"sha512"`` | Digest Algorithm to use for calculating the thumbprint. Default is "sha256". |
-
-#### Returns
-
-[`Promise`]( https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise )<`string`\>
+[RFC9278](https://www.rfc-editor.org/rfc/rfc9278)

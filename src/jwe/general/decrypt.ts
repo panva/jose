@@ -21,7 +21,7 @@ export interface GeneralDecryptGetKey extends GetKeyFunction<JWEHeaderParameters
 /**
  * Decrypts a General JWE.
  *
- * @example Usage
+ * @example
  *
  * ```js
  * const jwe = {

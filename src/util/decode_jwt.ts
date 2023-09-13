@@ -10,7 +10,7 @@ import { JWTInvalid } from './errors.js'
  * and JWS signature verification use `jose.jwtVerify()`. For an encrypted JWT Claims Set validation
  * and JWE decryption use `jose.jwtDecrypt()`.
  *
- * @example Usage
+ * @example
  *
  * ```js
  * const claims = jose.decodeJwt(token)

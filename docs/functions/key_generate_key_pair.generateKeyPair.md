@@ -14,14 +14,6 @@ asymmetric key pairs. For symmetric secrets use the `generateSecret` function.
 Note: Under Web Crypto API runtime the `privateKey` is generated with `extractable` set to
 `false` by default.
 
-**`example`** Usage
-
-```js
-const { publicKey, privateKey } = await jose.generateKeyPair('PS256')
-console.log(publicKey)
-console.log(privateKey)
-```
-
 #### Type parameters
 
 | Name | Type |
@@ -38,3 +30,11 @@ console.log(privateKey)
 #### Returns
 
 [`Promise`]( https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise )<[`GenerateKeyPairResult`](../interfaces/key_generate_key_pair.GenerateKeyPairResult.md)<`T`\>\>
+
+**`Example`**
+
+```js
+const { publicKey, privateKey } = await jose.generateKeyPair('PS256')
+console.log(publicKey)
+console.log(privateKey)
+```

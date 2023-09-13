@@ -8,7 +8,9 @@ Support from the community to continue maintaining and improving this module is 
 
 A generic Error that all other JOSE specific Error subclasses extend.
 
-**`example`** Checking thrown error is a JOSE one
+**`Example`**
+
+Checking thrown error is a JOSE one
 
 ```js
 if (err instanceof jose.errors.JOSEError) {

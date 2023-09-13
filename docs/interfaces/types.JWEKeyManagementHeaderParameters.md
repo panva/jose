@@ -37,7 +37,9 @@ ___
 
 • `Optional` **epk**: [`KeyLike`](../types/types.KeyLike.md)
 
-**`deprecated`** You should not use this parameter. It is only really intended for test and vector
+**`Deprecated`**
+
+You should not use this parameter. It is only really intended for test and vector
   validation purposes.
 
 ___
@@ -46,7 +48,9 @@ ___
 
 • `Optional` **iv**: [`Uint8Array`]( https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Uint8Array )
 
-**`deprecated`** You should not use this parameter. It is only really intended for test and vector
+**`Deprecated`**
+
+You should not use this parameter. It is only really intended for test and vector
   validation purposes.
 
 ___
@@ -55,7 +59,9 @@ ___
 
 • `Optional` **p2c**: `number`
 
-**`deprecated`** You should not use this parameter. It is only really intended for test and vector
+**`Deprecated`**
+
+You should not use this parameter. It is only really intended for test and vector
   validation purposes.
 
 ___
@@ -64,5 +70,7 @@ ___
 
 • `Optional` **p2s**: [`Uint8Array`]( https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Uint8Array )
 
-**`deprecated`** You should not use this parameter. It is only really intended for test and vector
+**`Deprecated`**
+
+You should not use this parameter. It is only really intended for test and vector
   validation purposes.

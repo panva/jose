@@ -11,7 +11,7 @@ import { ProduceJWT } from './produce.js'
 /**
  * The EncryptJWT class is used to build and encrypt Compact JWE formatted JSON Web Tokens.
  *
- * @example Usage
+ * @example
  *
  * ```js
  * const secret = jose.base64url.decode('zH4NRP1HMALxxCFnRZABFA7GOJtzU_gIj02alfL1lvI')

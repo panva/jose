@@ -21,7 +21,7 @@ export interface CompactDecryptGetKey
 /**
  * Decrypts a Compact JWE.
  *
- * @example Usage
+ * @example
  *
  * ```js
  * const jwe =

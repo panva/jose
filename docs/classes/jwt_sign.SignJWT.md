@@ -8,7 +8,9 @@ Support from the community to continue maintaining and improving this module is 
 
 The SignJWT class is used to build and sign Compact JWS formatted JSON Web Tokens.
 
-**`example`** Usage with a symmetric secret
+**`Example`**
+
+Usage with a symmetric secret
 
 ```js
 const secret = new TextEncoder().encode(
@@ -27,7 +29,9 @@ const jwt = await new jose.SignJWT({ 'urn:example:claim': true })
 console.log(jwt)
 ```
 
-**`example`** Usage with a private PKCS#8 encoded RSA key
+**`Example`**
+
+Usage with a private PKCS#8 encoded RSA key
 
 ```js
 const alg = 'RS256'
@@ -72,7 +76,9 @@ const jwt = await new jose.SignJWT({ 'urn:example:claim': true })
 console.log(jwt)
 ```
 
-**`example`** Usage with a private JWK encoded RSA key
+**`Example`**
+
+Usage with a private JWK encoded RSA key
 
 ```js
 const alg = 'RS256'

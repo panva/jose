@@ -68,7 +68,7 @@ class IndividualRecipient implements Recipient {
 /**
  * The GeneralEncrypt class is used to build and encrypt General JWE objects.
  *
- * @example Usage
+ * @example
  *
  * ```js
  * const jwe = await new jose.GeneralEncrypt(

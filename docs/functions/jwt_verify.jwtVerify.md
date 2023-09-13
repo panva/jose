@@ -11,7 +11,21 @@ Support from the community to continue maintaining and improving this module is 
 Verifies the JWT format (to be a JWS Compact format), verifies the JWS signature, validates the
 JWT Claims Set.
 
-**`example`** Usage with a symmetric secret
+#### Parameters
+
+| Name | Type | Description |
+| :------ | :------ | :------ |
+| `jwt` | `string` \| [`Uint8Array`]( https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Uint8Array ) | JSON Web Token value (encoded as JWS). |
+| `key` | [`Uint8Array`]( https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Uint8Array ) \| [`KeyLike`](../types/types.KeyLike.md) | Key to verify the JWT with. See [Algorithm Key Requirements](https://github.com/panva/jose/issues/210#jws-alg). |
+| `options?` | [`JWTVerifyOptions`](../interfaces/jwt_verify.JWTVerifyOptions.md) | JWT Decryption and JWT Claims Set validation options. |
+
+#### Returns
+
+[`Promise`]( https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise )<[`JWTVerifyResult`](../interfaces/types.JWTVerifyResult.md)\>
+
+**`Example`**
+
+Usage with a symmetric secret
 
 ```js
 const secret = new TextEncoder().encode(
@@ -29,7 +43,9 @@ console.log(protectedHeader)
 console.log(payload)
 ```
 
-**`example`** Usage with a public SPKI encoded RSA key
+**`Example`**
+
+Usage with a public SPKI encoded RSA key
 
 ```js
 const alg = 'RS256'
@@ -55,7 +71,9 @@ console.log(protectedHeader)
 console.log(payload)
 ```
 
-**`example`** Usage with a public JWK encoded RSA key
+**`Example`**
+
+Usage with a public JWK encoded RSA key
 
 ```js
 const alg = 'RS256'
@@ -77,32 +95,7 @@ console.log(protectedHeader)
 console.log(payload)
 ```
 
-#### Parameters
-
-| Name | Type | Description |
-| :------ | :------ | :------ |
-| `jwt` | `string` \| [`Uint8Array`]( https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Uint8Array ) | JSON Web Token value (encoded as JWS). |
-| `key` | [`Uint8Array`]( https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Uint8Array ) \| [`KeyLike`](../types/types.KeyLike.md) | Key to verify the JWT with. See [Algorithm Key Requirements](https://github.com/panva/jose/issues/210#jws-alg). |
-| `options?` | [`JWTVerifyOptions`](../interfaces/jwt_verify.JWTVerifyOptions.md) | JWT Decryption and JWT Claims Set validation options. |
-
-#### Returns
-
-[`Promise`]( https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise )<[`JWTVerifyResult`](../interfaces/types.JWTVerifyResult.md)\>
-
 ▸ **jwtVerify**<`T`\>(`jwt`, `getKey`, `options?`): [`Promise`]( https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise )<[`JWTVerifyResult`](../interfaces/types.JWTVerifyResult.md) & [`ResolvedKey`](../interfaces/types.ResolvedKey.md)<`T`\>\>
-
-**`example`** Usage with a public JSON Web Key Set hosted on a remote URL
-
-```js
-const JWKS = jose.createRemoteJWKSet(new URL('https://www.googleapis.com/oauth2/v3/certs'))
-
-const { payload, protectedHeader } = await jose.jwtVerify(jwt, JWKS, {
-  issuer: 'urn:example:issuer',
-  audience: 'urn:example:audience',
-})
-console.log(protectedHeader)
-console.log(payload)
-```
 
 #### Type parameters
 
@@ -121,3 +114,18 @@ console.log(payload)
 #### Returns
 
 [`Promise`]( https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise )<[`JWTVerifyResult`](../interfaces/types.JWTVerifyResult.md) & [`ResolvedKey`](../interfaces/types.ResolvedKey.md)<`T`\>\>
+
+**`Example`**
+
+Usage with a public JSON Web Key Set hosted on a remote URL
+
+```js
+const JWKS = jose.createRemoteJWKSet(new URL('https://www.googleapis.com/oauth2/v3/certs'))
+
+const { payload, protectedHeader } = await jose.jwtVerify(jwt, JWKS, {
+  issuer: 'urn:example:issuer',
+  audience: 'urn:example:audience',
+})
+console.log(protectedHeader)
+console.log(payload)
+```

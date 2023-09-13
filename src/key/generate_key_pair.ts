@@ -38,7 +38,7 @@ export interface GenerateKeyPairOptions {
  * Note: Under Web Crypto API runtime the `privateKey` is generated with `extractable` set to
  * `false` by default.
  *
- * @example Usage
+ * @example
  *
  * ```js
  * const { publicKey, privateKey } = await jose.generateKeyPair('PS256')

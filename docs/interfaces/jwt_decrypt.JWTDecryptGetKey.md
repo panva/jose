@@ -15,12 +15,17 @@ the time of this function call.
 
 ▸ **JWTDecryptGetKey**(`protectedHeader`, `token`): [`Uint8Array`]( https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Uint8Array ) \| [`KeyLike`](../types/types.KeyLike.md) \| [`Promise`]( https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise )<[`Uint8Array`]( https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Uint8Array ) \| [`KeyLike`](../types/types.KeyLike.md)\>
 
+Dynamic key resolution function. No token components have been
+verified at the time of this function call.
+
+If you cannot match a key suitable for the token, throw an error instead.
+
 #### Parameters
 
-| Name | Type |
-| :------ | :------ |
-| `protectedHeader` | [`CompactJWEHeaderParameters`](types.CompactJWEHeaderParameters.md) |
-| `token` | [`FlattenedJWE`](types.FlattenedJWE.md) |
+| Name | Type | Description |
+| :------ | :------ | :------ |
+| `protectedHeader` | [`CompactJWEHeaderParameters`](types.CompactJWEHeaderParameters.md) | JWE or JWS Protected Header. |
+| `token` | [`FlattenedJWE`](types.FlattenedJWE.md) | The consumed JWE or JWS token. |
 
 #### Returns
 

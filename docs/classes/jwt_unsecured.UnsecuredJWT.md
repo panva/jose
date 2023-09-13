@@ -8,7 +8,9 @@ Support from the community to continue maintaining and improving this module is 
 
 The UnsecuredJWT class is a utility for dealing with `{ "alg": "none" }` Unsecured JWTs.
 
-**`example`** Encoding
+**`Example`**
+
+Encoding
 
 ```js
 const unsecuredJwt = new jose.UnsecuredJWT({ 'urn:example:claim': true })
@@ -21,7 +23,9 @@ const unsecuredJwt = new jose.UnsecuredJWT({ 'urn:example:claim': true })
 console.log(unsecuredJwt)
 ```
 
-**`example`** Decoding
+**`Example`**
+
+Decoding
 
 ```js
 const payload = jose.UnsecuredJWT.decode(jwt, {

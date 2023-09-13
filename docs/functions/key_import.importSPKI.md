@@ -11,17 +11,6 @@ Support from the community to continue maintaining and improving this module is 
 Imports a PEM-encoded SPKI string as a runtime-specific public key representation (KeyObject or
 CryptoKey).
 
-**`example`** Usage
-
-```js
-const algorithm = 'ES256'
-const spki = `-----BEGIN PUBLIC KEY-----
-MFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAEFlHHWfLk0gLBbsLTcuCrbCqoHqmM
-YJepMC+Q+Dd6RBmBiA41evUsNMwLeN+PNFqib+xwi9JkJ8qhZkq8Y/IzGg==
------END PUBLIC KEY-----`
-const ecPublicKey = await jose.importSPKI(spki, algorithm)
-```
-
 #### Type parameters
 
 | Name | Type |
@@ -39,3 +28,14 @@ const ecPublicKey = await jose.importSPKI(spki, algorithm)
 #### Returns
 
 [`Promise`]( https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise )<`T`\>
+
+**`Example`**
+
+```js
+const algorithm = 'ES256'
+const spki = `-----BEGIN PUBLIC KEY-----
+MFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAEFlHHWfLk0gLBbsLTcuCrbCqoHqmM
+YJepMC+Q+Dd6RBmBiA41evUsNMwLeN+PNFqib+xwi9JkJ8qhZkq8Y/IzGg==
+-----END PUBLIC KEY-----`
+const ecPublicKey = await jose.importSPKI(spki, algorithm)
+```

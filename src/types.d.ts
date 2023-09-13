@@ -138,16 +138,22 @@ export interface JWK {
 }
 
 /**
- * Generic Interface for consuming operations dynamic key resolution. No token components have been
- * verified at the time of this function call.
+ * Generic Interface for consuming operations dynamic key resolution.
  *
- * If you cannot match a key suitable for the token, throw an error instead.
- *
- * @param protectedHeader JWE or JWS Protected Header.
- * @param token The consumed JWE or JWS token.
+ * @param IProtectedHeader Type definition of the JWE or JWS Protected Header.
+ * @param IToken Type definition of the consumed JWE or JWS token.
  */
-export interface GetKeyFunction<T, T2> {
-  (protectedHeader: T, token: T2): Promise<KeyLike | Uint8Array> | KeyLike | Uint8Array
+export interface GetKeyFunction<IProtectedHeader, IToken> {
+  /**
+   * Dynamic key resolution function. No token components have been
+   * verified at the time of this function call.
+   *
+   * If you cannot match a key suitable for the token, throw an error instead.
+   *
+   * @param protectedHeader JWE or JWS Protected Header.
+   * @param token The consumed JWE or JWS token.
+   */
+  (protectedHeader: IProtectedHeader, token: IToken): Promise<KeyLike | Uint8Array> | KeyLike | Uint8Array
 }
 
 /**

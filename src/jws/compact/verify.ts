@@ -23,7 +23,7 @@ export interface CompactVerifyGetKey
 /**
  * Verifies the signature and format of and afterwards decodes the Compact JWS.
  *
- * @example Usage
+ * @example
  *
  * ```js
  * const jws =

@@ -1,39 +1,33 @@
-diff --git a/node_modules/typedoc-plugin-markdown/dist/resources/helpers/comments.js b/node_modules/typedoc-plugin-markdown/dist/resources/helpers/comments.js
-index 99ebb42..2cc7781 100644
---- a/node_modules/typedoc-plugin-markdown/dist/resources/helpers/comments.js
-+++ b/node_modules/typedoc-plugin-markdown/dist/resources/helpers/comments.js
-@@ -35,7 +35,7 @@ function default_1() {
-         if ((_a = comment.blockTags) === null || _a === void 0 ? void 0 : _a.length) {
-             const tags = comment.blockTags
-                 .filter((tag) => tag.tag !== '@returns')
--                .map((tag) => `**\`${(0, utils_1.camelToTitleCase)(tag.tag.substring(1))}\`**\n\n${Handlebars.helpers.comment(tag.content)}`);
-+                .map((tag) => `**\`${tag.tag.substring(1)}\`** ${Handlebars.helpers.comment(tag.content)}`);
-             md.push(tags.join('\n\n'));
-         }
-         return md.join('\n\n');
 diff --git a/node_modules/typedoc-plugin-markdown/dist/resources/helpers/toc.js b/node_modules/typedoc-plugin-markdown/dist/resources/helpers/toc.js
-index e332374..72c16c7 100644
+index e332374..7139637 100644
 --- a/node_modules/typedoc-plugin-markdown/dist/resources/helpers/toc.js
 +++ b/node_modules/typedoc-plugin-markdown/dist/resources/helpers/toc.js
-@@ -40,7 +40,15 @@ function default_1(theme) {
+@@ -25,6 +25,14 @@ var __importStar = (this && this.__importStar) || function (mod) {
+ Object.defineProperty(exports, "__esModule", { value: true });
+ const Handlebars = __importStar(require("handlebars"));
+ const utils_1 = require("../../utils");
++function functionsOrConstructorsFirst(ary) {
++    const idx = ary.findIndex((group) => group.title === 'Functions' || group.title === 'Constructors')
++    if (idx) {
++        const [functions] = ary.splice(idx, 1)
++        ary.unshift(functions)
++    }
++    return ary
++}
+ function default_1(theme) {
+     Handlebars.registerHelper('toc', function () {
+         var _a, _b;
+@@ -40,7 +48,7 @@ function default_1(theme) {
                  md.push(`## Table of contents\n\n`);
              }
              const headingLevel = hideInPageTOC ? `##` : `###`;
 -            (_b = this.groups) === null || _b === void 0 ? void 0 : _b.forEach((group) => {
-+            function functionsOrConstructorsFirst(ary) {
-+                const idx = ary.findIndex((group) => group.title === 'Functions' || group.title === 'Constructors')
-+                if (idx) {
-+                    const [functions] = ary.splice(idx, 1)
-+                    ary.unshift(functions)
-+                }
-+                return ary
-+            }
 +            (_b = this.groups) === null || _b === void 0 ? void 0 : functionsOrConstructorsFirst(_b).forEach((group) => {
                  const groupTitle = group.title;
                  if (group.categories) {
                      group.categories.forEach((category) => {
 diff --git a/node_modules/typedoc-plugin-markdown/dist/resources/partials/member.declaration.hbs b/node_modules/typedoc-plugin-markdown/dist/resources/partials/member.declaration.hbs
-index 1ca0b74..102823b 100755
+index 1ca0b74..464180b 100755
 --- a/node_modules/typedoc-plugin-markdown/dist/resources/partials/member.declaration.hbs
 +++ b/node_modules/typedoc-plugin-markdown/dist/resources/partials/member.declaration.hbs
 @@ -16,20 +16,6 @@
@@ -58,7 +52,7 @@ index 1ca0b74..102823b 100755
  
  {{#if type.declaration.children}}
 diff --git a/node_modules/typedoc-plugin-markdown/dist/resources/partials/member.sources.hbs b/node_modules/typedoc-plugin-markdown/dist/resources/partials/member.sources.hbs
-index a999ee8..2109291 100755
+index a999ee8..d740a30 100755
 --- a/node_modules/typedoc-plugin-markdown/dist/resources/partials/member.sources.hbs
 +++ b/node_modules/typedoc-plugin-markdown/dist/resources/partials/member.sources.hbs
 @@ -1,39 +1,3 @@
@@ -117,7 +111,7 @@ index ba8e5be..1e56015 100644
 +
 +---
 diff --git a/node_modules/typedoc-plugin-markdown/dist/resources/templates/reflection.hbs b/node_modules/typedoc-plugin-markdown/dist/resources/templates/reflection.hbs
-index ce29bc5..9bd8dad 100755
+index ce29bc5..5485fb2 100755
 --- a/node_modules/typedoc-plugin-markdown/dist/resources/templates/reflection.hbs
 +++ b/node_modules/typedoc-plugin-markdown/dist/resources/templates/reflection.hbs
 @@ -24,18 +24,6 @@

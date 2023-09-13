@@ -13,13 +13,6 @@ Generates a symmetric secret key for a given JWA algorithm identifier.
 Note: Under Web Crypto API runtime the secret key is generated with `extractable` set to `false`
 by default.
 
-**`example`** Usage
-
-```js
-const secret = await jose.generateSecret('HS256')
-console.log(secret)
-```
-
 #### Type parameters
 
 | Name | Type |
@@ -36,3 +29,10 @@ console.log(secret)
 #### Returns
 
 [`Promise`]( https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise )<`T` \| [`Uint8Array`]( https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Uint8Array )\>
+
+**`Example`**
+
+```js
+const secret = await jose.generateSecret('HS256')
+console.log(secret)
+```

@@ -10,13 +10,6 @@ Support from the community to continue maintaining and improving this module is 
 
 Decodes the Protected Header of a JWE/JWS/JWT token utilizing any JOSE serialization.
 
-**`example`** Usage
-
-```js
-const protectedHeader = jose.decodeProtectedHeader(token)
-console.log(protectedHeader)
-```
-
 #### Parameters
 
 | Name | Type | Description |
@@ -26,3 +19,10 @@ console.log(protectedHeader)
 #### Returns
 
 [`ProtectedHeaderParameters`](../types/util_decode_protected_header.ProtectedHeaderParameters.md)
+
+**`Example`**
+
+```js
+const protectedHeader = jose.decodeProtectedHeader(token)
+console.log(protectedHeader)
+```

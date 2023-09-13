@@ -10,7 +10,18 @@ Support from the community to continue maintaining and improving this module is 
 
 Calculates a base64url-encoded JSON Web Key (JWK) Thumbprint
 
-**`example`** Usage
+#### Parameters
+
+| Name | Type | Description |
+| :------ | :------ | :------ |
+| `jwk` | [`JWK`](../interfaces/types.JWK.md) | JSON Web Key. |
+| `digestAlgorithm?` | ``"sha256"`` \| ``"sha384"`` \| ``"sha512"`` | Digest Algorithm to use for calculating the thumbprint. Default is "sha256". |
+
+#### Returns
+
+[`Promise`]( https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise )<`string`\>
+
+**`Example`**
 
 ```js
 const thumbprint = await jose.calculateJwkThumbprint({
@@ -24,15 +35,6 @@ console.log(thumbprint)
 // 'w9eYdC6_s_tLQ8lH6PUpc0mddazaqtPgeC2IgWDiqY8'
 ```
 
-**`see`** [RFC7638](https://www.rfc-editor.org/rfc/rfc7638)
+**`See`**
 
-#### Parameters
-
-| Name | Type | Description |
-| :------ | :------ | :------ |
-| `jwk` | [`JWK`](../interfaces/types.JWK.md) | JSON Web Key. |
-| `digestAlgorithm?` | ``"sha256"`` \| ``"sha384"`` \| ``"sha512"`` | Digest Algorithm to use for calculating the thumbprint. Default is "sha256". |
-
-#### Returns
-
-[`Promise`]( https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise )<`string`\>
+[RFC7638](https://www.rfc-editor.org/rfc/rfc7638)
