@@ -19,8 +19,8 @@ verified at the time of this function call.
 
 ▸ **CompactVerifyGetKey**(`protectedHeader`, `token`): [`Uint8Array`]( https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Uint8Array ) \| [`KeyLike`](../types/types.KeyLike.md) \| [`Promise`]( https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise )<[`Uint8Array`]( https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Uint8Array ) \| [`KeyLike`](../types/types.KeyLike.md)\>
 
-Dynamic key resolution function. No token components have been
-verified at the time of this function call.
+Dynamic key resolution function. No token components have been verified at the time of this
+function call.
 
 If you cannot match a key suitable for the token, throw an error instead.
 
