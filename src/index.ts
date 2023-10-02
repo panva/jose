@@ -95,6 +95,7 @@ export type {
   CompactJWSHeaderParameters,
   JWTHeaderParameters,
   JSONWebKeySet,
+  CryptoRuntime,
 } from './types.d'
 
-export { default as cryptoRuntime } from './runtime/runtime.js'
+export { default as cryptoRuntime } from './util/runtime.js'

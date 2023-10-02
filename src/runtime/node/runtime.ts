@@ -1,3 +1,1 @@
-import { CryptoRuntime } from '../../types.d'
-
-export default 'node:crypto' as CryptoRuntime
+export default 'node:crypto'
