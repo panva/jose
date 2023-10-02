@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [4.15.1](https://github.com/panva/jose/compare/v4.15.0...v4.15.1) (2023-10-02)
+
+
+### Fixes
+
+* resolve missing types for the cryptoRuntime const ([1627965](https://github.com/panva/jose/commit/16279652a67133fba0db7c9879767f000a8f1662))
+
 ## [4.15.0](https://github.com/panva/jose/compare/v4.14.6...v4.15.0) (2023-10-02)
 
 
