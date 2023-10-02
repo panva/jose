@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [4.15.0](https://github.com/panva/jose/compare/v4.14.6...v4.15.0) (2023-10-02)
+
+
+### Features
+
+* export the used crypto runtime as a constant ([0681dda](https://github.com/panva/jose/commit/0681dda1592a82c22a18981002b3763c502d0fc4))
+
 ## [4.14.6](https://github.com/panva/jose/compare/v4.14.5...v4.14.6) (2023-09-04)
 
 

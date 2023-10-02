@@ -10,6 +10,7 @@ Support from the community to continue maintaining and improving this module is 
 
 ### Type Aliases
 
+- [CryptoRuntime](../types/types.CryptoRuntime.md)
 - [KeyLike](../types/types.KeyLike.md)
 
 ### Interfaces
