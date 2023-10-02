@@ -7,7 +7,8 @@ import jwsVectors from '../cookbook/jws.mjs'
 // @ts-ignore
 import jweVectors from '../cookbook/jwe.mjs'
 
-// TODO: raise in issue in WebKit
+// https://bugs.webkit.org/show_bug.cgi?id=262499
+// https://github.com/web-platform-tests/wpt/pull/42292
 if (env.isWebKit) {
   // @ts-ignore
   const ed25519 = jwsVectors.find((vector) => vector.title.includes('Ed25519'))
