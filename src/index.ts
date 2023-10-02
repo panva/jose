@@ -96,3 +96,5 @@ export type {
   JWTHeaderParameters,
   JSONWebKeySet,
 } from './types.d'
+
+export { default as cryptoRuntime } from './runtime/runtime.js'
