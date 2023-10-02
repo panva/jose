@@ -7,6 +7,13 @@ import jwsVectors from '../cookbook/jws.mjs'
 // @ts-ignore
 import jweVectors from '../cookbook/jwe.mjs'
 
+// TODO: raise in issue in WebKit
+if (env.isWebKit) {
+  // @ts-ignore
+  const ed25519 = jwsVectors.find((vector) => vector.title.includes('Ed25519'))
+  ed25519.reproducible = false
+}
+
 export default (QUnit: QUnit, lib: typeof jose) => {
   const { module, test } = QUnit
 
@@ -34,7 +41,7 @@ export default (QUnit: QUnit, lib: typeof jose) => {
         return !env.isDeno
       }
       if (vector.input.alg === 'EdDSA') {
-        return !env.isBrowser
+        return (env.isWebKit && env.isWebKitAbove17) || !env.isBrowser
       }
       return true
     }

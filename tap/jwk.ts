@@ -19,7 +19,7 @@ export default (QUnit: QUnit, lib: typeof jose) => {
       env.isDeno,
     ],
     ['ECDH-ES', KEYS.X448.jwk, env.isNode || env.isEdgeRuntime],
-    ['EdDSA', KEYS.Ed25519.jwk, !env.isBrowser],
+    ['EdDSA', KEYS.Ed25519.jwk, (env.isWebKit && env.isWebKitAbove17) || !env.isBrowser],
     ['EdDSA', KEYS.Ed448.jwk, env.isNode || env.isEdgeRuntime],
     ['ES256', KEYS.P256.jwk, true],
     ['ES256K', KEYS.secp256k1.jwk, env.isNodeCrypto],

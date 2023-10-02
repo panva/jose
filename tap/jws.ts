@@ -9,7 +9,7 @@ export default (QUnit: QUnit, lib: typeof jose) => {
 
   type Vector = [string, boolean] | [string, boolean, jose.GenerateKeyPairOptions]
   const algorithms: Vector[] = [
-    ['EdDSA', !env.isBrowser],
+    ['EdDSA', (env.isWebKit && env.isWebKitAbove17) || !env.isBrowser],
     ['EdDSA', env.isNode || env.isEdgeRuntime, { crv: 'Ed448' }],
     ['ES256', true],
     ['ES256K', env.isNodeCrypto],

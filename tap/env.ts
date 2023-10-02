@@ -27,14 +27,27 @@ export const isWorkerd =
 
 const BOWSER = 'https://cdn.jsdelivr.net/npm/bowser@2.11.0/src/bowser.js'
 
-async function isEngine(engine: string) {
+let parsedUserAgent: any
+async function parseUserAgent() {
   const { default: Bowser } = await import(BOWSER)
-  return Bowser.parse(window.navigator.userAgent).engine.name === engine
+  parsedUserAgent || (parsedUserAgent = Bowser.parse(window.navigator.userAgent))
+  return parsedUserAgent
+}
+
+async function isEngine(engine: string) {
+  const userAgentData = await parseUserAgent()
+  return userAgentData.engine.name === engine
+}
+
+async function isVersionAtLeast(version: number) {
+  const userAgentData = await parseUserAgent()
+  return parseInt(userAgentData.browser.version.split('.')[0], 10) >= version
 }
 
 export const isBlink = isBrowser && (await isEngine('Blink'))
 
 export const isWebKit = isBrowser && (await isEngine('WebKit'))
+export const isWebKitAbove17 = isBrowser && isWebKit && (await isVersionAtLeast(17))
 
 export const isGecko = isBrowser && (await isEngine('Gecko'))
 
