@@ -10,8 +10,6 @@
 HOSTNAME="localhost"
 SSL=""
 
-if [[ -z $CI ]]; then
-  BROWSER="chrome:headless"
-fi
+: "${BROWSER:=chrome:headless}"
 
 testcafe "$BROWSER" --skip-js-errors --ssl "$SSL" --hostname "$HOSTNAME" tap/.browser.ts
