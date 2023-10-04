@@ -120,7 +120,9 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v3
-      - run: curl https://bun.sh/install | bash
+      - uses: oven-sh/setup-bun@v1
+        with:
+          bun-version: latest
       - name: Load cached dist
         uses: actions/cache@v3
         id: dist

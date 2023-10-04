@@ -1,5 +1,3 @@
-BUN=~/.bun/bin/bun
+echo "Using Bun `bun -v`"
 
-echo "Using Bun `$BUN -v`"
-
-$BUN run tap/run-bun.ts
+bun run tap/run-bun.ts
