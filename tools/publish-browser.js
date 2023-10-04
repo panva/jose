@@ -10,6 +10,7 @@ delete pkg.main
 delete pkg.exports['.'].import
 delete pkg.exports['.'].require
 delete pkg.keywords
+pkg.exports['.'].node = pkg.exports['.'].browser
 
 pkg.files.push('!dist/**/package.json')
 pkg.files.push('!dist/node/**/*')
