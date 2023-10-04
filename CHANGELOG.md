@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [4.15.2](https://github.com/panva/jose/compare/v4.15.1...v4.15.2) (2023-10-04)
+
+
+### Fixes
+
+* **build:** add a node target for jose-browser-runtime releases ([abb63d0](https://github.com/panva/jose/commit/abb63d0e8e7a55326dc343eec5f5eee9addc1dcf))
+
 ## [4.15.1](https://github.com/panva/jose/compare/v4.15.0...v4.15.1) (2023-10-02)
 
 
