@@ -17,17 +17,13 @@ if (rsaPssParams) {
         {
           modulusLength: 2048,
           hashAlgorithm: `sha${length}`,
-          hash: `sha${length}`,
           mgf1HashAlgorithm: `sha${length}`,
-          mgf1Hash: `sha${length}`,
           saltLength: 0,
         },
         {
           modulusLength: 2048,
           hashAlgorithm: `sha${length}`,
-          hash: `sha${length}`,
           mgf1HashAlgorithm: `sha${length}`,
-          mgf1Hash: `sha${length}`,
           saltLength: length >> 3,
         },
       ]) {
@@ -44,9 +40,7 @@ if (rsaPssParams) {
       const { privateKey, publicKey } = await generateKeyPair('rsa-pss', {
         modulusLength: 2048,
         hashAlgorithm: `sha${length}`,
-        hash: `sha${length}`,
         mgf1HashAlgorithm: `sha${length}`,
-        mgf1Hash: `sha${length}`,
         saltLength: (length >> 3) + 1,
       })
       await t.throwsAsync(
@@ -71,9 +65,7 @@ if (rsaPssParams) {
       const { privateKey, publicKey } = await generateKeyPair('rsa-pss', {
         modulusLength: 2048,
         hashAlgorithm: 'sha1',
-        hash: 'sha1',
         mgf1HashAlgorithm: `sha${length}`,
-        mgf1Hash: `sha${length}`,
         saltLength: length >> 3,
       })
       await t.throwsAsync(
@@ -98,9 +90,7 @@ if (rsaPssParams) {
       const { privateKey, publicKey } = await generateKeyPair('rsa-pss', {
         modulusLength: 2048,
         hashAlgorithm: `sha${length}`,
-        hash: `sha${length}`,
         mgf1HashAlgorithm: 'sha1',
-        mgf1Hash: 'sha1',
         saltLength: length >> 3,
       })
       await t.throwsAsync(
