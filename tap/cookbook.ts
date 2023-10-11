@@ -172,7 +172,7 @@ export default (QUnit: QUnit, lib: typeof jose) => {
       const reproducible = !!vector.reproducible
 
       if (reproducible) {
-        // sign and compare results are the same
+        // encrypt and compare results are the same
         for (const [serialization, expectedResult] of [
           [flattened, vector.output.json_flat],
           [compact, vector.output.compact],
