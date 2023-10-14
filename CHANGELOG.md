@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [4.15.4](https://github.com/panva/jose/compare/v4.15.3...v4.15.4) (2023-10-14)
+
+
+### Fixes
+
+* **types:** export GetKeyFunction ([#592](https://github.com/panva/jose/issues/592)) ([936c9df](https://github.com/panva/jose/commit/936c9dff2bc124dc5f64906a96f665a28e57392c)), closes [#591](https://github.com/panva/jose/issues/591)
+
 ## [4.15.3](https://github.com/panva/jose/compare/v4.15.2...v4.15.3) (2023-10-11)
 
 ## [4.15.2](https://github.com/panva/jose/compare/v4.15.1...v4.15.2) (2023-10-04)
