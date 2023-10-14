@@ -148,7 +148,7 @@
     "prettier": "^3.0.3",
     "prettier-plugin-jsdoc": "^1.1.1",
     "qunit": "^2.20.0",
-    "rollup": "^4.0.2",
+    "rollup": "^4.1.0",
     "tar": "^6.2.0",
     "timekeeper": "^2.3.1",
     "tsd": "^0.29.0",
