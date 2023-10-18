@@ -1,4 +1,4 @@
-import { getCiphers } from 'crypto'
+import { getCiphers } from 'node:crypto'
 
 let ciphers: Set<string>
 

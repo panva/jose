@@ -1,4 +1,4 @@
-import { KeyObject } from 'crypto'
+import { KeyObject } from 'node:crypto'
 import { JWEInvalid, JOSENotSupported } from '../../util/errors.js'
 import isKeyObject from './is_key_object.js'
 

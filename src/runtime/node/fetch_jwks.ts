@@ -1,8 +1,8 @@
-import * as http from 'http'
-import * as https from 'https'
-import { once } from 'events'
-import type { ClientRequest, IncomingMessage } from 'http'
-import type { RequestOptions } from 'https'
+import * as http from 'node:http'
+import * as https from 'node:https'
+import { once } from 'node:events'
+import type { ClientRequest, IncomingMessage } from 'node:http'
+import type { RequestOptions } from 'node:https'
 
 import type { FetchFunction } from '../interfaces.d'
 import { JOSEError, JWKSTimeout } from '../../util/errors.js'

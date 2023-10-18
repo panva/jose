@@ -1,1 +1,1 @@
-export { randomFillSync as default } from 'crypto'
+export { randomFillSync as default } from 'node:crypto'

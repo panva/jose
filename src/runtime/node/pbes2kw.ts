@@ -1,5 +1,5 @@
-import { promisify } from 'util'
-import { KeyObject, pbkdf2 as pbkdf2cb } from 'crypto'
+import { promisify } from 'node:util'
+import { KeyObject, pbkdf2 as pbkdf2cb } from 'node:crypto'
 import type { Pbes2KWDecryptFunction, Pbes2KWEncryptFunction } from '../interfaces.d'
 import random from './random.js'
 import { p2s as concatSalt } from '../../lib/buffer_utils.js'

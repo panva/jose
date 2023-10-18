@@ -1,5 +1,5 @@
-import { Buffer } from 'buffer'
-import { KeyObject, createDecipheriv, createCipheriv, createSecretKey } from 'crypto'
+import { Buffer } from 'node:buffer'
+import { KeyObject, createDecipheriv, createCipheriv, createSecretKey } from 'node:crypto'
 import { JOSENotSupported } from '../../util/errors.js'
 import type { AesKwUnwrapFunction, AesKwWrapFunction } from '../interfaces.d'
 import { concat } from '../../lib/buffer_utils.js'

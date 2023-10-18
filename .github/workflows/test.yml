@@ -45,17 +45,12 @@ jobs:
       fail-fast: false
       matrix:
         node-version:
-          - lts/fermium # 14
-          - lts/gallium # 16
           - lts/hydrogen # 18
           - lts/iron # 20
           - current
         suite:
           - tap:node
           - test
-        include:
-          - node-version: lts/erbium # 12
-            suite: test
 
     runs-on: ubuntu-latest
     steps:
@@ -68,8 +63,6 @@ jobs:
           node-version: ${{ matrix.node-version }}
           cache: 'npm'
           check-latest: true
-      - run: npm install --global npm@8
-        if: ${{ startsWith(steps.node.outputs.node-version, 'v12') || startsWith(steps.node.outputs.node-version, 'v14') }}
       - run: npm clean-install
       - name: Load cached dist
         uses: actions/cache@v3
@@ -78,10 +71,6 @@ jobs:
           path: dist
           key: ${{ needs.build.outputs.cache-key }}
           fail-on-cache-miss: true
-      - run: |
-          find test -type f -name '*.mjs' -print0 | xargs -0 sed -i -e "s/await import(/require(/g"
-          npm install --save-dev ava@4
-        if: ${{ startsWith(steps.node.outputs.node-version, 'v12') && matrix.suite == 'test' }}
       - name: Run Test Suite
         run: npm run ${{ matrix.suite }}
 

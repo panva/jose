@@ -1,4 +1,4 @@
-import { timingSafeEqual as impl } from 'crypto'
+import { timingSafeEqual as impl } from 'node:crypto'
 
 import type { TimingSafeEqual } from '../interfaces.d'
 

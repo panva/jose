@@ -1,6 +1,4 @@
-import { KeyObject } from 'crypto'
-import * as util from 'util'
+import type { KeyObject } from 'node:crypto'
+import * as util from 'node:util'
 
-export default util.types.isKeyObject
-  ? (obj: unknown): obj is KeyObject => util.types.isKeyObject(obj)
-  : (obj: unknown): obj is KeyObject => obj != null && obj instanceof KeyObject
+export default (obj: unknown): obj is KeyObject => util.types.isKeyObject(obj)

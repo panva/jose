@@ -1,8 +1,7 @@
-import { createSecretKey, generateKeyPair as generateKeyPairCb } from 'crypto'
-import { promisify } from 'util'
+import { createSecretKey, generateKeyPair as generateKeyPairCb } from 'node:crypto'
+import { promisify } from 'node:util'
 
 import random from './random.js'
-import { setModulusLength } from './check_modulus_length.js'
 import { JOSENotSupported } from '../../util/errors.js'
 import type { GenerateKeyPairOptions } from '../../key/generate_key_pair.js'
 import type { GenerateSecretOptions } from '../../key/generate_secret.js'
@@ -62,8 +61,6 @@ export async function generateKeyPair(alg: string, options?: GenerateKeyPairOpti
         modulusLength,
         publicExponent: 0x10001,
       })
-      setModulusLength(keypair.privateKey, modulusLength)
-      setModulusLength(keypair.publicKey, modulusLength)
       return keypair
     }
     case 'ES256':

@@ -1,5 +1,5 @@
-import { diffieHellman, generateKeyPair as generateKeyPairCb, KeyObject } from 'crypto'
-import { promisify } from 'util'
+import { diffieHellman, generateKeyPair as generateKeyPairCb, KeyObject } from 'node:crypto'
+import { promisify } from 'node:util'
 
 import getNamedCurve from './get_named_curve.js'
 import { encoder, concat, uint32be, lengthAndInput, concatKdf } from '../../lib/buffer_utils.js'

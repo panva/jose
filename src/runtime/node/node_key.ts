@@ -1,10 +1,9 @@
-import { constants } from 'crypto'
-import type { KeyObject, SignKeyObjectInput } from 'crypto'
+import { constants } from 'node:crypto'
+import type { KeyObject, SignKeyObjectInput } from 'node:crypto'
 
 import getNamedCurve from './get_named_curve.js'
 import { JOSENotSupported } from '../../util/errors.js'
-import checkModulusLength from './check_modulus_length.js'
-import { rsaPssParams } from './flags.js'
+import checkKeyLength from './check_key_length.js'
 
 const PSS = {
   padding: constants.RSA_PKCS1_PSS_PADDING,
@@ -35,13 +34,13 @@ export default function keyForCrypto(alg: string, key: KeyObject): KeyObject | S
       if (key.asymmetricKeyType !== 'rsa') {
         throw new TypeError('Invalid key for this operation, its asymmetricKeyType must be rsa')
       }
-      checkModulusLength(key, alg)
+      checkKeyLength(key, alg)
 
       return key
 
-    case rsaPssParams && 'PS256':
-    case rsaPssParams && 'PS384':
-    case rsaPssParams && 'PS512':
+    case 'PS256':
+    case 'PS384':
+    case 'PS512':
       if (key.asymmetricKeyType === 'rsa-pss') {
         const { hashAlgorithm, mgf1HashAlgorithm, saltLength } = key.asymmetricKeyDetails!
 
@@ -65,17 +64,7 @@ export default function keyForCrypto(alg: string, key: KeyObject): KeyObject | S
           'Invalid key for this operation, its asymmetricKeyType must be rsa or rsa-pss',
         )
       }
-      checkModulusLength(key, alg)
-
-      return { key, ...PSS }
-
-    case !rsaPssParams && 'PS256':
-    case !rsaPssParams && 'PS384':
-    case !rsaPssParams && 'PS512':
-      if (key.asymmetricKeyType !== 'rsa') {
-        throw new TypeError('Invalid key for this operation, its asymmetricKeyType must be rsa')
-      }
-      checkModulusLength(key, alg)
+      checkKeyLength(key, alg)
 
       return { key, ...PSS }
 

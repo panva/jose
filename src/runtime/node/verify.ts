@@ -1,24 +1,13 @@
-import * as crypto from 'crypto'
-import { promisify } from 'util'
+import * as crypto from 'node:crypto'
+import { promisify } from 'node:util'
 
 import type { VerifyFunction } from '../interfaces.d'
 import nodeDigest from './dsa_digest.js'
 import nodeKey from './node_key.js'
 import sign from './sign.js'
 import getVerifyKey from './get_sign_verify_key.js'
-import { oneShotCallback } from './flags.js'
 
-let oneShotVerify: (
-  alg: string | undefined,
-  data: Uint8Array,
-  key: ReturnType<typeof nodeKey>,
-  signature: Uint8Array,
-) => Promise<boolean> | boolean
-if (crypto.verify.length > 4 && oneShotCallback) {
-  oneShotVerify = promisify(crypto.verify)
-} else {
-  oneShotVerify = crypto.verify
-}
+const oneShotVerify = promisify(crypto.verify)
 
 const verify: VerifyFunction = async (alg, key: unknown, signature, data) => {
   const keyObject = getVerifyKey(alg, key, 'verify')

@@ -1,5 +1,5 @@
-import { createCipheriv, KeyObject } from 'crypto'
-import type { CipherGCMTypes } from 'crypto'
+import { createCipheriv, KeyObject } from 'node:crypto'
+import type { CipherGCMTypes } from 'node:crypto'
 
 import type { EncryptFunction } from '../interfaces.d'
 import checkIvLength from '../../lib/check_iv_length.js'

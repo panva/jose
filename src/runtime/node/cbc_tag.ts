@@ -1,4 +1,4 @@
-import { createHmac } from 'crypto'
+import { createHmac } from 'node:crypto'
 import { concat, uint64be } from '../../lib/buffer_utils.js'
 
 export default function cbcTag(

@@ -1,6 +1,6 @@
-import { KeyObject, publicEncrypt, constants, privateDecrypt } from 'crypto'
+import { KeyObject, publicEncrypt, constants, privateDecrypt } from 'node:crypto'
 import type { RsaEsDecryptFunction, RsaEsEncryptFunction } from '../interfaces.d'
-import checkModulusLength from './check_modulus_length.js'
+import checkKeyLength from './check_key_length.js'
 import { isCryptoKey } from './webcrypto.js'
 import { checkEncCryptoKey } from '../../lib/crypto_key.js'
 import isKeyObject from './is_key_object.js'
@@ -11,7 +11,7 @@ const checkKey = (key: KeyObject, alg: string) => {
   if (key.asymmetricKeyType !== 'rsa') {
     throw new TypeError('Invalid key for this operation, its asymmetricKeyType must be rsa')
   }
-  checkModulusLength(key, alg)
+  checkKeyLength(key, alg)
 }
 
 const resolvePadding = (alg: string) => {

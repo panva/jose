@@ -1,4 +1,4 @@
-import { KeyObject, createSecretKey } from 'crypto'
+import { KeyObject, createSecretKey } from 'node:crypto'
 import { isCryptoKey } from './webcrypto.js'
 import { checkSigCryptoKey } from '../../lib/crypto_key.js'
 import invalidKeyInput from '../../lib/invalid_key_input.js'
