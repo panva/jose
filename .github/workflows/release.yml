@@ -57,7 +57,7 @@ jobs:
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
-      - run: git push origin $GITHUB_SHA:v4.x
+      - run: git push origin $GITHUB_SHA:v5.x
       - run: git rm -r dist
       - run: |
           git config --local user.name "github-actions[bot]"
