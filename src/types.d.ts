@@ -406,7 +406,11 @@ export interface CritOption {
 
 /** JWE Decryption options. */
 export interface DecryptOptions extends CritOption {
-  /** A list of accepted JWE "alg" (Algorithm) Header Parameter values. */
+  /**
+   * A list of accepted JWE "alg" (Algorithm) Header Parameter values. By default all "alg"
+   * (Algorithm) Header Parameter values applicable for the used key/secret are allowed except for
+   * all PBES2 Key Management Algorithms, these need to be explicitly allowed using this option.
+   */
   keyManagementAlgorithms?: string[]
 
   /**

@@ -25,7 +25,10 @@ export async function jwe(
     .setAdditionalAuthenticatedData(aad)
     .encrypt(eKey)
 
-  const decrypted = await lib.flattenedDecrypt(jwe, dKey)
+  const decrypted = await lib.flattenedDecrypt(jwe, dKey, {
+    keyManagementAlgorithms: [alg],
+    contentEncryptionAlgorithms: [enc],
+  })
   t.deepEqual([...decrypted.plaintext], [...cleartext])
   t.deepEqual([...decrypted.additionalAuthenticatedData!], [...aad])
 }
@@ -44,7 +47,10 @@ export async function jwt(
     .setProtectedHeader({ alg, enc })
     .encrypt(eKey)
 
-  const decrypted = await lib.jwtDecrypt(jwt, dKey)
+  const decrypted = await lib.jwtDecrypt(jwt, dKey, {
+    keyManagementAlgorithms: [alg],
+    contentEncryptionAlgorithms: [enc],
+  })
   t.propContains(decrypted, {
     payload: {
       foo: 'bar',

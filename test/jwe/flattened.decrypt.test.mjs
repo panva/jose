@@ -223,8 +223,25 @@ test('decrypt PBES2 p2c limit', async (t) => {
     .setKeyManagementParameters({ p2c: 2049 })
     .encrypt(new Uint8Array(32))
 
-  await t.throwsAsync(flattenedDecrypt(jwe, new Uint8Array(32), { maxPBES2Count: 2048 }), {
-    message: 'JOSE Header "p2c" (PBES2 Count) out is of acceptable bounds',
-    code: 'ERR_JWE_INVALID',
+  await t.throwsAsync(
+    flattenedDecrypt(jwe, new Uint8Array(32), {
+      maxPBES2Count: 2048,
+      keyManagementAlgorithms: ['PBES2-HS256+A128KW'],
+    }),
+    {
+      message: 'JOSE Header "p2c" (PBES2 Count) out is of acceptable bounds',
+      code: 'ERR_JWE_INVALID',
+    },
+  )
+})
+
+test('decrypt with PBES2 is not allowed by default', async (t) => {
+  const jwe = await new FlattenedEncrypt(new Uint8Array(0))
+    .setProtectedHeader({ alg: 'PBES2-HS256+A128KW', enc: 'A128CBC-HS256' })
+    .encrypt(new Uint8Array(32))
+
+  await t.throwsAsync(flattenedDecrypt(jwe, new Uint8Array(32)), {
+    message: '"alg" (Algorithm) Header Parameter value not allowed',
+    code: 'ERR_JOSE_ALG_NOT_ALLOWED',
   })
 })

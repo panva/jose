@@ -162,7 +162,10 @@ export async function flattenedDecrypt(
     options &&
     validateAlgorithms('contentEncryptionAlgorithms', options.contentEncryptionAlgorithms)
 
-  if (keyManagementAlgorithms && !keyManagementAlgorithms.has(alg)) {
+  if (
+    (keyManagementAlgorithms && !keyManagementAlgorithms.has(alg)) ||
+    (!keyManagementAlgorithms && alg.startsWith('PBES2'))
+  ) {
     throw new JOSEAlgNotAllowed('"alg" (Algorithm) Header Parameter value not allowed')
   }
 

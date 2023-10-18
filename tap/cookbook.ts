@@ -272,7 +272,10 @@ export default (QUnit: QUnit, lib: typeof jose) => {
         }
 
         const result = await encrypt.encrypt(publicKey)
-        await flattened.decrypt(result, privateKey)
+        await flattened.decrypt(result, privateKey, {
+          keyManagementAlgorithms: [vector.input.alg],
+          contentEncryptionAlgorithms: [vector.input.enc],
+        })
       }
 
       const privateKey = await lib.importJWK(
@@ -280,10 +283,16 @@ export default (QUnit: QUnit, lib: typeof jose) => {
         dir ? vector.input.enc : vector.input.alg,
       )
       if (vector.output.json_flat) {
-        await flattened.decrypt(vector.output.json_flat, privateKey)
+        await flattened.decrypt(vector.output.json_flat, privateKey, {
+          keyManagementAlgorithms: [vector.input.alg],
+          contentEncryptionAlgorithms: [vector.input.enc],
+        })
       }
       if (vector.output.compact) {
-        await compact.decrypt(vector.output.compact, privateKey)
+        await compact.decrypt(vector.output.compact, privateKey, {
+          keyManagementAlgorithms: [vector.input.alg],
+          contentEncryptionAlgorithms: [vector.input.enc],
+        })
       }
       t.ok(1)
     }
