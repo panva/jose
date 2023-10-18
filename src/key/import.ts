@@ -152,13 +152,10 @@ export async function importPKCS8<T extends KeyLike = KeyLike>(
  *   with the imported key. Default is the "alg" property on the JWK, its presence is only enforced
  *   in Web Crypto API runtimes. See
  *   {@link https://github.com/panva/jose/issues/210 Algorithm Key Requirements}.
- * @param octAsKeyObject Forces a symmetric key to be imported to a KeyObject or CryptoKey. Default
- *   is true unless JWK "ext" (Extractable) is true.
  */
 export async function importJWK<T extends KeyLike = KeyLike>(
   jwk: JWK,
   alg?: string,
-  octAsKeyObject?: boolean,
 ): Promise<T | Uint8Array> {
   if (!isObject(jwk)) {
     throw new TypeError('JWK must be an object')
@@ -170,13 +167,6 @@ export async function importJWK<T extends KeyLike = KeyLike>(
     case 'oct':
       if (typeof jwk.k !== 'string' || !jwk.k) {
         throw new TypeError('missing "k" (Key Value) Parameter value')
-      }
-
-      octAsKeyObject ??= jwk.ext !== true
-
-      if (octAsKeyObject) {
-        // @ts-ignore
-        return asKeyObject({ ...jwk, alg, ext: jwk.ext ?? false })
       }
 
       return decodeBase64URL(jwk.k)

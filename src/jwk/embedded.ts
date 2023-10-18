@@ -36,7 +36,7 @@ export async function EmbeddedJWK<T extends KeyLike = KeyLike>(
     throw new JWSInvalid('"jwk" (JSON Web Key) Header Parameter must be a JSON object')
   }
 
-  const key = await importJWK<T>({ ...joseHeader.jwk, ext: true }, joseHeader.alg!, true)
+  const key = await importJWK<T>({ ...joseHeader.jwk, ext: true }, joseHeader.alg!)
 
   if (key instanceof Uint8Array || key.type !== 'public') {
     throw new JWSInvalid('"jwk" (JSON Web Key) Header Parameter must be a public key')

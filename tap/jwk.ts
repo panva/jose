@@ -94,27 +94,40 @@ export default (QUnit: QUnit, lib: typeof jose) => {
     }
   }
 
+  test('alg argument and jwk.alg is ignored for oct JWKs', async (t) => {
+    const oct = {
+      k: 'FyCq1CKBflh3I5gikEjpYrdOXllzxB_yc02za8ERknI',
+      kty: 'oct',
+    }
+    await lib.importJWK(oct)
+    t.ok(1)
+  })
+
   if (env.isNodeCrypto || env.isElectron) {
-    test('alg argument and jwk.alg is ignored', async (t) => {
-      const oct = {
-        k: 'FyCq1CKBflh3I5gikEjpYrdOXllzxB_yc02za8ERknI',
-        kty: 'oct',
+    test('alg argument is ignored if jwk does not have alg for asymmetric keys', async (t) => {
+      const jwk = {
+        kty: 'EC',
+        crv: 'P-256',
+        x: 'jJ6Flys3zK9jUhnOHf6G49Dyp5hah6CNP84-gY-n9eo',
+        y: 'nhI6iD5eFXgBTLt_1p3aip-5VbZeMhxeFSpjfEAf7Ww',
       }
-      await lib.importJWK(oct)
+      await lib.importJWK(jwk)
       t.ok(1)
     })
   } else {
-    test('alg argument must be present if jwk does not have alg', async (t) => {
-      const oct = {
-        k: 'FyCq1CKBflh3I5gikEjpYrdOXllzxB_yc02za8ERknI',
-        kty: 'oct',
+    test('alg argument must be present if jwk does not have alg for asymmetric keys', async (t) => {
+      const jwk = {
+        kty: 'EC',
+        crv: 'P-256',
+        x: 'jJ6Flys3zK9jUhnOHf6G49Dyp5hah6CNP84-gY-n9eo',
+        y: 'nhI6iD5eFXgBTLt_1p3aip-5VbZeMhxeFSpjfEAf7Ww',
       }
       await t.rejects(
-        lib.importJWK(oct),
+        lib.importJWK(jwk),
         '"alg" argument is required when "jwk.alg" is not present',
       )
-      await lib.importJWK(oct, 'HS256')
-      await lib.importJWK({ ...oct, alg: 'HS256' })
+      await lib.importJWK(jwk, 'ES256')
+      await lib.importJWK({ ...jwk, alg: 'ES256' })
     })
   }
 }

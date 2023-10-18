@@ -52,11 +52,10 @@ test('RSA JWK with oth is not supported', async (t) => {
   })
 })
 
-test('oct JWK (ext: true)', async (t) => {
+test('oct JWK', async (t) => {
   const oct = {
     k: 'FyCq1CKBflh3I5gikEjpYrdOXllzxB_yc02za8ERknI',
     kty: 'oct',
-    ext: true,
   }
 
   t.deepEqual(
@@ -66,44 +65,6 @@ test('oct JWK (ext: true)', async (t) => {
       196, 31, 242, 115, 77, 179, 107, 193, 17, 146, 114,
     ],
   )
-
-  const k = await importJWK(oct, 'HS256', true)
-  t.true('type' in k)
-  t.is(k.type, 'secret')
-  if ('extractable' in k) {
-    t.is(k.extractable, true)
-  }
-})
-
-test('oct JWK (ext: false)', async (t) => {
-  const oct = {
-    k: 'FyCq1CKBflh3I5gikEjpYrdOXllzxB_yc02za8ERknI',
-    kty: 'oct',
-    ext: false,
-  }
-
-  const k = await importJWK(oct, 'HS256', true)
-
-  t.true('type' in k)
-  t.is(k.type, 'secret')
-  if ('extractable' in k) {
-    t.is(k.extractable, false)
-  }
-})
-
-test('oct JWK (ext missing)', async (t) => {
-  const oct = {
-    k: 'FyCq1CKBflh3I5gikEjpYrdOXllzxB_yc02za8ERknI',
-    kty: 'oct',
-  }
-
-  const k = await importJWK(oct, 'HS256', true)
-
-  t.true('type' in k)
-  t.is(k.type, 'secret')
-  if ('extractable' in k) {
-    t.is(k.extractable, false)
-  }
 })
 
 test('Uin8tArray can be transformed to a JWK', async (t) => {

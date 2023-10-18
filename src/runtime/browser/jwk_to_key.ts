@@ -2,7 +2,6 @@ import crypto from './webcrypto.js'
 import type { JWKImportFunction } from '../interfaces.d'
 import { JOSENotSupported } from '../../util/errors.js'
 import type { JWK } from '../../types.d'
-import { decode as base64url } from './base64url.js'
 
 function subtleMapping(jwk: JWK): {
   algorithm: RsaHashedImportParams | EcKeyAlgorithm | Algorithm
@@ -12,44 +11,6 @@ function subtleMapping(jwk: JWK): {
   let keyUsages: KeyUsage[]
 
   switch (jwk.kty) {
-    case 'oct': {
-      switch (jwk.alg) {
-        case 'HS256':
-        case 'HS384':
-        case 'HS512':
-          algorithm = { name: 'HMAC', hash: `SHA-${jwk.alg.slice(-3)}` }
-          keyUsages = ['sign', 'verify']
-          break
-        case 'A128CBC-HS256':
-        case 'A192CBC-HS384':
-        case 'A256CBC-HS512':
-          throw new JOSENotSupported(`${jwk.alg} keys cannot be imported as CryptoKey instances`)
-        case 'A128GCM':
-        case 'A192GCM':
-        case 'A256GCM':
-        case 'A128GCMKW':
-        case 'A192GCMKW':
-        case 'A256GCMKW':
-          algorithm = { name: 'AES-GCM' }
-          keyUsages = ['encrypt', 'decrypt']
-          break
-        case 'A128KW':
-        case 'A192KW':
-        case 'A256KW':
-          algorithm = { name: 'AES-KW' }
-          keyUsages = ['wrapKey', 'unwrapKey']
-          break
-        case 'PBES2-HS256+A128KW':
-        case 'PBES2-HS384+A192KW':
-        case 'PBES2-HS512+A256KW':
-          algorithm = { name: 'PBKDF2' }
-          keyUsages = ['deriveBits']
-          break
-        default:
-          throw new JOSENotSupported('Invalid or unsupported JWK "alg" (Algorithm) Parameter value')
-      }
-      break
-    }
     case 'RSA': {
       switch (jwk.alg) {
         case 'PS256':
@@ -141,10 +102,6 @@ const parse: JWKImportFunction = async (jwk: JWK): Promise<CryptoKey> => {
     jwk.ext ?? false,
     <KeyUsage[]>jwk.key_ops ?? keyUsages,
   ]
-
-  if (algorithm.name === 'PBKDF2') {
-    return crypto.subtle.importKey('raw', base64url(jwk.k!), ...rest)
-  }
 
   const keyData: JWK = { ...jwk }
   delete keyData.alg
