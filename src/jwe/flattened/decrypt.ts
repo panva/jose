@@ -67,11 +67,11 @@ export function flattenedDecrypt(
  *   {@link https://github.com/panva/jose/issues/210#jwe-alg Algorithm Key Requirements}.
  * @param options JWE Decryption options.
  */
-export function flattenedDecrypt<T extends KeyLike = KeyLike>(
+export function flattenedDecrypt<KeyLikeType extends KeyLike = KeyLike>(
   jwe: FlattenedJWE,
   getKey: FlattenedDecryptGetKey,
   options?: DecryptOptions,
-): Promise<FlattenedDecryptResult & ResolvedKey<T>>
+): Promise<FlattenedDecryptResult & ResolvedKey<KeyLikeType>>
 export async function flattenedDecrypt(
   jwe: FlattenedJWE,
   key: KeyLike | Uint8Array | FlattenedDecryptGetKey,

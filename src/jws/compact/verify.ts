@@ -51,11 +51,11 @@ export function compactVerify(
  *   {@link https://github.com/panva/jose/issues/210#jws-alg Algorithm Key Requirements}.
  * @param options JWS Verify options.
  */
-export function compactVerify<T extends KeyLike = KeyLike>(
+export function compactVerify<KeyLikeType extends KeyLike = KeyLike>(
   jws: string | Uint8Array,
   getKey: CompactVerifyGetKey,
   options?: VerifyOptions,
-): Promise<CompactVerifyResult & ResolvedKey<T>>
+): Promise<CompactVerifyResult & ResolvedKey<KeyLikeType>>
 export async function compactVerify(
   jws: string | Uint8Array,
   key: KeyLike | Uint8Array | CompactVerifyGetKey,

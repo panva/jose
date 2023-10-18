@@ -123,11 +123,11 @@ export async function jwtVerify(
  *   {@link https://github.com/panva/jose/issues/210#jws-alg Algorithm Key Requirements}.
  * @param options JWT Decryption and JWT Claims Set validation options.
  */
-export async function jwtVerify<T extends KeyLike = KeyLike>(
+export async function jwtVerify<KeyLikeType extends KeyLike = KeyLike>(
   jwt: string | Uint8Array,
   getKey: JWTVerifyGetKey,
   options?: JWTVerifyOptions,
-): Promise<JWTVerifyResult & ResolvedKey<T>>
+): Promise<JWTVerifyResult & ResolvedKey<KeyLikeType>>
 
 export async function jwtVerify(
   jwt: string | Uint8Array,

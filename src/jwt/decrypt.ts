@@ -58,11 +58,11 @@ export async function jwtDecrypt(
  *   {@link https://github.com/panva/jose/issues/210#jwe-alg Algorithm Key Requirements}.
  * @param options JWT Decryption and JWT Claims Set validation options.
  */
-export async function jwtDecrypt<T extends KeyLike = KeyLike>(
+export async function jwtDecrypt<KeyLikeType extends KeyLike = KeyLike>(
   jwt: string | Uint8Array,
   getKey: JWTDecryptGetKey,
   options?: JWTDecryptOptions,
-): Promise<JWTDecryptResult & ResolvedKey<T>>
+): Promise<JWTDecryptResult & ResolvedKey<KeyLikeType>>
 export async function jwtDecrypt(
   jwt: string | Uint8Array,
   key: KeyLike | Uint8Array | JWTDecryptGetKey,

@@ -49,11 +49,11 @@ export async function compactDecrypt(
  *   {@link https://github.com/panva/jose/issues/210#jwe-alg Algorithm Key Requirements}.
  * @param options JWE Decryption options.
  */
-export async function compactDecrypt<T extends KeyLike = KeyLike>(
+export async function compactDecrypt<KeyLikeType extends KeyLike = KeyLike>(
   jwe: string | Uint8Array,
   getKey: CompactDecryptGetKey,
   options?: DecryptOptions,
-): Promise<CompactDecryptResult & ResolvedKey<T>>
+): Promise<CompactDecryptResult & ResolvedKey<KeyLikeType>>
 export async function compactDecrypt(
   jwe: string | Uint8Array,
   key: KeyLike | Uint8Array | CompactDecryptGetKey,

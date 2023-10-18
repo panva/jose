@@ -64,11 +64,11 @@ export function flattenedVerify(
  *   {@link https://github.com/panva/jose/issues/210#jws-alg Algorithm Key Requirements}.
  * @param options JWS Verify options.
  */
-export function flattenedVerify<T extends KeyLike = KeyLike>(
+export function flattenedVerify<KeyLikeType extends KeyLike = KeyLike>(
   jws: FlattenedJWSInput,
   getKey: FlattenedVerifyGetKey,
   options?: VerifyOptions,
-): Promise<FlattenedVerifyResult & ResolvedKey<T>>
+): Promise<FlattenedVerifyResult & ResolvedKey<KeyLikeType>>
 export async function flattenedVerify(
   jws: FlattenedJWSInput,
   key: KeyLike | Uint8Array | FlattenedVerifyGetKey,

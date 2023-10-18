@@ -60,11 +60,11 @@ export function generalVerify(
  *   {@link https://github.com/panva/jose/issues/210#jws-alg Algorithm Key Requirements}.
  * @param options JWS Verify options.
  */
-export function generalVerify<T extends KeyLike = KeyLike>(
+export function generalVerify<KeyLikeType extends KeyLike = KeyLike>(
   jws: GeneralJWSInput,
   getKey: GeneralVerifyGetKey,
   options?: VerifyOptions,
-): Promise<GeneralVerifyResult & ResolvedKey<T>>
+): Promise<GeneralVerifyResult & ResolvedKey<KeyLikeType>>
 export async function generalVerify(
   jws: GeneralJWSInput,
   key: KeyLike | Uint8Array | GeneralVerifyGetKey,

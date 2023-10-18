@@ -63,11 +63,11 @@ export function generalDecrypt(
  *   {@link https://github.com/panva/jose/issues/210#jwe-alg Algorithm Key Requirements}.
  * @param options JWE Decryption options.
  */
-export function generalDecrypt<T extends KeyLike = KeyLike>(
+export function generalDecrypt<KeyLikeType extends KeyLike = KeyLike>(
   jwe: GeneralJWE,
   getKey: GeneralDecryptGetKey,
   options?: DecryptOptions,
-): Promise<GeneralDecryptResult & ResolvedKey<T>>
+): Promise<GeneralDecryptResult & ResolvedKey<KeyLikeType>>
 export async function generalDecrypt(
   jwe: GeneralJWE,
   key: KeyLike | Uint8Array | GeneralDecryptGetKey,

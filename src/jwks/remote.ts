@@ -50,7 +50,7 @@ export interface RemoteJWKSetOptions {
   headers?: Record<string, string>
 }
 
-class RemoteJWKSet<T extends KeyLike = KeyLike> extends LocalJWKSet<T> {
+class RemoteJWKSet<KeyLikeType extends KeyLike = KeyLike> extends LocalJWKSet<KeyLikeType> {
   private _url: URL
 
   private _timeoutDuration: number
@@ -94,7 +94,10 @@ class RemoteJWKSet<T extends KeyLike = KeyLike> extends LocalJWKSet<T> {
       : false
   }
 
-  async getKey(protectedHeader?: JWSHeaderParameters, token?: FlattenedJWSInput): Promise<T> {
+  async getKey(
+    protectedHeader?: JWSHeaderParameters,
+    token?: FlattenedJWSInput,
+  ): Promise<KeyLikeType> {
     if (!this._jwks || !this.fresh()) {
       await this.reload()
     }
@@ -199,15 +202,15 @@ class RemoteJWKSet<T extends KeyLike = KeyLike> extends LocalJWKSet<T> {
  * @param url URL to fetch the JSON Web Key Set from.
  * @param options Options for the remote JSON Web Key Set.
  */
-export function createRemoteJWKSet<T extends KeyLike = KeyLike>(
+export function createRemoteJWKSet<KeyLikeType extends KeyLike = KeyLike>(
   url: URL,
   options?: RemoteJWKSetOptions,
 ) {
-  const set = new RemoteJWKSet<T>(url, options)
+  const set = new RemoteJWKSet<KeyLikeType>(url, options)
   return async function (
     protectedHeader?: JWSHeaderParameters,
     token?: FlattenedJWSInput,
-  ): Promise<T> {
+  ): Promise<KeyLikeType> {
     return set.getKey(protectedHeader, token)
   }
 }
