@@ -1,6 +1,5 @@
 import { encode as base64url } from '../../runtime/base64url.js'
 import encrypt from '../../runtime/encrypt.js'
-import { deflate } from '../../runtime/zlib.js'
 
 import type {
   KeyLike,
@@ -190,15 +189,9 @@ export class FlattenedEncrypt {
     validateCrit(JWEInvalid, new Map(), options?.crit, this._protectedHeader, joseHeader)
 
     if (joseHeader.zip !== undefined) {
-      if (!this._protectedHeader || !this._protectedHeader.zip) {
-        throw new JWEInvalid('JWE "zip" (Compression Algorithm) Header MUST be integrity protected')
-      }
-
-      if (joseHeader.zip !== 'DEF') {
-        throw new JOSENotSupported(
-          'Unsupported JWE "zip" (Compression Algorithm) Header Parameter value',
-        )
-      }
+      throw new JOSENotSupported(
+        'JWE "zip" (Compression Algorithm) Header Parameter is not supported.',
+      )
     }
 
     const { alg, enc } = joseHeader
@@ -271,15 +264,7 @@ export class FlattenedEncrypt {
       additionalData = protectedHeader
     }
 
-    let ciphertext: Uint8Array
-    let tag: Uint8Array
-
-    if (joseHeader.zip === 'DEF') {
-      const deflated = await (options?.deflateRaw || deflate)(this._plaintext)
-      ;({ ciphertext, tag } = await encrypt(enc, deflated, cek, this._iv, additionalData))
-    } else {
-      ;({ ciphertext, tag } = await encrypt(enc, this._plaintext, cek, this._iv, additionalData))
-    }
+    const { ciphertext, tag } = await encrypt(enc, this._plaintext, cek, this._iv, additionalData)
 
     const jwe: FlattenedJWE = {
       ciphertext: base64url(ciphertext),

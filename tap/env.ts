@@ -50,6 +50,3 @@ export const isWebKit = isBrowser && (await isEngine('WebKit'))
 export const isWebKitAbove17 = isBrowser && isWebKit && (await isVersionAtLeast(17))
 
 export const isGecko = isBrowser && (await isEngine('Gecko'))
-
-// @ts-ignore
-export const hasZlib = isNode && [...process.argv].reverse()[0] !== '#dist/webapi'

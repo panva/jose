@@ -150,7 +150,7 @@ export default (QUnit: QUnit, lib: typeof jose) => {
       if (env.isElectron && vector.electron === false) {
         return false
       }
-      if (vector.input.zip && !env.hasZlib) {
+      if (vector.input.zip) {
         return false
       }
       return true

@@ -1,6 +1,5 @@
 import { decode as base64url } from '../../runtime/base64url.js'
 import decrypt from '../../runtime/decrypt.js'
-import { inflate } from '../../runtime/zlib.js'
 
 import { JOSEAlgNotAllowed, JOSENotSupported, JWEInvalid } from '../../util/errors.js'
 import isDisjoint from '../../lib/is_disjoint.js'
@@ -142,15 +141,9 @@ export async function flattenedDecrypt(
   validateCrit(JWEInvalid, new Map(), options?.crit, parsedProt, joseHeader)
 
   if (joseHeader.zip !== undefined) {
-    if (!parsedProt || !parsedProt.zip) {
-      throw new JWEInvalid('JWE "zip" (Compression Algorithm) Header MUST be integrity protected')
-    }
-
-    if (joseHeader.zip !== 'DEF') {
-      throw new JOSENotSupported(
-        'Unsupported JWE "zip" (Compression Algorithm) Header Parameter value',
-      )
-    }
+    throw new JOSENotSupported(
+      'JWE "zip" (Compression Algorithm) Header Parameter is not supported.',
+    )
   }
 
   const { alg, enc } = joseHeader
@@ -238,10 +231,6 @@ export async function flattenedDecrypt(
     throw new JWEInvalid('Failed to base64url decode the ciphertext')
   }
   let plaintext = await decrypt(enc, cek, ciphertext, iv, tag, additionalData)
-
-  if (joseHeader.zip === 'DEF') {
-    plaintext = await (options?.inflateRaw || inflate)(plaintext)
-  }
 
   const result: FlattenedDecryptResult = { plaintext }
 

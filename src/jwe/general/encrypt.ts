@@ -1,5 +1,5 @@
 import { FlattenedEncrypt, unprotected } from '../flattened/encrypt.js'
-import { JWEInvalid } from '../../util/errors.js'
+import { JOSENotSupported, JWEInvalid } from '../../util/errors.js'
 import generateCek from '../../lib/cek.js'
 import isDisjoint from '../../lib/is_disjoint.js'
 import encryptKeyManagement from '../../lib/encrypt_key_management.js'
@@ -11,7 +11,6 @@ import type {
   GeneralJWE,
   JWEHeaderParameters,
   CritOption,
-  DeflateOption,
 } from '../../types.d'
 
 export interface Recipient {
@@ -149,17 +148,11 @@ export class GeneralEncrypt {
     return this
   }
 
-  /**
-   * Encrypts and resolves the value of the General JWE object.
-   *
-   * @param options JWE Encryption options.
-   */
-  async encrypt(options?: DeflateOption): Promise<GeneralJWE> {
+  /** Encrypts and resolves the value of the General JWE object. */
+  async encrypt(): Promise<GeneralJWE> {
     if (!this._recipients.length) {
       throw new JWEInvalid('at least one recipient must be added')
     }
-
-    options = { deflateRaw: options?.deflateRaw }
 
     if (this._recipients.length === 1) {
       const [recipient] = this._recipients
@@ -169,7 +162,7 @@ export class GeneralEncrypt {
         .setProtectedHeader(this._protectedHeader)
         .setSharedUnprotectedHeader(this._unprotectedHeader)
         .setUnprotectedHeader(recipient.unprotectedHeader!)
-        .encrypt(recipient.key, { ...recipient.options, ...options })
+        .encrypt(recipient.key, { ...recipient.options })
 
       let jwe: GeneralJWE = {
         ciphertext: flattened.ciphertext,
@@ -229,11 +222,9 @@ export class GeneralEncrypt {
       validateCrit(JWEInvalid, new Map(), recipient.options.crit, this._protectedHeader, joseHeader)
 
       if (joseHeader.zip !== undefined) {
-        if (!this._protectedHeader || !this._protectedHeader.zip) {
-          throw new JWEInvalid(
-            'JWE "zip" (Compression Algorithm) Header MUST be integrity protected',
-          )
-        }
+        throw new JOSENotSupported(
+          'JWE "zip" (Compression Algorithm) Header Parameter is not supported.',
+        )
       }
     }
 
@@ -269,7 +260,6 @@ export class GeneralEncrypt {
           .setKeyManagementParameters({ p2c })
           .encrypt(recipient.key, {
             ...recipient.options,
-            ...options,
             // @ts-expect-error
             [unprotected]: true,
           })
