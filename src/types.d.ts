@@ -590,17 +590,17 @@ export interface CompactVerifyResult {
   protectedHeader: CompactJWSHeaderParameters
 }
 
-export interface JWTVerifyResult {
+export interface JWTVerifyResult<PayloadType = JWTPayload> {
   /** JWT Claims Set. */
-  payload: JWTPayload
+  payload: PayloadType & JWTPayload
 
   /** JWS Protected Header. */
   protectedHeader: JWTHeaderParameters
 }
 
-export interface JWTDecryptResult {
+export interface JWTDecryptResult<PayloadType = JWTPayload> {
   /** JWT Claims Set. */
-  payload: JWTPayload
+  payload: PayloadType & JWTPayload
 
   /** JWE Protected Header. */
   protectedHeader: CompactJWEHeaderParameters

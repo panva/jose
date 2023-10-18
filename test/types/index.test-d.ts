@@ -50,12 +50,12 @@ expectType<KeyObject | Uint8Array>(await lib.importJWK<KeyObject>({}))
 }
 
 {
-  const result = await lib.jwtVerify<CryptoKey>('', lib.createLocalJWKSet({ keys: [] }))
+  const result = await lib.jwtVerify<{}, CryptoKey>('', lib.createLocalJWKSet({ keys: [] }))
   expectType<CryptoKey | Uint8Array>(result.key)
 }
 
 {
-  const result = await lib.jwtVerify<KeyObject>('', lib.createLocalJWKSet({ keys: [] }))
+  const result = await lib.jwtVerify<{}, KeyObject>('', lib.createLocalJWKSet({ keys: [] }))
   expectType<KeyObject | Uint8Array>(result.key)
 }
 
@@ -128,12 +128,12 @@ expectType<KeyObject | Uint8Array>(await lib.importJWK<KeyObject>({}))
 }
 
 {
-  const result = await lib.jwtDecrypt<CryptoKey>('', () => <any>{})
+  const result = await lib.jwtDecrypt<{}, CryptoKey>('', () => <any>{})
   expectType<CryptoKey | Uint8Array>(result.key)
 }
 
 {
-  const result = await lib.jwtDecrypt<KeyObject>('', () => <any>{})
+  const result = await lib.jwtDecrypt<{}, KeyObject>('', () => <any>{})
   expectType<KeyObject | Uint8Array>(result.key)
 }
 
@@ -208,3 +208,42 @@ expectType<KeyObject>(await lib.createRemoteJWKSet<KeyObject>(new URL(''))())
 expectType<lib.KeyLike>(await lib.EmbeddedJWK())
 expectType<CryptoKey>(await lib.EmbeddedJWK())
 expectType<KeyObject>(await lib.EmbeddedJWK())
+
+{
+  const result = await lib.jwtVerify<{ foo: 'string' }>('', new Uint8Array())
+  expectType<string | undefined>(result.payload.iss)
+  expectType<unknown>(result.payload.unknown)
+  expectType<'string'>(result.payload.foo)
+}
+
+{
+  const result = await lib.jwtDecrypt<{ foo: 'string' }>('', new Uint8Array())
+  expectType<string | undefined>(result.payload.iss)
+  expectType<unknown>(result.payload.unknown)
+  expectType<'string'>(result.payload.foo)
+}
+
+{
+  const result = lib.UnsecuredJWT.decode<{ foo: 'string' }>('')
+  expectType<string | undefined>(result.payload.iss)
+  expectType<unknown>(result.payload.unknown)
+  expectType<'string'>(result.payload.foo)
+}
+
+{
+  const result = await lib.jwtVerify('', new Uint8Array())
+  expectType<string | undefined>(result.payload.iss)
+  expectType<unknown>(result.payload.unknown)
+}
+
+{
+  const result = await lib.jwtDecrypt('', new Uint8Array())
+  expectType<string | undefined>(result.payload.iss)
+  expectType<unknown>(result.payload.unknown)
+}
+
+{
+  const result = lib.UnsecuredJWT.decode('')
+  expectType<string | undefined>(result.payload.iss)
+  expectType<unknown>(result.payload.unknown)
+}

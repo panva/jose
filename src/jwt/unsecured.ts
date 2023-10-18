@@ -6,8 +6,8 @@ import { JWTInvalid } from '../util/errors.js'
 import jwtPayload from '../lib/jwt_claims_set.js'
 import { ProduceJWT } from './produce.js'
 
-export interface UnsecuredResult {
-  payload: JWTPayload
+export interface UnsecuredResult<PayloadType = JWTPayload> {
+  payload: PayloadType & JWTPayload
   header: JWSHeaderParameters
 }
 
@@ -53,7 +53,10 @@ export class UnsecuredJWT extends ProduceJWT {
    * @param jwt Unsecured JWT to decode the payload of.
    * @param options JWT Claims Set validation options.
    */
-  static decode(jwt: string, options?: JWTClaimVerificationOptions): UnsecuredResult {
+  static decode<PayloadType = JWTPayload>(
+    jwt: string,
+    options?: JWTClaimVerificationOptions,
+  ): UnsecuredResult<PayloadType> {
     if (typeof jwt !== 'string') {
       throw new JWTInvalid('Unsecured JWT must be a string')
     }
@@ -71,7 +74,11 @@ export class UnsecuredJWT extends ProduceJWT {
       throw new JWTInvalid('Invalid Unsecured JWT')
     }
 
-    const payload = jwtPayload(header, base64url.decode(encodedPayload), options)
+    const payload = jwtPayload(
+      header,
+      base64url.decode(encodedPayload),
+      options,
+    ) as UnsecuredResult<PayloadType>['payload']
 
     return { payload, header }
   }

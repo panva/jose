@@ -1,5 +1,6 @@
 import { compactVerify } from '../jws/compact/verify.js'
 import type {
+  JWTPayload,
   KeyLike,
   VerifyOptions,
   JWTClaimVerificationOptions,
@@ -98,11 +99,11 @@ export interface JWTVerifyGetKey extends GetKeyFunction<JWTHeaderParameters, Fla
  *   {@link https://github.com/panva/jose/issues/210#jws-alg Algorithm Key Requirements}.
  * @param options JWT Decryption and JWT Claims Set validation options.
  */
-export async function jwtVerify(
+export async function jwtVerify<PayloadType = JWTPayload>(
   jwt: string | Uint8Array,
   key: KeyLike | Uint8Array,
   options?: JWTVerifyOptions,
-): Promise<JWTVerifyResult>
+): Promise<JWTVerifyResult<PayloadType>>
 
 /**
  * @example Usage with a public JSON Web Key Set hosted on a remote URL
@@ -123,11 +124,11 @@ export async function jwtVerify(
  *   {@link https://github.com/panva/jose/issues/210#jws-alg Algorithm Key Requirements}.
  * @param options JWT Decryption and JWT Claims Set validation options.
  */
-export async function jwtVerify<KeyLikeType extends KeyLike = KeyLike>(
+export async function jwtVerify<PayloadType = JWTPayload, KeyLikeType extends KeyLike = KeyLike>(
   jwt: string | Uint8Array,
   getKey: JWTVerifyGetKey,
   options?: JWTVerifyOptions,
-): Promise<JWTVerifyResult & ResolvedKey<KeyLikeType>>
+): Promise<JWTVerifyResult<PayloadType> & ResolvedKey<KeyLikeType>>
 
 export async function jwtVerify(
   jwt: string | Uint8Array,
