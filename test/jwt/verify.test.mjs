@@ -109,7 +109,7 @@ test('algorithms options', async (t) => {
     }),
     {
       code: 'ERR_JOSE_ALG_NOT_ALLOWED',
-      message: '"alg" (Algorithm) Header Parameter not allowed',
+      message: '"alg" (Algorithm) Header Parameter value not allowed',
     },
   )
   await t.throwsAsync(

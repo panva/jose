@@ -163,11 +163,11 @@ export async function flattenedDecrypt(
     validateAlgorithms('contentEncryptionAlgorithms', options.contentEncryptionAlgorithms)
 
   if (keyManagementAlgorithms && !keyManagementAlgorithms.has(alg)) {
-    throw new JOSEAlgNotAllowed('"alg" (Algorithm) Header Parameter not allowed')
+    throw new JOSEAlgNotAllowed('"alg" (Algorithm) Header Parameter value not allowed')
   }
 
   if (contentEncryptionAlgorithms && !contentEncryptionAlgorithms.has(enc)) {
-    throw new JOSEAlgNotAllowed('"enc" (Encryption Algorithm) Header Parameter not allowed')
+    throw new JOSEAlgNotAllowed('"enc" (Encryption Algorithm) Header Parameter value not allowed')
   }
 
   let encryptedKey!: Uint8Array

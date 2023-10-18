@@ -145,7 +145,7 @@ export async function flattenedVerify(
   const algorithms = options && validateAlgorithms('algorithms', options.algorithms)
 
   if (algorithms && !algorithms.has(alg)) {
-    throw new JOSEAlgNotAllowed('"alg" (Algorithm) Header Parameter not allowed')
+    throw new JOSEAlgNotAllowed('"alg" (Algorithm) Header Parameter value not allowed')
   }
 
   if (b64) {
