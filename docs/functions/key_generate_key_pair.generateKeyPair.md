@@ -12,7 +12,8 @@ Generates a private and a public key for a given JWA algorithm identifier. This 
 asymmetric key pairs. For symmetric secrets use the `generateSecret` function.
 
 Note: Under Web Crypto API runtime the `privateKey` is generated with `extractable` set to
-`false` by default.
+`false` by default. See [GenerateKeyPairOptions.extractable](../interfaces/key_generate_key_pair.GenerateKeyPairOptions.md#extractable) to generate an extractable
+`privateKey`.
 
 #### Type parameters
 

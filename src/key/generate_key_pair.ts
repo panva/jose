@@ -27,6 +27,16 @@ export interface GenerateKeyPairOptions {
    * (Only effective in Web Crypto API runtimes) The value to use as
    * {@link https://developer.mozilla.org/en-US/docs/Web/API/SubtleCrypto/generateKey SubtleCrypto.generateKey()}
    * `extractable` argument. Default is false.
+   *
+   * @example
+   *
+   * ```js
+   * const { publicKey, privateKey } = await jose.generateKeyPair('PS256', {
+   *   extractable: true,
+   * })
+   * console.log(await jose.exportJWK(privateKey))
+   * console.log(await jose.exportPKCS8(privateKey))
+   * ```
    */
   extractable?: boolean
 }
@@ -36,7 +46,8 @@ export interface GenerateKeyPairOptions {
  * asymmetric key pairs. For symmetric secrets use the `generateSecret` function.
  *
  * Note: Under Web Crypto API runtime the `privateKey` is generated with `extractable` set to
- * `false` by default.
+ * `false` by default. See {@link GenerateKeyPairOptions.extractable} to generate an extractable
+ * `privateKey`.
  *
  * @example
  *

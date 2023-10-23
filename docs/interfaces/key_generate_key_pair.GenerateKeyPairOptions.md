@@ -33,6 +33,16 @@ ___
 [SubtleCrypto.generateKey()](https://developer.mozilla.org/en-US/docs/Web/API/SubtleCrypto/generateKey)
 `extractable` argument. Default is false.
 
+**`Example`**
+
+```js
+const { publicKey, privateKey } = await jose.generateKeyPair('PS256', {
+  extractable: true,
+})
+console.log(await jose.exportJWK(privateKey))
+console.log(await jose.exportPKCS8(privateKey))
+```
+
 ___
 
 ### modulusLength
