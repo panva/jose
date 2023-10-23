@@ -24,7 +24,7 @@ export class ProduceJWT {
   }
 
   /**
-   * Set "iss" (Issuer) Claim.
+   * Set the "iss" (Issuer) Claim.
    *
    * @param issuer "Issuer" Claim value to set on the JWT Claims Set.
    */
@@ -34,7 +34,7 @@ export class ProduceJWT {
   }
 
   /**
-   * Set "sub" (Subject) Claim.
+   * Set the "sub" (Subject) Claim.
    *
    * @param subject "sub" (Subject) Claim value to set on the JWT Claims Set.
    */
@@ -44,7 +44,7 @@ export class ProduceJWT {
   }
 
   /**
-   * Set "aud" (Audience) Claim.
+   * Set the "aud" (Audience) Claim.
    *
    * @param audience "aud" (Audience) Claim value to set on the JWT Claims Set.
    */
@@ -54,7 +54,7 @@ export class ProduceJWT {
   }
 
   /**
-   * Set "jti" (JWT ID) Claim.
+   * Set the "jti" (JWT ID) Claim.
    *
    * @param jwtId "jti" (JWT ID) Claim value to set on the JWT Claims Set.
    */
@@ -64,7 +64,7 @@ export class ProduceJWT {
   }
 
   /**
-   * Set "nbf" (Not Before) Claim.
+   * Set the "nbf" (Not Before) Claim.
    *
    * @param input "nbf" (Not Before) Claim value to set on the JWT Claims Set. When number is passed
    *   that is used as a value, when string is passed it is resolved to a time span and added to the
@@ -82,7 +82,7 @@ export class ProduceJWT {
   }
 
   /**
-   * Set "exp" (Expiration Time) Claim.
+   * Set the "exp" (Expiration Time) Claim.
    *
    * @param input "exp" (Expiration Time) Claim value to set on the JWT Claims Set. When number is
    *   passed that is used as a value, when string is passed it is resolved to a time span and added
@@ -100,7 +100,7 @@ export class ProduceJWT {
   }
 
   /**
-   * Set "iat" (Issued At) Claim.
+   * Set the "iat" (Issued At) Claim.
    *
    * @param input "iat" (Issued At) Claim value to set on the JWT Claims Set. Default is current
    *   timestamp.
