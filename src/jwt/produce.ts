@@ -3,6 +3,14 @@ import epoch from '../lib/epoch.js'
 import isObject from '../lib/is_object.js'
 import secs from '../lib/secs.js'
 
+function validateInput(label: string, input: number) {
+  if (!Number.isFinite(input)) {
+    throw new TypeError(`Invalid ${label} input`)
+  }
+
+  return input
+}
+
 /** Generic class for JWT producing. */
 export class ProduceJWT {
   protected _payload!: JWTPayload
@@ -62,9 +70,11 @@ export class ProduceJWT {
    *   that is used as a value, when string is passed it is resolved to a time span and added to the
    *   current timestamp.
    */
-  setNotBefore(input: number | string) {
+  setNotBefore(input: number | string | Date) {
     if (typeof input === 'number') {
-      this._payload = { ...this._payload, nbf: input }
+      this._payload = { ...this._payload, nbf: validateInput('setNotBefore', input) }
+    } else if (input instanceof Date) {
+      this._payload = { ...this._payload, nbf: validateInput('setNotBefore', epoch(input)) }
     } else {
       this._payload = { ...this._payload, nbf: epoch(new Date()) + secs(input) }
     }
@@ -78,9 +88,11 @@ export class ProduceJWT {
    *   passed that is used as a value, when string is passed it is resolved to a time span and added
    *   to the current timestamp.
    */
-  setExpirationTime(input: number | string) {
+  setExpirationTime(input: number | string | Date) {
     if (typeof input === 'number') {
-      this._payload = { ...this._payload, exp: input }
+      this._payload = { ...this._payload, exp: validateInput('setExpirationTime', input) }
+    } else if (input instanceof Date) {
+      this._payload = { ...this._payload, exp: validateInput('setExpirationTime', epoch(input)) }
     } else {
       this._payload = { ...this._payload, exp: epoch(new Date()) + secs(input) }
     }
@@ -93,11 +105,13 @@ export class ProduceJWT {
    * @param input "iat" (Issued At) Claim value to set on the JWT Claims Set. Default is current
    *   timestamp.
    */
-  setIssuedAt(input?: number) {
+  setIssuedAt(input?: number | Date) {
     if (typeof input === 'undefined') {
       this._payload = { ...this._payload, iat: epoch(new Date()) }
+    } else if (input instanceof Date) {
+      this._payload = { ...this._payload, iat: validateInput('setIssuedAt', epoch(input)) }
     } else {
-      this._payload = { ...this._payload, iat: input }
+      this._payload = { ...this._payload, iat: validateInput('setIssuedAt', input) }
     }
     return this
   }
