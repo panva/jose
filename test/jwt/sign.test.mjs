@@ -98,17 +98,8 @@ async function testJWTsetFunction(t, method, claim, value, expected = value) {
   t.true(claim in claims)
   t.is(claims[claim], expected)
 }
-
-function getTypeOf(input) {
-  try {
-    return input.constructor.name
-  } catch {
-    return typeof input
-  }
-}
-
 testJWTsetFunction.title = (title, method, claim, value) =>
-  `SignJWT.prototype.${method} called with ${getTypeOf(value)}`
+  `SignJWT.prototype.${method} called with ${value?.constructor?.name || typeof value}`
 
 test(testJWTsetFunction, 'setIssuer', 'iss', 'urn:example:issuer')
 test(testJWTsetFunction, 'setSubject', 'sub', 'urn:example:subject')
