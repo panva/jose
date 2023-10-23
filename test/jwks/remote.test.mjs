@@ -126,7 +126,7 @@ test.serial('RemoteJWKSet', async (t) => {
   {
     const [jwk] = keys
     const key = await importJWK({ ...jwk, alg: 'PS256' })
-    const jwt = await new SignJWT({}).setProtectedHeader({ alg: 'PS256', kid: jwk.kid }).sign(key)
+    const jwt = await new SignJWT().setProtectedHeader({ alg: 'PS256', kid: jwk.kid }).sign(key)
     await t.notThrowsAsync(async () => {
       const { key: resolvedKey } = await jwtVerify(jwt, JWKS)
       t.truthy(resolvedKey)
@@ -178,7 +178,7 @@ test.serial('RemoteJWKSet', async (t) => {
   {
     const [jwk] = keys
     const key = await importJWK({ ...jwk, alg: 'RS256' })
-    const jwt = await new SignJWT({}).setProtectedHeader({ alg: 'RS256' }).sign(key)
+    const jwt = await new SignJWT().setProtectedHeader({ alg: 'RS256' }).sign(key)
     let error = await t.throwsAsync(jwtVerify(jwt, JWKS), {
       code: 'ERR_JWKS_MULTIPLE_MATCHING_KEYS',
       message: 'multiple matching keys found in the JSON Web Key Set',
@@ -206,7 +206,7 @@ test.serial('RemoteJWKSet', async (t) => {
   {
     const [, jwk] = keys
     const key = await importJWK({ ...jwk, alg: 'PS256' })
-    const jwt = await new SignJWT({}).setProtectedHeader({ alg: 'PS256', kid: jwk.kid }).sign(key)
+    const jwt = await new SignJWT().setProtectedHeader({ alg: 'PS256', kid: jwk.kid }).sign(key)
     await t.throwsAsync(jwtVerify(jwt, JWKS), {
       code: 'ERR_JWKS_NO_MATCHING_KEY',
       message: 'no applicable key found in the JSON Web Key Set',
@@ -215,7 +215,7 @@ test.serial('RemoteJWKSet', async (t) => {
   {
     const [, , jwk] = keys
     const key = await importJWK({ ...jwk, alg: 'ES256' })
-    const jwt = await new SignJWT({}).setProtectedHeader({ alg: 'ES256' }).sign(key)
+    const jwt = await new SignJWT().setProtectedHeader({ alg: 'ES256' }).sign(key)
     await t.notThrowsAsync(jwtVerify(jwt, JWKS))
   }
 })
@@ -247,12 +247,12 @@ test.serial('refreshes the JWKS once off cooldown', async (t) => {
   const JWKS = createRemoteJWKSet(url)
   const key = await importJWK({ ...jwk, alg: 'ES256' })
   {
-    const jwt = await new SignJWT({}).setProtectedHeader({ alg: 'ES256', kid: 'one' }).sign(key)
+    const jwt = await new SignJWT().setProtectedHeader({ alg: 'ES256', kid: 'one' }).sign(key)
     await t.notThrowsAsync(jwtVerify(jwt, JWKS))
     await t.notThrowsAsync(jwtVerify(jwt, JWKS))
   }
   {
-    const jwt = await new SignJWT({}).setProtectedHeader({ alg: 'ES256', kid: 'two' }).sign(key)
+    const jwt = await new SignJWT().setProtectedHeader({ alg: 'ES256', kid: 'two' }).sign(key)
     await t.throwsAsync(jwtVerify(jwt, JWKS), {
       code: 'ERR_JWKS_NO_MATCHING_KEY',
       message: 'no applicable key found in the JSON Web Key Set',
@@ -291,7 +291,7 @@ test.serial('refreshes the JWKS once stale', async (t) => {
   const JWKS = createRemoteJWKSet(url, { cacheMaxAge: 60 * 10 * 1000 })
   const key = await importJWK({ ...jwk, alg: 'ES256' })
   {
-    const jwt = await new SignJWT({}).setProtectedHeader({ alg: 'ES256', kid: 'one' }).sign(key)
+    const jwt = await new SignJWT().setProtectedHeader({ alg: 'ES256', kid: 'one' }).sign(key)
     await t.notThrowsAsync(jwtVerify(jwt, JWKS))
     await t.notThrowsAsync(jwtVerify(jwt, JWKS))
     timekeeper.travel((now + 60 * 10) * 1000)
@@ -326,7 +326,7 @@ test.serial('can be configured to never be stale', async (t) => {
   const JWKS = createRemoteJWKSet(url, { cacheMaxAge: Infinity })
   const key = await importJWK({ ...jwk, alg: 'ES256' })
   {
-    const jwt = await new SignJWT({}).setProtectedHeader({ alg: 'ES256', kid: 'one' }).sign(key)
+    const jwt = await new SignJWT().setProtectedHeader({ alg: 'ES256', kid: 'one' }).sign(key)
     await t.notThrowsAsync(jwtVerify(jwt, JWKS))
     await t.notThrowsAsync(jwtVerify(jwt, JWKS))
     timekeeper.travel((now + 60 * 10) * 1000)

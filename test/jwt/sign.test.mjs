@@ -24,6 +24,11 @@ test('SignJWT', async (t) => {
   )
 })
 
+test('SignJWT with default (empty) payload', async (t) => {
+  const jwt = await new SignJWT().setProtectedHeader({ alg: 'HS256' }).sign(t.context.secret)
+  t.is(jwt, 'eyJhbGciOiJIUzI1NiJ9.e30.4E_Bsx-pJi3kOW9wVXN8CgbATwP09D9V5gxh9-9zSZ0')
+})
+
 test('SignJWT w/crit', async (t) => {
   const expected =
     'eyJhbGciOiJIUzI1NiIsImNyaXQiOlsiaHR0cDovL29wZW5iYW5raW5nLm9yZy51ay9pYXQiXSwiaHR0cDovL29wZW5iYW5raW5nLm9yZy51ay9pYXQiOjB9.eyJ1cm46ZXhhbXBsZTpjbGFpbSI6dHJ1ZX0.YzOrPZaNql7PpCo43HAJdj-LASP8lOmtb-Bzj9OrNAk'
@@ -61,29 +66,22 @@ test('SignJWT w/crit', async (t) => {
   )
 })
 
-test('new SignJWT', (t) => {
-  t.throws(() => new SignJWT(), {
-    instanceOf: TypeError,
-    message: 'JWT Claims Set MUST be an object',
-  })
-})
-
 test('Signed JWTs cannot use unencoded payload', async (t) => {
   await t.throwsAsync(
     () =>
-      new SignJWT({})
+      new SignJWT()
         .setProtectedHeader({ alg: 'HS256', crit: ['b64'], b64: false })
         .sign(t.context.secret),
     { code: 'ERR_JWT_INVALID', message: 'JWTs MUST NOT use unencoded payload' },
   )
-  await t.throwsAsync(() => new SignJWT({}).sign(t.context.secret), {
+  await t.throwsAsync(() => new SignJWT().sign(t.context.secret), {
     code: 'ERR_JWS_INVALID',
     message: 'either setProtectedHeader or setUnprotectedHeader must be called before #sign()',
   })
 })
 
 async function testJWTsetFunction(t, method, claim, value, expected = value) {
-  const jwt = await new SignJWT({})
+  const jwt = await new SignJWT()
     .setProtectedHeader({ alg: 'HS256' })
     [method](value)
     .sign(t.context.secret)

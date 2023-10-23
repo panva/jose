@@ -105,7 +105,7 @@ export default (QUnit: QUnit, lib: typeof jose) => {
     {
       const [jwk] = keys
       const key = await lib.importJWK({ ...jwk, alg: 'PS256' })
-      const jwt = await new lib.SignJWT({})
+      const jwt = await new lib.SignJWT()
         .setProtectedHeader({ alg: 'PS256', kid: jwk.kid })
         .sign(key)
       const { key: resolvedKey } = await lib.jwtVerify(jwt, JWKS)

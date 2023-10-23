@@ -41,15 +41,12 @@ test('UnsecuredJWT validations', (t) => {
   })
 })
 
-test('new UnsecuredJWT', (t) => {
-  t.throws(() => new UnsecuredJWT(), {
-    instanceOf: TypeError,
-    message: 'JWT Claims Set MUST be an object',
-  })
+test('new UnsecuredJWT()', (t) => {
+  t.is(new UnsecuredJWT().encode(), 'eyJhbGciOiJub25lIn0.e30.')
 })
 
 async function testJWTsetFunction(t, method, claim, value, expected = value) {
-  const jwt = new UnsecuredJWT({})[method](value).encode()
+  const jwt = new UnsecuredJWT()[method](value).encode()
   const { payload: claims } = UnsecuredJWT.decode(jwt)
   t.true(claim in claims)
   t.is(claims[claim], expected)

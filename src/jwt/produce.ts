@@ -15,8 +15,8 @@ function validateInput(label: string, input: number) {
 export class ProduceJWT {
   protected _payload!: JWTPayload
 
-  /** @param payload The JWT Claims Set object. */
-  constructor(payload: JWTPayload) {
+  /** @param payload The JWT Claims Set object. Defaults to an empty object. */
+  constructor(payload: JWTPayload = {}) {
     if (!isObject(payload)) {
       throw new TypeError('JWT Claims Set MUST be an object')
     }

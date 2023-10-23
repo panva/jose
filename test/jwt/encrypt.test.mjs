@@ -67,15 +67,8 @@ test('EncryptJWT w/crit', async (t) => {
   )
 })
 
-test('new EncryptJWT', (t) => {
-  t.throws(() => new EncryptJWT(), {
-    instanceOf: TypeError,
-    message: 'JWT Claims Set MUST be an object',
-  })
-})
-
 async function testJWTsetFunction(t, method, claim, value, duplicate = false, expected = value) {
-  let enc = new EncryptJWT({}).setProtectedHeader({ alg: 'dir', enc: 'A128GCM' })[method](value)
+  let enc = new EncryptJWT().setProtectedHeader({ alg: 'dir', enc: 'A128GCM' })[method](value)
 
   if (duplicate) {
     enc = enc[`replicate${method.slice(3)}AsHeader`]()
