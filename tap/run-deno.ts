@@ -1,4 +1,4 @@
-import 'https://cdnjs.cloudflare.com/ajax/libs/qunit/2.20.0/qunit.js'
+import '../node_modules/qunit/qunit/qunit.js'
 import run from './run.js'
 // @ts-ignore
 import * as lib from '#dist/webapi'
