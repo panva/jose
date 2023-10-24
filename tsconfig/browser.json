@@ -1,8 +1,8 @@
 {
   "extends": "./base.json",
   "compilerOptions": {
-    "target": "ES2018",
-    "module": "ES6",
+    "target": "ES2020",
+    "module": "ES2020",
     "outDir": "../dist/browser"
   }
 }
