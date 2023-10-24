@@ -24,7 +24,7 @@ jobs:
         id: node
         uses: actions/setup-node@v3
         with:
-          node-version: lts/hydrogen # 18
+          node-version: lts/iron # 20
           cache: 'npm'
       - run: npm clean-install
       - name: Load cached dist
@@ -48,6 +48,7 @@ jobs:
           - lts/fermium # 14
           - lts/gallium # 16
           - lts/hydrogen # 18
+          - lts/iron # 20
           - current
         suite:
           - tap:node
@@ -106,7 +107,7 @@ jobs:
       - name: Setup node
         uses: actions/setup-node@v3
         with:
-          node-version: lts/hydrogen # 18
+          node-version: lts/iron # 20
           cache: 'npm'
       - run: npm clean-install
       - name: Test Deno
@@ -133,7 +134,7 @@ jobs:
       - name: Setup node
         uses: actions/setup-node@v3
         with:
-          node-version: lts/hydrogen # 18
+          node-version: lts/iron # 20
           cache: 'npm'
       - run: npm clean-install
       - name: Test Bun
@@ -149,7 +150,7 @@ jobs:
       - name: Setup node
         uses: actions/setup-node@v3
         with:
-          node-version: lts/hydrogen # 18
+          node-version: lts/iron # 20
           cache: 'npm'
       - run: npm clean-install
       - run: npm install --global workerd
@@ -173,7 +174,7 @@ jobs:
       - name: Setup node
         uses: actions/setup-node@v3
         with:
-          node-version: lts/hydrogen # 18
+          node-version: lts/iron # 20
           cache: 'npm'
       - run: npm clean-install
       - name: Load cached dist
@@ -206,7 +207,7 @@ jobs:
       - name: Setup node
         uses: actions/setup-node@v3
         with:
-          node-version: lts/hydrogen # 18
+          node-version: lts/iron # 20
           cache: 'npm'
       - run: npm clean-install
       - run: npm install --global testcafe@2
@@ -237,7 +238,7 @@ jobs:
       - name: Setup node
         uses: actions/setup-node@v3
         with:
-          node-version: lts/hydrogen # 18
+          node-version: lts/iron # 20
           cache: 'npm'
       - run: npm clean-install
       - name: Load cached dist

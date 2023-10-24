@@ -1,7 +1,10 @@
 {
   "extends": "./node-cjs.json",
   "compilerOptions": {
-    "module": "ES2020",
-    "outDir": "../dist/node/esm"
+    "module": "ES2022",
+    "outDir": "../dist/node/esm",
+    "paths": {
+      "undici-types": ["../node_modules/undici-types/index.d.ts"]
+    }
   }
 }

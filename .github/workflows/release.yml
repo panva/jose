@@ -30,7 +30,7 @@ jobs:
       - name: Setup node
         uses: actions/setup-node@v3
         with:
-          node-version: lts/hydrogen # 18
+          node-version: lts/iron # 20
           registry-url: https://registry.npmjs.org
           always-auth: true
       - name: Load cached dist
@@ -77,7 +77,7 @@ jobs:
       - name: Setup node
         uses: actions/setup-node@v3
         with:
-          node-version: lts/hydrogen # 18
+          node-version: lts/iron # 20
           cache: 'npm'
       - run: node tools/release-notes
         env:

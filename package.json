@@ -136,7 +136,7 @@
     "tap:workerd": "./tap/.workerd.sh"
   },
   "devDependencies": {
-    "@types/node": "^18.18.6",
+    "@types/node": "^20.8.8",
     "@types/qunit": "^2.19.7",
     "ava": "^5.3.1",
     "edge-runtime": "^2.5.6",
