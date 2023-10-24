@@ -11,7 +11,8 @@ function normalize(input: string | Uint8Array) {
 
 const encode = (input: Uint8Array | string) => Buffer.from(input).toString('base64url')
 
-export const decodeBase64 = (input: string) => Buffer.from(input, 'base64')
+export const decodeBase64 = (input: string) => new Uint8Array(Buffer.from(input, 'base64'))
 export const encodeBase64 = (input: Uint8Array | string) => Buffer.from(input).toString('base64')
 export { encode }
-export const decode = (input: Uint8Array | string) => Buffer.from(normalize(input), 'base64')
+export const decode = (input: Uint8Array | string) =>
+  new Uint8Array(Buffer.from(normalize(input), 'base64'))
