@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [5.0.1](https://github.com/panva/jose/compare/v5.0.0...v5.0.1) (2023-10-25)
+
+
+### Fixes
+
+* also use ES2020 in the CDN bundles ([8c4d390](https://github.com/panva/jose/commit/8c4d3909db56f2d62cf2bf413e8343c0fdd2b92f))
+
 ## [5.0.0](https://github.com/panva/jose/compare/v4.15.4...v5.0.0) (2023-10-25)
 
 
