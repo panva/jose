@@ -6,7 +6,7 @@ Support from the community to continue maintaining and improving this module is 
 
 ---
 
-▸ **importJWK**<`T`\>(`jwk`, `alg?`, `octAsKeyObject?`): [`Promise`]( https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise )<`T` \| [`Uint8Array`]( https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Uint8Array )\>
+▸ **importJWK**<`KeyLikeType`\>(`jwk`, `alg?`): [`Promise`]( https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise )<`KeyLikeType` \| [`Uint8Array`]( https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Uint8Array )\>
 
 Imports a JWK to a runtime-specific key representation (KeyLike). Either JWK "alg" (Algorithm)
 Parameter must be present or the optional "alg" argument. When running on a runtime using
@@ -17,7 +17,7 @@ Parameter must be present or the optional "alg" argument. When running on a runt
 
 | Name | Type |
 | :------ | :------ |
-| `T` | extends [`KeyLike`](../types/types.KeyLike.md) = [`KeyLike`](../types/types.KeyLike.md) |
+| `KeyLikeType` | extends [`KeyLike`](../types/types.KeyLike.md) = [`KeyLike`](../types/types.KeyLike.md) |
 
 #### Parameters
 
@@ -25,11 +25,10 @@ Parameter must be present or the optional "alg" argument. When running on a runt
 | :------ | :------ | :------ |
 | `jwk` | [`JWK`](../interfaces/types.JWK.md) | JSON Web Key. |
 | `alg?` | `string` | (Only effective in Web Crypto API runtimes) JSON Web Algorithm identifier to be used with the imported key. Default is the "alg" property on the JWK, its presence is only enforced in Web Crypto API runtimes. See [Algorithm Key Requirements](https://github.com/panva/jose/issues/210). |
-| `octAsKeyObject?` | `boolean` | Forces a symmetric key to be imported to a KeyObject or CryptoKey. Default is true unless JWK "ext" (Extractable) is true. |
 
 #### Returns
 
-[`Promise`]( https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise )<`T` \| [`Uint8Array`]( https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Uint8Array )\>
+[`Promise`]( https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise )<`KeyLikeType` \| [`Uint8Array`]( https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Uint8Array )\>
 
 **`Example`**
 

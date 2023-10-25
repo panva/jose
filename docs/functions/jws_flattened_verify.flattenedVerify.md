@@ -39,13 +39,13 @@ console.log(protectedHeader)
 console.log(decoder.decode(payload))
 ```
 
-▸ **flattenedVerify**<`T`\>(`jws`, `getKey`, `options?`): [`Promise`]( https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise )<[`FlattenedVerifyResult`](../interfaces/types.FlattenedVerifyResult.md) & [`ResolvedKey`](../interfaces/types.ResolvedKey.md)<`T`\>\>
+▸ **flattenedVerify**<`KeyLikeType`\>(`jws`, `getKey`, `options?`): [`Promise`]( https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise )<[`FlattenedVerifyResult`](../interfaces/types.FlattenedVerifyResult.md) & [`ResolvedKey`](../interfaces/types.ResolvedKey.md)<`KeyLikeType`\>\>
 
 #### Type parameters
 
 | Name | Type |
 | :------ | :------ |
-| `T` | extends [`KeyLike`](../types/types.KeyLike.md) = [`KeyLike`](../types/types.KeyLike.md) |
+| `KeyLikeType` | extends [`KeyLike`](../types/types.KeyLike.md) = [`KeyLike`](../types/types.KeyLike.md) |
 
 #### Parameters
 
@@ -57,4 +57,4 @@ console.log(decoder.decode(payload))
 
 #### Returns
 
-[`Promise`]( https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise )<[`FlattenedVerifyResult`](../interfaces/types.FlattenedVerifyResult.md) & [`ResolvedKey`](../interfaces/types.ResolvedKey.md)<`T`\>\>
+[`Promise`]( https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise )<[`FlattenedVerifyResult`](../interfaces/types.FlattenedVerifyResult.md) & [`ResolvedKey`](../interfaces/types.ResolvedKey.md)<`KeyLikeType`\>\>

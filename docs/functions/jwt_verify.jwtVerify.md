@@ -6,10 +6,16 @@ Support from the community to continue maintaining and improving this module is 
 
 ---
 
-▸ **jwtVerify**(`jwt`, `key`, `options?`): [`Promise`]( https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise )<[`JWTVerifyResult`](../interfaces/types.JWTVerifyResult.md)\>
+▸ **jwtVerify**<`PayloadType`\>(`jwt`, `key`, `options?`): [`Promise`]( https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise )<[`JWTVerifyResult`](../interfaces/types.JWTVerifyResult.md)<`PayloadType`\>\>
 
 Verifies the JWT format (to be a JWS Compact format), verifies the JWS signature, validates the
 JWT Claims Set.
+
+#### Type parameters
+
+| Name | Type |
+| :------ | :------ |
+| `PayloadType` | [`JWTPayload`](../interfaces/types.JWTPayload.md) |
 
 #### Parameters
 
@@ -21,7 +27,7 @@ JWT Claims Set.
 
 #### Returns
 
-[`Promise`]( https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise )<[`JWTVerifyResult`](../interfaces/types.JWTVerifyResult.md)\>
+[`Promise`]( https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise )<[`JWTVerifyResult`](../interfaces/types.JWTVerifyResult.md)<`PayloadType`\>\>
 
 **`Example`**
 
@@ -95,13 +101,14 @@ console.log(protectedHeader)
 console.log(payload)
 ```
 
-▸ **jwtVerify**<`T`\>(`jwt`, `getKey`, `options?`): [`Promise`]( https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise )<[`JWTVerifyResult`](../interfaces/types.JWTVerifyResult.md) & [`ResolvedKey`](../interfaces/types.ResolvedKey.md)<`T`\>\>
+▸ **jwtVerify**<`PayloadType`, `KeyLikeType`\>(`jwt`, `getKey`, `options?`): [`Promise`]( https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise )<[`JWTVerifyResult`](../interfaces/types.JWTVerifyResult.md)<`PayloadType`\> & [`ResolvedKey`](../interfaces/types.ResolvedKey.md)<`KeyLikeType`\>\>
 
 #### Type parameters
 
 | Name | Type |
 | :------ | :------ |
-| `T` | extends [`KeyLike`](../types/types.KeyLike.md) = [`KeyLike`](../types/types.KeyLike.md) |
+| `PayloadType` | [`JWTPayload`](../interfaces/types.JWTPayload.md) |
+| `KeyLikeType` | extends [`KeyLike`](../types/types.KeyLike.md) = [`KeyLike`](../types/types.KeyLike.md) |
 
 #### Parameters
 
@@ -113,7 +120,7 @@ console.log(payload)
 
 #### Returns
 
-[`Promise`]( https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise )<[`JWTVerifyResult`](../interfaces/types.JWTVerifyResult.md) & [`ResolvedKey`](../interfaces/types.ResolvedKey.md)<`T`\>\>
+[`Promise`]( https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise )<[`JWTVerifyResult`](../interfaces/types.JWTVerifyResult.md)<`PayloadType`\> & [`ResolvedKey`](../interfaces/types.ResolvedKey.md)<`KeyLikeType`\>\>
 
 **`Example`**
 

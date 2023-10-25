@@ -119,7 +119,7 @@ ___
 
 • `Optional` **zip**: `string`
 
-JWE "zip" (Compression Algorithm) Header Parameter.
+JWE "zip" (Compression Algorithm) Header Parameter. This parameter is not supported anymore.
 
 **`Deprecated`**
 

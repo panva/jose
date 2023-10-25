@@ -34,13 +34,13 @@ console.log(protectedHeader)
 console.log(new TextDecoder().decode(plaintext))
 ```
 
-▸ **compactDecrypt**<`T`\>(`jwe`, `getKey`, `options?`): [`Promise`]( https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise )<[`CompactDecryptResult`](../interfaces/types.CompactDecryptResult.md) & [`ResolvedKey`](../interfaces/types.ResolvedKey.md)<`T`\>\>
+▸ **compactDecrypt**<`KeyLikeType`\>(`jwe`, `getKey`, `options?`): [`Promise`]( https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise )<[`CompactDecryptResult`](../interfaces/types.CompactDecryptResult.md) & [`ResolvedKey`](../interfaces/types.ResolvedKey.md)<`KeyLikeType`\>\>
 
 #### Type parameters
 
 | Name | Type |
 | :------ | :------ |
-| `T` | extends [`KeyLike`](../types/types.KeyLike.md) = [`KeyLike`](../types/types.KeyLike.md) |
+| `KeyLikeType` | extends [`KeyLike`](../types/types.KeyLike.md) = [`KeyLike`](../types/types.KeyLike.md) |
 
 #### Parameters
 
@@ -52,4 +52,4 @@ console.log(new TextDecoder().decode(plaintext))
 
 #### Returns
 
-[`Promise`]( https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise )<[`CompactDecryptResult`](../interfaces/types.CompactDecryptResult.md) & [`ResolvedKey`](../interfaces/types.ResolvedKey.md)<`T`\>\>
+[`Promise`]( https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise )<[`CompactDecryptResult`](../interfaces/types.CompactDecryptResult.md) & [`ResolvedKey`](../interfaces/types.ResolvedKey.md)<`KeyLikeType`\>\>

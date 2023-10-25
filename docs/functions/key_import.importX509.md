@@ -6,7 +6,7 @@ Support from the community to continue maintaining and improving this module is 
 
 ---
 
-▸ **importX509**<`T`\>(`x509`, `alg`, `options?`): [`Promise`]( https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise )<`T`\>
+▸ **importX509**<`KeyLikeType`\>(`x509`, `alg`, `options?`): [`Promise`]( https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise )<`KeyLikeType`\>
 
 Imports the SPKI from an X.509 string certificate as a runtime-specific public key representation
 (KeyObject or CryptoKey).
@@ -15,7 +15,7 @@ Imports the SPKI from an X.509 string certificate as a runtime-specific public k
 
 | Name | Type |
 | :------ | :------ |
-| `T` | extends [`KeyLike`](../types/types.KeyLike.md) = [`KeyLike`](../types/types.KeyLike.md) |
+| `KeyLikeType` | extends [`KeyLike`](../types/types.KeyLike.md) = [`KeyLike`](../types/types.KeyLike.md) |
 
 #### Parameters
 
@@ -27,7 +27,7 @@ Imports the SPKI from an X.509 string certificate as a runtime-specific public k
 
 #### Returns
 
-[`Promise`]( https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise )<`T`\>
+[`Promise`]( https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise )<`KeyLikeType`\>
 
 **`Example`**
 

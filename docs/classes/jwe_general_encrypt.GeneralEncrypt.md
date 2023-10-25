@@ -73,15 +73,9 @@ ___
 
 ### encrypt
 
-▸ **encrypt**(`options?`): [`Promise`]( https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise )<[`GeneralJWE`](../interfaces/types.GeneralJWE.md)\>
+▸ **encrypt**(): [`Promise`]( https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise )<[`GeneralJWE`](../interfaces/types.GeneralJWE.md)\>
 
 Encrypts and resolves the value of the General JWE object.
-
-#### Parameters
-
-| Name | Type | Description |
-| :------ | :------ | :------ |
-| `options?` | [`DeflateOption`](../interfaces/types.DeflateOption.md) | JWE Encryption options. |
 
 #### Returns
 

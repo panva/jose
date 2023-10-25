@@ -128,13 +128,13 @@ console.log(jwt)
 
 ### constructor
 
-• **new SignJWT**(`payload`)
+• **new SignJWT**(`payload?`)
 
 #### Parameters
 
 | Name | Type | Description |
 | :------ | :------ | :------ |
-| `payload` | [`JWTPayload`](../interfaces/types.JWTPayload.md) | The JWT Claims Set object. |
+| `payload` | [`JWTPayload`](../interfaces/types.JWTPayload.md) | The JWT Claims Set object. Defaults to an empty object. |
 
 ## Methods
 
@@ -142,7 +142,7 @@ console.log(jwt)
 
 ▸ **setAudience**(`audience`): [`SignJWT`](jwt_sign.SignJWT.md)
 
-Set "aud" (Audience) Claim.
+Set the "aud" (Audience) Claim.
 
 #### Parameters
 
@@ -160,13 +160,13 @@ ___
 
 ▸ **setExpirationTime**(`input`): [`SignJWT`](jwt_sign.SignJWT.md)
 
-Set "exp" (Expiration Time) Claim.
+Set the "exp" (Expiration Time) Claim.
 
 #### Parameters
 
 | Name | Type | Description |
 | :------ | :------ | :------ |
-| `input` | `string` \| `number` | "exp" (Expiration Time) Claim value to set on the JWT Claims Set. When number is passed that is used as a value, when string is passed it is resolved to a time span and added to the current timestamp. |
+| `input` | `string` \| `number` \| [`Date`]( https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date ) | "exp" (Expiration Time) Claim value to set on the JWT Claims Set. When number is passed that is used as a value, when string is passed it is resolved to a time span and added to the current timestamp. |
 
 #### Returns
 
@@ -178,13 +178,13 @@ ___
 
 ▸ **setIssuedAt**(`input?`): [`SignJWT`](jwt_sign.SignJWT.md)
 
-Set "iat" (Issued At) Claim.
+Set the "iat" (Issued At) Claim.
 
 #### Parameters
 
 | Name | Type | Description |
 | :------ | :------ | :------ |
-| `input?` | `number` | "iat" (Issued At) Claim value to set on the JWT Claims Set. Default is current timestamp. |
+| `input?` | `number` \| [`Date`]( https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date ) | "iat" (Issued At) Claim value to set on the JWT Claims Set. Default is current timestamp. |
 
 #### Returns
 
@@ -196,7 +196,7 @@ ___
 
 ▸ **setIssuer**(`issuer`): [`SignJWT`](jwt_sign.SignJWT.md)
 
-Set "iss" (Issuer) Claim.
+Set the "iss" (Issuer) Claim.
 
 #### Parameters
 
@@ -214,7 +214,7 @@ ___
 
 ▸ **setJti**(`jwtId`): [`SignJWT`](jwt_sign.SignJWT.md)
 
-Set "jti" (JWT ID) Claim.
+Set the "jti" (JWT ID) Claim.
 
 #### Parameters
 
@@ -232,13 +232,13 @@ ___
 
 ▸ **setNotBefore**(`input`): [`SignJWT`](jwt_sign.SignJWT.md)
 
-Set "nbf" (Not Before) Claim.
+Set the "nbf" (Not Before) Claim.
 
 #### Parameters
 
 | Name | Type | Description |
 | :------ | :------ | :------ |
-| `input` | `string` \| `number` | "nbf" (Not Before) Claim value to set on the JWT Claims Set. When number is passed that is used as a value, when string is passed it is resolved to a time span and added to the current timestamp. |
+| `input` | `string` \| `number` \| [`Date`]( https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date ) | "nbf" (Not Before) Claim value to set on the JWT Claims Set. When number is passed that is used as a value, when string is passed it is resolved to a time span and added to the current timestamp. |
 
 #### Returns
 
@@ -268,7 +268,7 @@ ___
 
 ▸ **setSubject**(`subject`): [`SignJWT`](jwt_sign.SignJWT.md)
 
-Set "sub" (Subject) Claim.
+Set the "sub" (Subject) Claim.
 
 #### Parameters
 

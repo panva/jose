@@ -1,10 +1,16 @@
-# Interface: JWTVerifyResult
+# Interface: JWTVerifyResult<PayloadType\>
 
 ## [💗 Help the project](https://github.com/sponsors/panva)
 
 Support from the community to continue maintaining and improving this module is welcome. If you find the module useful, please consider supporting the project by [becoming a sponsor](https://github.com/sponsors/panva).
 
 ---
+
+## Type parameters
+
+| Name | Type |
+| :------ | :------ |
+| `PayloadType` | [`JWTPayload`](types.JWTPayload.md) |
 
 ## Table of contents
 
@@ -17,7 +23,7 @@ Support from the community to continue maintaining and improving this module is 
 
 ### payload
 
-• **payload**: [`JWTPayload`](types.JWTPayload.md)
+• **payload**: `PayloadType` & [`JWTPayload`](types.JWTPayload.md)
 
 JWT Claims Set.
 

@@ -2,6 +2,55 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [5.0.0](https://github.com/panva/jose/compare/v4.15.4...v5.0.0) (2023-10-25)
+
+
+### ⚠ BREAKING CHANGES
+
+* **Node.js:** return Uint8Array (not a Buffer) from base64url.decode
+* Browser distribution is now built using ES2020 as a target
+* Node.js distribution is now built using ES2022 as a target
+* **types:** jwtVerify and jwtDecrypt type argument for the resolved
+KeyLike type is now a second optional type argument following a type
+for the JWT Claims Set (aka payload)
+* PBES2 Key Management Algorithms' use in decrypt
+functions now requires the use of the keyManagementAlgorithms option
+to explicitly opt-in for their use.
+* importJWK "octAsKeyObject" option was removed.
+importJWK will no longer return CryptoKey or KeyObject for "oct" (octet
+sequence) JWK key types, it will instead always return a Uint8Array
+formed from the "k" (Key Value) Parameter regardless of the other JWK
+Parameters that may be present.
+* End-Of-Life versions of Node.js as of October 2023 are
+no longer supported. Node.js 18, 20, and 21 and future releases are
+the ones that remain supported.
+* The JWE "zip" (Compression Algorithm) Header Parameter
+is no longer supported by this JOSE implementation.
+
+### Features
+
+* add Date as valid input to timestamp setting functions ([bd830a4](https://github.com/panva/jose/commit/bd830a47979912d4c0775d01a05584c2aa9f0dcd))
+* default to an empty payload in JWT producing constructors ([98d6ca1](https://github.com/panva/jose/commit/98d6ca12c448697ed6342b1230b351eb5bfa0df8))
+* **types:** add optional Generics for JWT verify and decrypt ([61bd2a0](https://github.com/panva/jose/commit/61bd2a0adb638c1c2469459d78556a99cec697c7)), closes [#568](https://github.com/panva/jose/issues/568)
+
+
+### Reverts
+
+* Revert "test: fix test under lts/erbium" ([b64b6c7](https://github.com/panva/jose/commit/b64b6c731c3e2d0e6751e0221804af08d7015bfa))
+
+
+### Refactor
+
+* Browser distribution is now built using ES2020 as a target ([1836684](https://github.com/panva/jose/commit/18366840e1ae557b951fe921c5004b17ad56e972))
+* drop support for EOL Node.js versions ([b5aee54](https://github.com/panva/jose/commit/b5aee542fb5995dd29e012011f832ce8dfd24e29))
+* importJWK always returns a Uint8Array for symmetric key inputs ([163e1b0](https://github.com/panva/jose/commit/163e1b02ed5b64368110d750c9f5f5c3d247042d))
+* Node.js distribution is now built using ES2022 as a target ([239697a](https://github.com/panva/jose/commit/239697a17d048b8eb2120d29adff7f98edc0f26e))
+* **Node.js:** return Uint8Array (not a Buffer) from base64url.decode ([02d5182](https://github.com/panva/jose/commit/02d51827e24195d650cf83de100ae16cd8b0599e))
+* PBES2 Algorithms require explicit opt-in during verification ([e2da031](https://github.com/panva/jose/commit/e2da031381b7c5327ea9a0ccf58f059fa8af7e92))
+* remove support for JWE "zip" (Compression Algorithm) Header Parameter ([16998b1](https://github.com/panva/jose/commit/16998b15c75d90b64eb5b0fa0713cfdfa7896757))
+* **types:** rename type parameters for the KeyLike returns ([eddd400](https://github.com/panva/jose/commit/eddd400235e84e3d84c1a8471b01915a12d3d866))
+* update allow list error messages ([fe8114c](https://github.com/panva/jose/commit/fe8114c82646f2468857effb934f39dd7bc75902))
+
 ## [4.15.4](https://github.com/panva/jose/compare/v4.15.3...v4.15.4) (2023-10-14)
 
 

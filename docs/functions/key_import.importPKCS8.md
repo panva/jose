@@ -6,7 +6,7 @@ Support from the community to continue maintaining and improving this module is 
 
 ---
 
-▸ **importPKCS8**<`T`\>(`pkcs8`, `alg`, `options?`): [`Promise`]( https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise )<`T`\>
+▸ **importPKCS8**<`KeyLikeType`\>(`pkcs8`, `alg`, `options?`): [`Promise`]( https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise )<`KeyLikeType`\>
 
 Imports a PEM-encoded PKCS#8 string as a runtime-specific private key representation (KeyObject
 or CryptoKey).
@@ -15,7 +15,7 @@ or CryptoKey).
 
 | Name | Type |
 | :------ | :------ |
-| `T` | extends [`KeyLike`](../types/types.KeyLike.md) = [`KeyLike`](../types/types.KeyLike.md) |
+| `KeyLikeType` | extends [`KeyLike`](../types/types.KeyLike.md) = [`KeyLike`](../types/types.KeyLike.md) |
 
 #### Parameters
 
@@ -27,7 +27,7 @@ or CryptoKey).
 
 #### Returns
 
-[`Promise`]( https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise )<`T`\>
+[`Promise`]( https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise )<`KeyLikeType`\>
 
 **`Example`**
 

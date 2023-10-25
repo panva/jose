@@ -6,7 +6,7 @@ Support from the community to continue maintaining and improving this module is 
 
 ---
 
-▸ **createLocalJWKSet**<`T`\>(`jwks`): (`protectedHeader?`: [`JWSHeaderParameters`](../interfaces/types.JWSHeaderParameters.md), `token?`: [`FlattenedJWSInput`](../interfaces/types.FlattenedJWSInput.md)) => [`Promise`]( https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise )<`T`\>
+▸ **createLocalJWKSet**<`KeyLikeType`\>(`jwks`): (`protectedHeader?`: [`JWSHeaderParameters`](../interfaces/types.JWSHeaderParameters.md), `token?`: [`FlattenedJWSInput`](../interfaces/types.FlattenedJWSInput.md)) => [`Promise`]( https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise )<`KeyLikeType`\>
 
 Returns a function that resolves to a key object from a locally stored, or otherwise available,
 JSON Web Key Set.
@@ -24,7 +24,7 @@ verification in an iterative manner.
 
 | Name | Type |
 | :------ | :------ |
-| `T` | extends [`KeyLike`](../types/types.KeyLike.md) = [`KeyLike`](../types/types.KeyLike.md) |
+| `KeyLikeType` | extends [`KeyLike`](../types/types.KeyLike.md) = [`KeyLike`](../types/types.KeyLike.md) |
 
 #### Parameters
 
@@ -36,7 +36,7 @@ verification in an iterative manner.
 
 `fn`
 
-▸ (`protectedHeader?`, `token?`): [`Promise`]( https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise )<`T`\>
+▸ (`protectedHeader?`, `token?`): [`Promise`]( https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise )<`KeyLikeType`\>
 
 ##### Parameters
 
@@ -47,7 +47,7 @@ verification in an iterative manner.
 
 ##### Returns
 
-[`Promise`]( https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise )<`T`\>
+[`Promise`]( https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise )<`KeyLikeType`\>
 
 **`Example`**
 

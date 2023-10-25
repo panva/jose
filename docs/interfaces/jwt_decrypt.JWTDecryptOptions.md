@@ -17,7 +17,6 @@ Combination of JWE Decryption options and JWT Claims Set verification options.
 - [contentEncryptionAlgorithms](jwt_decrypt.JWTDecryptOptions.md#contentencryptionalgorithms)
 - [crit](jwt_decrypt.JWTDecryptOptions.md#crit)
 - [currentDate](jwt_decrypt.JWTDecryptOptions.md#currentdate)
-- [inflateRaw](jwt_decrypt.JWTDecryptOptions.md#inflateraw)
 - [issuer](jwt_decrypt.JWTDecryptOptions.md#issuer)
 - [keyManagementAlgorithms](jwt_decrypt.JWTDecryptOptions.md#keymanagementalgorithms)
 - [maxPBES2Count](jwt_decrypt.JWTDecryptOptions.md#maxpbes2count)
@@ -87,15 +86,6 @@ Date to use when comparing NumericDate claims, defaults to `new Date()`.
 
 ___
 
-### inflateRaw
-
-• `Optional` **inflateRaw**: [`InflateFunction`](types.InflateFunction.md)
-
-In a browser runtime you have to provide an implementation for Inflate Raw when you expect JWEs
-with compressed plaintext.
-
-___
-
 ### issuer
 
 • `Optional` **issuer**: `string` \| `string`[]
@@ -108,7 +98,9 @@ ___
 
 • `Optional` **keyManagementAlgorithms**: `string`[]
 
-A list of accepted JWE "alg" (Algorithm) Header Parameter values.
+A list of accepted JWE "alg" (Algorithm) Header Parameter values. By default all "alg"
+(Algorithm) Header Parameter values applicable for the used key/secret are allowed except for
+all PBES2 Key Management Algorithms, these need to be explicitly allowed using this option.
 
 ___
 

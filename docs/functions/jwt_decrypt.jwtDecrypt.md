@@ -6,10 +6,16 @@ Support from the community to continue maintaining and improving this module is 
 
 ---
 
-▸ **jwtDecrypt**(`jwt`, `key`, `options?`): [`Promise`]( https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise )<[`JWTDecryptResult`](../interfaces/types.JWTDecryptResult.md)\>
+▸ **jwtDecrypt**<`PayloadType`\>(`jwt`, `key`, `options?`): [`Promise`]( https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise )<[`JWTDecryptResult`](../interfaces/types.JWTDecryptResult.md)<`PayloadType`\>\>
 
 Verifies the JWT format (to be a JWE Compact format), decrypts the ciphertext, validates the JWT
 Claims Set.
+
+#### Type parameters
+
+| Name | Type |
+| :------ | :------ |
+| `PayloadType` | [`JWTPayload`](../interfaces/types.JWTPayload.md) |
 
 #### Parameters
 
@@ -21,7 +27,7 @@ Claims Set.
 
 #### Returns
 
-[`Promise`]( https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise )<[`JWTDecryptResult`](../interfaces/types.JWTDecryptResult.md)\>
+[`Promise`]( https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise )<[`JWTDecryptResult`](../interfaces/types.JWTDecryptResult.md)<`PayloadType`\>\>
 
 **`Example`**
 
@@ -39,13 +45,14 @@ console.log(protectedHeader)
 console.log(payload)
 ```
 
-▸ **jwtDecrypt**<`T`\>(`jwt`, `getKey`, `options?`): [`Promise`]( https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise )<[`JWTDecryptResult`](../interfaces/types.JWTDecryptResult.md) & [`ResolvedKey`](../interfaces/types.ResolvedKey.md)<`T`\>\>
+▸ **jwtDecrypt**<`PayloadType`, `KeyLikeType`\>(`jwt`, `getKey`, `options?`): [`Promise`]( https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise )<[`JWTDecryptResult`](../interfaces/types.JWTDecryptResult.md)<`PayloadType`\> & [`ResolvedKey`](../interfaces/types.ResolvedKey.md)<`KeyLikeType`\>\>
 
 #### Type parameters
 
 | Name | Type |
 | :------ | :------ |
-| `T` | extends [`KeyLike`](../types/types.KeyLike.md) = [`KeyLike`](../types/types.KeyLike.md) |
+| `PayloadType` | [`JWTPayload`](../interfaces/types.JWTPayload.md) |
+| `KeyLikeType` | extends [`KeyLike`](../types/types.KeyLike.md) = [`KeyLike`](../types/types.KeyLike.md) |
 
 #### Parameters
 
@@ -57,4 +64,4 @@ console.log(payload)
 
 #### Returns
 
-[`Promise`]( https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise )<[`JWTDecryptResult`](../interfaces/types.JWTDecryptResult.md) & [`ResolvedKey`](../interfaces/types.ResolvedKey.md)<`T`\>\>
+[`Promise`]( https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise )<[`JWTDecryptResult`](../interfaces/types.JWTDecryptResult.md)<`PayloadType`\> & [`ResolvedKey`](../interfaces/types.ResolvedKey.md)<`KeyLikeType`\>\>

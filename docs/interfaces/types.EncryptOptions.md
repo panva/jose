@@ -13,7 +13,6 @@ JWE Encryption options.
 ### Properties
 
 - [crit](types.EncryptOptions.md#crit)
-- [deflateRaw](types.EncryptOptions.md#deflateraw)
 
 ## Properties
 
@@ -37,12 +36,3 @@ the operation succeeds.
 The JWS extension Header Parameter `b64` is always recognized and processed properly. No other
 registered Header Parameters that need this kind of default built-in treatment are currently
 available.
-
-___
-
-### deflateRaw
-
-• `Optional` **deflateRaw**: [`DeflateFunction`](types.DeflateFunction.md)
-
-In a browser runtime you have to provide an implementation for Deflate Raw when you will be
-producing JWEs with compressed plaintext.

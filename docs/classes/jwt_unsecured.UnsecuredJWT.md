@@ -58,21 +58,27 @@ console.log(payload)
 
 ### constructor
 
-• **new UnsecuredJWT**(`payload`)
+• **new UnsecuredJWT**(`payload?`)
 
 #### Parameters
 
 | Name | Type | Description |
 | :------ | :------ | :------ |
-| `payload` | [`JWTPayload`](../interfaces/types.JWTPayload.md) | The JWT Claims Set object. |
+| `payload` | [`JWTPayload`](../interfaces/types.JWTPayload.md) | The JWT Claims Set object. Defaults to an empty object. |
 
 ## Methods
 
 ### decode
 
-▸ `Static` **decode**(`jwt`, `options?`): [`UnsecuredResult`](../interfaces/jwt_unsecured.UnsecuredResult.md)
+▸ `Static` **decode**<`PayloadType`\>(`jwt`, `options?`): [`UnsecuredResult`](../interfaces/jwt_unsecured.UnsecuredResult.md)<`PayloadType`\>
 
 Decodes an unsecured JWT.
+
+#### Type parameters
+
+| Name | Type |
+| :------ | :------ |
+| `PayloadType` | [`JWTPayload`](../interfaces/types.JWTPayload.md) |
 
 #### Parameters
 
@@ -83,7 +89,7 @@ Decodes an unsecured JWT.
 
 #### Returns
 
-[`UnsecuredResult`](../interfaces/jwt_unsecured.UnsecuredResult.md)
+[`UnsecuredResult`](../interfaces/jwt_unsecured.UnsecuredResult.md)<`PayloadType`\>
 
 ___
 
@@ -103,7 +109,7 @@ ___
 
 ▸ **setAudience**(`audience`): [`UnsecuredJWT`](jwt_unsecured.UnsecuredJWT.md)
 
-Set "aud" (Audience) Claim.
+Set the "aud" (Audience) Claim.
 
 #### Parameters
 
@@ -121,13 +127,13 @@ ___
 
 ▸ **setExpirationTime**(`input`): [`UnsecuredJWT`](jwt_unsecured.UnsecuredJWT.md)
 
-Set "exp" (Expiration Time) Claim.
+Set the "exp" (Expiration Time) Claim.
 
 #### Parameters
 
 | Name | Type | Description |
 | :------ | :------ | :------ |
-| `input` | `string` \| `number` | "exp" (Expiration Time) Claim value to set on the JWT Claims Set. When number is passed that is used as a value, when string is passed it is resolved to a time span and added to the current timestamp. |
+| `input` | `string` \| `number` \| [`Date`]( https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date ) | "exp" (Expiration Time) Claim value to set on the JWT Claims Set. When number is passed that is used as a value, when string is passed it is resolved to a time span and added to the current timestamp. |
 
 #### Returns
 
@@ -139,13 +145,13 @@ ___
 
 ▸ **setIssuedAt**(`input?`): [`UnsecuredJWT`](jwt_unsecured.UnsecuredJWT.md)
 
-Set "iat" (Issued At) Claim.
+Set the "iat" (Issued At) Claim.
 
 #### Parameters
 
 | Name | Type | Description |
 | :------ | :------ | :------ |
-| `input?` | `number` | "iat" (Issued At) Claim value to set on the JWT Claims Set. Default is current timestamp. |
+| `input?` | `number` \| [`Date`]( https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date ) | "iat" (Issued At) Claim value to set on the JWT Claims Set. Default is current timestamp. |
 
 #### Returns
 
@@ -157,7 +163,7 @@ ___
 
 ▸ **setIssuer**(`issuer`): [`UnsecuredJWT`](jwt_unsecured.UnsecuredJWT.md)
 
-Set "iss" (Issuer) Claim.
+Set the "iss" (Issuer) Claim.
 
 #### Parameters
 
@@ -175,7 +181,7 @@ ___
 
 ▸ **setJti**(`jwtId`): [`UnsecuredJWT`](jwt_unsecured.UnsecuredJWT.md)
 
-Set "jti" (JWT ID) Claim.
+Set the "jti" (JWT ID) Claim.
 
 #### Parameters
 
@@ -193,13 +199,13 @@ ___
 
 ▸ **setNotBefore**(`input`): [`UnsecuredJWT`](jwt_unsecured.UnsecuredJWT.md)
 
-Set "nbf" (Not Before) Claim.
+Set the "nbf" (Not Before) Claim.
 
 #### Parameters
 
 | Name | Type | Description |
 | :------ | :------ | :------ |
-| `input` | `string` \| `number` | "nbf" (Not Before) Claim value to set on the JWT Claims Set. When number is passed that is used as a value, when string is passed it is resolved to a time span and added to the current timestamp. |
+| `input` | `string` \| `number` \| [`Date`]( https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date ) | "nbf" (Not Before) Claim value to set on the JWT Claims Set. When number is passed that is used as a value, when string is passed it is resolved to a time span and added to the current timestamp. |
 
 #### Returns
 
@@ -211,7 +217,7 @@ ___
 
 ▸ **setSubject**(`subject`): [`UnsecuredJWT`](jwt_unsecured.UnsecuredJWT.md)
 
-Set "sub" (Subject) Claim.
+Set the "sub" (Subject) Claim.
 
 #### Parameters
 

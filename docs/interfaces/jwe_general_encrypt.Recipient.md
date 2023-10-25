@@ -57,7 +57,7 @@ A shorthand for calling encrypt() on the enclosing GeneralEncrypt instance
 
 | Name | Type |
 | :------ | :------ |
-| `...args` | [options?: DeflateOption] |
+| `...args` | [] |
 
 #### Returns
 

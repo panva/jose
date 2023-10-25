@@ -1,4 +1,4 @@
-# Interface: ResolvedKey<T\>
+# Interface: ResolvedKey<KeyLikeType\>
 
 ## [💗 Help the project](https://github.com/sponsors/panva)
 
@@ -10,7 +10,7 @@ Support from the community to continue maintaining and improving this module is 
 
 | Name | Type |
 | :------ | :------ |
-| `T` | extends [`KeyLike`](../types/types.KeyLike.md) = [`KeyLike`](../types/types.KeyLike.md) |
+| `KeyLikeType` | extends [`KeyLike`](../types/types.KeyLike.md) = [`KeyLike`](../types/types.KeyLike.md) |
 
 ## Table of contents
 
@@ -22,6 +22,6 @@ Support from the community to continue maintaining and improving this module is 
 
 ### key
 
-• **key**: [`Uint8Array`]( https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Uint8Array ) \| `T`
+• **key**: [`Uint8Array`]( https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Uint8Array ) \| `KeyLikeType`
 
 Key resolved from the key resolver function.

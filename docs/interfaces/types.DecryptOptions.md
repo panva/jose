@@ -14,7 +14,6 @@ JWE Decryption options.
 
 - [contentEncryptionAlgorithms](types.DecryptOptions.md#contentencryptionalgorithms)
 - [crit](types.DecryptOptions.md#crit)
-- [inflateRaw](types.DecryptOptions.md#inflateraw)
 - [keyManagementAlgorithms](types.DecryptOptions.md#keymanagementalgorithms)
 - [maxPBES2Count](types.DecryptOptions.md#maxpbes2count)
 
@@ -52,20 +51,13 @@ available.
 
 ___
 
-### inflateRaw
-
-• `Optional` **inflateRaw**: [`InflateFunction`](types.InflateFunction.md)
-
-In a browser runtime you have to provide an implementation for Inflate Raw when you expect JWEs
-with compressed plaintext.
-
-___
-
 ### keyManagementAlgorithms
 
 • `Optional` **keyManagementAlgorithms**: `string`[]
 
-A list of accepted JWE "alg" (Algorithm) Header Parameter values.
+A list of accepted JWE "alg" (Algorithm) Header Parameter values. By default all "alg"
+(Algorithm) Header Parameter values applicable for the used key/secret are allowed except for
+all PBES2 Key Management Algorithms, these need to be explicitly allowed using this option.
 
 ___
 
