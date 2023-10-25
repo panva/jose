@@ -129,4 +129,5 @@ Please note that certain algorithms may not be available depending on the runtim
 | Version | Security Fixes 🔑 | Other Bug Fixes 🐞 | New Features ⭐ |
 | ------- | --------- | -------- | -------- |
 | [v5.x](https://github.com/panva/jose/tree/v5.x) | ✅ | ✅ | ✅ |
+| [v4.x](https://github.com/panva/jose/tree/v4.x) | ✅ | ❌ | ❌ |
 | [v2.x](https://github.com/panva/jose/tree/v2.x) | ✅ | ❌ | ❌ |
