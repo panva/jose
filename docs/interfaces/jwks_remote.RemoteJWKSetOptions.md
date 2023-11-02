@@ -55,7 +55,9 @@ ___
 
 • `Optional` **headers**: [`Record`]( https://www.typescriptlang.org/docs/handbook/utility-types.html#recordkeys-type )<`string`, `string`\>
 
-Optional headers to be sent with the HTTP request.
+Headers to be sent with the HTTP request. Default is that `User-Agent: jose/v${version}` header
+is added unless the runtime is a browser in which adding an explicit headers fetch
+configuration would cause an unnecessary CORS preflight request.
 
 ___
 

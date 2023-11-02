@@ -47,13 +47,17 @@ if (err instanceof jose.errors.JWKSTimeout) {
 
 ### constructor
 
-• **new JWKSTimeout**(`message?`)
+• **new JWKSTimeout**(`message?`): [`JWKSTimeout`](util_errors.JWKSTimeout.md)
 
 #### Parameters
 
 | Name | Type |
 | :------ | :------ |
 | `message?` | `string` |
+
+#### Returns
+
+[`JWKSTimeout`](util_errors.JWKSTimeout.md)
 
 ## Properties
 
@@ -73,7 +77,7 @@ ___
 
 ### code
 
-• `Static` `get` **code**(): ``"ERR_JWKS_TIMEOUT"``
+• `get` **code**(): ``"ERR_JWKS_TIMEOUT"``
 
 A unique error code for the particular error subclass.
 

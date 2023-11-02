@@ -52,7 +52,7 @@ if (err instanceof jose.errors.JWTExpired) {
 
 ### constructor
 
-• **new JWTExpired**(`message`, `claim?`, `reason?`)
+• **new JWTExpired**(`message`, `claim?`, `reason?`): [`JWTExpired`](util_errors.JWTExpired.md)
 
 #### Parameters
 
@@ -61,6 +61,10 @@ if (err instanceof jose.errors.JWTExpired) {
 | `message` | `string` | `undefined` |
 | `claim` | `string` | `'unspecified'` |
 | `reason` | `string` | `'unspecified'` |
+
+#### Returns
+
+[`JWTExpired`](util_errors.JWTExpired.md)
 
 ## Properties
 
@@ -90,7 +94,7 @@ Reason code for the validation failure.
 
 ### code
 
-• `Static` `get` **code**(): ``"ERR_JWT_EXPIRED"``
+• `get` **code**(): ``"ERR_JWT_EXPIRED"``
 
 A unique error code for the particular error subclass.
 

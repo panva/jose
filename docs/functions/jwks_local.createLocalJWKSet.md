@@ -8,8 +8,8 @@ Support from the community to continue maintaining and improving this module is 
 
 ▸ **createLocalJWKSet**<`KeyLikeType`\>(`jwks`): (`protectedHeader?`: [`JWSHeaderParameters`](../interfaces/types.JWSHeaderParameters.md), `token?`: [`FlattenedJWSInput`](../interfaces/types.FlattenedJWSInput.md)) => [`Promise`]( https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise )<`KeyLikeType`\>
 
-Returns a function that resolves to a key object from a locally stored, or otherwise available,
-JSON Web Key Set.
+Returns a function that resolves a JWS JOSE Header to a public key object from a locally stored,
+or otherwise available, JSON Web Key Set.
 
 It uses the "alg" (JWS Algorithm) Header Parameter to determine the right JWK "kty" (Key Type),
 then proceeds to match the JWK "kid" (Key ID) with one found in the JWS Header Parameters (if
@@ -19,6 +19,9 @@ Operations) Parameters (if they are present on the JWK).
 Only a single public key must match the selection process. As shown in the example below when
 multiple keys get matched it is possible to opt-in to iterate over the matched keys and attempt
 verification in an iterative manner.
+
+Note: The function's purpose is to resolve public keys used for verifying signatures and will not
+work for public encryption keys.
 
 #### Type parameters
 

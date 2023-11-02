@@ -36,13 +36,17 @@ if (err instanceof jose.errors.JOSEError) {
 
 ### constructor
 
-• **new JOSEError**(`message?`)
+• **new JOSEError**(`message?`): [`JOSEError`](util_errors.JOSEError.md)
 
 #### Parameters
 
 | Name | Type |
 | :------ | :------ |
 | `message?` | `string` |
+
+#### Returns
+
+[`JOSEError`](util_errors.JOSEError.md)
 
 ## Properties
 
@@ -56,7 +60,7 @@ A unique error code for the particular error subclass.
 
 ### code
 
-• `Static` `get` **code**(): `string`
+• `get` **code**(): `string`
 
 A unique error code for the particular error subclass.
 

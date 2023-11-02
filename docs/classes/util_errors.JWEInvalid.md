@@ -46,13 +46,17 @@ if (err instanceof jose.errors.JWEInvalid) {
 
 ### constructor
 
-• **new JWEInvalid**(`message?`)
+• **new JWEInvalid**(`message?`): [`JWEInvalid`](util_errors.JWEInvalid.md)
 
 #### Parameters
 
 | Name | Type |
 | :------ | :------ |
 | `message?` | `string` |
+
+#### Returns
+
+[`JWEInvalid`](util_errors.JWEInvalid.md)
 
 ## Properties
 
@@ -66,7 +70,7 @@ A unique error code for the particular error subclass.
 
 ### code
 
-• `Static` `get` **code**(): ``"ERR_JWE_INVALID"``
+• `get` **code**(): ``"ERR_JWE_INVALID"``
 
 A unique error code for the particular error subclass.
 

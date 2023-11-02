@@ -46,13 +46,17 @@ if (err instanceof jose.errors.JOSEAlgNotAllowed) {
 
 ### constructor
 
-• **new JOSEAlgNotAllowed**(`message?`)
+• **new JOSEAlgNotAllowed**(`message?`): [`JOSEAlgNotAllowed`](util_errors.JOSEAlgNotAllowed.md)
 
 #### Parameters
 
 | Name | Type |
 | :------ | :------ |
 | `message?` | `string` |
+
+#### Returns
+
+[`JOSEAlgNotAllowed`](util_errors.JOSEAlgNotAllowed.md)
 
 ## Properties
 
@@ -66,7 +70,7 @@ A unique error code for the particular error subclass.
 
 ### code
 
-• `Static` `get` **code**(): ``"ERR_JOSE_ALG_NOT_ALLOWED"``
+• `get` **code**(): ``"ERR_JOSE_ALG_NOT_ALLOWED"``
 
 A unique error code for the particular error subclass.
 

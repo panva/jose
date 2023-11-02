@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [5.0.2](https://github.com/panva/jose/compare/v5.0.1...v5.0.2) (2023-11-02)
+
+
+### Fixes
+
+* **createRemoteJWKSet:** ensure a default user-agent header is present ([887dd3c](https://github.com/panva/jose/commit/887dd3cd05f34e06ce20ad00201599a5a469fbac)), closes [#600](https://github.com/panva/jose/issues/600)
+
 ## [5.0.1](https://github.com/panva/jose/compare/v5.0.0...v5.0.1) (2023-10-25)
 
 

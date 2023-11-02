@@ -36,13 +36,17 @@ console.log(jws)
 
 ### constructor
 
-• **new FlattenedSign**(`payload`)
+• **new FlattenedSign**(`payload`): [`FlattenedSign`](jws_flattened_sign.FlattenedSign.md)
 
 #### Parameters
 
 | Name | Type | Description |
 | :------ | :------ | :------ |
 | `payload` | [`Uint8Array`]( https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Uint8Array ) | Binary representation of the payload to sign. |
+
+#### Returns
+
+[`FlattenedSign`](jws_flattened_sign.FlattenedSign.md)
 
 ## Methods
 
