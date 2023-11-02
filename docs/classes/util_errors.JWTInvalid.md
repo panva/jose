@@ -46,17 +46,13 @@ if (err instanceof jose.errors.JWTInvalid) {
 
 ### constructor
 
-• **new JWTInvalid**(`message?`): [`JWTInvalid`](util_errors.JWTInvalid.md)
+• **new JWTInvalid**(`message?`)
 
 #### Parameters
 
 | Name | Type |
 | :------ | :------ |
 | `message?` | `string` |
-
-#### Returns
-
-[`JWTInvalid`](util_errors.JWTInvalid.md)
 
 ## Properties
 
@@ -70,7 +66,7 @@ A unique error code for the particular error subclass.
 
 ### code
 
-• `get` **code**(): ``"ERR_JWT_INVALID"``
+• `Static` `get` **code**(): ``"ERR_JWT_INVALID"``
 
 A unique error code for the particular error subclass.
 

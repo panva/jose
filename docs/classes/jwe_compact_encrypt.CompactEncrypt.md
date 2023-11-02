@@ -38,17 +38,13 @@ console.log(jwe)
 
 ### constructor
 
-• **new CompactEncrypt**(`plaintext`): [`CompactEncrypt`](jwe_compact_encrypt.CompactEncrypt.md)
+• **new CompactEncrypt**(`plaintext`)
 
 #### Parameters
 
 | Name | Type | Description |
 | :------ | :------ | :------ |
 | `plaintext` | [`Uint8Array`]( https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Uint8Array ) | Binary representation of the plaintext to encrypt. |
-
-#### Returns
-
-[`CompactEncrypt`](jwe_compact_encrypt.CompactEncrypt.md)
 
 ## Methods
 

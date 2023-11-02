@@ -47,17 +47,13 @@ if (err instanceof jose.errors.JWKSNoMatchingKey) {
 
 ### constructor
 
-• **new JWKSNoMatchingKey**(`message?`): [`JWKSNoMatchingKey`](util_errors.JWKSNoMatchingKey.md)
+• **new JWKSNoMatchingKey**(`message?`)
 
 #### Parameters
 
 | Name | Type |
 | :------ | :------ |
 | `message?` | `string` |
-
-#### Returns
-
-[`JWKSNoMatchingKey`](util_errors.JWKSNoMatchingKey.md)
 
 ## Properties
 
@@ -77,7 +73,7 @@ ___
 
 ### code
 
-• `get` **code**(): ``"ERR_JWKS_NO_MATCHING_KEY"``
+• `Static` `get` **code**(): ``"ERR_JWKS_NO_MATCHING_KEY"``
 
 A unique error code for the particular error subclass.
 

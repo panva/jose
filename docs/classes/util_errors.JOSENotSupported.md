@@ -47,17 +47,13 @@ if (err instanceof jose.errors.JOSENotSupported) {
 
 ### constructor
 
-• **new JOSENotSupported**(`message?`): [`JOSENotSupported`](util_errors.JOSENotSupported.md)
+• **new JOSENotSupported**(`message?`)
 
 #### Parameters
 
 | Name | Type |
 | :------ | :------ |
 | `message?` | `string` |
-
-#### Returns
-
-[`JOSENotSupported`](util_errors.JOSENotSupported.md)
 
 ## Properties
 
@@ -71,7 +67,7 @@ A unique error code for the particular error subclass.
 
 ### code
 
-• `get` **code**(): ``"ERR_JOSE_NOT_SUPPORTED"``
+• `Static` `get` **code**(): ``"ERR_JOSE_NOT_SUPPORTED"``
 
 A unique error code for the particular error subclass.
 

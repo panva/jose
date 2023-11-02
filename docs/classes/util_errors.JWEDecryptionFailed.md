@@ -47,17 +47,13 @@ if (err instanceof jose.errors.JWEDecryptionFailed) {
 
 ### constructor
 
-• **new JWEDecryptionFailed**(`message?`): [`JWEDecryptionFailed`](util_errors.JWEDecryptionFailed.md)
+• **new JWEDecryptionFailed**(`message?`)
 
 #### Parameters
 
 | Name | Type |
 | :------ | :------ |
 | `message?` | `string` |
-
-#### Returns
-
-[`JWEDecryptionFailed`](util_errors.JWEDecryptionFailed.md)
 
 ## Properties
 
@@ -77,7 +73,7 @@ ___
 
 ### code
 
-• `get` **code**(): ``"ERR_JWE_DECRYPTION_FAILED"``
+• `Static` `get` **code**(): ``"ERR_JWE_DECRYPTION_FAILED"``
 
 A unique error code for the particular error subclass.
 

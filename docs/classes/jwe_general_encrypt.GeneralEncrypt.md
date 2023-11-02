@@ -42,17 +42,13 @@ console.log(jwe)
 
 ### constructor
 
-• **new GeneralEncrypt**(`plaintext`): [`GeneralEncrypt`](jwe_general_encrypt.GeneralEncrypt.md)
+• **new GeneralEncrypt**(`plaintext`)
 
 #### Parameters
 
 | Name | Type | Description |
 | :------ | :------ | :------ |
 | `plaintext` | [`Uint8Array`]( https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Uint8Array ) | Binary representation of the plaintext to encrypt. |
-
-#### Returns
-
-[`GeneralEncrypt`](jwe_general_encrypt.GeneralEncrypt.md)
 
 ## Methods
 

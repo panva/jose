@@ -47,17 +47,13 @@ if (err instanceof jose.errors.JWKSMultipleMatchingKeys) {
 
 ### constructor
 
-• **new JWKSMultipleMatchingKeys**(`message?`): [`JWKSMultipleMatchingKeys`](util_errors.JWKSMultipleMatchingKeys.md)
+• **new JWKSMultipleMatchingKeys**(`message?`)
 
 #### Parameters
 
 | Name | Type |
 | :------ | :------ |
 | `message?` | `string` |
-
-#### Returns
-
-[`JWKSMultipleMatchingKeys`](util_errors.JWKSMultipleMatchingKeys.md)
 
 ## Properties
 
@@ -77,7 +73,7 @@ ___
 
 ### code
 
-• `get` **code**(): ``"ERR_JWKS_MULTIPLE_MATCHING_KEYS"``
+• `Static` `get` **code**(): ``"ERR_JWKS_MULTIPLE_MATCHING_KEYS"``
 
 A unique error code for the particular error subclass.
 

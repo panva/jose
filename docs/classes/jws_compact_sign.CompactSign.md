@@ -35,17 +35,13 @@ console.log(jws)
 
 ### constructor
 
-• **new CompactSign**(`payload`): [`CompactSign`](jws_compact_sign.CompactSign.md)
+• **new CompactSign**(`payload`)
 
 #### Parameters
 
 | Name | Type | Description |
 | :------ | :------ | :------ |
 | `payload` | [`Uint8Array`]( https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Uint8Array ) | Binary representation of the payload to sign. |
-
-#### Returns
-
-[`CompactSign`](jws_compact_sign.CompactSign.md)
 
 ## Methods
 

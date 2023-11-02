@@ -58,7 +58,7 @@ console.log(payload)
 
 ### constructor
 
-• **new UnsecuredJWT**(`payload?`): [`UnsecuredJWT`](jwt_unsecured.UnsecuredJWT.md)
+• **new UnsecuredJWT**(`payload?`)
 
 #### Parameters
 
@@ -66,15 +66,11 @@ console.log(payload)
 | :------ | :------ | :------ |
 | `payload` | [`JWTPayload`](../interfaces/types.JWTPayload.md) | The JWT Claims Set object. Defaults to an empty object. |
 
-#### Returns
-
-[`UnsecuredJWT`](jwt_unsecured.UnsecuredJWT.md)
-
 ## Methods
 
 ### decode
 
-▸ **decode**<`PayloadType`\>(`jwt`, `options?`): [`UnsecuredResult`](../interfaces/jwt_unsecured.UnsecuredResult.md)<`PayloadType`\>
+▸ `Static` **decode**<`PayloadType`\>(`jwt`, `options?`): [`UnsecuredResult`](../interfaces/jwt_unsecured.UnsecuredResult.md)<`PayloadType`\>
 
 Decodes an unsecured JWT.
 

@@ -47,17 +47,13 @@ if (err instanceof jose.errors.JWSSignatureVerificationFailed) {
 
 ### constructor
 
-• **new JWSSignatureVerificationFailed**(`message?`): [`JWSSignatureVerificationFailed`](util_errors.JWSSignatureVerificationFailed.md)
+• **new JWSSignatureVerificationFailed**(`message?`)
 
 #### Parameters
 
 | Name | Type |
 | :------ | :------ |
 | `message?` | `string` |
-
-#### Returns
-
-[`JWSSignatureVerificationFailed`](util_errors.JWSSignatureVerificationFailed.md)
 
 ## Properties
 
@@ -77,7 +73,7 @@ ___
 
 ### code
 
-• `get` **code**(): ``"ERR_JWS_SIGNATURE_VERIFICATION_FAILED"``
+• `Static` `get` **code**(): ``"ERR_JWS_SIGNATURE_VERIFICATION_FAILED"``
 
 A unique error code for the particular error subclass.
 

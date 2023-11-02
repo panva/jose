@@ -28,17 +28,13 @@ Generic class for JWT producing.
 
 ### constructor
 
-• **new ProduceJWT**(`payload?`): [`ProduceJWT`](jwt_produce.ProduceJWT.md)
+• **new ProduceJWT**(`payload?`)
 
 #### Parameters
 
 | Name | Type | Description |
 | :------ | :------ | :------ |
 | `payload` | [`JWTPayload`](../interfaces/types.JWTPayload.md) | The JWT Claims Set object. Defaults to an empty object. |
-
-#### Returns
-
-[`ProduceJWT`](jwt_produce.ProduceJWT.md)
 
 ## Methods
 

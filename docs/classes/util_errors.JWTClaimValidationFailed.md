@@ -52,7 +52,7 @@ if (err instanceof jose.errors.JWTClaimValidationFailed) {
 
 ### constructor
 
-• **new JWTClaimValidationFailed**(`message`, `claim?`, `reason?`): [`JWTClaimValidationFailed`](util_errors.JWTClaimValidationFailed.md)
+• **new JWTClaimValidationFailed**(`message`, `claim?`, `reason?`)
 
 #### Parameters
 
@@ -61,10 +61,6 @@ if (err instanceof jose.errors.JWTClaimValidationFailed) {
 | `message` | `string` | `undefined` |
 | `claim` | `string` | `'unspecified'` |
 | `reason` | `string` | `'unspecified'` |
-
-#### Returns
-
-[`JWTClaimValidationFailed`](util_errors.JWTClaimValidationFailed.md)
 
 ## Properties
 
@@ -94,7 +90,7 @@ Reason code for the validation failure.
 
 ### code
 
-• `get` **code**(): ``"ERR_JWT_CLAIM_VALIDATION_FAILED"``
+• `Static` `get` **code**(): ``"ERR_JWT_CLAIM_VALIDATION_FAILED"``
 
 A unique error code for the particular error subclass.
 

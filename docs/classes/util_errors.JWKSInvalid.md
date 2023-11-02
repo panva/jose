@@ -46,17 +46,13 @@ if (err instanceof jose.errors.JWKSInvalid) {
 
 ### constructor
 
-• **new JWKSInvalid**(`message?`): [`JWKSInvalid`](util_errors.JWKSInvalid.md)
+• **new JWKSInvalid**(`message?`)
 
 #### Parameters
 
 | Name | Type |
 | :------ | :------ |
 | `message?` | `string` |
-
-#### Returns
-
-[`JWKSInvalid`](util_errors.JWKSInvalid.md)
 
 ## Properties
 
@@ -70,7 +66,7 @@ A unique error code for the particular error subclass.
 
 ### code
 
-• `get` **code**(): ``"ERR_JWKS_INVALID"``
+• `Static` `get` **code**(): ``"ERR_JWKS_INVALID"``
 
 A unique error code for the particular error subclass.
 

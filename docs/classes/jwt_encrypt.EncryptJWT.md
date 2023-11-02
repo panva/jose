@@ -51,17 +51,13 @@ console.log(jwt)
 
 ### constructor
 
-• **new EncryptJWT**(`payload?`): [`EncryptJWT`](jwt_encrypt.EncryptJWT.md)
+• **new EncryptJWT**(`payload?`)
 
 #### Parameters
 
 | Name | Type | Description |
 | :------ | :------ | :------ |
 | `payload` | [`JWTPayload`](../interfaces/types.JWTPayload.md) | The JWT Claims Set object. Defaults to an empty object. |
-
-#### Returns
-
-[`EncryptJWT`](jwt_encrypt.EncryptJWT.md)
 
 ## Methods
 
