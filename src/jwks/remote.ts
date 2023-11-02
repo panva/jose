@@ -163,10 +163,10 @@ class RemoteJWKSet<KeyLikeType extends KeyLike = KeyLike> extends LocalJWKSet<Ke
 }
 
 /**
- * Returns a function that resolves to a key object downloaded from a remote endpoint returning a
- * JSON Web Key Set, that is, for example, an OAuth 2.0 or OIDC jwks_uri. The JSON Web Key Set is
- * fetched when no key matches the selection process but only as frequently as the
- * `cooldownDuration` option allows to prevent abuse.
+ * Returns a function that resolves a JWS JOSE Header to a public key object downloaded from a
+ * remote endpoint returning a JSON Web Key Set, that is, for example, an OAuth 2.0 or OIDC
+ * jwks_uri. The JSON Web Key Set is fetched when no key matches the selection process but only as
+ * frequently as the `cooldownDuration` option allows to prevent abuse.
  *
  * It uses the "alg" (JWS Algorithm) Header Parameter to determine the right JWK "kty" (Key Type),
  * then proceeds to match the JWK "kid" (Key ID) with one found in the JWS Header Parameters (if
@@ -176,6 +176,9 @@ class RemoteJWKSet<KeyLikeType extends KeyLike = KeyLike> extends LocalJWKSet<Ke
  * Only a single public key must match the selection process. As shown in the example below when
  * multiple keys get matched it is possible to opt-in to iterate over the matched keys and attempt
  * verification in an iterative manner.
+ *
+ * Note: The function's purpose is to resolve public keys used for verifying signatures and will not
+ * work for public encryption keys.
  *
  * @example
  *
