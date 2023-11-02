@@ -1,7 +1,7 @@
 {
   "commit-all": true,
   "scripts": {
-    "prerelease": "npm run-script build-all",
+    "prerelease": "node ./tools/prebump.js && npm run-script build-all",
     "postbump": "node ./tools/postbump.js",
     "postchangelog": "sed -i '' -e 's/### \\[/## [/g' CHANGELOG.md"
   },

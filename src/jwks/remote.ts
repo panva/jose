@@ -16,6 +16,17 @@ function isCloudflareWorkers() {
   )
 }
 
+// An explicit user-agent in browser environment is a trigger for CORS preflight requests which
+// are not needed for our request, so we're omitting setting a default user-agent in browser
+// environments.
+let USER_AGENT: string
+// @ts-ignore
+if (typeof navigator === 'undefined' || !navigator.userAgent?.startsWith?.('Mozilla/5.0 ')) {
+  const NAME = 'jose'
+  const VERSION = 'v5.0.1'
+  USER_AGENT = `${NAME}/${VERSION}`
+}
+
 /** Options for the remote JSON Web Key Set. */
 export interface RemoteJWKSetOptions {
   /**
@@ -46,7 +57,11 @@ export interface RemoteJWKSetOptions {
    */
   agent?: any
 
-  /** Optional headers to be sent with the HTTP request. */
+  /**
+   * Headers to be sent with the HTTP request. Default is that `User-Agent: jose/v${version}` header
+   * is added unless the runtime is a browser in which adding an explicit headers fetch
+   * configuration would cause an unnecessary CORS preflight request.
+   */
   headers?: Record<string, string>
 }
 
@@ -120,6 +135,12 @@ class RemoteJWKSet<KeyLikeType extends KeyLike = KeyLike> extends LocalJWKSet<Ke
     // see https://github.com/panva/jose/issues/355 and https://github.com/panva/jose/issues/509
     if (this._pendingFetch && isCloudflareWorkers()) {
       this._pendingFetch = undefined
+    }
+
+    const headers = new Headers(this._options.headers)
+    if (USER_AGENT && !headers.has('User-Agent')) {
+      headers.set('User-Agent', USER_AGENT)
+      this._options.headers = Object.fromEntries(headers.entries())
     }
 
     this._pendingFetch ||= fetchJwks(this._url, this._timeoutDuration, this._options)

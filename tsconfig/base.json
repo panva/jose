@@ -1,7 +1,7 @@
 {
   "files": ["../src/index.ts"],
   "compilerOptions": {
-    "lib": ["ES2020", "DOM"],
+    "lib": ["ES2020", "DOM", "DOM.iterable"],
     "types": [],
     "strict": true,
     "forceConsistentCasingInFileNames": true,

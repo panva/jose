@@ -119,7 +119,10 @@ test.serial('RemoteJWKSet', async (t) => {
     ],
   }
 
-  nock('https://as.example.com').get('/jwks').reply(200, jwks)
+  nock('https://as.example.com')
+    .matchHeader('user-agent', /jose\/v\d+\.\d+\.\d+/)
+    .get('/jwks')
+    .reply(200, jwks)
   const url = new URL('https://as.example.com/jwks')
   const JWKS = createRemoteJWKSet(url)
   // Signed JWT
