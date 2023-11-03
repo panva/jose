@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [5.1.0](https://github.com/panva/jose/compare/v5.0.2...v5.1.0) (2023-11-03)
+
+
+### Features
+
+* add payload generics to jose.decodeJwt ([9de49e2](https://github.com/panva/jose/commit/9de49e26956a20cdb94472f10f83b20480613329)), closes [#604](https://github.com/panva/jose/issues/604)
+
 ## [5.0.2](https://github.com/panva/jose/compare/v5.0.1...v5.0.2) (2023-11-02)
 
 
