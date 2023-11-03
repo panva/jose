@@ -6,12 +6,18 @@ Support from the community to continue maintaining and improving this module is 
 
 ---
 
-▸ **decodeJwt**(`jwt`): [`JWTPayload`](../interfaces/types.JWTPayload.md)
+▸ **decodeJwt**<`PayloadType`\>(`jwt`): `PayloadType` & [`JWTPayload`](../interfaces/types.JWTPayload.md)
 
 Decodes a signed JSON Web Token payload. This does not validate the JWT Claims Set types or
 values. This does not validate the JWS Signature. For a proper Signed JWT Claims Set validation
 and JWS signature verification use `jose.jwtVerify()`. For an encrypted JWT Claims Set validation
 and JWE decryption use `jose.jwtDecrypt()`.
+
+#### Type parameters
+
+| Name | Type |
+| :------ | :------ |
+| `PayloadType` | [`JWTPayload`](../interfaces/types.JWTPayload.md) |
 
 #### Parameters
 
@@ -21,7 +27,7 @@ and JWE decryption use `jose.jwtDecrypt()`.
 
 #### Returns
 
-[`JWTPayload`](../interfaces/types.JWTPayload.md)
+`PayloadType` & [`JWTPayload`](../interfaces/types.JWTPayload.md)
 
 **`Example`**
 

@@ -231,6 +231,13 @@ expectType<KeyObject>(await lib.EmbeddedJWK())
 }
 
 {
+  const result = lib.decodeJwt<{ foo: 'string' }>('')
+  expectType<string | undefined>(result.iss)
+  expectType<unknown>(result.unknown)
+  expectType<'string'>(result.foo)
+}
+
+{
   const result = await lib.jwtVerify('', new Uint8Array())
   expectType<string | undefined>(result.payload.iss)
   expectType<unknown>(result.payload.unknown)
@@ -246,4 +253,10 @@ expectType<KeyObject>(await lib.EmbeddedJWK())
   const result = lib.UnsecuredJWT.decode('')
   expectType<string | undefined>(result.payload.iss)
   expectType<unknown>(result.payload.unknown)
+}
+
+{
+  const result = lib.decodeJwt('')
+  expectType<string | undefined>(result.iss)
+  expectType<unknown>(result.unknown)
 }

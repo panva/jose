@@ -19,7 +19,7 @@ import { JWTInvalid } from './errors.js'
  *
  * @param jwt JWT token in compact JWS serialization.
  */
-export function decodeJwt(jwt: string) {
+export function decodeJwt<PayloadType = JWTPayload>(jwt: string): PayloadType & JWTPayload {
   if (typeof jwt !== 'string')
     throw new JWTInvalid('JWTs must use Compact JWS serialization, JWT must be a string')
 
@@ -43,7 +43,7 @@ export function decodeJwt(jwt: string) {
     throw new JWTInvalid('Failed to parse the decoded payload as JSON')
   }
 
-  if (!isObject<JWTPayload>(result)) throw new JWTInvalid('Invalid JWT Claims Set')
+  if (!isObject<PayloadType & JWTPayload>(result)) throw new JWTInvalid('Invalid JWT Claims Set')
 
   return result
 }
