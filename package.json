@@ -139,7 +139,7 @@
     "@types/node": "^20.8.8",
     "@types/qunit": "^2.19.7",
     "ava": "^5.3.1",
-    "edge-runtime": "^2.5.6",
+    "edge-runtime": "^2.5.7",
     "esbuild": "^0.19.5",
     "glob": "^10.3.10",
     "nock": "^13.3.6",
