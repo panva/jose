@@ -73,13 +73,13 @@ ___
 
 ### encrypt
 
-▸ **encrypt**(): [`Promise`]( https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise )<[`GeneralJWE`](../interfaces/types.GeneralJWE.md)\>
+▸ **encrypt**(): [`Promise`]( https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise )\<[`GeneralJWE`](../interfaces/types.GeneralJWE.md)\>
 
 Encrypts and resolves the value of the General JWE object.
 
 #### Returns
 
-[`Promise`]( https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise )<[`GeneralJWE`](../interfaces/types.GeneralJWE.md)\>
+[`Promise`]( https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise )\<[`GeneralJWE`](../interfaces/types.GeneralJWE.md)\>
 
 ___
 

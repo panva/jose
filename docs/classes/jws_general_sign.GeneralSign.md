@@ -69,10 +69,10 @@ ___
 
 ### sign
 
-▸ **sign**(): [`Promise`]( https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise )<[`GeneralJWS`](../interfaces/types.GeneralJWS.md)\>
+▸ **sign**(): [`Promise`]( https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise )\<[`GeneralJWS`](../interfaces/types.GeneralJWS.md)\>
 
 Signs and resolves the value of the General JWS object.
 
 #### Returns
 
-[`Promise`]( https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise )<[`GeneralJWS`](../interfaces/types.GeneralJWS.md)\>
+[`Promise`]( https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise )\<[`GeneralJWS`](../interfaces/types.GeneralJWS.md)\>

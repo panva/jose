@@ -6,7 +6,7 @@ Support from the community to continue maintaining and improving this module is 
 
 ---
 
-▸ **decodeJwt**<`PayloadType`\>(`jwt`): `PayloadType` & [`JWTPayload`](../interfaces/types.JWTPayload.md)
+▸ **decodeJwt**\<`PayloadType`\>(`jwt`): `PayloadType` & [`JWTPayload`](../interfaces/types.JWTPayload.md)
 
 Decodes a signed JSON Web Token payload. This does not validate the JWT Claims Set types or
 values. This does not validate the JWS Signature. For a proper Signed JWT Claims Set validation

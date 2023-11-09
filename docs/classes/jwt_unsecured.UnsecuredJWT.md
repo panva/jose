@@ -70,7 +70,7 @@ console.log(payload)
 
 ### decode
 
-▸ `Static` **decode**<`PayloadType`\>(`jwt`, `options?`): [`UnsecuredResult`](../interfaces/jwt_unsecured.UnsecuredResult.md)<`PayloadType`\>
+▸ `Static` **decode**\<`PayloadType`\>(`jwt`, `options?`): [`UnsecuredResult`](../interfaces/jwt_unsecured.UnsecuredResult.md)\<`PayloadType`\>
 
 Decodes an unsecured JWT.
 
@@ -89,7 +89,7 @@ Decodes an unsecured JWT.
 
 #### Returns
 
-[`UnsecuredResult`](../interfaces/jwt_unsecured.UnsecuredResult.md)<`PayloadType`\>
+[`UnsecuredResult`](../interfaces/jwt_unsecured.UnsecuredResult.md)\<`PayloadType`\>
 
 ___
 

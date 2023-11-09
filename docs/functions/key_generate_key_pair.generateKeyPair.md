@@ -6,7 +6,7 @@ Support from the community to continue maintaining and improving this module is 
 
 ---
 
-▸ **generateKeyPair**<`KeyLikeType`\>(`alg`, `options?`): [`Promise`]( https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise )<[`GenerateKeyPairResult`](../interfaces/key_generate_key_pair.GenerateKeyPairResult.md)<`KeyLikeType`\>\>
+▸ **generateKeyPair**\<`KeyLikeType`\>(`alg`, `options?`): [`Promise`]( https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise )\<[`GenerateKeyPairResult`](../interfaces/key_generate_key_pair.GenerateKeyPairResult.md)\<`KeyLikeType`\>\>
 
 Generates a private and a public key for a given JWA algorithm identifier. This can only generate
 asymmetric key pairs. For symmetric secrets use the `generateSecret` function.
@@ -30,7 +30,7 @@ Note: Under Web Crypto API runtime the `privateKey` is generated with `extractab
 
 #### Returns
 
-[`Promise`]( https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise )<[`GenerateKeyPairResult`](../interfaces/key_generate_key_pair.GenerateKeyPairResult.md)<`KeyLikeType`\>\>
+[`Promise`]( https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise )\<[`GenerateKeyPairResult`](../interfaces/key_generate_key_pair.GenerateKeyPairResult.md)\<`KeyLikeType`\>\>
 
 **`Example`**
 

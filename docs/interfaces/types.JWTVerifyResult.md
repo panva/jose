@@ -1,4 +1,4 @@
-# Interface: JWTVerifyResult<PayloadType\>
+# Interface: JWTVerifyResult\<PayloadType\>
 
 ## [💗 Help the project](https://github.com/sponsors/panva)
 

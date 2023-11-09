@@ -54,7 +54,7 @@ console.log(jwe)
 
 ### encrypt
 
-▸ **encrypt**(`key`, `options?`): [`Promise`]( https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise )<[`FlattenedJWE`](../interfaces/types.FlattenedJWE.md)\>
+▸ **encrypt**(`key`, `options?`): [`Promise`]( https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise )\<[`FlattenedJWE`](../interfaces/types.FlattenedJWE.md)\>
 
 Encrypts and resolves the value of the Flattened JWE object.
 
@@ -67,7 +67,7 @@ Encrypts and resolves the value of the Flattened JWE object.
 
 #### Returns
 
-[`Promise`]( https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise )<[`FlattenedJWE`](../interfaces/types.FlattenedJWE.md)\>
+[`Promise`]( https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise )\<[`FlattenedJWE`](../interfaces/types.FlattenedJWE.md)\>
 
 ___
 

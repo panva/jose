@@ -30,7 +30,7 @@ ___
 
 ### signatures
 
-• **signatures**: [`Omit`]( https://www.typescriptlang.org/docs/handbook/utility-types.html#omittype-keys )<[`FlattenedJWSInput`](types.FlattenedJWSInput.md), ``"payload"``\>[]
+• **signatures**: [`Omit`]( https://www.typescriptlang.org/docs/handbook/utility-types.html#omittype-keys )\<[`FlattenedJWSInput`](types.FlattenedJWSInput.md), ``"payload"``\>[]
 
 The "signatures" member value MUST be an array of JSON objects. Each object represents a
 signature or MAC over the JWS Payload and the JWS Protected Header.

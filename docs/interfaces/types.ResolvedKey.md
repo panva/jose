@@ -1,4 +1,4 @@
-# Interface: ResolvedKey<KeyLikeType\>
+# Interface: ResolvedKey\<KeyLikeType\>
 
 ## [💗 Help the project](https://github.com/sponsors/panva)
 

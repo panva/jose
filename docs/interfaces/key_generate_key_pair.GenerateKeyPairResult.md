@@ -1,4 +1,4 @@
-# Interface: GenerateKeyPairResult<KeyLikeType\>
+# Interface: GenerateKeyPairResult\<KeyLikeType\>
 
 ## [💗 Help the project](https://github.com/sponsors/panva)
 

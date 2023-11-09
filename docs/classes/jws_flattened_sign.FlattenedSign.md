@@ -84,7 +84,7 @@ ___
 
 ### sign
 
-▸ **sign**(`key`, `options?`): [`Promise`]( https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise )<[`FlattenedJWS`](../interfaces/types.FlattenedJWS.md)\>
+▸ **sign**(`key`, `options?`): [`Promise`]( https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise )\<[`FlattenedJWS`](../interfaces/types.FlattenedJWS.md)\>
 
 Signs and resolves the value of the Flattened JWS object.
 
@@ -97,4 +97,4 @@ Signs and resolves the value of the Flattened JWS object.
 
 #### Returns
 
-[`Promise`]( https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise )<[`FlattenedJWS`](../interfaces/types.FlattenedJWS.md)\>
+[`Promise`]( https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise )\<[`FlattenedJWS`](../interfaces/types.FlattenedJWS.md)\>

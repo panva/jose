@@ -123,7 +123,7 @@ ___
 
 ### oth
 
-• `Optional` **oth**: { `d?`: `string` ; `r?`: `string` ; `t?`: `string`  }[]
+• `Optional` **oth**: \{ `d?`: `string` ; `r?`: `string` ; `t?`: `string`  }[]
 
 ___
 

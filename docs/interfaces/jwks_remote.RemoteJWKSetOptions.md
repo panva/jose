@@ -53,7 +53,7 @@ ___
 
 ### headers
 
-• `Optional` **headers**: [`Record`]( https://www.typescriptlang.org/docs/handbook/utility-types.html#recordkeys-type )<`string`, `string`\>
+• `Optional` **headers**: [`Record`]( https://www.typescriptlang.org/docs/handbook/utility-types.html#recordkeys-type )\<`string`, `string`\>
 
 Headers to be sent with the HTTP request. Default is that `User-Agent: jose/v${version}` header
 is added unless the runtime is a browser in which adding an explicit headers fetch

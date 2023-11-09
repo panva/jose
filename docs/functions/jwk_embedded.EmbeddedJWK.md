@@ -6,7 +6,7 @@ Support from the community to continue maintaining and improving this module is 
 
 ---
 
-▸ **EmbeddedJWK**<`KeyLikeType`\>(`protectedHeader?`, `token?`): [`Promise`]( https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise )<`KeyLikeType`\>
+▸ **EmbeddedJWK**\<`KeyLikeType`\>(`protectedHeader?`, `token?`): [`Promise`]( https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise )\<`KeyLikeType`\>
 
 EmbeddedJWK is an implementation of a GetKeyFunction intended to be used with the JWS/JWT verify
 operations whenever you need to opt-in to verify signatures with a public key embedded in the
@@ -28,7 +28,7 @@ function's `algorithms` option to define accepted JWS "alg" (Algorithm) Header P
 
 #### Returns
 
-[`Promise`]( https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise )<`KeyLikeType`\>
+[`Promise`]( https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise )\<`KeyLikeType`\>
 
 **`Example`**
 

@@ -1,4 +1,4 @@
-# Interface: JWTDecryptResult<PayloadType\>
+# Interface: JWTDecryptResult\<PayloadType\>
 
 ## [💗 Help the project](https://github.com/sponsors/panva)
 

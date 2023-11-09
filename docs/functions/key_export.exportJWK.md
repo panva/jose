@@ -6,7 +6,7 @@ Support from the community to continue maintaining and improving this module is 
 
 ---
 
-▸ **exportJWK**(`key`): [`Promise`]( https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise )<[`JWK`](../interfaces/types.JWK.md)\>
+▸ **exportJWK**(`key`): [`Promise`]( https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise )\<[`JWK`](../interfaces/types.JWK.md)\>
 
 Exports a runtime-specific key representation (KeyLike) to a JWK.
 
@@ -18,7 +18,7 @@ Exports a runtime-specific key representation (KeyLike) to a JWK.
 
 #### Returns
 
-[`Promise`]( https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise )<[`JWK`](../interfaces/types.JWK.md)\>
+[`Promise`]( https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise )\<[`JWK`](../interfaces/types.JWK.md)\>
 
 **`Example`**
 

@@ -6,7 +6,7 @@ Support from the community to continue maintaining and improving this module is 
 
 ---
 
-▸ **importSPKI**<`KeyLikeType`\>(`spki`, `alg`, `options?`): [`Promise`]( https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise )<`KeyLikeType`\>
+▸ **importSPKI**\<`KeyLikeType`\>(`spki`, `alg`, `options?`): [`Promise`]( https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise )\<`KeyLikeType`\>
 
 Imports a PEM-encoded SPKI string as a runtime-specific public key representation (KeyObject or
 CryptoKey).
@@ -27,7 +27,7 @@ CryptoKey).
 
 #### Returns
 
-[`Promise`]( https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise )<`KeyLikeType`\>
+[`Promise`]( https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise )\<`KeyLikeType`\>
 
 **`Example`**
 

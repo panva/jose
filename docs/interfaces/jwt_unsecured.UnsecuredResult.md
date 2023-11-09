@@ -1,4 +1,4 @@
-# Interface: UnsecuredResult<PayloadType\>
+# Interface: UnsecuredResult\<PayloadType\>
 
 ## [💗 Help the project](https://github.com/sponsors/panva)
 

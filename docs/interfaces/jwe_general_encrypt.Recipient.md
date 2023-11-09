@@ -49,7 +49,7 @@ ___
 
 ### encrypt
 
-▸ **encrypt**(`...args`): [`Promise`]( https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise )<[`GeneralJWE`](types.GeneralJWE.md)\>
+▸ **encrypt**(`...args`): [`Promise`]( https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise )\<[`GeneralJWE`](types.GeneralJWE.md)\>
 
 A shorthand for calling encrypt() on the enclosing GeneralEncrypt instance
 
@@ -61,7 +61,7 @@ A shorthand for calling encrypt() on the enclosing GeneralEncrypt instance
 
 #### Returns
 
-[`Promise`]( https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise )<[`GeneralJWE`](types.GeneralJWE.md)\>
+[`Promise`]( https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise )\<[`GeneralJWE`](types.GeneralJWE.md)\>
 
 ___
 
