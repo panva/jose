@@ -109,8 +109,8 @@ export default (QUnit: QUnit, lib: typeof jose) => {
     result += pem.startsWith('-----BEGIN PRIVATE KEY-----')
       ? 'PKCS8 Private Key Import'
       : pem.startsWith('-----BEGIN PUBLIC KEY-----')
-      ? 'SPKI Public Key Import'
-      : 'X.509 Certificate Import'
+        ? 'SPKI Public Key Import'
+        : 'X.509 Certificate Import'
     return result
   }
 
