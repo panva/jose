@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [5.1.1](https://github.com/panva/jose/compare/v5.1.0...v5.1.1) (2023-11-14)
+
+
+### Refactor
+
+* deprecate the RSA1_5 JWE Algorithm ([f746da1](https://github.com/panva/jose/commit/f746da172b693eb417c4f75c8db6230cf213cd76))
+
 ## [5.1.0](https://github.com/panva/jose/compare/v5.0.2...v5.1.0) (2023-11-03)
 
 
