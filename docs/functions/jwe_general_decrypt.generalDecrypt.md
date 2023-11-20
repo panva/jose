@@ -6,7 +6,7 @@ Support from the community to continue maintaining and improving this module is 
 
 ---
 
-▸ **generalDecrypt**(`jwe`, `key`, `options?`): [`Promise`]( https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise )\<[`GeneralDecryptResult`](../interfaces/types.GeneralDecryptResult.md)\>
+▸ **generalDecrypt**(`jwe`, `key`, `options?`): [`Promise`]( https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise )\<[`GeneralDecryptResult`](../interfaces/types.GeneralDecryptResult.md)\>
 
 Decrypts a General JWE.
 
@@ -15,12 +15,12 @@ Decrypts a General JWE.
 | Name | Type | Description |
 | :------ | :------ | :------ |
 | `jwe` | [`GeneralJWE`](../interfaces/types.GeneralJWE.md) | General JWE. |
-| `key` | [`Uint8Array`]( https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Uint8Array ) \| [`KeyLike`](../types/types.KeyLike.md) | Private Key or Secret to decrypt the JWE with. See [Algorithm Key Requirements](https://github.com/panva/jose/issues/210#jwe-alg). |
+| `key` | [`Uint8Array`]( https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Uint8Array ) \| [`KeyLike`](../types/types.KeyLike.md) | Private Key or Secret to decrypt the JWE with. See [Algorithm Key Requirements](https://github.com/panva/jose/issues/210#jwe-alg). |
 | `options?` | [`DecryptOptions`](../interfaces/types.DecryptOptions.md) | JWE Decryption options. |
 
 #### Returns
 
-[`Promise`]( https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise )\<[`GeneralDecryptResult`](../interfaces/types.GeneralDecryptResult.md)\>
+[`Promise`]( https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise )\<[`GeneralDecryptResult`](../interfaces/types.GeneralDecryptResult.md)\>
 
 **`Example`**
 
@@ -48,7 +48,7 @@ console.log(decoder.decode(plaintext))
 console.log(decoder.decode(additionalAuthenticatedData))
 ```
 
-▸ **generalDecrypt**\<`KeyLikeType`\>(`jwe`, `getKey`, `options?`): [`Promise`]( https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise )\<[`GeneralDecryptResult`](../interfaces/types.GeneralDecryptResult.md) & [`ResolvedKey`](../interfaces/types.ResolvedKey.md)\<`KeyLikeType`\>\>
+▸ **generalDecrypt**\<`KeyLikeType`\>(`jwe`, `getKey`, `options?`): [`Promise`]( https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise )\<[`GeneralDecryptResult`](../interfaces/types.GeneralDecryptResult.md) & [`ResolvedKey`](../interfaces/types.ResolvedKey.md)\<`KeyLikeType`\>\>
 
 #### Type parameters
 
@@ -66,4 +66,4 @@ console.log(decoder.decode(additionalAuthenticatedData))
 
 #### Returns
 
-[`Promise`]( https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise )\<[`GeneralDecryptResult`](../interfaces/types.GeneralDecryptResult.md) & [`ResolvedKey`](../interfaces/types.ResolvedKey.md)\<`KeyLikeType`\>\>
+[`Promise`]( https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise )\<[`GeneralDecryptResult`](../interfaces/types.GeneralDecryptResult.md) & [`ResolvedKey`](../interfaces/types.ResolvedKey.md)\<`KeyLikeType`\>\>

@@ -18,7 +18,7 @@ Support from the community to continue maintaining and improving this module is 
 
 ### payload
 
-• **payload**: [`Uint8Array`]( https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Uint8Array )
+• **payload**: [`Uint8Array`]( https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Uint8Array )
 
 JWS Payload.
 

@@ -48,7 +48,7 @@ console.log(jwe)
 
 | Name | Type | Description |
 | :------ | :------ | :------ |
-| `plaintext` | [`Uint8Array`]( https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Uint8Array ) | Binary representation of the plaintext to encrypt. |
+| `plaintext` | [`Uint8Array`]( https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Uint8Array ) | Binary representation of the plaintext to encrypt. |
 
 ## Methods
 
@@ -62,7 +62,7 @@ Adds an additional recipient for the General JWE object.
 
 | Name | Type | Description |
 | :------ | :------ | :------ |
-| `key` | [`Uint8Array`]( https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Uint8Array ) \| [`KeyLike`](../types/types.KeyLike.md) | Public Key or Secret to encrypt the Content Encryption Key for the recipient with. See [Algorithm Key Requirements](https://github.com/panva/jose/issues/210#jwe-alg). |
+| `key` | [`Uint8Array`]( https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Uint8Array ) \| [`KeyLike`](../types/types.KeyLike.md) | Public Key or Secret to encrypt the Content Encryption Key for the recipient with. See [Algorithm Key Requirements](https://github.com/panva/jose/issues/210#jwe-alg). |
 | `options?` | [`CritOption`](../interfaces/types.CritOption.md) | JWE Encryption options. |
 
 #### Returns
@@ -73,13 +73,13 @@ ___
 
 ### encrypt
 
-▸ **encrypt**(): [`Promise`]( https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise )\<[`GeneralJWE`](../interfaces/types.GeneralJWE.md)\>
+▸ **encrypt**(): [`Promise`]( https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise )\<[`GeneralJWE`](../interfaces/types.GeneralJWE.md)\>
 
 Encrypts and resolves the value of the General JWE object.
 
 #### Returns
 
-[`Promise`]( https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise )\<[`GeneralJWE`](../interfaces/types.GeneralJWE.md)\>
+[`Promise`]( https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise )\<[`GeneralJWE`](../interfaces/types.GeneralJWE.md)\>
 
 ___
 
@@ -93,7 +93,7 @@ Sets the Additional Authenticated Data on the GeneralEncrypt object.
 
 | Name | Type | Description |
 | :------ | :------ | :------ |
-| `aad` | [`Uint8Array`]( https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Uint8Array ) | Additional Authenticated Data. |
+| `aad` | [`Uint8Array`]( https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Uint8Array ) | Additional Authenticated Data. |
 
 #### Returns
 

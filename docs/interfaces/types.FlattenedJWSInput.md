@@ -22,7 +22,7 @@ signature validation.
 
 ### payload
 
-• **payload**: `string` \| [`Uint8Array`]( https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Uint8Array )
+• **payload**: `string` \| [`Uint8Array`]( https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Uint8Array )
 
 The "payload" member MUST be present and contain the value BASE64URL(JWS Payload). When RFC7797
 "b64": false is used the value passed may also be a Uint8Array.

@@ -22,6 +22,6 @@ Support from the community to continue maintaining and improving this module is 
 
 ### key
 
-• **key**: [`Uint8Array`]( https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Uint8Array ) \| `KeyLikeType`
+• **key**: [`Uint8Array`]( https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Uint8Array ) \| `KeyLikeType`
 
 Key resolved from the key resolver function.
