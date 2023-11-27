@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [5.1.2](https://github.com/panva/jose/compare/v5.1.1...v5.1.2) (2023-11-27)
+
+
+### Fixes
+
+* do not mutate JWTVerifyOptions.requiredClaims ([1bf9cec](https://github.com/panva/jose/commit/1bf9cec024a4d01d989e15bb6e4b54e3940b4458)), closes [#610](https://github.com/panva/jose/issues/610)
+
 ## [5.1.1](https://github.com/panva/jose/compare/v5.1.0...v5.1.1) (2023-11-14)
 
 
