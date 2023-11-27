@@ -418,6 +418,8 @@ test('requiredClaims claims check', async (t) => {
     .setProtectedHeader({ alg: 'HS256' })
     .sign(t.context.secret)
 
+  const requiredClaims = ['nbf']
+
   for (const [claim, option] of [
     ['iss', 'issuer'],
     ['aud', 'audience'],
@@ -428,16 +430,15 @@ test('requiredClaims claims check', async (t) => {
       code: 'ERR_JWT_CLAIM_VALIDATION_FAILED',
       message: `missing required "${claim}" claim`,
     })
-    await t.throwsAsync(
-      jwtVerify(jwt, t.context.secret, { [option]: 'foo', requiredClaims: ['nbf'] }),
-      {
-        code: 'ERR_JWT_CLAIM_VALIDATION_FAILED',
-        message: `missing required "${claim}" claim`,
-      },
-    )
+    await t.throwsAsync(jwtVerify(jwt, t.context.secret, { [option]: 'foo', requiredClaims }), {
+      code: 'ERR_JWT_CLAIM_VALIDATION_FAILED',
+      message: `missing required "${claim}" claim`,
+    })
   }
-  await t.throwsAsync(jwtVerify(jwt, t.context.secret, { requiredClaims: ['nbf'] }), {
+  await t.throwsAsync(jwtVerify(jwt, t.context.secret, { requiredClaims }), {
     code: 'ERR_JWT_CLAIM_VALIDATION_FAILED',
     message: `missing required "nbf" claim`,
   })
+
+  t.deepEqual(requiredClaims, ['nbf'])
 })

@@ -53,12 +53,14 @@ export default (
 
   const { requiredClaims = [], issuer, subject, audience, maxTokenAge } = options
 
-  if (maxTokenAge !== undefined) requiredClaims.push('iat')
-  if (audience !== undefined) requiredClaims.push('aud')
-  if (subject !== undefined) requiredClaims.push('sub')
-  if (issuer !== undefined) requiredClaims.push('iss')
+  const presenceCheck = [...requiredClaims]
 
-  for (const claim of new Set(requiredClaims.reverse())) {
+  if (maxTokenAge !== undefined) presenceCheck.push('iat')
+  if (audience !== undefined) presenceCheck.push('aud')
+  if (subject !== undefined) presenceCheck.push('sub')
+  if (issuer !== undefined) presenceCheck.push('iss')
+
+  for (const claim of new Set(presenceCheck.reverse())) {
     if (!(claim in payload)) {
       throw new JWTClaimValidationFailed(`missing required "${claim}" claim`, claim, 'missing')
     }
