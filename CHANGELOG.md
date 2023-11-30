@@ -2,6 +2,8 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [5.1.3](https://github.com/panva/jose/compare/v5.1.2...v5.1.3) (2023-11-30)
+
 ## [5.1.2](https://github.com/panva/jose/compare/v5.1.1...v5.1.2) (2023-11-27)
 
 
