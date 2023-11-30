@@ -84,6 +84,24 @@
       "import": "./dist/node/esm/index.js",
       "require": "./dist/node/cjs/index.js"
     },
+    "./errors": {
+      "types": "./dist/types/util/errors.d.ts",
+      "bun": "./dist/browser/util/errors.js",
+      "deno": "./dist/browser/util/errors.js",
+      "browser": "./dist/browser/util/errors.js",
+      "worker": "./dist/browser/util/errors.js",
+      "import": "./dist/node/esm/util/errors.js",
+      "require": "./dist/node/cjs/util/errors.js"
+    },
+    "./base64url": {
+      "types": "./dist/types/util/base64url.d.ts",
+      "bun": "./dist/browser/util/base64url.js",
+      "deno": "./dist/browser/util/base64url.js",
+      "browser": "./dist/browser/util/base64url.js",
+      "worker": "./dist/browser/util/base64url.js",
+      "import": "./dist/node/esm/util/base64url.js",
+      "require": "./dist/node/cjs/util/base64url.js"
+    },
     "./package.json": "./package.json"
   },
   "main": "./dist/node/cjs/index.js",
