@@ -105,11 +105,16 @@ export class ProduceJWT {
    * @param input "iat" (Issued At) Claim value to set on the JWT Claims Set. Default is current
    *   timestamp.
    */
-  setIssuedAt(input?: number | Date) {
+  setIssuedAt(input?: number | string | Date) {
     if (typeof input === 'undefined') {
       this._payload = { ...this._payload, iat: epoch(new Date()) }
     } else if (input instanceof Date) {
       this._payload = { ...this._payload, iat: validateInput('setIssuedAt', epoch(input)) }
+    } else if (typeof input === 'string') {
+      this._payload = {
+        ...this._payload,
+        iat: validateInput('setIssuedAt', epoch(new Date()) + secs(input)),
+      }
     } else {
       this._payload = { ...this._payload, iat: validateInput('setIssuedAt', input) }
     }

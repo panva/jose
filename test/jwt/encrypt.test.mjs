@@ -1,5 +1,6 @@
 import test from 'ava'
 import timekeeper from 'timekeeper'
+import { setters } from './time_setters.mjs'
 
 const { EncryptJWT, compactDecrypt, jwtDecrypt } = await import('#dist')
 
@@ -102,21 +103,19 @@ async function testJWTsetFunction(t, method, claim, value, duplicate = false, ex
   }
 }
 testJWTsetFunction.title = (title, method, claim, value) =>
-  `EncryptJWT.prototype.${method} called with ${value}${title ? ` (${title})` : ''}`
+  `EncryptJWT.prototype.${method} called with ${
+    value?.constructor?.name || typeof value
+  } (${value}) ${title ? ` (${title})` : ''}`
 
-test(testJWTsetFunction, 'setIssuer', 'iss', 'urn:example:issuer')
+for (const [method, claim, vectors] of setters(now)) {
+  for (const [input, output = input] of vectors) {
+    test(testJWTsetFunction, method, claim, input, false, output)
+  }
+}
+
 test('duplicated', testJWTsetFunction, 'setIssuer', 'iss', 'urn:example:issuer', true)
-test(testJWTsetFunction, 'setSubject', 'sub', 'urn:example:subject')
 test('duplicated', testJWTsetFunction, 'setSubject', 'sub', 'urn:example:subject', true)
-test(testJWTsetFunction, 'setAudience', 'aud', 'urn:example:audience')
 test('duplicated', testJWTsetFunction, 'setAudience', 'aud', 'urn:example:audience', true)
-test(testJWTsetFunction, 'setJti', 'jti', 'urn:example:jti')
-test(testJWTsetFunction, 'setIssuedAt', 'iat', 0)
-test(testJWTsetFunction, 'setIssuedAt', 'iat', undefined, undefined, now)
-test(testJWTsetFunction, 'setExpirationTime', 'exp', 0)
-test(testJWTsetFunction, 'setExpirationTime', 'exp', '10s', undefined, now + 10)
-test(testJWTsetFunction, 'setNotBefore', 'nbf', 0)
-test(testJWTsetFunction, 'setNotBefore', 'nbf', '10s', undefined, now + 10)
 
 test('EncryptJWT.prototype.setProtectedHeader', (t) => {
   t.throws(() => new EncryptJWT(t.context.payload).setProtectedHeader({}).setProtectedHeader({}), {

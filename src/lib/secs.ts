@@ -5,17 +5,19 @@ const week = day * 7
 const year = day * 365.25
 
 const REGEX =
-  /^(\d+|\d+\.\d+) ?(seconds?|secs?|s|minutes?|mins?|m|hours?|hrs?|h|days?|d|weeks?|w|years?|yrs?|y)$/i
+  /^(\+|\-)? ?(\d+|\d+\.\d+) ?(seconds?|secs?|s|minutes?|mins?|m|hours?|hrs?|h|days?|d|weeks?|w|years?|yrs?|y)(?: (ago|from now))?$/i
 
 export default (str: string): number => {
   const matched = REGEX.exec(str)
 
-  if (!matched) {
+  if (!matched || (matched[4] && matched[1])) {
     throw new TypeError('Invalid time period format')
   }
 
-  const value = parseFloat(matched[1])
-  const unit = matched[2].toLowerCase()
+  const value = parseFloat(matched[2])
+  const unit = matched[3].toLowerCase()
+
+  let numericDate: number
 
   switch (unit) {
     case 'sec':
@@ -23,29 +25,41 @@ export default (str: string): number => {
     case 'second':
     case 'seconds':
     case 's':
-      return Math.round(value)
+      numericDate = Math.round(value)
+      break
     case 'minute':
     case 'minutes':
     case 'min':
     case 'mins':
     case 'm':
-      return Math.round(value * minute)
+      numericDate = Math.round(value * minute)
+      break
     case 'hour':
     case 'hours':
     case 'hr':
     case 'hrs':
     case 'h':
-      return Math.round(value * hour)
+      numericDate = Math.round(value * hour)
+      break
     case 'day':
     case 'days':
     case 'd':
-      return Math.round(value * day)
+      numericDate = Math.round(value * day)
+      break
     case 'week':
     case 'weeks':
     case 'w':
-      return Math.round(value * week)
+      numericDate = Math.round(value * week)
+      break
     // years matched
     default:
-      return Math.round(value * year)
+      numericDate = Math.round(value * year)
+      break
   }
+
+  if (matched[1] === '-' || matched[4] === 'ago') {
+    return -numericDate
+  }
+
+  return numericDate
 }

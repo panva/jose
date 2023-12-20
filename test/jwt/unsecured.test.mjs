@@ -1,7 +1,8 @@
 import test from 'ava'
 import timekeeper from 'timekeeper'
+import { setters } from './time_setters.mjs'
 
-const { UnsecuredJWT } = await import('#dist')
+const { UnsecuredJWT, decodeJwt } = await import('#dist')
 
 const now = 1604416038
 
@@ -47,18 +48,17 @@ test('new UnsecuredJWT()', (t) => {
 
 async function testJWTsetFunction(t, method, claim, value, expected = value) {
   const jwt = new UnsecuredJWT()[method](value).encode()
-  const { payload: claims } = UnsecuredJWT.decode(jwt)
+  const claims = decodeJwt(jwt)
   t.true(claim in claims)
   t.is(claims[claim], expected)
 }
 testJWTsetFunction.title = (title, method, claim, value) =>
-  `UnsecuredJWT.prototype.${method} called with ${value}`
+  `UnsecuredJWT.prototype.${method} called with ${
+    value?.constructor?.name || typeof value
+  } (${value})`
 
-test(testJWTsetFunction, 'setIssuer', 'iss', 'urn:example:issuer')
-test(testJWTsetFunction, 'setSubject', 'sub', 'urn:example:subject')
-test(testJWTsetFunction, 'setAudience', 'aud', 'urn:example:audience')
-test(testJWTsetFunction, 'setJti', 'jti', 'urn:example:jti')
-test(testJWTsetFunction, 'setIssuedAt', 'iat', 0)
-test(testJWTsetFunction, 'setIssuedAt', 'iat', undefined, now)
-test(testJWTsetFunction, 'setExpirationTime', 'exp', '10s', now + 10)
-test(testJWTsetFunction, 'setNotBefore', 'nbf', 0)
+for (const [method, claim, vectors] of setters(now)) {
+  for (const [input, output = input] of vectors) {
+    test(testJWTsetFunction, method, claim, input, output)
+  }
+}

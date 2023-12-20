@@ -1,5 +1,6 @@
 import test from 'ava'
 import timekeeper from 'timekeeper'
+import { setters } from './time_setters.mjs'
 
 const { SignJWT, compactVerify, jwtVerify } = await import('#dist')
 
@@ -99,18 +100,10 @@ async function testJWTsetFunction(t, method, claim, value, expected = value) {
   t.is(claims[claim], expected)
 }
 testJWTsetFunction.title = (title, method, claim, value) =>
-  `SignJWT.prototype.${method} called with ${value?.constructor?.name || typeof value}`
+  `SignJWT.prototype.${method} called with ${value?.constructor?.name || typeof value} (${value})`
 
-test(testJWTsetFunction, 'setIssuer', 'iss', 'urn:example:issuer')
-test(testJWTsetFunction, 'setSubject', 'sub', 'urn:example:subject')
-test(testJWTsetFunction, 'setAudience', 'aud', 'urn:example:audience')
-test(testJWTsetFunction, 'setJti', 'jti', 'urn:example:jti')
-test(testJWTsetFunction, 'setIssuedAt', 'iat', 0)
-test(testJWTsetFunction, 'setIssuedAt', 'iat', undefined, now)
-test(testJWTsetFunction, 'setIssuedAt', 'iat', new Date(now * 1000), now)
-test(testJWTsetFunction, 'setExpirationTime', 'exp', 0)
-test(testJWTsetFunction, 'setExpirationTime', 'exp', '10s', now + 10)
-test(testJWTsetFunction, 'setExpirationTime', 'exp', new Date(now * 1000), now)
-test(testJWTsetFunction, 'setNotBefore', 'nbf', 0)
-test(testJWTsetFunction, 'setNotBefore', 'nbf', '10s', now + 10)
-test(testJWTsetFunction, 'setNotBefore', 'nbf', new Date(now * 1000), now)
+for (const [method, claim, vectors] of setters(now)) {
+  for (const [input, output = input] of vectors) {
+    test(testJWTsetFunction, method, claim, input, output)
+  }
+}
