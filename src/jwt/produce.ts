@@ -66,9 +66,22 @@ export class ProduceJWT {
   /**
    * Set the "nbf" (Not Before) Claim.
    *
-   * @param input "nbf" (Not Before) Claim value to set on the JWT Claims Set. When number is passed
-   *   that is used as a value, when string is passed it is resolved to a time span and added to the
-   *   current timestamp.
+   * @param input "nbf" (Not Before) Claim value to set on the JWT Claims Set. 
+   *   
+   *   - If a `number` is passed as an argument, it's used as the `nbf` claim directly.
+   *   
+   *   - If a `Date` object is passed, the value is converted to unix timestamp and used as `nbf` claim.
+   *   
+   *   - If a `string` is passed it is resolved to a time span, and then added to the current unix timestamp.
+   *   
+   *   Format used for timespan should be a number followed by a unit, such as "5 minutes" or "1 day".
+   * 
+   *   Valid units are: "sec", "secs", "second", "seconds", "s", "minute", "minutes", "min", "mins", "m",
+   *   "hour", "hours", "hr", "hrs", "h", "day", "days", "d", "week", "weeks", "w", "year", "years".
+   *   
+   *   If the string is suffixed with "ago" or "from now", or prefixed with a "-", the resulting number of seconds gets subtracted from the current unix timestamp.
+   * 
+   * @throws {TypeError} When input string is in bad format or numeric input is infinite.
    */
   setNotBefore(input: number | string | Date) {
     if (typeof input === 'number') {
@@ -82,11 +95,24 @@ export class ProduceJWT {
   }
 
   /**
-   * Set the "exp" (Expiration Time) Claim.
-   *
-   * @param input "exp" (Expiration Time) Claim value to set on the JWT Claims Set. When number is
-   *   passed that is used as a value, when string is passed it is resolved to a time span and added
-   *   to the current timestamp.
+   * Set the `exp` (Expiration Time) Claim.
+   * 
+   * @param input "exp" (Expiration Time) Claim value to set on the JWT Claims Set. 
+   *   
+   *   - If a `number` is passed as an argument, it's used as the `exp` claim directly.
+   *   
+   *   - If a `Date` object is passed, the value is converted to unix timestamp and used as `exp` claim.
+   *   
+   *   - If a `string` is passed it is resolved to a time span, and then added to the current unix timestamp.
+   *   
+   *   Format used for timespan should be a number followed by a unit, such as "5 minutes" or "1 day".
+   * 
+   *   Valid units are: "sec", "secs", "second", "seconds", "s", "minute", "minutes", "min", "mins", "m",
+   *   "hour", "hours", "hr", "hrs", "h", "day", "days", "d", "week", "weeks", "w", "year", "years".
+   *   
+   *   If the string is suffixed with "ago" or "from now", or prefixed with a "-", the resulting number of seconds gets subtracted from the current unix timestamp.
+   * 
+   * @throws {TypeError} When input string is in bad format or numeric input is infinite.
    */
   setExpirationTime(input: number | string | Date) {
     if (typeof input === 'number') {
@@ -102,8 +128,22 @@ export class ProduceJWT {
   /**
    * Set the "iat" (Issued At) Claim.
    *
-   * @param input "iat" (Issued At) Claim value to set on the JWT Claims Set. Default is current
-   *   timestamp.
+   * @param input "iat" (Expiration Time) Claim value to set on the JWT Claims Set. 
+   *   
+   *   - If a `number` is passed as an argument, it's used as the `iat` claim directly.
+   *   
+   *   - If a `Date` object is passed, the value is converted to unix timestamp and used as `iat` claim.
+   *   
+   *   - If a `string` is passed it is resolved to a time span, and then added to the current unix timestamp.
+   *   
+   *   Format used for timespan should be a number followed by a unit, such as "5 minutes" or "1 day".
+   * 
+   *   Valid units are: "sec", "secs", "second", "seconds", "s", "minute", "minutes", "min", "mins", "m",
+   *   "hour", "hours", "hr", "hrs", "h", "day", "days", "d", "week", "weeks", "w", "year", "years".
+   *   
+   *   If the string is suffixed with "ago" or "from now", or prefixed with a "-", the resulting number of seconds gets subtracted from the current unix timestamp.
+   * 
+   * @throws {TypeError} When input string is in bad format or numeric input is infinite.
    */
   setIssuedAt(input?: number | string | Date) {
     if (typeof input === 'undefined') {
