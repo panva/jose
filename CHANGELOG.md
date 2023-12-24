@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [5.2.0](https://github.com/panva/jose/compare/v5.1.3...v5.2.0) (2023-12-24)
+
+
+### Features
+
+* extend JWT NumericDate setter syntax ([ae363c3](https://github.com/panva/jose/commit/ae363c3c434fb040985f08da68ed02067d205cbe))
+
 ## [5.1.3](https://github.com/panva/jose/compare/v5.1.2...v5.1.3) (2023-11-30)
 
 ## [5.1.2](https://github.com/panva/jose/compare/v5.1.1...v5.1.2) (2023-11-27)
