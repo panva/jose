@@ -79,7 +79,7 @@ export class ProduceJWT {
    *   Valid units are: "sec", "secs", "second", "seconds", "s", "minute", "minutes", "min", "mins", "m",
    *   "hour", "hours", "hr", "hrs", "h", "day", "days", "d", "week", "weeks", "w", "year", "years", "y".
    *   
-   *   If the string is suffixed with "ago", or prefixed with a "-", the resulting timespan gets subtracted from the current unix timestamp. A "from now" suffix can also be used for readability.
+   *   If the string is suffixed with "ago", or prefixed with a "-", the resulting timespan gets subtracted from the current unix timestamp. A "from now" suffix can also be used for readability when adding to the current unix timestamp.
    */
   setNotBefore(input: number | string | Date) {
     if (typeof input === 'number') {
@@ -108,7 +108,7 @@ export class ProduceJWT {
    *   Valid units are: "sec", "secs", "second", "seconds", "s", "minute", "minutes", "min", "mins", "m",
    *   "hour", "hours", "hr", "hrs", "h", "day", "days", "d", "week", "weeks", "w", "year", "years", "y".
    *   
-   *   If the string is suffixed with "ago", or prefixed with a "-", the resulting timespan gets subtracted from the current unix timestamp. A "from now" suffix can also be used for readability.
+   *   If the string is suffixed with "ago", or prefixed with a "-", the resulting timespan gets subtracted from the current unix timestamp. A "from now" suffix can also be used for readability when adding to the current unix timestamp.
    */
   setExpirationTime(input: number | string | Date) {
     if (typeof input === 'number') {
@@ -138,7 +138,7 @@ export class ProduceJWT {
    *   Valid units are: "sec", "secs", "second", "seconds", "s", "minute", "minutes", "min", "mins", "m",
    *   "hour", "hours", "hr", "hrs", "h", "day", "days", "d", "week", "weeks", "w", "year", "years", "y".
    *   
-   *   If the string is suffixed with "ago", or prefixed with a "-", the resulting timespan gets subtracted from the current unix timestamp. A "from now" suffix can also be used for readability.
+   *   If the string is suffixed with "ago", or prefixed with a "-", the resulting timespan gets subtracted from the current unix timestamp. A "from now" suffix can also be used for readability when adding to the current unix timestamp.
    */
   setIssuedAt(input?: number | string | Date) {
     if (typeof input === 'undefined') {
