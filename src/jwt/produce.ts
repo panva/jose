@@ -66,9 +66,9 @@ export class ProduceJWT {
   /**
    * Set the "nbf" (Not Before) Claim.
    *
-   * - If a `number` is passed as an argument, it's used as the claim directly.
-   * - If a `Date` instance is passed as an argument, the value is converted to unix timestamp and
-   *   used as the claim.
+   * - If a `number` is passed as an argument it is used as the claim directly.
+   * - If a `Date` instance is passed as an argument it is converted to unix timestamp and used as the
+   *   claim.
    * - If a `string` is passed as an argument it is resolved to a time span, and then added to the
    *   current unix timestamp and used as the claim.
    *
@@ -99,9 +99,9 @@ export class ProduceJWT {
   /**
    * Set the "exp" (Expiration Time) Claim.
    *
-   * - If a `number` is passed as an argument, it's used as the `exp` claim directly.
-   * - If a `Date` instance is passed as an argument, the value is converted to unix timestamp and
-   *   used as the claim.
+   * - If a `number` is passed as an argument it is used as the claim directly.
+   * - If a `Date` instance is passed as an argument it is converted to unix timestamp and used as the
+   *   claim.
    * - If a `string` is passed as an argument it is resolved to a time span, and then added to the
    *   current unix timestamp and used as the claim.
    *
@@ -132,10 +132,10 @@ export class ProduceJWT {
   /**
    * Set the "iat" (Issued At) Claim.
    *
-   * - If no argument is used the current unix timestamp is used as the `iat` claim.
-   * - If a `number` is passed as an argument, it's used as the `iat` claim directly.
-   * - If a `Date` instance is passed as an argument, the value is converted to unix timestamp and
-   *   used as the claim.
+   * - If no argument is used the current unix timestamp is used as the claim.
+   * - If a `number` is passed as an argument it is used as the claim directly.
+   * - If a `Date` instance is passed as an argument it is converted to unix timestamp and used as the
+   *   claim.
    * - If a `string` is passed as an argument it is resolved to a time span, and then added to the
    *   current unix timestamp and used as the claim.
    *
