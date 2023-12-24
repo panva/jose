@@ -77,7 +77,8 @@ export class ProduceJWT {
    *
    * Valid units are: "sec", "secs", "second", "seconds", "s", "minute", "minutes", "min", "mins",
    * "m", "hour", "hours", "hr", "hrs", "h", "day", "days", "d", "week", "weeks", "w", "year",
-   * "years", "yr", "yrs", and "y".
+   * "years", "yr", "yrs", and "y". It is not possible to specify months. 365.25 days is used as an
+   * alias for a year.
    *
    * If the string is suffixed with "ago", or prefixed with a "-", the resulting time span gets
    * subtracted from the current unix timestamp. A "from now" suffix can also be used for
@@ -110,7 +111,8 @@ export class ProduceJWT {
    *
    * Valid units are: "sec", "secs", "second", "seconds", "s", "minute", "minutes", "min", "mins",
    * "m", "hour", "hours", "hr", "hrs", "h", "day", "days", "d", "week", "weeks", "w", "year",
-   * "years", "yr", "yrs", and "y".
+   * "years", "yr", "yrs", and "y". It is not possible to specify months. 365.25 days is used as an
+   * alias for a year.
    *
    * If the string is suffixed with "ago", or prefixed with a "-", the resulting time span gets
    * subtracted from the current unix timestamp. A "from now" suffix can also be used for
@@ -144,7 +146,8 @@ export class ProduceJWT {
    *
    * Valid units are: "sec", "secs", "second", "seconds", "s", "minute", "minutes", "min", "mins",
    * "m", "hour", "hours", "hr", "hrs", "h", "day", "days", "d", "week", "weeks", "w", "year",
-   * "years", "yr", "yrs", and "y".
+   * "years", "yr", "yrs", and "y". It is not possible to specify months. 365.25 days is used as an
+   * alias for a year.
    *
    * If the string is suffixed with "ago", or prefixed with a "-", the resulting time span gets
    * subtracted from the current unix timestamp. A "from now" suffix can also be used for
