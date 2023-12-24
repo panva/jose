@@ -70,7 +70,7 @@ export class ProduceJWT {
    *   
    *   - If a `number` is passed as an argument, it's used as the `nbf` claim directly.
    *   
-   *   - If a `Date` object is passed, the value is converted to unix timestamp and used as `nbf` claim.
+   *   - If a `Date` instance is passed, the value is converted to unix timestamp and used as `nbf` claim.
    *   
    *   - If a `string` is passed it is resolved to a time span, and then added to the current unix timestamp.
    *   
@@ -99,7 +99,7 @@ export class ProduceJWT {
    *   
    *   - If a `number` is passed as an argument, it's used as the `exp` claim directly.
    *   
-   *   - If a `Date` object is passed, the value is converted to unix timestamp and used as `exp` claim.
+   *   - If a `Date` instance is passed, the value is converted to unix timestamp and used as `exp` claim.
    *   
    *   - If a `string` is passed it is resolved to a time span, and then added to the current unix timestamp.
    *   
@@ -129,7 +129,7 @@ export class ProduceJWT {
    *
    *   - If a `number` is passed as an argument, it's used as the `iat` claim directly.
    *   
-   *   - If a `Date` object is passed, the value is converted to unix timestamp and used as `iat` claim.
+   *   - If a `Date` instance is passed, the value is converted to unix timestamp and used as `iat` claim.
    *   
    *   - If a `string` is passed it is resolved to a time span, and then added to the current unix timestamp.
    *   
