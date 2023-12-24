@@ -77,11 +77,9 @@ export class ProduceJWT {
    *   Format used for timespan should be a number followed by a unit, such as "5 minutes" or "1 day".
    * 
    *   Valid units are: "sec", "secs", "second", "seconds", "s", "minute", "minutes", "min", "mins", "m",
-   *   "hour", "hours", "hr", "hrs", "h", "day", "days", "d", "week", "weeks", "w", "year", "years".
+   *   "hour", "hours", "hr", "hrs", "h", "day", "days", "d", "week", "weeks", "w", "year", "years", "y".
    *   
-   *   If the string is suffixed with "ago" or "from now", or prefixed with a "-", the resulting number of seconds gets subtracted from the current unix timestamp.
-   * 
-   * @throws {TypeError} When input string is in bad format or numeric input is infinite.
+   *   If the string is suffixed with "ago", or prefixed with a "-", the resulting timespan gets subtracted from the current unix timestamp. A "from now" suffix can also be used for readability.
    */
   setNotBefore(input: number | string | Date) {
     if (typeof input === 'number') {
@@ -108,11 +106,9 @@ export class ProduceJWT {
    *   Format used for timespan should be a number followed by a unit, such as "5 minutes" or "1 day".
    * 
    *   Valid units are: "sec", "secs", "second", "seconds", "s", "minute", "minutes", "min", "mins", "m",
-   *   "hour", "hours", "hr", "hrs", "h", "day", "days", "d", "week", "weeks", "w", "year", "years".
+   *   "hour", "hours", "hr", "hrs", "h", "day", "days", "d", "week", "weeks", "w", "year", "years", "y".
    *   
-   *   If the string is suffixed with "ago" or "from now", or prefixed with a "-", the resulting number of seconds gets subtracted from the current unix timestamp.
-   * 
-   * @throws {TypeError} When input string is in bad format or numeric input is infinite.
+   *   If the string is suffixed with "ago", or prefixed with a "-", the resulting timespan gets subtracted from the current unix timestamp. A "from now" suffix can also be used for readability.
    */
   setExpirationTime(input: number | string | Date) {
     if (typeof input === 'number') {
@@ -129,7 +125,8 @@ export class ProduceJWT {
    * Set the "iat" (Issued At) Claim.
    *
    * @param input "iat" (Expiration Time) Claim value to set on the JWT Claims Set. 
-   *   
+   *   - If no argument is used the current unix timestamp is used as the `iat` claim.
+   *
    *   - If a `number` is passed as an argument, it's used as the `iat` claim directly.
    *   
    *   - If a `Date` object is passed, the value is converted to unix timestamp and used as `iat` claim.
@@ -139,11 +136,9 @@ export class ProduceJWT {
    *   Format used for timespan should be a number followed by a unit, such as "5 minutes" or "1 day".
    * 
    *   Valid units are: "sec", "secs", "second", "seconds", "s", "minute", "minutes", "min", "mins", "m",
-   *   "hour", "hours", "hr", "hrs", "h", "day", "days", "d", "week", "weeks", "w", "year", "years".
+   *   "hour", "hours", "hr", "hrs", "h", "day", "days", "d", "week", "weeks", "w", "year", "years", "y".
    *   
-   *   If the string is suffixed with "ago" or "from now", or prefixed with a "-", the resulting number of seconds gets subtracted from the current unix timestamp.
-   * 
-   * @throws {TypeError} When input string is in bad format or numeric input is infinite.
+   *   If the string is suffixed with "ago", or prefixed with a "-", the resulting timespan gets subtracted from the current unix timestamp. A "from now" suffix can also be used for readability.
    */
   setIssuedAt(input?: number | string | Date) {
     if (typeof input === 'undefined') {
