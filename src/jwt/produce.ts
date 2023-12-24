@@ -66,23 +66,24 @@ export class ProduceJWT {
   /**
    * Set the "nbf" (Not Before) Claim.
    *
+   * - If a `number` is passed as an argument, it's used as the claim directly.
+   * - If a `Date` instance is passed as an argument, the value is converted to unix timestamp and
+   *   used as the claim.
+   * - If a `string` is passed as an argument it is resolved to a time span, and then added to the
+   *   current unix timestamp and used as the claim.
+   *
+   * Format used for time span should be a number followed by a unit, such as "5 minutes" or "1
+   * day".
+   *
+   * Valid units are: "sec", "secs", "second", "seconds", "s", "minute", "minutes", "min", "mins",
+   * "m", "hour", "hours", "hr", "hrs", "h", "day", "days", "d", "week", "weeks", "w", "year",
+   * "years", "yr", "yrs", and "y".
+   *
+   * If the string is suffixed with "ago", or prefixed with a "-", the resulting time span gets
+   * subtracted from the current unix timestamp. A "from now" suffix can also be used for
+   * readability when adding to the current unix timestamp.
+   *
    * @param input "nbf" (Not Before) Claim value to set on the JWT Claims Set.
-   *
-   *   - If a `number` is passed as an argument, it's used as the `nbf` claim directly.
-   *   - If a `Date` instance is passed, the value is converted to unix timestamp and used as `nbf`
-   *       claim.
-   *   - If a `string` is passed it is resolved to a time span, and then added to the current unix
-   *       timestamp.
-   *
-   *   Format used for timespan should be a number followed by a unit, such as "5 minutes" or "1 day".
-   *
-   *   Valid units are: "sec", "secs", "second", "seconds", "s", "minute", "minutes", "min", "mins",
-   *   "m", "hour", "hours", "hr", "hrs", "h", "day", "days", "d", "week", "weeks", "w", "year",
-   *   "years", "yr", "yrs", and "y".
-   *
-   *   If the string is suffixed with "ago", or prefixed with a "-", the resulting timespan gets
-   *   subtracted from the current unix timestamp. A "from now" suffix can also be used for
-   *   readability when adding to the current unix timestamp.
    */
   setNotBefore(input: number | string | Date) {
     if (typeof input === 'number') {
@@ -98,23 +99,24 @@ export class ProduceJWT {
   /**
    * Set the "exp" (Expiration Time) Claim.
    *
+   * - If a `number` is passed as an argument, it's used as the `exp` claim directly.
+   * - If a `Date` instance is passed as an argument, the value is converted to unix timestamp and
+   *   used as the claim.
+   * - If a `string` is passed as an argument it is resolved to a time span, and then added to the
+   *   current unix timestamp and used as the claim.
+   *
+   * Format used for time span should be a number followed by a unit, such as "5 minutes" or "1
+   * day".
+   *
+   * Valid units are: "sec", "secs", "second", "seconds", "s", "minute", "minutes", "min", "mins",
+   * "m", "hour", "hours", "hr", "hrs", "h", "day", "days", "d", "week", "weeks", "w", "year",
+   * "years", "yr", "yrs", and "y".
+   *
+   * If the string is suffixed with "ago", or prefixed with a "-", the resulting time span gets
+   * subtracted from the current unix timestamp. A "from now" suffix can also be used for
+   * readability when adding to the current unix timestamp.
+   *
    * @param input "exp" (Expiration Time) Claim value to set on the JWT Claims Set.
-   *
-   *   - If a `number` is passed as an argument, it's used as the `exp` claim directly.
-   *   - If a `Date` instance is passed, the value is converted to unix timestamp and used as `exp`
-   *       claim.
-   *   - If a `string` is passed it is resolved to a time span, and then added to the current unix
-   *       timestamp.
-   *
-   *   Format used for timespan should be a number followed by a unit, such as "5 minutes" or "1 day".
-   *
-   *   Valid units are: "sec", "secs", "second", "seconds", "s", "minute", "minutes", "min", "mins",
-   *   "m", "hour", "hours", "hr", "hrs", "h", "day", "days", "d", "week", "weeks", "w", "year",
-   *   "years", "yr", "yrs", and "y".
-   *
-   *   If the string is suffixed with "ago", or prefixed with a "-", the resulting timespan gets
-   *   subtracted from the current unix timestamp. A "from now" suffix can also be used for
-   *   readability when adding to the current unix timestamp.
    */
   setExpirationTime(input: number | string | Date) {
     if (typeof input === 'number') {
@@ -130,24 +132,25 @@ export class ProduceJWT {
   /**
    * Set the "iat" (Issued At) Claim.
    *
+   * - If no argument is used the current unix timestamp is used as the `iat` claim.
+   * - If a `number` is passed as an argument, it's used as the `iat` claim directly.
+   * - If a `Date` instance is passed as an argument, the value is converted to unix timestamp and
+   *   used as the claim.
+   * - If a `string` is passed as an argument it is resolved to a time span, and then added to the
+   *   current unix timestamp and used as the claim.
+   *
+   * Format used for time span should be a number followed by a unit, such as "5 minutes" or "1
+   * day".
+   *
+   * Valid units are: "sec", "secs", "second", "seconds", "s", "minute", "minutes", "min", "mins",
+   * "m", "hour", "hours", "hr", "hrs", "h", "day", "days", "d", "week", "weeks", "w", "year",
+   * "years", "yr", "yrs", and "y".
+   *
+   * If the string is suffixed with "ago", or prefixed with a "-", the resulting time span gets
+   * subtracted from the current unix timestamp. A "from now" suffix can also be used for
+   * readability when adding to the current unix timestamp.
+   *
    * @param input "iat" (Expiration Time) Claim value to set on the JWT Claims Set.
-   *
-   *   - If no argument is used the current unix timestamp is used as the `iat` claim.
-   *   - If a `number` is passed as an argument, it's used as the `iat` claim directly.
-   *   - If a `Date` instance is passed, the value is converted to unix timestamp and used as `iat`
-   *       claim.
-   *   - If a `string` is passed it is resolved to a time span, and then added to the current unix
-   *       timestamp.
-   *
-   *   Format used for timespan should be a number followed by a unit, such as "5 minutes" or "1 day".
-   *
-   *   Valid units are: "sec", "secs", "second", "seconds", "s", "minute", "minutes", "min", "mins",
-   *   "m", "hour", "hours", "hr", "hrs", "h", "day", "days", "d", "week", "weeks", "w", "year",
-   *   "years", "yr", "yrs", and "y".
-   *
-   *   If the string is suffixed with "ago", or prefixed with a "-", the resulting timespan gets
-   *   subtracted from the current unix timestamp. A "from now" suffix can also be used for
-   *   readability when adding to the current unix timestamp.
    */
   setIssuedAt(input?: number | string | Date) {
     if (typeof input === 'undefined') {
