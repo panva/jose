@@ -1,14 +1,13 @@
 import { t, Selector } from 'testcafe'
-
-fixture('test suite').page('https://important-clam-66.deno.dev')
-
 import * as fs from 'node:fs'
 
 const script = fs.readFileSync('./tap/run-browser.js', { encoding: 'utf-8' })
 
-const scriptTag = Selector('script')
+fixture('test suite').page('https://important-clam-66.deno.dev')
 
 test('passes tests', async (user) => {
+  const scriptTag = Selector('script')
+
   await user.typeText('#js', script, { paste: true }).click('[type=submit]')
 
   await scriptTag()

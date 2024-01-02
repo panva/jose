@@ -3,13 +3,11 @@
   --log-level=warning \
   --format=esm \
   --bundle \
+  --minify \
   --target=esnext \
   --outfile=tap/run-browser.js \
   tap/run-browser.ts
 
-HOSTNAME="localhost"
-SSL=""
-
 : "${BROWSER:=chrome:headless}"
 
-testcafe "$BROWSER" --skip-js-errors --ssl "$SSL" --hostname "$HOSTNAME" tap/.browser.ts
+testcafe "$BROWSER" --hostname localhost tap/.browser.ts

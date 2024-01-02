@@ -9,7 +9,7 @@ import jweVectors from '../cookbook/jwe.mjs'
 
 // https://bugs.webkit.org/show_bug.cgi?id=262499
 // https://github.com/web-platform-tests/wpt/pull/42292
-if (env.isWebKit) {
+if (env.isWebKitAbove17) {
   // @ts-ignore
   const ed25519 = jwsVectors.find((vector) => vector.title.includes('Ed25519'))
   ed25519.reproducible = false
@@ -42,7 +42,7 @@ export default (QUnit: QUnit, lib: typeof jose) => {
         return !env.isDeno
       }
       if (vector.input.alg === 'EdDSA') {
-        return (env.isWebKit && env.isWebKitAbove17) || !env.isBrowser
+        return env.isWebKitAbove17 || !env.isBrowser
       }
       return true
     }
@@ -258,7 +258,6 @@ export default (QUnit: QUnit, lib: typeof jose) => {
           await lib.importJWK(
             toJWK(vector.input.pwd || vector.input.key),
             dir ? vector.input.enc : vector.input.alg,
-            true,
           )
         )
         let publicKey
