@@ -25,8 +25,8 @@ const jose = require('jose')
 The `jose` module supports JSON Web Tokens (JWT) and provides functionality for signing and verifying tokens, as well as their JWT Claims Set validation.
 
 - [JWT Claims Set Validation & Signature Verification](functions/jwt_verify.jwtVerify.md) using the `jwtVerify` function
-  - [Using a remote JWKS](functions/jwks_remote.createRemoteJWKSet.md)
-  - [Using a local JWKS](functions/jwks_local.createLocalJWKSet.md)
+  - [Using a remote JSON Web Key Set (JWKS)](functions/jwks_remote.createRemoteJWKSet.md)
+  - [Using a local JSON Web Key Set (JWKS)](functions/jwks_local.createLocalJWKSet.md)
 - [Signing](classes/jwt_sign.SignJWT.md) using the `SignJWT` class
 - Utility functions
   - [Decoding Token's Protected Header](functions/util_decode_protected_header.decodeProtectedHeader.md)
@@ -64,8 +64,8 @@ The `jose` module supports signing and verification of JWS messages with arbitra
 
 - Signing - [Compact](classes/jws_compact_sign.CompactSign.md), [Flattened JSON](classes/jws_flattened_sign.FlattenedSign.md), [General JSON](classes/jws_general_sign.GeneralSign.md)
 - Verification - [Compact](functions/jws_compact_verify.compactVerify.md), [Flattened JSON](functions/jws_flattened_verify.flattenedVerify.md), [General JSON](functions/jws_general_verify.generalVerify.md)
-  - [Verify using a remote JWKS](functions/jwks_remote.createRemoteJWKSet.md)
-  - [Verify using a local JWKS](functions/jwks_local.createLocalJWKSet.md)
+  - [Using a remote JSON Web Key Set (JWKS)](functions/jwks_remote.createRemoteJWKSet.md)
+  - [Using a local JSON Web Key Set (JWKS)](functions/jwks_local.createLocalJWKSet.md)
 - Utility functions
   - [Decoding Token's Protected Header](functions/util_decode_protected_header.decodeProtectedHeader.md)
 
