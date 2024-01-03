@@ -28,10 +28,10 @@ const jose = require('jose')
 
 The `jose` module supports JSON Web Tokens (JWT) and provides functionality for signing and verifying tokens, as well as their JWT Claims Set validation.
 
-- [Signing](docs/classes/jwt_sign.SignJWT.md) using the `SignJWT` class
-- [Verification & JWT Claims Set Validation](docs/functions/jwt_verify.jwtVerify.md) using the `jwtVerify` function
+- [JWT Claims Set Validation & Signature Verification](docs/functions/jwt_verify.jwtVerify.md) using the `jwtVerify` function
   - [Using a remote JWKS](docs/functions/jwks_remote.createRemoteJWKSet.md)
   - [Using a local JWKS](docs/functions/jwks_local.createLocalJWKSet.md)
+- [Signing](docs/classes/jwt_sign.SignJWT.md) using the `SignJWT` class
 - Utility functions
   - [Decoding Token's Protected Header](docs/functions/util_decode_protected_header.decodeProtectedHeader.md)
   - [Decoding JWT Claims Set](docs/functions/util_decode_jwt.decodeJwt.md) prior to its validation
@@ -40,8 +40,8 @@ The `jose` module supports JSON Web Tokens (JWT) and provides functionality for 
 
 The `jose` module supports encrypted JSON Web Tokens and provides functionality for encrypting and decrypting tokens, as well as their JWT Claims Set validation.
 
-- [Encryption](docs/classes/jwt_encrypt.EncryptJWT.md) using the `EncryptJWT` class
 - [Decryption & JWT Claims Set Validation](docs/functions/jwt_decrypt.jwtDecrypt.md) using the `jwtDecrypt` function
+- [Encryption](docs/classes/jwt_encrypt.EncryptJWT.md) using the `EncryptJWT` class
 - Utility functions
   - [Decoding Token's Protected Header](docs/functions/util_decode_protected_header.decodeProtectedHeader.md)
 
