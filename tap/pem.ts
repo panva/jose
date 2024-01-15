@@ -120,8 +120,9 @@ export default (QUnit: QUnit, lib: typeof jose) => {
       ;[alg, crv] = alg
     }
 
+    let x509 = false
     let importFn: typeof lib.importSPKI | typeof lib.importPKCS8 | typeof lib.importX509
-    let exportFn: typeof lib.exportSPKI | typeof lib.exportPKCS8 | undefined = undefined
+    let exportFn: typeof lib.exportSPKI | typeof lib.exportPKCS8
     switch (true) {
       case pem.startsWith('-----BEGIN PRIVATE KEY-----'): {
         importFn = lib.importPKCS8
@@ -135,17 +136,21 @@ export default (QUnit: QUnit, lib: typeof jose) => {
       }
       case pem.startsWith('-----BEGIN CERTIFICATE-----'): {
         importFn = lib.importX509
+        exportFn = lib.exportSPKI
+        x509 = true
         break
       }
       default:
-        continue
+        throw new Error()
     }
 
     const execute = async (t: typeof QUnit.assert) => {
       const k = await importFn(pem, <string>alg, { extractable: true })
 
-      if (exportFn) {
+      if (!x509) {
         t.strictEqual(normalize(await exportFn(k)), normalize(pem))
+      } else {
+        await exportFn(k)
       }
       t.ok(1)
     }
