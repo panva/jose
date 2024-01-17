@@ -2,7 +2,10 @@ function unusable(name: string | number, prop = 'algorithm.name') {
   return new TypeError(`CryptoKey does not support this operation, its ${prop} must be ${name}`)
 }
 
-function isAlgorithm<T = KeyAlgorithm>(algorithm: any, name: string): algorithm is T {
+function isAlgorithm<T extends KeyAlgorithm>(
+  algorithm: KeyAlgorithm,
+  name: string,
+): algorithm is T {
   return algorithm.name === name
 }
 

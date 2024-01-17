@@ -21,7 +21,7 @@ export default (QUnit: QUnit, lib: typeof jose) => {
   const encode = TextEncoder.prototype.encode.bind(new TextEncoder())
 
   const pubjwk = (jwk: jose.JWK) => {
-    let { d, p, q, dp, dq, qi, ...publicJwk } = jwk
+    const { d, p, q, dp, dq, qi, ...publicJwk } = jwk
     return publicJwk
   }
 

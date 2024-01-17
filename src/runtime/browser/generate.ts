@@ -108,7 +108,7 @@ export async function generateKeyPair(alg: string, options?: GenerateKeyPairOpti
       algorithm = { name: 'ECDSA', namedCurve: 'P-521' }
       keyUsages = ['sign', 'verify']
       break
-    case 'EdDSA':
+    case 'EdDSA': {
       keyUsages = ['sign', 'verify']
       const crv = options?.crv ?? 'Ed25519'
       switch (crv) {
@@ -120,6 +120,7 @@ export async function generateKeyPair(alg: string, options?: GenerateKeyPairOpti
           throw new JOSENotSupported('Invalid or unsupported crv option provided')
       }
       break
+    }
     case 'ECDH-ES':
     case 'ECDH-ES+A128KW':
     case 'ECDH-ES+A192KW':

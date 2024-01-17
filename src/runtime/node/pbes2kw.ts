@@ -32,7 +32,7 @@ export const encrypt: Pbes2KWEncryptFunction = async (
   alg: string,
   key: unknown,
   cek: Uint8Array,
-  p2c: number = 2048,
+  p2c = 2048,
   p2s: Uint8Array = random(new Uint8Array(16)),
 ) => {
   checkP2s(p2s)

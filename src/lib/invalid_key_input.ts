@@ -13,7 +13,7 @@ function message(msg: string, actual: unknown, ...types: string[]) {
   } else if (typeof actual === 'function' && actual.name) {
     msg += ` Received function ${actual.name}`
   } else if (typeof actual === 'object' && actual != null) {
-    if (actual.constructor && actual.constructor.name) {
+    if (actual.constructor?.name) {
       msg += ` Received an instance of ${actual.constructor.name}`
     }
   }

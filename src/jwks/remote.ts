@@ -233,10 +233,8 @@ export function createRemoteJWKSet<KeyLikeType extends KeyLike = KeyLike>(
   options?: RemoteJWKSetOptions,
 ) {
   const set = new RemoteJWKSet<KeyLikeType>(url, options)
-  return async function (
+  return async (
     protectedHeader?: JWSHeaderParameters,
     token?: FlattenedJWSInput,
-  ): Promise<KeyLikeType> {
-    return set.getKey(protectedHeader, token)
-  }
+  ): Promise<KeyLikeType> => set.getKey(protectedHeader, token)
 }

@@ -233,7 +233,7 @@ export async function flattenedDecrypt(
   } catch {
     throw new JWEInvalid('Failed to base64url decode the ciphertext')
   }
-  let plaintext = await decrypt(enc, cek, ciphertext, iv, tag, additionalData)
+  const plaintext = await decrypt(enc, cek, ciphertext, iv, tag, additionalData)
 
   const result: FlattenedDecryptResult = { plaintext }
 

@@ -63,7 +63,7 @@ export default (QUnit: QUnit, lib: typeof jose) => {
 
   for (const vector of algorithms) {
     const [alg, jwk] = vector
-    let [, , works, exportNotImplemented] = vector
+    const [, , works, exportNotImplemented] = vector
 
     const execute = async (t: typeof QUnit.assert) => {
       const key = await lib.importJWK({ ...jwk, ext: true }, alg)

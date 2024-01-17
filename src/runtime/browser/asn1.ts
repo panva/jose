@@ -44,7 +44,7 @@ const findOid = (keyData: Uint8Array, oid: number[], from = 0): boolean => {
     oid.unshift(oid.length)
     oid.unshift(0x06)
   }
-  let i = keyData.indexOf(oid[0], from)
+  const i = keyData.indexOf(oid[0], from)
   if (i === -1) return false
   const sub = keyData.subarray(i, i + oid.length)
   if (sub.length !== oid.length) return false
@@ -160,11 +160,11 @@ export const fromSPKI: PEMImportFunction = (pem, alg, options?) => {
 }
 
 function getElement(seq: Uint8Array) {
-  let result = []
+  const result = []
   let next = 0
 
   while (next < seq.length) {
-    let nextPart = parseElement(seq.subarray(next))
+    const nextPart = parseElement(seq.subarray(next))
     result.push(nextPart)
     next += nextPart.byteLength
   }
@@ -209,7 +209,7 @@ function parseElement(bytes: Uint8Array) {
       raw: bytes.subarray(0, byteLength),
     }
   } else {
-    let numberOfDigits = bytes[position] & 0x7f
+    const numberOfDigits = bytes[position] & 0x7f
     position++
     length = 0
     for (let i = 0; i < numberOfDigits; i++) {

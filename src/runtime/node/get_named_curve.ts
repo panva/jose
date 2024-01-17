@@ -44,7 +44,7 @@ const getNamedCurve = (kee: unknown, raw?: boolean): string => {
     case 'x448':
       return `X${key.asymmetricKeyType.slice(1)}`
     case 'ec': {
-      let namedCurve = key.asymmetricKeyDetails!.namedCurve!
+      const namedCurve = key.asymmetricKeyDetails!.namedCurve!
 
       if (raw) {
         return namedCurve

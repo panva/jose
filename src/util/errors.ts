@@ -24,7 +24,7 @@ export class JOSEError extends Error {
   }
 
   /** A unique error code for this particular error subclass. */
-  code: string = 'ERR_JOSE_GENERIC'
+  code = 'ERR_JOSE_GENERIC'
 
   /** @ignore */
   constructor(message?: string) {

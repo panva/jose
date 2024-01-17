@@ -133,7 +133,8 @@ export class LocalJWKSet<KeyLikeType extends KeyLike = KeyLike> {
 
     if (length === 0) {
       throw new JWKSNoMatchingKey()
-    } else if (length !== 1) {
+    }
+    if (length !== 1) {
       const error = new JWKSMultipleMatchingKeys()
 
       const { _cached } = this
@@ -141,9 +142,7 @@ export class LocalJWKSet<KeyLikeType extends KeyLike = KeyLike> {
         for (const jwk of candidates) {
           try {
             yield await importWithAlgCache<KeyLikeType>(_cached, jwk, alg!)
-          } catch {
-            continue
-          }
+          } catch {}
         }
       }
 
@@ -254,10 +253,8 @@ async function importWithAlgCache<KeyLikeType extends KeyLike = KeyLike>(
  */
 export function createLocalJWKSet<KeyLikeType extends KeyLike = KeyLike>(jwks: JSONWebKeySet) {
   const set = new LocalJWKSet<KeyLikeType>(jwks)
-  return async function (
+  return async (
     protectedHeader?: JWSHeaderParameters,
     token?: FlattenedJWSInput,
-  ): Promise<KeyLikeType> {
-    return set.getKey(protectedHeader, token)
-  }
+  ): Promise<KeyLikeType> => set.getKey(protectedHeader, token)
 }

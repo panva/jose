@@ -24,8 +24,8 @@ test('JWS format validation', async (t) => {
 
   {
     const jws = { ...fullJws }
-    delete jws.protected
-    delete jws.header
+    jws.protected = undefined
+    jws.header = undefined
 
     await t.throwsAsync(flattenedVerify(jws, t.context.secret), {
       message: 'Flattened JWS must have either of the "protected" or "header" members',
@@ -46,7 +46,7 @@ test('JWS format validation', async (t) => {
 
   {
     const jws = { ...fullJws }
-    delete jws.signature
+    jws.signature = undefined
     const assertion = {
       message: 'JWS Signature missing or incorrect type',
       code: 'ERR_JWS_INVALID',
@@ -94,7 +94,7 @@ test('JWS format validation', async (t) => {
       message: 'JWS Payload missing',
       code: 'ERR_JWS_INVALID',
     }
-    delete jws.payload
+    jws.payload = undefined
     await t.throwsAsync(flattenedVerify(jws, t.context.secret), assertion)
   }
 
@@ -110,7 +110,7 @@ test('JWS format validation', async (t) => {
 
   {
     const jws = { ...fullJws }
-    delete jws.header
+    jws.header = undefined
     const assertion = {
       message: 'JWS "alg" (Algorithm) Header Parameter missing or invalid',
       code: 'ERR_JWS_INVALID',

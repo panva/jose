@@ -28,9 +28,9 @@ test('JWE format validation', async (t) => {
 
   {
     const jwe = { ...fullJwe }
-    delete jwe.protected
-    delete jwe.header
-    delete jwe.unprotected
+    jwe.protected = undefined
+    jwe.header = undefined
+    jwe.unprotected = undefined
 
     await t.throwsAsync(flattenedDecrypt(jwe, t.context.secret), {
       message: 'JOSE Header missing',
@@ -40,7 +40,7 @@ test('JWE format validation', async (t) => {
 
   {
     const jwe = { ...fullJwe }
-    delete jwe.iv
+    jwe.iv = undefined
     const assertion = {
       message: 'JWE Initialization Vector missing or incorrect type',
       code: 'ERR_JWE_INVALID',
@@ -54,7 +54,7 @@ test('JWE format validation', async (t) => {
 
   {
     const jwe = { ...fullJwe }
-    delete jwe.ciphertext
+    jwe.ciphertext = undefined
     const assertion = {
       message: 'JWE Ciphertext missing or incorrect type',
       code: 'ERR_JWE_INVALID',
@@ -68,7 +68,7 @@ test('JWE format validation', async (t) => {
 
   {
     const jwe = { ...fullJwe }
-    delete jwe.tag
+    jwe.tag = undefined
     const assertion = {
       message: 'JWE Authentication Tag missing or incorrect type',
       code: 'ERR_JWE_INVALID',

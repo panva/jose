@@ -159,7 +159,7 @@ export class GeneralEncrypt {
         .setUnprotectedHeader(recipient.unprotectedHeader!)
         .encrypt(recipient.key, { ...recipient.options })
 
-      let jwe: GeneralJWE = {
+      const jwe: GeneralJWE = {
         ciphertext: flattened.ciphertext,
         iv: flattened.iv,
         recipients: [{}],
@@ -225,7 +225,7 @@ export class GeneralEncrypt {
 
     const cek = generateCek(enc)
 
-    let jwe: GeneralJWE = {
+    const jwe: GeneralJWE = {
       ciphertext: '',
       iv: '',
       recipients: [],

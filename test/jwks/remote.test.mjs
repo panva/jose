@@ -225,7 +225,7 @@ test.serial('RemoteJWKSet', async (t) => {
 
 test.serial('refreshes the JWKS once off cooldown', async (t) => {
   timekeeper.freeze(now * 1000)
-  let jwk = {
+  const jwk = {
     crv: 'P-256',
     x: 'fqCXPnWs3sSfwztvwYU9SthmRdoT4WCXxS8eD8icF6U',
     y: 'nP6GIc42c61hoKqPcZqkvzhzIJkBV3Jw3g8sGG7UeP8',
@@ -269,7 +269,7 @@ test.serial('refreshes the JWKS once off cooldown', async (t) => {
 
 test.serial('refreshes the JWKS once stale', async (t) => {
   timekeeper.freeze(now * 1000)
-  let jwk = {
+  const jwk = {
     crv: 'P-256',
     x: 'fqCXPnWs3sSfwztvwYU9SthmRdoT4WCXxS8eD8icF6U',
     y: 'nP6GIc42c61hoKqPcZqkvzhzIJkBV3Jw3g8sGG7UeP8',
@@ -304,7 +304,7 @@ test.serial('refreshes the JWKS once stale', async (t) => {
 
 test.serial('can be configured to never be stale', async (t) => {
   timekeeper.freeze(now * 1000)
-  let jwk = {
+  const jwk = {
     crv: 'P-256',
     x: 'fqCXPnWs3sSfwztvwYU9SthmRdoT4WCXxS8eD8icF6U',
     y: 'nP6GIc42c61hoKqPcZqkvzhzIJkBV3Jw3g8sGG7UeP8',

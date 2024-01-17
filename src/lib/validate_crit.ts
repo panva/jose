@@ -45,7 +45,8 @@ function validateCrit(
 
     if (joseHeader[parameter] === undefined) {
       throw new Err(`Extension Header Parameter "${parameter}" is missing`)
-    } else if (recognized.get(parameter) && protectedHeader[parameter] === undefined) {
+    }
+    if (recognized.get(parameter) && protectedHeader[parameter] === undefined) {
       throw new Err(`Extension Header Parameter "${parameter}" MUST be integrity protected`)
     }
   }

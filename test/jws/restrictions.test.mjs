@@ -89,7 +89,7 @@ async function testRSAenc(t, alg) {
 testRSAenc.title = (title, alg) => `${alg} requires key modulusLength to be 2048 bits or larger`
 
 async function testECDSASigEncoding(t, alg) {
-  let { privateKey, publicKey } = await generateKeyPair(alg, { extractable: true })
+  const { privateKey, publicKey } = await generateKeyPair(alg, { extractable: true })
 
   const jws = await new FlattenedSign(t.context.payload)
     .setProtectedHeader({ alg })
