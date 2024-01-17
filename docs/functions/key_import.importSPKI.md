@@ -21,7 +21,7 @@ CryptoKey).
 
 | Name | Type | Description |
 | :------ | :------ | :------ |
-| `spki` | `string` | - |
+| `spki` | `string` | PEM-encoded SPKI string |
 | `alg` | `string` | (Only effective in Web Crypto API runtimes) JSON Web Algorithm identifier to be used with the imported key, its presence is only enforced in Web Crypto API runtimes. See [Algorithm Key Requirements](https://github.com/panva/jose/issues/210). |
 | `options?` | [`PEMImportOptions`](../interfaces/key_import.PEMImportOptions.md) | - |
 

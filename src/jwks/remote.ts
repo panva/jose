@@ -193,7 +193,9 @@ class RemoteJWKSet<KeyLikeType extends KeyLike = KeyLike> extends LocalJWKSet<Ke
  * console.log(payload)
  * ```
  *
- * @example Opting-in to multiple JWKS matches using `createRemoteJWKSet`
+ * @example
+ *
+ * Opting-in to multiple JWKS matches using `createRemoteJWKSet`
  *
  * ```js
  * const options = {

@@ -7,7 +7,9 @@ import { ProduceJWT } from './produce.js'
 /**
  * The SignJWT class is used to build and sign Compact JWS formatted JSON Web Tokens.
  *
- * @example Usage with a symmetric secret
+ * @example
+ *
+ * Usage with a symmetric secret
  *
  * ```js
  * const secret = new TextEncoder().encode(
@@ -26,7 +28,9 @@ import { ProduceJWT } from './produce.js'
  * console.log(jwt)
  * ```
  *
- * @example Usage with a private PKCS#8 encoded RSA key
+ * @example
+ *
+ * Usage with a private PKCS#8 encoded RSA key
  *
  * ```js
  * const alg = 'RS256'
@@ -71,7 +75,9 @@ import { ProduceJWT } from './produce.js'
  * console.log(jwt)
  * ```
  *
- * @example Usage with a private JWK encoded RSA key
+ * @example
+ *
+ * Usage with a private JWK encoded RSA key
  *
  * ```js
  * const alg = 'RS256'

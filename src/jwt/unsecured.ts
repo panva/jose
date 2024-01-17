@@ -14,7 +14,9 @@ export interface UnsecuredResult<PayloadType = JWTPayload> {
 /**
  * The UnsecuredJWT class is a utility for dealing with `{ "alg": "none" }` Unsecured JWTs.
  *
- * @example Encoding
+ * @example
+ *
+ * Encoding
  *
  * ```js
  * const unsecuredJwt = new jose.UnsecuredJWT({ 'urn:example:claim': true })
@@ -27,7 +29,9 @@ export interface UnsecuredResult<PayloadType = JWTPayload> {
  * console.log(unsecuredJwt)
  * ```
  *
- * @example Decoding
+ * @example
+ *
+ * Decoding
  *
  * ```js
  * const payload = jose.UnsecuredJWT.decode(jwt, {

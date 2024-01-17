@@ -26,7 +26,9 @@
  * {@link https://developer.mozilla.org/en-US/docs/Web/API/SubtleCrypto/importKey SubtleCrypto.importKey}
  * API to obtain a CryptoKey from your existing key material.
  *
- * @example Import a PEM-encoded SPKI Public Key
+ * @example
+ *
+ * Import a PEM-encoded SPKI Public Key
  *
  * ```js
  * const algorithm = 'ES256'
@@ -37,7 +39,9 @@
  * const ecPublicKey = await jose.importSPKI(spki, algorithm)
  * ```
  *
- * @example Import SPKI from an X.509 Certificate
+ * @example
+ *
+ * Import SPKI from an X.509 Certificate
  *
  * ```js
  * const algorithm = 'ES256'
@@ -54,7 +58,9 @@
  * const ecPublicKey = await jose.importX509(x509, algorithm)
  * ```
  *
- * @example Import a PEM-encoded PKCS8 Private Key
+ * @example
+ *
+ * Import a PEM-encoded PKCS8 Private Key
  *
  * ```js
  * const algorithm = 'ES256'
@@ -66,7 +72,9 @@
  * const ecPrivateKey = await jose.importPKCS8(pkcs8, algorithm)
  * ```
  *
- * @example Import a JSON Web Key (JWK)
+ * @example
+ *
+ * Import a JSON Web Key (JWK)
  *
  * ```js
  * const ecPublicKey = await jose.importJWK(

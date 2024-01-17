@@ -42,13 +42,17 @@ console.log(jwe)
 
 ### constructor
 
-• **new GeneralEncrypt**(`plaintext`)
+• **new GeneralEncrypt**(`plaintext`): [`GeneralEncrypt`](jwe_general_encrypt.GeneralEncrypt.md)
 
 #### Parameters
 
 | Name | Type | Description |
 | :------ | :------ | :------ |
 | `plaintext` | [`Uint8Array`]( https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Uint8Array ) | Binary representation of the plaintext to encrypt. |
+
+#### Returns
+
+[`GeneralEncrypt`](jwe_general_encrypt.GeneralEncrypt.md)
 
 ## Methods
 
@@ -103,7 +107,7 @@ ___
 
 ### setProtectedHeader
 
-▸ **setProtectedHeader**(`protectedHeader`): [`GeneralEncrypt`](jwe_general_encrypt.GeneralEncrypt.md)
+▸ **setProtectedHeader**(`protectedHeader`): `this`
 
 Sets the JWE Protected Header on the GeneralEncrypt object.
 
@@ -115,13 +119,13 @@ Sets the JWE Protected Header on the GeneralEncrypt object.
 
 #### Returns
 
-[`GeneralEncrypt`](jwe_general_encrypt.GeneralEncrypt.md)
+`this`
 
 ___
 
 ### setSharedUnprotectedHeader
 
-▸ **setSharedUnprotectedHeader**(`sharedUnprotectedHeader`): [`GeneralEncrypt`](jwe_general_encrypt.GeneralEncrypt.md)
+▸ **setSharedUnprotectedHeader**(`sharedUnprotectedHeader`): `this`
 
 Sets the JWE Shared Unprotected Header on the GeneralEncrypt object.
 
@@ -133,4 +137,4 @@ Sets the JWE Shared Unprotected Header on the GeneralEncrypt object.
 
 #### Returns
 
-[`GeneralEncrypt`](jwe_general_encrypt.GeneralEncrypt.md)
+`this`

@@ -31,29 +31,9 @@ if (err instanceof jose.errors.JOSENotSupported) {
 
 ## Table of contents
 
-### Constructors
-
-- [constructor](util_errors.JOSENotSupported.md#constructor)
-
 ### Properties
 
 - [code](util_errors.JOSENotSupported.md#code)
-
-### Accessors
-
-- [code](util_errors.JOSENotSupported.md#code-1)
-
-## Constructors
-
-### constructor
-
-• **new JOSENotSupported**(`message?`)
-
-#### Parameters
-
-| Name | Type |
-| :------ | :------ |
-| `message?` | `string` |
 
 ## Properties
 
@@ -61,16 +41,4 @@ if (err instanceof jose.errors.JOSENotSupported) {
 
 • **code**: `string` = `'ERR_JOSE_NOT_SUPPORTED'`
 
-A unique error code for the particular error subclass.
-
-## Accessors
-
-### code
-
-• `Static` `get` **code**(): ``"ERR_JOSE_NOT_SUPPORTED"``
-
-A unique error code for the particular error subclass.
-
-#### Returns
-
-``"ERR_JOSE_NOT_SUPPORTED"``
+A unique error code for this particular error subclass.

@@ -42,13 +42,17 @@ console.log(jwe)
 
 ### constructor
 
-• **new FlattenedEncrypt**(`plaintext`)
+• **new FlattenedEncrypt**(`plaintext`): [`FlattenedEncrypt`](jwe_flattened_encrypt.FlattenedEncrypt.md)
 
 #### Parameters
 
 | Name | Type | Description |
 | :------ | :------ | :------ |
 | `plaintext` | [`Uint8Array`]( https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Uint8Array ) | Binary representation of the plaintext to encrypt. |
+
+#### Returns
+
+[`FlattenedEncrypt`](jwe_flattened_encrypt.FlattenedEncrypt.md)
 
 ## Methods
 

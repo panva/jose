@@ -58,13 +58,17 @@ console.log(payload)
 
 ### constructor
 
-• **new UnsecuredJWT**(`payload?`)
+• **new UnsecuredJWT**(`payload?`): [`UnsecuredJWT`](jwt_unsecured.UnsecuredJWT.md)
 
 #### Parameters
 
 | Name | Type | Description |
 | :------ | :------ | :------ |
 | `payload` | [`JWTPayload`](../interfaces/types.JWTPayload.md) | The JWT Claims Set object. Defaults to an empty object. |
+
+#### Returns
+
+[`UnsecuredJWT`](jwt_unsecured.UnsecuredJWT.md)
 
 ## Methods
 

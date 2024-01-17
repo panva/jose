@@ -52,6 +52,15 @@ for (const path of ['./README.md', './docs/README.md']) {
   execSync(`git add ${path}`, { stdio: 'inherit' })
 }
 
+// https://github.com/tgreyuk/typedoc-plugin-markdown/issues/533
+{
+  const path = 'docs/classes/jwt_unsecured.UnsecuredJWT.md'
+  writeFileSync(
+    path,
+    readFileSync(path, { encoding: 'utf-8' }).replace('▸ **decode**', '▸ `Static` **decode**'),
+  )
+}
+
 const ts = globSync('dist/**/**.ts')
 
 function filterExamples(file) {

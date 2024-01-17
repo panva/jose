@@ -20,29 +20,9 @@ if (err instanceof jose.errors.JOSEError) {
 
 ## Table of contents
 
-### Constructors
-
-- [constructor](util_errors.JOSEError.md#constructor)
-
 ### Properties
 
 - [code](util_errors.JOSEError.md#code)
-
-### Accessors
-
-- [code](util_errors.JOSEError.md#code-1)
-
-## Constructors
-
-### constructor
-
-• **new JOSEError**(`message?`)
-
-#### Parameters
-
-| Name | Type |
-| :------ | :------ |
-| `message?` | `string` |
 
 ## Properties
 
@@ -50,16 +30,4 @@ if (err instanceof jose.errors.JOSEError) {
 
 • **code**: `string` = `'ERR_JOSE_GENERIC'`
 
-A unique error code for the particular error subclass.
-
-## Accessors
-
-### code
-
-• `Static` `get` **code**(): `string`
-
-A unique error code for the particular error subclass.
-
-#### Returns
-
-`string`
+A unique error code for this particular error subclass.

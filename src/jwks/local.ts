@@ -218,7 +218,9 @@ async function importWithAlgCache<KeyLikeType extends KeyLike = KeyLike>(
  * console.log(payload)
  * ```
  *
- * @example Opting-in to multiple JWKS matches using `createLocalJWKSet`
+ * @example
+ *
+ * Opting-in to multiple JWKS matches using `createLocalJWKSet`
  *
  * ```js
  * const options = {

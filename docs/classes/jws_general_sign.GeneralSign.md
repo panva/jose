@@ -38,13 +38,17 @@ console.log(jws)
 
 ### constructor
 
-• **new GeneralSign**(`payload`)
+• **new GeneralSign**(`payload`): [`GeneralSign`](jws_general_sign.GeneralSign.md)
 
 #### Parameters
 
 | Name | Type | Description |
 | :------ | :------ | :------ |
 | `payload` | [`Uint8Array`]( https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Uint8Array ) | Binary representation of the payload to sign. |
+
+#### Returns
+
+[`GeneralSign`](jws_general_sign.GeneralSign.md)
 
 ## Methods
 

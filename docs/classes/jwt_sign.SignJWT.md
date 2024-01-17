@@ -128,13 +128,17 @@ console.log(jwt)
 
 ### constructor
 
-• **new SignJWT**(`payload?`)
+• **new SignJWT**(`payload?`): [`SignJWT`](jwt_sign.SignJWT.md)
 
 #### Parameters
 
 | Name | Type | Description |
 | :------ | :------ | :------ |
 | `payload` | [`JWTPayload`](../interfaces/types.JWTPayload.md) | The JWT Claims Set object. Defaults to an empty object. |
+
+#### Returns
+
+[`SignJWT`](jwt_sign.SignJWT.md)
 
 ## Methods
 

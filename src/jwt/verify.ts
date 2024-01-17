@@ -28,7 +28,9 @@ export interface JWTVerifyGetKey extends GetKeyFunction<JWTHeaderParameters, Fla
  * Verifies the JWT format (to be a JWS Compact format), verifies the JWS signature, validates the
  * JWT Claims Set.
  *
- * @example Usage with a symmetric secret
+ * @example
+ *
+ * Usage with a symmetric secret
  *
  * ```js
  * const secret = new TextEncoder().encode(
@@ -46,7 +48,9 @@ export interface JWTVerifyGetKey extends GetKeyFunction<JWTHeaderParameters, Fla
  * console.log(payload)
  * ```
  *
- * @example Usage with a public SPKI encoded RSA key
+ * @example
+ *
+ * Usage with a public SPKI encoded RSA key
  *
  * ```js
  * const alg = 'RS256'
@@ -72,7 +76,9 @@ export interface JWTVerifyGetKey extends GetKeyFunction<JWTHeaderParameters, Fla
  * console.log(payload)
  * ```
  *
- * @example Usage with a public JWK encoded RSA key
+ * @example
+ *
+ * Usage with a public JWK encoded RSA key
  *
  * ```js
  * const alg = 'RS256'
@@ -106,7 +112,9 @@ export async function jwtVerify<PayloadType = JWTPayload>(
 ): Promise<JWTVerifyResult<PayloadType>>
 
 /**
- * @example Usage with a public JSON Web Key Set hosted on a remote URL
+ * @example
+ *
+ * Usage with a public JSON Web Key Set hosted on a remote URL
  *
  * ```js
  * const JWKS = jose.createRemoteJWKSet(new URL('https://www.googleapis.com/oauth2/v3/certs'))

@@ -30,7 +30,7 @@ export interface PEMImportOptions {
  * const ecPublicKey = await jose.importSPKI(spki, algorithm)
  * ```
  *
- * @param pem PEM-encoded SPKI string
+ * @param spki PEM-encoded SPKI string
  * @param alg (Only effective in Web Crypto API runtimes) JSON Web Algorithm identifier to be used
  *   with the imported key, its presence is only enforced in Web Crypto API runtimes. See
  *   {@link https://github.com/panva/jose/issues/210 Algorithm Key Requirements}.
@@ -68,7 +68,7 @@ export async function importSPKI<KeyLikeType extends KeyLike = KeyLike>(
  * const ecPublicKey = await jose.importX509(x509, algorithm)
  * ```
  *
- * @param pem X.509 certificate string
+ * @param x509 X.509 certificate string
  * @param alg (Only effective in Web Crypto API runtimes) JSON Web Algorithm identifier to be used
  *   with the imported key, its presence is only enforced in Web Crypto API runtimes. See
  *   {@link https://github.com/panva/jose/issues/210 Algorithm Key Requirements}.
@@ -101,7 +101,7 @@ export async function importX509<KeyLikeType extends KeyLike = KeyLike>(
  * const ecPrivateKey = await jose.importPKCS8(pkcs8, algorithm)
  * ```
  *
- * @param pem PEM-encoded PKCS#8 string
+ * @param pkcs8 PEM-encoded PKCS#8 string
  * @param alg (Only effective in Web Crypto API runtimes) JSON Web Algorithm identifier to be used
  *   with the imported key, its presence is only enforced in Web Crypto API runtimes. See
  *   {@link https://github.com/panva/jose/issues/210 Algorithm Key Requirements}.
