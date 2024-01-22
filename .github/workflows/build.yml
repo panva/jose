@@ -24,7 +24,7 @@ jobs:
       - id: cache-key
         run: echo "value=dist-${{ hashFiles('src/**/*.ts', 'tsconfig/*.json', '.github/workflows/*.yml', 'package-lock.json') }}" >> $GITHUB_OUTPUT
       - name: Cache dist
-        uses: actions/cache@v3
+        uses: actions/cache@v4
         id: dist
         with:
           path: dist

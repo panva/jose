@@ -34,7 +34,7 @@ jobs:
           registry-url: https://registry.npmjs.org
           always-auth: true
       - name: Load cached dist
-        uses: actions/cache@v3
+        uses: actions/cache@v4
         id: dist
         with:
           path: dist
