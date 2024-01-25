@@ -154,11 +154,11 @@
     "tap:workerd": "./tap/.workerd.sh"
   },
   "devDependencies": {
-    "@types/node": "^20.11.5",
+    "@types/node": "^20.11.6",
     "@types/qunit": "^2.19.10",
     "ava": "^5.3.1",
-    "edge-runtime": "^2.5.7",
-    "esbuild": "^0.19.11",
+    "edge-runtime": "^2.5.8",
+    "esbuild": "^0.19.12",
     "glob": "^10.3.10",
     "nock": "^13.5.0",
     "npm-run-all2": "^6.1.1",
