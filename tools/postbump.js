@@ -39,6 +39,14 @@ import * as jose from 'https://deno.land/x/jose@${tagName}/index.ts'
     )
     .replace(/(\]\()(?!https)/gm, `](https://github.com/panva/jose/blob/${tagName}/docs/`),
 )
+// https://github.com/tgreyuk/typedoc-plugin-markdown/issues/533
+{
+  const path = 'docs/classes/jwt_unsecured.UnsecuredJWT.md'
+  writeFileSync(
+    path,
+    readFileSync(path, { encoding: 'utf-8' }).replace('▸ **decode**', '▸ `Static` **decode**'),
+  )
+}
 execSync('npm run build:browser-bundle', opts)
 execSync('npm run build:browser-bundle-min', opts)
 execSync('npm run build:browser-umd', opts)
@@ -50,15 +58,6 @@ for (const path of ['./README.md', './docs/README.md']) {
     readFileSync(path, { encoding: 'utf-8' }).replace(/jose@v\d+\.\d+\.\d+/gm, `jose@v${version}`),
   )
   execSync(`git add ${path}`, { stdio: 'inherit' })
-}
-
-// https://github.com/tgreyuk/typedoc-plugin-markdown/issues/533
-{
-  const path = 'docs/classes/jwt_unsecured.UnsecuredJWT.md'
-  writeFileSync(
-    path,
-    readFileSync(path, { encoding: 'utf-8' }).replace('▸ **decode**', '▸ `Static` **decode**'),
-  )
 }
 
 const ts = globSync('dist/**/**.ts')
