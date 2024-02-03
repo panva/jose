@@ -7,10 +7,12 @@ pkg.scripts = undefined
 pkg.imports = undefined
 pkg.description = undefined
 pkg.main = undefined
-pkg.exports['.'].import = undefined
-pkg.exports['.'].require = undefined
 pkg.keywords = undefined
-pkg.exports['.'].node = pkg.exports['.'].browser
+for (const exportPath of Object.keys(pkg.exports)) {
+  pkg.exports[exportPath].import = undefined
+  pkg.exports[exportPath].require = undefined
+  pkg.exports[exportPath].node = pkg.exports[exportPath].browser
+}
 
 pkg.files.push('!dist/**/package.json')
 pkg.files.push('!dist/node/**/*')

@@ -8,9 +8,11 @@ pkg.imports = undefined
 pkg.description = undefined
 pkg.browser = undefined
 pkg.deno = undefined
-pkg.exports['.'].browser = undefined
-pkg.exports['.'].deno = undefined
-pkg.exports['.'].import = undefined
+for (const exportPath of Object.keys(pkg.exports)) {
+  for (const runtime of ['browser', 'deno', 'import', 'bun', 'worker']) {
+    pkg.exports[exportPath][runtime] = undefined
+  }
+}
 pkg.keywords = undefined
 
 pkg.files.push('!dist/browser/**/*')
