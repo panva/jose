@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [5.2.1](https://github.com/panva/jose/compare/v5.2.0...v5.2.1) (2024-02-03)
+
+
+### Fixes
+
+* **build:** refactor export targets for browser, node cjs, and node esm builds ([50cbc65](https://github.com/panva/jose/commit/50cbc65e165ea27b4ed08ee7fc5a747a17d235da))
+
 ## [5.2.0](https://github.com/panva/jose/compare/v5.1.3...v5.2.0) (2023-12-24)
 
 
