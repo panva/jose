@@ -10,6 +10,6 @@
     "noEmit": true,
     "noUnusedLocals": true,
     "noUnusedParameters": true,
-    "noImplicitAny": true,
-  },
+    "noImplicitAny": true
+  }
 }
