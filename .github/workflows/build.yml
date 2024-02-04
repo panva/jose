@@ -32,7 +32,7 @@ jobs:
       - name: Build
         run: npm run build-all
         if: ${{ steps.dist.outputs.cache-hit != 'true' }}
-      - uses: actions/upload-artifact@v3
+      - uses: actions/upload-artifact@v4
         with:
           name: dist
           path: dist
