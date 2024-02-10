@@ -11,6 +11,10 @@ Support from the community to continue maintaining and improving this module is 
 Imports a PEM-encoded PKCS#8 string as a runtime-specific private key representation (KeyObject
 or CryptoKey).
 
+Note: The OID id-RSASSA-PSS (1.2.840.113549.1.1.10) is not supported in
+[Web Cryptography API](https://w3c.github.io/webcrypto/), use the OID rsaEncryption
+(1.2.840.113549.1.1.1) instead for all RSA algorithms.
+
 #### Type parameters
 
 | Name | Type |

@@ -19,6 +19,10 @@ export interface PEMImportOptions {
  * Imports a PEM-encoded SPKI string as a runtime-specific public key representation (KeyObject or
  * CryptoKey).
  *
+ * Note: The OID id-RSASSA-PSS (1.2.840.113549.1.1.10) is not supported in
+ * {@link https://w3c.github.io/webcrypto/ Web Cryptography API}, use the OID rsaEncryption
+ * (1.2.840.113549.1.1.1) instead for all RSA algorithms.
+ *
  * @example
  *
  * ```js
@@ -50,6 +54,10 @@ export async function importSPKI<KeyLikeType extends KeyLike = KeyLike>(
 /**
  * Imports the SPKI from an X.509 string certificate as a runtime-specific public key representation
  * (KeyObject or CryptoKey).
+ *
+ * Note: The OID id-RSASSA-PSS (1.2.840.113549.1.1.10) is not supported in
+ * {@link https://w3c.github.io/webcrypto/ Web Cryptography API}, use the OID rsaEncryption
+ * (1.2.840.113549.1.1.1) instead for all RSA algorithms.
  *
  * @example
  *
@@ -89,6 +97,10 @@ export async function importX509<KeyLikeType extends KeyLike = KeyLike>(
  * Imports a PEM-encoded PKCS#8 string as a runtime-specific private key representation (KeyObject
  * or CryptoKey).
  *
+ * Note: The OID id-RSASSA-PSS (1.2.840.113549.1.1.10) is not supported in
+ * {@link https://w3c.github.io/webcrypto/ Web Cryptography API}, use the OID rsaEncryption
+ * (1.2.840.113549.1.1.1) instead for all RSA algorithms.
+ *
  * @example
  *
  * ```js
@@ -119,10 +131,11 @@ export async function importPKCS8<KeyLikeType extends KeyLike = KeyLike>(
 }
 
 /**
- * Imports a JWK to a runtime-specific key representation (KeyLike). Either JWK "alg" (Algorithm)
- * Parameter must be present or the optional "alg" argument. When running on a runtime using
- * {@link https://www.w3.org/TR/WebCryptoAPI/ Web Cryptography API} the jwk parameters "use",
- * "key_ops", and "ext" are also used in the resulting `CryptoKey`.
+ * Imports a JWK to a runtime-specific key representation (KeyLike). Either the JWK "alg"
+ * (Algorithm) Parameter, or the optional "alg" argument, must be present.
+ *
+ * Note: When the runtime is using {@link https://w3c.github.io/webcrypto/ Web Cryptography API} the
+ * jwk parameters "use", "key_ops", and "ext" are also used in the resulting `CryptoKey`.
  *
  * @example
  *

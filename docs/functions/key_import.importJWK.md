@@ -8,10 +8,11 @@ Support from the community to continue maintaining and improving this module is 
 
 ▸ **importJWK**\<`KeyLikeType`\>(`jwk`, `alg?`): [`Promise`]( https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise )\<`KeyLikeType` \| [`Uint8Array`]( https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Uint8Array )\>
 
-Imports a JWK to a runtime-specific key representation (KeyLike). Either JWK "alg" (Algorithm)
-Parameter must be present or the optional "alg" argument. When running on a runtime using
-[Web Cryptography API](https://www.w3.org/TR/WebCryptoAPI/) the jwk parameters "use",
-"key_ops", and "ext" are also used in the resulting `CryptoKey`.
+Imports a JWK to a runtime-specific key representation (KeyLike). Either the JWK "alg"
+(Algorithm) Parameter, or the optional "alg" argument, must be present.
+
+Note: When the runtime is using [Web Cryptography API](https://w3c.github.io/webcrypto/) the
+jwk parameters "use", "key_ops", and "ext" are also used in the resulting `CryptoKey`.
 
 #### Type parameters
 
