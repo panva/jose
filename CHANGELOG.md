@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [5.2.2](https://github.com/panva/jose/compare/v5.2.1...v5.2.2) (2024-02-11)
+
+
+### Fixes
+
+* **types:** iv and tag is optional in JSON serializations ([53019cd](https://github.com/panva/jose/commit/53019cd1fa3a4dc265d4868b9c626d4d6c832e86))
+
 ## [5.2.1](https://github.com/panva/jose/compare/v5.2.0...v5.2.1) (2024-02-03)
 
 
