@@ -11,11 +11,11 @@ Support from the community to continue maintaining and improving this module is 
 ### Properties
 
 - [ciphertext](types.GeneralJWE.md#ciphertext)
-- [iv](types.GeneralJWE.md#iv)
 - [recipients](types.GeneralJWE.md#recipients)
-- [tag](types.GeneralJWE.md#tag)
 - [aad](types.GeneralJWE.md#aad)
+- [iv](types.GeneralJWE.md#iv)
 - [protected](types.GeneralJWE.md#protected)
+- [tag](types.GeneralJWE.md#tag)
 - [unprotected](types.GeneralJWE.md#unprotected)
 
 ## Properties
@@ -28,27 +28,9 @@ The "ciphertext" member MUST be present and contain the value BASE64URL(JWE Ciph
 
 ___
 
-### iv
-
-• **iv**: `string`
-
-The "iv" member MUST be present and contain the value BASE64URL(JWE Initialization Vector) when
-the JWE Initialization Vector value is non-empty; otherwise, it MUST be absent.
-
-___
-
 ### recipients
 
 • **recipients**: [`Pick`]( https://www.typescriptlang.org/docs/handbook/utility-types.html#picktype-keys )\<[`FlattenedJWE`](types.FlattenedJWE.md), ``"header"`` \| ``"encrypted_key"``\>[]
-
-___
-
-### tag
-
-• **tag**: `string`
-
-The "tag" member MUST be present and contain the value BASE64URL(JWE Authentication Tag) when
-the JWE Authentication Tag value is non-empty; otherwise, it MUST be absent.
 
 ___
 
@@ -62,6 +44,15 @@ base64url-encoded value to be integrity protected but not encrypted.
 
 ___
 
+### iv
+
+• `Optional` **iv**: `string`
+
+The "iv" member MUST be present and contain the value BASE64URL(JWE Initialization Vector) when
+the JWE Initialization Vector value is non-empty; otherwise, it MUST be absent.
+
+___
+
 ### protected
 
 • `Optional` **protected**: `string`
@@ -69,6 +60,15 @@ ___
 The "protected" member MUST be present and contain the value BASE64URL(UTF8(JWE Protected
 Header)) when the JWE Protected Header value is non-empty; otherwise, it MUST be absent. These
 Header Parameter values are integrity protected.
+
+___
+
+### tag
+
+• `Optional` **tag**: `string`
+
+The "tag" member MUST be present and contain the value BASE64URL(JWE Authentication Tag) when
+the JWE Authentication Tag value is non-empty; otherwise, it MUST be absent.
 
 ___
 

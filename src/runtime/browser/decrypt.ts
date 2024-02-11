@@ -4,7 +4,7 @@ import type { DecryptFunction } from '../interfaces.d'
 import checkIvLength from '../../lib/check_iv_length.js'
 import checkCekLength from './check_cek_length.js'
 import timingSafeEqual from './timing_safe_equal.js'
-import { JOSENotSupported, JWEDecryptionFailed } from '../../util/errors.js'
+import { JOSENotSupported, JWEDecryptionFailed, JWEInvalid } from '../../util/errors.js'
 import crypto, { isCryptoKey } from './webcrypto.js'
 import { checkEncCryptoKey } from '../../lib/crypto_key.js'
 import invalidKeyInput from '../../lib/invalid_key_input.js'
@@ -108,12 +108,19 @@ const decrypt: DecryptFunction = async (
   enc: string,
   cek: unknown,
   ciphertext: Uint8Array,
-  iv: Uint8Array,
-  tag: Uint8Array,
+  iv: Uint8Array | undefined,
+  tag: Uint8Array | undefined,
   aad: Uint8Array,
 ) => {
   if (!isCryptoKey(cek) && !(cek instanceof Uint8Array)) {
     throw new TypeError(invalidKeyInput(cek, ...types, 'Uint8Array'))
+  }
+
+  if (!iv) {
+    throw new JWEInvalid('JWE Initialization Vector missing')
+  }
+  if (!tag) {
+    throw new JWEInvalid('JWE Authentication Tag missing')
   }
 
   checkIvLength(enc, iv)

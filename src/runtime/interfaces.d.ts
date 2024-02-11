@@ -63,8 +63,8 @@ export interface DecryptFunction {
     enc: string,
     cek: unknown,
     ciphertext: Uint8Array,
-    iv: Uint8Array,
-    tag: Uint8Array,
+    iv: Uint8Array | undefined,
+    tag: Uint8Array | undefined,
     additionalData: Uint8Array,
   ): AsyncOrSync<Uint8Array>
 }

@@ -85,16 +85,16 @@ export async function flattenedDecrypt(
     throw new JWEInvalid('JOSE Header missing')
   }
 
-  if (typeof jwe.iv !== 'string') {
-    throw new JWEInvalid('JWE Initialization Vector missing or incorrect type')
+  if (jwe.iv !== undefined && typeof jwe.iv !== 'string') {
+    throw new JWEInvalid('JWE Initialization Vector incorrect type')
   }
 
   if (typeof jwe.ciphertext !== 'string') {
     throw new JWEInvalid('JWE Ciphertext missing or incorrect type')
   }
 
-  if (typeof jwe.tag !== 'string') {
-    throw new JWEInvalid('JWE Authentication Tag missing or incorrect type')
+  if (jwe.tag !== undefined && typeof jwe.tag !== 'string') {
+    throw new JWEInvalid('JWE Authentication Tag incorrect type')
   }
 
   if (jwe.protected !== undefined && typeof jwe.protected !== 'string') {
@@ -205,17 +205,21 @@ export async function flattenedDecrypt(
     cek = generateCek(enc)
   }
 
-  let iv: Uint8Array
-  let tag: Uint8Array
-  try {
-    iv = base64url(jwe.iv)
-  } catch {
-    throw new JWEInvalid('Failed to base64url decode the iv')
+  let iv: Uint8Array | undefined
+  let tag: Uint8Array | undefined
+  if (jwe.iv !== undefined) {
+    try {
+      iv = base64url(jwe.iv)
+    } catch {
+      throw new JWEInvalid('Failed to base64url decode the iv')
+    }
   }
-  try {
-    tag = base64url(jwe.tag)
-  } catch {
-    throw new JWEInvalid('Failed to base64url decode the tag')
+  if (jwe.tag !== undefined) {
+    try {
+      tag = base64url(jwe.tag)
+    } catch {
+      throw new JWEInvalid('Failed to base64url decode the tag')
+    }
   }
 
   const protectedHeader: Uint8Array = encoder.encode(jwe.protected ?? '')
