@@ -35,7 +35,6 @@ export default (QUnit: QUnit, lib: typeof jose) => {
     ['RSA-OAEP-384', KEYS.RSA.jwk, true],
     ['RSA-OAEP-512', KEYS.RSA.jwk, true],
     ['RSA-OAEP', KEYS.RSA.jwk, true],
-    ['RSA1_5', KEYS.RSA.jwk, env.isNodeCrypto || env.isElectron],
   ]
 
   function publicJwk(jwk: JsonWebKey) {

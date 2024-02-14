@@ -122,5 +122,4 @@ test(testECDSASigEncoding, 'ES256')
 test(testECDSASigEncoding, 'ES384')
 test(testECDSASigEncoding, 'ES512')
 
-test(testRSAenc, 'RSA1_5')
 test(testECDSASigEncoding, 'ES256K')

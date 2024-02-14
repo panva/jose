@@ -191,6 +191,35 @@ export class JWEDecryptionFailed extends JOSEError {
 }
 
 /**
+ * An error subclass thrown when a JWE ciphertext decompression fails.
+ *
+ * @example Checking thrown error is this one using a stable error code
+ *
+ * ```js
+ * if (err.code === 'ERR_JWE_DECOMPRESSION_FAILED') {
+ *   // ...
+ * }
+ * ```
+ *
+ * @example Checking thrown error is this one using `instanceof`
+ *
+ * ```js
+ * if (err instanceof jose.errors.JWEDecompressionFailed) {
+ *   // ...
+ * }
+ * ```
+ */
+export class JWEDecompressionFailed extends JOSEError {
+  static get code(): 'ERR_JWE_DECOMPRESSION_FAILED' {
+    return 'ERR_JWE_DECOMPRESSION_FAILED'
+  }
+
+  code = 'ERR_JWE_DECOMPRESSION_FAILED'
+
+  message = 'decompression operation failed'
+}
+
+/**
  * An error subclass thrown when a JWE is invalid.
  *
  * @example Checking thrown error is this one using a stable error code

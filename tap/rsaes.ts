@@ -1,5 +1,4 @@
 import type QUnit from 'qunit'
-import * as env from './env.js'
 import type * as jose from '../src/index.js'
 import * as roundtrip from './encrypt.js'
 
@@ -11,7 +10,6 @@ export default (QUnit: QUnit, lib: typeof jose) => {
 
   type Vector = [string, boolean]
   const algorithms: Vector[] = [
-    ['RSA1_5', env.isNodeCrypto || env.isElectron],
     ['RSA-OAEP', true],
     ['RSA-OAEP-256', true],
     ['RSA-OAEP-384', true],
