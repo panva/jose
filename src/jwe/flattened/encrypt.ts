@@ -8,7 +8,6 @@ import type {
   JWEKeyManagementHeaderParameters,
   EncryptOptions,
 } from '../../types.d'
-import generateIv from '../../lib/iv.js'
 import encryptKeyManagement from '../../lib/encrypt_key_management.js'
 import { JOSENotSupported, JWEInvalid } from '../../util/errors.js'
 import isDisjoint from '../../lib/is_disjoint.js'
@@ -37,17 +36,17 @@ export const unprotected = Symbol()
 export class FlattenedEncrypt {
   private _plaintext: Uint8Array
 
-  private _protectedHeader!: JWEHeaderParameters
+  private _protectedHeader!: JWEHeaderParameters | undefined
 
-  private _sharedUnprotectedHeader!: JWEHeaderParameters
+  private _sharedUnprotectedHeader!: JWEHeaderParameters | undefined
 
-  private _unprotectedHeader!: JWEHeaderParameters
+  private _unprotectedHeader!: JWEHeaderParameters | undefined
 
-  private _aad!: Uint8Array
+  private _aad!: Uint8Array | undefined
 
-  private _cek!: Uint8Array
+  private _cek!: Uint8Array | undefined
 
-  private _iv!: Uint8Array
+  private _iv!: Uint8Array | undefined
 
   private _keyManagementParameters!: JWEKeyManagementHeaderParameters
 
@@ -165,7 +164,7 @@ export class FlattenedEncrypt {
    *   {@link https://github.com/panva/jose/issues/210#jwe-alg Algorithm Key Requirements}.
    * @param options JWE Encryption options.
    */
-  async encrypt(key: KeyLike | Uint8Array, options?: EncryptOptions) {
+  async encrypt(key: KeyLike | Uint8Array, options?: EncryptOptions): Promise<FlattenedJWE> {
     if (!this._protectedHeader && !this._unprotectedHeader && !this._sharedUnprotectedHeader) {
       throw new JWEInvalid(
         'either setProtectedHeader, setUnprotectedHeader, or sharedUnprotectedHeader must be called before #encrypt()',
@@ -206,16 +205,10 @@ export class FlattenedEncrypt {
 
     let encryptedKey: Uint8Array | undefined
 
-    if (alg === 'dir') {
-      if (this._cek) {
-        throw new TypeError('setContentEncryptionKey cannot be called when using Direct Encryption')
-      }
-    } else if (alg === 'ECDH-ES') {
-      if (this._cek) {
-        throw new TypeError(
-          'setContentEncryptionKey cannot be called when using Direct Key Agreement',
-        )
-      }
+    if (this._cek && (alg === 'dir' || alg === 'ECDH-ES')) {
+      throw new TypeError(
+        `setContentEncryptionKey cannot be called with JWE "alg" (Algorithm) Header ${alg}`,
+      )
     }
 
     let cek: KeyLike | Uint8Array
@@ -246,8 +239,6 @@ export class FlattenedEncrypt {
       }
     }
 
-    this._iv ||= generateIv(enc)
-
     let additionalData: Uint8Array
     let protectedHeader: Uint8Array
     let aadMember: string | undefined
@@ -264,12 +255,24 @@ export class FlattenedEncrypt {
       additionalData = protectedHeader
     }
 
-    const { ciphertext, tag } = await encrypt(enc, this._plaintext, cek, this._iv, additionalData)
+    const { ciphertext, tag, iv } = await encrypt(
+      enc,
+      this._plaintext,
+      cek,
+      this._iv,
+      additionalData,
+    )
 
     const jwe: FlattenedJWE = {
       ciphertext: base64url(ciphertext),
-      iv: base64url(this._iv),
-      tag: base64url(tag),
+    }
+
+    if (iv) {
+      jwe.iv = base64url(iv)
+    }
+
+    if (tag) {
+      jwe.tag = base64url(tag)
     }
 
     if (encryptedKey) {

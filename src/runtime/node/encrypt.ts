@@ -10,6 +10,7 @@ import { isCryptoKey } from './webcrypto.js'
 import { checkEncCryptoKey } from '../../lib/crypto_key.js'
 import isKeyObject from './is_key_object.js'
 import invalidKeyInput from '../../lib/invalid_key_input.js'
+import generateIv from '../../lib/iv.js'
 import { JOSENotSupported } from '../../util/errors.js'
 import supported from './ciphers.js'
 import { types } from './is_key_like.js'
@@ -41,7 +42,7 @@ function cbcEncrypt(
   const macSize = parseInt(enc.slice(-3), 10)
   const tag = cbcTag(aad, iv, ciphertext, macSize, macKey, keySize)
 
-  return { ciphertext, tag }
+  return { ciphertext, tag, iv }
 }
 
 function gcmEncrypt(
@@ -67,14 +68,14 @@ function gcmEncrypt(
   cipher.final()
   const tag = cipher.getAuthTag()
 
-  return { ciphertext, tag }
+  return { ciphertext, tag, iv }
 }
 
 const encrypt: EncryptFunction = (
   enc: string,
   plaintext: Uint8Array,
   cek: unknown,
-  iv: Uint8Array,
+  iv: Uint8Array | undefined,
   aad: Uint8Array,
 ) => {
   let key: KeyObject | Uint8Array
@@ -88,7 +89,11 @@ const encrypt: EncryptFunction = (
   }
 
   checkCekLength(enc, key)
-  checkIvLength(enc, iv)
+  if (iv) {
+    checkIvLength(enc, iv)
+  } else {
+    iv = generateIv(enc)
+  }
 
   switch (enc) {
     case 'A128CBC-HS256':

@@ -51,11 +51,12 @@ export interface EncryptFunction {
     enc: string,
     plaintext: Uint8Array,
     cek: unknown,
-    iv: Uint8Array,
+    iv: Uint8Array | undefined,
     aad: Uint8Array,
   ): AsyncOrSync<{
     ciphertext: Uint8Array
-    tag: Uint8Array
+    tag: Uint8Array | undefined
+    iv: Uint8Array | undefined
   }>
 }
 export interface DecryptFunction {

@@ -1,21 +1,17 @@
 import encrypt from '../runtime/encrypt.js'
 import decrypt from '../runtime/decrypt.js'
-import generateIv from './iv.js'
 import { encode as base64url } from '../runtime/base64url.js'
 
 export async function wrap(alg: string, key: unknown, cek: Uint8Array, iv?: Uint8Array) {
   const jweAlgorithm = alg.slice(0, 7)
-  iv ||= generateIv(jweAlgorithm)
 
-  const { ciphertext: encryptedKey, tag } = await encrypt(
-    jweAlgorithm,
-    cek,
-    key,
-    iv,
-    new Uint8Array(0),
-  )
+  const wrapped = await encrypt(jweAlgorithm, cek, key, iv, new Uint8Array(0))
 
-  return { encryptedKey, iv: base64url(iv), tag: base64url(tag) }
+  return {
+    encryptedKey: wrapped.ciphertext,
+    iv: base64url(wrapped.iv!),
+    tag: base64url(wrapped.tag!),
+  }
 }
 
 export async function unwrap(

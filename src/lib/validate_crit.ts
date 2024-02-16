@@ -10,10 +10,10 @@ function validateCrit(
   Err: typeof JWEInvalid | typeof JWSInvalid,
   recognizedDefault: Map<string, boolean>,
   recognizedOption: { [propName: string]: boolean } | undefined,
-  protectedHeader: CritCheckHeader,
+  protectedHeader: CritCheckHeader | undefined,
   joseHeader: CritCheckHeader,
 ) {
-  if (joseHeader.crit !== undefined && protectedHeader.crit === undefined) {
+  if (joseHeader.crit !== undefined && protectedHeader?.crit === undefined) {
     throw new Err('"crit" (Critical) Header Parameter MUST be integrity protected')
   }
 
