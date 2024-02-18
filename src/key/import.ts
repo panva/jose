@@ -4,7 +4,7 @@ import asKeyObject from '../runtime/jwk_to_key.js'
 
 import { JOSENotSupported } from '../util/errors.js'
 import isObject from '../lib/is_object.js'
-import type { JWK, KeyLike } from '../types.d'
+import type { JWK, KeyLike, CompactJWSHeaderParameters } from '../types.d'
 
 export interface PEMImportOptions {
   /**
@@ -168,7 +168,7 @@ export async function importPKCS8<KeyLikeType extends KeyLike = KeyLike>(
  */
 export async function importJWK<KeyLikeType extends KeyLike = KeyLike>(
   jwk: JWK,
-  alg?: string,
+  alg?: CompactJWSHeaderParameters["alg"],
 ): Promise<KeyLikeType | Uint8Array> {
   if (!isObject(jwk)) {
     throw new TypeError('JWK must be an object')
