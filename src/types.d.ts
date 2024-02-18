@@ -106,7 +106,7 @@ export type KeyLike = { type: string }
 export interface JWK {
   /** JWK "alg" (Algorithm) Parameter. */
   alg?: string
-  crv?: string
+  crv?: 'P-256' | 'P-384' | 'P-521' | 'secp256k1' | 'Ed25519' | 'Ed448' | 'X25519' | 'X448'
   d?: string
   dp?: string
   dq?: string
