@@ -621,7 +621,7 @@ export interface ResolvedKey<KeyLikeType extends KeyLike = KeyLike> {
 
 /** Recognized Compact JWS Header Parameters, any other Header Members may also be present. */
 export interface CompactJWSHeaderParameters extends JWSHeaderParameters {
-  alg: 'HS256' | 'HS384' | 'HS512' | 'RS256' | 'RS384' | 'RS512'| 'ES256' | 'ES384' | 'ES512' | 'PS256' | 'PS384' | 'PS512' | (string & {})
+  alg: NonNullable<JWSHeaderParameters["alg"]>
 }
 
 /** Recognized Signed JWT Header Parameters, any other Header Members may also be present. */
@@ -631,8 +631,8 @@ export interface JWTHeaderParameters extends CompactJWSHeaderParameters {
 
 /** Recognized Compact JWE Header Parameters, any other Header Members may also be present. */
 export interface CompactJWEHeaderParameters extends JWEHeaderParameters {
-  alg: 'RSA-OAEP' | 'RSA-OAEP-256' | 'RSA1_5' | 'A128KW' | 'A192KW' | 'A256KW' | 'dir' | 'ECDH-ES' | 'ECDH-ES+A128KW' | 'ECDH-ES+A192KW' | 'ECDH-ES+A256KW' | 'A128GCMKW' | 'A192GCMKW' | 'A256GCMKW' | 'PBES2-HS256+A128KW' | 'PBES2-HS384+A192KW' | 'PBES2-HS512+A256KW' | (string & {})
-  enc: 'A128CBC-HS256' | 'A192CBC-HS384' | 'A256CBC-HS512' | 'A128GCM' | 'A192GCM' | 'A256GCM' | (string & {})
+  alg: NonNullable<JWEHeaderParameters["alg"]>
+  enc: NonNullable<JWEHeaderParameters["enc"]>
 }
 
 /** JSON Web Key Set */
