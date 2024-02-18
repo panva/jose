@@ -119,7 +119,7 @@ export interface JWK {
   /** JWK "kid" (Key ID) Parameter. */
   kid?: string
   /** JWK "kty" (Key Type) Parameter. */
-  kty?: string
+  kty?: 'RSA' | 'EC' | 'OKP' | 'oct'
   n?: string
   oth?: Array<{
     d?: string
@@ -263,7 +263,7 @@ export interface JoseHeaderParameters {
 /** Recognized JWS Header Parameters, any other Header Members may also be present. */
 export interface JWSHeaderParameters extends JoseHeaderParameters {
   /** JWS "alg" (Algorithm) Header Parameter. */
-  alg?: string
+  alg?: 'HS256' | 'HS384' | 'HS512' | 'RS256' | 'RS384' | 'RS512'| 'ES256' | 'ES384' | 'ES512' | 'PS256' | 'PS384' | 'PS512' | (string & {})
 
   /**
    * This JWS Extension Header Parameter modifies the JWS Payload representation and the JWS Signing
@@ -365,10 +365,10 @@ export interface GeneralJWE extends Omit<FlattenedJWE, 'encrypted_key' | 'header
 /** Recognized JWE Header Parameters, any other Header members may also be present. */
 export interface JWEHeaderParameters extends JoseHeaderParameters {
   /** JWE "alg" (Algorithm) Header Parameter. */
-  alg?: string
+  alg?: 'RSA-OAEP' | 'RSA-OAEP-256' | 'RSA1_5' | 'A128KW' | 'A192KW' | 'A256KW' | 'dir' | 'ECDH-ES' | 'ECDH-ES+A128KW' | 'ECDH-ES+A192KW' | 'ECDH-ES+A256KW' | 'A128GCMKW' | 'A192GCMKW' | 'A256GCMKW' | 'PBES2-HS256+A128KW' | 'PBES2-HS384+A192KW' | 'PBES2-HS512+A256KW' | (string & {})
 
   /** JWE "enc" (Encryption Algorithm) Header Parameter. */
-  enc?: string
+  enc?: 'A128CBC-HS256' | 'A192CBC-HS384' | 'A256CBC-HS512' | 'A128GCM' | 'A192GCM' | 'A256GCM' | (string & {})
 
   /** JWE "crit" (Critical) Header Parameter. */
   crit?: string[]
@@ -621,7 +621,7 @@ export interface ResolvedKey<KeyLikeType extends KeyLike = KeyLike> {
 
 /** Recognized Compact JWS Header Parameters, any other Header Members may also be present. */
 export interface CompactJWSHeaderParameters extends JWSHeaderParameters {
-  alg: string
+  alg: 'HS256' | 'HS384' | 'HS512' | 'RS256' | 'RS384' | 'RS512'| 'ES256' | 'ES384' | 'ES512' | 'PS256' | 'PS384' | 'PS512' | (string & {})
 }
 
 /** Recognized Signed JWT Header Parameters, any other Header Members may also be present. */
@@ -631,8 +631,8 @@ export interface JWTHeaderParameters extends CompactJWSHeaderParameters {
 
 /** Recognized Compact JWE Header Parameters, any other Header Members may also be present. */
 export interface CompactJWEHeaderParameters extends JWEHeaderParameters {
-  alg: string
-  enc: string
+  alg: 'RSA-OAEP' | 'RSA-OAEP-256' | 'RSA1_5' | 'A128KW' | 'A192KW' | 'A256KW' | 'dir' | 'ECDH-ES' | 'ECDH-ES+A128KW' | 'ECDH-ES+A192KW' | 'ECDH-ES+A256KW' | 'A128GCMKW' | 'A192GCMKW' | 'A256GCMKW' | 'PBES2-HS256+A128KW' | 'PBES2-HS384+A192KW' | 'PBES2-HS512+A256KW' | (string & {})
+  enc: 'A128CBC-HS256' | 'A192CBC-HS384' | 'A256CBC-HS512' | 'A128GCM' | 'A192GCM' | 'A256GCM' | (string & {})
 }
 
 /** JSON Web Key Set */
