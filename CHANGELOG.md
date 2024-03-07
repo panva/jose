@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [4.15.5](https://github.com/panva/jose/compare/v4.15.4...v4.15.5) (2024-03-07)
+
+
+### Fixes
+
+* add a maxOutputLength option to zlib inflate ([1b91d88](https://github.com/panva/jose/commit/1b91d88d2f8233f3477a5f4579aa5f8057b2ee8b))
+
 ## [4.15.4](https://github.com/panva/jose/compare/v4.15.3...v4.15.4) (2023-10-14)
 
 
