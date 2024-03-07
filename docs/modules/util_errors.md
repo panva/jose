@@ -13,6 +13,7 @@ Support from the community to continue maintaining and improving this module is 
 - [JOSEAlgNotAllowed](../classes/util_errors.JOSEAlgNotAllowed.md)
 - [JOSEError](../classes/util_errors.JOSEError.md)
 - [JOSENotSupported](../classes/util_errors.JOSENotSupported.md)
+- [JWEDecompressionFailed](../classes/util_errors.JWEDecompressionFailed.md)
 - [JWEDecryptionFailed](../classes/util_errors.JWEDecryptionFailed.md)
 - [JWEInvalid](../classes/util_errors.JWEInvalid.md)
 - [JWKInvalid](../classes/util_errors.JWKInvalid.md)

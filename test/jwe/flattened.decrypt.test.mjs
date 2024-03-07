@@ -1,5 +1,7 @@
 import test from 'ava'
 import * as crypto from 'crypto'
+import { promisify } from 'node:util'
+import { inflateRaw as inflateRawCb } from 'node:zlib'
 
 const { FlattenedEncrypt, flattenedDecrypt } = await import('#dist')
 
@@ -227,4 +229,38 @@ test('decrypt PBES2 p2c limit', async (t) => {
     message: 'JOSE Header "p2c" (PBES2 Count) out is of acceptable bounds',
     code: 'ERR_JWE_INVALID',
   })
+})
+
+test('decrypt inflate output length limit', async (t) => {
+  {
+    const jwe = await new FlattenedEncrypt(new Uint8Array(250000))
+      .setProtectedHeader({ alg: 'dir', enc: 'A128CBC-HS256', zip: 'DEF' })
+      .encrypt(new Uint8Array(32))
+
+    await flattenedDecrypt(jwe, new Uint8Array(32))
+  }
+
+  {
+    const jwe = await new FlattenedEncrypt(new Uint8Array(250000 + 1))
+      .setProtectedHeader({ alg: 'dir', enc: 'A128CBC-HS256', zip: 'DEF' })
+      .encrypt(new Uint8Array(32))
+
+    await t.throwsAsync(flattenedDecrypt(jwe, new Uint8Array(32)), {
+      message: 'decompression operation failed',
+      code: 'ERR_JWE_DECOMPRESSION_FAILED',
+    })
+  }
+
+  {
+    const jwe = await new FlattenedEncrypt(new Uint8Array(1000 + 1))
+      .setProtectedHeader({ alg: 'dir', enc: 'A128CBC-HS256', zip: 'DEF' })
+      .encrypt(new Uint8Array(32))
+
+    const inflateRawPromise = promisify(inflateRawCb)
+    const inflateRaw = async (buffer) => inflateRawPromise(buffer, { maxOutputLength: 1000 })
+
+    await t.throwsAsync(flattenedDecrypt(jwe, new Uint8Array(32), { inflateRaw }), {
+      code: 'ERR_BUFFER_TOO_LARGE',
+    })
+  }
 })
