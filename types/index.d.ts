@@ -402,6 +402,7 @@ export namespace JWE {
     contentEncryptionAlgorithms?: string[];
     keyManagementAlgorithms?: string[];
     maxPBES2Count?: number;
+    inflateRawSyncLimit?: number;
   }
 
   interface completeDecrypt {

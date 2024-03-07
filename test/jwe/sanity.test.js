@@ -1,4 +1,5 @@
 const test = require('ava')
+const crypto = require('crypto')
 
 const base64url = require('../../lib/help/base64url')
 const { JWKS, JWK: { generateSync }, JWE, errors } = require('../..')
@@ -616,3 +617,25 @@ if (!('electron' in process.versions)) {
     }, { instanceOf: errors.JWEInvalid, message: 'JOSE Header "p2c" (PBES2 Count) out is of acceptable bounds' })
   })
 }
+
+test('Compressed JWE output length limit', t => {
+  const k = generateSync('oct', 256)
+  {
+    const jwe = JWE.encrypt(crypto.randomBytes(250000), k, { alg: 'dir', enc: 'A128CBC-HS256', zip: 'DEF' })
+    t.notThrows(() => {
+      JWE.decrypt(jwe, k)
+    })
+  }
+  {
+    const jwe = JWE.encrypt(crypto.randomBytes(250000 + 1), k, { alg: 'dir', enc: 'A128CBC-HS256', zip: 'DEF' })
+    t.throws(() => {
+      JWE.decrypt(jwe, k)
+    })
+  }
+  {
+    const jwe = JWE.encrypt(crypto.randomBytes(1001), k, { alg: 'dir', enc: 'A128CBC-HS256', zip: 'DEF' })
+    t.throws(() => {
+      JWE.decrypt(jwe, k, { inflateRawSyncLimit: 1000 })
+    })
+  }
+})
