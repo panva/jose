@@ -32,8 +32,7 @@ interface Cache<KeyLikeType extends KeyLike = KeyLike> {
   [alg: string]: KeyLikeType
 }
 
-/** @private */
-export function isJWKSLike(jwks: unknown): jwks is JSONWebKeySet {
+function isJWKSLike(jwks: unknown): jwks is JSONWebKeySet {
   return (
     jwks &&
     typeof jwks === 'object' &&

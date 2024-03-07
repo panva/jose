@@ -1,9 +1,9 @@
 import fetchJwks from '../runtime/fetch_jwks.js'
 
-import type { KeyLike, JWSHeaderParameters, FlattenedJWSInput } from '../types.d'
-import { JWKSInvalid, JWKSNoMatchingKey } from '../util/errors.js'
+import type { KeyLike, JWSHeaderParameters, FlattenedJWSInput, JSONWebKeySet } from '../types.d'
+import { JWKSNoMatchingKey } from '../util/errors.js'
 
-import { isJWKSLike, LocalJWKSet } from './local.js'
+import { createLocalJWKSet } from './local.js'
 
 function isCloudflareWorkers() {
   return (
@@ -65,7 +65,7 @@ export interface RemoteJWKSetOptions {
   headers?: Record<string, string>
 }
 
-class RemoteJWKSet<KeyLikeType extends KeyLike = KeyLike> extends LocalJWKSet<KeyLikeType> {
+class RemoteJWKSet<KeyLikeType extends KeyLike = KeyLike> {
   private _url: URL
 
   private _timeoutDuration: number
@@ -80,11 +80,9 @@ class RemoteJWKSet<KeyLikeType extends KeyLike = KeyLike> extends LocalJWKSet<Ke
 
   private _options: Pick<RemoteJWKSetOptions, 'agent' | 'headers'>
 
+  private _local!: ReturnType<typeof createLocalJWKSet<KeyLikeType>>
+
   constructor(url: unknown, options?: RemoteJWKSetOptions) {
-    super({ keys: [] })
-
-    this._jwks = undefined
-
     if (!(url instanceof URL)) {
       throw new TypeError('url must be an instance of URL')
     }
@@ -113,17 +111,17 @@ class RemoteJWKSet<KeyLikeType extends KeyLike = KeyLike> extends LocalJWKSet<Ke
     protectedHeader?: JWSHeaderParameters,
     token?: FlattenedJWSInput,
   ): Promise<KeyLikeType> {
-    if (!this._jwks || !this.fresh()) {
+    if (!this._local || !this.fresh()) {
       await this.reload()
     }
 
     try {
-      return await super.getKey(protectedHeader, token)
+      return await this._local(protectedHeader, token)
     } catch (err) {
       if (err instanceof JWKSNoMatchingKey) {
         if (this.coolingDown() === false) {
           await this.reload()
-          return super.getKey(protectedHeader, token)
+          return this._local(protectedHeader, token)
         }
       }
       throw err
@@ -145,11 +143,7 @@ class RemoteJWKSet<KeyLikeType extends KeyLike = KeyLike> extends LocalJWKSet<Ke
 
     this._pendingFetch ||= fetchJwks(this._url, this._timeoutDuration, this._options)
       .then((json) => {
-        if (!isJWKSLike(json)) {
-          throw new JWKSInvalid('JSON Web Key Set malformed')
-        }
-
-        this._jwks = { keys: json.keys }
+        this._local = createLocalJWKSet(<JSONWebKeySet>(<unknown>json))
         this._jwksTimestamp = Date.now()
         this._pendingFetch = undefined
       })
