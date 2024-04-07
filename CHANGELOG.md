@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [5.2.4](https://github.com/panva/jose/compare/v5.2.3...v5.2.4) (2024-04-07)
+
+
+### Refactor
+
+* use createLocalJWKSet instead of LocalJWKSet in createRemoteJWKSet ([a7c566c](https://github.com/panva/jose/commit/a7c566c61ccf3b62d2bd3a9e58a70e1d4d3c8b0c))
+
 ## [5.2.3](https://github.com/panva/jose/compare/v5.2.2...v5.2.3) (2024-03-07)
 
 
