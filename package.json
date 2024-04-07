@@ -81,6 +81,7 @@
       "deno": "./dist/browser/index.js",
       "browser": "./dist/browser/index.js",
       "worker": "./dist/browser/index.js",
+      "workerd": "./dist/browser/index.js",
       "import": "./dist/node/esm/index.js",
       "require": "./dist/node/cjs/index.js"
     },
@@ -90,6 +91,7 @@
       "deno": "./dist/browser/util/errors.js",
       "browser": "./dist/browser/util/errors.js",
       "worker": "./dist/browser/util/errors.js",
+      "workerd": "./dist/browser/util/errors.js",
       "import": "./dist/node/esm/util/errors.js",
       "require": "./dist/node/cjs/util/errors.js"
     },
@@ -99,6 +101,7 @@
       "deno": "./dist/browser/util/base64url.js",
       "browser": "./dist/browser/util/base64url.js",
       "worker": "./dist/browser/util/base64url.js",
+      "workerd": "./dist/browser/util/base64url.js",
       "import": "./dist/node/esm/util/base64url.js",
       "require": "./dist/node/cjs/util/base64url.js"
     },

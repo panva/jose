@@ -9,7 +9,7 @@ pkg.description = undefined
 pkg.browser = undefined
 pkg.deno = undefined
 for (const exportPath of Object.keys(pkg.exports)) {
-  for (const runtime of ['browser', 'deno', 'import', 'bun', 'worker']) {
+  for (const runtime of ['browser', 'deno', 'import', 'bun', 'worker', 'workerd']) {
     pkg.exports[exportPath][runtime] = undefined
   }
 }
