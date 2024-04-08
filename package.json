@@ -159,7 +159,7 @@
   "devDependencies": {
     "@types/node": "^20.12.5",
     "@types/qunit": "^2.19.10",
-    "ava": "^5.3.1",
+    "ava": "^6.1.2",
     "edge-runtime": "^2.5.9",
     "esbuild": "^0.20.2",
     "glob": "^10.3.12",
