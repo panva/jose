@@ -50,7 +50,7 @@ export { decodeProtectedHeader } from './util/decode_protected_header.js'
 export { decodeJwt } from './util/decode_jwt.js'
 export type { ProtectedHeaderParameters } from './util/decode_protected_header.js'
 
-export * as errors from './util/errors.js'
+export { JOSEError, JWTClaimValidationFailed, JWTExpired, JOSEAlgNotAllowed, JOSENotSupported, JWEDecryptionFailed, JWEInvalid, JWSInvalid, JWTInvalid, JWKInvalid, JWKSInvalid, JWKSNoMatchingKey, JWKSMultipleMatchingKeys, JWKSTimeout, JWSSignatureVerificationFailed }  from './util/errors.js'
 
 export { generateKeyPair } from './key/generate_key_pair.js'
 export type { GenerateKeyPairResult, GenerateKeyPairOptions } from './key/generate_key_pair.js'
