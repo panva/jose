@@ -229,12 +229,10 @@ export class FlattenedEncrypt {
           } else {
             this._unprotectedHeader = { ...this._unprotectedHeader, ...parameters }
           }
+        } else if (!this._protectedHeader) {
+          this.setProtectedHeader(parameters)
         } else {
-          if (!this._protectedHeader) {
-            this.setProtectedHeader(parameters)
-          } else {
-            this._protectedHeader = { ...this._protectedHeader, ...parameters }
-          }
+          this._protectedHeader = { ...this._protectedHeader, ...parameters }
         }
       }
     }
