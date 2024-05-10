@@ -10,13 +10,22 @@ export default (QUnit: QUnit, lib: typeof jose) => {
   test('[createRemoteJWKSet] fetches the JWKSet', async (t: typeof QUnit.assert) => {
     const response = await fetch(jwksUri).then((r) => r.json())
     const { alg, kid } = response.keys[0]
+
     const jwks = lib.createRemoteJWKSet(new URL(jwksUri))
+    t.false(jwks.coolingDown)
+    t.false(jwks.fresh)
+    t.equal(jwks.jwks(), undefined)
+
     await t.rejects(jwks({ alg: 'RS256' }), 'multiple matching keys found in the JSON Web Key Set')
     await t.rejects(
       jwks({ kid: 'foo', alg: 'RS256' }),
       'no applicable key found in the JSON Web Key Set',
     )
     t.ok(await Promise.all([jwks({ alg, kid }), jwks({ alg, kid })]))
+
+    t.true(jwks.coolingDown)
+    t.true(jwks.fresh)
+    t.ok(jwks.jwks())
   })
 
   test('[createLocalJWKSet] establishes local JWKSet', async (t: typeof QUnit.assert) => {

@@ -267,6 +267,62 @@ test.serial('refreshes the JWKS once off cooldown', async (t) => {
   }
 })
 
+test.serial('createRemoteJWKSet manual reload', async (t) => {
+  timekeeper.freeze(now * 1000)
+  const jwk = {
+    crv: 'P-256',
+    x: 'fqCXPnWs3sSfwztvwYU9SthmRdoT4WCXxS8eD8icF6U',
+    y: 'nP6GIc42c61hoKqPcZqkvzhzIJkBV3Jw3g8sGG7UeP8',
+    d: 'XikZvoy8ayRpOnuz7ont2DkgMxp_kmmg1EKcuIJWX_E',
+    kty: 'EC',
+  }
+  const jwks = {
+    keys: [
+      {
+        crv: 'P-256',
+        x: 'fqCXPnWs3sSfwztvwYU9SthmRdoT4WCXxS8eD8icF6U',
+        y: 'nP6GIc42c61hoKqPcZqkvzhzIJkBV3Jw3g8sGG7UeP8',
+        kty: 'EC',
+        kid: 'one',
+      },
+    ],
+  }
+
+  const scope = nock('https://as.example.com').get('/jwks').once().reply(200, jwks)
+
+  const url = new URL('https://as.example.com/jwks')
+  const JWKS = createRemoteJWKSet(url)
+  t.false(JWKS.coolingDown)
+  t.false(JWKS.fresh)
+  t.false(JWKS.reloading)
+  t.is(JWKS.jwks(), undefined)
+  const key = await importJWK({ ...jwk, alg: 'ES256' })
+  {
+    const jwt = await new SignJWT().setProtectedHeader({ alg: 'ES256', kid: 'two' }).sign(key)
+    await t.throwsAsync(jwtVerify(jwt, JWKS), {
+      code: 'ERR_JWKS_NO_MATCHING_KEY',
+      message: 'no applicable key found in the JSON Web Key Set',
+    })
+    jwks.keys[0].kid = 'two'
+    scope.get('/jwks').once().reply(200, jwks)
+    t.true(JWKS.coolingDown)
+    t.true(JWKS.fresh)
+    t.false(JWKS.reloading)
+    t.notDeepEqual(JWKS.jwks(), jwks)
+    const reload = JWKS.reload()
+    t.true(JWKS.reloading)
+    await reload
+    t.true(JWKS.coolingDown)
+    t.true(JWKS.fresh)
+    t.false(JWKS.reloading)
+    t.deepEqual(JWKS.jwks(), jwks)
+    await t.notThrowsAsync(jwtVerify(jwt, JWKS))
+    JWKS.jwks().keys = []
+    t.deepEqual(JWKS.jwks(), jwks)
+    await t.notThrowsAsync(jwtVerify(jwt, JWKS))
+  }
+})
+
 test.serial('refreshes the JWKS once stale', async (t) => {
   timekeeper.freeze(now * 1000)
   const jwk = {

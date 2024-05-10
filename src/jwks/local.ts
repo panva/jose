@@ -59,7 +59,7 @@ function clone<T>(obj: T): T {
 
 /** @private */
 export class LocalJWKSet<KeyLikeType extends KeyLike = KeyLike> {
-  protected _jwks?: JSONWebKeySet
+  private _jwks?: JSONWebKeySet
 
   private _cached: WeakMap<JWK, Cache<KeyLikeType>> = new WeakMap()
 
@@ -252,8 +252,21 @@ async function importWithAlgCache<KeyLikeType extends KeyLike = KeyLike>(
  */
 export function createLocalJWKSet<KeyLikeType extends KeyLike = KeyLike>(jwks: JSONWebKeySet) {
   const set = new LocalJWKSet<KeyLikeType>(jwks)
-  return async (
+
+  const localJWKSet = async (
     protectedHeader?: JWSHeaderParameters,
     token?: FlattenedJWSInput,
   ): Promise<KeyLikeType> => set.getKey(protectedHeader, token)
+
+  Object.defineProperties(localJWKSet, {
+    jwks: {
+      // @ts-expect-error
+      value: () => clone(set._jwks),
+      enumerable: true,
+      configurable: false,
+      writable: false,
+    },
+  })
+
+  return localJWKSet
 }
