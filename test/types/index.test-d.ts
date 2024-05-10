@@ -205,6 +205,15 @@ expectType<lib.KeyLike>(await lib.createRemoteJWKSet(new URL(''))())
 expectType<CryptoKey>(await lib.createRemoteJWKSet<CryptoKey>(new URL(''))())
 expectType<KeyObject>(await lib.createRemoteJWKSet<KeyObject>(new URL(''))())
 
+{
+  const jwks = lib.createRemoteJWKSet(new URL(''))
+  expectType<boolean>(jwks.fresh)
+  expectType<boolean>(jwks.coolingDown)
+  expectType<boolean>(jwks.reloading)
+  expectType<Promise<void>>(jwks.reload())
+  expectType<undefined | lib.JSONWebKeySet>(jwks.jwks())
+}
+
 expectType<lib.KeyLike>(await lib.EmbeddedJWK())
 expectType<CryptoKey>(await lib.EmbeddedJWK())
 expectType<KeyObject>(await lib.EmbeddedJWK())

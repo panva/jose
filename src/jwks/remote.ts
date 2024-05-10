@@ -225,10 +225,58 @@ class RemoteJWKSet<KeyLikeType extends KeyLike = KeyLike> {
 export function createRemoteJWKSet<KeyLikeType extends KeyLike = KeyLike>(
   url: URL,
   options?: RemoteJWKSetOptions,
-) {
+): {
+  (protectedHeader?: JWSHeaderParameters, token?: FlattenedJWSInput): Promise<KeyLikeType>
+  /** @ignore */
+  coolingDown: boolean
+  /** @ignore */
+  fresh: boolean
+  /** @ignore */
+  reloading: boolean
+  /** @ignore */
+  reload: () => Promise<void>
+  /** @ignore */
+  jwks: () => JSONWebKeySet | undefined
+} {
   const set = new RemoteJWKSet<KeyLikeType>(url, options)
-  return async (
+
+  const remoteJWKSet = async (
     protectedHeader?: JWSHeaderParameters,
     token?: FlattenedJWSInput,
   ): Promise<KeyLikeType> => set.getKey(protectedHeader, token)
+
+  Object.defineProperties(remoteJWKSet, {
+    coolingDown: {
+      get: () => set.coolingDown(),
+      enumerable: true,
+      configurable: false,
+    },
+    fresh: {
+      get: () => set.fresh(),
+      enumerable: true,
+      configurable: false,
+    },
+    reload: {
+      value: () => set.reload(),
+      enumerable: true,
+      configurable: false,
+      writable: false,
+    },
+    reloading: {
+      // @ts-expect-error
+      get: () => !!set._pendingFetch,
+      enumerable: true,
+      configurable: false,
+    },
+    jwks: {
+      // @ts-expect-error
+      value: () => set._local?.jwks(),
+      enumerable: true,
+      configurable: false,
+      writable: false,
+    },
+  })
+
+  // @ts-expect-error
+  return remoteJWKSet
 }
