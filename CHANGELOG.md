@@ -2,6 +2,18 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [5.3.0](https://github.com/panva/jose/compare/v5.2.4...v5.3.0) (2024-05-10)
+
+
+### Features
+
+* allow observing remote JWKS resolver state and its manual reload ([fa8b639](https://github.com/panva/jose/commit/fa8b639c277e1694b08a08c7152341b22ec1725d))
+
+
+### Refactor
+
+* if should not be the only statement in else blocks ([a6b716b](https://github.com/panva/jose/commit/a6b716b13859c76e4c1f7e33c60574514c6c2504))
+
 ## [5.2.4](https://github.com/panva/jose/compare/v5.2.3...v5.2.4) (2024-04-07)
 
 
