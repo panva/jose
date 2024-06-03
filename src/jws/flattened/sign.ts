@@ -43,7 +43,7 @@ export class FlattenedSign {
    *
    * @param protectedHeader JWS Protected Header.
    */
-  setProtectedHeader(protectedHeader: JWSHeaderParameters) {
+  setProtectedHeader(protectedHeader: JWSHeaderParameters): this {
     if (this._protectedHeader) {
       throw new TypeError('setProtectedHeader can only be called once')
     }
@@ -56,7 +56,7 @@ export class FlattenedSign {
    *
    * @param unprotectedHeader JWS Unprotected Header.
    */
-  setUnprotectedHeader(unprotectedHeader: JWSHeaderParameters) {
+  setUnprotectedHeader(unprotectedHeader: JWSHeaderParameters): this {
     if (this._unprotectedHeader) {
       throw new TypeError('setUnprotectedHeader can only be called once')
     }

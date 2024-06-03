@@ -52,7 +52,7 @@ console.log(jws)
 
 ### setProtectedHeader
 
-▸ **setProtectedHeader**(`protectedHeader`): [`FlattenedSign`](jws_flattened_sign.FlattenedSign.md)
+▸ **setProtectedHeader**(`protectedHeader`): `this`
 
 Sets the JWS Protected Header on the FlattenedSign object.
 
@@ -64,13 +64,13 @@ Sets the JWS Protected Header on the FlattenedSign object.
 
 #### Returns
 
-[`FlattenedSign`](jws_flattened_sign.FlattenedSign.md)
+`this`
 
 ___
 
 ### setUnprotectedHeader
 
-▸ **setUnprotectedHeader**(`unprotectedHeader`): [`FlattenedSign`](jws_flattened_sign.FlattenedSign.md)
+▸ **setUnprotectedHeader**(`unprotectedHeader`): `this`
 
 Sets the JWS Unprotected Header on the FlattenedSign object.
 
@@ -82,7 +82,7 @@ Sets the JWS Unprotected Header on the FlattenedSign object.
 
 #### Returns
 
-[`FlattenedSign`](jws_flattened_sign.FlattenedSign.md)
+`this`
 
 ___
 

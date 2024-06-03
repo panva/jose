@@ -73,7 +73,7 @@ ___
 
 ### setContentEncryptionKey
 
-▸ **setContentEncryptionKey**(`cek`): [`CompactEncrypt`](jwe_compact_encrypt.CompactEncrypt.md)
+▸ **setContentEncryptionKey**(`cek`): `this`
 
 Sets a content encryption key to use, by default a random suitable one is generated for the JWE
 enc" (Encryption Algorithm) Header Parameter.
@@ -86,7 +86,7 @@ enc" (Encryption Algorithm) Header Parameter.
 
 #### Returns
 
-[`CompactEncrypt`](jwe_compact_encrypt.CompactEncrypt.md)
+`this`
 
 **`Deprecated`**
 
@@ -97,7 +97,7 @@ ___
 
 ### setInitializationVector
 
-▸ **setInitializationVector**(`iv`): [`CompactEncrypt`](jwe_compact_encrypt.CompactEncrypt.md)
+▸ **setInitializationVector**(`iv`): `this`
 
 Sets the JWE Initialization Vector to use for content encryption, by default a random suitable
 one is generated for the JWE enc" (Encryption Algorithm) Header Parameter.
@@ -110,7 +110,7 @@ one is generated for the JWE enc" (Encryption Algorithm) Header Parameter.
 
 #### Returns
 
-[`CompactEncrypt`](jwe_compact_encrypt.CompactEncrypt.md)
+`this`
 
 **`Deprecated`**
 
@@ -121,7 +121,7 @@ ___
 
 ### setKeyManagementParameters
 
-▸ **setKeyManagementParameters**(`parameters`): [`CompactEncrypt`](jwe_compact_encrypt.CompactEncrypt.md)
+▸ **setKeyManagementParameters**(`parameters`): `this`
 
 Sets the JWE Key Management parameters to be used when encrypting the Content Encryption Key.
 You do not need to invoke this method, it is only really intended for test and vector
@@ -135,13 +135,13 @@ validation purposes.
 
 #### Returns
 
-[`CompactEncrypt`](jwe_compact_encrypt.CompactEncrypt.md)
+`this`
 
 ___
 
 ### setProtectedHeader
 
-▸ **setProtectedHeader**(`protectedHeader`): [`CompactEncrypt`](jwe_compact_encrypt.CompactEncrypt.md)
+▸ **setProtectedHeader**(`protectedHeader`): `this`
 
 Sets the JWE Protected Header on the CompactEncrypt object.
 
@@ -153,4 +153,4 @@ Sets the JWE Protected Header on the CompactEncrypt object.
 
 #### Returns
 
-[`CompactEncrypt`](jwe_compact_encrypt.CompactEncrypt.md)
+`this`

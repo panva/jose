@@ -44,7 +44,7 @@ Generic class for JWT producing.
 
 ### setAudience
 
-▸ **setAudience**(`audience`): [`ProduceJWT`](jwt_produce.ProduceJWT.md)
+▸ **setAudience**(`audience`): `this`
 
 Set the "aud" (Audience) Claim.
 
@@ -56,13 +56,13 @@ Set the "aud" (Audience) Claim.
 
 #### Returns
 
-[`ProduceJWT`](jwt_produce.ProduceJWT.md)
+`this`
 
 ___
 
 ### setExpirationTime
 
-▸ **setExpirationTime**(`input`): [`ProduceJWT`](jwt_produce.ProduceJWT.md)
+▸ **setExpirationTime**(`input`): `this`
 
 Set the "exp" (Expiration Time) Claim.
 
@@ -92,13 +92,13 @@ readability when adding to the current unix timestamp.
 
 #### Returns
 
-[`ProduceJWT`](jwt_produce.ProduceJWT.md)
+`this`
 
 ___
 
 ### setIssuedAt
 
-▸ **setIssuedAt**(`input?`): [`ProduceJWT`](jwt_produce.ProduceJWT.md)
+▸ **setIssuedAt**(`input?`): `this`
 
 Set the "iat" (Issued At) Claim.
 
@@ -129,13 +129,13 @@ readability when adding to the current unix timestamp.
 
 #### Returns
 
-[`ProduceJWT`](jwt_produce.ProduceJWT.md)
+`this`
 
 ___
 
 ### setIssuer
 
-▸ **setIssuer**(`issuer`): [`ProduceJWT`](jwt_produce.ProduceJWT.md)
+▸ **setIssuer**(`issuer`): `this`
 
 Set the "iss" (Issuer) Claim.
 
@@ -147,13 +147,13 @@ Set the "iss" (Issuer) Claim.
 
 #### Returns
 
-[`ProduceJWT`](jwt_produce.ProduceJWT.md)
+`this`
 
 ___
 
 ### setJti
 
-▸ **setJti**(`jwtId`): [`ProduceJWT`](jwt_produce.ProduceJWT.md)
+▸ **setJti**(`jwtId`): `this`
 
 Set the "jti" (JWT ID) Claim.
 
@@ -165,13 +165,13 @@ Set the "jti" (JWT ID) Claim.
 
 #### Returns
 
-[`ProduceJWT`](jwt_produce.ProduceJWT.md)
+`this`
 
 ___
 
 ### setNotBefore
 
-▸ **setNotBefore**(`input`): [`ProduceJWT`](jwt_produce.ProduceJWT.md)
+▸ **setNotBefore**(`input`): `this`
 
 Set the "nbf" (Not Before) Claim.
 
@@ -201,13 +201,13 @@ readability when adding to the current unix timestamp.
 
 #### Returns
 
-[`ProduceJWT`](jwt_produce.ProduceJWT.md)
+`this`
 
 ___
 
 ### setSubject
 
-▸ **setSubject**(`subject`): [`ProduceJWT`](jwt_produce.ProduceJWT.md)
+▸ **setSubject**(`subject`): `this`
 
 Set the "sub" (Subject) Claim.
 
@@ -219,4 +219,4 @@ Set the "sub" (Subject) Claim.
 
 #### Returns
 
-[`ProduceJWT`](jwt_produce.ProduceJWT.md)
+`this`

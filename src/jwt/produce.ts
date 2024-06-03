@@ -28,7 +28,7 @@ export class ProduceJWT {
    *
    * @param issuer "Issuer" Claim value to set on the JWT Claims Set.
    */
-  setIssuer(issuer: string) {
+  setIssuer(issuer: string): this {
     this._payload = { ...this._payload, iss: issuer }
     return this
   }
@@ -38,7 +38,7 @@ export class ProduceJWT {
    *
    * @param subject "sub" (Subject) Claim value to set on the JWT Claims Set.
    */
-  setSubject(subject: string) {
+  setSubject(subject: string): this {
     this._payload = { ...this._payload, sub: subject }
     return this
   }
@@ -48,7 +48,7 @@ export class ProduceJWT {
    *
    * @param audience "aud" (Audience) Claim value to set on the JWT Claims Set.
    */
-  setAudience(audience: string | string[]) {
+  setAudience(audience: string | string[]): this {
     this._payload = { ...this._payload, aud: audience }
     return this
   }
@@ -58,7 +58,7 @@ export class ProduceJWT {
    *
    * @param jwtId "jti" (JWT ID) Claim value to set on the JWT Claims Set.
    */
-  setJti(jwtId: string) {
+  setJti(jwtId: string): this {
     this._payload = { ...this._payload, jti: jwtId }
     return this
   }
@@ -86,7 +86,7 @@ export class ProduceJWT {
    *
    * @param input "nbf" (Not Before) Claim value to set on the JWT Claims Set.
    */
-  setNotBefore(input: number | string | Date) {
+  setNotBefore(input: number | string | Date): this {
     if (typeof input === 'number') {
       this._payload = { ...this._payload, nbf: validateInput('setNotBefore', input) }
     } else if (input instanceof Date) {
@@ -120,7 +120,7 @@ export class ProduceJWT {
    *
    * @param input "exp" (Expiration Time) Claim value to set on the JWT Claims Set.
    */
-  setExpirationTime(input: number | string | Date) {
+  setExpirationTime(input: number | string | Date): this {
     if (typeof input === 'number') {
       this._payload = { ...this._payload, exp: validateInput('setExpirationTime', input) }
     } else if (input instanceof Date) {
@@ -155,7 +155,7 @@ export class ProduceJWT {
    *
    * @param input "iat" (Expiration Time) Claim value to set on the JWT Claims Set.
    */
-  setIssuedAt(input?: number | string | Date) {
+  setIssuedAt(input?: number | string | Date): this {
     if (typeof input === 'undefined') {
       this._payload = { ...this._payload, iat: epoch(new Date()) }
     } else if (input instanceof Date) {

@@ -51,7 +51,7 @@ console.log(jws)
 
 ### setProtectedHeader
 
-▸ **setProtectedHeader**(`protectedHeader`): [`CompactSign`](jws_compact_sign.CompactSign.md)
+▸ **setProtectedHeader**(`protectedHeader`): `this`
 
 Sets the JWS Protected Header on the Sign object.
 
@@ -63,7 +63,7 @@ Sets the JWS Protected Header on the Sign object.
 
 #### Returns
 
-[`CompactSign`](jws_compact_sign.CompactSign.md)
+`this`
 
 ___
 

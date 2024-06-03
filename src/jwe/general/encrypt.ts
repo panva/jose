@@ -138,7 +138,7 @@ export class GeneralEncrypt {
    *
    * @param aad Additional Authenticated Data.
    */
-  setAdditionalAuthenticatedData(aad: Uint8Array) {
+  setAdditionalAuthenticatedData(aad: Uint8Array): this {
     this._aad = aad
     return this
   }

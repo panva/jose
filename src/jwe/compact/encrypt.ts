@@ -38,7 +38,7 @@ export class CompactEncrypt {
    *
    * @param cek JWE Content Encryption Key.
    */
-  setContentEncryptionKey(cek: Uint8Array) {
+  setContentEncryptionKey(cek: Uint8Array): this {
     this._flattened.setContentEncryptionKey(cek)
     return this
   }
@@ -52,7 +52,7 @@ export class CompactEncrypt {
    *
    * @param iv JWE Initialization Vector.
    */
-  setInitializationVector(iv: Uint8Array) {
+  setInitializationVector(iv: Uint8Array): this {
     this._flattened.setInitializationVector(iv)
     return this
   }
@@ -62,7 +62,7 @@ export class CompactEncrypt {
    *
    * @param protectedHeader JWE Protected Header object.
    */
-  setProtectedHeader(protectedHeader: CompactJWEHeaderParameters) {
+  setProtectedHeader(protectedHeader: CompactJWEHeaderParameters): this {
     this._flattened.setProtectedHeader(protectedHeader)
     return this
   }
@@ -74,7 +74,7 @@ export class CompactEncrypt {
    *
    * @param parameters JWE Key Management parameters.
    */
-  setKeyManagementParameters(parameters: JWEKeyManagementHeaderParameters) {
+  setKeyManagementParameters(parameters: JWEKeyManagementHeaderParameters): this {
     this._flattened.setKeyManagementParameters(parameters)
     return this
   }

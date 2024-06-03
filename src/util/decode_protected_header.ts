@@ -17,7 +17,7 @@ export type ProtectedHeaderParameters = JWSHeaderParameters & JWEHeaderParameter
  *
  * @param token JWE/JWS/JWT token in any JOSE serialization.
  */
-export function decodeProtectedHeader(token: string | object) {
+export function decodeProtectedHeader(token: string | object): ProtectedHeaderParameters {
   let protectedB64u!: unknown
 
   if (typeof token === 'string') {

@@ -29,7 +29,7 @@ export class CompactSign {
    *
    * @param protectedHeader JWS Protected Header.
    */
-  setProtectedHeader(protectedHeader: CompactJWSHeaderParameters) {
+  setProtectedHeader(protectedHeader: CompactJWSHeaderParameters): this {
     this._flattened.setProtectedHeader(protectedHeader)
     return this
   }

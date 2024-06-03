@@ -47,7 +47,7 @@ export class EncryptJWT extends ProduceJWT {
    * @param protectedHeader JWE Protected Header. Must contain an "alg" (JWE Algorithm) and "enc"
    *   (JWE Encryption Algorithm) properties.
    */
-  setProtectedHeader(protectedHeader: CompactJWEHeaderParameters) {
+  setProtectedHeader(protectedHeader: CompactJWEHeaderParameters): this {
     if (this._protectedHeader) {
       throw new TypeError('setProtectedHeader can only be called once')
     }
@@ -63,7 +63,7 @@ export class EncryptJWT extends ProduceJWT {
    *
    * @param parameters JWE Key Management parameters.
    */
-  setKeyManagementParameters(parameters: JWEKeyManagementHeaderParameters) {
+  setKeyManagementParameters(parameters: JWEKeyManagementHeaderParameters): this {
     if (this._keyManagementParameters) {
       throw new TypeError('setKeyManagementParameters can only be called once')
     }
@@ -80,7 +80,7 @@ export class EncryptJWT extends ProduceJWT {
    *
    * @param cek JWE Content Encryption Key.
    */
-  setContentEncryptionKey(cek: Uint8Array) {
+  setContentEncryptionKey(cek: Uint8Array): this {
     if (this._cek) {
       throw new TypeError('setContentEncryptionKey can only be called once')
     }
@@ -97,7 +97,7 @@ export class EncryptJWT extends ProduceJWT {
    *
    * @param iv JWE Initialization Vector.
    */
-  setInitializationVector(iv: Uint8Array) {
+  setInitializationVector(iv: Uint8Array): this {
     if (this._iv) {
       throw new TypeError('setInitializationVector can only be called once')
     }
@@ -110,7 +110,7 @@ export class EncryptJWT extends ProduceJWT {
    *
    * @see {@link https://www.rfc-editor.org/rfc/rfc7519#section-5.3 RFC7519#section-5.3}
    */
-  replicateIssuerAsHeader() {
+  replicateIssuerAsHeader(): this {
     this._replicateIssuerAsHeader = true
     return this
   }
@@ -120,7 +120,7 @@ export class EncryptJWT extends ProduceJWT {
    *
    * @see {@link https://www.rfc-editor.org/rfc/rfc7519#section-5.3 RFC7519#section-5.3}
    */
-  replicateSubjectAsHeader() {
+  replicateSubjectAsHeader(): this {
     this._replicateSubjectAsHeader = true
     return this
   }
@@ -130,7 +130,7 @@ export class EncryptJWT extends ProduceJWT {
    *
    * @see {@link https://www.rfc-editor.org/rfc/rfc7519#section-5.3 RFC7519#section-5.3}
    */
-  replicateAudienceAsHeader() {
+  replicateAudienceAsHeader(): this {
     this._replicateAudienceAsHeader = true
     return this
   }

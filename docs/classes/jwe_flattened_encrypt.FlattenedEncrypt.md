@@ -77,7 +77,7 @@ ___
 
 ### setAdditionalAuthenticatedData
 
-▸ **setAdditionalAuthenticatedData**(`aad`): [`FlattenedEncrypt`](jwe_flattened_encrypt.FlattenedEncrypt.md)
+▸ **setAdditionalAuthenticatedData**(`aad`): `this`
 
 Sets the Additional Authenticated Data on the FlattenedEncrypt object.
 
@@ -89,13 +89,13 @@ Sets the Additional Authenticated Data on the FlattenedEncrypt object.
 
 #### Returns
 
-[`FlattenedEncrypt`](jwe_flattened_encrypt.FlattenedEncrypt.md)
+`this`
 
 ___
 
 ### setContentEncryptionKey
 
-▸ **setContentEncryptionKey**(`cek`): [`FlattenedEncrypt`](jwe_flattened_encrypt.FlattenedEncrypt.md)
+▸ **setContentEncryptionKey**(`cek`): `this`
 
 Sets a content encryption key to use, by default a random suitable one is generated for the JWE
 enc" (Encryption Algorithm) Header Parameter.
@@ -108,7 +108,7 @@ enc" (Encryption Algorithm) Header Parameter.
 
 #### Returns
 
-[`FlattenedEncrypt`](jwe_flattened_encrypt.FlattenedEncrypt.md)
+`this`
 
 **`Deprecated`**
 
@@ -119,7 +119,7 @@ ___
 
 ### setInitializationVector
 
-▸ **setInitializationVector**(`iv`): [`FlattenedEncrypt`](jwe_flattened_encrypt.FlattenedEncrypt.md)
+▸ **setInitializationVector**(`iv`): `this`
 
 Sets the JWE Initialization Vector to use for content encryption, by default a random suitable
 one is generated for the JWE enc" (Encryption Algorithm) Header Parameter.
@@ -132,7 +132,7 @@ one is generated for the JWE enc" (Encryption Algorithm) Header Parameter.
 
 #### Returns
 
-[`FlattenedEncrypt`](jwe_flattened_encrypt.FlattenedEncrypt.md)
+`this`
 
 **`Deprecated`**
 
@@ -143,7 +143,7 @@ ___
 
 ### setKeyManagementParameters
 
-▸ **setKeyManagementParameters**(`parameters`): [`FlattenedEncrypt`](jwe_flattened_encrypt.FlattenedEncrypt.md)
+▸ **setKeyManagementParameters**(`parameters`): `this`
 
 Sets the JWE Key Management parameters to be used when encrypting. Use of this is method is
 really only needed for ECDH based algorithms when utilizing the Agreement PartyUInfo or
@@ -158,13 +158,13 @@ and missing.
 
 #### Returns
 
-[`FlattenedEncrypt`](jwe_flattened_encrypt.FlattenedEncrypt.md)
+`this`
 
 ___
 
 ### setProtectedHeader
 
-▸ **setProtectedHeader**(`protectedHeader`): [`FlattenedEncrypt`](jwe_flattened_encrypt.FlattenedEncrypt.md)
+▸ **setProtectedHeader**(`protectedHeader`): `this`
 
 Sets the JWE Protected Header on the FlattenedEncrypt object.
 
@@ -176,13 +176,13 @@ Sets the JWE Protected Header on the FlattenedEncrypt object.
 
 #### Returns
 
-[`FlattenedEncrypt`](jwe_flattened_encrypt.FlattenedEncrypt.md)
+`this`
 
 ___
 
 ### setSharedUnprotectedHeader
 
-▸ **setSharedUnprotectedHeader**(`sharedUnprotectedHeader`): [`FlattenedEncrypt`](jwe_flattened_encrypt.FlattenedEncrypt.md)
+▸ **setSharedUnprotectedHeader**(`sharedUnprotectedHeader`): `this`
 
 Sets the JWE Shared Unprotected Header on the FlattenedEncrypt object.
 
@@ -194,13 +194,13 @@ Sets the JWE Shared Unprotected Header on the FlattenedEncrypt object.
 
 #### Returns
 
-[`FlattenedEncrypt`](jwe_flattened_encrypt.FlattenedEncrypt.md)
+`this`
 
 ___
 
 ### setUnprotectedHeader
 
-▸ **setUnprotectedHeader**(`unprotectedHeader`): [`FlattenedEncrypt`](jwe_flattened_encrypt.FlattenedEncrypt.md)
+▸ **setUnprotectedHeader**(`unprotectedHeader`): `this`
 
 Sets the JWE Per-Recipient Unprotected Header on the FlattenedEncrypt object.
 
@@ -212,4 +212,4 @@ Sets the JWE Per-Recipient Unprotected Header on the FlattenedEncrypt object.
 
 #### Returns
 
-[`FlattenedEncrypt`](jwe_flattened_encrypt.FlattenedEncrypt.md)
+`this`

@@ -111,7 +111,7 @@ ___
 
 ### setAudience
 
-▸ **setAudience**(`audience`): [`UnsecuredJWT`](jwt_unsecured.UnsecuredJWT.md)
+▸ **setAudience**(`audience`): `this`
 
 Set the "aud" (Audience) Claim.
 
@@ -123,13 +123,13 @@ Set the "aud" (Audience) Claim.
 
 #### Returns
 
-[`UnsecuredJWT`](jwt_unsecured.UnsecuredJWT.md)
+`this`
 
 ___
 
 ### setExpirationTime
 
-▸ **setExpirationTime**(`input`): [`UnsecuredJWT`](jwt_unsecured.UnsecuredJWT.md)
+▸ **setExpirationTime**(`input`): `this`
 
 Set the "exp" (Expiration Time) Claim.
 
@@ -159,13 +159,13 @@ readability when adding to the current unix timestamp.
 
 #### Returns
 
-[`UnsecuredJWT`](jwt_unsecured.UnsecuredJWT.md)
+`this`
 
 ___
 
 ### setIssuedAt
 
-▸ **setIssuedAt**(`input?`): [`UnsecuredJWT`](jwt_unsecured.UnsecuredJWT.md)
+▸ **setIssuedAt**(`input?`): `this`
 
 Set the "iat" (Issued At) Claim.
 
@@ -196,13 +196,13 @@ readability when adding to the current unix timestamp.
 
 #### Returns
 
-[`UnsecuredJWT`](jwt_unsecured.UnsecuredJWT.md)
+`this`
 
 ___
 
 ### setIssuer
 
-▸ **setIssuer**(`issuer`): [`UnsecuredJWT`](jwt_unsecured.UnsecuredJWT.md)
+▸ **setIssuer**(`issuer`): `this`
 
 Set the "iss" (Issuer) Claim.
 
@@ -214,13 +214,13 @@ Set the "iss" (Issuer) Claim.
 
 #### Returns
 
-[`UnsecuredJWT`](jwt_unsecured.UnsecuredJWT.md)
+`this`
 
 ___
 
 ### setJti
 
-▸ **setJti**(`jwtId`): [`UnsecuredJWT`](jwt_unsecured.UnsecuredJWT.md)
+▸ **setJti**(`jwtId`): `this`
 
 Set the "jti" (JWT ID) Claim.
 
@@ -232,13 +232,13 @@ Set the "jti" (JWT ID) Claim.
 
 #### Returns
 
-[`UnsecuredJWT`](jwt_unsecured.UnsecuredJWT.md)
+`this`
 
 ___
 
 ### setNotBefore
 
-▸ **setNotBefore**(`input`): [`UnsecuredJWT`](jwt_unsecured.UnsecuredJWT.md)
+▸ **setNotBefore**(`input`): `this`
 
 Set the "nbf" (Not Before) Claim.
 
@@ -268,13 +268,13 @@ readability when adding to the current unix timestamp.
 
 #### Returns
 
-[`UnsecuredJWT`](jwt_unsecured.UnsecuredJWT.md)
+`this`
 
 ___
 
 ### setSubject
 
-▸ **setSubject**(`subject`): [`UnsecuredJWT`](jwt_unsecured.UnsecuredJWT.md)
+▸ **setSubject**(`subject`): `this`
 
 Set the "sub" (Subject) Claim.
 
@@ -286,4 +286,4 @@ Set the "sub" (Subject) Claim.
 
 #### Returns
 
-[`UnsecuredJWT`](jwt_unsecured.UnsecuredJWT.md)
+`this`

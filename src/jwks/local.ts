@@ -250,7 +250,9 @@ async function importWithAlgCache<KeyLikeType extends KeyLike = KeyLike>(
  *
  * @param jwks JSON Web Key Set formatted object.
  */
-export function createLocalJWKSet<KeyLikeType extends KeyLike = KeyLike>(jwks: JSONWebKeySet) {
+export function createLocalJWKSet<KeyLikeType extends KeyLike = KeyLike>(
+  jwks: JSONWebKeySet,
+): (protectedHeader?: JWSHeaderParameters, token?: FlattenedJWSInput) => Promise<KeyLikeType> {
   const set = new LocalJWKSet<KeyLikeType>(jwks)
 
   const localJWKSet = async (

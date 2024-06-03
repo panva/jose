@@ -144,7 +144,7 @@ console.log(jwt)
 
 ### setAudience
 
-▸ **setAudience**(`audience`): [`SignJWT`](jwt_sign.SignJWT.md)
+▸ **setAudience**(`audience`): `this`
 
 Set the "aud" (Audience) Claim.
 
@@ -156,13 +156,13 @@ Set the "aud" (Audience) Claim.
 
 #### Returns
 
-[`SignJWT`](jwt_sign.SignJWT.md)
+`this`
 
 ___
 
 ### setExpirationTime
 
-▸ **setExpirationTime**(`input`): [`SignJWT`](jwt_sign.SignJWT.md)
+▸ **setExpirationTime**(`input`): `this`
 
 Set the "exp" (Expiration Time) Claim.
 
@@ -192,13 +192,13 @@ readability when adding to the current unix timestamp.
 
 #### Returns
 
-[`SignJWT`](jwt_sign.SignJWT.md)
+`this`
 
 ___
 
 ### setIssuedAt
 
-▸ **setIssuedAt**(`input?`): [`SignJWT`](jwt_sign.SignJWT.md)
+▸ **setIssuedAt**(`input?`): `this`
 
 Set the "iat" (Issued At) Claim.
 
@@ -229,13 +229,13 @@ readability when adding to the current unix timestamp.
 
 #### Returns
 
-[`SignJWT`](jwt_sign.SignJWT.md)
+`this`
 
 ___
 
 ### setIssuer
 
-▸ **setIssuer**(`issuer`): [`SignJWT`](jwt_sign.SignJWT.md)
+▸ **setIssuer**(`issuer`): `this`
 
 Set the "iss" (Issuer) Claim.
 
@@ -247,13 +247,13 @@ Set the "iss" (Issuer) Claim.
 
 #### Returns
 
-[`SignJWT`](jwt_sign.SignJWT.md)
+`this`
 
 ___
 
 ### setJti
 
-▸ **setJti**(`jwtId`): [`SignJWT`](jwt_sign.SignJWT.md)
+▸ **setJti**(`jwtId`): `this`
 
 Set the "jti" (JWT ID) Claim.
 
@@ -265,13 +265,13 @@ Set the "jti" (JWT ID) Claim.
 
 #### Returns
 
-[`SignJWT`](jwt_sign.SignJWT.md)
+`this`
 
 ___
 
 ### setNotBefore
 
-▸ **setNotBefore**(`input`): [`SignJWT`](jwt_sign.SignJWT.md)
+▸ **setNotBefore**(`input`): `this`
 
 Set the "nbf" (Not Before) Claim.
 
@@ -301,13 +301,13 @@ readability when adding to the current unix timestamp.
 
 #### Returns
 
-[`SignJWT`](jwt_sign.SignJWT.md)
+`this`
 
 ___
 
 ### setProtectedHeader
 
-▸ **setProtectedHeader**(`protectedHeader`): [`SignJWT`](jwt_sign.SignJWT.md)
+▸ **setProtectedHeader**(`protectedHeader`): `this`
 
 Sets the JWS Protected Header on the SignJWT object.
 
@@ -319,13 +319,13 @@ Sets the JWS Protected Header on the SignJWT object.
 
 #### Returns
 
-[`SignJWT`](jwt_sign.SignJWT.md)
+`this`
 
 ___
 
 ### setSubject
 
-▸ **setSubject**(`subject`): [`SignJWT`](jwt_sign.SignJWT.md)
+▸ **setSubject**(`subject`): `this`
 
 Set the "sub" (Subject) Claim.
 
@@ -337,7 +337,7 @@ Set the "sub" (Subject) Claim.
 
 #### Returns
 
-[`SignJWT`](jwt_sign.SignJWT.md)
+`this`
 
 ___
 

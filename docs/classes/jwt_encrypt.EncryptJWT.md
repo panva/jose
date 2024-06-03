@@ -86,13 +86,13 @@ ___
 
 ### replicateAudienceAsHeader
 
-▸ **replicateAudienceAsHeader**(): [`EncryptJWT`](jwt_encrypt.EncryptJWT.md)
+▸ **replicateAudienceAsHeader**(): `this`
 
 Replicates the "aud" (Audience) Claim as a JWE Protected Header Parameter.
 
 #### Returns
 
-[`EncryptJWT`](jwt_encrypt.EncryptJWT.md)
+`this`
 
 **`See`**
 
@@ -102,13 +102,13 @@ ___
 
 ### replicateIssuerAsHeader
 
-▸ **replicateIssuerAsHeader**(): [`EncryptJWT`](jwt_encrypt.EncryptJWT.md)
+▸ **replicateIssuerAsHeader**(): `this`
 
 Replicates the "iss" (Issuer) Claim as a JWE Protected Header Parameter.
 
 #### Returns
 
-[`EncryptJWT`](jwt_encrypt.EncryptJWT.md)
+`this`
 
 **`See`**
 
@@ -118,13 +118,13 @@ ___
 
 ### replicateSubjectAsHeader
 
-▸ **replicateSubjectAsHeader**(): [`EncryptJWT`](jwt_encrypt.EncryptJWT.md)
+▸ **replicateSubjectAsHeader**(): `this`
 
 Replicates the "sub" (Subject) Claim as a JWE Protected Header Parameter.
 
 #### Returns
 
-[`EncryptJWT`](jwt_encrypt.EncryptJWT.md)
+`this`
 
 **`See`**
 
@@ -134,7 +134,7 @@ ___
 
 ### setAudience
 
-▸ **setAudience**(`audience`): [`EncryptJWT`](jwt_encrypt.EncryptJWT.md)
+▸ **setAudience**(`audience`): `this`
 
 Set the "aud" (Audience) Claim.
 
@@ -146,13 +146,13 @@ Set the "aud" (Audience) Claim.
 
 #### Returns
 
-[`EncryptJWT`](jwt_encrypt.EncryptJWT.md)
+`this`
 
 ___
 
 ### setContentEncryptionKey
 
-▸ **setContentEncryptionKey**(`cek`): [`EncryptJWT`](jwt_encrypt.EncryptJWT.md)
+▸ **setContentEncryptionKey**(`cek`): `this`
 
 Sets a content encryption key to use, by default a random suitable one is generated for the JWE
 enc" (Encryption Algorithm) Header Parameter.
@@ -165,7 +165,7 @@ enc" (Encryption Algorithm) Header Parameter.
 
 #### Returns
 
-[`EncryptJWT`](jwt_encrypt.EncryptJWT.md)
+`this`
 
 **`Deprecated`**
 
@@ -176,7 +176,7 @@ ___
 
 ### setExpirationTime
 
-▸ **setExpirationTime**(`input`): [`EncryptJWT`](jwt_encrypt.EncryptJWT.md)
+▸ **setExpirationTime**(`input`): `this`
 
 Set the "exp" (Expiration Time) Claim.
 
@@ -206,13 +206,13 @@ readability when adding to the current unix timestamp.
 
 #### Returns
 
-[`EncryptJWT`](jwt_encrypt.EncryptJWT.md)
+`this`
 
 ___
 
 ### setInitializationVector
 
-▸ **setInitializationVector**(`iv`): [`EncryptJWT`](jwt_encrypt.EncryptJWT.md)
+▸ **setInitializationVector**(`iv`): `this`
 
 Sets the JWE Initialization Vector to use for content encryption, by default a random suitable
 one is generated for the JWE enc" (Encryption Algorithm) Header Parameter.
@@ -225,7 +225,7 @@ one is generated for the JWE enc" (Encryption Algorithm) Header Parameter.
 
 #### Returns
 
-[`EncryptJWT`](jwt_encrypt.EncryptJWT.md)
+`this`
 
 **`Deprecated`**
 
@@ -236,7 +236,7 @@ ___
 
 ### setIssuedAt
 
-▸ **setIssuedAt**(`input?`): [`EncryptJWT`](jwt_encrypt.EncryptJWT.md)
+▸ **setIssuedAt**(`input?`): `this`
 
 Set the "iat" (Issued At) Claim.
 
@@ -267,13 +267,13 @@ readability when adding to the current unix timestamp.
 
 #### Returns
 
-[`EncryptJWT`](jwt_encrypt.EncryptJWT.md)
+`this`
 
 ___
 
 ### setIssuer
 
-▸ **setIssuer**(`issuer`): [`EncryptJWT`](jwt_encrypt.EncryptJWT.md)
+▸ **setIssuer**(`issuer`): `this`
 
 Set the "iss" (Issuer) Claim.
 
@@ -285,13 +285,13 @@ Set the "iss" (Issuer) Claim.
 
 #### Returns
 
-[`EncryptJWT`](jwt_encrypt.EncryptJWT.md)
+`this`
 
 ___
 
 ### setJti
 
-▸ **setJti**(`jwtId`): [`EncryptJWT`](jwt_encrypt.EncryptJWT.md)
+▸ **setJti**(`jwtId`): `this`
 
 Set the "jti" (JWT ID) Claim.
 
@@ -303,13 +303,13 @@ Set the "jti" (JWT ID) Claim.
 
 #### Returns
 
-[`EncryptJWT`](jwt_encrypt.EncryptJWT.md)
+`this`
 
 ___
 
 ### setKeyManagementParameters
 
-▸ **setKeyManagementParameters**(`parameters`): [`EncryptJWT`](jwt_encrypt.EncryptJWT.md)
+▸ **setKeyManagementParameters**(`parameters`): `this`
 
 Sets the JWE Key Management parameters to be used when encrypting. Use of this is method is
 really only needed for ECDH based algorithms when utilizing the Agreement PartyUInfo or
@@ -324,13 +324,13 @@ and missing.
 
 #### Returns
 
-[`EncryptJWT`](jwt_encrypt.EncryptJWT.md)
+`this`
 
 ___
 
 ### setNotBefore
 
-▸ **setNotBefore**(`input`): [`EncryptJWT`](jwt_encrypt.EncryptJWT.md)
+▸ **setNotBefore**(`input`): `this`
 
 Set the "nbf" (Not Before) Claim.
 
@@ -360,13 +360,13 @@ readability when adding to the current unix timestamp.
 
 #### Returns
 
-[`EncryptJWT`](jwt_encrypt.EncryptJWT.md)
+`this`
 
 ___
 
 ### setProtectedHeader
 
-▸ **setProtectedHeader**(`protectedHeader`): [`EncryptJWT`](jwt_encrypt.EncryptJWT.md)
+▸ **setProtectedHeader**(`protectedHeader`): `this`
 
 Sets the JWE Protected Header on the EncryptJWT object.
 
@@ -378,13 +378,13 @@ Sets the JWE Protected Header on the EncryptJWT object.
 
 #### Returns
 
-[`EncryptJWT`](jwt_encrypt.EncryptJWT.md)
+`this`
 
 ___
 
 ### setSubject
 
-▸ **setSubject**(`subject`): [`EncryptJWT`](jwt_encrypt.EncryptJWT.md)
+▸ **setSubject**(`subject`): `this`
 
 Set the "sub" (Subject) Claim.
 
@@ -396,4 +396,4 @@ Set the "sub" (Subject) Claim.
 
 #### Returns
 
-[`EncryptJWT`](jwt_encrypt.EncryptJWT.md)
+`this`

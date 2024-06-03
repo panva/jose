@@ -66,7 +66,7 @@ export class FlattenedEncrypt {
    *
    * @param parameters JWE Key Management parameters.
    */
-  setKeyManagementParameters(parameters: JWEKeyManagementHeaderParameters) {
+  setKeyManagementParameters(parameters: JWEKeyManagementHeaderParameters): this {
     if (this._keyManagementParameters) {
       throw new TypeError('setKeyManagementParameters can only be called once')
     }
@@ -79,7 +79,7 @@ export class FlattenedEncrypt {
    *
    * @param protectedHeader JWE Protected Header.
    */
-  setProtectedHeader(protectedHeader: JWEHeaderParameters) {
+  setProtectedHeader(protectedHeader: JWEHeaderParameters): this {
     if (this._protectedHeader) {
       throw new TypeError('setProtectedHeader can only be called once')
     }
@@ -92,7 +92,7 @@ export class FlattenedEncrypt {
    *
    * @param sharedUnprotectedHeader JWE Shared Unprotected Header.
    */
-  setSharedUnprotectedHeader(sharedUnprotectedHeader: JWEHeaderParameters) {
+  setSharedUnprotectedHeader(sharedUnprotectedHeader: JWEHeaderParameters): this {
     if (this._sharedUnprotectedHeader) {
       throw new TypeError('setSharedUnprotectedHeader can only be called once')
     }
@@ -105,7 +105,7 @@ export class FlattenedEncrypt {
    *
    * @param unprotectedHeader JWE Per-Recipient Unprotected Header.
    */
-  setUnprotectedHeader(unprotectedHeader: JWEHeaderParameters) {
+  setUnprotectedHeader(unprotectedHeader: JWEHeaderParameters): this {
     if (this._unprotectedHeader) {
       throw new TypeError('setUnprotectedHeader can only be called once')
     }
@@ -118,7 +118,7 @@ export class FlattenedEncrypt {
    *
    * @param aad Additional Authenticated Data.
    */
-  setAdditionalAuthenticatedData(aad: Uint8Array) {
+  setAdditionalAuthenticatedData(aad: Uint8Array): this {
     this._aad = aad
     return this
   }
@@ -132,7 +132,7 @@ export class FlattenedEncrypt {
    *
    * @param cek JWE Content Encryption Key.
    */
-  setContentEncryptionKey(cek: Uint8Array) {
+  setContentEncryptionKey(cek: Uint8Array): this {
     if (this._cek) {
       throw new TypeError('setContentEncryptionKey can only be called once')
     }
@@ -149,7 +149,7 @@ export class FlattenedEncrypt {
    *
    * @param iv JWE Initialization Vector.
    */
-  setInitializationVector(iv: Uint8Array) {
+  setInitializationVector(iv: Uint8Array): this {
     if (this._iv) {
       throw new TypeError('setInitializationVector can only be called once')
     }

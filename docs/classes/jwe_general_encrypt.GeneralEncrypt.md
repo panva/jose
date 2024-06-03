@@ -89,7 +89,7 @@ ___
 
 ### setAdditionalAuthenticatedData
 
-▸ **setAdditionalAuthenticatedData**(`aad`): [`GeneralEncrypt`](jwe_general_encrypt.GeneralEncrypt.md)
+▸ **setAdditionalAuthenticatedData**(`aad`): `this`
 
 Sets the Additional Authenticated Data on the GeneralEncrypt object.
 
@@ -101,7 +101,7 @@ Sets the Additional Authenticated Data on the GeneralEncrypt object.
 
 #### Returns
 
-[`GeneralEncrypt`](jwe_general_encrypt.GeneralEncrypt.md)
+`this`
 
 ___
 

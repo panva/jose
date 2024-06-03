@@ -113,7 +113,7 @@ export class SignJWT extends ProduceJWT {
    *
    * @param protectedHeader JWS Protected Header. Must contain an "alg" (JWS Algorithm) property.
    */
-  setProtectedHeader(protectedHeader: JWTHeaderParameters) {
+  setProtectedHeader(protectedHeader: JWTHeaderParameters): this {
     this._protectedHeader = protectedHeader
     return this
   }
