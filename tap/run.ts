@@ -13,6 +13,7 @@ export default async (
   // @ts-ignore
   QUnit.reporters.tap.init(QUnit)
   QUnit.config.autostart = false
+  QUnit.config.testTimeout = 10_000
 
   const modules = await Promise.all([
     !skipFetch ? import('./jwks.js') : import('./noop.js'),
