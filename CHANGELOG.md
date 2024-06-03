@@ -2,6 +2,18 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [5.4.0](https://github.com/panva/jose/compare/v5.3.0...v5.4.0) (2024-06-03)
+
+
+### Features
+
+* expose JWT's payload in JWTClaimValidationFailed instances ([58bcffb](https://github.com/panva/jose/commit/58bcffbac735cc727fd81c36813f12fd6f58b695)), closes [#680](https://github.com/panva/jose/issues/680)
+
+
+### Refactor
+
+* add explicit return types everywhere ([cc2b2d7](https://github.com/panva/jose/commit/cc2b2d7b76118d59b9e08c589dc33a45a6377f4a))
+
 ## [5.3.0](https://github.com/panva/jose/compare/v5.2.4...v5.3.0) (2024-05-10)
 
 
