@@ -38,6 +38,7 @@ if (err instanceof jose.errors.JWTExpired) {
 
 - [claim](util_errors.JWTExpired.md#claim)
 - [code](util_errors.JWTExpired.md#code)
+- [payload](util_errors.JWTExpired.md#payload)
 - [reason](util_errors.JWTExpired.md#reason)
 
 ## Properties
@@ -55,6 +56,14 @@ ___
 • **code**: `string` = `'ERR_JWT_EXPIRED'`
 
 A unique error code for this particular error subclass.
+
+___
+
+### payload
+
+• **payload**: [`JWTPayload`](../interfaces/types.JWTPayload.md)
+
+The parsed JWT payload.
 
 ___
 

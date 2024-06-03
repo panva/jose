@@ -1,4 +1,4 @@
-import type { KeyLike } from '../types.d'
+import type { JWTPayload, KeyLike } from '../types.d'
 
 /**
  * A generic Error that all other JOSE specific Error subclasses extend.
@@ -72,11 +72,15 @@ export class JWTClaimValidationFailed extends JOSEError {
   /** Reason code for the validation failure. */
   reason: string
 
+  /** The parsed JWT payload. */
+  payload: JWTPayload
+
   /** @ignore */
-  constructor(message: string, claim = 'unspecified', reason = 'unspecified') {
+  constructor(message: string, payload: JWTPayload, claim = 'unspecified', reason = 'unspecified') {
     super(message)
     this.claim = claim
     this.reason = reason
+    this.payload = payload
   }
 }
 
@@ -117,11 +121,15 @@ export class JWTExpired extends JOSEError implements JWTClaimValidationFailed {
   /** Reason code for the validation failure. */
   reason: string
 
+  /** The parsed JWT payload. */
+  payload: JWTPayload
+
   /** @ignore */
-  constructor(message: string, claim = 'unspecified', reason = 'unspecified') {
+  constructor(message: string, payload: JWTPayload, claim = 'unspecified', reason = 'unspecified') {
     super(message)
     this.claim = claim
     this.reason = reason
+    this.payload = payload
   }
 }
 

@@ -31,15 +31,6 @@ export default (
   encodedPayload: Uint8Array,
   options: JWTClaimVerificationOptions = {},
 ) => {
-  const { typ } = options
-  if (
-    typ &&
-    (typeof protectedHeader!.typ !== 'string' ||
-      normalizeTyp(protectedHeader!.typ) !== normalizeTyp(typ))
-  ) {
-    throw new JWTClaimValidationFailed('unexpected "typ" JWT header value', 'typ', 'check_failed')
-  }
-
   let payload!: { [propName: string]: unknown }
   try {
     payload = JSON.parse(decoder.decode(encodedPayload))
@@ -49,6 +40,20 @@ export default (
 
   if (!isObject(payload)) {
     throw new JWTInvalid('JWT Claims Set must be a top-level JSON object')
+  }
+
+  const { typ } = options
+  if (
+    typ &&
+    (typeof protectedHeader!.typ !== 'string' ||
+      normalizeTyp(protectedHeader!.typ) !== normalizeTyp(typ))
+  ) {
+    throw new JWTClaimValidationFailed(
+      'unexpected "typ" JWT header value',
+      payload,
+      'typ',
+      'check_failed',
+    )
   }
 
   const { requiredClaims = [], issuer, subject, audience, maxTokenAge } = options
@@ -62,23 +67,43 @@ export default (
 
   for (const claim of new Set(presenceCheck.reverse())) {
     if (!(claim in payload)) {
-      throw new JWTClaimValidationFailed(`missing required "${claim}" claim`, claim, 'missing')
+      throw new JWTClaimValidationFailed(
+        `missing required "${claim}" claim`,
+        payload,
+        claim,
+        'missing',
+      )
     }
   }
 
   if (issuer && !(<unknown[]>(Array.isArray(issuer) ? issuer : [issuer])).includes(payload.iss!)) {
-    throw new JWTClaimValidationFailed('unexpected "iss" claim value', 'iss', 'check_failed')
+    throw new JWTClaimValidationFailed(
+      'unexpected "iss" claim value',
+      payload,
+      'iss',
+      'check_failed',
+    )
   }
 
   if (subject && payload.sub !== subject) {
-    throw new JWTClaimValidationFailed('unexpected "sub" claim value', 'sub', 'check_failed')
+    throw new JWTClaimValidationFailed(
+      'unexpected "sub" claim value',
+      payload,
+      'sub',
+      'check_failed',
+    )
   }
 
   if (
     audience &&
     !checkAudiencePresence(payload.aud, typeof audience === 'string' ? [audience] : audience)
   ) {
-    throw new JWTClaimValidationFailed('unexpected "aud" claim value', 'aud', 'check_failed')
+    throw new JWTClaimValidationFailed(
+      'unexpected "aud" claim value',
+      payload,
+      'aud',
+      'check_failed',
+    )
   }
 
   let tolerance: number
@@ -100,16 +125,17 @@ export default (
   const now = epoch(currentDate || new Date())
 
   if ((payload.iat !== undefined || maxTokenAge) && typeof payload.iat !== 'number') {
-    throw new JWTClaimValidationFailed('"iat" claim must be a number', 'iat', 'invalid')
+    throw new JWTClaimValidationFailed('"iat" claim must be a number', payload, 'iat', 'invalid')
   }
 
   if (payload.nbf !== undefined) {
     if (typeof payload.nbf !== 'number') {
-      throw new JWTClaimValidationFailed('"nbf" claim must be a number', 'nbf', 'invalid')
+      throw new JWTClaimValidationFailed('"nbf" claim must be a number', payload, 'nbf', 'invalid')
     }
     if (payload.nbf > now + tolerance) {
       throw new JWTClaimValidationFailed(
         '"nbf" claim timestamp check failed',
+        payload,
         'nbf',
         'check_failed',
       )
@@ -118,10 +144,10 @@ export default (
 
   if (payload.exp !== undefined) {
     if (typeof payload.exp !== 'number') {
-      throw new JWTClaimValidationFailed('"exp" claim must be a number', 'exp', 'invalid')
+      throw new JWTClaimValidationFailed('"exp" claim must be a number', payload, 'exp', 'invalid')
     }
     if (payload.exp <= now - tolerance) {
-      throw new JWTExpired('"exp" claim timestamp check failed', 'exp', 'check_failed')
+      throw new JWTExpired('"exp" claim timestamp check failed', payload, 'exp', 'check_failed')
     }
   }
 
@@ -132,6 +158,7 @@ export default (
     if (age - tolerance > max) {
       throw new JWTExpired(
         '"iat" claim timestamp check failed (too far in the past)',
+        payload,
         'iat',
         'check_failed',
       )
@@ -140,6 +167,7 @@ export default (
     if (age < 0 - tolerance) {
       throw new JWTClaimValidationFailed(
         '"iat" claim timestamp check failed (it should be in the past)',
+        payload,
         'iat',
         'check_failed',
       )

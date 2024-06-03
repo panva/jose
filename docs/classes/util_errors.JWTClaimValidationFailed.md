@@ -38,6 +38,7 @@ if (err instanceof jose.errors.JWTClaimValidationFailed) {
 
 - [claim](util_errors.JWTClaimValidationFailed.md#claim)
 - [code](util_errors.JWTClaimValidationFailed.md#code)
+- [payload](util_errors.JWTClaimValidationFailed.md#payload)
 - [reason](util_errors.JWTClaimValidationFailed.md#reason)
 
 ## Properties
@@ -55,6 +56,14 @@ ___
 • **code**: `string` = `'ERR_JWT_CLAIM_VALIDATION_FAILED'`
 
 A unique error code for this particular error subclass.
+
+___
+
+### payload
+
+• **payload**: [`JWTPayload`](../interfaces/types.JWTPayload.md)
+
+The parsed JWT payload.
 
 ___
 
