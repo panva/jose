@@ -72,7 +72,12 @@ export class JWTClaimValidationFailed extends JOSEError {
   /** Reason code for the validation failure. */
   reason: string
 
-  /** The parsed JWT payload. */
+  /**
+   * The parsed JWT Claims Set (aka payload). Other JWT claims may or may not have been verified at
+   * this point. The JSON Web Signature (JWS) or a JSON Web Encryption (JWE) structures' integrity
+   * has however been verified. Claims Set verification happens after the JWS Signature or JWE
+   * Decryption processes.
+   */
   payload: JWTPayload
 
   /** @ignore */
@@ -121,7 +126,12 @@ export class JWTExpired extends JOSEError implements JWTClaimValidationFailed {
   /** Reason code for the validation failure. */
   reason: string
 
-  /** The parsed JWT payload. */
+  /**
+   * The parsed JWT Claims Set (aka payload). Other JWT claims may or may not have been verified at
+   * this point. The JSON Web Signature (JWS) or a JSON Web Encryption (JWE) structures' integrity
+   * has however been verified. Claims Set verification happens after the JWS Signature or JWE
+   * Decryption processes.
+   */
   payload: JWTPayload
 
   /** @ignore */

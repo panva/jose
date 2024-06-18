@@ -63,7 +63,10 @@ ___
 
 • **payload**: [`JWTPayload`](../interfaces/types.JWTPayload.md)
 
-The parsed JWT payload.
+The parsed JWT Claims Set (aka payload). Other JWT claims may or may not have been verified at
+this point. The JSON Web Signature (JWS) or a JSON Web Encryption (JWE) structures' integrity
+has however been verified. Claims Set verification happens after the JWS Signature or JWE
+Decryption processes.
 
 ___
 
