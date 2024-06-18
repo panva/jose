@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [5.4.1](https://github.com/panva/jose/compare/v5.4.0...v5.4.1) (2024-06-18)
+
+
+### Fixes
+
+* ensure latest release on npm is v5.x ([a9b2a30](https://github.com/panva/jose/commit/a9b2a300947f9ab10d580748a3eda58207de4c62))
+
 ## [5.4.0](https://github.com/panva/jose/compare/v5.3.0...v5.4.0) (2024-06-03)
 
 

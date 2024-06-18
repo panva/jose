@@ -1,6 +1,6 @@
 {
   "name": "jose",
-  "version": "5.4.0",
+  "version": "5.4.1",
   "description": "JWA, JWS, JWE, JWT, JWK, JWKS for Node.js, Browser, Cloudflare Workers, Deno, Bun, and other Web-interoperable runtimes",
   "keywords": [
     "browser",
