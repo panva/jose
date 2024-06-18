@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [4.15.6](https://github.com/panva/jose/compare/v4.15.5...v4.15.6) (2024-06-18)
+
+
+### Fixes
+
+* add a workerd package.json target ([e36d69e](https://github.com/panva/jose/commit/e36d69e732d55b880c7ccbf5183624f8d8afeb90))
+
 ## [4.15.5](https://github.com/panva/jose/compare/v4.15.4...v4.15.5) (2024-03-07)
 
 
