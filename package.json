@@ -81,6 +81,7 @@
       "deno": "./dist/browser/index.js",
       "browser": "./dist/browser/index.js",
       "worker": "./dist/browser/index.js",
+      "workerd": "./dist/browser/index.js",
       "import": "./dist/node/esm/index.js",
       "require": "./dist/node/cjs/index.js"
     },
