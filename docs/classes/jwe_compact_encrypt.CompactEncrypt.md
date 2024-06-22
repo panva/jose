@@ -20,6 +20,28 @@ const jwe = await new jose.CompactEncrypt(
 console.log(jwe)
 ```
 
+With Key Management Parameters:
+
+```js
+const keys = await jose.generateKeyPair('ECDH-ES+A128KW', { extractable: true })
+const jwe = await new jose.CompactEncrypt(
+    new TextEncoder().encode('It’s a dangerous business, Frodo, going out your door.'),
+  )
+    .setProtectedHeader({ 
+      alg: 'ECDH-ES+A128KW', 
+      enc: 'A128GCM',
+    })
+    // https://datatracker.ietf.org/doc/html/rfc7518#appendix-C
+    .setKeyManagementParameters({
+      "apu": jose.base64url.decode("QWxpY2U"),
+      "apv": jose.base64url.decode("Qm9i"),
+    })
+    .encrypt(keys.publicKey)
+
+const result = await jose.compactDecrypt(jwe, keys.privateKey)
+console.log(result)
+```
+
 ## Table of contents
 
 ### Constructors
