@@ -9,7 +9,9 @@ const readme = readFileSync('docs/README.md')
 const tagName = `v${version}`
 const opts = { stdio: 'inherit' }
 
-execSync('git rm -f docs/**/*.md', opts)
+try {
+  execSync('git rm -f docs/**/*.md', opts)
+} catch {}
 execSync('find docs -type d | grep "docs/" | xargs rm -rf', opts)
 execSync('npx patch-package', opts)
 execSync('npm run runtime-browser', opts)
@@ -39,14 +41,6 @@ import * as jose from 'https://deno.land/x/jose@${tagName}/index.ts'
     )
     .replace(/(\]\()(?!https)/gm, `](https://github.com/panva/jose/blob/${tagName}/docs/`),
 )
-// https://github.com/tgreyuk/typedoc-plugin-markdown/issues/533
-{
-  const path = 'docs/classes/jwt_unsecured.UnsecuredJWT.md'
-  writeFileSync(
-    path,
-    readFileSync(path, { encoding: 'utf-8' }).replace('▸ **decode**', '▸ `Static` **decode**'),
-  )
-}
 execSync('npm run build:browser-bundle', opts)
 execSync('npm run build:browser-bundle-min', opts)
 execSync('npm run build:browser-umd', opts)

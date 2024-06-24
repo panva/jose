@@ -444,10 +444,10 @@
     "tar": "^7.4.3",
     "timekeeper": "^2.3.1",
     "tsd": "^0.31.2",
-    "typedoc": "^0.25.13",
-    "typedoc-plugin-markdown": "^3.17.1",
-    "typedoc-plugin-mdn-links": "^3.2.12",
-    "typescript": "~5.4.5"
+    "typedoc": "^0.26.10",
+    "typedoc-plugin-markdown": "^4.2.9",
+    "typedoc-plugin-mdn-links": "^3.3.3",
+    "typescript": "^5.6.3"
   },
   "deno": "./dist/browser/index.js"
 }

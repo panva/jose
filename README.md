@@ -8,7 +8,7 @@
   <source media="(prefers-color-scheme: dark)" srcset="./sponsor/Auth0byOkta_dark.png">
   <source media="(prefers-color-scheme: light)" srcset="./sponsor/Auth0byOkta_light.png">
   <img height="65" align="left" alt="Auth0 by Okta" src="./sponsor/Auth0byOkta_light.png">
-</picture> 
+</picture>
 
 If you want to quickly add JWT authentication to JavaScript apps, feel free to check out Auth0's JavaScript SDK and free plan. [Create an Auth0 account; it's free!][sponsor-auth0]<br><br>
 
@@ -38,69 +38,69 @@ const jose = require('jose')
 
 The `jose` module supports JSON Web Tokens (JWT) and provides functionality for signing and verifying tokens, as well as their JWT Claims Set validation.
 
-- [JWT Claims Set Validation & Signature Verification](docs/functions/jwt_verify.jwtVerify.md) using the `jwtVerify` function
-  - [Using a remote JSON Web Key Set (JWKS)](docs/functions/jwks_remote.createRemoteJWKSet.md)
-  - [Using a local JSON Web Key Set (JWKS)](docs/functions/jwks_local.createLocalJWKSet.md)
-- [Signing](docs/classes/jwt_sign.SignJWT.md) using the `SignJWT` class
+- [JWT Claims Set Validation & Signature Verification](docs/jwt/verify/functions/jwtVerify.md) using the `jwtVerify` function
+  - [Using a remote JSON Web Key Set (JWKS)](docs/jwks/remote/functions/createRemoteJWKSet.md)
+  - [Using a local JSON Web Key Set (JWKS)](docs/jwks/local/functions/createLocalJWKSet.md)
+- [Signing](docs/jwt/sign/classes/SignJWT.md) using the `SignJWT` class
 - Utility functions
-  - [Decoding Token's Protected Header](docs/functions/util_decode_protected_header.decodeProtectedHeader.md)
-  - [Decoding JWT Claims Set](docs/functions/util_decode_jwt.decodeJwt.md) prior to its validation
+  - [Decoding Token's Protected Header](docs/util/decode_protected_header/functions/decodeProtectedHeader.md)
+  - [Decoding JWT Claims Set](docs/util/decode_jwt/functions/decodeJwt.md) prior to its validation
 
 ### Encrypted JSON Web Tokens
 
 The `jose` module supports encrypted JSON Web Tokens and provides functionality for encrypting and decrypting tokens, as well as their JWT Claims Set validation.
 
-- [Decryption & JWT Claims Set Validation](docs/functions/jwt_decrypt.jwtDecrypt.md) using the `jwtDecrypt` function
-- [Encryption](docs/classes/jwt_encrypt.EncryptJWT.md) using the `EncryptJWT` class
+- [Decryption & JWT Claims Set Validation](docs/jwt/decrypt/functions/jwtDecrypt.md) using the `jwtDecrypt` function
+- [Encryption](docs/jwt/encrypt/classes/EncryptJWT.md) using the `EncryptJWT` class
 - Utility functions
-  - [Decoding Token's Protected Header](docs/functions/util_decode_protected_header.decodeProtectedHeader.md)
+  - [Decoding Token's Protected Header](docs/util/decode_protected_header/functions/decodeProtectedHeader.md)
 
 ### Key Utilities
 
 The `jose` module supports importing, exporting, and generating keys and secrets in various formats, including PEM formats like SPKI, X.509 certificate, and PKCS #8, as well as JSON Web Key (JWK).
 
 - Key Import Functions
-  - [JWK Import](docs/functions/key_import.importJWK.md)
-  - [Public Key Import (SPKI)](docs/functions/key_import.importSPKI.md)
-  - [Public Key Import (X.509 Certificate)](docs/functions/key_import.importX509.md)
-  - [Private Key Import (PKCS #8)](docs/functions/key_import.importPKCS8.md)
+  - [JWK Import](docs/key/import/functions/importJWK.md)
+  - [Public Key Import (SPKI)](docs/key/import/functions/importSPKI.md)
+  - [Public Key Import (X.509 Certificate)](docs/key/import/functions/importX509.md)
+  - [Private Key Import (PKCS #8)](docs/key/import/functions/importPKCS8.md)
 - Key and Secret Generation Functions
-  - [Asymmetric Key Pair Generation](docs/functions/key_generate_key_pair.generateKeyPair.md)
-  - [Symmetric Secret Generation](docs/functions/key_generate_secret.generateSecret.md)
+  - [Asymmetric Key Pair Generation](docs/key/generate_key_pair/functions/generateKeyPair.md)
+  - [Symmetric Secret Generation](docs/key/generate_secret/functions/generateSecret.md)
 - Key Export Functions
-  - [JWK Export](docs/functions/key_export.exportJWK.md)
-  - [Private Key Export](docs/functions/key_export.exportPKCS8.md)
-  - [Public Key Export](docs/functions/key_export.exportSPKI.md)
+  - [JWK Export](docs/key/export/functions/exportJWK.md)
+  - [Private Key Export](docs/key/export/functions/exportPKCS8.md)
+  - [Public Key Export](docs/key/export/functions/exportSPKI.md)
 
 ### JSON Web Signature (JWS)
 
 The `jose` module supports signing and verification of JWS messages with arbitrary payloads in Compact, Flattened JSON, and General JSON serialization syntaxes.
 
-- Signing - [Compact](docs/classes/jws_compact_sign.CompactSign.md), [Flattened JSON](docs/classes/jws_flattened_sign.FlattenedSign.md), [General JSON](docs/classes/jws_general_sign.GeneralSign.md)
-- Verification - [Compact](docs/functions/jws_compact_verify.compactVerify.md), [Flattened JSON](docs/functions/jws_flattened_verify.flattenedVerify.md), [General JSON](docs/functions/jws_general_verify.generalVerify.md)
-  - [Using a remote JSON Web Key Set (JWKS)](docs/functions/jwks_remote.createRemoteJWKSet.md)
-  - [Using a local JSON Web Key Set (JWKS)](docs/functions/jwks_local.createLocalJWKSet.md)
+- Signing - [Compact](docs/jws/compact/sign/classes/CompactSign.md), [Flattened JSON](docs/jws/flattened/sign/classes/FlattenedSign.md), [General JSON](docs/jws/general/sign/classes/GeneralSign.md)
+- Verification - [Compact](docs/jws/compact/verify/functions/compactVerify.md), [Flattened JSON](docs/jws/flattened/verify/functions/flattenedVerify.md), [General JSON](docs/jws/general/verify/functions/generalVerify.md)
+  - [Using a remote JSON Web Key Set (JWKS)](docs/jwks/remote/functions/createRemoteJWKSet.md)
+  - [Using a local JSON Web Key Set (JWKS)](docs/jwks/local/functions/createLocalJWKSet.md)
 - Utility functions
-  - [Decoding Token's Protected Header](docs/functions/util_decode_protected_header.decodeProtectedHeader.md)
+  - [Decoding Token's Protected Header](docs/util/decode_protected_header/functions/decodeProtectedHeader.md)
 
 ### JSON Web Encryption (JWE)
 
 The `jose` module supports encryption and decryption of JWE messages with arbitrary plaintext in Compact, Flattened JSON, and General JSON serialization syntaxes.
 
-- Encryption - [Compact](docs/classes/jwe_compact_encrypt.CompactEncrypt.md), [Flattened JSON](docs/classes/jwe_flattened_encrypt.FlattenedEncrypt.md), [General JSON](docs/classes/jwe_general_encrypt.GeneralEncrypt.md)
-- Decryption - [Compact](docs/functions/jwe_compact_decrypt.compactDecrypt.md), [Flattened JSON](docs/functions/jwe_flattened_decrypt.flattenedDecrypt.md), [General JSON](docs/functions/jwe_general_decrypt.generalDecrypt.md)
+- Encryption - [Compact](docs/jwe/compact/encrypt/classes/CompactEncrypt.md), [Flattened JSON](docs/jwe/flattened/encrypt/classes/FlattenedEncrypt.md), [General JSON](docs/jwe/general/encrypt/classes/GeneralEncrypt.md)
+- Decryption - [Compact](docs/jwe/compact/decrypt/functions/compactDecrypt.md), [Flattened JSON](docs/jwe/flattened/decrypt/functions/flattenedDecrypt.md), [General JSON](docs/jwe/general/decrypt/functions/generalDecrypt.md)
 - Utility functions
-  - [Decoding Token's Protected Header](docs/functions/util_decode_protected_header.decodeProtectedHeader.md)
+  - [Decoding Token's Protected Header](docs/util/decode_protected_header/functions/decodeProtectedHeader.md)
 
 ### Other
 
 The following are additional features and utilities provided by the `jose` module:
 
-- [Calculating JWK Thumbprint](docs/functions/jwk_thumbprint.calculateJwkThumbprint.md)
-- [Calculating JWK Thumbprint URI](docs/functions/jwk_thumbprint.calculateJwkThumbprintUri.md)
-- [Verification using a JWK Embedded in a JWS Header](docs/functions/jwk_embedded.EmbeddedJWK.md)
-- [Unsecured JWT](docs/classes/jwt_unsecured.UnsecuredJWT.md)
-- [JOSE Errors](docs/modules/util_errors.md)
+- [Calculating JWK Thumbprint](docs/jwk/thumbprint/functions/calculateJwkThumbprint.md)
+- [Calculating JWK Thumbprint URI](docs/jwk/thumbprint/functions/calculateJwkThumbprintUri.md)
+- [Verification using a JWK Embedded in a JWS Header](docs/jwk/embedded/functions/EmbeddedJWK.md)
+- [Unsecured JWT](docs/jwt/unsecured/classes/UnsecuredJWT.md)
+- [JOSE Errors](docs/util/errors/README.md)
 
 ## Supported Runtimes
 
