@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [5.5.0](https://github.com/panva/jose/compare/v5.4.1...v5.5.0) (2024-06-26)
+
+
+### Features
+
+* add experimental support for edge compute runtimes JWKS caching ([ab166e2](https://github.com/panva/jose/commit/ab166e207f1f2f63b1f1ab259e1280549b2e9097)), closes [#551](https://github.com/panva/jose/issues/551) [#661](https://github.com/panva/jose/issues/661) [#653](https://github.com/panva/jose/issues/653) [#415](https://github.com/panva/jose/issues/415)
+
 ## [5.4.1](https://github.com/panva/jose/compare/v5.4.0...v5.4.1) (2024-06-18)
 
 
