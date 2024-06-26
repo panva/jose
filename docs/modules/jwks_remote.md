@@ -14,4 +14,13 @@ Support from the community to continue maintaining and improving this module is 
 
 ### Interfaces
 
+- [ExportedJWKSCache](../interfaces/jwks_remote.ExportedJWKSCache.md)
 - [RemoteJWKSetOptions](../interfaces/jwks_remote.RemoteJWKSetOptions.md)
+
+### Type Aliases
+
+- [JWKSCacheInput](../types/jwks_remote.JWKSCacheInput.md)
+
+### Variables
+
+- [experimental\_jwksCache](../variables/jwks_remote.experimental_jwksCache.md)

@@ -1,0 +1,64 @@
+# Variable: experimental\_jwksCache
+
+## [💗 Help the project](https://github.com/sponsors/panva)
+
+Support from the community to continue maintaining and improving this module is welcome. If you find the module useful, please consider supporting the project by [becoming a sponsor](https://github.com/sponsors/panva).
+
+---
+
+• `Const` **experimental\_jwksCache**: unique `symbol`
+
+This is an experimental feature, it is not subject to semantic versioning rules. Non-backward
+compatible changes or removal may occur in any future release.
+
+DANGER ZONE - This option has security implications that must be understood, assessed for
+applicability, and accepted before use. It is critical that the JSON Web Key Set cache only be
+writable by your own code.
+
+This option is intended for cloud computing runtimes that cannot keep an in memory cache between
+their code's invocations. Use in runtimes where an in memory cache between requests is available
+is not desirable.
+
+When passed to [createRemoteJWKSet](../functions/jwks_remote.createRemoteJWKSet.md) this allows the passed in
+object to:
+
+- Serve as an initial value for the JSON Web Key Set that the module would otherwise need to
+  trigger an HTTP request for
+- Have the JSON Web Key Set the function optionally ended up triggering an HTTP request for
+  assigned to it as properties
+
+The intended use pattern is:
+
+- Before verifying with [createRemoteJWKSet](../functions/jwks_remote.createRemoteJWKSet.md) you pull the
+  previously cached object from a low-latency key-value store offered by the cloud computing
+  runtime it is executed on;
+- Default to an empty object `{}` instead when there's no previously cached value;
+- Pass it in as [[experimental_jwksCache]](../interfaces/jwks_remote.RemoteJWKSetOptions.md);
+- Afterwards, update the key-value storage if the [`uat`](../interfaces/jwks_remote.ExportedJWKSCache.md#uat) property of
+  the object has changed.
+
+**`Example`**
+
+```ts
+import * as jose from 'jose'
+
+// Prerequisites
+let url!: URL
+let jwt!: string
+
+// Load JSON Web Key Set cache
+const jwksCache: jose.JWKSCacheInput = (await getPreviouslyCachedJWKS()) || {}
+const { uat } = jwksCache
+
+const JWKS = jose.createRemoteJWKSet(url, {
+  [jose.experimental_jwksCache]: jwksCache,
+})
+
+// Use JSON Web Key Set cache
+await jose.jwtVerify(jwt, JWKS)
+
+if (uat !== jwksCache.uat) {
+  // Update JSON Web Key Set cache
+  await storeNewJWKScache(jwksCache)
+}
+```

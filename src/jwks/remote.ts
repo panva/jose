@@ -4,6 +4,7 @@ import type { KeyLike, JWSHeaderParameters, FlattenedJWSInput, JSONWebKeySet } f
 import { JWKSNoMatchingKey } from '../util/errors.js'
 
 import { createLocalJWKSet } from './local.js'
+import isObject from '../lib/is_object.js'
 
 function isCloudflareWorkers() {
   return (
@@ -26,6 +27,64 @@ if (typeof navigator === 'undefined' || !navigator.userAgent?.startsWith?.('Mozi
   const VERSION = 'v5.4.1'
   USER_AGENT = `${NAME}/${VERSION}`
 }
+
+/**
+ * This is an experimental feature, it is not subject to semantic versioning rules. Non-backward
+ * compatible changes or removal may occur in any future release.
+ *
+ * DANGER ZONE - This option has security implications that must be understood, assessed for
+ * applicability, and accepted before use. It is critical that the JSON Web Key Set cache only be
+ * writable by your own code.
+ *
+ * This option is intended for cloud computing runtimes that cannot keep an in memory cache between
+ * their code's invocations. Use in runtimes where an in memory cache between requests is available
+ * is not desirable.
+ *
+ * When passed to {@link jwks/remote.createRemoteJWKSet createRemoteJWKSet} this allows the passed in
+ * object to:
+ *
+ * - Serve as an initial value for the JSON Web Key Set that the module would otherwise need to
+ *   trigger an HTTP request for
+ * - Have the JSON Web Key Set the function optionally ended up triggering an HTTP request for
+ *   assigned to it as properties
+ *
+ * The intended use pattern is:
+ *
+ * - Before verifying with {@link jwks/remote.createRemoteJWKSet createRemoteJWKSet} you pull the
+ *   previously cached object from a low-latency key-value store offered by the cloud computing
+ *   runtime it is executed on;
+ * - Default to an empty object `{}` instead when there's no previously cached value;
+ * - Pass it in as {@link RemoteJWKSetOptions[experimental_jwksCache]};
+ * - Afterwards, update the key-value storage if the {@link ExportedJWKSCache.uat `uat`} property of
+ *   the object has changed.
+ *
+ * @example
+ *
+ * ```ts
+ * import * as jose from 'jose'
+ *
+ * // Prerequisites
+ * let url!: URL
+ * let jwt!: string
+ *
+ * // Load JSON Web Key Set cache
+ * const jwksCache: jose.JWKSCacheInput = (await getPreviouslyCachedJWKS()) || {}
+ * const { uat } = jwksCache
+ *
+ * const JWKS = jose.createRemoteJWKSet(url, {
+ *   [jose.experimental_jwksCache]: jwksCache,
+ * })
+ *
+ * // Use JSON Web Key Set cache
+ * await jose.jwtVerify(jwt, JWKS)
+ *
+ * if (uat !== jwksCache.uat) {
+ *   // Update JSON Web Key Set cache
+ *   await storeNewJWKScache(jwksCache)
+ * }
+ * ```
+ */
+export const experimental_jwksCache: unique symbol = Symbol()
 
 /** Options for the remote JSON Web Key Set. */
 export interface RemoteJWKSetOptions {
@@ -63,6 +122,37 @@ export interface RemoteJWKSetOptions {
    * configuration would cause an unnecessary CORS preflight request.
    */
   headers?: Record<string, string>
+
+  /** See {@link experimental_jwksCache}. */
+  [experimental_jwksCache]?: JWKSCacheInput
+}
+
+export interface ExportedJWKSCache {
+  jwks: JSONWebKeySet
+  uat: number
+}
+
+export type JWKSCacheInput = ExportedJWKSCache | Record<string, never>
+
+function isFreshJwksCache(input: unknown, cacheMaxAge: number): input is ExportedJWKSCache {
+  if (typeof input !== 'object' || input === null) {
+    return false
+  }
+
+  if (!('uat' in input) || typeof input.uat !== 'number' || Date.now() - input.uat >= cacheMaxAge) {
+    return false
+  }
+
+  if (
+    !('jwks' in input) ||
+    !isObject<JSONWebKeySet>(input.jwks) ||
+    !Array.isArray(input.jwks.keys) ||
+    !Array.prototype.every.call(input.jwks.keys, isObject)
+  ) {
+    return false
+  }
+
+  return true
 }
 
 class RemoteJWKSet<KeyLikeType extends KeyLike = KeyLike> {
@@ -82,6 +172,8 @@ class RemoteJWKSet<KeyLikeType extends KeyLike = KeyLike> {
 
   private _local!: ReturnType<typeof createLocalJWKSet<KeyLikeType>>
 
+  private _cache?: JWKSCacheInput
+
   constructor(url: unknown, options?: RemoteJWKSetOptions) {
     if (!(url instanceof URL)) {
       throw new TypeError('url must be an instance of URL')
@@ -93,6 +185,14 @@ class RemoteJWKSet<KeyLikeType extends KeyLike = KeyLike> {
     this._cooldownDuration =
       typeof options?.cooldownDuration === 'number' ? options?.cooldownDuration : 30000
     this._cacheMaxAge = typeof options?.cacheMaxAge === 'number' ? options?.cacheMaxAge : 600000
+
+    if (options?.[experimental_jwksCache] !== undefined) {
+      this._cache = options?.[experimental_jwksCache]
+      if (isFreshJwksCache(options?.[experimental_jwksCache], this._cacheMaxAge)) {
+        this._jwksTimestamp = this._cache.uat
+        this._local = createLocalJWKSet(this._cache.jwks)
+      }
+    }
   }
 
   coolingDown() {
@@ -144,6 +244,10 @@ class RemoteJWKSet<KeyLikeType extends KeyLike = KeyLike> {
     this._pendingFetch ||= fetchJwks(this._url, this._timeoutDuration, this._options)
       .then((json) => {
         this._local = createLocalJWKSet(<JSONWebKeySet>(<unknown>json))
+        if (this._cache) {
+          this._cache.uat = Date.now()
+          this._cache.jwks = <JSONWebKeySet>(<unknown>json)
+        }
         this._jwksTimestamp = Date.now()
         this._pendingFetch = undefined
       })
