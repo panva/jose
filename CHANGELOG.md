@@ -2,6 +2,19 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [5.6.2](https://github.com/panva/jose/compare/v5.6.1...v5.6.2) (2024-06-27)
+
+
+### Refactor
+
+* CryptoKey normalization is not always async ([b7751f5](https://github.com/panva/jose/commit/b7751f58743c837f5bc76df301430c9b7c72dd85))
+* weak cache normalized CryptoKey instances ([32b25a5](https://github.com/panva/jose/commit/32b25a5c94febe79dcfa7b2e62e432d1dce1cd44))
+
+
+### Fixes
+
+* ensure KeyObject type in Web API encrypt/decrypt ([b7920bd](https://github.com/panva/jose/commit/b7920bd635d1b7642307709e888ea3dcaf3e9b6f))
+
 ## [5.6.1](https://github.com/panva/jose/compare/v5.6.0...v5.6.1) (2024-06-27)
 
 
