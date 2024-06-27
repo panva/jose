@@ -4,7 +4,7 @@ import importJWK from '../jwk_to_key.js'
 
 const normalizeSecretKey = (k: string) => decode(k)
 
-const normalizePublicKey = async (key: KeyLike | Uint8Array | unknown, alg: string) => {
+const normalizePublicKey = (key: KeyLike | Uint8Array | unknown, alg: string) => {
   // @ts-expect-error
   if (key?.[Symbol.toStringTag] === 'KeyObject') {
     // @ts-expect-error
@@ -25,7 +25,7 @@ const normalizePublicKey = async (key: KeyLike | Uint8Array | unknown, alg: stri
   return <KeyLike | Uint8Array>key
 }
 
-const normalizePrivateKey = async (key: KeyLike | Uint8Array | unknown, alg: string) => {
+const normalizePrivateKey = (key: KeyLike | Uint8Array | unknown, alg: string) => {
   // @ts-expect-error
   if (key?.[Symbol.toStringTag] === 'KeyObject') {
     // @ts-expect-error
