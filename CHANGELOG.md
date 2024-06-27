@@ -2,6 +2,18 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [5.6.1](https://github.com/panva/jose/compare/v5.6.0...v5.6.1) (2024-06-27)
+
+
+### Refactor
+
+* normalize is always defined for Web API runtimes ([7bcb103](https://github.com/panva/jose/commit/7bcb10392cb7ff6bd17ebeb27f95f334d799fdb8))
+
+
+### Fixes
+
+* workaround turbo's eager optimizations ([723a042](https://github.com/panva/jose/commit/723a04264e03daa5e311055ad2672e6ae5dfd1e3)), closes [#690](https://github.com/panva/jose/issues/690)
+
 ## [5.6.0](https://github.com/panva/jose/compare/v5.5.0...v5.6.0) (2024-06-27)
 
 
