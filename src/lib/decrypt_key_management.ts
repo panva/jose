@@ -3,7 +3,7 @@ import * as ECDH from '../runtime/ecdhes.js'
 import { decrypt as pbes2Kw } from '../runtime/pbes2kw.js'
 import { decrypt as rsaEs } from '../runtime/rsaes.js'
 import { decode as base64url } from '../runtime/base64url.js'
-import * as normalize from '../runtime/normalize_key.js'
+import normalize from '../runtime/normalize_key.js'
 
 import type { DecryptOptions, JWEHeaderParameters, KeyLike, JWK } from '../types.d'
 import { JOSENotSupported, JWEInvalid } from '../util/errors.js'
@@ -21,10 +21,7 @@ async function decryptKeyManagement(
   options?: DecryptOptions,
 ): Promise<KeyLike | Uint8Array> {
   // @ts-ignore
-  if (normalize.normalizePrivateKey) {
-    // @ts-ignore
-    key = await normalize.normalizePrivateKey(key, alg)
-  }
+  key = (await normalize.normalizePrivateKey?.(key, alg)) || key
 
   checkKeyType(alg, key, 'decrypt')
 

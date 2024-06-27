@@ -3,7 +3,7 @@ import * as ECDH from '../runtime/ecdhes.js'
 import { encrypt as pbes2Kw } from '../runtime/pbes2kw.js'
 import { encrypt as rsaEs } from '../runtime/rsaes.js'
 import { encode as base64url } from '../runtime/base64url.js'
-import * as normalize from '../runtime/normalize_key.js'
+import normalize from '../runtime/normalize_key.js'
 
 import type {
   KeyLike,
@@ -33,10 +33,7 @@ async function encryptKeyManagement(
   let cek: KeyLike | Uint8Array
 
   // @ts-ignore
-  if (normalize.normalizePublicKey) {
-    // @ts-ignore
-    key = await normalize.normalizePublicKey(key, alg)
-  }
+  key = (await normalize.normalizePublicKey?.(key, alg)) || key
 
   checkKeyType(alg, key, 'encrypt')
 

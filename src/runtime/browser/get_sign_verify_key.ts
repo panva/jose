@@ -2,7 +2,7 @@ import crypto, { isCryptoKey } from './webcrypto.js'
 import { checkSigCryptoKey } from '../../lib/crypto_key.js'
 import invalidKeyInput from '../../lib/invalid_key_input.js'
 import { types } from './is_key_like.js'
-import * as normalize from '../normalize_key.js'
+import normalize from '../normalize_key.js'
 
 export default async function getCryptoKey(alg: string, key: unknown, usage: KeyUsage) {
   if (usage === 'sign') {
