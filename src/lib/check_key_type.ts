@@ -1,6 +1,9 @@
 import { withAlg as invalidKeyInput } from './invalid_key_input.js'
 import isKeyLike, { types } from '../runtime/is_key_like.js'
 
+// @ts-expect-error
+const tag = (key: unknown): string => key?.[Symbol.toStringTag]
+
 const symmetricTypeCheck = (alg: string, key: unknown) => {
   if (key instanceof Uint8Array) return
 
@@ -9,9 +12,7 @@ const symmetricTypeCheck = (alg: string, key: unknown) => {
   }
 
   if (key.type !== 'secret') {
-    throw new TypeError(
-      `${types.join(' or ')} instances for symmetric algorithms must be of type "secret"`,
-    )
+    throw new TypeError(`${tag(key)} instances for symmetric algorithms must be of type "secret"`)
   }
 }
 
@@ -22,37 +23,33 @@ const asymmetricTypeCheck = (alg: string, key: unknown, usage: string) => {
 
   if (key.type === 'secret') {
     throw new TypeError(
-      `${types.join(' or ')} instances for asymmetric algorithms must not be of type "secret"`,
+      `${tag(key)} instances for asymmetric algorithms must not be of type "secret"`,
     )
   }
 
   if (usage === 'sign' && key.type === 'public') {
     throw new TypeError(
-      `${types.join(' or ')} instances for asymmetric algorithm signing must be of type "private"`,
+      `${tag(key)} instances for asymmetric algorithm signing must be of type "private"`,
     )
   }
 
   if (usage === 'decrypt' && key.type === 'public') {
     throw new TypeError(
-      `${types.join(
-        ' or ',
-      )} instances for asymmetric algorithm decryption must be of type "private"`,
+      `${tag(key)} instances for asymmetric algorithm decryption must be of type "private"`,
     )
   }
 
   // KeyObject allows this but CryptoKey does not.
   if ((<CryptoKey>key).algorithm && usage === 'verify' && key.type === 'private') {
     throw new TypeError(
-      `${types.join(' or ')} instances for asymmetric algorithm verifying must be of type "public"`,
+      `${tag(key)} instances for asymmetric algorithm verifying must be of type "public"`,
     )
   }
 
   // KeyObject allows this but CryptoKey does not.
   if ((<CryptoKey>key).algorithm && usage === 'encrypt' && key.type === 'private') {
     throw new TypeError(
-      `${types.join(
-        ' or ',
-      )} instances for asymmetric algorithm encryption must be of type "public"`,
+      `${tag(key)} instances for asymmetric algorithm encryption must be of type "public"`,
     )
   }
 }

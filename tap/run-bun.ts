@@ -4,7 +4,7 @@ import run from './run.js'
 import * as lib from '#dist/webapi'
 
 const stats: QUnit.DoneDetails = await new Promise((resolve) => {
-  run(QUnit, lib, resolve)
+  run(QUnit, lib, lib, resolve)
 })
 
 if (stats?.failed !== 0) {

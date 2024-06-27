@@ -3,7 +3,7 @@ import * as env from './env.js'
 import { KEYS } from './fixtures.js'
 import type * as jose from '../src/index.js'
 
-export default (QUnit: QUnit, lib: typeof jose) => {
+export default (QUnit: QUnit, lib: typeof jose, keys: typeof jose) => {
   const { module, test } = QUnit
   module('jwk.ts')
 
@@ -22,7 +22,7 @@ export default (QUnit: QUnit, lib: typeof jose) => {
     ['EdDSA', KEYS.Ed25519.jwk, (env.isWebKit && env.isWebKitAbove17) || !env.isBrowser],
     ['EdDSA', KEYS.Ed448.jwk, env.isNode || env.isEdgeRuntime],
     ['ES256', KEYS.P256.jwk, true],
-    ['ES256K', KEYS.secp256k1.jwk, env.isNodeCrypto],
+    ['ES256K', KEYS.secp256k1.jwk, lib.cryptoRuntime === 'node:crypto' && !env.isElectron],
     ['ES384', KEYS.P384.jwk, true],
     ['ES512', KEYS.P521.jwk, !env.isDeno],
     ['PS256', KEYS.RSA.jwk, true],
@@ -102,7 +102,7 @@ export default (QUnit: QUnit, lib: typeof jose) => {
     t.ok(1)
   })
 
-  if (env.isNodeCrypto || env.isElectron) {
+  if (lib.cryptoRuntime === 'node:crypto') {
     test('alg argument is ignored if jwk does not have alg for asymmetric keys', async (t) => {
       const jwk = {
         kty: 'EC',

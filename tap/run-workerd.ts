@@ -6,7 +6,7 @@ import * as lib from '#dist/webapi'
 export default {
   async test() {
     await new Promise((resolve, reject) => {
-      run(QUnit, lib, (results) => {
+      run(QUnit, lib, lib, (results) => {
         if (results?.failed !== 0) {
           reject()
         } else {

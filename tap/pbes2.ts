@@ -3,7 +3,7 @@ import * as env from './env.js'
 import type * as jose from '../src/index.js'
 import * as roundtrip from './encrypt.js'
 
-export default (QUnit: QUnit, lib: typeof jose) => {
+export default (QUnit: QUnit, lib: typeof jose, keys: typeof jose) => {
   const { module, test } = QUnit
   module('pbes2.ts')
 

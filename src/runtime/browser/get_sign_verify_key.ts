@@ -2,8 +2,21 @@ import crypto, { isCryptoKey } from './webcrypto.js'
 import { checkSigCryptoKey } from '../../lib/crypto_key.js'
 import invalidKeyInput from '../../lib/invalid_key_input.js'
 import { types } from './is_key_like.js'
+import * as normalize from '../normalize_key.js'
 
-export default function getCryptoKey(alg: string, key: unknown, usage: KeyUsage) {
+export default async function getCryptoKey(alg: string, key: unknown, usage: KeyUsage) {
+  // @ts-ignore
+  if (normalize.normalizePrivateKey && usage === 'sign') {
+    // @ts-ignore
+    key = await normalize.normalizePrivateKey(key, alg)
+  }
+
+  // @ts-ignore
+  if (normalize.normalizePublicKey && usage === 'verify') {
+    // @ts-ignore
+    key = await normalize.normalizePublicKey(key, alg)
+  }
+
   if (isCryptoKey(key)) {
     checkSigCryptoKey(key, alg, usage)
     return key

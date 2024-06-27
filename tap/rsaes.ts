@@ -2,7 +2,7 @@ import type QUnit from 'qunit'
 import type * as jose from '../src/index.js'
 import * as roundtrip from './encrypt.js'
 
-export default (QUnit: QUnit, lib: typeof jose) => {
+export default (QUnit: QUnit, lib: typeof jose, keys: typeof jose) => {
   const { module, test } = QUnit
   module('rsaes.ts')
 
@@ -31,7 +31,7 @@ export default (QUnit: QUnit, lib: typeof jose) => {
 
     const execute = async (t: typeof QUnit.assert) => {
       if (!kps[alg]) {
-        kps[alg] = await lib.generateKeyPair(alg)
+        kps[alg] = await keys.generateKeyPair(alg)
       }
 
       await roundtrip.jwe(t, lib, alg, 'A128GCM', kps[alg])
@@ -39,7 +39,7 @@ export default (QUnit: QUnit, lib: typeof jose) => {
 
     const jwt = async (t: typeof QUnit.assert) => {
       if (!kps[alg]) {
-        kps[alg] = await lib.generateKeyPair(alg)
+        kps[alg] = await keys.generateKeyPair(alg)
       }
 
       await roundtrip.jwt(t, lib, alg, 'A128GCM', kps[alg])

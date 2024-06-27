@@ -3,7 +3,7 @@ import * as env from './env.js'
 import type * as jose from '../src/index.js'
 import * as roundtrip from './encrypt.js'
 
-export default (QUnit: QUnit, lib: typeof jose) => {
+export default (QUnit: QUnit, lib: typeof jose, keys: typeof jose) => {
   const { module, test } = QUnit
   module('ecdh.ts')
 
@@ -39,14 +39,14 @@ export default (QUnit: QUnit, lib: typeof jose) => {
 
     const execute = async (t: typeof QUnit.assert) => {
       if (!kps[k]) {
-        kps[k] = await lib.generateKeyPair(alg, options)
+        kps[k] = await keys.generateKeyPair(alg, options)
       }
       await roundtrip.jwe(t, lib, alg, 'A128GCM', kps[k])
     }
 
     const jwt = async (t: typeof QUnit.assert) => {
       if (!kps[k]) {
-        kps[k] = await lib.generateKeyPair(alg, options)
+        kps[k] = await keys.generateKeyPair(alg, options)
       }
       await roundtrip.jwt(t, lib, alg, 'A128GCM', kps[k])
     }

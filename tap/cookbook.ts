@@ -15,7 +15,7 @@ if (env.isWebKitAbove17) {
   ed25519.reproducible = false
 }
 
-export default (QUnit: QUnit, lib: typeof jose) => {
+export default (QUnit: QUnit, lib: typeof jose, keys: typeof jose) => {
   const { module, test } = QUnit
 
   const encode = TextEncoder.prototype.encode.bind(new TextEncoder())
@@ -50,8 +50,8 @@ export default (QUnit: QUnit, lib: typeof jose) => {
     const execute = (vector: any) => async (t: typeof QUnit.assert) => {
       const reproducible = !!vector.reproducible
 
-      const privateKey = await lib.importJWK(vector.input.key, vector.input.alg)
-      const publicKey = await lib.importJWK(pubjwk(vector.input.key), vector.input.alg)
+      const privateKey = await keys.importJWK(vector.input.key, vector.input.alg)
+      const publicKey = await keys.importJWK(pubjwk(vector.input.key), vector.input.alg)
 
       if (reproducible) {
         // sign and compare results are the same
@@ -144,7 +144,7 @@ export default (QUnit: QUnit, lib: typeof jose) => {
     }
 
     function supported(vector: any) {
-      if (vector.webcrypto === false && !(env.isNodeCrypto || env.isElectron)) {
+      if (vector.webcrypto === false && lib.cryptoRuntime !== 'node:crypto') {
         return false
       }
       if (env.isElectron && vector.electron === false) {
@@ -220,7 +220,7 @@ export default (QUnit: QUnit, lib: typeof jose) => {
 
           if (vector.encrypting_key && vector.encrypting_key.epk) {
             keyManagementParameters.epk = <jose.KeyLike>(
-              await lib.importJWK(vector.encrypting_key.epk, vector.input.alg)
+              await keys.importJWK(vector.encrypting_key.epk, vector.input.alg)
             )
           }
 
@@ -228,7 +228,7 @@ export default (QUnit: QUnit, lib: typeof jose) => {
             encrypt.setKeyManagementParameters(keyManagementParameters)
           }
 
-          const publicKey = await lib.importJWK(
+          const publicKey = await keys.importJWK(
             pubjwk(toJWK(vector.input.pwd || vector.input.key)),
             dir ? vector.input.enc : vector.input.alg,
           )
@@ -255,7 +255,7 @@ export default (QUnit: QUnit, lib: typeof jose) => {
         }
 
         const privateKey = <jose.KeyLike>(
-          await lib.importJWK(
+          await keys.importJWK(
             toJWK(vector.input.pwd || vector.input.key),
             dir ? vector.input.enc : vector.input.alg,
           )
@@ -264,7 +264,7 @@ export default (QUnit: QUnit, lib: typeof jose) => {
         if (privateKey.type === 'secret') {
           publicKey = privateKey
         } else {
-          publicKey = await lib.importJWK(
+          publicKey = await keys.importJWK(
             pubjwk(toJWK(vector.input.pwd || vector.input.key)),
             dir ? vector.input.enc : vector.input.alg,
           )
@@ -277,7 +277,7 @@ export default (QUnit: QUnit, lib: typeof jose) => {
         })
       }
 
-      const privateKey = await lib.importJWK(
+      const privateKey = await keys.importJWK(
         toJWK(vector.input.pwd || vector.input.key),
         dir ? vector.input.enc : vector.input.alg,
       )

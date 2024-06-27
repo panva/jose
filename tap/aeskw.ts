@@ -4,7 +4,7 @@ import type * as jose from '../src/index.js'
 import random from './random.js'
 import * as roundtrip from './encrypt.js'
 
-export default (QUnit: QUnit, lib: typeof jose) => {
+export default (QUnit: QUnit, lib: typeof jose, keys: typeof jose) => {
   const { module, test } = QUnit
   module('aeskw.ts')
 
@@ -29,7 +29,7 @@ export default (QUnit: QUnit, lib: typeof jose) => {
   }
 
   function secretsFor(alg: string) {
-    return [lib.generateSecret(alg), random(parseInt(alg.slice(1, 4), 10) >> 3)]
+    return [keys.generateSecret(alg), random(parseInt(alg.slice(1, 4), 10) >> 3)]
   }
 
   for (const vector of algorithms) {

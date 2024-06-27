@@ -7,7 +7,7 @@ function normalize(pem: string) {
   return pem.replace(/\s+$/, '')
 }
 
-export default (QUnit: QUnit, lib: typeof jose) => {
+export default (QUnit: QUnit, lib: typeof jose, keys: typeof jose) => {
   const { module, test } = QUnit
   module('pem.ts')
 
@@ -16,9 +16,9 @@ export default (QUnit: QUnit, lib: typeof jose) => {
     ['ES256', KEYS.P256.pkcs8, true],
     ['ES256', KEYS.P256.spki, true],
     ['ES256', KEYS.P256.x509, true],
-    ['ES256K', KEYS.secp256k1.pkcs8, env.isNodeCrypto],
-    ['ES256K', KEYS.secp256k1.spki, env.isNodeCrypto],
-    ['ES256K', KEYS.secp256k1.x509, env.isNodeCrypto],
+    ['ES256K', KEYS.secp256k1.pkcs8, lib.cryptoRuntime === 'node:crypto' && !env.isElectron],
+    ['ES256K', KEYS.secp256k1.spki, lib.cryptoRuntime === 'node:crypto' && !env.isElectron],
+    ['ES256K', KEYS.secp256k1.x509, lib.cryptoRuntime === 'node:crypto' && !env.isElectron],
     ['ES384', KEYS.P384.pkcs8, true],
     ['ES384', KEYS.P384.spki, true],
     ['ES384', KEYS.P384.x509, true],

@@ -3,14 +3,14 @@ import type * as jose from '../src/index.js'
 import random from './random.js'
 import * as roundtrip from './sign.js'
 
-export default (QUnit: QUnit, lib: typeof jose) => {
+export default (QUnit: QUnit, lib: typeof jose, keys: typeof jose) => {
   const { module, test } = QUnit
   module('hmac.ts')
 
   const algorithms = ['HS256', 'HS384', 'HS512']
 
   function digestSizeSecretsFor(alg: string) {
-    return [lib.generateSecret(alg), random(parseInt(alg.slice(2, 5), 10) >> 3)]
+    return [keys.generateSecret(alg), random(parseInt(alg.slice(2, 5), 10) >> 3)]
   }
 
   function nonDigestSizeSecretFor(alg: string) {

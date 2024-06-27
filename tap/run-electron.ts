@@ -7,7 +7,7 @@ import run from './run.js'
 const lib = require('#dist')
 
 app.on('ready', () => {
-  run(QUnit, lib, (stats) => {
+  run(QUnit, lib, lib, (stats) => {
     if (stats?.failed !== 0) {
       // @ts-ignore
       app.exit(1)

@@ -3,7 +3,7 @@ import * as env from './env.js'
 import type * as jose from '../src/index.js'
 import * as roundtrip from './sign.js'
 
-export default (QUnit: QUnit, lib: typeof jose) => {
+export default (QUnit: QUnit, lib: typeof jose, keys: typeof jose) => {
   const { module, test } = QUnit
   module('jws.ts')
 
@@ -12,7 +12,12 @@ export default (QUnit: QUnit, lib: typeof jose) => {
     ['EdDSA', (env.isWebKit && env.isWebKitAbove17) || !env.isBrowser],
     ['EdDSA', env.isNode || env.isEdgeRuntime, { crv: 'Ed448' }],
     ['ES256', true],
-    ['ES256K', env.isNodeCrypto],
+    [
+      'ES256K',
+      lib.cryptoRuntime === 'node:crypto' &&
+        keys.cryptoRuntime === 'node:crypto' &&
+        !env.isElectron,
+    ],
     ['ES384', true],
     ['ES512', !env.isDeno],
     ['PS256', true],
@@ -44,14 +49,14 @@ export default (QUnit: QUnit, lib: typeof jose) => {
 
     const execute = async (t: typeof QUnit.assert) => {
       if (!kps[k]) {
-        kps[k] = await lib.generateKeyPair(alg, options)
+        kps[k] = await keys.generateKeyPair(alg, options)
       }
       await roundtrip.jws(t, lib, alg, kps[k])
     }
 
     const jwt = async (t: typeof QUnit.assert) => {
       if (!kps[k]) {
-        kps[k] = await lib.generateKeyPair(alg, options)
+        kps[k] = await keys.generateKeyPair(alg, options)
       }
       await roundtrip.jwt(t, lib, alg, kps[k])
     }

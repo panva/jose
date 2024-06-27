@@ -8,6 +8,7 @@ const skipFetch =
 export default async (
   QUnit: QUnit,
   lib: typeof jose,
+  keys: typeof jose,
   done: (details: QUnit.DoneDetails) => void,
 ) => {
   // @ts-ignore
@@ -30,7 +31,7 @@ export default async (
     import('./rsaes.js'),
   ])
   for (const { default: module } of modules) {
-    await module(QUnit, lib)
+    await module(QUnit, lib, keys)
   }
   QUnit.start()
   QUnit.done(done)
