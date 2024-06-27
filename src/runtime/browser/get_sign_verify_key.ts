@@ -5,15 +5,11 @@ import { types } from './is_key_like.js'
 import * as normalize from '../normalize_key.js'
 
 export default async function getCryptoKey(alg: string, key: unknown, usage: KeyUsage) {
-  // @ts-ignore
-  if (normalize.normalizePrivateKey && usage === 'sign') {
-    // @ts-ignore
+  if (usage === 'sign') {
     key = await normalize.normalizePrivateKey(key, alg)
   }
 
-  // @ts-ignore
-  if (normalize.normalizePublicKey && usage === 'verify') {
-    // @ts-ignore
+  if (usage === 'verify') {
     key = await normalize.normalizePublicKey(key, alg)
   }
 
