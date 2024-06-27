@@ -32,10 +32,10 @@ async function encryptKeyManagement(
   let parameters: (JWEHeaderParameters & { epk?: JWK }) | undefined
   let cek: KeyLike | Uint8Array
 
+  checkKeyType(alg, key, 'encrypt')
+
   // @ts-ignore
   key = (await normalize.normalizePublicKey?.(key, alg)) || key
-
-  checkKeyType(alg, key, 'encrypt')
 
   switch (alg) {
     case 'dir': {

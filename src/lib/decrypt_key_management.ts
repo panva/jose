@@ -20,10 +20,10 @@ async function decryptKeyManagement(
   joseHeader: JWEHeaderParameters,
   options?: DecryptOptions,
 ): Promise<KeyLike | Uint8Array> {
+  checkKeyType(alg, key, 'decrypt')
+
   // @ts-ignore
   key = (await normalize.normalizePrivateKey?.(key, alg)) || key
-
-  checkKeyType(alg, key, 'decrypt')
 
   switch (alg) {
     case 'dir': {
