@@ -12,23 +12,16 @@
 
 source .node_flags.sh
 
-node tap/run-node.mjs '#dist'
+node tap/run-node.mjs --dist='#dist'
 NODE_CRYPTO=$?
 
-node -e 'process.exit(parseInt(process.versions.node, 10))' &> /dev/null
-NODE_VERSION=$?
-
-if [[ "$NODE_VERSION" -le 14 ]]; then
-  exit $NODE_CRYPTO
-fi
-
-node tap/run-node.mjs '#dist/webapi'
+node tap/run-node.mjs --dist='#dist/webapi'
 WEB_CRYPTO_API=$?
 
-node tap/run-node.mjs '#dist/node-crypto-with-cryptokey'
+node tap/run-node.mjs --dist='#dist' --keys='#dist/webapi'
 NODE_WITH_CRYPTOKEY=$?
 
-node tap/run-node.mjs '#dist/webcrypto-with-keyobject'
+node tap/run-node.mjs --dist='#dist/webapi' --keys='#dist'
 WEB_CRYPTO_API_WITH_KEYOBJECT=$?
 
 echo ""
