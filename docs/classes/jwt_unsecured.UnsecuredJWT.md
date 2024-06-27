@@ -28,7 +28,7 @@ console.log(unsecuredJwt)
 Decoding
 
 ```js
-const payload = jose.UnsecuredJWT.decode(jwt, {
+const payload = jose.UnsecuredJWT.decode(unsecuredJwt, {
   issuer: 'urn:example:issuer',
   audience: 'urn:example:audience',
 })

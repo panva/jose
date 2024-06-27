@@ -34,7 +34,7 @@ export interface UnsecuredResult<PayloadType = JWTPayload> {
  * Decoding
  *
  * ```js
- * const payload = jose.UnsecuredJWT.decode(jwt, {
+ * const payload = jose.UnsecuredJWT.decode(unsecuredJwt, {
  *   issuer: 'urn:example:issuer',
  *   audience: 'urn:example:audience',
  * })
