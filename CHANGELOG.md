@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [5.6.0](https://github.com/panva/jose/compare/v5.5.0...v5.6.0) (2024-06-27)
+
+
+### Features
+
+* support KeyObject inputs in WebCryptoAPI runtimes given compatibility ([e178b8f](https://github.com/panva/jose/commit/e178b8f0fbdd0313f5327a8e9e48ef7233060e0c))
+
 ## [5.5.0](https://github.com/panva/jose/compare/v5.4.1...v5.5.0) (2024-06-26)
 
 
