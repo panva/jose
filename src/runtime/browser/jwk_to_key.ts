@@ -1,5 +1,4 @@
 import crypto from './webcrypto.js'
-import type { JWKImportFunction } from '../interfaces.d'
 import { JOSENotSupported } from '../../util/errors.js'
 import type { JWK } from '../../types.d'
 
@@ -91,7 +90,7 @@ function subtleMapping(jwk: JWK): {
   return { algorithm, keyUsages }
 }
 
-const parse: JWKImportFunction = async (jwk: JWK): Promise<CryptoKey> => {
+const parse = async (jwk: JWK): Promise<CryptoKey> => {
   if (!jwk.alg) {
     throw new TypeError('"alg" argument is required when "jwk.alg" is not present')
   }

@@ -1,14 +1,41 @@
-import type { KeyLike } from '../../types.d'
+import type { JWK, KeyLike } from '../../types.d'
 import { decode } from '../base64url.js'
 import importJWK from '../jwk_to_key.js'
 
 const normalizeSecretKey = (k: string) => decode(k)
 
-const normalizePublicKey = (key: KeyLike | Uint8Array | unknown, alg: string) => {
+let privCache: WeakMap<object, Record<string, CryptoKey>>
+let pubCache: WeakMap<object, Record<string, CryptoKey>>
+
+const isKeyObject = (key: unknown): key is KeyLike => {
   // @ts-expect-error
-  if (key?.[Symbol.toStringTag] === 'KeyObject') {
+  return key?.[Symbol.toStringTag] === 'KeyObject'
+}
+
+const importAndCache = async (
+  cache: typeof privCache | typeof pubCache,
+  key: KeyLike,
+  jwk: JWK,
+  alg: string,
+) => {
+  let cached = cache.get(key)
+  if (cached?.[alg]) {
+    return cached[alg]
+  }
+
+  const cryptoKey = await importJWK({ ...jwk, alg })
+  if (!cached) {
+    cache.set(key, { [alg]: cryptoKey })
+  } else {
+    cached[alg] = cryptoKey
+  }
+  return cryptoKey
+}
+
+const normalizePublicKey = (key: KeyLike | Uint8Array | unknown, alg: string) => {
+  if (isKeyObject(key)) {
     // @ts-expect-error
-    let jwk = key.export({ format: 'jwk' })
+    let jwk: JWK = key.export({ format: 'jwk' })
     delete jwk.d
     delete jwk.dp
     delete jwk.dq
@@ -19,22 +46,23 @@ const normalizePublicKey = (key: KeyLike | Uint8Array | unknown, alg: string) =>
       return normalizeSecretKey(jwk.k)
     }
 
-    return importJWK({ ...jwk, alg })
+    pubCache ||= new WeakMap()
+    return importAndCache(pubCache, key, jwk, alg)
   }
 
   return <KeyLike | Uint8Array>key
 }
 
 const normalizePrivateKey = (key: KeyLike | Uint8Array | unknown, alg: string) => {
-  // @ts-expect-error
-  if (key?.[Symbol.toStringTag] === 'KeyObject') {
+  if (isKeyObject(key)) {
     // @ts-expect-error
-    let jwk = key.export({ format: 'jwk' })
+    let jwk: JWK = key.export({ format: 'jwk' })
     if (jwk.k) {
       return normalizeSecretKey(jwk.k)
     }
 
-    return importJWK({ ...jwk, alg })
+    privCache ||= new WeakMap()
+    return importAndCache(privCache, key, jwk, alg)
   }
 
   return <KeyLike | Uint8Array>key

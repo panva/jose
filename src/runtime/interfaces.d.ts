@@ -75,9 +75,6 @@ export interface FetchFunction {
 export interface DigestFunction {
   (digest: 'sha256' | 'sha384' | 'sha512', data: Uint8Array): AsyncOrSync<Uint8Array>
 }
-export interface JWKImportFunction {
-  (jwk: JWK): AsyncOrSync<KeyLike>
-}
 export interface PEMImportFunction {
   (pem: string, alg: string, options?: PEMImportOptions): AsyncOrSync<KeyLike>
 }
