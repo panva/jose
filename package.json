@@ -29,6 +29,7 @@
     "jwks",
     "jws",
     "jwt",
+    "jwt-decode",
     "netlify",
     "next",
     "nextjs",
