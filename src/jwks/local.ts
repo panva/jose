@@ -272,3 +272,196 @@ export function createLocalJWKSet<KeyLikeType extends KeyLike = KeyLike>(
 
   return localJWKSet
 }
+
+function getKtyFromSymmetricAlg(alg: unknown) {
+  switch (typeof alg === 'string' && alg.slice(0, 2)) {
+    case 'HS':
+      return 'oct' as const
+    default:
+      throw new JOSENotSupported('Unsupported "alg" value for a symmetric JSON Web Key Set')
+  }
+}
+
+/** @private */
+export class LocalSymmetricJWKSet<KeyLikeType extends KeyLike = KeyLike> {
+  private _jwks?: JSONWebKeySet
+
+  private _cached: WeakMap<JWK, Cache<KeyLikeType>> = new WeakMap()
+
+  constructor(jwks: unknown) {
+    if (!isJWKSLike(jwks)) {
+      throw new JWKSInvalid('JSON Web Key Set malformed')
+    }
+
+    this._jwks = clone<JSONWebKeySet>(jwks)
+  }
+
+  async getKey(
+    protectedHeader?: JWSHeaderParameters,
+    token?: FlattenedJWSInput,
+  ): Promise<KeyLikeType> {
+    const { alg, kid } = { ...protectedHeader, ...token?.header }
+    const kty = getKtyFromSymmetricAlg(alg)
+
+    const candidates = this._jwks!.keys.filter((jwk) => {
+      // filter keys based on the mapping of signature algorithms to Key Type
+      let candidate = kty === jwk.kty
+
+      // filter keys based on the JWK Key ID in the header
+      if (candidate && typeof kid === 'string') {
+        candidate = kid === jwk.kid
+      }
+
+      // filter keys based on the key's declared Algorithm
+      if (candidate && typeof jwk.alg === 'string') {
+        candidate = alg === jwk.alg
+      }
+
+      // filter keys based on the key's declared Public Key Use
+      if (candidate && typeof jwk.use === 'string') {
+        candidate = jwk.use === 'sig'
+      }
+
+      // filter keys based on the key's declared Key Operations
+      if (candidate && Array.isArray(jwk.key_ops)) {
+        candidate = jwk.key_ops.includes('verify')
+      }
+
+      return candidate
+    })
+
+    const { 0: jwk, length } = candidates
+
+    if (length === 0) {
+      throw new JWKSNoMatchingKey()
+    }
+    if (length !== 1) {
+      const error = new JWKSMultipleMatchingKeys()
+
+      const { _cached } = this
+      error[Symbol.asyncIterator] = async function* () {
+        for (const jwk of candidates) {
+          try {
+            yield await importWithAlgCache<KeyLikeType>(_cached, jwk, alg!)
+          } catch {}
+        }
+      }
+
+      throw error
+    }
+
+    return importWithAlgCache<KeyLikeType>(this._cached, jwk, alg!)
+  }
+}
+
+
+/**
+ * Returns a function that resolves a JWS JOSE Header to a public key object from a locally stored,
+ * or otherwise available, symmetric JSON Web Key Set.
+ *
+ * It uses the "alg" (JWS Algorithm) Header Parameter to determine the right JWK "kty" (Key Type),
+ * then proceeds to match the JWK "kid" (Key ID) with one found in the JWS Header Parameters (if
+ * there is one) while also respecting the JWK "use" (Public Key Use) and JWK "key_ops" (Key
+ * Operations) Parameters (if they are present on the JWK).
+ *
+ * Only a single secret must match the selection process. As shown in the example below when
+ * multiple secrets get matched it is possible to opt-in to iterate over the matched keys and attempt
+ * verification in an iterative manner.
+ *
+ * Note: The function's purpose is to resolve pre-shared secrets used for verifying signatures.
+ * In particular, it is intended to enable rotation of symmetric secrets.
+ * It will not work for asymmetric key pairs.
+ *
+ * @example
+ *
+ * ```js
+ * const JWKS = jose.createLocalSymmetricJWKSet({
+ *   keys: [
+ *     {
+ *       kty: 'oct',
+ *       k: 'Super secret. Very ancient',
+ *       kid: 'bc',
+ *       alg: 'HS256',
+ *       key_ops: ['verify'],
+ *     },
+ *     {
+ *       kty: 'oct',
+ *       k: 'Another super secret. Still part of the rotation.',
+ *       kid: 'ad',
+ *       alg: 'HS256',
+ *       key_ops: ['verify'],
+ *     },
+ *     {
+ *       kty: 'oct',
+ *       k: 'New secret that is bigger than the old one, but we want to still verify with old one',
+ *       kid: 'mo',
+ *       alg: 'HS256',
+ *       key_ops: ['sign', 'verify'],
+ *     },
+ *   ],
+ * })
+ *
+ * const { payload, protectedHeader } = await jose.jwtVerify(jwt, JWKS, {
+ *   issuer: 'urn:example:issuer',
+ *   audience: 'urn:example:audience',
+ * })
+ * console.log(protectedHeader)
+ * console.log(payload)
+ * ```
+ *
+ * @example
+ *
+ * Opting-in to multiple JWKS matches using `createLocalSymmetricJWKSet`
+ *
+ * ```js
+ * const options = {
+ *   issuer: 'urn:example:issuer',
+ *   audience: 'urn:example:audience',
+ * }
+ * const { payload, protectedHeader } = await jose
+ *   .jwtVerify(jwt, JWKS, options)
+ *   .catch(async (error) => {
+ *     if (error?.code === 'ERR_JWKS_MULTIPLE_MATCHING_KEYS') {
+ *       for await (const publicKey of error) {
+ *         try {
+ *           return await jose.jwtVerify(jwt, publicKey, options)
+ *         } catch (innerError) {
+ *           if (innerError?.code === 'ERR_JWS_SIGNATURE_VERIFICATION_FAILED') {
+ *             continue
+ *           }
+ *           throw innerError
+ *         }
+ *       }
+ *       throw new jose.errors.JWSSignatureVerificationFailed()
+ *     }
+ *
+ *     throw error
+ *   })
+ * console.log(protectedHeader)
+ * console.log(payload)
+ * ```
+ *
+ * @param jwks JSON Web Key Set formatted object.
+ */
+export function createLocalSymmetricJWKSet<KeyLikeType extends KeyLike = KeyLike>(
+  jwks: JSONWebKeySet,
+): (protectedHeader?: JWSHeaderParameters, token?: FlattenedJWSInput) => Promise<KeyLikeType> {
+  const set = new LocalSymmetricJWKSet<KeyLikeType>(jwks)
+
+  const localSymmetricJWKSet = async (
+    protectedHeader?: JWSHeaderParameters,
+    token?: FlattenedJWSInput,
+  ): Promise<KeyLikeType> => set.getKey(protectedHeader, token)
+
+  Object.defineProperties(localSymmetricJWKSet, {
+    jwks: {
+      // @ts-expect-error
+      value: () => clone(set._jwks),
+      enumerable: true,
+      configurable: false,
+      writable: false,
+    },
+  })
+
+  return localSymmetricJWKSet
+}
