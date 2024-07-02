@@ -109,6 +109,7 @@
     "./package.json": "./package.json"
   },
   "main": "./dist/node/cjs/index.js",
+  "module":"./dist/node/esm/index.js",
   "browser": "./dist/browser/index.js",
   "types": "./dist/types/index.d.ts",
   "files": [
