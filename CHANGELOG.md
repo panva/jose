@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [5.6.3](https://github.com/panva/jose/compare/v5.6.2...v5.6.3) (2024-07-03)
+
+
+### Fixes
+
+* add sideEffects:false to nested ESM package.json files ([f3aff1c](https://github.com/panva/jose/commit/f3aff1cf018b62356e46a70e89aa96adeca6e686))
+
 ## [5.6.2](https://github.com/panva/jose/compare/v5.6.1...v5.6.2) (2024-06-27)
 
 
