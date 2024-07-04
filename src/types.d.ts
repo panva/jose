@@ -440,7 +440,11 @@ export interface EncryptOptions extends CritOption {}
 
 /** JWT Claims Set verification options. */
 export interface JWTClaimVerificationOptions {
-  /** Expected JWT "aud" (Audience) Claim value(s). */
+  /**
+   * Expected JWT "aud" (Audience) Claim value(s).
+   *
+   * This option makes the JWT "aud" (Audience) Claim presence required.
+   */
   audience?: string | string[]
 
   /**
@@ -451,7 +455,11 @@ export interface JWTClaimVerificationOptions {
    */
   clockTolerance?: string | number
 
-  /** Expected JWT "iss" (Issuer) Claim value(s). */
+  /**
+   * Expected JWT "iss" (Issuer) Claim value(s).
+   *
+   * This option makes the JWT "iss" (Issuer) Claim presence required.
+   */
   issuer?: string | string[]
 
   /**
@@ -459,13 +467,23 @@ export interface JWTClaimVerificationOptions {
    *
    * - In seconds when number (e.g. 5)
    * - Parsed as seconds when a string (e.g. "5 seconds", "10 minutes", "2 hours").
+   *
+   * This option makes the JWT "iat" (Issued At) Claim presence required.
    */
   maxTokenAge?: string | number
 
-  /** Expected JWT "sub" (Subject) Claim value. */
+  /**
+   * Expected JWT "sub" (Subject) Claim value.
+   *
+   * This option makes the JWT "sub" (Subject) Claim presence required.
+   */
   subject?: string
 
-  /** Expected JWT "typ" (Type) Header Parameter value. */
+  /**
+   * Expected JWT "typ" (Type) Header Parameter value.
+   *
+   * This option makes the JWT "typ" (Type) Header Parameter presence required.
+   */
   typ?: string
 
   /** Date to use when comparing NumericDate claims, defaults to `new Date()`. */
@@ -473,11 +491,13 @@ export interface JWTClaimVerificationOptions {
 
   /**
    * Array of required Claim Names that must be present in the JWT Claims Set. Default is that: if
-   * the {@link JWTClaimVerificationOptions.issuer issuer option} is set, then "iss" must be present;
-   * if the {@link JWTClaimVerificationOptions.audience audience option} is set, then "aud" must be
-   * present; if the {@link JWTClaimVerificationOptions.subject subject option} is set, then "sub"
-   * must be present; if the {@link JWTClaimVerificationOptions.maxTokenAge maxTokenAge option} is
-   * set, then "iat" must be present.
+   * the {@link JWTClaimVerificationOptions.issuer `issuer` option} is set, then JWT "iss" (Issuer)
+   * Claim must be present; if the {@link JWTClaimVerificationOptions.audience `audience` option} is
+   * set, then JWT "aud" (Audience) Claim must be present; if the
+   * {@link JWTClaimVerificationOptions.subject `subject` option} is set, then JWT "sub" (Subject)
+   * Claim must be present; if the
+   * {@link JWTClaimVerificationOptions.maxTokenAge `maxTokenAge` option} is set, then JWT "iat"
+   * (Issued At) Claim must be present.
    */
   requiredClaims?: string[]
 }
@@ -486,8 +506,9 @@ export interface JWTClaimVerificationOptions {
 export interface VerifyOptions extends CritOption {
   /**
    * A list of accepted JWS "alg" (Algorithm) Header Parameter values. By default all "alg"
-   * (Algorithm) values applicable for the used key/secret are allowed. Note: "none" is never
-   * accepted.
+   * (Algorithm) values applicable for the used key/secret are allowed.
+   *
+   * Note: Unsecured JWTs (`{ "alg": "none" }`) are never accepted by this API.
    */
   algorithms?: string[]
 }

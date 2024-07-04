@@ -30,8 +30,9 @@ Combination of JWS Verification options and JWT Claims Set verification options.
 • `Optional` **algorithms**: `string`[]
 
 A list of accepted JWS "alg" (Algorithm) Header Parameter values. By default all "alg"
-(Algorithm) values applicable for the used key/secret are allowed. Note: "none" is never
-accepted.
+(Algorithm) values applicable for the used key/secret are allowed.
+
+Note: Unsecured JWTs (`{ "alg": "none" }`) are never accepted by this API.
 
 ___
 
@@ -40,6 +41,8 @@ ___
 • `Optional` **audience**: `string` \| `string`[]
 
 Expected JWT "aud" (Audience) Claim value(s).
+
+This option makes the JWT "aud" (Audience) Claim presence required.
 
 ___
 
@@ -91,6 +94,8 @@ ___
 
 Expected JWT "iss" (Issuer) Claim value(s).
 
+This option makes the JWT "iss" (Issuer) Claim presence required.
+
 ___
 
 ### maxTokenAge
@@ -102,6 +107,8 @@ Maximum time elapsed (in seconds) from the JWT "iat" (Issued At) Claim value.
 - In seconds when number (e.g. 5)
 - Parsed as seconds when a string (e.g. "5 seconds", "10 minutes", "2 hours").
 
+This option makes the JWT "iat" (Issued At) Claim presence required.
+
 ___
 
 ### requiredClaims
@@ -109,11 +116,13 @@ ___
 • `Optional` **requiredClaims**: `string`[]
 
 Array of required Claim Names that must be present in the JWT Claims Set. Default is that: if
-the [issuer option](types.JWTClaimVerificationOptions.md#issuer) is set, then "iss" must be present;
-if the [audience option](types.JWTClaimVerificationOptions.md#audience) is set, then "aud" must be
-present; if the [subject option](types.JWTClaimVerificationOptions.md#subject) is set, then "sub"
-must be present; if the [maxTokenAge option](types.JWTClaimVerificationOptions.md#maxtokenage) is
-set, then "iat" must be present.
+the [`issuer` option](types.JWTClaimVerificationOptions.md#issuer) is set, then JWT "iss" (Issuer)
+Claim must be present; if the [`audience` option](types.JWTClaimVerificationOptions.md#audience) is
+set, then JWT "aud" (Audience) Claim must be present; if the
+[`subject` option](types.JWTClaimVerificationOptions.md#subject) is set, then JWT "sub" (Subject)
+Claim must be present; if the
+[`maxTokenAge` option](types.JWTClaimVerificationOptions.md#maxtokenage) is set, then JWT "iat"
+(Issued At) Claim must be present.
 
 ___
 
@@ -123,6 +132,8 @@ ___
 
 Expected JWT "sub" (Subject) Claim value.
 
+This option makes the JWT "sub" (Subject) Claim presence required.
+
 ___
 
 ### typ
@@ -130,3 +141,5 @@ ___
 • `Optional` **typ**: `string`
 
 Expected JWT "typ" (Type) Header Parameter value.
+
+This option makes the JWT "typ" (Type) Header Parameter presence required.

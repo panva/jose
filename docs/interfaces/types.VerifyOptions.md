@@ -22,8 +22,9 @@ JWS Verification options.
 • `Optional` **algorithms**: `string`[]
 
 A list of accepted JWS "alg" (Algorithm) Header Parameter values. By default all "alg"
-(Algorithm) values applicable for the used key/secret are allowed. Note: "none" is never
-accepted.
+(Algorithm) values applicable for the used key/secret are allowed.
+
+Note: Unsecured JWTs (`{ "alg": "none" }`) are never accepted by this API.
 
 ___
 
