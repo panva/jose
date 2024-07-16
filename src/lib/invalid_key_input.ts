@@ -1,9 +1,7 @@
 function message(msg: string, actual: unknown, ...types: string[]) {
-  if (types.length > 2) {
+  if (types.length > 1) {
     const last = types.pop()
-    msg += `one of type ${types.join(', ')}, or ${last}.`
-  } else if (types.length === 2) {
-    msg += `one of type ${types[0]} or ${types[1]}.`
+    msg += `one of type ${types.join(', ')} or ${last}.`
   } else {
     msg += `of type ${types[0]}.`
   }
