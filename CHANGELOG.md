@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [5.7.0](https://github.com/panva/jose/compare/v5.6.3...v5.7.0) (2024-08-19)
+
+
+### Features
+
+* graduate jwksCache to stable API ([0f09c12](https://github.com/panva/jose/commit/0f09c124529bf84f027e57ce1f769319e7d42185))
+
 ## [5.6.3](https://github.com/panva/jose/compare/v5.6.2...v5.6.3) (2024-07-03)
 
 
