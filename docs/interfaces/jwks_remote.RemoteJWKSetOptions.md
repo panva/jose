@@ -12,7 +12,7 @@ Options for the remote JSON Web Key Set.
 
 ### Properties
 
-- [[experimental\_jwksCache]](jwks_remote.RemoteJWKSetOptions.md#[experimental_jwkscache])
+- [[jwksCache]](jwks_remote.RemoteJWKSetOptions.md#[jwkscache])
 - [agent](jwks_remote.RemoteJWKSetOptions.md#agent)
 - [cacheMaxAge](jwks_remote.RemoteJWKSetOptions.md#cachemaxage)
 - [cooldownDuration](jwks_remote.RemoteJWKSetOptions.md#cooldownduration)
@@ -21,11 +21,11 @@ Options for the remote JSON Web Key Set.
 
 ## Properties
 
-### [experimental\_jwksCache]
+### [jwksCache]
 
-• `Optional` **[experimental\_jwksCache]**: [`JWKSCacheInput`](../types/jwks_remote.JWKSCacheInput.md)
+• `Optional` **[jwksCache]**: [`JWKSCacheInput`](../types/jwks_remote.JWKSCacheInput.md)
 
-See [experimental_jwksCache](../variables/jwks_remote.experimental_jwksCache.md).
+See [jwksCache](../variables/jwks_remote.jwksCache.md).
 
 ___
 

@@ -23,4 +23,4 @@ Support from the community to continue maintaining and improving this module is 
 
 ### Variables
 
-- [experimental\_jwksCache](../variables/jwks_remote.experimental_jwksCache.md)
+- [jwksCache](../variables/jwks_remote.jwksCache.md)

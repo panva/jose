@@ -29,9 +29,6 @@ if (typeof navigator === 'undefined' || !navigator.userAgent?.startsWith?.('Mozi
 }
 
 /**
- * This is an experimental feature, it is not subject to semantic versioning rules. Non-backward
- * compatible changes or removal may occur in any future release.
- *
  * DANGER ZONE - This option has security implications that must be understood, assessed for
  * applicability, and accepted before use. It is critical that the JSON Web Key Set cache only be
  * writable by your own code.
@@ -54,7 +51,7 @@ if (typeof navigator === 'undefined' || !navigator.userAgent?.startsWith?.('Mozi
  *   previously cached object from a low-latency key-value store offered by the cloud computing
  *   runtime it is executed on;
  * - Default to an empty object `{}` instead when there's no previously cached value;
- * - Pass it in as {@link RemoteJWKSetOptions[experimental_jwksCache]};
+ * - Pass it in as {@link RemoteJWKSetOptions[jwksCache]};
  * - Afterwards, update the key-value storage if the {@link ExportedJWKSCache.uat `uat`} property of
  *   the object has changed.
  *
@@ -72,7 +69,7 @@ if (typeof navigator === 'undefined' || !navigator.userAgent?.startsWith?.('Mozi
  * const { uat } = jwksCache
  *
  * const JWKS = jose.createRemoteJWKSet(url, {
- *   [jose.experimental_jwksCache]: jwksCache,
+ *   [jose.jwksCache]: jwksCache,
  * })
  *
  * // Use JSON Web Key Set cache
@@ -84,7 +81,7 @@ if (typeof navigator === 'undefined' || !navigator.userAgent?.startsWith?.('Mozi
  * }
  * ```
  */
-export const experimental_jwksCache: unique symbol = Symbol()
+export const jwksCache: unique symbol = Symbol()
 
 /** Options for the remote JSON Web Key Set. */
 export interface RemoteJWKSetOptions {
@@ -123,8 +120,8 @@ export interface RemoteJWKSetOptions {
    */
   headers?: Record<string, string>
 
-  /** See {@link experimental_jwksCache}. */
-  [experimental_jwksCache]?: JWKSCacheInput
+  /** See {@link jwksCache}. */
+  [jwksCache]?: JWKSCacheInput
 }
 
 export interface ExportedJWKSCache {
@@ -186,9 +183,9 @@ class RemoteJWKSet<KeyLikeType extends KeyLike = KeyLike> {
       typeof options?.cooldownDuration === 'number' ? options?.cooldownDuration : 30000
     this._cacheMaxAge = typeof options?.cacheMaxAge === 'number' ? options?.cacheMaxAge : 600000
 
-    if (options?.[experimental_jwksCache] !== undefined) {
-      this._cache = options?.[experimental_jwksCache]
-      if (isFreshJwksCache(options?.[experimental_jwksCache], this._cacheMaxAge)) {
+    if (options?.[jwksCache] !== undefined) {
+      this._cache = options?.[jwksCache]
+      if (isFreshJwksCache(options?.[jwksCache], this._cacheMaxAge)) {
         this._jwksTimestamp = this._cache.uat
         this._local = createLocalJWKSet(this._cache.jwks)
       }
@@ -384,3 +381,10 @@ export function createRemoteJWKSet<KeyLikeType extends KeyLike = KeyLike>(
   // @ts-expect-error
   return remoteJWKSet
 }
+
+/**
+ * @ignore
+ *
+ * @deprecated Use {@link jwksCache}.
+ */
+export const experimental_jwksCache = jwksCache

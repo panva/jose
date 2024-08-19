@@ -1,4 +1,4 @@
-# Variable: experimental\_jwksCache
+# Variable: jwksCache
 
 ## [💗 Help the project](https://github.com/sponsors/panva)
 
@@ -6,10 +6,7 @@ Support from the community to continue maintaining and improving this module is 
 
 ---
 
-• `Const` **experimental\_jwksCache**: unique `symbol`
-
-This is an experimental feature, it is not subject to semantic versioning rules. Non-backward
-compatible changes or removal may occur in any future release.
+• `Const` **jwksCache**: unique `symbol`
 
 DANGER ZONE - This option has security implications that must be understood, assessed for
 applicability, and accepted before use. It is critical that the JSON Web Key Set cache only be
@@ -33,7 +30,7 @@ The intended use pattern is:
   previously cached object from a low-latency key-value store offered by the cloud computing
   runtime it is executed on;
 - Default to an empty object `{}` instead when there's no previously cached value;
-- Pass it in as [[experimental_jwksCache]](../interfaces/jwks_remote.RemoteJWKSetOptions.md);
+- Pass it in as [[jwksCache]](../interfaces/jwks_remote.RemoteJWKSetOptions.md);
 - Afterwards, update the key-value storage if the [`uat`](../interfaces/jwks_remote.ExportedJWKSCache.md#uat) property of
   the object has changed.
 
@@ -51,7 +48,7 @@ const jwksCache: jose.JWKSCacheInput = (await getPreviouslyCachedJWKS()) || {}
 const { uat } = jwksCache
 
 const JWKS = jose.createRemoteJWKSet(url, {
-  [jose.experimental_jwksCache]: jwksCache,
+  [jose.jwksCache]: jwksCache,
 })
 
 // Use JSON Web Key Set cache
