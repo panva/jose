@@ -57,8 +57,7 @@ function clone<T>(obj: T): T {
   return JSON.parse(JSON.stringify(obj))
 }
 
-/** @private */
-export class LocalJWKSet<KeyLikeType extends KeyLike = KeyLike> {
+class LocalJWKSet<KeyLikeType extends KeyLike = KeyLike> {
   private _jwks?: JSONWebKeySet
 
   private _cached: WeakMap<JWK, Cache<KeyLikeType>> = new WeakMap()
