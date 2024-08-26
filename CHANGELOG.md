@@ -2,6 +2,18 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [5.8.0](https://github.com/panva/jose/compare/v5.7.0...v5.8.0) (2024-08-26)
+
+
+### Features
+
+* add subpath module exports ([72ecff6](https://github.com/panva/jose/commit/72ecff6574d252f407b6e145a166c995cdd85949))
+
+
+### Refactor
+
+* omit LocalJWKSet export since it's no longer needed for RemoteJWKSet ([c502731](https://github.com/panva/jose/commit/c502731fd888c165df32214f13333bc055d1d3f4))
+
 ## [5.7.0](https://github.com/panva/jose/compare/v5.6.3...v5.7.0) (2024-08-19)
 
 
