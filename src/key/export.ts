@@ -8,6 +8,9 @@ import type { JWK, KeyLike } from '../types.d'
  * Exports a runtime-specific public key representation (KeyObject or CryptoKey) to a PEM-encoded
  * SPKI string format.
  *
+ * This function is exported (as a named export) from the main `'jose'` module entry point as well
+ * as from its subpath export `'jose/key/export'`.
+ *
  * @example
  *
  * ```js
@@ -26,6 +29,9 @@ export async function exportSPKI(key: KeyLike): Promise<string> {
  * Exports a runtime-specific private key representation (KeyObject or CryptoKey) to a PEM-encoded
  * PKCS8 string format.
  *
+ * This function is exported (as a named export) from the main `'jose'` module entry point as well
+ * as from its subpath export `'jose/key/export'`.
+ *
  * @example
  *
  * ```js
@@ -42,6 +48,9 @@ export async function exportPKCS8(key: KeyLike): Promise<string> {
 
 /**
  * Exports a runtime-specific key representation (KeyLike) to a JWK.
+ *
+ * This function is exported (as a named export) from the main `'jose'` module entry point as well
+ * as from its subpath export `'jose/key/export'`.
  *
  * @example
  *

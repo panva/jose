@@ -23,6 +23,9 @@ export interface PEMImportOptions {
  * {@link https://w3c.github.io/webcrypto/ Web Cryptography API}, use the OID rsaEncryption
  * (1.2.840.113549.1.1.1) instead for all RSA algorithms.
  *
+ * This function is exported (as a named export) from the main `'jose'` module entry point as well
+ * as from its subpath export `'jose/key/import'`.
+ *
  * @example
  *
  * ```js
@@ -58,6 +61,9 @@ export async function importSPKI<KeyLikeType extends KeyLike = KeyLike>(
  * Note: The OID id-RSASSA-PSS (1.2.840.113549.1.1.10) is not supported in
  * {@link https://w3c.github.io/webcrypto/ Web Cryptography API}, use the OID rsaEncryption
  * (1.2.840.113549.1.1.1) instead for all RSA algorithms.
+ *
+ * This function is exported (as a named export) from the main `'jose'` module entry point as well
+ * as from its subpath export `'jose/key/import'`.
  *
  * @example
  *
@@ -101,6 +107,9 @@ export async function importX509<KeyLikeType extends KeyLike = KeyLike>(
  * {@link https://w3c.github.io/webcrypto/ Web Cryptography API}, use the OID rsaEncryption
  * (1.2.840.113549.1.1.1) instead for all RSA algorithms.
  *
+ * This function is exported (as a named export) from the main `'jose'` module entry point as well
+ * as from its subpath export `'jose/key/import'`.
+ *
  * @example
  *
  * ```js
@@ -136,6 +145,9 @@ export async function importPKCS8<KeyLikeType extends KeyLike = KeyLike>(
  *
  * Note: When the runtime is using {@link https://w3c.github.io/webcrypto/ Web Cryptography API} the
  * jwk parameters "use", "key_ops", and "ext" are also used in the resulting `CryptoKey`.
+ *
+ * This function is exported (as a named export) from the main `'jose'` module entry point as well
+ * as from its subpath export `'jose/key/import'`.
  *
  * @example
  *

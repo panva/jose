@@ -1,4 +1,5 @@
-import { FlattenedEncrypt, unprotected } from '../flattened/encrypt.js'
+import { FlattenedEncrypt } from '../flattened/encrypt.js'
+import { unprotected } from '../../lib/private_symbols.js'
 import { JOSENotSupported, JWEInvalid } from '../../util/errors.js'
 import generateCek from '../../lib/cek.js'
 import isDisjoint from '../../lib/is_disjoint.js'
@@ -61,6 +62,9 @@ class IndividualRecipient implements Recipient {
 
 /**
  * The GeneralEncrypt class is used to build and encrypt General JWE objects.
+ *
+ * This class is exported (as a named export) from the main `'jose'` module entry point as well as
+ * from its subpath export `'jose/jwe/general/encrypt'`.
  *
  * @example
  *

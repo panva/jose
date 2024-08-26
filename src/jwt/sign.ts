@@ -7,6 +7,9 @@ import { ProduceJWT } from './produce.js'
 /**
  * The SignJWT class is used to build and sign Compact JWS formatted JSON Web Tokens.
  *
+ * This class is exported (as a named export) from the main `'jose'` module entry point as well as
+ * from its subpath export `'jose/jwt/sign'`.
+ *
  * @example
  *
  * Usage with a symmetric secret

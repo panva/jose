@@ -15,6 +15,9 @@ Note: The OID id-RSASSA-PSS (1.2.840.113549.1.1.10) is not supported in
 [Web Cryptography API](https://w3c.github.io/webcrypto/), use the OID rsaEncryption
 (1.2.840.113549.1.1.1) instead for all RSA algorithms.
 
+This function is exported (as a named export) from the main `'jose'` module entry point as well
+as from its subpath export `'jose/key/import'`.
+
 #### Type parameters
 
 | Name | Type |

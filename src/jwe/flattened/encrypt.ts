@@ -1,4 +1,5 @@
 import { encode as base64url } from '../../runtime/base64url.js'
+import { unprotected } from '../../lib/private_symbols.js'
 import encrypt from '../../runtime/encrypt.js'
 
 import type {
@@ -14,11 +15,11 @@ import isDisjoint from '../../lib/is_disjoint.js'
 import { encoder, decoder, concat } from '../../lib/buffer_utils.js'
 import validateCrit from '../../lib/validate_crit.js'
 
-/** @private */
-export const unprotected = Symbol()
-
 /**
  * The FlattenedEncrypt class is used to build and encrypt Flattened JWE objects.
+ *
+ * This class is exported (as a named export) from the main `'jose'` module entry point as well as
+ * from its subpath export `'jose/jwe/flattened/encrypt'`.
  *
  * @example
  *

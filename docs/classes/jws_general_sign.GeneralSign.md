@@ -8,6 +8,9 @@ Support from the community to continue maintaining and improving this module is 
 
 The GeneralSign class is used to build and sign General JWS objects.
 
+This class is exported (as a named export) from the main `'jose'` module entry point as well as
+from its subpath export `'jose/jws/general/sign'`.
+
 **`Example`**
 
 ```js

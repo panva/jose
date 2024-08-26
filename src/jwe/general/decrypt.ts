@@ -21,6 +21,9 @@ export interface GeneralDecryptGetKey extends GetKeyFunction<JWEHeaderParameters
 /**
  * Decrypts a General JWE.
  *
+ * This function is exported (as a named export) from the main `'jose'` module entry point as well
+ * as from its subpath export `'jose/jwe/general/decrypt'`.
+ *
  * @example
  *
  * ```js

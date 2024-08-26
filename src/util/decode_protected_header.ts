@@ -8,6 +8,9 @@ export type ProtectedHeaderParameters = JWSHeaderParameters & JWEHeaderParameter
 /**
  * Decodes the Protected Header of a JWE/JWS/JWT token utilizing any JOSE serialization.
  *
+ * This function is exported (as a named export) from the main `'jose'` module entry point as well
+ * as from its subpath export `'jose/decode/protected_header'`.
+ *
  * @example
  *
  * ```js

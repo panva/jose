@@ -29,6 +29,9 @@ export interface FlattenedDecryptGetKey
 /**
  * Decrypts a Flattened JWE.
  *
+ * This function is exported (as a named export) from the main `'jose'` module entry point as well
+ * as from its subpath export `'jose/jwe/flattened/decrypt'`.
+ *
  * @example
  *
  * ```js

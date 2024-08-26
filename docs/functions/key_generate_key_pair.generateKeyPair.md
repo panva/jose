@@ -15,6 +15,9 @@ Note: Under Web Crypto API runtime the `privateKey` is generated with `extractab
 `false` by default. See [GenerateKeyPairOptions.extractable](../interfaces/key_generate_key_pair.GenerateKeyPairOptions.md#extractable) to generate an extractable
 `privateKey`.
 
+This function is exported (as a named export) from the main `'jose'` module entry point as well
+as from its subpath export `'jose/generate/keypair'`.
+
 #### Type parameters
 
 | Name | Type |

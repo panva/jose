@@ -23,6 +23,9 @@ verification in an iterative manner.
 Note: The function's purpose is to resolve public keys used for verifying signatures and will not
 work for public encryption keys.
 
+This function is exported (as a named export) from the main `'jose'` module entry point as well
+as from its subpath export `'jose/jwks/local'`.
+
 #### Type parameters
 
 | Name | Type |

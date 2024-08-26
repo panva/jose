@@ -10,6 +10,9 @@ Support from the community to continue maintaining and improving this module is 
 
 Exports a runtime-specific key representation (KeyLike) to a JWK.
 
+This function is exported (as a named export) from the main `'jose'` module entry point as well
+as from its subpath export `'jose/key/export'`.
+
 #### Parameters
 
 | Name | Type | Description |

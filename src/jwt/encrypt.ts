@@ -11,6 +11,9 @@ import { ProduceJWT } from './produce.js'
 /**
  * The EncryptJWT class is used to build and encrypt Compact JWE formatted JSON Web Tokens.
  *
+ * This class is exported (as a named export) from the main `'jose'` module entry point as well as
+ * from its subpath export `'jose/jwt/encrypt'`.
+ *
  * @example
  *
  * ```js

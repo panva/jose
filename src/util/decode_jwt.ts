@@ -10,6 +10,9 @@ import { JWTInvalid } from './errors.js'
  * and JWS signature verification use `jose.jwtVerify()`. For an encrypted JWT Claims Set validation
  * and JWE decryption use `jose.jwtDecrypt()`.
  *
+ * This function is exported (as a named export) from the main `'jose'` module entry point as well
+ * as from its subpath export `'jose/jwt/decode'`.
+ *
  * @example
  *
  * ```js

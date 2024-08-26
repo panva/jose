@@ -15,6 +15,9 @@ const check = (value: unknown, description: string) => {
 /**
  * Calculates a base64url-encoded JSON Web Key (JWK) Thumbprint
  *
+ * This function is exported (as a named export) from the main `'jose'` module entry point as well
+ * as from its subpath export `'jose/jwk/thumbprint'`.
+ *
  * @example
  *
  * ```js
@@ -85,6 +88,9 @@ export async function calculateJwkThumbprint(
 
 /**
  * Calculates a JSON Web Key (JWK) Thumbprint URI
+ *
+ * This function is exported (as a named export) from the main `'jose'` module entry point as well
+ * as from its subpath export `'jose/jwk/thumbprint'`.
  *
  * @example
  *

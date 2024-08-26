@@ -11,6 +11,9 @@ Support from the community to continue maintaining and improving this module is 
 Verifies the JWT format (to be a JWS Compact format), verifies the JWS signature, validates the
 JWT Claims Set.
 
+This function is exported (as a named export) from the main `'jose'` module entry point as well
+as from its subpath export `'jose/jwt/verify'`.
+
 #### Type parameters
 
 | Name | Type |

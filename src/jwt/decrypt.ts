@@ -27,6 +27,9 @@ export interface JWTDecryptGetKey
  * Verifies the JWT format (to be a JWE Compact format), decrypts the ciphertext, validates the JWT
  * Claims Set.
  *
+ * This function is exported (as a named export) from the main `'jose'` module entry point as well
+ * as from its subpath export `'jose/jwt/decrypt'`.
+ *
  * @example
  *
  * ```js

@@ -24,6 +24,9 @@ export interface GeneralVerifyGetKey
 /**
  * Verifies the signature and format of and afterwards decodes the General JWS.
  *
+ * This function is exported (as a named export) from the main `'jose'` module entry point as well
+ * as from its subpath export `'jose/jws/general/verify'`.
+ *
  * @example
  *
  * ```js

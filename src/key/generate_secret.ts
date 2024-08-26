@@ -17,6 +17,9 @@ export interface GenerateSecretOptions {
  * Note: Under Web Crypto API runtime the secret key is generated with `extractable` set to `false`
  * by default.
  *
+ * This function is exported (as a named export) from the main `'jose'` module entry point as well
+ * as from its subpath export `'jose/generate/secret'`.
+ *
  * @example
  *
  * ```js

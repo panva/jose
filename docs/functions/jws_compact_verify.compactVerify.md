@@ -10,6 +10,9 @@ Support from the community to continue maintaining and improving this module is 
 
 Verifies the signature and format of and afterwards decodes the Compact JWS.
 
+This function is exported (as a named export) from the main `'jose'` module entry point as well
+as from its subpath export `'jose/jws/compact/verify'`.
+
 #### Parameters
 
 | Name | Type | Description |
