@@ -78,12 +78,15 @@ jobs:
     needs:
       - build
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        version: ["v1.x", canary]
     steps:
       - name: Checkout
         uses: actions/checkout@v4
       - uses: denoland/setup-deno@v1
         with:
-          deno-version: v1.x
+          deno-version: ${{ matrix.version }}
       - name: Load cached dist
         uses: actions/cache@v4
         id: dist
