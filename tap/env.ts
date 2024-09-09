@@ -33,6 +33,11 @@ async function isEngine(engine: string) {
   return userAgentData.engine.name === engine
 }
 
+export function isBrowserVersionAtLeast(version: number) {
+  if (!parsedUserAgent) throw new Error()
+  return parseInt(parsedUserAgent.browser.version.split('.')[0], 10) >= version
+}
+
 export const isBlink = isBrowser && (await isEngine('Blink'))
 
 export const isWebKit = isBrowser && (await isEngine('WebKit'))

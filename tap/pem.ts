@@ -67,12 +67,22 @@ export default (QUnit: QUnit, lib: typeof jose, keys: typeof jose) => {
     [
       ['ECDH-ES', 'X25519'],
       KEYS.X25519.pkcs8,
-      env.isDeno || env.isNode || env.isElectron || env.isWorkerd || env.isEdgeRuntime,
+      env.isDeno ||
+        env.isNode ||
+        env.isElectron ||
+        env.isWorkerd ||
+        env.isEdgeRuntime ||
+        (env.isGecko && env.isBrowserVersionAtLeast(130)),
     ],
     [
       ['ECDH-ES', 'X25519'],
       KEYS.X25519.spki,
-      env.isDeno || env.isNode || env.isElectron || env.isWorkerd || env.isEdgeRuntime,
+      env.isDeno ||
+        env.isNode ||
+        env.isElectron ||
+        env.isWorkerd ||
+        env.isEdgeRuntime ||
+        (env.isGecko && env.isBrowserVersionAtLeast(130)),
     ],
     [['ECDH-ES', 'X448'], KEYS.X448.pkcs8, env.isNode || env.isEdgeRuntime],
     [['ECDH-ES', 'X448'], KEYS.X448.spki, env.isNode || env.isEdgeRuntime],
