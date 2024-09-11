@@ -92,23 +92,6 @@ The following are additional features and utilities provided by the `jose` modul
 - [Unsecured JWT](docs/classes/jwt_unsecured.UnsecuredJWT.md)
 - [JOSE Errors](docs/modules/util_errors.md)
 
-## Implemented specifications
-
-The `jose` module implements the following specifications:
-
-- JSON Web Signature (JWS) - [RFC7515](https://www.rfc-editor.org/rfc/rfc7515)
-- JSON Web Encryption (JWE) - [RFC7516](https://www.rfc-editor.org/rfc/rfc7516)
-- JSON Web Key (JWK) - [RFC7517](https://www.rfc-editor.org/rfc/rfc7517)
-- JSON Web Algorithms (JWA) - [RFC7518](https://www.rfc-editor.org/rfc/rfc7518)
-- JSON Web Token (JWT) - [RFC7519](https://www.rfc-editor.org/rfc/rfc7519)
-- JSON Web Key Thumbprint - [RFC7638](https://www.rfc-editor.org/rfc/rfc7638)
-- JSON Web Key Thumbprint URI - [RFC9278](https://www.rfc-editor.org/rfc/rfc9278)
-- JWS Unencoded Payload Option - [RFC7797](https://www.rfc-editor.org/rfc/rfc7797)
-- CFRG Elliptic Curve ECDH and Signatures - [RFC8037](https://www.rfc-editor.org/rfc/rfc8037)
-- secp256k1 EC Key curve support - [RFC8812](https://www.rfc-editor.org/rfc/rfc8812)
-
-The algorithm implementations have been tested using test vectors from their respective specifications as well as [RFC7520](https://www.rfc-editor.org/rfc/rfc7520).
-
 ## Supported Runtimes
 
 The `jose` module is compatible with JavaScript runtimes that support the utilized Web API globals and standard built-in objects or are Node.js.
@@ -131,3 +114,24 @@ Please note that certain algorithms may not be available depending on the runtim
 | [v5.x](https://github.com/panva/jose/tree/v5.x) | ✅ | ✅ | ✅ |
 | [v4.x](https://github.com/panva/jose/tree/v4.x) | ✅ | ❌ | ❌ |
 | [v2.x](https://github.com/panva/jose/tree/v2.x) | ✅ | ❌ | ❌ |
+
+## Specifications
+
+<details>
+<summary>Details</summary>
+
+- JSON Web Signature (JWS) - [RFC7515](https://www.rfc-editor.org/rfc/rfc7515)
+- JSON Web Encryption (JWE) - [RFC7516](https://www.rfc-editor.org/rfc/rfc7516)
+- JSON Web Key (JWK) - [RFC7517](https://www.rfc-editor.org/rfc/rfc7517)
+- JSON Web Algorithms (JWA) - [RFC7518](https://www.rfc-editor.org/rfc/rfc7518)
+- JSON Web Token (JWT) - [RFC7519](https://www.rfc-editor.org/rfc/rfc7519)
+- JSON Web Key Thumbprint - [RFC7638](https://www.rfc-editor.org/rfc/rfc7638)
+- JSON Web Key Thumbprint URI - [RFC9278](https://www.rfc-editor.org/rfc/rfc9278)
+- JWS Unencoded Payload Option - [RFC7797](https://www.rfc-editor.org/rfc/rfc7797)
+- CFRG Elliptic Curve ECDH and Signatures - [RFC8037](https://www.rfc-editor.org/rfc/rfc8037)
+- secp256k1 EC Key curve support - [RFC8812](https://www.rfc-editor.org/rfc/rfc8812)
+
+The algorithm implementations in `jose` have been tested using test vectors from their respective specifications as well as [RFC7520](https://www.rfc-editor.org/rfc/rfc7520).
+
+
+</details>
