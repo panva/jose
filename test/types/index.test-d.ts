@@ -40,9 +40,15 @@ expectType<lib.KeyLike>(await lib.importX509('', 'RS256'))
 expectType<CryptoKey>(await lib.importX509<CryptoKey>('', 'RS256'))
 expectType<KeyObject>(await lib.importX509<KeyObject>('', 'RS256'))
 
-expectType<lib.KeyLike | Uint8Array>(await lib.importJWK({ kty: 'RSA' }))
-expectType<CryptoKey | Uint8Array>(await lib.importJWK<CryptoKey>({ kty: 'RSA' }))
-expectType<KeyObject | Uint8Array>(await lib.importJWK<KeyObject>({ kty: 'RSA' }))
+expectType<lib.KeyLike | Uint8Array>(
+  await lib.importJWK(<lib.JWK_OKP_Public>{ kty: 'OKP', crv: '', x: '' }),
+)
+expectType<CryptoKey | Uint8Array>(
+  await lib.importJWK<CryptoKey>(<lib.JWK_OKP_Public>{ kty: 'OKP', crv: '', x: '' }),
+)
+expectType<KeyObject | Uint8Array>(
+  await lib.importJWK<KeyObject>(<lib.JWK_OKP_Public>{ kty: 'OKP', crv: '', x: '' }),
+)
 
 {
   const result = await lib.jwtVerify('', lib.createLocalJWKSet({ keys: [] }))
