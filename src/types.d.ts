@@ -121,8 +121,6 @@ export interface JWKParameters {
   x5u?: string
   /** JWK "kid" (Key ID) Parameter. */
   kid?: string
-
-  [propName: string]: unknown
 }
 
 /** Convenience interface for Public OKP JSON Web Keys */
@@ -131,16 +129,12 @@ export interface JWK_OKP_Public extends JWKParameters {
   crv: string
   /** The public key */
   x: string
-
-  [propName: string]: unknown
 }
 
 /** Convenience interface for Private OKP JSON Web Keys */
 export interface JWK_OKP_Private extends JWK_OKP_Public, JWKParameters {
   /** The Private Key */
   d: string
-
-  [propName: string]: unknown
 }
 
 /** Convenience interface for Public EC JSON Web Keys */
@@ -151,16 +145,12 @@ export interface JWK_EC_Public extends JWKParameters {
   x: string
   /** Y Coordinate */
   y: string
-
-  [propName: string]: unknown
 }
 
 /** Convenience interface for Private EC JSON Web Keys */
 export interface JWK_EC_Private extends JWK_EC_Public, JWKParameters {
   /** ECC Private Key */
   d: string
-
-  [propName: string]: unknown
 }
 
 /** Convenience interface for Public RSA JSON Web Keys */
@@ -169,8 +159,6 @@ export interface JWK_RSA_Public extends JWKParameters {
   e: string
   /** Modulus */
   n: string
-
-  [propName: string]: unknown
 }
 
 /** Convenience interface for Private RSA JSON Web Keys */
@@ -193,16 +181,12 @@ export interface JWK_RSA_Private extends JWK_RSA_Public, JWKParameters {
   q: string
   /** First CRT Coefficient */
   qi: string
-
-  [propName: string]: unknown
 }
 
 /** Convenience interface for oct JSON Web Keys */
 export interface JWK_oct extends JWKParameters {
   /** Key Value */
   k: string
-
-  [propName: string]: unknown
 }
 
 /**
@@ -258,8 +242,6 @@ export interface JWK extends JWKParameters {
   x?: string
   /** (EC) Y Coordinate */
   y?: string
-
-  [propName: string]: unknown
 }
 
 /**
