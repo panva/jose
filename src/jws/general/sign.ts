@@ -1,7 +1,7 @@
 import { FlattenedSign } from '../flattened/sign.js'
 import { JWSInvalid } from '../../util/errors.js'
 
-import type { KeyLike, GeneralJWS, JWSHeaderParameters, SignOptions } from '../../types.d'
+import type { JWK, KeyLike, GeneralJWS, JWSHeaderParameters, SignOptions } from '../../types.d'
 
 export interface Signature {
   /**
@@ -34,9 +34,9 @@ class IndividualSignature implements Signature {
   protectedHeader?: JWSHeaderParameters
   unprotectedHeader?: JWSHeaderParameters
   options?: SignOptions
-  key: KeyLike | Uint8Array
+  key: KeyLike | Uint8Array | JWK
 
-  constructor(sig: GeneralSign, key: KeyLike | Uint8Array, options?: SignOptions) {
+  constructor(sig: GeneralSign, key: KeyLike | Uint8Array | JWK, options?: SignOptions) {
     this.parent = sig
     this.key = key
     this.options = options
@@ -109,7 +109,7 @@ export class GeneralSign {
    *   {@link https://github.com/panva/jose/issues/210#jws-alg Algorithm Key Requirements}.
    * @param options JWS Sign options.
    */
-  addSignature(key: KeyLike | Uint8Array, options?: SignOptions): Signature {
+  addSignature(key: KeyLike | Uint8Array | JWK, options?: SignOptions): Signature {
     const signature = new IndividualSignature(this, key, options)
     this._signatures.push(signature)
     return signature

@@ -40,9 +40,9 @@ expectType<lib.KeyLike>(await lib.importX509('', 'RS256'))
 expectType<CryptoKey>(await lib.importX509<CryptoKey>('', 'RS256'))
 expectType<KeyObject>(await lib.importX509<KeyObject>('', 'RS256'))
 
-expectType<lib.KeyLike | Uint8Array>(await lib.importJWK({}))
-expectType<CryptoKey | Uint8Array>(await lib.importJWK<CryptoKey>({}))
-expectType<KeyObject | Uint8Array>(await lib.importJWK<KeyObject>({}))
+expectType<lib.KeyLike | Uint8Array>(await lib.importJWK({ kty: 'RSA' }))
+expectType<CryptoKey | Uint8Array>(await lib.importJWK<CryptoKey>({ kty: 'RSA' }))
+expectType<KeyObject | Uint8Array>(await lib.importJWK<KeyObject>({ kty: 'RSA' }))
 
 {
   const result = await lib.jwtVerify('', lib.createLocalJWKSet({ keys: [] }))
@@ -268,4 +268,26 @@ expectType<KeyObject>(await lib.EmbeddedJWK())
   const result = lib.decodeJwt('')
   expectType<string | undefined>(result.iss)
   expectType<unknown>(result.unknown)
+}
+
+{
+  expectType<lib.JWTVerifyResult>(await lib.jwtVerify('', { kty: 'RSA' }))
+  expectType<lib.GeneralVerifyResult>(
+    await lib.generalVerify({ payload: '', signatures: [{ signature: '' }] }, { kty: 'RSA' }),
+  )
+  expectType<lib.CompactVerifyResult>(await lib.compactVerify('', { kty: 'RSA' }))
+  expectType<lib.FlattenedVerifyResult>(
+    await lib.flattenedVerify({ payload: '', signature: '' }, { kty: 'RSA' }),
+  )
+}
+
+{
+  expectType<Promise<string>>(new lib.SignJWT().sign({ kty: 'RSA' }))
+  expectType<Promise<string>>(new lib.CompactSign(new Uint8Array()).sign({ kty: 'RSA' }))
+  expectType<Promise<lib.FlattenedJWS>>(
+    new lib.FlattenedSign(new Uint8Array()).sign({ kty: 'RSA' }),
+  )
+  expectType<Promise<lib.GeneralJWS>>(
+    new lib.GeneralSign(new Uint8Array()).addSignature({ kty: 'RSA' }).sign(),
+  )
 }

@@ -1,8 +1,9 @@
+import { isJWK } from '../../lib/is_jwk.js'
 import type { JWK, KeyLike } from '../../types.d'
 import { decode } from '../base64url.js'
 import importJWK from '../jwk_to_key.js'
 
-const normalizeSecretKey = (k: string) => decode(k)
+const exportKeyValue = (k: string) => decode(k)
 
 let privCache: WeakMap<object, Record<string, CryptoKey>>
 let pubCache: WeakMap<object, Record<string, CryptoKey>>
@@ -14,9 +15,10 @@ const isKeyObject = (key: unknown): key is KeyLike => {
 
 const importAndCache = async (
   cache: typeof privCache | typeof pubCache,
-  key: KeyLike,
+  key: KeyLike | JWK,
   jwk: JWK,
   alg: string,
+  freeze = false,
 ) => {
   let cached = cache.get(key)
   if (cached?.[alg]) {
@@ -24,6 +26,7 @@ const importAndCache = async (
   }
 
   const cryptoKey = await importJWK({ ...jwk, alg })
+  if (freeze) Object.freeze(key)
   if (!cached) {
     cache.set(key, { [alg]: cryptoKey })
   } else {
@@ -32,7 +35,7 @@ const importAndCache = async (
   return cryptoKey
 }
 
-const normalizePublicKey = (key: KeyLike | Uint8Array | unknown, alg: string) => {
+const normalizePublicKey = (key: KeyLike | Uint8Array | JWK | unknown, alg: string) => {
   if (isKeyObject(key)) {
     // @ts-expect-error
     let jwk: JWK = key.export({ format: 'jwk' })
@@ -43,26 +46,40 @@ const normalizePublicKey = (key: KeyLike | Uint8Array | unknown, alg: string) =>
     delete jwk.q
     delete jwk.qi
     if (jwk.k) {
-      return normalizeSecretKey(jwk.k)
+      return exportKeyValue(jwk.k)
     }
 
     pubCache ||= new WeakMap()
     return importAndCache(pubCache, key, jwk, alg)
   }
 
+  if (isJWK(key)) {
+    if (key.k) return decode(key.k)
+    pubCache ||= new WeakMap()
+    const cryptoKey = importAndCache(pubCache, key, key, alg, true)
+    return cryptoKey
+  }
+
   return <KeyLike | Uint8Array>key
 }
 
-const normalizePrivateKey = (key: KeyLike | Uint8Array | unknown, alg: string) => {
+const normalizePrivateKey = (key: KeyLike | Uint8Array | JWK | unknown, alg: string) => {
   if (isKeyObject(key)) {
     // @ts-expect-error
     let jwk: JWK = key.export({ format: 'jwk' })
     if (jwk.k) {
-      return normalizeSecretKey(jwk.k)
+      return exportKeyValue(jwk.k)
     }
 
     privCache ||= new WeakMap()
     return importAndCache(privCache, key, jwk, alg)
+  }
+
+  if (isJWK(key)) {
+    if (key.k) return decode(key.k)
+    privCache ||= new WeakMap()
+    const cryptoKey = importAndCache(privCache, key, key, alg, true)
+    return cryptoKey
   }
 
   return <KeyLike | Uint8Array>key

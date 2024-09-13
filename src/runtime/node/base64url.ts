@@ -15,4 +15,4 @@ export const decodeBase64 = (input: string) => new Uint8Array(Buffer.from(input,
 export const encodeBase64 = (input: Uint8Array | string) => Buffer.from(input).toString('base64')
 export { encode }
 export const decode = (input: Uint8Array | string) =>
-  new Uint8Array(Buffer.from(normalize(input), 'base64'))
+  new Uint8Array(Buffer.from(normalize(input), 'base64url'))

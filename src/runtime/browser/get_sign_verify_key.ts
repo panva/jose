@@ -31,5 +31,5 @@ export default async function getCryptoKey(alg: string, key: unknown, usage: Key
     )
   }
 
-  throw new TypeError(invalidKeyInput(key, ...types, 'Uint8Array'))
+  throw new TypeError(invalidKeyInput(key, ...types, 'Uint8Array', 'JSON Web Key'))
 }

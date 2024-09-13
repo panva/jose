@@ -1,14 +1,43 @@
 import { withAlg as invalidKeyInput } from './invalid_key_input.js'
 import isKeyLike, { types } from '../runtime/is_key_like.js'
+import * as jwk from './is_jwk.js'
+import { JWK } from '../types.d'
 
 // @ts-expect-error
 const tag = (key: unknown): string => key?.[Symbol.toStringTag]
 
-const symmetricTypeCheck = (alg: string, key: unknown) => {
+const jwkMatchesOp = (alg: string, key: JWK, usage: Usage) => {
+  if (key.use !== undefined && key.use !== 'sig') {
+    throw new TypeError('Invalid key for this operation, when present its use must be sig')
+  }
+
+  if (key.key_ops !== undefined && key.key_ops.includes?.(usage) !== true) {
+    throw new TypeError(
+      `Invalid key for this operation, when present its key_ops must include ${usage}`,
+    )
+  }
+
+  if (key.alg !== undefined && key.alg !== alg) {
+    throw new TypeError(`Invalid key for this operation, when present its alg must be ${alg}`)
+  }
+
+  return true
+}
+
+const symmetricTypeCheck = (alg: string, key: unknown, usage: Usage, allowJwk: boolean) => {
   if (key instanceof Uint8Array) return
 
+  if (allowJwk && jwk.isJWK(key)) {
+    if (jwk.isSecretJWK(key) && jwkMatchesOp(alg, key, usage)) return
+    throw new TypeError(
+      `JSON Web Key for symmetric algorithms must have JWK "kty" (Key Type) equal to "oct" and the JWK "k" (Key Value) present`,
+    )
+  }
+
   if (!isKeyLike(key)) {
-    throw new TypeError(invalidKeyInput(alg, key, ...types, 'Uint8Array'))
+    throw new TypeError(
+      invalidKeyInput(alg, key, ...types, 'Uint8Array', allowJwk ? 'JSON Web Key' : null),
+    )
   }
 
   if (key.type !== 'secret') {
@@ -16,9 +45,20 @@ const symmetricTypeCheck = (alg: string, key: unknown) => {
   }
 }
 
-const asymmetricTypeCheck = (alg: string, key: unknown, usage: string) => {
+const asymmetricTypeCheck = (alg: string, key: unknown, usage: Usage, allowJwk: boolean) => {
+  if (allowJwk && jwk.isJWK(key)) {
+    switch (usage) {
+      case 'sign':
+        if (jwk.isPrivateJWK(key) && jwkMatchesOp(alg, key, usage)) return
+        throw new TypeError(`JSON Web Key for this operation be a private JWK`)
+      case 'verify':
+        if (jwk.isPublicJWK(key) && jwkMatchesOp(alg, key, usage)) return
+        throw new TypeError(`JSON Web Key for this operation be a public JWK`)
+    }
+  }
+
   if (!isKeyLike(key)) {
-    throw new TypeError(invalidKeyInput(alg, key, ...types))
+    throw new TypeError(invalidKeyInput(alg, key, ...types, allowJwk ? 'JSON Web Key' : null))
   }
 
   if (key.type === 'secret') {
@@ -54,7 +94,9 @@ const asymmetricTypeCheck = (alg: string, key: unknown, usage: string) => {
   }
 }
 
-const checkKeyType = (alg: string, key: unknown, usage: string): void => {
+type Usage = 'sign' | 'verify' | 'encrypt' | 'decrypt'
+
+function checkKeyType(allowJwk: boolean, alg: string, key: unknown, usage: Usage): void {
   const symmetric =
     alg.startsWith('HS') ||
     alg === 'dir' ||
@@ -62,10 +104,11 @@ const checkKeyType = (alg: string, key: unknown, usage: string): void => {
     /^A\d{3}(?:GCM)?KW$/.test(alg)
 
   if (symmetric) {
-    symmetricTypeCheck(alg, key)
+    symmetricTypeCheck(alg, key, usage, allowJwk)
   } else {
-    asymmetricTypeCheck(alg, key, usage)
+    asymmetricTypeCheck(alg, key, usage, allowJwk)
   }
 }
 
-export default checkKeyType
+export default checkKeyType.bind(undefined, false)
+export const checkKeyTypeWithJwk = checkKeyType.bind(undefined, true)

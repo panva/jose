@@ -1,4 +1,5 @@
-function message(msg: string, actual: unknown, ...types: string[]) {
+function message(msg: string, actual: unknown, ...types: Array<string | null>) {
+  types = types.filter(Boolean)
   if (types.length > 2) {
     const last = types.pop()
     msg += `one of type ${types.join(', ')}, or ${last}.`
@@ -25,6 +26,6 @@ export default (actual: unknown, ...types: string[]) => {
   return message('Key must be ', actual, ...types)
 }
 
-export function withAlg(alg: string, actual: unknown, ...types: string[]) {
+export function withAlg(alg: string, actual: unknown, ...types: Array<string | null>) {
   return message(`Key for the ${alg} algorithm must be `, actual, ...types)
 }

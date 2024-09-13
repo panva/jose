@@ -10,7 +10,10 @@ export default (QUnit: QUnit, lib: typeof jose, keys: typeof jose) => {
   const algorithms = ['HS256', 'HS384', 'HS512']
 
   function digestSizeSecretsFor(alg: string) {
-    return [keys.generateSecret(alg), random(parseInt(alg.slice(2, 5), 10) >> 3)]
+    return [
+      keys.generateSecret(alg, { extractable: true }),
+      random(parseInt(alg.slice(2, 5), 10) >> 3),
+    ]
   }
 
   function nonDigestSizeSecretFor(alg: string) {
@@ -21,18 +24,18 @@ export default (QUnit: QUnit, lib: typeof jose, keys: typeof jose) => {
   for (const alg of algorithms) {
     test(alg, async (t) => {
       for await (const secret of digestSizeSecretsFor(alg)) {
-        await roundtrip.jws(t, lib, alg, secret)
+        await roundtrip.jws(t, lib, keys, alg, secret)
       }
     })
 
     test(`${alg} w/ non-digest output length secrets`, async (t) => {
       for await (const secret of nonDigestSizeSecretFor(alg)) {
-        await roundtrip.jws(t, lib, alg, secret)
+        await roundtrip.jws(t, lib, keys, alg, secret)
       }
     })
 
     test(`${alg} JWT`, async (t) => {
-      await roundtrip.jwt(t, lib, alg, await digestSizeSecretsFor(alg)[0])
+      await roundtrip.jwt(t, lib, keys, alg, await digestSizeSecretsFor(alg)[0])
     })
   }
 }

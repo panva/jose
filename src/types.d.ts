@@ -99,40 +99,18 @@
  */
 export type KeyLike = { type: string }
 
-/**
- * JSON Web Key ({@link https://www.rfc-editor.org/rfc/rfc7517 JWK}). "RSA", "EC", "OKP", and "oct"
- * key types are supported.
- */
-export interface JWK {
+/** Generic JSON Web Key Parameters. */
+export interface JWKParameters {
+  /** JWK "kty" (Key Type) Parameter. */
+  kty: string
   /** JWK "alg" (Algorithm) Parameter. */
   alg?: string
-  crv?: string
-  d?: string
-  dp?: string
-  dq?: string
-  e?: string
-  /** JWK "ext" (Extractable) Parameter. */
-  ext?: boolean
-  k?: string
   /** JWK "key_ops" (Key Operations) Parameter. */
   key_ops?: string[]
-  /** JWK "kid" (Key ID) Parameter. */
-  kid?: string
-  /** JWK "kty" (Key Type) Parameter. */
-  kty?: string
-  n?: string
-  oth?: Array<{
-    d?: string
-    r?: string
-    t?: string
-  }>
-  p?: string
-  q?: string
-  qi?: string
+  /** JWK "ext" (Extractable) Parameter. */
+  ext?: boolean
   /** JWK "use" (Public Key Use) Parameter. */
   use?: string
-  x?: string
-  y?: string
   /** JWK "x5c" (X.509 Certificate Chain) Parameter. */
   x5c?: string[]
   /** JWK "x5t" (X.509 Certificate SHA-1 Thumbprint) Parameter. */
@@ -141,17 +119,133 @@ export interface JWK {
   'x5t#S256'?: string
   /** JWK "x5u" (X.509 URL) Parameter. */
   x5u?: string
+  /** JWK "kid" (Key ID) Parameter. */
+  kid?: string
+}
+
+/** Convenience interface for Public OKP JSON Web Keys */
+export interface JWK_OKP_Public extends JWKParameters {
+  /** The Subtype of Key Pair */
+  crv: string
+  /** The public key */
+  x: string
+}
+
+/** Convenience interface for Private OKP JSON Web Keys */
+export interface JWK_OKP_Private extends JWK_OKP_Public, JWKParameters {
+  /** The Private Key */
+  d: string
+}
+
+/** Convenience interface for Public EC JSON Web Keys */
+export interface JWK_EC_Public extends JWKParameters {
+  /** Curve */
+  crv: string
+  /** X Coordinate */
+  x: string
+  /** Y Coordinate */
+  y: string
+}
+
+/** Convenience interface for Private EC JSON Web Keys */
+export interface JWK_EC_Private extends JWK_EC_Public, JWKParameters {
+  /** ECC Private Key */
+  d: string
+}
+
+/** Convenience interface for Public RSA JSON Web Keys */
+export interface JWK_RSA_Public extends JWKParameters {
+  /** Exponent */
+  e: string
+  /** Modulus */
+  n: string
+}
+
+/** Convenience interface for Private RSA JSON Web Keys */
+export interface JWK_RSA_Private extends JWK_RSA_Public, JWKParameters {
+  /** Private Exponent */
+  d: string
+  /** First Factor CRT Exponent */
+  dp: string
+  /** Second Factor CRT Exponent */
+  dq: string
+  /** Other Primes Info. This parameter is not supported. */
+  oth?: Array<{
+    d?: string
+    r?: string
+    t?: string
+  }>
+  /** First Prime Factor */
+  p: string
+  /** Second Prime Factor */
+  q: string
+  /** First CRT Coefficient */
+  qi: string
+}
+
+/**
+ * Convenience interface for oct JSON Web Keys
+ */
+export interface JWK_oct extends JWKParameters {
+  /** Key Value */
+  k: string
+}
+
+/**
+ * JSON Web Key ({@link https://www.rfc-editor.org/rfc/rfc7517 JWK}). "RSA", "EC", "OKP", and "oct"
+ * key types are supported.
+ */
+export interface JWK extends JWKParameters {
+  /**
+   * - (EC) Curve
+   * - (OKP) The Subtype of Key Pair
+   */
+  crv?: string
+  /**
+   * - (Private RSA) Private Exponent
+   * - (Private EC) ECC Private Key
+   * - (Private OKP) The Private Key
+   */
+  d?: string
+  /** (Private RSA) First Factor CRT Exponent */
+  dp?: string
+  /** (Private RSA) Second Factor CRT Exponent */
+  dq?: string
+  /** (RSA) Exponent */
+  e?: string
+  /** (oct) Key Value */
+  k?: string
+  /** (RSA) Modulus */
+  n?: string
+  /** (Private RSA) Other Primes Info. This parameter is not supported. */
+  oth?: Array<{
+    d?: string
+    r?: string
+    t?: string
+  }>
+  /** (Private RSA) First Prime Factor */
+  p?: string
+  /** (Private RSA) Second Prime Factor */
+  q?: string
+  /** (Private RSA) First CRT Coefficient */
+  qi?: string
+  /**
+   * - (EC) X Coordinate
+   * - (OKP) The public key
+   */
+  x?: string
+  /** (EC) Y Coordinate */
+  y?: string
 
   [propName: string]: unknown
 }
 
 /**
- * Generic Interface for consuming operations dynamic key resolution.
+ * @private
  *
- * @param IProtectedHeader Type definition of the JWE or JWS Protected Header.
- * @param IToken Type definition of the consumed JWE or JWS token.
+ * @internal
  */
-export interface GetKeyFunction<IProtectedHeader, IToken> {
+export interface GenericGetKeyFunction<IProtectedHeader, IToken, ReturnKeyTypes> {
   /**
    * Dynamic key resolution function. No token components have been verified at the time of this
    * function call.
@@ -161,11 +255,17 @@ export interface GetKeyFunction<IProtectedHeader, IToken> {
    * @param protectedHeader JWE or JWS Protected Header.
    * @param token The consumed JWE or JWS token.
    */
-  (
-    protectedHeader: IProtectedHeader,
-    token: IToken,
-  ): Promise<KeyLike | Uint8Array> | KeyLike | Uint8Array
+  (protectedHeader: IProtectedHeader, token: IToken): Promise<ReturnKeyTypes> | ReturnKeyTypes
 }
+
+/**
+ * Generic Interface for consuming operations dynamic key resolution.
+ *
+ * @param IProtectedHeader Type definition of the JWE or JWS Protected Header.
+ * @param IToken Type definition of the consumed JWE or JWS token.
+ */
+export interface GetKeyFunction<IProtectedHeader, IToken>
+  extends GenericGetKeyFunction<IProtectedHeader, IToken, KeyLike | Uint8Array> {}
 
 /**
  * Flattened JWS definition for verify function inputs, allows payload as Uint8Array for detached

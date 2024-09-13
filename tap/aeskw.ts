@@ -37,12 +37,12 @@ export default (QUnit: QUnit, lib: typeof jose, keys: typeof jose) => {
 
     const execute = async (t: typeof QUnit.assert) => {
       for await (const secret of secretsFor(alg)) {
-        await roundtrip.jwe(t, lib, alg, 'A128GCM', secret)
+        await roundtrip.jwe(t, lib, keys, alg, 'A128GCM', secret)
       }
     }
 
     const jwt = async (t: typeof QUnit.assert) => {
-      await roundtrip.jwt(t, lib, alg, 'A128GCM', await secretsFor(alg)[0])
+      await roundtrip.jwt(t, lib, keys, alg, 'A128GCM', await secretsFor(alg)[0])
     }
 
     if (works) {

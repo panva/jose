@@ -29,12 +29,12 @@ export default (QUnit: QUnit, lib: typeof jose, keys: typeof jose) => {
 
     const execute = async (t: typeof QUnit.assert) => {
       const password = new TextEncoder().encode('letmein')
-      await roundtrip.jwe(t, lib, alg, 'A128GCM', password)
+      await roundtrip.jwe(t, lib, keys, alg, 'A128GCM', password)
     }
 
     const jwt = async (t: typeof QUnit.assert) => {
       const password = new TextEncoder().encode('letmein')
-      await roundtrip.jwt(t, lib, alg, 'A128GCM', password)
+      await roundtrip.jwt(t, lib, keys, alg, 'A128GCM', password)
     }
 
     if (works) {

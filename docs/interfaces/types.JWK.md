@@ -13,6 +13,7 @@ key types are supported.
 
 ### Properties
 
+- [kty](types.JWK.md#kty)
 - [alg](types.JWK.md#alg)
 - [crv](types.JWK.md#crv)
 - [d](types.JWK.md#d)
@@ -23,7 +24,6 @@ key types are supported.
 - [k](types.JWK.md#k)
 - [key\_ops](types.JWK.md#key_ops)
 - [kid](types.JWK.md#kid)
-- [kty](types.JWK.md#kty)
 - [n](types.JWK.md#n)
 - [oth](types.JWK.md#oth)
 - [p](types.JWK.md#p)
@@ -39,6 +39,14 @@ key types are supported.
 
 ## Properties
 
+### kty
+
+• **kty**: `string`
+
+JWK "kty" (Key Type) Parameter.
+
+___
+
 ### alg
 
 • `Optional` **alg**: `string`
@@ -51,11 +59,18 @@ ___
 
 • `Optional` **crv**: `string`
 
+- (EC) Curve
+- (OKP) The Subtype of Key Pair
+
 ___
 
 ### d
 
 • `Optional` **d**: `string`
+
+- (Private RSA) Private Exponent
+- (Private EC) ECC Private Key
+- (Private OKP) The Private Key
 
 ___
 
@@ -63,17 +78,23 @@ ___
 
 • `Optional` **dp**: `string`
 
+(Private RSA) First Factor CRT Exponent
+
 ___
 
 ### dq
 
 • `Optional` **dq**: `string`
 
+(Private RSA) Second Factor CRT Exponent
+
 ___
 
 ### e
 
 • `Optional` **e**: `string`
+
+(RSA) Exponent
 
 ___
 
@@ -88,6 +109,8 @@ ___
 ### k
 
 • `Optional` **k**: `string`
+
+(oct) Key Value
 
 ___
 
@@ -107,17 +130,11 @@ JWK "kid" (Key ID) Parameter.
 
 ___
 
-### kty
-
-• `Optional` **kty**: `string`
-
-JWK "kty" (Key Type) Parameter.
-
-___
-
 ### n
 
 • `Optional` **n**: `string`
+
+(RSA) Modulus
 
 ___
 
@@ -125,11 +142,15 @@ ___
 
 • `Optional` **oth**: \{ `d?`: `string` ; `r?`: `string` ; `t?`: `string`  }[]
 
+(Private RSA) Other Primes Info. This parameter is not supported.
+
 ___
 
 ### p
 
 • `Optional` **p**: `string`
+
+(Private RSA) First Prime Factor
 
 ___
 
@@ -137,11 +158,15 @@ ___
 
 • `Optional` **q**: `string`
 
+(Private RSA) Second Prime Factor
+
 ___
 
 ### qi
 
 • `Optional` **qi**: `string`
+
+(Private RSA) First CRT Coefficient
 
 ___
 
@@ -156,6 +181,9 @@ ___
 ### x
 
 • `Optional` **x**: `string`
+
+- (EC) X Coordinate
+- (OKP) The public key
 
 ___
 
@@ -194,3 +222,5 @@ ___
 ### y
 
 • `Optional` **y**: `string`
+
+(EC) Y Coordinate

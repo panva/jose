@@ -4,8 +4,8 @@ import sign from '../../runtime/sign.js'
 import isDisjoint from '../../lib/is_disjoint.js'
 import { JWSInvalid } from '../../util/errors.js'
 import { encoder, decoder, concat } from '../../lib/buffer_utils.js'
-import type { KeyLike, FlattenedJWS, JWSHeaderParameters, SignOptions } from '../../types.d'
-import checkKeyType from '../../lib/check_key_type.js'
+import type { JWK, KeyLike, FlattenedJWS, JWSHeaderParameters, SignOptions } from '../../types.d'
+import { checkKeyTypeWithJwk } from '../../lib/check_key_type.js'
 import validateCrit from '../../lib/validate_crit.js'
 
 /**
@@ -74,7 +74,7 @@ export class FlattenedSign {
    *   {@link https://github.com/panva/jose/issues/210#jws-alg Algorithm Key Requirements}.
    * @param options JWS Sign options.
    */
-  async sign(key: KeyLike | Uint8Array, options?: SignOptions): Promise<FlattenedJWS> {
+  async sign(key: KeyLike | Uint8Array | JWK, options?: SignOptions): Promise<FlattenedJWS> {
     if (!this._protectedHeader && !this._unprotectedHeader) {
       throw new JWSInvalid(
         'either setProtectedHeader or setUnprotectedHeader must be called before #sign()',
@@ -116,7 +116,7 @@ export class FlattenedSign {
       throw new JWSInvalid('JWS "alg" (Algorithm) Header Parameter missing or invalid')
     }
 
-    checkKeyType(alg, key, 'sign')
+    checkKeyTypeWithJwk(alg, key, 'sign')
 
     let payload = this._payload
     if (b64) {

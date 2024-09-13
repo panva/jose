@@ -28,7 +28,7 @@ A shorthand for calling addSignature() on the enclosing GeneralSign instance
 
 | Name | Type |
 | :------ | :------ |
-| `...args` | [key: Uint8Array \| KeyLike, options?: SignOptions] |
+| `...args` | [key: Uint8Array \| KeyLike \| JWK, options?: SignOptions] |
 
 #### Returns
 

@@ -1,9 +1,10 @@
 import { flattenedVerify } from '../flattened/verify.js'
 import type {
+  JWK,
   GeneralJWSInput,
   GeneralVerifyResult,
   FlattenedJWSInput,
-  GetKeyFunction,
+  GenericGetKeyFunction,
   JWSHeaderParameters,
   KeyLike,
   VerifyOptions,
@@ -19,7 +20,11 @@ import isObject from '../../lib/is_object.js'
  * @see [createRemoteJWKSet](../functions/jwks_remote.createRemoteJWKSet.md#function-createremotejwkset) to verify using a remote JSON Web Key Set.
  */
 export interface GeneralVerifyGetKey
-  extends GetKeyFunction<JWSHeaderParameters, FlattenedJWSInput> {}
+  extends GenericGetKeyFunction<
+    JWSHeaderParameters,
+    FlattenedJWSInput,
+    KeyLike | JWK | Uint8Array
+  > {}
 
 /**
  * Verifies the signature and format of and afterwards decodes the General JWS.
@@ -54,7 +59,7 @@ export interface GeneralVerifyGetKey
  */
 export function generalVerify(
   jws: GeneralJWSInput,
-  key: KeyLike | Uint8Array,
+  key: KeyLike | Uint8Array | JWK,
   options?: VerifyOptions,
 ): Promise<GeneralVerifyResult>
 /**
@@ -70,7 +75,7 @@ export function generalVerify<KeyLikeType extends KeyLike = KeyLike>(
 ): Promise<GeneralVerifyResult & ResolvedKey<KeyLikeType>>
 export async function generalVerify(
   jws: GeneralJWSInput,
-  key: KeyLike | Uint8Array | GeneralVerifyGetKey,
+  key: KeyLike | Uint8Array | JWK | GeneralVerifyGetKey,
   options?: VerifyOptions,
 ) {
   if (!isObject(jws)) {

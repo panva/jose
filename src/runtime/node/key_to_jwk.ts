@@ -32,6 +32,6 @@ const keyToJWK: JWKExportFunction = (key: unknown): JWK => {
   ) {
     throw new JOSENotSupported('Unsupported key asymmetricKeyType')
   }
-  return keyObject.export({ format: 'jwk' })
+  return <JWK>keyObject.export({ format: 'jwk' })
 }
 export default keyToJWK

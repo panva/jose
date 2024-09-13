@@ -69,7 +69,7 @@ ___
 
 ### jwk
 
-• `Optional` **jwk**: [`Pick`]( https://www.typescriptlang.org/docs/handbook/utility-types.html#picktype-keys )\<[`JWK`](types.JWK.md), ``"x"`` \| ``"y"`` \| ``"crv"`` \| ``"e"`` \| ``"kty"`` \| ``"n"``\>
+• `Optional` **jwk**: [`Pick`]( https://www.typescriptlang.org/docs/handbook/utility-types.html#picktype-keys )\<[`JWK`](types.JWK.md), ``"x"`` \| ``"y"`` \| ``"crv"`` \| ``"e"`` \| ``"n"`` \| ``"kty"``\>
 
 "jwk" (JSON Web Key) Header Parameter.
 

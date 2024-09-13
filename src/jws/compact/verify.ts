@@ -2,9 +2,10 @@ import { flattenedVerify } from '../flattened/verify.js'
 import { JWSInvalid } from '../../util/errors.js'
 import { decoder } from '../../lib/buffer_utils.js'
 import type {
+  JWK,
   CompactVerifyResult,
   FlattenedJWSInput,
-  GetKeyFunction,
+  GenericGetKeyFunction,
   CompactJWSHeaderParameters,
   KeyLike,
   VerifyOptions,
@@ -18,7 +19,11 @@ import type {
  * @see [createRemoteJWKSet](../functions/jwks_remote.createRemoteJWKSet.md#function-createremotejwkset) to verify using a remote JSON Web Key Set.
  */
 export interface CompactVerifyGetKey
-  extends GetKeyFunction<CompactJWSHeaderParameters, FlattenedJWSInput> {}
+  extends GenericGetKeyFunction<
+    CompactJWSHeaderParameters,
+    FlattenedJWSInput,
+    KeyLike | JWK | Uint8Array
+  > {}
 
 /**
  * Verifies the signature and format of and afterwards decodes the Compact JWS.
@@ -45,7 +50,7 @@ export interface CompactVerifyGetKey
  */
 export function compactVerify(
   jws: string | Uint8Array,
-  key: KeyLike | Uint8Array,
+  key: KeyLike | Uint8Array | JWK,
   options?: VerifyOptions,
 ): Promise<CompactVerifyResult>
 /**
@@ -61,7 +66,7 @@ export function compactVerify<KeyLikeType extends KeyLike = KeyLike>(
 ): Promise<CompactVerifyResult & ResolvedKey<KeyLikeType>>
 export async function compactVerify(
   jws: string | Uint8Array,
-  key: KeyLike | Uint8Array | CompactVerifyGetKey,
+  key: KeyLike | Uint8Array | JWK | CompactVerifyGetKey,
   options?: VerifyOptions,
 ) {
   if (jws instanceof Uint8Array) {

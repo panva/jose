@@ -4,6 +4,7 @@ import { isCryptoKey } from './webcrypto.js'
 import isKeyObject from './is_key_object.js'
 import invalidKeyInput from '../../lib/invalid_key_input.js'
 import { types } from './is_key_like.js'
+import { isJWK } from '../../lib/is_jwk.js'
 
 export const weakMap: WeakMap<KeyObject, string> = new WeakMap()
 
@@ -28,6 +29,8 @@ const getNamedCurve = (kee: unknown, raw?: boolean): string => {
     key = KeyObject.from(kee)
   } else if (isKeyObject(kee)) {
     key = kee
+  } else if (isJWK(kee)) {
+    return kee.crv!
   } else {
     throw new TypeError(invalidKeyInput(kee, ...types))
   }

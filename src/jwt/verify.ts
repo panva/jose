@@ -1,11 +1,12 @@
 import { compactVerify } from '../jws/compact/verify.js'
 import type {
+  JWK,
   JWTPayload,
   KeyLike,
   VerifyOptions,
   JWTClaimVerificationOptions,
   JWTHeaderParameters,
-  GetKeyFunction,
+  GenericGetKeyFunction,
   FlattenedJWSInput,
   JWTVerifyResult,
   ResolvedKey,
@@ -22,7 +23,12 @@ export interface JWTVerifyOptions extends VerifyOptions, JWTClaimVerificationOpt
  *
  * @see [createRemoteJWKSet](../functions/jwks_remote.createRemoteJWKSet.md#function-createremotejwkset) to verify using a remote JSON Web Key Set.
  */
-export interface JWTVerifyGetKey extends GetKeyFunction<JWTHeaderParameters, FlattenedJWSInput> {}
+export interface JWTVerifyGetKey
+  extends GenericGetKeyFunction<
+    JWTHeaderParameters,
+    FlattenedJWSInput,
+    KeyLike | JWK | Uint8Array
+  > {}
 
 /**
  * Verifies the JWT format (to be a JWS Compact format), verifies the JWS signature, validates the
@@ -110,7 +116,7 @@ export interface JWTVerifyGetKey extends GetKeyFunction<JWTHeaderParameters, Fla
  */
 export async function jwtVerify<PayloadType = JWTPayload>(
   jwt: string | Uint8Array,
-  key: KeyLike | Uint8Array,
+  key: KeyLike | Uint8Array | JWK,
   options?: JWTVerifyOptions,
 ): Promise<JWTVerifyResult<PayloadType>>
 
@@ -143,7 +149,7 @@ export async function jwtVerify<PayloadType = JWTPayload, KeyLikeType extends Ke
 
 export async function jwtVerify(
   jwt: string | Uint8Array,
-  key: KeyLike | Uint8Array | JWTVerifyGetKey,
+  key: KeyLike | Uint8Array | JWK | JWTVerifyGetKey,
   options?: JWTVerifyOptions,
 ) {
   const verified = await compactVerify(jwt, <Parameters<typeof compactVerify>[1]>key, options)
