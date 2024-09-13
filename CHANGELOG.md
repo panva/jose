@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [5.9.1](https://github.com/panva/jose/compare/v5.9.0...v5.9.1) (2024-09-13)
+
+
+### Fixes
+
+* **types:** add missing index signature on the convenience JWK types ([90a93dc](https://github.com/panva/jose/commit/90a93dc9ce5da294e91d2a964ed593299c464893))
+
 ## [5.9.0](https://github.com/panva/jose/compare/v5.8.0...v5.9.0) (2024-09-13)
 
 
