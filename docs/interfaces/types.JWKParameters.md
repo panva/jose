@@ -39,6 +39,10 @@ ___
 
 JWK "alg" (Algorithm) Parameter
 
+**`See`**
+
+[Algorithm Key Requirements](https://github.com/panva/jose/issues/210)
+
 ___
 
 ### ext

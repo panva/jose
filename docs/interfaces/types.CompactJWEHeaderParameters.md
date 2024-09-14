@@ -33,6 +33,10 @@ Recognized Compact JWE Header Parameters, any other Header Members may also be p
 
 JWE "alg" (Algorithm) Header Parameter
 
+**`See`**
+
+[Algorithm Key Requirements](https://github.com/panva/jose/issues/210#jwe-alg)
+
 ___
 
 ### enc
@@ -40,6 +44,10 @@ ___
 • **enc**: `string`
 
 JWE "enc" (Encryption Algorithm) Header Parameter
+
+**`See`**
+
+[Algorithm Key Requirements](https://github.com/panva/jose/issues/210#jwe-alg)
 
 ___
 

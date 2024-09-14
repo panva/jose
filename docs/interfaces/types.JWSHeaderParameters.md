@@ -32,6 +32,10 @@ Recognized JWS Header Parameters, any other Header Members may also be present.
 
 JWS "alg" (Algorithm) Header Parameter
 
+**`See`**
+
+[Algorithm Key Requirements](https://github.com/panva/jose/issues/210#jws-alg).
+
 ___
 
 ### b64

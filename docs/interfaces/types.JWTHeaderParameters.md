@@ -32,6 +32,10 @@ Recognized Signed JWT Header Parameters, any other Header Members may also be pr
 
 JWS "alg" (Algorithm) Header Parameter
 
+**`See`**
+
+[Algorithm Key Requirements](https://github.com/panva/jose/issues/210#jws-alg).
+
 ___
 
 ### b64

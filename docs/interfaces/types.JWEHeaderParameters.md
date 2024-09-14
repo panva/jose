@@ -33,6 +33,10 @@ Recognized JWE Header Parameters, any other Header members may also be present.
 
 JWE "alg" (Algorithm) Header Parameter
 
+**`See`**
+
+[Algorithm Key Requirements](https://github.com/panva/jose/issues/210#jwe-alg)
+
 ___
 
 ### crit
@@ -56,6 +60,10 @@ ___
 • `Optional` **enc**: `string`
 
 JWE "enc" (Encryption Algorithm) Header Parameter
+
+**`See`**
+
+[Algorithm Key Requirements](https://github.com/panva/jose/issues/210#jwe-alg)
 
 ___
 

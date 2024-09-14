@@ -103,7 +103,11 @@ export type KeyLike = { type: string }
 export interface JWKParameters {
   /** JWK "kty" (Key Type) Parameter */
   kty: string
-  /** JWK "alg" (Algorithm) Parameter */
+  /**
+   * JWK "alg" (Algorithm) Parameter
+   *
+   * @see {@link https://github.com/panva/jose/issues/210 Algorithm Key Requirements}
+   */
   alg?: string
   /** JWK "key_ops" (Key Operations) Parameter */
   key_ops?: string[]
@@ -374,7 +378,11 @@ export interface JoseHeaderParameters {
 
 /** Recognized JWS Header Parameters, any other Header Members may also be present. */
 export interface JWSHeaderParameters extends JoseHeaderParameters {
-  /** JWS "alg" (Algorithm) Header Parameter */
+  /**
+   * JWS "alg" (Algorithm) Header Parameter
+   *
+   * @see {@link https://github.com/panva/jose/issues/210#jws-alg Algorithm Key Requirements}.
+   */
   alg?: string
 
   /**
@@ -476,10 +484,18 @@ export interface GeneralJWE extends Omit<FlattenedJWE, 'encrypted_key' | 'header
 
 /** Recognized JWE Header Parameters, any other Header members may also be present. */
 export interface JWEHeaderParameters extends JoseHeaderParameters {
-  /** JWE "alg" (Algorithm) Header Parameter */
+  /**
+   * JWE "alg" (Algorithm) Header Parameter
+   *
+   * @see {@link https://github.com/panva/jose/issues/210#jwe-alg Algorithm Key Requirements}
+   */
   alg?: string
 
-  /** JWE "enc" (Encryption Algorithm) Header Parameter */
+  /**
+   * JWE "enc" (Encryption Algorithm) Header Parameter
+   *
+   * @see {@link https://github.com/panva/jose/issues/210#jwe-alg Algorithm Key Requirements}
+   */
   enc?: string
 
   /** JWE "crit" (Critical) Header Parameter */
