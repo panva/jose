@@ -29,7 +29,7 @@ Generic JSON Web Key Parameters.
 
 • **kty**: `string`
 
-JWK "kty" (Key Type) Parameter.
+JWK "kty" (Key Type) Parameter
 
 ___
 
@@ -37,7 +37,7 @@ ___
 
 • `Optional` **alg**: `string`
 
-JWK "alg" (Algorithm) Parameter.
+JWK "alg" (Algorithm) Parameter
 
 ___
 
@@ -45,7 +45,7 @@ ___
 
 • `Optional` **ext**: `boolean`
 
-JWK "ext" (Extractable) Parameter.
+JWK "ext" (Extractable) Parameter
 
 ___
 
@@ -53,7 +53,7 @@ ___
 
 • `Optional` **key\_ops**: `string`[]
 
-JWK "key_ops" (Key Operations) Parameter.
+JWK "key_ops" (Key Operations) Parameter
 
 ___
 
@@ -61,7 +61,7 @@ ___
 
 • `Optional` **kid**: `string`
 
-JWK "kid" (Key ID) Parameter.
+JWK "kid" (Key ID) Parameter
 
 ___
 
@@ -69,7 +69,7 @@ ___
 
 • `Optional` **use**: `string`
 
-JWK "use" (Public Key Use) Parameter.
+JWK "use" (Public Key Use) Parameter
 
 ___
 
@@ -77,7 +77,7 @@ ___
 
 • `Optional` **x5c**: `string`[]
 
-JWK "x5c" (X.509 Certificate Chain) Parameter.
+JWK "x5c" (X.509 Certificate Chain) Parameter
 
 ___
 
@@ -85,7 +85,7 @@ ___
 
 • `Optional` **x5t**: `string`
 
-JWK "x5t" (X.509 Certificate SHA-1 Thumbprint) Parameter.
+JWK "x5t" (X.509 Certificate SHA-1 Thumbprint) Parameter
 
 ___
 
@@ -93,7 +93,7 @@ ___
 
 • `Optional` **x5t#S256**: `string`
 
-"x5t#S256" (X.509 Certificate SHA-256 Thumbprint) Parameter.
+JWK "x5t#S256" (X.509 Certificate SHA-256 Thumbprint) Parameter
 
 ___
 
@@ -101,4 +101,4 @@ ___
 
 • `Optional` **x5u**: `string`
 
-JWK "x5u" (X.509 URL) Parameter.
+JWK "x5u" (X.509 URL) Parameter

@@ -38,7 +38,7 @@ Convenience interface for Private RSA JSON Web Keys
 
 • **d**: `string`
 
-Private Exponent
+RSA JWK "d" (Private Exponent) Parameter
 
 ___
 
@@ -46,7 +46,7 @@ ___
 
 • **dp**: `string`
 
-First Factor CRT Exponent
+RSA JWK "dp" (First Factor CRT Exponent) Parameter
 
 ___
 
@@ -54,7 +54,7 @@ ___
 
 • **dq**: `string`
 
-Second Factor CRT Exponent
+RSA JWK "dq" (Second Factor CRT Exponent) Parameter
 
 ___
 
@@ -62,7 +62,7 @@ ___
 
 • **e**: `string`
 
-Exponent
+RSA JWK "e" (Exponent) Parameter
 
 ___
 
@@ -70,7 +70,7 @@ ___
 
 • **kty**: `string`
 
-JWK "kty" (Key Type) Parameter.
+JWK "kty" (Key Type) Parameter
 
 ___
 
@@ -78,7 +78,7 @@ ___
 
 • **n**: `string`
 
-Modulus
+RSA JWK "n" (Modulus) Parameter
 
 ___
 
@@ -86,7 +86,7 @@ ___
 
 • **p**: `string`
 
-First Prime Factor
+RSA JWK "p" (First Prime Factor) Parameter
 
 ___
 
@@ -94,7 +94,7 @@ ___
 
 • **q**: `string`
 
-Second Prime Factor
+RSA JWK "q" (Second Prime Factor) Parameter
 
 ___
 
@@ -102,7 +102,7 @@ ___
 
 • **qi**: `string`
 
-First CRT Coefficient
+RSA JWK "qi" (First CRT Coefficient) Parameter
 
 ___
 
@@ -110,7 +110,7 @@ ___
 
 • `Optional` **alg**: `string`
 
-JWK "alg" (Algorithm) Parameter.
+JWK "alg" (Algorithm) Parameter
 
 ___
 
@@ -118,7 +118,7 @@ ___
 
 • `Optional` **ext**: `boolean`
 
-JWK "ext" (Extractable) Parameter.
+JWK "ext" (Extractable) Parameter
 
 ___
 
@@ -126,7 +126,7 @@ ___
 
 • `Optional` **key\_ops**: `string`[]
 
-JWK "key_ops" (Key Operations) Parameter.
+JWK "key_ops" (Key Operations) Parameter
 
 ___
 
@@ -134,7 +134,7 @@ ___
 
 • `Optional` **kid**: `string`
 
-JWK "kid" (Key ID) Parameter.
+JWK "kid" (Key ID) Parameter
 
 ___
 
@@ -142,7 +142,9 @@ ___
 
 • `Optional` **oth**: \{ `d?`: `string` ; `r?`: `string` ; `t?`: `string`  }[]
 
-Other Primes Info. This parameter is not supported.
+RSA JWK "oth" (Other Primes Info) Parameter
+
+This parameter is not supported
 
 ___
 
@@ -150,7 +152,7 @@ ___
 
 • `Optional` **use**: `string`
 
-JWK "use" (Public Key Use) Parameter.
+JWK "use" (Public Key Use) Parameter
 
 ___
 
@@ -158,7 +160,7 @@ ___
 
 • `Optional` **x5c**: `string`[]
 
-JWK "x5c" (X.509 Certificate Chain) Parameter.
+JWK "x5c" (X.509 Certificate Chain) Parameter
 
 ___
 
@@ -166,7 +168,7 @@ ___
 
 • `Optional` **x5t**: `string`
 
-JWK "x5t" (X.509 Certificate SHA-1 Thumbprint) Parameter.
+JWK "x5t" (X.509 Certificate SHA-1 Thumbprint) Parameter
 
 ___
 
@@ -174,7 +176,7 @@ ___
 
 • `Optional` **x5t#S256**: `string`
 
-"x5t#S256" (X.509 Certificate SHA-256 Thumbprint) Parameter.
+JWK "x5t#S256" (X.509 Certificate SHA-256 Thumbprint) Parameter
 
 ___
 
@@ -182,4 +184,4 @@ ___
 
 • `Optional` **x5u**: `string`
 
-JWK "x5u" (X.509 URL) Parameter.
+JWK "x5u" (X.509 URL) Parameter

@@ -31,7 +31,7 @@ Recognized JWE Header Parameters, any other Header members may also be present.
 
 • `Optional` **alg**: `string`
 
-JWE "alg" (Algorithm) Header Parameter.
+JWE "alg" (Algorithm) Header Parameter
 
 ___
 
@@ -39,7 +39,7 @@ ___
 
 • `Optional` **crit**: `string`[]
 
-JWE "crit" (Critical) Header Parameter.
+JWE "crit" (Critical) Header Parameter
 
 ___
 
@@ -47,7 +47,7 @@ ___
 
 • `Optional` **cty**: `string`
 
-"cty" (Content Type) Header Parameter.
+"cty" (Content Type) Header Parameter
 
 ___
 
@@ -55,7 +55,7 @@ ___
 
 • `Optional` **enc**: `string`
 
-JWE "enc" (Encryption Algorithm) Header Parameter.
+JWE "enc" (Encryption Algorithm) Header Parameter
 
 ___
 
@@ -63,7 +63,7 @@ ___
 
 • `Optional` **jku**: `string`
 
-"jku" (JWK Set URL) Header Parameter.
+"jku" (JWK Set URL) Header Parameter
 
 ___
 
@@ -71,7 +71,7 @@ ___
 
 • `Optional` **jwk**: [`Pick`]( https://www.typescriptlang.org/docs/handbook/utility-types.html#picktype-keys )\<[`JWK`](types.JWK.md), ``"x"`` \| ``"y"`` \| ``"kty"`` \| ``"crv"`` \| ``"e"`` \| ``"n"``\>
 
-"jwk" (JSON Web Key) Header Parameter.
+"jwk" (JSON Web Key) Header Parameter
 
 ___
 
@@ -79,7 +79,7 @@ ___
 
 • `Optional` **kid**: `string`
 
-"kid" (Key ID) Header Parameter.
+"kid" (Key ID) Header Parameter
 
 ___
 
@@ -87,7 +87,7 @@ ___
 
 • `Optional` **typ**: `string`
 
-"typ" (Type) Header Parameter.
+"typ" (Type) Header Parameter
 
 ___
 
@@ -95,7 +95,7 @@ ___
 
 • `Optional` **x5c**: `string`[]
 
-"x5c" (X.509 Certificate Chain) Header Parameter.
+"x5c" (X.509 Certificate Chain) Header Parameter
 
 ___
 
@@ -103,7 +103,7 @@ ___
 
 • `Optional` **x5t**: `string`
 
-"x5t" (X.509 Certificate SHA-1 Thumbprint) Header Parameter.
+"x5t" (X.509 Certificate SHA-1 Thumbprint) Header Parameter
 
 ___
 
@@ -111,7 +111,7 @@ ___
 
 • `Optional` **x5u**: `string`
 
-"x5u" (X.509 URL) Header Parameter.
+"x5u" (X.509 URL) Header Parameter
 
 ___
 

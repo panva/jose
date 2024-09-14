@@ -101,91 +101,95 @@ export type KeyLike = { type: string }
 
 /** Generic JSON Web Key Parameters. */
 export interface JWKParameters {
-  /** JWK "kty" (Key Type) Parameter. */
+  /** JWK "kty" (Key Type) Parameter */
   kty: string
-  /** JWK "alg" (Algorithm) Parameter. */
+  /** JWK "alg" (Algorithm) Parameter */
   alg?: string
-  /** JWK "key_ops" (Key Operations) Parameter. */
+  /** JWK "key_ops" (Key Operations) Parameter */
   key_ops?: string[]
-  /** JWK "ext" (Extractable) Parameter. */
+  /** JWK "ext" (Extractable) Parameter */
   ext?: boolean
-  /** JWK "use" (Public Key Use) Parameter. */
+  /** JWK "use" (Public Key Use) Parameter */
   use?: string
-  /** JWK "x5c" (X.509 Certificate Chain) Parameter. */
+  /** JWK "x5c" (X.509 Certificate Chain) Parameter */
   x5c?: string[]
-  /** JWK "x5t" (X.509 Certificate SHA-1 Thumbprint) Parameter. */
+  /** JWK "x5t" (X.509 Certificate SHA-1 Thumbprint) Parameter */
   x5t?: string
-  /** "x5t#S256" (X.509 Certificate SHA-256 Thumbprint) Parameter. */
+  /** JWK "x5t#S256" (X.509 Certificate SHA-256 Thumbprint) Parameter */
   'x5t#S256'?: string
-  /** JWK "x5u" (X.509 URL) Parameter. */
+  /** JWK "x5u" (X.509 URL) Parameter */
   x5u?: string
-  /** JWK "kid" (Key ID) Parameter. */
+  /** JWK "kid" (Key ID) Parameter */
   kid?: string
 }
 
 /** Convenience interface for Public OKP JSON Web Keys */
 export interface JWK_OKP_Public extends JWKParameters {
-  /** The Subtype of Key Pair */
+  /** OKP JWK "crv" (The Subtype of Key Pair) Parameter */
   crv: string
-  /** The public key */
+  /** OKP JWK "x" (The public key) Parameter */
   x: string
 }
 
 /** Convenience interface for Private OKP JSON Web Keys */
 export interface JWK_OKP_Private extends JWK_OKP_Public, JWKParameters {
-  /** The Private Key */
+  /** OKP JWK "d" (The Private Key) Parameter */
   d: string
 }
 
 /** Convenience interface for Public EC JSON Web Keys */
 export interface JWK_EC_Public extends JWKParameters {
-  /** Curve */
+  /** EC JWK "crv" (Curve) Parameter */
   crv: string
-  /** X Coordinate */
+  /** EC JWK "x" (X Coordinate) Parameter */
   x: string
-  /** Y Coordinate */
+  /** EC JWK "y" (Y Coordinate) Parameter */
   y: string
 }
 
 /** Convenience interface for Private EC JSON Web Keys */
 export interface JWK_EC_Private extends JWK_EC_Public, JWKParameters {
-  /** ECC Private Key */
+  /** EC JWK "d" (ECC Private Key) Parameter */
   d: string
 }
 
 /** Convenience interface for Public RSA JSON Web Keys */
 export interface JWK_RSA_Public extends JWKParameters {
-  /** Exponent */
+  /** RSA JWK "e" (Exponent) Parameter */
   e: string
-  /** Modulus */
+  /** RSA JWK "n" (Modulus) Parameter */
   n: string
 }
 
 /** Convenience interface for Private RSA JSON Web Keys */
 export interface JWK_RSA_Private extends JWK_RSA_Public, JWKParameters {
-  /** Private Exponent */
+  /** RSA JWK "d" (Private Exponent) Parameter */
   d: string
-  /** First Factor CRT Exponent */
+  /** RSA JWK "dp" (First Factor CRT Exponent) Parameter */
   dp: string
-  /** Second Factor CRT Exponent */
+  /** RSA JWK "dq" (Second Factor CRT Exponent) Parameter */
   dq: string
-  /** Other Primes Info. This parameter is not supported. */
+  /**
+   * RSA JWK "oth" (Other Primes Info) Parameter
+   *
+   * This parameter is not supported
+   */
   oth?: Array<{
     d?: string
     r?: string
     t?: string
   }>
-  /** First Prime Factor */
+  /** RSA JWK "p" (First Prime Factor) Parameter */
   p: string
-  /** Second Prime Factor */
+  /** RSA JWK "q" (Second Prime Factor) Parameter */
   q: string
-  /** First CRT Coefficient */
+  /** RSA JWK "qi" (First CRT Coefficient) Parameter */
   qi: string
 }
 
 /** Convenience interface for oct JSON Web Keys */
 export interface JWK_oct extends JWKParameters {
-  /** Key Value */
+  /** Oct JWK "k" (Key Value) Parameter */
   k: string
 }
 
@@ -203,44 +207,48 @@ export interface JWK_oct extends JWKParameters {
  */
 export interface JWK extends JWKParameters {
   /**
-   * - (EC) Curve
-   * - (OKP) The Subtype of Key Pair
+   * - EC JWK "crv" (Curve) Parameter
+   * - OKP JWK "crv" (The Subtype of Key Pair) Parameter
    */
   crv?: string
   /**
-   * - (Private RSA) Private Exponent
-   * - (Private EC) ECC Private Key
-   * - (Private OKP) The Private Key
+   * - Private RSA JWK "d" (Private Exponent) Parameter
+   * - Private EC JWK "d" (ECC Private Key) Parameter
+   * - Private OKP JWK "d" (The Private Key) Parameter
    */
   d?: string
-  /** (Private RSA) First Factor CRT Exponent */
+  /** Private RSA JWK "dp" (First Factor CRT Exponent) Parameter */
   dp?: string
-  /** (Private RSA) Second Factor CRT Exponent */
+  /** Private RSA JWK "dq" (Second Factor CRT Exponent) Parameter */
   dq?: string
-  /** (RSA) Exponent */
+  /** RSA JWK "e" (Exponent) Parameter */
   e?: string
-  /** (oct) Key Value */
+  /** Oct JWK "k" (Key Value) Parameter */
   k?: string
-  /** (RSA) Modulus */
+  /** RSA JWK "n" (Modulus) Parameter */
   n?: string
-  /** (Private RSA) Other Primes Info. This parameter is not supported. */
+  /**
+   * Private RSA JWK "oth" (Other Primes Info) Parameter
+   *
+   * This parameter is not supported
+   */
   oth?: Array<{
     d?: string
     r?: string
     t?: string
   }>
-  /** (Private RSA) First Prime Factor */
+  /** Private RSA JWK "p" (First Prime Factor) Parameter */
   p?: string
-  /** (Private RSA) Second Prime Factor */
+  /** Private RSA JWK "q" (Second Prime Factor) Parameter */
   q?: string
-  /** (Private RSA) First CRT Coefficient */
+  /** Private RSA JWK "qi" (First CRT Coefficient) Parameter */
   qi?: string
   /**
-   * - (EC) X Coordinate
-   * - (OKP) The public key
+   * - EC JWK "x" (X Coordinate) Parameter
+   * - OKP JWK "x" (The public key) Parameter
    */
   x?: string
-  /** (EC) Y Coordinate */
+  /** EC JWK "y" (Y Coordinate) Parameter */
   y?: string
 }
 
@@ -339,34 +347,34 @@ export interface GeneralJWS {
 }
 
 export interface JoseHeaderParameters {
-  /** "kid" (Key ID) Header Parameter. */
+  /** "kid" (Key ID) Header Parameter */
   kid?: string
 
-  /** "x5t" (X.509 Certificate SHA-1 Thumbprint) Header Parameter. */
+  /** "x5t" (X.509 Certificate SHA-1 Thumbprint) Header Parameter */
   x5t?: string
 
-  /** "x5c" (X.509 Certificate Chain) Header Parameter. */
+  /** "x5c" (X.509 Certificate Chain) Header Parameter */
   x5c?: string[]
 
-  /** "x5u" (X.509 URL) Header Parameter. */
+  /** "x5u" (X.509 URL) Header Parameter */
   x5u?: string
 
-  /** "jku" (JWK Set URL) Header Parameter. */
+  /** "jku" (JWK Set URL) Header Parameter */
   jku?: string
 
-  /** "jwk" (JSON Web Key) Header Parameter. */
+  /** "jwk" (JSON Web Key) Header Parameter */
   jwk?: Pick<JWK, 'kty' | 'crv' | 'x' | 'y' | 'e' | 'n'>
 
-  /** "typ" (Type) Header Parameter. */
+  /** "typ" (Type) Header Parameter */
   typ?: string
 
-  /** "cty" (Content Type) Header Parameter. */
+  /** "cty" (Content Type) Header Parameter */
   cty?: string
 }
 
 /** Recognized JWS Header Parameters, any other Header Members may also be present. */
 export interface JWSHeaderParameters extends JoseHeaderParameters {
-  /** JWS "alg" (Algorithm) Header Parameter. */
+  /** JWS "alg" (Algorithm) Header Parameter */
   alg?: string
 
   /**
@@ -375,7 +383,7 @@ export interface JWSHeaderParameters extends JoseHeaderParameters {
    */
   b64?: boolean
 
-  /** JWS "crit" (Critical) Header Parameter. */
+  /** JWS "crit" (Critical) Header Parameter */
   crit?: string[]
 
   /** Any other JWS Header member. */
@@ -468,13 +476,13 @@ export interface GeneralJWE extends Omit<FlattenedJWE, 'encrypted_key' | 'header
 
 /** Recognized JWE Header Parameters, any other Header members may also be present. */
 export interface JWEHeaderParameters extends JoseHeaderParameters {
-  /** JWE "alg" (Algorithm) Header Parameter. */
+  /** JWE "alg" (Algorithm) Header Parameter */
   alg?: string
 
-  /** JWE "enc" (Encryption Algorithm) Header Parameter. */
+  /** JWE "enc" (Encryption Algorithm) Header Parameter */
   enc?: string
 
-  /** JWE "crit" (Critical) Header Parameter. */
+  /** JWE "crit" (Critical) Header Parameter */
   crit?: string[]
 
   /**

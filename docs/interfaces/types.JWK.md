@@ -53,7 +53,7 @@ key types are supported.
 
 • **kty**: `string`
 
-JWK "kty" (Key Type) Parameter.
+JWK "kty" (Key Type) Parameter
 
 ___
 
@@ -61,7 +61,7 @@ ___
 
 • `Optional` **alg**: `string`
 
-JWK "alg" (Algorithm) Parameter.
+JWK "alg" (Algorithm) Parameter
 
 ___
 
@@ -69,8 +69,8 @@ ___
 
 • `Optional` **crv**: `string`
 
-- (EC) Curve
-- (OKP) The Subtype of Key Pair
+- EC JWK "crv" (Curve) Parameter
+- OKP JWK "crv" (The Subtype of Key Pair) Parameter
 
 ___
 
@@ -78,9 +78,9 @@ ___
 
 • `Optional` **d**: `string`
 
-- (Private RSA) Private Exponent
-- (Private EC) ECC Private Key
-- (Private OKP) The Private Key
+- Private RSA JWK "d" (Private Exponent) Parameter
+- Private EC JWK "d" (ECC Private Key) Parameter
+- Private OKP JWK "d" (The Private Key) Parameter
 
 ___
 
@@ -88,7 +88,7 @@ ___
 
 • `Optional` **dp**: `string`
 
-(Private RSA) First Factor CRT Exponent
+Private RSA JWK "dp" (First Factor CRT Exponent) Parameter
 
 ___
 
@@ -96,7 +96,7 @@ ___
 
 • `Optional` **dq**: `string`
 
-(Private RSA) Second Factor CRT Exponent
+Private RSA JWK "dq" (Second Factor CRT Exponent) Parameter
 
 ___
 
@@ -104,7 +104,7 @@ ___
 
 • `Optional` **e**: `string`
 
-(RSA) Exponent
+RSA JWK "e" (Exponent) Parameter
 
 ___
 
@@ -112,7 +112,7 @@ ___
 
 • `Optional` **ext**: `boolean`
 
-JWK "ext" (Extractable) Parameter.
+JWK "ext" (Extractable) Parameter
 
 ___
 
@@ -120,7 +120,7 @@ ___
 
 • `Optional` **k**: `string`
 
-(oct) Key Value
+Oct JWK "k" (Key Value) Parameter
 
 ___
 
@@ -128,7 +128,7 @@ ___
 
 • `Optional` **key\_ops**: `string`[]
 
-JWK "key_ops" (Key Operations) Parameter.
+JWK "key_ops" (Key Operations) Parameter
 
 ___
 
@@ -136,7 +136,7 @@ ___
 
 • `Optional` **kid**: `string`
 
-JWK "kid" (Key ID) Parameter.
+JWK "kid" (Key ID) Parameter
 
 ___
 
@@ -144,7 +144,7 @@ ___
 
 • `Optional` **n**: `string`
 
-(RSA) Modulus
+RSA JWK "n" (Modulus) Parameter
 
 ___
 
@@ -152,7 +152,9 @@ ___
 
 • `Optional` **oth**: \{ `d?`: `string` ; `r?`: `string` ; `t?`: `string`  }[]
 
-(Private RSA) Other Primes Info. This parameter is not supported.
+Private RSA JWK "oth" (Other Primes Info) Parameter
+
+This parameter is not supported
 
 ___
 
@@ -160,7 +162,7 @@ ___
 
 • `Optional` **p**: `string`
 
-(Private RSA) First Prime Factor
+Private RSA JWK "p" (First Prime Factor) Parameter
 
 ___
 
@@ -168,7 +170,7 @@ ___
 
 • `Optional` **q**: `string`
 
-(Private RSA) Second Prime Factor
+Private RSA JWK "q" (Second Prime Factor) Parameter
 
 ___
 
@@ -176,7 +178,7 @@ ___
 
 • `Optional` **qi**: `string`
 
-(Private RSA) First CRT Coefficient
+Private RSA JWK "qi" (First CRT Coefficient) Parameter
 
 ___
 
@@ -184,7 +186,7 @@ ___
 
 • `Optional` **use**: `string`
 
-JWK "use" (Public Key Use) Parameter.
+JWK "use" (Public Key Use) Parameter
 
 ___
 
@@ -192,8 +194,8 @@ ___
 
 • `Optional` **x**: `string`
 
-- (EC) X Coordinate
-- (OKP) The public key
+- EC JWK "x" (X Coordinate) Parameter
+- OKP JWK "x" (The public key) Parameter
 
 ___
 
@@ -201,7 +203,7 @@ ___
 
 • `Optional` **x5c**: `string`[]
 
-JWK "x5c" (X.509 Certificate Chain) Parameter.
+JWK "x5c" (X.509 Certificate Chain) Parameter
 
 ___
 
@@ -209,7 +211,7 @@ ___
 
 • `Optional` **x5t**: `string`
 
-JWK "x5t" (X.509 Certificate SHA-1 Thumbprint) Parameter.
+JWK "x5t" (X.509 Certificate SHA-1 Thumbprint) Parameter
 
 ___
 
@@ -217,7 +219,7 @@ ___
 
 • `Optional` **x5t#S256**: `string`
 
-"x5t#S256" (X.509 Certificate SHA-256 Thumbprint) Parameter.
+JWK "x5t#S256" (X.509 Certificate SHA-256 Thumbprint) Parameter
 
 ___
 
@@ -225,7 +227,7 @@ ___
 
 • `Optional` **x5u**: `string`
 
-JWK "x5u" (X.509 URL) Parameter.
+JWK "x5u" (X.509 URL) Parameter
 
 ___
 
@@ -233,4 +235,4 @@ ___
 
 • `Optional` **y**: `string`
 
-(EC) Y Coordinate
+EC JWK "y" (Y Coordinate) Parameter
