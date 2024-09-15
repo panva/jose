@@ -21,7 +21,7 @@ export interface JWTVerifyOptions extends VerifyOptions, JWTClaimVerificationOpt
  * Interface for JWT Verification dynamic key resolution. No token components have been verified at
  * the time of this function call.
  *
- * @see [createRemoteJWKSet](../functions/jwks_remote.createRemoteJWKSet.md#function-createremotejwkset) to verify using a remote JSON Web Key Set.
+ * @see {@link jwks/remote.createRemoteJWKSet createRemoteJWKSet} to verify using a remote JSON Web Key Set.
  */
 export interface JWTVerifyGetKey
   extends GenericGetKeyFunction<

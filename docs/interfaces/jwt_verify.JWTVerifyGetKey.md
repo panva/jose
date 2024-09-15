@@ -11,7 +11,7 @@ the time of this function call.
 
 **`See`**
 
-[createRemoteJWKSet](../functions/jwks_remote.createRemoteJWKSet.md#function-createremotejwkset) to verify using a remote JSON Web Key Set.
+[createRemoteJWKSet](../functions/jwks_remote.createRemoteJWKSet.md) to verify using a remote JSON Web Key Set.
 
 ## Callable
 

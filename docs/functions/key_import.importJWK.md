@@ -12,7 +12,7 @@ Imports a JWK to a runtime-specific key representation (KeyLike). Either the JWK
 (Algorithm) Parameter, or the optional "alg" argument, must be present.
 
 Note: When the runtime is using [Web Cryptography API](https://w3c.github.io/webcrypto/) the
-jwk parameters "use", "key_ops", and "ext" are also used in the resulting `CryptoKey`.
+jwk parameters "use", "key_ops", and "ext" are also used in the resulting [CryptoKey](https://developer.mozilla.org/docs/Web/API/CryptoKey).
 
 This function is exported (as a named export) from the main `'jose'` module entry point as well
 as from its subpath export `'jose/key/import'`.

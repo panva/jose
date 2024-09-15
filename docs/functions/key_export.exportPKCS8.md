@@ -8,8 +8,8 @@ Support from the community to continue maintaining and improving this module is 
 
 ▸ **exportPKCS8**(`key`): [`Promise`]( https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise )\<`string`\>
 
-Exports a runtime-specific private key representation (KeyObject or CryptoKey) to a PEM-encoded
-PKCS8 string format.
+Exports a runtime-specific private key representation ([KeyObject](https://nodejs.org/api/crypto.html#class-keyobject) or [CryptoKey](https://developer.mozilla.org/docs/Web/API/CryptoKey)) to
+a PEM-encoded PKCS8 string format.
 
 This function is exported (as a named export) from the main `'jose'` module entry point as well
 as from its subpath export `'jose/key/export'`.

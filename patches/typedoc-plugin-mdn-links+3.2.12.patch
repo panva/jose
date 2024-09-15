@@ -1,0 +1,24 @@
+diff --git a/node_modules/typedoc-plugin-mdn-links/data/web-api.json b/node_modules/typedoc-plugin-mdn-links/data/web-api.json
+index 3e76956..42907af 100644
+--- a/node_modules/typedoc-plugin-mdn-links/data/web-api.json
++++ b/node_modules/typedoc-plugin-mdn-links/data/web-api.json
+@@ -1,4 +1,19 @@
+ {
++	"createPublicKey": {
++		"url": "https://nodejs.org/api/crypto.html#cryptocreatepublickeykey"
++	},
++	"createPrivateKey": {
++		"url": "https://nodejs.org/api/crypto.html#cryptocreateprivatekeykey"
++	},
++	"createSecretKey": {
++		"url": "https://nodejs.org/api/crypto.html#cryptocreatesecretkeykey-encoding"
++	},
++	"KeyObject": {
++		"url": "https://nodejs.org/api/crypto.html#class-keyobject"
++	},
++	"Buffer": {
++		"url": "https://nodejs.org/api/buffer.html#class-buffer"
++	},
+ 	"ANGLE_instanced_arrays": {
+ 		"url": "https://developer.mozilla.org/docs/Web/API/ANGLE_instanced_arrays",
+ 		"inst": {

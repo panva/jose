@@ -8,8 +8,8 @@ Support from the community to continue maintaining and improving this module is 
 
 ▸ **importPKCS8**\<`KeyLikeType`\>(`pkcs8`, `alg`, `options?`): [`Promise`]( https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise )\<`KeyLikeType`\>
 
-Imports a PEM-encoded PKCS#8 string as a runtime-specific private key representation (KeyObject
-or CryptoKey).
+Imports a PEM-encoded PKCS#8 string as a runtime-specific private key representation
+([KeyObject](https://nodejs.org/api/crypto.html#class-keyobject) or [CryptoKey](https://developer.mozilla.org/docs/Web/API/CryptoKey)).
 
 Note: The OID id-RSASSA-PSS (1.2.840.113549.1.1.10) is not supported in
 [Web Cryptography API](https://w3c.github.io/webcrypto/), use the OID rsaEncryption

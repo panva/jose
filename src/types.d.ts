@@ -1,30 +1,23 @@
 /**
  * KeyLike are runtime-specific classes representing asymmetric keys or symmetric secrets. These are
- * instances of {@link https://developer.mozilla.org/en-US/docs/Web/API/CryptoKey CryptoKey} and
- * additionally {@link https://nodejs.org/api/crypto.html#class-keyobject KeyObject} in Node.js
- * runtime.
- * {@link https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Uint8Array Uint8Array}
- * instances are also accepted as symmetric secret representation only.
+ * instances of {@link !CryptoKey} and additionally {@link !KeyObject} in Node.js runtime.
+ * {@link !Uint8Array} instances are also accepted as symmetric secret representation only.
  *
- * [Key Import Functions](../modules/key_import.md) can be used to import PEM, or JWK formatted
- * asymmetric keys and certificates to these runtime-specific representations.
+ * {@link key/import Key Import Functions} can be used to import PEM, or JWK formatted asymmetric
+ * keys and certificates to these runtime-specific representations.
  *
- * In Node.js the {@link https://nodejs.org/api/buffer.html#buffer Buffer} class is a subclass of
- * Uint8Array and so Buffer can be provided for symmetric secrets as well.
+ * In Node.js the {@link !Buffer} class is a subclass of {@link !Uint8Array} and so {@link !Buffer} can
+ * be provided for symmetric secrets as well.
  *
- * {@link https://nodejs.org/api/crypto.html#class-keyobject KeyObject} is a representation of a
- * key/secret available in the Node.js runtime. In addition to the import functions of this library
- * you may use the runtime APIs
- * {@link https://nodejs.org/api/crypto.html#cryptocreatepublickeykey crypto.createPublicKey},
- * {@link https://nodejs.org/api/crypto.html#cryptocreateprivatekeykey crypto.createPrivateKey}, and
- * {@link https://nodejs.org/api/crypto.html#cryptocreatesecretkeykey-encoding crypto.createSecretKey}
- * to obtain a `KeyObject` from your existing key material.
+ * {@link !KeyObject} is a representation of a key/secret available in the Node.js runtime. In
+ * addition to the {@link key/import Key Import Functions} you may use the runtime APIs
+ * {@link !createPublicKey}, {@link !createPrivateKey}, and {@link !createSecretKey} to obtain a
+ * {@link !KeyObject} from your existing key material.
  *
- * {@link https://developer.mozilla.org/en-US/docs/Web/API/CryptoKey CryptoKey} is a representation
- * of a key/secret available in the Browser and Web-interoperable runtimes. In addition to the
- * import functions of this library you may use the
- * {@link https://developer.mozilla.org/en-US/docs/Web/API/SubtleCrypto/importKey SubtleCrypto.importKey}
- * API to obtain a CryptoKey from your existing key material.
+ * {@link !CryptoKey} is a representation of a key/secret available in the Browser and
+ * Web-interoperable runtimes. In addition to the {@link key/import Key Import Functions} you may use
+ * the {@link !SubtleCrypto.importKey} API to obtain a {@link !CryptoKey} from your existing key
+ * material.
  *
  * @example
  *
@@ -284,8 +277,8 @@ export interface GetKeyFunction<IProtectedHeader, IToken>
   extends GenericGetKeyFunction<IProtectedHeader, IToken, KeyLike | Uint8Array> {}
 
 /**
- * Flattened JWS definition for verify function inputs, allows payload as Uint8Array for detached
- * signature validation.
+ * Flattened JWS definition for verify function inputs, allows payload as {@link !Uint8Array} for
+ * detached signature validation.
  */
 export interface FlattenedJWSInput {
   /**
@@ -298,7 +291,7 @@ export interface FlattenedJWSInput {
 
   /**
    * The "payload" member MUST be present and contain the value BASE64URL(JWS Payload). When RFC7797
-   * "b64": false is used the value passed may also be a Uint8Array.
+   * "b64": false is used the value passed may also be a {@link !Uint8Array}.
    */
   payload: string | Uint8Array
 
@@ -314,14 +307,14 @@ export interface FlattenedJWSInput {
 }
 
 /**
- * General JWS definition for verify function inputs, allows payload as Uint8Array for detached
- * signature validation.
+ * General JWS definition for verify function inputs, allows payload as {@link !Uint8Array} for
+ * detached signature validation.
  */
 export interface GeneralJWSInput {
   /**
    * The "payload" member MUST be present and contain the value BASE64URL(JWS Payload). When when
    * JWS Unencoded Payload ({@link https://www.rfc-editor.org/rfc/rfc7797 RFC7797}) "b64": false is
-   * used the value passed may also be a Uint8Array.
+   * used the value passed may also be a {@link !Uint8Array}.
    */
   payload: string | Uint8Array
 
@@ -381,7 +374,7 @@ export interface JWSHeaderParameters extends JoseHeaderParameters {
   /**
    * JWS "alg" (Algorithm) Header Parameter
    *
-   * @see {@link https://github.com/panva/jose/issues/210#jws-alg Algorithm Key Requirements}.
+   * @see {@link https://github.com/panva/jose/issues/210#jws-alg Algorithm Key Requirements}
    */
   alg?: string
 

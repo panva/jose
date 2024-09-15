@@ -6,8 +6,8 @@ Support from the community to continue maintaining and improving this module is 
 
 ---
 
-Flattened JWS definition for verify function inputs, allows payload as Uint8Array for detached
-signature validation.
+Flattened JWS definition for verify function inputs, allows payload as [Uint8Array](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Uint8Array) for
+detached signature validation.
 
 ## Table of contents
 
@@ -25,7 +25,7 @@ signature validation.
 • **payload**: `string` \| [`Uint8Array`]( https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Uint8Array )
 
 The "payload" member MUST be present and contain the value BASE64URL(JWS Payload). When RFC7797
-"b64": false is used the value passed may also be a Uint8Array.
+"b64": false is used the value passed may also be a [Uint8Array](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Uint8Array).
 
 ___
 

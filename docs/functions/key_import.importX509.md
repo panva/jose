@@ -9,7 +9,7 @@ Support from the community to continue maintaining and improving this module is 
 ▸ **importX509**\<`KeyLikeType`\>(`x509`, `alg`, `options?`): [`Promise`]( https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise )\<`KeyLikeType`\>
 
 Imports the SPKI from an X.509 string certificate as a runtime-specific public key representation
-(KeyObject or CryptoKey).
+([KeyObject](https://nodejs.org/api/crypto.html#class-keyobject) or [CryptoKey](https://developer.mozilla.org/docs/Web/API/CryptoKey)).
 
 Note: The OID id-RSASSA-PSS (1.2.840.113549.1.1.10) is not supported in
 [Web Cryptography API](https://w3c.github.io/webcrypto/), use the OID rsaEncryption

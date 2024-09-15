@@ -8,16 +8,15 @@ import type { JWK, KeyLike } from '../types.d'
 
 export interface PEMImportOptions {
   /**
-   * (Only effective in Web Crypto API runtimes) The value to use as
-   * {@link https://developer.mozilla.org/en-US/docs/Web/API/SubtleCrypto/importKey SubtleCrypto.importKey()}
+   * (Only effective in Web Crypto API runtimes) The value to use as {@link !SubtleCrypto.importKey}
    * `extractable` argument. Default is false.
    */
   extractable?: boolean
 }
 
 /**
- * Imports a PEM-encoded SPKI string as a runtime-specific public key representation (KeyObject or
- * CryptoKey).
+ * Imports a PEM-encoded SPKI string as a runtime-specific public key representation
+ * ({@link !KeyObject} or {@link !CryptoKey}).
  *
  * Note: The OID id-RSASSA-PSS (1.2.840.113549.1.1.10) is not supported in
  * {@link https://w3c.github.io/webcrypto/ Web Cryptography API}, use the OID rsaEncryption
@@ -56,7 +55,7 @@ export async function importSPKI<KeyLikeType extends KeyLike = KeyLike>(
 
 /**
  * Imports the SPKI from an X.509 string certificate as a runtime-specific public key representation
- * (KeyObject or CryptoKey).
+ * ({@link !KeyObject} or {@link !CryptoKey}).
  *
  * Note: The OID id-RSASSA-PSS (1.2.840.113549.1.1.10) is not supported in
  * {@link https://w3c.github.io/webcrypto/ Web Cryptography API}, use the OID rsaEncryption
@@ -100,8 +99,8 @@ export async function importX509<KeyLikeType extends KeyLike = KeyLike>(
 }
 
 /**
- * Imports a PEM-encoded PKCS#8 string as a runtime-specific private key representation (KeyObject
- * or CryptoKey).
+ * Imports a PEM-encoded PKCS#8 string as a runtime-specific private key representation
+ * ({@link !KeyObject} or {@link !CryptoKey}).
  *
  * Note: The OID id-RSASSA-PSS (1.2.840.113549.1.1.10) is not supported in
  * {@link https://w3c.github.io/webcrypto/ Web Cryptography API}, use the OID rsaEncryption
@@ -144,7 +143,7 @@ export async function importPKCS8<KeyLikeType extends KeyLike = KeyLike>(
  * (Algorithm) Parameter, or the optional "alg" argument, must be present.
  *
  * Note: When the runtime is using {@link https://w3c.github.io/webcrypto/ Web Cryptography API} the
- * jwk parameters "use", "key_ops", and "ext" are also used in the resulting `CryptoKey`.
+ * jwk parameters "use", "key_ops", and "ext" are also used in the resulting {@link !CryptoKey}.
  *
  * This function is exported (as a named export) from the main `'jose'` module entry point as well
  * as from its subpath export `'jose/key/import'`.
