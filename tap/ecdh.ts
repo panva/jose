@@ -17,7 +17,11 @@ export default (QUnit: QUnit, lib: typeof jose, keys: typeof jose) => {
     ['ECDH-ES', false, { crv: 'secp256k1' }],
     [
       'ECDH-ES',
-      env.isNode || env.isElectron || env.isWorkerd || env.isEdgeRuntime,
+      env.isNode ||
+        env.isElectron ||
+        env.isWorkerd ||
+        env.isEdgeRuntime ||
+        (env.isGecko && env.isBrowserVersionAtLeast(131)),
       { crv: 'X25519' },
     ],
     ['ECDH-ES', env.isNode || env.isEdgeRuntime, { crv: 'X448' }],
