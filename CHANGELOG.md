@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [5.9.3](https://github.com/panva/jose/compare/v5.9.2...v5.9.3) (2024-09-22)
+
+
+### Refactor
+
+* use as Type for type assertions instead of <Type> ([c4dc24d](https://github.com/panva/jose/commit/c4dc24da1e6cec99dade1a82eecea423236d342e))
+
 ## [5.9.2](https://github.com/panva/jose/compare/v5.9.1...v5.9.2) (2024-09-14)
 
 
