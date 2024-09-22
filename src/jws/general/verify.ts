@@ -95,7 +95,7 @@ export async function generalVerify(
           protected: signature.protected,
           signature: signature.signature,
         },
-        <Parameters<typeof flattenedVerify>[1]>key,
+        key as Parameters<typeof flattenedVerify>[1],
         options,
       )
     } catch {

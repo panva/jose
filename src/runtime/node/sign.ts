@@ -14,7 +14,7 @@ const sign: SignFunction = async (alg, key: unknown, data) => {
   const k = getSignKey(alg, key, 'sign')
 
   if (alg.startsWith('HS')) {
-    const hmac = crypto.createHmac(hmacDigest(alg), <KeyObject>k)
+    const hmac = crypto.createHmac(hmacDigest(alg), k as KeyObject)
     hmac.update(data)
     return hmac.digest()
   }

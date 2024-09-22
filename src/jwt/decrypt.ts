@@ -72,7 +72,7 @@ export async function jwtDecrypt(
   key: KeyLike | Uint8Array | JWTDecryptGetKey,
   options?: JWTDecryptOptions,
 ) {
-  const decrypted = await compactDecrypt(jwt, <Parameters<typeof compactDecrypt>[1]>key, options)
+  const decrypted = await compactDecrypt(jwt, key as Parameters<typeof compactDecrypt>[1], options)
   const payload = jwtPayload(decrypted.protectedHeader, decrypted.plaintext, options)
 
   const { protectedHeader } = decrypted

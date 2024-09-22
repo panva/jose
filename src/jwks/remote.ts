@@ -240,10 +240,10 @@ class RemoteJWKSet<KeyLikeType extends KeyLike = KeyLike> {
 
     this._pendingFetch ||= fetchJwks(this._url, this._timeoutDuration, this._options)
       .then((json) => {
-        this._local = createLocalJWKSet(<JSONWebKeySet>(<unknown>json))
+        this._local = createLocalJWKSet(json as unknown as JSONWebKeySet)
         if (this._cache) {
           this._cache.uat = Date.now()
-          this._cache.jwks = <JSONWebKeySet>(<unknown>json)
+          this._cache.jwks = json as unknown as JSONWebKeySet
         }
         this._jwksTimestamp = Date.now()
         this._pendingFetch = undefined

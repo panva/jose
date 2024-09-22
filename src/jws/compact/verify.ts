@@ -84,7 +84,7 @@ export async function compactVerify(
 
   const verified = await flattenedVerify(
     { payload, protected: protectedHeader, signature },
-    <Parameters<typeof flattenedVerify>[1]>key,
+    key as Parameters<typeof flattenedVerify>[1],
     options,
   )
 

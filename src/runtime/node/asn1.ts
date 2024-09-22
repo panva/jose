@@ -27,7 +27,7 @@ const genericExport = (
     throw new TypeError(`key is not a ${keyType} key`)
   }
 
-  return <string>keyObject.export({ format: 'pem', type: keyFormat })
+  return keyObject.export({ format: 'pem', type: keyFormat }) as string
 }
 
 export const toSPKI: PEMExportFunction = (key) => {

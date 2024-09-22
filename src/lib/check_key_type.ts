@@ -80,14 +80,14 @@ const asymmetricTypeCheck = (alg: string, key: unknown, usage: Usage, allowJwk: 
   }
 
   // KeyObject allows this but CryptoKey does not.
-  if ((<CryptoKey>key).algorithm && usage === 'verify' && key.type === 'private') {
+  if ((key as CryptoKey).algorithm && usage === 'verify' && key.type === 'private') {
     throw new TypeError(
       `${tag(key)} instances for asymmetric algorithm verifying must be of type "public"`,
     )
   }
 
   // KeyObject allows this but CryptoKey does not.
-  if ((<CryptoKey>key).algorithm && usage === 'encrypt' && key.type === 'private') {
+  if ((key as CryptoKey).algorithm && usage === 'encrypt' && key.type === 'private') {
     throw new TypeError(
       `${tag(key)} instances for asymmetric algorithm encryption must be of type "public"`,
     )

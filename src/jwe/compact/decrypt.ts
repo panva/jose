@@ -90,7 +90,7 @@ export async function compactDecrypt(
       tag: tag || undefined,
       encrypted_key: encryptedKey || undefined,
     },
-    <Parameters<typeof flattenedDecrypt>[1]>key,
+    key as Parameters<typeof flattenedDecrypt>[1],
     options,
   )
 

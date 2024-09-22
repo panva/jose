@@ -1,5 +1,5 @@
 const isDisjoint = (...headers: Array<object | undefined>) => {
-  const sources = <object[]>headers.filter(Boolean)
+  const sources = headers.filter(Boolean) as object[]
 
   if (sources.length === 0 || sources.length === 1) {
     return true

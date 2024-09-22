@@ -34,9 +34,9 @@ const fetchJwks: FetchFunction = async (
     headers,
   })
 
-  const [response] = <[IncomingMessage]>(
-    await Promise.race([once(req, 'response'), once(req, 'timeout')])
-  )
+  const [response] = (await Promise.race([once(req, 'response'), once(req, 'timeout')])) as [
+    IncomingMessage,
+  ]
 
   // timeout reached
   if (!response) {

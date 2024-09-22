@@ -219,9 +219,10 @@ export default (QUnit: QUnit, lib: typeof jose, keys: typeof jose) => {
           }
 
           if (vector.encrypting_key && vector.encrypting_key.epk) {
-            keyManagementParameters.epk = <jose.KeyLike>(
-              await keys.importJWK(vector.encrypting_key.epk, vector.input.alg)
-            )
+            keyManagementParameters.epk = (await keys.importJWK(
+              vector.encrypting_key.epk,
+              vector.input.alg,
+            )) as jose.KeyLike
           }
 
           if (Object.keys(keyManagementParameters).length !== 0) {
@@ -254,12 +255,10 @@ export default (QUnit: QUnit, lib: typeof jose, keys: typeof jose) => {
           encrypt.setUnprotectedHeader(vector.encrypting_content.unprotected)
         }
 
-        const privateKey = <jose.KeyLike>(
-          await keys.importJWK(
-            toJWK(vector.input.pwd || vector.input.key),
-            dir ? vector.input.enc : vector.input.alg,
-          )
-        )
+        const privateKey = (await keys.importJWK(
+          toJWK(vector.input.pwd || vector.input.key),
+          dir ? vector.input.enc : vector.input.alg,
+        )) as jose.KeyLike
         let publicKey
         if (privateKey.type === 'secret') {
           publicKey = privateKey

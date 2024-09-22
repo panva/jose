@@ -291,6 +291,6 @@ export class GeneralEncrypt {
         target.header = { ...recipient.unprotectedHeader, ...parameters }
     }
 
-    return <GeneralJWE>jwe
+    return jwe as GeneralJWE
   }
 }

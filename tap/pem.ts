@@ -143,7 +143,7 @@ export default (QUnit: QUnit, lib: typeof jose, keys: typeof jose) => {
     }
 
     const execute = async (t: typeof QUnit.assert) => {
-      const k = await importFn(pem, <string>alg, { extractable: true })
+      const k = await importFn(pem, alg as string, { extractable: true })
 
       if (!x509) {
         t.strictEqual(normalize(await exportFn(k)), normalize(pem))

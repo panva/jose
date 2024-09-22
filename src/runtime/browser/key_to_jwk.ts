@@ -20,6 +20,6 @@ const keyToJWK: JWKExportFunction = async (key: unknown): Promise<JWK> => {
   }
   const { ext, key_ops, alg, use, ...jwk } = await crypto.subtle.exportKey('jwk', key)
 
-  return <JWK>jwk
+  return jwk as JWK
 }
 export default keyToJWK

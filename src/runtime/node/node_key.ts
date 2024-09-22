@@ -126,8 +126,8 @@ export default function keyForCrypto<KeyObjectOptions, JWKOptions>(
   }
 
   if (isJWK) {
-    return <JWKOptions>{ format: 'jwk', key, ...options }
+    return { format: 'jwk', key, ...options } as JWKOptions
   }
 
-  return options ? <KeyObjectOptions>{ ...options, key } : <KeyObject>key
+  return options ? ({ ...options, key } as KeyObjectOptions) : (key as KeyObject)
 }

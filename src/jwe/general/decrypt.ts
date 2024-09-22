@@ -101,7 +101,7 @@ export async function generalDecrypt(
           tag: jwe.tag,
           unprotected: jwe.unprotected,
         },
-        <Parameters<typeof flattenedDecrypt>[1]>key,
+        key as Parameters<typeof flattenedDecrypt>[1],
         options,
       )
     } catch {

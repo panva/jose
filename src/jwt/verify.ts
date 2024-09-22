@@ -152,7 +152,7 @@ export async function jwtVerify(
   key: KeyLike | Uint8Array | JWK | JWTVerifyGetKey,
   options?: JWTVerifyOptions,
 ) {
-  const verified = await compactVerify(jwt, <Parameters<typeof compactVerify>[1]>key, options)
+  const verified = await compactVerify(jwt, key as Parameters<typeof compactVerify>[1], options)
   if (verified.protectedHeader.crit?.includes('b64') && verified.protectedHeader.b64 === false) {
     throw new JWTInvalid('JWTs MUST NOT use unencoded payload')
   }

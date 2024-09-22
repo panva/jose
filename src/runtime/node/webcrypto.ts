@@ -2,7 +2,7 @@ import * as crypto from 'node:crypto'
 import * as util from 'node:util'
 
 // @ts-ignore
-const webcrypto = <Crypto>crypto.webcrypto
+const webcrypto = crypto.webcrypto as Crypto
 
 export default webcrypto
 

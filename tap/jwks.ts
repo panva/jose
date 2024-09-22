@@ -119,7 +119,7 @@ export default (QUnit: QUnit, lib: typeof jose) => {
         .sign(key)
       const { key: resolvedKey } = await lib.jwtVerify(jwt, JWKS)
       t.ok(resolvedKey)
-      t.equal((<jose.KeyLike>resolvedKey).type, 'public')
+      t.equal((resolvedKey as jose.KeyLike).type, 'public')
     }
     // Compact JWS
     {
@@ -130,7 +130,7 @@ export default (QUnit: QUnit, lib: typeof jose) => {
         .sign(key)
       const { key: resolvedKey } = await lib.compactVerify(jws, JWKS)
       t.ok(resolvedKey)
-      t.equal((<jose.KeyLike>resolvedKey).type, 'public')
+      t.equal((resolvedKey as jose.KeyLike).type, 'public')
     }
     // Flattened JWS
     {
@@ -142,7 +142,7 @@ export default (QUnit: QUnit, lib: typeof jose) => {
         .sign(key)
       const { key: resolvedKey } = await lib.flattenedVerify(jws, JWKS)
       t.ok(resolvedKey)
-      t.equal((<jose.KeyLike>resolvedKey).type, 'public')
+      t.equal((resolvedKey as jose.KeyLike).type, 'public')
     }
     // General JWS
     {
@@ -155,7 +155,7 @@ export default (QUnit: QUnit, lib: typeof jose) => {
         .sign()
       const { key: resolvedKey } = await lib.generalVerify(jws, JWKS)
       t.ok(resolvedKey)
-      t.equal((<jose.KeyLike>resolvedKey).type, 'public')
+      t.equal((resolvedKey as jose.KeyLike).type, 'public')
     }
     {
       await t.rejects(
@@ -164,18 +164,18 @@ export default (QUnit: QUnit, lib: typeof jose) => {
       )
 
       // async iterator (KeyLike)
-      let error = <jose.errors.JWKSMultipleMatchingKeys>(
-        await JWKS({ alg: 'RS256' }).catch((err) => err)
-      )
+      let error = (await JWKS({ alg: 'RS256' }).catch(
+        (err) => err,
+      )) as jose.errors.JWKSMultipleMatchingKeys
       {
         const cache = new WeakSet()
         for await (const ko of error) {
           t.equal(ko.type, 'public')
           cache.add(ko)
         }
-        error = <jose.errors.JWKSMultipleMatchingKeys>(
-          await JWKS({ alg: 'RS256' }).catch((err) => err)
-        )
+        error = (await JWKS({ alg: 'RS256' }).catch(
+          (err) => err,
+        )) as jose.errors.JWKSMultipleMatchingKeys
         let i = 0
         for await (const ko of error) {
           i++

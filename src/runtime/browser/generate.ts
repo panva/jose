@@ -42,9 +42,11 @@ export async function generateSecret(alg: string, options?: GenerateSecretOption
       throw new JOSENotSupported('Invalid or unsupported JWK "alg" (Algorithm) Parameter value')
   }
 
-  return <Promise<CryptoKey>>(
-    (<unknown>crypto.subtle.generateKey(algorithm, options?.extractable ?? false, keyUsages))
-  )
+  return crypto.subtle.generateKey(
+    algorithm,
+    options?.extractable ?? false,
+    keyUsages,
+  ) as unknown as Promise<CryptoKey>
 }
 
 function getModulusLengthOption(options?: GenerateKeyPairOptions) {
@@ -149,7 +151,8 @@ export async function generateKeyPair(alg: string, options?: GenerateKeyPairOpti
       throw new JOSENotSupported('Invalid or unsupported JWK "alg" (Algorithm) Parameter value')
   }
 
-  return <Promise<{ publicKey: CryptoKey; privateKey: CryptoKey }>>(
-    crypto.subtle.generateKey(algorithm, options?.extractable ?? false, keyUsages)
-  )
+  return crypto.subtle.generateKey(algorithm, options?.extractable ?? false, keyUsages) as Promise<{
+    publicKey: CryptoKey
+    privateKey: CryptoKey
+  }>
 }

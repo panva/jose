@@ -99,7 +99,7 @@ const parse = async (jwk: JWK): Promise<CryptoKey> => {
   const rest: [RsaHashedImportParams | EcKeyAlgorithm | Algorithm, boolean, KeyUsage[]] = [
     algorithm,
     jwk.ext ?? false,
-    <KeyUsage[]>jwk.key_ops ?? keyUsages,
+    (jwk.key_ops as KeyUsage[]) ?? keyUsages,
   ]
 
   const keyData: JWK = { ...jwk }

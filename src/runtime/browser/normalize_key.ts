@@ -60,7 +60,7 @@ const normalizePublicKey = (key: KeyLike | Uint8Array | JWK | unknown, alg: stri
     return cryptoKey
   }
 
-  return <KeyLike | Uint8Array>key
+  return key as KeyLike | Uint8Array
 }
 
 const normalizePrivateKey = (key: KeyLike | Uint8Array | JWK | unknown, alg: string) => {
@@ -82,7 +82,7 @@ const normalizePrivateKey = (key: KeyLike | Uint8Array | JWK | unknown, alg: str
     return cryptoKey
   }
 
-  return <KeyLike | Uint8Array>key
+  return key as KeyLike | Uint8Array
 }
 
 export default { normalizePublicKey, normalizePrivateKey }

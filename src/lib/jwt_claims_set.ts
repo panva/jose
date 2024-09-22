@@ -76,7 +76,10 @@ export default (
     }
   }
 
-  if (issuer && !(<unknown[]>(Array.isArray(issuer) ? issuer : [issuer])).includes(payload.iss!)) {
+  if (
+    issuer &&
+    !((Array.isArray(issuer) ? issuer : [issuer]) as unknown[]).includes(payload.iss!)
+  ) {
     throw new JWTClaimValidationFailed(
       'unexpected "iss" claim value',
       payload,
@@ -174,5 +177,5 @@ export default (
     }
   }
 
-  return <JWTPayload>payload
+  return payload as JWTPayload
 }

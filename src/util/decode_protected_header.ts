@@ -44,7 +44,7 @@ export function decodeProtectedHeader(token: string | object): ProtectedHeaderPa
     if (!isObject(result)) {
       throw new Error()
     }
-    return <ProtectedHeaderParameters>result
+    return result as ProtectedHeaderParameters
   } catch {
     throw new TypeError('Invalid Token or Protected Header formatting')
   }

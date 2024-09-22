@@ -76,13 +76,13 @@ export default (QUnit: QUnit, lib: typeof jose, keys: typeof jose) => {
           await lib.exportJWK(key)
           throw new Error()
         } catch (err) {
-          t.strictEqual((<Error>err).name, 'NotSupportedError')
+          t.strictEqual((err as Error).name, 'NotSupportedError')
         }
       } else {
         const exported = await lib.exportJWK(key)
 
         for (const prop of [...new Set([...Object.keys(jwk), ...Object.keys(exported)])]) {
-          t.strictEqual(exported[prop], jwk[<keyof JsonWebKey>prop], `${prop} mismatch`)
+          t.strictEqual(exported[prop], jwk[prop as keyof JsonWebKey], `${prop} mismatch`)
         }
       }
 
