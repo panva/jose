@@ -82,7 +82,7 @@ jobs:
         uses: actions/checkout@v4
       - uses: denoland/setup-deno@v1
         with:
-          deno-version: v1.x
+          deno-version: latest
       - name: Load cached dist
         uses: actions/cache@v4
         id: dist
