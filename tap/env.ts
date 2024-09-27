@@ -5,10 +5,10 @@ export const isBun = typeof Bun !== 'undefined'
 export const isElectron = typeof process !== 'undefined' && process.versions.electron !== undefined
 
 // @ts-ignore
-export const isNode = !isBun && !isElectron && typeof process !== 'undefined'
+export const isDeno = typeof Deno !== 'undefined'
 
 // @ts-ignore
-export const isDeno = typeof Deno !== 'undefined'
+export const isNode = !isBun && !isElectron && !isDeno && typeof process !== 'undefined'
 
 // @ts-ignore
 export const isEdgeRuntime = typeof EdgeRuntime !== 'undefined'
