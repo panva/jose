@@ -58,11 +58,11 @@ if (typeof navigator === 'undefined' || !navigator.userAgent?.startsWith?.('Mozi
  * @example
  *
  * ```ts
- * import * as jose from 'jose'
- *
  * // Prerequisites
  * let url!: URL
  * let jwt!: string
+ * let getPreviouslyCachedJWKS!: () => Promise<jose.ExportedJWKSCache>
+ * let storeNewJWKScache!: (cache: jose.ExportedJWKSCache) => Promise<void>
  *
  * // Load JSON Web Key Set cache
  * const jwksCache: jose.JWKSCacheInput = (await getPreviouslyCachedJWKS()) || {}
