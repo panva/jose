@@ -24,7 +24,7 @@ function getKtyFromAlg(alg: unknown) {
     case 'Ed':
       return 'OKP'
     default:
-      throw new JOSENotSupported('Unsupported "alg" value for a JSON Web Key Set')
+      throw new JOSENotSupported(`"${alg}" is an unsupported signature algorithm ("alg" value) for a JSON Web Key Set`)
   }
 }
 
