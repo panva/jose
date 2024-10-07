@@ -2,6 +2,16 @@
 
 `jose` is JavaScript module for JSON Object Signing and Encryption, providing support for JSON Web Tokens (JWT), JSON Web Signature (JWS), JSON Web Encryption (JWE), JSON Web Key (JWK), JSON Web Key Set (JWKS), and more. The module is designed to work across various Web-interoperable runtimes including Node.js, browsers, Cloudflare Workers, Deno, Bun, and others.
 
+## Sponsor
+
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="./sponsor/Auth0byOkta_dark.png">
+  <source media="(prefers-color-scheme: light)" srcset="./sponsor/Auth0byOkta_light.png">
+  <img height="65" align="left" alt="Auth0 by Okta" src="./sponsor/Auth0byOkta_light.png">
+</picture> 
+
+If you want to quickly add JWT authentication to JavaScript apps, feel free to check out Auth0's JavaScript SDK and free plan. [Create an Auth0 account; it's free!][sponsor-auth0]<br><br>
+
 ## [💗 Help the project](https://github.com/sponsors/panva)
 
 Support from the community to continue maintaining and improving this module is welcome. If you find the module useful, please consider supporting the project by [becoming a sponsor](https://github.com/sponsors/panva).
@@ -135,3 +145,5 @@ The algorithm implementations in `jose` have been tested using test vectors from
 
 
 </details>
+
+[sponsor-auth0]: https://auth0.com/signup?utm_source=external_sites&utm_medium=panva&utm_campaign=devn_signup
