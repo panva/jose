@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [5.9.4](https://github.com/panva/jose/compare/v5.9.3...v5.9.4) (2024-10-11)
+
+
+### Refactor
+
+* **types:** update error definitions ([510c5ca](https://github.com/panva/jose/commit/510c5ca4a7c5dce08b6dd358a7120ad18747c3c8))
+
 ## [5.9.3](https://github.com/panva/jose/compare/v5.9.2...v5.9.3) (2024-09-22)
 
 
