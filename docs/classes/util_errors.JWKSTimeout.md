@@ -33,7 +33,6 @@ if (err instanceof jose.errors.JWKSTimeout) {
 ### Properties
 
 - [code](util_errors.JWKSTimeout.md#code)
-- [message](util_errors.JWKSTimeout.md#message)
 
 ## Properties
 
@@ -42,9 +41,3 @@ if (err instanceof jose.errors.JWKSTimeout) {
 • **code**: `string` = `'ERR_JWKS_TIMEOUT'`
 
 A unique error code for this particular error subclass.
-
-___
-
-### message
-
-• **message**: `string` = `'request timed out'`

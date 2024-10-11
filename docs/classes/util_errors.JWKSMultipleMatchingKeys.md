@@ -30,24 +30,9 @@ if (err instanceof jose.errors.JWKSMultipleMatchingKeys) {
 
 ## Table of contents
 
-### Accessors
-
-- [code](util_errors.JWKSMultipleMatchingKeys.md#code-1)
-
 ### Properties
 
 - [code](util_errors.JWKSMultipleMatchingKeys.md#code)
-- [message](util_errors.JWKSMultipleMatchingKeys.md#message)
-
-## Accessors
-
-### code
-
-• `get` **code**(): ``"ERR_JWKS_MULTIPLE_MATCHING_KEYS"``
-
-#### Returns
-
-``"ERR_JWKS_MULTIPLE_MATCHING_KEYS"``
 
 ## Properties
 
@@ -56,9 +41,3 @@ if (err instanceof jose.errors.JWKSMultipleMatchingKeys) {
 • **code**: `string` = `'ERR_JWKS_MULTIPLE_MATCHING_KEYS'`
 
 A unique error code for this particular error subclass.
-
-___
-
-### message
-
-• **message**: `string` = `'multiple matching keys found in the JSON Web Key Set'`

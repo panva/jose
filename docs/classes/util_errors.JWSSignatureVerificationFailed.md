@@ -33,7 +33,6 @@ if (err instanceof jose.errors.JWSSignatureVerificationFailed) {
 ### Properties
 
 - [code](util_errors.JWSSignatureVerificationFailed.md#code)
-- [message](util_errors.JWSSignatureVerificationFailed.md#message)
 
 ## Properties
 
@@ -42,9 +41,3 @@ if (err instanceof jose.errors.JWSSignatureVerificationFailed) {
 • **code**: `string` = `'ERR_JWS_SIGNATURE_VERIFICATION_FAILED'`
 
 A unique error code for this particular error subclass.
-
-___
-
-### message
-
-• **message**: `string` = `'signature verification failed'`

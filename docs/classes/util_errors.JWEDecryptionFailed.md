@@ -33,7 +33,6 @@ if (err instanceof jose.errors.JWEDecryptionFailed) {
 ### Properties
 
 - [code](util_errors.JWEDecryptionFailed.md#code)
-- [message](util_errors.JWEDecryptionFailed.md#message)
 
 ## Properties
 
@@ -42,9 +41,3 @@ if (err instanceof jose.errors.JWEDecryptionFailed) {
 • **code**: `string` = `'ERR_JWE_DECRYPTION_FAILED'`
 
 A unique error code for this particular error subclass.
-
-___
-
-### message
-
-• **message**: `string` = `'decryption operation failed'`

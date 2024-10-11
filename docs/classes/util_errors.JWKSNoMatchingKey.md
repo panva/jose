@@ -33,7 +33,6 @@ if (err instanceof jose.errors.JWKSNoMatchingKey) {
 ### Properties
 
 - [code](util_errors.JWKSNoMatchingKey.md#code)
-- [message](util_errors.JWKSNoMatchingKey.md#message)
 
 ## Properties
 
@@ -42,9 +41,3 @@ if (err instanceof jose.errors.JWKSNoMatchingKey) {
 • **code**: `string` = `'ERR_JWKS_NO_MATCHING_KEY'`
 
 A unique error code for this particular error subclass.
-
-___
-
-### message
-
-• **message**: `string` = `'no applicable key found in the JSON Web Key Set'`
