@@ -1,6 +1,7 @@
 name: 🐞Bug report
 description: There's a bug I want to report
-labels: triage
+labels:
+  - triage
 body:
   - type: markdown
     attributes:
