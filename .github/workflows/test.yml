@@ -24,7 +24,7 @@ jobs:
         id: node
         uses: actions/setup-node@v4
         with:
-          node-version: lts/iron # 20
+          node-version: lts/*
           cache: 'npm'
       - run: npm clean-install
       - name: Load cached dist
@@ -37,16 +37,23 @@ jobs:
       - name: Check TypeScript type definitions
         run: npm run test:types
 
+  node-versions:
+    name: Get Node.js Versions
+    runs-on: ubuntu-latest
+    outputs:
+      matrix: ${{ steps.query.outputs.matrix }}
+    steps:
+      - id: query
+        run: |
+          echo "matrix=$(curl -s https://raw.githubusercontent.com/actions/node-versions/refs/heads/main/versions-manifest.json | jq -c '[.[] | select(.lts) | select(.version | split(".")[0] | tonumber >= 18) | .lts | ascii_downcase | "lts/\(.)"] + ["current"] | unique')" >> "$GITHUB_OUTPUT"
   node:
     needs:
+      - node-versions
       - build
     strategy:
       fail-fast: false
       matrix:
-        node-version:
-          - lts/hydrogen # 18
-          - lts/iron # 20
-          - current
+        node-version: ${{ fromJSON(needs.node-versions.outputs.matrix) }}
         suite:
           - tap:node
           - test
@@ -95,7 +102,7 @@ jobs:
       - name: Setup node
         uses: actions/setup-node@v4
         with:
-          node-version: lts/iron # 20
+          node-version: lts/*
           cache: 'npm'
       - run: npm clean-install
       - name: Test Deno
@@ -121,7 +128,7 @@ jobs:
       - name: Setup node
         uses: actions/setup-node@v4
         with:
-          node-version: lts/iron # 20
+          node-version: lts/*
           cache: 'npm'
       - run: npm clean-install
       - name: Test Bun
@@ -137,7 +144,7 @@ jobs:
       - name: Setup node
         uses: actions/setup-node@v4
         with:
-          node-version: lts/iron # 20
+          node-version: lts/*
           cache: 'npm'
       - run: npm clean-install
       - run: npm install --global workerd
@@ -161,7 +168,7 @@ jobs:
       - name: Setup node
         uses: actions/setup-node@v4
         with:
-          node-version: lts/iron # 20
+          node-version: lts/*
           cache: 'npm'
       - run: npm clean-install
       - name: Load cached dist
@@ -194,7 +201,7 @@ jobs:
       - name: Setup node
         uses: actions/setup-node@v4
         with:
-          node-version: lts/iron # 20
+          node-version: lts/*
           cache: 'npm'
       - run: npm clean-install
       - run: npm install --global testcafe@3
@@ -225,7 +232,7 @@ jobs:
       - name: Setup node
         uses: actions/setup-node@v4
         with:
-          node-version: lts/iron # 20
+          node-version: lts/*
           cache: 'npm'
       - run: npm clean-install
       - name: Load cached dist
