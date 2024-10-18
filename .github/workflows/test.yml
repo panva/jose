@@ -38,14 +38,10 @@ jobs:
         run: npm run test:types
 
   node-versions:
-    name: Get Node.js Versions
-    runs-on: ubuntu-latest
-    outputs:
-      matrix: ${{ steps.query.outputs.matrix }}
-    steps:
-      - id: query
-        run: |
-          echo "matrix=$(curl -s https://raw.githubusercontent.com/actions/node-versions/refs/heads/main/versions-manifest.json | jq -c '[.[] | select(.lts) | select(.version | split(".")[0] | tonumber >= 18) | .lts | ascii_downcase | "lts/\(.)"] + ["current"] | unique')" >> "$GITHUB_OUTPUT"
+    uses: panva/.github/.github/workflows/node-versions.yml@main
+    with:
+      min: 18
+
   node:
     needs:
       - node-versions
