@@ -1,5 +1,4 @@
 import { KeyObject, publicEncrypt, constants, privateDecrypt } from 'node:crypto'
-import { deprecate } from 'node:util'
 
 import type { RsaEsDecryptFunction, RsaEsEncryptFunction } from '../interfaces.d'
 import checkKeyLength from './check_key_length.js'
@@ -16,11 +15,6 @@ const checkKey = (key: KeyObject, alg: string) => {
   checkKeyLength(key, alg)
 }
 
-const RSA1_5 = deprecate(
-  () => constants.RSA_PKCS1_PADDING,
-  'The RSA1_5 "alg" (JWE Algorithm) is deprecated and will be removed in the next major revision.',
-)
-
 const resolvePadding = (alg: string) => {
   switch (alg) {
     case 'RSA-OAEP':
@@ -28,8 +22,6 @@ const resolvePadding = (alg: string) => {
     case 'RSA-OAEP-384':
     case 'RSA-OAEP-512':
       return constants.RSA_PKCS1_OAEP_PADDING
-    case 'RSA1_5':
-      return RSA1_5()
     default:
       return undefined
   }

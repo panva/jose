@@ -384,10 +384,3 @@ export function createRemoteJWKSet<KeyLikeType extends KeyLike = KeyLike>(
   // @ts-expect-error
   return remoteJWKSet
 }
-
-/**
- * @ignore
- *
- * @deprecated Use {@link jwksCache}.
- */
-export const experimental_jwksCache = jwksCache

@@ -81,7 +81,6 @@ async function encryptKeyManagement(
       encryptedKey = await aesKw(kwAlg, sharedSecret, cek)
       break
     }
-    case 'RSA1_5':
     case 'RSA-OAEP':
     case 'RSA-OAEP-256':
     case 'RSA-OAEP-384':
