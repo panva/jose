@@ -92,18 +92,10 @@ The `jose` module supports encryption and decryption of JWE messages with arbitr
 
 The following are additional features and utilities provided by the `jose` module:
 
-<<<<<<< HEAD
-- [Calculating JWK Thumbprint](functions/jwk_thumbprint.calculateJwkThumbprint.md)
-- [Calculating JWK Thumbprint URI](functions/jwk_thumbprint.calculateJwkThumbprintUri.md)
-- [Verification using a JWK Embedded in a JWS Header](functions/jwk_embedded.EmbeddedJWK.md)
-- [Unsecured JWT](classes/jwt_unsecured.UnsecuredJWT.md)
-- [JOSE Errors](modules/util_errors.md)
-
-[sponsor-auth0]: https://auth0.com/signup?utm_source=external_sites&utm_medium=panva&utm_campaign=devn_signup
-=======
 - [Calculating JWK Thumbprint](jwk/thumbprint/functions/calculateJwkThumbprint.md)
 - [Calculating JWK Thumbprint URI](jwk/thumbprint/functions/calculateJwkThumbprintUri.md)
 - [Verification using a JWK Embedded in a JWS Header](jwk/embedded/functions/EmbeddedJWK.md)
 - [Unsecured JWT](jwt/unsecured/classes/UnsecuredJWT.md)
 - [JOSE Errors](util/errors/README.md)
->>>>>>> d7ce2211 (wip)
+
+[sponsor-auth0]: https://auth0.com/signup?utm_source=external_sites&utm_medium=panva&utm_campaign=devn_signup
