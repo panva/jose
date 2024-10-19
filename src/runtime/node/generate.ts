@@ -49,8 +49,7 @@ export async function generateKeyPair(alg: string, options?: GenerateKeyPairOpti
     case 'RSA-OAEP':
     case 'RSA-OAEP-256':
     case 'RSA-OAEP-384':
-    case 'RSA-OAEP-512':
-    case 'RSA1_5': {
+    case 'RSA-OAEP-512': {
       const modulusLength = options?.modulusLength ?? 2048
       if (typeof modulusLength !== 'number' || modulusLength < 2048) {
         throw new JOSENotSupported(
