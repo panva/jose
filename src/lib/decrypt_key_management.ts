@@ -90,7 +90,6 @@ async function decryptKeyManagement(
 
       return aesKw(alg.slice(-6), sharedSecret, encryptedKey)
     }
-    case 'RSA1_5':
     case 'RSA-OAEP':
     case 'RSA-OAEP-256':
     case 'RSA-OAEP-384':
