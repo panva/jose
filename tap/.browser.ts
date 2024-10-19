@@ -11,6 +11,16 @@ test('passes tests', async (user) => {
   await user.typeText('#js', script, { paste: true }).click('[type=submit]')
 
   await scriptTag()
+  let i = 0
+  const interval = setInterval(() => {
+    t.getBrowserConsoleMessages().then(({ log: messages }) => {
+      messages.forEach((message, index) => {
+        if (i && index <= i) return
+        i++
+        console.log(message)
+      })
+    })
+  }, 100)
 
   let stats
   do {
@@ -18,10 +28,7 @@ test('passes tests', async (user) => {
     stats = await t.eval(() => globalThis.stats)
   } while (!stats)
 
-  const { log } = await t.getBrowserConsoleMessages()
-  for (const entry of log) {
-    console.log(entry)
-  }
+  clearInterval(interval)
 
   await t.expect(stats?.failed).eql(0)
 })
