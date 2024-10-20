@@ -5,9 +5,9 @@
 ## Sponsor
 
 <picture>
-  <source media="(prefers-color-scheme: dark)" srcset="./sponsor/Auth0byOkta_dark.png">
-  <source media="(prefers-color-scheme: light)" srcset="./sponsor/Auth0byOkta_light.png">
-  <img height="65" align="left" alt="Auth0 by Okta" src="./sponsor/Auth0byOkta_light.png">
+  <source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/panva/jose/HEAD/sponsor/Auth0byOkta_dark.png">
+  <source media="(prefers-color-scheme: light)" srcset="https://raw.githubusercontent.com/panva/jose/HEAD/sponsor/Auth0byOkta_light.png">
+  <img height="65" align="left" alt="Auth0 by Okta" src="https://raw.githubusercontent.com/panva/jose/HEAD/sponsor/Auth0byOkta_light.png">
 </picture>
 
 If you want to quickly add JWT authentication to JavaScript apps, feel free to check out Auth0's JavaScript SDK and free plan. [Create an Auth0 account; it's free!][sponsor-auth0]<br><br>
@@ -25,11 +25,13 @@ Support from the community to continue maintaining and improving this module is 
 `jose` is distributed via [npmjs.com](https://www.npmjs.com/package/jose), [deno.land/x](https://deno.land/x/jose), [cdnjs.com](https://cdnjs.com/libraries/jose), [jsdelivr.com](https://www.jsdelivr.com/package/npm/jose), and [github.com](https://github.com/panva/jose).
 
 **`example`** ESM import
+
 ```js
 import * as jose from 'jose'
 ```
 
 **`example`** CJS require
+
 ```js
 const jose = require('jose')
 ```
@@ -107,6 +109,7 @@ The following are additional features and utilities provided by the `jose` modul
 The `jose` module is compatible with JavaScript runtimes that support the utilized Web API globals and standard built-in objects or are Node.js.
 
 The following runtimes are supported _(this is not an exhaustive list)_:
+
 - [Bun](https://github.com/panva/jose/issues/471)
 - [Browsers](https://github.com/panva/jose/issues/263)
 - [Cloudflare Workers](https://github.com/panva/jose/issues/265)
@@ -119,11 +122,11 @@ Please note that certain algorithms may not be available depending on the runtim
 
 ## Supported Versions
 
-| Version | Security Fixes 🔑 | Other Bug Fixes 🐞 | New Features ⭐ |
-| ------- | --------- | -------- | -------- |
-| [v5.x](https://github.com/panva/jose/tree/v5.x) | ✅ | ✅ | ✅ |
-| [v4.x](https://github.com/panva/jose/tree/v4.x) | ✅ | ❌ | ❌ |
-| [v2.x](https://github.com/panva/jose/tree/v2.x) | ✅ | ❌ | ❌ |
+| Version                                         | Security Fixes 🔑 | Other Bug Fixes 🐞 | New Features ⭐ |
+| ----------------------------------------------- | ----------------- | ------------------ | --------------- |
+| [v5.x](https://github.com/panva/jose/tree/v5.x) | ✅                | ✅                 | ✅              |
+| [v4.x](https://github.com/panva/jose/tree/v4.x) | ✅                | ❌                 | ❌              |
+| [v2.x](https://github.com/panva/jose/tree/v2.x) | ✅                | ❌                 | ❌              |
 
 ## Specifications
 
@@ -142,7 +145,6 @@ Please note that certain algorithms may not be available depending on the runtim
 - secp256k1 EC Key curve support - [RFC8812](https://www.rfc-editor.org/rfc/rfc8812)
 
 The algorithm implementations in `jose` have been tested using test vectors from their respective specifications as well as [RFC7520](https://www.rfc-editor.org/rfc/rfc7520).
-
 
 </details>
 
