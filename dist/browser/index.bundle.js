@@ -3118,7 +3118,7 @@ function isCloudflareWorkers() {
 var USER_AGENT;
 if (typeof navigator === "undefined" || !navigator.userAgent?.startsWith?.("Mozilla/5.0 ")) {
   const NAME = "jose";
-  const VERSION = "v5.9.5";
+  const VERSION = "v5.9.6";
   USER_AGENT = `${NAME}/${VERSION}`;
 }
 var jwksCache = Symbol();

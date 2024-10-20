@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [5.9.6](https://github.com/panva/jose/compare/v5.9.5...v5.9.6) (2024-10-20)
+
+
+### Reverts
+
+* Revert "refactor(build): simplify package exports" ([2ef3a52](https://github.com/panva/jose/commit/2ef3a5266e2f903aab2f8c9d43437151d7da0122))
+
 ## [5.9.5](https://github.com/panva/jose/compare/v5.9.4...v5.9.5) (2024-10-20)
 
 

@@ -20,75 +20,75 @@ Support from the community to continue maintaining and improving this module is 
 
 **`example`** Deno import
 ```js
-import * as jose from 'https://deno.land/x/jose@v5.9.5/index.ts'
+import * as jose from 'https://deno.land/x/jose@v5.9.6/index.ts'
 ```
 
 ### JSON Web Tokens (JWT)
 
 The `jose` module supports JSON Web Tokens (JWT) and provides functionality for signing and verifying tokens, as well as their JWT Claims Set validation.
 
-- [JWT Claims Set Validation & Signature Verification](https://github.com/panva/jose/blob/v5.9.5/docs/jwt/verify/functions/jwtVerify.md) using the `jwtVerify` function
-  - [Using a remote JSON Web Key Set (JWKS)](https://github.com/panva/jose/blob/v5.9.5/docs/jwks/remote/functions/createRemoteJWKSet.md)
-  - [Using a local JSON Web Key Set (JWKS)](https://github.com/panva/jose/blob/v5.9.5/docs/jwks/local/functions/createLocalJWKSet.md)
-- [Signing](https://github.com/panva/jose/blob/v5.9.5/docs/jwt/sign/classes/SignJWT.md) using the `SignJWT` class
+- [JWT Claims Set Validation & Signature Verification](https://github.com/panva/jose/blob/v5.9.6/docs/jwt/verify/functions/jwtVerify.md) using the `jwtVerify` function
+  - [Using a remote JSON Web Key Set (JWKS)](https://github.com/panva/jose/blob/v5.9.6/docs/jwks/remote/functions/createRemoteJWKSet.md)
+  - [Using a local JSON Web Key Set (JWKS)](https://github.com/panva/jose/blob/v5.9.6/docs/jwks/local/functions/createLocalJWKSet.md)
+- [Signing](https://github.com/panva/jose/blob/v5.9.6/docs/jwt/sign/classes/SignJWT.md) using the `SignJWT` class
 - Utility functions
-  - [Decoding Token's Protected Header](https://github.com/panva/jose/blob/v5.9.5/docs/util/decode_protected_header/functions/decodeProtectedHeader.md)
-  - [Decoding JWT Claims Set](https://github.com/panva/jose/blob/v5.9.5/docs/util/decode_jwt/functions/decodeJwt.md) prior to its validation
+  - [Decoding Token's Protected Header](https://github.com/panva/jose/blob/v5.9.6/docs/util/decode_protected_header/functions/decodeProtectedHeader.md)
+  - [Decoding JWT Claims Set](https://github.com/panva/jose/blob/v5.9.6/docs/util/decode_jwt/functions/decodeJwt.md) prior to its validation
 
 ### Encrypted JSON Web Tokens
 
 The `jose` module supports encrypted JSON Web Tokens and provides functionality for encrypting and decrypting tokens, as well as their JWT Claims Set validation.
 
-- [Decryption & JWT Claims Set Validation](https://github.com/panva/jose/blob/v5.9.5/docs/jwt/decrypt/functions/jwtDecrypt.md) using the `jwtDecrypt` function
-- [Encryption](https://github.com/panva/jose/blob/v5.9.5/docs/jwt/encrypt/classes/EncryptJWT.md) using the `EncryptJWT` class
+- [Decryption & JWT Claims Set Validation](https://github.com/panva/jose/blob/v5.9.6/docs/jwt/decrypt/functions/jwtDecrypt.md) using the `jwtDecrypt` function
+- [Encryption](https://github.com/panva/jose/blob/v5.9.6/docs/jwt/encrypt/classes/EncryptJWT.md) using the `EncryptJWT` class
 - Utility functions
-  - [Decoding Token's Protected Header](https://github.com/panva/jose/blob/v5.9.5/docs/util/decode_protected_header/functions/decodeProtectedHeader.md)
+  - [Decoding Token's Protected Header](https://github.com/panva/jose/blob/v5.9.6/docs/util/decode_protected_header/functions/decodeProtectedHeader.md)
 
 ### Key Utilities
 
 The `jose` module supports importing, exporting, and generating keys and secrets in various formats, including PEM formats like SPKI, X.509 certificate, and PKCS #8, as well as JSON Web Key (JWK).
 
 - Key Import Functions
-  - [JWK Import](https://github.com/panva/jose/blob/v5.9.5/docs/key/import/functions/importJWK.md)
-  - [Public Key Import (SPKI)](https://github.com/panva/jose/blob/v5.9.5/docs/key/import/functions/importSPKI.md)
-  - [Public Key Import (X.509 Certificate)](https://github.com/panva/jose/blob/v5.9.5/docs/key/import/functions/importX509.md)
-  - [Private Key Import (PKCS #8)](https://github.com/panva/jose/blob/v5.9.5/docs/key/import/functions/importPKCS8.md)
+  - [JWK Import](https://github.com/panva/jose/blob/v5.9.6/docs/key/import/functions/importJWK.md)
+  - [Public Key Import (SPKI)](https://github.com/panva/jose/blob/v5.9.6/docs/key/import/functions/importSPKI.md)
+  - [Public Key Import (X.509 Certificate)](https://github.com/panva/jose/blob/v5.9.6/docs/key/import/functions/importX509.md)
+  - [Private Key Import (PKCS #8)](https://github.com/panva/jose/blob/v5.9.6/docs/key/import/functions/importPKCS8.md)
 - Key and Secret Generation Functions
-  - [Asymmetric Key Pair Generation](https://github.com/panva/jose/blob/v5.9.5/docs/key/generate_key_pair/functions/generateKeyPair.md)
-  - [Symmetric Secret Generation](https://github.com/panva/jose/blob/v5.9.5/docs/key/generate_secret/functions/generateSecret.md)
+  - [Asymmetric Key Pair Generation](https://github.com/panva/jose/blob/v5.9.6/docs/key/generate_key_pair/functions/generateKeyPair.md)
+  - [Symmetric Secret Generation](https://github.com/panva/jose/blob/v5.9.6/docs/key/generate_secret/functions/generateSecret.md)
 - Key Export Functions
-  - [JWK Export](https://github.com/panva/jose/blob/v5.9.5/docs/key/export/functions/exportJWK.md)
-  - [Private Key Export](https://github.com/panva/jose/blob/v5.9.5/docs/dkey/export/functions/exportPKCS8.md)
-  - [Public Key Export](https://github.com/panva/jose/blob/v5.9.5/docs/dkey/export/functions/exportSPKI.md)
+  - [JWK Export](https://github.com/panva/jose/blob/v5.9.6/docs/key/export/functions/exportJWK.md)
+  - [Private Key Export](https://github.com/panva/jose/blob/v5.9.6/docs/dkey/export/functions/exportPKCS8.md)
+  - [Public Key Export](https://github.com/panva/jose/blob/v5.9.6/docs/dkey/export/functions/exportSPKI.md)
 
 ### JSON Web Signature (JWS)
 
 The `jose` module supports signing and verification of JWS messages with arbitrary payloads in Compact, Flattened JSON, and General JSON serialization syntaxes.
 
-- Signing - [Compact](https://github.com/panva/jose/blob/v5.9.5/docs/jws/compact/sign/classes/CompactSign.md), [Flattened JSON](https://github.com/panva/jose/blob/v5.9.5/docs/jws/flattened/sign/classes/FlattenedSign.md), [General JSON](https://github.com/panva/jose/blob/v5.9.5/docs/jws/general/sign/classes/GeneralSign.md)
-- Verification - [Compact](https://github.com/panva/jose/blob/v5.9.5/docs/jws/compact/verify/functions/compactVerify.md), [Flattened JSON](https://github.com/panva/jose/blob/v5.9.5/docs/jws/flattened/verify/functions/flattenedVerify.md), [General JSON](https://github.com/panva/jose/blob/v5.9.5/docs/jws/general/verify/functions/generalVerify.md)
-  - [Using a remote JSON Web Key Set (JWKS)](https://github.com/panva/jose/blob/v5.9.5/docs/jwks/remote/functions/createRemoteJWKSet.md)
-  - [Using a local JSON Web Key Set (JWKS)](https://github.com/panva/jose/blob/v5.9.5/docs/jwks/local/functions/createLocalJWKSet.md)
+- Signing - [Compact](https://github.com/panva/jose/blob/v5.9.6/docs/jws/compact/sign/classes/CompactSign.md), [Flattened JSON](https://github.com/panva/jose/blob/v5.9.6/docs/jws/flattened/sign/classes/FlattenedSign.md), [General JSON](https://github.com/panva/jose/blob/v5.9.6/docs/jws/general/sign/classes/GeneralSign.md)
+- Verification - [Compact](https://github.com/panva/jose/blob/v5.9.6/docs/jws/compact/verify/functions/compactVerify.md), [Flattened JSON](https://github.com/panva/jose/blob/v5.9.6/docs/jws/flattened/verify/functions/flattenedVerify.md), [General JSON](https://github.com/panva/jose/blob/v5.9.6/docs/jws/general/verify/functions/generalVerify.md)
+  - [Using a remote JSON Web Key Set (JWKS)](https://github.com/panva/jose/blob/v5.9.6/docs/jwks/remote/functions/createRemoteJWKSet.md)
+  - [Using a local JSON Web Key Set (JWKS)](https://github.com/panva/jose/blob/v5.9.6/docs/jwks/local/functions/createLocalJWKSet.md)
 - Utility functions
-  - [Decoding Token's Protected Header](https://github.com/panva/jose/blob/v5.9.5/docs/util/decode_protected_header/functions/decodeProtectedHeader.md)
+  - [Decoding Token's Protected Header](https://github.com/panva/jose/blob/v5.9.6/docs/util/decode_protected_header/functions/decodeProtectedHeader.md)
 
 ### JSON Web Encryption (JWE)
 
 The `jose` module supports encryption and decryption of JWE messages with arbitrary plaintext in Compact, Flattened JSON, and General JSON serialization syntaxes.
 
-- Encryption - [Compact](https://github.com/panva/jose/blob/v5.9.5/docs/jwe/compact/encrypt/classes/CompactEncrypt.md), [Flattened JSON](https://github.com/panva/jose/blob/v5.9.5/docs/jwe/flattened/encrypt/classes/FlattenedEncrypt.md), [General JSON](https://github.com/panva/jose/blob/v5.9.5/docs/jwe/general/encrypt/classes/GeneralEncrypt.md)
-- Decryption - [Compact](https://github.com/panva/jose/blob/v5.9.5/docs/jwe/compact/decrypt/functions/compactDecrypt.md), [Flattened JSON](https://github.com/panva/jose/blob/v5.9.5/docs/jwe/flattened/decrypt/functions/flattenedDecrypt.md), [General JSON](https://github.com/panva/jose/blob/v5.9.5/docs/jwe/general/decrypt/functions/generalDecrypt.md)
+- Encryption - [Compact](https://github.com/panva/jose/blob/v5.9.6/docs/jwe/compact/encrypt/classes/CompactEncrypt.md), [Flattened JSON](https://github.com/panva/jose/blob/v5.9.6/docs/jwe/flattened/encrypt/classes/FlattenedEncrypt.md), [General JSON](https://github.com/panva/jose/blob/v5.9.6/docs/jwe/general/encrypt/classes/GeneralEncrypt.md)
+- Decryption - [Compact](https://github.com/panva/jose/blob/v5.9.6/docs/jwe/compact/decrypt/functions/compactDecrypt.md), [Flattened JSON](https://github.com/panva/jose/blob/v5.9.6/docs/jwe/flattened/decrypt/functions/flattenedDecrypt.md), [General JSON](https://github.com/panva/jose/blob/v5.9.6/docs/jwe/general/decrypt/functions/generalDecrypt.md)
 - Utility functions
-  - [Decoding Token's Protected Header](https://github.com/panva/jose/blob/v5.9.5/docs/util/decode_protected_header/functions/decodeProtectedHeader.md)
+  - [Decoding Token's Protected Header](https://github.com/panva/jose/blob/v5.9.6/docs/util/decode_protected_header/functions/decodeProtectedHeader.md)
 
 ### Other
 
 The following are additional features and utilities provided by the `jose` module:
 
-- [Calculating JWK Thumbprint](https://github.com/panva/jose/blob/v5.9.5/docs/jwk/thumbprint/functions/calculateJwkThumbprint.md)
-- [Calculating JWK Thumbprint URI](https://github.com/panva/jose/blob/v5.9.5/docs/jwk/thumbprint/functions/calculateJwkThumbprintUri.md)
-- [Verification using a JWK Embedded in a JWS Header](https://github.com/panva/jose/blob/v5.9.5/docs/jwk/embedded/functions/EmbeddedJWK.md)
-- [Unsecured JWT](https://github.com/panva/jose/blob/v5.9.5/docs/jwt/unsecured/classes/UnsecuredJWT.md)
-- [JOSE Errors](https://github.com/panva/jose/blob/v5.9.5/docs/util/errors/README.md)
+- [Calculating JWK Thumbprint](https://github.com/panva/jose/blob/v5.9.6/docs/jwk/thumbprint/functions/calculateJwkThumbprint.md)
+- [Calculating JWK Thumbprint URI](https://github.com/panva/jose/blob/v5.9.6/docs/jwk/thumbprint/functions/calculateJwkThumbprintUri.md)
+- [Verification using a JWK Embedded in a JWS Header](https://github.com/panva/jose/blob/v5.9.6/docs/jwk/embedded/functions/EmbeddedJWK.md)
+- [Unsecured JWT](https://github.com/panva/jose/blob/v5.9.6/docs/jwt/unsecured/classes/UnsecuredJWT.md)
+- [JOSE Errors](https://github.com/panva/jose/blob/v5.9.6/docs/util/errors/README.md)
 
 [sponsor-auth0]: https://auth0.com/signup?utm_source=external_sites&utm_medium=panva&utm_campaign=devn_signup
