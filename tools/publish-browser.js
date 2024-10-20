@@ -6,12 +6,12 @@ pkg.devDependencies = undefined
 pkg.scripts = undefined
 pkg.imports = undefined
 pkg.description = undefined
-pkg.main = undefined
+pkg.main = pkg.browser
 pkg.keywords = undefined
 for (const exportPath of Object.keys(pkg.exports)) {
-  pkg.exports[exportPath].import = undefined
-  pkg.exports[exportPath].require = undefined
-  pkg.exports[exportPath].node = pkg.exports[exportPath].browser
+  if (typeof pkg.exports[exportPath] === 'object') {
+    delete pkg.exports[exportPath].node
+  }
 }
 
 pkg.files.push('!dist/**/package.json')
