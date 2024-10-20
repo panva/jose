@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [5.9.5](https://github.com/panva/jose/compare/v5.9.4...v5.9.5) (2024-10-20)
+
+
+### Refactor
+
+* **build:** simplify package exports ([4783f7f](https://github.com/panva/jose/commit/4783f7fcb0282c2e24479758614a82e3d7c0e627))
+
 ## [5.9.4](https://github.com/panva/jose/compare/v5.9.3...v5.9.4) (2024-10-11)
 
 
