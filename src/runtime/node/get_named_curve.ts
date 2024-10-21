@@ -16,8 +16,6 @@ const namedCurveToJOSE = (namedCurve: string) => {
       return 'P-384'
     case 'secp521r1':
       return 'P-521'
-    case 'secp256k1':
-      return 'secp256k1'
     default:
       throw new JOSENotSupported('Unsupported key curve for this operation')
   }
