@@ -64,8 +64,6 @@ export async function generateKeyPair(alg: string, options?: GenerateKeyPairOpti
     }
     case 'ES256':
       return generate('ec', { namedCurve: 'P-256' })
-    case 'ES256K':
-      return generate('ec', { namedCurve: 'secp256k1' })
     case 'ES384':
       return generate('ec', { namedCurve: 'P-384' })
     case 'ES512':

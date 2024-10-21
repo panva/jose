@@ -5,7 +5,6 @@ export default function dsaDigest(alg: string) {
     case 'PS256':
     case 'RS256':
     case 'ES256':
-    case 'ES256K':
       return 'sha256'
 
     case 'PS384':

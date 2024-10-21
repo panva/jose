@@ -142,7 +142,6 @@ Please note that certain algorithms may not be available depending on the runtim
 - JSON Web Key Thumbprint URI - [RFC9278](https://www.rfc-editor.org/rfc/rfc9278)
 - JWS Unencoded Payload Option - [RFC7797](https://www.rfc-editor.org/rfc/rfc7797)
 - CFRG Elliptic Curve ECDH and Signatures - [RFC8037](https://www.rfc-editor.org/rfc/rfc8037)
-- secp256k1 EC Key curve support - [RFC8812](https://www.rfc-editor.org/rfc/rfc8812)
 
 The algorithm implementations in `jose` have been tested using test vectors from their respective specifications as well as [RFC7520](https://www.rfc-editor.org/rfc/rfc7520).
 

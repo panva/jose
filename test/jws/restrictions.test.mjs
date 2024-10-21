@@ -121,5 +121,3 @@ test(testRSAenc, 'RSA-OAEP-512')
 test(testECDSASigEncoding, 'ES256')
 test(testECDSASigEncoding, 'ES384')
 test(testECDSASigEncoding, 'ES512')
-
-test(testECDSASigEncoding, 'ES256K')

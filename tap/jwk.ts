@@ -29,7 +29,6 @@ export default (QUnit: QUnit, lib: typeof jose, keys: typeof jose) => {
     ['Ed25519', KEYS.Ed25519.jwk, !env.isBlink],
     ['EdDSA', KEYS.Ed448.jwk, env.isNode || env.isEdgeRuntime],
     ['ES256', KEYS.P256.jwk, true],
-    ['ES256K', KEYS.secp256k1.jwk, lib.cryptoRuntime === 'node:crypto' && !env.isElectron],
     ['ES384', KEYS.P384.jwk, true],
     ['ES512', KEYS.P521.jwk, env.isDeno ? [true, false] : true],
     ['PS256', KEYS.RSA.jwk, true],

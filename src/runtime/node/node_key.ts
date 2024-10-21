@@ -8,7 +8,6 @@ import type { JWK } from '../../types.d'
 
 const ecCurveAlgMap = new Map([
   ['ES256', 'P-256'],
-  ['ES256K', 'secp256k1'],
   ['ES384', 'P-384'],
   ['ES512', 'P-521'],
 ])
@@ -106,7 +105,6 @@ export default function keyForCrypto<KeyObjectOptions, JWKOptions>(
       }
       break
     case 'ES256':
-    case 'ES256K':
     case 'ES384':
     case 'ES512': {
       if (asymmetricKeyType !== 'ec') {

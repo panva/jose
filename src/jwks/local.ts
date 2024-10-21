@@ -107,9 +107,6 @@ class LocalJWKSet<KeyLikeType extends KeyLike = KeyLike> {
           case 'ES256':
             candidate = jwk.crv === 'P-256'
             break
-          case 'ES256K':
-            candidate = jwk.crv === 'secp256k1'
-            break
           case 'ES384':
             candidate = jwk.crv === 'P-384'
             break

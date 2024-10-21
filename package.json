@@ -39,7 +39,6 @@
     "pem",
     "pkcs8",
     "rsa",
-    "secp256k1",
     "sign",
     "signature",
     "spki",

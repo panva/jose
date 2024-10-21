@@ -262,33 +262,4 @@ export const KEYS = {
       '-----END PUBLIC KEY-----\n',
     x509: undefined,
   },
-  secp256k1: {
-    jwk: {
-      crv: 'secp256k1',
-      d: '4FnXRICPA8cKwNZhg1XvGS3cyWXzuJ17imMFjlgn42w',
-      kty: 'EC',
-      x: 'hwxzC9RSkkBmbBche2iTjNCLbB7XG6h5lfHmOXTQDmQ',
-      y: 'xzddq8Sa9Gn6EOCeYghU6uyWQoh1mWAHx0p6Zd0N9Bo',
-    },
-    pkcs8:
-      '-----BEGIN PRIVATE KEY-----\n' +
-      'MIGEAgEAMBAGByqGSM49AgEGBSuBBAAKBG0wawIBAQQg4FnXRICPA8cKwNZhg1Xv\n' +
-      'GS3cyWXzuJ17imMFjlgn42yhRANCAASHDHML1FKSQGZsFyF7aJOM0ItsHtcbqHmV\n' +
-      '8eY5dNAOZMc3XavEmvRp+hDgnmIIVOrslkKIdZlgB8dKemXdDfQa\n' +
-      '-----END PRIVATE KEY-----\n',
-    spki:
-      '-----BEGIN PUBLIC KEY-----\n' +
-      'MFYwEAYHKoZIzj0CAQYFK4EEAAoDQgAEhwxzC9RSkkBmbBche2iTjNCLbB7XG6h5\n' +
-      'lfHmOXTQDmTHN12rxJr0afoQ4J5iCFTq7JZCiHWZYAfHSnpl3Q30Gg==\n' +
-      '-----END PUBLIC KEY-----\n',
-    x509:
-      '-----BEGIN CERTIFICATE-----\n' +
-      'MIIBBTCBrQIJAMqeTnxEXkWqMAoGCCqGSM49BAMCMA0xCzAJBgNVBAYTAkNaMB4X\n' +
-      'DTIyMTAxMTEyMjUxNFoXDTIzMTAwNjEyMjUxNFowDTELMAkGA1UEBhMCQ1owVjAQ\n' +
-      'BgcqhkjOPQIBBgUrgQQACgNCAASHDHML1FKSQGZsFyF7aJOM0ItsHtcbqHmV8eY5\n' +
-      'dNAOZMc3XavEmvRp+hDgnmIIVOrslkKIdZlgB8dKemXdDfQaMAoGCCqGSM49BAMC\n' +
-      'A0cAMEQCICLsIR+59yZbMsxvtYMH+Lmlko0/ihPHU/vbpfc7XXa1AiALT04GYkMx\n' +
-      '/xy0TNunfynvxfMAX+9x+3tO8g/KbPZp7w==\n' +
-      '-----END CERTIFICATE-----\n',
-  },
 }
