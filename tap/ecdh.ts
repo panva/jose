@@ -27,7 +27,6 @@ export default (
         (env.isGecko && env.isBrowserVersionAtLeast(132)),
       { crv: 'X25519' },
     ],
-    ['ECDH-ES', env.isNode || env.isEdgeRuntime, { crv: 'X448' }],
   ]
 
   function title(vector: Vector) {
