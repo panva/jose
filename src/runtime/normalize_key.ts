@@ -63,7 +63,7 @@ const handleKeyObject = (key: ConvertableKeyObject, alg: string) => {
     cryptoKey = key.toCryptoKey(
       key.asymmetricKeyType,
       true,
-      key.type === 'private' ? ['deriveBits', 'deriveKey'] : [],
+      key.type === 'private' ? ['deriveBits'] : [],
     )
   }
 
@@ -176,7 +176,7 @@ const handleKeyObject = (key: ConvertableKeyObject, alg: string) => {
           namedCurve,
         },
         true,
-        key.type === 'private' ? ['deriveBits', 'deriveKey'] : [],
+        key.type === 'private' ? ['deriveBits'] : [],
       )
     }
   }
