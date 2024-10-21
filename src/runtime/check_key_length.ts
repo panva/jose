@@ -1,3 +1,5 @@
+import type { CryptoKey } from '../types.d.ts'
+
 export default (alg: string, key: CryptoKey) => {
   if (alg.startsWith('RS') || alg.startsWith('PS')) {
     const { modulusLength } = key.algorithm as RsaKeyAlgorithm

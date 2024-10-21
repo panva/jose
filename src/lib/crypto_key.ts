@@ -1,3 +1,5 @@
+import type { CryptoKey } from '../types.d.ts'
+
 function unusable(name: string | number, prop = 'algorithm.name') {
   return new TypeError(`CryptoKey does not support this operation, its ${prop} must be ${name}`)
 }

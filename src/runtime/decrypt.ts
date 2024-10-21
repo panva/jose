@@ -1,5 +1,6 @@
 import { concat, uint64be } from '../lib/buffer_utils.js'
 
+import type { CryptoKey } from '../types.d.ts'
 import type { DecryptFunction } from './interfaces.d.ts'
 import checkIvLength from '../lib/check_iv_length.js'
 import checkCekLength from './check_cek_length.js'

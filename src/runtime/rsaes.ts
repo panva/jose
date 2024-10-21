@@ -1,3 +1,4 @@
+import type { CryptoKey } from '../types.d.ts'
 import subtleAlgorithm from './subtle_rsaes.js'
 import { checkEncCryptoKey } from '../lib/crypto_key.js'
 import checkKeyLength from './check_key_length.js'

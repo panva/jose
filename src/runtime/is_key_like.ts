@@ -1,4 +1,4 @@
-import type { KeyObject } from '../types.d.ts'
+import type { CryptoKey, KeyObject } from '../types.d.ts'
 
 export function assertCryptoKey(key: unknown): asserts key is CryptoKey {
   if (!isCryptoKey(key)) {

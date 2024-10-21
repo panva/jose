@@ -1,6 +1,6 @@
+import type { CryptoKey } from '../types.d.ts'
 import { encoder, concat, uint32be, lengthAndInput, concatKdf } from '../lib/buffer_utils.js'
 import { checkEncCryptoKey } from '../lib/crypto_key.js'
-import type { CryptoKey } from '../types.d.ts'
 
 export async function deriveKey(
   publicKey: CryptoKey,
