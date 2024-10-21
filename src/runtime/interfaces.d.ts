@@ -1,28 +1,8 @@
-import type { JWK, KeyLike } from '../types.d.ts'
+import type { JWK, CryptoKey } from '../types.d.ts'
 import type { PEMImportOptions } from '../key/import.js'
-
-type AsyncOrSync<T> = Promise<T> | T
 
 export interface TimingSafeEqual {
   (a: Uint8Array, b: Uint8Array): boolean
-}
-export interface SignFunction {
-  (alg: string, key: unknown, data: Uint8Array): Promise<Uint8Array>
-}
-export interface VerifyFunction {
-  (alg: string, key: unknown, signature: Uint8Array, data: Uint8Array): Promise<boolean>
-}
-export interface AesKwWrapFunction {
-  (alg: string, key: unknown, cek: Uint8Array): AsyncOrSync<Uint8Array>
-}
-export interface AesKwUnwrapFunction {
-  (alg: string, key: unknown, encryptedKey: Uint8Array): AsyncOrSync<Uint8Array>
-}
-export interface RsaEsEncryptFunction {
-  (alg: string, key: unknown, cek: Uint8Array): AsyncOrSync<Uint8Array>
-}
-export interface RsaEsDecryptFunction {
-  (alg: string, key: unknown, encryptedKey: Uint8Array): AsyncOrSync<Uint8Array>
 }
 export interface Pbes2KWEncryptFunction {
   (
@@ -53,7 +33,7 @@ export interface EncryptFunction {
     cek: unknown,
     iv: Uint8Array | undefined,
     aad: Uint8Array,
-  ): AsyncOrSync<{
+  ): Promise<{
     ciphertext: Uint8Array
     tag: Uint8Array | undefined
     iv: Uint8Array | undefined
@@ -67,19 +47,19 @@ export interface DecryptFunction {
     iv: Uint8Array | undefined,
     tag: Uint8Array | undefined,
     additionalData: Uint8Array,
-  ): AsyncOrSync<Uint8Array>
+  ): Promise<Uint8Array>
 }
 export interface FetchFunction {
   (url: URL, timeout: number, options?: any): Promise<{ [propName: string]: unknown }>
 }
 export interface DigestFunction {
-  (digest: 'sha256' | 'sha384' | 'sha512', data: Uint8Array): AsyncOrSync<Uint8Array>
+  (digest: 'sha256' | 'sha384' | 'sha512', data: Uint8Array): Promise<Uint8Array>
 }
 export interface PEMImportFunction {
-  (pem: string, alg: string, options?: PEMImportOptions): AsyncOrSync<KeyLike>
+  (pem: string, alg: string, options?: PEMImportOptions): Promise<CryptoKey>
 }
 interface ExportFunction<T> {
-  (key: unknown): AsyncOrSync<T>
+  (key: unknown): Promise<T>
 }
 export type JWKExportFunction = ExportFunction<JWK>
 export type PEMExportFunction = ExportFunction<string>

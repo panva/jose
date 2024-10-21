@@ -2,12 +2,11 @@ import { concat, uint64be } from '../lib/buffer_utils.js'
 import type { EncryptFunction } from './interfaces.d.ts'
 import checkIvLength from '../lib/check_iv_length.js'
 import checkCekLength from './check_cek_length.js'
-import crypto, { isCryptoKey } from './webcrypto.js'
 import { checkEncCryptoKey } from '../lib/crypto_key.js'
 import invalidKeyInput from '../lib/invalid_key_input.js'
 import generateIv from '../lib/iv.js'
 import { JOSENotSupported } from '../util/errors.js'
-import { types } from './is_key_like.js'
+import { isCryptoKey } from './is_key_like.js'
 
 async function cbcEncrypt(
   enc: string,
@@ -99,7 +98,7 @@ const encrypt: EncryptFunction = async (
   aad: Uint8Array,
 ) => {
   if (!isCryptoKey(cek) && !(cek instanceof Uint8Array)) {
-    throw new TypeError(invalidKeyInput(cek, ...types, 'Uint8Array'))
+    throw new TypeError(invalidKeyInput(cek, 'CryptoKey', 'KeyObject', 'Uint8Array'))
   }
 
   if (iv) {

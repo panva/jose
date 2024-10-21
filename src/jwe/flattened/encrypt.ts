@@ -3,17 +3,21 @@ import { unprotected } from '../../lib/private_symbols.js'
 import encrypt from '../../runtime/encrypt.js'
 
 import type {
-  KeyLike,
+  CryptoKey,
   FlattenedJWE,
   JWEHeaderParameters,
   JWEKeyManagementHeaderParameters,
   EncryptOptions,
+  KeyObject,
+  JWK,
 } from '../../types.d.ts'
 import encryptKeyManagement from '../../lib/encrypt_key_management.js'
 import { JOSENotSupported, JWEInvalid } from '../../util/errors.js'
 import isDisjoint from '../../lib/is_disjoint.js'
 import { encoder, decoder, concat } from '../../lib/buffer_utils.js'
 import validateCrit from '../../lib/validate_crit.js'
+import normalizeKey from '../../runtime/normalize_key.js'
+import checkKeyType from '../../lib/check_key_type.js'
 
 /**
  * The FlattenedEncrypt class is used to build and encrypt Flattened JWE objects.
@@ -165,7 +169,10 @@ export class FlattenedEncrypt {
    *   {@link https://github.com/panva/jose/issues/210#jwe-alg Algorithm Key Requirements}.
    * @param options JWE Encryption options.
    */
-  async encrypt(key: KeyLike | Uint8Array, options?: EncryptOptions): Promise<FlattenedJWE> {
+  async encrypt(
+    key: CryptoKey | KeyObject | JWK | Uint8Array,
+    options?: EncryptOptions,
+  ): Promise<FlattenedJWE> {
     if (!this._protectedHeader && !this._unprotectedHeader && !this._sharedUnprotectedHeader) {
       throw new JWEInvalid(
         'either setProtectedHeader, setUnprotectedHeader, or sharedUnprotectedHeader must be called before #encrypt()',
@@ -212,13 +219,16 @@ export class FlattenedEncrypt {
       )
     }
 
-    let cek: KeyLike | Uint8Array
+    checkKeyType(alg === 'dir' ? enc : alg, key, 'encrypt')
+
+    let cek: CryptoKey | Uint8Array
     {
       let parameters: { [propName: string]: unknown } | undefined
+      const k = await normalizeKey(key, alg)
       ;({ cek, encryptedKey, parameters } = await encryptKeyManagement(
         alg,
         enc,
-        key,
+        k,
         this._cek,
         this._keyManagementParameters,
       ))

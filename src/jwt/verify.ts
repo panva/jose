@@ -2,7 +2,7 @@ import { compactVerify } from '../jws/compact/verify.js'
 import type {
   JWK,
   JWTPayload,
-  KeyLike,
+  CryptoKey,
   VerifyOptions,
   JWTClaimVerificationOptions,
   JWTHeaderParameters,
@@ -10,6 +10,7 @@ import type {
   FlattenedJWSInput,
   JWTVerifyResult,
   ResolvedKey,
+  KeyObject,
 } from '../types.d.ts'
 import jwtPayload from '../lib/jwt_claims_set.js'
 import { JWTInvalid } from '../util/errors.js'
@@ -27,7 +28,7 @@ export interface JWTVerifyGetKey
   extends GenericGetKeyFunction<
     JWTHeaderParameters,
     FlattenedJWSInput,
-    KeyLike | JWK | Uint8Array
+    CryptoKey | KeyObject | JWK | Uint8Array
   > {}
 
 /**
@@ -116,7 +117,7 @@ export interface JWTVerifyGetKey
  */
 export async function jwtVerify<PayloadType = JWTPayload>(
   jwt: string | Uint8Array,
-  key: KeyLike | Uint8Array | JWK,
+  key: CryptoKey | KeyObject | JWK | Uint8Array,
   options?: JWTVerifyOptions,
 ): Promise<JWTVerifyResult<PayloadType>>
 
@@ -141,15 +142,15 @@ export async function jwtVerify<PayloadType = JWTPayload>(
  *   {@link https://github.com/panva/jose/issues/210#jws-alg Algorithm Key Requirements}.
  * @param options JWT Decryption and JWT Claims Set validation options.
  */
-export async function jwtVerify<PayloadType = JWTPayload, KeyLikeType extends KeyLike = KeyLike>(
+export async function jwtVerify<PayloadType = JWTPayload>(
   jwt: string | Uint8Array,
   getKey: JWTVerifyGetKey,
   options?: JWTVerifyOptions,
-): Promise<JWTVerifyResult<PayloadType> & ResolvedKey<KeyLikeType>>
+): Promise<JWTVerifyResult<PayloadType> & ResolvedKey>
 
 export async function jwtVerify(
   jwt: string | Uint8Array,
-  key: KeyLike | Uint8Array | JWK | JWTVerifyGetKey,
+  key: CryptoKey | KeyObject | JWK | Uint8Array | JWTVerifyGetKey,
   options?: JWTVerifyOptions,
 ) {
   const verified = await compactVerify(jwt, key as Parameters<typeof compactVerify>[1], options)

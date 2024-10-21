@@ -2,7 +2,7 @@ import { toSPKI as exportPublic } from '../runtime/asn1.js'
 import { toPKCS8 as exportPrivate } from '../runtime/asn1.js'
 import keyToJWK from '../runtime/key_to_jwk.js'
 
-import type { JWK, KeyLike } from '../types.d.ts'
+import type { JWK, CryptoKey } from '../types.d.ts'
 
 /**
  * Exports a public {@link !CryptoKey} to a PEM-encoded SPKI string format.
@@ -20,7 +20,7 @@ import type { JWK, KeyLike } from '../types.d.ts'
  *
  * @param key Key to export to a PEM-encoded SPKI string format.
  */
-export async function exportSPKI(key: KeyLike): Promise<string> {
+export async function exportSPKI(key: CryptoKey): Promise<string> {
   return exportPublic(key)
 }
 
@@ -40,7 +40,7 @@ export async function exportSPKI(key: KeyLike): Promise<string> {
  *
  * @param key Key to export to a PEM-encoded PKCS8 string format.
  */
-export async function exportPKCS8(key: KeyLike): Promise<string> {
+export async function exportPKCS8(key: CryptoKey): Promise<string> {
   return exportPrivate(key)
 }
 
@@ -62,6 +62,6 @@ export async function exportPKCS8(key: KeyLike): Promise<string> {
  *
  * @param key Key to export as JWK.
  */
-export async function exportJWK(key: KeyLike | Uint8Array): Promise<JWK> {
+export async function exportJWK(key: CryptoKey | Uint8Array): Promise<JWK> {
   return keyToJWK(key)
 }

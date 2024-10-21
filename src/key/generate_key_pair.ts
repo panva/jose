@@ -1,13 +1,13 @@
 import { generateKeyPair as generate } from '../runtime/generate.js'
 
-import type { KeyLike } from '../types.d.ts'
+import type { CryptoKey } from '../types.d.ts'
 
-export interface GenerateKeyPairResult<KeyLikeType extends KeyLike = KeyLike> {
+export interface GenerateKeyPairResult {
   /** The generated Private Key. */
-  privateKey: KeyLikeType
+  privateKey: CryptoKey
 
   /** Public Key corresponding to the generated Private Key. */
-  publicKey: KeyLikeType
+  publicKey: CryptoKey
 }
 
 export interface GenerateKeyPairOptions {
@@ -61,10 +61,10 @@ export interface GenerateKeyPairOptions {
  *   {@link https://github.com/panva/jose/issues/210 Algorithm Key Requirements}.
  * @param options Additional options passed down to the key pair generation.
  */
-export async function generateKeyPair<KeyLikeType extends KeyLike = KeyLike>(
+export async function generateKeyPair(
   alg: string,
   options?: GenerateKeyPairOptions,
-): Promise<GenerateKeyPairResult<KeyLikeType>> {
+): Promise<GenerateKeyPairResult> {
   // @ts-ignore
   return generate(alg, options)
 }

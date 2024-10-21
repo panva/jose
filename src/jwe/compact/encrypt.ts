@@ -1,9 +1,11 @@
 import { FlattenedEncrypt } from '../flattened/encrypt.js'
 import type {
-  KeyLike,
+  KeyObject,
+  CryptoKey,
   JWEKeyManagementHeaderParameters,
   CompactJWEHeaderParameters,
   EncryptOptions,
+  JWK,
 } from '../../types.d.ts'
 
 /**
@@ -89,7 +91,10 @@ export class CompactEncrypt {
    *   {@link https://github.com/panva/jose/issues/210#jwe-alg Algorithm Key Requirements}.
    * @param options JWE Encryption options.
    */
-  async encrypt(key: KeyLike | Uint8Array, options?: EncryptOptions): Promise<string> {
+  async encrypt(
+    key: CryptoKey | KeyObject | JWK | Uint8Array,
+    options?: EncryptOptions,
+  ): Promise<string> {
     const jwe = await this._flattened.encrypt(key, options)
 
     return [jwe.protected, jwe.encrypted_key, jwe.iv, jwe.ciphertext, jwe.tag].join('.')
