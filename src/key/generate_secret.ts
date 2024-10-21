@@ -1,6 +1,6 @@
 import { generateSecret as generate } from '../runtime/generate.js'
 
-import type { KeyLike } from '../types.d.ts'
+import type { CryptoKey } from '../types.d.ts'
 
 export interface GenerateSecretOptions {
   /** The value to use as {@link !SubtleCrypto.generateKey} `extractable` argument. Default is false. */
@@ -26,10 +26,10 @@ export interface GenerateSecretOptions {
  *   {@link https://github.com/panva/jose/issues/210 Algorithm Key Requirements}.
  * @param options Additional options passed down to the secret generation.
  */
-export async function generateSecret<KeyLikeType extends KeyLike = KeyLike>(
+export async function generateSecret(
   alg: string,
   options?: GenerateSecretOptions,
-): Promise<KeyLikeType | Uint8Array> {
+): Promise<CryptoKey | Uint8Array> {
   // @ts-ignore
   return generate(alg, options)
 }

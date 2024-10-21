@@ -5,22 +5,22 @@ import { JOSEAlgNotAllowed, JWSInvalid, JWSSignatureVerificationFailed } from '.
 import { concat, encoder, decoder } from '../../lib/buffer_utils.js'
 import isDisjoint from '../../lib/is_disjoint.js'
 import isObject from '../../lib/is_object.js'
-import { checkKeyTypeWithJwk } from '../../lib/check_key_type.js'
+import checkKeyType from '../../lib/check_key_type.js'
 import validateCrit from '../../lib/validate_crit.js'
 import validateAlgorithms from '../../lib/validate_algorithms.js'
+import normalizeKey from '../../runtime/normalize_key.js'
 
 import type {
   JWK,
   FlattenedVerifyResult,
-  KeyLike,
+  CryptoKey,
   FlattenedJWSInput,
   JWSHeaderParameters,
   VerifyOptions,
   GenericGetKeyFunction,
   ResolvedKey,
+  KeyObject,
 } from '../../types.d.ts'
-import { isJWK } from '../../lib/is_jwk.js'
-import { importJWK } from '../../key/import.js'
 
 /**
  * Interface for Flattened JWS Verification dynamic key resolution. No token components have been
@@ -32,7 +32,7 @@ export interface FlattenedVerifyGetKey
   extends GenericGetKeyFunction<
     JWSHeaderParameters | undefined,
     FlattenedJWSInput,
-    KeyLike | JWK | Uint8Array
+    CryptoKey | KeyObject | JWK | Uint8Array
   > {}
 
 /**
@@ -65,7 +65,7 @@ export interface FlattenedVerifyGetKey
  */
 export function flattenedVerify(
   jws: FlattenedJWSInput,
-  key: KeyLike | Uint8Array | JWK,
+  key: CryptoKey | KeyObject | JWK | Uint8Array,
   options?: VerifyOptions,
 ): Promise<FlattenedVerifyResult>
 /**
@@ -74,14 +74,14 @@ export function flattenedVerify(
  *   {@link https://github.com/panva/jose/issues/210#jws-alg Algorithm Key Requirements}.
  * @param options JWS Verify options.
  */
-export function flattenedVerify<KeyLikeType extends KeyLike = KeyLike>(
+export function flattenedVerify(
   jws: FlattenedJWSInput,
   getKey: FlattenedVerifyGetKey,
   options?: VerifyOptions,
-): Promise<FlattenedVerifyResult & ResolvedKey<KeyLikeType>>
+): Promise<FlattenedVerifyResult & ResolvedKey>
 export async function flattenedVerify(
   jws: FlattenedJWSInput,
-  key: KeyLike | Uint8Array | JWK | FlattenedVerifyGetKey,
+  key: CryptoKey | KeyObject | JWK | Uint8Array | FlattenedVerifyGetKey,
   options?: VerifyOptions,
 ) {
   if (!isObject(jws)) {
@@ -170,13 +170,9 @@ export async function flattenedVerify(
   if (typeof key === 'function') {
     key = await key(parsedProt, jws)
     resolvedKey = true
-    checkKeyTypeWithJwk(alg, key, 'verify')
-    if (isJWK(key)) {
-      key = await importJWK(key, alg)
-    }
-  } else {
-    checkKeyTypeWithJwk(alg, key, 'verify')
   }
+
+  checkKeyType(alg, key, 'verify')
 
   const data = concat(
     encoder.encode(jws.protected ?? ''),
@@ -189,7 +185,9 @@ export async function flattenedVerify(
   } catch {
     throw new JWSInvalid('Failed to base64url decode the signature')
   }
-  const verified = await verify(alg, key, signature, data)
+
+  const k = await normalizeKey(key, alg)
+  const verified = await verify(alg, k, signature, data)
 
   if (!verified) {
     throw new JWSSignatureVerificationFailed()
@@ -219,7 +217,7 @@ export async function flattenedVerify(
   }
 
   if (resolvedKey) {
-    return { ...result, key }
+    return { ...result, key: k }
   }
 
   return result

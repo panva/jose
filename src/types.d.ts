@@ -90,7 +90,7 @@
  * )
  * ```
  */
-export type KeyLike = { type: string }
+export type KeyLike = CryptoKey | KeyObject
 
 /** Generic JSON Web Key Parameters. */
 export interface JWKParameters {
@@ -254,7 +254,11 @@ export interface GenericGetKeyFunction<IProtectedHeader, IToken, ReturnKeyTypes>
  * @param IToken Type definition of the consumed JWE or JWS token.
  */
 export interface GetKeyFunction<IProtectedHeader, IToken>
-  extends GenericGetKeyFunction<IProtectedHeader, IToken, KeyLike | Uint8Array> {}
+  extends GenericGetKeyFunction<
+    IProtectedHeader,
+    IToken,
+    CryptoKey | KeyObject | JWK | Uint8Array
+  > {}
 
 /**
  * Flattened JWS definition for verify function inputs, allows payload as {@link !Uint8Array} for
@@ -394,7 +398,7 @@ export interface JWEKeyManagementHeaderParameters {
    * @deprecated You should not use this parameter. It is only really intended for test and vector
    *   validation purposes.
    */
-  epk?: KeyLike
+  epk?: CryptoKey | KeyObject
 }
 
 /** Flattened JWE definition. */
@@ -737,9 +741,9 @@ export interface JWTDecryptResult<PayloadType = JWTPayload> {
   protectedHeader: CompactJWEHeaderParameters
 }
 
-export interface ResolvedKey<KeyLikeType extends KeyLike = KeyLike> {
+export interface ResolvedKey {
   /** Key resolved from the key resolver function. */
-  key: KeyLikeType | Uint8Array
+  key: CryptoKey | Uint8Array
 }
 
 /** Recognized Compact JWS Header Parameters, any other Header Members may also be present. */
@@ -764,3 +768,12 @@ export interface JSONWebKeySet {
 }
 
 export type CryptoRuntime = 'WebCryptoAPI' | 'node:crypto'
+
+export interface KeyObject {
+  type: string
+}
+
+export type CryptoKey = Extract<
+  Awaited<ReturnType<typeof crypto.subtle.generateKey>>,
+  { type: string }
+>

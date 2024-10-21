@@ -1,13 +1,23 @@
-import type { KeyLike } from '../types.d.ts'
-import { isCryptoKey } from './webcrypto.js'
+import type { KeyObject } from '../types.d.ts'
 
-export default (key: unknown): key is KeyLike => {
-  if (isCryptoKey(key)) {
-    return true
+export function assertCryptoKey(key: unknown): asserts key is CryptoKey {
+  if (!isCryptoKey(key)) {
+    throw new Error('unreachable. report.')
   }
+}
 
+export function isCryptoKey(key: unknown): key is CryptoKey {
+  // @ts-expect-error
+  return key?.[Symbol.toStringTag] === 'CryptoKey'
+}
+
+export function isKeyObject<T extends KeyObject = KeyObject>(key: unknown): key is T {
   // @ts-expect-error
   return key?.[Symbol.toStringTag] === 'KeyObject'
+}
+
+export default (key: unknown): key is CryptoKey | KeyObject => {
+  return isCryptoKey(key) || isKeyObject(key)
 }
 
 export const types = ['CryptoKey', 'KeyObject']

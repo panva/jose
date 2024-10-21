@@ -6,9 +6,10 @@ import type {
   FlattenedJWSInput,
   GenericGetKeyFunction,
   JWSHeaderParameters,
-  KeyLike,
+  CryptoKey,
   VerifyOptions,
   ResolvedKey,
+  KeyObject,
 } from '../../types.d.ts'
 import { JWSInvalid, JWSSignatureVerificationFailed } from '../../util/errors.js'
 import isObject from '../../lib/is_object.js'
@@ -23,7 +24,7 @@ export interface GeneralVerifyGetKey
   extends GenericGetKeyFunction<
     JWSHeaderParameters,
     FlattenedJWSInput,
-    KeyLike | JWK | Uint8Array
+    CryptoKey | KeyObject | JWK | Uint8Array
   > {}
 
 /**
@@ -59,7 +60,7 @@ export interface GeneralVerifyGetKey
  */
 export function generalVerify(
   jws: GeneralJWSInput,
-  key: KeyLike | Uint8Array | JWK,
+  key: CryptoKey | KeyObject | JWK | Uint8Array,
   options?: VerifyOptions,
 ): Promise<GeneralVerifyResult>
 /**
@@ -68,14 +69,14 @@ export function generalVerify(
  *   {@link https://github.com/panva/jose/issues/210#jws-alg Algorithm Key Requirements}.
  * @param options JWS Verify options.
  */
-export function generalVerify<KeyLikeType extends KeyLike = KeyLike>(
+export function generalVerify(
   jws: GeneralJWSInput,
   getKey: GeneralVerifyGetKey,
   options?: VerifyOptions,
-): Promise<GeneralVerifyResult & ResolvedKey<KeyLikeType>>
+): Promise<GeneralVerifyResult & ResolvedKey>
 export async function generalVerify(
   jws: GeneralJWSInput,
-  key: KeyLike | Uint8Array | JWK | GeneralVerifyGetKey,
+  key: CryptoKey | KeyObject | JWK | Uint8Array | GeneralVerifyGetKey,
   options?: VerifyOptions,
 ) {
   if (!isObject(jws)) {

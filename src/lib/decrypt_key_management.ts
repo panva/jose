@@ -3,28 +3,22 @@ import * as ECDH from '../runtime/ecdhes.js'
 import { decrypt as pbes2Kw } from '../runtime/pbes2kw.js'
 import { decrypt as rsaEs } from '../runtime/rsaes.js'
 import { decode as base64url } from '../runtime/base64url.js'
-import normalize from '../runtime/normalize_key.js'
 
-import type { DecryptOptions, JWEHeaderParameters, KeyLike, JWK } from '../types.d.ts'
+import type { DecryptOptions, JWEHeaderParameters, CryptoKey, JWK } from '../types.d.ts'
 import { JOSENotSupported, JWEInvalid } from '../util/errors.js'
 import { bitLength as cekLength } from '../lib/cek.js'
 import { importJWK } from '../key/import.js'
-import checkKeyType from './check_key_type.js'
 import isObject from './is_object.js'
 import { unwrap as aesGcmKw } from './aesgcmkw.js'
+import { assertCryptoKey } from '../runtime/is_key_like.js'
 
 async function decryptKeyManagement(
   alg: string,
-  key: KeyLike | Uint8Array,
+  key: CryptoKey | Uint8Array,
   encryptedKey: Uint8Array | undefined,
   joseHeader: JWEHeaderParameters,
   options?: DecryptOptions,
-): Promise<KeyLike | Uint8Array> {
-  checkKeyType(alg, key, 'decrypt')
-
-  // @ts-ignore
-  key = (await normalize.normalizeKey?.(key, alg)) || key
-
+): Promise<CryptoKey | Uint8Array> {
   switch (alg) {
     case 'dir': {
       // Direct Encryption
@@ -45,12 +39,14 @@ async function decryptKeyManagement(
       if (!isObject<JWK>(joseHeader.epk))
         throw new JWEInvalid(`JOSE Header "epk" (Ephemeral Public Key) missing or invalid`)
 
+      assertCryptoKey(key)
       if (!ECDH.ecdhAllowed(key))
         throw new JOSENotSupported(
           'ECDH with the provided key is not allowed or not supported by your javascript runtime',
         )
 
       const epk = await importJWK(joseHeader.epk, alg)
+      assertCryptoKey(epk)
       let partyUInfo!: Uint8Array
       let partyVInfo!: Uint8Array
 
@@ -96,7 +92,7 @@ async function decryptKeyManagement(
     case 'RSA-OAEP-512': {
       // Key Encryption (RSA)
       if (encryptedKey === undefined) throw new JWEInvalid('JWE Encrypted Key missing')
-
+      assertCryptoKey(key)
       return rsaEs(alg, key, encryptedKey)
     }
     case 'PBES2-HS256+A128KW':
