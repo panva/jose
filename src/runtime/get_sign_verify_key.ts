@@ -1,3 +1,4 @@
+import type { CryptoKey } from '../types.d.ts'
 import { checkSigCryptoKey } from '../lib/crypto_key.js'
 import invalidKeyInput from '../lib/invalid_key_input.js'
 

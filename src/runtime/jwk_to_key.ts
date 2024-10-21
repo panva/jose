@@ -1,5 +1,5 @@
 import { JOSENotSupported } from '../util/errors.js'
-import type { JWK } from '../types.d.ts'
+import type { CryptoKey, JWK } from '../types.d.ts'
 
 function subtleMapping(jwk: JWK): {
   algorithm: RsaHashedImportParams | EcKeyAlgorithm | Algorithm

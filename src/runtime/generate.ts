@@ -1,3 +1,4 @@
+import type { CryptoKey } from '../types.d.ts'
 import { JOSENotSupported } from '../util/errors.js'
 import random from './random.js'
 import type { GenerateKeyPairOptions } from '../key/generate_key_pair.js'
