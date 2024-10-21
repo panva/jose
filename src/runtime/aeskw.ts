@@ -1,3 +1,4 @@
+import type { CryptoKey } from '../types.d.ts'
 import { checkEncCryptoKey } from '../lib/crypto_key.js'
 
 function checkKeySize(key: CryptoKey, alg: string) {

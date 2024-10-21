@@ -1,3 +1,4 @@
+import type { CryptoKey } from '../types.d.ts'
 import { concat, uint64be } from '../lib/buffer_utils.js'
 import type { EncryptFunction } from './interfaces.d.ts'
 import checkIvLength from '../lib/check_iv_length.js'
