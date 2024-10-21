@@ -1,7 +1,3 @@
-# crypto runtime copies
-src/runtime/*.ts
-!src/runtime/*.d.ts
-
 # Logs
 logs
 *.log

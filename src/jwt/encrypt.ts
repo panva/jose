@@ -4,7 +4,7 @@ import type {
   CompactJWEHeaderParameters,
   JWEKeyManagementHeaderParameters,
   KeyLike,
-} from '../types.d'
+} from '../types.d.ts'
 import { encoder } from '../lib/buffer_utils.js'
 import { ProduceJWT } from './produce.js'
 

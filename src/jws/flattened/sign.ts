@@ -4,7 +4,7 @@ import sign from '../../runtime/sign.js'
 import isDisjoint from '../../lib/is_disjoint.js'
 import { JWSInvalid } from '../../util/errors.js'
 import { encoder, decoder, concat } from '../../lib/buffer_utils.js'
-import type { JWK, KeyLike, FlattenedJWS, JWSHeaderParameters, SignOptions } from '../../types.d'
+import type { JWK, KeyLike, FlattenedJWS, JWSHeaderParameters, SignOptions } from '../../types.d.ts'
 import { checkKeyTypeWithJwk } from '../../lib/check_key_type.js'
 import validateCrit from '../../lib/validate_crit.js'
 

@@ -11,7 +11,7 @@ function isKeyPair(
 export async function jwe(
   t: typeof QUnit.assert,
   lib: typeof jose,
-  keys: typeof jose,
+  keys: Pick<typeof jose, 'exportJWK' | 'generateKeyPair' | 'generateSecret' | 'importJWK'>,
   alg: string,
   enc: string,
   secretOrKeyPair: Uint8Array | jose.KeyLike | jose.GenerateKeyPairResult,
@@ -37,7 +37,7 @@ export async function jwe(
 export async function jwt(
   t: typeof QUnit.assert,
   lib: typeof jose,
-  keys: typeof jose,
+  keys: Pick<typeof jose, 'exportJWK' | 'generateKeyPair' | 'generateSecret' | 'importJWK'>,
   alg: string,
   enc: string,
   secretOrKeyPair: Uint8Array | jose.KeyLike | jose.GenerateKeyPairResult,

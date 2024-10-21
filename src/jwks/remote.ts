@@ -1,6 +1,6 @@
 import fetchJwks from '../runtime/fetch_jwks.js'
 
-import type { KeyLike, JWSHeaderParameters, FlattenedJWSInput, JSONWebKeySet } from '../types.d'
+import type { KeyLike, JWSHeaderParameters, FlattenedJWSInput, JSONWebKeySet } from '../types.d.ts'
 import { JWKSNoMatchingKey } from '../util/errors.js'
 
 import { createLocalJWKSet } from './local.js'

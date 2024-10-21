@@ -1,7 +1,7 @@
 import { withAlg as invalidKeyInput } from './invalid_key_input.js'
 import isKeyLike, { types } from '../runtime/is_key_like.js'
 import * as jwk from './is_jwk.js'
-import { JWK } from '../types.d'
+import type { JWK } from '../types.d.ts'
 
 // @ts-expect-error
 const tag = (key: unknown): string => key?.[Symbol.toStringTag]

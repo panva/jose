@@ -1,7 +1,7 @@
 import { FlattenedSign } from '../flattened/sign.js'
 import { JWSInvalid } from '../../util/errors.js'
 
-import type { JWK, KeyLike, GeneralJWS, JWSHeaderParameters, SignOptions } from '../../types.d'
+import type { JWK, KeyLike, GeneralJWS, JWSHeaderParameters, SignOptions } from '../../types.d.ts'
 
 export interface Signature {
   /**

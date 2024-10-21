@@ -7,7 +7,11 @@ function normalize(pem: string) {
   return pem.replace(/\s+$/, '')
 }
 
-export default (QUnit: QUnit, lib: typeof jose, keys: typeof jose) => {
+export default (
+  QUnit: QUnit,
+  lib: typeof jose,
+  keys: Pick<typeof jose, 'exportJWK' | 'generateKeyPair' | 'generateSecret' | 'importJWK'>,
+) => {
   const { module, test } = QUnit
   module('pem.ts')
 

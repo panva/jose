@@ -18,22 +18,16 @@ Support from the community to continue maintaining and improving this module is 
 
 ## Dependencies: 0
 
-`jose` has no dependencies and it exports tree-shakeable ESM. CJS is also supported.
+`jose` has no dependencies and it exports tree-shakeable ESM[^cjs].
 
 ## Documentation
 
 `jose` is distributed via [npmjs.com](https://www.npmjs.com/package/jose), [deno.land/x](https://deno.land/x/jose), [cdnjs.com](https://cdnjs.com/libraries/jose), [jsdelivr.com](https://www.jsdelivr.com/package/npm/jose), and [github.com](https://github.com/panva/jose).
 
-**`example`** ESM import
+**`example`** ESM import[^cjs]
 
 ```js
 import * as jose from 'jose'
-```
-
-**`example`** CJS require
-
-```js
-const jose = require('jose')
 ```
 
 ### JSON Web Tokens (JWT)
@@ -122,11 +116,12 @@ Please note that certain algorithms may not be available depending on the runtim
 
 ## Supported Versions
 
-| Version                                         | Security Fixes 🔑 | Other Bug Fixes 🐞 | New Features ⭐ |
-| ----------------------------------------------- | ----------------- | ------------------ | --------------- |
-| [v5.x](https://github.com/panva/jose/tree/v5.x) | ✅                | ✅                 | ✅              |
-| [v4.x](https://github.com/panva/jose/tree/v4.x) | ✅                | ❌                 | ❌              |
-| [v2.x](https://github.com/panva/jose/tree/v2.x) | ✅                | ❌                 | ❌              |
+| Version                                         | Security Fixes 🔑 | Other Bug Fixes 🐞 | New Features ⭐ | Runtime and Module type         |
+| ----------------------------------------------- | ----------------- | ------------------ | --------------- | ------------------------------- |
+| [v6.x](https://github.com/panva/jose/tree/v6.x) | ✅                | ✅                 | ✅              | Universal[^universal] ESM[^cjs] |
+| [v5.x](https://github.com/panva/jose/tree/v5.x) | ✅                | ❌                 | ❌              | Universal[^universal] CJS + ESM |
+| [v4.x](https://github.com/panva/jose/tree/v4.x) | ✅                | ❌                 | ❌              | Universal[^universal] CJS + ESM |
+| [v2.x](https://github.com/panva/jose/tree/v2.x) | ✅                | ❌                 | ❌              | Node.js CJS                     |
 
 ## Specifications
 
@@ -148,3 +143,9 @@ The algorithm implementations in `jose` have been tested using test vectors from
 </details>
 
 [sponsor-auth0]: https://a0.to/signup/panva
+[WebCryptoAPI]: https://w3c.github.io/webcrypto/
+[Fetch API]: https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API
+
+[^cjs]: CJS style `let jose = require('jose')` is possible in Node.js versions where `process.features.require_module` is `true` by default (^20.19.0 || ^22.12.0 || >= 23.0.0) or with the `--experimental-require-module` Node.js CLI flag.
+
+[^universal]: Assumes runtime support of [WebCryptoAPI][] and [Fetch API][]

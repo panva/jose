@@ -102,6 +102,6 @@ export type {
   JSONWebKeySet,
   CryptoRuntime,
   GetKeyFunction,
-} from './types.d'
+} from './types.d.ts'
 
 export { default as cryptoRuntime } from './util/runtime.js'

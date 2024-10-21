@@ -13,7 +13,7 @@ import type {
   DecryptOptions,
   GetKeyFunction,
   ResolvedKey,
-} from '../../types.d'
+} from '../../types.d.ts'
 import { encoder, decoder, concat } from '../../lib/buffer_utils.js'
 import generateCek from '../../lib/cek.js'
 import validateCrit from '../../lib/validate_crit.js'

@@ -1,6 +1,6 @@
 import { generateKeyPair as generate } from '../runtime/generate.js'
 
-import type { KeyLike } from '../types.d'
+import type { KeyLike } from '../types.d.ts'
 
 export interface GenerateKeyPairResult<KeyLikeType extends KeyLike = KeyLike> {
   /** The generated Private Key. */
@@ -24,8 +24,7 @@ export interface GenerateKeyPairOptions {
   modulusLength?: number
 
   /**
-   * (Only effective in Web Crypto API runtimes) The value to use as
-   * {@link !SubtleCrypto.generateKey} `extractable` argument. Default is false.
+   * The value to use as {@link !SubtleCrypto.generateKey} `extractable` argument. Default is false.
    *
    * @example
    *
@@ -44,9 +43,8 @@ export interface GenerateKeyPairOptions {
  * Generates a private and a public key for a given JWA algorithm identifier. This can only generate
  * asymmetric key pairs. For symmetric secrets use the `generateSecret` function.
  *
- * Note: Under Web Crypto API runtime the `privateKey` is generated with `extractable` set to
- * `false` by default. See {@link GenerateKeyPairOptions.extractable} to generate an extractable
- * `privateKey`.
+ * Note: The `privateKey` is generated with `extractable` set to `false` by default. See
+ * {@link GenerateKeyPairOptions.extractable} to generate an extractable `privateKey`.
  *
  * This function is exported (as a named export) from the main `'jose'` module entry point as well
  * as from its subpath export `'jose/generate/keypair'`.
@@ -59,7 +57,8 @@ export interface GenerateKeyPairOptions {
  * console.log(privateKey)
  * ```
  *
- * @param alg JWA Algorithm Identifier to be used with the generated key pair.
+ * @param alg JWA Algorithm Identifier to be used with the generated key pair. See
+ *   {@link https://github.com/panva/jose/issues/210 Algorithm Key Requirements}.
  * @param options Additional options passed down to the key pair generation.
  */
 export async function generateKeyPair<KeyLikeType extends KeyLike = KeyLike>(

@@ -7,7 +7,7 @@ import encryptKeyManagement from '../../lib/encrypt_key_management.js'
 import { encode as base64url } from '../../runtime/base64url.js'
 import validateCrit from '../../lib/validate_crit.js'
 
-import type { KeyLike, GeneralJWE, JWEHeaderParameters, CritOption } from '../../types.d'
+import type { KeyLike, GeneralJWE, JWEHeaderParameters, CritOption } from '../../types.d.ts'
 
 export interface Recipient {
   /**

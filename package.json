@@ -58,336 +58,148 @@
   "license": "MIT",
   "author": "Filip Skokan <panva.ip@gmail.com>",
   "sideEffects": false,
+  "type": "module",
   "imports": {
     "#dist": {
-      "import": "./dist/node/esm/index.js",
-      "require": "./dist/node/cjs/index.js"
+      "types": "./dist/types/index.d.ts",
+      "default": "./dist/webapi/index.js"
     },
     "#dist/*": {
-      "import": "./dist/node/esm/*.js",
-      "require": "./dist/node/cjs/*.js"
-    },
-    "#dist/webapi/*": {
-      "import": "./dist/browser/*.js"
-    },
-    "#dist/webapi": {
-      "import": "./dist/browser/index.js"
+      "types": "./dist/types/*.d.ts",
+      "default": "./dist/webapi/*.js"
     }
   },
   "exports": {
     ".": {
       "types": "./dist/types/index.d.ts",
-      "bun": "./dist/browser/index.js",
-      "deno": "./dist/browser/index.js",
-      "browser": "./dist/browser/index.js",
-      "worker": "./dist/browser/index.js",
-      "workerd": "./dist/browser/index.js",
-      "import": "./dist/node/esm/index.js",
-      "require": "./dist/node/cjs/index.js"
+      "default": "./dist/webapi/index.js"
     },
     "./jwk/embedded": {
       "types": "./dist/types/jwk/embedded.d.ts",
-      "bun": "./dist/browser/jwk/embedded.js",
-      "deno": "./dist/browser/jwk/embedded.js",
-      "browser": "./dist/browser/jwk/embedded.js",
-      "worker": "./dist/browser/jwk/embedded.js",
-      "workerd": "./dist/browser/jwk/embedded.js",
-      "import": "./dist/node/esm/jwk/embedded.js",
-      "require": "./dist/node/cjs/jwk/embedded.js"
+      "default": "./dist/webapi/jwk/embedded.js"
     },
     "./jwk/thumbprint": {
       "types": "./dist/types/jwk/thumbprint.d.ts",
-      "bun": "./dist/browser/jwk/thumbprint.js",
-      "deno": "./dist/browser/jwk/thumbprint.js",
-      "browser": "./dist/browser/jwk/thumbprint.js",
-      "worker": "./dist/browser/jwk/thumbprint.js",
-      "workerd": "./dist/browser/jwk/thumbprint.js",
-      "import": "./dist/node/esm/jwk/thumbprint.js",
-      "require": "./dist/node/cjs/jwk/thumbprint.js"
+      "default": "./dist/webapi/jwk/thumbprint.js"
     },
     "./key/import": {
       "types": "./dist/types/key/import.d.ts",
-      "bun": "./dist/browser/key/import.js",
-      "deno": "./dist/browser/key/import.js",
-      "browser": "./dist/browser/key/import.js",
-      "worker": "./dist/browser/key/import.js",
-      "workerd": "./dist/browser/key/import.js",
-      "import": "./dist/node/esm/key/import.js",
-      "require": "./dist/node/cjs/key/import.js"
+      "default": "./dist/webapi/key/import.js"
     },
     "./key/export": {
       "types": "./dist/types/key/export.d.ts",
-      "bun": "./dist/browser/key/export.js",
-      "deno": "./dist/browser/key/export.js",
-      "browser": "./dist/browser/key/export.js",
-      "worker": "./dist/browser/key/export.js",
-      "workerd": "./dist/browser/key/export.js",
-      "import": "./dist/node/esm/key/export.js",
-      "require": "./dist/node/cjs/key/export.js"
+      "default": "./dist/webapi/key/export.js"
     },
     "./key/generate/keypair": {
       "types": "./dist/types/key/generate_key_pair.d.ts",
-      "bun": "./dist/browser/key/generate_key_pair.js",
-      "deno": "./dist/browser/key/generate_key_pair.js",
-      "browser": "./dist/browser/key/generate_key_pair.js",
-      "worker": "./dist/browser/key/generate_key_pair.js",
-      "workerd": "./dist/browser/key/generate_key_pair.js",
-      "import": "./dist/node/esm/key/generate_key_pair.js",
-      "require": "./dist/node/cjs/key/generate_key_pair.js"
+      "default": "./dist/webapi/key/generate_key_pair.js"
     },
     "./key/generate/secret": {
       "types": "./dist/types/key/generate_secret.d.ts",
-      "bun": "./dist/browser/key/generate_secret.js",
-      "deno": "./dist/browser/key/generate_secret.js",
-      "browser": "./dist/browser/key/generate_secret.js",
-      "worker": "./dist/browser/key/generate_secret.js",
-      "workerd": "./dist/browser/key/generate_secret.js",
-      "import": "./dist/node/esm/key/generate_secret.js",
-      "require": "./dist/node/cjs/key/generate_secret.js"
+      "default": "./dist/webapi/key/generate_secret.js"
     },
     "./jwks/remote": {
       "types": "./dist/types/jwks/remote.d.ts",
-      "bun": "./dist/browser/jwks/remote.js",
-      "deno": "./dist/browser/jwks/remote.js",
-      "browser": "./dist/browser/jwks/remote.js",
-      "worker": "./dist/browser/jwks/remote.js",
-      "workerd": "./dist/browser/jwks/remote.js",
-      "import": "./dist/node/esm/jwks/remote.js",
-      "require": "./dist/node/cjs/jwks/remote.js"
+      "default": "./dist/webapi/jwks/remote.js"
     },
     "./jwks/local": {
       "types": "./dist/types/jwks/local.d.ts",
-      "bun": "./dist/browser/jwks/local.js",
-      "deno": "./dist/browser/jwks/local.js",
-      "browser": "./dist/browser/jwks/local.js",
-      "worker": "./dist/browser/jwks/local.js",
-      "workerd": "./dist/browser/jwks/local.js",
-      "import": "./dist/node/esm/jwks/local.js",
-      "require": "./dist/node/cjs/jwks/local.js"
+      "default": "./dist/webapi/jwks/local.js"
     },
     "./jwt/sign": {
       "types": "./dist/types/jwt/sign.d.ts",
-      "bun": "./dist/browser/jwt/sign.js",
-      "deno": "./dist/browser/jwt/sign.js",
-      "browser": "./dist/browser/jwt/sign.js",
-      "worker": "./dist/browser/jwt/sign.js",
-      "workerd": "./dist/browser/jwt/sign.js",
-      "import": "./dist/node/esm/jwt/sign.js",
-      "require": "./dist/node/cjs/jwt/sign.js"
+      "default": "./dist/webapi/jwt/sign.js"
     },
     "./jwt/verify": {
       "types": "./dist/types/jwt/verify.d.ts",
-      "bun": "./dist/browser/jwt/verify.js",
-      "deno": "./dist/browser/jwt/verify.js",
-      "browser": "./dist/browser/jwt/verify.js",
-      "worker": "./dist/browser/jwt/verify.js",
-      "workerd": "./dist/browser/jwt/verify.js",
-      "import": "./dist/node/esm/jwt/verify.js",
-      "require": "./dist/node/cjs/jwt/verify.js"
+      "default": "./dist/webapi/jwt/verify.js"
     },
     "./jwt/encrypt": {
       "types": "./dist/types/jwt/encrypt.d.ts",
-      "bun": "./dist/browser/jwt/encrypt.js",
-      "deno": "./dist/browser/jwt/encrypt.js",
-      "browser": "./dist/browser/jwt/encrypt.js",
-      "worker": "./dist/browser/jwt/encrypt.js",
-      "workerd": "./dist/browser/jwt/encrypt.js",
-      "import": "./dist/node/esm/jwt/encrypt.js",
-      "require": "./dist/node/cjs/jwt/encrypt.js"
+      "default": "./dist/webapi/jwt/encrypt.js"
     },
     "./jwt/decrypt": {
       "types": "./dist/types/jwt/decrypt.d.ts",
-      "bun": "./dist/browser/jwt/decrypt.js",
-      "deno": "./dist/browser/jwt/decrypt.js",
-      "browser": "./dist/browser/jwt/decrypt.js",
-      "worker": "./dist/browser/jwt/decrypt.js",
-      "workerd": "./dist/browser/jwt/decrypt.js",
-      "import": "./dist/node/esm/jwt/decrypt.js",
-      "require": "./dist/node/cjs/jwt/decrypt.js"
+      "default": "./dist/webapi/jwt/decrypt.js"
     },
     "./jwt/unsecured": {
       "types": "./dist/types/jwt/unsecured.d.ts",
-      "bun": "./dist/browser/jwt/unsecured.js",
-      "deno": "./dist/browser/jwt/unsecured.js",
-      "browser": "./dist/browser/jwt/unsecured.js",
-      "worker": "./dist/browser/jwt/unsecured.js",
-      "workerd": "./dist/browser/jwt/unsecured.js",
-      "import": "./dist/node/esm/jwt/unsecured.js",
-      "require": "./dist/node/cjs/jwt/unsecured.js"
+      "default": "./dist/webapi/jwt/unsecured.js"
     },
     "./jwt/decode": {
       "types": "./dist/types/util/decode_jwt.d.ts",
-      "bun": "./dist/browser/util/decode_jwt.js",
-      "deno": "./dist/browser/util/decode_jwt.js",
-      "browser": "./dist/browser/util/decode_jwt.js",
-      "worker": "./dist/browser/util/decode_jwt.js",
-      "workerd": "./dist/browser/util/decode_jwt.js",
-      "import": "./dist/node/esm/util/decode_jwt.js",
-      "require": "./dist/node/cjs/util/decode_jwt.js"
+      "default": "./dist/webapi/util/decode_jwt.js"
     },
     "./decode/protected_header": {
       "types": "./dist/types/util/decode_protected_header.d.ts",
-      "bun": "./dist/browser/util/decode_protected_header.js",
-      "deno": "./dist/browser/util/decode_protected_header.js",
-      "browser": "./dist/browser/util/decode_protected_header.js",
-      "worker": "./dist/browser/util/decode_protected_header.js",
-      "workerd": "./dist/browser/util/decode_protected_header.js",
-      "import": "./dist/node/esm/util/decode_protected_header.js",
-      "require": "./dist/node/cjs/util/decode_protected_header.js"
+      "default": "./dist/webapi/util/decode_protected_header.js"
     },
     "./jws/compact/sign": {
       "types": "./dist/types/jws/compact/sign.d.ts",
-      "bun": "./dist/browser/jws/compact/sign.js",
-      "deno": "./dist/browser/jws/compact/sign.js",
-      "browser": "./dist/browser/jws/compact/sign.js",
-      "worker": "./dist/browser/jws/compact/sign.js",
-      "workerd": "./dist/browser/jws/compact/sign.js",
-      "import": "./dist/node/esm/jws/compact/sign.js",
-      "require": "./dist/node/cjs/jws/compact/sign.js"
+      "default": "./dist/webapi/jws/compact/sign.js"
     },
     "./jws/compact/verify": {
       "types": "./dist/types/jws/compact/verify.d.ts",
-      "bun": "./dist/browser/jws/compact/verify.js",
-      "deno": "./dist/browser/jws/compact/verify.js",
-      "browser": "./dist/browser/jws/compact/verify.js",
-      "worker": "./dist/browser/jws/compact/verify.js",
-      "workerd": "./dist/browser/jws/compact/verify.js",
-      "import": "./dist/node/esm/jws/compact/verify.js",
-      "require": "./dist/node/cjs/jws/compact/verify.js"
+      "default": "./dist/webapi/jws/compact/verify.js"
     },
     "./jws/flattened/sign": {
       "types": "./dist/types/jws/flattened/sign.d.ts",
-      "bun": "./dist/browser/jws/flattened/sign.js",
-      "deno": "./dist/browser/jws/flattened/sign.js",
-      "browser": "./dist/browser/jws/flattened/sign.js",
-      "worker": "./dist/browser/jws/flattened/sign.js",
-      "workerd": "./dist/browser/jws/flattened/sign.js",
-      "import": "./dist/node/esm/jws/flattened/sign.js",
-      "require": "./dist/node/cjs/jws/flattened/sign.js"
+      "default": "./dist/webapi/jws/flattened/sign.js"
     },
     "./jws/flattened/verify": {
       "types": "./dist/types/jws/flattened/verify.d.ts",
-      "bun": "./dist/browser/jws/flattened/verify.js",
-      "deno": "./dist/browser/jws/flattened/verify.js",
-      "browser": "./dist/browser/jws/flattened/verify.js",
-      "worker": "./dist/browser/jws/flattened/verify.js",
-      "workerd": "./dist/browser/jws/flattened/verify.js",
-      "import": "./dist/node/esm/jws/flattened/verify.js",
-      "require": "./dist/node/cjs/jws/flattened/verify.js"
+      "default": "./dist/webapi/jws/flattened/verify.js"
     },
     "./jws/general/sign": {
       "types": "./dist/types/jws/general/sign.d.ts",
-      "bun": "./dist/browser/jws/general/sign.js",
-      "deno": "./dist/browser/jws/general/sign.js",
-      "browser": "./dist/browser/jws/general/sign.js",
-      "worker": "./dist/browser/jws/general/sign.js",
-      "workerd": "./dist/browser/jws/general/sign.js",
-      "import": "./dist/node/esm/jws/general/sign.js",
-      "require": "./dist/node/cjs/jws/general/sign.js"
+      "default": "./dist/webapi/jws/general/sign.js"
     },
     "./jws/general/verify": {
       "types": "./dist/types/jws/general/verify.d.ts",
-      "bun": "./dist/browser/jws/general/verify.js",
-      "deno": "./dist/browser/jws/general/verify.js",
-      "browser": "./dist/browser/jws/general/verify.js",
-      "worker": "./dist/browser/jws/general/verify.js",
-      "workerd": "./dist/browser/jws/general/verify.js",
-      "import": "./dist/node/esm/jws/general/verify.js",
-      "require": "./dist/node/cjs/jws/general/verify.js"
+      "default": "./dist/webapi/jws/general/verify.js"
     },
     "./jwe/compact/encrypt": {
       "types": "./dist/types/jwe/compact/encrypt.d.ts",
-      "bun": "./dist/browser/jwe/compact/encrypt.js",
-      "deno": "./dist/browser/jwe/compact/encrypt.js",
-      "browser": "./dist/browser/jwe/compact/encrypt.js",
-      "worker": "./dist/browser/jwe/compact/encrypt.js",
-      "workerd": "./dist/browser/jwe/compact/encrypt.js",
-      "import": "./dist/node/esm/jwe/compact/encrypt.js",
-      "require": "./dist/node/cjs/jwe/compact/encrypt.js"
+      "default": "./dist/webapi/jwe/compact/encrypt.js"
     },
     "./jwe/compact/decrypt": {
       "types": "./dist/types/jwe/compact/decrypt.d.ts",
-      "bun": "./dist/browser/jwe/compact/decrypt.js",
-      "deno": "./dist/browser/jwe/compact/decrypt.js",
-      "browser": "./dist/browser/jwe/compact/decrypt.js",
-      "worker": "./dist/browser/jwe/compact/decrypt.js",
-      "workerd": "./dist/browser/jwe/compact/decrypt.js",
-      "import": "./dist/node/esm/jwe/compact/decrypt.js",
-      "require": "./dist/node/cjs/jwe/compact/decrypt.js"
+      "default": "./dist/webapi/jwe/compact/decrypt.js"
     },
     "./jwe/flattened/encrypt": {
       "types": "./dist/types/jwe/flattened/encrypt.d.ts",
-      "bun": "./dist/browser/jwe/flattened/encrypt.js",
-      "deno": "./dist/browser/jwe/flattened/encrypt.js",
-      "browser": "./dist/browser/jwe/flattened/encrypt.js",
-      "worker": "./dist/browser/jwe/flattened/encrypt.js",
-      "workerd": "./dist/browser/jwe/flattened/encrypt.js",
-      "import": "./dist/node/esm/jwe/flattened/encrypt.js",
-      "require": "./dist/node/cjs/jwe/flattened/encrypt.js"
+      "default": "./dist/webapi/jwe/flattened/encrypt.js"
     },
     "./jwe/flattened/decrypt": {
       "types": "./dist/types/jwe/flattened/decrypt.d.ts",
-      "bun": "./dist/browser/jwe/flattened/decrypt.js",
-      "deno": "./dist/browser/jwe/flattened/decrypt.js",
-      "browser": "./dist/browser/jwe/flattened/decrypt.js",
-      "worker": "./dist/browser/jwe/flattened/decrypt.js",
-      "workerd": "./dist/browser/jwe/flattened/decrypt.js",
-      "import": "./dist/node/esm/jwe/flattened/decrypt.js",
-      "require": "./dist/node/cjs/jwe/flattened/decrypt.js"
+      "default": "./dist/webapi/jwe/flattened/decrypt.js"
     },
     "./jwe/general/encrypt": {
       "types": "./dist/types/jwe/general/encrypt.d.ts",
-      "bun": "./dist/browser/jwe/general/encrypt.js",
-      "deno": "./dist/browser/jwe/general/encrypt.js",
-      "browser": "./dist/browser/jwe/general/encrypt.js",
-      "worker": "./dist/browser/jwe/general/encrypt.js",
-      "workerd": "./dist/browser/jwe/general/encrypt.js",
-      "import": "./dist/node/esm/jwe/general/encrypt.js",
-      "require": "./dist/node/cjs/jwe/general/encrypt.js"
+      "default": "./dist/webapi/jwe/general/encrypt.js"
     },
     "./jwe/general/decrypt": {
       "types": "./dist/types/jwe/general/decrypt.d.ts",
-      "bun": "./dist/browser/jwe/general/decrypt.js",
-      "deno": "./dist/browser/jwe/general/decrypt.js",
-      "browser": "./dist/browser/jwe/general/decrypt.js",
-      "worker": "./dist/browser/jwe/general/decrypt.js",
-      "workerd": "./dist/browser/jwe/general/decrypt.js",
-      "import": "./dist/node/esm/jwe/general/decrypt.js",
-      "require": "./dist/node/cjs/jwe/general/decrypt.js"
+      "default": "./dist/webapi/jwe/general/decrypt.js"
     },
     "./errors": {
       "types": "./dist/types/util/errors.d.ts",
-      "bun": "./dist/browser/util/errors.js",
-      "deno": "./dist/browser/util/errors.js",
-      "browser": "./dist/browser/util/errors.js",
-      "worker": "./dist/browser/util/errors.js",
-      "workerd": "./dist/browser/util/errors.js",
-      "import": "./dist/node/esm/util/errors.js",
-      "require": "./dist/node/cjs/util/errors.js"
+      "default": "./dist/webapi/util/errors.js"
     },
     "./base64url": {
       "types": "./dist/types/util/base64url.d.ts",
-      "bun": "./dist/browser/util/base64url.js",
-      "deno": "./dist/browser/util/base64url.js",
-      "browser": "./dist/browser/util/base64url.js",
-      "worker": "./dist/browser/util/base64url.js",
-      "workerd": "./dist/browser/util/base64url.js",
-      "import": "./dist/node/esm/util/base64url.js",
-      "require": "./dist/node/cjs/util/base64url.js"
+      "default": "./dist/webapi/util/base64url.js"
     },
     "./package.json": "./package.json"
   },
-  "main": "./dist/node/cjs/index.js",
-  "browser": "./dist/browser/index.js",
+  "main": "./dist/webapi/index.js",
   "types": "./dist/types/index.d.ts",
   "files": [
-    "dist/**/package.json",
-    "dist/**/*.js",
+    "dist/webapi/**/*.js",
     "dist/types/**/*.d.ts",
     "!dist/**/*.bundle.js",
     "!dist/**/*.umd.js",
     "!dist/**/*.min.js",
-    "!dist/node/webcrypto/**/*",
     "!dist/types/runtime/*",
     "!dist/types/lib/*",
     "!dist/deno/**/*"
@@ -395,26 +207,16 @@
   "scripts": {
     "build": "tsc",
     "build-all": "run-s clear build:*",
-    "build:browser": "run-s runtime-browser 'build -- -p ./tsconfig/browser.json' && echo '{\"type\":\"module\",\"sideEffects\":false}'> dist/browser/package.json",
-    "build:browser-bundle": "esbuild --bundle dist/browser/index.js --format=esm --target=es2020 --outfile=dist/browser/index.bundle.js",
-    "build:browser-bundle-min": "esbuild --minify --bundle dist/browser/index.js --format=esm --target=es2020 --outfile=dist/browser/index.bundle.min.js",
-    "build:browser-umd": "rollup dist/browser/index.bundle.js --format umd --name jose -o dist/browser/index.umd.js && rollup dist/browser/index.bundle.min.js --compact --format umd --name jose -o dist/browser/index.umd.min.js",
-    "build:deno": "npm run-script runtime-deno && find dist/deno -name '*.ts' -type f -print0 | xargs -0 sed -i.bak -e \"s/\\.js'/.ts'/g\" -e \"s/\\.d'/.d.ts'/g\" && npm run-script sedcleanup",
+    "build:webapi": "npm run build -- -p ./tsconfig/webapi.json",
+    "build:webapi-bundle": "esbuild --bundle dist/webapi/index.js --format=esm --target=es2020 --outfile=dist/webapi/index.bundle.js",
+    "build:webapi-bundle-min": "esbuild --minify --bundle dist/webapi/index.js --format=esm --target=es2020 --outfile=dist/webapi/index.bundle.min.js",
+    "build:webapi-umd": "rollup dist/webapi/index.bundle.js --format umd --name jose -o dist/webapi/index.umd.js && rollup dist/webapi/index.bundle.min.js --compact --format umd --name jose -o dist/webapi/index.umd.min.js",
+    "build:deno": "mkdir -p dist/deno && cp -R src/. dist/deno && find dist/deno -name '*.ts' -type f -print0 | xargs -0 sed -i.bak -e \"s/\\.js'/.ts'/g\" && npm run-script sedcleanup",
     "build:types": "npm run-script build -- -p ./tsconfig/types.json && cd src && find . -name '*.d.ts' -maxdepth 2 -type f -exec rsync -R \"{}\" ../dist/types  \\; && cd .. && run-s -s types:find | xargs -0 sed -i.bak -e \"s/\\.js'/'/g\" -e \"s/\\.d'/'/g\" && npm run-script sedcleanup",
-    "build:node-cjs": "run-s runtime-node 'build -- -p ./tsconfig/node-cjs.json'",
-    "build:node-esm": "run-s runtime-node 'build -- -p ./tsconfig/node-esm.json' && echo '{\"type\":\"module\",\"sideEffects\":false}'> dist/node/esm/package.json",
     "clear": "rm -Rf dist",
     "sedcleanup": "find . -name '*.bak' -type f -print0 | xargs -0 rm -f",
     "docs:generate": "typedoc",
-    "runtime-browser": "run-s runtime:clear runtime:browser:* runtime:refs",
-    "runtime-deno": "npm run-script runtime-browser && mkdir -p dist/deno && cp -R src/. dist/deno && rm -R dist/deno/runtime/browser dist/deno/runtime/node",
-    "runtime-node": "run-s runtime:clear runtime:node:* runtime:refs",
-    "runtime:browser:copy": "cp ./src/runtime/browser/*.ts ./src/runtime",
-    "runtime:clear": "run-s -s runtime:find | xargs -0 rm -f",
-    "runtime:find": "find src/runtime -not -name '*.d.ts' -maxdepth 1 -type f -print0",
     "types:find": "find dist/types -name '*.d.ts' -type f -print0",
-    "runtime:node:copy": "cp ./src/runtime/node/*.ts ./src/runtime",
-    "runtime:refs": "run-s -s runtime:find | xargs -0 sed -i.bak -e \"s/'\\.\\.\\//'\\.\\//g\" -e \"s/'\\.\\/\\.\\./'../g\" && npm run-script sedcleanup",
     "test": "ava",
     "test:types": "tsd -f test/types",
     "format": "prettier --log-level silent --write ./test ./tap ./src ./tools ./cookbook ./tsconfig",
@@ -447,6 +249,5 @@
     "typedoc-plugin-markdown": "^4.3.1",
     "typedoc-plugin-mdn-links": "^4.0.3",
     "typescript": "^5.7.3"
-  },
-  "deno": "./dist/browser/index.js"
+  }
 }

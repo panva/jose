@@ -15,7 +15,11 @@ if (env.isWebKit) {
   ed25519.reproducible = false
 }
 
-export default (QUnit: QUnit, lib: typeof jose, keys: typeof jose) => {
+export default (
+  QUnit: QUnit,
+  lib: typeof jose,
+  keys: Pick<typeof jose, 'exportJWK' | 'generateKeyPair' | 'generateSecret' | 'importJWK'>,
+) => {
   const { module, test } = QUnit
 
   const encode = TextEncoder.prototype.encode.bind(new TextEncoder())

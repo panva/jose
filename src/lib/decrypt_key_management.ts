@@ -5,7 +5,7 @@ import { decrypt as rsaEs } from '../runtime/rsaes.js'
 import { decode as base64url } from '../runtime/base64url.js'
 import normalize from '../runtime/normalize_key.js'
 
-import type { DecryptOptions, JWEHeaderParameters, KeyLike, JWK } from '../types.d'
+import type { DecryptOptions, JWEHeaderParameters, KeyLike, JWK } from '../types.d.ts'
 import { JOSENotSupported, JWEInvalid } from '../util/errors.js'
 import { bitLength as cekLength } from '../lib/cek.js'
 import { importJWK } from '../key/import.js'
@@ -23,7 +23,7 @@ async function decryptKeyManagement(
   checkKeyType(alg, key, 'decrypt')
 
   // @ts-ignore
-  key = (await normalize.normalizePrivateKey?.(key, alg)) || key
+  key = (await normalize.normalizeKey?.(key, alg)) || key
 
   switch (alg) {
     case 'dir': {

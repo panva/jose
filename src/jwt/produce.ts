@@ -1,4 +1,4 @@
-import type { JWTPayload } from '../types.d'
+import type { JWTPayload } from '../types.d.ts'
 import epoch from '../lib/epoch.js'
 import isObject from '../lib/is_object.js'
 import secs from '../lib/secs.js'

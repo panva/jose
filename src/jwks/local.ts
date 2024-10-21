@@ -4,7 +4,7 @@ import type {
   JWK,
   JSONWebKeySet,
   FlattenedJWSInput,
-} from '../types.d'
+} from '../types.d.ts'
 import { importJWK } from '../key/import.js'
 import {
   JWKSInvalid,

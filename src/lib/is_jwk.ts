@@ -1,4 +1,4 @@
-import type { JWK } from '../types.d'
+import type { JWK } from '../types.d.ts'
 import isObject from './is_object.js'
 
 export function isJWK(key: unknown): key is JWK & { kty: string } {

@@ -14,14 +14,6 @@ jobs:
     runs-on: ubuntu-latest
     permissions:
       id-token: write
-    strategy:
-      fail-fast: false
-      matrix:
-        prepare-script:
-          - browser
-          - node-cjs
-          - node-esm
-          - universal
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -41,7 +33,7 @@ jobs:
           key: dist-${{ hashFiles('src/**/*.ts', 'tsconfig/*.json', '.github/workflows/*.yml', 'package-lock.json') }}
           fail-on-cache-miss: true
       - name: Prepare distribution
-        run: node tools/publish-${{ matrix.prepare-script }}
+        run: node tools/publish.cjs
       - run: npm publish --provenance
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
@@ -79,6 +71,6 @@ jobs:
         with:
           node-version: lts/*
           cache: 'npm'
-      - run: node tools/release-notes
+      - run: node tools/release-notes.cjs
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

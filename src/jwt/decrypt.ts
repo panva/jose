@@ -9,7 +9,7 @@ import type {
   FlattenedJWE,
   JWTDecryptResult,
   ResolvedKey,
-} from '../types.d'
+} from '../types.d.ts'
 import jwtPayload from '../lib/jwt_claims_set.js'
 import { JWTClaimValidationFailed } from '../util/errors.js'
 

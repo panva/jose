@@ -8,7 +8,7 @@ const skipFetch =
 export default async (
   QUnit: QUnit,
   lib: typeof jose,
-  keys: typeof jose,
+  keys: Pick<typeof jose, 'exportJWK' | 'generateKeyPair' | 'generateSecret' | 'importJWK'>,
   done: (details: QUnit.DoneDetails) => void,
 ) => {
   // @ts-ignore
