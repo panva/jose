@@ -106,4 +106,4 @@ export type {
   GetKeyFunction,
 } from './types.d.ts'
 
-export { default as cryptoRuntime } from './util/runtime.js'
+export const cryptoRuntime = 'WebCryptoAPI'

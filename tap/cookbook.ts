@@ -148,7 +148,7 @@ export default (
     }
 
     function supported(vector: any) {
-      if (vector.webcrypto === false && lib.cryptoRuntime !== 'node:crypto') {
+      if (vector.webcrypto === false) {
         return false
       }
       if (env.isElectron && vector.electron === false) {
