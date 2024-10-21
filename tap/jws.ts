@@ -14,8 +14,6 @@ export default (
   type Vector = [string, boolean] | [string, boolean, jose.GenerateKeyPairOptions]
   const algorithms: Vector[] = [
     ['EdDSA', !env.isBlink],
-    ['Ed25519', !env.isBlink],
-    ['EdDSA', env.isNode || env.isEdgeRuntime, { crv: 'Ed448' }],
     ['ES256', true],
     ['ES384', true],
     ['ES512', !env.isDeno],

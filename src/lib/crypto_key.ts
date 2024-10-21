@@ -65,9 +65,7 @@ export function checkSigCryptoKey(key: CryptoKey, alg: string, usage: KeyUsage) 
       break
     }
     case 'EdDSA': {
-      if (key.algorithm.name !== 'Ed25519' && key.algorithm.name !== 'Ed448') {
-        throw unusable('Ed25519 or Ed448')
-      }
+      if (!isAlgorithm(key.algorithm, 'Ed25519')) throw unusable('Ed25519')
       break
     }
     case 'Ed25519': {
@@ -114,10 +112,9 @@ export function checkEncCryptoKey(key: CryptoKey, alg: string, usage?: KeyUsage)
       switch (key.algorithm.name) {
         case 'ECDH':
         case 'X25519':
-        case 'X448':
           break
         default:
-          throw unusable('ECDH, X25519, or X448')
+          throw unusable('ECDH or X25519')
       }
       break
     }

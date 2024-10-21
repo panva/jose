@@ -48,7 +48,7 @@ const handleKeyObject = (key: ConvertableKeyObject, alg: string) => {
   }
 
   let cryptoKey: CryptoKey | undefined
-  if (key.asymmetricKeyType === 'x25519' || key.asymmetricKeyType === 'x448') {
+  if (key.asymmetricKeyType === 'x25519') {
     switch (alg) {
       case 'ECDH-ES':
       case 'ECDH-ES+A128KW':
@@ -67,7 +67,7 @@ const handleKeyObject = (key: ConvertableKeyObject, alg: string) => {
     )
   }
 
-  if (key.asymmetricKeyType === 'ed25519' || key.asymmetricKeyType === 'ed448') {
+  if (key.asymmetricKeyType === 'ed25519') {
     if (alg !== 'EdDSA') {
       throw new TypeError('TODO')
     }

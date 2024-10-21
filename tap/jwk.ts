@@ -28,10 +28,7 @@ export default (
         (env.isGecko && env.isBrowserVersionAtLeast(130)) ||
         (env.isBlink && env.isBrowserVersionAtLeast(133)),
     ],
-    ['ECDH-ES', KEYS.X448.jwk, env.isDeno ? [true, false] : env.isNode || env.isEdgeRuntime],
     ['EdDSA', KEYS.Ed25519.jwk, !env.isBlink],
-    ['Ed25519', KEYS.Ed25519.jwk, !env.isBlink],
-    ['EdDSA', KEYS.Ed448.jwk, env.isNode || env.isEdgeRuntime],
     ['ES256', KEYS.P256.jwk, true],
     ['ES384', KEYS.P384.jwk, true],
     ['ES512', KEYS.P521.jwk, env.isDeno ? [true, false] : true],

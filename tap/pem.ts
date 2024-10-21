@@ -87,17 +87,9 @@ export default (
         (env.isGecko && env.isBrowserVersionAtLeast(130)) ||
         (env.isBlink && env.isBrowserVersionAtLeast(133)),
     ],
-    [['ECDH-ES', 'X448'], KEYS.X448.pkcs8, env.isNode || env.isEdgeRuntime],
-    [['ECDH-ES', 'X448'], KEYS.X448.spki, env.isNode || env.isEdgeRuntime || env.isDeno],
     [['EdDSA', 'Ed25519'], KEYS.Ed25519.pkcs8, !env.isBlink],
     [['EdDSA', 'Ed25519'], KEYS.Ed25519.spki, !env.isBlink],
     [['EdDSA', 'Ed25519'], KEYS.Ed25519.x509, !env.isBlink],
-    [['EdDSA', 'Ed448'], KEYS.Ed448.pkcs8, env.isNode || env.isEdgeRuntime],
-    [['EdDSA', 'Ed448'], KEYS.Ed448.spki, env.isNode || env.isEdgeRuntime],
-    [['EdDSA', 'Ed448'], KEYS.Ed448.x509, env.isNode || env.isEdgeRuntime],
-    ['Ed25519', KEYS.Ed25519.pkcs8, !env.isBlink],
-    ['Ed25519', KEYS.Ed25519.spki, !env.isBlink],
-    ['Ed25519', KEYS.Ed25519.x509, !env.isBlink],
   ]
 
   function title(alg: string, crv: string | undefined, pem: string, works: boolean) {

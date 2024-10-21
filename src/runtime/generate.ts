@@ -115,15 +115,7 @@ export async function generateKeyPair(alg: string, options?: GenerateKeyPairOpti
       break
     case 'EdDSA': {
       keyUsages = ['sign', 'verify']
-      const crv = options?.crv ?? 'Ed25519'
-      switch (crv) {
-        case 'Ed25519':
-        case 'Ed448':
-          algorithm = { name: crv }
-          break
-        default:
-          throw new JOSENotSupported('Invalid or unsupported crv option provided')
-      }
+      algorithm = { name: 'Ed25519' }
       break
     }
     case 'ECDH-ES':
@@ -140,12 +132,11 @@ export async function generateKeyPair(alg: string, options?: GenerateKeyPairOpti
           break
         }
         case 'X25519':
-        case 'X448':
           algorithm = { name: crv }
           break
         default:
           throw new JOSENotSupported(
-            'Invalid or unsupported crv option provided, supported values are P-256, P-384, P-521, X25519, and X448',
+            'Invalid or unsupported crv option provided, supported values are P-256, P-384, P-521, and X25519',
           )
       }
       break

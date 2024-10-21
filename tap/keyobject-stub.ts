@@ -88,8 +88,6 @@ const stub: Pick<
           case undefined:
           case 'Ed25519':
             return generate('ed25519')
-          case 'Ed448':
-            return generate('ed448')
           default:
             throw new Error('unreachable')
         }
@@ -106,8 +104,6 @@ const stub: Pick<
             return generate('ec', { namedCurve: crv })
           case 'X25519':
             return generate('x25519')
-          case 'X448':
-            return generate('x448')
           default:
             Error('unreachable')
         }

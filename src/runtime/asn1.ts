@@ -60,12 +60,8 @@ const getNamedCurve = (keyData: Uint8Array): string => {
       return 'P-521'
     case findOid(keyData, [0x2b, 0x65, 0x6e]):
       return 'X25519'
-    case findOid(keyData, [0x2b, 0x65, 0x6f]):
-      return 'X448'
     case findOid(keyData, [0x2b, 0x65, 0x70]):
       return 'Ed25519'
-    case findOid(keyData, [0x2b, 0x65, 0x71]):
-      return 'Ed448'
     default:
       throw new JOSENotSupported('Invalid or unsupported EC Key Curve or OKP Key Sub Type')
   }

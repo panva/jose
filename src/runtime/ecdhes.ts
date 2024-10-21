@@ -23,8 +23,6 @@ export async function deriveKey(
   let length: number
   if (publicKey.algorithm.name === 'X25519') {
     length = 256
-  } else if (publicKey.algorithm.name === 'X448') {
-    length = 448
   } else {
     length =
       Math.ceil(parseInt((publicKey.algorithm as EcKeyAlgorithm).namedCurve.slice(-3), 10) / 8) << 3
@@ -51,7 +49,6 @@ export async function generateEpk(key: CryptoKey) {
 export function ecdhAllowed(key: CryptoKey) {
   return (
     ['P-256', 'P-384', 'P-521'].includes((key.algorithm as EcKeyAlgorithm).namedCurve) ||
-    key.algorithm.name === 'X25519' ||
-    key.algorithm.name === 'X448'
+    key.algorithm.name === 'X25519'
   )
 }

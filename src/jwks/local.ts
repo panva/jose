@@ -101,7 +101,12 @@ class LocalJWKSet {
         candidate = jwk.key_ops.includes('verify')
       }
 
-      // filter out non-applicable curves / sub types
+      // filter out non-applicable OKP Sub Types
+      if (candidate && alg === 'EdDSA') {
+        candidate = jwk.crv === 'Ed25519'
+      }
+
+      // filter out non-applicable EC curves
       if (candidate) {
         switch (alg) {
           case 'ES256':

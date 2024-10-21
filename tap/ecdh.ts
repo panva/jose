@@ -29,7 +29,6 @@ export default (
         (env.isBlink && env.isBrowserVersionAtLeast(133)),
       { crv: 'X25519' },
     ],
-    ['ECDH-ES', env.isNode || env.isEdgeRuntime, { crv: 'X448' }],
   ]
 
   function title(vector: Vector) {
