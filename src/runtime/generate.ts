@@ -130,7 +130,7 @@ export async function generateKeyPair(alg: string, options?: GenerateKeyPairOpti
     case 'ECDH-ES+A128KW':
     case 'ECDH-ES+A192KW':
     case 'ECDH-ES+A256KW': {
-      keyUsages = ['deriveKey', 'deriveBits']
+      keyUsages = ['deriveBits']
       const crv = options?.crv ?? 'P-256'
       switch (crv) {
         case 'P-256':

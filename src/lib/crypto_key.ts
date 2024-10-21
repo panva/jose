@@ -26,23 +26,15 @@ function getNamedCurve(alg: string) {
   }
 }
 
-function checkUsage(key: CryptoKey, usages: KeyUsage[]) {
-  if (usages.length && !usages.some((expected) => key.usages.includes(expected))) {
-    let msg = 'CryptoKey does not support this operation, its usages must include '
-    if (usages.length > 2) {
-      const last = usages.pop()
-      msg += `one of ${usages.join(', ')}, or ${last}.`
-    } else if (usages.length === 2) {
-      msg += `one of ${usages[0]} or ${usages[1]}.`
-    } else {
-      msg += `${usages[0]}.`
-    }
-
-    throw new TypeError(msg)
+function checkUsage(key: CryptoKey, usage?: KeyUsage) {
+  if (usage && !key.usages.includes(usage)) {
+    throw new TypeError(
+      `CryptoKey does not support this operation, its usages must include ${usage}.`,
+    )
   }
 }
 
-export function checkSigCryptoKey(key: CryptoKey, alg: string, ...usages: KeyUsage[]) {
+export function checkSigCryptoKey(key: CryptoKey, alg: string, usage: KeyUsage) {
   switch (alg) {
     case 'HS256':
     case 'HS384':
@@ -95,10 +87,10 @@ export function checkSigCryptoKey(key: CryptoKey, alg: string, ...usages: KeyUsa
       throw new TypeError('CryptoKey does not support this operation')
   }
 
-  checkUsage(key, usages)
+  checkUsage(key, usage)
 }
 
-export function checkEncCryptoKey(key: CryptoKey, alg: string, ...usages: KeyUsage[]) {
+export function checkEncCryptoKey(key: CryptoKey, alg: string, usage?: KeyUsage) {
   switch (alg) {
     case 'A128GCM':
     case 'A192GCM':
@@ -148,5 +140,5 @@ export function checkEncCryptoKey(key: CryptoKey, alg: string, ...usages: KeyUsa
       throw new TypeError('CryptoKey does not support this operation')
   }
 
-  checkUsage(key, usages)
+  checkUsage(key, usage)
 }
