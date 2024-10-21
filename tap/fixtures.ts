@@ -27,38 +27,6 @@ export const KEYS = {
       'Krphj6cA4Ls9aMYAHf5w+OW9D/t3a9p6mYm78AKIdBsPEtT1AQ==\n' +
       '-----END CERTIFICATE-----\n',
   },
-  Ed448: {
-    jwk: {
-      crv: 'Ed448',
-      d: '35yNO4M8bgte2BEjaCxrx9epQhzZ4VqF5GhjDaBHGPHHCznFXtmQuOps4XvrNpnVUtiawY4j3FCq',
-      kty: 'OKP',
-      x: 'pNAfXkImnUHY52ePCZoU4TKCnrq8baLpCiboNxlmN2AbG2xqmLW5F1DA3lsf-S6GWVIfXPysVd0A',
-    },
-    pkcs8:
-      '-----BEGIN PRIVATE KEY-----\n' +
-      'MEcCAQAwBQYDK2VxBDsEOd+cjTuDPG4LXtgRI2gsa8fXqUIc2eFaheRoYw2gRxjx\n' +
-      'xws5xV7ZkLjqbOF76zaZ1VLYmsGOI9xQqg==\n' +
-      '-----END PRIVATE KEY-----\n',
-    spki:
-      '-----BEGIN PUBLIC KEY-----\n' +
-      'MEMwBQYDK2VxAzoApNAfXkImnUHY52ePCZoU4TKCnrq8baLpCiboNxlmN2AbG2xq\n' +
-      'mLW5F1DA3lsf+S6GWVIfXPysVd0A\n' +
-      '-----END PUBLIC KEY-----\n',
-    x509:
-      '-----BEGIN CERTIFICATE-----\n' +
-      'MIIB7DCCAWygAwIBAgIUL85nVDm2evUiy7tWzGv6OxRjclswBQYDK2VxMEUxCzAJ\n' +
-      'BgNVBAYTAkNaMRMwEQYDVQQIDApTb21lLVN0YXRlMSEwHwYDVQQKDBhJbnRlcm5l\n' +
-      'dCBXaWRnaXRzIFB0eSBMdGQwIBcNMjIxMDExMTIyMTQwWhgPMjEyMjA5MTcxMjIx\n' +
-      'NDBaMEUxCzAJBgNVBAYTAkNaMRMwEQYDVQQIDApTb21lLVN0YXRlMSEwHwYDVQQK\n' +
-      'DBhJbnRlcm5ldCBXaWRnaXRzIFB0eSBMdGQwQzAFBgMrZXEDOgCk0B9eQiadQdjn\n' +
-      'Z48JmhThMoKeurxtoukKJug3GWY3YBsbbGqYtbkXUMDeWx/5LoZZUh9c/KxV3QCj\n' +
-      'UzBRMB0GA1UdDgQWBBSA9Hb5PA/vVojQWg4Per+myWHvCzAfBgNVHSMEGDAWgBSA\n' +
-      '9Hb5PA/vVojQWg4Per+myWHvCzAPBgNVHRMBAf8EBTADAQH/MAUGAytlcQNzAN9G\n' +
-      '9bFcVViH8c/zexozB/QCtueCu2kLNCLM9auSlFoHEy8u7+Gxyg1O+3bc43YxBObB\n' +
-      '+wwH7G+8gKKOkFL/43b7o2HNOlZUDHcWAP25cGY6lDFUvQDc0FGO0ge+h4tt075x\n' +
-      'e52JbhpyuHQlrWYQqHQSAA==\n' +
-      '-----END CERTIFICATE-----\n',
-  },
   P256: {
     jwk: {
       crv: 'P-256',
@@ -240,25 +208,6 @@ export const KEYS = {
     spki:
       '-----BEGIN PUBLIC KEY-----\n' +
       'MCowBQYDK2VuAyEAaq1ZuCRIE3XXXcRpbC/txuESJ4KFH8VwQlz1nVa8Ugk=\n' +
-      '-----END PUBLIC KEY-----\n',
-    x509: undefined,
-  },
-  X448: {
-    jwk: {
-      crv: 'X448',
-      d: 'tMpYXWcUg7vGrUcZ1cUMVodjB6rWSOaBKgmaigThaInGRTCmaWPDYrE93wwPmyxOhVYRsmIRFv0',
-      kty: 'OKP',
-      x: 'jk-IiddcEYNq6CwHnqsQleaB86W2tUITnIMwkurT5BUdw2YpJxQt9rgnEZQW0KnQE-ORhEl0kaA',
-    },
-    pkcs8:
-      '-----BEGIN PRIVATE KEY-----\n' +
-      'MEYCAQAwBQYDK2VvBDoEOLTKWF1nFIO7xq1HGdXFDFaHYweq1kjmgSoJmooE4WiJ\n' +
-      'xkUwpmljw2KxPd8MD5ssToVWEbJiERb9\n' +
-      '-----END PRIVATE KEY-----\n',
-    spki:
-      '-----BEGIN PUBLIC KEY-----\n' +
-      'MEIwBQYDK2VvAzkAjk+IiddcEYNq6CwHnqsQleaB86W2tUITnIMwkurT5BUdw2Yp\n' +
-      'JxQt9rgnEZQW0KnQE+ORhEl0kaA=\n' +
       '-----END PUBLIC KEY-----\n',
     x509: undefined,
   },

@@ -103,7 +103,7 @@ class LocalJWKSet {
 
       // filter out non-applicable OKP Sub Types
       if (candidate && alg === 'EdDSA') {
-        candidate = jwk.crv === 'Ed25519' || jwk.crv === 'Ed448'
+        candidate = jwk.crv === 'Ed25519'
       }
 
       // filter out non-applicable EC curves
