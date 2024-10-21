@@ -7,7 +7,16 @@ import encryptKeyManagement from '../../lib/encrypt_key_management.js'
 import { encode as base64url } from '../../runtime/base64url.js'
 import validateCrit from '../../lib/validate_crit.js'
 
-import type { KeyLike, GeneralJWE, JWEHeaderParameters, CritOption } from '../../types.d.ts'
+import type {
+  CryptoKey,
+  GeneralJWE,
+  JWEHeaderParameters,
+  CritOption,
+  KeyObject,
+  JWK,
+} from '../../types.d.ts'
+import normalizeKey from '../../runtime/normalize_key.js'
+import checkKeyType from '../../lib/check_key_type.js'
 
 export interface Recipient {
   /**
@@ -30,10 +39,14 @@ export interface Recipient {
 class IndividualRecipient implements Recipient {
   private parent: GeneralEncrypt
   unprotectedHeader?: JWEHeaderParameters
-  key: KeyLike | Uint8Array
+  key: CryptoKey | KeyObject | JWK | Uint8Array
   options: CritOption
 
-  constructor(enc: GeneralEncrypt, key: KeyLike | Uint8Array, options: CritOption) {
+  constructor(
+    enc: GeneralEncrypt,
+    key: CryptoKey | KeyObject | JWK | Uint8Array,
+    options: CritOption,
+  ) {
     this.parent = enc
     this.key = key
     this.options = options
@@ -105,7 +118,7 @@ export class GeneralEncrypt {
    *   See {@link https://github.com/panva/jose/issues/210#jwe-alg Algorithm Key Requirements}.
    * @param options JWE Encryption options.
    */
-  addRecipient(key: KeyLike | Uint8Array, options?: CritOption): Recipient {
+  addRecipient(key: CryptoKey | KeyObject | JWK | Uint8Array, options?: CritOption): Recipient {
     const recipient = new IndividualRecipient(this, key, { crit: options?.crit })
     this._recipients.push(recipient)
     return recipient
@@ -277,15 +290,15 @@ export class GeneralEncrypt {
         continue
       }
 
-      const { encryptedKey, parameters } = await encryptKeyManagement(
+      const alg =
         recipient.unprotectedHeader?.alg! ||
-          this._protectedHeader?.alg! ||
-          this._unprotectedHeader?.alg!,
-        enc,
-        recipient.key,
-        cek,
-        { p2c },
-      )
+        this._protectedHeader?.alg! ||
+        this._unprotectedHeader?.alg!
+
+      checkKeyType(alg === 'dir' ? enc : alg, recipient.key, 'encrypt')
+
+      const k = await normalizeKey(recipient.key, alg)
+      const { encryptedKey, parameters } = await encryptKeyManagement(alg, enc, k, cek, { p2c })
       target.encrypted_key = base64url(encryptedKey!)
       if (recipient.unprotectedHeader || parameters)
         target.header = { ...recipient.unprotectedHeader, ...parameters }

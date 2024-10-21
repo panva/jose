@@ -1,24 +1,16 @@
 import { encoder, concat, uint32be, lengthAndInput, concatKdf } from '../lib/buffer_utils.js'
-import crypto, { isCryptoKey } from './webcrypto.js'
 import { checkEncCryptoKey } from '../lib/crypto_key.js'
-import invalidKeyInput from '../lib/invalid_key_input.js'
-import { types } from './is_key_like.js'
+import type { CryptoKey } from '../types.d.ts'
 
 export async function deriveKey(
-  publicKey: unknown,
-  privateKey: unknown,
+  publicKey: CryptoKey,
+  privateKey: CryptoKey,
   algorithm: string,
   keyLength: number,
   apu: Uint8Array = new Uint8Array(0),
   apv: Uint8Array = new Uint8Array(0),
 ) {
-  if (!isCryptoKey(publicKey)) {
-    throw new TypeError(invalidKeyInput(publicKey, ...types))
-  }
   checkEncCryptoKey(publicKey, 'ECDH')
-  if (!isCryptoKey(privateKey)) {
-    throw new TypeError(invalidKeyInput(privateKey, ...types))
-  }
   checkEncCryptoKey(privateKey, 'ECDH', 'deriveBits')
 
   const value = concat(
@@ -35,8 +27,7 @@ export async function deriveKey(
     length = 448
   } else {
     length =
-      Math.ceil(parseInt((publicKey.algorithm as EcKeyAlgorithm).namedCurve.substr(-3), 10) / 8) <<
-      3
+      Math.ceil(parseInt((publicKey.algorithm as EcKeyAlgorithm).namedCurve.slice(-3), 10) / 8) << 3
   }
 
   const sharedSecret = new Uint8Array(
@@ -53,18 +44,11 @@ export async function deriveKey(
   return concatKdf(sharedSecret, keyLength, value)
 }
 
-export async function generateEpk(key: unknown) {
-  if (!isCryptoKey(key)) {
-    throw new TypeError(invalidKeyInput(key, ...types))
-  }
-
+export async function generateEpk(key: CryptoKey) {
   return crypto.subtle.generateKey(key.algorithm as EcKeyAlgorithm, true, ['deriveBits'])
 }
 
-export function ecdhAllowed(key: unknown) {
-  if (!isCryptoKey(key)) {
-    throw new TypeError(invalidKeyInput(key, ...types))
-  }
+export function ecdhAllowed(key: CryptoKey) {
   return (
     ['P-256', 'P-384', 'P-521'].includes((key.algorithm as EcKeyAlgorithm).namedCurve) ||
     key.algorithm.name === 'X25519' ||

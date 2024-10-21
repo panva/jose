@@ -33,7 +33,10 @@ export default (
   }
 
   function secretsFor(alg: string) {
-    return [keys.generateSecret(alg), random(parseInt(alg.slice(1, 4), 10) >> 3)]
+    return [
+      keys.generateSecret(alg, { extractable: true }),
+      random(parseInt(alg.slice(1, 4), 10) >> 3),
+    ]
   }
 
   for (const vector of algorithms) {

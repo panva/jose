@@ -7,17 +7,21 @@ import isObject from '../../lib/is_object.js'
 import decryptKeyManagement from '../../lib/decrypt_key_management.js'
 import type {
   FlattenedDecryptResult,
-  KeyLike,
+  CryptoKey,
   FlattenedJWE,
   JWEHeaderParameters,
   DecryptOptions,
   GetKeyFunction,
   ResolvedKey,
+  KeyObject,
+  JWK,
 } from '../../types.d.ts'
 import { encoder, decoder, concat } from '../../lib/buffer_utils.js'
 import generateCek from '../../lib/cek.js'
 import validateCrit from '../../lib/validate_crit.js'
 import validateAlgorithms from '../../lib/validate_algorithms.js'
+import normalizeKey from '../../runtime/normalize_key.js'
+import checkKeyType from '../../lib/check_key_type.js'
 
 /**
  * Interface for Flattened JWE Decryption dynamic key resolution. No token components have been
@@ -61,7 +65,7 @@ export interface FlattenedDecryptGetKey
  */
 export function flattenedDecrypt(
   jwe: FlattenedJWE,
-  key: KeyLike | Uint8Array,
+  key: CryptoKey | KeyObject | JWK | Uint8Array,
   options?: DecryptOptions,
 ): Promise<FlattenedDecryptResult>
 /**
@@ -70,14 +74,14 @@ export function flattenedDecrypt(
  *   {@link https://github.com/panva/jose/issues/210#jwe-alg Algorithm Key Requirements}.
  * @param options JWE Decryption options.
  */
-export function flattenedDecrypt<KeyLikeType extends KeyLike = KeyLike>(
+export function flattenedDecrypt(
   jwe: FlattenedJWE,
   getKey: FlattenedDecryptGetKey,
   options?: DecryptOptions,
-): Promise<FlattenedDecryptResult & ResolvedKey<KeyLikeType>>
+): Promise<FlattenedDecryptResult & ResolvedKey>
 export async function flattenedDecrypt(
   jwe: FlattenedJWE,
-  key: KeyLike | Uint8Array | FlattenedDecryptGetKey,
+  key: CryptoKey | KeyObject | JWK | Uint8Array | FlattenedDecryptGetKey,
   options?: DecryptOptions,
 ) {
   if (!isObject(jwe)) {
@@ -190,10 +194,12 @@ export async function flattenedDecrypt(
     key = await key(parsedProt, jwe)
     resolvedKey = true
   }
+  checkKeyType(alg === 'dir' ? enc : alg, key, 'decrypt')
 
-  let cek: KeyLike | Uint8Array
+  const k = await normalizeKey(key, alg)
+  let cek: CryptoKey | Uint8Array
   try {
-    cek = await decryptKeyManagement(alg, key, encryptedKey, joseHeader, options)
+    cek = await decryptKeyManagement(alg, k, encryptedKey, joseHeader, options)
   } catch (err) {
     if (err instanceof TypeError || err instanceof JWEInvalid || err instanceof JOSENotSupported) {
       throw err
@@ -265,7 +271,7 @@ export async function flattenedDecrypt(
   }
 
   if (resolvedKey) {
-    return { ...result, key }
+    return { ...result, key: k }
   }
 
   return result

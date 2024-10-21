@@ -2,6 +2,7 @@
 ./node_modules/.bin/esbuild \
   --log-level=warning \
   --format=esm \
+  --sourcemap \
   --bundle \
   --platform=node \
   --external:#dist \

@@ -2,13 +2,15 @@ import { flattenedDecrypt } from '../flattened/decrypt.js'
 import { JWEInvalid } from '../../util/errors.js'
 import { decoder } from '../../lib/buffer_utils.js'
 import type {
-  KeyLike,
+  CryptoKey,
   DecryptOptions,
   CompactJWEHeaderParameters,
   GetKeyFunction,
   FlattenedJWE,
   CompactDecryptResult,
   ResolvedKey,
+  KeyObject,
+  JWK,
 } from '../../types.d.ts'
 
 /**
@@ -43,7 +45,7 @@ export interface CompactDecryptGetKey
  */
 export async function compactDecrypt(
   jwe: string | Uint8Array,
-  key: KeyLike | Uint8Array,
+  key: CryptoKey | KeyObject | JWK | Uint8Array,
   options?: DecryptOptions,
 ): Promise<CompactDecryptResult>
 /**
@@ -52,14 +54,14 @@ export async function compactDecrypt(
  *   {@link https://github.com/panva/jose/issues/210#jwe-alg Algorithm Key Requirements}.
  * @param options JWE Decryption options.
  */
-export async function compactDecrypt<KeyLikeType extends KeyLike = KeyLike>(
+export async function compactDecrypt(
   jwe: string | Uint8Array,
   getKey: CompactDecryptGetKey,
   options?: DecryptOptions,
-): Promise<CompactDecryptResult & ResolvedKey<KeyLikeType>>
+): Promise<CompactDecryptResult & ResolvedKey>
 export async function compactDecrypt(
   jwe: string | Uint8Array,
-  key: KeyLike | Uint8Array | CompactDecryptGetKey,
+  key: CryptoKey | KeyObject | JWK | Uint8Array | CompactDecryptGetKey,
   options?: DecryptOptions,
 ) {
   if (jwe instanceof Uint8Array) {

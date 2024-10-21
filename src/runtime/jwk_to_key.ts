@@ -1,4 +1,3 @@
-import crypto from './webcrypto.js'
 import { JOSENotSupported } from '../util/errors.js'
 import type { JWK } from '../types.d.ts'
 

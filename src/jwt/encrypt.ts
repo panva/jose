@@ -3,7 +3,9 @@ import type {
   EncryptOptions,
   CompactJWEHeaderParameters,
   JWEKeyManagementHeaderParameters,
-  KeyLike,
+  CryptoKey,
+  KeyObject,
+  JWK,
 } from '../types.d.ts'
 import { encoder } from '../lib/buffer_utils.js'
 import { ProduceJWT } from './produce.js'
@@ -145,7 +147,10 @@ export class EncryptJWT extends ProduceJWT {
    *   {@link https://github.com/panva/jose/issues/210#jwe-alg Algorithm Key Requirements}.
    * @param options JWE Encryption options.
    */
-  async encrypt(key: KeyLike | Uint8Array, options?: EncryptOptions): Promise<string> {
+  async encrypt(
+    key: CryptoKey | KeyObject | JWK | Uint8Array,
+    options?: EncryptOptions,
+  ): Promise<string> {
     const enc = new CompactEncrypt(encoder.encode(JSON.stringify(this._payload)))
     if (this._replicateIssuerAsHeader) {
       this._protectedHeader = { ...this._protectedHeader, iss: this._payload.iss }

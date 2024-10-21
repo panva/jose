@@ -1,5 +1,5 @@
 import type {
-  KeyLike,
+  CryptoKey,
   JWSHeaderParameters,
   JWK,
   JSONWebKeySet,
@@ -28,8 +28,8 @@ function getKtyFromAlg(alg: unknown) {
   }
 }
 
-interface Cache<KeyLikeType extends KeyLike = KeyLike> {
-  [alg: string]: KeyLikeType
+interface Cache {
+  [alg: string]: CryptoKey
 }
 
 function isJWKSLike(jwks: unknown): jwks is JSONWebKeySet {
@@ -57,10 +57,10 @@ function clone<T>(obj: T): T {
   return JSON.parse(JSON.stringify(obj))
 }
 
-class LocalJWKSet<KeyLikeType extends KeyLike = KeyLike> {
+class LocalJWKSet {
   private _jwks?: JSONWebKeySet
 
-  private _cached: WeakMap<JWK, Cache<KeyLikeType>> = new WeakMap()
+  private _cached: WeakMap<JWK, Cache> = new WeakMap()
 
   constructor(jwks: unknown) {
     if (!isJWKSLike(jwks)) {
@@ -73,7 +73,7 @@ class LocalJWKSet<KeyLikeType extends KeyLike = KeyLike> {
   async getKey(
     protectedHeader?: JWSHeaderParameters,
     token?: FlattenedJWSInput,
-  ): Promise<KeyLikeType> {
+  ): Promise<CryptoKey> {
     const { alg, kid } = { ...protectedHeader, ...token?.header }
     const kty = getKtyFromAlg(alg)
 
@@ -137,7 +137,7 @@ class LocalJWKSet<KeyLikeType extends KeyLike = KeyLike> {
       error[Symbol.asyncIterator] = async function* () {
         for (const jwk of candidates) {
           try {
-            yield await importWithAlgCache<KeyLikeType>(_cached, jwk, alg!)
+            yield await importWithAlgCache(_cached, jwk, alg!)
           } catch {}
         }
       }
@@ -145,18 +145,14 @@ class LocalJWKSet<KeyLikeType extends KeyLike = KeyLike> {
       throw error
     }
 
-    return importWithAlgCache<KeyLikeType>(this._cached, jwk, alg!)
+    return importWithAlgCache(this._cached, jwk, alg!)
   }
 }
 
-async function importWithAlgCache<KeyLikeType extends KeyLike = KeyLike>(
-  cache: WeakMap<JWK, Cache<KeyLikeType>>,
-  jwk: JWK,
-  alg: string,
-) {
+async function importWithAlgCache(cache: WeakMap<JWK, Cache>, jwk: JWK, alg: string) {
   const cached = cache.get(jwk) || cache.set(jwk, {}).get(jwk)!
   if (cached[alg] === undefined) {
-    const key = await importJWK<KeyLikeType>({ ...jwk, ext: true }, alg)
+    const key = await importJWK({ ...jwk, ext: true }, alg)
 
     if (key instanceof Uint8Array || key.type !== 'public') {
       throw new JWKSInvalid('JSON Web Key Set members must be public keys')
@@ -250,15 +246,15 @@ async function importWithAlgCache<KeyLikeType extends KeyLike = KeyLike>(
  *
  * @param jwks JSON Web Key Set formatted object.
  */
-export function createLocalJWKSet<KeyLikeType extends KeyLike = KeyLike>(
+export function createLocalJWKSet(
   jwks: JSONWebKeySet,
-): (protectedHeader?: JWSHeaderParameters, token?: FlattenedJWSInput) => Promise<KeyLikeType> {
-  const set = new LocalJWKSet<KeyLikeType>(jwks)
+): (protectedHeader?: JWSHeaderParameters, token?: FlattenedJWSInput) => Promise<CryptoKey> {
+  const set = new LocalJWKSet(jwks)
 
   const localJWKSet = async (
     protectedHeader?: JWSHeaderParameters,
     token?: FlattenedJWSInput,
-  ): Promise<KeyLikeType> => set.getKey(protectedHeader, token)
+  ): Promise<CryptoKey> => set.getKey(protectedHeader, token)
 
   Object.defineProperties(localJWKSet, {
     jwks: {

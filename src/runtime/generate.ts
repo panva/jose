@@ -1,4 +1,3 @@
-import crypto from './webcrypto.js'
 import { JOSENotSupported } from '../util/errors.js'
 import random from './random.js'
 import type { GenerateKeyPairOptions } from '../key/generate_key_pair.js'

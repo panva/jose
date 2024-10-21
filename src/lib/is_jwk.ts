@@ -14,5 +14,5 @@ export function isPublicJWK(key: JWK & { kty: string }) {
 }
 
 export function isSecretJWK(key: JWK & { kty: string }) {
-  return isJWK(key) && key.kty === 'oct' && typeof key.k === 'string'
+  return key.kty === 'oct' && typeof key.k === 'string'
 }

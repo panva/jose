@@ -3,10 +3,10 @@ import * as ECDH from '../runtime/ecdhes.js'
 import { encrypt as pbes2Kw } from '../runtime/pbes2kw.js'
 import { encrypt as rsaEs } from '../runtime/rsaes.js'
 import { encode as base64url } from '../runtime/base64url.js'
-import normalize from '../runtime/normalize_key.js'
+import normalizeKey from '../runtime/normalize_key.js'
 
 import type {
-  KeyLike,
+  CryptoKey,
   JWEKeyManagementHeaderParameters,
   JWEHeaderParameters,
   JWK,
@@ -14,28 +14,23 @@ import type {
 import generateCek, { bitLength as cekLength } from '../lib/cek.js'
 import { JOSENotSupported } from '../util/errors.js'
 import { exportJWK } from '../key/export.js'
-import checkKeyType from './check_key_type.js'
 import { wrap as aesGcmKw } from './aesgcmkw.js'
+import { assertCryptoKey } from '../runtime/is_key_like.js'
 
 async function encryptKeyManagement(
   alg: string,
   enc: string,
-  key: KeyLike | Uint8Array,
+  key: CryptoKey | Uint8Array,
   providedCek?: Uint8Array,
   providedParameters: JWEKeyManagementHeaderParameters = {},
 ): Promise<{
-  cek: KeyLike | Uint8Array
+  cek: CryptoKey | Uint8Array
   encryptedKey?: Uint8Array
   parameters?: JWEHeaderParameters
 }> {
   let encryptedKey: Uint8Array | undefined
   let parameters: (JWEHeaderParameters & { epk?: JWK }) | undefined
-  let cek: KeyLike | Uint8Array
-
-  checkKeyType(alg, key, 'encrypt')
-
-  // @ts-ignore
-  key = (await normalize.normalizeKey?.(key, alg)) || key
+  let cek: CryptoKey | Uint8Array
 
   switch (alg) {
     case 'dir': {
@@ -47,6 +42,7 @@ async function encryptKeyManagement(
     case 'ECDH-ES+A128KW':
     case 'ECDH-ES+A192KW':
     case 'ECDH-ES+A256KW': {
+      assertCryptoKey(key)
       // Direct Key Agreement
       if (!ECDH.ecdhAllowed(key)) {
         throw new JOSENotSupported(
@@ -54,8 +50,12 @@ async function encryptKeyManagement(
         )
       }
       const { apu, apv } = providedParameters
-      let { epk: ephemeralKey } = providedParameters
-      ephemeralKey ||= (await ECDH.generateEpk(key)).privateKey
+      let ephemeralKey: CryptoKey
+      if (providedParameters.epk) {
+        ephemeralKey = (await normalizeKey(providedParameters.epk, alg)) as CryptoKey
+      } else {
+        ephemeralKey = (await ECDH.generateEpk(key)).privateKey
+      }
       const { x, y, crv, kty } = await exportJWK(ephemeralKey!)
       const sharedSecret = await ECDH.deriveKey(
         key,
@@ -87,6 +87,7 @@ async function encryptKeyManagement(
     case 'RSA-OAEP-512': {
       // Key Encryption (RSA)
       cek = providedCek || generateCek(enc)
+      assertCryptoKey(key)
       encryptedKey = await rsaEs(alg, key, cek)
       break
     }

@@ -1,4 +1,4 @@
-import type { JWTPayload, KeyLike } from '../types.d.ts'
+import type { JWTPayload, CryptoKey } from '../types.d.ts'
 
 /**
  * A generic Error that all other JOSE specific Error subclasses extend.
@@ -446,7 +446,7 @@ export class JWKSNoMatchingKey extends JOSEError {
  */
 export class JWKSMultipleMatchingKeys extends JOSEError {
   /** @ignore */
-  [Symbol.asyncIterator]!: () => AsyncIterableIterator<KeyLike>
+  [Symbol.asyncIterator]!: () => AsyncIterableIterator<CryptoKey>
 
   /** @ignore */
   static override code = 'ERR_JWKS_MULTIPLE_MATCHING_KEYS'

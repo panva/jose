@@ -1,4 +1,3 @@
-import crypto from './webcrypto.js'
 import type { DigestFunction } from './interfaces.d.ts'
 
 const digest: DigestFunction = async (

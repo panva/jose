@@ -1,9 +1,8 @@
-import crypto, { isCryptoKey } from './webcrypto.js'
 import type { JWKExportFunction } from './interfaces.d.ts'
 import type { JWK } from '../types.d.ts'
 import invalidKeyInput from '../lib/invalid_key_input.js'
 import { encode as base64url } from './base64url.js'
-import { types } from './is_key_like.js'
+import { isCryptoKey } from './is_key_like.js'
 
 const keyToJWK: JWKExportFunction = async (key: unknown): Promise<JWK> => {
   if (key instanceof Uint8Array) {
@@ -13,7 +12,7 @@ const keyToJWK: JWKExportFunction = async (key: unknown): Promise<JWK> => {
     }
   }
   if (!isCryptoKey(key)) {
-    throw new TypeError(invalidKeyInput(key, ...types, 'Uint8Array'))
+    throw new TypeError(invalidKeyInput(key, 'CryptoKey', 'Uint8Array'))
   }
   if (!key.extractable) {
     throw new TypeError('non-extractable CryptoKey cannot be exported as a JWK')

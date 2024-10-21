@@ -60,6 +60,8 @@ export type { GenerateSecretOptions } from './key/generate_secret.js'
 export * as base64url from './util/base64url.js'
 
 export type {
+  CryptoKey,
+  KeyObject,
   KeyLike,
   JWK,
   JWKParameters,

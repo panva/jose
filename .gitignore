@@ -121,7 +121,9 @@ dist-browser-tests
 
 .npmrc
 tap/*.js
+tap/*.js.map
 tap/run-*.mjs
+tap/run-*.mjs.map
 *.bak
 *.bun
 tap/.workerd.capnp
