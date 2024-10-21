@@ -1,6 +1,6 @@
 {
   "imports": {
-    "#dist/webapi": "../dist/deno/index.ts",
+    "#dist": "../dist/deno/index.ts",
     "./aes.js": "./aes.ts",
     "./aeskw.js": "./aeskw.ts",
     "./cookbook.js": "./cookbook.ts",

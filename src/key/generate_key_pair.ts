@@ -1,6 +1,6 @@
 import { generateKeyPair as generate } from '../runtime/generate.js'
 
-import type { KeyLike } from '../types.d'
+import type { KeyLike } from '../types.d.ts'
 
 export interface GenerateKeyPairResult<KeyLikeType extends KeyLike = KeyLike> {
   /** The generated Private Key. */

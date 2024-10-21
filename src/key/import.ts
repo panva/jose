@@ -4,7 +4,7 @@ import asKeyObject from '../runtime/jwk_to_key.js'
 
 import { JOSENotSupported } from '../util/errors.js'
 import isObject from '../lib/is_object.js'
-import type { JWK, KeyLike } from '../types.d'
+import type { JWK, KeyLike } from '../types.d.ts'
 
 export interface PEMImportOptions {
   /**

@@ -18,7 +18,7 @@ import type {
   VerifyOptions,
   GenericGetKeyFunction,
   ResolvedKey,
-} from '../../types.d'
+} from '../../types.d.ts'
 import { isJWK } from '../../lib/is_jwk.js'
 import { importJWK } from '../../key/import.js'
 

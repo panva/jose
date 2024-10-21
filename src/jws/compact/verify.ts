@@ -10,7 +10,7 @@ import type {
   KeyLike,
   VerifyOptions,
   ResolvedKey,
-} from '../../types.d'
+} from '../../types.d.ts'
 
 /**
  * Interface for Compact JWS Verification dynamic key resolution. No token components have been

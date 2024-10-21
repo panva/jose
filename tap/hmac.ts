@@ -3,7 +3,11 @@ import type * as jose from '../src/index.js'
 import random from './random.js'
 import * as roundtrip from './sign.js'
 
-export default (QUnit: QUnit, lib: typeof jose, keys: typeof jose) => {
+export default (
+  QUnit: QUnit,
+  lib: typeof jose,
+  keys: Pick<typeof jose, 'exportJWK' | 'generateKeyPair' | 'generateSecret' | 'importJWK'>,
+) => {
   const { module, test } = QUnit
   module('hmac.ts')
 

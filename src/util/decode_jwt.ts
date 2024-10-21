@@ -1,7 +1,7 @@
 import { decode as base64url } from './base64url.js'
 import { decoder } from '../lib/buffer_utils.js'
 import isObject from '../lib/is_object.js'
-import type { JWTPayload } from '../types.d'
+import type { JWTPayload } from '../types.d.ts'
 import { JWTInvalid } from './errors.js'
 
 /**

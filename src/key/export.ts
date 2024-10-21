@@ -2,7 +2,7 @@ import { toSPKI as exportPublic } from '../runtime/asn1.js'
 import { toPKCS8 as exportPrivate } from '../runtime/asn1.js'
 import keyToJWK from '../runtime/key_to_jwk.js'
 
-import type { JWK, KeyLike } from '../types.d'
+import type { JWK, KeyLike } from '../types.d.ts'
 
 /**
  * Exports a runtime-specific public key representation ({@link !KeyObject} or {@link !CryptoKey}) to

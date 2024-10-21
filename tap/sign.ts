@@ -11,14 +11,18 @@ function isKeyPair(input: keyType): input is jose.GenerateKeyPairResult {
 async function getJWKs(
   secretOrKeyPair: keyType,
   jwk: false,
-  keys: typeof jose,
+  keys: Pick<typeof jose, 'exportJWK' | 'generateKeyPair' | 'generateSecret' | 'importJWK'>,
 ): Promise<Array<Uint8Array | jose.KeyLike>>
 async function getJWKs(
   secretOrKeyPair: keyType,
   jwk: true,
-  keys: typeof jose,
+  keys: Pick<typeof jose, 'exportJWK' | 'generateKeyPair' | 'generateSecret' | 'importJWK'>,
 ): Promise<Array<jose.JWK>>
-async function getJWKs(secretOrKeyPair: keyType, jwk: boolean, keys: typeof jose) {
+async function getJWKs(
+  secretOrKeyPair: keyType,
+  jwk: boolean,
+  keys: Pick<typeof jose, 'exportJWK' | 'generateKeyPair' | 'generateSecret' | 'importJWK'>,
+) {
   let sKey = isKeyPair(secretOrKeyPair) ? secretOrKeyPair.privateKey : secretOrKeyPair
   let vKey = isKeyPair(secretOrKeyPair) ? secretOrKeyPair.publicKey : secretOrKeyPair
 
@@ -32,7 +36,7 @@ async function getJWKs(secretOrKeyPair: keyType, jwk: boolean, keys: typeof jose
 export async function jws(
   t: typeof QUnit.assert,
   lib: typeof jose,
-  keys: typeof jose,
+  keys: Pick<typeof jose, 'exportJWK' | 'generateKeyPair' | 'generateSecret' | 'importJWK'>,
   alg: string,
   secretOrKeyPair: keyType,
   payload = random(),
@@ -84,7 +88,7 @@ export async function jws(
 export async function jwt(
   t: typeof QUnit.assert,
   lib: typeof jose,
-  keys: typeof jose,
+  keys: Pick<typeof jose, 'exportJWK' | 'generateKeyPair' | 'generateSecret' | 'importJWK'>,
   alg: string,
   secretOrKeyPair: keyType,
 ) {

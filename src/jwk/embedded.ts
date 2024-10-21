@@ -1,4 +1,4 @@
-import type { KeyLike, FlattenedJWSInput, JWSHeaderParameters } from '../types.d'
+import type { KeyLike, FlattenedJWSInput, JWSHeaderParameters } from '../types.d.ts'
 import { importJWK } from '../key/import.js'
 import isObject from '../lib/is_object.js'
 import { JWSInvalid } from '../util/errors.js'
