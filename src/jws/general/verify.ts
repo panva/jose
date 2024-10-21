@@ -9,7 +9,7 @@ import type {
   KeyLike,
   VerifyOptions,
   ResolvedKey,
-} from '../../types.d'
+} from '../../types.d.ts'
 import { JWSInvalid, JWSSignatureVerificationFailed } from '../../util/errors.js'
 import isObject from '../../lib/is_object.js'
 

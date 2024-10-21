@@ -9,7 +9,7 @@ import type {
   GeneralJWE,
   GeneralDecryptResult,
   ResolvedKey,
-} from '../../types.d'
+} from '../../types.d.ts'
 import isObject from '../../lib/is_object.js'
 
 /**

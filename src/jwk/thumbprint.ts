@@ -3,7 +3,7 @@ import { encode as base64url } from '../runtime/base64url.js'
 
 import { JOSENotSupported, JWKInvalid } from '../util/errors.js'
 import { encoder } from '../lib/buffer_utils.js'
-import type { JWK } from '../types.d'
+import type { JWK } from '../types.d.ts'
 import isObject from '../lib/is_object.js'
 
 const check = (value: unknown, description: string) => {

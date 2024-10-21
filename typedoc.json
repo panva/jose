@@ -43,7 +43,7 @@
   "out": "docs",
   "plugin": ["typedoc-plugin-markdown", "typedoc-plugin-mdn-links"],
   "readme": "none",
-  "tsconfig": "./tsconfig/browser.json",
+  "tsconfig": "./tsconfig/webapi.json",
   "sort": ["kind", "static-first", "required-first", "alphabetical"],
   "githubPages": false,
   "parametersFormat": "table",

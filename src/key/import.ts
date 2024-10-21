@@ -4,19 +4,15 @@ import asKeyObject from '../runtime/jwk_to_key.js'
 
 import { JOSENotSupported } from '../util/errors.js'
 import isObject from '../lib/is_object.js'
-import type { JWK, KeyLike } from '../types.d'
+import type { JWK, KeyLike } from '../types.d.ts'
 
 export interface PEMImportOptions {
-  /**
-   * (Only effective in Web Crypto API runtimes) The value to use as {@link !SubtleCrypto.importKey}
-   * `extractable` argument. Default is false.
-   */
+  /** The value to use as {@link !SubtleCrypto.importKey} `extractable` argument. Default is false. */
   extractable?: boolean
 }
 
 /**
- * Imports a PEM-encoded SPKI string as a runtime-specific public key representation
- * ({@link !KeyObject} or {@link !CryptoKey}).
+ * Imports a PEM-encoded SPKI string as a {@link !CryptoKey}.
  *
  * Note: The OID id-RSASSA-PSS (1.2.840.113549.1.1.10) is not supported in
  * {@link https://w3c.github.io/webcrypto/ Web Cryptography API}, use the OID rsaEncryption
@@ -37,8 +33,7 @@ export interface PEMImportOptions {
  * ```
  *
  * @param spki PEM-encoded SPKI string
- * @param alg (Only effective in Web Crypto API runtimes) JSON Web Algorithm identifier to be used
- *   with the imported key, its presence is only enforced in Web Crypto API runtimes. See
+ * @param alg JSON Web Algorithm identifier to be used with the imported key. See
  *   {@link https://github.com/panva/jose/issues/210 Algorithm Key Requirements}.
  */
 export async function importSPKI<KeyLikeType extends KeyLike = KeyLike>(
@@ -54,8 +49,7 @@ export async function importSPKI<KeyLikeType extends KeyLike = KeyLike>(
 }
 
 /**
- * Imports the SPKI from an X.509 string certificate as a runtime-specific public key representation
- * ({@link !KeyObject} or {@link !CryptoKey}).
+ * Imports the SPKI from an X.509 string certificate as a {@link !CryptoKey}.
  *
  * Note: The OID id-RSASSA-PSS (1.2.840.113549.1.1.10) is not supported in
  * {@link https://w3c.github.io/webcrypto/ Web Cryptography API}, use the OID rsaEncryption
@@ -82,8 +76,7 @@ export async function importSPKI<KeyLikeType extends KeyLike = KeyLike>(
  * ```
  *
  * @param x509 X.509 certificate string
- * @param alg (Only effective in Web Crypto API runtimes) JSON Web Algorithm identifier to be used
- *   with the imported key, its presence is only enforced in Web Crypto API runtimes. See
+ * @param alg JSON Web Algorithm identifier to be used with the imported key. See
  *   {@link https://github.com/panva/jose/issues/210 Algorithm Key Requirements}.
  */
 export async function importX509<KeyLikeType extends KeyLike = KeyLike>(
@@ -99,8 +92,7 @@ export async function importX509<KeyLikeType extends KeyLike = KeyLike>(
 }
 
 /**
- * Imports a PEM-encoded PKCS#8 string as a runtime-specific private key representation
- * ({@link !KeyObject} or {@link !CryptoKey}).
+ * Imports a PEM-encoded PKCS#8 string as a {@link !CryptoKey}.
  *
  * Note: The OID id-RSASSA-PSS (1.2.840.113549.1.1.10) is not supported in
  * {@link https://w3c.github.io/webcrypto/ Web Cryptography API}, use the OID rsaEncryption
@@ -122,8 +114,7 @@ export async function importX509<KeyLikeType extends KeyLike = KeyLike>(
  * ```
  *
  * @param pkcs8 PEM-encoded PKCS#8 string
- * @param alg (Only effective in Web Crypto API runtimes) JSON Web Algorithm identifier to be used
- *   with the imported key, its presence is only enforced in Web Crypto API runtimes. See
+ * @param alg JSON Web Algorithm identifier to be used with the imported key. See
  *   {@link https://github.com/panva/jose/issues/210 Algorithm Key Requirements}.
  */
 export async function importPKCS8<KeyLikeType extends KeyLike = KeyLike>(
@@ -139,11 +130,11 @@ export async function importPKCS8<KeyLikeType extends KeyLike = KeyLike>(
 }
 
 /**
- * Imports a JWK to a runtime-specific key representation (KeyLike). Either the JWK "alg"
- * (Algorithm) Parameter, or the optional "alg" argument, must be present.
+ * Imports a JWK to a {@link !CryptoKey}. Either the JWK "alg" (Algorithm) Parameter, or the optional
+ * "alg" argument, must be present.
  *
- * Note: When the runtime is using {@link https://w3c.github.io/webcrypto/ Web Cryptography API} the
- * jwk parameters "use", "key_ops", and "ext" are also used in the resulting {@link !CryptoKey}.
+ * Note: The JSON Web Key parameters "use", "key_ops", and "ext" are also used in the
+ * {@link !CryptoKey} import process.
  *
  * This function is exported (as a named export) from the main `'jose'` module entry point as well
  * as from its subpath export `'jose/key/import'`.
@@ -172,9 +163,8 @@ export async function importPKCS8<KeyLikeType extends KeyLike = KeyLike>(
  * ```
  *
  * @param jwk JSON Web Key.
- * @param alg (Only effective in Web Crypto API runtimes) JSON Web Algorithm identifier to be used
- *   with the imported key. Default is the "alg" property on the JWK, its presence is only enforced
- *   in Web Crypto API runtimes. See
+ * @param alg JSON Web Algorithm identifier to be used with the imported key. Default is the "alg"
+ *   property on the JWK. See
  *   {@link https://github.com/panva/jose/issues/210 Algorithm Key Requirements}.
  */
 export async function importJWK<KeyLikeType extends KeyLike = KeyLike>(

@@ -1,5 +1,5 @@
 import { FlattenedSign } from '../flattened/sign.js'
-import type { JWK, CompactJWSHeaderParameters, KeyLike, SignOptions } from '../../types.d'
+import type { JWK, CompactJWSHeaderParameters, KeyLike, SignOptions } from '../../types.d.ts'
 
 /**
  * The CompactSign class is used to build and sign Compact JWS strings.
