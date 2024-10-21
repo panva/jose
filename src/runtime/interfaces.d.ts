@@ -1,4 +1,4 @@
-import type { JWK, KeyLike } from '../types.d'
+import type { JWK, KeyLike } from '../types.d.ts'
 import type { PEMImportOptions } from '../key/import.js'
 
 type AsyncOrSync<T> = Promise<T> | T

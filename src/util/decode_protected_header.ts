@@ -1,7 +1,7 @@
 import { decode as base64url } from './base64url.js'
 import { decoder } from '../lib/buffer_utils.js'
 import isObject from '../lib/is_object.js'
-import type { JWSHeaderParameters, JWEHeaderParameters } from '../types.d'
+import type { JWSHeaderParameters, JWEHeaderParameters } from '../types.d.ts'
 
 export type ProtectedHeaderParameters = JWSHeaderParameters & JWEHeaderParameters
 

@@ -20,14 +20,10 @@ Support from the community to continue maintaining and improving this module is 
 
 `jose` is distributed via [npmjs.com](https://www.npmjs.com/package/jose), [deno.land/x](https://deno.land/x/jose), [cdnjs.com](https://cdnjs.com/libraries/jose), [jsdelivr.com](https://www.jsdelivr.com/package/npm/jose), [github.com](https://github.com/panva/jose).
 
-**`example`** ESM import
+**`example`** ESM import[^cjs]
+
 ```js
 import * as jose from 'jose'
-```
-
-**`example`** CJS require
-```js
-const jose = require('jose')
 ```
 
 ### JSON Web Tokens (JWT)
@@ -99,3 +95,5 @@ The following are additional features and utilities provided by the `jose` modul
 - [JOSE Errors](util/errors/README.md)
 
 [sponsor-auth0]: https://a0.to/signup/panva
+
+[^cjs]: CJS style `let jose = require('jose')` is possible in Node.js versions where `process.features.require_module` is `true` or with the `--experimental-require-module` Node.js CLI flag.

@@ -1,6 +1,6 @@
 import { CompactSign } from '../jws/compact/sign.js'
 import { JWTInvalid } from '../util/errors.js'
-import type { JWK, JWTHeaderParameters, KeyLike, SignOptions } from '../types.d'
+import type { JWK, JWTHeaderParameters, KeyLike, SignOptions } from '../types.d.ts'
 import { encoder } from '../lib/buffer_utils.js'
 import { ProduceJWT } from './produce.js'
 

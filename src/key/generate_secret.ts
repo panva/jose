@@ -1,20 +1,16 @@
 import { generateSecret as generate } from '../runtime/generate.js'
 
-import type { KeyLike } from '../types.d'
+import type { KeyLike } from '../types.d.ts'
 
 export interface GenerateSecretOptions {
-  /**
-   * (Only effective in Web Crypto API runtimes) The value to use as
-   * {@link !SubtleCrypto.generateKey} `extractable` argument. Default is false.
-   */
+  /** The value to use as {@link !SubtleCrypto.generateKey} `extractable` argument. Default is false. */
   extractable?: boolean
 }
 
 /**
  * Generates a symmetric secret key for a given JWA algorithm identifier.
  *
- * Note: Under Web Crypto API runtime the secret key is generated with `extractable` set to `false`
- * by default.
+ * Note: The secret key is generated with `extractable` set to `false` by default.
  *
  * This function is exported (as a named export) from the main `'jose'` module entry point as well
  * as from its subpath export `'jose/generate/secret'`.
@@ -26,7 +22,8 @@ export interface GenerateSecretOptions {
  * console.log(secret)
  * ```
  *
- * @param alg JWA Algorithm Identifier to be used with the generated secret.
+ * @param alg JWA Algorithm Identifier to be used with the generated secret. See
+ *   {@link https://github.com/panva/jose/issues/210 Algorithm Key Requirements}.
  * @param options Additional options passed down to the secret generation.
  */
 export async function generateSecret<KeyLikeType extends KeyLike = KeyLike>(

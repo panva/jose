@@ -1,4 +1,4 @@
-import type { JWTPayload, KeyLike } from '../types.d'
+import type { JWTPayload, KeyLike } from '../types.d.ts'
 
 /**
  * A generic Error that all other JOSE specific Error subclasses extend.

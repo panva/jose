@@ -1,7 +1,11 @@
 import type QUnit from 'qunit'
 import type * as jose from '../src/index.js'
 
-export default async (QUnit: QUnit, lib: typeof jose, keys: typeof jose) => {
+export default async (
+  QUnit: QUnit,
+  lib: typeof jose,
+  keys: Pick<typeof jose, 'exportJWK' | 'generateKeyPair' | 'generateSecret' | 'importJWK'>,
+) => {
   const { module, test } = QUnit
   module('generate_options.ts')
 

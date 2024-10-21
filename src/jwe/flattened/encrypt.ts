@@ -8,7 +8,7 @@ import type {
   JWEHeaderParameters,
   JWEKeyManagementHeaderParameters,
   EncryptOptions,
-} from '../../types.d'
+} from '../../types.d.ts'
 import encryptKeyManagement from '../../lib/encrypt_key_management.js'
 import { JOSENotSupported, JWEInvalid } from '../../util/errors.js'
 import isDisjoint from '../../lib/is_disjoint.js'

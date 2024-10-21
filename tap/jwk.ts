@@ -3,7 +3,11 @@ import * as env from './env.js'
 import { KEYS } from './fixtures.js'
 import type * as jose from '../src/index.js'
 
-export default (QUnit: QUnit, lib: typeof jose, keys: typeof jose) => {
+export default (
+  QUnit: QUnit,
+  lib: typeof jose,
+  keys: Pick<typeof jose, 'exportJWK' | 'generateKeyPair' | 'generateSecret' | 'importJWK'>,
+) => {
   const { module, test } = QUnit
   module('jwk.ts')
 

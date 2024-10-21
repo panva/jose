@@ -10,7 +10,7 @@ import type {
   JWEKeyManagementHeaderParameters,
   JWEHeaderParameters,
   JWK,
-} from '../types.d'
+} from '../types.d.ts'
 import generateCek, { bitLength as cekLength } from '../lib/cek.js'
 import { JOSENotSupported } from '../util/errors.js'
 import { exportJWK } from '../key/export.js'
@@ -35,7 +35,7 @@ async function encryptKeyManagement(
   checkKeyType(alg, key, 'encrypt')
 
   // @ts-ignore
-  key = (await normalize.normalizePublicKey?.(key, alg)) || key
+  key = (await normalize.normalizeKey?.(key, alg)) || key
 
   switch (alg) {
     case 'dir': {

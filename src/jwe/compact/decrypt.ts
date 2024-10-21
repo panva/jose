@@ -9,7 +9,7 @@ import type {
   FlattenedJWE,
   CompactDecryptResult,
   ResolvedKey,
-} from '../../types.d'
+} from '../../types.d.ts'
 
 /**
  * Interface for Compact JWE Decryption dynamic key resolution. No token components have been
