@@ -1,7 +1,7 @@
 import test from 'ava'
 
-const types = 'CryptoKey, KeyObject, or Uint8Array'
-const asymmetricTypes = 'CryptoKey or KeyObject'
+const types = 'CryptoKey, KeyObject, JSON Web Key, or Uint8Array'
+const asymmetricTypes = 'CryptoKey, KeyObject, or JSON Web Key'
 
 const lib = await import('#dist')
 const { default: checkKeyType } = await import('#dist/lib/check_key_type')

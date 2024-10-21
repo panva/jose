@@ -1,7 +1,7 @@
 import { flattenedDecrypt } from '../flattened/decrypt.js'
 import { JWEDecryptionFailed, JWEInvalid } from '../../util/errors.js'
 import type {
-  KeyLike,
+  CryptoKey,
   DecryptOptions,
   JWEHeaderParameters,
   GetKeyFunction,
@@ -9,6 +9,8 @@ import type {
   GeneralJWE,
   GeneralDecryptResult,
   ResolvedKey,
+  KeyObject,
+  JWK,
 } from '../../types.d.ts'
 import isObject from '../../lib/is_object.js'
 
@@ -57,7 +59,7 @@ export interface GeneralDecryptGetKey extends GetKeyFunction<JWEHeaderParameters
  */
 export function generalDecrypt(
   jwe: GeneralJWE,
-  key: KeyLike | Uint8Array,
+  key: CryptoKey | KeyObject | JWK | Uint8Array,
   options?: DecryptOptions,
 ): Promise<GeneralDecryptResult>
 /**
@@ -66,14 +68,14 @@ export function generalDecrypt(
  *   {@link https://github.com/panva/jose/issues/210#jwe-alg Algorithm Key Requirements}.
  * @param options JWE Decryption options.
  */
-export function generalDecrypt<KeyLikeType extends KeyLike = KeyLike>(
+export function generalDecrypt(
   jwe: GeneralJWE,
   getKey: GeneralDecryptGetKey,
   options?: DecryptOptions,
-): Promise<GeneralDecryptResult & ResolvedKey<KeyLikeType>>
+): Promise<GeneralDecryptResult & ResolvedKey>
 export async function generalDecrypt(
   jwe: GeneralJWE,
-  key: KeyLike | Uint8Array | GeneralDecryptGetKey,
+  key: CryptoKey | KeyObject | JWK | Uint8Array | GeneralDecryptGetKey,
   options?: DecryptOptions,
 ) {
   if (!isObject(jwe)) {

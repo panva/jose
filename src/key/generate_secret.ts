@@ -1,6 +1,6 @@
 import { generateSecret as generate } from '../runtime/generate.js'
 
-import type { KeyLike } from '../types.d.ts'
+import type { CryptoKey } from '../types.d.ts'
 
 export interface GenerateSecretOptions {
   /**
@@ -29,10 +29,10 @@ export interface GenerateSecretOptions {
  * @param alg JWA Algorithm Identifier to be used with the generated secret.
  * @param options Additional options passed down to the secret generation.
  */
-export async function generateSecret<KeyLikeType extends KeyLike = KeyLike>(
+export async function generateSecret(
   alg: string,
   options?: GenerateSecretOptions,
-): Promise<KeyLikeType | Uint8Array> {
+): Promise<CryptoKey | Uint8Array> {
   // @ts-ignore
   return generate(alg, options)
 }

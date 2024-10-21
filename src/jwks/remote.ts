@@ -1,6 +1,11 @@
 import fetchJwks from '../runtime/fetch_jwks.js'
 
-import type { KeyLike, JWSHeaderParameters, FlattenedJWSInput, JSONWebKeySet } from '../types.d.ts'
+import type {
+  CryptoKey,
+  JWSHeaderParameters,
+  FlattenedJWSInput,
+  JSONWebKeySet,
+} from '../types.d.ts'
 import { JWKSNoMatchingKey } from '../util/errors.js'
 
 import { createLocalJWKSet } from './local.js'
@@ -152,7 +157,7 @@ function isFreshJwksCache(input: unknown, cacheMaxAge: number): input is Exporte
   return true
 }
 
-class RemoteJWKSet<KeyLikeType extends KeyLike = KeyLike> {
+class RemoteJWKSet {
   private _url: URL
 
   private _timeoutDuration: number
@@ -167,7 +172,7 @@ class RemoteJWKSet<KeyLikeType extends KeyLike = KeyLike> {
 
   private _options: Pick<RemoteJWKSetOptions, 'agent' | 'headers'>
 
-  private _local!: ReturnType<typeof createLocalJWKSet<KeyLikeType>>
+  private _local!: ReturnType<typeof createLocalJWKSet>
 
   private _cache?: JWKSCacheInput
 
@@ -207,7 +212,7 @@ class RemoteJWKSet<KeyLikeType extends KeyLike = KeyLike> {
   async getKey(
     protectedHeader?: JWSHeaderParameters,
     token?: FlattenedJWSInput,
-  ): Promise<KeyLikeType> {
+  ): Promise<CryptoKey> {
     if (!this._local || !this.fresh()) {
       await this.reload()
     }
@@ -326,11 +331,11 @@ class RemoteJWKSet<KeyLikeType extends KeyLike = KeyLike> {
  * @param url URL to fetch the JSON Web Key Set from.
  * @param options Options for the remote JSON Web Key Set.
  */
-export function createRemoteJWKSet<KeyLikeType extends KeyLike = KeyLike>(
+export function createRemoteJWKSet(
   url: URL,
   options?: RemoteJWKSetOptions,
 ): {
-  (protectedHeader?: JWSHeaderParameters, token?: FlattenedJWSInput): Promise<KeyLikeType>
+  (protectedHeader?: JWSHeaderParameters, token?: FlattenedJWSInput): Promise<CryptoKey>
   /** @ignore */
   coolingDown: boolean
   /** @ignore */
@@ -342,12 +347,12 @@ export function createRemoteJWKSet<KeyLikeType extends KeyLike = KeyLike>(
   /** @ignore */
   jwks: () => JSONWebKeySet | undefined
 } {
-  const set = new RemoteJWKSet<KeyLikeType>(url, options)
+  const set = new RemoteJWKSet(url, options)
 
   const remoteJWKSet = async (
     protectedHeader?: JWSHeaderParameters,
     token?: FlattenedJWSInput,
-  ): Promise<KeyLikeType> => set.getKey(protectedHeader, token)
+  ): Promise<CryptoKey> => set.getKey(protectedHeader, token)
 
   Object.defineProperties(remoteJWKSet, {
     coolingDown: {

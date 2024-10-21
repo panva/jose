@@ -1,10 +1,9 @@
-import crypto, { isCryptoKey } from './webcrypto.js'
 import type { PEMExportFunction, PEMImportFunction } from './interfaces.d.ts'
 import invalidKeyInput from '../lib/invalid_key_input.js'
 import { encodeBase64, decodeBase64 } from './base64url.js'
 import formatPEM from '../lib/format_pem.js'
 import { JOSENotSupported } from '../util/errors.js'
-import { types } from './is_key_like.js'
+import { isCryptoKey } from './is_key_like.js'
 
 import type { PEMImportOptions } from '../key/import.js'
 
@@ -14,7 +13,7 @@ const genericExport = async (
   key: unknown,
 ) => {
   if (!isCryptoKey(key)) {
-    throw new TypeError(invalidKeyInput(key, ...types))
+    throw new TypeError(invalidKeyInput(key, 'CryptoKey'))
   }
 
   if (!key.extractable) {

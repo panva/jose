@@ -4,7 +4,7 @@ import asKeyObject from '../runtime/jwk_to_key.js'
 
 import { JOSENotSupported } from '../util/errors.js'
 import isObject from '../lib/is_object.js'
-import type { JWK, KeyLike } from '../types.d.ts'
+import type { JWK, CryptoKey } from '../types.d.ts'
 
 export interface PEMImportOptions {
   /**
@@ -41,11 +41,11 @@ export interface PEMImportOptions {
  *   with the imported key, its presence is only enforced in Web Crypto API runtimes. See
  *   {@link https://github.com/panva/jose/issues/210 Algorithm Key Requirements}.
  */
-export async function importSPKI<KeyLikeType extends KeyLike = KeyLike>(
+export async function importSPKI(
   spki: string,
   alg: string,
   options?: PEMImportOptions,
-): Promise<KeyLikeType> {
+): Promise<CryptoKey> {
   if (typeof spki !== 'string' || spki.indexOf('-----BEGIN PUBLIC KEY-----') !== 0) {
     throw new TypeError('"spki" must be SPKI formatted string')
   }
@@ -86,11 +86,11 @@ export async function importSPKI<KeyLikeType extends KeyLike = KeyLike>(
  *   with the imported key, its presence is only enforced in Web Crypto API runtimes. See
  *   {@link https://github.com/panva/jose/issues/210 Algorithm Key Requirements}.
  */
-export async function importX509<KeyLikeType extends KeyLike = KeyLike>(
+export async function importX509(
   x509: string,
   alg: string,
   options?: PEMImportOptions,
-): Promise<KeyLikeType> {
+): Promise<CryptoKey> {
   if (typeof x509 !== 'string' || x509.indexOf('-----BEGIN CERTIFICATE-----') !== 0) {
     throw new TypeError('"x509" must be X.509 formatted string')
   }
@@ -126,11 +126,11 @@ export async function importX509<KeyLikeType extends KeyLike = KeyLike>(
  *   with the imported key, its presence is only enforced in Web Crypto API runtimes. See
  *   {@link https://github.com/panva/jose/issues/210 Algorithm Key Requirements}.
  */
-export async function importPKCS8<KeyLikeType extends KeyLike = KeyLike>(
+export async function importPKCS8(
   pkcs8: string,
   alg: string,
   options?: PEMImportOptions,
-): Promise<KeyLikeType> {
+): Promise<CryptoKey> {
   if (typeof pkcs8 !== 'string' || pkcs8.indexOf('-----BEGIN PRIVATE KEY-----') !== 0) {
     throw new TypeError('"pkcs8" must be PKCS#8 formatted string')
   }
@@ -177,10 +177,7 @@ export async function importPKCS8<KeyLikeType extends KeyLike = KeyLike>(
  *   in Web Crypto API runtimes. See
  *   {@link https://github.com/panva/jose/issues/210 Algorithm Key Requirements}.
  */
-export async function importJWK<KeyLikeType extends KeyLike = KeyLike>(
-  jwk: JWK,
-  alg?: string,
-): Promise<KeyLikeType | Uint8Array> {
+export async function importJWK(jwk: JWK, alg?: string): Promise<CryptoKey | Uint8Array> {
   if (!isObject(jwk)) {
     throw new TypeError('JWK must be an object')
   }

@@ -35,7 +35,7 @@ export default (
 
     const execute = async (t: typeof QUnit.assert) => {
       if (!kps[alg]) {
-        kps[alg] = await keys.generateKeyPair(alg)
+        kps[alg] = await keys.generateKeyPair(alg, { extractable: true })
       }
 
       await roundtrip.jwe(t, lib, keys, alg, 'A128GCM', kps[alg])
@@ -43,7 +43,7 @@ export default (
 
     const jwt = async (t: typeof QUnit.assert) => {
       if (!kps[alg]) {
-        kps[alg] = await keys.generateKeyPair(alg)
+        kps[alg] = await keys.generateKeyPair(alg, { extractable: true })
       }
 
       await roundtrip.jwt(t, lib, keys, alg, 'A128GCM', kps[alg])

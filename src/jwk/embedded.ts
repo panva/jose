@@ -1,4 +1,4 @@
-import type { KeyLike, FlattenedJWSInput, JWSHeaderParameters } from '../types.d.ts'
+import type { CryptoKey, FlattenedJWSInput, JWSHeaderParameters } from '../types.d.ts'
 import { importJWK } from '../key/import.js'
 import isObject from '../lib/is_object.js'
 import { JWSInvalid } from '../util/errors.js'
@@ -27,10 +27,10 @@ import { JWSInvalid } from '../util/errors.js'
  * console.log(payload)
  * ```
  */
-export async function EmbeddedJWK<KeyLikeType extends KeyLike = KeyLike>(
+export async function EmbeddedJWK(
   protectedHeader?: JWSHeaderParameters,
   token?: FlattenedJWSInput,
-): Promise<KeyLikeType> {
+): Promise<CryptoKey> {
   const joseHeader = {
     ...protectedHeader,
     ...token?.header,
@@ -39,7 +39,7 @@ export async function EmbeddedJWK<KeyLikeType extends KeyLike = KeyLike>(
     throw new JWSInvalid('"jwk" (JSON Web Key) Header Parameter must be a JSON object')
   }
 
-  const key = await importJWK<KeyLikeType>({ ...joseHeader.jwk, ext: true }, joseHeader.alg!)
+  const key = await importJWK({ ...joseHeader.jwk, ext: true }, joseHeader.alg!)
 
   if (key instanceof Uint8Array || key.type !== 'public') {
     throw new JWSInvalid('"jwk" (JSON Web Key) Header Parameter must be a public key')

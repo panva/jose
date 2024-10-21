@@ -1,5 +1,11 @@
 import { FlattenedSign } from '../flattened/sign.js'
-import type { JWK, CompactJWSHeaderParameters, KeyLike, SignOptions } from '../../types.d.ts'
+import type {
+  JWK,
+  CompactJWSHeaderParameters,
+  CryptoKey,
+  SignOptions,
+  KeyObject,
+} from '../../types.d.ts'
 
 /**
  * The CompactSign class is used to build and sign Compact JWS strings.
@@ -44,7 +50,10 @@ export class CompactSign {
    *   {@link https://github.com/panva/jose/issues/210#jws-alg Algorithm Key Requirements}.
    * @param options JWS Sign options.
    */
-  async sign(key: KeyLike | Uint8Array | JWK, options?: SignOptions): Promise<string> {
+  async sign(
+    key: CryptoKey | KeyObject | JWK | Uint8Array,
+    options?: SignOptions,
+  ): Promise<string> {
     const jws = await this._flattened.sign(key, options)
 
     if (jws.payload === undefined) {

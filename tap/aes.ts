@@ -34,7 +34,7 @@ export default (
 
   function secretsFor(enc: string) {
     return [
-      keys.generateSecret(enc),
+      keys.generateSecret(enc, { extractable: true }),
       random(parseInt(enc.endsWith('GCM') ? enc.slice(1, 4) : enc.slice(-3)) >> 3),
     ]
   }

@@ -7,9 +7,10 @@ import type {
   FlattenedJWSInput,
   GenericGetKeyFunction,
   CompactJWSHeaderParameters,
-  KeyLike,
+  CryptoKey,
   VerifyOptions,
   ResolvedKey,
+  KeyObject,
 } from '../../types.d.ts'
 
 /**
@@ -22,7 +23,7 @@ export interface CompactVerifyGetKey
   extends GenericGetKeyFunction<
     CompactJWSHeaderParameters,
     FlattenedJWSInput,
-    KeyLike | JWK | Uint8Array
+    CryptoKey | KeyObject | JWK | Uint8Array
   > {}
 
 /**
@@ -50,7 +51,7 @@ export interface CompactVerifyGetKey
  */
 export function compactVerify(
   jws: string | Uint8Array,
-  key: KeyLike | Uint8Array | JWK,
+  key: CryptoKey | KeyObject | JWK | Uint8Array,
   options?: VerifyOptions,
 ): Promise<CompactVerifyResult>
 /**
@@ -59,14 +60,14 @@ export function compactVerify(
  *   {@link https://github.com/panva/jose/issues/210#jws-alg Algorithm Key Requirements}.
  * @param options JWS Verify options.
  */
-export function compactVerify<KeyLikeType extends KeyLike = KeyLike>(
+export function compactVerify(
   jws: string | Uint8Array,
   getKey: CompactVerifyGetKey,
   options?: VerifyOptions,
-): Promise<CompactVerifyResult & ResolvedKey<KeyLikeType>>
+): Promise<CompactVerifyResult & ResolvedKey>
 export async function compactVerify(
   jws: string | Uint8Array,
-  key: KeyLike | Uint8Array | JWK | CompactVerifyGetKey,
+  key: CryptoKey | KeyObject | JWK | Uint8Array | CompactVerifyGetKey,
   options?: VerifyOptions,
 ) {
   if (jws instanceof Uint8Array) {

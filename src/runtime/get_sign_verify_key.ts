@@ -1,20 +1,14 @@
-import crypto, { isCryptoKey } from './webcrypto.js'
 import { checkSigCryptoKey } from '../lib/crypto_key.js'
 import invalidKeyInput from '../lib/invalid_key_input.js'
-import { types } from './is_key_like.js'
-import normalize from './normalize_key.js'
 
-export default async function getCryptoKey(alg: string, key: unknown, usage: KeyUsage) {
-  key = await normalize.normalizeKey(key, alg)
-
-  if (isCryptoKey(key)) {
-    checkSigCryptoKey(key, alg, usage)
-    return key
-  }
-
+export default async function getCryptoKey(
+  alg: string,
+  key: CryptoKey | Uint8Array,
+  usage: KeyUsage,
+) {
   if (key instanceof Uint8Array) {
     if (!alg.startsWith('HS')) {
-      throw new TypeError(invalidKeyInput(key, ...types))
+      throw new TypeError(invalidKeyInput(key, 'CryptoKey', 'KeyObject'))
     }
     return crypto.subtle.importKey(
       'raw',
@@ -25,5 +19,6 @@ export default async function getCryptoKey(alg: string, key: unknown, usage: Key
     )
   }
 
-  throw new TypeError(invalidKeyInput(key, ...types, 'Uint8Array', 'JSON Web Key'))
+  checkSigCryptoKey(key, alg, usage)
+  return key
 }

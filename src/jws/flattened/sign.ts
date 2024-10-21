@@ -4,9 +4,17 @@ import sign from '../../runtime/sign.js'
 import isDisjoint from '../../lib/is_disjoint.js'
 import { JWSInvalid } from '../../util/errors.js'
 import { encoder, decoder, concat } from '../../lib/buffer_utils.js'
-import type { JWK, KeyLike, FlattenedJWS, JWSHeaderParameters, SignOptions } from '../../types.d.ts'
-import { checkKeyTypeWithJwk } from '../../lib/check_key_type.js'
+import type {
+  JWK,
+  CryptoKey,
+  FlattenedJWS,
+  JWSHeaderParameters,
+  SignOptions,
+  KeyObject,
+} from '../../types.d.ts'
+import checkKeyType from '../../lib/check_key_type.js'
 import validateCrit from '../../lib/validate_crit.js'
+import normalizeKey from '../../runtime/normalize_key.js'
 
 /**
  * The FlattenedSign class is used to build and sign Flattened JWS objects.
@@ -74,7 +82,10 @@ export class FlattenedSign {
    *   {@link https://github.com/panva/jose/issues/210#jws-alg Algorithm Key Requirements}.
    * @param options JWS Sign options.
    */
-  async sign(key: KeyLike | Uint8Array | JWK, options?: SignOptions): Promise<FlattenedJWS> {
+  async sign(
+    key: CryptoKey | KeyObject | JWK | Uint8Array,
+    options?: SignOptions,
+  ): Promise<FlattenedJWS> {
     if (!this._protectedHeader && !this._unprotectedHeader) {
       throw new JWSInvalid(
         'either setProtectedHeader or setUnprotectedHeader must be called before #sign()',
@@ -116,7 +127,7 @@ export class FlattenedSign {
       throw new JWSInvalid('JWS "alg" (Algorithm) Header Parameter missing or invalid')
     }
 
-    checkKeyTypeWithJwk(alg, key, 'sign')
+    checkKeyType(alg, key, 'sign')
 
     let payload = this._payload
     if (b64) {
@@ -132,7 +143,8 @@ export class FlattenedSign {
 
     const data = concat(protectedHeader, encoder.encode('.'), payload)
 
-    const signature = await sign(alg, key, data)
+    const k = await normalizeKey(key, alg)
+    const signature = await sign(alg, k, data)
 
     const jws: FlattenedJWS = {
       signature: base64url(signature),

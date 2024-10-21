@@ -1,19 +1,16 @@
 import { isJWK } from '../lib/is_jwk.js'
-import type { JWK, KeyLike } from '../types.d.ts'
+import type { JWK, CryptoKey, KeyObject } from '../types.d.ts'
 import { decode } from './base64url.js'
 import importJWK from './jwk_to_key.js'
+import { isKeyObject } from './is_key_like.js'
 
 let cache: WeakMap<object, Record<string, CryptoKey>>
 
-interface AsymmetricKeyDetails {
-  namedCurve?: string | undefined
-}
-
-interface KeyObject extends KeyLike {
+interface ConvertableKeyObject extends KeyObject {
   export(): Uint8Array
   export(opts: { format: 'jwk' }): JWK
   asymmetricKeyType?: string
-  asymmetricKeyDetails?: AsymmetricKeyDetails
+  asymmetricKeyDetails?: { namedCurve?: string }
   toCryptoKey(
     alg:
       | AlgorithmIdentifier
@@ -26,19 +23,14 @@ interface KeyObject extends KeyLike {
   ): CryptoKey
 }
 
-const isKeyObject = (key: unknown): key is KeyObject => {
-  // @ts-expect-error
-  return key?.[Symbol.toStringTag] === 'KeyObject'
-}
-
-const handleJWK = async (key: KeyLike | JWK, jwk: JWK, alg: string, freeze = false) => {
+const handleJWK = async (key: KeyObject | JWK, jwk: JWK, alg: string, freeze = false) => {
   cache ||= new WeakMap()
   let cached = cache.get(key)
   if (cached?.[alg]) {
     return cached[alg]
   }
 
-  const cryptoKey = await importJWK({ ...jwk, alg })
+  const cryptoKey = await importJWK({ ...jwk, alg, ext: true })
   if (freeze) Object.freeze(key)
   if (!cached) {
     cache.set(key, { [alg]: cryptoKey })
@@ -48,7 +40,7 @@ const handleJWK = async (key: KeyLike | JWK, jwk: JWK, alg: string, freeze = fal
   return cryptoKey
 }
 
-const handleKeyObject = async (key: KeyObject, alg: string) => {
+const handleKeyObject = (key: ConvertableKeyObject, alg: string) => {
   cache ||= new WeakMap()
   let cached = cache.get(key)
   if (cached?.[alg]) {
@@ -201,25 +193,34 @@ const handleKeyObject = async (key: KeyObject, alg: string) => {
   return cryptoKey
 }
 
-const normalizeKey = (key: KeyLike | Uint8Array | JWK | unknown, alg: string) => {
-  if (isKeyObject(key)) {
+export default async function normalizeKey(
+  key: CryptoKey | KeyObject | JWK | Uint8Array,
+  alg: string,
+): Promise<CryptoKey | Uint8Array> {
+  if (key instanceof Uint8Array) {
+    return key
+  }
+
+  let normalized: CryptoKey | undefined
+  if (isKeyObject<KeyObject>(key)) {
     if (key.type === 'secret') {
-      return new Uint8Array(key.export())
-    }
-    if (typeof key.toCryptoKey === 'function') {
-      return handleKeyObject(key, alg)
+      return (key as ConvertableKeyObject).export()
     }
 
-    let jwk: JWK = key.export({ format: 'jwk' })
-    return handleJWK(key, jwk, alg)
+    if ('toCryptoKey' in key && typeof key.toCryptoKey === 'function') {
+      normalized = handleKeyObject(key as ConvertableKeyObject, alg)
+    } else {
+      let jwk: JWK = (key as ConvertableKeyObject).export({ format: 'jwk' })
+      normalized = await handleJWK(key, jwk, alg)
+    }
+  } else if (isJWK(key)) {
+    if (key.k) {
+      return decode(key.k)
+    }
+    normalized = await handleJWK(key, key, alg, true)
+  } else {
+    normalized = key
   }
 
-  if (isJWK(key)) {
-    if (key.k) return decode(key.k)
-    return handleJWK(key, key, alg, true)
-  }
-
-  return key as KeyLike | Uint8Array
+  return normalized
 }
-
-export default { normalizeKey }
