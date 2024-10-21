@@ -105,5 +105,3 @@ export type {
   CryptoRuntime,
   GetKeyFunction,
 } from './types.d.ts'
-
-export { default as cryptoRuntime } from './util/runtime.js'
