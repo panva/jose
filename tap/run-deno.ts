@@ -1,7 +1,6 @@
 import '../node_modules/qunit/qunit/qunit.js'
 import run from './run.js'
-// @ts-ignore
-import * as lib from '#dist'
+import * as lib from '../src/index.js'
 
 run(QUnit, lib, lib, (stats) => {
   if (stats?.failed !== 0) {

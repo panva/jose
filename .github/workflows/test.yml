@@ -13,30 +13,6 @@ jobs:
   build:
     uses: ./.github/workflows/build.yml
 
-  typings:
-    needs:
-      - build
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-      - name: Setup node
-        id: node
-        uses: actions/setup-node@v4
-        with:
-          node-version: lts/*
-          cache: 'npm'
-      - run: npm clean-install
-      - name: Load cached dist
-        uses: actions/cache@v4
-        id: dist
-        with:
-          path: dist
-          key: ${{ needs.build.outputs.cache-key }}
-          fail-on-cache-miss: true
-      - name: Check TypeScript type definitions
-        run: npm run test:types
-
   node-versions:
     uses: panva/.github/.github/workflows/node-versions.yml@main
     with:
@@ -45,7 +21,6 @@ jobs:
   node:
     needs:
       - node-versions
-      - build
     strategy:
       fail-fast: false
       matrix:
@@ -66,19 +41,10 @@ jobs:
           cache: 'npm'
           check-latest: true
       - run: npm clean-install
-      - name: Load cached dist
-        uses: actions/cache@v4
-        id: dist
-        with:
-          path: dist
-          key: ${{ needs.build.outputs.cache-key }}
-          fail-on-cache-miss: true
       - name: Run Test Suite
         run: npm run ${{ matrix.suite }}
 
   deno:
-    needs:
-      - build
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -86,27 +52,20 @@ jobs:
       - uses: denoland/setup-deno@v1
         with:
           deno-version: latest
-      - name: Load cached dist
-        uses: actions/cache@v4
-        id: dist
-        with:
-          path: dist
-          key: ${{ needs.build.outputs.cache-key }}
-          fail-on-cache-miss: true
-      - name: Test Deno Definitions
-        run: deno check dist/deno/index.ts
       - name: Setup node
         uses: actions/setup-node@v4
         with:
           node-version: lts/*
           cache: 'npm'
       - run: npm clean-install
+      - name: Test Deno Definitions
+        run: |
+          npm run build:deno
+          deno check dist/deno/index.ts
       - name: Test Deno
         run: npm run tap:deno
 
   bun:
-    needs:
-      - build
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -114,13 +73,6 @@ jobs:
       - uses: oven-sh/setup-bun@v1
         with:
           bun-version: latest
-      - name: Load cached dist
-        uses: actions/cache@v4
-        id: dist
-        with:
-          path: dist
-          key: ${{ needs.build.outputs.cache-key }}
-          fail-on-cache-miss: true
       - name: Setup node
         uses: actions/setup-node@v4
         with:
@@ -131,8 +83,6 @@ jobs:
         run: npm run tap:bun
 
   workerd:
-    needs:
-      - build
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -144,19 +94,10 @@ jobs:
           cache: 'npm'
       - run: npm clean-install
       - run: npm install --global workerd
-      - name: Load cached dist
-        uses: actions/cache@v4
-        id: dist
-        with:
-          path: dist
-          key: ${{ needs.build.outputs.cache-key }}
-          fail-on-cache-miss: true
       - name: Run Test Suite
         run: npm run tap:workerd
 
   edge-runtime:
-    needs:
-      - build
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -167,19 +108,10 @@ jobs:
           node-version: lts/*
           cache: 'npm'
       - run: npm clean-install
-      - name: Load cached dist
-        uses: actions/cache@v4
-        id: dist
-        with:
-          path: dist
-          key: ${{ needs.build.outputs.cache-key }}
-          fail-on-cache-miss: true
       - name: Run Test Suite
         run: npm run tap:edge-runtime
 
   browsers:
-    needs:
-      - build
     runs-on: ${{ matrix.runs-on || 'ubuntu-latest' }}
     strategy:
       fail-fast: false
@@ -206,21 +138,12 @@ jobs:
         run: |
           sudo sqlite3 "$HOME/Library/Application Support/com.apple.TCC/TCC.db" "INSERT OR REPLACE INTO access VALUES('kTCCServiceAppleEvents','com.devexpress.testcafe-browser-tools',0,2,3,1,X'fade0c0000000068000000010000000700000007000000080000001443fa4ca5141baeda21aeca1f50894673b440d4690000000800000014f8afcf6e69791b283e55bd0b03e39e422745770e0000000800000014bf4fc1aed64c871a49fc6bc9dd3878ce5d4d17c6',NULL,0,'com.apple.Safari',X'fade0c000000002c00000001000000060000000200000010636f6d2e6170706c652e53616661726900000003',NULL,1687952810,NULL,NULL,'UNUSED',1687952810);"
           sudo sqlite3 "/Library/Application Support/com.apple.TCC/TCC.db" "INSERT OR REPLACE INTO access VALUES('kTCCServiceScreenCapture','com.devexpress.testcafe-browser-tools',0,2,3,1,X'fade0c0000000068000000010000000700000007000000080000001443fa4ca5141baeda21aeca1f50894673b440d4690000000800000014f8afcf6e69791b283e55bd0b03e39e422745770e0000000800000014bf4fc1aed64c871a49fc6bc9dd3878ce5d4d17c6',NULL,0,'UNUSED',NULL,0,1687952810,NULL,NULL,'UNUSED',1687952810);"
-      - name: Load cached dist
-        uses: actions/cache@v4
-        id: dist
-        with:
-          path: dist
-          key: ${{ needs.build.outputs.cache-key }}
-          fail-on-cache-miss: true
       - name: Run Test Suite
         run: npm run tap:browsers
         env:
           BROWSER: ${{ matrix.browser }}
 
   electron:
-    needs:
-      - build
     runs-on: macos-latest
     steps:
       - name: Checkout
@@ -231,13 +154,6 @@ jobs:
           node-version: lts/*
           cache: 'npm'
       - run: npm clean-install
-      - name: Load cached dist
-        uses: actions/cache@v4
-        id: dist
-        with:
-          path: dist
-          key: ${{ needs.build.outputs.cache-key }}
-          fail-on-cache-miss: true
       - name: Install Electron
         run: npm install --global electron
       - name: Run Test Suite

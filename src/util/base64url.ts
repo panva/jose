@@ -1,4 +1,4 @@
-import * as base64url from '../runtime/base64url.js'
+import * as base64url from '../lib/base64url.js'
 
 /**
  * Utility function to encode a string or {@link !Uint8Array} as a base64url string.

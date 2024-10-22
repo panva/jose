@@ -1,16 +1,5 @@
+import type * as types from '../../types.d.ts'
 import { flattenedVerify } from '../flattened/verify.js'
-import type {
-  JWK,
-  GeneralJWSInput,
-  GeneralVerifyResult,
-  FlattenedJWSInput,
-  GenericGetKeyFunction,
-  JWSHeaderParameters,
-  CryptoKey,
-  VerifyOptions,
-  ResolvedKey,
-  KeyObject,
-} from '../../types.d.ts'
 import { JWSInvalid, JWSSignatureVerificationFailed } from '../../util/errors.js'
 import isObject from '../../lib/is_object.js'
 
@@ -21,10 +10,10 @@ import isObject from '../../lib/is_object.js'
  * @see {@link jwks/remote.createRemoteJWKSet createRemoteJWKSet} to verify using a remote JSON Web Key Set.
  */
 export interface GeneralVerifyGetKey
-  extends GenericGetKeyFunction<
-    JWSHeaderParameters,
-    FlattenedJWSInput,
-    CryptoKey | KeyObject | JWK | Uint8Array
+  extends types.GenericGetKeyFunction<
+    types.JWSHeaderParameters,
+    types.FlattenedJWSInput,
+    types.CryptoKey | types.KeyObject | types.JWK | Uint8Array
   > {}
 
 /**
@@ -59,10 +48,10 @@ export interface GeneralVerifyGetKey
  * @param options JWS Verify options.
  */
 export function generalVerify(
-  jws: GeneralJWSInput,
-  key: CryptoKey | KeyObject | JWK | Uint8Array,
-  options?: VerifyOptions,
-): Promise<GeneralVerifyResult>
+  jws: types.GeneralJWSInput,
+  key: types.CryptoKey | types.KeyObject | types.JWK | Uint8Array,
+  options?: types.VerifyOptions,
+): Promise<types.GeneralVerifyResult>
 /**
  * @param jws General JWS.
  * @param getKey Function resolving a key to verify the JWS with. See
@@ -70,14 +59,14 @@ export function generalVerify(
  * @param options JWS Verify options.
  */
 export function generalVerify(
-  jws: GeneralJWSInput,
+  jws: types.GeneralJWSInput,
   getKey: GeneralVerifyGetKey,
-  options?: VerifyOptions,
-): Promise<GeneralVerifyResult & ResolvedKey>
+  options?: types.VerifyOptions,
+): Promise<types.GeneralVerifyResult & types.ResolvedKey>
 export async function generalVerify(
-  jws: GeneralJWSInput,
-  key: CryptoKey | KeyObject | JWK | Uint8Array | GeneralVerifyGetKey,
-  options?: VerifyOptions,
+  jws: types.GeneralJWSInput,
+  key: types.CryptoKey | types.KeyObject | types.JWK | Uint8Array | GeneralVerifyGetKey,
+  options?: types.VerifyOptions,
 ) {
   if (!isObject(jws)) {
     throw new JWSInvalid('General JWS must be an object')

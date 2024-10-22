@@ -1,7 +1,6 @@
 import QUnit from 'qunit'
 import run from './run.js'
-// @ts-ignore
-import * as lib from '#dist'
+import * as lib from '../src/index.js'
 
 export default {
   async test() {

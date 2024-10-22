@@ -1,6 +1,5 @@
 import type QUnit from 'qunit'
 import type * as jose from '../src/index.js'
-import random from './random.js'
 
 type keyType = Uint8Array | jose.CryptoKey | jose.KeyObject | jose.GenerateKeyPairResult
 
@@ -68,12 +67,12 @@ export async function jwe(
   alg: string,
   enc: string,
   secretOrKeyPair: keyType,
-  cleartext = random(),
+  cleartext = crypto.getRandomValues(new Uint8Array(16)),
 ) {
   // Test Uint8Array, CryptoKey, and KeyObject key inputs
   {
     const [eKey, dKey] = await getKeys(secretOrKeyPair, false, keys)
-    const aad = random()
+    const aad = crypto.getRandomValues(new Uint8Array(16))
 
     const jwe = await new lib.FlattenedEncrypt(cleartext)
       .setProtectedHeader({ alg, enc })
@@ -96,7 +95,7 @@ export async function jwe(
   // Test JWK key input
   {
     const [eKey, dKey] = await getKeys(secretOrKeyPair, true, keys)
-    const aad = random()
+    const aad = crypto.getRandomValues(new Uint8Array(16))
 
     const jwe = await new lib.FlattenedEncrypt(cleartext)
       .setProtectedHeader({ alg, enc })

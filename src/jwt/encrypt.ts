@@ -1,12 +1,5 @@
+import type * as types from '../types.d.ts'
 import { CompactEncrypt } from '../jwe/compact/encrypt.js'
-import type {
-  EncryptOptions,
-  CompactJWEHeaderParameters,
-  JWEKeyManagementHeaderParameters,
-  CryptoKey,
-  KeyObject,
-  JWK,
-} from '../types.d.ts'
 import { encoder } from '../lib/buffer_utils.js'
 import { ProduceJWT } from './produce.js'
 
@@ -36,9 +29,9 @@ export class EncryptJWT extends ProduceJWT {
 
   private _iv!: Uint8Array
 
-  private _keyManagementParameters!: JWEKeyManagementHeaderParameters
+  private _keyManagementParameters!: types.JWEKeyManagementHeaderParameters
 
-  private _protectedHeader!: CompactJWEHeaderParameters
+  private _protectedHeader!: types.CompactJWEHeaderParameters
 
   private _replicateIssuerAsHeader!: boolean
 
@@ -52,7 +45,7 @@ export class EncryptJWT extends ProduceJWT {
    * @param protectedHeader JWE Protected Header. Must contain an "alg" (JWE Algorithm) and "enc"
    *   (JWE Encryption Algorithm) properties.
    */
-  setProtectedHeader(protectedHeader: CompactJWEHeaderParameters): this {
+  setProtectedHeader(protectedHeader: types.CompactJWEHeaderParameters): this {
     if (this._protectedHeader) {
       throw new TypeError('setProtectedHeader can only be called once')
     }
@@ -68,7 +61,7 @@ export class EncryptJWT extends ProduceJWT {
    *
    * @param parameters JWE Key Management parameters.
    */
-  setKeyManagementParameters(parameters: JWEKeyManagementHeaderParameters): this {
+  setKeyManagementParameters(parameters: types.JWEKeyManagementHeaderParameters): this {
     if (this._keyManagementParameters) {
       throw new TypeError('setKeyManagementParameters can only be called once')
     }
@@ -148,8 +141,8 @@ export class EncryptJWT extends ProduceJWT {
    * @param options JWE Encryption options.
    */
   async encrypt(
-    key: CryptoKey | KeyObject | JWK | Uint8Array,
-    options?: EncryptOptions,
+    key: types.CryptoKey | types.KeyObject | types.JWK | Uint8Array,
+    options?: types.EncryptOptions,
   ): Promise<string> {
     const enc = new CompactEncrypt(encoder.encode(JSON.stringify(this._payload)))
     if (this._replicateIssuerAsHeader) {

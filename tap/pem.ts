@@ -10,7 +10,7 @@ function normalize(pem: string) {
 export default (
   QUnit: QUnit,
   lib: typeof jose,
-  keys: Pick<typeof jose, 'exportJWK' | 'generateKeyPair' | 'generateSecret' | 'importJWK'>,
+  _keys: Pick<typeof jose, 'exportJWK' | 'generateKeyPair' | 'generateSecret' | 'importJWK'>,
 ) => {
   const { module, test } = QUnit
   module('pem.ts')

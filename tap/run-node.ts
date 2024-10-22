@@ -1,7 +1,7 @@
 /// <reference types="node"/>
 
 import { parseArgs } from 'node:util'
-import * as lib from '#dist'
+import * as lib from '../src/index.js'
 
 import QUnit from 'qunit'
 
@@ -18,6 +18,5 @@ const stats: QUnit.DoneDetails = await new Promise(async (resolve) => {
 })
 
 if (stats?.failed !== 0) {
-  // @ts-ignore
   process.exitCode = 1
 }
