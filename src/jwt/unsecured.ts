@@ -1,14 +1,14 @@
-import * as base64url from '../runtime/base64url.js'
+import * as base64url from '../lib/base64url.js'
 
-import type { JWSHeaderParameters, JWTClaimVerificationOptions, JWTPayload } from '../types.d.ts'
+import type * as types from '../types.d.ts'
 import { decoder } from '../lib/buffer_utils.js'
 import { JWTInvalid } from '../util/errors.js'
 import jwtPayload from '../lib/jwt_claims_set.js'
 import { ProduceJWT } from './produce.js'
 
-export interface UnsecuredResult<PayloadType = JWTPayload> {
-  payload: PayloadType & JWTPayload
-  header: JWSHeaderParameters
+export interface UnsecuredResult<PayloadType = types.JWTPayload> {
+  payload: PayloadType & types.JWTPayload
+  header: types.JWSHeaderParameters
 }
 
 /**
@@ -60,9 +60,9 @@ export class UnsecuredJWT extends ProduceJWT {
    * @param jwt Unsecured JWT to decode the payload of.
    * @param options JWT Claims Set validation options.
    */
-  static decode<PayloadType = JWTPayload>(
+  static decode<PayloadType = types.JWTPayload>(
     jwt: string,
-    options?: JWTClaimVerificationOptions,
+    options?: types.JWTClaimVerificationOptions,
   ): UnsecuredResult<PayloadType> {
     if (typeof jwt !== 'string') {
       throw new JWTInvalid('Unsecured JWT must be a string')
@@ -73,7 +73,7 @@ export class UnsecuredJWT extends ProduceJWT {
       throw new JWTInvalid('Invalid Unsecured JWT')
     }
 
-    let header: JWSHeaderParameters
+    let header: types.JWSHeaderParameters
     try {
       header = JSON.parse(decoder.decode(base64url.decode(encodedHeader)))
       if (header.alg !== 'none') throw new Error()

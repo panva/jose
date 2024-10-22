@@ -1,12 +1,5 @@
-import fetchJwks from '../runtime/fetch_jwks.js'
-
-import type {
-  CryptoKey,
-  JWSHeaderParameters,
-  FlattenedJWSInput,
-  JSONWebKeySet,
-} from '../types.d.ts'
-import { JWKSNoMatchingKey } from '../util/errors.js'
+import type * as types from '../types.d.ts'
+import { JOSEError, JWKSNoMatchingKey, JWKSTimeout } from '../util/errors.js'
 
 import { createLocalJWKSet } from './local.js'
 import isObject from '../lib/is_object.js'
@@ -31,6 +24,51 @@ if (typeof navigator === 'undefined' || !navigator.userAgent?.startsWith?.('Mozi
   const NAME = 'jose'
   const VERSION = 'v5.9.6'
   USER_AGENT = `${NAME}/${VERSION}`
+}
+
+/** TODO */
+export const customFetch: unique symbol = Symbol()
+
+export type FetchImplementation = (
+  url: string,
+  options: {
+    headers: Headers
+    method: 'GET'
+    redirect: 'manual'
+    signal: AbortSignal
+  },
+) => Promise<Response>
+
+async function fetchJwks(
+  url: string,
+  options: {
+    headers: Headers
+    signal: AbortSignal
+    [customFetch]?: FetchImplementation
+  },
+) {
+  const response = await (options?.[customFetch] || fetch)(url, {
+    method: 'GET',
+    signal: options.signal,
+    redirect: 'manual',
+    headers: options.headers,
+  }).catch((err) => {
+    if (err.name === 'TimeoutError') {
+      throw new JWKSTimeout()
+    }
+
+    throw err
+  })
+
+  if (response.status !== 200) {
+    throw new JOSEError('Expected 200 OK from the JSON Web Key Set HTTP response')
+  }
+
+  try {
+    return await response.json()
+  } catch {
+    throw new JOSEError('Failed to parse the JSON Web Key Set HTTP response as JSON')
+  }
 }
 
 /**
@@ -108,29 +146,18 @@ export interface RemoteJWKSetOptions {
    */
   cacheMaxAge?: number | typeof Infinity
 
-  /**
-   * An instance of {@link https://nodejs.org/api/http.html#class-httpagent http.Agent} or
-   * {@link https://nodejs.org/api/https.html#class-httpsagent https.Agent} to pass to the
-   * {@link https://nodejs.org/api/http.html#httpgetoptions-callback http.get} or
-   * {@link https://nodejs.org/api/https.html#httpsgetoptions-callback https.get} method's options.
-   * Use when behind an http(s) proxy. This is a Node.js runtime specific option, it is ignored when
-   * used outside of Node.js runtime.
-   */
-  agent?: any
-
-  /**
-   * Headers to be sent with the HTTP request. Default is that `User-Agent: jose/v${version}` header
-   * is added unless the runtime is a browser in which adding an explicit headers fetch
-   * configuration would cause an unnecessary CORS preflight request.
-   */
+  /** Headers to be sent with the HTTP request. */
   headers?: Record<string, string>
 
   /** See {@link jwksCache}. */
   [jwksCache]?: JWKSCacheInput
+
+  /** See {@link customFetch}. */
+  [customFetch]?: FetchImplementation
 }
 
 export interface ExportedJWKSCache {
-  jwks: JSONWebKeySet
+  jwks: types.JSONWebKeySet
   uat: number
 }
 
@@ -147,7 +174,7 @@ function isFreshJwksCache(input: unknown, cacheMaxAge: number): input is Exporte
 
   if (
     !('jwks' in input) ||
-    !isObject<JSONWebKeySet>(input.jwks) ||
+    !isObject<types.JSONWebKeySet>(input.jwks) ||
     !Array.isArray(input.jwks.keys) ||
     !Array.prototype.every.call(input.jwks.keys, isObject)
   ) {
@@ -170,7 +197,7 @@ class RemoteJWKSet {
 
   private _pendingFetch?: Promise<unknown>
 
-  private _options: Pick<RemoteJWKSetOptions, 'agent' | 'headers'>
+  private _options: Pick<RemoteJWKSetOptions, 'headers'>
 
   private _local!: ReturnType<typeof createLocalJWKSet>
 
@@ -181,7 +208,7 @@ class RemoteJWKSet {
       throw new TypeError('url must be an instance of URL')
     }
     this._url = new URL(url.href)
-    this._options = { agent: options?.agent, headers: options?.headers }
+    this._options = { headers: options?.headers }
     this._timeoutDuration =
       typeof options?.timeoutDuration === 'number' ? options?.timeoutDuration : 5000
     this._cooldownDuration =
@@ -210,9 +237,9 @@ class RemoteJWKSet {
   }
 
   async getKey(
-    protectedHeader?: JWSHeaderParameters,
-    token?: FlattenedJWSInput,
-  ): Promise<CryptoKey> {
+    protectedHeader?: types.JWSHeaderParameters,
+    token?: types.FlattenedJWSInput,
+  ): Promise<types.CryptoKey> {
     if (!this._local || !this.fresh()) {
       await this.reload()
     }
@@ -243,12 +270,20 @@ class RemoteJWKSet {
       this._options.headers = Object.fromEntries(headers.entries())
     }
 
-    this._pendingFetch ||= fetchJwks(this._url, this._timeoutDuration, this._options)
+    if (!headers.has('accept')) {
+      headers.set('accept', 'application/json')
+      headers.append('accept', 'application/jwk-set+json')
+    }
+
+    this._pendingFetch ||= fetchJwks(this._url.href, {
+      headers,
+      signal: AbortSignal.timeout(this._timeoutDuration),
+    })
       .then((json) => {
-        this._local = createLocalJWKSet(json as unknown as JSONWebKeySet)
+        this._local = createLocalJWKSet(json as unknown as types.JSONWebKeySet)
         if (this._cache) {
           this._cache.uat = Date.now()
-          this._cache.jwks = json as unknown as JSONWebKeySet
+          this._cache.jwks = json as unknown as types.JSONWebKeySet
         }
         this._jwksTimestamp = Date.now()
         this._pendingFetch = undefined
@@ -335,7 +370,10 @@ export function createRemoteJWKSet(
   url: URL,
   options?: RemoteJWKSetOptions,
 ): {
-  (protectedHeader?: JWSHeaderParameters, token?: FlattenedJWSInput): Promise<CryptoKey>
+  (
+    protectedHeader?: types.JWSHeaderParameters,
+    token?: types.FlattenedJWSInput,
+  ): Promise<types.CryptoKey>
   /** @ignore */
   coolingDown: boolean
   /** @ignore */
@@ -345,14 +383,14 @@ export function createRemoteJWKSet(
   /** @ignore */
   reload: () => Promise<void>
   /** @ignore */
-  jwks: () => JSONWebKeySet | undefined
+  jwks: () => types.JSONWebKeySet | undefined
 } {
   const set = new RemoteJWKSet(url, options)
 
   const remoteJWKSet = async (
-    protectedHeader?: JWSHeaderParameters,
-    token?: FlattenedJWSInput,
-  ): Promise<CryptoKey> => set.getKey(protectedHeader, token)
+    protectedHeader?: types.JWSHeaderParameters,
+    token?: types.FlattenedJWSInput,
+  ): Promise<types.CryptoKey> => set.getKey(protectedHeader, token)
 
   Object.defineProperties(remoteJWKSet, {
     coolingDown: {

@@ -1,12 +1,12 @@
 import { withAlg as invalidKeyInput } from './invalid_key_input.js'
-import isKeyLike from '../runtime/is_key_like.js'
+import isKeyLike from './is_key_like.js'
 import * as jwk from './is_jwk.js'
-import type { JWK } from '../types.d.ts'
+import type * as types from '../types.d.ts'
 
 // @ts-expect-error
 const tag = (key: unknown): string => key?.[Symbol.toStringTag]
 
-const jwkMatchesOp = (alg: string, key: JWK, usage: Usage) => {
+const jwkMatchesOp = (alg: string, key: types.JWK, usage: Usage) => {
   if (key.use !== undefined) {
     let expected: string
     switch (usage) {
@@ -107,7 +107,7 @@ const asymmetricTypeCheck = (alg: string, key: unknown, usage: Usage) => {
 
 type Usage = 'sign' | 'verify' | 'encrypt' | 'decrypt'
 
-export default function checkKeyType(alg: string, key: unknown, usage: Usage): void {
+export default (alg: string, key: unknown, usage: Usage): void => {
   const symmetric =
     alg.startsWith('HS') ||
     alg === 'dir' ||

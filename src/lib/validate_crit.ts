@@ -6,13 +6,13 @@ interface CritCheckHeader {
   [propName: string]: unknown
 }
 
-function validateCrit(
+export default (
   Err: typeof JWEInvalid | typeof JWSInvalid,
   recognizedDefault: Map<string, boolean>,
   recognizedOption: { [propName: string]: boolean } | undefined,
   protectedHeader: CritCheckHeader | undefined,
   joseHeader: CritCheckHeader,
-) {
+) => {
   if (joseHeader.crit !== undefined && protectedHeader?.crit === undefined) {
     throw new Err('"crit" (Critical) Header Parameter MUST be integrity protected')
   }
@@ -53,5 +53,3 @@ function validateCrit(
 
   return new Set(protectedHeader.crit)
 }
-
-export default validateCrit

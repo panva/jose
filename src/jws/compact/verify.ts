@@ -1,17 +1,7 @@
+import type * as types from '../../types.d.ts'
 import { flattenedVerify } from '../flattened/verify.js'
 import { JWSInvalid } from '../../util/errors.js'
 import { decoder } from '../../lib/buffer_utils.js'
-import type {
-  JWK,
-  CompactVerifyResult,
-  FlattenedJWSInput,
-  GenericGetKeyFunction,
-  CompactJWSHeaderParameters,
-  CryptoKey,
-  VerifyOptions,
-  ResolvedKey,
-  KeyObject,
-} from '../../types.d.ts'
 
 /**
  * Interface for Compact JWS Verification dynamic key resolution. No token components have been
@@ -20,10 +10,10 @@ import type {
  * @see {@link jwks/remote.createRemoteJWKSet createRemoteJWKSet} to verify using a remote JSON Web Key Set.
  */
 export interface CompactVerifyGetKey
-  extends GenericGetKeyFunction<
-    CompactJWSHeaderParameters,
-    FlattenedJWSInput,
-    CryptoKey | KeyObject | JWK | Uint8Array
+  extends types.GenericGetKeyFunction<
+    types.CompactJWSHeaderParameters,
+    types.FlattenedJWSInput,
+    types.CryptoKey | types.KeyObject | types.JWK | Uint8Array
   > {}
 
 /**
@@ -51,9 +41,9 @@ export interface CompactVerifyGetKey
  */
 export function compactVerify(
   jws: string | Uint8Array,
-  key: CryptoKey | KeyObject | JWK | Uint8Array,
-  options?: VerifyOptions,
-): Promise<CompactVerifyResult>
+  key: types.CryptoKey | types.KeyObject | types.JWK | Uint8Array,
+  options?: types.VerifyOptions,
+): Promise<types.CompactVerifyResult>
 /**
  * @param jws Compact JWS.
  * @param getKey Function resolving a key to verify the JWS with. See
@@ -63,12 +53,12 @@ export function compactVerify(
 export function compactVerify(
   jws: string | Uint8Array,
   getKey: CompactVerifyGetKey,
-  options?: VerifyOptions,
-): Promise<CompactVerifyResult & ResolvedKey>
+  options?: types.VerifyOptions,
+): Promise<types.CompactVerifyResult & types.ResolvedKey>
 export async function compactVerify(
   jws: string | Uint8Array,
-  key: CryptoKey | KeyObject | JWK | Uint8Array | CompactVerifyGetKey,
-  options?: VerifyOptions,
+  key: types.CryptoKey | types.KeyObject | types.JWK | Uint8Array | CompactVerifyGetKey,
+  options?: types.VerifyOptions,
 ) {
   if (jws instanceof Uint8Array) {
     jws = decoder.decode(jws)

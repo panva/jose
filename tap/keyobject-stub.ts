@@ -12,11 +12,15 @@ const stub: Pick<
 > = {
   // @ts-expect-error
   exportJWK(key) {
+    let k: crypto.KeyObject
     if (key instanceof Uint8Array) {
-      key = crypto.createSecretKey(key)
+      k = crypto.createSecretKey(key)
+    } else {
+      // @ts-expect-error
+      k = key
     }
 
-    return (key as crypto.KeyObject).export({ format: 'jwk' })
+    return (k as unknown as crypto.KeyObject).export({ format: 'jwk' })
   },
   // @ts-expect-error
   importJWK(jwk) {

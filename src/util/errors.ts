@@ -1,4 +1,4 @@
-import type { JWTPayload, CryptoKey } from '../types.d.ts'
+import type * as types from '../types.d.ts'
 
 /**
  * A generic Error that all other JOSE specific Error subclasses extend.
@@ -74,10 +74,15 @@ export class JWTClaimValidationFailed extends JOSEError {
    * has however been verified. Claims Set verification happens after the JWS Signature or JWE
    * Decryption processes.
    */
-  payload: JWTPayload
+  payload: types.JWTPayload
 
   /** @ignore */
-  constructor(message: string, payload: JWTPayload, claim = 'unspecified', reason = 'unspecified') {
+  constructor(
+    message: string,
+    payload: types.JWTPayload,
+    claim = 'unspecified',
+    reason = 'unspecified',
+  ) {
     super(message, { cause: { claim, reason, payload } })
     this.claim = claim
     this.reason = reason
@@ -126,10 +131,15 @@ export class JWTExpired extends JOSEError implements JWTClaimValidationFailed {
    * has however been verified. Claims Set verification happens after the JWS Signature or JWE
    * Decryption processes.
    */
-  payload: JWTPayload
+  payload: types.JWTPayload
 
   /** @ignore */
-  constructor(message: string, payload: JWTPayload, claim = 'unspecified', reason = 'unspecified') {
+  constructor(
+    message: string,
+    payload: types.JWTPayload,
+    claim = 'unspecified',
+    reason = 'unspecified',
+  ) {
     super(message, { cause: { claim, reason, payload } })
     this.claim = claim
     this.reason = reason
@@ -446,7 +456,7 @@ export class JWKSNoMatchingKey extends JOSEError {
  */
 export class JWKSMultipleMatchingKeys extends JOSEError {
   /** @ignore */
-  [Symbol.asyncIterator]!: () => AsyncIterableIterator<CryptoKey>
+  [Symbol.asyncIterator]!: () => AsyncIterableIterator<types.CryptoKey>
 
   /** @ignore */
   static override code = 'ERR_JWKS_MULTIPLE_MATCHING_KEYS'

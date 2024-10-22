@@ -1,9 +1,9 @@
-import digest from '../runtime/digest.js'
-import { encode as base64url } from '../runtime/base64url.js'
+import digest from '../lib/digest.js'
+import { encode as base64url } from '../lib/base64url.js'
 
 import { JOSENotSupported, JWKInvalid } from '../util/errors.js'
 import { encoder } from '../lib/buffer_utils.js'
-import type { JWK } from '../types.d.ts'
+import type * as types from '../types.d.ts'
 import isObject from '../lib/is_object.js'
 
 const check = (value: unknown, description: string) => {
@@ -39,7 +39,7 @@ const check = (value: unknown, description: string) => {
  * @see {@link https://www.rfc-editor.org/rfc/rfc7638 RFC7638}
  */
 export async function calculateJwkThumbprint(
-  jwk: JWK,
+  jwk: types.JWK,
   digestAlgorithm?: 'sha256' | 'sha384' | 'sha512',
 ): Promise<string> {
   if (!isObject(jwk)) {
@@ -56,7 +56,7 @@ export async function calculateJwkThumbprint(
     throw new TypeError('digestAlgorithm must one of "sha256", "sha384", or "sha512"')
   }
 
-  let components: JWK
+  let components: types.JWK
   switch (jwk.kty) {
     case 'EC':
       check(jwk.crv, '"crv" (Curve) Parameter')
@@ -113,7 +113,7 @@ export async function calculateJwkThumbprint(
  * @see {@link https://www.rfc-editor.org/rfc/rfc9278 RFC9278}
  */
 export async function calculateJwkThumbprintUri(
-  jwk: JWK,
+  jwk: types.JWK,
   digestAlgorithm?: 'sha256' | 'sha384' | 'sha512',
 ): Promise<string> {
   digestAlgorithm ??= 'sha256'

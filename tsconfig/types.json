@@ -1,5 +1,5 @@
 {
-  "extends": "./base.json",
+  "extends": "../tsconfig.json",
   "compilerOptions": {
     "target": "ESNext",
     "outDir": "../dist/types",
