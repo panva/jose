@@ -1,12 +1,12 @@
 import { withAlg as invalidKeyInput } from './invalid_key_input.js'
-import isKeyLike from '../runtime/is_key_like.js'
+import isKeyLike from './is_key_like.js'
 import * as jwk from './is_jwk.js'
-import type { JWK } from '../types.d.ts'
+import type * as types from '../types.d.ts'
 
 // @ts-expect-error
 const tag = (key: unknown): string => key?.[Symbol.toStringTag]
 
-const jwkMatchesOp = (alg: string, key: JWK, usage: Usage) => {
+const jwkMatchesOp = (alg: string, key: types.JWK, usage: Usage) => {
   if (key.use !== undefined) {
     let expected: string
     switch (usage) {
@@ -112,34 +112,40 @@ const asymmetricTypeCheck = (alg: string, key: unknown, usage: Usage) => {
     )
   }
 
-  if (usage === 'sign' && key.type === 'public') {
-    throw new TypeError(
-      `${tag(key)} instances for asymmetric algorithm signing must be of type "private"`,
-    )
+  if (key.type === 'public') {
+    switch (usage) {
+      case 'sign':
+        throw new TypeError(
+          `${tag(key)} instances for asymmetric algorithm signing must be of type "private"`,
+        )
+      case 'decrypt':
+        throw new TypeError(
+          `${tag(key)} instances for asymmetric algorithm decryption must be of type "private"`,
+        )
+      default:
+        break
+    }
   }
 
-  if (usage === 'decrypt' && key.type === 'public') {
-    throw new TypeError(
-      `${tag(key)} instances for asymmetric algorithm decryption must be of type "private"`,
-    )
-  }
-
-  if (usage === 'verify' && key.type === 'private') {
-    throw new TypeError(
-      `${tag(key)} instances for asymmetric algorithm verifying must be of type "public"`,
-    )
-  }
-
-  if (usage === 'encrypt' && key.type === 'private') {
-    throw new TypeError(
-      `${tag(key)} instances for asymmetric algorithm encryption must be of type "public"`,
-    )
+  if (key.type === 'private') {
+    switch (usage) {
+      case 'verify':
+        throw new TypeError(
+          `${tag(key)} instances for asymmetric algorithm verifying must be of type "public"`,
+        )
+      case 'encrypt':
+        throw new TypeError(
+          `${tag(key)} instances for asymmetric algorithm encryption must be of type "public"`,
+        )
+      default:
+        break
+    }
   }
 }
 
 type Usage = 'sign' | 'verify' | 'encrypt' | 'decrypt'
 
-export default function checkKeyType(alg: string, key: unknown, usage: Usage): void {
+export default (alg: string, key: unknown, usage: Usage): void => {
   const symmetric =
     alg.startsWith('HS') ||
     alg === 'dir' ||

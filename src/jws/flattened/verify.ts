@@ -1,5 +1,6 @@
-import { decode as base64url } from '../../runtime/base64url.js'
-import verify from '../../runtime/verify.js'
+import type * as types from '../../types.d.ts'
+import { decode as base64url } from '../../lib/base64url.js'
+import verify from '../../lib/verify.js'
 
 import { JOSEAlgNotAllowed, JWSInvalid, JWSSignatureVerificationFailed } from '../../util/errors.js'
 import { concat, encoder, decoder } from '../../lib/buffer_utils.js'
@@ -8,19 +9,7 @@ import isObject from '../../lib/is_object.js'
 import checkKeyType from '../../lib/check_key_type.js'
 import validateCrit from '../../lib/validate_crit.js'
 import validateAlgorithms from '../../lib/validate_algorithms.js'
-import normalizeKey from '../../runtime/normalize_key.js'
-
-import type {
-  JWK,
-  FlattenedVerifyResult,
-  CryptoKey,
-  FlattenedJWSInput,
-  JWSHeaderParameters,
-  VerifyOptions,
-  GenericGetKeyFunction,
-  ResolvedKey,
-  KeyObject,
-} from '../../types.d.ts'
+import normalizeKey from '../../lib/normalize_key.js'
 
 /**
  * Interface for Flattened JWS Verification dynamic key resolution. No token components have been
@@ -29,10 +18,10 @@ import type {
  * @see {@link jwks/remote.createRemoteJWKSet createRemoteJWKSet} to verify using a remote JSON Web Key Set.
  */
 export interface FlattenedVerifyGetKey
-  extends GenericGetKeyFunction<
-    JWSHeaderParameters | undefined,
-    FlattenedJWSInput,
-    CryptoKey | KeyObject | JWK | Uint8Array
+  extends types.GenericGetKeyFunction<
+    types.JWSHeaderParameters | undefined,
+    types.FlattenedJWSInput,
+    types.CryptoKey | types.KeyObject | types.JWK | Uint8Array
   > {}
 
 /**
@@ -64,10 +53,10 @@ export interface FlattenedVerifyGetKey
  * @param options JWS Verify options.
  */
 export function flattenedVerify(
-  jws: FlattenedJWSInput,
-  key: CryptoKey | KeyObject | JWK | Uint8Array,
-  options?: VerifyOptions,
-): Promise<FlattenedVerifyResult>
+  jws: types.FlattenedJWSInput,
+  key: types.CryptoKey | types.KeyObject | types.JWK | Uint8Array,
+  options?: types.VerifyOptions,
+): Promise<types.FlattenedVerifyResult>
 /**
  * @param jws Flattened JWS.
  * @param getKey Function resolving a key to verify the JWS with. See
@@ -75,14 +64,14 @@ export function flattenedVerify(
  * @param options JWS Verify options.
  */
 export function flattenedVerify(
-  jws: FlattenedJWSInput,
+  jws: types.FlattenedJWSInput,
   getKey: FlattenedVerifyGetKey,
-  options?: VerifyOptions,
-): Promise<FlattenedVerifyResult & ResolvedKey>
+  options?: types.VerifyOptions,
+): Promise<types.FlattenedVerifyResult & types.ResolvedKey>
 export async function flattenedVerify(
-  jws: FlattenedJWSInput,
-  key: CryptoKey | KeyObject | JWK | Uint8Array | FlattenedVerifyGetKey,
-  options?: VerifyOptions,
+  jws: types.FlattenedJWSInput,
+  key: types.CryptoKey | types.KeyObject | types.JWK | Uint8Array | FlattenedVerifyGetKey,
+  options?: types.VerifyOptions,
 ) {
   if (!isObject(jws)) {
     throw new JWSInvalid('Flattened JWS must be an object')
@@ -108,7 +97,7 @@ export async function flattenedVerify(
     throw new JWSInvalid('JWS Unprotected Header incorrect type')
   }
 
-  let parsedProt: JWSHeaderParameters = {}
+  let parsedProt: types.JWSHeaderParameters = {}
   if (jws.protected) {
     try {
       const protectedHeader = base64url(jws.protected)
@@ -123,7 +112,7 @@ export async function flattenedVerify(
     )
   }
 
-  const joseHeader: JWSHeaderParameters = {
+  const joseHeader: types.JWSHeaderParameters = {
     ...parsedProt,
     ...jws.header,
   }
@@ -206,7 +195,7 @@ export async function flattenedVerify(
     payload = jws.payload
   }
 
-  const result: FlattenedVerifyResult = { payload }
+  const result: types.FlattenedVerifyResult = { payload }
 
   if (jws.protected !== undefined) {
     result.protectedHeader = parsedProt

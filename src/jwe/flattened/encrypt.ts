@@ -1,22 +1,13 @@
-import { encode as base64url } from '../../runtime/base64url.js'
+import { encode as base64url } from '../../lib/base64url.js'
 import { unprotected } from '../../lib/private_symbols.js'
-import encrypt from '../../runtime/encrypt.js'
-
-import type {
-  CryptoKey,
-  FlattenedJWE,
-  JWEHeaderParameters,
-  JWEKeyManagementHeaderParameters,
-  EncryptOptions,
-  KeyObject,
-  JWK,
-} from '../../types.d.ts'
+import encrypt from '../../lib/encrypt.js'
+import type * as types from '../../types.d.ts'
 import encryptKeyManagement from '../../lib/encrypt_key_management.js'
 import { JOSENotSupported, JWEInvalid } from '../../util/errors.js'
 import isDisjoint from '../../lib/is_disjoint.js'
 import { encoder, decoder, concat } from '../../lib/buffer_utils.js'
 import validateCrit from '../../lib/validate_crit.js'
-import normalizeKey from '../../runtime/normalize_key.js'
+import normalizeKey from '../../lib/normalize_key.js'
 import checkKeyType from '../../lib/check_key_type.js'
 
 /**
@@ -41,11 +32,11 @@ import checkKeyType from '../../lib/check_key_type.js'
 export class FlattenedEncrypt {
   private _plaintext: Uint8Array
 
-  private _protectedHeader!: JWEHeaderParameters | undefined
+  private _protectedHeader!: types.JWEHeaderParameters | undefined
 
-  private _sharedUnprotectedHeader!: JWEHeaderParameters | undefined
+  private _sharedUnprotectedHeader!: types.JWEHeaderParameters | undefined
 
-  private _unprotectedHeader!: JWEHeaderParameters | undefined
+  private _unprotectedHeader!: types.JWEHeaderParameters | undefined
 
   private _aad!: Uint8Array | undefined
 
@@ -53,7 +44,7 @@ export class FlattenedEncrypt {
 
   private _iv!: Uint8Array | undefined
 
-  private _keyManagementParameters!: JWEKeyManagementHeaderParameters
+  private _keyManagementParameters!: types.JWEKeyManagementHeaderParameters
 
   /** @param plaintext Binary representation of the plaintext to encrypt. */
   constructor(plaintext: Uint8Array) {
@@ -71,7 +62,7 @@ export class FlattenedEncrypt {
    *
    * @param parameters JWE Key Management parameters.
    */
-  setKeyManagementParameters(parameters: JWEKeyManagementHeaderParameters): this {
+  setKeyManagementParameters(parameters: types.JWEKeyManagementHeaderParameters): this {
     if (this._keyManagementParameters) {
       throw new TypeError('setKeyManagementParameters can only be called once')
     }
@@ -84,7 +75,7 @@ export class FlattenedEncrypt {
    *
    * @param protectedHeader JWE Protected Header.
    */
-  setProtectedHeader(protectedHeader: JWEHeaderParameters): this {
+  setProtectedHeader(protectedHeader: types.JWEHeaderParameters): this {
     if (this._protectedHeader) {
       throw new TypeError('setProtectedHeader can only be called once')
     }
@@ -97,7 +88,7 @@ export class FlattenedEncrypt {
    *
    * @param sharedUnprotectedHeader JWE Shared Unprotected Header.
    */
-  setSharedUnprotectedHeader(sharedUnprotectedHeader: JWEHeaderParameters): this {
+  setSharedUnprotectedHeader(sharedUnprotectedHeader: types.JWEHeaderParameters): this {
     if (this._sharedUnprotectedHeader) {
       throw new TypeError('setSharedUnprotectedHeader can only be called once')
     }
@@ -110,7 +101,7 @@ export class FlattenedEncrypt {
    *
    * @param unprotectedHeader JWE Per-Recipient Unprotected Header.
    */
-  setUnprotectedHeader(unprotectedHeader: JWEHeaderParameters): this {
+  setUnprotectedHeader(unprotectedHeader: types.JWEHeaderParameters): this {
     if (this._unprotectedHeader) {
       throw new TypeError('setUnprotectedHeader can only be called once')
     }
@@ -170,9 +161,9 @@ export class FlattenedEncrypt {
    * @param options JWE Encryption options.
    */
   async encrypt(
-    key: CryptoKey | KeyObject | JWK | Uint8Array,
-    options?: EncryptOptions,
-  ): Promise<FlattenedJWE> {
+    key: types.CryptoKey | types.KeyObject | types.JWK | Uint8Array,
+    options?: types.EncryptOptions,
+  ): Promise<types.FlattenedJWE> {
     if (!this._protectedHeader && !this._unprotectedHeader && !this._sharedUnprotectedHeader) {
       throw new JWEInvalid(
         'either setProtectedHeader, setUnprotectedHeader, or sharedUnprotectedHeader must be called before #encrypt()',
@@ -187,7 +178,7 @@ export class FlattenedEncrypt {
       )
     }
 
-    const joseHeader: JWEHeaderParameters = {
+    const joseHeader: types.JWEHeaderParameters = {
       ...this._protectedHeader,
       ...this._unprotectedHeader,
       ...this._sharedUnprotectedHeader,
@@ -221,7 +212,7 @@ export class FlattenedEncrypt {
 
     checkKeyType(alg === 'dir' ? enc : alg, key, 'encrypt')
 
-    let cek: CryptoKey | Uint8Array
+    let cek: types.CryptoKey | Uint8Array
     {
       let parameters: { [propName: string]: unknown } | undefined
       const k = await normalizeKey(key, alg)
@@ -272,7 +263,7 @@ export class FlattenedEncrypt {
       additionalData,
     )
 
-    const jwe: FlattenedJWE = {
+    const jwe: types.FlattenedJWE = {
       ciphertext: base64url(ciphertext),
     }
 

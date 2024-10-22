@@ -1,36 +1,32 @@
-import { wrap as aesKw } from '../runtime/aeskw.js'
-import * as ECDH from '../runtime/ecdhes.js'
-import { encrypt as pbes2Kw } from '../runtime/pbes2kw.js'
-import { encrypt as rsaEs } from '../runtime/rsaes.js'
-import { encode as base64url } from '../runtime/base64url.js'
-import normalizeKey from '../runtime/normalize_key.js'
+import type * as types from '../types.d.ts'
+import * as aeskw from './aeskw.js'
+import * as ecdhes from './ecdhes.js'
+import * as pbes2kw from './pbes2kw.js'
+import * as rsaes from './rsaes.js'
+import * as base64url from '../lib/base64url.js'
+import normalizeKey from './normalize_key.js'
 
-import type {
-  CryptoKey,
-  JWEKeyManagementHeaderParameters,
-  JWEHeaderParameters,
-  JWK,
-} from '../types.d.ts'
+import type { JWEKeyManagementHeaderParameters, JWEHeaderParameters, JWK } from '../types.d.ts'
 import generateCek, { bitLength as cekLength } from '../lib/cek.js'
 import { JOSENotSupported } from '../util/errors.js'
 import { exportJWK } from '../key/export.js'
 import { wrap as aesGcmKw } from './aesgcmkw.js'
-import { assertCryptoKey } from '../runtime/is_key_like.js'
+import { assertCryptoKey } from './is_key_like.js'
 
-async function encryptKeyManagement(
+export default async (
   alg: string,
   enc: string,
-  key: CryptoKey | Uint8Array,
+  key: types.CryptoKey | Uint8Array,
   providedCek?: Uint8Array,
   providedParameters: JWEKeyManagementHeaderParameters = {},
 ): Promise<{
-  cek: CryptoKey | Uint8Array
+  cek: types.CryptoKey | Uint8Array
   encryptedKey?: Uint8Array
   parameters?: JWEHeaderParameters
-}> {
+}> => {
   let encryptedKey: Uint8Array | undefined
   let parameters: (JWEHeaderParameters & { epk?: JWK }) | undefined
-  let cek: CryptoKey | Uint8Array
+  let cek: types.CryptoKey | Uint8Array
 
   switch (alg) {
     case 'dir': {
@@ -44,20 +40,22 @@ async function encryptKeyManagement(
     case 'ECDH-ES+A256KW': {
       assertCryptoKey(key)
       // Direct Key Agreement
-      if (!ECDH.ecdhAllowed(key)) {
+      if (!ecdhes.allowed(key)) {
         throw new JOSENotSupported(
           'ECDH with the provided key is not allowed or not supported by your javascript runtime',
         )
       }
       const { apu, apv } = providedParameters
-      let ephemeralKey: CryptoKey
+      let ephemeralKey: types.CryptoKey
       if (providedParameters.epk) {
-        ephemeralKey = (await normalizeKey(providedParameters.epk, alg)) as CryptoKey
+        ephemeralKey = (await normalizeKey(providedParameters.epk, alg)) as types.CryptoKey
       } else {
-        ephemeralKey = (await ECDH.generateEpk(key)).privateKey
+        ephemeralKey = (
+          await crypto.subtle.generateKey(key.algorithm as EcKeyAlgorithm, true, ['deriveBits'])
+        ).privateKey
       }
       const { x, y, crv, kty } = await exportJWK(ephemeralKey!)
-      const sharedSecret = await ECDH.deriveKey(
+      const sharedSecret = await ecdhes.deriveKey(
         key,
         ephemeralKey,
         alg === 'ECDH-ES' ? enc : alg,
@@ -67,8 +65,8 @@ async function encryptKeyManagement(
       )
       parameters = { epk: { x, crv, kty } }
       if (kty === 'EC') parameters.epk!.y = y
-      if (apu) parameters.apu = base64url(apu)
-      if (apv) parameters.apv = base64url(apv)
+      if (apu) parameters.apu = base64url.encode(apu)
+      if (apv) parameters.apv = base64url.encode(apv)
 
       if (alg === 'ECDH-ES') {
         cek = sharedSecret
@@ -78,7 +76,7 @@ async function encryptKeyManagement(
       // Key Agreement with Key Wrapping
       cek = providedCek || generateCek(enc)
       const kwAlg = alg.slice(-6)
-      encryptedKey = await aesKw(kwAlg, sharedSecret, cek)
+      encryptedKey = await aeskw.wrap(kwAlg, sharedSecret, cek)
       break
     }
     case 'RSA-OAEP':
@@ -88,7 +86,7 @@ async function encryptKeyManagement(
       // Key Encryption (RSA)
       cek = providedCek || generateCek(enc)
       assertCryptoKey(key)
-      encryptedKey = await rsaEs(alg, key, cek)
+      encryptedKey = await rsaes.encrypt(alg, key, cek)
       break
     }
     case 'PBES2-HS256+A128KW':
@@ -97,7 +95,7 @@ async function encryptKeyManagement(
       // Key Encryption (PBES2)
       cek = providedCek || generateCek(enc)
       const { p2c, p2s } = providedParameters
-      ;({ encryptedKey, ...parameters } = await pbes2Kw(alg, key, cek, p2c, p2s))
+      ;({ encryptedKey, ...parameters } = await pbes2kw.wrap(alg, key, cek, p2c, p2s))
       break
     }
     case 'A128KW':
@@ -105,7 +103,7 @@ async function encryptKeyManagement(
     case 'A256KW': {
       // Key Wrapping (AES KW)
       cek = providedCek || generateCek(enc)
-      encryptedKey = await aesKw(alg, key, cek)
+      encryptedKey = await aeskw.wrap(alg, key, cek)
       break
     }
     case 'A128GCMKW':
@@ -124,5 +122,3 @@ async function encryptKeyManagement(
 
   return { cek, encryptedKey, parameters }
 }
-
-export default encryptKeyManagement

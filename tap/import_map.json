@@ -16,7 +16,6 @@
     "./noop.js": "./noop.ts",
     "./pbes2.js": "./pbes2.ts",
     "./pem.js": "./pem.ts",
-    "./random.js": "./random.ts",
     "./rsaes.js": "./rsaes.ts",
     "./run.js": "./run.ts",
     "./sign.js": "./sign.ts"

@@ -1,7 +1,7 @@
 import { decode as base64url } from './base64url.js'
 import { decoder } from '../lib/buffer_utils.js'
 import isObject from '../lib/is_object.js'
-import type { JWTPayload } from '../types.d.ts'
+import type * as types from '../types.d.ts'
 import { JWTInvalid } from './errors.js'
 
 /**
@@ -22,7 +22,9 @@ import { JWTInvalid } from './errors.js'
  *
  * @param jwt JWT token in compact JWS serialization.
  */
-export function decodeJwt<PayloadType = JWTPayload>(jwt: string): PayloadType & JWTPayload {
+export function decodeJwt<PayloadType = types.JWTPayload>(
+  jwt: string,
+): PayloadType & types.JWTPayload {
   if (typeof jwt !== 'string')
     throw new JWTInvalid('JWTs must use Compact JWS serialization, JWT must be a string')
 
@@ -46,7 +48,8 @@ export function decodeJwt<PayloadType = JWTPayload>(jwt: string): PayloadType & 
     throw new JWTInvalid('Failed to parse the decoded payload as JSON')
   }
 
-  if (!isObject<PayloadType & JWTPayload>(result)) throw new JWTInvalid('Invalid JWT Claims Set')
+  if (!isObject<PayloadType & types.JWTPayload>(result))
+    throw new JWTInvalid('Invalid JWT Claims Set')
 
   return result
 }

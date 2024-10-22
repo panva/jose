@@ -1,5 +1,4 @@
 import { JOSENotSupported } from '../util/errors.js'
-import random from '../runtime/random.js'
 
 export function bitLength(alg: string) {
   switch (alg) {
@@ -18,4 +17,5 @@ export function bitLength(alg: string) {
       throw new JOSENotSupported(`Unsupported JWE Algorithm: ${alg}`)
   }
 }
-export default (alg: string): Uint8Array => random(new Uint8Array(bitLength(alg) >> 3))
+export default (alg: string): Uint8Array =>
+  crypto.getRandomValues(new Uint8Array(bitLength(alg) >> 3))

@@ -1,4 +1,4 @@
-import type { JWTPayload } from '../types.d.ts'
+import type * as types from '../types.d.ts'
 import epoch from '../lib/epoch.js'
 import isObject from '../lib/is_object.js'
 import secs from '../lib/secs.js'
@@ -13,10 +13,10 @@ function validateInput(label: string, input: number) {
 
 /** Generic class for JWT producing. */
 export class ProduceJWT {
-  protected _payload!: JWTPayload
+  protected _payload!: types.JWTPayload
 
   /** @param payload The JWT Claims Set object. Defaults to an empty object. */
-  constructor(payload: JWTPayload = {}) {
+  constructor(payload: types.JWTPayload = {}) {
     if (!isObject(payload)) {
       throw new TypeError('JWT Claims Set MUST be an object')
     }
