@@ -207,8 +207,8 @@
   "scripts": {
     "build": "tsc",
     "build-all": "run-s clear build build:*",
-    "build:bundle": "esbuild --bundle dist/webapi/index.js --format=esm --target=es2020 --outfile=dist/webapi/index.bundle.js",
-    "build:bundle-min": "esbuild --minify --bundle dist/webapi/index.js --format=esm --target=es2020 --outfile=dist/webapi/index.bundle.min.js",
+    "build:bundle": "esbuild --bundle dist/webapi/index.js --format=esm --target=es2022 --outfile=dist/webapi/index.bundle.js",
+    "build:bundle-min": "esbuild --minify --bundle dist/webapi/index.js --format=esm --target=es2022 --outfile=dist/webapi/index.bundle.min.js",
     "build:umd": "rollup dist/webapi/index.bundle.js --format umd --name jose -o dist/webapi/index.umd.js && rollup dist/webapi/index.bundle.min.js --compact --format umd --name jose -o dist/webapi/index.umd.min.js",
     "build:deno": "mkdir -p dist/deno && cp -R src/. dist/deno && find dist/deno -name '*.ts' -type f -print0 | xargs -0 sed -i.bak -e \"s/\\.js'/.ts'/g\" && npm run sedcleanup",
     "build:types": "npm run build -- -p ./tsconfig/types.json && cd src && find . -name '*.d.ts' -maxdepth 2 -type f -exec rsync -R \"{}\" ../dist/types  \\; && cd .. && run-s -s types:find | xargs -0 sed -i.bak -e \"s/\\.js'/'/g\" -e \"s/\\.d.ts'/'/g\" && npm run sedcleanup",
