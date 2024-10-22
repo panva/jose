@@ -1,6 +1,6 @@
-import encrypt from '../runtime/encrypt.js'
-import decrypt from '../runtime/decrypt.js'
-import { encode as base64url } from '../runtime/base64url.js'
+import encrypt from './encrypt.js'
+import decrypt from './decrypt.js'
+import { encode as base64url } from '../lib/base64url.js'
 
 export async function wrap(alg: string, key: unknown, cek: Uint8Array, iv?: Uint8Array) {
   const jweAlgorithm = alg.slice(0, 7)

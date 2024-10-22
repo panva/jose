@@ -1,12 +1,5 @@
+import type * as types from '../../types.d.ts'
 import { FlattenedEncrypt } from '../flattened/encrypt.js'
-import type {
-  KeyObject,
-  CryptoKey,
-  JWEKeyManagementHeaderParameters,
-  CompactJWEHeaderParameters,
-  EncryptOptions,
-  JWK,
-} from '../../types.d.ts'
 
 /**
  * The CompactEncrypt class is used to build and encrypt Compact JWE strings.
@@ -67,7 +60,7 @@ export class CompactEncrypt {
    *
    * @param protectedHeader JWE Protected Header object.
    */
-  setProtectedHeader(protectedHeader: CompactJWEHeaderParameters): this {
+  setProtectedHeader(protectedHeader: types.CompactJWEHeaderParameters): this {
     this._flattened.setProtectedHeader(protectedHeader)
     return this
   }
@@ -79,7 +72,7 @@ export class CompactEncrypt {
    *
    * @param parameters JWE Key Management parameters.
    */
-  setKeyManagementParameters(parameters: JWEKeyManagementHeaderParameters): this {
+  setKeyManagementParameters(parameters: types.JWEKeyManagementHeaderParameters): this {
     this._flattened.setKeyManagementParameters(parameters)
     return this
   }
@@ -92,8 +85,8 @@ export class CompactEncrypt {
    * @param options JWE Encryption options.
    */
   async encrypt(
-    key: CryptoKey | KeyObject | JWK | Uint8Array,
-    options?: EncryptOptions,
+    key: types.CryptoKey | types.KeyObject | types.JWK | Uint8Array,
+    options?: types.EncryptOptions,
   ): Promise<string> {
     const jwe = await this._flattened.encrypt(key, options)
 

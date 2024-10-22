@@ -1,26 +1,15 @@
-import { decode as base64url } from '../../runtime/base64url.js'
-import decrypt from '../../runtime/decrypt.js'
-
+import type * as types from '../../types.d.ts'
+import { decode as base64url } from '../../lib/base64url.js'
+import decrypt from '../../lib/decrypt.js'
 import { JOSEAlgNotAllowed, JOSENotSupported, JWEInvalid } from '../../util/errors.js'
 import isDisjoint from '../../lib/is_disjoint.js'
 import isObject from '../../lib/is_object.js'
 import decryptKeyManagement from '../../lib/decrypt_key_management.js'
-import type {
-  FlattenedDecryptResult,
-  CryptoKey,
-  FlattenedJWE,
-  JWEHeaderParameters,
-  DecryptOptions,
-  GetKeyFunction,
-  ResolvedKey,
-  KeyObject,
-  JWK,
-} from '../../types.d.ts'
 import { encoder, decoder, concat } from '../../lib/buffer_utils.js'
 import generateCek from '../../lib/cek.js'
 import validateCrit from '../../lib/validate_crit.js'
 import validateAlgorithms from '../../lib/validate_algorithms.js'
-import normalizeKey from '../../runtime/normalize_key.js'
+import normalizeKey from '../../lib/normalize_key.js'
 import checkKeyType from '../../lib/check_key_type.js'
 
 /**
@@ -28,7 +17,7 @@ import checkKeyType from '../../lib/check_key_type.js'
  * verified at the time of this function call.
  */
 export interface FlattenedDecryptGetKey
-  extends GetKeyFunction<JWEHeaderParameters | undefined, FlattenedJWE> {}
+  extends types.GetKeyFunction<types.JWEHeaderParameters | undefined, types.FlattenedJWE> {}
 
 /**
  * Decrypts a Flattened JWE.
@@ -64,10 +53,10 @@ export interface FlattenedDecryptGetKey
  * @param options JWE Decryption options.
  */
 export function flattenedDecrypt(
-  jwe: FlattenedJWE,
-  key: CryptoKey | KeyObject | JWK | Uint8Array,
-  options?: DecryptOptions,
-): Promise<FlattenedDecryptResult>
+  jwe: types.FlattenedJWE,
+  key: types.CryptoKey | types.KeyObject | types.JWK | Uint8Array,
+  options?: types.DecryptOptions,
+): Promise<types.FlattenedDecryptResult>
 /**
  * @param jwe Flattened JWE.
  * @param getKey Function resolving Private Key or Secret to decrypt the JWE with. See
@@ -75,14 +64,14 @@ export function flattenedDecrypt(
  * @param options JWE Decryption options.
  */
 export function flattenedDecrypt(
-  jwe: FlattenedJWE,
+  jwe: types.FlattenedJWE,
   getKey: FlattenedDecryptGetKey,
-  options?: DecryptOptions,
-): Promise<FlattenedDecryptResult & ResolvedKey>
+  options?: types.DecryptOptions,
+): Promise<types.FlattenedDecryptResult & types.ResolvedKey>
 export async function flattenedDecrypt(
-  jwe: FlattenedJWE,
-  key: CryptoKey | KeyObject | JWK | Uint8Array | FlattenedDecryptGetKey,
-  options?: DecryptOptions,
+  jwe: types.FlattenedJWE,
+  key: types.CryptoKey | types.KeyObject | types.JWK | Uint8Array | FlattenedDecryptGetKey,
+  options?: types.DecryptOptions,
 ) {
   if (!isObject(jwe)) {
     throw new JWEInvalid('Flattened JWE must be an object')
@@ -124,7 +113,7 @@ export async function flattenedDecrypt(
     throw new JWEInvalid('JWE Per-Recipient Unprotected Header incorrect type')
   }
 
-  let parsedProt!: JWEHeaderParameters
+  let parsedProt!: types.JWEHeaderParameters
   if (jwe.protected) {
     try {
       const protectedHeader = base64url(jwe.protected)
@@ -139,7 +128,7 @@ export async function flattenedDecrypt(
     )
   }
 
-  const joseHeader: JWEHeaderParameters = {
+  const joseHeader: types.JWEHeaderParameters = {
     ...parsedProt,
     ...jwe.header,
     ...jwe.unprotected,
@@ -197,7 +186,7 @@ export async function flattenedDecrypt(
   checkKeyType(alg === 'dir' ? enc : alg, key, 'decrypt')
 
   const k = await normalizeKey(key, alg)
-  let cek: CryptoKey | Uint8Array
+  let cek: types.CryptoKey | Uint8Array
   try {
     cek = await decryptKeyManagement(alg, k, encryptedKey, joseHeader, options)
   } catch (err) {
@@ -248,7 +237,7 @@ export async function flattenedDecrypt(
   }
   const plaintext = await decrypt(enc, cek, ciphertext, iv, tag, additionalData)
 
-  const result: FlattenedDecryptResult = { plaintext }
+  const result: types.FlattenedDecryptResult = { plaintext }
 
   if (jwe.protected !== undefined) {
     result.protectedHeader = parsedProt

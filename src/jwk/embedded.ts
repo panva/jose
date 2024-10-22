@@ -1,4 +1,4 @@
-import type { CryptoKey, FlattenedJWSInput, JWSHeaderParameters } from '../types.d.ts'
+import type * as types from '../types.d.ts'
 import { importJWK } from '../key/import.js'
 import isObject from '../lib/is_object.js'
 import { JWSInvalid } from '../util/errors.js'
@@ -28,9 +28,9 @@ import { JWSInvalid } from '../util/errors.js'
  * ```
  */
 export async function EmbeddedJWK(
-  protectedHeader?: JWSHeaderParameters,
-  token?: FlattenedJWSInput,
-): Promise<CryptoKey> {
+  protectedHeader?: types.JWSHeaderParameters,
+  token?: types.FlattenedJWSInput,
+): Promise<types.CryptoKey> {
   const joseHeader = {
     ...protectedHeader,
     ...token?.header,

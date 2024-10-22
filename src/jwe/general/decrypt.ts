@@ -1,24 +1,14 @@
 import { flattenedDecrypt } from '../flattened/decrypt.js'
 import { JWEDecryptionFailed, JWEInvalid } from '../../util/errors.js'
-import type {
-  CryptoKey,
-  DecryptOptions,
-  JWEHeaderParameters,
-  GetKeyFunction,
-  FlattenedJWE,
-  GeneralJWE,
-  GeneralDecryptResult,
-  ResolvedKey,
-  KeyObject,
-  JWK,
-} from '../../types.d.ts'
+import type * as types from '../../types.d.ts'
 import isObject from '../../lib/is_object.js'
 
 /**
  * Interface for General JWE Decryption dynamic key resolution. No token components have been
  * verified at the time of this function call.
  */
-export interface GeneralDecryptGetKey extends GetKeyFunction<JWEHeaderParameters, FlattenedJWE> {}
+export interface GeneralDecryptGetKey
+  extends types.GetKeyFunction<types.JWEHeaderParameters, types.FlattenedJWE> {}
 
 /**
  * Decrypts a General JWE.
@@ -58,10 +48,10 @@ export interface GeneralDecryptGetKey extends GetKeyFunction<JWEHeaderParameters
  * @param options JWE Decryption options.
  */
 export function generalDecrypt(
-  jwe: GeneralJWE,
-  key: CryptoKey | KeyObject | JWK | Uint8Array,
-  options?: DecryptOptions,
-): Promise<GeneralDecryptResult>
+  jwe: types.GeneralJWE,
+  key: types.CryptoKey | types.KeyObject | types.JWK | Uint8Array,
+  options?: types.DecryptOptions,
+): Promise<types.GeneralDecryptResult>
 /**
  * @param jwe General JWE.
  * @param getKey Function resolving Private Key or Secret to decrypt the JWE with. See
@@ -69,14 +59,14 @@ export function generalDecrypt(
  * @param options JWE Decryption options.
  */
 export function generalDecrypt(
-  jwe: GeneralJWE,
+  jwe: types.GeneralJWE,
   getKey: GeneralDecryptGetKey,
-  options?: DecryptOptions,
-): Promise<GeneralDecryptResult & ResolvedKey>
+  options?: types.DecryptOptions,
+): Promise<types.GeneralDecryptResult & types.ResolvedKey>
 export async function generalDecrypt(
-  jwe: GeneralJWE,
-  key: CryptoKey | KeyObject | JWK | Uint8Array | GeneralDecryptGetKey,
-  options?: DecryptOptions,
+  jwe: types.GeneralJWE,
+  key: types.CryptoKey | types.KeyObject | types.JWK | Uint8Array | GeneralDecryptGetKey,
+  options?: types.DecryptOptions,
 ) {
   if (!isObject(jwe)) {
     throw new JWEInvalid('General JWE must be an object')

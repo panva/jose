@@ -1,10 +1,4 @@
-import type {
-  CryptoKey,
-  JWSHeaderParameters,
-  JWK,
-  JSONWebKeySet,
-  FlattenedJWSInput,
-} from '../types.d.ts'
+import type * as types from '../types.d.ts'
 import { importJWK } from '../key/import.js'
 import {
   JWKSInvalid,
@@ -29,10 +23,10 @@ function getKtyFromAlg(alg: unknown) {
 }
 
 interface Cache {
-  [alg: string]: CryptoKey
+  [alg: string]: types.CryptoKey
 }
 
-function isJWKSLike(jwks: unknown): jwks is JSONWebKeySet {
+function isJWKSLike(jwks: unknown): jwks is types.JSONWebKeySet {
   return (
     jwks &&
     typeof jwks === 'object' &&
@@ -44,13 +38,11 @@ function isJWKSLike(jwks: unknown): jwks is JSONWebKeySet {
 }
 
 function isJWKLike(key: unknown) {
-  return isObject<JWK>(key)
+  return isObject<types.JWK>(key)
 }
 
 function clone<T>(obj: T): T {
-  // @ts-ignore
   if (typeof structuredClone === 'function') {
-    // @ts-ignore
     return structuredClone(obj)
   }
 
@@ -58,22 +50,22 @@ function clone<T>(obj: T): T {
 }
 
 class LocalJWKSet {
-  private _jwks?: JSONWebKeySet
+  private _jwks?: types.JSONWebKeySet
 
-  private _cached: WeakMap<JWK, Cache> = new WeakMap()
+  private _cached: WeakMap<types.JWK, Cache> = new WeakMap()
 
   constructor(jwks: unknown) {
     if (!isJWKSLike(jwks)) {
       throw new JWKSInvalid('JSON Web Key Set malformed')
     }
 
-    this._jwks = clone<JSONWebKeySet>(jwks)
+    this._jwks = clone<types.JSONWebKeySet>(jwks)
   }
 
   async getKey(
-    protectedHeader?: JWSHeaderParameters,
-    token?: FlattenedJWSInput,
-  ): Promise<CryptoKey> {
+    protectedHeader?: types.JWSHeaderParameters,
+    token?: types.FlattenedJWSInput,
+  ): Promise<types.CryptoKey> {
     const { alg, kid } = { ...protectedHeader, ...token?.header }
     const kty = getKtyFromAlg(alg)
 
@@ -154,7 +146,7 @@ class LocalJWKSet {
   }
 }
 
-async function importWithAlgCache(cache: WeakMap<JWK, Cache>, jwk: JWK, alg: string) {
+async function importWithAlgCache(cache: WeakMap<types.JWK, Cache>, jwk: types.JWK, alg: string) {
   const cached = cache.get(jwk) || cache.set(jwk, {}).get(jwk)!
   if (cached[alg] === undefined) {
     const key = await importJWK({ ...jwk, ext: true }, alg)
@@ -252,14 +244,17 @@ async function importWithAlgCache(cache: WeakMap<JWK, Cache>, jwk: JWK, alg: str
  * @param jwks JSON Web Key Set formatted object.
  */
 export function createLocalJWKSet(
-  jwks: JSONWebKeySet,
-): (protectedHeader?: JWSHeaderParameters, token?: FlattenedJWSInput) => Promise<CryptoKey> {
+  jwks: types.JSONWebKeySet,
+): (
+  protectedHeader?: types.JWSHeaderParameters,
+  token?: types.FlattenedJWSInput,
+) => Promise<types.CryptoKey> {
   const set = new LocalJWKSet(jwks)
 
   const localJWKSet = async (
-    protectedHeader?: JWSHeaderParameters,
-    token?: FlattenedJWSInput,
-  ): Promise<CryptoKey> => set.getKey(protectedHeader, token)
+    protectedHeader?: types.JWSHeaderParameters,
+    token?: types.FlattenedJWSInput,
+  ): Promise<types.CryptoKey> => set.getKey(protectedHeader, token)
 
   Object.defineProperties(localJWKSet, {
     jwks: {

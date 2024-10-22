@@ -1,8 +1,0 @@
-{
-  "extends": "./base.json",
-  "compilerOptions": {
-    "target": "ES2022",
-    "module": "ES2022",
-    "outDir": "../dist/webapi"
-  }
-}

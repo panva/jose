@@ -46,9 +46,9 @@ import * as jose from 'https://deno.land/x/jose@${tagName}/index.ts'
     )
     .replace(/(\]\()(?!https)/gm, `](https://github.com/panva/jose/blob/${tagName}/docs/`),
 )
-execSync('npm run build:webapi-bundle', opts)
-execSync('npm run build:webapi-bundle-min', opts)
-execSync('npm run build:webapi-umd', opts)
+execSync('npm run build:bundle', opts)
+execSync('npm run build:bundle-min', opts)
+execSync('npm run build:umd', opts)
 execSync('git add docs/**/*.md', opts)
 
 for (const path of ['./README.md', './docs/README.md']) {

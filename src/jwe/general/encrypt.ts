@@ -1,21 +1,13 @@
+import type * as types from '../../types.d.ts'
 import { FlattenedEncrypt } from '../flattened/encrypt.js'
 import { unprotected } from '../../lib/private_symbols.js'
 import { JOSENotSupported, JWEInvalid } from '../../util/errors.js'
 import generateCek from '../../lib/cek.js'
 import isDisjoint from '../../lib/is_disjoint.js'
 import encryptKeyManagement from '../../lib/encrypt_key_management.js'
-import { encode as base64url } from '../../runtime/base64url.js'
+import { encode as base64url } from '../../lib/base64url.js'
 import validateCrit from '../../lib/validate_crit.js'
-
-import type {
-  CryptoKey,
-  GeneralJWE,
-  JWEHeaderParameters,
-  CritOption,
-  KeyObject,
-  JWK,
-} from '../../types.d.ts'
-import normalizeKey from '../../runtime/normalize_key.js'
+import normalizeKey from '../../lib/normalize_key.js'
 import checkKeyType from '../../lib/check_key_type.js'
 
 export interface Recipient {
@@ -24,13 +16,13 @@ export interface Recipient {
    *
    * @param unprotectedHeader JWE Per-Recipient Unprotected Header.
    */
-  setUnprotectedHeader(unprotectedHeader: JWEHeaderParameters): Recipient
+  setUnprotectedHeader(unprotectedHeader: types.JWEHeaderParameters): Recipient
 
   /** A shorthand for calling addRecipient() on the enclosing GeneralEncrypt instance */
   addRecipient(...args: Parameters<GeneralEncrypt['addRecipient']>): Recipient
 
   /** A shorthand for calling encrypt() on the enclosing GeneralEncrypt instance */
-  encrypt(...args: Parameters<GeneralEncrypt['encrypt']>): Promise<GeneralJWE>
+  encrypt(...args: Parameters<GeneralEncrypt['encrypt']>): Promise<types.GeneralJWE>
 
   /** Returns the enclosing GeneralEncrypt */
   done(): GeneralEncrypt
@@ -38,21 +30,21 @@ export interface Recipient {
 
 class IndividualRecipient implements Recipient {
   private parent: GeneralEncrypt
-  unprotectedHeader?: JWEHeaderParameters
-  key: CryptoKey | KeyObject | JWK | Uint8Array
-  options: CritOption
+  unprotectedHeader?: types.JWEHeaderParameters
+  key: types.CryptoKey | types.KeyObject | types.JWK | Uint8Array
+  options: types.CritOption
 
   constructor(
     enc: GeneralEncrypt,
-    key: CryptoKey | KeyObject | JWK | Uint8Array,
-    options: CritOption,
+    key: types.CryptoKey | types.KeyObject | types.JWK | Uint8Array,
+    options: types.CritOption,
   ) {
     this.parent = enc
     this.key = key
     this.options = options
   }
 
-  setUnprotectedHeader(unprotectedHeader: JWEHeaderParameters) {
+  setUnprotectedHeader(unprotectedHeader: types.JWEHeaderParameters) {
     if (this.unprotectedHeader) {
       throw new TypeError('setUnprotectedHeader can only be called once')
     }
@@ -100,9 +92,9 @@ export class GeneralEncrypt {
 
   private _recipients: IndividualRecipient[] = []
 
-  private _protectedHeader!: JWEHeaderParameters
+  private _protectedHeader!: types.JWEHeaderParameters
 
-  private _unprotectedHeader!: JWEHeaderParameters
+  private _unprotectedHeader!: types.JWEHeaderParameters
 
   private _aad!: Uint8Array
 
@@ -118,7 +110,10 @@ export class GeneralEncrypt {
    *   See {@link https://github.com/panva/jose/issues/210#jwe-alg Algorithm Key Requirements}.
    * @param options JWE Encryption options.
    */
-  addRecipient(key: CryptoKey | KeyObject | JWK | Uint8Array, options?: CritOption): Recipient {
+  addRecipient(
+    key: types.CryptoKey | types.KeyObject | types.JWK | Uint8Array,
+    options?: types.CritOption,
+  ): Recipient {
     const recipient = new IndividualRecipient(this, key, { crit: options?.crit })
     this._recipients.push(recipient)
     return recipient
@@ -129,7 +124,7 @@ export class GeneralEncrypt {
    *
    * @param protectedHeader JWE Protected Header object.
    */
-  setProtectedHeader(protectedHeader: JWEHeaderParameters): this {
+  setProtectedHeader(protectedHeader: types.JWEHeaderParameters): this {
     if (this._protectedHeader) {
       throw new TypeError('setProtectedHeader can only be called once')
     }
@@ -142,7 +137,7 @@ export class GeneralEncrypt {
    *
    * @param sharedUnprotectedHeader JWE Shared Unprotected Header object.
    */
-  setSharedUnprotectedHeader(sharedUnprotectedHeader: JWEHeaderParameters): this {
+  setSharedUnprotectedHeader(sharedUnprotectedHeader: types.JWEHeaderParameters): this {
     if (this._unprotectedHeader) {
       throw new TypeError('setSharedUnprotectedHeader can only be called once')
     }
@@ -161,7 +156,7 @@ export class GeneralEncrypt {
   }
 
   /** Encrypts and resolves the value of the General JWE object. */
-  async encrypt(): Promise<GeneralJWE> {
+  async encrypt(): Promise<types.GeneralJWE> {
     if (!this._recipients.length) {
       throw new JWEInvalid('at least one recipient must be added')
     }
@@ -176,7 +171,7 @@ export class GeneralEncrypt {
         .setUnprotectedHeader(recipient.unprotectedHeader!)
         .encrypt(recipient.key, { ...recipient.options })
 
-      const jwe: GeneralJWE = {
+      const jwe: types.GeneralJWE = {
         ciphertext: flattened.ciphertext,
         iv: flattened.iv,
         recipients: [{}],
@@ -242,7 +237,7 @@ export class GeneralEncrypt {
 
     const cek = generateCek(enc)
 
-    const jwe: GeneralJWE = {
+    const jwe: types.GeneralJWE = {
       ciphertext: '',
       iv: '',
       recipients: [],
@@ -251,7 +246,7 @@ export class GeneralEncrypt {
 
     for (let i = 0; i < this._recipients.length; i++) {
       const recipient = this._recipients[i]
-      const target: Record<string, string | JWEHeaderParameters> = {}
+      const target: Record<string, string | types.JWEHeaderParameters> = {}
       jwe.recipients!.push(target)
 
       const joseHeader = {
@@ -304,6 +299,6 @@ export class GeneralEncrypt {
         target.header = { ...recipient.unprotectedHeader, ...parameters }
     }
 
-    return jwe as GeneralJWE
+    return jwe as types.GeneralJWE
   }
 }

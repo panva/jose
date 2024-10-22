@@ -124,6 +124,8 @@ tap/*.js
 tap/*.js.map
 tap/run-*.mjs
 tap/run-*.mjs.map
+tap/run-*.cjs
+tap/run-*.cjs.map
 *.bak
 *.bun
 tap/.workerd.capnp

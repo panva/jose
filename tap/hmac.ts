@@ -1,6 +1,5 @@
 import type QUnit from 'qunit'
 import type * as jose from '../src/index.js'
-import random from './random.js'
 import * as roundtrip from './sign.js'
 
 export default (
@@ -16,13 +15,16 @@ export default (
   function digestSizeSecretsFor(alg: string) {
     return [
       keys.generateSecret(alg, { extractable: true }),
-      random(parseInt(alg.slice(2, 5), 10) >> 3),
+      crypto.getRandomValues(new Uint8Array(parseInt(alg.slice(2, 5), 10) >> 3)),
     ]
   }
 
   function nonDigestSizeSecretFor(alg: string) {
     const length = parseInt(alg.slice(2, 5), 10) >> 3
-    return [random(length - 1), random(length + 1)]
+    return [
+      crypto.getRandomValues(new Uint8Array(length - 1)),
+      crypto.getRandomValues(new Uint8Array(length + 1)),
+    ]
   }
 
   for (const alg of algorithms) {

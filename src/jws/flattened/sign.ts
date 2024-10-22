@@ -1,20 +1,13 @@
-import { encode as base64url } from '../../runtime/base64url.js'
-import sign from '../../runtime/sign.js'
+import type * as types from '../../types.d.ts'
+import { encode as base64url } from '../../lib/base64url.js'
+import sign from '../../lib/sign.js'
 
 import isDisjoint from '../../lib/is_disjoint.js'
 import { JWSInvalid } from '../../util/errors.js'
 import { encoder, decoder, concat } from '../../lib/buffer_utils.js'
-import type {
-  JWK,
-  CryptoKey,
-  FlattenedJWS,
-  JWSHeaderParameters,
-  SignOptions,
-  KeyObject,
-} from '../../types.d.ts'
 import checkKeyType from '../../lib/check_key_type.js'
 import validateCrit from '../../lib/validate_crit.js'
-import normalizeKey from '../../runtime/normalize_key.js'
+import normalizeKey from '../../lib/normalize_key.js'
 
 /**
  * The FlattenedSign class is used to build and sign Flattened JWS objects.
@@ -37,9 +30,9 @@ import normalizeKey from '../../runtime/normalize_key.js'
 export class FlattenedSign {
   private _payload: Uint8Array
 
-  private _protectedHeader!: JWSHeaderParameters
+  private _protectedHeader!: types.JWSHeaderParameters
 
-  private _unprotectedHeader!: JWSHeaderParameters
+  private _unprotectedHeader!: types.JWSHeaderParameters
 
   /** @param payload Binary representation of the payload to sign. */
   constructor(payload: Uint8Array) {
@@ -54,7 +47,7 @@ export class FlattenedSign {
    *
    * @param protectedHeader JWS Protected Header.
    */
-  setProtectedHeader(protectedHeader: JWSHeaderParameters): this {
+  setProtectedHeader(protectedHeader: types.JWSHeaderParameters): this {
     if (this._protectedHeader) {
       throw new TypeError('setProtectedHeader can only be called once')
     }
@@ -67,7 +60,7 @@ export class FlattenedSign {
    *
    * @param unprotectedHeader JWS Unprotected Header.
    */
-  setUnprotectedHeader(unprotectedHeader: JWSHeaderParameters): this {
+  setUnprotectedHeader(unprotectedHeader: types.JWSHeaderParameters): this {
     if (this._unprotectedHeader) {
       throw new TypeError('setUnprotectedHeader can only be called once')
     }
@@ -83,9 +76,9 @@ export class FlattenedSign {
    * @param options JWS Sign options.
    */
   async sign(
-    key: CryptoKey | KeyObject | JWK | Uint8Array,
-    options?: SignOptions,
-  ): Promise<FlattenedJWS> {
+    key: types.CryptoKey | types.KeyObject | types.JWK | Uint8Array,
+    options?: types.SignOptions,
+  ): Promise<types.FlattenedJWS> {
     if (!this._protectedHeader && !this._unprotectedHeader) {
       throw new JWSInvalid(
         'either setProtectedHeader or setUnprotectedHeader must be called before #sign()',
@@ -98,7 +91,7 @@ export class FlattenedSign {
       )
     }
 
-    const joseHeader: JWSHeaderParameters = {
+    const joseHeader: types.JWSHeaderParameters = {
       ...this._protectedHeader,
       ...this._unprotectedHeader,
     }
@@ -146,7 +139,7 @@ export class FlattenedSign {
     const k = await normalizeKey(key, alg)
     const signature = await sign(alg, k, data)
 
-    const jws: FlattenedJWS = {
+    const jws: types.FlattenedJWS = {
       signature: base64url(signature),
       payload: '',
     }

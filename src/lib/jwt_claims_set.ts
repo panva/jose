@@ -1,9 +1,4 @@
-import type {
-  JWTPayload,
-  JWTClaimVerificationOptions,
-  JWEHeaderParameters,
-  JWSHeaderParameters,
-} from '../types.d.ts'
+import type * as types from '../types.d.ts'
 import { JWTClaimValidationFailed, JWTExpired, JWTInvalid } from '../util/errors.js'
 import { decoder } from './buffer_utils.js'
 import epoch from './epoch.js'
@@ -27,9 +22,9 @@ const checkAudiencePresence = (audPayload: unknown, audOption: unknown[]) => {
 }
 
 export default (
-  protectedHeader: JWEHeaderParameters | JWSHeaderParameters,
+  protectedHeader: types.JWEHeaderParameters | types.JWSHeaderParameters,
   encodedPayload: Uint8Array,
-  options: JWTClaimVerificationOptions = {},
+  options: types.JWTClaimVerificationOptions = {},
 ) => {
   let payload!: { [propName: string]: unknown }
   try {
@@ -177,5 +172,5 @@ export default (
     }
   }
 
-  return payload as JWTPayload
+  return payload as types.JWTPayload
 }

@@ -2,7 +2,7 @@ echo $(electron -i <<< 'process.exit(0)' 2> /dev/null | grep "Using" | awk '{$1=
 
 electron -i <<< 'process.exit(parseInt(process.versions.node, 10))' &> /dev/null
 NODE_VERSION=$?
-export NODE_OPTIONS='--no-warnings --enable-source-maps'
+export NODE_OPTIONS='--no-warnings --enable-source-maps --import=tsx/esm'
 
 if [[ $NODE_VERSION -eq 18 ]]; then
   export NODE_OPTIONS+=' --experimental-global-webcrypto'

@@ -1,14 +1,6 @@
+import type * as types from '../../types.d.ts'
 import { FlattenedSign } from '../flattened/sign.js'
 import { JWSInvalid } from '../../util/errors.js'
-
-import type {
-  JWK,
-  CryptoKey,
-  GeneralJWS,
-  JWSHeaderParameters,
-  SignOptions,
-  KeyObject,
-} from '../../types.d.ts'
 
 export interface Signature {
   /**
@@ -16,20 +8,20 @@ export interface Signature {
    *
    * @param protectedHeader JWS Protected Header.
    */
-  setProtectedHeader(protectedHeader: JWSHeaderParameters): Signature
+  setProtectedHeader(protectedHeader: types.JWSHeaderParameters): Signature
 
   /**
    * Sets the JWS Unprotected Header on the Signature object.
    *
    * @param unprotectedHeader JWS Unprotected Header.
    */
-  setUnprotectedHeader(unprotectedHeader: JWSHeaderParameters): Signature
+  setUnprotectedHeader(unprotectedHeader: types.JWSHeaderParameters): Signature
 
   /** A shorthand for calling addSignature() on the enclosing GeneralSign instance */
   addSignature(...args: Parameters<GeneralSign['addSignature']>): Signature
 
   /** A shorthand for calling encrypt() on the enclosing GeneralSign instance */
-  sign(...args: Parameters<GeneralSign['sign']>): Promise<GeneralJWS>
+  sign(...args: Parameters<GeneralSign['sign']>): Promise<types.GeneralJWS>
 
   /** Returns the enclosing GeneralSign */
   done(): GeneralSign
@@ -38,22 +30,22 @@ export interface Signature {
 class IndividualSignature implements Signature {
   private parent: GeneralSign
 
-  protectedHeader?: JWSHeaderParameters
-  unprotectedHeader?: JWSHeaderParameters
-  options?: SignOptions
-  key: CryptoKey | KeyObject | JWK | Uint8Array
+  protectedHeader?: types.JWSHeaderParameters
+  unprotectedHeader?: types.JWSHeaderParameters
+  options?: types.SignOptions
+  key: types.CryptoKey | types.KeyObject | types.JWK | Uint8Array
 
   constructor(
     sig: GeneralSign,
-    key: CryptoKey | KeyObject | JWK | Uint8Array,
-    options?: SignOptions,
+    key: types.CryptoKey | types.KeyObject | types.JWK | Uint8Array,
+    options?: types.SignOptions,
   ) {
     this.parent = sig
     this.key = key
     this.options = options
   }
 
-  setProtectedHeader(protectedHeader: JWSHeaderParameters) {
+  setProtectedHeader(protectedHeader: types.JWSHeaderParameters) {
     if (this.protectedHeader) {
       throw new TypeError('setProtectedHeader can only be called once')
     }
@@ -61,7 +53,7 @@ class IndividualSignature implements Signature {
     return this
   }
 
-  setUnprotectedHeader(unprotectedHeader: JWSHeaderParameters) {
+  setUnprotectedHeader(unprotectedHeader: types.JWSHeaderParameters) {
     if (this.unprotectedHeader) {
       throw new TypeError('setUnprotectedHeader can only be called once')
     }
@@ -120,19 +112,22 @@ export class GeneralSign {
    *   {@link https://github.com/panva/jose/issues/210#jws-alg Algorithm Key Requirements}.
    * @param options JWS Sign options.
    */
-  addSignature(key: CryptoKey | KeyObject | JWK | Uint8Array, options?: SignOptions): Signature {
+  addSignature(
+    key: types.CryptoKey | types.KeyObject | types.JWK | Uint8Array,
+    options?: types.SignOptions,
+  ): Signature {
     const signature = new IndividualSignature(this, key, options)
     this._signatures.push(signature)
     return signature
   }
 
   /** Signs and resolves the value of the General JWS object. */
-  async sign(): Promise<GeneralJWS> {
+  async sign(): Promise<types.GeneralJWS> {
     if (!this._signatures.length) {
       throw new JWSInvalid('at least one signature must be added')
     }
 
-    const jws: GeneralJWS = {
+    const jws: types.GeneralJWS = {
       signatures: [],
       payload: '',
     }

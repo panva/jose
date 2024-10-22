@@ -1,29 +1,19 @@
+import type * as types from '../types.d.ts'
 import { compactDecrypt } from '../jwe/compact/decrypt.js'
-import type {
-  JWTPayload,
-  CryptoKey,
-  DecryptOptions,
-  JWTClaimVerificationOptions,
-  GetKeyFunction,
-  CompactJWEHeaderParameters,
-  FlattenedJWE,
-  JWTDecryptResult,
-  ResolvedKey,
-  KeyObject,
-  JWK,
-} from '../types.d.ts'
 import jwtPayload from '../lib/jwt_claims_set.js'
 import { JWTClaimValidationFailed } from '../util/errors.js'
 
 /** Combination of JWE Decryption options and JWT Claims Set verification options. */
-export interface JWTDecryptOptions extends DecryptOptions, JWTClaimVerificationOptions {}
+export interface JWTDecryptOptions
+  extends types.DecryptOptions,
+    types.JWTClaimVerificationOptions {}
 
 /**
  * Interface for JWT Decryption dynamic key resolution. No token components have been verified at
  * the time of this function call.
  */
 export interface JWTDecryptGetKey
-  extends GetKeyFunction<CompactJWEHeaderParameters, FlattenedJWE> {}
+  extends types.GetKeyFunction<types.CompactJWEHeaderParameters, types.FlattenedJWE> {}
 
 /**
  * Verifies the JWT format (to be a JWE Compact format), decrypts the ciphertext, validates the JWT
@@ -53,25 +43,25 @@ export interface JWTDecryptGetKey
  *   {@link https://github.com/panva/jose/issues/210#jwe-alg Algorithm Key Requirements}.
  * @param options JWT Decryption and JWT Claims Set validation options.
  */
-export async function jwtDecrypt<PayloadType = JWTPayload>(
+export async function jwtDecrypt<PayloadType = types.JWTPayload>(
   jwt: string | Uint8Array,
-  key: CryptoKey | KeyObject | JWK | Uint8Array,
+  key: types.CryptoKey | types.KeyObject | types.JWK | Uint8Array,
   options?: JWTDecryptOptions,
-): Promise<JWTDecryptResult<PayloadType>>
+): Promise<types.JWTDecryptResult<PayloadType>>
 /**
  * @param jwt JSON Web Token value (encoded as JWE).
  * @param getKey Function resolving Private Key or Secret to decrypt and verify the JWT with. See
  *   {@link https://github.com/panva/jose/issues/210#jwe-alg Algorithm Key Requirements}.
  * @param options JWT Decryption and JWT Claims Set validation options.
  */
-export async function jwtDecrypt<PayloadType = JWTPayload>(
+export async function jwtDecrypt<PayloadType = types.JWTPayload>(
   jwt: string | Uint8Array,
   getKey: JWTDecryptGetKey,
   options?: JWTDecryptOptions,
-): Promise<JWTDecryptResult<PayloadType> & ResolvedKey>
+): Promise<types.JWTDecryptResult<PayloadType> & types.ResolvedKey>
 export async function jwtDecrypt(
   jwt: string | Uint8Array,
-  key: CryptoKey | KeyObject | JWK | Uint8Array | JWTDecryptGetKey,
+  key: types.CryptoKey | types.KeyObject | types.JWK | Uint8Array | JWTDecryptGetKey,
   options?: JWTDecryptOptions,
 ) {
   const decrypted = await compactDecrypt(jwt, key as Parameters<typeof compactDecrypt>[1], options)

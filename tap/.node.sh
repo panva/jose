@@ -1,21 +1,11 @@
 #!/bin/bash
-./node_modules/.bin/esbuild \
-  --log-level=warning \
-  --format=esm \
-  --sourcemap \
-  --bundle \
-  --platform=node \
-  --external:#dist \
-  --target=esnext \
-  --outfile=tap/run-node.mjs \
-  tap/run-node.ts
 
 source .node_flags.sh
 
-node tap/run-node.mjs
+node tap/run-node.ts
 WEB_CRYPTO_API=$?
 
-node tap/run-node.mjs --keys='KeyObject'
+node tap/run-node.ts --keys='KeyObject'
 WEB_CRYPTO_API_WITH_KEYOBJECT=$?
 
 echo ""

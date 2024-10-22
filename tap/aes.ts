@@ -1,7 +1,6 @@
 import type QUnit from 'qunit'
 import * as env from './env.js'
 import type * as jose from '../src/index.js'
-import random from './random.js'
 import * as roundtrip from './encrypt.js'
 
 export default (
@@ -35,7 +34,9 @@ export default (
   function secretsFor(enc: string) {
     return [
       keys.generateSecret(enc, { extractable: true }),
-      random(parseInt(enc.endsWith('GCM') ? enc.slice(1, 4) : enc.slice(-3)) >> 3),
+      crypto.getRandomValues(
+        new Uint8Array(parseInt(enc.endsWith('GCM') ? enc.slice(1, 4) : enc.slice(-3)) >> 3),
+      ),
     ]
   }
 

@@ -1,4 +1,4 @@
-import type { CryptoKey } from '../types.d.ts'
+import type * as types from '../types.d.ts'
 
 function unusable(name: string | number, prop = 'algorithm.name') {
   return new TypeError(`CryptoKey does not support this operation, its ${prop} must be ${name}`)
@@ -28,7 +28,7 @@ function getNamedCurve(alg: string) {
   }
 }
 
-function checkUsage(key: CryptoKey, usage?: KeyUsage) {
+function checkUsage(key: types.CryptoKey, usage?: KeyUsage) {
   if (usage && !key.usages.includes(usage)) {
     throw new TypeError(
       `CryptoKey does not support this operation, its usages must include ${usage}.`,
@@ -36,7 +36,7 @@ function checkUsage(key: CryptoKey, usage?: KeyUsage) {
   }
 }
 
-export function checkSigCryptoKey(key: CryptoKey, alg: string, usage: KeyUsage) {
+export function checkSigCryptoKey(key: types.CryptoKey, alg: string, usage: KeyUsage) {
   switch (alg) {
     case 'HS256':
     case 'HS384':
@@ -90,7 +90,7 @@ export function checkSigCryptoKey(key: CryptoKey, alg: string, usage: KeyUsage) 
   checkUsage(key, usage)
 }
 
-export function checkEncCryptoKey(key: CryptoKey, alg: string, usage?: KeyUsage) {
+export function checkEncCryptoKey(key: types.CryptoKey, alg: string, usage?: KeyUsage) {
   switch (alg) {
     case 'A128GCM':
     case 'A192GCM':

@@ -1,10 +1,8 @@
 // @ts-ignore
-const { app } = require('electron')
+import { app } from 'electron'
 import QUnit from 'qunit'
 import run from './run.js'
-
-// @ts-ignore
-const lib = require('#dist')
+import * as lib from '../src/index.js'
 
 app.on('ready', () => {
   run(QUnit, lib, lib, (stats) => {

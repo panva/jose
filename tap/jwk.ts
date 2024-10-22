@@ -6,7 +6,7 @@ import type * as jose from '../src/index.js'
 export default (
   QUnit: QUnit,
   lib: typeof jose,
-  keys: Pick<typeof jose, 'exportJWK' | 'generateKeyPair' | 'generateSecret' | 'importJWK'>,
+  _keys: Pick<typeof jose, 'exportJWK' | 'generateKeyPair' | 'generateSecret' | 'importJWK'>,
 ) => {
   const { module, test } = QUnit
   module('jwk.ts')
@@ -82,12 +82,16 @@ export default (
     }
 
     const execute = async (t: typeof QUnit.assert) => {
-      const key = await lib.importJWK({ ...jwk, ext: true }, alg)
+      const key = await lib.importJWK({ ...jwk, ext: true } as jose.JWK, alg)
 
       const exported = await lib.exportJWK(key)
 
       for (const prop of [...new Set([...Object.keys(jwk), ...Object.keys(exported)])]) {
-        t.strictEqual(exported[prop], jwk[prop as keyof JsonWebKey], `${prop} mismatch`)
+        t.strictEqual(
+          exported[prop as keyof JsonWebKey],
+          jwk[prop as keyof JsonWebKey],
+          `${prop} mismatch`,
+        )
       }
 
       t.ok(1)

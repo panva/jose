@@ -1,24 +1,14 @@
 import { flattenedDecrypt } from '../flattened/decrypt.js'
 import { JWEInvalid } from '../../util/errors.js'
 import { decoder } from '../../lib/buffer_utils.js'
-import type {
-  CryptoKey,
-  DecryptOptions,
-  CompactJWEHeaderParameters,
-  GetKeyFunction,
-  FlattenedJWE,
-  CompactDecryptResult,
-  ResolvedKey,
-  KeyObject,
-  JWK,
-} from '../../types.d.ts'
+import type * as types from '../../types.d.ts'
 
 /**
  * Interface for Compact JWE Decryption dynamic key resolution. No token components have been
  * verified at the time of this function call.
  */
 export interface CompactDecryptGetKey
-  extends GetKeyFunction<CompactJWEHeaderParameters, FlattenedJWE> {}
+  extends types.GetKeyFunction<types.CompactJWEHeaderParameters, types.FlattenedJWE> {}
 
 /**
  * Decrypts a Compact JWE.
@@ -45,9 +35,9 @@ export interface CompactDecryptGetKey
  */
 export async function compactDecrypt(
   jwe: string | Uint8Array,
-  key: CryptoKey | KeyObject | JWK | Uint8Array,
-  options?: DecryptOptions,
-): Promise<CompactDecryptResult>
+  key: types.CryptoKey | types.KeyObject | types.JWK | Uint8Array,
+  options?: types.DecryptOptions,
+): Promise<types.CompactDecryptResult>
 /**
  * @param jwe Compact JWE.
  * @param getKey Function resolving Private Key or Secret to decrypt the JWE with. See
@@ -57,12 +47,12 @@ export async function compactDecrypt(
 export async function compactDecrypt(
   jwe: string | Uint8Array,
   getKey: CompactDecryptGetKey,
-  options?: DecryptOptions,
-): Promise<CompactDecryptResult & ResolvedKey>
+  options?: types.DecryptOptions,
+): Promise<types.CompactDecryptResult & types.ResolvedKey>
 export async function compactDecrypt(
   jwe: string | Uint8Array,
-  key: CryptoKey | KeyObject | JWK | Uint8Array | CompactDecryptGetKey,
-  options?: DecryptOptions,
+  key: types.CryptoKey | types.KeyObject | types.JWK | Uint8Array | CompactDecryptGetKey,
+  options?: types.DecryptOptions,
 ) {
   if (jwe instanceof Uint8Array) {
     jwe = decoder.decode(jwe)

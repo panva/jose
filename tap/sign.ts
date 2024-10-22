@@ -1,6 +1,5 @@
 import type QUnit from 'qunit'
 import type * as jose from '../src/index.js'
-import random from './random.js'
 
 type keyType = Uint8Array | jose.CryptoKey | jose.KeyObject | jose.GenerateKeyPairResult
 
@@ -55,7 +54,7 @@ export async function jws(
   keys: Pick<typeof jose, 'exportJWK' | 'generateKeyPair' | 'generateSecret' | 'importJWK'>,
   alg: string,
   secretOrKeyPair: keyType,
-  payload = random(),
+  payload = crypto.getRandomValues(new Uint8Array(16)),
 ) {
   // Test Uint8Array, CryptoKey, and KeyObject key inputs
   {
