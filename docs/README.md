@@ -98,4 +98,4 @@ The following are additional features and utilities provided by the `jose` modul
 - [Unsecured JWT](jwt/unsecured/classes/UnsecuredJWT.md)
 - [JOSE Errors](util/errors/README.md)
 
-[sponsor-auth0]: https://auth0.com/signup?utm_source=external_sites&utm_medium=panva&utm_campaign=devn_signup
+[sponsor-auth0]: https://a0.to/signup/panva
