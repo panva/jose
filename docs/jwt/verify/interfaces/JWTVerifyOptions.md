@@ -33,10 +33,13 @@ This option makes the JWT "aud" (Audience) Claim presence required.
 
 • `optional` **clockTolerance**: `string` \| `number`
 
-Expected clock tolerance
+Clock skew tolerance
 
 - In seconds when number (e.g. 5)
 - Parsed as seconds when a string (e.g. "5 seconds", "10 minutes", "2 hours").
+
+Used when validating the JWT "nbf" (Not Before) and "exp" (Expiration Time) claims, and when
+validating the "iat" (Issued At) claim if the maxTokenAge option is set.
 
 ***
 
