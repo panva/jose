@@ -36,10 +36,10 @@ This option makes the JWT "aud" (Audience) Claim presence required.
 Clock skew tolerance
 
 - In seconds when number (e.g. 5)
-- Parsed as seconds when a string (e.g. "5 seconds", "10 minutes", "2 hours").
+- Resolved into a number of seconds when a string (e.g. "5 seconds", "10 minutes", "2 hours").
 
 Used when validating the JWT "nbf" (Not Before) and "exp" (Expiration Time) claims, and when
-validating the "iat" (Issued At) claim if the maxTokenAge option is set.
+validating the "iat" (Issued At) claim if the [`maxTokenAge` option](../../../types/interfaces/JWTClaimVerificationOptions.md#maxtokenage) is set.
 
 ***
 
@@ -95,7 +95,7 @@ This option makes the JWT "iss" (Issuer) Claim presence required.
 Maximum time elapsed (in seconds) from the JWT "iat" (Issued At) Claim value.
 
 - In seconds when number (e.g. 5)
-- Parsed as seconds when a string (e.g. "5 seconds", "10 minutes", "2 hours").
+- Resolved into a number of seconds when a string (e.g. "5 seconds", "10 minutes", "2 hours").
 
 This option makes the JWT "iat" (Issued At) Claim presence required.
 
@@ -106,13 +106,11 @@ This option makes the JWT "iat" (Issued At) Claim presence required.
 • `optional` **requiredClaims**: `string`[]
 
 Array of required Claim Names that must be present in the JWT Claims Set. Default is that: if
-the [`issuer` option](../../../types/interfaces/JWTClaimVerificationOptions.md#issuer) is set, then JWT "iss" (Issuer)
-Claim must be present; if the [`audience` option](../../../types/interfaces/JWTClaimVerificationOptions.md#audience) is
-set, then JWT "aud" (Audience) Claim must be present; if the
-[`subject` option](../../../types/interfaces/JWTClaimVerificationOptions.md#subject) is set, then JWT "sub" (Subject)
-Claim must be present; if the
-[`maxTokenAge` option](../../../types/interfaces/JWTClaimVerificationOptions.md#maxtokenage) is set, then JWT "iat"
-(Issued At) Claim must be present.
+the [`issuer` option](../../../types/interfaces/JWTClaimVerificationOptions.md#issuer) is set, then JWT "iss" (Issuer) Claim must be present; if the
+[`audience` option](../../../types/interfaces/JWTClaimVerificationOptions.md#audience) is set, then JWT "aud" (Audience) Claim must be present; if
+the [`subject` option](../../../types/interfaces/JWTClaimVerificationOptions.md#subject) is set, then JWT "sub" (Subject) Claim must be present; if
+the [`maxTokenAge` option](../../../types/interfaces/JWTClaimVerificationOptions.md#maxtokenage) is set, then JWT "iat" (Issued At) Claim must be
+present.
 
 ***
 

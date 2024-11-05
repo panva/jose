@@ -572,10 +572,10 @@ export interface JWTClaimVerificationOptions {
    * Clock skew tolerance
    *
    * - In seconds when number (e.g. 5)
-   * - Parsed as seconds when a string (e.g. "5 seconds", "10 minutes", "2 hours").
+   * - Resolved into a number of seconds when a string (e.g. "5 seconds", "10 minutes", "2 hours").
    *
    * Used when validating the JWT "nbf" (Not Before) and "exp" (Expiration Time) claims, and when
-   * validating the "iat" (Issued At) claim if the maxTokenAge option is set.
+   * validating the "iat" (Issued At) claim if the {@link maxTokenAge `maxTokenAge` option} is set.
    */
   clockTolerance?: string | number
 
@@ -590,7 +590,7 @@ export interface JWTClaimVerificationOptions {
    * Maximum time elapsed (in seconds) from the JWT "iat" (Issued At) Claim value.
    *
    * - In seconds when number (e.g. 5)
-   * - Parsed as seconds when a string (e.g. "5 seconds", "10 minutes", "2 hours").
+   * - Resolved into a number of seconds when a string (e.g. "5 seconds", "10 minutes", "2 hours").
    *
    * This option makes the JWT "iat" (Issued At) Claim presence required.
    */
@@ -615,13 +615,11 @@ export interface JWTClaimVerificationOptions {
 
   /**
    * Array of required Claim Names that must be present in the JWT Claims Set. Default is that: if
-   * the {@link JWTClaimVerificationOptions.issuer `issuer` option} is set, then JWT "iss" (Issuer)
-   * Claim must be present; if the {@link JWTClaimVerificationOptions.audience `audience` option} is
-   * set, then JWT "aud" (Audience) Claim must be present; if the
-   * {@link JWTClaimVerificationOptions.subject `subject` option} is set, then JWT "sub" (Subject)
-   * Claim must be present; if the
-   * {@link JWTClaimVerificationOptions.maxTokenAge `maxTokenAge` option} is set, then JWT "iat"
-   * (Issued At) Claim must be present.
+   * the {@link issuer `issuer` option} is set, then JWT "iss" (Issuer) Claim must be present; if the
+   * {@link audience `audience` option} is set, then JWT "aud" (Audience) Claim must be present; if
+   * the {@link subject `subject` option} is set, then JWT "sub" (Subject) Claim must be present; if
+   * the {@link maxTokenAge `maxTokenAge` option} is set, then JWT "iat" (Issued At) Claim must be
+   * present.
    */
   requiredClaims?: string[]
 }
