@@ -431,7 +431,7 @@
     "@types/node": "^22.9.0",
     "@types/qunit": "^2.19.12",
     "ava": "^6.2.0",
-    "edge-runtime": "^3.0.3",
+    "edge-runtime": "^3.0.5",
     "esbuild": "^0.24.0",
     "glob": "^11.0.0",
     "nock": "^13.5.5",
