@@ -125,6 +125,7 @@ export async function generateKeyPair(
       algorithm = { name: 'ECDSA', namedCurve: 'P-521' }
       keyUsages = ['sign', 'verify']
       break
+    case 'Ed25519': // Fall through
     case 'EdDSA': {
       keyUsages = ['sign', 'verify']
       algorithm = { name: 'Ed25519' }

@@ -94,7 +94,7 @@ class LocalJWKSet {
       }
 
       // filter out non-applicable OKP Sub Types
-      if (candidate && alg === 'EdDSA') {
+      if (candidate && (alg === 'EdDSA' || alg === 'Ed25519')) {
         candidate = jwk.crv === 'Ed25519'
       }
 

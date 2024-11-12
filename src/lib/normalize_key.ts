@@ -76,7 +76,7 @@ const handleKeyObject = (keyObject: ConvertableKeyObject, alg: string) => {
   }
 
   if (keyObject.asymmetricKeyType === 'ed25519') {
-    if (alg !== 'EdDSA') {
+    if (alg !== 'EdDSA' && alg !== 'Ed25519') {
       throw new TypeError('given KeyObject instance cannot be used for this algorithm')
     }
 
