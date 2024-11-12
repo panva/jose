@@ -66,11 +66,8 @@ export function checkSigCryptoKey(key: types.CryptoKey, alg: string, usage: KeyU
       if (actual !== expected) throw unusable(`SHA-${expected}`, 'algorithm.hash')
       break
     }
+    case 'Ed25519': // Fall through
     case 'EdDSA': {
-      if (!isAlgorithm(key.algorithm, 'Ed25519')) throw unusable('Ed25519')
-      break
-    }
-    case 'Ed25519': {
       if (!isAlgorithm(key.algorithm, 'Ed25519')) throw unusable('Ed25519')
       break
     }

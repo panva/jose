@@ -13,6 +13,7 @@ export default (
 
   type Vector = [string, boolean] | [string, boolean, jose.GenerateKeyPairOptions]
   const algorithms: Vector[] = [
+    ['Ed25519', !env.isBlink],
     ['EdDSA', !env.isBlink],
     ['ES256', true],
     ['ES384', true],

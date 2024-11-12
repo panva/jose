@@ -87,15 +87,9 @@ const stub: Pick<
         return generate('ec', { namedCurve: 'P-384' })
       case 'ES512':
         return generate('ec', { namedCurve: 'P-521' })
-      case 'EdDSA': {
-        switch (options?.crv) {
-          case undefined:
-          case 'Ed25519':
-            return generate('ed25519')
-          default:
-            throw new Error('unreachable')
-        }
-      }
+      case 'Ed25519': // Fall through
+      case 'EdDSA':
+        return generate('ed25519')
       case 'ECDH-ES':
       case 'ECDH-ES+A128KW':
       case 'ECDH-ES+A192KW':

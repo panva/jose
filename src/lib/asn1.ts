@@ -129,10 +129,7 @@ const genericImport = async (
       keyUsages = isPublic ? [] : ['deriveBits']
       break
     }
-    case 'Ed25519':
-      algorithm = { name: 'Ed25519' }
-      keyUsages = isPublic ? ['verify'] : ['sign']
-      break
+    case 'Ed25519': // Fall through
     case 'EdDSA':
       algorithm = { name: 'Ed25519' }
       keyUsages = isPublic ? ['verify'] : ['sign']
