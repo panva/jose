@@ -85,6 +85,9 @@ export default (
         env.isEdgeRuntime ||
         (env.isGecko && env.isBrowserVersionAtLeast(130)),
     ],
+    ['Ed25519', KEYS.Ed25519.pkcs8, !env.isBlink],
+    ['Ed25519', KEYS.Ed25519.spki, !env.isBlink],
+    ['Ed25519', KEYS.Ed25519.x509, !env.isBlink],
     [['EdDSA', 'Ed25519'], KEYS.Ed25519.pkcs8, !env.isBlink],
     [['EdDSA', 'Ed25519'], KEYS.Ed25519.spki, !env.isBlink],
     [['EdDSA', 'Ed25519'], KEYS.Ed25519.x509, !env.isBlink],

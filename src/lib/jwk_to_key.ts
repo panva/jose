@@ -66,6 +66,7 @@ function subtleMapping(jwk: types.JWK): {
     }
     case 'OKP': {
       switch (jwk.alg) {
+        case 'Ed25519': // Fall through
         case 'EdDSA':
           algorithm = { name: 'Ed25519' }
           keyUsages = jwk.d ? ['sign'] : ['verify']

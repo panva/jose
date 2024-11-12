@@ -13,6 +13,7 @@
     "detached",
     "ec",
     "ecdsa",
+    "ed25519",
     "eddsa",
     "edge",
     "electron",

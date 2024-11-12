@@ -28,6 +28,7 @@ export default (
           env.isEdgeRuntime ||
           (env.isGecko && env.isBrowserVersionAtLeast(130)),
     ],
+    ['Ed25519', KEYS.Ed25519.jwk, !env.isBlink],
     ['EdDSA', KEYS.Ed25519.jwk, !env.isBlink],
     ['ES256', KEYS.P256.jwk, true],
     ['ES384', KEYS.P384.jwk, true],
