@@ -1,0 +1,17 @@
+name: Retry
+
+on:
+  workflow_run:
+    workflows:
+      - Test
+    types:
+      - completed
+
+jobs:
+  retry:
+    runs-on: ubuntu-latest
+    if: ${{ github.repository == 'panva/jose' && github.event.workflow_run.conclusion == 'failure' && github.event.workflow_run.run_attempt == 1 }}
+    steps:
+      - run: gh api -XPOST ${{ github.event.workflow_run.rerun_url }}-failed-jobs
+        env:
+          GH_TOKEN: ${{ github.token }}
