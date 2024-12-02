@@ -116,16 +116,6 @@ JWK "kid" (Key ID) Parameter
 
 ***
 
-### oth?
-
-• `optional` **oth**: `object`[]
-
-RSA JWK "oth" (Other Primes Info) Parameter
-
-This parameter is not supported
-
-***
-
 ### use?
 
 • `optional` **use**: `string`

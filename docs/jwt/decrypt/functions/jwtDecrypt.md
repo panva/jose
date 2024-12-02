@@ -4,7 +4,7 @@
 
 Support from the community to continue maintaining and improving this module is welcome. If you find the module useful, please consider supporting the project by [becoming a sponsor](https://github.com/sponsors/panva).
 
-## jwtDecrypt(jwt, key, options)
+## Call Signature
 
 ▸ **jwtDecrypt**\<`PayloadType`\>(`jwt`, `key`, `options`?): [`Promise`](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise)\<[`JWTDecryptResult`](../../../types/interfaces/JWTDecryptResult.md)\<`PayloadType`\>\>
 
@@ -48,7 +48,7 @@ console.log(protectedHeader)
 console.log(payload)
 ```
 
-## jwtDecrypt(jwt, getKey, options)
+## Call Signature
 
 ▸ **jwtDecrypt**\<`PayloadType`, `KeyLikeType`\>(`jwt`, `getKey`, `options`?): [`Promise`](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise)\<[`JWTDecryptResult`](../../../types/interfaces/JWTDecryptResult.md)\<`PayloadType`\> & [`ResolvedKey`](../../../types/interfaces/ResolvedKey.md)\<`KeyLikeType`\>\>
 

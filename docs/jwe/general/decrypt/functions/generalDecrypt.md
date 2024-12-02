@@ -4,7 +4,7 @@
 
 Support from the community to continue maintaining and improving this module is welcome. If you find the module useful, please consider supporting the project by [becoming a sponsor](https://github.com/sponsors/panva).
 
-## generalDecrypt(jwe, key, options)
+## Call Signature
 
 ▸ **generalDecrypt**(`jwe`, `key`, `options`?): [`Promise`](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise)\<[`GeneralDecryptResult`](../../../../types/interfaces/GeneralDecryptResult.md)\>
 
@@ -51,7 +51,7 @@ console.log(decoder.decode(plaintext))
 console.log(decoder.decode(additionalAuthenticatedData))
 ```
 
-## generalDecrypt(jwe, getKey, options)
+## Call Signature
 
 ▸ **generalDecrypt**\<`KeyLikeType`\>(`jwe`, `getKey`, `options`?): [`Promise`](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise)\<[`GeneralDecryptResult`](../../../../types/interfaces/GeneralDecryptResult.md) & [`ResolvedKey`](../../../../types/interfaces/ResolvedKey.md)\<`KeyLikeType`\>\>
 

@@ -166,16 +166,6 @@ export interface JWK_RSA_Private extends JWK_RSA_Public, JWKParameters {
   dp: string
   /** RSA JWK "dq" (Second Factor CRT Exponent) Parameter */
   dq: string
-  /**
-   * RSA JWK "oth" (Other Primes Info) Parameter
-   *
-   * This parameter is not supported
-   */
-  oth?: Array<{
-    d?: string
-    r?: string
-    t?: string
-  }>
   /** RSA JWK "p" (First Prime Factor) Parameter */
   p: string
   /** RSA JWK "q" (Second Prime Factor) Parameter */
@@ -224,16 +214,6 @@ export interface JWK extends JWKParameters {
   k?: string
   /** RSA JWK "n" (Modulus) Parameter */
   n?: string
-  /**
-   * Private RSA JWK "oth" (Other Primes Info) Parameter
-   *
-   * This parameter is not supported
-   */
-  oth?: Array<{
-    d?: string
-    r?: string
-    t?: string
-  }>
   /** Private RSA JWK "p" (First Prime Factor) Parameter */
   p?: string
   /** Private RSA JWK "q" (Second Prime Factor) Parameter */

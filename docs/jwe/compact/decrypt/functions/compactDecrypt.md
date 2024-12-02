@@ -4,7 +4,7 @@
 
 Support from the community to continue maintaining and improving this module is welcome. If you find the module useful, please consider supporting the project by [becoming a sponsor](https://github.com/sponsors/panva).
 
-## compactDecrypt(jwe, key, options)
+## Call Signature
 
 ▸ **compactDecrypt**(`jwe`, `key`, `options`?): [`Promise`](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise)\<[`CompactDecryptResult`](../../../../types/interfaces/CompactDecryptResult.md)\>
 
@@ -37,7 +37,7 @@ console.log(protectedHeader)
 console.log(new TextDecoder().decode(plaintext))
 ```
 
-## compactDecrypt(jwe, getKey, options)
+## Call Signature
 
 ▸ **compactDecrypt**\<`KeyLikeType`\>(`jwe`, `getKey`, `options`?): [`Promise`](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise)\<[`CompactDecryptResult`](../../../../types/interfaces/CompactDecryptResult.md) & [`ResolvedKey`](../../../../types/interfaces/ResolvedKey.md)\<`KeyLikeType`\>\>
 

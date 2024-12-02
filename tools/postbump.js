@@ -16,6 +16,12 @@ execSync('find docs -type d | grep "docs/" | xargs rm -rf', opts)
 execSync('npx patch-package', opts)
 execSync('npm run runtime-browser', opts)
 execSync(`npm run docs:generate -- --gitRevision ${tagName}`, opts)
+globSync('docs/**/*.md').forEach((file) => {
+  const content = readFileSync(file, 'utf-8')
+  const updatedContent = content.replaceAll('\\<`ArrayBufferLike`\\>', '')
+
+  writeFileSync(file, updatedContent, 'utf-8')
+})
 writeFileSync('docs/README.md', readme)
 execSync('npm pack', opts)
 execSync('rm -rf dist', opts)

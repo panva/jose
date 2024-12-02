@@ -6,6 +6,10 @@ Support from the community to continue maintaining and improving this module is 
 
 Recognized Compact JWS Header Parameters, any other Header Members may also be present.
 
+## Indexable
+
+ \[`propName`: `string`\]: `unknown`
+
 ## Properties
 
 ### alg

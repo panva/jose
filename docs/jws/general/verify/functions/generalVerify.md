@@ -4,7 +4,7 @@
 
 Support from the community to continue maintaining and improving this module is welcome. If you find the module useful, please consider supporting the project by [becoming a sponsor](https://github.com/sponsors/panva).
 
-## generalVerify(jws, key, options)
+## Call Signature
 
 ▸ **generalVerify**(`jws`, `key`, `options`?): [`Promise`](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise)\<[`GeneralVerifyResult`](../../../../types/interfaces/GeneralVerifyResult.md)\>
 
@@ -45,7 +45,7 @@ console.log(protectedHeader)
 console.log(new TextDecoder().decode(payload))
 ```
 
-## generalVerify(jws, getKey, options)
+## Call Signature
 
 ▸ **generalVerify**\<`KeyLikeType`\>(`jws`, `getKey`, `options`?): [`Promise`](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise)\<[`GeneralVerifyResult`](../../../../types/interfaces/GeneralVerifyResult.md) & [`ResolvedKey`](../../../../types/interfaces/ResolvedKey.md)\<`KeyLikeType`\>\>
 

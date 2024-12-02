@@ -4,7 +4,7 @@
 
 Support from the community to continue maintaining and improving this module is welcome. If you find the module useful, please consider supporting the project by [becoming a sponsor](https://github.com/sponsors/panva).
 
-## compactVerify(jws, key, options)
+## Call Signature
 
 ▸ **compactVerify**(`jws`, `key`, `options`?): [`Promise`](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise)\<[`CompactVerifyResult`](../../../../types/interfaces/CompactVerifyResult.md)\>
 
@@ -37,7 +37,7 @@ console.log(protectedHeader)
 console.log(new TextDecoder().decode(payload))
 ```
 
-## compactVerify(jws, getKey, options)
+## Call Signature
 
 ▸ **compactVerify**\<`KeyLikeType`\>(`jws`, `getKey`, `options`?): [`Promise`](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise)\<[`CompactVerifyResult`](../../../../types/interfaces/CompactVerifyResult.md) & [`ResolvedKey`](../../../../types/interfaces/ResolvedKey.md)\<`KeyLikeType`\>\>
 

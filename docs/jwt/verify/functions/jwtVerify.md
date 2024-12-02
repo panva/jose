@@ -4,7 +4,7 @@
 
 Support from the community to continue maintaining and improving this module is welcome. If you find the module useful, please consider supporting the project by [becoming a sponsor](https://github.com/sponsors/panva).
 
-## jwtVerify(jwt, key, options)
+## Call Signature
 
 ▸ **jwtVerify**\<`PayloadType`\>(`jwt`, `key`, `options`?): [`Promise`](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise)\<[`JWTVerifyResult`](../../../types/interfaces/JWTVerifyResult.md)\<`PayloadType`\>\>
 
@@ -100,7 +100,7 @@ console.log(protectedHeader)
 console.log(payload)
 ```
 
-## jwtVerify(jwt, getKey, options)
+## Call Signature
 
 ▸ **jwtVerify**\<`PayloadType`, `KeyLikeType`\>(`jwt`, `getKey`, `options`?): [`Promise`](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise)\<[`JWTVerifyResult`](../../../types/interfaces/JWTVerifyResult.md)\<`PayloadType`\> & [`ResolvedKey`](../../../types/interfaces/ResolvedKey.md)\<`KeyLikeType`\>\>
 

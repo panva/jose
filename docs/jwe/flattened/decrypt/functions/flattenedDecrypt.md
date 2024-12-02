@@ -4,7 +4,7 @@
 
 Support from the community to continue maintaining and improving this module is welcome. If you find the module useful, please consider supporting the project by [becoming a sponsor](https://github.com/sponsors/panva).
 
-## flattenedDecrypt(jwe, key, options)
+## Call Signature
 
 ▸ **flattenedDecrypt**(`jwe`, `key`, `options`?): [`Promise`](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise)\<[`FlattenedDecryptResult`](../../../../types/interfaces/FlattenedDecryptResult.md)\>
 
@@ -47,7 +47,7 @@ console.log(decoder.decode(plaintext))
 console.log(decoder.decode(additionalAuthenticatedData))
 ```
 
-## flattenedDecrypt(jwe, getKey, options)
+## Call Signature
 
 ▸ **flattenedDecrypt**\<`KeyLikeType`\>(`jwe`, `getKey`, `options`?): [`Promise`](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise)\<[`FlattenedDecryptResult`](../../../../types/interfaces/FlattenedDecryptResult.md) & [`ResolvedKey`](../../../../types/interfaces/ResolvedKey.md)\<`KeyLikeType`\>\>
 

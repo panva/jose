@@ -2,6 +2,10 @@
 
 ## Index
 
+### Functions
+
+- [createRemoteJWKSet](functions/createRemoteJWKSet.md)
+
 ### Interfaces
 
 - [ExportedJWKSCache](interfaces/ExportedJWKSCache.md)
@@ -14,7 +18,3 @@
 ### Variables
 
 - [jwksCache](variables/jwksCache.md)
-
-### Functions
-
-- [createRemoteJWKSet](functions/createRemoteJWKSet.md)

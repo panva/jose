@@ -122,16 +122,6 @@ RSA JWK "n" (Modulus) Parameter
 
 ***
 
-### oth?
-
-• `optional` **oth**: `object`[]
-
-Private RSA JWK "oth" (Other Primes Info) Parameter
-
-This parameter is not supported
-
-***
-
 ### p?
 
 • `optional` **p**: `string`
