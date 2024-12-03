@@ -35,7 +35,7 @@ const handleJWK = async (
     return cached[alg]
   }
 
-  const cryptoKey = await importJWK({ ...jwk, alg, ext: true })
+  const cryptoKey = await importJWK({ ...jwk, alg })
   if (freeze) Object.freeze(key)
   if (!cached) {
     cache.set(key, { [alg]: cryptoKey })

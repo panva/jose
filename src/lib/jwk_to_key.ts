@@ -98,7 +98,7 @@ export default async (jwk: types.JWK): Promise<types.CryptoKey> => {
   const { algorithm, keyUsages } = subtleMapping(jwk)
   const rest: [RsaHashedImportParams | EcKeyAlgorithm | Algorithm, boolean, KeyUsage[]] = [
     algorithm,
-    jwk.ext ?? false,
+    jwk.ext ?? (jwk.d ? false : true),
     (jwk.key_ops as KeyUsage[]) ?? keyUsages,
   ]
 
