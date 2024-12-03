@@ -7,7 +7,10 @@ import isObject from '../lib/is_object.js'
 import type * as types from '../types.d.ts'
 
 export interface PEMImportOptions {
-  /** The value to use as {@link !SubtleCrypto.importKey} `extractable` argument. Default is false. */
+  /**
+   * The value to use as {@link !SubtleCrypto.importKey} `extractable` argument. Default is false for
+   * private and secret keys, true otherwise.
+   */
   extractable?: boolean
 }
 

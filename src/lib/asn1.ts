@@ -142,7 +142,7 @@ const genericImport = async (
     keyFormat,
     keyData,
     algorithm,
-    options?.extractable ?? false,
+    options?.extractable ?? (isPublic ? true : false),
     keyUsages,
   )
 }
