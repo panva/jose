@@ -22,7 +22,7 @@ Recognized JWE Key Management-related Header Parameters.
 
 ### ~~epk?~~
 
-• `optional` **epk**: [`KeyLike`](../type-aliases/KeyLike.md)
+• `optional` **epk**: [`CryptoKey`](https://developer.mozilla.org/docs/Web/API/CryptoKey) \| [`KeyObject`](KeyObject.md)
 
 #### Deprecated
 

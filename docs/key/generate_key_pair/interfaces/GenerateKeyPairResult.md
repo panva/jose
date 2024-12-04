@@ -1,20 +1,14 @@
-# Interface: GenerateKeyPairResult\<KeyLikeType\>
+# Interface: GenerateKeyPairResult
 
 ## [💗 Help the project](https://github.com/sponsors/panva)
 
 Support from the community to continue maintaining and improving this module is welcome. If you find the module useful, please consider supporting the project by [becoming a sponsor](https://github.com/sponsors/panva).
 
-## Type Parameters
-
-| Type Parameter | Default type |
-| ------ | ------ |
-| `KeyLikeType` *extends* [`KeyLike`](../../../types/type-aliases/KeyLike.md) | [`KeyLike`](../../../types/type-aliases/KeyLike.md) |
-
 ## Properties
 
 ### privateKey
 
-• **privateKey**: `KeyLikeType`
+• **privateKey**: [`CryptoKey`](https://developer.mozilla.org/docs/Web/API/CryptoKey)
 
 The generated Private Key.
 
@@ -22,6 +16,6 @@ The generated Private Key.
 
 ### publicKey
 
-• **publicKey**: `KeyLikeType`
+• **publicKey**: [`CryptoKey`](https://developer.mozilla.org/docs/Web/API/CryptoKey)
 
 Public Key corresponding to the generated Private Key.
