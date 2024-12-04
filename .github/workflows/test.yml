@@ -16,7 +16,7 @@ jobs:
   node-versions:
     uses: panva/.github/.github/workflows/node-versions.yml@main
     with:
-      min: 18
+      min: 20
 
   node:
     needs:
