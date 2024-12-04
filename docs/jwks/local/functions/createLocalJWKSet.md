@@ -4,7 +4,7 @@
 
 Support from the community to continue maintaining and improving this module is welcome. If you find the module useful, please consider supporting the project by [becoming a sponsor](https://github.com/sponsors/panva).
 
-▸ **createLocalJWKSet**\<`KeyLikeType`\>(`jwks`): (`protectedHeader`?, `token`?) => [`Promise`](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise)\<`KeyLikeType`\>
+▸ **createLocalJWKSet**(`jwks`): (`protectedHeader`?, `token`?) => [`Promise`](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise)\<[`CryptoKey`](../../../types/type-aliases/CryptoKey.md)\>
 
 Returns a function that resolves a JWS JOSE Header to a public key object from a locally stored,
 or otherwise available, JSON Web Key Set.
@@ -23,12 +23,6 @@ work for public encryption keys.
 
 This function is exported (as a named export) from the main `'jose'` module entry point as well
 as from its subpath export `'jose/jwks/local'`.
-
-## Type Parameters
-
-| Type Parameter | Default type |
-| ------ | ------ |
-| `KeyLikeType` *extends* [`KeyLike`](../../../types/type-aliases/KeyLike.md) | [`KeyLike`](../../../types/type-aliases/KeyLike.md) |
 
 ## Parameters
 
@@ -49,7 +43,7 @@ as from its subpath export `'jose/jwks/local'`.
 
 ### Returns
 
-[`Promise`](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise)\<`KeyLikeType`\>
+[`Promise`](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise)\<[`CryptoKey`](../../../types/type-aliases/CryptoKey.md)\>
 
 ## Examples
 

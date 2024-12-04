@@ -25,7 +25,7 @@ as from its subpath export `'jose/jwt/verify'`.
 | Parameter | Type | Description |
 | ------ | ------ | ------ |
 | `jwt` | `string` \| [`Uint8Array`](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Uint8Array) | JSON Web Token value (encoded as JWS). |
-| `key` | [`Uint8Array`](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Uint8Array) \| [`KeyLike`](../../../types/type-aliases/KeyLike.md) \| [`JWK`](../../../types/interfaces/JWK.md) | Key to verify the JWT with. See [Algorithm Key Requirements](https://github.com/panva/jose/issues/210#jws-alg). |
+| `key` | [`Uint8Array`](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Uint8Array) \| [`CryptoKey`](https://developer.mozilla.org/docs/Web/API/CryptoKey) \| [`JWK`](../../../types/interfaces/JWK.md) \| [`KeyObject`](../../../types/interfaces/KeyObject.md) | Key to verify the JWT with. See [Algorithm Key Requirements](https://github.com/panva/jose/issues/210#jws-alg). |
 | `options`? | [`JWTVerifyOptions`](../interfaces/JWTVerifyOptions.md) | JWT Decryption and JWT Claims Set validation options. |
 
 ### Returns
@@ -102,14 +102,13 @@ console.log(payload)
 
 ## Call Signature
 
-▸ **jwtVerify**\<`PayloadType`, `KeyLikeType`\>(`jwt`, `getKey`, `options`?): [`Promise`](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise)\<[`JWTVerifyResult`](../../../types/interfaces/JWTVerifyResult.md)\<`PayloadType`\> & [`ResolvedKey`](../../../types/interfaces/ResolvedKey.md)\<`KeyLikeType`\>\>
+▸ **jwtVerify**\<`PayloadType`\>(`jwt`, `getKey`, `options`?): [`Promise`](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise)\<[`JWTVerifyResult`](../../../types/interfaces/JWTVerifyResult.md)\<`PayloadType`\> & [`ResolvedKey`](../../../types/interfaces/ResolvedKey.md)\>
 
 ### Type Parameters
 
 | Type Parameter | Default type |
 | ------ | ------ |
 | `PayloadType` | [`JWTPayload`](../../../types/interfaces/JWTPayload.md) |
-| `KeyLikeType` *extends* [`KeyLike`](../../../types/type-aliases/KeyLike.md) | [`KeyLike`](../../../types/type-aliases/KeyLike.md) |
 
 ### Parameters
 
@@ -121,7 +120,7 @@ console.log(payload)
 
 ### Returns
 
-[`Promise`](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise)\<[`JWTVerifyResult`](../../../types/interfaces/JWTVerifyResult.md)\<`PayloadType`\> & [`ResolvedKey`](../../../types/interfaces/ResolvedKey.md)\<`KeyLikeType`\>\>
+[`Promise`](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise)\<[`JWTVerifyResult`](../../../types/interfaces/JWTVerifyResult.md)\<`PayloadType`\> & [`ResolvedKey`](../../../types/interfaces/ResolvedKey.md)\>
 
 ### Example
 
