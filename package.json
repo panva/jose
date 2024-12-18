@@ -228,25 +228,25 @@
     "tap:workerd": "./tap/.workerd.sh"
   },
   "devDependencies": {
-    "@types/node": "^22.10.1",
+    "@types/node": "^22.10.7",
     "@types/qunit": "^2.19.12",
     "ava": "^6.2.0",
     "edge-runtime": "^4.0.1",
-    "esbuild": "^0.24.0",
-    "glob": "^11.0.0",
-    "npm-run-all2": "^7.0.1",
+    "esbuild": "^0.24.2",
+    "glob": "^11.0.1",
+    "npm-run-all2": "^7.0.2",
     "patch-package": "^8.0.0",
-    "prettier": "^3.4.1",
-    "prettier-plugin-jsdoc": "^1.3.0",
-    "qunit": "^2.22.0",
-    "rollup": "^4.28.0",
+    "prettier": "^3.4.2",
+    "prettier-plugin-jsdoc": "^1.3.2",
+    "qunit": "^2.23.1",
+    "rollup": "^4.31.0",
     "tar": "^7.4.3",
     "timekeeper": "^2.3.1",
     "tsx": "^4.19.2",
     "typedoc": "^0.27.2",
     "typedoc-plugin-markdown": "^4.3.1",
     "typedoc-plugin-mdn-links": "^4.0.3",
-    "typescript": "^5.7.2",
-    "undici": "^6.21.0"
+    "typescript": "^5.7.3",
+    "undici": "^6.21.1"
   }
 }
