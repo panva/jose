@@ -28,7 +28,7 @@ export class CompactSign {
   }
 
   /**
-   * Sets the JWS Protected Header on the Sign object.
+   * Sets the JWS Protected Header on the CompactSign object.
    *
    * @param protectedHeader JWS Protected Header.
    */
