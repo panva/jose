@@ -16,7 +16,7 @@ A shorthand for calling addRecipient() on the enclosing GeneralEncrypt instance
 
 | Parameter | Type |
 | ------ | ------ |
-| ...`args` | [[`Uint8Array`](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Uint8Array) \| [`KeyLike`](../../../../types/type-aliases/KeyLike.md), [`CritOption`](../../../../types/interfaces/CritOption.md)] |
+| ...`args` | [[`Uint8Array`](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Uint8Array) \| [`CryptoKey`](https://developer.mozilla.org/docs/Web/API/CryptoKey) \| [`JWK`](../../../../types/interfaces/JWK.md) \| [`KeyObject`](../../../../types/interfaces/KeyObject.md), [`CritOption`](../../../../types/interfaces/CritOption.md)] |
 
 #### Returns
 

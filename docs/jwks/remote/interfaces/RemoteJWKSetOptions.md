@@ -8,24 +8,19 @@ Options for the remote JSON Web Key Set.
 
 ## Properties
 
+### \[customFetch\]?
+
+• `optional` **\[customFetch\]**: [`FetchImplementation`](../type-aliases/FetchImplementation.md)
+
+See [customFetch](../variables/customFetch.md).
+
+***
+
 ### \[jwksCache\]?
 
 • `optional` **\[jwksCache\]**: [`JWKSCacheInput`](../type-aliases/JWKSCacheInput.md)
 
 See [jwksCache](../variables/jwksCache.md).
-
-***
-
-### agent?
-
-• `optional` **agent**: `any`
-
-An instance of [http.Agent](https://nodejs.org/api/http.html#class-httpagent) or
-[https.Agent](https://nodejs.org/api/https.html#class-httpsagent) to pass to the
-[http.get](https://nodejs.org/api/http.html#httpgetoptions-callback) or
-[https.get](https://nodejs.org/api/https.html#httpsgetoptions-callback) method's options.
-Use when behind an http(s) proxy. This is a Node.js runtime specific option, it is ignored when
-used outside of Node.js runtime.
 
 ***
 
@@ -51,9 +46,7 @@ successful fetch. Default is 30000 (30 seconds).
 
 • `optional` **headers**: [`Record`](https://www.typescriptlang.org/docs/handbook/utility-types.html#recordkeys-type)\<`string`, `string`\>
 
-Headers to be sent with the HTTP request. Default is that `User-Agent: jose/v${version}` header
-is added unless the runtime is a browser in which adding an explicit headers fetch
-configuration would cause an unnecessary CORS preflight request.
+Headers to be sent with the HTTP request.
 
 ***
 

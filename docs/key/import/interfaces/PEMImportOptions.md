@@ -10,5 +10,5 @@ Support from the community to continue maintaining and improving this module is 
 
 • `optional` **extractable**: `boolean`
 
-(Only effective in Web Crypto API runtimes) The value to use as [SubtleCrypto.importKey](https://developer.mozilla.org/docs/Web/API/SubtleCrypto/importKey)
-`extractable` argument. Default is false.
+The value to use as [SubtleCrypto.importKey](https://developer.mozilla.org/docs/Web/API/SubtleCrypto/importKey) `extractable` argument. Default is false for
+private and secret keys, true otherwise.

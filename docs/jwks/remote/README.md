@@ -13,8 +13,10 @@
 
 ### Type Aliases
 
+- [FetchImplementation](type-aliases/FetchImplementation.md)
 - [JWKSCacheInput](type-aliases/JWKSCacheInput.md)
 
 ### Variables
 
+- [customFetch](variables/customFetch.md)
 - [jwksCache](variables/jwksCache.md)

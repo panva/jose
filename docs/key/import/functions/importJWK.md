@@ -4,33 +4,27 @@
 
 Support from the community to continue maintaining and improving this module is welcome. If you find the module useful, please consider supporting the project by [becoming a sponsor](https://github.com/sponsors/panva).
 
-▸ **importJWK**\<`KeyLikeType`\>(`jwk`, `alg`?): [`Promise`](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise)\<`KeyLikeType` \| [`Uint8Array`](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Uint8Array)\>
+▸ **importJWK**(`jwk`, `alg`?): [`Promise`](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise)\<[`CryptoKey`](../../../types/type-aliases/CryptoKey.md) \| [`Uint8Array`](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Uint8Array)\>
 
-Imports a JWK to a runtime-specific key representation (KeyLike). Either the JWK "alg"
-(Algorithm) Parameter, or the optional "alg" argument, must be present.
+Imports a JWK to a [CryptoKey](https://developer.mozilla.org/docs/Web/API/CryptoKey). Either the JWK "alg" (Algorithm) Parameter, or the optional
+"alg" argument, must be present.
 
-Note: When the runtime is using [Web Cryptography API](https://w3c.github.io/webcrypto/) the
-jwk parameters "use", "key_ops", and "ext" are also used in the resulting [CryptoKey](https://developer.mozilla.org/docs/Web/API/CryptoKey).
+Note: The JSON Web Key parameters "use", "key_ops", and "ext" are also used in the
+[CryptoKey](https://developer.mozilla.org/docs/Web/API/CryptoKey) import process.
 
 This function is exported (as a named export) from the main `'jose'` module entry point as well
 as from its subpath export `'jose/key/import'`.
-
-## Type Parameters
-
-| Type Parameter | Default type |
-| ------ | ------ |
-| `KeyLikeType` *extends* [`KeyLike`](../../../types/type-aliases/KeyLike.md) | [`KeyLike`](../../../types/type-aliases/KeyLike.md) |
 
 ## Parameters
 
 | Parameter | Type | Description |
 | ------ | ------ | ------ |
 | `jwk` | [`JWK`](../../../types/interfaces/JWK.md) | JSON Web Key. |
-| `alg`? | `string` | (Only effective in Web Crypto API runtimes) JSON Web Algorithm identifier to be used with the imported key. Default is the "alg" property on the JWK, its presence is only enforced in Web Crypto API runtimes. See [Algorithm Key Requirements](https://github.com/panva/jose/issues/210). |
+| `alg`? | `string` | JSON Web Algorithm identifier to be used with the imported key. Default is the "alg" property on the JWK. See [Algorithm Key Requirements](https://github.com/panva/jose/issues/210). |
 
 ## Returns
 
-[`Promise`](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise)\<`KeyLikeType` \| [`Uint8Array`](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Uint8Array)\>
+[`Promise`](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise)\<[`CryptoKey`](../../../types/type-aliases/CryptoKey.md) \| [`Uint8Array`](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Uint8Array)\>
 
 ## Example
 

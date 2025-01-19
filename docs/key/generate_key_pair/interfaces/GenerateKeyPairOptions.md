@@ -19,8 +19,7 @@ both supported on the runtime as well as applicable for the given JWA algorithm 
 
 • `optional` **extractable**: `boolean`
 
-(Only effective in Web Crypto API runtimes) The value to use as
-[SubtleCrypto.generateKey](https://developer.mozilla.org/docs/Web/API/SubtleCrypto/generateKey) `extractable` argument. Default is false.
+The value to use as [SubtleCrypto.generateKey](https://developer.mozilla.org/docs/Web/API/SubtleCrypto/generateKey) `extractable` argument. Default is false.
 
 #### Example
 

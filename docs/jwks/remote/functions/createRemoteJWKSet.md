@@ -4,7 +4,7 @@
 
 Support from the community to continue maintaining and improving this module is welcome. If you find the module useful, please consider supporting the project by [becoming a sponsor](https://github.com/sponsors/panva).
 
-▸ **createRemoteJWKSet**\<`KeyLikeType`\>(`url`, `options`?): (`protectedHeader`?, `token`?) => [`Promise`](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise)\<`KeyLikeType`\>
+▸ **createRemoteJWKSet**(`url`, `options`?): (`protectedHeader`?, `token`?) => [`Promise`](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise)\<[`CryptoKey`](https://developer.mozilla.org/docs/Web/API/CryptoKey)\>
 
 Returns a function that resolves a JWS JOSE Header to a public key object downloaded from a
 remote endpoint returning a JSON Web Key Set, that is, for example, an OAuth 2.0 or OIDC
@@ -26,12 +26,6 @@ work for public encryption keys.
 This function is exported (as a named export) from the main `'jose'` module entry point as well
 as from its subpath export `'jose/jwks/remote'`.
 
-## Type Parameters
-
-| Type Parameter | Default type |
-| ------ | ------ |
-| `KeyLikeType` *extends* [`KeyLike`](../../../types/type-aliases/KeyLike.md) | [`KeyLike`](../../../types/type-aliases/KeyLike.md) |
-
 ## Parameters
 
 | Parameter | Type | Description |
@@ -52,7 +46,7 @@ as from its subpath export `'jose/jwks/remote'`.
 
 ### Returns
 
-[`Promise`](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise)\<`KeyLikeType`\>
+[`Promise`](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise)\<[`CryptoKey`](https://developer.mozilla.org/docs/Web/API/CryptoKey)\>
 
 ## Examples
 

@@ -18,7 +18,7 @@ as from its subpath export `'jose/jwe/flattened/decrypt'`.
 | Parameter | Type | Description |
 | ------ | ------ | ------ |
 | `jwe` | [`FlattenedJWE`](../../../../types/interfaces/FlattenedJWE.md) | Flattened JWE. |
-| `key` | [`Uint8Array`](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Uint8Array) \| [`KeyLike`](../../../../types/type-aliases/KeyLike.md) | Private Key or Secret to decrypt the JWE with. See [Algorithm Key Requirements](https://github.com/panva/jose/issues/210#jwe-alg). |
+| `key` | [`Uint8Array`](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Uint8Array) \| [`CryptoKey`](https://developer.mozilla.org/docs/Web/API/CryptoKey) \| [`JWK`](../../../../types/interfaces/JWK.md) \| [`KeyObject`](../../../../types/interfaces/KeyObject.md) | Private Key or Secret to decrypt the JWE with. See [Algorithm Key Requirements](https://github.com/panva/jose/issues/210#jwe-alg). |
 | `options`? | [`DecryptOptions`](../../../../types/interfaces/DecryptOptions.md) | JWE Decryption options. |
 
 ### Returns
@@ -49,13 +49,7 @@ console.log(decoder.decode(additionalAuthenticatedData))
 
 ## Call Signature
 
-▸ **flattenedDecrypt**\<`KeyLikeType`\>(`jwe`, `getKey`, `options`?): [`Promise`](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise)\<[`FlattenedDecryptResult`](../../../../types/interfaces/FlattenedDecryptResult.md) & [`ResolvedKey`](../../../../types/interfaces/ResolvedKey.md)\<`KeyLikeType`\>\>
-
-### Type Parameters
-
-| Type Parameter | Default type |
-| ------ | ------ |
-| `KeyLikeType` *extends* [`KeyLike`](../../../../types/type-aliases/KeyLike.md) | [`KeyLike`](../../../../types/type-aliases/KeyLike.md) |
+▸ **flattenedDecrypt**(`jwe`, `getKey`, `options`?): [`Promise`](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise)\<[`FlattenedDecryptResult`](../../../../types/interfaces/FlattenedDecryptResult.md) & [`ResolvedKey`](../../../../types/interfaces/ResolvedKey.md)\>
 
 ### Parameters
 
@@ -67,4 +61,4 @@ console.log(decoder.decode(additionalAuthenticatedData))
 
 ### Returns
 
-[`Promise`](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise)\<[`FlattenedDecryptResult`](../../../../types/interfaces/FlattenedDecryptResult.md) & [`ResolvedKey`](../../../../types/interfaces/ResolvedKey.md)\<`KeyLikeType`\>\>
+[`Promise`](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise)\<[`FlattenedDecryptResult`](../../../../types/interfaces/FlattenedDecryptResult.md) & [`ResolvedKey`](../../../../types/interfaces/ResolvedKey.md)\>
