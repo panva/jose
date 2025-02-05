@@ -18,6 +18,7 @@ export default (QUnit: QUnit, lib: typeof jose, keys: typeof jose) => {
     [
       'ECDH-ES',
       env.isNode ||
+        env.isDeno ||
         env.isElectron ||
         env.isWorkerd ||
         env.isEdgeRuntime ||

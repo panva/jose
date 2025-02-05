@@ -16,13 +16,12 @@ export default (QUnit: QUnit, lib: typeof jose, keys: typeof jose) => {
     [
       'ECDH-ES',
       KEYS.X25519.jwk,
-      env.isDeno
-        ? [true, false]
-        : env.isNode ||
-          env.isElectron ||
-          env.isWorkerd ||
-          env.isEdgeRuntime ||
-          (env.isGecko && env.isBrowserVersionAtLeast(130)),
+      env.isNode ||
+        env.isDeno ||
+        env.isElectron ||
+        env.isWorkerd ||
+        env.isEdgeRuntime ||
+        (env.isGecko && env.isBrowserVersionAtLeast(130)),
     ],
     ['ECDH-ES', KEYS.X448.jwk, env.isDeno ? [true, false] : env.isNode || env.isEdgeRuntime],
     ['EdDSA', KEYS.Ed25519.jwk, !env.isBlink],
