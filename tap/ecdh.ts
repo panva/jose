@@ -22,7 +22,8 @@ export default (QUnit: QUnit, lib: typeof jose, keys: typeof jose) => {
         env.isElectron ||
         env.isWorkerd ||
         env.isEdgeRuntime ||
-        (env.isGecko && env.isBrowserVersionAtLeast(132)),
+        (env.isGecko && env.isBrowserVersionAtLeast(132)) ||
+        (env.isBlink && env.isBrowserVersionAtLeast(133)),
       { crv: 'X25519' },
     ],
     ['ECDH-ES', env.isNode || env.isEdgeRuntime, { crv: 'X448' }],

@@ -21,7 +21,8 @@ export default (QUnit: QUnit, lib: typeof jose, keys: typeof jose) => {
         env.isElectron ||
         env.isWorkerd ||
         env.isEdgeRuntime ||
-        (env.isGecko && env.isBrowserVersionAtLeast(130)),
+        (env.isGecko && env.isBrowserVersionAtLeast(130)) ||
+        (env.isBlink && env.isBrowserVersionAtLeast(133)),
     ],
     ['ECDH-ES', KEYS.X448.jwk, env.isDeno ? [true, false] : env.isNode || env.isEdgeRuntime],
     ['EdDSA', KEYS.Ed25519.jwk, !env.isBlink],

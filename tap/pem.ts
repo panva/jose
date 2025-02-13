@@ -72,7 +72,8 @@ export default (QUnit: QUnit, lib: typeof jose, keys: typeof jose) => {
         env.isElectron ||
         env.isWorkerd ||
         env.isEdgeRuntime ||
-        (env.isGecko && env.isBrowserVersionAtLeast(130)),
+        (env.isGecko && env.isBrowserVersionAtLeast(130)) ||
+        (env.isBlink && env.isBrowserVersionAtLeast(133)),
     ],
     [
       ['ECDH-ES', 'X25519'],
@@ -82,7 +83,8 @@ export default (QUnit: QUnit, lib: typeof jose, keys: typeof jose) => {
         env.isElectron ||
         env.isWorkerd ||
         env.isEdgeRuntime ||
-        (env.isGecko && env.isBrowserVersionAtLeast(130)),
+        (env.isGecko && env.isBrowserVersionAtLeast(130)) ||
+        (env.isBlink && env.isBrowserVersionAtLeast(133)),
     ],
     [['ECDH-ES', 'X448'], KEYS.X448.pkcs8, env.isNode || env.isEdgeRuntime],
     [['ECDH-ES', 'X448'], KEYS.X448.spki, env.isNode || env.isEdgeRuntime || env.isDeno],
