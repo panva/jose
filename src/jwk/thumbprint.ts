@@ -4,7 +4,10 @@ import { encode as base64url } from '../lib/base64url.js'
 import { JOSENotSupported, JWKInvalid } from '../util/errors.js'
 import { encoder } from '../lib/buffer_utils.js'
 import type * as types from '../types.d.ts'
-import isObject from '../lib/is_object.js'
+import isKeyLike from '../lib/is_key_like.js'
+import { isJWK } from '../lib/is_jwk.js'
+import { exportJWK } from '../key/export.js'
+import invalidKeyInput from '../lib/invalid_key_input.js'
 
 const check = (value: unknown, description: string) => {
   if (typeof value !== 'string' || !value) {
@@ -32,18 +35,23 @@ const check = (value: unknown, description: string) => {
  * // 'w9eYdC6_s_tLQ8lH6PUpc0mddazaqtPgeC2IgWDiqY8'
  * ```
  *
- * @param jwk JSON Web Key.
+ * @param key Key to calculate the thumbprint for.
  * @param digestAlgorithm Digest Algorithm to use for calculating the thumbprint. Default is
  *   "sha256".
  *
  * @see {@link https://www.rfc-editor.org/rfc/rfc7638 RFC7638}
  */
 export async function calculateJwkThumbprint(
-  jwk: types.JWK,
+  key: types.JWK | types.CryptoKey | types.KeyObject,
   digestAlgorithm?: 'sha256' | 'sha384' | 'sha512',
 ): Promise<string> {
-  if (!isObject(jwk)) {
-    throw new TypeError('JWK must be an object')
+  let jwk: types.JWK
+  if (isJWK(key)) {
+    jwk = key
+  } else if (isKeyLike(key)) {
+    jwk = await exportJWK(key)
+  } else {
+    throw new TypeError(invalidKeyInput(key, 'CryptoKey', 'KeyObject', 'JSON Web Key'))
   }
 
   digestAlgorithm ??= 'sha256'
@@ -106,17 +114,17 @@ export async function calculateJwkThumbprint(
  * // 'urn:ietf:params:oauth:jwk-thumbprint:sha-256:w9eYdC6_s_tLQ8lH6PUpc0mddazaqtPgeC2IgWDiqY8'
  * ```
  *
- * @param jwk JSON Web Key.
+ * @param key Key to calculate the thumbprint for.
  * @param digestAlgorithm Digest Algorithm to use for calculating the thumbprint. Default is
  *   "sha256".
  *
  * @see {@link https://www.rfc-editor.org/rfc/rfc9278 RFC9278}
  */
 export async function calculateJwkThumbprintUri(
-  jwk: types.JWK,
+  key: types.CryptoKey | types.KeyObject | types.JWK,
   digestAlgorithm?: 'sha256' | 'sha384' | 'sha512',
 ): Promise<string> {
   digestAlgorithm ??= 'sha256'
-  const thumbprint = await calculateJwkThumbprint(jwk, digestAlgorithm)
+  const thumbprint = await calculateJwkThumbprint(key, digestAlgorithm)
   return `urn:ietf:params:oauth:jwk-thumbprint:sha-${digestAlgorithm.slice(-3)}:${thumbprint}`
 }

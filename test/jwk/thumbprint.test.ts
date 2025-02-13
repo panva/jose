@@ -41,26 +41,26 @@ test('https://www.rfc-editor.org/rfc/rfc9278', async (t) => {
   )
 })
 
-test('JWK must be an object', async (t) => {
+test('Key must be one of type CryptoKey, KeyObject, or JSON Web Key.', async (t) => {
   await t.throwsAsync(calculateJwkThumbprint(true), {
     instanceOf: TypeError,
-    message: 'JWK must be an object',
+    message: /Key must be one of type CryptoKey, KeyObject, or JSON Web Key./,
   })
   await t.throwsAsync(calculateJwkThumbprint(null), {
     instanceOf: TypeError,
-    message: 'JWK must be an object',
+    message: /Key must be one of type CryptoKey, KeyObject, or JSON Web Key./,
   })
   await t.throwsAsync(calculateJwkThumbprint(Boolean), {
     instanceOf: TypeError,
-    message: 'JWK must be an object',
+    message: /Key must be one of type CryptoKey, KeyObject, or JSON Web Key./,
   })
   await t.throwsAsync(calculateJwkThumbprint([]), {
     instanceOf: TypeError,
-    message: 'JWK must be an object',
+    message: /Key must be one of type CryptoKey, KeyObject, or JSON Web Key./,
   })
   await t.throwsAsync(calculateJwkThumbprint(''), {
     instanceOf: TypeError,
-    message: 'JWK must be an object',
+    message: /Key must be one of type CryptoKey, KeyObject, or JSON Web Key./,
   })
   const nullPrototype = Object.create(null)
   nullPrototype.crv = 'P-256'
