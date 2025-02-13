@@ -10,7 +10,7 @@ function normalize(pem: string) {
 export default (
   QUnit: QUnit,
   lib: typeof jose,
-  _keys: Pick<typeof jose, 'exportJWK' | 'generateKeyPair' | 'generateSecret' | 'importJWK'>,
+  keys: Pick<typeof jose, 'exportJWK' | 'importJWK'>,
 ) => {
   const { module, test } = QUnit
   module('pem.ts')
@@ -148,6 +148,14 @@ export default (
 
       if (!x509) {
         t.strictEqual(normalize(await exportFn(k)), normalize(pem))
+        if (env.isNode && lib.importJWK !== keys.importJWK) {
+          const nCrypto = globalThis.process.getBuiltinModule('node:crypto')
+          if (pem.startsWith('-----BEGIN PRIVATE KEY-----')) {
+            t.strictEqual(normalize(await exportFn(nCrypto.createPrivateKey(pem))), normalize(pem))
+          } else {
+            t.strictEqual(normalize(await exportFn(nCrypto.createPublicKey(pem))), normalize(pem))
+          }
+        }
       } else {
         await exportFn(k)
       }

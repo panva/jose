@@ -6,7 +6,7 @@ import type * as jose from '../src/index.js'
 export default (
   QUnit: QUnit,
   lib: typeof jose,
-  _keys: Pick<typeof jose, 'exportJWK' | 'generateKeyPair' | 'generateSecret' | 'importJWK'>,
+  keys: Pick<typeof jose, 'exportJWK' | 'generateKeyPair' | 'generateSecret' | 'importJWK'>,
 ) => {
   const { module, test } = QUnit
   module('jwk.ts')
@@ -92,6 +92,16 @@ export default (
           exported[prop as keyof JsonWebKey],
           jwk[prop as keyof JsonWebKey],
           `${prop} mismatch`,
+        )
+      }
+
+      if (env.isNode && lib.importJWK !== keys.importJWK) {
+        const nCrypto = globalThis.process.getBuiltinModule('node:crypto')
+        t.deepEqual(
+          await lib.exportJWK(
+            nCrypto[jwk.d ? 'createPrivateKey' : 'createPublicKey']({ format: 'jwk', key: jwk }),
+          ),
+          exported,
         )
       }
 

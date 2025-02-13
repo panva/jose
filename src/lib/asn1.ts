@@ -2,7 +2,7 @@ import type * as types from '../types.d.ts'
 import invalidKeyInput from './invalid_key_input.js'
 import { encodeBase64, decodeBase64 } from './base64url.js'
 import { JOSENotSupported } from '../util/errors.js'
-import { isCryptoKey } from './is_key_like.js'
+import { isCryptoKey, isKeyObject } from './is_key_like.js'
 
 import type { PEMImportOptions } from '../key/import.js'
 
@@ -11,13 +11,30 @@ const formatPEM = (b64: string, descriptor: string) => {
   return `-----BEGIN ${descriptor}-----\n${newlined}\n-----END ${descriptor}-----`
 }
 
+interface ExportOptions {
+  format: 'pem'
+  type: 'spki' | 'pkcs8'
+}
+
+interface ExtractableKeyObject extends types.KeyObject {
+  export(arg: ExportOptions): string
+}
+
 const genericExport = async (
   keyType: 'private' | 'public',
   keyFormat: 'spki' | 'pkcs8',
   key: unknown,
 ) => {
+  if (isKeyObject(key)) {
+    if (key.type !== keyType) {
+      throw new TypeError(`key is not a ${keyType} key`)
+    }
+
+    return (key as ExtractableKeyObject).export({ format: 'pem', type: keyFormat })
+  }
+
   if (!isCryptoKey(key)) {
-    throw new TypeError(invalidKeyInput(key, 'CryptoKey'))
+    throw new TypeError(invalidKeyInput(key, 'CryptoKey', 'KeyObject'))
   }
 
   if (!key.extractable) {
