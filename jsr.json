@@ -1,0 +1,40 @@
+{
+  "$schema": "https://jsr.io/schema/config-file.v1.json",
+  "name": "@panva/jose",
+  "version": "5.10.0",
+  "exports": {
+    ".": "./src/index.ts",
+    "./jwk/embedded": "./src/jwk/embedded.ts",
+    "./jwk/thumbprint": "./src/jwk/thumbprint.ts",
+    "./key/import": "./src/key/import.ts",
+    "./key/export": "./src/key/export.ts",
+    "./key/generate/keypair": "./src/key/generate_key_pair.ts",
+    "./key/generate/secret": "./src/key/generate_secret.ts",
+    "./jwks/remote": "./src/jwks/remote.ts",
+    "./jwks/local": "./src/jwks/local.ts",
+    "./jwt/sign": "./src/jwt/sign.ts",
+    "./jwt/verify": "./src/jwt/verify.ts",
+    "./jwt/encrypt": "./src/jwt/encrypt.ts",
+    "./jwt/decrypt": "./src/jwt/decrypt.ts",
+    "./jwt/unsecured": "./src/jwt/unsecured.ts",
+    "./jwt/decode": "./src/util/decode_jwt.ts",
+    "./decode/protected_header": "./src/util/decode_protected_header.ts",
+    "./jws/compact/sign": "./src/jws/compact/sign.ts",
+    "./jws/compact/verify": "./src/jws/compact/verify.ts",
+    "./jws/flattened/sign": "./src/jws/flattened/sign.ts",
+    "./jws/flattened/verify": "./src/jws/flattened/verify.ts",
+    "./jws/general/sign": "./src/jws/general/sign.ts",
+    "./jws/general/verify": "./src/jws/general/verify.ts",
+    "./jwe/compact/encrypt": "./src/jwe/compact/encrypt.ts",
+    "./jwe/compact/decrypt": "./src/jwe/compact/decrypt.ts",
+    "./jwe/flattened/encrypt": "./src/jwe/flattened/encrypt.ts",
+    "./jwe/flattened/decrypt": "./src/jwe/flattened/decrypt.ts",
+    "./jwe/general/encrypt": "./src/jwe/general/encrypt.ts",
+    "./jwe/general/decrypt": "./src/jwe/general/decrypt.ts",
+    "./errors": "./src/util/errors.ts",
+    "./base64url": "./src/util/base64url.ts"
+  },
+  "publish": {
+    "include": ["LICENSE.md", "README.md", "src/**/*.ts"]
+  }
+}
