@@ -51,13 +51,20 @@ execSync('npm run build:bundle-min', opts)
 execSync('npm run build:umd', opts)
 execSync('git add docs/**/*.md', opts)
 
-for (const path of ['./README.md', './docs/README.md']) {
-  writeFileSync(
-    path,
-    readFileSync(path, { encoding: 'utf-8' }).replace(/jose@v\d+\.\d+\.\d+/gm, `jose@v${version}`),
-  )
+const filesToUpdate = [
+  { path: './README.md', regex: /jose@v\d+\.\d+\.\d+/gm, replacement: `jose@v${version}` },
+  { path: './docs/README.md', regex: /jose@v\d+\.\d+\.\d+/gm, replacement: `jose@v${version}` },
+  {
+    path: './jsr.json',
+    regex: /"version": "\d+\.\d+\.\d+"/gm,
+    replacement: `"version": "${version}"`,
+  },
+]
+
+filesToUpdate.forEach(({ path, regex, replacement }) => {
+  writeFileSync(path, readFileSync(path, { encoding: 'utf-8' }).replace(regex, replacement))
   execSync(`git add ${path}`, { stdio: 'inherit' })
-}
+})
 
 const ts = globSync('dist/**/**.ts')
 
