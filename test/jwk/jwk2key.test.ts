@@ -85,7 +85,6 @@ test('secret KeyLike can be transformed to a JWK', async (t) => {
       kty: 'oct',
     },
     'HS256',
-    true,
   )
   t.deepEqual(await exportJWK(keylike), {
     k: 'AQIDBAUGBwgJCgsMDQ4P',

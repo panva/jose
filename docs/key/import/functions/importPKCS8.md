@@ -21,7 +21,7 @@ as from its subpath export `'jose/key/import'`.
 | ------ | ------ | ------ |
 | `pkcs8` | `string` | PEM-encoded PKCS#8 string |
 | `alg` | `string` | JSON Web Algorithm identifier to be used with the imported key. See [Algorithm Key Requirements](https://github.com/panva/jose/issues/210). |
-| `options`? | [`PEMImportOptions`](../interfaces/PEMImportOptions.md) | - |
+| `options`? | [`KeyImportOptions`](../interfaces/KeyImportOptions.md) | - |
 
 ## Returns
 

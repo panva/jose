@@ -4,7 +4,7 @@
 
 Support from the community to continue maintaining and improving this module is welcome. If you find the module useful, please consider supporting the project by [becoming a sponsor](https://github.com/sponsors/panva).
 
-▸ **importJWK**(`jwk`, `alg`?): [`Promise`](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise)\<[`CryptoKey`](../../../types/type-aliases/CryptoKey.md) \| [`Uint8Array`](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Uint8Array)\>
+▸ **importJWK**(`jwk`, `alg`?, `options`?): [`Promise`](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise)\<[`CryptoKey`](../../../types/type-aliases/CryptoKey.md) \| [`Uint8Array`](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Uint8Array)\>
 
 Imports a JWK to a [CryptoKey](https://developer.mozilla.org/docs/Web/API/CryptoKey). Either the JWK "alg" (Algorithm) Parameter, or the optional
 "alg" argument, must be present.
@@ -21,6 +21,7 @@ as from its subpath export `'jose/key/import'`.
 | ------ | ------ | ------ |
 | `jwk` | [`JWK`](../../../types/interfaces/JWK.md) | JSON Web Key. |
 | `alg`? | `string` | JSON Web Algorithm identifier to be used with the imported key. Default is the "alg" property on the JWK. See [Algorithm Key Requirements](https://github.com/panva/jose/issues/210). |
+| `options`? | [`KeyImportOptions`](../interfaces/KeyImportOptions.md) | - |
 
 ## Returns
 
