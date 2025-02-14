@@ -1,12 +1,12 @@
 import { decode as decodeBase64URL } from '../lib/base64url.js'
 import { fromSPKI, fromPKCS8, fromX509 } from '../lib/asn1.js'
-import asKeyObject from '../lib/jwk_to_key.js'
+import toCryptoKey from '../lib/jwk_to_key.js'
 
 import { JOSENotSupported } from '../util/errors.js'
 import isObject from '../lib/is_object.js'
 import type * as types from '../types.d.ts'
 
-export interface PEMImportOptions {
+export interface KeyImportOptions {
   /**
    * The value to use as {@link !SubtleCrypto.importKey} `extractable` argument. Default is false for
    * private and secret keys, true otherwise.
@@ -42,7 +42,7 @@ export interface PEMImportOptions {
 export async function importSPKI(
   spki: string,
   alg: string,
-  options?: PEMImportOptions,
+  options?: KeyImportOptions,
 ): Promise<types.CryptoKey> {
   if (typeof spki !== 'string' || spki.indexOf('-----BEGIN PUBLIC KEY-----') !== 0) {
     throw new TypeError('"spki" must be SPKI formatted string')
@@ -84,7 +84,7 @@ export async function importSPKI(
 export async function importX509(
   x509: string,
   alg: string,
-  options?: PEMImportOptions,
+  options?: KeyImportOptions,
 ): Promise<types.CryptoKey> {
   if (typeof x509 !== 'string' || x509.indexOf('-----BEGIN CERTIFICATE-----') !== 0) {
     throw new TypeError('"x509" must be X.509 formatted string')
@@ -121,7 +121,7 @@ export async function importX509(
 export async function importPKCS8(
   pkcs8: string,
   alg: string,
-  options?: PEMImportOptions,
+  options?: KeyImportOptions,
 ): Promise<types.CryptoKey> {
   if (typeof pkcs8 !== 'string' || pkcs8.indexOf('-----BEGIN PRIVATE KEY-----') !== 0) {
     throw new TypeError('"pkcs8" must be PKCS#8 formatted string')
@@ -170,12 +170,16 @@ export async function importPKCS8(
 export async function importJWK(
   jwk: types.JWK,
   alg?: string,
+  options?: KeyImportOptions,
 ): Promise<types.CryptoKey | Uint8Array> {
   if (!isObject(jwk)) {
     throw new TypeError('JWK must be an object')
   }
 
-  alg ||= jwk.alg
+  let ext: boolean | undefined
+
+  alg ??= jwk.alg
+  ext ??= options?.extractable ?? jwk.ext
 
   switch (jwk.kty) {
     case 'oct':
@@ -192,7 +196,7 @@ export async function importJWK(
       }
     case 'EC':
     case 'OKP':
-      return asKeyObject({ ...jwk, alg })
+      return toCryptoKey({ ...jwk, alg, ext })
     default:
       throw new JOSENotSupported('Unsupported "kty" (Key Type) Parameter value')
   }

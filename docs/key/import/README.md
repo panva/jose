@@ -4,7 +4,7 @@
 
 ### Interfaces
 
-- [PEMImportOptions](interfaces/PEMImportOptions.md)
+- [KeyImportOptions](interfaces/KeyImportOptions.md)
 
 ### Functions
 

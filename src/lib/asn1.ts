@@ -4,7 +4,7 @@ import { encodeBase64, decodeBase64 } from './base64url.js'
 import { JOSENotSupported } from '../util/errors.js'
 import { isCryptoKey, isKeyObject } from './is_key_like.js'
 
-import type { PEMImportOptions } from '../key/import.js'
+import type { KeyImportOptions } from '../key/import.js'
 
 const formatPEM = (b64: string, descriptor: string) => {
   const newlined = (b64.match(/.{1,64}/g) || []).join('\n')
@@ -89,7 +89,7 @@ const genericImport = async (
   keyFormat: 'spki' | 'pkcs8',
   pem: string,
   alg: string,
-  options?: PEMImportOptions,
+  options?: KeyImportOptions,
 ) => {
   let algorithm: RsaHashedImportParams | EcKeyAlgorithm | Algorithm
   let keyUsages: KeyUsage[]
@@ -167,7 +167,7 @@ const genericImport = async (
 type PEMImportFunction = (
   pem: string,
   alg: string,
-  options?: PEMImportOptions,
+  options?: KeyImportOptions,
 ) => Promise<types.CryptoKey>
 
 export const fromPKCS8: PEMImportFunction = (pem, alg, options?) => {
