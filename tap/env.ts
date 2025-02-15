@@ -2,7 +2,7 @@
 export const isBun = typeof Bun !== 'undefined'
 
 // @ts-ignore
-export const isElectron = typeof process !== 'undefined' && process.versions.electron !== undefined
+export const isElectron = typeof process !== 'undefined' && process.versions?.electron !== undefined
 
 // @ts-ignore
 export const isDeno = typeof Deno !== 'undefined'
