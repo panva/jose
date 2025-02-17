@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [5.10.0](https://github.com/panva/jose/compare/v5.9.6...v5.10.0) (2025-02-17)
+
+
+### Features
+
+* support fully specified Ed25519 algorithm identifier ([c39f57d](https://github.com/panva/jose/commit/c39f57d614ec7493ad7b1eeaf8ccdc51c499cd17))
+
 ## [5.9.6](https://github.com/panva/jose/compare/v5.9.5...v5.9.6) (2024-10-20)
 
 
