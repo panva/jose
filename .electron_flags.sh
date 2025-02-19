@@ -2,4 +2,4 @@ echo $(electron -i <<< 'process.exit(0)' 2> /dev/null | grep "Using" | awk '{$1=
 
 electron -i <<< 'process.exit(parseInt(process.versions.node, 10))' &> /dev/null
 NODE_VERSION=$?
-export NODE_OPTIONS='--no-warnings --enable-source-maps --import=tsx/esm'
+export NODE_OPTIONS='--enable-source-maps --import=tsx/esm'
