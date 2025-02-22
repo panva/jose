@@ -2,6 +2,15 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [6.0.4](https://github.com/panva/jose/compare/v6.0.3...v6.0.4) (2025-02-22)
+
+
+### Refactor
+
+* optimize base64 with tc39/proposal-arraybuffer-base64 ([8a0da69](https://github.com/panva/jose/commit/8a0da6968ec2813ced80962e847a89676ef9e8af)), closes [#752](https://github.com/panva/jose/issues/752)
+* update getSPKI to use crypto.createPublicKey when available ([92392a0](https://github.com/panva/jose/commit/92392a0aa278ecf419a8b0b6a984c72d071125ad)), closes [#752](https://github.com/panva/jose/issues/752)
+* use Double HMAC pattern for AES-CBC tag comparison ([f3ba4c7](https://github.com/panva/jose/commit/f3ba4c715f3ff5baef624bbb62771398de488166)), closes [#752](https://github.com/panva/jose/issues/752)
+
 ## [6.0.3](https://github.com/panva/jose/compare/v6.0.2...v6.0.3) (2025-02-22)
 
 
