@@ -8,27 +8,26 @@ import { checkEncCryptoKey } from './crypto_key.js'
 import invalidKeyInput from './invalid_key_input.js'
 import { isCryptoKey } from './is_key_like.js'
 
-let timingSafeEqual: (a: Uint8Array, b: Uint8Array) => boolean =
-  // @ts-expect-error
-  globalThis.process?.getBuiltinModule?.('node:crypto')?.timingSafeEqual
-
-timingSafeEqual ||= (a: Uint8Array, b: Uint8Array): boolean => {
+async function timingSafeEqual(a: Uint8Array, b: Uint8Array): Promise<boolean> {
   if (!(a instanceof Uint8Array)) {
     throw new TypeError('First argument must be a buffer')
   }
   if (!(b instanceof Uint8Array)) {
     throw new TypeError('Second argument must be a buffer')
   }
-  if (a.length !== b.length) {
-    throw new TypeError('Input buffers must have the same length')
-  }
 
-  const len = a.length
+  const algorithm = { name: 'HMAC', hash: 'SHA-256' }
+  const key = (await crypto.subtle.generateKey(algorithm, false, ['sign'])) as CryptoKey
+
+  const aHmac = new Uint8Array(await crypto.subtle.sign(algorithm, key, a))
+  const bHmac = new Uint8Array(await crypto.subtle.sign(algorithm, key, b))
+
   let out = 0
   let i = -1
-  while (++i < len) {
-    out |= a[i] ^ b[i]
+  while (++i < 32) {
+    out |= aHmac[i] ^ bHmac[i]
   }
+
   return out === 0
 }
 
@@ -69,7 +68,7 @@ async function cbcDecrypt(
 
   let macCheckPassed!: boolean
   try {
-    macCheckPassed = timingSafeEqual(tag, expectedTag)
+    macCheckPassed = await timingSafeEqual(tag, expectedTag)
   } catch {
     //
   }
