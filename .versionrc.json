@@ -20,7 +20,8 @@
     },
     {
       "type": "docs",
-      "hidden": true
+      "section": "Documentation",
+      "hidden": false
     },
     {
       "type": "style",
