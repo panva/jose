@@ -250,14 +250,18 @@ function spkiFromX509(buf: Uint8Array) {
   return encodeBase64(tbsCertificate[tbsCertificate[0].raw[0] === 0xa0 ? 6 : 5].raw)
 }
 
-let X509Certificate: any
+let createPublicKey: any
 function getSPKI(x509: string): string {
-  if (
+  try {
     // @ts-ignore
-    (X509Certificate ||= globalThis.process?.getBuiltinModule?.('node:crypto')?.X509Certificate)
-  ) {
+    createPublicKey ??= globalThis.process?.getBuiltinModule?.('node:crypto')?.createPublicKey
+  } catch {
+    createPublicKey = 0
+  }
+
+  if (createPublicKey) {
     try {
-      return new X509Certificate(x509).publicKey.export({ format: 'pem', type: 'spki' })
+      return new createPublicKey(x509).export({ format: 'pem', type: 'spki' })
     } catch {}
   }
   const pem = x509.replace(/(?:-----(?:BEGIN|END) CERTIFICATE-----|\s)/g, '')
