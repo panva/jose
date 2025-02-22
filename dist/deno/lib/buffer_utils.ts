@@ -1,0 +1,43 @@
+export const encoder = new TextEncoder()
+export const decoder = new TextDecoder()
+
+const MAX_INT32 = 2 ** 32
+
+// @ts-expect-error
+const Buffer: any = globalThis.process?.getBuiltinModule?.('node:buffer')?.Buffer
+
+export { Buffer }
+
+export function concat(...buffers: Uint8Array[]): Uint8Array {
+  if (Buffer) return Buffer.concat(buffers)
+  const size = buffers.reduce((acc, { length }) => acc + length, 0)
+  const buf = new Uint8Array(size)
+  let i = 0
+  for (const buffer of buffers) {
+    buf.set(buffer, i)
+    i += buffer.length
+  }
+  return buf
+}
+
+function writeUInt32BE(buf: Uint8Array, value: number, offset?: number) {
+  if (value < 0 || value >= MAX_INT32) {
+    throw new RangeError(`value must be >= 0 and <= ${MAX_INT32 - 1}. Received ${value}`)
+  }
+  buf.set([value >>> 24, value >>> 16, value >>> 8, value & 0xff], offset)
+}
+
+export function uint64be(value: number) {
+  const high = Math.floor(value / MAX_INT32)
+  const low = value % MAX_INT32
+  const buf = new Uint8Array(8)
+  writeUInt32BE(buf, high, 0)
+  writeUInt32BE(buf, low, 4)
+  return buf
+}
+
+export function uint32be(value: number) {
+  const buf = new Uint8Array(4)
+  writeUInt32BE(buf, value)
+  return buf
+}

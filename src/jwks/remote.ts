@@ -22,7 +22,7 @@ let USER_AGENT: string
 // @ts-ignore
 if (typeof navigator === 'undefined' || !navigator.userAgent?.startsWith?.('Mozilla/5.0 ')) {
   const NAME = 'jose'
-  const VERSION = 'v6.0.0'
+  const VERSION = 'v6.0.1'
   USER_AGENT = `${NAME}/${VERSION}`
 }
 

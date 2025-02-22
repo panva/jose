@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [6.0.1](https://github.com/panva/jose/compare/v6.0.0...v6.0.1) (2025-02-22)
+
+
+### Fixes
+
+* **types:** update build to include extensions in type imports ([9b96672](https://github.com/panva/jose/commit/9b96672ef79aabf07699e0ccafa5b54380f6330c))
+
 ## [6.0.0](https://github.com/panva/jose/compare/v5.10.0...v6.0.0) (2025-02-22)
 
 
