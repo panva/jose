@@ -2,6 +2,51 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [6.0.0](https://github.com/panva/jose/compare/v5.10.0...v6.0.0) (2025-02-22)
+
+
+### ⚠ BREAKING CHANGES
+
+* The PEMImportOptions type interface is renamed to KeyImportOptions.
+* all builds and bundles now use ES2022 as target
+* createRemoteJWKSet now uses fetch, because of that its Node.js only options.agent property has been removed and new fetch-related options were added
+* drop support for Ed448 and X448
+* drop support for JWK key_ops and CryptoKey usages "(un)wrapKey" and "deriveKey"
+* resolved keys returned as part of verify/decrypt operations (when get key functions are used) are always normalized to either Uint8Array / CryptoKey depending on what's more efficient for the executed operation
+* Key "Type" Generics are removed
+* CJS-style require is now only possible when require(esm) support is present in the Node.js runtime
+* private KeyObject instances can no longer be used for verify operations
+* private KeyObject instances can no longer be used for encryption operations
+* generateSecret, generateKeyPair, importPKCS8, importSPKI, importJWK, and importX509 now yield a CryptoKey instead of a KeyObject in Node.js
+* drop support for Node.js 18.x and earlier
+* runtime-specific npm releases (jose-browser-runtime, jose-node-cjs-runtime, and jose-node-esm-runtime) are no longer maintained or supported
+* removed secp256k1 JWS support
+* removed deprecated experimental APIs
+* removed RSA1_5 JWE support
+
+### Features
+
+* enable CryptoKey and KeyObject inputs in JWK thumbprint functions ([6fc9c44](https://github.com/panva/jose/commit/6fc9c4461a1fa39b363185e866bd686044ee30c6))
+* JSON Web Key is now an allowed input everywhere ([ebda967](https://github.com/panva/jose/commit/ebda9674e9daf9b9d09568cf17b1a23d9cf20a60))
+
+
+### Refactor
+
+* always use infered CryptoKey ([c4abaa2](https://github.com/panva/jose/commit/c4abaa265ef56b517f868cf49db4ed8975446465))
+* backport the Ed25519 JWS Algorithm Identifier support ([7a94cb9](https://github.com/panva/jose/commit/7a94cb997af94ae2db61efbeb271e0555afc62d8))
+* drop support for Ed448 and X448 ([2fae1c4](https://github.com/panva/jose/commit/2fae1c447b621fb5dbdb1896c29c3a0772f26f44))
+* drop support for JWK key_ops and CryptoKey usages "(un)wrapKey" and "deriveKey" ([ef918be](https://github.com/panva/jose/commit/ef918be8bab1b8dc5ec30b026d85da8ce7e0b062))
+* ensure export functions continue to work with KeyObject inputs ([28e9e68](https://github.com/panva/jose/commit/28e9e684bbe15a1fa40631465b9688fdf1cecf0e))
+* hardcode the cryptoRuntime export since it is now always WebCryptoAPI ([e00f273](https://github.com/panva/jose/commit/e00f2737fdc7b44b3c9d8c581460617d64152ce2))
+* JWK import extractable default for public keys is now true ([64dcebe](https://github.com/panva/jose/commit/64dcebef368851863d11c3718f10bdbb1f0102c7))
+* PEM import extractable default for public keys is now true ([4e9f114](https://github.com/panva/jose/commit/4e9f1143c7c31176e55d2e75aea96ead16db4107))
+* removed deprecated APIs ([5352083](https://github.com/panva/jose/commit/5352083dc603f8f71acd34d969842be1881f3b19))
+* removed secp256k1 JWS support ([e2b58a5](https://github.com/panva/jose/commit/e2b58a5ca50a40559451179cdd15f62be831eda2))
+* restructure src/lib and src/runtime now that runtime is fixed ([9b236ce](https://github.com/panva/jose/commit/9b236cec4e66a588d0e7f27039a08a51db5abc49))
+* target is now ES2022 everywhere ([aa590d5](https://github.com/panva/jose/commit/aa590d569f7eff948f96e4e8210843668777c724))
+* update importJWK args to align with other import functions ([355a2dd](https://github.com/panva/jose/commit/355a2dd33a2466245f2872014110c9a1c0257c16))
+* WebCryptoAPI is now the only crypto used ([161de46](https://github.com/panva/jose/commit/161de466a29d90a1129e671ed3a23be556c77f27))
+
 ## [5.10.0](https://github.com/panva/jose/compare/v5.9.6...v5.10.0) (2025-02-17)
 
 
