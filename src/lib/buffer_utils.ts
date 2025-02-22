@@ -3,13 +3,7 @@ export const decoder = new TextDecoder()
 
 const MAX_INT32 = 2 ** 32
 
-// @ts-expect-error
-const Buffer: any = globalThis.process?.getBuiltinModule?.('node:buffer')?.Buffer
-
-export { Buffer }
-
 export function concat(...buffers: Uint8Array[]): Uint8Array {
-  if (Buffer) return Buffer.concat(buffers)
   const size = buffers.reduce((acc, { length }) => acc + length, 0)
   const buf = new Uint8Array(size)
   let i = 0
