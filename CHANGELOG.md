@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [6.0.3](https://github.com/panva/jose/compare/v6.0.2...v6.0.3) (2025-02-22)
+
+
+### Documentation
+
+* remove root module tag so that README.md shows up on jsr.io ([ee70698](https://github.com/panva/jose/commit/ee7069818b6a3bc6df7aa7ab8060a90299ef0c9a))
+
 ## [6.0.2](https://github.com/panva/jose/compare/v6.0.1...v6.0.2) (2025-02-22)
 
 
