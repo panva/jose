@@ -1,3 +1,9 @@
+/**
+ * Decrypting JSON Web Encryption (JWE) in Compact Serialization
+ *
+ * @module
+ */
+
 import { flattenedDecrypt } from '../flattened/decrypt.js'
 import { JWEInvalid } from '../../util/errors.js'
 import { decoder } from '../../lib/buffer_utils.js'

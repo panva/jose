@@ -1,5 +1,7 @@
 # jwe/general/encrypt
 
+Encrypting JSON Web Encryption (JWE) in General JSON Serialization
+
 ## Index
 
 ### Classes

@@ -1,3 +1,9 @@
+/**
+ * JSON Web Key Thumbprint and JSON Web Key Thumbprint URI
+ *
+ * @module
+ */
+
 import digest from '../lib/digest.js'
 import { encode as base64url } from '../lib/base64url.js'
 

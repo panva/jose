@@ -1,3 +1,9 @@
+/**
+ * JSON Web Token (JWT) Decryption (JWT is in JWE format)
+ *
+ * @module
+ */
+
 import type * as types from '../types.d.ts'
 import { compactDecrypt } from '../jwe/compact/decrypt.js'
 import jwtPayload from '../lib/jwt_claims_set.js'

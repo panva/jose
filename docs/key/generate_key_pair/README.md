@@ -1,5 +1,7 @@
 # key/generate\_key\_pair
 
+Asymmetric key generation
+
 ## Index
 
 ### Interfaces

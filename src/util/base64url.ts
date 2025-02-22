@@ -1,3 +1,9 @@
+/**
+ * Base64URL encoding and decoding utilities
+ *
+ * @module
+ */
+
 import * as base64url from '../lib/base64url.js'
 
 /**

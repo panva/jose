@@ -1,5 +1,7 @@
 # jwe/compact/decrypt
 
+Decrypting JSON Web Encryption (JWE) in Compact Serialization
+
 ## Index
 
 ### Interfaces

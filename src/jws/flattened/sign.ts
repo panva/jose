@@ -1,3 +1,9 @@
+/**
+ * Signing JSON Web Signature (JWS) in Flattened JSON Serialization
+ *
+ * @module
+ */
+
 import type * as types from '../../types.d.ts'
 import { encode as base64url } from '../../lib/base64url.js'
 import sign from '../../lib/sign.js'

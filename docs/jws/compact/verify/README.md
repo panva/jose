@@ -1,5 +1,7 @@
 # jws/compact/verify
 
+Verifying JSON Web Signature (JWS) in Compact Serialization
+
 ## Index
 
 ### Interfaces

@@ -1,3 +1,9 @@
+/**
+ * Verification using a JWK Embedded in a JWS Header
+ *
+ * @module
+ */
+
 import type * as types from '../types.d.ts'
 import { importJWK } from '../key/import.js'
 import isObject from '../lib/is_object.js'

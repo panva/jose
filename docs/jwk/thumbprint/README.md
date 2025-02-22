@@ -1,5 +1,7 @@
 # jwk/thumbprint
 
+JSON Web Key Thumbprint and JSON Web Key Thumbprint URI
+
 ## Index
 
 ### Functions

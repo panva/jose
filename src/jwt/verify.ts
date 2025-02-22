@@ -1,3 +1,9 @@
+/**
+ * JSON Web Token (JWT) Verification (JWT is in JWS format)
+ *
+ * @module
+ */
+
 import { compactVerify } from '../jws/compact/verify.js'
 import type * as types from '../types.d.ts'
 import jwtPayload from '../lib/jwt_claims_set.js'

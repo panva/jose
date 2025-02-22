@@ -1,3 +1,9 @@
+/**
+ * JSON Web Token (JWT) Encryption (JWT is in JWE format)
+ *
+ * @module
+ */
+
 import type * as types from '../types.d.ts'
 import { CompactEncrypt } from '../jwe/compact/encrypt.js'
 import { encoder } from '../lib/buffer_utils.js'

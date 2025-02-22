@@ -1,3 +1,10 @@
+/**
+ * JWA, JWS, JWE, JWT, JWK, JWKS for Node.js, Browser, Cloudflare Workers, Deno, Bun, and other
+ * Web-interoperable runtimes
+ *
+ * @module jose
+ */
+
 export { compactDecrypt } from './jwe/compact/decrypt.js'
 export type { CompactDecryptGetKey } from './jwe/compact/decrypt.js'
 export { flattenedDecrypt } from './jwe/flattened/decrypt.js'

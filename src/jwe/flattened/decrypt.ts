@@ -1,3 +1,9 @@
+/**
+ * Decrypting JSON Web Encryption (JWE) in Flattened JSON Serialization
+ *
+ * @module
+ */
+
 import type * as types from '../../types.d.ts'
 import { decode as base64url } from '../../lib/base64url.js'
 import decrypt from '../../lib/decrypt.js'

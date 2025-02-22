@@ -1,3 +1,9 @@
+/**
+ * Verification using a JSON Web Key Set (JWKS) available locally
+ *
+ * @module
+ */
+
 import type * as types from '../types.d.ts'
 import { importJWK } from '../key/import.js'
 import {

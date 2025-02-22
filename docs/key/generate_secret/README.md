@@ -1,5 +1,7 @@
 # key/generate\_secret
 
+Symmetric key generation
+
 ## Index
 
 ### Interfaces

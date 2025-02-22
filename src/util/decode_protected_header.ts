@@ -1,3 +1,9 @@
+/**
+ * JOSE Protected Header Decoding (JWE, JWS, all serialization syntaxes)
+ *
+ * @module
+ */
+
 import { decode as base64url } from './base64url.js'
 import { decoder } from '../lib/buffer_utils.js'
 import isObject from '../lib/is_object.js'

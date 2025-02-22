@@ -1,3 +1,9 @@
+/**
+ * Verification using a JSON Web Key Set (JWKS) available on an HTTP(S) URL
+ *
+ * @module
+ */
+
 import type * as types from '../types.d.ts'
 import { JOSEError, JWKSNoMatchingKey, JWKSTimeout } from '../util/errors.js'
 

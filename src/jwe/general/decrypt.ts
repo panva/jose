@@ -1,3 +1,9 @@
+/**
+ * Decrypting JSON Web Encryption (JWE) in General JSON Serialization
+ *
+ * @module
+ */
+
 import { flattenedDecrypt } from '../flattened/decrypt.js'
 import { JWEDecryptionFailed, JWEInvalid } from '../../util/errors.js'
 import type * as types from '../../types.d.ts'

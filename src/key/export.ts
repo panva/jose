@@ -1,3 +1,9 @@
+/**
+ * Cryptographic key export functions
+ *
+ * @module
+ */
+
 import { toSPKI as exportPublic, toPKCS8 as exportPrivate } from '../lib/asn1.js'
 import keyToJWK from '../lib/key_to_jwk.js'
 

@@ -1,5 +1,7 @@
 # jwt/unsecured
 
+Unsecured (unsigned & unencrypted) JSON Web Tokens (JWT)
+
 ## Index
 
 ### Classes

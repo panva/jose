@@ -1,3 +1,9 @@
+/**
+ * Verifying JSON Web Signature (JWS) in Compact Serialization
+ *
+ * @module
+ */
+
 import type * as types from '../../types.d.ts'
 import { flattenedVerify } from '../flattened/verify.js'
 import { JWSInvalid } from '../../util/errors.js'

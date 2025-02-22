@@ -1,3 +1,9 @@
+/**
+ * Encrypting JSON Web Encryption (JWE) in Compact Serialization
+ *
+ * @module
+ */
+
 import type * as types from '../../types.d.ts'
 import { FlattenedEncrypt } from '../flattened/encrypt.js'
 

@@ -1,5 +1,7 @@
 # key/export
 
+Cryptographic key export functions
+
 ## Index
 
 ### Functions

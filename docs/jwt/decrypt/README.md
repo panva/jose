@@ -1,5 +1,7 @@
 # jwt/decrypt
 
+JSON Web Token (JWT) Decryption (JWT is in JWE format)
+
 ## Index
 
 ### Interfaces

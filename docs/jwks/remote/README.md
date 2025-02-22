@@ -1,5 +1,7 @@
 # jwks/remote
 
+Verification using a JSON Web Key Set (JWKS) available on an HTTP(S) URL
+
 ## Index
 
 ### Functions

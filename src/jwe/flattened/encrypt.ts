@@ -1,3 +1,9 @@
+/**
+ * Encrypting JSON Web Encryption (JWE) in Flattened JSON Serialization
+ *
+ * @module
+ */
+
 import { encode as base64url } from '../../lib/base64url.js'
 import { unprotected } from '../../lib/private_symbols.js'
 import encrypt from '../../lib/encrypt.js'

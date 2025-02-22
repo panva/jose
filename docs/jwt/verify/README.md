@@ -1,5 +1,7 @@
 # jwt/verify
 
+JSON Web Token (JWT) Verification (JWT is in JWS format)
+
 ## Index
 
 ### Interfaces

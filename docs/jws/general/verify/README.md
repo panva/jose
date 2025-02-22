@@ -1,5 +1,7 @@
 # jws/general/verify
 
+Verifying JSON Web Signature (JWS) in General JSON Serialization
+
 ## Index
 
 ### Interfaces

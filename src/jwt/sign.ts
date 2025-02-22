@@ -1,3 +1,9 @@
+/**
+ * JSON Web Token (JWT) Signing (JWT is in JWS format)
+ *
+ * @module
+ */
+
 import { CompactSign } from '../jws/compact/sign.js'
 import { JWTInvalid } from '../util/errors.js'
 import type * as types from '../types.d.ts'

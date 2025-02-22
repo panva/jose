@@ -1,5 +1,7 @@
 # util/errors
 
+JOSE module errors and error codes
+
 ## Index
 
 ### Classes

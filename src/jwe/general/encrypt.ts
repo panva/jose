@@ -1,3 +1,9 @@
+/**
+ * Encrypting JSON Web Encryption (JWE) in General JSON Serialization
+ *
+ * @module
+ */
+
 import type * as types from '../../types.d.ts'
 import { FlattenedEncrypt } from '../flattened/encrypt.js'
 import { unprotected } from '../../lib/private_symbols.js'

@@ -1,3 +1,9 @@
+/**
+ * Asymmetric key generation
+ *
+ * @module
+ */
+
 import { JOSENotSupported } from '../util/errors.js'
 
 import type * as types from '../types.d.ts'

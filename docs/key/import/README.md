@@ -1,5 +1,7 @@
 # key/import
 
+Cryptographic key import functions
+
 ## Index
 
 ### Interfaces

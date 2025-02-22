@@ -1,3 +1,9 @@
+/**
+ * Unsecured (unsigned & unencrypted) JSON Web Tokens (JWT)
+ *
+ * @module
+ */
+
 import * as base64url from '../lib/base64url.js'
 
 import type * as types from '../types.d.ts'

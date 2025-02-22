@@ -1,3 +1,9 @@
+/**
+ * Signing JSON Web Signature (JWS) in General JSON Serialization
+ *
+ * @module
+ */
+
 import type * as types from '../../types.d.ts'
 import { FlattenedSign } from '../flattened/sign.js'
 import { JWSInvalid } from '../../util/errors.js'

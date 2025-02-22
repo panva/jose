@@ -1,3 +1,9 @@
+/**
+ * JOSE module errors and error codes
+ *
+ * @module
+ */
+
 import type * as types from '../types.d.ts'
 
 /**
