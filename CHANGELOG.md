@@ -2,6 +2,18 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [6.0.5](https://github.com/panva/jose/compare/v6.0.4...v6.0.5) (2025-02-23)
+
+
+### Refactor
+
+* **types:** make JWKParameters.kty compatible with @types/node and @types/web ([bb6ccfe](https://github.com/panva/jose/commit/bb6ccfed3efd5c84c540c2a1f621b9d2951f2b84))
+
+
+### Documentation
+
+* add various exported symbol descriptions ([f52c2ff](https://github.com/panva/jose/commit/f52c2ff0c3edbe30b32a4c9858199bfbc9f9367e))
+
 ## [6.0.4](https://github.com/panva/jose/compare/v6.0.3...v6.0.4) (2025-02-22)
 
 
