@@ -6,6 +6,8 @@ Support from the community to continue maintaining and improving this module is 
 
 ▸ **encode**(`input`): `string`
 
+Encodes an input using Base64URL with no padding.
+
 ## Parameters
 
 | Parameter | Type |

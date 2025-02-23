@@ -6,6 +6,8 @@ Support from the community to continue maintaining and improving this module is 
 
 ▸ **decode**(`input`): [`Uint8Array`](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Uint8Array)
 
+Decodes a Base64URL encoded input.
+
 ## Parameters
 
 | Parameter | Type |
