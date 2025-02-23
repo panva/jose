@@ -23,7 +23,7 @@ body:
   - type: dropdown
     attributes:
       label: Runtime
-      description: What javascript runtime are you seeing the problem on?
+      description: What runtime are you seeing the problem on?
       options:
         - Select an option
         - Browser
@@ -44,7 +44,7 @@ body:
   - type: textarea
     attributes:
       label: Code to reproduce
-      description: Please copy and paste code to reproduce the issue. This will be automatically formatted into javascript code, so no need for backticks.
+      description: Please copy and paste code to reproduce the issue.
       render: js
     validations:
       required: true
