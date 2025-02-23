@@ -25,7 +25,9 @@ body:
       label: Runtime
       description: What javascript runtime are you seeing the problem on?
       options:
+        - Select an option
         - Browser
+        - Bun
         - Cloudflare Workers
         - Deno
         - Electron
