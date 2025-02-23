@@ -19,6 +19,8 @@ test('JWE format validation', async (t) => {
     .setAdditionalAuthenticatedData(t.context.additionalAuthenticatedData)
     .encrypt(t.context.secret)
 
+  await t.notThrowsAsync(flattenedDecrypt(fullJwe, t.context.secret))
+
   {
     await t.throwsAsync(flattenedDecrypt(null, t.context.secret), {
       message: 'Flattened JWE must be an object',
@@ -196,6 +198,8 @@ test('AES CBC + HMAC', async (t) => {
     .setProtectedHeader({ alg: 'dir', enc: 'A128CBC-HS256' })
     .encrypt(secret)
 
+  await t.notThrowsAsync(flattenedDecrypt(jwe, secret))
+
   {
     const jweBadTag = { ...jwe }
     jweBadTag.tag = 'foo'
@@ -230,6 +234,10 @@ test('decrypt PBES2 p2c limit', async (t) => {
     .setProtectedHeader({ alg: 'PBES2-HS256+A128KW', enc: 'A128CBC-HS256' })
     .setKeyManagementParameters({ p2c: 2049 })
     .encrypt(new Uint8Array(32))
+
+  await t.notThrowsAsync(
+    flattenedDecrypt(jwe, new Uint8Array(32), { keyManagementAlgorithms: ['PBES2-HS256+A128KW'] }),
+  )
 
   await t.throwsAsync(
     flattenedDecrypt(jwe, new Uint8Array(32), {
