@@ -16,14 +16,6 @@ OKP JWK "crv" (The Subtype of Key Pair) Parameter
 
 ***
 
-### kty
-
-• **kty**: `string`
-
-JWK "kty" (Key Type) Parameter
-
-***
-
 ### x
 
 • **x**: `string`
@@ -65,6 +57,14 @@ JWK "key_ops" (Key Operations) Parameter
 • `optional` **kid**: `string`
 
 JWK "kid" (Key ID) Parameter
+
+***
+
+### kty?
+
+• `optional` **kty**: `string`
+
+JWK "kty" (Key Type) Parameter
 
 ***
 

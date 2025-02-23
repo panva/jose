@@ -24,7 +24,7 @@ Support from the community to continue maintaining and improving this module is 
 
 ### jwk?
 
-• `optional` **jwk**: [`Pick`](https://www.typescriptlang.org/docs/handbook/utility-types.html#picktype-keys)\<[`JWK`](JWK.md), `"x"` \| `"y"` \| `"kty"` \| `"crv"` \| `"e"` \| `"n"`\>
+• `optional` **jwk**: [`Pick`](https://www.typescriptlang.org/docs/handbook/utility-types.html#picktype-keys)\<[`JWK`](JWK.md), `"x"` \| `"y"` \| `"crv"` \| `"e"` \| `"n"` \| `"kty"`\>
 
 "jwk" (JSON Web Key) Header Parameter
 

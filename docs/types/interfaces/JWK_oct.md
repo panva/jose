@@ -16,14 +16,6 @@ Oct JWK "k" (Key Value) Parameter
 
 ***
 
-### kty
-
-• **kty**: `string`
-
-JWK "kty" (Key Type) Parameter
-
-***
-
 ### alg?
 
 • `optional` **alg**: `string`
@@ -57,6 +49,14 @@ JWK "key_ops" (Key Operations) Parameter
 • `optional` **kid**: `string`
 
 JWK "kid" (Key ID) Parameter
+
+***
+
+### kty?
+
+• `optional` **kty**: `string`
+
+JWK "kty" (Key Type) Parameter
 
 ***
 

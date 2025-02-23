@@ -1,7 +1,7 @@
 /** Generic JSON Web Key Parameters. */
 export interface JWKParameters {
   /** JWK "kty" (Key Type) Parameter */
-  kty: string
+  kty?: string
   /**
    * JWK "alg" (Algorithm) Parameter
    *

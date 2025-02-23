@@ -16,14 +16,6 @@ RSA JWK "e" (Exponent) Parameter
 
 ***
 
-### kty
-
-• **kty**: `string`
-
-JWK "kty" (Key Type) Parameter
-
-***
-
 ### n
 
 • **n**: `string`
@@ -65,6 +57,14 @@ JWK "key_ops" (Key Operations) Parameter
 • `optional` **kid**: `string`
 
 JWK "kid" (Key ID) Parameter
+
+***
+
+### kty?
+
+• `optional` **kty**: `string`
+
+JWK "kty" (Key Type) Parameter
 
 ***
 
