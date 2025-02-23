@@ -9,6 +9,7 @@ import { decoder } from '../lib/buffer_utils.js'
 import isObject from '../lib/is_object.js'
 import type * as types from '../types.d.ts'
 
+/** JWE and JWS Header Parameters */
 export type ProtectedHeaderParameters = types.JWSHeaderParameters & types.JWEHeaderParameters
 
 /**

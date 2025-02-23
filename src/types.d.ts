@@ -233,6 +233,7 @@ export interface GeneralJWS {
   signatures: Omit<FlattenedJWSInput, 'payload'>[]
 }
 
+/** Header Parameters common to JWE and JWS */
 export interface JoseHeaderParameters {
   /** "kid" (Key ID) Header Parameter */
   kid?: string
@@ -584,6 +585,7 @@ export interface JWTPayload {
   [propName: string]: unknown
 }
 
+/** Flattened JWE JSON Serialization Syntax decryption result */
 export interface FlattenedDecryptResult {
   /** JWE AAD. */
   additionalAuthenticatedData?: Uint8Array
@@ -601,8 +603,10 @@ export interface FlattenedDecryptResult {
   unprotectedHeader?: JWEHeaderParameters
 }
 
+/** Flattened JWE JSON Serialization Syntax decryption result */
 export interface GeneralDecryptResult extends FlattenedDecryptResult {}
 
+/** Compact JWE decryption result */
 export interface CompactDecryptResult {
   /** Plaintext. */
   plaintext: Uint8Array
@@ -611,6 +615,7 @@ export interface CompactDecryptResult {
   protectedHeader: CompactJWEHeaderParameters
 }
 
+/** Flattened JWS JSON Serialization Syntax verification result */
 export interface FlattenedVerifyResult {
   /** JWS Payload. */
   payload: Uint8Array
@@ -622,8 +627,10 @@ export interface FlattenedVerifyResult {
   unprotectedHeader?: JWSHeaderParameters
 }
 
+/** Flattened JWS JSON Serialization Syntax verification result */
 export interface GeneralVerifyResult extends FlattenedVerifyResult {}
 
+/** Compact JWS verification result */
 export interface CompactVerifyResult {
   /** JWS Payload. */
   payload: Uint8Array
