@@ -603,7 +603,7 @@ export interface FlattenedDecryptResult {
   unprotectedHeader?: JWEHeaderParameters
 }
 
-/** Flattened JWE JSON Serialization Syntax decryption result */
+/** General JWE JSON Serialization Syntax decryption result */
 export interface GeneralDecryptResult extends FlattenedDecryptResult {}
 
 /** Compact JWE decryption result */
@@ -627,7 +627,7 @@ export interface FlattenedVerifyResult {
   unprotectedHeader?: JWSHeaderParameters
 }
 
-/** Flattened JWS JSON Serialization Syntax verification result */
+/** General JWS JSON Serialization Syntax verification result */
 export interface GeneralVerifyResult extends FlattenedVerifyResult {}
 
 /** Compact JWS verification result */
