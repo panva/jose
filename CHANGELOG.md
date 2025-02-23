@@ -2,6 +2,21 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [6.0.6](https://github.com/panva/jose/compare/v6.0.5...v6.0.6) (2025-02-23)
+
+
+### Refactor
+
+* move base64url around ([e1350ef](https://github.com/panva/jose/commit/e1350eff8786b92eead82258dc2d5b9db128b523))
+
+
+### Documentation
+
+* add various exported symbol descriptions ([3b8ff71](https://github.com/panva/jose/commit/3b8ff717ad2054c1c50f72bcc866f08cd672b49d))
+* add various exported symbol descriptions ([fc4e7da](https://github.com/panva/jose/commit/fc4e7dab4c7021d5d2f23a55de93c9ed35b79cef))
+* add various exported symbol descriptions ([74f02c8](https://github.com/panva/jose/commit/74f02c833e057ab419173be7b8b8140eddcfc19f))
+* update base64url function descriptions ([03d72c8](https://github.com/panva/jose/commit/03d72c8a5578bd442190724ca05994b0856432d5))
+
 ## [6.0.5](https://github.com/panva/jose/compare/v6.0.4...v6.0.5) (2025-02-23)
 
 
