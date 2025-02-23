@@ -8,6 +8,7 @@ import { JOSENotSupported } from '../util/errors.js'
 
 import type * as types from '../types.d.ts'
 
+/** Asymmetric key pair generation function result. */
 export interface GenerateKeyPairResult {
   /** The generated Private Key. */
   privateKey: types.CryptoKey
@@ -16,6 +17,7 @@ export interface GenerateKeyPairResult {
   publicKey: types.CryptoKey
 }
 
+/** Asymmetric key pair generation function options. */
 export interface GenerateKeyPairOptions {
   /**
    * The EC "crv" (Curve) or OKP "crv" (Subtype of Key Pair) value to generate. The curve must be

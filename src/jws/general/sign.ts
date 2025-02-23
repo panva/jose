@@ -8,6 +8,7 @@ import type * as types from '../../types.d.ts'
 import { FlattenedSign } from '../flattened/sign.js'
 import { JWSInvalid } from '../../util/errors.js'
 
+/** Used to build General JWS object's individual signatures. */
 export interface Signature {
   /**
    * Sets the JWS Protected Header on the Signature object.

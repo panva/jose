@@ -16,6 +16,7 @@ import validateCrit from '../../lib/validate_crit.js'
 import normalizeKey from '../../lib/normalize_key.js'
 import checkKeyType from '../../lib/check_key_type.js'
 
+/** Used to build General JWE object's individual recipients. */
 export interface Recipient {
   /**
    * Sets the JWE Per-Recipient Unprotected Header on the Recipient object.

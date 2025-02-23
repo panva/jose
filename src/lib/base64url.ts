@@ -16,6 +16,7 @@ export function encodeBase64(input: Uint8Array): string {
   return btoa(arr.join(''))
 }
 
+/** Encodes an input using Base64URL with no padding. */
 export function encode(input: Uint8Array | string): string {
   let unencoded = input
   if (typeof unencoded === 'string') {
@@ -46,6 +47,7 @@ export function decodeBase64(encoded: string): Uint8Array {
   return bytes
 }
 
+/** Decodes a Base64URL encoded input. */
 export function decode(input: Uint8Array | string): Uint8Array {
   // @ts-ignore
   if (Uint8Array.fromBase64) {

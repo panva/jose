@@ -8,6 +8,7 @@ import { JOSENotSupported } from '../util/errors.js'
 
 import type * as types from '../types.d.ts'
 
+/** Secret generation function options. */
 export interface GenerateSecretOptions {
   /** The value to use as {@link !SubtleCrypto.generateKey} `extractable` argument. Default is false. */
   extractable?: boolean

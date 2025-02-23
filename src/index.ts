@@ -110,4 +110,10 @@ export type {
   VerifyOptions,
 } from './types.d.ts'
 
+/**
+ * In prior releases this indicated whether a Node.js-specific build was loaded, this is now fixed
+ * to `"WebCryptoAPI"`
+ *
+ * @deprecated
+ */
 export const cryptoRuntime = 'WebCryptoAPI'

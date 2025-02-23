@@ -4,8 +4,8 @@
 
 Support from the community to continue maintaining and improving this module is welcome. If you find the module useful, please consider supporting the project by [becoming a sponsor](https://github.com/sponsors/panva).
 
-Flattened JWS definition. Payload is returned as an empty string when JWS Unencoded Payload
-([RFC7797](https://www.rfc-editor.org/rfc/rfc7797)) is used.
+Flattened JWS JSON Serialization Syntax token. Payload is returned as an empty string when JWS
+Unencoded Payload ([RFC7797](https://www.rfc-editor.org/rfc/rfc7797)) is used.
 
 ## Properties
 

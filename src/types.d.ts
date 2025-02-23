@@ -216,8 +216,8 @@ export interface GeneralJWSInput {
 }
 
 /**
- * Flattened JWS definition. Payload is returned as an empty string when JWS Unencoded Payload
- * ({@link https://www.rfc-editor.org/rfc/rfc7797 RFC7797}) is used.
+ * Flattened JWS JSON Serialization Syntax token. Payload is returned as an empty string when JWS
+ * Unencoded Payload ({@link https://www.rfc-editor.org/rfc/rfc7797 RFC7797}) is used.
  */
 export interface FlattenedJWS extends Partial<FlattenedJWSInput> {
   payload: string
@@ -225,8 +225,8 @@ export interface FlattenedJWS extends Partial<FlattenedJWSInput> {
 }
 
 /**
- * General JWS definition. Payload is returned as an empty string when JWS Unencoded Payload
- * ({@link https://www.rfc-editor.org/rfc/rfc7797 RFC7797}) is used.
+ * General JWS JSON Serialization Syntax token. Payload is returned as an empty string when JWS
+ * Unencoded Payload ({@link https://www.rfc-editor.org/rfc/rfc7797 RFC7797}) is used.
  */
 export interface GeneralJWS {
   payload: string
@@ -307,7 +307,7 @@ export interface JWEKeyManagementHeaderParameters {
   epk?: CryptoKey | KeyObject
 }
 
-/** Flattened JWE definition. */
+/** Flattened JWE JSON Serialization Syntax token. */
 export interface FlattenedJWE {
   /**
    * The "aad" member MUST be present and contain the value BASE64URL(JWE AAD)) when the JWE AAD
@@ -361,6 +361,7 @@ export interface FlattenedJWE {
   unprotected?: JWEHeaderParameters
 }
 
+/** General JWE JSON Serialization Syntax token. */
 export interface GeneralJWE extends Omit<FlattenedJWE, 'encrypted_key' | 'header'> {
   recipients: Pick<FlattenedJWE, 'encrypted_key' | 'header'>[]
 }
@@ -647,6 +648,7 @@ export interface JWTDecryptResult<PayloadType = JWTPayload> {
   protectedHeader: CompactJWEHeaderParameters
 }
 
+/** When key resolver functions are used this becomes part of successful resolves */
 export interface ResolvedKey {
   /** Key resolved from the key resolver function. */
   key: CryptoKey | Uint8Array

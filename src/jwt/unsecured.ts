@@ -12,6 +12,7 @@ import { JWTInvalid } from '../util/errors.js'
 import jwtPayload from '../lib/jwt_claims_set.js'
 import { ProduceJWT } from './produce.js'
 
+/** Result of decoding an Unsecured JWT. */
 export interface UnsecuredResult<PayloadType = types.JWTPayload> {
   payload: PayloadType & types.JWTPayload
   header: types.JWSHeaderParameters
