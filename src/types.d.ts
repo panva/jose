@@ -639,6 +639,7 @@ export interface CompactVerifyResult {
   protectedHeader: CompactJWSHeaderParameters
 }
 
+/** Signed JSON Web Token (JWT) verification result */
 export interface JWTVerifyResult<PayloadType = JWTPayload> {
   /** JWT Claims Set. */
   payload: PayloadType & JWTPayload
@@ -647,6 +648,7 @@ export interface JWTVerifyResult<PayloadType = JWTPayload> {
   protectedHeader: JWTHeaderParameters
 }
 
+/** Encrypted JSON Web Token (JWT) decryption result */
 export interface JWTDecryptResult<PayloadType = JWTPayload> {
   /** JWT Claims Set. */
   payload: PayloadType & JWTPayload

@@ -6,6 +6,8 @@ Support from the community to continue maintaining and improving this module is 
 
 • **FetchImplementation**: (`url`, `options`) => [`Promise`](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise)\<[`Response`](https://developer.mozilla.org/docs/Web/API/Response)\>
 
+See [customFetch](../variables/customFetch.md).
+
 ## Parameters
 
 | Parameter | Type |

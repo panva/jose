@@ -144,6 +144,7 @@ if (typeof navigator === 'undefined' || !navigator.userAgent?.startsWith?.('Mozi
  */
 export const customFetch: unique symbol = Symbol()
 
+/** See {@link customFetch}. */
 export type FetchImplementation = (
   url: string,
   options: {
@@ -271,11 +272,13 @@ export interface RemoteJWKSetOptions {
   [customFetch]?: FetchImplementation
 }
 
+/** See {@link jwksCache}. */
 export interface ExportedJWKSCache {
   jwks: types.JSONWebKeySet
   uat: number
 }
 
+/** See {@link jwksCache}. */
 export type JWKSCacheInput = ExportedJWKSCache | Record<string, never>
 
 function isFreshJwksCache(input: unknown, cacheMaxAge: number): input is ExportedJWKSCache {
