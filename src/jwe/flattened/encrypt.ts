@@ -4,7 +4,7 @@
  * @module
  */
 
-import { encode as base64url } from '../../lib/base64url.js'
+import { encode as b64u } from '../../util/base64url.js'
 import { unprotected } from '../../lib/private_symbols.js'
 import encrypt from '../../lib/encrypt.js'
 import type * as types from '../../types.d.ts'
@@ -249,13 +249,13 @@ export class FlattenedEncrypt {
     let protectedHeader: Uint8Array
     let aadMember: string | undefined
     if (this._protectedHeader) {
-      protectedHeader = encoder.encode(base64url(JSON.stringify(this._protectedHeader)))
+      protectedHeader = encoder.encode(b64u(JSON.stringify(this._protectedHeader)))
     } else {
       protectedHeader = encoder.encode('')
     }
 
     if (this._aad) {
-      aadMember = base64url(this._aad)
+      aadMember = b64u(this._aad)
       additionalData = concat(protectedHeader, encoder.encode('.'), encoder.encode(aadMember))
     } else {
       additionalData = protectedHeader
@@ -270,19 +270,19 @@ export class FlattenedEncrypt {
     )
 
     const jwe: types.FlattenedJWE = {
-      ciphertext: base64url(ciphertext),
+      ciphertext: b64u(ciphertext),
     }
 
     if (iv) {
-      jwe.iv = base64url(iv)
+      jwe.iv = b64u(iv)
     }
 
     if (tag) {
-      jwe.tag = base64url(tag)
+      jwe.tag = b64u(tag)
     }
 
     if (encryptedKey) {
-      jwe.encrypted_key = base64url(encryptedKey)
+      jwe.encrypted_key = b64u(encryptedKey)
     }
 
     if (aadMember) {

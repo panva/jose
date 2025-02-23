@@ -3,7 +3,7 @@ import * as aeskw from './aeskw.js'
 import * as ecdhes from './ecdhes.js'
 import * as pbes2kw from './pbes2kw.js'
 import * as rsaes from './rsaes.js'
-import * as base64url from '../lib/base64url.js'
+import { encode as b64u } from '../util/base64url.js'
 import normalizeKey from './normalize_key.js'
 
 import type { JWEKeyManagementHeaderParameters, JWEHeaderParameters, JWK } from '../types.d.ts'
@@ -65,8 +65,8 @@ export default async (
       )
       parameters = { epk: { x, crv, kty } }
       if (kty === 'EC') parameters.epk!.y = y
-      if (apu) parameters.apu = base64url.encode(apu)
-      if (apv) parameters.apv = base64url.encode(apv)
+      if (apu) parameters.apu = b64u(apu)
+      if (apv) parameters.apv = b64u(apv)
 
       if (alg === 'ECDH-ES') {
         cek = sharedSecret

@@ -5,7 +5,7 @@
  */
 
 import type * as types from '../../types.d.ts'
-import { decode as base64url } from '../../lib/base64url.js'
+import { decode as b64u } from '../../util/base64url.js'
 import verify from '../../lib/verify.js'
 
 import { JOSEAlgNotAllowed, JWSInvalid, JWSSignatureVerificationFailed } from '../../util/errors.js'
@@ -106,7 +106,7 @@ export async function flattenedVerify(
   let parsedProt: types.JWSHeaderParameters = {}
   if (jws.protected) {
     try {
-      const protectedHeader = base64url(jws.protected)
+      const protectedHeader = b64u(jws.protected)
       parsedProt = JSON.parse(decoder.decode(protectedHeader))
     } catch {
       throw new JWSInvalid('JWS Protected Header is invalid')
@@ -176,7 +176,7 @@ export async function flattenedVerify(
   )
   let signature: Uint8Array
   try {
-    signature = base64url(jws.signature)
+    signature = b64u(jws.signature)
   } catch {
     throw new JWSInvalid('Failed to base64url decode the signature')
   }
@@ -191,7 +191,7 @@ export async function flattenedVerify(
   let payload: Uint8Array
   if (b64) {
     try {
-      payload = base64url(jws.payload)
+      payload = b64u(jws.payload)
     } catch {
       throw new JWSInvalid('Failed to base64url decode the payload')
     }

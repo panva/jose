@@ -5,7 +5,7 @@
  */
 
 import type * as types from '../../types.d.ts'
-import { encode as base64url } from '../../lib/base64url.js'
+import { encode as b64u } from '../../util/base64url.js'
 import sign from '../../lib/sign.js'
 
 import isDisjoint from '../../lib/is_disjoint.js'
@@ -130,12 +130,12 @@ export class FlattenedSign {
 
     let payload = this._payload
     if (b64) {
-      payload = encoder.encode(base64url(payload))
+      payload = encoder.encode(b64u(payload))
     }
 
     let protectedHeader: Uint8Array
     if (this._protectedHeader) {
-      protectedHeader = encoder.encode(base64url(JSON.stringify(this._protectedHeader)))
+      protectedHeader = encoder.encode(b64u(JSON.stringify(this._protectedHeader)))
     } else {
       protectedHeader = encoder.encode('')
     }
@@ -146,7 +146,7 @@ export class FlattenedSign {
     const signature = await sign(alg, k, data)
 
     const jws: types.FlattenedJWS = {
-      signature: base64url(signature),
+      signature: b64u(signature),
       payload: '',
     }
 

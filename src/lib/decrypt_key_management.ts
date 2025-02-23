@@ -2,7 +2,7 @@ import * as aeskw from './aeskw.js'
 import * as ecdhes from './ecdhes.js'
 import * as pbes2kw from './pbes2kw.js'
 import * as rsaes from './rsaes.js'
-import * as base64url from '../lib/base64url.js'
+import { decode as b64u } from '../util/base64url.js'
 
 import type * as types from '../types.d.ts'
 import { JOSENotSupported, JWEInvalid } from '../util/errors.js'
@@ -54,7 +54,7 @@ export default async (
         if (typeof joseHeader.apu !== 'string')
           throw new JWEInvalid(`JOSE Header "apu" (Agreement PartyUInfo) invalid`)
         try {
-          partyUInfo = base64url.decode(joseHeader.apu)
+          partyUInfo = b64u(joseHeader.apu)
         } catch {
           throw new JWEInvalid('Failed to base64url decode the apu')
         }
@@ -64,7 +64,7 @@ export default async (
         if (typeof joseHeader.apv !== 'string')
           throw new JWEInvalid(`JOSE Header "apv" (Agreement PartyVInfo) invalid`)
         try {
-          partyVInfo = base64url.decode(joseHeader.apv)
+          partyVInfo = b64u(joseHeader.apv)
         } catch {
           throw new JWEInvalid('Failed to base64url decode the apv')
         }
@@ -114,7 +114,7 @@ export default async (
 
       let p2s: Uint8Array
       try {
-        p2s = base64url.decode(joseHeader.p2s)
+        p2s = b64u(joseHeader.p2s)
       } catch {
         throw new JWEInvalid('Failed to base64url decode the p2s')
       }
@@ -142,13 +142,13 @@ export default async (
 
       let iv: Uint8Array
       try {
-        iv = base64url.decode(joseHeader.iv)
+        iv = b64u(joseHeader.iv)
       } catch {
         throw new JWEInvalid('Failed to base64url decode the iv')
       }
       let tag: Uint8Array
       try {
-        tag = base64url.decode(joseHeader.tag)
+        tag = b64u(joseHeader.tag)
       } catch {
         throw new JWEInvalid('Failed to base64url decode the tag')
       }

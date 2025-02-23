@@ -1,6 +1,6 @@
 import type * as types from '../types.d.ts'
 import { isJWK } from './is_jwk.js'
-import { decode } from './base64url.js'
+import { decode } from '../util/base64url.js'
 import importJWK from './jwk_to_key.js'
 import { isCryptoKey, isKeyObject } from './is_key_like.js'
 

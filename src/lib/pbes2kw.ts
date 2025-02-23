@@ -1,5 +1,5 @@
 import type * as types from '../types.d.ts'
-import { encode as base64url } from './base64url.js'
+import { encode as b64u } from '../util/base64url.js'
 import * as aeskw from './aeskw.js'
 import { checkEncCryptoKey } from './crypto_key.js'
 import { concat, encoder } from './buffer_utils.js'
@@ -52,7 +52,7 @@ export async function wrap(
 
   const encryptedKey = await aeskw.wrap(alg.slice(-6), derived, cek)
 
-  return { encryptedKey, p2c, p2s: base64url(p2s) }
+  return { encryptedKey, p2c, p2s: b64u(p2s) }
 }
 
 export async function unwrap(

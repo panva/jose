@@ -5,7 +5,7 @@
  */
 
 import digest from '../lib/digest.js'
-import { encode as base64url } from '../lib/base64url.js'
+import { encode as b64u } from '../util/base64url.js'
 
 import { JOSENotSupported, JWKInvalid } from '../util/errors.js'
 import { encoder } from '../lib/buffer_utils.js'
@@ -97,7 +97,7 @@ export async function calculateJwkThumbprint(
   }
 
   const data = encoder.encode(JSON.stringify(components))
-  return base64url(await digest(digestAlgorithm, data))
+  return b64u(await digest(digestAlgorithm, data))
 }
 
 /**

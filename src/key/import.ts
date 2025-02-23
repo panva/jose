@@ -4,7 +4,7 @@
  * @module
  */
 
-import { decode as decodeBase64URL } from '../lib/base64url.js'
+import { decode as decodeBase64URL } from '../util/base64url.js'
 import { fromSPKI, fromPKCS8, fromX509 } from '../lib/asn1.js'
 import toCryptoKey from '../lib/jwk_to_key.js'
 

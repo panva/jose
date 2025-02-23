@@ -4,7 +4,7 @@
  * @module
  */
 
-import * as base64url from '../lib/base64url.js'
+import * as b64u from '../util/base64url.js'
 
 import type * as types from '../types.d.ts'
 import { decoder } from '../lib/buffer_utils.js'
@@ -55,8 +55,8 @@ export interface UnsecuredResult<PayloadType = types.JWTPayload> {
 export class UnsecuredJWT extends ProduceJWT {
   /** Encodes the Unsecured JWT. */
   encode(): string {
-    const header = base64url.encode(JSON.stringify({ alg: 'none' }))
-    const payload = base64url.encode(JSON.stringify(this._payload))
+    const header = b64u.encode(JSON.stringify({ alg: 'none' }))
+    const payload = b64u.encode(JSON.stringify(this._payload))
 
     return `${header}.${payload}.`
   }
@@ -82,7 +82,7 @@ export class UnsecuredJWT extends ProduceJWT {
 
     let header: types.JWSHeaderParameters
     try {
-      header = JSON.parse(decoder.decode(base64url.decode(encodedHeader)))
+      header = JSON.parse(decoder.decode(b64u.decode(encodedHeader)))
       if (header.alg !== 'none') throw new Error()
     } catch {
       throw new JWTInvalid('Invalid Unsecured JWT')
@@ -90,7 +90,7 @@ export class UnsecuredJWT extends ProduceJWT {
 
     const payload = jwtPayload(
       header,
-      base64url.decode(encodedPayload),
+      b64u.decode(encodedPayload),
       options,
     ) as UnsecuredResult<PayloadType>['payload']
 

@@ -4,7 +4,7 @@
  * @module
  */
 
-import { decode as base64url } from './base64url.js'
+import { decode as b64u } from './base64url.js'
 import { decoder } from '../lib/buffer_utils.js'
 import isObject from '../lib/is_object.js'
 import type * as types from '../types.d.ts'
@@ -42,7 +42,7 @@ export function decodeJwt<PayloadType = types.JWTPayload>(
 
   let decoded: Uint8Array
   try {
-    decoded = base64url(payload)
+    decoded = b64u(payload)
   } catch {
     throw new JWTInvalid('Failed to base64url decode the payload')
   }

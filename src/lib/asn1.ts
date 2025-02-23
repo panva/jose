@@ -1,6 +1,6 @@
 import type * as types from '../types.d.ts'
 import invalidKeyInput from './invalid_key_input.js'
-import { encodeBase64, decodeBase64 } from './base64url.js'
+import { encodeBase64, decodeBase64 } from '../lib/base64.js'
 import { JOSENotSupported } from '../util/errors.js'
 import { isCryptoKey, isKeyObject } from './is_key_like.js'
 

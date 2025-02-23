@@ -11,7 +11,7 @@ import { JOSENotSupported, JWEInvalid } from '../../util/errors.js'
 import generateCek from '../../lib/cek.js'
 import isDisjoint from '../../lib/is_disjoint.js'
 import encryptKeyManagement from '../../lib/encrypt_key_management.js'
-import { encode as base64url } from '../../lib/base64url.js'
+import { encode as b64u } from '../../util/base64url.js'
 import validateCrit from '../../lib/validate_crit.js'
 import normalizeKey from '../../lib/normalize_key.js'
 import checkKeyType from '../../lib/check_key_type.js'
@@ -301,7 +301,7 @@ export class GeneralEncrypt {
 
       const k = await normalizeKey(recipient.key, alg)
       const { encryptedKey, parameters } = await encryptKeyManagement(alg, enc, k, cek, { p2c })
-      target.encrypted_key = base64url(encryptedKey!)
+      target.encrypted_key = b64u(encryptedKey!)
       if (recipient.unprotectedHeader || parameters)
         target.header = { ...recipient.unprotectedHeader, ...parameters }
     }

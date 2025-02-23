@@ -5,7 +5,7 @@
  */
 
 import type * as types from '../../types.d.ts'
-import { decode as base64url } from '../../lib/base64url.js'
+import { decode as b64u } from '../../util/base64url.js'
 import decrypt from '../../lib/decrypt.js'
 import { JOSEAlgNotAllowed, JOSENotSupported, JWEInvalid } from '../../util/errors.js'
 import isDisjoint from '../../lib/is_disjoint.js'
@@ -122,7 +122,7 @@ export async function flattenedDecrypt(
   let parsedProt!: types.JWEHeaderParameters
   if (jwe.protected) {
     try {
-      const protectedHeader = base64url(jwe.protected)
+      const protectedHeader = b64u(jwe.protected)
       parsedProt = JSON.parse(decoder.decode(protectedHeader))
     } catch {
       throw new JWEInvalid('JWE Protected Header is invalid')
@@ -178,7 +178,7 @@ export async function flattenedDecrypt(
   let encryptedKey!: Uint8Array
   if (jwe.encrypted_key !== undefined) {
     try {
-      encryptedKey = base64url(jwe.encrypted_key!)
+      encryptedKey = b64u(jwe.encrypted_key!)
     } catch {
       throw new JWEInvalid('Failed to base64url decode the encrypted_key')
     }
@@ -213,14 +213,14 @@ export async function flattenedDecrypt(
   let tag: Uint8Array | undefined
   if (jwe.iv !== undefined) {
     try {
-      iv = base64url(jwe.iv)
+      iv = b64u(jwe.iv)
     } catch {
       throw new JWEInvalid('Failed to base64url decode the iv')
     }
   }
   if (jwe.tag !== undefined) {
     try {
-      tag = base64url(jwe.tag)
+      tag = b64u(jwe.tag)
     } catch {
       throw new JWEInvalid('Failed to base64url decode the tag')
     }
@@ -237,7 +237,7 @@ export async function flattenedDecrypt(
 
   let ciphertext: Uint8Array
   try {
-    ciphertext = base64url(jwe.ciphertext)
+    ciphertext = b64u(jwe.ciphertext)
   } catch {
     throw new JWEInvalid('Failed to base64url decode the ciphertext')
   }
@@ -251,7 +251,7 @@ export async function flattenedDecrypt(
 
   if (jwe.aad !== undefined) {
     try {
-      result.additionalAuthenticatedData = base64url(jwe.aad!)
+      result.additionalAuthenticatedData = b64u(jwe.aad!)
     } catch {
       throw new JWEInvalid('Failed to base64url decode the aad')
     }
