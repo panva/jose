@@ -13,4 +13,4 @@ Key Import Function options.
 • `optional` **extractable**: `boolean`
 
 The value to use as [SubtleCrypto.importKey](https://developer.mozilla.org/docs/Web/API/SubtleCrypto/importKey) `extractable` argument. Default is false for
-private and secret keys, true otherwise.
+private keys, true otherwise.

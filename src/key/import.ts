@@ -16,7 +16,7 @@ import type * as types from '../types.d.ts'
 export interface KeyImportOptions {
   /**
    * The value to use as {@link !SubtleCrypto.importKey} `extractable` argument. Default is false for
-   * private and secret keys, true otherwise.
+   * private keys, true otherwise.
    */
   extractable?: boolean
 }
@@ -138,10 +138,13 @@ export async function importPKCS8(
 
 /**
  * Imports a JWK to a {@link !CryptoKey}. Either the JWK "alg" (Algorithm) Parameter, or the optional
- * "alg" argument, must be present.
+ * "alg" argument, must be present for asymmetric JSON Web Key imports.
  *
  * Note: The JSON Web Key parameters "use", "key_ops", and "ext" are also used in the
  * {@link !CryptoKey} import process.
+ *
+ * Note: Symmetric JSON Web Keys (i.e. `kty: "oct"`) yield back an {@link !Uint8Array} instead of a
+ * {@link !CryptoKey}.
  *
  * This function is exported (as a named export) from the main `'jose'` module entry point as well
  * as from its subpath export `'jose/key/import'`.

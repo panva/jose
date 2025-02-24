@@ -7,10 +7,13 @@ Support from the community to continue maintaining and improving this module is 
 ▸ **importJWK**(`jwk`, `alg`?, `options`?): [`Promise`](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise)\<[`CryptoKey`](../../../types/type-aliases/CryptoKey.md) \| [`Uint8Array`](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Uint8Array)\>
 
 Imports a JWK to a [CryptoKey](https://developer.mozilla.org/docs/Web/API/CryptoKey). Either the JWK "alg" (Algorithm) Parameter, or the optional
-"alg" argument, must be present.
+"alg" argument, must be present for asymmetric JSON Web Key imports.
 
 Note: The JSON Web Key parameters "use", "key_ops", and "ext" are also used in the
 [CryptoKey](https://developer.mozilla.org/docs/Web/API/CryptoKey) import process.
+
+Note: Symmetric JSON Web Keys (i.e. `kty: "oct"`) yield back an [Uint8Array](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Uint8Array) instead of a
+[CryptoKey](https://developer.mozilla.org/docs/Web/API/CryptoKey).
 
 This function is exported (as a named export) from the main `'jose'` module entry point as well
 as from its subpath export `'jose/key/import'`.
