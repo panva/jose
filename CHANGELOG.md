@@ -2,6 +2,18 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [6.0.7](https://github.com/panva/jose/compare/v6.0.6...v6.0.7) (2025-02-25)
+
+
+### Documentation
+
+* improve generate key/secret and import function descriptions ([cd06359](https://github.com/panva/jose/commit/cd06359597a3b8e5c30892142f3d750eded2fbce))
+
+
+### Fixes
+
+* use [customFetch] when provided to createRemoteJWKSet ([35f6509](https://github.com/panva/jose/commit/35f6509ff45927d9f55f3b5c09f96f459e60136a)), closes [#760](https://github.com/panva/jose/issues/760)
+
 ## [6.0.6](https://github.com/panva/jose/compare/v6.0.5...v6.0.6) (2025-02-23)
 
 
