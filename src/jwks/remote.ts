@@ -157,17 +157,15 @@ export type FetchImplementation = (
 
 async function fetchJwks(
   url: string,
-  options: {
-    headers: Headers
-    signal: AbortSignal
-    [customFetch]?: FetchImplementation
-  },
+  headers: Headers,
+  signal: AbortSignal,
+  fetchImpl: FetchImplementation = fetch,
 ) {
-  const response = await (options?.[customFetch] || fetch)(url, {
+  const response = await fetchImpl(url, {
     method: 'GET',
-    signal: options.signal,
+    signal,
     redirect: 'manual',
-    headers: options.headers,
+    headers,
   }).catch((err) => {
     if (err.name === 'TimeoutError') {
       throw new JWKSTimeout()
@@ -315,7 +313,9 @@ class RemoteJWKSet {
 
   private _pendingFetch?: Promise<unknown>
 
-  private _options: Pick<RemoteJWKSetOptions, 'headers'>
+  private _headers: Headers
+
+  private [customFetch]?: FetchImplementation
 
   private _local!: ReturnType<typeof createLocalJWKSet>
 
@@ -326,12 +326,23 @@ class RemoteJWKSet {
       throw new TypeError('url must be an instance of URL')
     }
     this._url = new URL(url.href)
-    this._options = { headers: options?.headers }
+
     this._timeoutDuration =
       typeof options?.timeoutDuration === 'number' ? options?.timeoutDuration : 5000
     this._cooldownDuration =
       typeof options?.cooldownDuration === 'number' ? options?.cooldownDuration : 30000
     this._cacheMaxAge = typeof options?.cacheMaxAge === 'number' ? options?.cacheMaxAge : 600000
+    this._headers = new Headers(options?.headers)
+    if (USER_AGENT && !this._headers.has('User-Agent')) {
+      this._headers.set('User-Agent', USER_AGENT)
+    }
+
+    if (!this._headers.has('accept')) {
+      this._headers.set('accept', 'application/json')
+      this._headers.append('accept', 'application/jwk-set+json')
+    }
+
+    this[customFetch] = options?.[customFetch]
 
     if (options?.[jwksCache] !== undefined) {
       this._cache = options?.[jwksCache]
@@ -382,21 +393,12 @@ class RemoteJWKSet {
       this._pendingFetch = undefined
     }
 
-    const headers = new Headers(this._options.headers)
-    if (USER_AGENT && !headers.has('User-Agent')) {
-      headers.set('User-Agent', USER_AGENT)
-      this._options.headers = Object.fromEntries(headers.entries())
-    }
-
-    if (!headers.has('accept')) {
-      headers.set('accept', 'application/json')
-      headers.append('accept', 'application/jwk-set+json')
-    }
-
-    this._pendingFetch ||= fetchJwks(this._url.href, {
-      headers,
-      signal: AbortSignal.timeout(this._timeoutDuration),
-    })
+    this._pendingFetch ||= fetchJwks(
+      this._url.href,
+      this._headers,
+      AbortSignal.timeout(this._timeoutDuration),
+      this[customFetch],
+    )
       .then((json) => {
         this._local = createLocalJWKSet(json as unknown as types.JSONWebKeySet)
         if (this._cache) {
