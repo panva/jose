@@ -35,12 +35,11 @@ export { calculateJwkThumbprint, calculateJwkThumbprintUri } from './jwk/thumbpr
 export { EmbeddedJWK } from './jwk/embedded.js'
 
 export { createLocalJWKSet } from './jwks/local.js'
-export { createRemoteJWKSet, jwksCache } from './jwks/remote.js'
+export { createRemoteJWKSet, jwksCache, customFetch } from './jwks/remote.js'
 export type {
   RemoteJWKSetOptions,
   JWKSCacheInput,
   ExportedJWKSCache,
-  customFetch,
   FetchImplementation,
 } from './jwks/remote.js'
 
