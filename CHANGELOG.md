@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [6.0.8](https://github.com/panva/jose/compare/v6.0.7...v6.0.8) (2025-02-26)
+
+
+### Fixes
+
+* export [customFetch] symbol from the default entrypoint ([1615614](https://github.com/panva/jose/commit/1615614964b4a66ac888f470bad94b6dee7009bc)), closes [#762](https://github.com/panva/jose/issues/762)
+
 ## [6.0.7](https://github.com/panva/jose/compare/v6.0.6...v6.0.7) (2025-02-25)
 
 
