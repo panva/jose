@@ -12,6 +12,7 @@
     "noUnusedParameters": true,
     "sourceMap": false,
     "removeComments": true,
-    "verbatimModuleSyntax": true
+    "verbatimModuleSyntax": true,
+    "erasableSyntaxOnly": true
   }
 }
