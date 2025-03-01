@@ -244,7 +244,7 @@
     "tar": "^7.4.3",
     "timekeeper": "^2.3.1",
     "tsx": "^4.19.3",
-    "typedoc": "^0.27.2",
+    "typedoc": "^0.27.9",
     "typedoc-plugin-markdown": "^4.3.1",
     "typedoc-plugin-mdn-links": "^4.0.3",
     "typescript": "^5.8.2",
