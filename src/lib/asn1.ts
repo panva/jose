@@ -146,11 +146,18 @@ const genericImport = async (
       keyUsages = isPublic ? [] : ['deriveBits']
       break
     }
-    case 'Ed25519': // Fall through
     case 'EdDSA':
       algorithm = { name: 'Ed25519' }
       keyUsages = isPublic ? ['verify'] : ['sign']
       break
+    case 'Ed25519': // Fall through
+    case 'ML-DSA-44': // Fall through
+    case 'ML-DSA-65': // Fall through
+    case 'ML-DSA-87': {
+      keyUsages = isPublic ? ['verify'] : ['sign']
+      algorithm = { name: alg }
+      break
+    }
     default:
       throw new JOSENotSupported('Invalid or unsupported "alg" (Algorithm) value')
   }

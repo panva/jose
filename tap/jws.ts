@@ -24,6 +24,9 @@ export default (
     ['RS256', true],
     ['RS384', true],
     ['RS512', true],
+    ['ML-DSA-44', false],
+    ['ML-DSA-65', false],
+    ['ML-DSA-87', false],
   ]
 
   const kps: Record<string, jose.GenerateKeyPairResult> = {}

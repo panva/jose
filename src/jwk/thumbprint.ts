@@ -78,6 +78,11 @@ export async function calculateJwkThumbprint(
       check(jwk.y, '"y" (Y Coordinate) Parameter')
       components = { crv: jwk.crv, kty: jwk.kty, x: jwk.x, y: jwk.y }
       break
+    case 'AKP':
+      check(jwk.alg, '"alg" (JWK Algorithm) Parameter')
+      check(jwk.pub, '"pub" (Public Key) Parameter')
+      components = { alg: jwk.alg, kty: jwk.kty, pub: jwk.pub }
+      break
     case 'OKP':
       check(jwk.crv, '"crv" (Subtype of Key Pair) Parameter')
       check(jwk.x, '"x" (Public Key) Parameter')

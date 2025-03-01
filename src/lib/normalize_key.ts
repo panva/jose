@@ -85,6 +85,8 @@ const handleKeyObject = (keyObject: ConvertableKeyObject, alg: string) => {
     ])
   }
 
+  // TODO: ML-DSA when KeyObject API supports it
+
   if (keyObject.asymmetricKeyType === 'rsa') {
     let hash: string
     switch (alg) {

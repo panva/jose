@@ -23,6 +23,8 @@ function getKtyFromAlg(alg: unknown) {
       return 'EC'
     case 'Ed':
       return 'OKP'
+    case 'ML':
+      return 'AKP'
     default:
       throw new JOSENotSupported('Unsupported "alg" value for a JSON Web Key Set')
   }
@@ -114,6 +116,11 @@ class LocalJWKSet {
           case 'Ed25519': // Fall through
           case 'EdDSA':
             candidate = jwk.crv === 'Ed25519'
+            break
+          case 'ML-DSA-44': // Fall through
+          case 'ML-DSA-65': // Fall through
+          case 'ML-DSA-87':
+            candidate = jwk.alg === alg
             break
         }
       }

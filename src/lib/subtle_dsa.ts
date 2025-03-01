@@ -19,9 +19,13 @@ export default (alg: string, algorithm: KeyAlgorithm | EcKeyAlgorithm) => {
     case 'ES384':
     case 'ES512':
       return { hash, name: 'ECDSA', namedCurve: (algorithm as EcKeyAlgorithm).namedCurve }
-    case 'Ed25519': // Fall through
     case 'EdDSA':
       return { name: 'Ed25519' }
+    case 'Ed25519': // Fall through
+    case 'ML-DSA-44':
+    case 'ML-DSA-65':
+    case 'ML-DSA-87':
+      return { name: alg }
     default:
       throw new JOSENotSupported(
         `alg ${alg} is not supported either by JOSE or your javascript runtime`,

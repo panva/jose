@@ -83,6 +83,19 @@ function subtleMapping(jwk: types.JWK): {
       }
       break
     }
+    case 'AKP': {
+      switch (jwk.alg) {
+        case 'ML-DSA-44': // Fall through
+        case 'ML-DSA-65': // Fall through
+        case 'ML-DSA-87':
+          algorithm = { name: jwk.alg }
+          keyUsages = jwk.priv ? ['sign'] : ['verify']
+          break
+        default:
+          throw new JOSENotSupported('Invalid or unsupported JWK "alg" (Algorithm) Parameter value')
+      }
+      break
+    }
     default:
       throw new JOSENotSupported('Invalid or unsupported JWK "kty" (Key Type) Parameter value')
   }

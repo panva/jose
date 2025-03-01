@@ -24,6 +24,10 @@ export interface JWKParameters {
   x5u?: string
   /** JWK "kid" (Key ID) Parameter */
   kid?: string
+  /** AKP JWK "pub" (The public key) Parameter */
+  pub?: string
+  /** AKP JWK "priv" (The private key or seed) Parameter */
+  priv?: string
 }
 
 /** Convenience interface for Public OKP JSON Web Keys */
@@ -38,6 +42,30 @@ export interface JWK_OKP_Public extends JWKParameters {
 export interface JWK_OKP_Private extends JWK_OKP_Public, JWKParameters {
   /** OKP JWK "d" (The Private Key) Parameter */
   d: string
+}
+
+/** Convenience interface for Public AKP JSON Web Keys */
+export interface JWK_AKP_Public extends JWKParameters {
+  /**
+   * JWK "alg" (Algorithm) Parameter
+   *
+   * @see {@link https://github.com/panva/jose/issues/210 Algorithm Key Requirements}
+   */
+  alg: string
+  /** AKP JWK "pub" (The public key) Parameter */
+  pub: string
+}
+
+/** Convenience interface for Private AKP JSON Web Keys */
+export interface JWK_AKP_Private extends JWK_AKP_Public, JWKParameters {
+  /**
+   * JWK "alg" (Algorithm) Parameter
+   *
+   * @see {@link https://github.com/panva/jose/issues/210 Algorithm Key Requirements}
+   */
+  alg: string
+  /** AKP JWK "priv" (The private key or seed) Parameter */
+  priv: string
 }
 
 /** Convenience interface for Public EC JSON Web Keys */

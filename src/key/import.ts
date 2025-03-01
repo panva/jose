@@ -205,6 +205,7 @@ export async function importJWK(
         )
       }
     case 'EC':
+    case 'AKP':
     case 'OKP':
       return toCryptoKey({ ...jwk, alg, ext })
     default:
