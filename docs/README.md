@@ -61,8 +61,8 @@ The `jose` module supports importing, exporting, and generating keys and secrets
   - [Symmetric Secret Generation](key/generate_secret/functions/generateSecret.md)
 - Key Export Functions
   - [JWK Export](key/export/functions/exportJWK.md)
-  - [Private Key Export](dkey/export/functions/exportPKCS8.md)
-  - [Public Key Export](dkey/export/functions/exportSPKI.md)
+  - [Private Key Export](key/export/functions/exportPKCS8.md)
+  - [Public Key Export](key/export/functions/exportSPKI.md)
 
 ### JSON Web Signature (JWS)
 
