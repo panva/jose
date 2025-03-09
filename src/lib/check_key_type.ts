@@ -4,7 +4,7 @@ import * as jwk from './is_jwk.js'
 import type * as types from '../types.d.ts'
 
 // @ts-expect-error
-const tag = (key: unknown): string => key?.[Symbol.toStringTag]
+const tag = (key: unknown): string => key?.[Symbol.toStringTag] ?? key?.constructor?.name
 
 const jwkMatchesOp = (alg: string, key: types.JWK, usage: Usage) => {
   if (key.use !== undefined) {

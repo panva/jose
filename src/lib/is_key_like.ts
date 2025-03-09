@@ -8,12 +8,12 @@ export function assertCryptoKey(key: unknown): asserts key is types.CryptoKey {
 
 export function isCryptoKey(key: unknown): key is types.CryptoKey {
   // @ts-expect-error
-  return key?.[Symbol.toStringTag] === 'CryptoKey'
+  return key?.[Symbol.toStringTag] === 'CryptoKey' || key?.constructor?.name === 'CryptoKey'
 }
 
 export function isKeyObject<T extends types.KeyObject = types.KeyObject>(key: unknown): key is T {
   // @ts-expect-error
-  return key?.[Symbol.toStringTag] === 'KeyObject'
+  return key?.[Symbol.toStringTag] === 'KeyObject' || key?.constructor?.name === 'KeyObject'
 }
 
 export default (key: unknown): key is types.CryptoKey | types.KeyObject => {
