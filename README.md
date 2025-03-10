@@ -22,7 +22,7 @@ Support from the community to continue maintaining and improving this module is 
 
 ## Documentation
 
-`jose` is distributed via [npmjs.com](https://www.npmjs.com/package/jose), [jsr.io](https://jsr.io/@panva/jose), [deno.land/x](https://deno.land/x/jose), [cdnjs.com](https://cdnjs.com/libraries/jose), [jsdelivr.com](https://www.jsdelivr.com/package/npm/jose), and [github.com](https://github.com/panva/jose).
+`jose` is distributed via [npmjs.com](https://www.npmjs.com/package/jose), [jsr.io](https://jsr.io/@panva/jose), [deno.land/x](https://deno.land/x/jose), [jsdelivr.com](https://www.jsdelivr.com/package/npm/jose), and [github.com](https://github.com/panva/jose).
 
 **`example`** ESM import[^cjs]
 
