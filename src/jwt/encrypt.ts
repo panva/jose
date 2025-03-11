@@ -196,14 +196,18 @@ export class EncryptJWT implements types.ProduceJWT {
     options?: types.EncryptOptions,
   ): Promise<string> {
     const enc = new CompactEncrypt(this.#jwt.data())
-    if (this.#replicateIssuerAsHeader) {
-      this.#protectedHeader = { ...this.#protectedHeader, iss: this.#jwt.iss }
-    }
-    if (this.#replicateSubjectAsHeader) {
-      this.#protectedHeader = { ...this.#protectedHeader, sub: this.#jwt.sub }
-    }
-    if (this.#replicateAudienceAsHeader) {
-      this.#protectedHeader = { ...this.#protectedHeader, aud: this.#jwt.aud }
+    if (
+      this.#protectedHeader &&
+      (this.#replicateIssuerAsHeader ||
+        this.#replicateSubjectAsHeader ||
+        this.#replicateAudienceAsHeader)
+    ) {
+      this.#protectedHeader = {
+        ...this.#protectedHeader,
+        iss: this.#replicateIssuerAsHeader ? this.#jwt.iss : undefined,
+        sub: this.#replicateSubjectAsHeader ? this.#jwt.sub : undefined,
+        aud: this.#replicateAudienceAsHeader ? this.#jwt.aud : undefined,
+      }
     }
     enc.setProtectedHeader(this.#protectedHeader)
     if (this.#iv) {
