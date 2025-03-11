@@ -24,18 +24,18 @@ export interface Signature {
    */
   setUnprotectedHeader(unprotectedHeader: types.JWSHeaderParameters): Signature
 
-  /** A shorthand for calling addSignature() on the enclosing GeneralSign instance */
+  /** A shorthand for calling addSignature() on the enclosing {@link GeneralSign} instance */
   addSignature(...args: Parameters<GeneralSign['addSignature']>): Signature
 
-  /** A shorthand for calling encrypt() on the enclosing GeneralSign instance */
+  /** A shorthand for calling encrypt() on the enclosing {@link GeneralSign} instance */
   sign(...args: Parameters<GeneralSign['sign']>): Promise<types.GeneralJWS>
 
-  /** Returns the enclosing GeneralSign */
+  /** Returns the enclosing {@link GeneralSign} instance */
   done(): GeneralSign
 }
 
 class IndividualSignature implements Signature {
-  private parent: GeneralSign
+  #parent: GeneralSign
 
   protectedHeader?: types.JWSHeaderParameters
   unprotectedHeader?: types.JWSHeaderParameters
@@ -47,7 +47,7 @@ class IndividualSignature implements Signature {
     key: types.CryptoKey | types.KeyObject | types.JWK | Uint8Array,
     options?: types.SignOptions,
   ) {
-    this.parent = sig
+    this.#parent = sig
     this.key = key
     this.options = options
   }
@@ -69,15 +69,15 @@ class IndividualSignature implements Signature {
   }
 
   addSignature(...args: Parameters<GeneralSign['addSignature']>) {
-    return this.parent.addSignature(...args)
+    return this.#parent.addSignature(...args)
   }
 
   sign(...args: Parameters<GeneralSign['sign']>) {
-    return this.parent.sign(...args)
+    return this.#parent.sign(...args)
   }
 
   done() {
-    return this.parent
+    return this.#parent
   }
 }
 
@@ -103,11 +103,9 @@ class IndividualSignature implements Signature {
  * ```
  */
 export class GeneralSign {
-  /** @ignore */
-  private _payload: Uint8Array
+  #payload: Uint8Array
 
-  /** @ignore */
-  private _signatures: IndividualSignature[] = []
+  #signatures: IndividualSignature[] = []
 
   /**
    * {@link GeneralSign} constructor
@@ -115,7 +113,7 @@ export class GeneralSign {
    * @param payload Binary representation of the payload to sign.
    */
   constructor(payload: Uint8Array) {
-    this._payload = payload
+    this.#payload = payload
   }
 
   /**
@@ -130,13 +128,13 @@ export class GeneralSign {
     options?: types.SignOptions,
   ): Signature {
     const signature = new IndividualSignature(this, key, options)
-    this._signatures.push(signature)
+    this.#signatures.push(signature)
     return signature
   }
 
   /** Signs and resolves the value of the General JWS object. */
   async sign(): Promise<types.GeneralJWS> {
-    if (!this._signatures.length) {
+    if (!this.#signatures.length) {
       throw new JWSInvalid('at least one signature must be added')
     }
 
@@ -145,9 +143,9 @@ export class GeneralSign {
       payload: '',
     }
 
-    for (let i = 0; i < this._signatures.length; i++) {
-      const signature = this._signatures[i]
-      const flattened = new FlattenedSign(this._payload)
+    for (let i = 0; i < this.#signatures.length; i++) {
+      const signature = this.#signatures[i]
+      const flattened = new FlattenedSign(this.#payload)
 
       flattened.setProtectedHeader(signature.protectedHeader!)
       flattened.setUnprotectedHeader(signature.unprotectedHeader!)

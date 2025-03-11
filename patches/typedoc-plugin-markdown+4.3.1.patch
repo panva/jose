@@ -31,6 +31,25 @@ index 3bac9b3..147c793 100644
      const md = [];
      if (model.implementationOf) {
          if (options.headingLevel !== -1) {
+diff --git a/node_modules/typedoc-plugin-markdown/dist/theme/context/partials/member.memberWithGroups.js b/node_modules/typedoc-plugin-markdown/dist/theme/context/partials/member.memberWithGroups.js
+index 98bc919..4854c90 100644
+--- a/node_modules/typedoc-plugin-markdown/dist/theme/context/partials/member.memberWithGroups.js
++++ b/node_modules/typedoc-plugin-markdown/dist/theme/context/partials/member.memberWithGroups.js
+@@ -24,10 +24,10 @@ export function memberWithGroups(model, options) {
+             md.push(this.partials.typeParametersList(model.typeParameters));
+         }
+     }
+-    if (model.implementedTypes?.length) {
+-        md.push(heading(options.headingLevel, this.i18n.theme_implements()));
+-        md.push(unorderedList(model.implementedTypes.map((implementedType) => this.partials.someType(implementedType))));
+-    }
++    // if (model.implementedTypes?.length) {
++    //     md.push(heading(options.headingLevel, this.i18n.theme_implements()));
++    //     md.push(unorderedList(model.implementedTypes.map((implementedType) => this.partials.someType(implementedType))));
++    // }
+     if (model.kind === ReflectionKind.Class && model.categories?.length) {
+         model.groups
+             ?.filter((group) => group.title === this.i18n.kind_plural_constructor())
 diff --git a/node_modules/typedoc-plugin-markdown/dist/theme/context/partials/member.reflectionIndex.js b/node_modules/typedoc-plugin-markdown/dist/theme/context/partials/member.reflectionIndex.js
 index bcb597c..d96c2eb 100644
 --- a/node_modules/typedoc-plugin-markdown/dist/theme/context/partials/member.reflectionIndex.js

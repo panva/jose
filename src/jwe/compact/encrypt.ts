@@ -26,8 +26,7 @@ import { FlattenedEncrypt } from '../flattened/encrypt.js'
  * ```
  */
 export class CompactEncrypt {
-  /** @ignore */
-  private _flattened: FlattenedEncrypt
+  #flattened: FlattenedEncrypt
 
   /**
    * {@link CompactEncrypt} constructor
@@ -35,7 +34,7 @@ export class CompactEncrypt {
    * @param plaintext Binary representation of the plaintext to encrypt.
    */
   constructor(plaintext: Uint8Array) {
-    this._flattened = new FlattenedEncrypt(plaintext)
+    this.#flattened = new FlattenedEncrypt(plaintext)
   }
 
   /**
@@ -48,7 +47,7 @@ export class CompactEncrypt {
    * @param cek JWE Content Encryption Key.
    */
   setContentEncryptionKey(cek: Uint8Array): this {
-    this._flattened.setContentEncryptionKey(cek)
+    this.#flattened.setContentEncryptionKey(cek)
     return this
   }
 
@@ -62,7 +61,7 @@ export class CompactEncrypt {
    * @param iv JWE Initialization Vector.
    */
   setInitializationVector(iv: Uint8Array): this {
-    this._flattened.setInitializationVector(iv)
+    this.#flattened.setInitializationVector(iv)
     return this
   }
 
@@ -72,7 +71,7 @@ export class CompactEncrypt {
    * @param protectedHeader JWE Protected Header object.
    */
   setProtectedHeader(protectedHeader: types.CompactJWEHeaderParameters): this {
-    this._flattened.setProtectedHeader(protectedHeader)
+    this.#flattened.setProtectedHeader(protectedHeader)
     return this
   }
 
@@ -84,7 +83,7 @@ export class CompactEncrypt {
    * @param parameters JWE Key Management parameters.
    */
   setKeyManagementParameters(parameters: types.JWEKeyManagementHeaderParameters): this {
-    this._flattened.setKeyManagementParameters(parameters)
+    this.#flattened.setKeyManagementParameters(parameters)
     return this
   }
 
@@ -99,7 +98,7 @@ export class CompactEncrypt {
     key: types.CryptoKey | types.KeyObject | types.JWK | Uint8Array,
     options?: types.EncryptOptions,
   ): Promise<string> {
-    const jwe = await this._flattened.encrypt(key, options)
+    const jwe = await this.#flattened.encrypt(key, options)
 
     return [jwe.protected, jwe.encrypted_key, jwe.iv, jwe.ciphertext, jwe.tag].join('.')
   }

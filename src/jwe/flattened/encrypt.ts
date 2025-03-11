@@ -36,29 +36,21 @@ import checkKeyType from '../../lib/check_key_type.js'
  * ```
  */
 export class FlattenedEncrypt {
-  /** @ignore */
-  private _plaintext: Uint8Array
+  #plaintext: Uint8Array
 
-  /** @ignore */
-  private _protectedHeader!: types.JWEHeaderParameters | undefined
+  #protectedHeader!: types.JWEHeaderParameters | undefined
 
-  /** @ignore */
-  private _sharedUnprotectedHeader!: types.JWEHeaderParameters | undefined
+  #sharedUnprotectedHeader!: types.JWEHeaderParameters | undefined
 
-  /** @ignore */
-  private _unprotectedHeader!: types.JWEHeaderParameters | undefined
+  #unprotectedHeader!: types.JWEHeaderParameters | undefined
 
-  /** @ignore */
-  private _aad!: Uint8Array | undefined
+  #aad!: Uint8Array | undefined
 
-  /** @ignore */
-  private _cek!: Uint8Array | undefined
+  #cek!: Uint8Array | undefined
 
-  /** @ignore */
-  private _iv!: Uint8Array | undefined
+  #iv!: Uint8Array | undefined
 
-  /** @ignore */
-  private _keyManagementParameters!: types.JWEKeyManagementHeaderParameters
+  #keyManagementParameters!: types.JWEKeyManagementHeaderParameters
 
   /**
    * {@link FlattenedEncrypt} constructor
@@ -69,7 +61,7 @@ export class FlattenedEncrypt {
     if (!(plaintext instanceof Uint8Array)) {
       throw new TypeError('plaintext must be an instance of Uint8Array')
     }
-    this._plaintext = plaintext
+    this.#plaintext = plaintext
   }
 
   /**
@@ -81,10 +73,10 @@ export class FlattenedEncrypt {
    * @param parameters JWE Key Management parameters.
    */
   setKeyManagementParameters(parameters: types.JWEKeyManagementHeaderParameters): this {
-    if (this._keyManagementParameters) {
+    if (this.#keyManagementParameters) {
       throw new TypeError('setKeyManagementParameters can only be called once')
     }
-    this._keyManagementParameters = parameters
+    this.#keyManagementParameters = parameters
     return this
   }
 
@@ -94,10 +86,10 @@ export class FlattenedEncrypt {
    * @param protectedHeader JWE Protected Header.
    */
   setProtectedHeader(protectedHeader: types.JWEHeaderParameters): this {
-    if (this._protectedHeader) {
+    if (this.#protectedHeader) {
       throw new TypeError('setProtectedHeader can only be called once')
     }
-    this._protectedHeader = protectedHeader
+    this.#protectedHeader = protectedHeader
     return this
   }
 
@@ -107,10 +99,10 @@ export class FlattenedEncrypt {
    * @param sharedUnprotectedHeader JWE Shared Unprotected Header.
    */
   setSharedUnprotectedHeader(sharedUnprotectedHeader: types.JWEHeaderParameters): this {
-    if (this._sharedUnprotectedHeader) {
+    if (this.#sharedUnprotectedHeader) {
       throw new TypeError('setSharedUnprotectedHeader can only be called once')
     }
-    this._sharedUnprotectedHeader = sharedUnprotectedHeader
+    this.#sharedUnprotectedHeader = sharedUnprotectedHeader
     return this
   }
 
@@ -120,10 +112,10 @@ export class FlattenedEncrypt {
    * @param unprotectedHeader JWE Per-Recipient Unprotected Header.
    */
   setUnprotectedHeader(unprotectedHeader: types.JWEHeaderParameters): this {
-    if (this._unprotectedHeader) {
+    if (this.#unprotectedHeader) {
       throw new TypeError('setUnprotectedHeader can only be called once')
     }
-    this._unprotectedHeader = unprotectedHeader
+    this.#unprotectedHeader = unprotectedHeader
     return this
   }
 
@@ -133,7 +125,7 @@ export class FlattenedEncrypt {
    * @param aad Additional Authenticated Data.
    */
   setAdditionalAuthenticatedData(aad: Uint8Array): this {
-    this._aad = aad
+    this.#aad = aad
     return this
   }
 
@@ -147,10 +139,10 @@ export class FlattenedEncrypt {
    * @param cek JWE Content Encryption Key.
    */
   setContentEncryptionKey(cek: Uint8Array): this {
-    if (this._cek) {
+    if (this.#cek) {
       throw new TypeError('setContentEncryptionKey can only be called once')
     }
-    this._cek = cek
+    this.#cek = cek
     return this
   }
 
@@ -164,10 +156,10 @@ export class FlattenedEncrypt {
    * @param iv JWE Initialization Vector.
    */
   setInitializationVector(iv: Uint8Array): this {
-    if (this._iv) {
+    if (this.#iv) {
       throw new TypeError('setInitializationVector can only be called once')
     }
-    this._iv = iv
+    this.#iv = iv
     return this
   }
 
@@ -182,14 +174,14 @@ export class FlattenedEncrypt {
     key: types.CryptoKey | types.KeyObject | types.JWK | Uint8Array,
     options?: types.EncryptOptions,
   ): Promise<types.FlattenedJWE> {
-    if (!this._protectedHeader && !this._unprotectedHeader && !this._sharedUnprotectedHeader) {
+    if (!this.#protectedHeader && !this.#unprotectedHeader && !this.#sharedUnprotectedHeader) {
       throw new JWEInvalid(
         'either setProtectedHeader, setUnprotectedHeader, or sharedUnprotectedHeader must be called before #encrypt()',
       )
     }
 
     if (
-      !isDisjoint(this._protectedHeader, this._unprotectedHeader, this._sharedUnprotectedHeader)
+      !isDisjoint(this.#protectedHeader, this.#unprotectedHeader, this.#sharedUnprotectedHeader)
     ) {
       throw new JWEInvalid(
         'JWE Protected, JWE Shared Unprotected and JWE Per-Recipient Header Parameter names must be disjoint',
@@ -197,12 +189,12 @@ export class FlattenedEncrypt {
     }
 
     const joseHeader: types.JWEHeaderParameters = {
-      ...this._protectedHeader,
-      ...this._unprotectedHeader,
-      ...this._sharedUnprotectedHeader,
+      ...this.#protectedHeader,
+      ...this.#unprotectedHeader,
+      ...this.#sharedUnprotectedHeader,
     }
 
-    validateCrit(JWEInvalid, new Map(), options?.crit, this._protectedHeader, joseHeader)
+    validateCrit(JWEInvalid, new Map(), options?.crit, this.#protectedHeader, joseHeader)
 
     if (joseHeader.zip !== undefined) {
       throw new JOSENotSupported(
@@ -222,7 +214,7 @@ export class FlattenedEncrypt {
 
     let encryptedKey: Uint8Array | undefined
 
-    if (this._cek && (alg === 'dir' || alg === 'ECDH-ES')) {
+    if (this.#cek && (alg === 'dir' || alg === 'ECDH-ES')) {
       throw new TypeError(
         `setContentEncryptionKey cannot be called with JWE "alg" (Algorithm) Header ${alg}`,
       )
@@ -238,21 +230,21 @@ export class FlattenedEncrypt {
         alg,
         enc,
         k,
-        this._cek,
-        this._keyManagementParameters,
+        this.#cek,
+        this.#keyManagementParameters,
       ))
 
       if (parameters) {
         if (options && unprotected in options) {
-          if (!this._unprotectedHeader) {
+          if (!this.#unprotectedHeader) {
             this.setUnprotectedHeader(parameters)
           } else {
-            this._unprotectedHeader = { ...this._unprotectedHeader, ...parameters }
+            this.#unprotectedHeader = { ...this.#unprotectedHeader, ...parameters }
           }
-        } else if (!this._protectedHeader) {
+        } else if (!this.#protectedHeader) {
           this.setProtectedHeader(parameters)
         } else {
-          this._protectedHeader = { ...this._protectedHeader, ...parameters }
+          this.#protectedHeader = { ...this.#protectedHeader, ...parameters }
         }
       }
     }
@@ -260,14 +252,14 @@ export class FlattenedEncrypt {
     let additionalData: Uint8Array
     let protectedHeader: Uint8Array
     let aadMember: string | undefined
-    if (this._protectedHeader) {
-      protectedHeader = encoder.encode(b64u(JSON.stringify(this._protectedHeader)))
+    if (this.#protectedHeader) {
+      protectedHeader = encoder.encode(b64u(JSON.stringify(this.#protectedHeader)))
     } else {
       protectedHeader = encoder.encode('')
     }
 
-    if (this._aad) {
-      aadMember = b64u(this._aad)
+    if (this.#aad) {
+      aadMember = b64u(this.#aad)
       additionalData = concat(protectedHeader, encoder.encode('.'), encoder.encode(aadMember))
     } else {
       additionalData = protectedHeader
@@ -275,9 +267,9 @@ export class FlattenedEncrypt {
 
     const { ciphertext, tag, iv } = await encrypt(
       enc,
-      this._plaintext,
+      this.#plaintext,
       cek,
-      this._iv,
+      this.#iv,
       additionalData,
     )
 
@@ -301,16 +293,16 @@ export class FlattenedEncrypt {
       jwe.aad = aadMember
     }
 
-    if (this._protectedHeader) {
+    if (this.#protectedHeader) {
       jwe.protected = decoder.decode(protectedHeader)
     }
 
-    if (this._sharedUnprotectedHeader) {
-      jwe.unprotected = this._sharedUnprotectedHeader
+    if (this.#sharedUnprotectedHeader) {
+      jwe.unprotected = this.#sharedUnprotectedHeader
     }
 
-    if (this._unprotectedHeader) {
-      jwe.header = this._unprotectedHeader
+    if (this.#unprotectedHeader) {
+      jwe.header = this.#unprotectedHeader
     }
 
     return jwe

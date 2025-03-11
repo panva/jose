@@ -6,7 +6,6 @@
     "src/types.d.ts",
     "src/jwt/decrypt.ts",
     "src/jwt/encrypt.ts",
-    "src/jwt/produce.ts",
     "src/jwt/sign.ts",
     "src/jwt/unsecured.ts",
     "src/jwt/verify.ts",

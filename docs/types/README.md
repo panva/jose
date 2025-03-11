@@ -42,6 +42,7 @@
 - [JWTPayload](interfaces/JWTPayload.md)
 - [JWTVerifyResult](interfaces/JWTVerifyResult.md)
 - [KeyObject](interfaces/KeyObject.md)
+- [ProduceJWT](interfaces/ProduceJWT.md)
 - [ResolvedKey](interfaces/ResolvedKey.md)
 - [SignOptions](interfaces/SignOptions.md)
 - [VerifyOptions](interfaces/VerifyOptions.md)

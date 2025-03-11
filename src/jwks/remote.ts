@@ -312,94 +312,94 @@ function isFreshJwksCache(input: unknown, cacheMaxAge: number): input is Exporte
 }
 
 class RemoteJWKSet {
-  /** @ignore */
-  private _url: URL
+  #url: URL
 
-  /** @ignore */
-  private _timeoutDuration: number
+  #timeoutDuration: number
 
-  /** @ignore */
-  private _cooldownDuration: number
+  #cooldownDuration: number
 
-  /** @ignore */
-  private _cacheMaxAge: number
+  #cacheMaxAge: number
 
-  /** @ignore */
-  private _jwksTimestamp?: number
+  #jwksTimestamp?: number
 
-  /** @ignore */
-  private _pendingFetch?: Promise<unknown>
+  #pendingFetch?: Promise<unknown>
 
-  /** @ignore */
-  private _headers: Headers
+  #headers: Headers
 
-  private [customFetch]?: FetchImplementation
+  #customFetch?: FetchImplementation
 
-  /** @ignore */
-  private _local!: ReturnType<typeof createLocalJWKSet>
+  #local!: ReturnType<typeof createLocalJWKSet>
 
-  /** @ignore */
-  private _cache?: JWKSCacheInput
+  #cache?: JWKSCacheInput
 
   constructor(url: unknown, options?: RemoteJWKSetOptions) {
     if (!(url instanceof URL)) {
       throw new TypeError('url must be an instance of URL')
     }
-    this._url = new URL(url.href)
+    this.#url = new URL(url.href)
 
-    this._timeoutDuration =
+    this.#timeoutDuration =
       typeof options?.timeoutDuration === 'number' ? options?.timeoutDuration : 5000
-    this._cooldownDuration =
+    this.#cooldownDuration =
       typeof options?.cooldownDuration === 'number' ? options?.cooldownDuration : 30000
-    this._cacheMaxAge = typeof options?.cacheMaxAge === 'number' ? options?.cacheMaxAge : 600000
-    this._headers = new Headers(options?.headers)
-    if (USER_AGENT && !this._headers.has('User-Agent')) {
-      this._headers.set('User-Agent', USER_AGENT)
+    this.#cacheMaxAge = typeof options?.cacheMaxAge === 'number' ? options?.cacheMaxAge : 600000
+    this.#headers = new Headers(options?.headers)
+    if (USER_AGENT && !this.#headers.has('User-Agent')) {
+      this.#headers.set('User-Agent', USER_AGENT)
     }
 
-    if (!this._headers.has('accept')) {
-      this._headers.set('accept', 'application/json')
-      this._headers.append('accept', 'application/jwk-set+json')
+    if (!this.#headers.has('accept')) {
+      this.#headers.set('accept', 'application/json')
+      this.#headers.append('accept', 'application/jwk-set+json')
     }
 
-    this[customFetch] = options?.[customFetch]
+    this.#customFetch = options?.[customFetch]
 
     if (options?.[jwksCache] !== undefined) {
-      this._cache = options?.[jwksCache]
-      if (isFreshJwksCache(options?.[jwksCache], this._cacheMaxAge)) {
-        this._jwksTimestamp = this._cache.uat
-        this._local = createLocalJWKSet(this._cache.jwks)
+      this.#cache = options?.[jwksCache]
+      if (isFreshJwksCache(options?.[jwksCache], this.#cacheMaxAge)) {
+        this.#jwksTimestamp = this.#cache.uat
+        this.#local = createLocalJWKSet(this.#cache.jwks)
       }
     }
   }
 
-  coolingDown() {
-    return typeof this._jwksTimestamp === 'number'
-      ? Date.now() < this._jwksTimestamp + this._cooldownDuration
+  pendingFetch(): boolean {
+    return !!this.#pendingFetch
+  }
+
+  coolingDown(): boolean {
+    return typeof this.#jwksTimestamp === 'number'
+      ? Date.now() < this.#jwksTimestamp + this.#cooldownDuration
       : false
   }
 
-  fresh() {
-    return typeof this._jwksTimestamp === 'number'
-      ? Date.now() < this._jwksTimestamp + this._cacheMaxAge
+  fresh(): boolean {
+    return typeof this.#jwksTimestamp === 'number'
+      ? Date.now() < this.#jwksTimestamp + this.#cacheMaxAge
       : false
+  }
+
+  jwks(): types.JSONWebKeySet | undefined {
+    // @ts-expect-error
+    return this.#local?.jwks()
   }
 
   async getKey(
     protectedHeader?: types.JWSHeaderParameters,
     token?: types.FlattenedJWSInput,
   ): Promise<types.CryptoKey> {
-    if (!this._local || !this.fresh()) {
+    if (!this.#local || !this.fresh()) {
       await this.reload()
     }
 
     try {
-      return await this._local(protectedHeader, token)
+      return await this.#local(protectedHeader, token)
     } catch (err) {
       if (err instanceof JWKSNoMatchingKey) {
         if (this.coolingDown() === false) {
           await this.reload()
-          return this._local(protectedHeader, token)
+          return this.#local(protectedHeader, token)
         }
       }
       throw err
@@ -409,31 +409,31 @@ class RemoteJWKSet {
   async reload() {
     // Do not assume a fetch created in another request reliably resolves
     // see https://github.com/panva/jose/issues/355 and https://github.com/panva/jose/issues/509
-    if (this._pendingFetch && isCloudflareWorkers()) {
-      this._pendingFetch = undefined
+    if (this.#pendingFetch && isCloudflareWorkers()) {
+      this.#pendingFetch = undefined
     }
 
-    this._pendingFetch ||= fetchJwks(
-      this._url.href,
-      this._headers,
-      AbortSignal.timeout(this._timeoutDuration),
-      this[customFetch],
+    this.#pendingFetch ||= fetchJwks(
+      this.#url.href,
+      this.#headers,
+      AbortSignal.timeout(this.#timeoutDuration),
+      this.#customFetch,
     )
       .then((json) => {
-        this._local = createLocalJWKSet(json as unknown as types.JSONWebKeySet)
-        if (this._cache) {
-          this._cache.uat = Date.now()
-          this._cache.jwks = json as unknown as types.JSONWebKeySet
+        this.#local = createLocalJWKSet(json as unknown as types.JSONWebKeySet)
+        if (this.#cache) {
+          this.#cache.uat = Date.now()
+          this.#cache.jwks = json as unknown as types.JSONWebKeySet
         }
-        this._jwksTimestamp = Date.now()
-        this._pendingFetch = undefined
+        this.#jwksTimestamp = Date.now()
+        this.#pendingFetch = undefined
       })
       .catch((err: Error) => {
-        this._pendingFetch = undefined
+        this.#pendingFetch = undefined
         throw err
       })
 
-    await this._pendingFetch
+    await this.#pendingFetch
   }
 }
 
@@ -550,14 +550,12 @@ export function createRemoteJWKSet(
       writable: false,
     },
     reloading: {
-      // @ts-expect-error
-      get: () => !!set._pendingFetch,
+      get: () => set.pendingFetch(),
       enumerable: true,
       configurable: false,
     },
     jwks: {
-      // @ts-expect-error
-      value: () => set._local?.jwks(),
+      value: () => set.jwks(),
       enumerable: true,
       configurable: false,
       writable: false,

@@ -1,28 +1,10 @@
-# Class: ProduceJWT
+# Interface: ProduceJWT
 
 ## [💗 Help the project](https://github.com/sponsors/panva)
 
 Support from the community to continue maintaining and improving this module is welcome. If you find the module useful, please consider supporting the project by [becoming a sponsor](https://github.com/sponsors/panva).
 
-Generic class for JWT producing.
-
-## Constructors
-
-### new ProduceJWT()
-
-▸ **new ProduceJWT**(`payload`): [`ProduceJWT`](ProduceJWT.md)
-
-[ProduceJWT](ProduceJWT.md) constructor
-
-#### Parameters
-
-| Parameter | Type | Description |
-| ------ | ------ | ------ |
-| `payload` | [`JWTPayload`](../../../types/interfaces/JWTPayload.md) | The JWT Claims Set object. Defaults to an empty object. |
-
-#### Returns
-
-[`ProduceJWT`](ProduceJWT.md)
+Generic interface for JWT producing classes.
 
 ## Methods
 

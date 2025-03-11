@@ -12,7 +12,7 @@ Used to build General JWS object's individual signatures.
 
 ▸ **addSignature**(...`args`): [`Signature`](Signature.md)
 
-A shorthand for calling addSignature() on the enclosing GeneralSign instance
+A shorthand for calling addSignature() on the enclosing [GeneralSign](../classes/GeneralSign.md) instance
 
 #### Parameters
 
@@ -30,7 +30,7 @@ A shorthand for calling addSignature() on the enclosing GeneralSign instance
 
 ▸ **done**(): [`GeneralSign`](../classes/GeneralSign.md)
 
-Returns the enclosing GeneralSign
+Returns the enclosing [GeneralSign](../classes/GeneralSign.md) instance
 
 #### Returns
 
@@ -78,7 +78,7 @@ Sets the JWS Unprotected Header on the Signature object.
 
 ▸ **sign**(...`args`): [`Promise`](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise)\<[`GeneralJWS`](../../../../types/interfaces/GeneralJWS.md)\>
 
-A shorthand for calling encrypt() on the enclosing GeneralSign instance
+A shorthand for calling encrypt() on the enclosing [GeneralSign](../classes/GeneralSign.md) instance
 
 #### Parameters
 

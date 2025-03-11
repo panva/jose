@@ -6,7 +6,6 @@
 
 import type * as types from '../types.d.ts'
 import { CompactEncrypt } from '../jwe/compact/encrypt.js'
-import { encoder } from '../lib/buffer_utils.js'
 import { ProduceJWT } from './produce.js'
 
 /**
@@ -30,27 +29,22 @@ import { ProduceJWT } from './produce.js'
  * console.log(jwt)
  * ```
  */
-export class EncryptJWT extends ProduceJWT {
-  /** @ignore */
-  private _cek!: Uint8Array
+export class EncryptJWT implements types.ProduceJWT {
+  #cek!: Uint8Array
 
-  /** @ignore */
-  private _iv!: Uint8Array
+  #iv!: Uint8Array
 
-  /** @ignore */
-  private _keyManagementParameters!: types.JWEKeyManagementHeaderParameters
+  #keyManagementParameters!: types.JWEKeyManagementHeaderParameters
 
-  /** @ignore */
-  private _protectedHeader!: types.CompactJWEHeaderParameters
+  #protectedHeader!: types.CompactJWEHeaderParameters
 
-  /** @ignore */
-  private _replicateIssuerAsHeader!: boolean
+  #replicateIssuerAsHeader!: boolean
 
-  /** @ignore */
-  private _replicateSubjectAsHeader!: boolean
+  #replicateSubjectAsHeader!: boolean
 
-  /** @ignore */
-  private _replicateAudienceAsHeader!: boolean
+  #replicateAudienceAsHeader!: boolean
+
+  #jwt: ProduceJWT
 
   /**
    * {@link EncryptJWT} constructor
@@ -58,7 +52,42 @@ export class EncryptJWT extends ProduceJWT {
    * @param payload The JWT Claims Set object. Defaults to an empty object.
    */
   constructor(payload: types.JWTPayload = {}) {
-    super(payload)
+    this.#jwt = new ProduceJWT(payload)
+  }
+
+  setIssuer(issuer: string): this {
+    this.#jwt.iss = issuer
+    return this
+  }
+
+  setSubject(subject: string): this {
+    this.#jwt.sub = subject
+    return this
+  }
+
+  setAudience(audience: string | string[]): this {
+    this.#jwt.aud = audience
+    return this
+  }
+
+  setJti(jwtId: string): this {
+    this.#jwt.jti = jwtId
+    return this
+  }
+
+  setNotBefore(input: number | string | Date): this {
+    this.#jwt.nbf = input
+    return this
+  }
+
+  setExpirationTime(input: number | string | Date): this {
+    this.#jwt.exp = input
+    return this
+  }
+
+  setIssuedAt(input?: number | string | Date): this {
+    this.#jwt.iat = input
+    return this
   }
 
   /**
@@ -68,10 +97,10 @@ export class EncryptJWT extends ProduceJWT {
    *   (JWE Encryption Algorithm) properties.
    */
   setProtectedHeader(protectedHeader: types.CompactJWEHeaderParameters): this {
-    if (this._protectedHeader) {
+    if (this.#protectedHeader) {
       throw new TypeError('setProtectedHeader can only be called once')
     }
-    this._protectedHeader = protectedHeader
+    this.#protectedHeader = protectedHeader
     return this
   }
 
@@ -84,10 +113,10 @@ export class EncryptJWT extends ProduceJWT {
    * @param parameters JWE Key Management parameters.
    */
   setKeyManagementParameters(parameters: types.JWEKeyManagementHeaderParameters): this {
-    if (this._keyManagementParameters) {
+    if (this.#keyManagementParameters) {
       throw new TypeError('setKeyManagementParameters can only be called once')
     }
-    this._keyManagementParameters = parameters
+    this.#keyManagementParameters = parameters
     return this
   }
 
@@ -101,10 +130,10 @@ export class EncryptJWT extends ProduceJWT {
    * @param cek JWE Content Encryption Key.
    */
   setContentEncryptionKey(cek: Uint8Array): this {
-    if (this._cek) {
+    if (this.#cek) {
       throw new TypeError('setContentEncryptionKey can only be called once')
     }
-    this._cek = cek
+    this.#cek = cek
     return this
   }
 
@@ -118,10 +147,10 @@ export class EncryptJWT extends ProduceJWT {
    * @param iv JWE Initialization Vector.
    */
   setInitializationVector(iv: Uint8Array): this {
-    if (this._iv) {
+    if (this.#iv) {
       throw new TypeError('setInitializationVector can only be called once')
     }
-    this._iv = iv
+    this.#iv = iv
     return this
   }
 
@@ -131,7 +160,7 @@ export class EncryptJWT extends ProduceJWT {
    * @see {@link https://www.rfc-editor.org/rfc/rfc7519#section-5.3 RFC7519#section-5.3}
    */
   replicateIssuerAsHeader(): this {
-    this._replicateIssuerAsHeader = true
+    this.#replicateIssuerAsHeader = true
     return this
   }
 
@@ -141,7 +170,7 @@ export class EncryptJWT extends ProduceJWT {
    * @see {@link https://www.rfc-editor.org/rfc/rfc7519#section-5.3 RFC7519#section-5.3}
    */
   replicateSubjectAsHeader(): this {
-    this._replicateSubjectAsHeader = true
+    this.#replicateSubjectAsHeader = true
     return this
   }
 
@@ -151,7 +180,7 @@ export class EncryptJWT extends ProduceJWT {
    * @see {@link https://www.rfc-editor.org/rfc/rfc7519#section-5.3 RFC7519#section-5.3}
    */
   replicateAudienceAsHeader(): this {
-    this._replicateAudienceAsHeader = true
+    this.#replicateAudienceAsHeader = true
     return this
   }
 
@@ -166,25 +195,25 @@ export class EncryptJWT extends ProduceJWT {
     key: types.CryptoKey | types.KeyObject | types.JWK | Uint8Array,
     options?: types.EncryptOptions,
   ): Promise<string> {
-    const enc = new CompactEncrypt(encoder.encode(JSON.stringify(this._payload)))
-    if (this._replicateIssuerAsHeader) {
-      this._protectedHeader = { ...this._protectedHeader, iss: this._payload.iss }
+    const enc = new CompactEncrypt(this.#jwt.data())
+    if (this.#replicateIssuerAsHeader) {
+      this.#protectedHeader = { ...this.#protectedHeader, iss: this.#jwt.iss }
     }
-    if (this._replicateSubjectAsHeader) {
-      this._protectedHeader = { ...this._protectedHeader, sub: this._payload.sub }
+    if (this.#replicateSubjectAsHeader) {
+      this.#protectedHeader = { ...this.#protectedHeader, sub: this.#jwt.sub }
     }
-    if (this._replicateAudienceAsHeader) {
-      this._protectedHeader = { ...this._protectedHeader, aud: this._payload.aud }
+    if (this.#replicateAudienceAsHeader) {
+      this.#protectedHeader = { ...this.#protectedHeader, aud: this.#jwt.aud }
     }
-    enc.setProtectedHeader(this._protectedHeader)
-    if (this._iv) {
-      enc.setInitializationVector(this._iv)
+    enc.setProtectedHeader(this.#protectedHeader)
+    if (this.#iv) {
+      enc.setInitializationVector(this.#iv)
     }
-    if (this._cek) {
-      enc.setContentEncryptionKey(this._cek)
+    if (this.#cek) {
+      enc.setContentEncryptionKey(this.#cek)
     }
-    if (this._keyManagementParameters) {
-      enc.setKeyManagementParameters(this._keyManagementParameters)
+    if (this.#keyManagementParameters) {
+      enc.setKeyManagementParameters(this.#keyManagementParameters)
     }
     return enc.encrypt(key, options)
   }

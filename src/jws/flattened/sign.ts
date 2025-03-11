@@ -34,14 +34,11 @@ import normalizeKey from '../../lib/normalize_key.js'
  * ```
  */
 export class FlattenedSign {
-  /** @ignore */
-  private _payload: Uint8Array
+  #payload: Uint8Array
 
-  /** @ignore */
-  private _protectedHeader!: types.JWSHeaderParameters
+  #protectedHeader!: types.JWSHeaderParameters
 
-  /** @ignore */
-  private _unprotectedHeader!: types.JWSHeaderParameters
+  #unprotectedHeader!: types.JWSHeaderParameters
 
   /**
    * {@link FlattenedSign} constructor
@@ -52,7 +49,7 @@ export class FlattenedSign {
     if (!(payload instanceof Uint8Array)) {
       throw new TypeError('payload must be an instance of Uint8Array')
     }
-    this._payload = payload
+    this.#payload = payload
   }
 
   /**
@@ -61,10 +58,10 @@ export class FlattenedSign {
    * @param protectedHeader JWS Protected Header.
    */
   setProtectedHeader(protectedHeader: types.JWSHeaderParameters): this {
-    if (this._protectedHeader) {
+    if (this.#protectedHeader) {
       throw new TypeError('setProtectedHeader can only be called once')
     }
-    this._protectedHeader = protectedHeader
+    this.#protectedHeader = protectedHeader
     return this
   }
 
@@ -74,10 +71,10 @@ export class FlattenedSign {
    * @param unprotectedHeader JWS Unprotected Header.
    */
   setUnprotectedHeader(unprotectedHeader: types.JWSHeaderParameters): this {
-    if (this._unprotectedHeader) {
+    if (this.#unprotectedHeader) {
       throw new TypeError('setUnprotectedHeader can only be called once')
     }
-    this._unprotectedHeader = unprotectedHeader
+    this.#unprotectedHeader = unprotectedHeader
     return this
   }
 
@@ -92,34 +89,34 @@ export class FlattenedSign {
     key: types.CryptoKey | types.KeyObject | types.JWK | Uint8Array,
     options?: types.SignOptions,
   ): Promise<types.FlattenedJWS> {
-    if (!this._protectedHeader && !this._unprotectedHeader) {
+    if (!this.#protectedHeader && !this.#unprotectedHeader) {
       throw new JWSInvalid(
         'either setProtectedHeader or setUnprotectedHeader must be called before #sign()',
       )
     }
 
-    if (!isDisjoint(this._protectedHeader, this._unprotectedHeader)) {
+    if (!isDisjoint(this.#protectedHeader, this.#unprotectedHeader)) {
       throw new JWSInvalid(
         'JWS Protected and JWS Unprotected Header Parameter names must be disjoint',
       )
     }
 
     const joseHeader: types.JWSHeaderParameters = {
-      ...this._protectedHeader,
-      ...this._unprotectedHeader,
+      ...this.#protectedHeader,
+      ...this.#unprotectedHeader,
     }
 
     const extensions = validateCrit(
       JWSInvalid,
       new Map([['b64', true]]),
       options?.crit,
-      this._protectedHeader,
+      this.#protectedHeader,
       joseHeader,
     )
 
     let b64 = true
     if (extensions.has('b64')) {
-      b64 = this._protectedHeader.b64!
+      b64 = this.#protectedHeader.b64!
       if (typeof b64 !== 'boolean') {
         throw new JWSInvalid(
           'The "b64" (base64url-encode payload) Header Parameter must be a boolean',
@@ -135,14 +132,14 @@ export class FlattenedSign {
 
     checkKeyType(alg, key, 'sign')
 
-    let payload = this._payload
+    let payload = this.#payload
     if (b64) {
       payload = encoder.encode(b64u(payload))
     }
 
     let protectedHeader: Uint8Array
-    if (this._protectedHeader) {
-      protectedHeader = encoder.encode(b64u(JSON.stringify(this._protectedHeader)))
+    if (this.#protectedHeader) {
+      protectedHeader = encoder.encode(b64u(JSON.stringify(this.#protectedHeader)))
     } else {
       protectedHeader = encoder.encode('')
     }
@@ -161,11 +158,11 @@ export class FlattenedSign {
       jws.payload = decoder.decode(payload)
     }
 
-    if (this._unprotectedHeader) {
-      jws.header = this._unprotectedHeader
+    if (this.#unprotectedHeader) {
+      jws.header = this.#unprotectedHeader
     }
 
-    if (this._protectedHeader) {
+    if (this.#protectedHeader) {
       jws.protected = decoder.decode(protectedHeader)
     }
 

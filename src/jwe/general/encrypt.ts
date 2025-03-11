@@ -25,18 +25,18 @@ export interface Recipient {
    */
   setUnprotectedHeader(unprotectedHeader: types.JWEHeaderParameters): Recipient
 
-  /** A shorthand for calling addRecipient() on the enclosing GeneralEncrypt instance */
+  /** A shorthand for calling addRecipient() on the enclosing {@link GeneralEncrypt} instance */
   addRecipient(...args: Parameters<GeneralEncrypt['addRecipient']>): Recipient
 
-  /** A shorthand for calling encrypt() on the enclosing GeneralEncrypt instance */
+  /** A shorthand for calling encrypt() on the enclosing {@link GeneralEncrypt} instance */
   encrypt(...args: Parameters<GeneralEncrypt['encrypt']>): Promise<types.GeneralJWE>
 
-  /** Returns the enclosing GeneralEncrypt */
+  /** Returns the enclosing {@link GeneralEncrypt} instance */
   done(): GeneralEncrypt
 }
 
 class IndividualRecipient implements Recipient {
-  private parent: GeneralEncrypt
+  #parent: GeneralEncrypt
   unprotectedHeader?: types.JWEHeaderParameters
   key: types.CryptoKey | types.KeyObject | types.JWK | Uint8Array
   options: types.CritOption
@@ -46,7 +46,7 @@ class IndividualRecipient implements Recipient {
     key: types.CryptoKey | types.KeyObject | types.JWK | Uint8Array,
     options: types.CritOption,
   ) {
-    this.parent = enc
+    this.#parent = enc
     this.key = key
     this.options = options
   }
@@ -60,15 +60,15 @@ class IndividualRecipient implements Recipient {
   }
 
   addRecipient(...args: Parameters<GeneralEncrypt['addRecipient']>) {
-    return this.parent.addRecipient(...args)
+    return this.#parent.addRecipient(...args)
   }
 
   encrypt(...args: Parameters<GeneralEncrypt['encrypt']>) {
-    return this.parent.encrypt(...args)
+    return this.#parent.encrypt(...args)
   }
 
   done() {
-    return this.parent
+    return this.#parent
   }
 }
 
@@ -95,20 +95,15 @@ class IndividualRecipient implements Recipient {
  * ```
  */
 export class GeneralEncrypt {
-  /** @ignore */
-  private _plaintext: Uint8Array
+  #plaintext: Uint8Array
 
-  /** @ignore */
-  private _recipients: IndividualRecipient[] = []
+  #recipients: IndividualRecipient[] = []
 
-  /** @ignore */
-  private _protectedHeader!: types.JWEHeaderParameters
+  #protectedHeader!: types.JWEHeaderParameters
 
-  /** @ignore */
-  private _unprotectedHeader!: types.JWEHeaderParameters
+  #unprotectedHeader!: types.JWEHeaderParameters
 
-  /** @ignore */
-  private _aad!: Uint8Array
+  #aad!: Uint8Array
 
   /**
    * {@link GeneralEncrypt} constructor
@@ -116,7 +111,7 @@ export class GeneralEncrypt {
    * @param plaintext Binary representation of the plaintext to encrypt.
    */
   constructor(plaintext: Uint8Array) {
-    this._plaintext = plaintext
+    this.#plaintext = plaintext
   }
 
   /**
@@ -131,7 +126,7 @@ export class GeneralEncrypt {
     options?: types.CritOption,
   ): Recipient {
     const recipient = new IndividualRecipient(this, key, { crit: options?.crit })
-    this._recipients.push(recipient)
+    this.#recipients.push(recipient)
     return recipient
   }
 
@@ -141,10 +136,10 @@ export class GeneralEncrypt {
    * @param protectedHeader JWE Protected Header object.
    */
   setProtectedHeader(protectedHeader: types.JWEHeaderParameters): this {
-    if (this._protectedHeader) {
+    if (this.#protectedHeader) {
       throw new TypeError('setProtectedHeader can only be called once')
     }
-    this._protectedHeader = protectedHeader
+    this.#protectedHeader = protectedHeader
     return this
   }
 
@@ -154,10 +149,10 @@ export class GeneralEncrypt {
    * @param sharedUnprotectedHeader JWE Shared Unprotected Header object.
    */
   setSharedUnprotectedHeader(sharedUnprotectedHeader: types.JWEHeaderParameters): this {
-    if (this._unprotectedHeader) {
+    if (this.#unprotectedHeader) {
       throw new TypeError('setSharedUnprotectedHeader can only be called once')
     }
-    this._unprotectedHeader = sharedUnprotectedHeader
+    this.#unprotectedHeader = sharedUnprotectedHeader
     return this
   }
 
@@ -167,23 +162,23 @@ export class GeneralEncrypt {
    * @param aad Additional Authenticated Data.
    */
   setAdditionalAuthenticatedData(aad: Uint8Array): this {
-    this._aad = aad
+    this.#aad = aad
     return this
   }
 
   /** Encrypts and resolves the value of the General JWE object. */
   async encrypt(): Promise<types.GeneralJWE> {
-    if (!this._recipients.length) {
+    if (!this.#recipients.length) {
       throw new JWEInvalid('at least one recipient must be added')
     }
 
-    if (this._recipients.length === 1) {
-      const [recipient] = this._recipients
+    if (this.#recipients.length === 1) {
+      const [recipient] = this.#recipients
 
-      const flattened = await new FlattenedEncrypt(this._plaintext)
-        .setAdditionalAuthenticatedData(this._aad)
-        .setProtectedHeader(this._protectedHeader)
-        .setSharedUnprotectedHeader(this._unprotectedHeader)
+      const flattened = await new FlattenedEncrypt(this.#plaintext)
+        .setAdditionalAuthenticatedData(this.#aad)
+        .setProtectedHeader(this.#protectedHeader)
+        .setSharedUnprotectedHeader(this.#unprotectedHeader)
         .setUnprotectedHeader(recipient.unprotectedHeader!)
         .encrypt(recipient.key, { ...recipient.options })
 
@@ -204,10 +199,10 @@ export class GeneralEncrypt {
     }
 
     let enc!: string
-    for (let i = 0; i < this._recipients.length; i++) {
-      const recipient = this._recipients[i]
+    for (let i = 0; i < this.#recipients.length; i++) {
+      const recipient = this.#recipients[i]
       if (
-        !isDisjoint(this._protectedHeader, this._unprotectedHeader, recipient.unprotectedHeader)
+        !isDisjoint(this.#protectedHeader, this.#unprotectedHeader, recipient.unprotectedHeader)
       ) {
         throw new JWEInvalid(
           'JWE Protected, JWE Shared Unprotected and JWE Per-Recipient Header Parameter names must be disjoint',
@@ -215,8 +210,8 @@ export class GeneralEncrypt {
       }
 
       const joseHeader = {
-        ...this._protectedHeader,
-        ...this._unprotectedHeader,
+        ...this.#protectedHeader,
+        ...this.#unprotectedHeader,
         ...recipient.unprotectedHeader,
       }
 
@@ -242,7 +237,7 @@ export class GeneralEncrypt {
         )
       }
 
-      validateCrit(JWEInvalid, new Map(), recipient.options.crit, this._protectedHeader, joseHeader)
+      validateCrit(JWEInvalid, new Map(), recipient.options.crit, this.#protectedHeader, joseHeader)
 
       if (joseHeader.zip !== undefined) {
         throw new JOSENotSupported(
@@ -260,25 +255,25 @@ export class GeneralEncrypt {
       tag: '',
     }
 
-    for (let i = 0; i < this._recipients.length; i++) {
-      const recipient = this._recipients[i]
+    for (let i = 0; i < this.#recipients.length; i++) {
+      const recipient = this.#recipients[i]
       const target: Record<string, string | types.JWEHeaderParameters> = {}
       jwe.recipients!.push(target)
 
       const joseHeader = {
-        ...this._protectedHeader,
-        ...this._unprotectedHeader,
+        ...this.#protectedHeader,
+        ...this.#unprotectedHeader,
         ...recipient.unprotectedHeader,
       }
 
       const p2c = joseHeader.alg!.startsWith('PBES2') ? 2048 + i : undefined
 
       if (i === 0) {
-        const flattened = await new FlattenedEncrypt(this._plaintext)
-          .setAdditionalAuthenticatedData(this._aad)
+        const flattened = await new FlattenedEncrypt(this.#plaintext)
+          .setAdditionalAuthenticatedData(this.#aad)
           .setContentEncryptionKey(cek)
-          .setProtectedHeader(this._protectedHeader)
-          .setSharedUnprotectedHeader(this._unprotectedHeader)
+          .setProtectedHeader(this.#protectedHeader)
+          .setSharedUnprotectedHeader(this.#unprotectedHeader)
           .setUnprotectedHeader(recipient.unprotectedHeader!)
           .setKeyManagementParameters({ p2c })
           .encrypt(recipient.key, {
@@ -303,8 +298,8 @@ export class GeneralEncrypt {
 
       const alg =
         recipient.unprotectedHeader?.alg! ||
-        this._protectedHeader?.alg! ||
-        this._unprotectedHeader?.alg!
+        this.#protectedHeader?.alg! ||
+        this.#unprotectedHeader?.alg!
 
       checkKeyType(alg === 'dir' ? enc : alg, recipient.key, 'encrypt')
 

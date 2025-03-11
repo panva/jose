@@ -26,8 +26,7 @@ import { FlattenedSign } from '../flattened/sign.js'
  * ```
  */
 export class CompactSign {
-  /** @ignore */
-  private _flattened: FlattenedSign
+  #flattened: FlattenedSign
 
   /**
    * {@link CompactSign} constructor
@@ -35,7 +34,7 @@ export class CompactSign {
    * @param payload Binary representation of the payload to sign.
    */
   constructor(payload: Uint8Array) {
-    this._flattened = new FlattenedSign(payload)
+    this.#flattened = new FlattenedSign(payload)
   }
 
   /**
@@ -44,7 +43,7 @@ export class CompactSign {
    * @param protectedHeader JWS Protected Header.
    */
   setProtectedHeader(protectedHeader: types.CompactJWSHeaderParameters): this {
-    this._flattened.setProtectedHeader(protectedHeader)
+    this.#flattened.setProtectedHeader(protectedHeader)
     return this
   }
 
@@ -59,7 +58,7 @@ export class CompactSign {
     key: types.CryptoKey | types.KeyObject | types.JWK | Uint8Array,
     options?: types.SignOptions,
   ): Promise<string> {
-    const jws = await this._flattened.sign(key, options)
+    const jws = await this.#flattened.sign(key, options)
 
     if (jws.payload === undefined) {
       throw new TypeError('use the flattened module for creating JWS with b64: false')

@@ -12,7 +12,7 @@ Used to build General JWE object's individual recipients.
 
 ▸ **addRecipient**(...`args`): [`Recipient`](Recipient.md)
 
-A shorthand for calling addRecipient() on the enclosing GeneralEncrypt instance
+A shorthand for calling addRecipient() on the enclosing [GeneralEncrypt](../classes/GeneralEncrypt.md) instance
 
 #### Parameters
 
@@ -30,7 +30,7 @@ A shorthand for calling addRecipient() on the enclosing GeneralEncrypt instance
 
 ▸ **done**(): [`GeneralEncrypt`](../classes/GeneralEncrypt.md)
 
-Returns the enclosing GeneralEncrypt
+Returns the enclosing [GeneralEncrypt](../classes/GeneralEncrypt.md) instance
 
 #### Returns
 
@@ -42,7 +42,7 @@ Returns the enclosing GeneralEncrypt
 
 ▸ **encrypt**(...`args`): [`Promise`](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise)\<[`GeneralJWE`](../../../../types/interfaces/GeneralJWE.md)\>
 
-A shorthand for calling encrypt() on the enclosing GeneralEncrypt instance
+A shorthand for calling encrypt() on the enclosing [GeneralEncrypt](../classes/GeneralEncrypt.md) instance
 
 #### Parameters
 

@@ -7,7 +7,6 @@
 import { CompactSign } from '../jws/compact/sign.js'
 import { JWTInvalid } from '../util/errors.js'
 import type * as types from '../types.d.ts'
-import { encoder } from '../lib/buffer_utils.js'
 import { ProduceJWT } from './produce.js'
 
 /**
@@ -114,9 +113,10 @@ import { ProduceJWT } from './produce.js'
  * console.log(jwt)
  * ```
  */
-export class SignJWT extends ProduceJWT {
-  /** @ignore */
-  private _protectedHeader!: types.JWTHeaderParameters
+export class SignJWT implements types.ProduceJWT {
+  #protectedHeader!: types.JWTHeaderParameters
+
+  #jwt: ProduceJWT
 
   /**
    * {@link SignJWT} constructor
@@ -124,7 +124,42 @@ export class SignJWT extends ProduceJWT {
    * @param payload The JWT Claims Set object. Defaults to an empty object.
    */
   constructor(payload: types.JWTPayload = {}) {
-    super(payload)
+    this.#jwt = new ProduceJWT(payload)
+  }
+
+  setIssuer(issuer: string): this {
+    this.#jwt.iss = issuer
+    return this
+  }
+
+  setSubject(subject: string): this {
+    this.#jwt.sub = subject
+    return this
+  }
+
+  setAudience(audience: string | string[]): this {
+    this.#jwt.aud = audience
+    return this
+  }
+
+  setJti(jwtId: string): this {
+    this.#jwt.jti = jwtId
+    return this
+  }
+
+  setNotBefore(input: number | string | Date): this {
+    this.#jwt.nbf = input
+    return this
+  }
+
+  setExpirationTime(input: number | string | Date): this {
+    this.#jwt.exp = input
+    return this
+  }
+
+  setIssuedAt(input?: number | string | Date): this {
+    this.#jwt.iat = input
+    return this
   }
 
   /**
@@ -133,7 +168,7 @@ export class SignJWT extends ProduceJWT {
    * @param protectedHeader JWS Protected Header. Must contain an "alg" (JWS Algorithm) property.
    */
   setProtectedHeader(protectedHeader: types.JWTHeaderParameters): this {
-    this._protectedHeader = protectedHeader
+    this.#protectedHeader = protectedHeader
     return this
   }
 
@@ -148,13 +183,13 @@ export class SignJWT extends ProduceJWT {
     key: types.CryptoKey | types.KeyObject | types.JWK | Uint8Array,
     options?: types.SignOptions,
   ): Promise<string> {
-    const sig = new CompactSign(encoder.encode(JSON.stringify(this._payload)))
-    sig.setProtectedHeader(this._protectedHeader)
+    const sig = new CompactSign(this.#jwt.data())
+    sig.setProtectedHeader(this.#protectedHeader)
     if (
-      Array.isArray(this._protectedHeader?.crit) &&
-      this._protectedHeader.crit.includes('b64') &&
+      Array.isArray(this.#protectedHeader?.crit) &&
+      this.#protectedHeader.crit.includes('b64') &&
       // @ts-expect-error
-      this._protectedHeader.b64 === false
+      this.#protectedHeader.b64 === false
     ) {
       throw new JWTInvalid('JWTs MUST NOT use unencoded payload')
     }

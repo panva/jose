@@ -56,18 +56,20 @@ function clone<T>(obj: T): T {
 }
 
 class LocalJWKSet {
-  /** @ignore */
-  private _jwks?: types.JSONWebKeySet
+  #jwks: types.JSONWebKeySet
 
-  /** @ignore */
-  private _cached: WeakMap<types.JWK, Cache> = new WeakMap()
+  #cached: WeakMap<types.JWK, Cache> = new WeakMap()
 
   constructor(jwks: unknown) {
     if (!isJWKSLike(jwks)) {
       throw new JWKSInvalid('JSON Web Key Set malformed')
     }
 
-    this._jwks = clone<types.JSONWebKeySet>(jwks)
+    this.#jwks = clone<types.JSONWebKeySet>(jwks)
+  }
+
+  jwks(): types.JSONWebKeySet {
+    return this.#jwks
   }
 
   async getKey(
@@ -77,7 +79,7 @@ class LocalJWKSet {
     const { alg, kid } = { ...protectedHeader, ...token?.header }
     const kty = getKtyFromAlg(alg)
 
-    const candidates = this._jwks!.keys.filter((jwk) => {
+    const candidates = this.#jwks!.keys.filter((jwk) => {
       // filter keys based on the mapping of signature algorithms to Key Type
       let candidate = kty === jwk.kty
 
@@ -131,7 +133,7 @@ class LocalJWKSet {
     if (length !== 1) {
       const error = new JWKSMultipleMatchingKeys()
 
-      const { _cached } = this
+      const _cached = this.#cached
       error[Symbol.asyncIterator] = async function* () {
         for (const jwk of candidates) {
           try {
@@ -143,7 +145,7 @@ class LocalJWKSet {
       throw error
     }
 
-    return importWithAlgCache(this._cached, jwk, alg!)
+    return importWithAlgCache(this.#cached, jwk, alg!)
   }
 }
 
@@ -259,9 +261,8 @@ export function createLocalJWKSet(
 
   Object.defineProperties(localJWKSet, {
     jwks: {
-      // @ts-expect-error
-      value: () => clone(set._jwks),
-      enumerable: true,
+      value: () => clone(set.jwks()),
+      enumerable: false,
       configurable: false,
       writable: false,
     },

@@ -18,7 +18,6 @@ export { jwtVerify } from './jwt/verify.js'
 export type { JWTVerifyOptions, JWTVerifyGetKey } from './jwt/verify.js'
 export { jwtDecrypt } from './jwt/decrypt.js'
 export type { JWTDecryptOptions, JWTDecryptGetKey } from './jwt/decrypt.js'
-export type { ProduceJWT } from './jwt/produce.js'
 
 export { CompactEncrypt } from './jwe/compact/encrypt.js'
 export { FlattenedEncrypt } from './jwe/flattened/encrypt.js'
@@ -104,6 +103,7 @@ export type {
   JWTPayload,
   JWTVerifyResult,
   KeyObject,
+  ProduceJWT,
   ResolvedKey,
   SignOptions,
   VerifyOptions,

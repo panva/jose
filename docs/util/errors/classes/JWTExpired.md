@@ -24,10 +24,6 @@ if (err instanceof jose.errors.JWTExpired) {
 }
 ```
 
-## Implements
-
-- [`JWTClaimValidationFailed`](JWTClaimValidationFailed.md)
-
 ## Properties
 
 ### claim
