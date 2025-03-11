@@ -222,16 +222,8 @@ export class JWTClaimsBuilder {
     this.#payload.aud = value
   }
 
-  get jti(): string | undefined {
-    return this.#payload.jti
-  }
-
   set jti(value: string) {
     this.#payload.jti = value
-  }
-
-  get nbf(): number | undefined {
-    return this.#payload.nbf
   }
 
   set nbf(value: number | string | Date) {
@@ -244,10 +236,6 @@ export class JWTClaimsBuilder {
     }
   }
 
-  get exp(): number | undefined {
-    return this.#payload.exp
-  }
-
   set exp(value: number | string | Date) {
     if (typeof value === 'number') {
       this.#payload.exp = validateInput('setExpirationTime', value)
@@ -256,10 +244,6 @@ export class JWTClaimsBuilder {
     } else {
       this.#payload.exp = epoch(new Date()) + secs(value)
     }
-  }
-
-  get iat(): number | undefined {
-    return this.#payload.iat
   }
 
   set iat(value: number | string | Date | undefined) {
