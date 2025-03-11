@@ -6,7 +6,7 @@
 
 import type * as types from '../types.d.ts'
 import { CompactEncrypt } from '../jwe/compact/encrypt.js'
-import { ProduceJWT } from './produce.js'
+import { JWTClaimsBuilder } from '../lib/jwt_claims_set.js'
 
 /**
  * The EncryptJWT class is used to build and encrypt Compact JWE formatted JSON Web Tokens.
@@ -44,7 +44,7 @@ export class EncryptJWT implements types.ProduceJWT {
 
   #replicateAudienceAsHeader!: boolean
 
-  #jwt: ProduceJWT
+  #jwt: JWTClaimsBuilder
 
   /**
    * {@link EncryptJWT} constructor
@@ -52,7 +52,7 @@ export class EncryptJWT implements types.ProduceJWT {
    * @param payload The JWT Claims Set object. Defaults to an empty object.
    */
   constructor(payload: types.JWTPayload = {}) {
-    this.#jwt = new ProduceJWT(payload)
+    this.#jwt = new JWTClaimsBuilder(payload)
   }
 
   setIssuer(issuer: string): this {

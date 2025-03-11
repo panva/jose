@@ -7,7 +7,7 @@
 import { CompactSign } from '../jws/compact/sign.js'
 import { JWTInvalid } from '../util/errors.js'
 import type * as types from '../types.d.ts'
-import { ProduceJWT } from './produce.js'
+import { JWTClaimsBuilder } from '../lib/jwt_claims_set.js'
 
 /**
  * The SignJWT class is used to build and sign Compact JWS formatted JSON Web Tokens.
@@ -116,7 +116,7 @@ import { ProduceJWT } from './produce.js'
 export class SignJWT implements types.ProduceJWT {
   #protectedHeader!: types.JWTHeaderParameters
 
-  #jwt: ProduceJWT
+  #jwt: JWTClaimsBuilder
 
   /**
    * {@link SignJWT} constructor
@@ -124,7 +124,7 @@ export class SignJWT implements types.ProduceJWT {
    * @param payload The JWT Claims Set object. Defaults to an empty object.
    */
   constructor(payload: types.JWTPayload = {}) {
-    this.#jwt = new ProduceJWT(payload)
+    this.#jwt = new JWTClaimsBuilder(payload)
   }
 
   setIssuer(issuer: string): this {

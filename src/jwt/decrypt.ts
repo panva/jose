@@ -6,7 +6,7 @@
 
 import type * as types from '../types.d.ts'
 import { compactDecrypt } from '../jwe/compact/decrypt.js'
-import jwtPayload from '../lib/jwt_claims_set.js'
+import { validateClaimsSet } from '../lib/jwt_claims_set.js'
 import { JWTClaimValidationFailed } from '../util/errors.js'
 
 /** Combination of JWE Decryption options and JWT Claims Set verification options. */
@@ -71,7 +71,7 @@ export async function jwtDecrypt(
   options?: JWTDecryptOptions,
 ) {
   const decrypted = await compactDecrypt(jwt, key as Parameters<typeof compactDecrypt>[1], options)
-  const payload = jwtPayload(decrypted.protectedHeader, decrypted.plaintext, options)
+  const payload = validateClaimsSet(decrypted.protectedHeader, decrypted.plaintext, options)
 
   const { protectedHeader } = decrypted
 

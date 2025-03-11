@@ -9,8 +9,7 @@ import * as b64u from '../util/base64url.js'
 import type * as types from '../types.d.ts'
 import { decoder } from '../lib/buffer_utils.js'
 import { JWTInvalid } from '../util/errors.js'
-import jwtPayload from '../lib/jwt_claims_set.js'
-import { ProduceJWT } from './produce.js'
+import { validateClaimsSet, JWTClaimsBuilder } from '../lib/jwt_claims_set.js'
 
 /** Result of decoding an Unsecured JWT. */
 export interface UnsecuredResult<PayloadType = types.JWTPayload> {
@@ -53,7 +52,7 @@ export interface UnsecuredResult<PayloadType = types.JWTPayload> {
  * ```
  */
 export class UnsecuredJWT implements types.ProduceJWT {
-  #jwt: ProduceJWT
+  #jwt: JWTClaimsBuilder
 
   /**
    * {@link UnsecuredJWT} constructor
@@ -61,7 +60,7 @@ export class UnsecuredJWT implements types.ProduceJWT {
    * @param payload The JWT Claims Set object. Defaults to an empty object.
    */
   constructor(payload: types.JWTPayload = {}) {
-    this.#jwt = new ProduceJWT(payload)
+    this.#jwt = new JWTClaimsBuilder(payload)
   }
 
   /** Encodes the Unsecured JWT. */
@@ -134,7 +133,7 @@ export class UnsecuredJWT implements types.ProduceJWT {
       throw new JWTInvalid('Invalid Unsecured JWT')
     }
 
-    const payload = jwtPayload(
+    const payload = validateClaimsSet(
       header,
       b64u.decode(encodedPayload),
       options,
