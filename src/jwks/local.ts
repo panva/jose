@@ -47,14 +47,6 @@ function isJWKLike(key: unknown) {
   return isObject<types.JWK>(key)
 }
 
-function clone<T>(obj: T): T {
-  if (typeof structuredClone === 'function') {
-    return structuredClone(obj)
-  }
-
-  return JSON.parse(JSON.stringify(obj))
-}
-
 class LocalJWKSet {
   #jwks: types.JSONWebKeySet
 
@@ -65,7 +57,7 @@ class LocalJWKSet {
       throw new JWKSInvalid('JSON Web Key Set malformed')
     }
 
-    this.#jwks = clone<types.JSONWebKeySet>(jwks)
+    this.#jwks = structuredClone<types.JSONWebKeySet>(jwks)
   }
 
   jwks(): types.JSONWebKeySet {
@@ -261,7 +253,7 @@ export function createLocalJWKSet(
 
   Object.defineProperties(localJWKSet, {
     jwks: {
-      value: () => clone(set.jwks()),
+      value: () => structuredClone(set.jwks()),
       enumerable: false,
       configurable: false,
       writable: false,
