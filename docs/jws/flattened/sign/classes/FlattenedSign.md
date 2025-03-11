@@ -27,6 +27,8 @@ console.log(jws)
 
 ▸ **new FlattenedSign**(`payload`): [`FlattenedSign`](FlattenedSign.md)
 
+[FlattenedSign](FlattenedSign.md) constructor
+
 #### Parameters
 
 | Parameter | Type | Description |

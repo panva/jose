@@ -10,14 +10,14 @@ See [customFetch](../variables/customFetch.md).
 
 ## Parameters
 
-| Parameter | Type |
-| ------ | ------ |
-| `url` | `string` |
-| `options` | \{`headers`: [`Headers`](https://developer.mozilla.org/docs/Web/API/Headers);`method`: `"GET"`;`redirect`: `"manual"`;`signal`: [`AbortSignal`](https://developer.mozilla.org/docs/Web/API/AbortSignal); \} |
-| `options.headers` | [`Headers`](https://developer.mozilla.org/docs/Web/API/Headers) |
-| `options.method` | `"GET"` |
-| `options.redirect` | `"manual"` |
-| `options.signal` | [`AbortSignal`](https://developer.mozilla.org/docs/Web/API/AbortSignal) |
+| Parameter | Type | Description |
+| ------ | ------ | ------ |
+| `url` | `string` | - |
+| `options` | \{`headers`: [`Headers`](https://developer.mozilla.org/docs/Web/API/Headers);`method`: `"GET"`;`redirect`: `"manual"`;`signal`: [`AbortSignal`](https://developer.mozilla.org/docs/Web/API/AbortSignal); \} | - |
+| `options.headers` | [`Headers`](https://developer.mozilla.org/docs/Web/API/Headers) | HTTP Headers |
+| `options.method` | `"GET"` | The [request method](https://developer.mozilla.org/en-US/docs/Web/HTTP/Methods) |
+| `options.redirect` | `"manual"` | See [Request.redirect](https://developer.mozilla.org/docs/Web/API/Request/redirect) |
+| `options.signal` | [`AbortSignal`](https://developer.mozilla.org/docs/Web/API/AbortSignal) | - |
 
 ## Returns
 

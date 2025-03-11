@@ -30,6 +30,8 @@ console.log(jws)
 
 ▸ **new GeneralSign**(`payload`): [`GeneralSign`](GeneralSign.md)
 
+[GeneralSign](GeneralSign.md) constructor
+
 #### Parameters
 
 | Parameter | Type | Description |

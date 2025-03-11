@@ -109,6 +109,8 @@ console.log(jwt)
 
 ▸ **new SignJWT**(`payload`): [`SignJWT`](SignJWT.md)
 
+[SignJWT](SignJWT.md) constructor
+
 #### Parameters
 
 | Parameter | Type | Description |

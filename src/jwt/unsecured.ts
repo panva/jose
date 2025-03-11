@@ -53,6 +53,15 @@ export interface UnsecuredResult<PayloadType = types.JWTPayload> {
  * ```
  */
 export class UnsecuredJWT extends ProduceJWT {
+  /**
+   * {@link UnsecuredJWT} constructor
+   *
+   * @param payload The JWT Claims Set object. Defaults to an empty object.
+   */
+  constructor(payload: types.JWTPayload = {}) {
+    super(payload)
+  }
+
   /** Encodes the Unsecured JWT. */
   encode(): string {
     const header = b64u.encode(JSON.stringify({ alg: 'none' }))

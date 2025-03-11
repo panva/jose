@@ -103,11 +103,17 @@ class IndividualSignature implements Signature {
  * ```
  */
 export class GeneralSign {
+  /** @ignore */
   private _payload: Uint8Array
 
+  /** @ignore */
   private _signatures: IndividualSignature[] = []
 
-  /** @param payload Binary representation of the payload to sign. */
+  /**
+   * {@link GeneralSign} constructor
+   *
+   * @param payload Binary representation of the payload to sign.
+   */
   constructor(payload: Uint8Array) {
     this._payload = payload
   }

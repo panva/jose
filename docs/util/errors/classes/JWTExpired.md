@@ -42,7 +42,7 @@ The Claim for which the validation failed.
 
 • **code**: `string` = `'ERR_JWT_EXPIRED'`
 
-A unique error code for this particular error subclass.
+A unique error code for [JWTExpired](JWTExpired.md).
 
 ***
 

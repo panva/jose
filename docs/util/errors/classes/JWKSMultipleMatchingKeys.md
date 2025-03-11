@@ -30,4 +30,4 @@ if (err instanceof jose.errors.JWKSMultipleMatchingKeys) {
 
 • **code**: `string` = `'ERR_JWKS_MULTIPLE_MATCHING_KEYS'`
 
-A unique error code for this particular error subclass.
+A unique error code for [JWKSMultipleMatchingKeys](JWKSMultipleMatchingKeys.md).

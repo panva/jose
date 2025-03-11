@@ -12,8 +12,12 @@ See [jwksCache](../variables/jwksCache.md).
 
 • **jwks**: [`JSONWebKeySet`](../../../types/interfaces/JSONWebKeySet.md)
 
+Current cached JSON Web Key Set
+
 ***
 
 ### uat
 
 • **uat**: `number`
+
+Last updated at timestamp (seconds since epoch)

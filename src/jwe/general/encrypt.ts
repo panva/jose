@@ -95,17 +95,26 @@ class IndividualRecipient implements Recipient {
  * ```
  */
 export class GeneralEncrypt {
+  /** @ignore */
   private _plaintext: Uint8Array
 
+  /** @ignore */
   private _recipients: IndividualRecipient[] = []
 
+  /** @ignore */
   private _protectedHeader!: types.JWEHeaderParameters
 
+  /** @ignore */
   private _unprotectedHeader!: types.JWEHeaderParameters
 
+  /** @ignore */
   private _aad!: Uint8Array
 
-  /** @param plaintext Binary representation of the plaintext to encrypt. */
+  /**
+   * {@link GeneralEncrypt} constructor
+   *
+   * @param plaintext Binary representation of the plaintext to encrypt.
+   */
   constructor(plaintext: Uint8Array) {
     this._plaintext = plaintext
   }

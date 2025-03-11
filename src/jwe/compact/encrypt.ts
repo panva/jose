@@ -26,9 +26,14 @@ import { FlattenedEncrypt } from '../flattened/encrypt.js'
  * ```
  */
 export class CompactEncrypt {
+  /** @ignore */
   private _flattened: FlattenedEncrypt
 
-  /** @param plaintext Binary representation of the plaintext to encrypt. */
+  /**
+   * {@link CompactEncrypt} constructor
+   *
+   * @param plaintext Binary representation of the plaintext to encrypt.
+   */
   constructor(plaintext: Uint8Array) {
     this._flattened = new FlattenedEncrypt(plaintext)
   }

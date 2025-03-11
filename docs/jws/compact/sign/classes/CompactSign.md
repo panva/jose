@@ -27,6 +27,8 @@ console.log(jws)
 
 ▸ **new CompactSign**(`payload`): [`CompactSign`](CompactSign.md)
 
+[CompactSign](CompactSign.md) constructor
+
 #### Parameters
 
 | Parameter | Type | Description |

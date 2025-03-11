@@ -26,9 +26,14 @@ import { FlattenedSign } from '../flattened/sign.js'
  * ```
  */
 export class CompactSign {
+  /** @ignore */
   private _flattened: FlattenedSign
 
-  /** @param payload Binary representation of the payload to sign. */
+  /**
+   * {@link CompactSign} constructor
+   *
+   * @param payload Binary representation of the payload to sign.
+   */
   constructor(payload: Uint8Array) {
     this._flattened = new FlattenedSign(payload)
   }

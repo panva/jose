@@ -146,10 +146,15 @@ export const customFetch: unique symbol = Symbol()
 
 /** See {@link customFetch}. */
 export type FetchImplementation = (
+  /** URL the request is being made sent to {@link !fetch} as the `resource` argument */
   url: string,
+  /** Options otherwise sent to {@link !fetch} as the `options` argument */
   options: {
+    /** HTTP Headers */
     headers: Headers
+    /** The {@link https://developer.mozilla.org/en-US/docs/Web/HTTP/Methods request method} */
     method: 'GET'
+    /** See {@link !Request.redirect} */
     redirect: 'manual'
     signal: AbortSignal
   },
@@ -272,7 +277,13 @@ export interface RemoteJWKSetOptions {
 
 /** See {@link jwksCache}. */
 export interface ExportedJWKSCache {
+  /**
+   * Current cached JSON Web Key Set
+   */
   jwks: types.JSONWebKeySet
+  /**
+   * Last updated at timestamp (seconds since epoch)
+   */
   uat: number
 }
 
@@ -301,24 +312,33 @@ function isFreshJwksCache(input: unknown, cacheMaxAge: number): input is Exporte
 }
 
 class RemoteJWKSet {
+  /** @ignore */
   private _url: URL
 
+  /** @ignore */
   private _timeoutDuration: number
 
+  /** @ignore */
   private _cooldownDuration: number
 
+  /** @ignore */
   private _cacheMaxAge: number
 
+  /** @ignore */
   private _jwksTimestamp?: number
 
+  /** @ignore */
   private _pendingFetch?: Promise<unknown>
 
+  /** @ignore */
   private _headers: Headers
 
   private [customFetch]?: FetchImplementation
 
+  /** @ignore */
   private _local!: ReturnType<typeof createLocalJWKSet>
 
+  /** @ignore */
   private _cache?: JWKSCacheInput
 
   constructor(url: unknown, options?: RemoteJWKSetOptions) {

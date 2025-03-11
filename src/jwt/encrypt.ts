@@ -31,19 +31,35 @@ import { ProduceJWT } from './produce.js'
  * ```
  */
 export class EncryptJWT extends ProduceJWT {
+  /** @ignore */
   private _cek!: Uint8Array
 
+  /** @ignore */
   private _iv!: Uint8Array
 
+  /** @ignore */
   private _keyManagementParameters!: types.JWEKeyManagementHeaderParameters
 
+  /** @ignore */
   private _protectedHeader!: types.CompactJWEHeaderParameters
 
+  /** @ignore */
   private _replicateIssuerAsHeader!: boolean
 
+  /** @ignore */
   private _replicateSubjectAsHeader!: boolean
 
+  /** @ignore */
   private _replicateAudienceAsHeader!: boolean
+
+  /**
+   * {@link EncryptJWT} constructor
+   *
+   * @param payload The JWT Claims Set object. Defaults to an empty object.
+   */
+  constructor(payload: types.JWTPayload = {}) {
+    super(payload)
+  }
 
   /**
    * Sets the JWE Protected Header on the EncryptJWT object.

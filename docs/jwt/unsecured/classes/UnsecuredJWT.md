@@ -41,6 +41,8 @@ console.log(payload)
 
 ▸ **new UnsecuredJWT**(`payload`): [`UnsecuredJWT`](UnsecuredJWT.md)
 
+[UnsecuredJWT](UnsecuredJWT.md) constructor
+
 #### Parameters
 
 | Parameter | Type | Description |

@@ -115,7 +115,17 @@ import { ProduceJWT } from './produce.js'
  * ```
  */
 export class SignJWT extends ProduceJWT {
+  /** @ignore */
   private _protectedHeader!: types.JWTHeaderParameters
+
+  /**
+   * {@link SignJWT} constructor
+   *
+   * @param payload The JWT Claims Set object. Defaults to an empty object.
+   */
+  constructor(payload: types.JWTPayload = {}) {
+    super(payload)
+  }
 
   /**
    * Sets the JWS Protected Header on the SignJWT object.

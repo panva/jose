@@ -56,8 +56,10 @@ function clone<T>(obj: T): T {
 }
 
 class LocalJWKSet {
+  /** @ignore */
   private _jwks?: types.JSONWebKeySet
 
+  /** @ignore */
   private _cached: WeakMap<types.JWK, Cache> = new WeakMap()
 
   constructor(jwks: unknown) {

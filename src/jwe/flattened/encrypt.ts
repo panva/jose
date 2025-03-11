@@ -36,23 +36,35 @@ import checkKeyType from '../../lib/check_key_type.js'
  * ```
  */
 export class FlattenedEncrypt {
+  /** @ignore */
   private _plaintext: Uint8Array
 
+  /** @ignore */
   private _protectedHeader!: types.JWEHeaderParameters | undefined
 
+  /** @ignore */
   private _sharedUnprotectedHeader!: types.JWEHeaderParameters | undefined
 
+  /** @ignore */
   private _unprotectedHeader!: types.JWEHeaderParameters | undefined
 
+  /** @ignore */
   private _aad!: Uint8Array | undefined
 
+  /** @ignore */
   private _cek!: Uint8Array | undefined
 
+  /** @ignore */
   private _iv!: Uint8Array | undefined
 
+  /** @ignore */
   private _keyManagementParameters!: types.JWEKeyManagementHeaderParameters
 
-  /** @param plaintext Binary representation of the plaintext to encrypt. */
+  /**
+   * {@link FlattenedEncrypt} constructor
+   *
+   * @param plaintext Binary representation of the plaintext to encrypt.
+   */
   constructor(plaintext: Uint8Array) {
     if (!(plaintext instanceof Uint8Array)) {
       throw new TypeError('plaintext must be an instance of Uint8Array')

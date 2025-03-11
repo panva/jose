@@ -30,6 +30,8 @@ console.log(jwt)
 
 ▸ **new EncryptJWT**(`payload`): [`EncryptJWT`](EncryptJWT.md)
 
+[EncryptJWT](EncryptJWT.md) constructor
+
 #### Parameters
 
 | Parameter | Type | Description |

@@ -27,7 +27,7 @@ export class JOSEError extends Error {
    */
   static code = 'ERR_JOSE_GENERIC'
 
-  /** A unique error code for this particular error subclass. */
+  /** A unique error code for {@link JOSEError}. */
   code = 'ERR_JOSE_GENERIC'
 
   /** @ignore */
@@ -66,6 +66,7 @@ export class JWTClaimValidationFailed extends JOSEError {
   /** @ignore */
   static override code = 'ERR_JWT_CLAIM_VALIDATION_FAILED'
 
+  /** A unique error code for {@link JWTClaimValidationFailed}. */
   override code = 'ERR_JWT_CLAIM_VALIDATION_FAILED'
 
   /** The Claim for which the validation failed. */
@@ -123,6 +124,7 @@ export class JWTExpired extends JOSEError implements JWTClaimValidationFailed {
   /** @ignore */
   static override code = 'ERR_JWT_EXPIRED'
 
+  /** A unique error code for {@link JWTExpired}. */
   override code = 'ERR_JWT_EXPIRED'
 
   /** The Claim for which the validation failed. */
@@ -180,6 +182,7 @@ export class JOSEAlgNotAllowed extends JOSEError {
   /** @ignore */
   static override code = 'ERR_JOSE_ALG_NOT_ALLOWED'
 
+  /** A unique error code for {@link JOSEAlgNotAllowed}. */
   override code = 'ERR_JOSE_ALG_NOT_ALLOWED'
 }
 
@@ -211,6 +214,7 @@ export class JOSENotSupported extends JOSEError {
   /** @ignore */
   static override code = 'ERR_JOSE_NOT_SUPPORTED'
 
+  /** A unique error code for {@link JOSENotSupported}. */
   override code = 'ERR_JOSE_NOT_SUPPORTED'
 }
 
@@ -241,6 +245,7 @@ export class JWEDecryptionFailed extends JOSEError {
   /** @ignore */
   static override code = 'ERR_JWE_DECRYPTION_FAILED'
 
+  /** A unique error code for {@link JWEDecryptionFailed}. */
   override code = 'ERR_JWE_DECRYPTION_FAILED'
 
   /** @ignore */
@@ -276,6 +281,7 @@ export class JWEInvalid extends JOSEError {
   /** @ignore */
   static override code = 'ERR_JWE_INVALID'
 
+  /** A unique error code for {@link JWEInvalid}. */
   override code = 'ERR_JWE_INVALID'
 }
 
@@ -306,6 +312,7 @@ export class JWSInvalid extends JOSEError {
   /** @ignore */
   static override code = 'ERR_JWS_INVALID'
 
+  /** A unique error code for {@link JWSInvalid}. */
   override code = 'ERR_JWS_INVALID'
 }
 
@@ -336,6 +343,7 @@ export class JWTInvalid extends JOSEError {
   /** @ignore */
   static override code = 'ERR_JWT_INVALID'
 
+  /** A unique error code for {@link JWTInvalid}. */
   override code = 'ERR_JWT_INVALID'
 }
 
@@ -366,6 +374,7 @@ export class JWKInvalid extends JOSEError {
   /** @ignore */
   static override code = 'ERR_JWK_INVALID'
 
+  /** A unique error code for {@link JWKInvalid}. */
   override code = 'ERR_JWK_INVALID'
 }
 
@@ -396,6 +405,7 @@ export class JWKSInvalid extends JOSEError {
   /** @ignore */
   static override code = 'ERR_JWKS_INVALID'
 
+  /** A unique error code for {@link JWKSInvalid}. */
   override code = 'ERR_JWKS_INVALID'
 }
 
@@ -426,6 +436,7 @@ export class JWKSNoMatchingKey extends JOSEError {
   /** @ignore */
   static override code = 'ERR_JWKS_NO_MATCHING_KEY'
 
+  /** A unique error code for {@link JWKSNoMatchingKey}. */
   override code = 'ERR_JWKS_NO_MATCHING_KEY'
 
   /** @ignore */
@@ -467,6 +478,7 @@ export class JWKSMultipleMatchingKeys extends JOSEError {
   /** @ignore */
   static override code = 'ERR_JWKS_MULTIPLE_MATCHING_KEYS'
 
+  /** A unique error code for {@link JWKSMultipleMatchingKeys}. */
   override code = 'ERR_JWKS_MULTIPLE_MATCHING_KEYS'
 
   /** @ignore */
@@ -505,6 +517,7 @@ export class JWKSTimeout extends JOSEError {
   /** @ignore */
   static override code = 'ERR_JWKS_TIMEOUT'
 
+  /** A unique error code for {@link JWKSTimeout}. */
   override code = 'ERR_JWKS_TIMEOUT'
 
   /** @ignore */
@@ -540,6 +553,7 @@ export class JWSSignatureVerificationFailed extends JOSEError {
   /** @ignore */
   static override code = 'ERR_JWS_SIGNATURE_VERIFICATION_FAILED'
 
+  /** A unique error code for {@link JWSSignatureVerificationFailed}. */
   override code = 'ERR_JWS_SIGNATURE_VERIFICATION_FAILED'
 
   /** @ignore */

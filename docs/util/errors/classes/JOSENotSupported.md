@@ -31,4 +31,4 @@ if (err instanceof jose.errors.JOSENotSupported) {
 
 • **code**: `string` = `'ERR_JOSE_NOT_SUPPORTED'`
 
-A unique error code for this particular error subclass.
+A unique error code for [JOSENotSupported](JOSENotSupported.md).

@@ -27,6 +27,8 @@ console.log(jwe)
 
 ▸ **new CompactEncrypt**(`plaintext`): [`CompactEncrypt`](CompactEncrypt.md)
 
+[CompactEncrypt](CompactEncrypt.md) constructor
+
 #### Parameters
 
 | Parameter | Type | Description |

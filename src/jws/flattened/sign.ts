@@ -34,13 +34,20 @@ import normalizeKey from '../../lib/normalize_key.js'
  * ```
  */
 export class FlattenedSign {
+  /** @ignore */
   private _payload: Uint8Array
 
+  /** @ignore */
   private _protectedHeader!: types.JWSHeaderParameters
 
+  /** @ignore */
   private _unprotectedHeader!: types.JWSHeaderParameters
 
-  /** @param payload Binary representation of the payload to sign. */
+  /**
+   * {@link FlattenedSign} constructor
+   *
+   * @param payload Binary representation of the payload to sign.
+   */
   constructor(payload: Uint8Array) {
     if (!(payload instanceof Uint8Array)) {
       throw new TypeError('payload must be an instance of Uint8Array')

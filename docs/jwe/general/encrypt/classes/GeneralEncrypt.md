@@ -31,6 +31,8 @@ console.log(jwe)
 
 ▸ **new GeneralEncrypt**(`plaintext`): [`GeneralEncrypt`](GeneralEncrypt.md)
 
+[GeneralEncrypt](GeneralEncrypt.md) constructor
+
 #### Parameters
 
 | Parameter | Type | Description |

@@ -28,6 +28,8 @@ console.log(jwe)
 
 ▸ **new FlattenedEncrypt**(`plaintext`): [`FlattenedEncrypt`](FlattenedEncrypt.md)
 
+[FlattenedEncrypt](FlattenedEncrypt.md) constructor
+
 #### Parameters
 
 | Parameter | Type | Description |

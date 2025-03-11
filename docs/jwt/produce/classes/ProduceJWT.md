@@ -12,6 +12,8 @@ Generic class for JWT producing.
 
 ▸ **new ProduceJWT**(`payload`): [`ProduceJWT`](ProduceJWT.md)
 
+[ProduceJWT](ProduceJWT.md) constructor
+
 #### Parameters
 
 | Parameter | Type | Description |
