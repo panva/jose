@@ -2,6 +2,24 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [6.0.9](https://github.com/panva/jose/compare/v6.0.8...v6.0.9) (2025-03-11)
+
+
+### Documentation
+
+* add more symbol document, ignore ts-private fields ([8b73687](https://github.com/panva/jose/commit/8b73687595a7ca608aa1b78870b6b165ad5249f2))
+* bump typedoc ([6163a8b](https://github.com/panva/jose/commit/6163a8b6a773100ed31d207b598db1259a7e13a8))
+* drop cdnjs links in README ([a910038](https://github.com/panva/jose/commit/a9100383ab16cb62c375401fac08a77f3c6c528d))
+* drop denoland/x links in README and add jsr ([3662b9e](https://github.com/panva/jose/commit/3662b9ec44403bd501fc895bea4ded623d23e7e1))
+* fix key export links from docs/README.md ([c8edfc2](https://github.com/panva/jose/commit/c8edfc29416d3339f6c78fdc42bdfdfadaa5cf7e))
+
+
+### Refactor
+
+* always assume structuredClone is present ([f7898a9](https://github.com/panva/jose/commit/f7898a9487508684dbbeba990e0cc96d344b1ff6))
+* hide internal private fields and drop ProduceJWT inheritance ([ab18881](https://github.com/panva/jose/commit/ab18881a57524897aec300c9bf7bbd73d9e3447c))
+* less objects when JWE JWT Replicated Header Parameters are used ([c763a0e](https://github.com/panva/jose/commit/c763a0e373b0e814dc4705dd2eb7daa614eae43a))
+
 ## [6.0.8](https://github.com/panva/jose/compare/v6.0.7...v6.0.8) (2025-02-26)
 
 
