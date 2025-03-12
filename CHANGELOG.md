@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [6.0.10](https://github.com/panva/jose/compare/v6.0.9...v6.0.10) (2025-03-12)
+
+
+### Refactor
+
+* removed unused claims methods ([74719cf](https://github.com/panva/jose/commit/74719cfcfba1920b87740245da08bb70b68e7cd1))
+* reorganize jwt claim set utils ([1f12d88](https://github.com/panva/jose/commit/1f12d88ee8cfa328126934a7020396f9a8dd8932))
+
 ## [6.0.9](https://github.com/panva/jose/compare/v6.0.8...v6.0.9) (2025-03-11)
 
 
