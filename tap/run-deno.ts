@@ -1,4 +1,4 @@
-import '../node_modules/qunit/qunit/qunit.js'
+import QUnit from 'qunit'
 import run from './run.js'
 import * as lib from '../src/index.js'
 

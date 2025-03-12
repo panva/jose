@@ -1,5 +1,7 @@
+#!/bin/bash
+
 echo "Using $(deno --version | head -1)"
 
-export RUST_BACKTRACE=1
+export DENO_UNSTABLE_SLOPPY_IMPORTS=true
 
-deno run --unstable-sloppy-imports --allow-read --allow-net --allow-env --no-npm tap/run-deno.ts
+deno run --allow-read --allow-net --allow-env tap/run-deno.ts
