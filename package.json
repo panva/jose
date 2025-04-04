@@ -232,7 +232,6 @@
     "@types/node": "^22.14.0",
     "@types/qunit": "^2.19.12",
     "ava": "^6.2.0",
-    "edge-runtime": "^4.0.1",
     "esbuild": "^0.25.2",
     "glob": "^11.0.1",
     "npm-run-all2": "^7.0.2",
