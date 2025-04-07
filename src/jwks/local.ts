@@ -120,7 +120,7 @@ class LocalJWKSet {
     const { 0: jwk, length } = candidates
 
     if (length === 0) {
-      throw new JWKSNoMatchingKey()
+      throw new JWKSNoMatchingKey(kid)
     }
     if (length !== 1) {
       const error = new JWKSMultipleMatchingKeys()
