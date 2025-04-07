@@ -441,10 +441,10 @@ export class JWKSNoMatchingKey extends JOSEError {
 
   /** @ignore */
   constructor(
-    message = 'no applicable key found in the JSON Web Key Set',
-    options?: { cause?: unknown },
+    kid?: string
   ) {
-    super(message, options)
+    const postfix = typeof kid === 'string' && kid.length > 0 ? ` for kid: ${kid}` : '';
+    super(`no applicable key found in the JSON Web Key Set${postfix}`)
   }
 }
 

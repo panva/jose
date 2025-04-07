@@ -183,7 +183,7 @@ test.serial('RemoteJWKSet', async (t) => {
     const jwt = await new SignJWT().setProtectedHeader({ alg: 'PS256', kid: jwk.kid }).sign(key)
     await t.throwsAsync(jwtVerify(jwt, JWKS), {
       code: 'ERR_JWKS_NO_MATCHING_KEY',
-      message: 'no applicable key found in the JSON Web Key Set',
+      message: 'no applicable key found in the JSON Web Key Set for kid: ' + jwk.kid,
     })
   }
   {
@@ -230,7 +230,7 @@ test.serial('refreshes the JWKS once off cooldown', async (t) => {
     const jwt = await new SignJWT().setProtectedHeader({ alg: 'ES256', kid: 'two' }).sign(key)
     await t.throwsAsync(jwtVerify(jwt, JWKS), {
       code: 'ERR_JWKS_NO_MATCHING_KEY',
-      message: 'no applicable key found in the JSON Web Key Set',
+      message: 'no applicable key found in the JSON Web Key Set for kid: two',
     })
     jwks.keys[0].kid = 'two'
     mockAgent.intercept({ path: '/jwks' }).reply(200, jwks)
@@ -275,7 +275,7 @@ test.serial('createRemoteJWKSet manual reload', async (t) => {
     const jwt = await new SignJWT().setProtectedHeader({ alg: 'ES256', kid: 'two' }).sign(key)
     await t.throwsAsync(jwtVerify(jwt, JWKS), {
       code: 'ERR_JWKS_NO_MATCHING_KEY',
-      message: 'no applicable key found in the JSON Web Key Set',
+      message: 'no applicable key found in the JSON Web Key Set for kid: two',
     })
     jwks.keys[0].kid = 'two'
     mockAgent.intercept({ path: '/jwks' }).reply(200, jwks)
