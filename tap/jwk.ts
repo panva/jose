@@ -17,17 +17,7 @@ export default (
     ['ECDH-ES', KEYS.P256.jwk, true],
     ['ECDH-ES', KEYS.P384.jwk, true],
     ['ECDH-ES', KEYS.P521.jwk, env.isDeno ? [true, false] : true],
-    [
-      'ECDH-ES',
-      KEYS.X25519.jwk,
-      env.isNode ||
-        env.isDeno ||
-        env.isElectron ||
-        env.isWorkerd ||
-        env.isEdgeRuntime ||
-        (env.isGecko && env.isBrowserVersionAtLeast(130)) ||
-        (env.isBlink && env.isBrowserVersionAtLeast(133)),
-    ],
+    ['ECDH-ES', KEYS.X25519.jwk, !env.isBun],
     ['Ed25519', KEYS.Ed25519.jwk, !env.isBlink],
     ['EdDSA', KEYS.Ed25519.jwk, !env.isBlink],
     ['ES256', KEYS.P256.jwk, true],

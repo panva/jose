@@ -18,17 +18,7 @@ export default (
     ['ECDH-ES', true],
     ['ECDH-ES', true, { crv: 'P-384' }],
     ['ECDH-ES', !env.isDeno, { crv: 'P-521' }],
-    [
-      'ECDH-ES',
-      env.isNode ||
-        env.isDeno ||
-        env.isElectron ||
-        env.isWorkerd ||
-        env.isEdgeRuntime ||
-        (env.isGecko && env.isBrowserVersionAtLeast(132)) ||
-        (env.isBlink && env.isBrowserVersionAtLeast(133)),
-      { crv: 'X25519' },
-    ],
+    ['ECDH-ES', !env.isBun, { crv: 'X25519' }],
   ]
 
   function title(vector: Vector) {

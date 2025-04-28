@@ -65,28 +65,8 @@ export default (
     [['ECDH-ES', 'P-521'], KEYS.P521.pkcs8, true],
     [['ECDH-ES', 'P-521'], KEYS.P521.spki, true],
     [['ECDH-ES', 'P-521'], KEYS.P521.x509, true],
-    [
-      ['ECDH-ES', 'X25519'],
-      KEYS.X25519.pkcs8,
-      env.isDeno ||
-        env.isNode ||
-        env.isElectron ||
-        env.isWorkerd ||
-        env.isEdgeRuntime ||
-        (env.isGecko && env.isBrowserVersionAtLeast(130)) ||
-        (env.isBlink && env.isBrowserVersionAtLeast(133)),
-    ],
-    [
-      ['ECDH-ES', 'X25519'],
-      KEYS.X25519.spki,
-      env.isDeno ||
-        env.isNode ||
-        env.isElectron ||
-        env.isWorkerd ||
-        env.isEdgeRuntime ||
-        (env.isGecko && env.isBrowserVersionAtLeast(130)) ||
-        (env.isBlink && env.isBrowserVersionAtLeast(133)),
-    ],
+    [['ECDH-ES', 'X25519'], KEYS.X25519.pkcs8, !env.isBun],
+    [['ECDH-ES', 'X25519'], KEYS.X25519.spki, !env.isBun],
     ['Ed25519', KEYS.Ed25519.pkcs8, !env.isBlink],
     ['Ed25519', KEYS.Ed25519.spki, !env.isBlink],
     ['Ed25519', KEYS.Ed25519.x509, !env.isBlink],
