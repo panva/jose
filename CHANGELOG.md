@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [6.0.11](https://github.com/panva/jose/compare/v6.0.10...v6.0.11) (2025-05-05)
+
+
+### Fixes
+
+* typ checking edge-cases when it contains a slash (/) character ([31e4baf](https://github.com/panva/jose/commit/31e4bafc0a908cac044bbe34c7024f4eac9c974f))
+
 ## [6.0.10](https://github.com/panva/jose/compare/v6.0.9...v6.0.10) (2025-03-12)
 
 
