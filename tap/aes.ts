@@ -20,8 +20,7 @@ export default (
     'A256CBC-HS512',
   ]
 
-  function title(algorithm: string) {
-    const supported = env.supported(algorithm)
+  function title(algorithm: string, supported = true) {
     let result = ''
     if (!supported) {
       result = '[not supported] '
@@ -54,7 +53,7 @@ export default (
       test(title(enc), execute)
       test(`${title(enc)} JWT`, jwt)
     } else {
-      test(title(enc), async (t) => {
+      test(title(enc, false), async (t) => {
         await t.rejects(execute(t))
       })
     }
