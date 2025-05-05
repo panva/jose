@@ -1,6 +1,7 @@
 import type QUnit from 'qunit'
 import type * as jose from '../src/index.js'
 import * as roundtrip from './encrypt.js'
+import * as env from './env.js'
 
 export default (
   QUnit: QUnit,
@@ -12,27 +13,18 @@ export default (
 
   const kps: Record<string, jose.GenerateKeyPairResult> = {}
 
-  type Vector = [string, boolean]
-  const algorithms: Vector[] = [
-    ['RSA-OAEP', true],
-    ['RSA-OAEP-256', true],
-    ['RSA-OAEP-384', true],
-    ['RSA-OAEP-512', true],
-  ]
+  const algorithms = ['RSA-OAEP', 'RSA-OAEP-256', 'RSA-OAEP-384', 'RSA-OAEP-512']
 
-  function title(vector: Vector) {
-    const [alg, works] = vector
+  function title(alg: string, supported = true) {
     let result = ''
-    if (!works) {
+    if (!supported) {
       result = '[not supported] '
     }
     result += `${alg}`
     return result
   }
 
-  for (const vector of algorithms) {
-    const [alg, works] = vector
-
+  for (const alg of algorithms) {
     const execute = async (t: typeof QUnit.assert) => {
       if (!kps[alg]) {
         kps[alg] = await keys.generateKeyPair(alg, { extractable: true })
@@ -49,11 +41,11 @@ export default (
       await roundtrip.jwt(t, lib, keys, alg, 'A128GCM', kps[alg])
     }
 
-    if (works) {
-      test(title(vector), execute)
-      test(`${title(vector)} JWT`, jwt)
+    if (env.supported(alg)) {
+      test(title(alg), execute)
+      test(`${title(alg)} JWT`, jwt)
     } else {
-      test(title(vector), async (t) => {
+      test(title(alg, false), async (t) => {
         await t.rejects(execute(t))
       })
     }
