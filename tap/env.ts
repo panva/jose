@@ -57,31 +57,47 @@ export function supported(identifier?: string, op?: string) {
       return false
   }
 
-  switch (true) {
-    case isBlink && identifier === 'A192CBC-HS384':
-    case isBlink && identifier === 'A192GCM':
-    case isBlink && identifier === 'A192GCMKW':
-    case isBlink && identifier === 'A192KW':
-    case isBlink && identifier === 'PBES2-HS384+A192KW':
-    case isBlink && identifier === 'EdDSA':
-    case isBlink && identifier === 'Ed25519':
-      return false
-    case isElectron && identifier === 'A128KW':
-    case isElectron && identifier === 'A192KW':
-    case isElectron && identifier === 'A256KW':
-    case isElectron && identifier === 'PBES2-HS256+A128KW':
-    case isElectron && identifier === 'PBES2-HS384+A192KW':
-    case isElectron && identifier === 'PBES2-HS512+A256KW':
-    case isElectron && identifier === 'ECDH-ES+A128KW':
-    case isElectron && identifier === 'ECDH-ES+A192KW':
-    case isElectron && identifier === 'ECDH-ES+A256KW':
-      return false
-    case isDeno && identifier === 'P-521' && op !== 'pem import' && op !== 'public jwk import':
-    case isDeno && identifier === 'ES512' && op !== 'pem import' && op !== 'public jwk import':
-      return false
-    case isBun && identifier === 'X25519':
-      return false
-    default:
-      return true
+  if (isBlink) {
+    switch (identifier) {
+      case 'A192CBC-HS384':
+      case 'A192GCM':
+      case 'A192GCMKW':
+      case 'A192KW':
+      case 'PBES2-HS384+A192KW':
+      case 'EdDSA':
+      case 'Ed25519':
+        return false
+    }
   }
+
+  if (isElectron) {
+    switch (identifier) {
+      case 'A128KW':
+      case 'A192KW':
+      case 'A256KW':
+      case 'PBES2-HS256+A128KW':
+      case 'PBES2-HS384+A192KW':
+      case 'PBES2-HS512+A256KW':
+      case 'ECDH-ES+A128KW':
+      case 'ECDH-ES+A192KW':
+      case 'ECDH-ES+A256KW':
+        return false
+    }
+  }
+
+  if (isBun && identifier === 'X25519') {
+    return false
+  }
+
+  if (isDeno) {
+    if (
+      (identifier === 'P-521' || identifier === 'ES512') &&
+      op !== 'pem import' &&
+      op !== 'public jwk import'
+    ) {
+      return false
+    }
+  }
+
+  return true
 }
