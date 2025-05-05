@@ -176,6 +176,25 @@ test('typ verification', async (t) => {
       { code: 'ERR_JWT_CLAIM_VALIDATION_FAILED', message: 'unexpected "typ" JWT header value' },
     )
   }
+  {
+    const typ = 'text/plain'
+    const jwt = await new SignJWT(t.context.payload)
+      .setProtectedHeader({ alg: 'HS256', typ })
+      .sign(t.context.secret)
+
+    await t.notThrowsAsync(
+      jwtVerify(jwt, t.context.secret, {
+        typ: 'text/plain',
+      }),
+    )
+
+    await t.throwsAsync(
+      jwtVerify(jwt, t.context.secret, {
+        typ: 'application/text/plain',
+      }),
+      { code: 'ERR_JWT_CLAIM_VALIDATION_FAILED', message: 'unexpected "typ" JWT header value' },
+    )
+  }
 })
 
 test('Issuer[] verification', async (t) => {

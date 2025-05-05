@@ -14,7 +14,13 @@ function validateInput(label: string, input: number) {
   return input
 }
 
-const normalizeTyp = (value: string) => value.toLowerCase().replace(/^application\//, '')
+const normalizeTyp = (value: string) => {
+  if (value.includes('/')) {
+    return value.toLowerCase()
+  }
+
+  return `application/${value.toLowerCase()}`
+}
 
 const checkAudiencePresence = (audPayload: unknown, audOption: unknown[]) => {
   if (typeof audPayload === 'string') {
