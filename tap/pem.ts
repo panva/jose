@@ -15,69 +15,69 @@ export default (
   const { module, test } = QUnit
   module('pem.ts')
 
-  type Vector = [string | string[], string, boolean]
+  type Vector = [string | string[], string]
   const algorithms: Vector[] = [
-    ['ES256', KEYS.P256.pkcs8, true],
-    ['ES256', KEYS.P256.spki, true],
-    ['ES256', KEYS.P256.x509, true],
-    ['ES384', KEYS.P384.pkcs8, true],
-    ['ES384', KEYS.P384.spki, true],
-    ['ES384', KEYS.P384.x509, true],
-    ['ES512', KEYS.P521.pkcs8, true],
-    ['ES512', KEYS.P521.spki, true],
-    ['ES512', KEYS.P521.x509, true],
-    ['PS256', KEYS.RSA.pkcs8, true],
-    ['PS256', KEYS.RSA.spki, true],
-    ['PS256', KEYS.RSA.x509, true],
-    ['PS384', KEYS.RSA.pkcs8, true],
-    ['PS384', KEYS.RSA.spki, true],
-    ['PS384', KEYS.RSA.x509, true],
-    ['PS512', KEYS.RSA.pkcs8, true],
-    ['PS512', KEYS.RSA.spki, true],
-    ['PS512', KEYS.RSA.x509, true],
-    ['RS256', KEYS.RSA.pkcs8, true],
-    ['RS256', KEYS.RSA.spki, true],
-    ['RS256', KEYS.RSA.x509, true],
-    ['RS384', KEYS.RSA.pkcs8, true],
-    ['RS384', KEYS.RSA.spki, true],
-    ['RS384', KEYS.RSA.x509, true],
-    ['RS512', KEYS.RSA.pkcs8, true],
-    ['RS512', KEYS.RSA.spki, true],
-    ['RS512', KEYS.RSA.x509, true],
-    ['RSA-OAEP-256', KEYS.RSA.pkcs8, true],
-    ['RSA-OAEP-256', KEYS.RSA.spki, true],
-    ['RSA-OAEP-256', KEYS.RSA.x509, true],
-    ['RSA-OAEP-384', KEYS.RSA.pkcs8, true],
-    ['RSA-OAEP-384', KEYS.RSA.spki, true],
-    ['RSA-OAEP-384', KEYS.RSA.x509, true],
-    ['RSA-OAEP-512', KEYS.RSA.pkcs8, true],
-    ['RSA-OAEP-512', KEYS.RSA.spki, true],
-    ['RSA-OAEP-512', KEYS.RSA.x509, true],
-    ['RSA-OAEP', KEYS.RSA.pkcs8, true],
-    ['RSA-OAEP', KEYS.RSA.spki, true],
-    ['RSA-OAEP', KEYS.RSA.x509, true],
-    [['ECDH-ES', 'P-256'], KEYS.P256.pkcs8, true],
-    [['ECDH-ES', 'P-256'], KEYS.P256.spki, true],
-    [['ECDH-ES', 'P-256'], KEYS.P256.x509, true],
-    [['ECDH-ES', 'P-384'], KEYS.P384.pkcs8, true],
-    [['ECDH-ES', 'P-384'], KEYS.P384.spki, true],
-    [['ECDH-ES', 'P-384'], KEYS.P384.x509, true],
-    [['ECDH-ES', 'P-521'], KEYS.P521.pkcs8, true],
-    [['ECDH-ES', 'P-521'], KEYS.P521.spki, true],
-    [['ECDH-ES', 'P-521'], KEYS.P521.x509, true],
-    [['ECDH-ES', 'X25519'], KEYS.X25519.pkcs8, !env.isBun],
-    [['ECDH-ES', 'X25519'], KEYS.X25519.spki, !env.isBun],
-    ['Ed25519', KEYS.Ed25519.pkcs8, !env.isBlink],
-    ['Ed25519', KEYS.Ed25519.spki, !env.isBlink],
-    ['Ed25519', KEYS.Ed25519.x509, !env.isBlink],
-    [['EdDSA', 'Ed25519'], KEYS.Ed25519.pkcs8, !env.isBlink],
-    [['EdDSA', 'Ed25519'], KEYS.Ed25519.spki, !env.isBlink],
-    [['EdDSA', 'Ed25519'], KEYS.Ed25519.x509, !env.isBlink],
+    ['ES256', KEYS.P256.pkcs8],
+    ['ES256', KEYS.P256.spki],
+    ['ES256', KEYS.P256.x509],
+    ['ES384', KEYS.P384.pkcs8],
+    ['ES384', KEYS.P384.spki],
+    ['ES384', KEYS.P384.x509],
+    ['ES512', KEYS.P521.pkcs8],
+    ['ES512', KEYS.P521.spki],
+    ['ES512', KEYS.P521.x509],
+    ['PS256', KEYS.RSA.pkcs8],
+    ['PS256', KEYS.RSA.spki],
+    ['PS256', KEYS.RSA.x509],
+    ['PS384', KEYS.RSA.pkcs8],
+    ['PS384', KEYS.RSA.spki],
+    ['PS384', KEYS.RSA.x509],
+    ['PS512', KEYS.RSA.pkcs8],
+    ['PS512', KEYS.RSA.spki],
+    ['PS512', KEYS.RSA.x509],
+    ['RS256', KEYS.RSA.pkcs8],
+    ['RS256', KEYS.RSA.spki],
+    ['RS256', KEYS.RSA.x509],
+    ['RS384', KEYS.RSA.pkcs8],
+    ['RS384', KEYS.RSA.spki],
+    ['RS384', KEYS.RSA.x509],
+    ['RS512', KEYS.RSA.pkcs8],
+    ['RS512', KEYS.RSA.spki],
+    ['RS512', KEYS.RSA.x509],
+    ['RSA-OAEP-256', KEYS.RSA.pkcs8],
+    ['RSA-OAEP-256', KEYS.RSA.spki],
+    ['RSA-OAEP-256', KEYS.RSA.x509],
+    ['RSA-OAEP-384', KEYS.RSA.pkcs8],
+    ['RSA-OAEP-384', KEYS.RSA.spki],
+    ['RSA-OAEP-384', KEYS.RSA.x509],
+    ['RSA-OAEP-512', KEYS.RSA.pkcs8],
+    ['RSA-OAEP-512', KEYS.RSA.spki],
+    ['RSA-OAEP-512', KEYS.RSA.x509],
+    ['RSA-OAEP', KEYS.RSA.pkcs8],
+    ['RSA-OAEP', KEYS.RSA.spki],
+    ['RSA-OAEP', KEYS.RSA.x509],
+    [['ECDH-ES', 'P-256'], KEYS.P256.pkcs8],
+    [['ECDH-ES', 'P-256'], KEYS.P256.spki],
+    [['ECDH-ES', 'P-256'], KEYS.P256.x509],
+    [['ECDH-ES', 'P-384'], KEYS.P384.pkcs8],
+    [['ECDH-ES', 'P-384'], KEYS.P384.spki],
+    [['ECDH-ES', 'P-384'], KEYS.P384.x509],
+    [['ECDH-ES', 'P-521'], KEYS.P521.pkcs8],
+    [['ECDH-ES', 'P-521'], KEYS.P521.spki],
+    [['ECDH-ES', 'P-521'], KEYS.P521.x509],
+    [['ECDH-ES', 'X25519'], KEYS.X25519.pkcs8],
+    [['ECDH-ES', 'X25519'], KEYS.X25519.spki],
+    ['Ed25519', KEYS.Ed25519.pkcs8],
+    ['Ed25519', KEYS.Ed25519.spki],
+    ['Ed25519', KEYS.Ed25519.x509],
+    [['EdDSA', 'Ed25519'], KEYS.Ed25519.pkcs8],
+    [['EdDSA', 'Ed25519'], KEYS.Ed25519.spki],
+    [['EdDSA', 'Ed25519'], KEYS.Ed25519.x509],
   ]
 
-  function title(alg: string, crv: string | undefined, pem: string, works: boolean) {
+  function title(alg: string, crv: string | undefined, pem: string, supported = true) {
     let result = ''
-    if (!works) {
+    if (!supported) {
       result = '[not supported] '
     }
     result += `${alg} `
@@ -91,7 +91,7 @@ export default (
   }
 
   for (const vector of algorithms) {
-    const [, pem, works] = vector
+    const [, pem] = vector
     let [alg] = vector
 
     let crv!: string
@@ -142,10 +142,10 @@ export default (
       t.ok(1)
     }
 
-    if (works) {
-      test(title(alg, crv, pem, works), execute)
+    if (env.supported(alg, 'pem import') && env.supported(crv, 'pem import')) {
+      test(title(alg, crv, pem), execute)
     } else {
-      test(title(alg, crv, pem, works), async (t) => {
+      test(title(alg, crv, pem, false), async (t) => {
         await t.rejects(execute(t))
       })
     }

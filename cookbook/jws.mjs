@@ -1,7 +1,7 @@
 export default [
   {
     title: 'https://www.rfc-editor.org/rfc/rfc7520#section-4.1 - RSA v1.5 Signature',
-    reproducible: true,
+    deterministic: true,
     input: {
       payload:
         "It’s a dangerous business, Frodo, going out your door. You step onto the road, and if you don't keep your feet, there’s no knowing where you might be swept off to.",
@@ -52,7 +52,7 @@ export default [
   },
   {
     title: 'https://www.rfc-editor.org/rfc/rfc8037#appendix-A.4 - Ed25519 Signing',
-    reproducible: true,
+    deterministic: false, // https://github.com/WICG/webcrypto-secure-curves/issues/28
     input: {
       payload: 'Example of Ed25519 signing',
       key: {
@@ -188,7 +188,7 @@ export default [
   },
   {
     title: 'https://www.rfc-editor.org/rfc/rfc7520#section-4.4 - HMAC-SHA2 Integrity Protection',
-    reproducible: true,
+    deterministic: true,
     input: {
       payload:
         "It’s a dangerous business, Frodo, going out your door. You step onto the road, and if you don't keep your feet, there’s no knowing where you might be swept off to.",
@@ -233,7 +233,7 @@ export default [
   },
   {
     title: 'https://www.rfc-editor.org/rfc/rfc7520#section-4.6 - Protecting Specific Header Fields',
-    reproducible: true,
+    deterministic: true,
     input: {
       payload:
         "It’s a dangerous business, Frodo, going out your door. You step onto the road, and if you don't keep your feet, there’s no knowing where you might be swept off to.",
@@ -282,7 +282,7 @@ export default [
   },
   {
     title: 'https://www.rfc-editor.org/rfc/rfc7520#section-4.7 - Protecting Content Only',
-    reproducible: true,
+    deterministic: true,
     input: {
       payload:
         "It’s a dangerous business, Frodo, going out your door. You step onto the road, and if you don't keep your feet, there’s no knowing where you might be swept off to.",
@@ -329,7 +329,7 @@ export default [
   },
   {
     title: 'https://www.rfc-editor.org/rfc/rfc7797#section-4.1 - { "b64": false } JSON only',
-    reproducible: true,
+    deterministic: true,
     input: {
       payload: '$.02',
       key: {

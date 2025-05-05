@@ -11,28 +11,28 @@ export default (
   const { module, test } = QUnit
   module('jwk.ts')
 
-  type Vector = [string, JsonWebKey, boolean | [boolean, boolean]]
+  type Vector = [string, JsonWebKey]
 
   const algorithms: Vector[] = [
-    ['ECDH-ES', KEYS.P256.jwk, true],
-    ['ECDH-ES', KEYS.P384.jwk, true],
-    ['ECDH-ES', KEYS.P521.jwk, env.isDeno ? [true, false] : true],
-    ['ECDH-ES', KEYS.X25519.jwk, !env.isBun],
-    ['Ed25519', KEYS.Ed25519.jwk, !env.isBlink],
-    ['EdDSA', KEYS.Ed25519.jwk, !env.isBlink],
-    ['ES256', KEYS.P256.jwk, true],
-    ['ES384', KEYS.P384.jwk, true],
-    ['ES512', KEYS.P521.jwk, env.isDeno ? [true, false] : true],
-    ['PS256', KEYS.RSA.jwk, true],
-    ['PS384', KEYS.RSA.jwk, true],
-    ['PS512', KEYS.RSA.jwk, true],
-    ['RS256', KEYS.RSA.jwk, true],
-    ['RS384', KEYS.RSA.jwk, true],
-    ['RS512', KEYS.RSA.jwk, true],
-    ['RSA-OAEP-256', KEYS.RSA.jwk, true],
-    ['RSA-OAEP-384', KEYS.RSA.jwk, true],
-    ['RSA-OAEP-512', KEYS.RSA.jwk, true],
-    ['RSA-OAEP', KEYS.RSA.jwk, true],
+    ['ECDH-ES', KEYS.P256.jwk],
+    ['ECDH-ES', KEYS.P384.jwk],
+    ['ECDH-ES', KEYS.P521.jwk],
+    ['ECDH-ES', KEYS.X25519.jwk],
+    ['Ed25519', KEYS.Ed25519.jwk],
+    ['EdDSA', KEYS.Ed25519.jwk],
+    ['ES256', KEYS.P256.jwk],
+    ['ES384', KEYS.P384.jwk],
+    ['ES512', KEYS.P521.jwk],
+    ['PS256', KEYS.RSA.jwk],
+    ['PS384', KEYS.RSA.jwk],
+    ['PS512', KEYS.RSA.jwk],
+    ['RS256', KEYS.RSA.jwk],
+    ['RS384', KEYS.RSA.jwk],
+    ['RS512', KEYS.RSA.jwk],
+    ['RSA-OAEP-256', KEYS.RSA.jwk],
+    ['RSA-OAEP-384', KEYS.RSA.jwk],
+    ['RSA-OAEP-512', KEYS.RSA.jwk],
+    ['RSA-OAEP', KEYS.RSA.jwk],
   ]
 
   function publicJwk(jwk: JsonWebKey) {
@@ -41,18 +41,12 @@ export default (
   }
 
   for (const vector of algorithms.slice()) {
-    if (typeof vector[2] !== 'boolean') {
-      let [pub, priv] = vector[2]
-      vector[2] = priv
-      algorithms.push([vector[0], publicJwk(vector[1]), pub])
-    } else {
-      algorithms.push([vector[0], publicJwk(vector[1]), vector[2]])
-    }
+    algorithms.push([vector[0], publicJwk(vector[1])])
   }
 
-  function title(alg: string, jwk: JsonWebKey, works: boolean) {
+  function title(alg: string, jwk: JsonWebKey, supported = true) {
     let result = ''
-    if (!works) {
+    if (!supported) {
       result = '[not supported] '
     }
     result += `${alg} `
@@ -66,11 +60,6 @@ export default (
 
   for (const vector of algorithms) {
     const [alg, jwk] = vector
-    const [, , works] = vector
-
-    if (typeof works !== 'boolean') {
-      throw new Error()
-    }
 
     const execute = async (t: typeof QUnit.assert) => {
       const key = await lib.importJWK({ ...jwk, ext: true } as jose.JWK, alg)
@@ -98,10 +87,11 @@ export default (
       t.ok(1)
     }
 
-    if (works) {
-      test(title(alg, jwk, works), execute)
+    const op = `${jwk.d ? 'private' : 'public'} jwk import`
+    if (env.supported(alg, op) && env.supported(jwk.crv, op)) {
+      test(title(alg, jwk), execute)
     } else {
-      test(title(alg, jwk, works), async (t) => {
+      test(title(alg, jwk, false), async (t) => {
         await t.rejects(execute(t))
       })
     }

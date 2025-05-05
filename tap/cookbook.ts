@@ -7,14 +7,6 @@ import jwsVectors from '../cookbook/jws.mjs'
 // @ts-ignore
 import jweVectors from '../cookbook/jwe.mjs'
 
-// https://bugs.webkit.org/show_bug.cgi?id=262499
-// https://github.com/web-platform-tests/wpt/pull/42292
-if (env.isWebKit) {
-  // @ts-ignore
-  const ed25519 = jwsVectors.find((vector) => vector.title.includes('Ed25519'))
-  ed25519.reproducible = false
-}
-
 export default (
   QUnit: QUnit,
   lib: typeof jose,
@@ -42,22 +34,14 @@ export default (
     }
 
     function supported(vector: any) {
-      if (vector.input.alg === 'ES512') {
-        return !env.isDeno
-      }
-      if (vector.input.key?.crv === 'Ed25519') {
-        return !env.isBlink
-      }
-      return true
+      return env.supported(vector.input.alg)
     }
 
     const execute = (vector: any) => async (t: typeof QUnit.assert) => {
-      const reproducible = !!vector.reproducible
-
       const privateKey = await keys.importJWK(vector.input.key, vector.input.alg)
       const publicKey = await keys.importJWK(pubjwk(vector.input.key), vector.input.alg)
 
-      if (reproducible) {
+      if (vector.deterministic) {
         // sign and compare results are the same
         const runs = [[flattened, vector.output.json_flat]]
         if (vector.signing.protected?.b64 !== undefined) {
@@ -148,16 +132,10 @@ export default (
     }
 
     function supported(vector: any) {
-      if (vector.webcrypto === false) {
-        return false
-      }
-      if (env.isElectron && vector.electron === false) {
-        return false
-      }
       if (vector.input.zip) {
         return false
       }
-      return true
+      return env.supported(vector.input.alg) && env.supported(vector.input.enc)
     }
 
     const toJWK = (input: string | jose.JWK) => {
@@ -173,9 +151,7 @@ export default (
     const execute = (vector: any) => async (t: typeof QUnit.assert) => {
       const dir = vector.input.alg === 'dir'
 
-      const reproducible = !!vector.reproducible
-
-      if (reproducible) {
+      if (vector.deterministic) {
         // encrypt and compare results are the same
         for (const [serialization, expectedResult] of [
           [flattened, vector.output.json_flat],

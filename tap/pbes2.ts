@@ -11,26 +11,18 @@ export default (
   const { module, test } = QUnit
   module('pbes2.ts')
 
-  type Vector = [string, boolean]
-  const algorithms: Vector[] = [
-    ['PBES2-HS256+A128KW', !env.isElectron],
-    ['PBES2-HS384+A192KW', !env.isBlink && !env.isElectron],
-    ['PBES2-HS512+A256KW', !env.isElectron],
-  ]
+  const algorithms = ['PBES2-HS256+A128KW', 'PBES2-HS384+A192KW', 'PBES2-HS512+A256KW']
 
-  function title(vector: Vector) {
-    const [alg, works] = vector
+  function title(alg: string, supported = true) {
     let result = ''
-    if (!works) {
+    if (!supported) {
       result = '[not supported] '
     }
     result += `${alg}`
     return result
   }
 
-  for (const vector of algorithms) {
-    const [alg, works] = vector
-
+  for (const alg of algorithms) {
     const execute = async (t: typeof QUnit.assert) => {
       const password = new TextEncoder().encode('letmein')
       await roundtrip.jwe(t, lib, keys, alg, 'A128GCM', password)
@@ -41,11 +33,11 @@ export default (
       await roundtrip.jwt(t, lib, keys, alg, 'A128GCM', password)
     }
 
-    if (works) {
-      test(title(vector), execute)
-      test(`${title(vector)} JWT`, jwt)
+    if (env.supported(alg)) {
+      test(title(alg), execute)
+      test(`${title(alg)} JWT`, jwt)
     } else {
-      test(title(vector), async (t) => {
+      test(title(alg, true), async (t) => {
         await t.rejects(execute(t))
       })
     }

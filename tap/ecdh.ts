@@ -13,26 +13,31 @@ export default (
 
   const kps: Record<string, jose.GenerateKeyPairResult> = {}
 
-  type Vector = [string, boolean] | [string, boolean, jose.GenerateKeyPairOptions]
+  type Vector = [string, jose.GenerateKeyPairOptions]
   const algorithms: Vector[] = [
-    ['ECDH-ES', true],
-    ['ECDH-ES', true, { crv: 'P-384' }],
-    ['ECDH-ES', !env.isDeno, { crv: 'P-521' }],
-    ['ECDH-ES', !env.isBun, { crv: 'X25519' }],
+    ['ECDH-ES', { crv: 'P-256' }],
+    ['ECDH-ES', { crv: 'P-384' }],
+    ['ECDH-ES', { crv: 'P-521' }],
+    ['ECDH-ES', { crv: 'X25519' }],
   ]
 
-  function title(vector: Vector) {
-    const [alg, works, options] = vector
+  function curve(options?: jose.GenerateKeyPairOptions) {
+    return options?.crv || 'P-256'
+  }
+
+  function title(vector: Vector, supported = true) {
+    const [alg, options] = vector
     let result = ''
-    if (!works) {
+    const crv = curve(options)
+    if (!supported) {
       result = '[not supported] '
     }
-    result += `${alg} ${options?.crv || 'P-256'}`
+    result += `${alg} ${crv}`
     return result
   }
 
   for (const vector of algorithms) {
-    const [alg, works, options] = vector
+    const [alg, options] = vector
     const k = options?.crv || alg
 
     const execute = async (t: typeof QUnit.assert) => {
@@ -49,11 +54,11 @@ export default (
       await roundtrip.jwt(t, lib, keys, alg, 'A128GCM', kps[k])
     }
 
-    if (works) {
+    if (env.supported(alg) && env.supported(curve(options))) {
       test(title(vector), execute)
       test(`${title(vector)} JWT`, jwt)
     } else {
-      test(title(vector), async (t) => {
+      test(title(vector, false), async (t) => {
         await t.rejects(execute(t))
       })
     }

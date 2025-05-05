@@ -11,59 +11,51 @@ export default (
   const { module, test } = QUnit
   module('jws.ts')
 
-  type Vector = [string, boolean] | [string, boolean, jose.GenerateKeyPairOptions]
-  const algorithms: Vector[] = [
-    ['Ed25519', !env.isBlink],
-    ['EdDSA', !env.isBlink],
-    ['ES256', true],
-    ['ES384', true],
-    ['ES512', !env.isDeno],
-    ['PS256', true],
-    ['PS384', true],
-    ['PS512', true],
-    ['RS256', true],
-    ['RS384', true],
-    ['RS512', true],
+  const algorithms = [
+    'Ed25519',
+    'EdDSA',
+    'ES256',
+    'ES384',
+    'ES512',
+    'PS256',
+    'PS384',
+    'PS512',
+    'RS256',
+    'RS384',
+    'RS512',
   ]
 
   const kps: Record<string, jose.GenerateKeyPairResult> = {}
 
-  function title(vector: Vector) {
-    const [alg, works, options] = vector
+  function title(alg: string, supported = true) {
     let result = ''
-    if (!works) {
+    if (!supported) {
       result = '[not supported] '
     }
     result += `${alg}`
-    if (options) {
-      result += `, ${JSON.stringify(options)}`
-    }
     return result
   }
 
-  for (const vector of algorithms) {
-    const [alg, works, options] = vector
-    const k = options?.crv || alg
-
+  for (const alg of algorithms) {
     const execute = async (t: typeof QUnit.assert) => {
-      if (!kps[k]) {
-        kps[k] = await keys.generateKeyPair(alg, { ...options, extractable: true })
+      if (!kps[alg]) {
+        kps[alg] = await keys.generateKeyPair(alg, { extractable: true })
       }
-      await roundtrip.jws(t, lib, keys, alg, kps[k])
+      await roundtrip.jws(t, lib, keys, alg, kps[alg])
     }
 
     const jwt = async (t: typeof QUnit.assert) => {
-      if (!kps[k]) {
-        kps[k] = await keys.generateKeyPair(alg, { ...options, extractable: true })
+      if (!kps[alg]) {
+        kps[alg] = await keys.generateKeyPair(alg, { extractable: true })
       }
-      await roundtrip.jwt(t, lib, keys, alg, kps[k])
+      await roundtrip.jwt(t, lib, keys, alg, kps[alg])
     }
 
-    if (works) {
-      test(title(vector), execute)
-      test(`${title(vector)} JWT`, jwt)
+    if (env.supported(alg)) {
+      test(title(alg), execute)
+      test(`${title(alg)} JWT`, jwt)
     } else {
-      test(title(vector), async (t) => {
+      test(title(alg, false), async (t) => {
         await t.rejects(execute(t))
       })
     }

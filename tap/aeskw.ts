@@ -11,23 +11,14 @@ export default (
   const { module, test } = QUnit
   module('aeskw.ts')
 
-  type Vector = [string, boolean]
-  const algorithms: Vector[] = [
-    ['A128KW', !env.isElectron],
-    ['A192KW', !(env.isBlink || env.isElectron)],
-    ['A256KW', !env.isElectron],
-    ['A128GCMKW', true],
-    ['A192GCMKW', !env.isBlink],
-    ['A256GCMKW', true],
-  ]
+  const algorithms = ['A128KW', 'A192KW', 'A256KW', 'A128GCMKW', 'A192GCMKW', 'A256GCMKW']
 
-  function title(vector: Vector) {
-    const [alg, works] = vector
+  function title(algorithm: string, supported = true) {
     let result = ''
-    if (!works) {
+    if (!supported) {
       result = '[not supported] '
     }
-    result += `${alg}`
+    result += `${algorithm}`
     return result
   }
 
@@ -38,9 +29,7 @@ export default (
     ]
   }
 
-  for (const vector of algorithms) {
-    const [alg, works] = vector
-
+  for (const alg of algorithms) {
     const execute = async (t: typeof QUnit.assert) => {
       for await (const secret of secretsFor(alg)) {
         await roundtrip.jwe(t, lib, keys, alg, 'A128GCM', secret)
@@ -51,11 +40,11 @@ export default (
       await roundtrip.jwt(t, lib, keys, alg, 'A128GCM', await secretsFor(alg)[0])
     }
 
-    if (works) {
-      test(title(vector), execute)
-      test(`${title(vector)} JWT`, jwt)
+    if (env.supported(alg)) {
+      test(title(alg), execute)
+      test(`${title(alg)} JWT`, jwt)
     } else {
-      test(title(vector), async (t) => {
+      test(title(alg, false), async (t) => {
         await t.rejects(execute(t))
       })
     }
