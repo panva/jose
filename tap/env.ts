@@ -64,9 +64,11 @@ export function supported(identifier?: string, op?: string) {
       case 'A192GCMKW':
       case 'A192KW':
       case 'PBES2-HS384+A192KW':
-      case 'EdDSA':
-      case 'Ed25519':
         return false
+    }
+
+    if (identifier === 'Ed25519' || identifier === 'EdDSA') {
+      return isBrowserVersionAtLeast(137)
     }
   }
 
