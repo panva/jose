@@ -88,7 +88,14 @@ export function supported(identifier?: string, op?: string) {
   }
 
   if (isBun && identifier === 'X25519') {
-    return false
+    switch (op) {
+      case 'private jwk import':
+      case 'public jwk import':
+      case 'pem import':
+        return true
+      default:
+        return false
+    }
   }
 
   if (isDeno) {
