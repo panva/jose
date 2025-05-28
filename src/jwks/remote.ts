@@ -191,9 +191,10 @@ async function fetchJwks(
 }
 
 /**
- * DANGER ZONE - This option has security implications that must be understood, assessed for
- * applicability, and accepted before use. It is critical that the JSON Web Key Set cache only be
- * writable by your own code.
+ * > [!WARNING]\
+ * > This option has security implications that must be understood, assessed for applicability, and
+ * > accepted before use. It is critical that the JSON Web Key Set cache only be writable by your own
+ * > code.
  *
  * This option is intended for cloud computing runtimes that cannot keep an in memory cache between
  * their code's invocations. Use in runtimes where an in memory cache between requests is available
@@ -448,8 +449,9 @@ class RemoteJWKSet {
  * multiple keys get matched it is possible to opt-in to iterate over the matched keys and attempt
  * verification in an iterative manner.
  *
- * Note: The function's purpose is to resolve public keys used for verifying signatures and will not
- * work for public encryption keys.
+ * > [!NOTE]\
+ * > The function's purpose is to resolve public keys used for verifying signatures and will not work
+ * > for public encryption keys.
  *
  * This function is exported (as a named export) from the main `'jose'` module entry point as well
  * as from its subpath export `'jose/jwks/remote'`.

@@ -14,5 +14,6 @@ Secret generation function options.
 
 The value to use as [SubtleCrypto.generateKey](https://developer.mozilla.org/docs/Web/API/SubtleCrypto/generateKey) `extractable` argument. Default is false.
 
-Note: Because A128CBC-HS256, A192CBC-HS384, and A256CBC-HS512 secrets cannot be represented as
-[CryptoKey](https://developer.mozilla.org/docs/Web/API/CryptoKey) this option has no effect for them.
+> [!NOTE]\
+> Because A128CBC-HS256, A192CBC-HS384, and A256CBC-HS512 secrets cannot be represented as
+> [CryptoKey](https://developer.mozilla.org/docs/Web/API/CryptoKey) this option has no effect for them.

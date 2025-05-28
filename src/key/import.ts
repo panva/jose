@@ -24,9 +24,10 @@ export interface KeyImportOptions {
 /**
  * Imports a PEM-encoded SPKI string as a {@link !CryptoKey}.
  *
- * Note: The OID id-RSASSA-PSS (1.2.840.113549.1.1.10) is not supported in
- * {@link https://w3c.github.io/webcrypto/ Web Cryptography API}, use the OID rsaEncryption
- * (1.2.840.113549.1.1.1) instead for all RSA algorithms.
+ * > [!NOTE]\
+ * > The OID id-RSASSA-PSS (1.2.840.113549.1.1.10) is not supported in
+ * > {@link https://w3c.github.io/webcrypto/ Web Cryptography API}, use the OID rsaEncryption
+ * > (1.2.840.113549.1.1.1) instead for all RSA algorithms.
  *
  * This function is exported (as a named export) from the main `'jose'` module entry point as well
  * as from its subpath export `'jose/key/import'`.
@@ -60,9 +61,10 @@ export async function importSPKI(
 /**
  * Imports the SPKI from an X.509 string certificate as a {@link !CryptoKey}.
  *
- * Note: The OID id-RSASSA-PSS (1.2.840.113549.1.1.10) is not supported in
- * {@link https://w3c.github.io/webcrypto/ Web Cryptography API}, use the OID rsaEncryption
- * (1.2.840.113549.1.1.1) instead for all RSA algorithms.
+ * > [!NOTE]\
+ * > The OID id-RSASSA-PSS (1.2.840.113549.1.1.10) is not supported in
+ * > {@link https://w3c.github.io/webcrypto/ Web Cryptography API}, use the OID rsaEncryption
+ * > (1.2.840.113549.1.1.1) instead for all RSA algorithms.
  *
  * This function is exported (as a named export) from the main `'jose'` module entry point as well
  * as from its subpath export `'jose/key/import'`.
@@ -102,9 +104,10 @@ export async function importX509(
 /**
  * Imports a PEM-encoded PKCS#8 string as a {@link !CryptoKey}.
  *
- * Note: The OID id-RSASSA-PSS (1.2.840.113549.1.1.10) is not supported in
- * {@link https://w3c.github.io/webcrypto/ Web Cryptography API}, use the OID rsaEncryption
- * (1.2.840.113549.1.1.1) instead for all RSA algorithms.
+ * > [!NOTE]\
+ * > The OID id-RSASSA-PSS (1.2.840.113549.1.1.10) is not supported in
+ * > {@link https://w3c.github.io/webcrypto/ Web Cryptography API}, use the OID rsaEncryption
+ * > (1.2.840.113549.1.1.1) instead for all RSA algorithms.
  *
  * This function is exported (as a named export) from the main `'jose'` module entry point as well
  * as from its subpath export `'jose/key/import'`.
@@ -140,11 +143,13 @@ export async function importPKCS8(
  * Imports a JWK to a {@link !CryptoKey}. Either the JWK "alg" (Algorithm) Parameter, or the optional
  * "alg" argument, must be present for asymmetric JSON Web Key imports.
  *
- * Note: The JSON Web Key parameters "use", "key_ops", and "ext" are also used in the
- * {@link !CryptoKey} import process.
+ * > [!NOTE]\
+ * > The JSON Web Key parameters "use", "key_ops", and "ext" are also used in the {@link !CryptoKey}
+ * > import process.
  *
- * Note: Symmetric JSON Web Keys (i.e. `kty: "oct"`) yield back an {@link !Uint8Array} instead of a
- * {@link !CryptoKey}.
+ * > [!NOTE]\
+ * > Symmetric JSON Web Keys (i.e. `kty: "oct"`) yield back an {@link !Uint8Array} instead of a
+ * > {@link !CryptoKey}.
  *
  * This function is exported (as a named export) from the main `'jose'` module entry point as well
  * as from its subpath export `'jose/key/import'`.

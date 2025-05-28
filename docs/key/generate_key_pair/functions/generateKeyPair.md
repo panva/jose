@@ -9,8 +9,9 @@ Support from the community to continue maintaining and improving this module is 
 Generates a private and a public key for a given JWA algorithm identifier. This can only generate
 asymmetric key pairs. For symmetric secrets use the `generateSecret` function.
 
-Note: The `privateKey` is generated with `extractable` set to `false` by default. See
-[GenerateKeyPairOptions.extractable](../interfaces/GenerateKeyPairOptions.md#extractable) to generate an extractable `privateKey`.
+> [!NOTE]\
+> The `privateKey` is generated with `extractable` set to `false` by default. See
+> [GenerateKeyPairOptions.extractable](../interfaces/GenerateKeyPairOptions.md#extractable) to generate an extractable `privateKey`.
 
 This function is exported (as a named export) from the main `'jose'` module entry point as well
 as from its subpath export `'jose/generate/keypair'`.
