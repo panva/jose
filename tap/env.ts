@@ -66,10 +66,6 @@ export function supported(identifier?: string, op?: string) {
       case 'PBES2-HS384+A192KW':
         return false
     }
-
-    if (identifier === 'Ed25519' || identifier === 'EdDSA') {
-      return isBrowserVersionAtLeast(137)
-    }
   }
 
   if (isElectron) {
