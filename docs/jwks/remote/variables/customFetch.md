@@ -9,6 +9,10 @@ Support from the community to continue maintaining and improving this module is 
 When passed to [createRemoteJWKSet](../functions/createRemoteJWKSet.md) this allows the resolver
 to make use of advanced fetch configurations, HTTP Proxies, retry on network errors, etc.
 
+> [!NOTE]\
+> Known caveat: Expect Type-related issues when passing the inputs through to fetch-like modules,
+> they hardly ever get their typings inline with actual fetch, you should `@ts-expect-error` them.
+
 ## Examples
 
 Using [sindresorhus/ky](https://github.com/sindresorhus/ky) for retries and its hooks feature for
