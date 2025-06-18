@@ -1,5 +1,7 @@
 name: Build
 
+permissions: {}
+
 on:
   workflow_call:
     outputs:
