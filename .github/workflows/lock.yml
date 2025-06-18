@@ -1,11 +1,17 @@
 name: "Lock threads"
 
+permissions: {}
+
 on:
   schedule:
     - cron: '11 11 * * 1'
 
 jobs:
   lock:
+    permissions:
+      issues: write
+      pull-requests: write
+      discussions: write
     continue-on-error: true
     runs-on: ubuntu-latest
     steps:
