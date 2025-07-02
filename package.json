@@ -193,6 +193,10 @@
       "types": "./dist/types/util/base64url.d.ts",
       "default": "./dist/webapi/util/base64url.js"
     },
+    "./sd/issuer": {
+      "types": "./dist/types/sd/issuer.d.ts",
+      "default": "./dist/webapi/sd/issuer.js"
+    },
     "./package.json": "./package.json"
   },
   "main": "./dist/webapi/index.js",

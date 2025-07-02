@@ -9,6 +9,7 @@
     "src/jwks/*.ts",
     "src/jws/**/*.ts",
     "src/jwt/*.ts",
+    "src/sd/*.ts",
     "src/key/*.ts",
     "src/util/*.ts",
   ],

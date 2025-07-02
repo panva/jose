@@ -76,7 +76,7 @@ function filterExamples(file) {
       let remove = inExample
       if (line.includes('* @example')) {
         remove = inExample = true
-      } else if (line.includes('```') && !line.includes('```js')) {
+      } else if (line.includes('```') && !line.includes('```js') && !line.includes('```ts')) {
         inExample = false
       } else if (inExample) {
         remove = true
