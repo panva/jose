@@ -243,9 +243,9 @@ export class SdJwtPayload<T extends types.JWTPayload = types.JWTPayload> {
    *
    * @param cnf The confirmation claim value to set.
    */
-  setConfirmationClaim(method: string, value: JsonValue) {
+  setConfirmationClaim(method: string, value: types.JWK | JsonValue) {
     this.#payload.cnf ||= {}
-    this.#payload.cnf[method] = value
+    this.#payload.cnf[method] = value as JsonValue
     return this
   }
 
