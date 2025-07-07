@@ -76,9 +76,10 @@ export class CompactEncrypt {
   }
 
   /**
-   * Sets the JWE Key Management parameters to be used when encrypting the Content Encryption Key.
-   * You do not need to invoke this method, it is only really intended for test and vector
-   * validation purposes.
+   * Sets the JWE Key Management parameters to be used when encrypting. Use of this is method is
+   * really only needed for ECDH based algorithms when utilizing the Agreement PartyUInfo or
+   * Agreement PartyVInfo parameters. Other parameters will always be randomly generated when needed
+   * and missing.
    *
    * @param parameters JWE Key Management parameters.
    */
