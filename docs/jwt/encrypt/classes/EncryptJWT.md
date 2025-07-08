@@ -291,9 +291,9 @@ Set the "jti" (JWT ID) Claim.
 ▸ **setKeyManagementParameters**(`parameters`): `this`
 
 Sets the JWE Key Management parameters to be used when encrypting. Use of this is method is
-really only needed for ECDH based algorithms when utilizing the Agreement PartyUInfo or
-Agreement PartyVInfo parameters. Other parameters will always be randomly generated when needed
-and missing.
+really only needed for ECDH based algorithms when utilizing the "apu" (Agreement PartyUInfo) or
+"apv" (Agreement PartyVInfo) parameters. Other parameters will always be randomly generated
+when needed and missing.
 
 #### Parameters
 
