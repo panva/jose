@@ -261,7 +261,7 @@ function getSPKI(x509: string): string {
 
   if (createPublicKey) {
     try {
-      return new createPublicKey(x509).export({ format: 'pem', type: 'spki' })
+      return createPublicKey(x509).export({ format: 'pem', type: 'spki' })
     } catch {}
   }
   const pem = x509.replace(/(?:-----(?:BEGIN|END) CERTIFICATE-----|\s)/g, '')
