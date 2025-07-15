@@ -2,6 +2,22 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [6.0.12](https://github.com/panva/jose/compare/v6.0.11...v6.0.12) (2025-07-15)
+
+
+### Documentation
+
+* add known caveats to customFetch ([02e1f1e](https://github.com/panva/jose/commit/02e1f1e87c764885121590aa2af80c831a9320ab))
+* mention the apu/apv parameter names in setKeyManagementParameters ([6274d5a](https://github.com/panva/jose/commit/6274d5abca3d3882d3d722415f064fee5c44d0e4))
+* update compact setKeyManagementParameters ([2f44381](https://github.com/panva/jose/commit/2f44381b6b0e30cf538ea2edb0d42b76a61de1f8))
+* use GitHub Flavored Markdown for notes and warnings ([f6b4ffc](https://github.com/panva/jose/commit/f6b4ffcd82d9645d9b818ece09a09b5a636b69c9))
+
+
+### Refactor
+
+* createPublicKey is not a constructor ([61ded78](https://github.com/panva/jose/commit/61ded787150c6ae13eeb65b6680f857d6657465f))
+* update asn1.ts helper functions ([b2b611c](https://github.com/panva/jose/commit/b2b611c426eeed3c40c3a1423d8a02dd46f3f7e8))
+
 ## [6.0.11](https://github.com/panva/jose/compare/v6.0.10...v6.0.11) (2025-05-05)
 
 
