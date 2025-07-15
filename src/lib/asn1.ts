@@ -82,7 +82,7 @@ const getNamedCurve = (keyData: Uint8Array): string | undefined => {
     'P-521': [0x06, 0x05, 0x2b, 0x81, 0x04, 0x00, 0x23],
   })
 
-  const maxPatternLen = Math.max(...Object.values(patterns).map((a) => a.length))
+  const maxPatternLen = Math.max(...patterns.map(([, bytes]) => bytes.length))
 
   for (let i = 0; i <= keyData.byteLength - maxPatternLen; i++) {
     for (const [curve, bytes] of patterns) {
