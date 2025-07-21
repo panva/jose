@@ -3,7 +3,7 @@ import isKeyLike from './is_key_like.js'
 import * as jwk from './is_jwk.js'
 import type * as types from '../types.d.ts'
 
-// @ts-expect-error
+// @ts-ignore
 const tag = (key: unknown): string => key?.[Symbol.toStringTag]
 
 const jwkMatchesOp = (alg: string, key: types.JWK, usage: Usage) => {

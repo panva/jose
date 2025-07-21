@@ -7,12 +7,12 @@ export function assertCryptoKey(key: unknown): asserts key is types.CryptoKey {
 }
 
 export function isCryptoKey(key: unknown): key is types.CryptoKey {
-  // @ts-expect-error
+  // @ts-ignore
   return key?.[Symbol.toStringTag] === 'CryptoKey'
 }
 
 export function isKeyObject<T extends types.KeyObject = types.KeyObject>(key: unknown): key is T {
-  // @ts-expect-error
+  // @ts-ignore
   return key?.[Symbol.toStringTag] === 'KeyObject'
 }
 
