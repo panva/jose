@@ -7,19 +7,51 @@ function lengthAndInput(input: Uint8Array) {
   return concat(uint32be(input.length), input)
 }
 
-async function concatKdf(secret: Uint8Array, bits: number, value: Uint8Array) {
-  const iterations = Math.ceil((bits >> 3) / 32)
-  const res = new Uint8Array(iterations * 32)
-  for (let iter = 0; iter < iterations; iter++) {
-    const buf = new Uint8Array(4 + secret.length + value.length)
-    buf.set(uint32be(iter + 1))
-    buf.set(secret, 4)
-    buf.set(value, 4 + secret.length)
-    res.set(await digest('sha256', buf), iter * 32)
+/**
+ * Concat KDF implementation
+ *
+ * @param Z - Shared secret from key-agreement scheme
+ * @param L - Length of derived keying material in bits
+ * @param OtherInfo - Context and application specific data
+ */
+async function concatKdf(Z: Uint8Array, L: number, OtherInfo: Uint8Array) {
+  // dkLen = L (in bits), converted to bytes for output length
+  const dkLen = L >> 3
+  // Hash output length in bytes (SHA-256 produces 32 bytes)
+  const hashLen = 32
+  // Number of hash function calls needed
+  const reps = Math.ceil(dkLen / hashLen)
+  // Initialize output buffer for concatenated hash results
+  const dk = new Uint8Array(reps * hashLen)
+
+  // Perform reps iterations of the hash function
+  for (let i = 1; i <= reps; i++) {
+    // Construct Hash_i input: Counter || Z || OtherInfo
+    const hashInput = new Uint8Array(4 + Z.length + OtherInfo.length)
+    hashInput.set(uint32be(i), 0) // 32-bit big-endian counter
+    hashInput.set(Z, 4) // Shared secret Z
+    hashInput.set(OtherInfo, 4 + Z.length) // OtherInfo
+
+    // Hash_i = Hash(Counter || Z || OtherInfo)
+    const hashResult = await digest('sha256', hashInput)
+    dk.set(hashResult, (i - 1) * hashLen)
   }
-  return res.slice(0, bits >> 3)
+
+  // Return leading L bits of dk (truncate to exact length needed)
+  return dk.slice(0, dkLen)
 }
 
+/**
+ * ECDH-ES Key Agreement with Concat KDF
+ *
+ * @param publicKey
+ * @param privateKey
+ * @param algorithm - AlgorithmID: For Direct Key Agreement (ECDH-ES), this is the "enc" value. For
+ *   Key Agreement with Key Wrapping, this is the "alg" value
+ * @param keyLength - Keydatalen: Number of bits in the desired output key
+ * @param apu - PartyUInfo: Agreement PartyUInfo value (information about the producer)
+ * @param apv - PartyVInfo: Agreement PartyVInfo value (information about the recipient)
+ */
 export async function deriveKey(
   publicKey: types.CryptoKey,
   privateKey: types.CryptoKey,
@@ -31,33 +63,39 @@ export async function deriveKey(
   checkEncCryptoKey(publicKey, 'ECDH')
   checkEncCryptoKey(privateKey, 'ECDH', 'deriveBits')
 
-  const value = concat(
-    lengthAndInput(encoder.encode(algorithm)),
-    lengthAndInput(apu),
-    lengthAndInput(apv),
-    uint32be(keyLength),
-  )
+  // Construct OtherInfo
+  const algorithmID = lengthAndInput(encoder.encode(algorithm))
+  const partyUInfo = lengthAndInput(apu)
+  const partyVInfo = lengthAndInput(apv)
+  const suppPubInfo = uint32be(keyLength)
+  const suppPrivInfo = new Uint8Array(0)
 
-  let length: number
-  if (publicKey.algorithm.name === 'X25519') {
-    length = 256
-  } else {
-    length =
-      Math.ceil(parseInt((publicKey.algorithm as EcKeyAlgorithm).namedCurve.slice(-3), 10) / 8) << 3
-  }
+  const otherInfo = concat(algorithmID, partyUInfo, partyVInfo, suppPubInfo, suppPrivInfo)
 
-  const sharedSecret = new Uint8Array(
+  // Perform ECDH to get the shared secret Z
+  const Z = new Uint8Array(
     await crypto.subtle.deriveBits(
       {
         name: publicKey.algorithm.name,
         public: publicKey,
       },
       privateKey,
-      length,
+      getEcdhBitLength(publicKey),
     ),
   )
 
-  return concatKdf(sharedSecret, keyLength, value)
+  // Apply Concat KDF to derive the final key material
+  return concatKdf(Z, keyLength, otherInfo)
+}
+
+function getEcdhBitLength(publicKey: CryptoKey) {
+  if (publicKey.algorithm.name === 'X25519') {
+    return 256
+  }
+
+  return (
+    Math.ceil(parseInt((publicKey.algorithm as EcKeyAlgorithm).namedCurve.slice(-3), 10) / 8) << 3
+  )
 }
 
 export function allowed(key: types.CryptoKey) {
