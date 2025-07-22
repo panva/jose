@@ -165,7 +165,7 @@ export function validateClaimsSet(
   }
 
   if (maxTokenAge) {
-    const age = now - (payload.iat as number);
+    const age = now - (payload.iat as number)
     const max = typeof maxTokenAge === 'number' ? maxTokenAge : secs(maxTokenAge)
 
     if (age - tolerance > max) {
