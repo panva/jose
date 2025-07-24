@@ -35,9 +35,23 @@ export interface JWK_OKP_Public extends JWKParameters {
 }
 
 /** Convenience interface for Private OKP JSON Web Keys */
-export interface JWK_OKP_Private extends JWK_OKP_Public, JWKParameters {
+export interface JWK_OKP_Private extends JWK_OKP_Public {
   /** OKP JWK "d" (The Private Key) Parameter */
   d: string
+}
+
+/** Convenience interface for Public AKP JSON Web Keys */
+export interface JWK_AKP_Public extends JWKParameters {
+  /** JWK "alg" (Algorithm) Parameter */
+  alg: string
+  /** AKP JWK "pub" (The Public key) Parameter */
+  pub: string
+}
+
+/** Convenience interface for Private AKP JSON Web Keys */
+export interface JWK_AKP_Private extends JWK_AKP_Public {
+  /** AKP JWK "priv" (The Private Key) Parameter */
+  priv: string
 }
 
 /** Convenience interface for Public EC JSON Web Keys */
@@ -51,7 +65,7 @@ export interface JWK_EC_Public extends JWKParameters {
 }
 
 /** Convenience interface for Private EC JSON Web Keys */
-export interface JWK_EC_Private extends JWK_EC_Public, JWKParameters {
+export interface JWK_EC_Private extends JWK_EC_Public {
   /** EC JWK "d" (ECC Private Key) Parameter */
   d: string
 }
@@ -65,7 +79,7 @@ export interface JWK_RSA_Public extends JWKParameters {
 }
 
 /** Convenience interface for Private RSA JSON Web Keys */
-export interface JWK_RSA_Private extends JWK_RSA_Public, JWKParameters {
+export interface JWK_RSA_Private extends JWK_RSA_Public {
   /** RSA JWK "d" (Private Exponent) Parameter */
   d: string
   /** RSA JWK "dp" (First Factor CRT Exponent) Parameter */
@@ -87,9 +101,11 @@ export interface JWK_oct extends JWKParameters {
 }
 
 /**
- * JSON Web Key ({@link https://www.rfc-editor.org/rfc/rfc7517 JWK}). "RSA", "EC", "OKP", and "oct"
- * key types are supported.
+ * JSON Web Key ({@link https://www.rfc-editor.org/rfc/rfc7517 JWK}). "RSA", "EC", "OKP", "AKP", and
+ * "oct" key types are supported.
  *
+ * @see {@link JWK_AKP_Public}
+ * @see {@link JWK_AKP_Private}
  * @see {@link JWK_OKP_Public}
  * @see {@link JWK_OKP_Private}
  * @see {@link JWK_EC_Public}
@@ -133,6 +149,10 @@ export interface JWK extends JWKParameters {
   x?: string
   /** EC JWK "y" (Y Coordinate) Parameter */
   y?: string
+  /** AKP JWK "pub" (Public Key) Parameter */
+  pub?: string
+  /** AKP JWK "priv" (Private key) Parameter */
+  priv?: string
 }
 
 /**

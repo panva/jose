@@ -27,6 +27,8 @@
 - [JWEHeaderParameters](interfaces/JWEHeaderParameters.md)
 - [JWEKeyManagementHeaderParameters](interfaces/JWEKeyManagementHeaderParameters.md)
 - [JWK](interfaces/JWK.md)
+- [JWK\_AKP\_Private](interfaces/JWK_AKP_Private.md)
+- [JWK\_AKP\_Public](interfaces/JWK_AKP_Public.md)
 - [JWK\_EC\_Private](interfaces/JWK_EC_Private.md)
 - [JWK\_EC\_Public](interfaces/JWK_EC_Public.md)
 - [JWK\_oct](interfaces/JWK_oct.md)
