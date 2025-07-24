@@ -72,6 +72,11 @@ export async function calculateJwkThumbprint(
 
   let components: types.JWK
   switch (jwk.kty) {
+    case 'AKP':
+      check(jwk.alg, '"alg" (Algorithm) Parameter')
+      check(jwk.pub, '"pub" (Public key) Parameter')
+      components = { alg: jwk.alg, kty: jwk.kty, pub: jwk.pub }
+      break
     case 'EC':
       check(jwk.crv, '"crv" (Curve) Parameter')
       check(jwk.x, '"x" (X Coordinate) Parameter')
