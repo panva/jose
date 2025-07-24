@@ -34,5 +34,9 @@ export default async function keyToJWK(key: unknown): Promise<types.JWK> {
   }
   const { ext, key_ops, alg, use, ...jwk } = await crypto.subtle.exportKey('jwk', key)
 
+  if (jwk.kty === 'AKP') {
+    ;(jwk as types.JWK).alg = alg
+  }
+
   return jwk as types.JWK
 }
