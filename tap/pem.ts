@@ -73,6 +73,13 @@ export default (
     [['EdDSA', 'Ed25519'], KEYS.Ed25519.pkcs8],
     [['EdDSA', 'Ed25519'], KEYS.Ed25519.spki],
     [['EdDSA', 'Ed25519'], KEYS.Ed25519.x509],
+    ['ML-DSA-44', KEYS['ML-DSA-44'].pkcs8],
+    ['ML-DSA-44', KEYS['ML-DSA-44'].pkcs8_seed],
+    ['ML-DSA-44', KEYS['ML-DSA-44'].spki],
+    ['ML-DSA-65', KEYS['ML-DSA-65'].pkcs8],
+    ['ML-DSA-65', KEYS['ML-DSA-65'].spki],
+    ['ML-DSA-87', KEYS['ML-DSA-87'].pkcs8],
+    ['ML-DSA-87', KEYS['ML-DSA-87'].spki],
   ]
 
   function title(alg: string, crv: string | undefined, pem: string, supported = true) {
@@ -126,18 +133,23 @@ export default (
     const execute = async (t: typeof QUnit.assert) => {
       const k = await importFn(pem, alg as string, { extractable: true })
 
-      if (!x509) {
-        t.strictEqual(normalize(await exportFn(k)), normalize(pem))
-        if (env.isNode && lib.importJWK !== keys.importJWK) {
-          const nCrypto = globalThis.process.getBuiltinModule('node:crypto')
-          if (pem.startsWith('-----BEGIN PRIVATE KEY-----')) {
-            t.strictEqual(normalize(await exportFn(nCrypto.createPrivateKey(pem))), normalize(pem))
-          } else {
-            t.strictEqual(normalize(await exportFn(nCrypto.createPublicKey(pem))), normalize(pem))
+      if (env.supported(alg, 'pem export')) {
+        if (!x509) {
+          t.strictEqual(normalize(await exportFn(k)), normalize(pem))
+          if (env.isNode && lib.importJWK !== keys.importJWK) {
+            const nCrypto = globalThis.process.getBuiltinModule('node:crypto')
+            if (pem.startsWith('-----BEGIN PRIVATE KEY-----')) {
+              t.strictEqual(
+                normalize(await exportFn(nCrypto.createPrivateKey(pem))),
+                normalize(pem),
+              )
+            } else {
+              t.strictEqual(normalize(await exportFn(nCrypto.createPublicKey(pem))), normalize(pem))
+            }
           }
+        } else {
+          await exportFn(k)
         }
-      } else {
-        await exportFn(k)
       }
       t.ok(1)
     }

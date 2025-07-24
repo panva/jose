@@ -158,6 +158,12 @@ const genericImport = async (
       algorithm = { name: 'Ed25519' }
       keyUsages = getSignatureUsages()
       break
+    case 'ML-DSA-44':
+    case 'ML-DSA-65':
+    case 'ML-DSA-87':
+      algorithm = { name: alg }
+      keyUsages = getSignatureUsages()
+      break
     default:
       throw new JOSENotSupported('Invalid or unsupported "alg" (Algorithm) value')
   }
@@ -179,11 +185,138 @@ type PEMImportFunction = (
 
 export const fromPKCS8: PEMImportFunction = (pem, alg, options?) => {
   const keyData = decodeBase64(pem.replace(/(?:-----(?:BEGIN|END) PRIVATE KEY-----|\s)/g, ''))
+
+  if (alg === 'ML-DSA-44' || alg === 'ML-DSA-65' || alg === 'ML-DSA-87') {
+    let seed: Uint8Array
+
+    // Parse PKCS#8 structure to extract ML-DSA seed
+    let pos = 0
+
+    // Helper function to parse ASN.1 length encoding
+    const parseLength = (): number => {
+      const first = keyData[pos++]
+      if (first & 0x80) {
+        const lengthOfLength = first & 0x7f
+        let length = 0
+        for (let i = 0; i < lengthOfLength; i++) {
+          length = (length << 8) | keyData[pos++]
+        }
+        return length
+      }
+      return first
+    }
+
+    // Parse outer SEQUENCE (PrivateKeyInfo)
+    if (keyData[pos++] !== 0x30) throw new Error('Invalid PKCS#8 structure')
+    parseLength() // Skip outer length
+
+    // Skip version (INTEGER)
+    if (keyData[pos++] !== 0x02) throw new Error('Expected version field')
+    const versionLength = parseLength()
+    pos += versionLength
+
+    // Skip privateKeyAlgorithm (AlgorithmIdentifier SEQUENCE)
+    if (keyData[pos++] !== 0x30) throw new Error('Expected algorithm identifier')
+    const algIdLength = parseLength()
+    pos += algIdLength
+
+    // Parse privateKey (OCTET STRING containing ML-DSA-PrivateKey)
+    if (keyData[pos++] !== 0x04) throw new Error('Expected private key octet string')
+    parseLength() // Skip private key length
+
+    // Now parse the ML-DSA-PrivateKey structure inside the OCTET STRING
+    const tag = keyData[pos++]
+    const length = parseLength()
+
+    if (tag === 0x80) {
+      // Case 1: seed [0] OCTET STRING (SIZE (32))
+      if (length !== 32) throw new Error('Invalid seed length')
+      seed = keyData.subarray(pos, pos + 32)
+    } else if (tag === 0x04) {
+      // Case 2: expandedKey OCTET STRING (SIZE (2560))
+      throw new Error('No seed available in expanded key format')
+    } else if (tag === 0x30) {
+      // Case 3: both SEQUENCE { seed OCTET STRING (SIZE (32)), expandedKey OCTET STRING (SIZE (2560)) }
+      // Parse seed from the sequence
+      if (keyData[pos++] !== 0x04) throw new Error('Expected seed octet string in sequence')
+      const seedLength = parseLength()
+      if (seedLength !== 32) throw new Error('Invalid seed length in sequence')
+      seed = keyData.subarray(pos, pos + 32)
+    } else {
+      throw new Error('Unsupported ML-DSA private key format')
+    }
+
+    // Ensure seed was extracted successfully
+    if (!seed) {
+      throw new Error('Failed to extract seed from ML-DSA private key')
+    }
+
+    return crypto.subtle.importKey('raw-seed', seed, { name: alg }, options?.extractable ?? false, [
+      'sign',
+    ])
+  }
+
   return genericImport('pkcs8', keyData, alg, options)
 }
 
 export const fromSPKI: PEMImportFunction = (pem, alg, options?) => {
   const keyData = decodeBase64(pem.replace(/(?:-----(?:BEGIN|END) PUBLIC KEY-----|\s)/g, ''))
+
+  if (alg === 'ML-DSA-44' || alg === 'ML-DSA-65' || alg === 'ML-DSA-87') {
+    let publicKey: Uint8Array
+
+    // Parse SPKI structure to extract ML-DSA public key
+    let pos = 0
+
+    // Helper function to parse ASN.1 length encoding
+    const parseLength = (): number => {
+      const first = keyData[pos++]
+      if (first & 0x80) {
+        const lengthOfLength = first & 0x7f
+        let length = 0
+        for (let i = 0; i < lengthOfLength; i++) {
+          length = (length << 8) | keyData[pos++]
+        }
+        return length
+      }
+      return first
+    }
+
+    // Parse outer SEQUENCE (SubjectPublicKeyInfo)
+    if (keyData[pos++] !== 0x30) throw new Error('Invalid SPKI structure')
+    parseLength() // Skip outer length
+
+    // Skip algorithm identifier (AlgorithmIdentifier SEQUENCE)
+    if (keyData[pos++] !== 0x30) throw new Error('Expected algorithm identifier')
+    const algIdLength = parseLength()
+    pos += algIdLength
+
+    // Parse subjectPublicKey (BIT STRING)
+    if (keyData[pos++] !== 0x03) throw new Error('Expected public key bit string')
+    const bitStringLength = parseLength()
+
+    // Skip the unused bits byte (first byte of BIT STRING content)
+    const unusedBits = keyData[pos++]
+    if (unusedBits !== 0) throw new Error('Expected no unused bits in public key')
+
+    // Extract the actual public key bytes (remaining BIT STRING content)
+    const publicKeyLength = bitStringLength - 1 // Subtract 1 for the unused bits byte
+    publicKey = keyData.subarray(pos, pos + publicKeyLength)
+
+    // Ensure public key was extracted successfully
+    if (!publicKey || publicKey.length === 0) {
+      throw new Error('Failed to extract public key from ML-DSA SPKI')
+    }
+
+    return crypto.subtle.importKey(
+      'raw-public',
+      publicKey,
+      { name: alg },
+      options?.extractable ?? true,
+      ['verify'],
+    )
+  }
+
   return genericImport('spki', keyData, alg, options)
 }
 

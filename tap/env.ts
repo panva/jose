@@ -51,10 +51,14 @@ export function supported(identifier?: string, op?: string) {
     case 'Ed448':
     case 'ES256K':
     case 'secp256k1':
+      return false
+  }
+
+  switch (identifier) {
     case 'ML-DSA-44':
     case 'ML-DSA-65':
     case 'ML-DSA-87':
-      return false
+      return isNode && op !== 'pem export'
   }
 
   if (isBlink) {

@@ -39,7 +39,7 @@ function jwkWithProps(jwk: jose.JWK, alg: string) {
   jwk.use = 'sig'
   if (jwk.k) {
     jwk.key_ops = ['sign', 'verify']
-  } else if (jwk.d) {
+  } else if (jwk.d || jwk.priv) {
     jwk.key_ops = ['sign']
   } else {
     jwk.key_ops = ['verify']

@@ -62,7 +62,7 @@ JWE "crit" (Critical) Header Parameter
 
 ### jwk?
 
-• `optional` **jwk**: [`Pick`](https://www.typescriptlang.org/docs/handbook/utility-types.html#picktype-keys)\<[`JWK`](JWK.md), `"x"` \| `"y"` \| `"crv"` \| `"e"` \| `"n"` \| `"kty"`\>
+• `optional` **jwk**: [`Pick`](https://www.typescriptlang.org/docs/handbook/utility-types.html#picktype-keys)\<[`JWK`](JWK.md), `"x"` \| `"y"` \| `"crv"` \| `"e"` \| `"n"` \| `"pub"` \| `"kty"` \| `"alg"`\>
 
 "jwk" (JSON Web Key) Header Parameter
 
