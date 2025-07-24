@@ -102,7 +102,7 @@ const checkAudiencePresence = (audPayload: unknown, audOption: unknown[]) => {
 }
 
 export function validateClaimsSet(
-  protectedHeader: types.JWEHeaderParameters | types.JWSHeaderParameters,
+  joseHeader: types.JWEHeaderParameters | types.JWSHeaderParameters,
   encodedPayload: Uint8Array,
   options: types.JWTClaimVerificationOptions = {},
 ) {
@@ -120,8 +120,8 @@ export function validateClaimsSet(
   const { typ } = options
   if (
     typ &&
-    (typeof protectedHeader!.typ !== 'string' ||
-      normalizeTyp(protectedHeader!.typ) !== normalizeTyp(typ))
+    (typeof joseHeader!.typ !== 'string' ||
+      normalizeTyp(joseHeader!.typ) !== normalizeTyp(typ))
   ) {
     throw new JWTClaimValidationFailed(
       'unexpected "typ" JWT header value',
