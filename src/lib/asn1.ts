@@ -67,41 +67,143 @@ export const toPKCS8 = (key: unknown): Promise<string> => {
   return genericExport('private', 'pkcs8', key)
 }
 
-/**
- * Detects the named curve from ECDH/ECDSA key data by searching for curve OID patterns.
- *
- * @param keyData - The key data to analyze
- *
- * @returns The curve name ('P-256', 'P-384', or 'P-521') or undefined if not found
- */
-const getNamedCurve = (keyData: Uint8Array): string | undefined => {
-  // OID patterns for NIST curves (Object Identifier byte sequences)
-  const patterns = Object.entries({
-    'P-256': [0x06, 0x08, 0x2a, 0x86, 0x48, 0xce, 0x3d, 0x03, 0x01, 0x07],
-    'P-384': [0x06, 0x05, 0x2b, 0x81, 0x04, 0x00, 0x22],
-    'P-521': [0x06, 0x05, 0x2b, 0x81, 0x04, 0x00, 0x23],
-  })
+/** Helper function to compare two byte arrays for equality */
+const bytesEqual = (a: Uint8Array, b: readonly number[]): boolean => {
+  if (a.byteLength !== b.length) return false
+  for (let i = 0; i < a.byteLength; i++) {
+    if (a[i] !== b[i]) return false
+  }
+  return true
+}
 
-  const maxPatternLen = Math.max(...patterns.map(([, bytes]) => bytes.length))
+/** ASN.1 DER parsing state */
+interface ASN1State {
+  readonly data: Uint8Array
+  pos: number
+}
 
-  for (let i = 0; i <= keyData.byteLength - maxPatternLen; i++) {
-    for (const [curve, bytes] of patterns) {
-      if (i <= keyData.byteLength - bytes.length) {
-        if (keyData.subarray(i, i + bytes.length).every((byte, idx) => byte === bytes[idx])) {
-          return curve
-        }
-      }
+/** Creates ASN.1 parsing state */
+const createASN1State = (data: Uint8Array): ASN1State => ({ data, pos: 0 })
+
+/** Parses ASN.1 length encoding (both short and long form) */
+const parseLength = (state: ASN1State): number => {
+  const first = state.data[state.pos++]
+  if (first & 0x80) {
+    // Long form: first byte indicates number of subsequent length bytes
+    const lengthOfLen = first & 0x7f
+    let length = 0
+    for (let i = 0; i < lengthOfLen; i++) {
+      length = (length << 8) | state.data[state.pos++]
+    }
+    return length
+  }
+  // Short form: length is encoded directly in first byte
+  return first
+}
+
+/** Skips ASN.1 elements (tag + length + content) */
+const skipElement = (state: ASN1State, count: number = 1): void => {
+  if (count <= 0) return
+  state.pos++ // Skip tag byte
+  const length = parseLength(state)
+  state.pos += length // Skip content bytes
+  if (count > 1) {
+    skipElement(state, count - 1) // Recursively skip remaining elements
+  }
+}
+
+/** Expects a specific tag and throws if not found */
+const expectTag = (state: ASN1State, expectedTag: number, errorMessage: string): void => {
+  if (state.data[state.pos++] !== expectedTag) {
+    throw new Error(errorMessage)
+  }
+}
+
+/** Gets a subarray from current position */
+const getSubarray = (state: ASN1State, length: number): Uint8Array => {
+  const result = state.data.subarray(state.pos, state.pos + length)
+  state.pos += length
+  return result
+}
+
+/** Parses algorithm OID and returns the OID bytes */
+const parseAlgorithmOID = (state: ASN1State): Uint8Array => {
+  expectTag(state, 0x06, 'Expected algorithm OID')
+  const oidLen = parseLength(state)
+  return getSubarray(state, oidLen)
+}
+
+/** Parses a PKCS#8 private key structure up to the privateKey field */
+function parsePKCS8Header(state: ASN1State) {
+  // Parse outer SEQUENCE (PrivateKeyInfo)
+  expectTag(state, 0x30, 'Invalid PKCS#8 structure')
+  parseLength(state) // Skip outer length
+
+  // Skip version (INTEGER)
+  expectTag(state, 0x02, 'Expected version field')
+  const verLen = parseLength(state)
+  state.pos += verLen
+
+  // Parse privateKeyAlgorithm (AlgorithmIdentifier SEQUENCE)
+  expectTag(state, 0x30, 'Expected algorithm identifier')
+  const algIdLen = parseLength(state)
+  const algIdStart = state.pos
+
+  return { algIdStart, algIdLength: algIdLen }
+}
+
+/** Parses an SPKI structure up to the subjectPublicKey field */
+function parseSPKIHeader(state: ASN1State) {
+  // Parse outer SEQUENCE (SubjectPublicKeyInfo)
+  expectTag(state, 0x30, 'Invalid SPKI structure')
+  parseLength(state) // Skip outer length
+
+  // Parse algorithm identifier (AlgorithmIdentifier SEQUENCE)
+  expectTag(state, 0x30, 'Expected algorithm identifier')
+  const algIdLen = parseLength(state)
+  const algIdStart = state.pos
+
+  return { algIdStart, algIdLength: algIdLen }
+}
+
+/** Parses algorithm identifier and returns curve name for EC/ECDH keys */
+const parseECAlgorithmIdentifier = (state: ASN1State): string => {
+  const algOid = parseAlgorithmOID(state)
+
+  // id-x25519
+  if (bytesEqual(algOid, [0x2b, 0x65, 0x6e])) {
+    return 'X25519'
+  }
+
+  // id-ecPublicKey 1.2.840.10045.2.1
+  if (!bytesEqual(algOid, [0x2a, 0x86, 0x48, 0xce, 0x3d, 0x02, 0x01])) {
+    throw new Error('Unsupported key algorithm')
+  }
+
+  // Parse curve parameters (should be an OID for named curves)
+  expectTag(state, 0x06, 'Expected curve OID')
+  const curveOidLen = parseLength(state)
+  const curveOid = getSubarray(state, curveOidLen)
+
+  // Compare with known curve OIDs - NIST curves inlined
+  for (const { name, oid } of [
+    { name: 'P-256', oid: [0x2a, 0x86, 0x48, 0xce, 0x3d, 0x03, 0x01, 0x07] }, // 1.2.840.10045.3.1.7
+    { name: 'P-384', oid: [0x2b, 0x81, 0x04, 0x00, 0x22] }, // 1.3.132.0.34
+    { name: 'P-521', oid: [0x2b, 0x81, 0x04, 0x00, 0x23] }, // 1.3.132.0.35
+  ] as const) {
+    if (bytesEqual(curveOid, oid)) {
+      return name
     }
   }
 
-  return undefined
+  throw new Error('Unsupported named curve')
 }
 
 const genericImport = async (
   keyFormat: 'spki' | 'pkcs8',
   keyData: Uint8Array,
   alg: string,
-  options?: KeyImportOptions,
+  options?: KeyImportOptions & { getNamedCurve?: (keyData: Uint8Array) => string },
 ) => {
   let algorithm: RsaHashedImportParams | EcKeyAlgorithm | Algorithm
   let keyUsages: KeyUsage[]
@@ -109,8 +211,8 @@ const genericImport = async (
   const isPublic = keyFormat === 'spki'
 
   // Helper functions for determining key usage based on key type
-  const getSignatureUsages = (): KeyUsage[] => (isPublic ? ['verify'] : ['sign'])
-  const getEncryptionUsages = (): KeyUsage[] =>
+  const getSigUsages = (): KeyUsage[] => (isPublic ? ['verify'] : ['sign'])
+  const getEncUsages = (): KeyUsage[] =>
     isPublic ? ['encrypt', 'wrapKey'] : ['decrypt', 'unwrapKey']
 
   switch (alg) {
@@ -118,13 +220,13 @@ const genericImport = async (
     case 'PS384':
     case 'PS512':
       algorithm = { name: 'RSA-PSS', hash: `SHA-${alg.slice(-3)}` }
-      keyUsages = getSignatureUsages()
+      keyUsages = getSigUsages()
       break
     case 'RS256':
     case 'RS384':
     case 'RS512':
       algorithm = { name: 'RSASSA-PKCS1-v1_5', hash: `SHA-${alg.slice(-3)}` }
-      keyUsages = getSignatureUsages()
+      keyUsages = getSigUsages()
       break
     case 'RSA-OAEP':
     case 'RSA-OAEP-256':
@@ -134,29 +236,33 @@ const genericImport = async (
         name: 'RSA-OAEP',
         hash: `SHA-${parseInt(alg.slice(-3), 10) || 1}`,
       }
-      keyUsages = getEncryptionUsages()
+      keyUsages = getEncUsages()
       break
     case 'ES256':
     case 'ES384':
     case 'ES512': {
       const curveMap = { ES256: 'P-256', ES384: 'P-384', ES512: 'P-521' } as const
       algorithm = { name: 'ECDSA', namedCurve: curveMap[alg] }
-      keyUsages = getSignatureUsages()
+      keyUsages = getSigUsages()
       break
     }
     case 'ECDH-ES':
     case 'ECDH-ES+A128KW':
     case 'ECDH-ES+A192KW':
     case 'ECDH-ES+A256KW': {
-      const namedCurve = getNamedCurve(keyData)
-      algorithm = namedCurve ? { name: 'ECDH', namedCurve } : { name: 'X25519' }
+      try {
+        const namedCurve = options!.getNamedCurve!(keyData)
+        algorithm = namedCurve === 'X25519' ? { name: 'X25519' } : { name: 'ECDH', namedCurve }
+      } catch (cause) {
+        throw new JOSENotSupported('Invalid or unsupported key format')
+      }
       keyUsages = isPublic ? [] : ['deriveBits']
       break
     }
     case 'Ed25519':
     case 'EdDSA':
       algorithm = { name: 'Ed25519' }
-      keyUsages = getSignatureUsages()
+      keyUsages = getSigUsages()
       break
     default:
       throw new JOSENotSupported('Invalid or unsupported "alg" (Algorithm) value')
@@ -177,14 +283,43 @@ type PEMImportFunction = (
   options?: KeyImportOptions,
 ) => Promise<types.CryptoKey>
 
+/** Helper function to process PEM-encoded data */
+const processPEMData = (pem: string, pattern: RegExp): Uint8Array => {
+  return decodeBase64(pem.replace(pattern, ''))
+}
+
 export const fromPKCS8: PEMImportFunction = (pem, alg, options?) => {
-  const keyData = decodeBase64(pem.replace(/(?:-----(?:BEGIN|END) PRIVATE KEY-----|\s)/g, ''))
-  return genericImport('pkcs8', keyData, alg, options)
+  const keyData = processPEMData(pem, /(?:-----(?:BEGIN|END) PRIVATE KEY-----|\s)/g)
+
+  let opts: Parameters<typeof genericImport>[3] = options
+
+  if (alg?.startsWith?.('ECDH-ES')) {
+    opts ||= {}
+    opts.getNamedCurve = (keyData: Uint8Array) => {
+      const state = createASN1State(keyData)
+      parsePKCS8Header(state)
+      return parseECAlgorithmIdentifier(state)
+    }
+  }
+
+  return genericImport('pkcs8', keyData, alg, opts)
 }
 
 export const fromSPKI: PEMImportFunction = (pem, alg, options?) => {
-  const keyData = decodeBase64(pem.replace(/(?:-----(?:BEGIN|END) PUBLIC KEY-----|\s)/g, ''))
-  return genericImport('spki', keyData, alg, options)
+  const keyData = processPEMData(pem, /(?:-----(?:BEGIN|END) PUBLIC KEY-----|\s)/g)
+
+  let opts: Parameters<typeof genericImport>[3] = options
+
+  if (alg?.startsWith?.('ECDH-ES')) {
+    opts ||= {}
+    opts.getNamedCurve = (keyData: Uint8Array) => {
+      const state = createASN1State(keyData)
+      parseSPKIHeader(state)
+      return parseECAlgorithmIdentifier(state)
+    }
+  }
+
+  return genericImport('spki', keyData, alg, opts)
 }
 
 /**
@@ -196,61 +331,33 @@ export const fromSPKI: PEMImportFunction = (pem, alg, options?) => {
  * @returns SPKI structure as bytes
  */
 function spkiFromX509(buf: Uint8Array): Uint8Array {
-  // Parse ASN.1 DER structure to extract SPKI from X.509 certificate
-  let pos = 0
-
-  // Helper function to parse ASN.1 length encoding (both short and long form)
-  const parseLength = (): number => {
-    const first = buf[pos++]
-    if (first & 0x80) {
-      // Long form: first byte indicates number of subsequent length bytes
-      const lengthOfLength = first & 0x7f
-      let length = 0
-      for (let i = 0; i < lengthOfLength; i++) {
-        length = (length << 8) | buf[pos++]
-      }
-      return length
-    }
-    // Short form: length is encoded directly in first byte
-    return first
-  }
-
-  // Helper function to skip ASN.1 elements (tag + length + content)
-  const skipElement = (count: number = 1): void => {
-    if (count <= 0) return
-    pos++ // Skip tag byte
-    const length = parseLength()
-    pos += length // Skip content bytes
-    if (count > 1) {
-      skipElement(count - 1) // Recursively skip remaining elements
-    }
-  }
+  const state = createASN1State(buf)
 
   // Parse outer certificate SEQUENCE
-  if (buf[pos++] !== 0x30) throw new Error('Invalid certificate structure')
-  parseLength() // Skip certificate length
+  expectTag(state, 0x30, 'Invalid certificate structure')
+  parseLength(state) // Skip certificate length
 
   // Parse tbsCertificate (To Be Signed Certificate) SEQUENCE
-  if (buf[pos++] !== 0x30) throw new Error('Invalid tbsCertificate structure')
-  parseLength() // Skip tbsCertificate length
+  expectTag(state, 0x30, 'Invalid tbsCertificate structure')
+  parseLength(state) // Skip tbsCertificate length
 
-  if (buf[pos] === 0xa0) {
+  if (buf[state.pos] === 0xa0) {
     // Optional version field present (context-specific [0])
     // Skip: version, serialNumber, signature algorithm, issuer, validity, subject
-    skipElement(6)
+    skipElement(state, 6)
   } else {
     // No version field (defaults to v1)
     // Skip: serialNumber, signature algorithm, issuer, validity, subject
-    skipElement(5)
+    skipElement(state, 5)
   }
 
   // Extract subjectPublicKeyInfo SEQUENCE
-  const spkiStart = pos
-  if (buf[pos++] !== 0x30) throw new Error('Invalid SPKI structure')
-  const spkiContentLength = parseLength()
+  const spkiStart = state.pos
+  expectTag(state, 0x30, 'Invalid SPKI structure')
+  const spkiContentLen = parseLength(state)
 
   // Return the complete SPKI structure (tag + length + content)
-  return buf.subarray(spkiStart, spkiStart + spkiContentLength + (pos - spkiStart))
+  return buf.subarray(spkiStart, spkiStart + spkiContentLen + (state.pos - spkiStart))
 }
 
 /**
@@ -261,8 +368,7 @@ function spkiFromX509(buf: Uint8Array): Uint8Array {
  * @returns SPKI structure as bytes
  */
 function extractX509SPKI(x509: string): Uint8Array {
-  const base64Content = x509.replace(/(?:-----(?:BEGIN|END) CERTIFICATE-----|\s)/g, '')
-  const derBytes = decodeBase64(base64Content)
+  const derBytes = processPEMData(x509, /(?:-----(?:BEGIN|END) CERTIFICATE-----|\s)/g)
   return spkiFromX509(derBytes)
 }
 
@@ -273,5 +379,5 @@ export const fromX509: PEMImportFunction = (pem, alg, options?) => {
   } catch (cause) {
     throw new TypeError('Failed to parse the X.509 certificate', { cause })
   }
-  return genericImport('spki', spki, alg, options)
+  return fromSPKI(formatPEM(encodeBase64(spki), 'PUBLIC KEY'), alg, options)
 }
