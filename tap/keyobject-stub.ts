@@ -27,7 +27,7 @@ const stub: Pick<
     if (jwk.k) {
       return Buffer.from(jwk.k, 'base64url')
     }
-    if (jwk.d) {
+    if (jwk.d || jwk.priv) {
       return crypto.createPrivateKey({ format: 'jwk', key: jwk as crypto.JsonWebKey })
     }
     return crypto.createPublicKey({ format: 'jwk', key: jwk as crypto.JsonWebKey })
@@ -106,6 +106,10 @@ const stub: Pick<
             Error('unreachable')
         }
       }
+      case 'ML-DSA-44':
+      case 'ML-DSA-65':
+      case 'ML-DSA-87':
+        return generate(alg.toLowerCase())
       default:
         Error('unreachable')
     }

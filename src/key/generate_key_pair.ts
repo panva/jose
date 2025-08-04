@@ -140,6 +140,13 @@ export async function generateKeyPair(
       algorithm = { name: 'Ed25519' }
       break
     }
+    case 'ML-DSA-44':
+    case 'ML-DSA-65':
+    case 'ML-DSA-87': {
+      keyUsages = ['sign', 'verify']
+      algorithm = { name: alg }
+      break
+    }
     case 'ECDH-ES':
     case 'ECDH-ES+A128KW':
     case 'ECDH-ES+A192KW':

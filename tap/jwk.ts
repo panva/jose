@@ -33,10 +33,13 @@ export default (
     ['RSA-OAEP-384', KEYS.RSA.jwk],
     ['RSA-OAEP-512', KEYS.RSA.jwk],
     ['RSA-OAEP', KEYS.RSA.jwk],
+    ['ML-DSA-44', KEYS['ML-DSA-44'].jwk],
+    ['ML-DSA-65', KEYS['ML-DSA-65'].jwk],
+    ['ML-DSA-87', KEYS['ML-DSA-87'].jwk],
   ]
 
   function publicJwk(jwk: JsonWebKey) {
-    const { d, p, q, dp, dq, qi, k, ...result } = jwk
+    const { d, p, q, dp, dq, qi, k, priv, ...result } = jwk
     return result
   }
 
@@ -53,7 +56,7 @@ export default (
     if (alg === 'EdDSA' || alg === 'ECDH-ES') {
       result += `${jwk.crv} `
     }
-    result += jwk.d ? 'Private' : 'Public'
+    result += jwk.d || jwk.priv ? 'Private' : 'Public'
     result += ' JWK Import'
     return result
   }
@@ -78,7 +81,10 @@ export default (
         const nCrypto = globalThis.process.getBuiltinModule('node:crypto')
         t.deepEqual(
           await lib.exportJWK(
-            nCrypto[jwk.d ? 'createPrivateKey' : 'createPublicKey']({ format: 'jwk', key: jwk }),
+            nCrypto[jwk.d || jwk.priv ? 'createPrivateKey' : 'createPublicKey']({
+              format: 'jwk',
+              key: jwk,
+            }),
           ),
           exported,
         )
@@ -87,7 +93,7 @@ export default (
       t.ok(1)
     }
 
-    const op = `${jwk.d ? 'private' : 'public'} jwk import`
+    const op = `${jwk.d || jwk.priv ? 'private' : 'public'} jwk import`
     if (env.supported(alg, op) && env.supported(jwk.crv, op)) {
       test(title(alg, jwk), execute)
     } else {

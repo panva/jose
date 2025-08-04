@@ -6,11 +6,14 @@ export function isJWK(key: unknown): key is types.JWK & { kty: string } {
 }
 
 export function isPrivateJWK(key: types.JWK & { kty: string }) {
-  return key.kty !== 'oct' && typeof key.d === 'string'
+  return (
+    key.kty !== 'oct' &&
+    ((key.kty === 'AKP' && typeof key.priv === 'string') || typeof key.d === 'string')
+  )
 }
 
 export function isPublicJWK(key: types.JWK & { kty: string }) {
-  return key.kty !== 'oct' && typeof key.d === 'undefined'
+  return key.kty !== 'oct' && typeof key.d === 'undefined' && typeof key.priv === 'undefined'
 }
 
 export function isSecretJWK(key: types.JWK & { kty: string }) {

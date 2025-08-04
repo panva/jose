@@ -271,7 +271,7 @@ export interface JoseHeaderParameters {
   jku?: string
 
   /** "jwk" (JSON Web Key) Header Parameter */
-  jwk?: Pick<JWK, 'kty' | 'crv' | 'x' | 'y' | 'e' | 'n'>
+  jwk?: Pick<JWK, 'kty' | 'crv' | 'x' | 'y' | 'e' | 'n' | 'alg' | 'pub'>
 
   /** "typ" (Type) Header Parameter */
   typ?: string
