@@ -17,7 +17,7 @@ export default (
   const encode = TextEncoder.prototype.encode.bind(new TextEncoder())
 
   const pubjwk = (jwk: jose.JWK) => {
-    const { d, p, q, dp, dq, qi, ...publicJwk } = jwk
+    const { d, p, q, dp, dq, qi, priv, ...publicJwk } = jwk
     return publicJwk
   }
 

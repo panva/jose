@@ -73,6 +73,12 @@ export default (
     [['EdDSA', 'Ed25519'], KEYS.Ed25519.pkcs8],
     [['EdDSA', 'Ed25519'], KEYS.Ed25519.spki],
     [['EdDSA', 'Ed25519'], KEYS.Ed25519.x509],
+    ['ML-DSA-44', KEYS['ML-DSA-44'].pkcs8],
+    ['ML-DSA-44', KEYS['ML-DSA-44'].spki],
+    ['ML-DSA-65', KEYS['ML-DSA-65'].pkcs8],
+    ['ML-DSA-65', KEYS['ML-DSA-65'].spki],
+    ['ML-DSA-87', KEYS['ML-DSA-87'].pkcs8],
+    ['ML-DSA-87', KEYS['ML-DSA-87'].spki],
   ]
 
   function title(alg: string, crv: string | undefined, pem: string, supported = true) {
@@ -131,7 +137,11 @@ export default (
         if (env.isNode && lib.importJWK !== keys.importJWK) {
           const nCrypto = globalThis.process.getBuiltinModule('node:crypto')
           if (pem.startsWith('-----BEGIN PRIVATE KEY-----')) {
-            t.strictEqual(normalize(await exportFn(nCrypto.createPrivateKey(pem))), normalize(pem))
+            if (!alg.startsWith('ML-DSA-'))
+              t.strictEqual(
+                normalize(await exportFn(nCrypto.createPrivateKey(pem))),
+                normalize(pem),
+              )
           } else {
             t.strictEqual(normalize(await exportFn(nCrypto.createPublicKey(pem))), normalize(pem))
           }

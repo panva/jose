@@ -9,6 +9,19 @@ function subtleMapping(jwk: types.JWK): {
   let keyUsages: KeyUsage[]
 
   switch (jwk.kty) {
+    case 'AKP': {
+      switch (jwk.alg) {
+        case 'ML-DSA-44':
+        case 'ML-DSA-65':
+        case 'ML-DSA-87':
+          algorithm = { name: jwk.alg }
+          keyUsages = jwk.priv ? ['sign'] : ['verify']
+          break
+        default:
+          throw new JOSENotSupported('Invalid or unsupported JWK "alg" (Algorithm) Parameter value')
+      }
+      break
+    }
     case 'RSA': {
       switch (jwk.alg) {
         case 'PS256':
@@ -98,14 +111,16 @@ export default async (jwk: types.JWK): Promise<types.CryptoKey> => {
   const { algorithm, keyUsages } = subtleMapping(jwk)
 
   const keyData: types.JWK = { ...jwk }
-  delete keyData.alg
+  if (keyData.kty !== 'AKP') {
+    delete keyData.alg
+  }
   delete keyData.use
 
   return crypto.subtle.importKey(
     'jwk',
     keyData,
     algorithm,
-    jwk.ext ?? (jwk.d ? false : true),
+    jwk.ext ?? (jwk.d || jwk.priv ? false : true),
     (jwk.key_ops as KeyUsage[]) ?? keyUsages,
   )
 }

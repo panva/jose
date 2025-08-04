@@ -209,6 +209,16 @@ export async function importJWK(
           'RSA JWK "oth" (Other Primes Info) Parameter value is not supported',
         )
       }
+      return toCryptoKey({ ...jwk, alg, ext })
+    case 'AKP': {
+      if (typeof jwk.alg !== 'string' || !jwk.alg) {
+        throw new TypeError('missing "alg" (Algorithm) Parameter value')
+      }
+      if (alg !== undefined && alg !== jwk.alg) {
+        throw new TypeError('JWK alg and alg option value mismatch')
+      }
+      return toCryptoKey({ ...jwk, ext })
+    }
     case 'EC':
     case 'OKP':
       return toCryptoKey({ ...jwk, alg, ext })

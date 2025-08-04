@@ -3,6 +3,7 @@
   "version": "6.0.13",
   "description": "JWA, JWS, JWE, JWT, JWK, JWKS for Node.js, Browser, Cloudflare Workers, Deno, Bun, and other Web-interoperable runtimes",
   "keywords": [
+    "akp",
     "browser",
     "bun",
     "cloudflare",
@@ -29,8 +30,9 @@
     "jwk",
     "jwks",
     "jws",
-    "jwt",
     "jwt-decode",
+    "jwt",
+    "ml-dsa",
     "netlify",
     "next",
     "nextjs",
