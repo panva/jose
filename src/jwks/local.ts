@@ -23,6 +23,8 @@ function getKtyFromAlg(alg: unknown) {
       return 'EC'
     case 'Ed':
       return 'OKP'
+    case 'ML':
+      return 'AKP'
     default:
       throw new JOSENotSupported('Unsupported "alg" value for a JSON Web Key Set')
   }
@@ -81,7 +83,7 @@ class LocalJWKSet {
       }
 
       // filter keys based on the key's declared Algorithm
-      if (candidate && typeof jwk.alg === 'string') {
+      if (candidate && (typeof jwk.alg === 'string' || kty === 'AKP')) {
         candidate = alg === jwk.alg
       }
 

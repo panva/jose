@@ -85,6 +85,20 @@ const handleKeyObject = (keyObject: ConvertableKeyObject, alg: string) => {
     ])
   }
 
+  switch (keyObject.asymmetricKeyType) {
+    case 'ml-dsa-44':
+    case 'ml-dsa-65':
+    case 'ml-dsa-87': {
+      if (alg !== keyObject.asymmetricKeyType.toUpperCase()) {
+        throw new TypeError('given KeyObject instance cannot be used for this algorithm')
+      }
+
+      cryptoKey = keyObject.toCryptoKey(keyObject.asymmetricKeyType, extractable, [
+        isPublic ? 'verify' : 'sign',
+      ])
+    }
+  }
+
   if (keyObject.asymmetricKeyType === 'rsa') {
     let hash: string
     switch (alg) {

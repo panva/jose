@@ -44,6 +44,11 @@ export const isWebKit = isBrowser && (await isEngine('WebKit'))
 
 export const isGecko = isBrowser && (await isEngine('Gecko'))
 
+function isNodeVersionAtLeast(major: number, minor: number) {
+  const parts = process.versions.node.split('.').map((i) => parseInt(i, 10))
+  return parts[0] > major || (parts[0] === major && parts[1] > minor)
+}
+
 export function supported(identifier?: string, op?: string) {
   switch (identifier) {
     case 'RSA1_5':
@@ -51,10 +56,14 @@ export function supported(identifier?: string, op?: string) {
     case 'Ed448':
     case 'ES256K':
     case 'secp256k1':
+      return false
+  }
+
+  switch (identifier) {
     case 'ML-DSA-44':
     case 'ML-DSA-65':
     case 'ML-DSA-87':
-      return false
+      return isNode && isNodeVersionAtLeast(24, 7)
   }
 
   if (isBlink) {
