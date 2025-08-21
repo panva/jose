@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [6.0.13](https://github.com/panva/jose/compare/v6.0.12...v6.0.13) (2025-08-21)
+
+
+### Refactor
+
+* more readability in ecdhes.ts ([84da9de](https://github.com/panva/jose/commit/84da9decd8b2f266a343a507b6b79197f2da11e8))
+* update asn1.ts helpers ([b4f8fb3](https://github.com/panva/jose/commit/b4f8fb372689b5b38074aa45c9921a6a997a9142))
+
 ## [6.0.12](https://github.com/panva/jose/compare/v6.0.11...v6.0.12) (2025-07-15)
 
 
