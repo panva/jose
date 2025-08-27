@@ -47,7 +47,7 @@ export const isGecko = isBrowser && (await isEngine('Gecko'))
 
 function isNodeVersionAtLeast(major: number, minor: number) {
   const parts = process.versions.node.split('.').map((i) => parseInt(i, 10))
-  return parts[0] >= major || (parts[0] === major && parts[1] > minor)
+  return parts[0] > major || (parts[0] === major && parts[1] >= minor)
 }
 
 export function supported(identifier?: string, op?: string) {
