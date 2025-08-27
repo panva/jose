@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [6.1.0](https://github.com/panva/jose/compare/v6.0.13...v6.1.0) (2025-08-27)
+
+
+### Features
+
+* support AKP JWKs in calculateJwkThumbprint and calculateJwkThumbprintUri ([cf2092a](https://github.com/panva/jose/commit/cf2092a2b51c9fb67049e96ee22d551ad34c0b2c))
+* support for the ML-DSA PQC Algorithm Identifiers ([25ddce4](https://github.com/panva/jose/commit/25ddce491ba3968e8802db5913e49a52224246be))
+
 ## [6.0.13](https://github.com/panva/jose/compare/v6.0.12...v6.0.13) (2025-08-21)
 
 
