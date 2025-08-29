@@ -122,8 +122,6 @@ const asymmetricTypeCheck = (alg: string, key: unknown, usage: Usage) => {
         throw new TypeError(
           `${tag(key)} instances for asymmetric algorithm decryption must be of type "private"`,
         )
-      default:
-        break
     }
   }
 
@@ -137,8 +135,6 @@ const asymmetricTypeCheck = (alg: string, key: unknown, usage: Usage) => {
         throw new TypeError(
           `${tag(key)} instances for asymmetric algorithm encryption must be of type "public"`,
         )
-      default:
-        break
     }
   }
 }
@@ -146,16 +142,15 @@ const asymmetricTypeCheck = (alg: string, key: unknown, usage: Usage) => {
 type Usage = 'sign' | 'verify' | 'encrypt' | 'decrypt'
 
 export default (alg: string, key: unknown, usage: Usage): void => {
-  const symmetric =
-    alg.startsWith('HS') ||
-    alg === 'dir' ||
-    alg.startsWith('PBES2') ||
-    /^A(?:128|192|256)(?:GCM)?(?:KW)?$/.test(alg) ||
-    /^A(?:128|192|256)CBC-HS(?:256|384|512)$/.test(alg)
-
-  if (symmetric) {
-    symmetricTypeCheck(alg, key, usage)
-  } else {
-    asymmetricTypeCheck(alg, key, usage)
+  switch (alg.substring(0, 2)) {
+    case 'A1': // A128.+, A192.+
+    case 'A2': // A256.+
+    case 'di': // dir
+    case 'HS': // HS\d{3}
+    case 'PB': // PBES2.+
+      symmetricTypeCheck(alg, key, usage)
+      break
+    default:
+      asymmetricTypeCheck(alg, key, usage)
   }
 }
