@@ -64,7 +64,7 @@ readability when adding to the current unix timestamp.
 
 ### setIssuedAt()
 
-▸ **setIssuedAt**(`input`?): `this`
+▸ **setIssuedAt**(`input?`): `this`
 
 Set the "iat" (Issued At) Claim.
 
@@ -91,7 +91,7 @@ readability when adding to the current unix timestamp.
 
 | Parameter | Type | Description |
 | ------ | ------ | ------ |
-| `input`? | `string` \| `number` \| [`Date`](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Date) | "iat" (Expiration Time) Claim value to set on the JWT Claims Set. |
+| `input?` | `string` \| `number` \| [`Date`](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Date) | "iat" (Expiration Time) Claim value to set on the JWT Claims Set. |
 
 #### Returns
 

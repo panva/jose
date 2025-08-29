@@ -272,7 +272,7 @@ const genericImport = async (
 
   return crypto.subtle.importKey(
     keyFormat,
-    keyData,
+    keyData as Uint8Array<ArrayBuffer>,
     algorithm,
     options?.extractable ?? (isPublic ? true : false),
     keyUsages,

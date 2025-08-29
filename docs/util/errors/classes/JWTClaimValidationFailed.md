@@ -38,7 +38,7 @@ The Claim for which the validation failed.
 
 • **code**: `string` = `'ERR_JWT_CLAIM_VALIDATION_FAILED'`
 
-A unique error code for [JWTClaimValidationFailed](JWTClaimValidationFailed.md).
+A unique error code for JWTClaimValidationFailed.
 
 ***
 

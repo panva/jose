@@ -4,7 +4,7 @@
 
 Support from the community to continue maintaining and improving this module is welcome. If you find the module useful, please consider supporting the project by [becoming a sponsor](https://github.com/sponsors/panva).
 
-▸ **importX509**(`x509`, `alg`, `options`?): [`Promise`](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise)\<[`CryptoKey`](https://developer.mozilla.org/docs/Web/API/CryptoKey)\>
+▸ **importX509**(`x509`, `alg`, `options?`): [`Promise`](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise)\<[`CryptoKey`](https://developer.mozilla.org/docs/Web/API/CryptoKey)\>
 
 Imports the SPKI from an X.509 string certificate as a [CryptoKey](https://developer.mozilla.org/docs/Web/API/CryptoKey).
 
@@ -22,7 +22,7 @@ as from its subpath export `'jose/key/import'`.
 | ------ | ------ | ------ |
 | `x509` | `string` | X.509 certificate string |
 | `alg` | `string` | JSON Web Algorithm identifier to be used with the imported key. See [Algorithm Key Requirements](https://github.com/panva/jose/issues/210). |
-| `options`? | [`KeyImportOptions`](../interfaces/KeyImportOptions.md) | - |
+| `options?` | [`KeyImportOptions`](../interfaces/KeyImportOptions.md) | - |
 
 ## Returns
 

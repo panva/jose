@@ -2,13 +2,11 @@
 
 JSON Web Token (JWT) Verification (JWT is in JWS format)
 
-## Index
-
-### Interfaces
+## Interfaces
 
 - [JWTVerifyGetKey](interfaces/JWTVerifyGetKey.md)
 - [JWTVerifyOptions](interfaces/JWTVerifyOptions.md)
 
-### Functions
+## Functions
 
 - [jwtVerify](functions/jwtVerify.md)

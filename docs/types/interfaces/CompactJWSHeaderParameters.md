@@ -8,7 +8,9 @@ Recognized Compact JWS Header Parameters, any other Header Members may also be p
 
 ## Indexable
 
- \[`propName`: `string`\]: `unknown`
+\[`propName`: `string`\]: `unknown`
+
+Any other JWS Header member.
 
 ## Properties
 

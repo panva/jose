@@ -23,9 +23,8 @@
   "sort": ["kind", "static-first", "required-first", "alphabetical"],
   "githubPages": false,
   "parametersFormat": "table",
-  "textContentMappings": {
-    "title.memberPage": "{kind}: {name}\n\n## [💗 Help the project](https://github.com/sponsors/panva)\n\nSupport from the community to continue maintaining and improving this module is welcome. If you find the module useful, please consider supporting the project by [becoming a sponsor](https://github.com/sponsors/panva).",
-    "title.indexPage": "{projectName} API Reference"
+  "pageTitleTemplates": {
+    "member": "{keyword} {kind}: {name}\n\n## [💗 Help the project](https://github.com/sponsors/panva)\n\nSupport from the community to continue maintaining and improving this module is welcome. If you find the module useful, please consider supporting the project by [becoming a sponsor](https://github.com/sponsors/panva)."
   },
   "hidePageHeader": true
 }

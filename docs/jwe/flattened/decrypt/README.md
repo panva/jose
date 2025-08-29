@@ -2,12 +2,10 @@
 
 Decrypting JSON Web Encryption (JWE) in Flattened JSON Serialization
 
-## Index
-
-### Interfaces
+## Interfaces
 
 - [FlattenedDecryptGetKey](interfaces/FlattenedDecryptGetKey.md)
 
-### Functions
+## Functions
 
 - [flattenedDecrypt](functions/flattenedDecrypt.md)

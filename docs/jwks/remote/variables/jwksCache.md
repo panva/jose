@@ -29,7 +29,7 @@ The intended use pattern is:
   previously cached object from a low-latency key-value store offered by the cloud computing
   runtime it is executed on;
 - Default to an empty object `{}` instead when there's no previously cached value;
-- Pass it in as [[jwksCache]](../interfaces/RemoteJWKSetOptions.md);
+- Pass it in as [\[jwksCache\]](../interfaces/RemoteJWKSetOptions.md);
 - Afterwards, update the key-value storage if the [`uat`](../interfaces/ExportedJWKSCache.md#uat) property of
   the object has changed.
 

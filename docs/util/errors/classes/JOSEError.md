@@ -22,4 +22,4 @@ if (err instanceof jose.errors.JOSEError) {
 
 • **code**: `string` = `'ERR_JOSE_GENERIC'`
 
-A unique error code for [JOSEError](JOSEError.md).
+A unique error code for JOSEError.

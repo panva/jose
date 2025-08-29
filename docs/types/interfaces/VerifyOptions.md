@@ -43,4 +43,4 @@ available.
 
 #### Index Signature
 
- \[`propName`: `string`\]: `boolean`
+\[`propName`: `string`\]: `boolean`

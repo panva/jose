@@ -2,13 +2,11 @@
 
 Cryptographic key import functions
 
-## Index
-
-### Interfaces
+## Interfaces
 
 - [KeyImportOptions](interfaces/KeyImportOptions.md)
 
-### Functions
+## Functions
 
 - [importJWK](functions/importJWK.md)
 - [importPKCS8](functions/importPKCS8.md)

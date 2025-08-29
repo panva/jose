@@ -2,9 +2,7 @@
 
 JOSE module errors and error codes
 
-## Index
-
-### Classes
+## Classes
 
 - [JOSEAlgNotAllowed](classes/JOSEAlgNotAllowed.md)
 - [JOSEError](classes/JOSEError.md)

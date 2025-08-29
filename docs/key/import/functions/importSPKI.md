@@ -4,7 +4,7 @@
 
 Support from the community to continue maintaining and improving this module is welcome. If you find the module useful, please consider supporting the project by [becoming a sponsor](https://github.com/sponsors/panva).
 
-▸ **importSPKI**(`spki`, `alg`, `options`?): [`Promise`](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise)\<[`CryptoKey`](https://developer.mozilla.org/docs/Web/API/CryptoKey)\>
+▸ **importSPKI**(`spki`, `alg`, `options?`): [`Promise`](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise)\<[`CryptoKey`](https://developer.mozilla.org/docs/Web/API/CryptoKey)\>
 
 Imports a PEM-encoded SPKI string as a [CryptoKey](https://developer.mozilla.org/docs/Web/API/CryptoKey).
 
@@ -22,7 +22,7 @@ as from its subpath export `'jose/key/import'`.
 | ------ | ------ | ------ |
 | `spki` | `string` | PEM-encoded SPKI string |
 | `alg` | `string` | JSON Web Algorithm identifier to be used with the imported key. See [Algorithm Key Requirements](https://github.com/panva/jose/issues/210). |
-| `options`? | [`KeyImportOptions`](../interfaces/KeyImportOptions.md) | - |
+| `options?` | [`KeyImportOptions`](../interfaces/KeyImportOptions.md) | - |
 
 ## Returns
 

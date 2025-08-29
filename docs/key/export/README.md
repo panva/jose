@@ -2,9 +2,7 @@
 
 Cryptographic key export functions
 
-## Index
-
-### Functions
+## Functions
 
 - [exportJWK](functions/exportJWK.md)
 - [exportPKCS8](functions/exportPKCS8.md)

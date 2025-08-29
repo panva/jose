@@ -7,7 +7,9 @@ import { JWEInvalid } from '../util/errors.js'
 
 function getCryptoKey(key: types.CryptoKey | Uint8Array, alg: string) {
   if (key instanceof Uint8Array) {
-    return crypto.subtle.importKey('raw', key, 'PBKDF2', false, ['deriveBits'])
+    return crypto.subtle.importKey('raw', key as Uint8Array<ArrayBuffer>, 'PBKDF2', false, [
+      'deriveBits',
+    ])
   }
 
   checkEncCryptoKey(key, alg, 'deriveBits')

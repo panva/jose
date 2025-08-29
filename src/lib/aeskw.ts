@@ -9,7 +9,7 @@ function checkKeySize(key: types.CryptoKey, alg: string) {
 
 function getCryptoKey(key: types.CryptoKey | Uint8Array, alg: string, usage: KeyUsage) {
   if (key instanceof Uint8Array) {
-    return crypto.subtle.importKey('raw', key, 'AES-KW', true, [usage])
+    return crypto.subtle.importKey('raw', key as Uint8Array<ArrayBuffer>, 'AES-KW', true, [usage])
   }
   checkEncCryptoKey(key, alg, usage)
   return key
@@ -23,7 +23,7 @@ export async function wrap(alg: string, key: types.CryptoKey | Uint8Array, cek: 
   // algorithm used is irrelevant
   const cryptoKeyCek = await crypto.subtle.importKey(
     'raw',
-    cek,
+    cek as Uint8Array<ArrayBuffer>,
     { hash: 'SHA-256', name: 'HMAC' },
     true,
     ['sign'],
@@ -44,7 +44,7 @@ export async function unwrap(
   // algorithm used is irrelevant
   const cryptoKeyCek = await crypto.subtle.unwrapKey(
     'raw',
-    encryptedKey,
+    encryptedKey as Uint8Array<ArrayBuffer>,
     cryptoKey,
     'AES-KW',
     { hash: 'SHA-256', name: 'HMAC' },

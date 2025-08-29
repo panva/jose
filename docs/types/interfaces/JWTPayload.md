@@ -8,7 +8,9 @@ Recognized JWT Claims Set members, any other members may also be present.
 
 ## Indexable
 
- \[`propName`: `string`\]: `unknown`
+\[`propName`: `string`\]: `unknown`
+
+Any other JWT Claim Set member.
 
 ## Properties
 

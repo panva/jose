@@ -8,7 +8,9 @@ Recognized Signed JWT Header Parameters, any other Header Members may also be pr
 
 ## Indexable
 
- \[`propName`: `string`\]: `unknown`
+\[`propName`: `string`\]: `unknown`
+
+Any other JWS Header member.
 
 ## Properties
 

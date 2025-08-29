@@ -23,11 +23,11 @@ console.log(jws)
 
 ## Constructors
 
-### new FlattenedSign()
+### Constructor
 
-▸ **new FlattenedSign**(`payload`): [`FlattenedSign`](FlattenedSign.md)
+▸ **new FlattenedSign**(`payload`): `FlattenedSign`
 
-[FlattenedSign](FlattenedSign.md) constructor
+FlattenedSign constructor
 
 #### Parameters
 
@@ -37,7 +37,7 @@ console.log(jws)
 
 #### Returns
 
-[`FlattenedSign`](FlattenedSign.md)
+`FlattenedSign`
 
 ## Methods
 
@@ -79,7 +79,7 @@ Sets the JWS Unprotected Header on the FlattenedSign object.
 
 ### sign()
 
-▸ **sign**(`key`, `options`?): [`Promise`](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise)\<[`FlattenedJWS`](../../../../types/interfaces/FlattenedJWS.md)\>
+▸ **sign**(`key`, `options?`): [`Promise`](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise)\<[`FlattenedJWS`](../../../../types/interfaces/FlattenedJWS.md)\>
 
 Signs and resolves the value of the Flattened JWS object.
 
@@ -88,7 +88,7 @@ Signs and resolves the value of the Flattened JWS object.
 | Parameter | Type | Description |
 | ------ | ------ | ------ |
 | `key` | [`Uint8Array`](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Uint8Array) \| [`CryptoKey`](https://developer.mozilla.org/docs/Web/API/CryptoKey) \| [`JWK`](../../../../types/interfaces/JWK.md) \| [`KeyObject`](../../../../types/interfaces/KeyObject.md) | Private Key or Secret to sign the JWS with. See [Algorithm Key Requirements](https://github.com/panva/jose/issues/210#jws-alg). |
-| `options`? | [`SignOptions`](../../../../types/interfaces/SignOptions.md) | JWS Sign options. |
+| `options?` | [`SignOptions`](../../../../types/interfaces/SignOptions.md) | JWS Sign options. |
 
 #### Returns
 

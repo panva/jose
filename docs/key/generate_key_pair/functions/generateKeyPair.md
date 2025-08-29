@@ -4,7 +4,7 @@
 
 Support from the community to continue maintaining and improving this module is welcome. If you find the module useful, please consider supporting the project by [becoming a sponsor](https://github.com/sponsors/panva).
 
-▸ **generateKeyPair**(`alg`, `options`?): [`Promise`](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise)\<[`GenerateKeyPairResult`](../interfaces/GenerateKeyPairResult.md)\>
+▸ **generateKeyPair**(`alg`, `options?`): [`Promise`](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise)\<[`GenerateKeyPairResult`](../interfaces/GenerateKeyPairResult.md)\>
 
 Generates a private and a public key for a given JWA algorithm identifier. This can only generate
 asymmetric key pairs. For symmetric secrets use the `generateSecret` function.
@@ -21,7 +21,7 @@ as from its subpath export `'jose/generate/keypair'`.
 | Parameter | Type | Description |
 | ------ | ------ | ------ |
 | `alg` | `string` | JWA Algorithm Identifier to be used with the generated key pair. See [Algorithm Key Requirements](https://github.com/panva/jose/issues/210). |
-| `options`? | [`GenerateKeyPairOptions`](../interfaces/GenerateKeyPairOptions.md) | Additional options passed down to the key pair generation. |
+| `options?` | [`GenerateKeyPairOptions`](../interfaces/GenerateKeyPairOptions.md) | Additional options passed down to the key pair generation. |
 
 ## Returns
 

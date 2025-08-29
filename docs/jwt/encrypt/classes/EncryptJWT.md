@@ -26,11 +26,11 @@ console.log(jwt)
 
 ## Constructors
 
-### new EncryptJWT()
+### Constructor
 
-▸ **new EncryptJWT**(`payload`): [`EncryptJWT`](EncryptJWT.md)
+▸ **new EncryptJWT**(`payload`): `EncryptJWT`
 
-[EncryptJWT](EncryptJWT.md) constructor
+EncryptJWT constructor
 
 #### Parameters
 
@@ -40,13 +40,13 @@ console.log(jwt)
 
 #### Returns
 
-[`EncryptJWT`](EncryptJWT.md)
+`EncryptJWT`
 
 ## Methods
 
 ### encrypt()
 
-▸ **encrypt**(`key`, `options`?): [`Promise`](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise)\<`string`\>
+▸ **encrypt**(`key`, `options?`): [`Promise`](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise)\<`string`\>
 
 Encrypts and returns the JWT.
 
@@ -55,7 +55,7 @@ Encrypts and returns the JWT.
 | Parameter | Type | Description |
 | ------ | ------ | ------ |
 | `key` | [`Uint8Array`](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Uint8Array) \| [`CryptoKey`](https://developer.mozilla.org/docs/Web/API/CryptoKey) \| [`JWK`](../../../types/interfaces/JWK.md) \| [`KeyObject`](../../../types/interfaces/KeyObject.md) | Public Key or Secret to encrypt the JWT with. See [Algorithm Key Requirements](https://github.com/panva/jose/issues/210#jwe-alg). |
-| `options`? | [`EncryptOptions`](../../../types/interfaces/EncryptOptions.md) | JWE Encryption options. |
+| `options?` | [`EncryptOptions`](../../../types/interfaces/EncryptOptions.md) | JWE Encryption options. |
 
 #### Returns
 
@@ -215,7 +215,7 @@ You should not use this method. It is only really intended for test and vector
 
 ### setIssuedAt()
 
-▸ **setIssuedAt**(`input`?): `this`
+▸ **setIssuedAt**(`input?`): `this`
 
 Set the "iat" (Issued At) Claim.
 
@@ -242,7 +242,7 @@ readability when adding to the current unix timestamp.
 
 | Parameter | Type | Description |
 | ------ | ------ | ------ |
-| `input`? | `string` \| `number` \| [`Date`](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Date) | "iat" (Expiration Time) Claim value to set on the JWT Claims Set. |
+| `input?` | `string` \| `number` \| [`Date`](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Date) | "iat" (Expiration Time) Claim value to set on the JWT Claims Set. |
 
 #### Returns
 

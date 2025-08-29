@@ -30,4 +30,4 @@ if (err instanceof jose.errors.JWKSTimeout) {
 
 • **code**: `string` = `'ERR_JWKS_TIMEOUT'`
 
-A unique error code for [JWKSTimeout](JWKSTimeout.md).
+A unique error code for JWKSTimeout.

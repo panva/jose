@@ -2,13 +2,11 @@
 
 Asymmetric key generation
 
-## Index
-
-### Interfaces
+## Interfaces
 
 - [GenerateKeyPairOptions](interfaces/GenerateKeyPairOptions.md)
 - [GenerateKeyPairResult](interfaces/GenerateKeyPairResult.md)
 
-### Functions
+## Functions
 
 - [generateKeyPair](functions/generateKeyPair.md)

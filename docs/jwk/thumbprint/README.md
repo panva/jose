@@ -2,9 +2,7 @@
 
 JSON Web Key Thumbprint and JSON Web Key Thumbprint URI
 
-## Index
-
-### Functions
+## Functions
 
 - [calculateJwkThumbprint](functions/calculateJwkThumbprint.md)
 - [calculateJwkThumbprintUri](functions/calculateJwkThumbprintUri.md)

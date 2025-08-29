@@ -30,4 +30,4 @@ if (err instanceof jose.errors.JWSSignatureVerificationFailed) {
 
 • **code**: `string` = `'ERR_JWS_SIGNATURE_VERIFICATION_FAILED'`
 
-A unique error code for [JWSSignatureVerificationFailed](JWSSignatureVerificationFailed.md).
+A unique error code for JWSSignatureVerificationFailed.

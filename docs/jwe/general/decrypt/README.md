@@ -2,12 +2,10 @@
 
 Decrypting JSON Web Encryption (JWE) in General JSON Serialization
 
-## Index
-
-### Interfaces
+## Interfaces
 
 - [GeneralDecryptGetKey](interfaces/GeneralDecryptGetKey.md)
 
-### Functions
+## Functions
 
 - [generalDecrypt](functions/generalDecrypt.md)

@@ -21,12 +21,16 @@ export async function encrypt(alg: string, key: types.CryptoKey, cek: Uint8Array
   checkEncCryptoKey(key, alg, 'encrypt')
   checkKeyLength(alg, key)
 
-  return new Uint8Array(await crypto.subtle.encrypt(subtleAlgorithm(alg), key, cek))
+  return new Uint8Array(
+    await crypto.subtle.encrypt(subtleAlgorithm(alg), key, cek as Uint8Array<ArrayBuffer>),
+  )
 }
 
 export async function decrypt(alg: string, key: types.CryptoKey, encryptedKey: Uint8Array) {
   checkEncCryptoKey(key, alg, 'decrypt')
   checkKeyLength(alg, key)
 
-  return new Uint8Array(await crypto.subtle.decrypt(subtleAlgorithm(alg), key, encryptedKey))
+  return new Uint8Array(
+    await crypto.subtle.decrypt(subtleAlgorithm(alg), key, encryptedKey as Uint8Array<ArrayBuffer>),
+  )
 }

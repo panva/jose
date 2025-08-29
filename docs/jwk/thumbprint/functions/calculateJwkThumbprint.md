@@ -4,7 +4,7 @@
 
 Support from the community to continue maintaining and improving this module is welcome. If you find the module useful, please consider supporting the project by [becoming a sponsor](https://github.com/sponsors/panva).
 
-▸ **calculateJwkThumbprint**(`key`, `digestAlgorithm`?): [`Promise`](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise)\<`string`\>
+▸ **calculateJwkThumbprint**(`key`, `digestAlgorithm?`): [`Promise`](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise)\<`string`\>
 
 Calculates a base64url-encoded JSON Web Key (JWK) Thumbprint
 
@@ -16,7 +16,7 @@ as from its subpath export `'jose/jwk/thumbprint'`.
 | Parameter | Type | Description |
 | ------ | ------ | ------ |
 | `key` | [`CryptoKey`](https://developer.mozilla.org/docs/Web/API/CryptoKey) \| [`JWK`](../../../types/interfaces/JWK.md) \| [`KeyObject`](../../../types/interfaces/KeyObject.md) | Key to calculate the thumbprint for. |
-| `digestAlgorithm`? | `"sha256"` \| `"sha384"` \| `"sha512"` | Digest Algorithm to use for calculating the thumbprint. Default is "sha256". |
+| `digestAlgorithm?` | `"sha256"` \| `"sha384"` \| `"sha512"` | Digest Algorithm to use for calculating the thumbprint. Default is "sha256". |
 
 ## Returns
 

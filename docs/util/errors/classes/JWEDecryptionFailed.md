@@ -30,4 +30,4 @@ if (err instanceof jose.errors.JWEDecryptionFailed) {
 
 • **code**: `string` = `'ERR_JWE_DECRYPTION_FAILED'`
 
-A unique error code for [JWEDecryptionFailed](JWEDecryptionFailed.md).
+A unique error code for JWEDecryptionFailed.

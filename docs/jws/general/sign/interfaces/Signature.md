@@ -10,7 +10,7 @@ Used to build General JWS object's individual signatures.
 
 ### addSignature()
 
-▸ **addSignature**(...`args`): [`Signature`](Signature.md)
+▸ **addSignature**(...`args`): `Signature`
 
 A shorthand for calling addSignature() on the enclosing [GeneralSign](../classes/GeneralSign.md) instance
 
@@ -18,11 +18,11 @@ A shorthand for calling addSignature() on the enclosing [GeneralSign](../classes
 
 | Parameter | Type |
 | ------ | ------ |
-| ...`args` | [[`Uint8Array`](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Uint8Array) \| [`CryptoKey`](https://developer.mozilla.org/docs/Web/API/CryptoKey) \| [`JWK`](../../../../types/interfaces/JWK.md) \| [`KeyObject`](../../../../types/interfaces/KeyObject.md), [`SignOptions`](../../../../types/interfaces/SignOptions.md)] |
+| ...`args` | \[[`Uint8Array`](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Uint8Array) \| [`CryptoKey`](https://developer.mozilla.org/docs/Web/API/CryptoKey) \| [`JWK`](../../../../types/interfaces/JWK.md) \| [`KeyObject`](../../../../types/interfaces/KeyObject.md), [`SignOptions`](../../../../types/interfaces/SignOptions.md)\] |
 
 #### Returns
 
-[`Signature`](Signature.md)
+`Signature`
 
 ***
 
@@ -40,7 +40,7 @@ Returns the enclosing [GeneralSign](../classes/GeneralSign.md) instance
 
 ### setProtectedHeader()
 
-▸ **setProtectedHeader**(`protectedHeader`): [`Signature`](Signature.md)
+▸ **setProtectedHeader**(`protectedHeader`): `Signature`
 
 Sets the JWS Protected Header on the Signature object.
 
@@ -52,13 +52,13 @@ Sets the JWS Protected Header on the Signature object.
 
 #### Returns
 
-[`Signature`](Signature.md)
+`Signature`
 
 ***
 
 ### setUnprotectedHeader()
 
-▸ **setUnprotectedHeader**(`unprotectedHeader`): [`Signature`](Signature.md)
+▸ **setUnprotectedHeader**(`unprotectedHeader`): `Signature`
 
 Sets the JWS Unprotected Header on the Signature object.
 
@@ -70,7 +70,7 @@ Sets the JWS Unprotected Header on the Signature object.
 
 #### Returns
 
-[`Signature`](Signature.md)
+`Signature`
 
 ***
 
@@ -84,7 +84,7 @@ A shorthand for calling encrypt() on the enclosing [GeneralSign](../classes/Gene
 
 | Parameter | Type |
 | ------ | ------ |
-| ...`args` | [] |
+| ...`args` | \[\] |
 
 #### Returns
 

@@ -2,12 +2,10 @@
 
 Verifying JSON Web Signature (JWS) in Flattened JSON Serialization
 
-## Index
-
-### Interfaces
+## Interfaces
 
 - [FlattenedVerifyGetKey](interfaces/FlattenedVerifyGetKey.md)
 
-### Functions
+## Functions
 
 - [flattenedVerify](functions/flattenedVerify.md)

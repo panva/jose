@@ -8,7 +8,9 @@ Recognized JWS Header Parameters, any other Header Members may also be present.
 
 ## Indexable
 
- \[`propName`: `string`\]: `unknown`
+\[`propName`: `string`\]: `unknown`
+
+Any other JWS Header member.
 
 ## Properties
 

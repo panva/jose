@@ -2,8 +2,6 @@
 
 Encrypting JSON Web Encryption (JWE) in Flattened JSON Serialization
 
-## Index
-
-### Classes
+## Classes
 
 - [FlattenedEncrypt](classes/FlattenedEncrypt.md)

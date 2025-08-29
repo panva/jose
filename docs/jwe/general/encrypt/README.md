@@ -2,12 +2,10 @@
 
 Encrypting JSON Web Encryption (JWE) in General JSON Serialization
 
-## Index
-
-### Classes
+## Classes
 
 - [GeneralEncrypt](classes/GeneralEncrypt.md)
 
-### Interfaces
+## Interfaces
 
 - [Recipient](interfaces/Recipient.md)

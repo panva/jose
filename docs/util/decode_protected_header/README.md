@@ -2,12 +2,10 @@
 
 JOSE Protected Header Decoding (JWE, JWS, all serialization syntaxes)
 
-## Index
-
-### Type Aliases
+## Type Aliases
 
 - [ProtectedHeaderParameters](type-aliases/ProtectedHeaderParameters.md)
 
-### Functions
+## Functions
 
 - [decodeProtectedHeader](functions/decodeProtectedHeader.md)

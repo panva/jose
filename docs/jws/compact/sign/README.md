@@ -2,8 +2,6 @@
 
 Signing JSON Web Signature (JWS) in Compact Serialization
 
-## Index
-
-### Classes
+## Classes
 
 - [CompactSign](classes/CompactSign.md)

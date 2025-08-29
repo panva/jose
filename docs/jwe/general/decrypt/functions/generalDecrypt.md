@@ -6,7 +6,7 @@ Support from the community to continue maintaining and improving this module is 
 
 ## Call Signature
 
-▸ **generalDecrypt**(`jwe`, `key`, `options`?): [`Promise`](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise)\<[`GeneralDecryptResult`](../../../../types/interfaces/GeneralDecryptResult.md)\>
+▸ **generalDecrypt**(`jwe`, `key`, `options?`): [`Promise`](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise)\<[`GeneralDecryptResult`](../../../../types/interfaces/GeneralDecryptResult.md)\>
 
 Decrypts a General JWE.
 
@@ -19,7 +19,7 @@ as from its subpath export `'jose/jwe/general/decrypt'`.
 | ------ | ------ | ------ |
 | `jwe` | [`GeneralJWE`](../../../../types/interfaces/GeneralJWE.md) | General JWE. |
 | `key` | [`Uint8Array`](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Uint8Array) \| [`CryptoKey`](https://developer.mozilla.org/docs/Web/API/CryptoKey) \| [`JWK`](../../../../types/interfaces/JWK.md) \| [`KeyObject`](../../../../types/interfaces/KeyObject.md) | Private Key or Secret to decrypt the JWE with. See [Algorithm Key Requirements](https://github.com/panva/jose/issues/210#jwe-alg). |
-| `options`? | [`DecryptOptions`](../../../../types/interfaces/DecryptOptions.md) | JWE Decryption options. |
+| `options?` | [`DecryptOptions`](../../../../types/interfaces/DecryptOptions.md) | JWE Decryption options. |
 
 ### Returns
 
@@ -53,7 +53,7 @@ console.log(decoder.decode(additionalAuthenticatedData))
 
 ## Call Signature
 
-▸ **generalDecrypt**(`jwe`, `getKey`, `options`?): [`Promise`](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise)\<[`GeneralDecryptResult`](../../../../types/interfaces/GeneralDecryptResult.md) & [`ResolvedKey`](../../../../types/interfaces/ResolvedKey.md)\>
+▸ **generalDecrypt**(`jwe`, `getKey`, `options?`): [`Promise`](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise)\<[`GeneralDecryptResult`](../../../../types/interfaces/GeneralDecryptResult.md) & [`ResolvedKey`](../../../../types/interfaces/ResolvedKey.md)\>
 
 ### Parameters
 
@@ -61,7 +61,7 @@ console.log(decoder.decode(additionalAuthenticatedData))
 | ------ | ------ | ------ |
 | `jwe` | [`GeneralJWE`](../../../../types/interfaces/GeneralJWE.md) | General JWE. |
 | `getKey` | [`GeneralDecryptGetKey`](../interfaces/GeneralDecryptGetKey.md) | Function resolving Private Key or Secret to decrypt the JWE with. See [Algorithm Key Requirements](https://github.com/panva/jose/issues/210#jwe-alg). |
-| `options`? | [`DecryptOptions`](../../../../types/interfaces/DecryptOptions.md) | JWE Decryption options. |
+| `options?` | [`DecryptOptions`](../../../../types/interfaces/DecryptOptions.md) | JWE Decryption options. |
 
 ### Returns
 

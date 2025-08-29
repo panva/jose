@@ -165,7 +165,7 @@ export interface GenericGetKeyFunction<IProtectedHeader, IToken, ReturnKeyTypes>
    * Dynamic key resolution function. No token components have been verified at the time of this
    * function call.
    *
-   * If you cannot match a key suitable for the token, throw an error instead.
+   * If a suitable key for the token cannot be matched, throw an error instead.
    *
    * @param protectedHeader JWE or JWS Protected Header.
    * @param token The consumed JWE or JWS token.

@@ -1,8 +1,6 @@
 # types
 
-## Index
-
-### Interfaces
+## Interfaces
 
 - [CompactDecryptResult](interfaces/CompactDecryptResult.md)
 - [CompactJWEHeaderParameters](interfaces/CompactJWEHeaderParameters.md)
@@ -49,6 +47,6 @@
 - [SignOptions](interfaces/SignOptions.md)
 - [VerifyOptions](interfaces/VerifyOptions.md)
 
-### Type Aliases
+## Type Aliases
 
 - [CryptoKey](type-aliases/CryptoKey.md)

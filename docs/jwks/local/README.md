@@ -2,8 +2,6 @@
 
 Verification using a JSON Web Key Set (JWKS) available locally
 
-## Index
-
-### Functions
+## Functions
 
 - [createLocalJWKSet](functions/createLocalJWKSet.md)

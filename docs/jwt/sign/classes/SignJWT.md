@@ -105,11 +105,11 @@ console.log(jwt)
 
 ## Constructors
 
-### new SignJWT()
+### Constructor
 
-▸ **new SignJWT**(`payload`): [`SignJWT`](SignJWT.md)
+▸ **new SignJWT**(`payload`): `SignJWT`
 
-[SignJWT](SignJWT.md) constructor
+SignJWT constructor
 
 #### Parameters
 
@@ -119,7 +119,7 @@ console.log(jwt)
 
 #### Returns
 
-[`SignJWT`](SignJWT.md)
+`SignJWT`
 
 ## Methods
 
@@ -179,7 +179,7 @@ readability when adding to the current unix timestamp.
 
 ### setIssuedAt()
 
-▸ **setIssuedAt**(`input`?): `this`
+▸ **setIssuedAt**(`input?`): `this`
 
 Set the "iat" (Issued At) Claim.
 
@@ -206,7 +206,7 @@ readability when adding to the current unix timestamp.
 
 | Parameter | Type | Description |
 | ------ | ------ | ------ |
-| `input`? | `string` \| `number` \| [`Date`](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Date) | "iat" (Expiration Time) Claim value to set on the JWT Claims Set. |
+| `input?` | `string` \| `number` \| [`Date`](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Date) | "iat" (Expiration Time) Claim value to set on the JWT Claims Set. |
 
 #### Returns
 
@@ -324,7 +324,7 @@ Set the "sub" (Subject) Claim.
 
 ### sign()
 
-▸ **sign**(`key`, `options`?): [`Promise`](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise)\<`string`\>
+▸ **sign**(`key`, `options?`): [`Promise`](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise)\<`string`\>
 
 Signs and returns the JWT.
 
@@ -333,7 +333,7 @@ Signs and returns the JWT.
 | Parameter | Type | Description |
 | ------ | ------ | ------ |
 | `key` | [`Uint8Array`](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Uint8Array) \| [`CryptoKey`](https://developer.mozilla.org/docs/Web/API/CryptoKey) \| [`JWK`](../../../types/interfaces/JWK.md) \| [`KeyObject`](../../../types/interfaces/KeyObject.md) | Private Key or Secret to sign the JWT with. See [Algorithm Key Requirements](https://github.com/panva/jose/issues/210#jws-alg). |
-| `options`? | [`SignOptions`](../../../types/interfaces/SignOptions.md) | JWT Sign options. |
+| `options?` | [`SignOptions`](../../../types/interfaces/SignOptions.md) | JWT Sign options. |
 
 #### Returns
 

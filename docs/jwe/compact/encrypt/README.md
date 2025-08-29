@@ -2,8 +2,6 @@
 
 Encrypting JSON Web Encryption (JWE) in Compact Serialization
 
-## Index
-
-### Classes
+## Classes
 
 - [CompactEncrypt](classes/CompactEncrypt.md)

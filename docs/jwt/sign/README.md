@@ -2,8 +2,6 @@
 
 JSON Web Token (JWT) Signing (JWT is in JWS format)
 
-## Index
-
-### Classes
+## Classes
 
 - [SignJWT](classes/SignJWT.md)

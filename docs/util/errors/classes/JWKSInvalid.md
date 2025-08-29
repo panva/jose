@@ -30,4 +30,4 @@ if (err instanceof jose.errors.JWKSInvalid) {
 
 • **code**: `string` = `'ERR_JWKS_INVALID'`
 
-A unique error code for [JWKSInvalid](JWKSInvalid.md).
+A unique error code for JWKSInvalid.

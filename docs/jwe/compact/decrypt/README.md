@@ -2,12 +2,10 @@
 
 Decrypting JSON Web Encryption (JWE) in Compact Serialization
 
-## Index
-
-### Interfaces
+## Interfaces
 
 - [CompactDecryptGetKey](interfaces/CompactDecryptGetKey.md)
 
-### Functions
+## Functions
 
 - [compactDecrypt](functions/compactDecrypt.md)

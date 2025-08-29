@@ -10,7 +10,7 @@ export async function sign(alg: string, key: types.CryptoKey | Uint8Array, data:
   const signature = await crypto.subtle.sign(
     subtleAlgorithm(alg, cryptoKey.algorithm),
     cryptoKey,
-    data,
+    data as Uint8Array<ArrayBuffer>,
   )
   return new Uint8Array(signature)
 }

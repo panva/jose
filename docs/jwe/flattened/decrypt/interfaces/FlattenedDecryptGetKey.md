@@ -9,8 +9,10 @@ verified at the time of this function call.
 
 ▸ **FlattenedDecryptGetKey**(`protectedHeader`, `token`): [`Uint8Array`](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Uint8Array) \| [`CryptoKey`](https://developer.mozilla.org/docs/Web/API/CryptoKey) \| [`JWK`](../../../../types/interfaces/JWK.md) \| [`KeyObject`](../../../../types/interfaces/KeyObject.md) \| [`Promise`](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise)\<[`Uint8Array`](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Uint8Array) \| [`CryptoKey`](https://developer.mozilla.org/docs/Web/API/CryptoKey) \| [`JWK`](../../../../types/interfaces/JWK.md) \| [`KeyObject`](../../../../types/interfaces/KeyObject.md)\>
 
-Interface for Flattened JWE Decryption dynamic key resolution. No token components have been
-verified at the time of this function call.
+Dynamic key resolution function. No token components have been verified at the time of this
+function call.
+
+If a suitable key for the token cannot be matched, throw an error instead.
 
 ## Parameters
 

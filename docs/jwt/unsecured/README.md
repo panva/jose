@@ -2,12 +2,10 @@
 
 Unsecured (unsigned & unencrypted) JSON Web Tokens (JWT)
 
-## Index
-
-### Classes
+## Classes
 
 - [UnsecuredJWT](classes/UnsecuredJWT.md)
 
-### Interfaces
+## Interfaces
 
 - [UnsecuredResult](interfaces/UnsecuredResult.md)

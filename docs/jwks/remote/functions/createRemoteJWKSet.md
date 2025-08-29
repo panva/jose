@@ -4,7 +4,7 @@
 
 Support from the community to continue maintaining and improving this module is welcome. If you find the module useful, please consider supporting the project by [becoming a sponsor](https://github.com/sponsors/panva).
 
-▸ **createRemoteJWKSet**(`url`, `options`?): (`protectedHeader`?, `token`?) => [`Promise`](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise)\<[`CryptoKey`](https://developer.mozilla.org/docs/Web/API/CryptoKey)\>
+▸ **createRemoteJWKSet**(`url`, `options?`): (`protectedHeader?`, `token?`) => [`Promise`](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise)\<[`CryptoKey`](https://developer.mozilla.org/docs/Web/API/CryptoKey)\>
 
 Returns a function that resolves a JWS JOSE Header to a public key object downloaded from a
 remote endpoint returning a JSON Web Key Set, that is, for example, an OAuth 2.0 or OIDC
@@ -32,18 +32,18 @@ as from its subpath export `'jose/jwks/remote'`.
 | Parameter | Type | Description |
 | ------ | ------ | ------ |
 | `url` | [`URL`](https://developer.mozilla.org/docs/Web/API/URL) | URL to fetch the JSON Web Key Set from. |
-| `options`? | [`RemoteJWKSetOptions`](../interfaces/RemoteJWKSetOptions.md) | Options for the remote JSON Web Key Set. |
+| `options?` | [`RemoteJWKSetOptions`](../interfaces/RemoteJWKSetOptions.md) | Options for the remote JSON Web Key Set. |
 
 ## Returns
 
-`Function`
+▸ (`protectedHeader?`, `token?`): [`Promise`](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise)\<[`CryptoKey`](https://developer.mozilla.org/docs/Web/API/CryptoKey)\>
 
 ### Parameters
 
 | Parameter | Type |
 | ------ | ------ |
-| `protectedHeader`? | [`JWSHeaderParameters`](../../../types/interfaces/JWSHeaderParameters.md) |
-| `token`? | [`FlattenedJWSInput`](../../../types/interfaces/FlattenedJWSInput.md) |
+| `protectedHeader?` | [`JWSHeaderParameters`](../../../types/interfaces/JWSHeaderParameters.md) |
+| `token?` | [`FlattenedJWSInput`](../../../types/interfaces/FlattenedJWSInput.md) |
 
 ### Returns
 

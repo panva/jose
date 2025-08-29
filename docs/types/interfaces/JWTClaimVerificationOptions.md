@@ -28,7 +28,7 @@ Clock skew tolerance
 - Resolved into a number of seconds when a string (e.g. "5 seconds", "10 minutes", "2 hours").
 
 Used when validating the JWT "nbf" (Not Before) and "exp" (Expiration Time) claims, and when
-validating the "iat" (Issued At) claim if the [`maxTokenAge` option](JWTClaimVerificationOptions.md#maxtokenage) is set.
+validating the "iat" (Issued At) claim if the [`maxTokenAge` option](#maxtokenage) is set.
 
 ***
 
@@ -68,10 +68,10 @@ This option makes the JWT "iat" (Issued At) Claim presence required.
 • `optional` **requiredClaims**: `string`[]
 
 Array of required Claim Names that must be present in the JWT Claims Set. Default is that: if
-the [`issuer` option](JWTClaimVerificationOptions.md#issuer) is set, then JWT "iss" (Issuer) Claim must be present; if the
-[`audience` option](JWTClaimVerificationOptions.md#audience) is set, then JWT "aud" (Audience) Claim must be present; if
-the [`subject` option](JWTClaimVerificationOptions.md#subject) is set, then JWT "sub" (Subject) Claim must be present; if
-the [`maxTokenAge` option](JWTClaimVerificationOptions.md#maxtokenage) is set, then JWT "iat" (Issued At) Claim must be
+the [`issuer` option](#issuer) is set, then JWT "iss" (Issuer) Claim must be present; if the
+[`audience` option](#audience) is set, then JWT "aud" (Audience) Claim must be present; if
+the [`subject` option](#subject) is set, then JWT "sub" (Subject) Claim must be present; if
+the [`maxTokenAge` option](#maxtokenage) is set, then JWT "iat" (Issued At) Claim must be
 present.
 
 ***

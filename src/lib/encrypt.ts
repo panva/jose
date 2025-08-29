@@ -21,14 +21,14 @@ async function cbcEncrypt(
   const keySize = parseInt(enc.slice(1, 4), 10)
   const encKey = await crypto.subtle.importKey(
     'raw',
-    cek.subarray(keySize >> 3),
+    cek.subarray(keySize >> 3) as Uint8Array<ArrayBuffer>,
     'AES-CBC',
     false,
     ['encrypt'],
   )
   const macKey = await crypto.subtle.importKey(
     'raw',
-    cek.subarray(0, keySize >> 3),
+    cek.subarray(0, keySize >> 3) as Uint8Array<ArrayBuffer>,
     {
       hash: `SHA-${keySize << 1}`,
       name: 'HMAC',
@@ -40,17 +40,20 @@ async function cbcEncrypt(
   const ciphertext = new Uint8Array(
     await crypto.subtle.encrypt(
       {
-        iv,
+        iv: iv as Uint8Array<ArrayBuffer>,
         name: 'AES-CBC',
       },
       encKey,
-      plaintext,
+      plaintext as Uint8Array<ArrayBuffer>,
     ),
   )
 
   const macData = concat(aad, iv, ciphertext, uint64be(aad.length << 3))
   const tag = new Uint8Array(
-    (await crypto.subtle.sign('HMAC', macKey, macData)).slice(0, keySize >> 3),
+    (await crypto.subtle.sign('HMAC', macKey, macData as Uint8Array<ArrayBuffer>)).slice(
+      0,
+      keySize >> 3,
+    ),
   )
 
   return { ciphertext, tag, iv }
@@ -65,7 +68,13 @@ async function gcmEncrypt(
 ) {
   let encKey: types.CryptoKey
   if (cek instanceof Uint8Array) {
-    encKey = await crypto.subtle.importKey('raw', cek, 'AES-GCM', false, ['encrypt'])
+    encKey = await crypto.subtle.importKey(
+      'raw',
+      cek as Uint8Array<ArrayBuffer>,
+      'AES-GCM',
+      false,
+      ['encrypt'],
+    )
   } else {
     checkEncCryptoKey(cek, enc, 'encrypt')
     encKey = cek
@@ -74,13 +83,13 @@ async function gcmEncrypt(
   const encrypted = new Uint8Array(
     await crypto.subtle.encrypt(
       {
-        additionalData: aad,
-        iv,
+        additionalData: aad as Uint8Array<ArrayBuffer>,
+        iv: iv as Uint8Array<ArrayBuffer>,
         name: 'AES-GCM',
         tagLength: 128,
       },
       encKey,
-      plaintext,
+      plaintext as Uint8Array<ArrayBuffer>,
     ),
   )
 

@@ -9,7 +9,7 @@ export async function getSigKey(alg: string, key: types.CryptoKey | Uint8Array, 
     }
     return crypto.subtle.importKey(
       'raw',
-      key,
+      key as Uint8Array<ArrayBuffer>,
       { hash: `SHA-${alg.slice(-3)}`, name: 'HMAC' },
       false,
       [usage],

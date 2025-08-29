@@ -2,8 +2,6 @@
 
 JSON Web Token (JWT) Encryption (JWT is in JWE format)
 
-## Index
-
-### Classes
+## Classes
 
 - [EncryptJWT](classes/EncryptJWT.md)

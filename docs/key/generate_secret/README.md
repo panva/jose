@@ -2,12 +2,10 @@
 
 Symmetric key generation
 
-## Index
-
-### Interfaces
+## Interfaces
 
 - [GenerateSecretOptions](interfaces/GenerateSecretOptions.md)
 
-### Functions
+## Functions
 
 - [generateSecret](functions/generateSecret.md)

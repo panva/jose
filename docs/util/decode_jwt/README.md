@@ -2,8 +2,6 @@
 
 JSON Web Token (JWT) Claims Set Decoding (no validation, no signature checking)
 
-## Index
-
-### Functions
+## Functions
 
 - [decodeJwt](functions/decodeJwt.md)

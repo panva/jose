@@ -23,11 +23,11 @@ console.log(jws)
 
 ## Constructors
 
-### new CompactSign()
+### Constructor
 
-▸ **new CompactSign**(`payload`): [`CompactSign`](CompactSign.md)
+▸ **new CompactSign**(`payload`): `CompactSign`
 
-[CompactSign](CompactSign.md) constructor
+CompactSign constructor
 
 #### Parameters
 
@@ -37,7 +37,7 @@ console.log(jws)
 
 #### Returns
 
-[`CompactSign`](CompactSign.md)
+`CompactSign`
 
 ## Methods
 
@@ -61,7 +61,7 @@ Sets the JWS Protected Header on the CompactSign object.
 
 ### sign()
 
-▸ **sign**(`key`, `options`?): [`Promise`](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise)\<`string`\>
+▸ **sign**(`key`, `options?`): [`Promise`](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise)\<`string`\>
 
 Signs and resolves the value of the Compact JWS string.
 
@@ -70,7 +70,7 @@ Signs and resolves the value of the Compact JWS string.
 | Parameter | Type | Description |
 | ------ | ------ | ------ |
 | `key` | [`Uint8Array`](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Uint8Array) \| [`CryptoKey`](https://developer.mozilla.org/docs/Web/API/CryptoKey) \| [`JWK`](../../../../types/interfaces/JWK.md) \| [`KeyObject`](../../../../types/interfaces/KeyObject.md) | Private Key or Secret to sign the JWS with. See [Algorithm Key Requirements](https://github.com/panva/jose/issues/210#jws-alg). |
-| `options`? | [`SignOptions`](../../../../types/interfaces/SignOptions.md) | JWS Sign options. |
+| `options?` | [`SignOptions`](../../../../types/interfaces/SignOptions.md) | JWS Sign options. |
 
 #### Returns
 

@@ -14,7 +14,12 @@ export async function verify(
   checkKeyLength(alg, cryptoKey)
   const algorithm = subtleAlgorithm(alg, cryptoKey.algorithm)
   try {
-    return await crypto.subtle.verify(algorithm, cryptoKey, signature, data)
+    return await crypto.subtle.verify(
+      algorithm,
+      cryptoKey,
+      signature as Uint8Array<ArrayBuffer>,
+      data as Uint8Array<ArrayBuffer>,
+    )
   } catch {
     return false
   }

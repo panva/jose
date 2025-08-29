@@ -2,12 +2,10 @@
 
 Verifying JSON Web Signature (JWS) in Compact Serialization
 
-## Index
-
-### Interfaces
+## Interfaces
 
 - [CompactVerifyGetKey](interfaces/CompactVerifyGetKey.md)
 
-### Functions
+## Functions
 
 - [compactVerify](functions/compactVerify.md)

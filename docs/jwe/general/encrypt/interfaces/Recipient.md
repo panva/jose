@@ -10,7 +10,7 @@ Used to build General JWE object's individual recipients.
 
 ### addRecipient()
 
-▸ **addRecipient**(...`args`): [`Recipient`](Recipient.md)
+▸ **addRecipient**(...`args`): `Recipient`
 
 A shorthand for calling addRecipient() on the enclosing [GeneralEncrypt](../classes/GeneralEncrypt.md) instance
 
@@ -18,11 +18,11 @@ A shorthand for calling addRecipient() on the enclosing [GeneralEncrypt](../clas
 
 | Parameter | Type |
 | ------ | ------ |
-| ...`args` | [[`Uint8Array`](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Uint8Array) \| [`CryptoKey`](https://developer.mozilla.org/docs/Web/API/CryptoKey) \| [`JWK`](../../../../types/interfaces/JWK.md) \| [`KeyObject`](../../../../types/interfaces/KeyObject.md), [`CritOption`](../../../../types/interfaces/CritOption.md)] |
+| ...`args` | \[[`Uint8Array`](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Uint8Array) \| [`CryptoKey`](https://developer.mozilla.org/docs/Web/API/CryptoKey) \| [`JWK`](../../../../types/interfaces/JWK.md) \| [`KeyObject`](../../../../types/interfaces/KeyObject.md), [`CritOption`](../../../../types/interfaces/CritOption.md)\] |
 
 #### Returns
 
-[`Recipient`](Recipient.md)
+`Recipient`
 
 ***
 
@@ -48,7 +48,7 @@ A shorthand for calling encrypt() on the enclosing [GeneralEncrypt](../classes/G
 
 | Parameter | Type |
 | ------ | ------ |
-| ...`args` | [] |
+| ...`args` | \[\] |
 
 #### Returns
 
@@ -58,7 +58,7 @@ A shorthand for calling encrypt() on the enclosing [GeneralEncrypt](../classes/G
 
 ### setUnprotectedHeader()
 
-▸ **setUnprotectedHeader**(`unprotectedHeader`): [`Recipient`](Recipient.md)
+▸ **setUnprotectedHeader**(`unprotectedHeader`): `Recipient`
 
 Sets the JWE Per-Recipient Unprotected Header on the Recipient object.
 
@@ -70,4 +70,4 @@ Sets the JWE Per-Recipient Unprotected Header on the Recipient object.
 
 #### Returns
 
-[`Recipient`](Recipient.md)
+`Recipient`

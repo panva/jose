@@ -8,7 +8,9 @@ Recognized Compact JWE Header Parameters, any other Header Members may also be p
 
 ## Indexable
 
- \[`propName`: `string`\]: `unknown`
+\[`propName`: `string`\]: `unknown`
+
+Any other JWE Header member.
 
 ## Properties
 

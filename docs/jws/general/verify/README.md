@@ -2,12 +2,10 @@
 
 Verifying JSON Web Signature (JWS) in General JSON Serialization
 
-## Index
-
-### Interfaces
+## Interfaces
 
 - [GeneralVerifyGetKey](interfaces/GeneralVerifyGetKey.md)
 
-### Functions
+## Functions
 
 - [generalVerify](functions/generalVerify.md)

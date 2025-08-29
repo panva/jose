@@ -6,7 +6,7 @@ Support from the community to continue maintaining and improving this module is 
 
 ## Call Signature
 
-▸ **compactDecrypt**(`jwe`, `key`, `options`?): [`Promise`](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise)\<[`CompactDecryptResult`](../../../../types/interfaces/CompactDecryptResult.md)\>
+▸ **compactDecrypt**(`jwe`, `key`, `options?`): [`Promise`](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise)\<[`CompactDecryptResult`](../../../../types/interfaces/CompactDecryptResult.md)\>
 
 Decrypts a Compact JWE.
 
@@ -19,7 +19,7 @@ as from its subpath export `'jose/jwe/compact/decrypt'`.
 | ------ | ------ | ------ |
 | `jwe` | `string` \| [`Uint8Array`](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Uint8Array) | Compact JWE. |
 | `key` | [`Uint8Array`](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Uint8Array) \| [`CryptoKey`](https://developer.mozilla.org/docs/Web/API/CryptoKey) \| [`JWK`](../../../../types/interfaces/JWK.md) \| [`KeyObject`](../../../../types/interfaces/KeyObject.md) | Private Key or Secret to decrypt the JWE with. See [Algorithm Key Requirements](https://github.com/panva/jose/issues/210#jwe-alg). |
-| `options`? | [`DecryptOptions`](../../../../types/interfaces/DecryptOptions.md) | JWE Decryption options. |
+| `options?` | [`DecryptOptions`](../../../../types/interfaces/DecryptOptions.md) | JWE Decryption options. |
 
 ### Returns
 
@@ -39,7 +39,7 @@ console.log(new TextDecoder().decode(plaintext))
 
 ## Call Signature
 
-▸ **compactDecrypt**(`jwe`, `getKey`, `options`?): [`Promise`](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise)\<[`CompactDecryptResult`](../../../../types/interfaces/CompactDecryptResult.md) & [`ResolvedKey`](../../../../types/interfaces/ResolvedKey.md)\>
+▸ **compactDecrypt**(`jwe`, `getKey`, `options?`): [`Promise`](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise)\<[`CompactDecryptResult`](../../../../types/interfaces/CompactDecryptResult.md) & [`ResolvedKey`](../../../../types/interfaces/ResolvedKey.md)\>
 
 ### Parameters
 
@@ -47,7 +47,7 @@ console.log(new TextDecoder().decode(plaintext))
 | ------ | ------ | ------ |
 | `jwe` | `string` \| [`Uint8Array`](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Uint8Array) | Compact JWE. |
 | `getKey` | [`CompactDecryptGetKey`](../interfaces/CompactDecryptGetKey.md) | Function resolving Private Key or Secret to decrypt the JWE with. See [Algorithm Key Requirements](https://github.com/panva/jose/issues/210#jwe-alg). |
-| `options`? | [`DecryptOptions`](../../../../types/interfaces/DecryptOptions.md) | JWE Decryption options. |
+| `options?` | [`DecryptOptions`](../../../../types/interfaces/DecryptOptions.md) | JWE Decryption options. |
 
 ### Returns
 

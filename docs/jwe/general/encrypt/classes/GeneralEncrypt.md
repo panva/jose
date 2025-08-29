@@ -27,11 +27,11 @@ console.log(jwe)
 
 ## Constructors
 
-### new GeneralEncrypt()
+### Constructor
 
-▸ **new GeneralEncrypt**(`plaintext`): [`GeneralEncrypt`](GeneralEncrypt.md)
+▸ **new GeneralEncrypt**(`plaintext`): `GeneralEncrypt`
 
-[GeneralEncrypt](GeneralEncrypt.md) constructor
+GeneralEncrypt constructor
 
 #### Parameters
 
@@ -41,13 +41,13 @@ console.log(jwe)
 
 #### Returns
 
-[`GeneralEncrypt`](GeneralEncrypt.md)
+`GeneralEncrypt`
 
 ## Methods
 
 ### addRecipient()
 
-▸ **addRecipient**(`key`, `options`?): [`Recipient`](../interfaces/Recipient.md)
+▸ **addRecipient**(`key`, `options?`): [`Recipient`](../interfaces/Recipient.md)
 
 Adds an additional recipient for the General JWE object.
 
@@ -56,7 +56,7 @@ Adds an additional recipient for the General JWE object.
 | Parameter | Type | Description |
 | ------ | ------ | ------ |
 | `key` | [`Uint8Array`](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Uint8Array) \| [`CryptoKey`](https://developer.mozilla.org/docs/Web/API/CryptoKey) \| [`JWK`](../../../../types/interfaces/JWK.md) \| [`KeyObject`](../../../../types/interfaces/KeyObject.md) | Public Key or Secret to encrypt the Content Encryption Key for the recipient with. See [Algorithm Key Requirements](https://github.com/panva/jose/issues/210#jwe-alg). |
-| `options`? | [`CritOption`](../../../../types/interfaces/CritOption.md) | JWE Encryption options. |
+| `options?` | [`CritOption`](../../../../types/interfaces/CritOption.md) | JWE Encryption options. |
 
 #### Returns
 

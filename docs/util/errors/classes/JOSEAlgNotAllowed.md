@@ -30,4 +30,4 @@ if (err instanceof jose.errors.JOSEAlgNotAllowed) {
 
 • **code**: `string` = `'ERR_JOSE_ALG_NOT_ALLOWED'`
 
-A unique error code for [JOSEAlgNotAllowed](JOSEAlgNotAllowed.md).
+A unique error code for JOSEAlgNotAllowed.
