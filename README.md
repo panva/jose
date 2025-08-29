@@ -110,7 +110,6 @@ The following runtimes are supported _(this is not an exhaustive list)_:
 - [Deno](https://github.com/panva/jose/issues/266)
 - [Electron](https://github.com/panva/jose/issues/264)
 - [Node.js](https://github.com/panva/jose/issues/262)
-- [Vercel's Edge Runtime](https://github.com/panva/jose/issues/301)
 
 Please note that certain algorithms may not be available depending on the runtime used. You can find a list of available algorithms for each runtime in the specific issue links provided above.
 
