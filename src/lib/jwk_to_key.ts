@@ -103,7 +103,7 @@ function subtleMapping(jwk: types.JWK): {
   return { algorithm, keyUsages }
 }
 
-export default async (jwk: types.JWK): Promise<types.CryptoKey> => {
+export async function jwkToKey(jwk: types.JWK): Promise<types.CryptoKey> {
   if (!jwk.alg) {
     throw new TypeError('"alg" argument is required when "jwk.alg" is not present')
   }

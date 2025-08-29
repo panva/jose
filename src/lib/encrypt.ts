@@ -1,10 +1,10 @@
 import type * as types from '../types.d.ts'
 import { concat, uint64be } from './buffer_utils.js'
-import checkIvLength from './check_iv_length.js'
-import checkCekLength from './check_cek_length.js'
+import { checkIvLength } from './check_iv_length.js'
+import { checkCekLength } from './check_cek_length.js'
 import { checkEncCryptoKey } from './crypto_key.js'
-import invalidKeyInput from './invalid_key_input.js'
-import generateIv from './iv.js'
+import { invalidKeyInput } from './invalid_key_input.js'
+import { generateIv } from './iv.js'
 import { JOSENotSupported } from '../util/errors.js'
 import { isCryptoKey } from './is_key_like.js'
 
@@ -90,7 +90,7 @@ async function gcmEncrypt(
   return { ciphertext, tag, iv }
 }
 
-export default async (
+export async function encrypt(
   enc: string,
   plaintext: Uint8Array,
   cek: unknown,
@@ -100,7 +100,7 @@ export default async (
   ciphertext: Uint8Array
   tag: Uint8Array | undefined
   iv: Uint8Array | undefined
-}> => {
+}> {
   if (!isCryptoKey(cek) && !(cek instanceof Uint8Array)) {
     throw new TypeError(
       invalidKeyInput(cek, 'CryptoKey', 'KeyObject', 'Uint8Array', 'JSON Web Key'),

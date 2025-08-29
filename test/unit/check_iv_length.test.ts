@@ -1,6 +1,6 @@
 import test from 'ava'
 
-import checkIvLength from '../../src/lib/check_iv_length.js'
+import { checkIvLength } from '../../src/lib/check_iv_length.js'
 
 test('lib/check_iv_length.ts', (t) => {
   t.throws(() => checkIvLength('A256GCM', new Uint8Array(13)), {

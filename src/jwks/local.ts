@@ -12,7 +12,7 @@ import {
   JWKSNoMatchingKey,
   JWKSMultipleMatchingKeys,
 } from '../util/errors.js'
-import isObject from '../lib/is_object.js'
+import { isObject } from '../lib/is_object.js'
 
 function getKtyFromAlg(alg: unknown) {
   switch (typeof alg === 'string' && alg.slice(0, 2)) {

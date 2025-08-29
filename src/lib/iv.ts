@@ -17,5 +17,5 @@ export function bitLength(alg: string) {
       throw new JOSENotSupported(`Unsupported JWE Algorithm: ${alg}`)
   }
 }
-export default (alg: string): Uint8Array =>
+export const generateIv = (alg: string): Uint8Array =>
   crypto.getRandomValues(new Uint8Array(bitLength(alg) >> 3))

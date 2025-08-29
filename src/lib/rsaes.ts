@@ -1,6 +1,6 @@
 import type * as types from '../types.d.ts'
 import { checkEncCryptoKey } from './crypto_key.js'
-import checkKeyLength from './check_key_length.js'
+import { checkKeyLength } from './check_key_length.js'
 import { JOSENotSupported } from '../util/errors.js'
 
 const subtleAlgorithm = (alg: string) => {

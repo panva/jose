@@ -7,7 +7,7 @@
 import { flattenedDecrypt } from '../flattened/decrypt.js'
 import { JWEDecryptionFailed, JWEInvalid } from '../../util/errors.js'
 import type * as types from '../../types.d.ts'
-import isObject from '../../lib/is_object.js'
+import { isObject } from '../../lib/is_object.js'
 
 /**
  * Interface for General JWE Decryption dynamic key resolution. No token components have been

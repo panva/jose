@@ -6,10 +6,10 @@
 
 import { decode as decodeBase64URL } from '../util/base64url.js'
 import { fromSPKI, fromPKCS8, fromX509 } from '../lib/asn1.js'
-import toCryptoKey from '../lib/jwk_to_key.js'
+import { jwkToKey } from '../lib/jwk_to_key.js'
 
 import { JOSENotSupported } from '../util/errors.js'
-import isObject from '../lib/is_object.js'
+import { isObject } from '../lib/is_object.js'
 import type * as types from '../types.d.ts'
 
 /** Key Import Function options. */
@@ -209,7 +209,7 @@ export async function importJWK(
           'RSA JWK "oth" (Other Primes Info) Parameter value is not supported',
         )
       }
-      return toCryptoKey({ ...jwk, alg, ext })
+      return jwkToKey({ ...jwk, alg, ext })
     case 'AKP': {
       if (typeof jwk.alg !== 'string' || !jwk.alg) {
         throw new TypeError('missing "alg" (Algorithm) Parameter value')
@@ -217,11 +217,11 @@ export async function importJWK(
       if (alg !== undefined && alg !== jwk.alg) {
         throw new TypeError('JWK alg and alg option value mismatch')
       }
-      return toCryptoKey({ ...jwk, ext })
+      return jwkToKey({ ...jwk, ext })
     }
     case 'EC':
     case 'OKP':
-      return toCryptoKey({ ...jwk, alg, ext })
+      return jwkToKey({ ...jwk, alg, ext })
     default:
       throw new JOSENotSupported('Unsupported "kty" (Key Type) Parameter value')
   }

@@ -1,6 +1,6 @@
 import { JOSENotSupported } from '../util/errors.js'
 
-export default (alg: string, algorithm: KeyAlgorithm | EcKeyAlgorithm) => {
+export function subtleAlgorithm(alg: string, algorithm: KeyAlgorithm | EcKeyAlgorithm) {
   const hash = `SHA-${alg.slice(-3)}`
   switch (alg) {
     case 'HS256':

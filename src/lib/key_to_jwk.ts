@@ -1,5 +1,5 @@
 import type * as types from '../types.d.ts'
-import invalidKeyInput from './invalid_key_input.js'
+import { invalidKeyInput } from './invalid_key_input.js'
 import { encode as b64u } from '../util/base64url.js'
 import { isCryptoKey, isKeyObject } from './is_key_like.js'
 
@@ -12,7 +12,7 @@ interface ExtractableKeyObject extends types.KeyObject {
   export(): Uint8Array
 }
 
-export default async function keyToJWK(key: unknown): Promise<types.JWK> {
+export async function keyToJWK(key: unknown): Promise<types.JWK> {
   if (isKeyObject(key)) {
     if (key.type === 'secret') {
       key = (key as ExtractableKeyObject).export()

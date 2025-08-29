@@ -1,4 +1,4 @@
-export default (...headers: Array<object | undefined>) => {
+export function isDisjoint(...headers: Array<object | undefined>) {
   const sources = headers.filter(Boolean) as object[]
 
   if (sources.length === 0 || sources.length === 1) {

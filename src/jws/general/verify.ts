@@ -7,7 +7,7 @@
 import type * as types from '../../types.d.ts'
 import { flattenedVerify } from '../flattened/verify.js'
 import { JWSInvalid, JWSSignatureVerificationFailed } from '../../util/errors.js'
-import isObject from '../../lib/is_object.js'
+import { isObject } from '../../lib/is_object.js'
 
 /**
  * Interface for General JWS Verification dynamic key resolution. No token components have been

@@ -22,10 +22,8 @@ function message(msg: string, actual: unknown, ...types: Array<string | null>) {
   return msg
 }
 
-export default (actual: unknown, ...types: string[]) => {
-  return message('Key must be ', actual, ...types)
-}
+export const invalidKeyInput = (actual: unknown, ...types: string[]) =>
+  message('Key must be ', actual, ...types)
 
-export function withAlg(alg: string, actual: unknown, ...types: Array<string | null>) {
-  return message(`Key for the ${alg} algorithm must be `, actual, ...types)
-}
+export const withAlg = (alg: string, actual: unknown, ...types: Array<string | null>) =>
+  message(`Key for the ${alg} algorithm must be `, actual, ...types)

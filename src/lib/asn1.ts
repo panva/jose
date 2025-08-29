@@ -1,5 +1,5 @@
 import type * as types from '../types.d.ts'
-import invalidKeyInput from './invalid_key_input.js'
+import { invalidKeyInput } from './invalid_key_input.js'
 import { encodeBase64, decodeBase64 } from '../lib/base64.js'
 import { JOSENotSupported } from '../util/errors.js'
 import { isCryptoKey, isKeyObject } from './is_key_like.js'
@@ -59,13 +59,9 @@ const genericExport = async (
   )
 }
 
-export const toSPKI = (key: unknown): Promise<string> => {
-  return genericExport('public', 'spki', key)
-}
+export const toSPKI = (key: unknown): Promise<string> => genericExport('public', 'spki', key)
 
-export const toPKCS8 = (key: unknown): Promise<string> => {
-  return genericExport('private', 'pkcs8', key)
-}
+export const toPKCS8 = (key: unknown): Promise<string> => genericExport('private', 'pkcs8', key)
 
 /** Helper function to compare two byte arrays for equality */
 const bytesEqual = (a: Uint8Array, b: readonly number[]): boolean => {

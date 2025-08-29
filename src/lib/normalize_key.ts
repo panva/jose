@@ -1,7 +1,7 @@
 import type * as types from '../types.d.ts'
 import { isJWK } from './is_jwk.js'
 import { decode } from '../util/base64url.js'
-import importJWK from './jwk_to_key.js'
+import { jwkToKey } from './jwk_to_key.js'
 import { isCryptoKey, isKeyObject } from './is_key_like.js'
 
 let cache: WeakMap<object, Record<string, CryptoKey>>
@@ -35,7 +35,7 @@ const handleJWK = async (
     return cached[alg]
   }
 
-  const cryptoKey = await importJWK({ ...jwk, alg })
+  const cryptoKey = await jwkToKey({ ...jwk, alg })
   if (freeze) Object.freeze(key)
   if (!cached) {
     cache.set(key, { [alg]: cryptoKey })
@@ -215,10 +215,10 @@ const handleKeyObject = (keyObject: ConvertableKeyObject, alg: string) => {
   return cryptoKey
 }
 
-export default async (
+export async function normalizeKey(
   key: types.CryptoKey | types.KeyObject | types.JWK | Uint8Array,
   alg: string,
-): Promise<types.CryptoKey | Uint8Array> => {
+): Promise<types.CryptoKey | Uint8Array> {
   if (key instanceof Uint8Array) {
     return key
   }

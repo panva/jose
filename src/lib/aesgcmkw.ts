@@ -1,5 +1,5 @@
-import encrypt from './encrypt.js'
-import decrypt from './decrypt.js'
+import { encrypt } from './encrypt.js'
+import { decrypt } from './decrypt.js'
 import { encode as b64u } from '../util/base64url.js'
 
 export async function wrap(alg: string, key: unknown, cek: Uint8Array, iv?: Uint8Array) {

@@ -6,19 +6,19 @@ import { decode as b64u } from '../util/base64url.js'
 
 import type * as types from '../types.d.ts'
 import { JOSENotSupported, JWEInvalid } from '../util/errors.js'
-import { bitLength as cekLength } from '../lib/cek.js'
+import { cekLength } from '../lib/cek.js'
 import { importJWK } from '../key/import.js'
-import isObject from './is_object.js'
+import { isObject } from './is_object.js'
 import { unwrap as aesGcmKw } from './aesgcmkw.js'
 import { assertCryptoKey } from './is_key_like.js'
 
-export default async (
+export async function decryptKeyManagement(
   alg: string,
   key: types.CryptoKey | Uint8Array,
   encryptedKey: Uint8Array | undefined,
   joseHeader: types.JWEHeaderParameters,
   options?: types.DecryptOptions,
-): Promise<types.CryptoKey | Uint8Array> => {
+): Promise<types.CryptoKey | Uint8Array> {
   switch (alg) {
     case 'dir': {
       // Direct Encryption

@@ -1,6 +1,6 @@
 import test from 'ava'
 
-const { default: secs } = await import('../../src/lib/secs.js')
+const { secs } = await import('../../src/lib/jwt_claims_set.js')
 
 test('lib/secs.ts', (t) => {
   for (const sign of ['+', '+ ', '']) {

@@ -6,14 +6,14 @@
 
 import type * as types from '../../types.d.ts'
 import { encode as b64u } from '../../util/base64url.js'
-import sign from '../../lib/sign.js'
+import { sign } from '../../lib/sign.js'
 
-import isDisjoint from '../../lib/is_disjoint.js'
+import { isDisjoint } from '../../lib/is_disjoint.js'
 import { JWSInvalid } from '../../util/errors.js'
 import { encoder, decoder, concat } from '../../lib/buffer_utils.js'
-import checkKeyType from '../../lib/check_key_type.js'
-import validateCrit from '../../lib/validate_crit.js'
-import normalizeKey from '../../lib/normalize_key.js'
+import { checkKeyType } from '../../lib/check_key_type.js'
+import { validateCrit } from '../../lib/validate_crit.js'
+import { normalizeKey } from '../../lib/normalize_key.js'
 
 /**
  * The FlattenedSign class is used to build and sign Flattened JWS objects.

@@ -6,17 +6,17 @@
 
 import type * as types from '../../types.d.ts'
 import { decode as b64u } from '../../util/base64url.js'
-import decrypt from '../../lib/decrypt.js'
+import { decrypt } from '../../lib/decrypt.js'
 import { JOSEAlgNotAllowed, JOSENotSupported, JWEInvalid } from '../../util/errors.js'
-import isDisjoint from '../../lib/is_disjoint.js'
-import isObject from '../../lib/is_object.js'
-import decryptKeyManagement from '../../lib/decrypt_key_management.js'
+import { isDisjoint } from '../../lib/is_disjoint.js'
+import { isObject } from '../../lib/is_object.js'
+import { decryptKeyManagement } from '../../lib/decrypt_key_management.js'
 import { encoder, decoder, concat } from '../../lib/buffer_utils.js'
-import generateCek from '../../lib/cek.js'
-import validateCrit from '../../lib/validate_crit.js'
-import validateAlgorithms from '../../lib/validate_algorithms.js'
-import normalizeKey from '../../lib/normalize_key.js'
-import checkKeyType from '../../lib/check_key_type.js'
+import { generateCek } from '../../lib/cek.js'
+import { validateCrit } from '../../lib/validate_crit.js'
+import { validateAlgorithms } from '../../lib/validate_algorithms.js'
+import { normalizeKey } from '../../lib/normalize_key.js'
+import { checkKeyType } from '../../lib/check_key_type.js'
 
 /**
  * Interface for Flattened JWE Decryption dynamic key resolution. No token components have been

@@ -1,5 +1,5 @@
 import { withAlg as invalidKeyInput } from './invalid_key_input.js'
-import isKeyLike from './is_key_like.js'
+import { isKeyLike } from './is_key_like.js'
 import * as jwk from './is_jwk.js'
 import type * as types from '../types.d.ts'
 
@@ -141,7 +141,7 @@ const asymmetricTypeCheck = (alg: string, key: unknown, usage: Usage) => {
 
 type Usage = 'sign' | 'verify' | 'encrypt' | 'decrypt'
 
-export default (alg: string, key: unknown, usage: Usage): void => {
+export function checkKeyType(alg: string, key: unknown, usage: Usage): void {
   switch (alg.substring(0, 2)) {
     case 'A1': // A128.+, A192.+
     case 'A2': // A256.+

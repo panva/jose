@@ -1,8 +1,6 @@
-function isObjectLike(value: unknown) {
-  return typeof value === 'object' && value !== null
-}
+const isObjectLike = (value: unknown) => typeof value === 'object' && value !== null
 
-export default <T = object>(input: unknown): input is T => {
+export function isObject<T = object>(input: unknown): input is T {
   if (!isObjectLike(input) || Object.prototype.toString.call(input) !== '[object Object]') {
     return false
   }

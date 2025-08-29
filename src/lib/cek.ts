@@ -1,6 +1,6 @@
 import { JOSENotSupported } from '../util/errors.js'
 
-export function bitLength(alg: string) {
+export function cekLength(alg: string) {
   switch (alg) {
     case 'A128GCM':
       return 128
@@ -17,5 +17,5 @@ export function bitLength(alg: string) {
       throw new JOSENotSupported(`Unsupported JWE Algorithm: ${alg}`)
   }
 }
-export default (alg: string): Uint8Array =>
-  crypto.getRandomValues(new Uint8Array(bitLength(alg) >> 3))
+export const generateCek = (alg: string): Uint8Array =>
+  crypto.getRandomValues(new Uint8Array(cekLength(alg) >> 3))

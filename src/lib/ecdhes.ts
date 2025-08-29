@@ -1,7 +1,7 @@
 import type * as types from '../types.d.ts'
 import { encoder, concat, uint32be } from './buffer_utils.js'
 import { checkEncCryptoKey } from './crypto_key.js'
-import digest from './digest.js'
+import { digest } from './digest.js'
 
 function lengthAndInput(input: Uint8Array) {
   return concat(uint32be(input.length), input)

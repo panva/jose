@@ -1,11 +1,11 @@
 import { concat, uint64be } from './buffer_utils.js'
 
 import type * as types from '../types.d.ts'
-import checkIvLength from './check_iv_length.js'
-import checkCekLength from './check_cek_length.js'
+import { checkIvLength } from './check_iv_length.js'
+import { checkCekLength } from './check_cek_length.js'
 import { JOSENotSupported, JWEDecryptionFailed, JWEInvalid } from '../util/errors.js'
 import { checkEncCryptoKey } from './crypto_key.js'
-import invalidKeyInput from './invalid_key_input.js'
+import { invalidKeyInput } from './invalid_key_input.js'
 import { isCryptoKey } from './is_key_like.js'
 
 async function timingSafeEqual(a: Uint8Array, b: Uint8Array): Promise<boolean> {
@@ -125,14 +125,14 @@ async function gcmDecrypt(
   }
 }
 
-export default async (
+export async function decrypt(
   enc: string,
   cek: unknown,
   ciphertext: Uint8Array,
   iv: Uint8Array | undefined,
   tag: Uint8Array | undefined,
   aad: Uint8Array,
-): Promise<Uint8Array> => {
+): Promise<Uint8Array> {
   if (!isCryptoKey(cek) && !(cek instanceof Uint8Array)) {
     throw new TypeError(
       invalidKeyInput(cek, 'CryptoKey', 'KeyObject', 'Uint8Array', 'JSON Web Key'),

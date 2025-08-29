@@ -6,7 +6,7 @@
 
 import { decode as b64u } from './base64url.js'
 import { decoder } from '../lib/buffer_utils.js'
-import isObject from '../lib/is_object.js'
+import { isObject } from '../lib/is_object.js'
 import type * as types from '../types.d.ts'
 import { JWTInvalid } from './errors.js'
 

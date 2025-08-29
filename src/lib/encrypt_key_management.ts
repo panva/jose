@@ -4,16 +4,16 @@ import * as ecdhes from './ecdhes.js'
 import * as pbes2kw from './pbes2kw.js'
 import * as rsaes from './rsaes.js'
 import { encode as b64u } from '../util/base64url.js'
-import normalizeKey from './normalize_key.js'
+import { normalizeKey } from './normalize_key.js'
 
 import type { JWEKeyManagementHeaderParameters, JWEHeaderParameters, JWK } from '../types.d.ts'
-import generateCek, { bitLength as cekLength } from '../lib/cek.js'
+import { generateCek, cekLength } from '../lib/cek.js'
 import { JOSENotSupported } from '../util/errors.js'
 import { exportJWK } from '../key/export.js'
 import { wrap as aesGcmKw } from './aesgcmkw.js'
 import { assertCryptoKey } from './is_key_like.js'
 
-export default async (
+export async function encryptKeyManagement(
   alg: string,
   enc: string,
   key: types.CryptoKey | Uint8Array,
@@ -23,7 +23,7 @@ export default async (
   cek: types.CryptoKey | Uint8Array
   encryptedKey?: Uint8Array
   parameters?: JWEHeaderParameters
-}> => {
+}> {
   let encryptedKey: Uint8Array | undefined
   let parameters: (JWEHeaderParameters & { epk?: JWK }) | undefined
   let cek: types.CryptoKey | Uint8Array

@@ -3,7 +3,7 @@ import test from 'ava'
 const types = 'CryptoKey, KeyObject, JSON Web Key, or Uint8Array'
 const asymmetricTypes = 'CryptoKey, KeyObject, or JSON Web Key'
 
-import checkKeyType from '../../src/lib/check_key_type.js'
+import { checkKeyType } from '../../src/lib/check_key_type.js'
 
 test('lib/check_key_type.ts with JWK', async (t) => {
   const expected = {
