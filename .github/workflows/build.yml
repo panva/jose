@@ -1,7 +1,5 @@
 name: Build
 
-permissions: {}
-
 on:
   workflow_call:
     outputs:
@@ -22,7 +20,7 @@ jobs:
         with:
           node-version: lts/*
           cache: 'npm'
-      - run: npm clean-install
+      - run: npm install
       - id: cache-key
         run: echo "value=dist-${{ hashFiles('src/**/*.ts', 'tsconfig/*.json', '.github/workflows/*.yml', 'package-lock.json') }}" >> $GITHUB_OUTPUT
       - name: Cache dist
@@ -32,7 +30,7 @@ jobs:
           path: dist
           key: ${{ steps.cache-key.outputs.value }}
       - name: Build
-        run: npm run build-all
+        run: npm run build
         if: ${{ steps.dist.outputs.cache-hit != 'true' }}
       - uses: actions/upload-artifact@v4
         with:
