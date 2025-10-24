@@ -22,7 +22,7 @@ If a suitable key for the token cannot be matched, throw an error instead.
 
 | Parameter | Type | Description |
 | ------ | ------ | ------ |
-| `protectedHeader` | `undefined` \| [`JWSHeaderParameters`](../../../../types/interfaces/JWSHeaderParameters.md) | JWE or JWS Protected Header. |
+| `protectedHeader` | [`JWSHeaderParameters`](../../../../types/interfaces/JWSHeaderParameters.md) \| `undefined` | JWE or JWS Protected Header. |
 | `token` | [`FlattenedJWSInput`](../../../../types/interfaces/FlattenedJWSInput.md) | The consumed JWE or JWS token. |
 
 ## Returns

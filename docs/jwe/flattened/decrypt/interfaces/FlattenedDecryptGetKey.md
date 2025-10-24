@@ -18,7 +18,7 @@ If a suitable key for the token cannot be matched, throw an error instead.
 
 | Parameter | Type | Description |
 | ------ | ------ | ------ |
-| `protectedHeader` | `undefined` \| [`JWEHeaderParameters`](../../../../types/interfaces/JWEHeaderParameters.md) | JWE or JWS Protected Header. |
+| `protectedHeader` | [`JWEHeaderParameters`](../../../../types/interfaces/JWEHeaderParameters.md) \| `undefined` | JWE or JWS Protected Header. |
 | `token` | [`FlattenedJWE`](../../../../types/interfaces/FlattenedJWE.md) | The consumed JWE or JWS token. |
 
 ## Returns
