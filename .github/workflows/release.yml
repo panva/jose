@@ -15,6 +15,7 @@ jobs:
       - build
     runs-on: ubuntu-latest
     permissions:
+      contents: read
       id-token: write
     steps:
       - name: Checkout
@@ -26,7 +27,6 @@ jobs:
         with:
           node-version: lts/*
           registry-url: https://registry.npmjs.org
-          always-auth: true
       - name: Load cached dist
         uses: actions/cache@v4
         id: dist
@@ -36,9 +36,7 @@ jobs:
           fail-on-cache-miss: true
       - name: Prepare distribution
         run: node tools/publish.cjs
-      - run: npm publish --provenance
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+      - run: npm publish
 
   jsr:
     runs-on: ubuntu-latest
