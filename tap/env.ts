@@ -7,9 +7,6 @@ export const isElectron = typeof process !== 'undefined' && process.versions?.el
 // @ts-ignore
 export const isDeno = typeof Deno !== 'undefined'
 
-// @ts-ignore
-export const isEdgeRuntime = typeof EdgeRuntime !== 'undefined'
-
 export const isBrowser =
   typeof navigator !== 'undefined' && navigator.userAgent?.startsWith?.('Mozilla/5.0 ')
 

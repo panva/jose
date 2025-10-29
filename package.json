@@ -225,7 +225,6 @@
     "tap:browsers": "./tap/.browsers.sh",
     "tap:bun": "./tap/.bun.sh",
     "tap:deno": "./tap/.deno.sh",
-    "tap:edge-runtime": "./tap/.edge-runtime.sh",
     "tap:electron": "./tap/.electron.sh",
     "tap:node": "bash -c './tap/.node.sh'",
     "tap:workerd": "./tap/.workerd.sh"
