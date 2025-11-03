@@ -230,7 +230,7 @@
     "tap:workerd": "./tap/.workerd.sh"
   },
   "devDependencies": {
-    "@types/node": "^22.19.0",
+    "@types/node": "^24.10.0",
     "@types/qunit": "^2.19.13",
     "ava": "^6.4.1",
     "esbuild": "^0.25.12",
