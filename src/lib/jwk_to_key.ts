@@ -11,6 +11,9 @@ function subtleMapping(jwk: types.JWK): {
   switch (jwk.kty) {
     case 'AKP': {
       switch (jwk.alg) {
+        case 'SLH-DSA-SHA2-128s':
+        case 'SLH-DSA-SHAKE-128s':
+        case 'SLH-DSA-SHA2-128f':
         case 'ML-DSA-44':
         case 'ML-DSA-65':
         case 'ML-DSA-87':

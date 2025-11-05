@@ -96,6 +96,19 @@ const handleKeyObject = (keyObject: ConvertableKeyObject, alg: string) => {
       cryptoKey = keyObject.toCryptoKey(keyObject.asymmetricKeyType, extractable, [
         isPublic ? 'verify' : 'sign',
       ])
+      break
+    }
+    case 'slh-dsa-sha2-128s':
+    case 'slh-dsa-shake-128s':
+    case 'slh-dsa-sha2-128f': {
+      if (alg !== `${keyObject.asymmetricKeyType.slice(0, -1).toUpperCase()}${keyObject.asymmetricKeyType.slice(-1)}`) {
+        throw new TypeError('given KeyObject instance cannot be used for this algorithm')
+      }
+
+      cryptoKey = keyObject.toCryptoKey(keyObject.asymmetricKeyType, extractable, [
+        isPublic ? 'verify' : 'sign',
+      ])
+      break
     }
   }
 

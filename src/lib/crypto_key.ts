@@ -74,6 +74,12 @@ export function checkSigCryptoKey(key: types.CryptoKey, alg: string, usage: KeyU
       if (!isAlgorithm(key.algorithm, alg)) throw unusable(alg)
       break
     }
+    case 'SLH-DSA-SHA2-128s': // Fall through
+    case 'SLH-DSA-SHAKE-128s': // Fall through
+    case 'SLH-DSA-SHA2-128f': {
+      if (!isAlgorithm(key.algorithm, alg)) throw unusable(alg)
+      break
+    }
     case 'ES256':
     case 'ES384':
     case 'ES512': {

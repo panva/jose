@@ -147,6 +147,13 @@ export async function generateKeyPair(
       algorithm = { name: alg }
       break
     }
+    case 'SLH-DSA-SHA2-128s':
+    case 'SLH-DSA-SHAKE-128s':
+    case 'SLH-DSA-SHA2-128f': {
+      keyUsages = ['sign', 'verify']
+      algorithm = { name: alg }
+      break
+    }
     case 'ECDH-ES':
     case 'ECDH-ES+A128KW':
     case 'ECDH-ES+A192KW':

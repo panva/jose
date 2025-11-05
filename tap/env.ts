@@ -54,6 +54,9 @@ export function supported(identifier?: string, op?: string) {
     case 'Ed448':
     case 'ES256K':
     case 'secp256k1':
+    case 'SLH-DSA-SHA2-128s':
+    case 'SLH-DSA-SHAKE-128s':
+    case 'SLH-DSA-SHA2-128f':
       return false
   }
 

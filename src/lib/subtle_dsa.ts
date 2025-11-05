@@ -26,6 +26,10 @@ export function subtleAlgorithm(alg: string, algorithm: KeyAlgorithm | EcKeyAlgo
     case 'ML-DSA-65':
     case 'ML-DSA-87':
       return { name: alg }
+    case 'SLH-DSA-SHA2-128s':
+    case 'SLH-DSA-SHAKE-128s':
+    case 'SLH-DSA-SHA2-128f':
+      return { name: alg }
     default:
       throw new JOSENotSupported(
         `alg ${alg} is not supported either by JOSE or your javascript runtime`,

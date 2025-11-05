@@ -266,6 +266,12 @@ const genericImport = async (
       algorithm = { name: alg }
       keyUsages = getSigUsages()
       break
+    case 'SLH-DSA-SHA2-128s':
+    case 'SLH-DSA-SHAKE-128s':
+    case 'SLH-DSA-SHA2-128f':
+      algorithm = { name: alg }
+      keyUsages = getSigUsages()
+      break
     default:
       throw new JOSENotSupported('Invalid or unsupported "alg" (Algorithm) value')
   }
