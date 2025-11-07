@@ -110,6 +110,22 @@ const stub: Pick<
       case 'ML-DSA-65':
       case 'ML-DSA-87':
         return generate(alg.toLowerCase())
+      case 'HPKE-0':
+      case 'HPKE-0-KE':
+      case 'HPKE-7':
+      case 'HPKE-7-KE':
+        return generate('ec', { namedCurve: 'P-256' })
+      case 'HPKE-1':
+      case 'HPKE-1-KE':
+        return generate('ec', { namedCurve: 'P-384' })
+      case 'HPKE-2':
+      case 'HPKE-2-KE':
+        return generate('ec', { namedCurve: 'P-521' })
+      case 'HPKE-3':
+      case 'HPKE-3-KE':
+      case 'HPKE-4':
+      case 'HPKE-4-KE':
+        return generate('x25519')
       default:
         Error('unreachable')
     }

@@ -69,6 +69,14 @@ function subtleMapping(jwk: types.JWK): {
         case 'ECDH-ES+A128KW':
         case 'ECDH-ES+A192KW':
         case 'ECDH-ES+A256KW':
+        case 'HPKE-0':
+        case 'HPKE-0-KE':
+        case 'HPKE-1':
+        case 'HPKE-1-KE':
+        case 'HPKE-2':
+        case 'HPKE-2-KE':
+        case 'HPKE-7':
+        case 'HPKE-7-KE':
           algorithm = { name: 'ECDH', namedCurve: jwk.crv! }
           keyUsages = jwk.d ? ['deriveBits'] : []
           break
@@ -88,6 +96,10 @@ function subtleMapping(jwk: types.JWK): {
         case 'ECDH-ES+A128KW':
         case 'ECDH-ES+A192KW':
         case 'ECDH-ES+A256KW':
+        case 'HPKE-3':
+        case 'HPKE-3-KE':
+        case 'HPKE-4':
+        case 'HPKE-4-KE':
           algorithm = { name: jwk.crv! }
           keyUsages = jwk.d ? ['deriveBits'] : []
           break

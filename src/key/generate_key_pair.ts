@@ -134,7 +134,7 @@ export async function generateKeyPair(
       algorithm = { name: 'ECDSA', namedCurve: 'P-521' }
       keyUsages = ['sign', 'verify']
       break
-    case 'Ed25519': // Fall through
+    case 'Ed25519':
     case 'EdDSA': {
       keyUsages = ['sign', 'verify']
       algorithm = { name: 'Ed25519' }
@@ -168,6 +168,34 @@ export async function generateKeyPair(
             'Invalid or unsupported crv option provided, supported values are P-256, P-384, P-521, and X25519',
           )
       }
+      break
+    }
+    case 'HPKE-0':
+    case 'HPKE-0-KE':
+    case 'HPKE-7':
+    case 'HPKE-7-KE': {
+      keyUsages = ['deriveBits']
+      algorithm = { name: 'ECDH', namedCurve: 'P-256' }
+      break
+    }
+    case 'HPKE-1':
+    case 'HPKE-1-KE': {
+      keyUsages = ['deriveBits']
+      algorithm = { name: 'ECDH', namedCurve: 'P-384' }
+      break
+    }
+    case 'HPKE-2':
+    case 'HPKE-2-KE': {
+      keyUsages = ['deriveBits']
+      algorithm = { name: 'ECDH', namedCurve: 'P-521' }
+      break
+    }
+    case 'HPKE-3':
+    case 'HPKE-3-KE':
+    case 'HPKE-4':
+    case 'HPKE-4-KE': {
+      keyUsages = ['deriveBits']
+      algorithm = { name: 'X25519' }
       break
     }
     default:

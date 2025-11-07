@@ -89,7 +89,7 @@ export async function jwe(
       // @ts-ignore
       const decrypted = await lib.flattenedDecrypt(jwe, key, {
         keyManagementAlgorithms: [alg],
-        contentEncryptionAlgorithms: [enc],
+        contentEncryptionAlgorithms: enc ? [enc] : undefined,
       })
       t.deepEqual([...decrypted.plaintext], [...cleartext])
       t.deepEqual([...decrypted.additionalAuthenticatedData!], [...aad])
@@ -124,7 +124,7 @@ export async function jwe(
       // @ts-ignore
       const decrypted = await lib.flattenedDecrypt(jwe, key, {
         keyManagementAlgorithms: [alg],
-        contentEncryptionAlgorithms: [enc],
+        contentEncryptionAlgorithms: enc ? [enc] : undefined,
       })
       t.deepEqual([...decrypted.plaintext], [...cleartext])
       t.deepEqual([...decrypted.additionalAuthenticatedData!], [...aad])
@@ -150,7 +150,7 @@ export async function jwt(
     // @ts-ignore
     const decrypted = await lib.jwtDecrypt(jwt, key, {
       keyManagementAlgorithms: [alg],
-      contentEncryptionAlgorithms: [enc],
+      contentEncryptionAlgorithms: enc ? [enc] : undefined,
     })
     if (enc) {
       t.propContains(decrypted, {

@@ -35,7 +35,13 @@ const handleJWK = async (
     return cached[alg]
   }
 
-  const cryptoKey = await jwkToKey({ ...jwk, alg })
+  let ext
+
+  if ((jwk.d || jwk.priv) && alg.startsWith('HPKE')) {
+    ext = true
+  }
+
+  const cryptoKey = await jwkToKey({ ...jwk, alg, ext })
   if (freeze) Object.freeze(key)
   if (!cached) {
     cache.set(key, { [alg]: cryptoKey })
@@ -53,11 +59,15 @@ const handleKeyObject = (keyObject: ConvertableKeyObject, alg: string) => {
   }
 
   const isPublic = keyObject.type === 'public'
-  const extractable = isPublic ? true : false
+  let extractable = isPublic ? true : false
 
   let cryptoKey: types.CryptoKey | undefined
   if (keyObject.asymmetricKeyType === 'x25519') {
     switch (alg) {
+      case 'HPKE-3':
+      case 'HPKE-3-KE':
+      case 'HPKE-4':
+      case 'HPKE-4-KE':
       case 'ECDH-ES':
       case 'ECDH-ES+A128KW':
       case 'ECDH-ES+A192KW':
@@ -66,6 +76,10 @@ const handleKeyObject = (keyObject: ConvertableKeyObject, alg: string) => {
 
       default:
         throw new TypeError('given KeyObject instance cannot be used for this algorithm')
+    }
+
+    if (!extractable && alg.startsWith('HPKE')) {
+      extractable = true
     }
 
     cryptoKey = keyObject.toCryptoKey(
@@ -191,7 +205,18 @@ const handleKeyObject = (keyObject: ConvertableKeyObject, alg: string) => {
       )
     }
 
-    if (alg.startsWith('ECDH-ES')) {
+    const ecdh =
+      alg.startsWith('ECDH-ES') ||
+      (namedCurve === 'P-256' &&
+        (alg === 'HPKE-0' || alg === 'HPKE-7' || alg === 'HPKE-0-KE' || alg === 'HPKE-7-KE')) ||
+      (namedCurve === 'P-384' && (alg === 'HPKE-1' || alg === 'HPKE-1-KE')) ||
+      (namedCurve === 'P-521' && (alg === 'HPKE-2' || alg === 'HPKE-2-KE'))
+
+    if (ecdh) {
+      if (!extractable && alg.startsWith('HPKE')) {
+        extractable = true
+      }
+
       cryptoKey = keyObject.toCryptoKey(
         {
           name: 'ECDH',

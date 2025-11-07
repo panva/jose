@@ -15,6 +15,7 @@ import { encode as b64u } from '../../util/base64url.js'
 import { validateCrit } from '../../lib/validate_crit.js'
 import { normalizeKey } from '../../lib/normalize_key.js'
 import { checkKeyType } from '../../lib/check_key_type.js'
+import { isIntegratedEncryption } from '../../lib/hpke.js'
 
 /** Used to build General JWE object's individual recipients. */
 export interface Recipient {
@@ -30,6 +31,9 @@ export interface Recipient {
    *
    * (ECDH-ES) Use of this method is needed for ECDH based algorithms to set the "apu" (Agreement
    * PartyUInfo) or "apv" (Agreement PartyVInfo) parameters.
+   *
+   * (HPKE) Use of this method is needed for HPKE algorithms to set the "psk_id" (Pre-Shared Key ID)
+   * and "psk" (Pre-Shared Key).
    *
    * @param parameters JWE Key Management parameters.
    */
@@ -240,7 +244,9 @@ export class GeneralEncrypt {
         throw new JWEInvalid('JWE "alg" (Algorithm) Header Parameter missing or invalid')
       }
 
-      if (alg === 'dir' || alg === 'ECDH-ES') {
+      const hpkeIe = isIntegratedEncryption(alg)
+
+      if (alg === 'dir' || alg === 'ECDH-ES' || hpkeIe) {
         throw new JWEInvalid('"dir" and "ECDH-ES" alg may only be used with a single recipient')
       }
 

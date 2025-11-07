@@ -90,6 +90,7 @@ export function checkSigCryptoKey(key: types.CryptoKey, alg: string, usage: KeyU
   checkUsage(key, usage)
 }
 
+let getPublicKey: boolean
 export function checkEncCryptoKey(key: types.CryptoKey, alg: string, usage?: KeyUsage) {
   switch (alg) {
     case 'A128GCM':
@@ -133,6 +134,42 @@ export function checkEncCryptoKey(key: types.CryptoKey, alg: string, usage?: Key
       const expected = parseInt(alg.slice(9), 10) || 1
       const actual = getHashLength(key.algorithm.hash)
       if (actual !== expected) throw unusable(`SHA-${expected}`, 'algorithm.hash')
+      break
+    }
+    case 'HPKE-0':
+    case 'HPKE-0-KE':
+    case 'HPKE-7':
+    case 'HPKE-7-KE': {
+      if (!isAlgorithm<EcKeyAlgorithm>(key.algorithm, 'ECDH')) throw unusable('ECDH')
+      if (key.algorithm.namedCurve !== 'P-256') throw unusable('P-256', 'algorithm.namedCurve')
+      getPublicKey ??= 'getPublicKey' in SubtleCrypto.prototype
+      if (!key.extractable && (key.type === 'public' || !getPublicKey))
+        throw unusable('true', 'extractable')
+      break
+    }
+    case 'HPKE-1':
+    case 'HPKE-1-KE': {
+      if (!isAlgorithm<EcKeyAlgorithm>(key.algorithm, 'ECDH')) throw unusable('ECDH')
+      if (key.algorithm.namedCurve !== 'P-384') throw unusable('P-384', 'algorithm.namedCurve')
+      getPublicKey ??= 'getPublicKey' in SubtleCrypto.prototype
+      if (!key.extractable && (key.type === 'public' || !getPublicKey))
+        throw unusable('true', 'extractable')
+      break
+    }
+    case 'HPKE-2':
+    case 'HPKE-2-KE': {
+      if (!isAlgorithm<EcKeyAlgorithm>(key.algorithm, 'ECDH')) throw unusable('ECDH')
+      if (key.algorithm.namedCurve !== 'P-521') throw unusable('P-521', 'algorithm.namedCurve')
+      getPublicKey ??= 'getPublicKey' in SubtleCrypto.prototype
+      if (!key.extractable && (key.type === 'public' || !getPublicKey))
+        throw unusable('true', 'extractable')
+      break
+    }
+    case 'HPKE-3':
+    case 'HPKE-3-KE':
+    case 'HPKE-4':
+    case 'HPKE-4-KE': {
+      if (!isAlgorithm(key.algorithm, 'X25519')) throw unusable('X25519')
       break
     }
     default:
