@@ -315,6 +315,28 @@ export interface JWEKeyManagementHeaderParameters {
    * used in ECDH's ConcatKDF.
    */
   apv?: Uint8Array
+
+  /**
+   * HPKE "psk" (Pre-Shared Key). This will not appear in the JOSE Header but will be used in HPKE
+   * KDF.
+   */
+  psk?: Uint8Array
+
+  /**
+   * HPKE "psk_id" (Pre-Shared Key ID). This will be used as a JOSE Header Parameter and will be
+   * used in HPKE KDF.
+   */
+  psk_id?: Uint8Array
+
+  /**
+   * (HPKE Key Encryption) Mutually known private information used in the HPKE `info` parameter as
+   * part of the `Recipient_structure`.
+   *
+   * (HPKE Integrated Encryption) Mutually known private information used in the HPKE `info`
+   * parameter.
+   */
+  recipientExtraInfo?: Uint8Array
+
   /**
    * @deprecated You should not use this parameter. It is only intended for testing and vector
    *   validation purposes.
@@ -425,6 +447,9 @@ export interface JWEHeaderParameters extends JoseHeaderParameters {
    */
   zip?: string
 
+  /** HPKE psk_id (Pre-Shared Key ID) encoded as BASE64URL(psk_id). */
+  psk_id?: string
+
   /** Any other JWE Header member. */
   [propName: string]: unknown
 }
@@ -475,6 +500,24 @@ export interface DecryptOptions extends CritOption {
    * this value is set to 10000.
    */
   maxPBES2Count?: number
+
+  /**
+   * (HPKE Key Encryption only) Mutually known private information used in the HPKE `info` parameter
+   * as part of the `Recipient_structure`.
+   *
+   * (HPKE Integrated Encryption only) Mutually known private information used in the HPKE `info`
+   * parameter.
+   *
+   * This is ignored for all non-HPKE JWE "alg" (Algorithm) Header Parameters.
+   */
+  recipientExtraInfo?: Uint8Array
+
+  /**
+   * (HPKE Key Encryption and HPKE Integrated Encryption only) Pre-Shared Key.
+   *
+   * This is ignored for all non-HPKE JWE "alg" (Algorithm) Header Parameters.
+   */
+  psk?: Uint8Array
 }
 
 /** JWE Encryption options. */

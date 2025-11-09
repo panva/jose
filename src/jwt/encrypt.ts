@@ -110,6 +110,9 @@ export class EncryptJWT implements types.ProduceJWT {
    * (ECDH-ES) Use of this method is needed for ECDH based algorithms to set the "apu" (Agreement
    * PartyUInfo) or "apv" (Agreement PartyVInfo) parameters.
    *
+   * (HPKE) Use of this method is needed for HPKE algorithms to set the "psk_id" (Pre-Shared Key ID)
+   * and "psk" (Pre-Shared Key).
+   *
    * @param parameters JWE Key Management parameters.
    */
   setKeyManagementParameters(parameters: types.JWEKeyManagementHeaderParameters): this {

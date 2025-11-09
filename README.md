@@ -138,6 +138,7 @@ Please note that certain algorithms may not be available depending on the runtim
 - CFRG Elliptic Curve ECDH and Signatures - [RFC8037](https://www.rfc-editor.org/rfc/rfc8037)
 - Fully-Specified Algorithms for JOSE - [RFC9864](https://www.rfc-editor.org/rfc/rfc9864.html)
 - ML-DSA for JOSE - [draft-ietf-cose-dilithium-10](https://www.ietf.org/archive/id/draft-ietf-cose-dilithium-10.html)
+- Hybrid Public Key Encryption (HPKE) fork JOSE - [draft-ietf-jose-hpke-encrypt-15](https://www.ietf.org/archive/id/draft-ietf-jose-hpke-encrypt-15.html)
 
 The algorithm implementations in `jose` have been tested using test vectors from their respective specifications as well as [RFC7520](https://www.rfc-editor.org/rfc/rfc7520).
 

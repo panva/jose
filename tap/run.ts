@@ -29,6 +29,7 @@ export default async (
     import('./pbes2.js'),
     import('./pem.js'),
     import('./rsaes.js'),
+    import('./hpke.js'),
   ])
   for (const { default: module } of modules) {
     await module(QUnit, lib, keys)

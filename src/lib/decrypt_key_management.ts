@@ -11,6 +11,7 @@ import { importJWK } from '../key/import.js'
 import { isObject } from './is_object.js'
 import { unwrap as aesGcmKw } from './aesgcmkw.js'
 import { assertCryptoKey } from './is_key_like.js'
+import { Open as hpke, info } from './hpke.js'
 
 export async function decryptKeyManagement(
   alg: string,
@@ -154,6 +155,47 @@ export async function decryptKeyManagement(
       }
 
       return aesGcmKw(alg, key, encryptedKey, iv, tag)
+    }
+    case 'HPKE-0-KE':
+    case 'HPKE-1-KE':
+    case 'HPKE-2-KE':
+    case 'HPKE-3-KE':
+    case 'HPKE-4-KE':
+    case 'HPKE-7-KE': {
+      // HPKE Key Encryption
+      if (encryptedKey === undefined) throw new JWEInvalid('JWE Encrypted Key missing')
+      if (typeof joseHeader.ek !== 'string')
+        throw new JWEInvalid(`JOSE Header "ek" (Encapsulated Key) missing or invalid`)
+
+      assertCryptoKey(key)
+      const psk = options?.psk
+      let psk_id!: Uint8Array
+      if (joseHeader.psk_id !== undefined) {
+        if (typeof joseHeader.psk_id !== 'string')
+          throw new JWEInvalid(`JOSE Header "psk_id" (Pre-Shared Key) invalid`)
+
+        try {
+          psk_id = b64u(joseHeader.psk_id)
+        } catch {
+          throw new JWEInvalid('Failed to base64url decode the encapsulated key')
+        }
+      }
+      let ek: Uint8Array
+      try {
+        ek = b64u(joseHeader.ek)
+      } catch {
+        throw new JWEInvalid('Failed to base64url decode the encapsulated key')
+      }
+      return hpke(
+        alg,
+        ek,
+        key,
+        info(joseHeader.enc, options?.recipientExtraInfo),
+        new Uint8Array(),
+        encryptedKey,
+        psk,
+        psk_id,
+      )
     }
     default: {
       throw new JOSENotSupported('Invalid or unsupported "alg" (JWE Algorithm) header value')

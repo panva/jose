@@ -7,6 +7,7 @@
 import { encode as b64u } from '../../util/base64url.js'
 import { unprotected } from '../../lib/private_symbols.js'
 import { encrypt } from '../../lib/encrypt.js'
+import { Seal as hpke, isIntegratedEncryption, info } from '../../lib/hpke.js'
 import type * as types from '../../types.d.ts'
 import { encryptKeyManagement } from '../../lib/encrypt_key_management.js'
 import { JOSENotSupported, JWEInvalid } from '../../util/errors.js'
@@ -15,6 +16,7 @@ import { concat, encode } from '../../lib/buffer_utils.js'
 import { validateCrit } from '../../lib/validate_crit.js'
 import { normalizeKey } from '../../lib/normalize_key.js'
 import { checkKeyType } from '../../lib/check_key_type.js'
+import { assertCryptoKey } from '../../lib/is_key_like.js'
 
 /**
  * The FlattenedEncrypt class is used to build and encrypt Flattened JWE objects.
@@ -69,6 +71,9 @@ export class FlattenedEncrypt {
    *
    * (ECDH-ES) Use of this method is needed for ECDH based algorithms to set the "apu" (Agreement
    * PartyUInfo) or "apv" (Agreement PartyVInfo) parameters.
+   *
+   * (HPKE) Use of this method is needed for HPKE algorithms to set the "psk_id" (Pre-Shared Key ID)
+   * and "psk" (Pre-Shared Key).
    *
    * @param parameters JWE Key Management parameters.
    */
@@ -208,27 +213,48 @@ export class FlattenedEncrypt {
       throw new JWEInvalid('JWE "alg" (Algorithm) Header Parameter missing or invalid')
     }
 
-    if (typeof enc !== 'string' || !enc) {
+    const hpkeIe = isIntegratedEncryption(alg)
+
+    if (hpkeIe) {
+      if (!this.#protectedHeader?.alg) {
+        throw new JWEInvalid(
+          'JWE "alg" (Algorithm) must be in a protected header when using HPKE Integrated Encryption',
+        )
+      }
+
+      if (enc) {
+        throw new JWEInvalid(
+          'JWE "enc" (Encryption Algorithm) Header Parameter must be missing when using HPKE Integrated Encryption',
+        )
+      }
+
+      if (this.#keyManagementParameters?.psk_id?.byteLength) {
+        this.#protectedHeader = {
+          ...this.#protectedHeader,
+          psk_id: b64u(this.#keyManagementParameters.psk_id),
+        }
+      }
+    } else if (typeof enc !== 'string' || !enc) {
       throw new JWEInvalid('JWE "enc" (Encryption Algorithm) Header Parameter missing or invalid')
     }
 
     let encryptedKey: Uint8Array | undefined
 
-    if (this.#cek && (alg === 'dir' || alg === 'ECDH-ES')) {
+    if (this.#cek && (alg === 'dir' || alg === 'ECDH-ES' || hpkeIe)) {
       throw new TypeError(
         `setContentEncryptionKey cannot be called with JWE "alg" (Algorithm) Header ${alg}`,
       )
     }
 
-    checkKeyType(alg === 'dir' ? enc : alg, key, 'encrypt')
+    checkKeyType(alg === 'dir' ? enc! : alg, key, 'encrypt')
 
     let cek: types.CryptoKey | Uint8Array
-    {
+    if (!hpkeIe) {
       let parameters: { [propName: string]: unknown } | undefined
       const k = await normalizeKey(key, alg)
       ;({ cek, encryptedKey, parameters } = await encryptKeyManagement(
         alg,
-        enc,
+        enc!,
         k,
         this.#cek,
         this.#keyManagementParameters,
@@ -269,13 +295,33 @@ export class FlattenedEncrypt {
       additionalData = protectedHeaderB
     }
 
-    const { ciphertext, tag, iv } = await encrypt(
-      enc,
-      this.#plaintext,
-      cek,
-      this.#iv,
-      additionalData,
-    )
+    let ciphertext: Uint8Array
+    let tag: Uint8Array | undefined
+    let iv: Uint8Array | undefined
+
+    if (hpkeIe) {
+      const k = await normalizeKey(key, alg)
+      assertCryptoKey(k)
+      const psk = this.#keyManagementParameters?.psk
+      const psk_id = this.#keyManagementParameters?.psk_id
+      ;({ ct: ciphertext, enc: encryptedKey } = await hpke(
+        alg,
+        k,
+        info(undefined, this.#keyManagementParameters?.recipientExtraInfo),
+        additionalData,
+        this.#plaintext,
+        psk,
+        psk_id,
+      ))
+    } else {
+      ;({ ciphertext, tag, iv } = await encrypt(
+        enc!,
+        this.#plaintext,
+        cek!,
+        this.#iv,
+        additionalData,
+      ))
+    }
 
     const jwe: types.FlattenedJWE = {
       ciphertext: b64u(ciphertext),

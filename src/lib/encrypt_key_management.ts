@@ -12,6 +12,7 @@ import { JOSENotSupported } from '../util/errors.js'
 import { exportJWK } from '../key/export.js'
 import { wrap as aesGcmKw } from './aesgcmkw.js'
 import { assertCryptoKey } from './is_key_like.js'
+import { info, Seal as hpke } from './hpke.js'
 
 export async function encryptKeyManagement(
   alg: string,
@@ -113,6 +114,33 @@ export async function encryptKeyManagement(
       cek = providedCek || generateCek(enc)
       const { iv } = providedParameters
       ;({ encryptedKey, ...parameters } = await aesGcmKw(alg, key, cek, iv))
+      break
+    }
+    case 'HPKE-0-KE':
+    case 'HPKE-1-KE':
+    case 'HPKE-2-KE':
+    case 'HPKE-3-KE':
+    case 'HPKE-4-KE':
+    case 'HPKE-7-KE': {
+      // HPKE Key Encryption
+      cek = providedCek || generateCek(enc)
+      assertCryptoKey(key)
+      const psk = providedParameters.psk
+      const psk_id = providedParameters.psk_id
+      let ek: Uint8Array
+      ;({ ct: encryptedKey, enc: ek } = await hpke(
+        alg,
+        key,
+        info(enc, providedParameters.recipientExtraInfo),
+        new Uint8Array(),
+        cek,
+        psk,
+        psk_id,
+      ))
+      parameters = { ek: b64u(ek) }
+      if (psk_id?.byteLength) {
+        parameters.psk_id = b64u(psk_id)
+      }
       break
     }
     default: {
