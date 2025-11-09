@@ -10,7 +10,7 @@ import { sign } from '../../lib/sign.js'
 
 import { isDisjoint } from '../../lib/is_disjoint.js'
 import { JWSInvalid } from '../../util/errors.js'
-import { encoder, decoder, concat } from '../../lib/buffer_utils.js'
+import { concat, encode } from '../../lib/buffer_utils.js'
 import { checkKeyType } from '../../lib/check_key_type.js'
 import { validateCrit } from '../../lib/validate_crit.js'
 import { normalizeKey } from '../../lib/normalize_key.js'
@@ -132,30 +132,34 @@ export class FlattenedSign {
 
     checkKeyType(alg, key, 'sign')
 
-    let payload = this.#payload
+    let payloadS: string
+    let payloadB: Uint8Array
     if (b64) {
-      payload = encoder.encode(b64u(payload))
-    }
-
-    let protectedHeader: Uint8Array
-    if (this.#protectedHeader) {
-      protectedHeader = encoder.encode(b64u(JSON.stringify(this.#protectedHeader)))
+      payloadS = b64u(this.#payload)
+      payloadB = encode(payloadS)
     } else {
-      protectedHeader = encoder.encode('')
+      payloadB = this.#payload
+      payloadS = ''
     }
 
-    const data = concat(protectedHeader, encoder.encode('.'), payload)
+    let protectedHeaderString: string
+    let protectedHeaderBytes: Uint8Array
+    if (this.#protectedHeader) {
+      protectedHeaderString = b64u(JSON.stringify(this.#protectedHeader))
+      protectedHeaderBytes = encode(protectedHeaderString)
+    } else {
+      protectedHeaderString = ''
+      protectedHeaderBytes = new Uint8Array()
+    }
+
+    const data = concat(protectedHeaderBytes, encode('.'), payloadB)
 
     const k = await normalizeKey(key, alg)
     const signature = await sign(alg, k, data)
 
     const jws: types.FlattenedJWS = {
       signature: b64u(signature),
-      payload: '',
-    }
-
-    if (b64) {
-      jws.payload = decoder.decode(payload)
+      payload: payloadS,
     }
 
     if (this.#unprotectedHeader) {
@@ -163,7 +167,7 @@ export class FlattenedSign {
     }
 
     if (this.#protectedHeader) {
-      jws.protected = decoder.decode(protectedHeader)
+      jws.protected = protectedHeaderString
     }
 
     return jws

@@ -94,7 +94,7 @@ export async function generateKeyPair(
       algorithm = {
         name: 'RSA-PSS',
         hash: `SHA-${alg.slice(-3)}`,
-        publicExponent: new Uint8Array([0x01, 0x00, 0x01]),
+        publicExponent: Uint8Array.of(0x01, 0x00, 0x01),
         modulusLength: getModulusLengthOption(options),
       }
       keyUsages = ['sign', 'verify']
@@ -105,7 +105,7 @@ export async function generateKeyPair(
       algorithm = {
         name: 'RSASSA-PKCS1-v1_5',
         hash: `SHA-${alg.slice(-3)}`,
-        publicExponent: new Uint8Array([0x01, 0x00, 0x01]),
+        publicExponent: Uint8Array.of(0x01, 0x00, 0x01),
         modulusLength: getModulusLengthOption(options),
       }
       keyUsages = ['sign', 'verify']
@@ -117,7 +117,7 @@ export async function generateKeyPair(
       algorithm = {
         name: 'RSA-OAEP',
         hash: `SHA-${parseInt(alg.slice(-3), 10) || 1}`,
-        publicExponent: new Uint8Array([0x01, 0x00, 0x01]),
+        publicExponent: Uint8Array.of(0x01, 0x00, 0x01),
         modulusLength: getModulusLengthOption(options),
       }
       keyUsages = ['decrypt', 'unwrapKey', 'encrypt', 'wrapKey']

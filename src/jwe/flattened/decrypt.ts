@@ -11,7 +11,7 @@ import { JOSEAlgNotAllowed, JOSENotSupported, JWEInvalid } from '../../util/erro
 import { isDisjoint } from '../../lib/is_disjoint.js'
 import { isObject } from '../../lib/is_object.js'
 import { decryptKeyManagement } from '../../lib/decrypt_key_management.js'
-import { encoder, decoder, concat } from '../../lib/buffer_utils.js'
+import { decoder, concat, encode } from '../../lib/buffer_utils.js'
 import { generateCek } from '../../lib/cek.js'
 import { validateCrit } from '../../lib/validate_crit.js'
 import { validateAlgorithms } from '../../lib/validate_algorithms.js'
@@ -119,7 +119,7 @@ export async function flattenedDecrypt(
     throw new JWEInvalid('JWE Per-Recipient Unprotected Header incorrect type')
   }
 
-  let parsedProt!: types.JWEHeaderParameters
+  let parsedProt!: types.JWEHeaderParameters | undefined
   if (jwe.protected) {
     try {
       const protectedHeader = b64u(jwe.protected)
@@ -226,11 +226,12 @@ export async function flattenedDecrypt(
     }
   }
 
-  const protectedHeader: Uint8Array = encoder.encode(jwe.protected ?? '')
+  const protectedHeader: Uint8Array =
+    jwe.protected !== undefined ? encode(jwe.protected) : new Uint8Array()
   let additionalData: Uint8Array
 
   if (jwe.aad !== undefined) {
-    additionalData = concat(protectedHeader, encoder.encode('.'), encoder.encode(jwe.aad))
+    additionalData = concat(protectedHeader, encode('.'), encode(jwe.aad))
   } else {
     additionalData = protectedHeader
   }

@@ -1,5 +1,5 @@
 import type * as types from '../types.d.ts'
-import { encoder, concat, uint32be } from './buffer_utils.js'
+import { encode, concat, uint32be } from './buffer_utils.js'
 import { checkEncCryptoKey } from './crypto_key.js'
 import { digest } from './digest.js'
 
@@ -57,18 +57,18 @@ export async function deriveKey(
   privateKey: types.CryptoKey,
   algorithm: string,
   keyLength: number,
-  apu: Uint8Array = new Uint8Array(0),
-  apv: Uint8Array = new Uint8Array(0),
+  apu: Uint8Array = new Uint8Array(),
+  apv: Uint8Array = new Uint8Array(),
 ) {
   checkEncCryptoKey(publicKey, 'ECDH')
   checkEncCryptoKey(privateKey, 'ECDH', 'deriveBits')
 
   // Construct OtherInfo
-  const algorithmID = lengthAndInput(encoder.encode(algorithm))
+  const algorithmID = lengthAndInput(encode(algorithm))
   const partyUInfo = lengthAndInput(apu)
   const partyVInfo = lengthAndInput(apv)
   const suppPubInfo = uint32be(keyLength)
-  const suppPrivInfo = new Uint8Array(0)
+  const suppPrivInfo = new Uint8Array()
 
   const otherInfo = concat(algorithmID, partyUInfo, partyVInfo, suppPubInfo, suppPrivInfo)
 

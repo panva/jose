@@ -117,14 +117,18 @@ export async function jwt(
   secretOrKeyPair: keyType,
 ) {
   const [sKey, vKey] = await getKeys(secretOrKeyPair, false, keys)
-  const jwt = await new lib.SignJWT({ foo: 'bar' }).setProtectedHeader({ alg }).sign(sKey)
+  const jwt = await new lib.SignJWT({ foo: 'bar', '🤷‍♂️': '🤷‍♀️' })
+    .setProtectedHeader({ alg, '🤷‍♂️': '🤷‍♀️' })
+    .sign(sKey)
   const verified = await lib.jwtVerify(jwt, vKey)
   t.deepEqual(verified, {
     payload: {
       foo: 'bar',
+      '🤷‍♂️': '🤷‍♀️',
     },
     protectedHeader: {
       alg,
+      '🤷‍♂️': '🤷‍♀️',
     },
   })
 }

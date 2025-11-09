@@ -8,7 +8,7 @@ import { digest } from '../lib/digest.js'
 import { encode as b64u } from '../util/base64url.js'
 
 import { JOSENotSupported, JWKInvalid } from '../util/errors.js'
-import { encoder } from '../lib/buffer_utils.js'
+import { encode } from '../lib/buffer_utils.js'
 import type * as types from '../types.d.ts'
 import { isKeyLike } from '../lib/is_key_like.js'
 import { isJWK } from '../lib/is_jwk.js'
@@ -101,7 +101,7 @@ export async function calculateJwkThumbprint(
       throw new JOSENotSupported('"kty" (Key Type) Parameter missing or unsupported')
   }
 
-  const data = encoder.encode(JSON.stringify(components))
+  const data = encode(JSON.stringify(components))
   return b64u(await digest(digestAlgorithm, data))
 }
 

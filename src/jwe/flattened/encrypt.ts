@@ -11,7 +11,7 @@ import type * as types from '../../types.d.ts'
 import { encryptKeyManagement } from '../../lib/encrypt_key_management.js'
 import { JOSENotSupported, JWEInvalid } from '../../util/errors.js'
 import { isDisjoint } from '../../lib/is_disjoint.js'
-import { encoder, decoder, concat } from '../../lib/buffer_utils.js'
+import { concat, encode } from '../../lib/buffer_utils.js'
 import { validateCrit } from '../../lib/validate_crit.js'
 import { normalizeKey } from '../../lib/normalize_key.js'
 import { checkKeyType } from '../../lib/check_key_type.js'
@@ -250,19 +250,23 @@ export class FlattenedEncrypt {
     }
 
     let additionalData: Uint8Array
-    let protectedHeader: Uint8Array
+    let protectedHeaderS: string
+    let protectedHeaderB: Uint8Array
     let aadMember: string | undefined
     if (this.#protectedHeader) {
-      protectedHeader = encoder.encode(b64u(JSON.stringify(this.#protectedHeader)))
+      protectedHeaderS = b64u(JSON.stringify(this.#protectedHeader))
+      protectedHeaderB = encode(protectedHeaderS)
     } else {
-      protectedHeader = encoder.encode('')
+      protectedHeaderS = ''
+      protectedHeaderB = new Uint8Array()
     }
 
     if (this.#aad) {
       aadMember = b64u(this.#aad)
-      additionalData = concat(protectedHeader, encoder.encode('.'), encoder.encode(aadMember))
+      const aadMemberBytes = encode(aadMember)
+      additionalData = concat(protectedHeaderB, encode('.'), aadMemberBytes)
     } else {
-      additionalData = protectedHeader
+      additionalData = protectedHeaderB
     }
 
     const { ciphertext, tag, iv } = await encrypt(
@@ -294,7 +298,7 @@ export class FlattenedEncrypt {
     }
 
     if (this.#protectedHeader) {
-      jwe.protected = decoder.decode(protectedHeader)
+      jwe.protected = protectedHeaderS
     }
 
     if (this.#sharedUnprotectedHeader) {

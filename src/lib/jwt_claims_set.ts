@@ -1,8 +1,7 @@
 import type * as types from '../types.d.ts'
 import { JWTClaimValidationFailed, JWTExpired, JWTInvalid } from '../util/errors.js'
-import { decoder } from './buffer_utils.js'
+import { encoder, decoder } from './buffer_utils.js'
 import { isObject } from './is_object.js'
-import { encoder } from './buffer_utils.js'
 
 const epoch = (date: Date) => Math.floor(date.getTime() / 1000)
 
@@ -319,7 +318,7 @@ export class JWTClaimsBuilder {
   }
 
   set iat(value: number | string | Date | undefined) {
-    if (typeof value === 'undefined') {
+    if (value === undefined) {
       this.#payload.iat = epoch(new Date())
     } else if (value instanceof Date) {
       this.#payload.iat = validateInput('setIssuedAt', epoch(value))

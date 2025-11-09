@@ -35,3 +35,16 @@ export function uint32be(value: number) {
   writeUInt32BE(buf, value)
   return buf
 }
+
+/** Encodes ASCII-only strings as Uint8Array */
+export function encode(string: string): Uint8Array {
+  const bytes = new Uint8Array(string.length)
+  for (let i = 0; i < string.length; i++) {
+    const code = string.charCodeAt(i)
+    if (code > 127) {
+      throw new TypeError('non-ASCII string encountered in encode()')
+    }
+    bytes[i] = code
+  }
+  return bytes
+}

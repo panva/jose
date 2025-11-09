@@ -9,7 +9,7 @@ import { decode as b64u } from '../../util/base64url.js'
 import { verify } from '../../lib/verify.js'
 
 import { JOSEAlgNotAllowed, JWSInvalid, JWSSignatureVerificationFailed } from '../../util/errors.js'
-import { concat, encoder, decoder } from '../../lib/buffer_utils.js'
+import { concat, encoder, decoder, encode } from '../../lib/buffer_utils.js'
 import { isDisjoint } from '../../lib/is_disjoint.js'
 import { isObject } from '../../lib/is_object.js'
 import { checkKeyType } from '../../lib/check_key_type.js'
@@ -170,9 +170,13 @@ export async function flattenedVerify(
   checkKeyType(alg, key, 'verify')
 
   const data = concat(
-    encoder.encode(jws.protected ?? ''),
-    encoder.encode('.'),
-    typeof jws.payload === 'string' ? encoder.encode(jws.payload) : jws.payload,
+    jws.protected !== undefined ? encode(jws.protected) : new Uint8Array(),
+    encode('.'),
+    typeof jws.payload === 'string'
+      ? b64
+        ? encode(jws.payload)
+        : encoder.encode(jws.payload)
+      : jws.payload,
   )
   let signature: Uint8Array
   try {

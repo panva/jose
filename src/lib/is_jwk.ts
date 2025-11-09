@@ -9,7 +9,7 @@ export const isPrivateJWK = (key: types.JWK & { kty: string }) =>
   ((key.kty === 'AKP' && typeof key.priv === 'string') || typeof key.d === 'string')
 
 export const isPublicJWK = (key: types.JWK & { kty: string }) =>
-  key.kty !== 'oct' && typeof key.d === 'undefined' && typeof key.priv === 'undefined'
+  key.kty !== 'oct' && key.d === undefined && key.priv === undefined
 
 export const isSecretJWK = (key: types.JWK & { kty: string }) =>
   key.kty === 'oct' && typeof key.k === 'string'

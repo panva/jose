@@ -2,7 +2,7 @@ import type * as types from '../types.d.ts'
 import { encode as b64u } from '../util/base64url.js'
 import * as aeskw from './aeskw.js'
 import { checkEncCryptoKey } from './crypto_key.js'
-import { concat, encoder } from './buffer_utils.js'
+import { concat, encode } from './buffer_utils.js'
 import { JWEInvalid } from '../util/errors.js'
 
 function getCryptoKey(key: types.CryptoKey | Uint8Array, alg: string) {
@@ -17,7 +17,7 @@ function getCryptoKey(key: types.CryptoKey | Uint8Array, alg: string) {
 }
 
 const concatSalt = (alg: string, p2sInput: Uint8Array) =>
-  concat(encoder.encode(alg), new Uint8Array([0]), p2sInput)
+  concat(encode(alg), Uint8Array.of(0x00), p2sInput)
 
 async function deriveKey(
   p2s: Uint8Array,

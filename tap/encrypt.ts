@@ -55,6 +55,12 @@ function jwkWithProps(jwk: jose.JWK, alg: string, enc: string) {
     } else {
       jwk.key_ops = []
     }
+  } else if (jwk.kty === 'OKP') {
+    if (jwk.d) {
+      jwk.key_ops = ['deriveBits']
+    } else {
+      jwk.key_ops = []
+    }
   }
 
   return jwk
@@ -136,8 +142,8 @@ export async function jwt(
 ) {
   const [eKey, dKey] = await getKeys(secretOrKeyPair, false, keys)
 
-  const jwt = await new lib.EncryptJWT({ foo: 'bar' })
-    .setProtectedHeader({ alg, enc })
+  const jwt = await new lib.EncryptJWT({ foo: 'bar', '🤷‍♂️': '🤷‍♀️' })
+    .setProtectedHeader({ alg, enc, '🤷‍♂️': '🤷‍♀️' })
     .encrypt(eKey)
 
   for (const key of [dKey, async () => dKey]) {
@@ -146,14 +152,28 @@ export async function jwt(
       keyManagementAlgorithms: [alg],
       contentEncryptionAlgorithms: [enc],
     })
-    t.propContains(decrypted, {
-      payload: {
-        foo: 'bar',
-      },
-      protectedHeader: {
-        alg,
-        enc,
-      },
-    })
+    if (enc) {
+      t.propContains(decrypted, {
+        payload: {
+          foo: 'bar',
+          '🤷‍♂️': '🤷‍♀️',
+        },
+        protectedHeader: {
+          alg,
+          enc,
+          '🤷‍♂️': '🤷‍♀️',
+        },
+      })
+    } else {
+      t.propContains(decrypted, {
+        payload: {
+          foo: 'bar',
+        },
+        protectedHeader: {
+          alg,
+          '🤷‍♂️': '🤷‍♀️',
+        },
+      })
+    }
   }
 }
