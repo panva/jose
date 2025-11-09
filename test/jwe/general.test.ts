@@ -179,6 +179,6 @@ test('Default PBES2 Count', async (t) => {
 
   const [{ header: bob }, { header: charlie }] = jwe.recipients
   t.is(bob.p2c, 2048)
-  t.true(bob.p2c < charlie.p2c)
+  t.is(charlie.p2c, 2048)
   t.true(bob.p2s !== charlie.p2s)
 })

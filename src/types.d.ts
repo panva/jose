@@ -304,25 +304,34 @@ export interface JWSHeaderParameters extends JoseHeaderParameters {
 
 /** Recognized JWE Key Management-related Header Parameters. */
 export interface JWEKeyManagementHeaderParameters {
+  /**
+   * ECDH-ES "apu" (Agreement PartyUInfo). This will be used as a JOSE Header Parameter and will be
+   * used in ECDH's ConcatKDF.
+   */
   apu?: Uint8Array
+
+  /**
+   * ECDH-ES "apv" (Agreement PartyVInfo). This will be used as a JOSE Header Parameter and will be
+   * used in ECDH's ConcatKDF.
+   */
   apv?: Uint8Array
   /**
-   * @deprecated You should not use this parameter. It is only really intended for test and vector
+   * @deprecated You should not use this parameter. It is only intended for testing and vector
    *   validation purposes.
    */
   p2c?: number
   /**
-   * @deprecated You should not use this parameter. It is only really intended for test and vector
+   * @deprecated You should not use this parameter. It is only intended for testing and vector
    *   validation purposes.
    */
   p2s?: Uint8Array
   /**
-   * @deprecated You should not use this parameter. It is only really intended for test and vector
+   * @deprecated You should not use this parameter. It is only intended for testing and vector
    *   validation purposes.
    */
   iv?: Uint8Array
   /**
-   * @deprecated You should not use this parameter. It is only really intended for test and vector
+   * @deprecated You should not use this parameter. It is only intended for testing and vector
    *   validation purposes.
    */
   epk?: CryptoKey | KeyObject

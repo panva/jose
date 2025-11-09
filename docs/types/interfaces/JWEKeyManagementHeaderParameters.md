@@ -12,11 +12,17 @@ Recognized JWE Key Management-related Header Parameters.
 
 • `optional` **apu**: [`Uint8Array`](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Uint8Array)
 
+ECDH-ES "apu" (Agreement PartyUInfo). This will be used as a JOSE Header Parameter and will be
+used in ECDH's ConcatKDF.
+
 ***
 
 ### apv?
 
 • `optional` **apv**: [`Uint8Array`](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Uint8Array)
+
+ECDH-ES "apv" (Agreement PartyVInfo). This will be used as a JOSE Header Parameter and will be
+used in ECDH's ConcatKDF.
 
 ***
 
@@ -26,7 +32,7 @@ Recognized JWE Key Management-related Header Parameters.
 
 #### Deprecated
 
-You should not use this parameter. It is only really intended for test and vector
+You should not use this parameter. It is only intended for testing and vector
   validation purposes.
 
 ***
@@ -37,7 +43,7 @@ You should not use this parameter. It is only really intended for test and vecto
 
 #### Deprecated
 
-You should not use this parameter. It is only really intended for test and vector
+You should not use this parameter. It is only intended for testing and vector
   validation purposes.
 
 ***
@@ -48,7 +54,7 @@ You should not use this parameter. It is only really intended for test and vecto
 
 #### Deprecated
 
-You should not use this parameter. It is only really intended for test and vector
+You should not use this parameter. It is only intended for testing and vector
   validation purposes.
 
 ***
@@ -59,5 +65,5 @@ You should not use this parameter. It is only really intended for test and vecto
 
 #### Deprecated
 
-You should not use this parameter. It is only really intended for test and vector
+You should not use this parameter. It is only intended for testing and vector
   validation purposes.

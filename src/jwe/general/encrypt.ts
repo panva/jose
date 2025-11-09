@@ -25,6 +25,16 @@ export interface Recipient {
    */
   setUnprotectedHeader(unprotectedHeader: types.JWEHeaderParameters): Recipient
 
+  /**
+   * Sets the JWE Key Management parameters to be used when encrypting.
+   *
+   * (ECDH-ES) Use of this method is needed for ECDH based algorithms to set the "apu" (Agreement
+   * PartyUInfo) or "apv" (Agreement PartyVInfo) parameters.
+   *
+   * @param parameters JWE Key Management parameters.
+   */
+  setKeyManagementParameters(parameters: types.JWEKeyManagementHeaderParameters): Recipient
+
   /** A shorthand for calling addRecipient() on the enclosing {@link GeneralEncrypt} instance */
   addRecipient(...args: Parameters<GeneralEncrypt['addRecipient']>): Recipient
 
@@ -38,6 +48,7 @@ export interface Recipient {
 class IndividualRecipient implements Recipient {
   #parent: GeneralEncrypt
   unprotectedHeader?: types.JWEHeaderParameters
+  keyManagementParameters?: types.JWEKeyManagementHeaderParameters
   key: types.CryptoKey | types.KeyObject | types.JWK | Uint8Array
   options: types.CritOption
 
@@ -51,11 +62,19 @@ class IndividualRecipient implements Recipient {
     this.options = options
   }
 
-  setUnprotectedHeader(unprotectedHeader: types.JWEHeaderParameters) {
+  setUnprotectedHeader(unprotectedHeader: types.JWEHeaderParameters): this {
     if (this.unprotectedHeader) {
       throw new TypeError('setUnprotectedHeader can only be called once')
     }
     this.unprotectedHeader = unprotectedHeader
+    return this
+  }
+
+  setKeyManagementParameters(parameters: types.JWEKeyManagementHeaderParameters): this {
+    if (this.keyManagementParameters) {
+      throw new TypeError('setKeyManagementParameters can only be called once')
+    }
+    this.keyManagementParameters = parameters
     return this
   }
 
@@ -250,23 +269,13 @@ export class GeneralEncrypt {
 
     const jwe: types.GeneralJWE = {
       ciphertext: '',
-      iv: '',
       recipients: [],
-      tag: '',
     }
 
     for (let i = 0; i < this.#recipients.length; i++) {
       const recipient = this.#recipients[i]
       const target: Record<string, string | types.JWEHeaderParameters> = {}
       jwe.recipients!.push(target)
-
-      const joseHeader = {
-        ...this.#protectedHeader,
-        ...this.#unprotectedHeader,
-        ...recipient.unprotectedHeader,
-      }
-
-      const p2c = joseHeader.alg!.startsWith('PBES2') ? 2048 + i : undefined
 
       if (i === 0) {
         const flattened = await new FlattenedEncrypt(this.#plaintext)
@@ -275,7 +284,7 @@ export class GeneralEncrypt {
           .setProtectedHeader(this.#protectedHeader)
           .setSharedUnprotectedHeader(this.#unprotectedHeader)
           .setUnprotectedHeader(recipient.unprotectedHeader!)
-          .setKeyManagementParameters({ p2c })
+          .setKeyManagementParameters(recipient.keyManagementParameters!)
           .encrypt(recipient.key, {
             ...recipient.options,
             // @ts-expect-error
@@ -304,7 +313,13 @@ export class GeneralEncrypt {
       checkKeyType(alg === 'dir' ? enc : alg, recipient.key, 'encrypt')
 
       const k = await normalizeKey(recipient.key, alg)
-      const { encryptedKey, parameters } = await encryptKeyManagement(alg, enc, k, cek, { p2c })
+      const { encryptedKey, parameters } = await encryptKeyManagement(
+        alg,
+        enc,
+        k,
+        cek,
+        recipient.keyManagementParameters,
+      )
       target.encrypted_key = b64u(encryptedKey!)
       if (recipient.unprotectedHeader || parameters)
         target.header = { ...recipient.unprotectedHeader, ...parameters }

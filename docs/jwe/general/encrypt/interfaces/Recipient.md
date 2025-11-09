@@ -56,6 +56,27 @@ A shorthand for calling encrypt() on the enclosing [GeneralEncrypt](../classes/G
 
 ***
 
+### setKeyManagementParameters()
+
+▸ **setKeyManagementParameters**(`parameters`): `Recipient`
+
+Sets the JWE Key Management parameters to be used when encrypting.
+
+(ECDH-ES) Use of this method is needed for ECDH based algorithms to set the "apu" (Agreement
+PartyUInfo) or "apv" (Agreement PartyVInfo) parameters.
+
+#### Parameters
+
+| Parameter | Type | Description |
+| ------ | ------ | ------ |
+| `parameters` | [`JWEKeyManagementHeaderParameters`](../../../../types/interfaces/JWEKeyManagementHeaderParameters.md) | JWE Key Management parameters. |
+
+#### Returns
+
+`Recipient`
+
+***
+
 ### setUnprotectedHeader()
 
 ▸ **setUnprotectedHeader**(`unprotectedHeader`): `Recipient`
