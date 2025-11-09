@@ -2,6 +2,24 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [6.1.1](https://github.com/panva/jose/compare/v6.1.0...v6.1.1) (2025-11-09)
+
+
+### Documentation
+
+* add link to RFC9864 ([767edde](https://github.com/panva/jose/commit/767edde5bde07c60e2c1b1db365ad234a9ae5195))
+* link to ML-DSA for JOSE ([ed4252c](https://github.com/panva/jose/commit/ed4252ca8ed084e734a53b214f62e3da11c39857))
+* remove mention of Edge Runtime from the readme ([94fdde7](https://github.com/panva/jose/commit/94fdde702498f5e94ec3307f85f120f43a527590))
+* update README.md ([25098ef](https://github.com/panva/jose/commit/25098ef7518be732bbef3ea6ed87b0d61a85f581))
+
+
+### Refactor
+
+* eliminate named exports in the source code ([f6ae30d](https://github.com/panva/jose/commit/f6ae30d5d86c376269ffa853f62e403d13d4f610))
+* expose setKeyManagementParameters also on a GeneralEncrypt Recipient ([16e6b23](https://github.com/panva/jose/commit/16e6b230ee29662c599c556b91a2c367f0fa088c))
+* faster path for symmetric key checks ([a44c2ec](https://github.com/panva/jose/commit/a44c2ec6351fb639816846ec8b23f5f084a3d9fb))
+* improve en/decoding overheads ([daee426](https://github.com/panva/jose/commit/daee4265c9ab218acbcdb1d7b10c3c728447240b))
+
 ## [6.1.0](https://github.com/panva/jose/compare/v6.0.13...v6.1.0) (2025-08-27)
 
 
