@@ -195,8 +195,113 @@ const parseECAlgorithmIdentifier = (state: ASN1State): string => {
   throw new Error('Unsupported named curve')
 }
 
+const tryExtractMLDSASeed = (keyData: Uint8Array, alg: string): Uint8Array | null => {
+  const {
+    expandedKeySize,
+    oid: expectedOid,
+    seedSize,
+  } = {
+    'ML-DSA-44': {
+      seedSize: 32,
+      expandedKeySize: 2560,
+      oid: [0x60, 0x86, 0x48, 0x01, 0x65, 0x03, 0x04, 0x03, 0x11], // 2.16.840.1.101.3.4.3.17
+    },
+    'ML-DSA-65': {
+      seedSize: 32,
+      expandedKeySize: 4032,
+      oid: [0x60, 0x86, 0x48, 0x01, 0x65, 0x03, 0x04, 0x03, 0x12], // 2.16.840.1.101.3.4.3.18
+    },
+    'ML-DSA-87': {
+      seedSize: 32,
+      expandedKeySize: 4896,
+      oid: [0x60, 0x86, 0x48, 0x01, 0x65, 0x03, 0x04, 0x03, 0x13], // 2.16.840.1.101.3.4.3.19
+    },
+  }[alg]!
+
+  try {
+    const state = createASN1State(keyData)
+
+    // Skip to parse the PKCS8 structure
+    expectTag(state, 0x30, 'Invalid PKCS8 structure')
+    parseLength(state) // Skip outer length
+
+    // Skip version (INTEGER)
+    expectTag(state, 0x02, 'Expected version field')
+    const verLen = parseLength(state)
+    state.pos += verLen
+
+    // Parse the algorithm identifier
+    expectTag(state, 0x30, 'Expected algorithm identifier')
+    const algIdLen = parseLength(state)
+    const algIdStart = state.pos
+
+    // Verify the OID matches the expected ML-DSA variant
+    const algOid = parseAlgorithmOID(state)
+    if (!bytesEqual(algOid, expectedOid)) {
+      // OID doesn't match - re-throw original error
+      return null
+    }
+
+    // Move to the end of algorithm identifier
+    state.pos = algIdStart + algIdLen
+
+    // Parse privateKey OCTET STRING
+    expectTag(state, 0x04, 'Expected privateKey OCTET STRING')
+    const privateKeyLen = parseLength(state)
+    const privateKeyData = getSubarray(state, privateKeyLen)
+
+    // Now parse the ML-DSA-XX-PrivateKey structure
+    const privState = createASN1State(privateKeyData)
+    const tag = privState.data[privState.pos]
+
+    // Check for context-specific tag [0] (seed-only)
+    if (tag === 0xa0) {
+      // This is seed-only structure - re-throw original error
+      return null
+    }
+
+    // Check for OCTET STRING (expandedKey-only)
+    if (tag === 0x04) {
+      privState.pos++
+      const len = parseLength(privState)
+      if (len === expandedKeySize) {
+        // This is expandedKey-only structure - re-throw original error
+        return null
+      }
+    }
+
+    // Check for SEQUENCE (both structure)
+    if (tag === 0x30) {
+      privState.pos++
+      parseLength(privState) // Skip sequence length
+
+      // Parse seed OCTET STRING
+      expectTag(privState, 0x04, 'Expected seed OCTET STRING')
+      const seedLen = parseLength(privState)
+      if (seedLen !== seedSize) {
+        return null
+      }
+      const seed = getSubarray(privState, seedLen)
+
+      // Verify expandedKey is present
+      if (privState.data[privState.pos] === 0x04) {
+        privState.pos++
+        const expKeyLen = parseLength(privState)
+        if (expKeyLen === expandedKeySize) {
+          return seed
+        }
+      }
+    }
+
+    return null
+  } catch {
+    // If parsing fails, return null to re-throw original error
+    return null
+  }
+}
+
 const genericImport = async (
-  keyFormat: 'spki' | 'pkcs8',
+  keyFormat: 'spki' | 'pkcs8' | 'raw-seed',
   keyData: Uint8Array,
   alg: string,
   options?: KeyImportOptions & { getNamedCurve?: (keyData: Uint8Array) => string },
@@ -271,6 +376,7 @@ const genericImport = async (
   }
 
   return crypto.subtle.importKey(
+    // @ts-expect-error
     keyFormat,
     keyData as Uint8Array<ArrayBuffer>,
     algorithm,
@@ -290,7 +396,7 @@ const processPEMData = (pem: string, pattern: RegExp): Uint8Array => {
   return decodeBase64(pem.replace(pattern, ''))
 }
 
-export const fromPKCS8: PEMImportFunction = (pem, alg, options?) => {
+export const fromPKCS8: PEMImportFunction = async (pem, alg, options?) => {
   const keyData = processPEMData(pem, /(?:-----(?:BEGIN|END) PRIVATE KEY-----|\s)/g)
 
   let opts: Parameters<typeof genericImport>[3] = options
@@ -304,7 +410,18 @@ export const fromPKCS8: PEMImportFunction = (pem, alg, options?) => {
     }
   }
 
-  return genericImport('pkcs8', keyData, alg, opts)
+  try {
+    return await genericImport('pkcs8', keyData, alg, opts)
+  } catch (err) {
+    // Handle ML-DSA keys that may use the "both" structure (seed + expandedKey)
+    if (alg === 'ML-DSA-44' || alg === 'ML-DSA-65' || alg === 'ML-DSA-87') {
+      const seed = tryExtractMLDSASeed(keyData, alg)
+      if (seed) {
+        return await genericImport('raw-seed', seed, alg, opts)
+      }
+    }
+    throw err
+  }
 }
 
 export const fromSPKI: PEMImportFunction = (pem, alg, options?) => {
