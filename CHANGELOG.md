@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [6.1.2](https://github.com/panva/jose/compare/v6.1.1...v6.1.2) (2025-11-15)
+
+
+### Refactor
+
+* fallback to checking instanceof for CryptoKey ([901cd90](https://github.com/panva/jose/commit/901cd908f325265c39f8af1f1505138e0a689f94)), closes [#765](https://github.com/panva/jose/issues/765) [#803](https://github.com/panva/jose/issues/803) [#821](https://github.com/panva/jose/issues/821) [#827](https://github.com/panva/jose/issues/827) [#828](https://github.com/panva/jose/issues/828)
+
 ## [6.1.1](https://github.com/panva/jose/compare/v6.1.0...v6.1.1) (2025-11-09)
 
 

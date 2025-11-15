@@ -1,6 +1,6 @@
 {
   "name": "jose",
-  "version": "6.1.1",
+  "version": "6.1.2",
   "description": "JWA, JWS, JWE, JWT, JWK, JWKS for Node.js, Browser, Cloudflare Workers, Deno, Bun, and other Web-interoperable runtimes",
   "keywords": [
     "akp",
