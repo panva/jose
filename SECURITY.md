@@ -43,6 +43,14 @@ The library assumes it is running in a trusted execution environment. The follow
 
 When using remote JSON Web Key Sets (JWKS) via `createRemoteJWKSet`, the library assumes that users configure trusted JWKS sources. The security of key material fetched from remote sources depends on the trustworthiness of those sources and the security of the transport (HTTPS).
 
+#### Key Material
+
+Private keys and secret key material provided by users for signing, decryption, or key management operations are considered trusted and fitting the user's own security requirements. The library does not validate that key material originates from a secure source or has been handled securely prior to being provided.
+
+#### Key and Secret Sizes
+
+As cryptographic requirements on key and secret sizes evolve over time, following these developments is the user's responsibility. The library implements reasonable measures where practical, but in the spirit of interoperability with other implementations, it does not enforce strict key size requirements for all algorithms. For example, the library cannot prevent use of short HMAC secret keys because such restrictions are easily sidestepped and would hinder interoperability.
+
 #### Side-Channel Attacks
 
 This library delegates all cryptographic operations to the underlying Web Cryptography. Any resistance to side-channel attacks (timing attacks, cache attacks, etc.) is entirely dependent on the underlying cryptographic implementations and is outside the scope of this library.
