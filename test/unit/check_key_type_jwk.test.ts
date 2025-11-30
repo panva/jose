@@ -51,12 +51,12 @@ test('lib/check_key_type.ts with JWK', async (t) => {
   t.notThrows(() => checkKeyType('PS256', { kty: 'RSA' }, 'verify'))
   t.throws(() => checkKeyType('PS256', { kty: 'RSA', d: '' }, 'verify'), {
     ...expected,
-    message: 'JSON Web Key for this operation be a public JWK',
+    message: 'JSON Web Key for this operation must be a public JWK',
   })
 
   t.notThrows(() => checkKeyType('PS256', { kty: 'RSA', d: '' }, 'sign'))
   t.throws(() => checkKeyType('PS256', { kty: 'RSA' }, 'sign'), {
     ...expected,
-    message: 'JSON Web Key for this operation be a private JWK',
+    message: 'JSON Web Key for this operation must be a private JWK',
   })
 })
