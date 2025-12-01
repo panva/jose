@@ -13,8 +13,10 @@ import { isObject } from '../../lib/is_object.js'
  * Interface for General JWE Decryption dynamic key resolution. No token components have been
  * verified at the time of this function call.
  */
-export interface GeneralDecryptGetKey
-  extends types.GetKeyFunction<types.JWEHeaderParameters, types.FlattenedJWE> {}
+export interface GeneralDecryptGetKey extends types.GetKeyFunction<
+  types.JWEHeaderParameters,
+  types.FlattenedJWE
+> {}
 
 /**
  * Decrypts a General JWE.

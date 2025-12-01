@@ -15,12 +15,11 @@ import { isObject } from '../../lib/is_object.js'
  *
  * @see {@link jwks/remote.createRemoteJWKSet createRemoteJWKSet} to verify using a remote JSON Web Key Set.
  */
-export interface GeneralVerifyGetKey
-  extends types.GenericGetKeyFunction<
-    types.JWSHeaderParameters,
-    types.FlattenedJWSInput,
-    types.CryptoKey | types.KeyObject | types.JWK | Uint8Array
-  > {}
+export interface GeneralVerifyGetKey extends types.GenericGetKeyFunction<
+  types.JWSHeaderParameters,
+  types.FlattenedJWSInput,
+  types.CryptoKey | types.KeyObject | types.JWK | Uint8Array
+> {}
 
 /**
  * Verifies the signature and format of and afterwards decodes the General JWS.

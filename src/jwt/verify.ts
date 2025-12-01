@@ -18,12 +18,11 @@ export interface JWTVerifyOptions extends types.VerifyOptions, types.JWTClaimVer
  *
  * @see {@link jwks/remote.createRemoteJWKSet createRemoteJWKSet} to verify using a remote JSON Web Key Set.
  */
-export interface JWTVerifyGetKey
-  extends types.GenericGetKeyFunction<
-    types.JWTHeaderParameters,
-    types.FlattenedJWSInput,
-    types.CryptoKey | types.KeyObject | types.JWK | Uint8Array
-  > {}
+export interface JWTVerifyGetKey extends types.GenericGetKeyFunction<
+  types.JWTHeaderParameters,
+  types.FlattenedJWSInput,
+  types.CryptoKey | types.KeyObject | types.JWK | Uint8Array
+> {}
 
 /**
  * Verifies the JWT format (to be a JWS Compact format), verifies the JWS signature, validates the

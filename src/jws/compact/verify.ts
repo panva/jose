@@ -15,12 +15,11 @@ import { decoder } from '../../lib/buffer_utils.js'
  *
  * @see {@link jwks/remote.createRemoteJWKSet createRemoteJWKSet} to verify using a remote JSON Web Key Set.
  */
-export interface CompactVerifyGetKey
-  extends types.GenericGetKeyFunction<
-    types.CompactJWSHeaderParameters,
-    types.FlattenedJWSInput,
-    types.CryptoKey | types.KeyObject | types.JWK | Uint8Array
-  > {}
+export interface CompactVerifyGetKey extends types.GenericGetKeyFunction<
+  types.CompactJWSHeaderParameters,
+  types.FlattenedJWSInput,
+  types.CryptoKey | types.KeyObject | types.JWK | Uint8Array
+> {}
 
 /**
  * Verifies the signature and format of and afterwards decodes the Compact JWS.

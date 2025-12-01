@@ -11,15 +11,16 @@ import { JWTClaimValidationFailed } from '../util/errors.js'
 
 /** Combination of JWE Decryption options and JWT Claims Set verification options. */
 export interface JWTDecryptOptions
-  extends types.DecryptOptions,
-    types.JWTClaimVerificationOptions {}
+  extends types.DecryptOptions, types.JWTClaimVerificationOptions {}
 
 /**
  * Interface for JWT Decryption dynamic key resolution. No token components have been verified at
  * the time of this function call.
  */
-export interface JWTDecryptGetKey
-  extends types.GetKeyFunction<types.CompactJWEHeaderParameters, types.FlattenedJWE> {}
+export interface JWTDecryptGetKey extends types.GetKeyFunction<
+  types.CompactJWEHeaderParameters,
+  types.FlattenedJWE
+> {}
 
 /**
  * Verifies the JWT format (to be a JWE Compact format), decrypts the ciphertext, validates the JWT

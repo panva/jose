@@ -13,8 +13,10 @@ import type * as types from '../../types.d.ts'
  * Interface for Compact JWE Decryption dynamic key resolution. No token components have been
  * verified at the time of this function call.
  */
-export interface CompactDecryptGetKey
-  extends types.GetKeyFunction<types.CompactJWEHeaderParameters, types.FlattenedJWE> {}
+export interface CompactDecryptGetKey extends types.GetKeyFunction<
+  types.CompactJWEHeaderParameters,
+  types.FlattenedJWE
+> {}
 
 /**
  * Decrypts a Compact JWE.

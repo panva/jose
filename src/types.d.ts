@@ -179,12 +179,11 @@ export interface GenericGetKeyFunction<IProtectedHeader, IToken, ReturnKeyTypes>
  * @param IProtectedHeader Type definition of the JWE or JWS Protected Header.
  * @param IToken Type definition of the consumed JWE or JWS token.
  */
-export interface GetKeyFunction<IProtectedHeader, IToken>
-  extends GenericGetKeyFunction<
-    IProtectedHeader,
-    IToken,
-    CryptoKey | KeyObject | JWK | Uint8Array
-  > {}
+export interface GetKeyFunction<IProtectedHeader, IToken> extends GenericGetKeyFunction<
+  IProtectedHeader,
+  IToken,
+  CryptoKey | KeyObject | JWK | Uint8Array
+> {}
 
 /**
  * Flattened JWS definition for verify function inputs, allows payload as {@link !Uint8Array} for

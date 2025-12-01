@@ -23,12 +23,11 @@ import { normalizeKey } from '../../lib/normalize_key.js'
  *
  * @see {@link jwks/remote.createRemoteJWKSet createRemoteJWKSet} to verify using a remote JSON Web Key Set.
  */
-export interface FlattenedVerifyGetKey
-  extends types.GenericGetKeyFunction<
-    types.JWSHeaderParameters | undefined,
-    types.FlattenedJWSInput,
-    types.CryptoKey | types.KeyObject | types.JWK | Uint8Array
-  > {}
+export interface FlattenedVerifyGetKey extends types.GenericGetKeyFunction<
+  types.JWSHeaderParameters | undefined,
+  types.FlattenedJWSInput,
+  types.CryptoKey | types.KeyObject | types.JWK | Uint8Array
+> {}
 
 /**
  * Verifies the signature and format of and afterwards decodes the Flattened JWS.

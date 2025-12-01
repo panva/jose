@@ -22,8 +22,10 @@ import { checkKeyType } from '../../lib/check_key_type.js'
  * Interface for Flattened JWE Decryption dynamic key resolution. No token components have been
  * verified at the time of this function call.
  */
-export interface FlattenedDecryptGetKey
-  extends types.GetKeyFunction<types.JWEHeaderParameters | undefined, types.FlattenedJWE> {}
+export interface FlattenedDecryptGetKey extends types.GetKeyFunction<
+  types.JWEHeaderParameters | undefined,
+  types.FlattenedJWE
+> {}
 
 /**
  * Decrypts a Flattened JWE.
