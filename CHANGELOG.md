@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [6.1.3](https://github.com/panva/jose/compare/v6.1.2...v6.1.3) (2025-12-02)
+
+
+### Refactor
+
+* avoid export * as for google closure's compiler sake ([6303d98](https://github.com/panva/jose/commit/6303d98efba00c9a3f8f3e814c85ac6e6944b11c)), closes [#832](https://github.com/panva/jose/issues/832)
+
 ## [6.1.2](https://github.com/panva/jose/compare/v6.1.1...v6.1.2) (2025-11-15)
 
 
