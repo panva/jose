@@ -203,7 +203,7 @@ export class GeneralEncrypt {
         .setProtectedHeader(this.#protectedHeader)
         .setSharedUnprotectedHeader(this.#unprotectedHeader)
         .setUnprotectedHeader(recipient.unprotectedHeader!)
-        .encrypt(recipient.key, { ...recipient.options })
+        .encrypt(recipient.key, { ...recipient.options, [unprotected]: true })
 
       const jwe: types.GeneralJWE = {
         ciphertext: flattened.ciphertext,
