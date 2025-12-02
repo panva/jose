@@ -54,14 +54,16 @@ export { decodeProtectedHeader } from './util/decode_protected_header.js'
 export { decodeJwt } from './util/decode_jwt.js'
 export type { ProtectedHeaderParameters } from './util/decode_protected_header.js'
 
-export * as errors from './util/errors.js'
+import * as errors from './util/errors.js'
+export { errors }
 
 export { generateKeyPair } from './key/generate_key_pair.js'
 export type { GenerateKeyPairResult, GenerateKeyPairOptions } from './key/generate_key_pair.js'
 export { generateSecret } from './key/generate_secret.js'
 export type { GenerateSecretOptions } from './key/generate_secret.js'
 
-export * as base64url from './util/base64url.js'
+import * as base64url from './util/base64url.js'
+export { base64url }
 
 export type {
   CompactDecryptResult,
