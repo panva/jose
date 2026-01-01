@@ -26,7 +26,7 @@ jobs:
       - id: cache-key
         run: echo "value=dist-${{ hashFiles('src/**/*.ts', 'tsconfig/*.json', '.github/workflows/*.yml', 'package-lock.json') }}" >> $GITHUB_OUTPUT
       - name: Cache dist
-        uses: actions/cache@0057852bfaa89a56745cba8c7296529d2fc39830 # v4.3.0
+        uses: actions/cache@9255dc7a253b0ccc959486e2bca901246202afeb # v5.0.1
         id: dist
         with:
           path: dist
@@ -34,7 +34,7 @@ jobs:
       - name: Build
         run: npm run build-all
         if: ${{ steps.dist.outputs.cache-hit != 'true' }}
-      - uses: actions/upload-artifact@330a01c490aca151604b8cf639adc76d48f6c5d4 # v5.0.0
+      - uses: actions/upload-artifact@b7c566a772e6b6bfb58ed0dc250532a479d7789f # v6.0.0
         with:
           name: dist
           path: dist
