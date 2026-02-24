@@ -27,6 +27,14 @@ export interface GeneralVerifyGetKey extends types.GenericGetKeyFunction<
  * This function is exported (as a named export) from the main `'jose'` module entry point as well
  * as from its subpath export `'jose/jws/general/verify'`.
  *
+ * > [!NOTE]\
+ * > The function iterates over the `signatures` array in the General JWS and returns the
+ * > verification result of the first signature entry that can be successfully verified. The result
+ * > only contains the payload, protected header, and unprotected header of that successfully
+ * > verified signature entry. Other signature entries in the General JWS are not validated, and
+ * > their headers are not included in the returned result. Recipients of a General JWS should only
+ * > rely on the returned (verified) data.
+ *
  * @example
  *
  * ```js
