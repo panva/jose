@@ -51,6 +51,10 @@ Private keys and secret key material provided by users for signing, decryption, 
 
 As cryptographic requirements on key and secret sizes evolve over time, following these developments is the user's responsibility. The library implements reasonable measures where practical, but in the spirit of interoperability with other implementations, it does not enforce strict key size requirements for all algorithms. For example, the library cannot prevent use of short HMAC secret keys because such restrictions are easily sidestepped and would hinder interoperability.
 
+#### Input Size Limits
+
+The library does not enforce size limits on any inputs (tokens, keys, payloads, headers, etc.). It is the application's responsibility to enforce input size limits appropriate for its context before passing data to the library. Without such limits, an attacker could supply arbitrarily large inputs that consume excessive memory or processing time.
+
 #### Side-Channel Attacks
 
 This library delegates all cryptographic operations to the underlying Web Cryptography. Any resistance to side-channel attacks (timing attacks, cache attacks, etc.) is entirely dependent on the underlying cryptographic implementations and is outside the scope of this library.
@@ -89,4 +93,5 @@ The following are explicitly **not** considered vulnerabilities in this library:
 - **Compromised runtime environment**: Malicious or backdoored JavaScript runtimes, compromised system libraries, or tampered Web Cryptography implementations.
 - **Supply chain attacks on the runtime** ([CWE-1357](https://cwe.mitre.org/data/definitions/1357.html)): Compromised Node.js binaries, malicious browser builds, or similar supply chain attacks on the execution environment.
 - **Denial of service via resource exhaustion** ([CWE-400](https://cwe.mitre.org/data/definitions/400.html)): While the library validates inputs, it does not implement resource limits. Applications should implement their own rate limiting and resource management.
+- **Oversized inputs** ([CWE-400](https://cwe.mitre.org/data/definitions/400.html)): The library does not enforce size limits on JWTs, JWS, JWE, JWK, or JWKS inputs. Enforcing input size limits appropriate for the application's context (e.g., limiting the size of incoming tokens or payloads before passing them to the library) is the responsibility of the application.
 - **Untrusted JWKS sources**: Security issues arising from fetching keys from untrusted or compromised JWKS endpoints are the user's responsibility.
