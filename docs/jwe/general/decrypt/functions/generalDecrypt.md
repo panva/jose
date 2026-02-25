@@ -14,12 +14,11 @@ This function is exported (as a named export) from the main `'jose'` module entr
 as from its subpath export `'jose/jwe/general/decrypt'`.
 
 > [!NOTE]\
-> The function iterates over the `recipients` array in the General JWE and returns the
-> decryption result of the first recipient entry that can be successfully decrypted. The result
-> only contains the plaintext and headers of that successfully decrypted recipient entry. Other
-> recipient entries in the General JWE are not validated, and their headers are not included in
-> the returned result. Recipients of a General JWE should only rely on the returned (decrypted)
-> data.
+> The function iterates over the `recipients` array in the General JWE and returns the decryption
+> result of the first recipient entry that can be successfully decrypted. The result only contains
+> the plaintext and headers of that successfully decrypted recipient entry. Other recipient entries
+> in the General JWE are not validated, and their headers are not included in the returned result.
+> Recipients of a General JWE should only rely on the returned (decrypted) data.
 
 ### Parameters
 
