@@ -2,6 +2,18 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [6.2.0](https://github.com/panva/jose/compare/v6.1.3...v6.2.0) (2026-03-05)
+
+
+### Features
+
+* re-introduce JWE "zip" (Compression Algorithm) Header Parameter support ([b13b446](https://github.com/panva/jose/commit/b13b44688baeaf078259379c61f42569f5d63ab5))
+
+
+### Documentation
+
+* clarify return of general jws and jwe ([56682b4](https://github.com/panva/jose/commit/56682b4608eacafb7bcd6b63713d6434e0e6ad66))
+
 ## [6.1.3](https://github.com/panva/jose/compare/v6.1.2...v6.1.3) (2025-12-02)
 
 
