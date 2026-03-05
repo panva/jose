@@ -107,7 +107,7 @@ console.log(jwt)
 
 ### Constructor
 
-▸ **new SignJWT**(`payload`): `SignJWT`
+▸ **new SignJWT**(`payload?`): `SignJWT`
 
 SignJWT constructor
 

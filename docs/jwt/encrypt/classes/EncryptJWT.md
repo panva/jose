@@ -28,7 +28,7 @@ console.log(jwt)
 
 ### Constructor
 
-▸ **new EncryptJWT**(`payload`): `EncryptJWT`
+▸ **new EncryptJWT**(`payload?`): `EncryptJWT`
 
 EncryptJWT constructor
 

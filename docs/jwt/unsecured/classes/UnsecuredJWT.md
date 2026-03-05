@@ -39,7 +39,7 @@ console.log(payload)
 
 ### Constructor
 
-▸ **new UnsecuredJWT**(`payload`): `UnsecuredJWT`
+▸ **new UnsecuredJWT**(`payload?`): `UnsecuredJWT`
 
 UnsecuredJWT constructor
 
