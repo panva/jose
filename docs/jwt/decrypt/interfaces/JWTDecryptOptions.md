@@ -96,6 +96,20 @@ all PBES2 Key Management Algorithms, these need to be explicitly allowed using t
 
 ***
 
+### maxDecompressedLength?
+
+• `optional` **maxDecompressedLength**: `number`
+
+Maximum allowed size (in bytes) of the decompressed plaintext when the JWE `"zip"` (Compression
+Algorithm) Header Parameter is present. By default this value is set to 250000 (250 KB). The
+value must be `0`, a positive safe integer, or `Infinity`.
+
+Set to `0` to reject all compressed JWEs during decryption.
+
+Set to `Infinity` to disable the decompressed size limit.
+
+***
+
 ### maxPBES2Count?
 
 • `optional` **maxPBES2Count**: `number`

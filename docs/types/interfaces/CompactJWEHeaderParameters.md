@@ -110,17 +110,15 @@ JWE "crit" (Critical) Header Parameter
 
 ***
 
-### ~~zip?~~
+### zip?
 
 • `optional` **zip**: `string`
 
-JWE "zip" (Compression Algorithm) Header Parameter. This parameter is not supported anymore.
+JWE "zip" (Compression Algorithm) Header Parameter.
 
-#### Deprecated
-
-Compression of data SHOULD NOT be done before encryption, because such compressed
-  data often reveals information about the plaintext.
+The only supported value is `"DEF"` (DEFLATE). Requires the `CompressionStream` /
+`DecompressionStream` APIs to be available in the runtime.
 
 #### See
 
-[Avoid Compression of Encryption Inputs](https://www.rfc-editor.org/rfc/rfc8725#name-avoid-compression-of-encryp)
+[JWE "zip" Header Parameter](https://www.rfc-editor.org/rfc/rfc7516#section-4.1.3)
