@@ -258,9 +258,15 @@ export class GeneralEncrypt {
 
       validateCrit(JWEInvalid, new Map(), recipient.options.crit, this.#protectedHeader, joseHeader)
 
-      if (joseHeader.zip !== undefined) {
+      if (joseHeader.zip !== undefined && joseHeader.zip !== 'DEF') {
         throw new JOSENotSupported(
-          'JWE "zip" (Compression Algorithm) Header Parameter is not supported.',
+          'Unsupported JWE "zip" (Compression Algorithm) Header Parameter value.',
+        )
+      }
+
+      if (joseHeader.zip !== undefined && !this.#protectedHeader?.zip) {
+        throw new JWEInvalid(
+          'JWE "zip" (Compression Algorithm) Header Parameter MUST be in a protected header.',
         )
       }
     }

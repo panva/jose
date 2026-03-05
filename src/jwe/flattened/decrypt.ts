@@ -17,6 +17,7 @@ import { validateCrit } from '../../lib/validate_crit.js'
 import { validateAlgorithms } from '../../lib/validate_algorithms.js'
 import { normalizeKey } from '../../lib/normalize_key.js'
 import { checkKeyType } from '../../lib/check_key_type.js'
+import { decompress } from '../../lib/deflate.js'
 
 /**
  * Interface for Flattened JWE Decryption dynamic key resolution. No token components have been
@@ -144,9 +145,15 @@ export async function flattenedDecrypt(
 
   validateCrit(JWEInvalid, new Map(), options?.crit, parsedProt, joseHeader)
 
-  if (joseHeader.zip !== undefined) {
+  if (joseHeader.zip !== undefined && joseHeader.zip !== 'DEF') {
     throw new JOSENotSupported(
-      'JWE "zip" (Compression Algorithm) Header Parameter is not supported.',
+      'Unsupported JWE "zip" (Compression Algorithm) Header Parameter value.',
+    )
+  }
+
+  if (joseHeader.zip !== undefined && !parsedProt?.zip) {
+    throw new JWEInvalid(
+      'JWE "zip" (Compression Algorithm) Header Parameter MUST be in a protected header.',
     )
   }
 
@@ -247,6 +254,22 @@ export async function flattenedDecrypt(
   const plaintext = await decrypt(enc, cek, ciphertext, iv, tag, additionalData)
 
   const result: types.FlattenedDecryptResult = { plaintext }
+
+  if (joseHeader.zip === 'DEF') {
+    const maxDecompressedLength = options?.maxDecompressedLength ?? 250_000
+    if (maxDecompressedLength === 0) {
+      throw new JOSENotSupported(
+        'JWE "zip" (Compression Algorithm) Header Parameter is not supported.',
+      )
+    }
+    if (
+      maxDecompressedLength !== Infinity &&
+      (!Number.isSafeInteger(maxDecompressedLength) || maxDecompressedLength < 1)
+    ) {
+      throw new TypeError('maxDecompressedLength must be 0, a positive safe integer, or Infinity')
+    }
+    result.plaintext = await decompress(plaintext, maxDecompressedLength)
+  }
 
   if (jwe.protected !== undefined) {
     result.protectedHeader = parsedProt

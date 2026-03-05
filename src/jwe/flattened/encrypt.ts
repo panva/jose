@@ -15,6 +15,7 @@ import { concat, encode } from '../../lib/buffer_utils.js'
 import { validateCrit } from '../../lib/validate_crit.js'
 import { normalizeKey } from '../../lib/normalize_key.js'
 import { checkKeyType } from '../../lib/check_key_type.js'
+import { compress } from '../../lib/deflate.js'
 
 /**
  * The FlattenedEncrypt class is used to build and encrypt Flattened JWE objects.
@@ -196,9 +197,15 @@ export class FlattenedEncrypt {
 
     validateCrit(JWEInvalid, new Map(), options?.crit, this.#protectedHeader, joseHeader)
 
-    if (joseHeader.zip !== undefined) {
+    if (joseHeader.zip !== undefined && joseHeader.zip !== 'DEF') {
       throw new JOSENotSupported(
-        'JWE "zip" (Compression Algorithm) Header Parameter is not supported.',
+        'Unsupported JWE "zip" (Compression Algorithm) Header Parameter value.',
+      )
+    }
+
+    if (joseHeader.zip !== undefined && !this.#protectedHeader?.zip) {
+      throw new JWEInvalid(
+        'JWE "zip" (Compression Algorithm) Header Parameter MUST be in a protected header.',
       )
     }
 
@@ -269,13 +276,12 @@ export class FlattenedEncrypt {
       additionalData = protectedHeaderB
     }
 
-    const { ciphertext, tag, iv } = await encrypt(
-      enc,
-      this.#plaintext,
-      cek,
-      this.#iv,
-      additionalData,
-    )
+    let plaintext = this.#plaintext
+    if (joseHeader.zip === 'DEF') {
+      plaintext = await compress(plaintext)
+    }
+
+    const { ciphertext, tag, iv } = await encrypt(enc, plaintext, cek, this.#iv, additionalData)
 
     const jwe: types.FlattenedJWE = {
       ciphertext: b64u(ciphertext),

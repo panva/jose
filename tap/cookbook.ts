@@ -132,7 +132,7 @@ export default (
     }
 
     function supported(vector: any) {
-      if (vector.input.zip) {
+      if (vector.input.zip && typeof globalThis.CompressionStream === 'undefined') {
         return false
       }
       return env.supported(vector.input.alg) && env.supported(vector.input.enc)

@@ -415,12 +415,12 @@ export interface JWEHeaderParameters extends JoseHeaderParameters {
   crit?: string[]
 
   /**
-   * JWE "zip" (Compression Algorithm) Header Parameter. This parameter is not supported anymore.
+   * JWE "zip" (Compression Algorithm) Header Parameter.
    *
-   * @deprecated Compression of data SHOULD NOT be done before encryption, because such compressed
-   *   data often reveals information about the plaintext.
+   * The only supported value is `"DEF"` (DEFLATE). Requires the `CompressionStream` /
+   * `DecompressionStream` APIs to be available in the runtime.
    *
-   * @see {@link https://www.rfc-editor.org/rfc/rfc8725#name-avoid-compression-of-encryp Avoid Compression of Encryption Inputs}
+   * @see {@link https://www.rfc-editor.org/rfc/rfc7516#section-4.1.3 JWE "zip" Header Parameter}
    */
   zip?: string
 
@@ -474,6 +474,17 @@ export interface DecryptOptions extends CritOption {
    * this value is set to 10000.
    */
   maxPBES2Count?: number
+
+  /**
+   * Maximum allowed size (in bytes) of the decompressed plaintext when the JWE `"zip"` (Compression
+   * Algorithm) Header Parameter is present. By default this value is set to 250000 (250 KB). The
+   * value must be `0`, a positive safe integer, or `Infinity`.
+   *
+   * Set to `0` to reject all compressed JWEs during decryption.
+   *
+   * Set to `Infinity` to disable the decompressed size limit.
+   */
+  maxDecompressedLength?: number
 }
 
 /** JWE Encryption options. */
