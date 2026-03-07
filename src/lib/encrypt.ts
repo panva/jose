@@ -80,23 +80,32 @@ async function gcmEncrypt(
     encKey = cek
   }
 
-  const encrypted = new Uint8Array(
-    await crypto.subtle.encrypt(
-      {
-        additionalData: aad as Uint8Array<ArrayBuffer>,
-        iv: iv as Uint8Array<ArrayBuffer>,
-        name: 'AES-GCM',
-        tagLength: 128,
-      },
-      encKey,
-      plaintext as Uint8Array<ArrayBuffer>,
-    ),
-  )
+  const encrypted = await aeadEncrypt('AES-GCM', encKey, iv, aad, plaintext)
 
   const tag = encrypted.slice(-16)
   const ciphertext = encrypted.slice(0, -16)
 
   return { ciphertext, tag, iv }
+}
+
+export async function aeadEncrypt(
+  algorithm: string,
+  key: CryptoKey,
+  iv: Uint8Array,
+  aad: Uint8Array,
+  plaintext: Uint8Array,
+) {
+  return new Uint8Array(
+    await crypto.subtle.encrypt(
+      {
+        name: algorithm,
+        iv: iv as Uint8Array<ArrayBuffer>,
+        additionalData: aad as Uint8Array<ArrayBuffer>,
+      },
+      key,
+      plaintext as Uint8Array<ArrayBuffer>,
+    ),
+  )
 }
 
 export async function encrypt(

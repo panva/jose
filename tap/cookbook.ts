@@ -235,9 +235,15 @@ export default (
           encrypt.setUnprotectedHeader(vector.encrypting_content.unprotected)
         }
 
+        if (vector.input.aad) {
+          encrypt.setAdditionalAuthenticatedData(encode(vector.input.aad))
+        }
+
+        const hpke = vector.input.alg.startsWith('HPKE')
         const privateKey = (await keys.importJWK(
           toJWK(vector.input.pwd || vector.input.key),
           dir ? vector.input.enc : vector.input.alg,
+          hpke ? { extractable: true } : undefined,
         )) as jose.KeyLike
         let publicKey
         if (privateKey.type === 'secret') {
@@ -249,28 +255,33 @@ export default (
           )
         }
 
-        const result = await encrypt.encrypt(publicKey)
-        await flattened.decrypt(result, privateKey, {
+        const decryptOptions: jose.DecryptOptions = {
           keyManagementAlgorithms: [vector.input.alg],
-          contentEncryptionAlgorithms: [vector.input.enc],
-        })
+        }
+        if (vector.input.enc) {
+          decryptOptions.contentEncryptionAlgorithms = [vector.input.enc]
+        }
+
+        const result = await encrypt.encrypt(publicKey)
+        await flattened.decrypt(result, privateKey, decryptOptions)
       }
 
       const privateKey = await keys.importJWK(
         toJWK(vector.input.pwd || vector.input.key),
         dir ? vector.input.enc : vector.input.alg,
+        vector.input.alg.startsWith('HPKE') ? { extractable: true } : undefined,
       )
+      const decryptOptions: jose.DecryptOptions = {
+        keyManagementAlgorithms: [vector.input.alg],
+      }
+      if (vector.input.enc) {
+        decryptOptions.contentEncryptionAlgorithms = [vector.input.enc]
+      }
       if (vector.output.json_flat) {
-        await flattened.decrypt(vector.output.json_flat, privateKey, {
-          keyManagementAlgorithms: [vector.input.alg],
-          contentEncryptionAlgorithms: [vector.input.enc],
-        })
+        await flattened.decrypt(vector.output.json_flat, privateKey, decryptOptions)
       }
       if (vector.output.compact) {
-        await compact.decrypt(vector.output.compact, privateKey, {
-          keyManagementAlgorithms: [vector.input.alg],
-          contentEncryptionAlgorithms: [vector.input.enc],
-        })
+        await compact.decrypt(vector.output.compact, privateKey, decryptOptions)
       }
       t.ok(1)
     }
