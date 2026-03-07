@@ -16,6 +16,7 @@ import { validateCrit } from '../../lib/validate_crit.js'
 import { normalizeKey } from '../../lib/normalize_key.js'
 import { checkKeyType } from '../../lib/check_key_type.js'
 import { compress } from '../../lib/deflate.js'
+import { isIntegratedEncryption, Seal as hpkeSeal } from '../../lib/hpke.js'
 
 /**
  * The FlattenedEncrypt class is used to build and encrypt Flattened JWE objects.
@@ -203,66 +204,103 @@ export class FlattenedEncrypt {
       throw new JWEInvalid('JWE "alg" (Algorithm) Header Parameter missing or invalid')
     }
 
-    if (typeof enc !== 'string' || !enc) {
-      throw new JWEInvalid('JWE "enc" (Encryption Algorithm) Header Parameter missing or invalid')
-    }
+    const isHPKE = isIntegratedEncryption(alg)
 
     let encryptedKey: Uint8Array | undefined
+    let cek: types.CryptoKey | Uint8Array | undefined
+    let hpkeKey: CryptoKey | undefined
 
-    if (this.#cek && (alg === 'dir' || alg === 'ECDH-ES')) {
-      throw new TypeError(
-        `setContentEncryptionKey cannot be called with JWE "alg" (Algorithm) Header ${alg}`,
-      )
-    }
+    if (isHPKE) {
+      if (enc !== undefined) {
+        throw new JWEInvalid(
+          'JWE "enc" (Encryption Algorithm) Header Parameter must not be present for Integrated Encryption algorithms',
+        )
+      }
 
-    checkKeyType(alg === 'dir' ? enc : alg, key, 'encrypt')
+      if (this.#cek) {
+        throw new TypeError(
+          `setContentEncryptionKey cannot be called with JWE "alg" (Algorithm) Header ${alg}`,
+        )
+      }
 
-    let cek: types.CryptoKey | Uint8Array
-    {
-      let parameters: { [propName: string]: unknown } | undefined
-      const k = await normalizeKey(key, alg)
-      ;({ cek, encryptedKey, parameters } = await encryptKeyManagement(
-        alg,
-        enc,
-        k,
-        this.#cek,
-        this.#keyManagementParameters,
-      ))
+      if (this.#iv) {
+        throw new TypeError(
+          `setInitializationVector cannot be called with JWE "alg" (Algorithm) Header ${alg}`,
+        )
+      }
 
-      if (parameters) {
-        if (options && unprotected in options) {
-          if (!this.#unprotectedHeader) {
-            this.setUnprotectedHeader(parameters)
+      if (this.#protectedHeader?.alg !== alg) {
+        throw new JWEInvalid(
+          'JWE "alg" (Algorithm) Header Parameter MUST be integrity protected for Integrated Encryption algorithms',
+        )
+      }
+
+      checkKeyType(alg, key, 'encrypt')
+      hpkeKey = (await normalizeKey(key, alg)) as CryptoKey
+
+      if (this.#keyManagementParameters?.psk_id) {
+        this.#protectedHeader!.psk_id = b64u(this.#keyManagementParameters.psk_id)
+      }
+    } else {
+      if (typeof enc !== 'string' || !enc) {
+        throw new JWEInvalid('JWE "enc" (Encryption Algorithm) Header Parameter missing or invalid')
+      }
+
+      if (this.#cek && (alg === 'dir' || alg === 'ECDH-ES')) {
+        throw new TypeError(
+          `setContentEncryptionKey cannot be called with JWE "alg" (Algorithm) Header ${alg}`,
+        )
+      }
+
+      checkKeyType(alg === 'dir' ? enc : alg, key, 'encrypt')
+
+      {
+        let parameters: { [propName: string]: unknown } | undefined
+        const k = await normalizeKey(key, alg)
+        ;({ cek, encryptedKey, parameters } = await encryptKeyManagement(
+          alg,
+          enc,
+          k,
+          this.#cek,
+          this.#keyManagementParameters,
+        ))
+
+        if (parameters) {
+          if (options && unprotected in options) {
+            if (!this.#unprotectedHeader) {
+              this.setUnprotectedHeader(parameters)
+            } else {
+              this.#unprotectedHeader = { ...this.#unprotectedHeader, ...parameters }
+            }
+          } else if (!this.#protectedHeader) {
+            this.setProtectedHeader(parameters)
           } else {
-            this.#unprotectedHeader = { ...this.#unprotectedHeader, ...parameters }
+            this.#protectedHeader = { ...this.#protectedHeader, ...parameters }
           }
-        } else if (!this.#protectedHeader) {
-          this.setProtectedHeader(parameters)
-        } else {
-          this.#protectedHeader = { ...this.#protectedHeader, ...parameters }
         }
       }
     }
 
-    let additionalData: Uint8Array
-    let protectedHeaderS: string
-    let protectedHeaderB: Uint8Array
+    let protectedHeaderS = ''
+    let protectedHeaderB: Uint8Array = new Uint8Array()
     let aadMember: string | undefined
+
     if (this.#protectedHeader) {
       protectedHeaderS = b64u(JSON.stringify(this.#protectedHeader))
       protectedHeaderB = encode(protectedHeaderS)
-    } else {
-      protectedHeaderS = ''
-      protectedHeaderB = new Uint8Array()
     }
 
+    let additionalData: Uint8Array
     if (this.#aad) {
       aadMember = b64u(this.#aad)
-      const aadMemberBytes = encode(aadMember)
-      additionalData = concat(protectedHeaderB, encode('.'), aadMemberBytes)
+      additionalData = concat(protectedHeaderB, encode('.'), encode(aadMember))
     } else {
       additionalData = protectedHeaderB
     }
+
+    let ciphertextBytes: Uint8Array
+    let iv: Uint8Array | undefined
+    let tag: Uint8Array | undefined
 
     let plaintext = this.#plaintext
     if (joseHeader.zip === 'DEF') {
@@ -271,10 +309,28 @@ export class FlattenedEncrypt {
       })
     }
 
-    const { ciphertext, tag, iv } = await encrypt(enc, plaintext, cek, this.#iv, additionalData)
+    if (isHPKE) {
+      const sealed = await hpkeSeal(
+        alg,
+        hpkeKey!,
+        new Uint8Array(),
+        additionalData,
+        plaintext,
+        this.#keyManagementParameters?.psk,
+        this.#keyManagementParameters?.psk_id,
+      )
+      ciphertextBytes = sealed.ct
+      encryptedKey = sealed.enc
+    } else {
+      ;({
+        ciphertext: ciphertextBytes,
+        tag,
+        iv,
+      } = await encrypt(enc!, plaintext, cek!, this.#iv, additionalData))
+    }
 
     const jwe: types.FlattenedJWE = {
-      ciphertext: b64u(ciphertext),
+      ciphertext: b64u(ciphertextBytes),
     }
 
     if (iv) {
@@ -293,7 +349,7 @@ export class FlattenedEncrypt {
       jwe.aad = aadMember
     }
 
-    if (this.#protectedHeader) {
+    if (protectedHeaderS) {
       jwe.protected = protectedHeaderS
     }
 

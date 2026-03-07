@@ -668,4 +668,44 @@ export default [
       },
     },
   },
+  {
+    title:
+      'https://datatracker.ietf.org/doc/draft-ietf-jose-hpke-encrypt/ - HPKE Integrated Encryption',
+    deterministic: false,
+    input: {
+      plaintext:
+        'You can trust us to stick with you through thick and thin–to the bitter end. And you can trust us to keep any secret of yours–closer than you keep it yourself. But you cannot trust us to let you face trouble alone, and go off without a word. We are your friends, Frodo.',
+      key: {
+        kty: 'EC',
+        use: 'enc',
+        alg: 'HPKE-0',
+        kid: 'yCnfbmYMZcWrKDt_DjNebRCB1vxVoqv4umJ4WK8RYjk',
+        crv: 'P-256',
+        x: 'gixQJ0qg4Ag-6HSMaIEDL_zbDhoXavMyKlmdn__AQVE',
+        y: 'ZxTgRLWaKONCL_GbZKLNPsW9EW6nBsN4AwQGEFAFFbM',
+        d: 'g2DXtKapi2oN2zL_RCWX8D4bWURHCKN2-ZNGC05ZaR8',
+      },
+      alg: 'HPKE-0',
+      aad: 'The Fellowship of the Ring',
+    },
+    encrypting_content: {
+      protected: {
+        alg: 'HPKE-0',
+        kid: 'yCnfbmYMZcWrKDt_DjNebRCB1vxVoqv4umJ4WK8RYjk',
+      },
+    },
+    output: {
+      compact:
+        'eyJhbGciOiJIUEtFLTAiLCJraWQiOiJ5Q25mYm1ZTVpjV3JLRHRfRGpOZWJSQ0IxdnhWb3F2NHVtSjRXSzhSWWprIn0.BLAJX8adrFsDKaoJAc3iy2dq-6jEH3Uv-bSgqIoDeREqpWglMoTS67XsXere1ZYxiQKEFU6MbWe8O7vmdlSmcUk..NcN9ew5aijn8W7piLVRU8r2cOP0JKqxOF4RllVsJM4qsAfVXW5Ka6so9zdUmXXNOXyCEk0wV_s8ICAnD4LbRa5TkhTeuhijIfAt9bQ2fMLOeyed3WyArs8yaMraa9Zbh4i6SaHunM7jU_xoz_N2WbykSOSySmCO49H4mP3jLW9L_TYQfeVfYsrB8clqokZ8h-3eQGNwmOPtkjWdpAfaHUsp4-HC9nRd6yrTU6mV65Nn2iYynu3Xkgy2Lm-kQKDavIEW3PBpEeiw6mtPJE9o8sT-0lZ9kpWtqog2XbNGEfjSOjujvNe1b0g4-FdNFMFO_fo0rxe902W1pGT7znv4Q-xBkIydK4ZwjiFN6dAXutnococ37A0Hr5esPLwHRTTrBFw.',
+      json_flat: {
+        ciphertext:
+          'LabI8_KIPDbymUSbyVctj8AfISXQ07sMt1xQ1lrS-0heU2jjejpQIK75K1KXcvwn15E6Kil_tJ6LBcYCu02O1H8_aooJGuoLw1vEzQn16h498YX9e2SA2IcVrJTkcCjL7YpF9fsAF3JEzGfsmmrpZPPVdxCn7g8dkGRcyulnHrNvBu4BFtub-URtf-nYCFIJHZ4k-ul9fDddquicFzCxQonx66-ZX5nbj6azHG65tAZntd6VFkRgihdxTvIpvTS4gfulQeKyShbiw-OCJNbzFdEnOKEMnsyqRjwG7iVrFEilFAMsvLJ14-lcuR5btIkUntIwlnsfUa2Ytk33znCfAFN0wYukdDvJe-V0nnNUFlOeLyYV0eEGisgC9dQQ1kFu3g',
+        encrypted_key:
+          'BAOlZ-VnbhQu4NOlTlDAVYwUJB-Q6YcWwnRNWK6YLSiHHlW4rN0qUzBJ3Rc2_y8nkasn8nUVGBzdq7OhdKKiLq4',
+        aad: 'VGhlIEZlbGxvd3NoaXAgb2YgdGhlIFJpbmc',
+        protected:
+          'eyJhbGciOiJIUEtFLTAiLCJraWQiOiJ5Q25mYm1ZTVpjV3JLRHRfRGpOZWJSQ0IxdnhWb3F2NHVtSjRXSzhSWWprIn0',
+      },
+    },
+  },
 ]

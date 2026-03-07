@@ -314,6 +314,12 @@ export interface JWEKeyManagementHeaderParameters {
    * used in ECDH's ConcatKDF.
    */
   apv?: Uint8Array
+
+  /** HPKE Pre-Shared Key (PSK) for use in PSK mode. */
+  psk?: Uint8Array
+
+  /** HPKE Pre-Shared Key Identifier (PSK ID) for use in PSK mode. */
+  psk_id?: Uint8Array
   /**
    * @deprecated You should not use this parameter. It is only intended for testing and vector
    *   validation purposes.
@@ -424,6 +430,9 @@ export interface JWEHeaderParameters extends JoseHeaderParameters {
    */
   zip?: string
 
+  /** HPKE Pre-Shared Key Identifier (PSK ID) for use in PSK mode. */
+  psk_id?: string
+
   /** Any other JWE Header member. */
   [propName: string]: unknown
 }
@@ -485,6 +494,9 @@ export interface DecryptOptions extends CritOption {
    * Set to `Infinity` to disable the decompressed size limit.
    */
   maxDecompressedLength?: number
+
+  /** HPKE Pre-Shared Key (PSK) for use in PSK mode. */
+  psk?: Uint8Array
 }
 
 /** JWE Encryption options. */
@@ -716,7 +728,7 @@ export interface JWTHeaderParameters extends CompactJWSHeaderParameters {
 /** Recognized Compact JWE Header Parameters, any other Header Members may also be present. */
 export interface CompactJWEHeaderParameters extends JWEHeaderParameters {
   alg: string
-  enc: string
+  enc?: string
 }
 
 /** JSON Web Key Set */

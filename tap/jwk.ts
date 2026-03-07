@@ -36,6 +36,10 @@ export default (
     ['ML-DSA-44', KEYS['ML-DSA-44'].jwk],
     ['ML-DSA-65', KEYS['ML-DSA-65'].jwk],
     ['ML-DSA-87', KEYS['ML-DSA-87'].jwk],
+    ['HPKE-0', KEYS.P256.jwk],
+    ['HPKE-3', KEYS.X25519.jwk],
+    ['HPKE-4', KEYS.X25519.jwk],
+    ['HPKE-7', KEYS.P256.jwk],
   ]
 
   function publicJwk(jwk: JsonWebKey) {
