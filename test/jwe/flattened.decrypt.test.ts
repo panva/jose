@@ -1,7 +1,7 @@
 import test from 'ava'
 import * as crypto from 'crypto'
 
-import { FlattenedEncrypt, flattenedDecrypt } from '../../src/index.js'
+import { FlattenedEncrypt, flattenedDecrypt, generateKeyPair } from '../../src/index.js'
 
 test.before(async (t) => {
   const encode = TextEncoder.prototype.encode.bind(new TextEncoder())
@@ -261,3 +261,58 @@ test('decrypt with PBES2 is not allowed by default', async (t) => {
     code: 'ERR_JOSE_ALG_NOT_ALLOWED',
   })
 })
+
+const hasGetPublicKey = typeof (crypto.webcrypto.subtle as any).getPublicKey === 'function'
+
+for (const alg of ['HPKE-0', 'HPKE-7']) {
+  test(`HPKE decrypt with extractable key (${alg})`, async (t) => {
+    const kp = await generateKeyPair(alg, { extractable: true })
+    const jwe = await new FlattenedEncrypt(new Uint8Array([1, 2, 3]))
+      .setProtectedHeader({ alg })
+      .encrypt(kp.publicKey)
+
+    const result = await flattenedDecrypt(jwe, kp.privateKey, {
+      keyManagementAlgorithms: [alg],
+    })
+    t.deepEqual([...result.plaintext], [1, 2, 3])
+  })
+
+  test(`HPKE decrypt with non-extractable key ${hasGetPublicKey ? 'succeeds' : 'fails'} (${alg})`, async (t) => {
+    const kp = await generateKeyPair(alg)
+    const extractableKp = await generateKeyPair(alg, { extractable: true })
+    // encrypt with the extractable public key so we have a valid JWE for the non-extractable test
+    const jwe = await new FlattenedEncrypt(new Uint8Array([1, 2, 3]))
+      .setProtectedHeader({ alg })
+      .encrypt(kp.publicKey)
+
+    if (hasGetPublicKey) {
+      const result = await flattenedDecrypt(jwe, kp.privateKey, {
+        keyManagementAlgorithms: [alg],
+      })
+      t.deepEqual([...result.plaintext], [1, 2, 3])
+    } else {
+      await t.throwsAsync(
+        flattenedDecrypt(jwe, kp.privateKey, { keyManagementAlgorithms: [alg] }),
+        {
+          code: 'ERR_JOSE_NOT_SUPPORTED',
+          message: 'HPKE decryption requires the key to be extractable in this runtime.',
+        },
+      )
+    }
+  })
+
+  test(`HPKE with compression (${alg})`, async (t) => {
+    const kp = await generateKeyPair(alg, { extractable: true })
+    const jwe = await new FlattenedEncrypt(new Uint8Array([1, 2, 3]))
+      .setProtectedHeader({ alg, zip: 'DEF' })
+      .encrypt(kp.publicKey)
+
+    t.is(jwe.iv, undefined)
+    t.is(jwe.tag, undefined)
+
+    const result = await flattenedDecrypt(jwe, kp.privateKey, {
+      keyManagementAlgorithms: [alg],
+    })
+    t.deepEqual([...result.plaintext], [1, 2, 3])
+  })
+}

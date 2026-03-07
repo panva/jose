@@ -75,3 +75,11 @@ Set to `Infinity` to disable the decompressed size limit.
 (PBES2 Key Management Algorithms only) Maximum allowed "p2c" (PBES2 Count) Header Parameter
 value. The PBKDF2 iteration count defines the algorithm's computational expense. By default
 this value is set to 10000.
+
+***
+
+### psk?
+
+• `optional` **psk**: [`Uint8Array`](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Uint8Array)
+
+HPKE Pre-Shared Key (PSK) for use in PSK mode.

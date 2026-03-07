@@ -3,6 +3,7 @@ import { isJWK } from './type_checks.js'
 import { decode } from '../util/base64url.js'
 import { jwkToKey } from './jwk_to_key.js'
 import { isCryptoKey, isKeyObject } from './is_key_like.js'
+import { isIntegratedEncryption } from './hpke.js'
 
 const unusableForAlg = 'given KeyObject instance cannot be used for this algorithm'
 
@@ -36,8 +37,13 @@ const handleJWK = async (
   if (cached?.[alg]) {
     return cached[alg]
   }
-
-  const cryptoKey = await jwkToKey({ ...jwk, alg })
+  const ext =
+    jwk.d &&
+    isIntegratedEncryption(alg) &&
+    typeof (crypto.subtle as any).getPublicKey !== 'function'
+      ? true
+      : undefined
+  const cryptoKey = await jwkToKey({ ...jwk, alg, ext })
   if (freeze) Object.freeze(key)
   if (!cached) {
     cache.set(key, { [alg]: cryptoKey })
@@ -55,6 +61,7 @@ const handleKeyObject = (keyObject: ConvertableKeyObject, alg: string) => {
   }
 
   const isPublic = keyObject.type === 'public'
+  const hasGetPublicKey = typeof (crypto.subtle as any).getPublicKey === 'function'
   const extractable = isPublic ? true : false
 
   let cryptoKey: types.CryptoKey | undefined
@@ -65,6 +72,8 @@ const handleKeyObject = (keyObject: ConvertableKeyObject, alg: string) => {
       case 'ECDH-ES+A192KW':
       case 'ECDH-ES+A256KW':
         break
+      case 'HPKE-4':
+        break
 
       default:
         throw new TypeError(unusableForAlg)
@@ -72,7 +81,7 @@ const handleKeyObject = (keyObject: ConvertableKeyObject, alg: string) => {
 
     cryptoKey = keyObject.toCryptoKey(
       keyObject.asymmetricKeyType,
-      extractable,
+      alg === 'HPKE-4' && !isPublic && !hasGetPublicKey ? true : extractable,
       isPublic ? [] : ['deriveBits'],
     )
   }
@@ -179,6 +188,20 @@ const handleKeyObject = (keyObject: ConvertableKeyObject, alg: string) => {
           namedCurve,
         },
         extractable,
+        isPublic ? [] : ['deriveBits'],
+      )
+    }
+
+    if (alg === 'HPKE-0' || alg === 'HPKE-7') {
+      if (namedCurve !== 'P-256') {
+        throw new TypeError('given KeyObject instance cannot be used for this algorithm')
+      }
+      cryptoKey = keyObject.toCryptoKey(
+        {
+          name: 'ECDH',
+          namedCurve,
+        },
+        !isPublic && !hasGetPublicKey ? true : extractable,
         isPublic ? [] : ['deriveBits'],
       )
     }
