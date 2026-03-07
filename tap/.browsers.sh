@@ -8,6 +8,6 @@
   --outfile=tap/run-browser.js \
   tap/run-browser.ts
 
-: "${BROWSER:=chrome:headless}"
+: "${BROWSER:=chromium}"
 
-testcafe "$BROWSER" --hostname localhost tap/.browser.ts
+npx playwright test --project="$BROWSER"

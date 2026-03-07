@@ -1,46 +1,39 @@
-import { t, ClientFunction } from 'testcafe'
-import * as fs from 'node:fs'
+import { test, expect } from '@playwright/test'
+import { createServer } from 'node:http'
+import { readFileSync } from 'node:fs'
 
-const script = fs.readFileSync('./tap/run-browser.js', { encoding: 'utf-8' })
+const script = readFileSync('./tap/run-browser.js', 'utf-8')
 
-fixture('test suite').page('https://important-clam-66.deno.dev')
+test('passes tests', async ({ page }) => {
+  const server = createServer((req, res) => {
+    if (req.url === '/run-browser.js') {
+      res.writeHead(200, { 'Content-Type': 'application/javascript' })
+      res.end(script)
+    } else {
+      res.writeHead(200, { 'Content-Type': 'text/html' })
+      res.end(
+        '<!DOCTYPE html><html><head></head><body><script type="module" src="/run-browser.js"></script></body></html>',
+      )
+    }
+  })
 
-test('passes tests', async (user) => {
-  await ClientFunction(
-    () => {
-      function escapeHTML(str: string) {
-        return str
-          .replace(/&/g, '&amp;')
-          .replace(/</g, '&lt;')
-          .replace(/>/g, '&gt;')
-          .replace(/"/g, '&quot;')
-          .replace(/'/g, '&#39;')
-      }
-      // @ts-expect-error
-      document.getElementById('js').innerHTML = escapeHTML(innerHTML)
-      document.querySelector('form')?.submit()
-    },
-    { dependencies: { innerHTML: script } },
-  )()
+  await new Promise<void>((resolve) => server.listen(0, resolve))
+  const port = (server.address() as import('node:net').AddressInfo).port
 
-  let i = 0
-  const interval = setInterval(() => {
-    t.getBrowserConsoleMessages().then(({ log: messages }) => {
-      messages.forEach((message, index) => {
-        if (i && index <= i) return
-        i++
-        console.log(message)
-      })
-    })
-  }, 100)
+  page.on('console', (msg) => {
+    if (msg.type() === 'log') {
+      console.log(msg.text())
+    }
+  })
+
+  await page.goto(`http://localhost:${port}`)
 
   let stats
   do {
-    await new Promise((resolve) => setTimeout(resolve, 1000))
-    stats = await t.eval(() => globalThis.stats)
+    await page.waitForTimeout(1000)
+    stats = await page.evaluate(() => (globalThis as any).stats)
   } while (!stats)
 
-  clearInterval(interval)
-
-  await t.expect(stats?.failed).eql(0)
+  server.close()
+  expect(stats.failed).toBe(0)
 })
