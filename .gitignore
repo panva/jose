@@ -130,3 +130,4 @@ tap/run-*.cjs.map
 *.bun
 tap/.workerd.capnp
 tap/.workers.capnp
+test-results/.last-run.json

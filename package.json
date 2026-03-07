@@ -230,6 +230,7 @@
     "tap:workerd": "./tap/.workerd.sh"
   },
   "devDependencies": {
+    "@playwright/test": "^1.52.0",
     "@types/node": "^24.11.0",
     "@types/qunit": "^2.19.13",
     "ava": "^7.0.0",
