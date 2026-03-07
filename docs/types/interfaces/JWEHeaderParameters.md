@@ -78,6 +78,14 @@ JWE "enc" (Encryption Algorithm) Header Parameter
 
 ***
 
+### psk\_id?
+
+• `optional` **psk\_id**: `string`
+
+HPKE Pre-Shared Key Identifier (PSK ID) for use in PSK mode.
+
+***
+
 ### typ?
 
 • `optional` **typ**: `string`

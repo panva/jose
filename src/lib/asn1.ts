@@ -255,6 +255,17 @@ const genericImport = async (
       keyUsages = isPublic ? [] : ['deriveBits']
       break
     }
+    case 'HPKE-0':
+    case 'HPKE-7': {
+      algorithm = { name: 'ECDH', namedCurve: 'P-256' }
+      keyUsages = isPublic ? [] : ['deriveBits']
+      break
+    }
+    case 'HPKE-4': {
+      algorithm = { name: 'X25519' }
+      keyUsages = isPublic ? [] : ['deriveBits']
+      break
+    }
     case 'Ed25519':
     case 'EdDSA':
       algorithm = { name: 'Ed25519' }

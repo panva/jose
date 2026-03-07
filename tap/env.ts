@@ -61,6 +61,7 @@ export function supported(identifier?: string, op?: string) {
     case 'ML-DSA-44':
     case 'ML-DSA-65':
     case 'ML-DSA-87':
+    case 'HPKE-4':
       return isNode && isNodeVersionAtLeast(24, 7)
   }
 

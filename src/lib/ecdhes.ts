@@ -73,7 +73,14 @@ export async function deriveKey(
   const otherInfo = concat(algorithmID, partyUInfo, partyVInfo, suppPubInfo, suppPrivInfo)
 
   // Perform ECDH to get the shared secret Z
-  const Z = new Uint8Array(
+  const Z = await ecdhDeriveBits(publicKey, privateKey)
+
+  // Apply Concat KDF to derive the final key material
+  return concatKdf(Z, keyLength, otherInfo)
+}
+
+export async function ecdhDeriveBits(publicKey: CryptoKey, privateKey: CryptoKey) {
+  return new Uint8Array(
     await crypto.subtle.deriveBits(
       {
         name: publicKey.algorithm.name,
@@ -83,12 +90,9 @@ export async function deriveKey(
       getEcdhBitLength(publicKey),
     ),
   )
-
-  // Apply Concat KDF to derive the final key material
-  return concatKdf(Z, keyLength, otherInfo)
 }
 
-function getEcdhBitLength(publicKey: CryptoKey) {
+export function getEcdhBitLength(publicKey: CryptoKey) {
   if (publicKey.algorithm.name === 'X25519') {
     return 256
   }

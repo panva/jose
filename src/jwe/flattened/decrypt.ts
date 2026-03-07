@@ -7,7 +7,12 @@
 import type * as types from '../../types.d.ts'
 import { decode as b64u } from '../../util/base64url.js'
 import { decrypt } from '../../lib/decrypt.js'
-import { JOSEAlgNotAllowed, JOSENotSupported, JWEInvalid } from '../../util/errors.js'
+import {
+  JOSEAlgNotAllowed,
+  JOSENotSupported,
+  JWEDecryptionFailed,
+  JWEInvalid,
+} from '../../util/errors.js'
 import { isDisjoint } from '../../lib/is_disjoint.js'
 import { isObject } from '../../lib/is_object.js'
 import { decryptKeyManagement } from '../../lib/decrypt_key_management.js'
@@ -18,6 +23,7 @@ import { validateAlgorithms } from '../../lib/validate_algorithms.js'
 import { normalizeKey } from '../../lib/normalize_key.js'
 import { checkKeyType } from '../../lib/check_key_type.js'
 import { decompress } from '../../lib/deflate.js'
+import { isIntegratedEncryption, Open as hpkeOpen } from '../../lib/hpke.js'
 
 /**
  * Interface for Flattened JWE Decryption dynamic key resolution. No token components have been
@@ -163,7 +169,9 @@ export async function flattenedDecrypt(
     throw new JWEInvalid('missing JWE Algorithm (alg) in JWE Header')
   }
 
-  if (typeof enc !== 'string' || !enc) {
+  const isHPKE = isIntegratedEncryption(alg)
+
+  if (!isHPKE && (typeof enc !== 'string' || !enc)) {
     throw new JWEInvalid('missing JWE Encryption Algorithm (enc) in JWE Header')
   }
 
@@ -180,7 +188,7 @@ export async function flattenedDecrypt(
     throw new JOSEAlgNotAllowed('"alg" (Algorithm) Header Parameter value not allowed')
   }
 
-  if (contentEncryptionAlgorithms && !contentEncryptionAlgorithms.has(enc)) {
+  if (!isHPKE && contentEncryptionAlgorithms && !contentEncryptionAlgorithms.has(enc!)) {
     throw new JOSEAlgNotAllowed('"enc" (Encryption Algorithm) Header Parameter value not allowed')
   }
 
@@ -198,51 +206,41 @@ export async function flattenedDecrypt(
     key = await key(parsedProt, jwe)
     resolvedKey = true
   }
-  checkKeyType(alg === 'dir' ? enc : alg, key, 'decrypt')
+  checkKeyType(alg === 'dir' ? enc! : alg, key, 'decrypt')
 
-  const k = await normalizeKey(key, alg)
-  let cek: types.CryptoKey | Uint8Array
-  try {
-    cek = await decryptKeyManagement(alg, k, encryptedKey, joseHeader, options)
-  } catch (err) {
-    if (err instanceof TypeError || err instanceof JWEInvalid || err instanceof JOSENotSupported) {
-      throw err
+  if (isHPKE) {
+    if (enc !== undefined) {
+      throw new JWEInvalid(
+        'JWE "enc" (Encryption Algorithm) Header Parameter must not be present for Integrated Encryption algorithms',
+      )
     }
-    // https://www.rfc-editor.org/rfc/rfc7516#section-11.5
-    // To mitigate the attacks described in RFC 3218, the
-    // recipient MUST NOT distinguish between format, padding, and length
-    // errors of encrypted keys.  It is strongly recommended, in the event
-    // of receiving an improperly formatted key, that the recipient
-    // substitute a randomly generated CEK and proceed to the next step, to
-    // mitigate timing attacks.
-    cek = generateCek(enc)
-  }
 
-  let iv: Uint8Array | undefined
-  let tag: Uint8Array | undefined
-  if (jwe.iv !== undefined) {
-    try {
-      iv = b64u(jwe.iv)
-    } catch {
-      throw new JWEInvalid('Failed to base64url decode the iv')
+    if (jwe.iv !== undefined) {
+      throw new JWEInvalid(
+        'JWE Initialization Vector must not be present for Integrated Encryption algorithms',
+      )
     }
-  }
-  if (jwe.tag !== undefined) {
-    try {
-      tag = b64u(jwe.tag)
-    } catch {
-      throw new JWEInvalid('Failed to base64url decode the tag')
+
+    if (jwe.tag !== undefined) {
+      throw new JWEInvalid(
+        'JWE Authentication Tag must not be present for Integrated Encryption algorithms',
+      )
+    }
+
+    if (!encryptedKey) {
+      throw new JWEInvalid('JWE Encrypted Key missing')
     }
   }
 
-  const protectedHeader: Uint8Array =
+  const normalizedKey = await normalizeKey(key, alg)
+
+  const protectedHeaderBytes: Uint8Array =
     jwe.protected !== undefined ? encode(jwe.protected) : new Uint8Array()
   let additionalData: Uint8Array
-
   if (jwe.aad !== undefined) {
-    additionalData = concat(protectedHeader, encode('.'), encode(jwe.aad))
+    additionalData = concat(protectedHeaderBytes, encode('.'), encode(jwe.aad))
   } else {
-    additionalData = protectedHeader
+    additionalData = protectedHeaderBytes
   }
 
   let ciphertext: Uint8Array
@@ -251,9 +249,80 @@ export async function flattenedDecrypt(
   } catch {
     throw new JWEInvalid('Failed to base64url decode the ciphertext')
   }
-  const plaintext = await decrypt(enc, cek, ciphertext, iv, tag, additionalData)
 
-  const result: types.FlattenedDecryptResult = { plaintext }
+  let plaintext: Uint8Array
+
+  if (isHPKE) {
+    let pskId: Uint8Array | undefined
+    if (joseHeader.psk_id !== undefined) {
+      if (!parsedProt?.psk_id === undefined) {
+        throw new JWEInvalid(
+          'JWE "psk_id" (Pre-Shared Key ID) Header Parameter MUST be integrity protected',
+        )
+      }
+      try {
+        pskId = b64u(joseHeader.psk_id as string)
+      } catch {
+        throw new JWEInvalid('Failed to base64url decode the psk_id')
+      }
+    }
+
+    try {
+      plaintext = await hpkeOpen(
+        alg,
+        encryptedKey,
+        normalizedKey as CryptoKey,
+        new Uint8Array(),
+        additionalData,
+        ciphertext,
+        options?.psk,
+        pskId,
+      )
+    } catch (err) {
+      if (err instanceof JOSENotSupported) throw err
+      throw new JWEDecryptionFailed()
+    }
+  } else {
+    let cek: types.CryptoKey | Uint8Array
+    try {
+      cek = await decryptKeyManagement(alg, normalizedKey, encryptedKey, joseHeader, options)
+    } catch (err) {
+      if (
+        err instanceof TypeError ||
+        err instanceof JWEInvalid ||
+        err instanceof JOSENotSupported
+      ) {
+        throw err
+      }
+      // https://www.rfc-editor.org/rfc/rfc7516#section-11.5
+      // To mitigate the attacks described in RFC 3218, the
+      // recipient MUST NOT distinguish between format, padding, and length
+      // errors of encrypted keys.  It is strongly recommended, in the event
+      // of receiving an improperly formatted key, that the recipient
+      // substitute a randomly generated CEK and proceed to the next step, to
+      // mitigate timing attacks.
+      cek = generateCek(enc!)
+    }
+
+    let iv: Uint8Array | undefined
+    let tag: Uint8Array | undefined
+    if (jwe.iv !== undefined) {
+      try {
+        iv = b64u(jwe.iv)
+      } catch {
+        throw new JWEInvalid('Failed to base64url decode the iv')
+      }
+    }
+    if (jwe.tag !== undefined) {
+      try {
+        tag = b64u(jwe.tag)
+      } catch {
+        throw new JWEInvalid('Failed to base64url decode the tag')
+      }
+    }
+
+    plaintext = await decrypt(enc!, cek, ciphertext, iv, tag, additionalData)
+  }
 
   if (joseHeader.zip === 'DEF') {
     const maxDecompressedLength = options?.maxDecompressedLength ?? 250_000
@@ -268,8 +337,10 @@ export async function flattenedDecrypt(
     ) {
       throw new TypeError('maxDecompressedLength must be 0, a positive safe integer, or Infinity')
     }
-    result.plaintext = await decompress(plaintext, maxDecompressedLength)
+    plaintext = await decompress(plaintext, maxDecompressedLength)
   }
+
+  const result: types.FlattenedDecryptResult = { plaintext }
 
   if (jwe.protected !== undefined) {
     result.protectedHeader = parsedProt
@@ -292,7 +363,7 @@ export async function flattenedDecrypt(
   }
 
   if (resolvedKey) {
-    return { ...result, key: k }
+    return { ...result, key: normalizedKey }
   }
 
   return result
