@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [6.2.1](https://github.com/panva/jose/compare/v6.2.0...v6.2.1) (2026-03-09)
+
+
+### Refactor
+
+* reorganize internals, less files, smaller footprint ([d4231f9](https://github.com/panva/jose/commit/d4231f9f2a654d203589a787bfa8a34fb03c87c5))
+
 ## [6.2.0](https://github.com/panva/jose/compare/v6.1.3...v6.2.0) (2026-03-05)
 
 

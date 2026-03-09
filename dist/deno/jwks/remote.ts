@@ -5,10 +5,10 @@
  */
 
 import type * as types from '../types.d.ts'
-import { JOSEError, JWKSNoMatchingKey, JWKSTimeout } from '../util/errors.js'
+import { JOSEError, JWKSNoMatchingKey, JWKSTimeout } from '../util/errors.ts'
 
-import { createLocalJWKSet } from './local.js'
-import { isObject } from '../lib/type_checks.js'
+import { createLocalJWKSet } from './local.ts'
+import { isObject } from '../lib/type_checks.ts'
 
 function isCloudflareWorkers() {
   return (
@@ -40,12 +40,6 @@ if (typeof navigator === 'undefined' || !navigator.userAgent?.startsWith?.('Mozi
  * > Known caveat: Expect Type-related issues when passing the inputs through to fetch-like modules,
  * > they hardly ever get their typings inline with actual fetch, you should `@ts-expect-error` them.
  *
- * @example
- *
- * Using [sindresorhus/ky](https://github.com/sindresorhus/ky) for retries and its hooks feature for
- * logging outgoing requests and their responses.
- *
- * ```ts
  * import ky from 'ky'
  *
  * let logRequest!: (request: Request) => void
@@ -77,11 +71,6 @@ if (typeof navigator === 'undefined' || !navigator.userAgent?.startsWith?.('Mozi
  * })
  * ```
  *
- * @example
- *
- * Using [nodejs/undici](https://github.com/nodejs/undici) to detect and use HTTP proxies.
- *
- * ```ts
  * import * as undici from 'undici'
  *
  * // see https://undici.nodejs.org/#/docs/api/EnvHttpProxyAgent
@@ -96,11 +85,6 @@ if (typeof navigator === 'undefined' || !navigator.userAgent?.startsWith?.('Mozi
  * })
  * ```
  *
- * @example
- *
- * Using [nodejs/undici](https://github.com/nodejs/undici) to automatically retry network errors.
- *
- * ```ts
  * import * as undici from 'undici'
  *
  * // see https://undici.nodejs.org/#/docs/api/RetryAgent
@@ -126,11 +110,6 @@ if (typeof navigator === 'undefined' || !navigator.userAgent?.startsWith?.('Mozi
  * })
  * ```
  *
- * @example
- *
- * Using [nodejs/undici](https://github.com/nodejs/undici) to mock responses in tests.
- *
- * ```ts
  * import * as undici from 'undici'
  *
  * // see https://undici.nodejs.org/#/docs/api/MockAgent
@@ -222,9 +201,6 @@ async function fetchJwks(
  * - Afterwards, update the key-value storage if the {@link ExportedJWKSCache.uat `uat`} property of
  *   the object has changed.
  *
- * @example
- *
- * ```ts
  * // Prerequisites
  * let url!: URL
  * let jwt!: string
@@ -459,51 +435,6 @@ class RemoteJWKSet {
  *
  * This function is exported (as a named export) from the main `'jose'` module entry point as well
  * as from its subpath export `'jose/jwks/remote'`.
- *
- * @example
- *
- * ```js
- * const JWKS = jose.createRemoteJWKSet(new URL('https://www.googleapis.com/oauth2/v3/certs'))
- *
- * const { payload, protectedHeader } = await jose.jwtVerify(jwt, JWKS, {
- *   issuer: 'urn:example:issuer',
- *   audience: 'urn:example:audience',
- * })
- * console.log(protectedHeader)
- * console.log(payload)
- * ```
- *
- * @example
- *
- * Opting-in to multiple JWKS matches using `createRemoteJWKSet`
- *
- * ```js
- * const options = {
- *   issuer: 'urn:example:issuer',
- *   audience: 'urn:example:audience',
- * }
- * const { payload, protectedHeader } = await jose
- *   .jwtVerify(jwt, JWKS, options)
- *   .catch(async (error) => {
- *     if (error?.code === 'ERR_JWKS_MULTIPLE_MATCHING_KEYS') {
- *       for await (const publicKey of error) {
- *         try {
- *           return await jose.jwtVerify(jwt, publicKey, options)
- *         } catch (innerError) {
- *           if (innerError?.code === 'ERR_JWS_SIGNATURE_VERIFICATION_FAILED') {
- *             continue
- *           }
- *           throw innerError
- *         }
- *       }
- *       throw new jose.errors.JWSSignatureVerificationFailed()
- *     }
- *
- *     throw error
- *   })
- * console.log(protectedHeader)
- * console.log(payload)
- * ```
  *
  * @param url URL to fetch the JSON Web Key Set from.
  * @param options Options for the remote JSON Web Key Set.
