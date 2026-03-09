@@ -9,7 +9,7 @@ import { fromSPKI, fromPKCS8, fromX509 } from '../lib/asn1.js'
 import { jwkToKey } from '../lib/jwk_to_key.js'
 
 import { JOSENotSupported } from '../util/errors.js'
-import { isObject } from '../lib/is_object.js'
+import { isObject } from '../lib/type_checks.js'
 import type * as types from '../types.d.ts'
 
 /** Key Import Function options. */

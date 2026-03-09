@@ -12,6 +12,11 @@ function getHashLength(hash: KeyAlgorithm) {
   return parseInt(hash.name.slice(4), 10)
 }
 
+function checkHashLength(algorithm: { hash: KeyAlgorithm }, expected: number) {
+  const actual = getHashLength(algorithm.hash)
+  if (actual !== expected) throw unusable(`SHA-${expected}`, 'algorithm.hash')
+}
+
 function getNamedCurve(alg: string) {
   switch (alg) {
     case 'ES256':
@@ -39,9 +44,7 @@ export function checkSigCryptoKey(key: types.CryptoKey, alg: string, usage: KeyU
     case 'HS384':
     case 'HS512': {
       if (!isAlgorithm<HmacKeyAlgorithm>(key.algorithm, 'HMAC')) throw unusable('HMAC')
-      const expected = parseInt(alg.slice(2), 10)
-      const actual = getHashLength(key.algorithm.hash)
-      if (actual !== expected) throw unusable(`SHA-${expected}`, 'algorithm.hash')
+      checkHashLength(key.algorithm, parseInt(alg.slice(2), 10))
       break
     }
     case 'RS256':
@@ -49,18 +52,14 @@ export function checkSigCryptoKey(key: types.CryptoKey, alg: string, usage: KeyU
     case 'RS512': {
       if (!isAlgorithm<RsaHashedKeyAlgorithm>(key.algorithm, 'RSASSA-PKCS1-v1_5'))
         throw unusable('RSASSA-PKCS1-v1_5')
-      const expected = parseInt(alg.slice(2), 10)
-      const actual = getHashLength(key.algorithm.hash)
-      if (actual !== expected) throw unusable(`SHA-${expected}`, 'algorithm.hash')
+      checkHashLength(key.algorithm, parseInt(alg.slice(2), 10))
       break
     }
     case 'PS256':
     case 'PS384':
     case 'PS512': {
       if (!isAlgorithm<RsaHashedKeyAlgorithm>(key.algorithm, 'RSA-PSS')) throw unusable('RSA-PSS')
-      const expected = parseInt(alg.slice(2), 10)
-      const actual = getHashLength(key.algorithm.hash)
-      if (actual !== expected) throw unusable(`SHA-${expected}`, 'algorithm.hash')
+      checkHashLength(key.algorithm, parseInt(alg.slice(2), 10))
       break
     }
     case 'Ed25519': // Fall through
@@ -130,9 +129,7 @@ export function checkEncCryptoKey(key: types.CryptoKey, alg: string, usage?: Key
     case 'RSA-OAEP-384':
     case 'RSA-OAEP-512': {
       if (!isAlgorithm<RsaHashedKeyAlgorithm>(key.algorithm, 'RSA-OAEP')) throw unusable('RSA-OAEP')
-      const expected = parseInt(alg.slice(9), 10) || 1
-      const actual = getHashLength(key.algorithm.hash)
-      if (actual !== expected) throw unusable(`SHA-${expected}`, 'algorithm.hash')
+      checkHashLength(key.algorithm, parseInt(alg.slice(9), 10) || 1)
       break
     }
     default:

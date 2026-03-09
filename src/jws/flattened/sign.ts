@@ -6,14 +6,15 @@
 
 import type * as types from '../../types.d.ts'
 import { encode as b64u } from '../../util/base64url.js'
-import { sign } from '../../lib/sign.js'
+import { sign } from '../../lib/signing.js'
 
-import { isDisjoint } from '../../lib/is_disjoint.js'
+import { isDisjoint } from '../../lib/type_checks.js'
 import { JWSInvalid } from '../../util/errors.js'
 import { concat, encode } from '../../lib/buffer_utils.js'
 import { checkKeyType } from '../../lib/check_key_type.js'
 import { validateCrit } from '../../lib/validate_crit.js'
 import { normalizeKey } from '../../lib/normalize_key.js'
+import { assertNotSet } from '../../lib/helpers.js'
 
 /**
  * The FlattenedSign class is used to build and sign Flattened JWS objects.
@@ -58,9 +59,7 @@ export class FlattenedSign {
    * @param protectedHeader JWS Protected Header.
    */
   setProtectedHeader(protectedHeader: types.JWSHeaderParameters): this {
-    if (this.#protectedHeader) {
-      throw new TypeError('setProtectedHeader can only be called once')
-    }
+    assertNotSet(this.#protectedHeader, 'setProtectedHeader')
     this.#protectedHeader = protectedHeader
     return this
   }
@@ -71,9 +70,7 @@ export class FlattenedSign {
    * @param unprotectedHeader JWS Unprotected Header.
    */
   setUnprotectedHeader(unprotectedHeader: types.JWSHeaderParameters): this {
-    if (this.#unprotectedHeader) {
-      throw new TypeError('setUnprotectedHeader can only be called once')
-    }
+    assertNotSet(this.#unprotectedHeader, 'setUnprotectedHeader')
     this.#unprotectedHeader = unprotectedHeader
     return this
   }

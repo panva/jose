@@ -1,6 +1,8 @@
 import { JOSENotSupported } from '../util/errors.js'
 import type * as types from '../types.d.ts'
 
+const unsupportedAlg = 'Invalid or unsupported JWK "alg" (Algorithm) Parameter value'
+
 function subtleMapping(jwk: types.JWK): {
   algorithm: RsaHashedImportParams | EcKeyAlgorithm | Algorithm
   keyUsages: KeyUsage[]
@@ -18,7 +20,7 @@ function subtleMapping(jwk: types.JWK): {
           keyUsages = jwk.priv ? ['sign'] : ['verify']
           break
         default:
-          throw new JOSENotSupported('Invalid or unsupported JWK "alg" (Algorithm) Parameter value')
+          throw new JOSENotSupported(unsupportedAlg)
       }
       break
     }
@@ -47,22 +49,19 @@ function subtleMapping(jwk: types.JWK): {
           keyUsages = jwk.d ? ['decrypt', 'unwrapKey'] : ['encrypt', 'wrapKey']
           break
         default:
-          throw new JOSENotSupported('Invalid or unsupported JWK "alg" (Algorithm) Parameter value')
+          throw new JOSENotSupported(unsupportedAlg)
       }
       break
     }
     case 'EC': {
       switch (jwk.alg) {
         case 'ES256':
-          algorithm = { name: 'ECDSA', namedCurve: 'P-256' }
-          keyUsages = jwk.d ? ['sign'] : ['verify']
-          break
         case 'ES384':
-          algorithm = { name: 'ECDSA', namedCurve: 'P-384' }
-          keyUsages = jwk.d ? ['sign'] : ['verify']
-          break
         case 'ES512':
-          algorithm = { name: 'ECDSA', namedCurve: 'P-521' }
+          algorithm = {
+            name: 'ECDSA',
+            namedCurve: { ES256: 'P-256', ES384: 'P-384', ES512: 'P-521' }[jwk.alg],
+          }
           keyUsages = jwk.d ? ['sign'] : ['verify']
           break
         case 'ECDH-ES':
@@ -73,7 +72,7 @@ function subtleMapping(jwk: types.JWK): {
           keyUsages = jwk.d ? ['deriveBits'] : []
           break
         default:
-          throw new JOSENotSupported('Invalid or unsupported JWK "alg" (Algorithm) Parameter value')
+          throw new JOSENotSupported(unsupportedAlg)
       }
       break
     }
@@ -92,7 +91,7 @@ function subtleMapping(jwk: types.JWK): {
           keyUsages = jwk.d ? ['deriveBits'] : []
           break
         default:
-          throw new JOSENotSupported('Invalid or unsupported JWK "alg" (Algorithm) Parameter value')
+          throw new JOSENotSupported(unsupportedAlg)
       }
       break
     }

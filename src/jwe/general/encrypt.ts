@@ -6,11 +6,11 @@
 
 import type * as types from '../../types.d.ts'
 import { FlattenedEncrypt } from '../flattened/encrypt.js'
-import { unprotected } from '../../lib/private_symbols.js'
+import { unprotected, assertNotSet } from '../../lib/helpers.js'
 import { JOSENotSupported, JWEInvalid } from '../../util/errors.js'
-import { generateCek } from '../../lib/cek.js'
-import { isDisjoint } from '../../lib/is_disjoint.js'
-import { encryptKeyManagement } from '../../lib/encrypt_key_management.js'
+import { generateCek } from '../../lib/content_encryption.js'
+import { isDisjoint } from '../../lib/type_checks.js'
+import { encryptKeyManagement } from '../../lib/key_management.js'
 import { encode as b64u } from '../../util/base64url.js'
 import { validateCrit } from '../../lib/validate_crit.js'
 import { normalizeKey } from '../../lib/normalize_key.js'
@@ -63,17 +63,13 @@ class IndividualRecipient implements Recipient {
   }
 
   setUnprotectedHeader(unprotectedHeader: types.JWEHeaderParameters): this {
-    if (this.unprotectedHeader) {
-      throw new TypeError('setUnprotectedHeader can only be called once')
-    }
+    assertNotSet(this.unprotectedHeader, 'setUnprotectedHeader')
     this.unprotectedHeader = unprotectedHeader
     return this
   }
 
   setKeyManagementParameters(parameters: types.JWEKeyManagementHeaderParameters): this {
-    if (this.keyManagementParameters) {
-      throw new TypeError('setKeyManagementParameters can only be called once')
-    }
+    assertNotSet(this.keyManagementParameters, 'setKeyManagementParameters')
     this.keyManagementParameters = parameters
     return this
   }
@@ -155,9 +151,7 @@ export class GeneralEncrypt {
    * @param protectedHeader JWE Protected Header object.
    */
   setProtectedHeader(protectedHeader: types.JWEHeaderParameters): this {
-    if (this.#protectedHeader) {
-      throw new TypeError('setProtectedHeader can only be called once')
-    }
+    assertNotSet(this.#protectedHeader, 'setProtectedHeader')
     this.#protectedHeader = protectedHeader
     return this
   }
@@ -168,9 +162,7 @@ export class GeneralEncrypt {
    * @param sharedUnprotectedHeader JWE Shared Unprotected Header object.
    */
   setSharedUnprotectedHeader(sharedUnprotectedHeader: types.JWEHeaderParameters): this {
-    if (this.#unprotectedHeader) {
-      throw new TypeError('setSharedUnprotectedHeader can only be called once')
-    }
+    assertNotSet(this.#unprotectedHeader, 'setSharedUnprotectedHeader')
     this.#unprotectedHeader = sharedUnprotectedHeader
     return this
   }

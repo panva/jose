@@ -6,13 +6,14 @@
 
 import type * as types from '../../types.d.ts'
 import { decode as b64u } from '../../util/base64url.js'
-import { decrypt } from '../../lib/decrypt.js'
+import { decrypt } from '../../lib/content_encryption.js'
+import { decodeBase64url } from '../../lib/helpers.js'
 import { JOSEAlgNotAllowed, JOSENotSupported, JWEInvalid } from '../../util/errors.js'
-import { isDisjoint } from '../../lib/is_disjoint.js'
-import { isObject } from '../../lib/is_object.js'
-import { decryptKeyManagement } from '../../lib/decrypt_key_management.js'
+import { isDisjoint } from '../../lib/type_checks.js'
+import { isObject } from '../../lib/type_checks.js'
+import { decryptKeyManagement } from '../../lib/key_management.js'
 import { decoder, concat, encode } from '../../lib/buffer_utils.js'
-import { generateCek } from '../../lib/cek.js'
+import { generateCek } from '../../lib/content_encryption.js'
 import { validateCrit } from '../../lib/validate_crit.js'
 import { validateAlgorithms } from '../../lib/validate_algorithms.js'
 import { normalizeKey } from '../../lib/normalize_key.js'
@@ -186,11 +187,7 @@ export async function flattenedDecrypt(
 
   let encryptedKey!: Uint8Array
   if (jwe.encrypted_key !== undefined) {
-    try {
-      encryptedKey = b64u(jwe.encrypted_key!)
-    } catch {
-      throw new JWEInvalid('Failed to base64url decode the encrypted_key')
-    }
+    encryptedKey = decodeBase64url(jwe.encrypted_key!, 'encrypted_key', JWEInvalid)
   }
 
   let resolvedKey = false
@@ -221,18 +218,10 @@ export async function flattenedDecrypt(
   let iv: Uint8Array | undefined
   let tag: Uint8Array | undefined
   if (jwe.iv !== undefined) {
-    try {
-      iv = b64u(jwe.iv)
-    } catch {
-      throw new JWEInvalid('Failed to base64url decode the iv')
-    }
+    iv = decodeBase64url(jwe.iv, 'iv', JWEInvalid)
   }
   if (jwe.tag !== undefined) {
-    try {
-      tag = b64u(jwe.tag)
-    } catch {
-      throw new JWEInvalid('Failed to base64url decode the tag')
-    }
+    tag = decodeBase64url(jwe.tag, 'tag', JWEInvalid)
   }
 
   const protectedHeader: Uint8Array =
@@ -245,12 +234,7 @@ export async function flattenedDecrypt(
     additionalData = protectedHeader
   }
 
-  let ciphertext: Uint8Array
-  try {
-    ciphertext = b64u(jwe.ciphertext)
-  } catch {
-    throw new JWEInvalid('Failed to base64url decode the ciphertext')
-  }
+  const ciphertext = decodeBase64url(jwe.ciphertext, 'ciphertext', JWEInvalid)
   const plaintext = await decrypt(enc, cek, ciphertext, iv, tag, additionalData)
 
   const result: types.FlattenedDecryptResult = { plaintext }
@@ -276,11 +260,7 @@ export async function flattenedDecrypt(
   }
 
   if (jwe.aad !== undefined) {
-    try {
-      result.additionalAuthenticatedData = b64u(jwe.aad!)
-    } catch {
-      throw new JWEInvalid('Failed to base64url decode the aad')
-    }
+    result.additionalAuthenticatedData = decodeBase64url(jwe.aad!, 'aad', JWEInvalid)
   }
 
   if (jwe.unprotected !== undefined) {

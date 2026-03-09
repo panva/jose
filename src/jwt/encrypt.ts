@@ -7,6 +7,7 @@
 import type * as types from '../types.d.ts'
 import { CompactEncrypt } from '../jwe/compact/encrypt.js'
 import { JWTClaimsBuilder } from '../lib/jwt_claims_set.js'
+import { assertNotSet } from '../lib/helpers.js'
 
 /**
  * The EncryptJWT class is used to build and encrypt Compact JWE formatted JSON Web Tokens.
@@ -97,9 +98,7 @@ export class EncryptJWT implements types.ProduceJWT {
    *   (JWE Encryption Algorithm) properties.
    */
   setProtectedHeader(protectedHeader: types.CompactJWEHeaderParameters): this {
-    if (this.#protectedHeader) {
-      throw new TypeError('setProtectedHeader can only be called once')
-    }
+    assertNotSet(this.#protectedHeader, 'setProtectedHeader')
     this.#protectedHeader = protectedHeader
     return this
   }
@@ -113,9 +112,7 @@ export class EncryptJWT implements types.ProduceJWT {
    * @param parameters JWE Key Management parameters.
    */
   setKeyManagementParameters(parameters: types.JWEKeyManagementHeaderParameters): this {
-    if (this.#keyManagementParameters) {
-      throw new TypeError('setKeyManagementParameters can only be called once')
-    }
+    assertNotSet(this.#keyManagementParameters, 'setKeyManagementParameters')
     this.#keyManagementParameters = parameters
     return this
   }
@@ -130,9 +127,7 @@ export class EncryptJWT implements types.ProduceJWT {
    * @param cek JWE Content Encryption Key.
    */
   setContentEncryptionKey(cek: Uint8Array): this {
-    if (this.#cek) {
-      throw new TypeError('setContentEncryptionKey can only be called once')
-    }
+    assertNotSet(this.#cek, 'setContentEncryptionKey')
     this.#cek = cek
     return this
   }
@@ -147,9 +142,7 @@ export class EncryptJWT implements types.ProduceJWT {
    * @param iv JWE Initialization Vector.
    */
   setInitializationVector(iv: Uint8Array): this {
-    if (this.#iv) {
-      throw new TypeError('setInitializationVector can only be called once')
-    }
+    assertNotSet(this.#iv, 'setInitializationVector')
     this.#iv = iv
     return this
   }

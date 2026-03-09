@@ -1,8 +1,10 @@
 import type * as types from '../types.d.ts'
-import { isJWK } from './is_jwk.js'
+import { isJWK } from './type_checks.js'
 import { decode } from '../util/base64url.js'
 import { jwkToKey } from './jwk_to_key.js'
 import { isCryptoKey, isKeyObject } from './is_key_like.js'
+
+const unusableForAlg = 'given KeyObject instance cannot be used for this algorithm'
 
 let cache: WeakMap<object, Record<string, CryptoKey>>
 
@@ -65,7 +67,7 @@ const handleKeyObject = (keyObject: ConvertableKeyObject, alg: string) => {
         break
 
       default:
-        throw new TypeError('given KeyObject instance cannot be used for this algorithm')
+        throw new TypeError(unusableForAlg)
     }
 
     cryptoKey = keyObject.toCryptoKey(
@@ -77,7 +79,7 @@ const handleKeyObject = (keyObject: ConvertableKeyObject, alg: string) => {
 
   if (keyObject.asymmetricKeyType === 'ed25519') {
     if (alg !== 'EdDSA' && alg !== 'Ed25519') {
-      throw new TypeError('given KeyObject instance cannot be used for this algorithm')
+      throw new TypeError(unusableForAlg)
     }
 
     cryptoKey = keyObject.toCryptoKey(keyObject.asymmetricKeyType, extractable, [
@@ -90,7 +92,7 @@ const handleKeyObject = (keyObject: ConvertableKeyObject, alg: string) => {
     case 'ml-dsa-65':
     case 'ml-dsa-87': {
       if (alg !== keyObject.asymmetricKeyType.toUpperCase()) {
-        throw new TypeError('given KeyObject instance cannot be used for this algorithm')
+        throw new TypeError(unusableForAlg)
       }
 
       cryptoKey = keyObject.toCryptoKey(keyObject.asymmetricKeyType, extractable, [
@@ -122,7 +124,7 @@ const handleKeyObject = (keyObject: ConvertableKeyObject, alg: string) => {
         break
 
       default:
-        throw new TypeError('given KeyObject instance cannot be used for this algorithm')
+        throw new TypeError(unusableForAlg)
     }
 
     if (alg.startsWith('RSA-OAEP')) {
@@ -155,32 +157,11 @@ const handleKeyObject = (keyObject: ConvertableKeyObject, alg: string) => {
 
     const namedCurve = nist.get(keyObject.asymmetricKeyDetails?.namedCurve)
     if (!namedCurve) {
-      throw new TypeError('given KeyObject instance cannot be used for this algorithm')
+      throw new TypeError(unusableForAlg)
     }
 
-    if (alg === 'ES256' && namedCurve === 'P-256') {
-      cryptoKey = keyObject.toCryptoKey(
-        {
-          name: 'ECDSA',
-          namedCurve,
-        },
-        extractable,
-        [isPublic ? 'verify' : 'sign'],
-      )
-    }
-
-    if (alg === 'ES384' && namedCurve === 'P-384') {
-      cryptoKey = keyObject.toCryptoKey(
-        {
-          name: 'ECDSA',
-          namedCurve,
-        },
-        extractable,
-        [isPublic ? 'verify' : 'sign'],
-      )
-    }
-
-    if (alg === 'ES512' && namedCurve === 'P-521') {
+    const expectedCurve: Record<string, string> = { ES256: 'P-256', ES384: 'P-384', ES512: 'P-521' }
+    if (expectedCurve[alg] && namedCurve === expectedCurve[alg]) {
       cryptoKey = keyObject.toCryptoKey(
         {
           name: 'ECDSA',
@@ -204,7 +185,7 @@ const handleKeyObject = (keyObject: ConvertableKeyObject, alg: string) => {
   }
 
   if (!cryptoKey) {
-    throw new TypeError('given KeyObject instance cannot be used for this algorithm')
+    throw new TypeError(unusableForAlg)
   }
 
   if (!cached) {

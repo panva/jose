@@ -6,12 +6,13 @@
 
 import type * as types from '../../types.d.ts'
 import { decode as b64u } from '../../util/base64url.js'
-import { verify } from '../../lib/verify.js'
+import { verify } from '../../lib/signing.js'
 
 import { JOSEAlgNotAllowed, JWSInvalid, JWSSignatureVerificationFailed } from '../../util/errors.js'
 import { concat, encoder, decoder, encode } from '../../lib/buffer_utils.js'
-import { isDisjoint } from '../../lib/is_disjoint.js'
-import { isObject } from '../../lib/is_object.js'
+import { decodeBase64url } from '../../lib/helpers.js'
+import { isDisjoint } from '../../lib/type_checks.js'
+import { isObject } from '../../lib/type_checks.js'
 import { checkKeyType } from '../../lib/check_key_type.js'
 import { validateCrit } from '../../lib/validate_crit.js'
 import { validateAlgorithms } from '../../lib/validate_algorithms.js'
@@ -177,12 +178,7 @@ export async function flattenedVerify(
         : encoder.encode(jws.payload)
       : jws.payload,
   )
-  let signature: Uint8Array
-  try {
-    signature = b64u(jws.signature)
-  } catch {
-    throw new JWSInvalid('Failed to base64url decode the signature')
-  }
+  const signature = decodeBase64url(jws.signature, 'signature', JWSInvalid)
 
   const k = await normalizeKey(key, alg)
   const verified = await verify(alg, k, signature, data)
@@ -193,11 +189,7 @@ export async function flattenedVerify(
 
   let payload: Uint8Array
   if (b64) {
-    try {
-      payload = b64u(jws.payload)
-    } catch {
-      throw new JWSInvalid('Failed to base64url decode the payload')
-    }
+    payload = decodeBase64url(jws.payload as string, 'payload', JWSInvalid)
   } else if (typeof jws.payload === 'string') {
     payload = encoder.encode(jws.payload)
   } else {

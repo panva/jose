@@ -5,12 +5,12 @@
  */
 
 import { encode as b64u } from '../../util/base64url.js'
-import { unprotected } from '../../lib/private_symbols.js'
-import { encrypt } from '../../lib/encrypt.js'
+import { unprotected, assertNotSet } from '../../lib/helpers.js'
+import { encrypt } from '../../lib/content_encryption.js'
 import type * as types from '../../types.d.ts'
-import { encryptKeyManagement } from '../../lib/encrypt_key_management.js'
+import { encryptKeyManagement } from '../../lib/key_management.js'
 import { JOSENotSupported, JWEInvalid } from '../../util/errors.js'
-import { isDisjoint } from '../../lib/is_disjoint.js'
+import { isDisjoint } from '../../lib/type_checks.js'
 import { concat, encode } from '../../lib/buffer_utils.js'
 import { validateCrit } from '../../lib/validate_crit.js'
 import { normalizeKey } from '../../lib/normalize_key.js'
@@ -74,9 +74,7 @@ export class FlattenedEncrypt {
    * @param parameters JWE Key Management parameters.
    */
   setKeyManagementParameters(parameters: types.JWEKeyManagementHeaderParameters): this {
-    if (this.#keyManagementParameters) {
-      throw new TypeError('setKeyManagementParameters can only be called once')
-    }
+    assertNotSet(this.#keyManagementParameters, 'setKeyManagementParameters')
     this.#keyManagementParameters = parameters
     return this
   }
@@ -87,9 +85,7 @@ export class FlattenedEncrypt {
    * @param protectedHeader JWE Protected Header.
    */
   setProtectedHeader(protectedHeader: types.JWEHeaderParameters): this {
-    if (this.#protectedHeader) {
-      throw new TypeError('setProtectedHeader can only be called once')
-    }
+    assertNotSet(this.#protectedHeader, 'setProtectedHeader')
     this.#protectedHeader = protectedHeader
     return this
   }
@@ -100,9 +96,7 @@ export class FlattenedEncrypt {
    * @param sharedUnprotectedHeader JWE Shared Unprotected Header.
    */
   setSharedUnprotectedHeader(sharedUnprotectedHeader: types.JWEHeaderParameters): this {
-    if (this.#sharedUnprotectedHeader) {
-      throw new TypeError('setSharedUnprotectedHeader can only be called once')
-    }
+    assertNotSet(this.#sharedUnprotectedHeader, 'setSharedUnprotectedHeader')
     this.#sharedUnprotectedHeader = sharedUnprotectedHeader
     return this
   }
@@ -113,9 +107,7 @@ export class FlattenedEncrypt {
    * @param unprotectedHeader JWE Per-Recipient Unprotected Header.
    */
   setUnprotectedHeader(unprotectedHeader: types.JWEHeaderParameters): this {
-    if (this.#unprotectedHeader) {
-      throw new TypeError('setUnprotectedHeader can only be called once')
-    }
+    assertNotSet(this.#unprotectedHeader, 'setUnprotectedHeader')
     this.#unprotectedHeader = unprotectedHeader
     return this
   }
@@ -140,9 +132,7 @@ export class FlattenedEncrypt {
    * @param cek JWE Content Encryption Key.
    */
   setContentEncryptionKey(cek: Uint8Array): this {
-    if (this.#cek) {
-      throw new TypeError('setContentEncryptionKey can only be called once')
-    }
+    assertNotSet(this.#cek, 'setContentEncryptionKey')
     this.#cek = cek
     return this
   }
@@ -157,9 +147,7 @@ export class FlattenedEncrypt {
    * @param iv JWE Initialization Vector.
    */
   setInitializationVector(iv: Uint8Array): this {
-    if (this.#iv) {
-      throw new TypeError('setInitializationVector can only be called once')
-    }
+    assertNotSet(this.#iv, 'setInitializationVector')
     this.#iv = iv
     return this
   }

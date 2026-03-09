@@ -1,6 +1,6 @@
 import test from 'ava'
 
-import { generateCek } from '../../src/lib/cek.js'
+import { generateCek } from '../../src/lib/content_encryption.js'
 
 test('lib/cek.ts', (t) => {
   t.throws(() => generateCek('foo'), {

@@ -7,6 +7,7 @@
 import type * as types from '../../types.d.ts'
 import { FlattenedSign } from '../flattened/sign.js'
 import { JWSInvalid } from '../../util/errors.js'
+import { assertNotSet } from '../../lib/helpers.js'
 
 /** Used to build General JWS object's individual signatures. */
 export interface Signature {
@@ -53,17 +54,13 @@ class IndividualSignature implements Signature {
   }
 
   setProtectedHeader(protectedHeader: types.JWSHeaderParameters) {
-    if (this.protectedHeader) {
-      throw new TypeError('setProtectedHeader can only be called once')
-    }
+    assertNotSet(this.protectedHeader, 'setProtectedHeader')
     this.protectedHeader = protectedHeader
     return this
   }
 
   setUnprotectedHeader(unprotectedHeader: types.JWSHeaderParameters) {
-    if (this.unprotectedHeader) {
-      throw new TypeError('setUnprotectedHeader can only be called once')
-    }
+    assertNotSet(this.unprotectedHeader, 'setUnprotectedHeader')
     this.unprotectedHeader = unprotectedHeader
     return this
   }

@@ -1,6 +1,6 @@
 import test from 'ava'
 
-import { generateIv } from '../../src/lib/iv.js'
+import { generateIv } from '../../src/lib/content_encryption.js'
 
 test('lib/iv.ts', (t) => {
   t.throws(() => generateIv('foo'), {
