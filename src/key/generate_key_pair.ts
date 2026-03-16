@@ -23,7 +23,7 @@ export interface GenerateKeyPairOptions {
    * The EC "crv" (Curve) or OKP "crv" (Subtype of Key Pair) value to generate. The curve must be
    * both supported on the runtime as well as applicable for the given JWA algorithm identifier.
    */
-  crv?: string
+  crv?: `P-${'256' | '384' | '521'}` | 'X25519'
 
   /**
    * A hint for RSA algorithms to generate an RSA key of a given `modulusLength` (Key size in bits).
