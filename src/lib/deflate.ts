@@ -14,8 +14,8 @@ export async function compress(input: Uint8Array): Promise<Uint8Array> {
 
   const cs = new CompressionStream('deflate-raw')
   const writer = cs.writable.getWriter()
-  writer.write(input as Uint8Array<ArrayBuffer>)
-  writer.close()
+  writer.write(input as Uint8Array<ArrayBuffer>).catch(() => {})
+  writer.close().catch(() => {})
 
   const chunks: Uint8Array[] = []
   const reader = cs.readable.getReader()
@@ -33,8 +33,8 @@ export async function decompress(input: Uint8Array, maxLength: number): Promise<
 
   const ds = new DecompressionStream('deflate-raw')
   const writer = ds.writable.getWriter()
-  writer.write(input as Uint8Array<ArrayBuffer>)
-  writer.close()
+  writer.write(input as Uint8Array<ArrayBuffer>).catch(() => {})
+  writer.close().catch(() => {})
 
   const chunks: Uint8Array[] = []
   let length = 0

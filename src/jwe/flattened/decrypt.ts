@@ -252,7 +252,10 @@ export async function flattenedDecrypt(
     ) {
       throw new TypeError('maxDecompressedLength must be 0, a positive safe integer, or Infinity')
     }
-    result.plaintext = await decompress(plaintext, maxDecompressedLength)
+    result.plaintext = await decompress(plaintext, maxDecompressedLength).catch((cause) => {
+      if (cause instanceof JWEInvalid) throw cause
+      throw new JWEInvalid('Failed to decompress plaintext', { cause })
+    })
   }
 
   if (jwe.protected !== undefined) {

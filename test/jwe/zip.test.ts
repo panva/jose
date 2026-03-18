@@ -1,4 +1,5 @@
 import test from 'ava'
+import * as crypto from 'node:crypto'
 
 import {
   FlattenedEncrypt,
@@ -129,6 +130,35 @@ if (hasCompressionStreams) {
         message: 'maxDecompressedLength must be 0, a positive safe integer, or Infinity',
       })
     }
+  })
+
+  test('invalid deflate data is properly rejected', async (t) => {
+    const { publicKey, privateKey } = crypto.generateKeyPairSync('rsa', { modulusLength: 2048 })
+    const cek = crypto.randomBytes(32)
+    const iv = crypto.randomBytes(12)
+    const protectedHeader = { alg: 'RSA-OAEP-256', enc: 'A256GCM', zip: 'DEF' }
+    const protectedB64 = Buffer.from(JSON.stringify(protectedHeader)).toString('base64url')
+
+    const cipher = crypto.createCipheriv('aes-256-gcm', cek, iv, { authTagLength: 16 })
+    cipher.setAAD(Buffer.from(protectedB64))
+    const ciphertext = Buffer.concat([cipher.update(new Uint8Array([0x00])), cipher.final()])
+    const tag = cipher.getAuthTag()
+    const encryptedKey = crypto.publicEncrypt({ key: publicKey, oaepHash: 'sha256' }, cek)
+
+    const flattened = {
+      protected: protectedB64,
+      encrypted_key: Buffer.from(encryptedKey).toString('base64url'),
+      iv: Buffer.from(iv).toString('base64url'),
+      ciphertext: Buffer.from(ciphertext).toString('base64url'),
+      tag: Buffer.from(tag).toString('base64url'),
+    }
+
+    await t.throwsAsync(flattenedDecrypt(flattened, privateKey), {
+      code: 'ERR_JWE_INVALID',
+      message: 'Failed to decompress plaintext',
+    })
+
+    t.pass()
   })
 }
 

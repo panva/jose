@@ -266,7 +266,9 @@ export class FlattenedEncrypt {
 
     let plaintext = this.#plaintext
     if (joseHeader.zip === 'DEF') {
-      plaintext = await compress(plaintext)
+      plaintext = await compress(plaintext).catch((cause) => {
+        throw new JWEInvalid('Failed to compress plaintext', { cause })
+      })
     }
 
     const { ciphertext, tag, iv } = await encrypt(enc, plaintext, cek, this.#iv, additionalData)
