@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [6.2.2](https://github.com/panva/jose/compare/v6.2.1...v6.2.2) (2026-03-18)
+
+
+### Fixes
+
+* reject failed decompression with JWEInvalid error ([043b181](https://github.com/panva/jose/commit/043b181a96ee55d92b9ff1ee94e11be36e258ee4))
+
 ## [6.2.1](https://github.com/panva/jose/compare/v6.2.0...v6.2.1) (2026-03-09)
 
 
