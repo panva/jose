@@ -28,7 +28,7 @@ The "signature" member MUST be present and contain the value BASE64URL(JWS Signa
 
 ### header?
 
-• `optional` **header**: [`JWSHeaderParameters`](JWSHeaderParameters.md)
+• `optional` **header?**: [`JWSHeaderParameters`](JWSHeaderParameters.md)
 
 The "header" member MUST be present and contain the value JWS Unprotected Header when the JWS
 Unprotected Header value is non- empty; otherwise, it MUST be absent. This value is represented
@@ -39,7 +39,7 @@ integrity protected.
 
 ### protected?
 
-• `optional` **protected**: `string`
+• `optional` **protected?**: `string`
 
 The "protected" member MUST be present and contain the value BASE64URL(UTF8(JWS Protected
 Header)) when the JWS Protected Header value is non-empty; otherwise, it MUST be absent. These

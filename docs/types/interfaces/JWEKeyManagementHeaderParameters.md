@@ -10,7 +10,7 @@ Recognized JWE Key Management-related Header Parameters.
 
 ### apu?
 
-• `optional` **apu**: [`Uint8Array`](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Uint8Array)
+• `optional` **apu?**: [`Uint8Array`](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Uint8Array)
 
 ECDH-ES "apu" (Agreement PartyUInfo). This will be used as a JOSE Header Parameter and will be
 used in ECDH's ConcatKDF.
@@ -19,7 +19,7 @@ used in ECDH's ConcatKDF.
 
 ### apv?
 
-• `optional` **apv**: [`Uint8Array`](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Uint8Array)
+• `optional` **apv?**: [`Uint8Array`](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Uint8Array)
 
 ECDH-ES "apv" (Agreement PartyVInfo). This will be used as a JOSE Header Parameter and will be
 used in ECDH's ConcatKDF.
@@ -28,7 +28,7 @@ used in ECDH's ConcatKDF.
 
 ### ~~epk?~~
 
-• `optional` **epk**: [`CryptoKey`](https://developer.mozilla.org/docs/Web/API/CryptoKey) \| [`KeyObject`](KeyObject.md)
+• `optional` **epk?**: [`CryptoKey`](https://developer.mozilla.org/docs/Web/API/CryptoKey) \| [`KeyObject`](KeyObject.md)
 
 #### Deprecated
 
@@ -39,7 +39,7 @@ You should not use this parameter. It is only intended for testing and vector
 
 ### ~~iv?~~
 
-• `optional` **iv**: [`Uint8Array`](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Uint8Array)
+• `optional` **iv?**: [`Uint8Array`](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Uint8Array)
 
 #### Deprecated
 
@@ -50,7 +50,7 @@ You should not use this parameter. It is only intended for testing and vector
 
 ### ~~p2c?~~
 
-• `optional` **p2c**: `number`
+• `optional` **p2c?**: `number`
 
 #### Deprecated
 
@@ -61,7 +61,7 @@ You should not use this parameter. It is only intended for testing and vector
 
 ### ~~p2s?~~
 
-• `optional` **p2s**: [`Uint8Array`](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Uint8Array)
+• `optional` **p2s?**: [`Uint8Array`](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Uint8Array)
 
 #### Deprecated
 

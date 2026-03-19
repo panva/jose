@@ -10,7 +10,7 @@ Combination of JWE Decryption options and JWT Claims Set verification options.
 
 ### audience?
 
-• `optional` **audience**: `string` \| `string`[]
+• `optional` **audience?**: `string` \| `string`[]
 
 Expected JWT "aud" (Audience) Claim value(s).
 
@@ -20,7 +20,7 @@ This option makes the JWT "aud" (Audience) Claim presence required.
 
 ### clockTolerance?
 
-• `optional` **clockTolerance**: `string` \| `number`
+• `optional` **clockTolerance?**: `string` \| `number`
 
 Clock skew tolerance
 
@@ -34,7 +34,7 @@ validating the "iat" (Issued At) claim if the [`maxTokenAge` option](../../../ty
 
 ### contentEncryptionAlgorithms?
 
-• `optional` **contentEncryptionAlgorithms**: `string`[]
+• `optional` **contentEncryptionAlgorithms?**: `string`[]
 
 A list of accepted JWE "enc" (Encryption Algorithm) Header Parameter values. By default all
 "enc" (Encryption Algorithm) values applicable for the used key/secret are allowed.
@@ -43,7 +43,7 @@ A list of accepted JWE "enc" (Encryption Algorithm) Header Parameter values. By 
 
 ### crit?
 
-• `optional` **crit**: `object`
+• `optional` **crit?**: `object`
 
 An object with keys representing recognized "crit" (Critical) Header Parameter names. The value
 for those is either `true` or `false`. `true` when the Header Parameter MUST be integrity
@@ -70,7 +70,7 @@ available.
 
 ### currentDate?
 
-• `optional` **currentDate**: [`Date`](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Date)
+• `optional` **currentDate?**: [`Date`](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Date)
 
 Date to use when comparing NumericDate claims, defaults to `new Date()`.
 
@@ -78,7 +78,7 @@ Date to use when comparing NumericDate claims, defaults to `new Date()`.
 
 ### issuer?
 
-• `optional` **issuer**: `string` \| `string`[]
+• `optional` **issuer?**: `string` \| `string`[]
 
 Expected JWT "iss" (Issuer) Claim value(s).
 
@@ -88,7 +88,7 @@ This option makes the JWT "iss" (Issuer) Claim presence required.
 
 ### keyManagementAlgorithms?
 
-• `optional` **keyManagementAlgorithms**: `string`[]
+• `optional` **keyManagementAlgorithms?**: `string`[]
 
 A list of accepted JWE "alg" (Algorithm) Header Parameter values. By default all "alg"
 (Algorithm) Header Parameter values applicable for the used key/secret are allowed except for
@@ -98,7 +98,7 @@ all PBES2 Key Management Algorithms, these need to be explicitly allowed using t
 
 ### maxDecompressedLength?
 
-• `optional` **maxDecompressedLength**: `number`
+• `optional` **maxDecompressedLength?**: `number`
 
 Maximum allowed size (in bytes) of the decompressed plaintext when the JWE `"zip"` (Compression
 Algorithm) Header Parameter is present. By default this value is set to 250000 (250 KB). The
@@ -112,7 +112,7 @@ Set to `Infinity` to disable the decompressed size limit.
 
 ### maxPBES2Count?
 
-• `optional` **maxPBES2Count**: `number`
+• `optional` **maxPBES2Count?**: `number`
 
 (PBES2 Key Management Algorithms only) Maximum allowed "p2c" (PBES2 Count) Header Parameter
 value. The PBKDF2 iteration count defines the algorithm's computational expense. By default
@@ -122,7 +122,7 @@ this value is set to 10000.
 
 ### maxTokenAge?
 
-• `optional` **maxTokenAge**: `string` \| `number`
+• `optional` **maxTokenAge?**: `string` \| `number`
 
 Maximum time elapsed (in seconds) from the JWT "iat" (Issued At) Claim value.
 
@@ -135,7 +135,7 @@ This option makes the JWT "iat" (Issued At) Claim presence required.
 
 ### requiredClaims?
 
-• `optional` **requiredClaims**: `string`[]
+• `optional` **requiredClaims?**: `string`[]
 
 Array of required Claim Names that must be present in the JWT Claims Set. Default is that: if
 the [`issuer` option](../../../types/interfaces/JWTClaimVerificationOptions.md#issuer) is set, then JWT "iss" (Issuer) Claim must be present; if the
@@ -148,7 +148,7 @@ present.
 
 ### subject?
 
-• `optional` **subject**: `string`
+• `optional` **subject?**: `string`
 
 Expected JWT "sub" (Subject) Claim value.
 
@@ -158,7 +158,7 @@ This option makes the JWT "sub" (Subject) Claim presence required.
 
 ### typ?
 
-• `optional` **typ**: `string`
+• `optional` **typ?**: `string`
 
 Expected JWT "typ" (Type) Header Parameter value.
 

@@ -10,7 +10,7 @@ Secret generation function options.
 
 ### extractable?
 
-• `optional` **extractable**: `boolean`
+• `optional` **extractable?**: `boolean`
 
 The value to use as [SubtleCrypto.generateKey](https://developer.mozilla.org/docs/Web/API/SubtleCrypto/generateKey) `extractable` argument. Default is false.
 

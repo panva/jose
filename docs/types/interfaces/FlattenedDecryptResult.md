@@ -18,7 +18,7 @@ Plaintext.
 
 ### additionalAuthenticatedData?
 
-• `optional` **additionalAuthenticatedData**: [`Uint8Array`](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Uint8Array)
+• `optional` **additionalAuthenticatedData?**: [`Uint8Array`](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Uint8Array)
 
 JWE AAD.
 
@@ -26,7 +26,7 @@ JWE AAD.
 
 ### protectedHeader?
 
-• `optional` **protectedHeader**: [`JWEHeaderParameters`](JWEHeaderParameters.md)
+• `optional` **protectedHeader?**: [`JWEHeaderParameters`](JWEHeaderParameters.md)
 
 JWE Protected Header.
 
@@ -34,7 +34,7 @@ JWE Protected Header.
 
 ### sharedUnprotectedHeader?
 
-• `optional` **sharedUnprotectedHeader**: [`JWEHeaderParameters`](JWEHeaderParameters.md)
+• `optional` **sharedUnprotectedHeader?**: [`JWEHeaderParameters`](JWEHeaderParameters.md)
 
 JWE Shared Unprotected Header.
 
@@ -42,6 +42,6 @@ JWE Shared Unprotected Header.
 
 ### unprotectedHeader?
 
-• `optional` **unprotectedHeader**: [`JWEHeaderParameters`](JWEHeaderParameters.md)
+• `optional` **unprotectedHeader?**: [`JWEHeaderParameters`](JWEHeaderParameters.md)
 
 JWE Per-Recipient Unprotected Header.

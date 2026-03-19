@@ -10,7 +10,7 @@ Key Import Function options.
 
 ### extractable?
 
-• `optional` **extractable**: `boolean`
+• `optional` **extractable?**: `boolean`
 
 The value to use as [SubtleCrypto.importKey](https://developer.mozilla.org/docs/Web/API/SubtleCrypto/importKey) `extractable` argument. Default is false for
 private keys, true otherwise.

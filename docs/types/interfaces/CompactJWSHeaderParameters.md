@@ -8,7 +8,7 @@ Recognized Compact JWS Header Parameters, any other Header Members may also be p
 
 ## Indexable
 
-\[`propName`: `string`\]: `unknown`
+> \[`propName`: `string`\]: `unknown`
 
 Any other JWS Header member.
 
@@ -28,7 +28,7 @@ JWS "alg" (Algorithm) Header Parameter
 
 ### b64?
 
-• `optional` **b64**: `boolean`
+• `optional` **b64?**: `boolean`
 
 This JWS Extension Header Parameter modifies the JWS Payload representation and the JWS Signing
 Input computation as per [RFC7797](https://www.rfc-editor.org/rfc/rfc7797).
@@ -37,7 +37,7 @@ Input computation as per [RFC7797](https://www.rfc-editor.org/rfc/rfc7797).
 
 ### crit?
 
-• `optional` **crit**: `string`[]
+• `optional` **crit?**: `string`[]
 
 JWS "crit" (Critical) Header Parameter
 
@@ -45,7 +45,7 @@ JWS "crit" (Critical) Header Parameter
 
 ### cty?
 
-• `optional` **cty**: `string`
+• `optional` **cty?**: `string`
 
 "cty" (Content Type) Header Parameter
 
@@ -53,7 +53,7 @@ JWS "crit" (Critical) Header Parameter
 
 ### jku?
 
-• `optional` **jku**: `string`
+• `optional` **jku?**: `string`
 
 "jku" (JWK Set URL) Header Parameter
 
@@ -61,7 +61,7 @@ JWS "crit" (Critical) Header Parameter
 
 ### jwk?
 
-• `optional` **jwk**: [`Pick`](https://www.typescriptlang.org/docs/handbook/utility-types.html#picktype-keys)\<[`JWK`](JWK.md), `"x"` \| `"y"` \| `"crv"` \| `"e"` \| `"n"` \| `"pub"` \| `"kty"` \| `"alg"`\>
+• `optional` **jwk?**: [`Pick`](https://www.typescriptlang.org/docs/handbook/utility-types.html#picktype-keys)\<[`JWK`](JWK.md), `"x"` \| `"y"` \| `"crv"` \| `"e"` \| `"n"` \| `"pub"` \| `"kty"` \| `"alg"`\>
 
 "jwk" (JSON Web Key) Header Parameter
 
@@ -69,7 +69,7 @@ JWS "crit" (Critical) Header Parameter
 
 ### kid?
 
-• `optional` **kid**: `string`
+• `optional` **kid?**: `string`
 
 "kid" (Key ID) Header Parameter
 
@@ -77,7 +77,7 @@ JWS "crit" (Critical) Header Parameter
 
 ### typ?
 
-• `optional` **typ**: `string`
+• `optional` **typ?**: `string`
 
 "typ" (Type) Header Parameter
 
@@ -85,7 +85,7 @@ JWS "crit" (Critical) Header Parameter
 
 ### x5c?
 
-• `optional` **x5c**: `string`[]
+• `optional` **x5c?**: `string`[]
 
 "x5c" (X.509 Certificate Chain) Header Parameter
 
@@ -93,7 +93,7 @@ JWS "crit" (Critical) Header Parameter
 
 ### x5t?
 
-• `optional` **x5t**: `string`
+• `optional` **x5t?**: `string`
 
 "x5t" (X.509 Certificate SHA-1 Thumbprint) Header Parameter
 
@@ -101,6 +101,6 @@ JWS "crit" (Critical) Header Parameter
 
 ### x5u?
 
-• `optional` **x5u**: `string`
+• `optional` **x5u?**: `string`
 
 "x5u" (X.509 URL) Header Parameter

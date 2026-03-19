@@ -8,7 +8,7 @@ Recognized JWE Header Parameters, any other Header members may also be present.
 
 ## Indexable
 
-\[`propName`: `string`\]: `unknown`
+> \[`propName`: `string`\]: `unknown`
 
 Any other JWE Header member.
 
@@ -16,7 +16,7 @@ Any other JWE Header member.
 
 ### alg?
 
-• `optional` **alg**: `string`
+• `optional` **alg?**: `string`
 
 JWE "alg" (Algorithm) Header Parameter
 
@@ -28,7 +28,7 @@ JWE "alg" (Algorithm) Header Parameter
 
 ### crit?
 
-• `optional` **crit**: `string`[]
+• `optional` **crit?**: `string`[]
 
 JWE "crit" (Critical) Header Parameter
 
@@ -36,7 +36,7 @@ JWE "crit" (Critical) Header Parameter
 
 ### cty?
 
-• `optional` **cty**: `string`
+• `optional` **cty?**: `string`
 
 "cty" (Content Type) Header Parameter
 
@@ -44,7 +44,7 @@ JWE "crit" (Critical) Header Parameter
 
 ### enc?
 
-• `optional` **enc**: `string`
+• `optional` **enc?**: `string`
 
 JWE "enc" (Encryption Algorithm) Header Parameter
 
@@ -56,7 +56,7 @@ JWE "enc" (Encryption Algorithm) Header Parameter
 
 ### jku?
 
-• `optional` **jku**: `string`
+• `optional` **jku?**: `string`
 
 "jku" (JWK Set URL) Header Parameter
 
@@ -64,7 +64,7 @@ JWE "enc" (Encryption Algorithm) Header Parameter
 
 ### jwk?
 
-• `optional` **jwk**: [`Pick`](https://www.typescriptlang.org/docs/handbook/utility-types.html#picktype-keys)\<[`JWK`](JWK.md), `"x"` \| `"y"` \| `"crv"` \| `"e"` \| `"n"` \| `"pub"` \| `"kty"` \| `"alg"`\>
+• `optional` **jwk?**: [`Pick`](https://www.typescriptlang.org/docs/handbook/utility-types.html#picktype-keys)\<[`JWK`](JWK.md), `"x"` \| `"y"` \| `"crv"` \| `"e"` \| `"n"` \| `"pub"` \| `"kty"` \| `"alg"`\>
 
 "jwk" (JSON Web Key) Header Parameter
 
@@ -72,7 +72,7 @@ JWE "enc" (Encryption Algorithm) Header Parameter
 
 ### kid?
 
-• `optional` **kid**: `string`
+• `optional` **kid?**: `string`
 
 "kid" (Key ID) Header Parameter
 
@@ -80,7 +80,7 @@ JWE "enc" (Encryption Algorithm) Header Parameter
 
 ### typ?
 
-• `optional` **typ**: `string`
+• `optional` **typ?**: `string`
 
 "typ" (Type) Header Parameter
 
@@ -88,7 +88,7 @@ JWE "enc" (Encryption Algorithm) Header Parameter
 
 ### x5c?
 
-• `optional` **x5c**: `string`[]
+• `optional` **x5c?**: `string`[]
 
 "x5c" (X.509 Certificate Chain) Header Parameter
 
@@ -96,7 +96,7 @@ JWE "enc" (Encryption Algorithm) Header Parameter
 
 ### x5t?
 
-• `optional` **x5t**: `string`
+• `optional` **x5t?**: `string`
 
 "x5t" (X.509 Certificate SHA-1 Thumbprint) Header Parameter
 
@@ -104,7 +104,7 @@ JWE "enc" (Encryption Algorithm) Header Parameter
 
 ### x5u?
 
-• `optional` **x5u**: `string`
+• `optional` **x5u?**: `string`
 
 "x5u" (X.509 URL) Header Parameter
 
@@ -112,7 +112,7 @@ JWE "enc" (Encryption Algorithm) Header Parameter
 
 ### zip?
 
-• `optional` **zip**: `string`
+• `optional` **zip?**: `string`
 
 JWE "zip" (Compression Algorithm) Header Parameter.
 

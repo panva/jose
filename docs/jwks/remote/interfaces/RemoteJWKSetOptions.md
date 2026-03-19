@@ -10,7 +10,7 @@ Options for the remote JSON Web Key Set.
 
 ### \[customFetch\]?
 
-• `optional` **\[customFetch\]**: [`FetchImplementation`](../type-aliases/FetchImplementation.md)
+• `optional` **\[customFetch\]?**: [`FetchImplementation`](../type-aliases/FetchImplementation.md)
 
 See [customFetch](../variables/customFetch.md).
 
@@ -18,7 +18,7 @@ See [customFetch](../variables/customFetch.md).
 
 ### \[jwksCache\]?
 
-• `optional` **\[jwksCache\]**: [`JWKSCacheInput`](../type-aliases/JWKSCacheInput.md)
+• `optional` **\[jwksCache\]?**: [`JWKSCacheInput`](../type-aliases/JWKSCacheInput.md)
 
 See [jwksCache](../variables/jwksCache.md).
 
@@ -26,7 +26,7 @@ See [jwksCache](../variables/jwksCache.md).
 
 ### cacheMaxAge?
 
-• `optional` **cacheMaxAge**: `number`
+• `optional` **cacheMaxAge?**: `number`
 
 Maximum time (in milliseconds) between successful HTTP requests. Default is 600000 (10
 minutes).
@@ -35,7 +35,7 @@ minutes).
 
 ### cooldownDuration?
 
-• `optional` **cooldownDuration**: `number`
+• `optional` **cooldownDuration?**: `number`
 
 Duration (in milliseconds) for which no more HTTP requests will be triggered after a previous
 successful fetch. Default is 30000 (30 seconds).
@@ -44,7 +44,7 @@ successful fetch. Default is 30000 (30 seconds).
 
 ### headers?
 
-• `optional` **headers**: [`Record`](https://www.typescriptlang.org/docs/handbook/utility-types.html#recordkeys-type)\<`string`, `string`\>
+• `optional` **headers?**: [`Record`](https://www.typescriptlang.org/docs/handbook/utility-types.html#recordkeys-type)\<`string`, `string`\>
 
 Headers to be sent with the HTTP request.
 
@@ -52,7 +52,7 @@ Headers to be sent with the HTTP request.
 
 ### timeoutDuration?
 
-• `optional` **timeoutDuration**: `number`
+• `optional` **timeoutDuration?**: `number`
 
 Timeout (in milliseconds) for the HTTP request. When reached the request will be aborted and
 the verification will fail. Default is 5000 (5 seconds).

@@ -8,7 +8,7 @@ Recognized JWT Claims Set members, any other members may also be present.
 
 ## Indexable
 
-\[`propName`: `string`\]: `unknown`
+> \[`propName`: `string`\]: `unknown`
 
 Any other JWT Claim Set member.
 
@@ -16,7 +16,7 @@ Any other JWT Claim Set member.
 
 ### aud?
 
-• `optional` **aud**: `string` \| `string`[]
+• `optional` **aud?**: `string` \| `string`[]
 
 JWT Audience
 
@@ -28,7 +28,7 @@ JWT Audience
 
 ### exp?
 
-• `optional` **exp**: `number`
+• `optional` **exp?**: `number`
 
 JWT Expiration Time
 
@@ -40,7 +40,7 @@ JWT Expiration Time
 
 ### iat?
 
-• `optional` **iat**: `number`
+• `optional` **iat?**: `number`
 
 JWT Issued At
 
@@ -52,7 +52,7 @@ JWT Issued At
 
 ### iss?
 
-• `optional` **iss**: `string`
+• `optional` **iss?**: `string`
 
 JWT Issuer
 
@@ -64,7 +64,7 @@ JWT Issuer
 
 ### jti?
 
-• `optional` **jti**: `string`
+• `optional` **jti?**: `string`
 
 JWT ID
 
@@ -76,7 +76,7 @@ JWT ID
 
 ### nbf?
 
-• `optional` **nbf**: `number`
+• `optional` **nbf?**: `number`
 
 JWT Not Before
 
@@ -88,7 +88,7 @@ JWT Not Before
 
 ### sub?
 
-• `optional` **sub**: `string`
+• `optional` **sub?**: `string`
 
 JWT Subject
 

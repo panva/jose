@@ -10,7 +10,7 @@ Header Parameters common to JWE and JWS
 
 ### cty?
 
-• `optional` **cty**: `string`
+• `optional` **cty?**: `string`
 
 "cty" (Content Type) Header Parameter
 
@@ -18,7 +18,7 @@ Header Parameters common to JWE and JWS
 
 ### jku?
 
-• `optional` **jku**: `string`
+• `optional` **jku?**: `string`
 
 "jku" (JWK Set URL) Header Parameter
 
@@ -26,7 +26,7 @@ Header Parameters common to JWE and JWS
 
 ### jwk?
 
-• `optional` **jwk**: [`Pick`](https://www.typescriptlang.org/docs/handbook/utility-types.html#picktype-keys)\<[`JWK`](JWK.md), `"x"` \| `"y"` \| `"crv"` \| `"e"` \| `"n"` \| `"pub"` \| `"kty"` \| `"alg"`\>
+• `optional` **jwk?**: [`Pick`](https://www.typescriptlang.org/docs/handbook/utility-types.html#picktype-keys)\<[`JWK`](JWK.md), `"x"` \| `"y"` \| `"crv"` \| `"e"` \| `"n"` \| `"pub"` \| `"kty"` \| `"alg"`\>
 
 "jwk" (JSON Web Key) Header Parameter
 
@@ -34,7 +34,7 @@ Header Parameters common to JWE and JWS
 
 ### kid?
 
-• `optional` **kid**: `string`
+• `optional` **kid?**: `string`
 
 "kid" (Key ID) Header Parameter
 
@@ -42,7 +42,7 @@ Header Parameters common to JWE and JWS
 
 ### typ?
 
-• `optional` **typ**: `string`
+• `optional` **typ?**: `string`
 
 "typ" (Type) Header Parameter
 
@@ -50,7 +50,7 @@ Header Parameters common to JWE and JWS
 
 ### x5c?
 
-• `optional` **x5c**: `string`[]
+• `optional` **x5c?**: `string`[]
 
 "x5c" (X.509 Certificate Chain) Header Parameter
 
@@ -58,7 +58,7 @@ Header Parameters common to JWE and JWS
 
 ### x5t?
 
-• `optional` **x5t**: `string`
+• `optional` **x5t?**: `string`
 
 "x5t" (X.509 Certificate SHA-1 Thumbprint) Header Parameter
 
@@ -66,6 +66,6 @@ Header Parameters common to JWE and JWS
 
 ### x5u?
 
-• `optional` **x5u**: `string`
+• `optional` **x5u?**: `string`
 
 "x5u" (X.509 URL) Header Parameter

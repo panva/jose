@@ -33,18 +33,7 @@ as from its subpath export `'jose/jwks/local'`.
 
 ## Returns
 
-▸ (`protectedHeader?`, `token?`): [`Promise`](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise)\<[`CryptoKey`](https://developer.mozilla.org/docs/Web/API/CryptoKey)\>
-
-### Parameters
-
-| Parameter | Type |
-| ------ | ------ |
-| `protectedHeader?` | [`JWSHeaderParameters`](../../../types/interfaces/JWSHeaderParameters.md) |
-| `token?` | [`FlattenedJWSInput`](../../../types/interfaces/FlattenedJWSInput.md) |
-
-### Returns
-
-[`Promise`](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise)\<[`CryptoKey`](https://developer.mozilla.org/docs/Web/API/CryptoKey)\>
+(`protectedHeader?`, `token?`) => [`Promise`](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise)\<[`CryptoKey`](https://developer.mozilla.org/docs/Web/API/CryptoKey)\>
 
 ## Examples
 

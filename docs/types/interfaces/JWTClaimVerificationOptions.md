@@ -10,7 +10,7 @@ JWT Claims Set verification options.
 
 ### audience?
 
-• `optional` **audience**: `string` \| `string`[]
+• `optional` **audience?**: `string` \| `string`[]
 
 Expected JWT "aud" (Audience) Claim value(s).
 
@@ -20,7 +20,7 @@ This option makes the JWT "aud" (Audience) Claim presence required.
 
 ### clockTolerance?
 
-• `optional` **clockTolerance**: `string` \| `number`
+• `optional` **clockTolerance?**: `string` \| `number`
 
 Clock skew tolerance
 
@@ -34,7 +34,7 @@ validating the "iat" (Issued At) claim if the [`maxTokenAge` option](#maxtokenag
 
 ### currentDate?
 
-• `optional` **currentDate**: [`Date`](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Date)
+• `optional` **currentDate?**: [`Date`](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Date)
 
 Date to use when comparing NumericDate claims, defaults to `new Date()`.
 
@@ -42,7 +42,7 @@ Date to use when comparing NumericDate claims, defaults to `new Date()`.
 
 ### issuer?
 
-• `optional` **issuer**: `string` \| `string`[]
+• `optional` **issuer?**: `string` \| `string`[]
 
 Expected JWT "iss" (Issuer) Claim value(s).
 
@@ -52,7 +52,7 @@ This option makes the JWT "iss" (Issuer) Claim presence required.
 
 ### maxTokenAge?
 
-• `optional` **maxTokenAge**: `string` \| `number`
+• `optional` **maxTokenAge?**: `string` \| `number`
 
 Maximum time elapsed (in seconds) from the JWT "iat" (Issued At) Claim value.
 
@@ -65,7 +65,7 @@ This option makes the JWT "iat" (Issued At) Claim presence required.
 
 ### requiredClaims?
 
-• `optional` **requiredClaims**: `string`[]
+• `optional` **requiredClaims?**: `string`[]
 
 Array of required Claim Names that must be present in the JWT Claims Set. Default is that: if
 the [`issuer` option](#issuer) is set, then JWT "iss" (Issuer) Claim must be present; if the
@@ -78,7 +78,7 @@ present.
 
 ### subject?
 
-• `optional` **subject**: `string`
+• `optional` **subject?**: `string`
 
 Expected JWT "sub" (Subject) Claim value.
 
@@ -88,7 +88,7 @@ This option makes the JWT "sub" (Subject) Claim presence required.
 
 ### typ?
 
-• `optional` **typ**: `string`
+• `optional` **typ?**: `string`
 
 Expected JWT "typ" (Type) Header Parameter value.
 

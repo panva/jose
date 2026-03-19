@@ -10,7 +10,7 @@ Shared Interface with a "crit" property for all sign, verify, encrypt and decryp
 
 ### crit?
 
-• `optional` **crit**: `object`
+• `optional` **crit?**: `object`
 
 An object with keys representing recognized "crit" (Critical) Header Parameter names. The value
 for those is either `true` or `false`. `true` when the Header Parameter MUST be integrity

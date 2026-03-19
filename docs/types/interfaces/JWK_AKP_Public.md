@@ -26,7 +26,7 @@ AKP JWK "pub" (The Public key) Parameter
 
 ### ext?
 
-• `optional` **ext**: `boolean`
+• `optional` **ext?**: `boolean`
 
 JWK "ext" (Extractable) Parameter
 
@@ -34,7 +34,7 @@ JWK "ext" (Extractable) Parameter
 
 ### key\_ops?
 
-• `optional` **key\_ops**: `string`[]
+• `optional` **key\_ops?**: `string`[]
 
 JWK "key_ops" (Key Operations) Parameter
 
@@ -42,7 +42,7 @@ JWK "key_ops" (Key Operations) Parameter
 
 ### kid?
 
-• `optional` **kid**: `string`
+• `optional` **kid?**: `string`
 
 JWK "kid" (Key ID) Parameter
 
@@ -50,7 +50,7 @@ JWK "kid" (Key ID) Parameter
 
 ### kty?
 
-• `optional` **kty**: `string`
+• `optional` **kty?**: `string`
 
 JWK "kty" (Key Type) Parameter
 
@@ -58,7 +58,7 @@ JWK "kty" (Key Type) Parameter
 
 ### use?
 
-• `optional` **use**: `string`
+• `optional` **use?**: `string`
 
 JWK "use" (Public Key Use) Parameter
 
@@ -66,7 +66,7 @@ JWK "use" (Public Key Use) Parameter
 
 ### x5c?
 
-• `optional` **x5c**: `string`[]
+• `optional` **x5c?**: `string`[]
 
 JWK "x5c" (X.509 Certificate Chain) Parameter
 
@@ -74,7 +74,7 @@ JWK "x5c" (X.509 Certificate Chain) Parameter
 
 ### x5t?
 
-• `optional` **x5t**: `string`
+• `optional` **x5t?**: `string`
 
 JWK "x5t" (X.509 Certificate SHA-1 Thumbprint) Parameter
 
@@ -82,7 +82,7 @@ JWK "x5t" (X.509 Certificate SHA-1 Thumbprint) Parameter
 
 ### x5t#S256?
 
-• `optional` **x5t#S256**: `string`
+• `optional` **x5t#S256?**: `string`
 
 JWK "x5t#S256" (X.509 Certificate SHA-256 Thumbprint) Parameter
 
@@ -90,6 +90,6 @@ JWK "x5t#S256" (X.509 Certificate SHA-256 Thumbprint) Parameter
 
 ### x5u?
 
-• `optional` **x5u**: `string`
+• `optional` **x5u?**: `string`
 
 JWK "x5u" (X.509 URL) Parameter

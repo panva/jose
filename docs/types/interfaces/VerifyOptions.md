@@ -10,7 +10,7 @@ JWS Verification options.
 
 ### algorithms?
 
-• `optional` **algorithms**: `string`[]
+• `optional` **algorithms?**: `string`[]
 
 A list of accepted JWS "alg" (Algorithm) Header Parameter values. By default all "alg"
 (Algorithm) values applicable for the used key/secret are allowed.
@@ -22,7 +22,7 @@ A list of accepted JWS "alg" (Algorithm) Header Parameter values. By default all
 
 ### crit?
 
-• `optional` **crit**: `object`
+• `optional` **crit?**: `object`
 
 An object with keys representing recognized "crit" (Critical) Header Parameter names. The value
 for those is either `true` or `false`. `true` when the Header Parameter MUST be integrity

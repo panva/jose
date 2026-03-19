@@ -10,7 +10,7 @@ Combination of JWS Verification options and JWT Claims Set verification options.
 
 ### algorithms?
 
-• `optional` **algorithms**: `string`[]
+• `optional` **algorithms?**: `string`[]
 
 A list of accepted JWS "alg" (Algorithm) Header Parameter values. By default all "alg"
 (Algorithm) values applicable for the used key/secret are allowed.
@@ -22,7 +22,7 @@ A list of accepted JWS "alg" (Algorithm) Header Parameter values. By default all
 
 ### audience?
 
-• `optional` **audience**: `string` \| `string`[]
+• `optional` **audience?**: `string` \| `string`[]
 
 Expected JWT "aud" (Audience) Claim value(s).
 
@@ -32,7 +32,7 @@ This option makes the JWT "aud" (Audience) Claim presence required.
 
 ### clockTolerance?
 
-• `optional` **clockTolerance**: `string` \| `number`
+• `optional` **clockTolerance?**: `string` \| `number`
 
 Clock skew tolerance
 
@@ -46,7 +46,7 @@ validating the "iat" (Issued At) claim if the [`maxTokenAge` option](../../../ty
 
 ### crit?
 
-• `optional` **crit**: `object`
+• `optional` **crit?**: `object`
 
 An object with keys representing recognized "crit" (Critical) Header Parameter names. The value
 for those is either `true` or `false`. `true` when the Header Parameter MUST be integrity
@@ -73,7 +73,7 @@ available.
 
 ### currentDate?
 
-• `optional` **currentDate**: [`Date`](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Date)
+• `optional` **currentDate?**: [`Date`](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Date)
 
 Date to use when comparing NumericDate claims, defaults to `new Date()`.
 
@@ -81,7 +81,7 @@ Date to use when comparing NumericDate claims, defaults to `new Date()`.
 
 ### issuer?
 
-• `optional` **issuer**: `string` \| `string`[]
+• `optional` **issuer?**: `string` \| `string`[]
 
 Expected JWT "iss" (Issuer) Claim value(s).
 
@@ -91,7 +91,7 @@ This option makes the JWT "iss" (Issuer) Claim presence required.
 
 ### maxTokenAge?
 
-• `optional` **maxTokenAge**: `string` \| `number`
+• `optional` **maxTokenAge?**: `string` \| `number`
 
 Maximum time elapsed (in seconds) from the JWT "iat" (Issued At) Claim value.
 
@@ -104,7 +104,7 @@ This option makes the JWT "iat" (Issued At) Claim presence required.
 
 ### requiredClaims?
 
-• `optional` **requiredClaims**: `string`[]
+• `optional` **requiredClaims?**: `string`[]
 
 Array of required Claim Names that must be present in the JWT Claims Set. Default is that: if
 the [`issuer` option](../../../types/interfaces/JWTClaimVerificationOptions.md#issuer) is set, then JWT "iss" (Issuer) Claim must be present; if the
@@ -117,7 +117,7 @@ present.
 
 ### subject?
 
-• `optional` **subject**: `string`
+• `optional` **subject?**: `string`
 
 Expected JWT "sub" (Subject) Claim value.
 
@@ -127,7 +127,7 @@ This option makes the JWT "sub" (Subject) Claim presence required.
 
 ### typ?
 
-• `optional` **typ**: `string`
+• `optional` **typ?**: `string`
 
 Expected JWT "typ" (Type) Header Parameter value.
 

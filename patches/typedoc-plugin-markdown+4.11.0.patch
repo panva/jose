@@ -24,16 +24,18 @@ index 1c71dae..c031a54 100644
          .trim();
  }
 diff --git a/node_modules/typedoc-plugin-markdown/dist/theme/context/partials/member.declarationTitle.js b/node_modules/typedoc-plugin-markdown/dist/theme/context/partials/member.declarationTitle.js
-index 17444bd..0438248 100644
+index ee29ee7..9589eae 100644
 --- a/node_modules/typedoc-plugin-markdown/dist/theme/context/partials/member.declarationTitle.js
 +++ b/node_modules/typedoc-plugin-markdown/dist/theme/context/partials/member.declarationTitle.js
-@@ -63,5 +63,5 @@ export function declarationTitle(model) {
+@@ -26,7 +26,7 @@ export function declarationTitle(model) {
          md.push(';');
      }
      const result = md.join('');
 -    return useCodeBlocks ? codeBlock(result) : `> ${result}`;
 +    return useCodeBlocks ? codeBlock(result) : `• ${result}`;
  }
+ function getPrefix(context, model, useCodeBlocks) {
+     const keyword = context.helpers.getKeyword(model.kind);
 diff --git a/node_modules/typedoc-plugin-markdown/dist/theme/context/partials/member.hierarchy.js b/node_modules/typedoc-plugin-markdown/dist/theme/context/partials/member.hierarchy.js
 index b1d7fd3..b23a8da 100644
 --- a/node_modules/typedoc-plugin-markdown/dist/theme/context/partials/member.hierarchy.js
@@ -59,7 +61,7 @@ index 29eaa2b..c0c0f6c 100644
      if (model.implementationOf) {
          if (options.headingLevel !== -1) {
 diff --git a/node_modules/typedoc-plugin-markdown/dist/theme/context/partials/member.memberWithGroups.js b/node_modules/typedoc-plugin-markdown/dist/theme/context/partials/member.memberWithGroups.js
-index 3b9cc6a..b6e5fd8 100644
+index c2aab7d..fe6daf9 100644
 --- a/node_modules/typedoc-plugin-markdown/dist/theme/context/partials/member.memberWithGroups.js
 +++ b/node_modules/typedoc-plugin-markdown/dist/theme/context/partials/member.memberWithGroups.js
 @@ -42,7 +42,7 @@ export function memberWithGroups(model, options) {

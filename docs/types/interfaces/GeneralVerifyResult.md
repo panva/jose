@@ -18,7 +18,7 @@ JWS Payload.
 
 ### protectedHeader?
 
-• `optional` **protectedHeader**: [`JWSHeaderParameters`](JWSHeaderParameters.md)
+• `optional` **protectedHeader?**: [`JWSHeaderParameters`](JWSHeaderParameters.md)
 
 JWS Protected Header.
 
@@ -26,6 +26,6 @@ JWS Protected Header.
 
 ### unprotectedHeader?
 
-• `optional` **unprotectedHeader**: [`JWSHeaderParameters`](JWSHeaderParameters.md)
+• `optional` **unprotectedHeader?**: [`JWSHeaderParameters`](JWSHeaderParameters.md)
 
 JWS Unprotected Header.

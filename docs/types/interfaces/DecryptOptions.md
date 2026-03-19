@@ -10,7 +10,7 @@ JWE Decryption options.
 
 ### contentEncryptionAlgorithms?
 
-• `optional` **contentEncryptionAlgorithms**: `string`[]
+• `optional` **contentEncryptionAlgorithms?**: `string`[]
 
 A list of accepted JWE "enc" (Encryption Algorithm) Header Parameter values. By default all
 "enc" (Encryption Algorithm) values applicable for the used key/secret are allowed.
@@ -19,7 +19,7 @@ A list of accepted JWE "enc" (Encryption Algorithm) Header Parameter values. By 
 
 ### crit?
 
-• `optional` **crit**: `object`
+• `optional` **crit?**: `object`
 
 An object with keys representing recognized "crit" (Critical) Header Parameter names. The value
 for those is either `true` or `false`. `true` when the Header Parameter MUST be integrity
@@ -46,7 +46,7 @@ available.
 
 ### keyManagementAlgorithms?
 
-• `optional` **keyManagementAlgorithms**: `string`[]
+• `optional` **keyManagementAlgorithms?**: `string`[]
 
 A list of accepted JWE "alg" (Algorithm) Header Parameter values. By default all "alg"
 (Algorithm) Header Parameter values applicable for the used key/secret are allowed except for
@@ -56,7 +56,7 @@ all PBES2 Key Management Algorithms, these need to be explicitly allowed using t
 
 ### maxDecompressedLength?
 
-• `optional` **maxDecompressedLength**: `number`
+• `optional` **maxDecompressedLength?**: `number`
 
 Maximum allowed size (in bytes) of the decompressed plaintext when the JWE `"zip"` (Compression
 Algorithm) Header Parameter is present. By default this value is set to 250000 (250 KB). The
@@ -70,7 +70,7 @@ Set to `Infinity` to disable the decompressed size limit.
 
 ### maxPBES2Count?
 
-• `optional` **maxPBES2Count**: `number`
+• `optional` **maxPBES2Count?**: `number`
 
 (PBES2 Key Management Algorithms only) Maximum allowed "p2c" (PBES2 Count) Header Parameter
 value. The PBKDF2 iteration count defines the algorithm's computational expense. By default

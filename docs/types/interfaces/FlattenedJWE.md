@@ -18,7 +18,7 @@ The "ciphertext" member MUST be present and contain the value BASE64URL(JWE Ciph
 
 ### aad?
 
-• `optional` **aad**: `string`
+• `optional` **aad?**: `string`
 
 The "aad" member MUST be present and contain the value BASE64URL(JWE AAD)) when the JWE AAD
 value is non-empty; otherwise, it MUST be absent. A JWE AAD value can be included to supply a
@@ -28,7 +28,7 @@ base64url-encoded value to be integrity protected but not encrypted.
 
 ### encrypted\_key?
 
-• `optional` **encrypted\_key**: `string`
+• `optional` **encrypted\_key?**: `string`
 
 The "encrypted_key" member MUST be present and contain the value BASE64URL(JWE Encrypted Key)
 when the JWE Encrypted Key value is non-empty; otherwise, it MUST be absent.
@@ -37,7 +37,7 @@ when the JWE Encrypted Key value is non-empty; otherwise, it MUST be absent.
 
 ### header?
 
-• `optional` **header**: [`JWEHeaderParameters`](JWEHeaderParameters.md)
+• `optional` **header?**: [`JWEHeaderParameters`](JWEHeaderParameters.md)
 
 The "header" member MUST be present and contain the value JWE Per- Recipient Unprotected Header
 when the JWE Per-Recipient Unprotected Header value is non-empty; otherwise, it MUST be absent.
@@ -48,7 +48,7 @@ Parameter values are not integrity protected.
 
 ### iv?
 
-• `optional` **iv**: `string`
+• `optional` **iv?**: `string`
 
 The "iv" member MUST be present and contain the value BASE64URL(JWE Initialization Vector) when
 the JWE Initialization Vector value is non-empty; otherwise, it MUST be absent.
@@ -57,7 +57,7 @@ the JWE Initialization Vector value is non-empty; otherwise, it MUST be absent.
 
 ### protected?
 
-• `optional` **protected**: `string`
+• `optional` **protected?**: `string`
 
 The "protected" member MUST be present and contain the value BASE64URL(UTF8(JWE Protected
 Header)) when the JWE Protected Header value is non-empty; otherwise, it MUST be absent. These
@@ -67,7 +67,7 @@ Header Parameter values are integrity protected.
 
 ### tag?
 
-• `optional` **tag**: `string`
+• `optional` **tag?**: `string`
 
 The "tag" member MUST be present and contain the value BASE64URL(JWE Authentication Tag) when
 the JWE Authentication Tag value is non-empty; otherwise, it MUST be absent.
@@ -76,7 +76,7 @@ the JWE Authentication Tag value is non-empty; otherwise, it MUST be absent.
 
 ### unprotected?
 
-• `optional` **unprotected**: [`JWEHeaderParameters`](JWEHeaderParameters.md)
+• `optional` **unprotected?**: [`JWEHeaderParameters`](JWEHeaderParameters.md)
 
 The "unprotected" member MUST be present and contain the value JWE Shared Unprotected Header
 when the JWE Shared Unprotected Header value is non-empty; otherwise, it MUST be absent. This
