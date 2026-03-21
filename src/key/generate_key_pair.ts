@@ -170,6 +170,18 @@ export async function generateKeyPair(
       }
       break
     }
+    case 'HPKE-0':
+    case 'HPKE-7': {
+      keyUsages = ['deriveBits']
+      algorithm = { name: 'ECDH', namedCurve: 'P-256' }
+      break
+    }
+    case 'HPKE-3':
+    case 'HPKE-4': {
+      keyUsages = ['deriveBits']
+      algorithm = { name: 'X25519' }
+      break
+    }
     default:
       throw new JOSENotSupported('Invalid or unsupported JWK "alg" (Algorithm) Parameter value')
   }

@@ -106,6 +106,12 @@ const stub: Pick<
             Error('unreachable')
         }
       }
+      case 'HPKE-0':
+      case 'HPKE-7':
+        return generate('ec', { namedCurve: 'P-256' })
+      case 'HPKE-3':
+      case 'HPKE-4':
+        return generate('x25519')
       case 'ML-DSA-44':
       case 'ML-DSA-65':
       case 'ML-DSA-87':

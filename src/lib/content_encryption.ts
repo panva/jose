@@ -207,6 +207,48 @@ async function cbcDecrypt(
   return plaintext
 }
 
+// --- AEAD encrypt/decrypt ---
+
+export async function aeadEncrypt(
+  algorithm: string,
+  key: CryptoKey,
+  iv: Uint8Array,
+  aad: Uint8Array,
+  plaintext: Uint8Array,
+) {
+  return new Uint8Array(
+    await crypto.subtle.encrypt(
+      {
+        name: algorithm,
+        iv: iv as Uint8Array<ArrayBuffer>,
+        additionalData: aad as Uint8Array<ArrayBuffer>,
+      },
+      key,
+      plaintext as Uint8Array<ArrayBuffer>,
+    ),
+  )
+}
+
+export async function aeadDecrypt(
+  algorithm: string,
+  key: CryptoKey,
+  iv: Uint8Array,
+  aad: Uint8Array,
+  ciphertext: Uint8Array,
+) {
+  return new Uint8Array(
+    await crypto.subtle.decrypt(
+      {
+        name: algorithm,
+        iv: iv as Uint8Array<ArrayBuffer>,
+        additionalData: aad as Uint8Array<ArrayBuffer>,
+      },
+      key,
+      ciphertext as Uint8Array<ArrayBuffer>,
+    ),
+  )
+}
+
 // --- GCM encrypt/decrypt ---
 
 async function gcmEncrypt(
@@ -230,18 +272,7 @@ async function gcmEncrypt(
     encKey = cek
   }
 
-  const encrypted = new Uint8Array(
-    await crypto.subtle.encrypt(
-      {
-        additionalData: aad as Uint8Array<ArrayBuffer>,
-        iv: iv as Uint8Array<ArrayBuffer>,
-        name: 'AES-GCM',
-        tagLength: 128,
-      },
-      encKey,
-      plaintext as Uint8Array<ArrayBuffer>,
-    ),
-  )
+  const encrypted = await aeadEncrypt('AES-GCM', encKey, iv, aad, plaintext)
 
   const tag = encrypted.slice(-16)
   const ciphertext = encrypted.slice(0, -16)
@@ -272,18 +303,7 @@ async function gcmDecrypt(
   }
 
   try {
-    return new Uint8Array(
-      await crypto.subtle.decrypt(
-        {
-          additionalData: aad as Uint8Array<ArrayBuffer>,
-          iv: iv as Uint8Array<ArrayBuffer>,
-          name: 'AES-GCM',
-          tagLength: 128,
-        },
-        encKey,
-        concat(ciphertext, tag) as Uint8Array<ArrayBuffer>,
-      ),
-    )
+    return await aeadDecrypt('AES-GCM', encKey, iv, aad, concat(ciphertext, tag))
   } catch {
     throw new JWEDecryptionFailed()
   }

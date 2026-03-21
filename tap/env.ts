@@ -62,6 +62,15 @@ export function supported(identifier?: string, op?: string) {
     case 'ML-DSA-65':
     case 'ML-DSA-87':
       return isNode && isNodeVersionAtLeast(24, 7)
+    case 'HPKE-4':
+      switch (op) {
+        case 'private jwk import':
+        case 'public jwk import':
+        case 'pem import':
+          return true
+        default:
+          return isNode && isNodeVersionAtLeast(24, 7)
+      }
   }
 
   if (isBlink) {
@@ -90,7 +99,7 @@ export function supported(identifier?: string, op?: string) {
     }
   }
 
-  if (isBun && identifier === 'X25519') {
+  if (isBun && (identifier === 'X25519' || identifier === 'HPKE-3')) {
     switch (op) {
       case 'private jwk import':
       case 'public jwk import':
