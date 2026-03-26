@@ -101,16 +101,5 @@ export function supported(identifier?: string, op?: string) {
     }
   }
 
-  if (isDeno) {
-    if (
-      (identifier === 'P-521' || identifier === 'ES512') &&
-      op !== 'pem import' &&
-      op !== 'public jwk import' &&
-      op !== 'private jwk import'
-    ) {
-      return false
-    }
-  }
-
   return true
 }
