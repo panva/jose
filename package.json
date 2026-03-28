@@ -241,14 +241,14 @@
     "prettier": "^3.8.1",
     "prettier-plugin-jsdoc": "^1.8.0",
     "qunit": "^2.25.0",
-    "rollup": "^4.59.0",
-    "tar": "^7.5.11",
+    "rollup": "^4.60.0",
+    "tar": "^7.5.13",
     "timekeeper": "^2.3.1",
     "tsx": "^4.21.0",
-    "typedoc": "^0.28.17",
+    "typedoc": "^0.28.18",
     "typedoc-plugin-markdown": "^4.11.0",
     "typedoc-plugin-mdn-links": "^5.1.1",
-    "typescript": "^5.9.3",
-    "undici": "^7.24.4"
+    "typescript": "^6.0.2",
+    "undici": "^7.24.6"
   }
 }
