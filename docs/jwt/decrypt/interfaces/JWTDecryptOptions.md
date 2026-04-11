@@ -133,6 +133,14 @@ This option makes the JWT "iat" (Issued At) Claim presence required.
 
 ***
 
+### psk?
+
+• `optional` **psk**: [`Uint8Array`](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Uint8Array)
+
+HPKE Pre-Shared Key (PSK) for use in PSK mode.
+
+***
+
 ### requiredClaims?
 
 • `optional` **requiredClaims?**: `string`[]

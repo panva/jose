@@ -71,6 +71,11 @@ function subtleMapping(jwk: types.JWK): {
           algorithm = { name: 'ECDH', namedCurve: jwk.crv! }
           keyUsages = jwk.d ? ['deriveBits'] : []
           break
+        case 'HPKE-0':
+        case 'HPKE-7':
+          algorithm = { name: 'ECDH', namedCurve: 'P-256' }
+          keyUsages = jwk.d ? ['deriveBits'] : []
+          break
         default:
           throw new JOSENotSupported(unsupportedAlg)
       }
@@ -88,6 +93,11 @@ function subtleMapping(jwk: types.JWK): {
         case 'ECDH-ES+A192KW':
         case 'ECDH-ES+A256KW':
           algorithm = { name: jwk.crv! }
+          keyUsages = jwk.d ? ['deriveBits'] : []
+          break
+        case 'HPKE-3':
+        case 'HPKE-4':
+          algorithm = { name: 'X25519' }
           keyUsages = jwk.d ? ['deriveBits'] : []
           break
         default:

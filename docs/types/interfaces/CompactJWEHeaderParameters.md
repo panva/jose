@@ -26,18 +26,6 @@ JWE "alg" (Algorithm) Header Parameter
 
 ***
 
-### enc
-
-• **enc**: `string`
-
-JWE "enc" (Encryption Algorithm) Header Parameter
-
-#### See
-
-[Algorithm Key Requirements](https://github.com/panva/jose/issues/210#jwe-alg)
-
-***
-
 ### crit?
 
 • `optional` **crit?**: `string`[]
@@ -51,6 +39,18 @@ JWE "crit" (Critical) Header Parameter
 • `optional` **cty?**: `string`
 
 "cty" (Content Type) Header Parameter
+
+***
+
+### enc?
+
+• `optional` **enc**: `string`
+
+JWE "enc" (Encryption Algorithm) Header Parameter
+
+#### See
+
+[Algorithm Key Requirements](https://github.com/panva/jose/issues/210#jwe-alg)
 
 ***
 
@@ -75,6 +75,14 @@ JWE "crit" (Critical) Header Parameter
 • `optional` **kid?**: `string`
 
 "kid" (Key ID) Header Parameter
+
+***
+
+### psk\_id?
+
+• `optional` **psk\_id**: `string`
+
+HPKE Pre-Shared Key Identifier (PSK ID) for use in PSK mode.
 
 ***
 

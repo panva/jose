@@ -67,3 +67,19 @@ You should not use this parameter. It is only intended for testing and vector
 
 You should not use this parameter. It is only intended for testing and vector
   validation purposes.
+
+***
+
+### psk?
+
+• `optional` **psk**: [`Uint8Array`](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Uint8Array)
+
+HPKE Pre-Shared Key (PSK) for use in PSK mode.
+
+***
+
+### psk\_id?
+
+• `optional` **psk\_id**: [`Uint8Array`](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Uint8Array)
+
+HPKE Pre-Shared Key Identifier (PSK ID) for use in PSK mode.
