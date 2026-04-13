@@ -1,8 +1,7 @@
 const { x } = require('tar')
-const { globSync } = require('glob')
 
 const { execSync } = require('child_process')
-const { readFileSync, writeFileSync } = require('fs')
+const { readFileSync, writeFileSync, globSync } = require('fs')
 const { version } = require('../package.json')
 
 const readme = readFileSync('docs/README.md')
