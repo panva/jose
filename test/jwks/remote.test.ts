@@ -15,7 +15,7 @@ import {
   importJWK,
   createRemoteJWKSet,
   errors,
-  FlattenedJWSInput,
+  type FlattenedJWSInput,
 } from '../../src/index.js'
 
 const now = 1604416038
