@@ -1,7 +1,7 @@
 import test from 'ava'
 import * as crypto from 'crypto'
 
-import { FlattenedEncrypt, flattenedDecrypt } from '../../src/index.js'
+import { FlattenedEncrypt, base64url, flattenedDecrypt } from '../../src/index.js'
 
 test.before(async (t) => {
   const encode = TextEncoder.prototype.encode.bind(new TextEncoder())
@@ -247,6 +247,27 @@ test('decrypt PBES2 p2c limit', async (t) => {
     {
       message: 'JOSE Header "p2c" (PBES2 Count) out is of acceptable bounds',
       code: 'ERR_JWE_INVALID',
+    },
+  )
+})
+
+test('PBES2 p2c must be a positive integer on decrypt', async (t) => {
+  const jwe = await new FlattenedEncrypt(new Uint8Array(0))
+    .setProtectedHeader({ alg: 'PBES2-HS256+A128KW', enc: 'A128CBC-HS256' })
+    .setKeyManagementParameters({ p2c: 1 })
+    .encrypt(new Uint8Array(32))
+
+  const protectedHeader = JSON.parse(new TextDecoder().decode(base64url.decode(jwe.protected!)))
+  protectedHeader.p2c = 1.5
+  jwe.protected = base64url.encode(JSON.stringify(protectedHeader))
+
+  await t.throwsAsync(
+    flattenedDecrypt(jwe, new Uint8Array(32), {
+      keyManagementAlgorithms: ['PBES2-HS256+A128KW'],
+    }),
+    {
+      code: 'ERR_JWE_INVALID',
+      message: 'PBES2 Count Input must be a positive integer',
     },
   )
 })

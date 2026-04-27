@@ -225,3 +225,18 @@ test('Default PBES2 Count', async (t) => {
     2048,
   )
 })
+
+test('PBES2 p2c must be a positive integer on encrypt', async (t) => {
+  for (const p2c of [0, -1, 1.5]) {
+    await t.throwsAsync(
+      new FlattenedEncrypt(t.context.plaintext)
+        .setProtectedHeader({ alg: 'PBES2-HS256+A128KW', enc: 'A128GCM' })
+        .setKeyManagementParameters({ p2c })
+        .encrypt(t.context.secret),
+      {
+        code: 'ERR_JWE_INVALID',
+        message: 'PBES2 Count Input must be a positive integer',
+      },
+    )
+  }
+})

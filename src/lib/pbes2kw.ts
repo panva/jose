@@ -28,6 +28,9 @@ async function deriveKey(
   if (!(p2s instanceof Uint8Array) || p2s.length < 8) {
     throw new JWEInvalid('PBES2 Salt Input must be 8 or more octets')
   }
+  if (!Number.isSafeInteger(p2c) || Math.sign(p2c) !== 1) {
+    throw new JWEInvalid('PBES2 Count Input must be a positive integer')
+  }
 
   const salt = concatSalt(alg, p2s)
   const keylen = parseInt(alg.slice(13, 16), 10)
