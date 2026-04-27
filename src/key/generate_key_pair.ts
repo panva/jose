@@ -23,7 +23,7 @@ export interface GenerateKeyPairOptions {
    * The EC "crv" (Curve) or OKP "crv" (Subtype of Key Pair) value to generate. The curve must be
    * both supported on the runtime as well as applicable for the given JWA algorithm identifier.
    */
-  crv?: string
+  crv?: `P-${'256' | '384' | '521'}` | 'X25519'
 
   /**
    * A hint for RSA algorithms to generate an RSA key of a given `modulusLength` (Key size in bits).
@@ -46,6 +46,26 @@ export interface GenerateKeyPairOptions {
    */
   extractable?: boolean
 }
+
+/**
+ * JWA Algorithm Identifier for asymmetric key pair generation.
+ *
+ * The {@link https://github.com/panva/jose/issues/114 Algorithm Selection Guide} should be consulted
+ * as a quick reference if you're having trouble selecting an appropriate algorithm for your needs.
+ *
+ * See {@link https://github.com/panva/jose/issues/210 Algorithm Key Requirements} for usage support
+ * details.
+ */
+export type KeyPairAlgorithm =
+  | `PS${'256' | '384' | '512'}`
+  | `RS${'256' | '384' | '512'}`
+  | `RSA-OAEP`
+  | `RSA-OAEP-${'256' | '384' | '512'}`
+  | `ES${'256' | '384' | '512'}`
+  | `Ed${'25519' | 'DSA'}`
+  | `ML-DSA-${'44' | '65' | '87'}`
+  | `ECDH-ES`
+  | `ECDH-ES+A${'128' | '192' | '256'}KW`
 
 function getModulusLengthOption(options?: GenerateKeyPairOptions) {
   const modulusLength = options?.modulusLength ?? 2048
@@ -81,7 +101,7 @@ function getModulusLengthOption(options?: GenerateKeyPairOptions) {
  * @param options Additional options passed down to the key pair generation.
  */
 export async function generateKeyPair(
-  alg: string,
+  alg: KeyPairAlgorithm,
   options?: GenerateKeyPairOptions,
 ): Promise<GenerateKeyPairResult> {
   let algorithm: RsaHashedKeyGenParams | EcKeyGenParams | KeyAlgorithm
