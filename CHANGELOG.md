@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [commit-and-tag-version](https://github.com/absolute-version/commit-and-tag-version) for commit guidelines.
 
+## [6.2.3](https://github.com/panva/jose/compare/v6.2.2...v6.2.3) (2026-04-27)
+
+
+### Refactor
+
+* cleanly reject invalid PBES2 p2c ([0cdb851](https://github.com/panva/jose/commit/0cdb851ca597635cac3da7a855342549fbe67a8d))
+
 ## [6.2.2](https://github.com/panva/jose/compare/v6.2.1...v6.2.2) (2026-03-18)
 
 
