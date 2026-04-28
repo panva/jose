@@ -37,7 +37,7 @@ This library is a cryptographic and JOSE protocol primitive. It is not a complet
 
 #### Underlying Cryptographic Primitives
 
-This library trusts that the Web Cryptography implementations provided by the runtime are correct and secure. The library delegates all cryptographic operations (key generation, signing, verification, encryption, decryption, key derivation, etc.) to the runtime's Web Cryptography implementation and does not attempt to validate or verify the correctness of these underlying primitives.
+This library trusts that the Web Cryptography implementations provided by the runtime are correct and secure. The library delegates all cryptographic operations (key generation, signing, verification, encryption, decryption, key derivation, etc.) to the runtime's Web Cryptography implementation and does not attempt to validate or verify the correctness of these underlying primitives. Rejection of signatures or keys in non-canonical cryptographic encodings is the responsibility of the underlying Web Cryptography implementation, not this library.
 
 #### Runtime Environment
 
@@ -50,6 +50,10 @@ The library assumes it is running in a trusted execution environment. The follow
 #### Application Policy
 
 The application is responsible for its own authentication and authorization policy. This includes deciding accepted issuers, audiences, subjects, token types, required claims, maximum token age, replay prevention, nonce validation, revocation, session binding, custom claim schemas, and all authorization decisions. Missing or unexpected claims are application policy issues unless the relevant `jose` validation option was used and bypassed.
+
+#### Token String Identity
+
+Applications should not treat the original string value of a verified or decrypted JWT, JWS, or JWE as a canonical security identity unless they define and enforce their own canonicalization. JOSE processing operates on decoded byte sequences and parsed JSON values. Different textual base64url encodings can decode to the same byte representation of fields such as signatures, authentication tags, encrypted keys, or ciphertext. Authorization, authentication, replay detection, revocation, cache keys, and session binding should be based on validated claims, resolved keys, validated protected headers, decoded bytes, or an application-defined canonical representation rather than raw token string equality.
 
 #### Remote JWKS Sources
 
@@ -118,7 +122,9 @@ The following are explicitly **not** considered vulnerabilities in this library:
 - **Oversized inputs** ([CWE-400](https://cwe.mitre.org/data/definitions/400.html)): Except for the configurable JWE decompressed plaintext limit, the library does not enforce size limits on JWTs, JWS, JWE, JWK, or JWKS inputs. Enforcing input size limits appropriate for the application's context (e.g., limiting the size of incoming tokens or payloads before passing them to the library) is the responsibility of the application.
 - **Untrusted JWKS sources**: Security issues arising from fetching keys from untrusted or compromised JWKS endpoints, insecure transport, user-provided fetch implementations, proxies, or writable caches are the user's responsibility.
 - **Application policy decisions**: Missing `exp`, `aud`, `iss`, `sub`, `typ`, `nonce`, `jti`, or custom claims, replay prevention, token revocation, session binding, and authorization checks are application responsibilities unless the relevant `jose` validation option was used and bypassed.
+- **Raw token string identity**: Security issues caused by using the original JWT, JWS, or JWE string as a canonical authorization, authentication, replay-prevention, revocation, cache, or session-binding key are application misuse unless the application has defined and enforced its own canonical representation.
 - **Decode-only APIs**: Security issues caused by using `decodeJwt` or `decodeProtectedHeader` as if they authenticated, decrypted, verified, or validated a token are application misuse, not vulnerabilities in this library.
 - **Unsecured JWTs**: Security issues caused by using `UnsecuredJWT` for authenticated or integrity-protected data are application misuse, not vulnerabilities in this library.
 - **Header-supplied trust anchors**: Security issues caused by trusting attacker-controlled `jku`, `x5u`, `x5c`, `x5t`, `x5t#S256`, or embedded `jwk` header values without an application-defined trust policy are application misuse, not vulnerabilities in this library.
 - **General JWS or JWE multi-party policy**: The General JSON serialization APIs return the first successfully verified signature or decrypted recipient. Applications that require all signatures, quorum signatures, or validation of every recipient must implement that policy themselves.
+- **Non-canonical cryptographic encodings**: Acceptance or rejection of non-canonical signature or key encodings by the runtime's Web Cryptography implementation is outside the scope of this library.
