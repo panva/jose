@@ -19,7 +19,9 @@ Vulnerabilities must be reported using the [project's security advisory](https:/
 
 **All vulnerability reports MUST be submitted through the channel listed above.** This allows the maintainers to assess the report, collaborate on remediation, and coordinate disclosure in a responsible manner.
 
-CVE identifiers for confirmed vulnerabilities will only be requested by the maintainers through the GitHub Security Advisory process. Vulnerability reports submitted directly to third-party CVE Numbering Authorities (CNAs), such as MITRE, without first being reported and confirmed through this project's documented channel will be considered as not following the coordinated disclosure process. The maintainers reserve the right to request rejection or dispute of any CVE entry that was assigned without prior coordinated disclosure with the project.
+CVE identifiers for this project, whether for confirmed, rejected, disputed, or untriaged reports, may only be requested or coordinated by the maintainers, or with the maintainers' explicit consent, through the GitHub Security Advisory process. Submitting a report through the project's security advisory does not authorize reporters to request CVE identifiers from, disclose details to, or otherwise coordinate with third-party CVE Numbering Authorities (CNAs), such as MITRE, for this project.
+
+If the maintainers reject a report through the project's documented channel, that rejection does not authorize the reporter to bypass the project's security disclosure process by pursuing a CVE assignment through a third-party CNA. The maintainers reserve the right to request rejection, withdrawal, or dispute of any CVE entry that was requested, assigned, or coordinated without prior explicit consent from the maintainers.
 
 ## Threat Model
 
