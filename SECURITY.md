@@ -31,6 +31,8 @@ This section documents the threat model for `jose`, a JavaScript implementation 
 
 This library is intended for general application developers, cryptography practitioners, and anyone needing JOSE functionality in JavaScript runtimes (Node.js, browsers, Cloudflare Workers, Deno, Bun, and other Web-interoperable environments).
 
+This library is a cryptographic and JOSE protocol primitive. It is not a complete authentication, authorization, session management, identity management, or application security framework. Applications are responsible for deciding how verified or decrypted JOSE data is used.
+
 ### Trust Assumptions
 
 #### Underlying Cryptographic Primitives
@@ -45,13 +47,21 @@ The library assumes it is running in a trusted execution environment. The follow
 - **Debugger access**: If an attacker has debugger access to the running process, they can inspect memory, modify variables, and bypass security controls. This is a runtime-level compromise, not a library vulnerability.
 - **Runtime compromise**: Attacks that compromise the JavaScript runtime itself (e.g., malicious runtime modifications, compromised Node.js binaries, malicious browser extensions with elevated privileges) are not considered attacks on this library.
 
+#### Application Policy
+
+The application is responsible for its own authentication and authorization policy. This includes deciding accepted issuers, audiences, subjects, token types, required claims, maximum token age, replay prevention, nonce validation, revocation, session binding, custom claim schemas, and all authorization decisions. Missing or unexpected claims are application policy issues unless the relevant `jose` validation option was used and bypassed.
+
 #### Remote JWKS Sources
 
-When using remote JSON Web Key Sets (JWKS) via `createRemoteJWKSet`, the library assumes that users configure trusted JWKS sources. The security of key material fetched from remote sources depends on the trustworthiness of those sources and the security of the transport (HTTPS).
+When using remote JSON Web Key Sets (JWKS) via `createRemoteJWKSet`, the library assumes that users configure trusted JWKS sources. The security of key material fetched from remote sources depends on the trustworthiness of those sources, the security of the transport, and any user-provided fetch implementation, proxy, cache, or storage used for JWKS retrieval. The library accepts a `URL`; choosing HTTPS, enforcing network restrictions, and protecting any persistent JWKS cache are the application's responsibility.
 
 #### Key Material
 
 Private keys and secret key material provided by users for signing, decryption, or key management operations are considered trusted and fitting the user's own security requirements. The library does not validate that key material originates from a secure source or has been handled securely prior to being provided.
+
+#### Header-Supplied Keys and Certificates
+
+JOSE header parameters such as `jwk`, `jku`, `x5u`, `x5c`, `x5t`, and `x5t#S256` are attacker-controlled input unless the application has explicitly established trust in them. The library does not automatically follow `jku` or `x5u` URLs. `EmbeddedJWK` is an explicit opt-in helper for using a public JWK embedded in a JWS header, and `importX509` only imports the public key from a certificate. The library does not validate X.509 certificate chains, trust anchors, validity periods, revocation status, key usage, extended key usage, subject names, or certificate-to-issuer binding.
 
 #### Key and Secret Sizes
 
@@ -59,7 +69,7 @@ As cryptographic requirements on key and secret sizes evolve over time, followin
 
 #### Input Size Limits
 
-The library does not enforce size limits on any inputs (tokens, keys, payloads, headers, etc.). It is the application's responsibility to enforce input size limits appropriate for its context before passing data to the library. Without such limits, an attacker could supply arbitrarily large inputs that consume excessive memory or processing time.
+The library does not generally enforce size limits on inputs (tokens, keys, payloads, headers, JWKS responses, JSON objects, etc.). It is the application's responsibility to enforce input size limits appropriate for its context before passing data to the library. JWE decompression has a configurable decompressed plaintext limit, but encoded input size, remote response size, number of JWS signatures, number of JWE recipients, and request rate remain the application's responsibility.
 
 #### Side-Channel Attacks
 
@@ -70,10 +80,14 @@ This library delegates all cryptographic operations to the underlying Web Crypto
 This library aims to provide the following security guarantees:
 
 - **Specification compliance**: Correct implementation of the JOSE family of specifications (RFC 7515, RFC 7516, RFC 7517, RFC 7518, RFC 7519, and related RFCs), validated against test vectors from the respective specifications.
-- **JWT Claims Set validation**: Proper validation of JWT claims (`exp`, `nbf`, `iat`, `aud`, `iss`, etc.) as defined by the underlying RFCs.
+- **JWT Claims Set validation**: Validation of JWT claims (`exp`, `nbf`, `iat`, `aud`, `iss`, `sub`, `typ`, etc.) according to the options supplied by the application. Claims or policies not required through the API remain the application's responsibility.
 - **Input validation**: Validation of inputs to prevent misuse of the API.
 
 ### Out of Scope
+
+#### Authentication and Authorization Policy
+
+This library does not determine whether a token should grant access to an application resource. Authorization decisions, user/session state, token revocation, replay prevention, nonce storage, custom claim validation, and required-claim policy are the responsibility of the application using this library.
 
 #### Key Management
 
@@ -87,6 +101,8 @@ This library does not guarantee that key material or other sensitive data is cle
 
 This library aims to provide the security properties defined by the JOSE specifications. For detailed security considerations, refer to the Security Considerations sections in [RFC 7515 (JWS)](https://www.rfc-editor.org/rfc/rfc7515#section-10), [RFC 7516 (JWE)](https://www.rfc-editor.org/rfc/rfc7516#section-11), [RFC 7517 (JWK)](https://www.rfc-editor.org/rfc/rfc7517#section-9), [RFC 7518 (JWA)](https://www.rfc-editor.org/rfc/rfc7518#section-8), and [RFC 7519 (JWT)](https://www.rfc-editor.org/rfc/rfc7519#section-8).
 
+The primary in-scope threat actor is able to provide arbitrary JOSE objects, JWTs, JWSs, JWEs, JWKs, JWKS responses, key identifiers, and JOSE Header Parameters to application code using this library. This threat model assumes application-controlled keys, validation options, trusted URLs, runtime behavior, network configuration, and cache storage have not been compromised.
+
 ### What is NOT Considered a Vulnerability
 
 The following are explicitly **not** considered vulnerabilities in this library:
@@ -99,5 +115,10 @@ The following are explicitly **not** considered vulnerabilities in this library:
 - **Compromised runtime environment**: Malicious or backdoored JavaScript runtimes, compromised system libraries, or tampered Web Cryptography implementations.
 - **Supply chain attacks on the runtime** ([CWE-1357](https://cwe.mitre.org/data/definitions/1357.html)): Compromised Node.js binaries, malicious browser builds, or similar supply chain attacks on the execution environment.
 - **Denial of service via resource exhaustion** ([CWE-400](https://cwe.mitre.org/data/definitions/400.html)): While the library validates inputs, it does not implement resource limits. Applications should implement their own rate limiting and resource management.
-- **Oversized inputs** ([CWE-400](https://cwe.mitre.org/data/definitions/400.html)): The library does not enforce size limits on JWTs, JWS, JWE, JWK, or JWKS inputs. Enforcing input size limits appropriate for the application's context (e.g., limiting the size of incoming tokens or payloads before passing them to the library) is the responsibility of the application.
-- **Untrusted JWKS sources**: Security issues arising from fetching keys from untrusted or compromised JWKS endpoints are the user's responsibility.
+- **Oversized inputs** ([CWE-400](https://cwe.mitre.org/data/definitions/400.html)): Except for the configurable JWE decompressed plaintext limit, the library does not enforce size limits on JWTs, JWS, JWE, JWK, or JWKS inputs. Enforcing input size limits appropriate for the application's context (e.g., limiting the size of incoming tokens or payloads before passing them to the library) is the responsibility of the application.
+- **Untrusted JWKS sources**: Security issues arising from fetching keys from untrusted or compromised JWKS endpoints, insecure transport, user-provided fetch implementations, proxies, or writable caches are the user's responsibility.
+- **Application policy decisions**: Missing `exp`, `aud`, `iss`, `sub`, `typ`, `nonce`, `jti`, or custom claims, replay prevention, token revocation, session binding, and authorization checks are application responsibilities unless the relevant `jose` validation option was used and bypassed.
+- **Decode-only APIs**: Security issues caused by using `decodeJwt` or `decodeProtectedHeader` as if they authenticated, decrypted, verified, or validated a token are application misuse, not vulnerabilities in this library.
+- **Unsecured JWTs**: Security issues caused by using `UnsecuredJWT` for authenticated or integrity-protected data are application misuse, not vulnerabilities in this library.
+- **Header-supplied trust anchors**: Security issues caused by trusting attacker-controlled `jku`, `x5u`, `x5c`, `x5t`, `x5t#S256`, or embedded `jwk` header values without an application-defined trust policy are application misuse, not vulnerabilities in this library.
+- **General JWS or JWE multi-party policy**: The General JSON serialization APIs return the first successfully verified signature or decrypted recipient. Applications that require all signatures, quorum signatures, or validation of every recipient must implement that policy themselves.
