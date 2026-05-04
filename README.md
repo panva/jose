@@ -118,9 +118,6 @@ Please note that certain algorithms may not be available depending on the runtim
 | Version                                         | Security Fixes 🔑 | Other Bug Fixes 🐞 | New Features ⭐ | Runtime and Module type         |
 | ----------------------------------------------- | ----------------- | ------------------ | --------------- | ------------------------------- |
 | [v6.x](https://github.com/panva/jose/tree/v6.x) | [Security Policy] | ✅                 | ✅              | Universal[^universal] ESM[^cjs] |
-| [v5.x](https://github.com/panva/jose/tree/v5.x) | [Security Policy] | ❌                 | ❌              | Universal[^universal] CJS + ESM |
-| [v4.x](https://github.com/panva/jose/tree/v4.x) | [Security Policy] | ❌                 | ❌              | Universal[^universal] CJS + ESM |
-| [v2.x](https://github.com/panva/jose/tree/v2.x) | [Security Policy] | ❌                 | ❌              | Node.js CJS                     |
 
 ## Specifications
 
