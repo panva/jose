@@ -2,18 +2,21 @@ import anyTest, { type TestFn } from 'ava'
 import timekeeper from 'timekeeper'
 import { createServer } from 'http'
 import { once } from 'events'
-import { MockAgent, setGlobalDispatcher } from 'undici'
+import { fetch as undiciFetch, MockAgent, setGlobalDispatcher } from 'undici'
 import type { Server } from 'node:net'
 
 const agent = new MockAgent()
 agent.disableNetConnect()
 setGlobalDispatcher(agent)
 
+const fetch: typeof globalThis.fetch = (...args) => undiciFetch(...(args as Parameters<typeof undiciFetch>)) as any
+
 import {
   jwtVerify,
   SignJWT,
   importJWK,
   createRemoteJWKSet,
+  customFetch,
   errors,
   type FlattenedJWSInput,
 } from '../../src/index.js'
@@ -136,7 +139,7 @@ test.serial('RemoteJWKSet', async (t) => {
     .reply(200, jwks)
 
   const url = new URL('https://as.example.com/jwks')
-  const JWKS = createRemoteJWKSet(url)
+  const JWKS = createRemoteJWKSet(url, { [customFetch]: fetch })
   // Signed JWT
   {
     const [jwk] = keys
@@ -219,7 +222,7 @@ test.serial('refreshes the JWKS once off cooldown', async (t) => {
   mockAgent.intercept({ path: '/jwks' }).reply(200, jwks)
 
   const url = new URL('https://as.example.com/jwks')
-  const JWKS = createRemoteJWKSet(url)
+  const JWKS = createRemoteJWKSet(url, { [customFetch]: fetch })
   const key = await importJWK({ ...jwk, alg: 'ES256' })
   {
     const jwt = await new SignJWT().setProtectedHeader({ alg: 'ES256', kid: 'one' }).sign(key)
@@ -265,7 +268,7 @@ test.serial('createRemoteJWKSet manual reload', async (t) => {
   mockAgent.intercept({ path: '/jwks' }).reply(200, jwks)
 
   const url = new URL('https://as.example.com/jwks')
-  const JWKS = createRemoteJWKSet(url)
+  const JWKS = createRemoteJWKSet(url, { [customFetch]: fetch })
   t.false(JWKS.coolingDown)
   t.false(JWKS.fresh)
   t.false(JWKS.reloading)
@@ -321,7 +324,7 @@ test.serial('refreshes the JWKS once stale', async (t) => {
   agent.get('https://as.example.com').intercept({ path: '/jwks' }).reply(200, jwks).times(2)
 
   const url = new URL('https://as.example.com/jwks')
-  const JWKS = createRemoteJWKSet(url, { cacheMaxAge: 60 * 10 * 1000 })
+  const JWKS = createRemoteJWKSet(url, { cacheMaxAge: 60 * 10 * 1000, [customFetch]: fetch })
   const key = await importJWK({ ...jwk, alg: 'ES256' })
   {
     const jwt = await new SignJWT().setProtectedHeader({ alg: 'ES256', kid: 'one' }).sign(key)
@@ -356,7 +359,7 @@ test.serial('can be configured to never be stale', async (t) => {
   agent.get('https://as.example.com').intercept({ path: '/jwks' }).reply(200, jwks)
 
   const url = new URL('https://as.example.com/jwks')
-  const JWKS = createRemoteJWKSet(url, { cacheMaxAge: Infinity })
+  const JWKS = createRemoteJWKSet(url, { cacheMaxAge: Infinity, [customFetch]: fetch })
   const key = await importJWK({ ...jwk, alg: 'ES256' })
   {
     const jwt = await new SignJWT().setProtectedHeader({ alg: 'ES256', kid: 'one' }).sign(key)
@@ -372,7 +375,7 @@ test.serial('throws on invalid JWKSet', async (t) => {
 
   mockAgent.intercept({ path: '/jwks' }).reply(200, 'null')
   const url = new URL('https://as.example.com/jwks')
-  const JWKS = createRemoteJWKSet(url)
+  const JWKS = createRemoteJWKSet(url, { [customFetch]: fetch })
   await t.throwsAsync(JWKS({ alg: 'RS256' }, {} as FlattenedJWSInput), {
     code: 'ERR_JWKS_INVALID',
     message: 'JSON Web Key Set malformed',
@@ -424,7 +427,7 @@ test.serial('can have headers configured', async (t) => {
     .reply(200, 'null')
 
   const url = new URL('https://as.example.com/jwks')
-  const JWKS = createRemoteJWKSet(url, { headers: { 'x-custom': 'foo' } })
+  const JWKS = createRemoteJWKSet(url, { headers: { 'x-custom': 'foo' }, [customFetch]: fetch })
   await JWKS().catch(() => {})
   t.pass()
 })
@@ -432,7 +435,7 @@ test.serial('can have headers configured', async (t) => {
 test('handles ENOTFOUND', async (t) => {
   agent.enableNetConnect()
   const url = new URL('https://op.example.com/jwks')
-  const JWKS = createRemoteJWKSet(url)
+  const JWKS = createRemoteJWKSet(url, { [customFetch]: fetch })
   const err = await t.throwsAsync(JWKS({ alg: 'RS256' }, {} as FlattenedJWSInput))
   t.true(err instanceof Error)
   t.true(err.cause instanceof Error && 'code' in err.cause && err.cause.code === 'ENOTFOUND')
@@ -441,7 +444,7 @@ test('handles ENOTFOUND', async (t) => {
 test('handles ECONNREFUSED', async (t) => {
   agent.enableNetConnect()
   const url = new URL('http://localhost:3001/jwks')
-  const JWKS = createRemoteJWKSet(url)
+  const JWKS = createRemoteJWKSet(url, { [customFetch]: fetch })
   const err = await t.throwsAsync(JWKS({ alg: 'RS256' }, {} as FlattenedJWSInput))
   t.true(err instanceof Error)
   t.true(err.cause instanceof Error && 'code' in err.cause && err.cause.code === 'ECONNREFUSED')
@@ -453,6 +456,7 @@ test.serial('handles a timeout', async (t) => {
   const url = new URL('http://localhost:3000/jwks')
   const JWKS = createRemoteJWKSet(url, {
     timeoutDuration: 500,
+    [customFetch]: fetch,
   })
   const err = await t.throwsAsync(JWKS({ alg: 'RS256' }, {} as FlattenedJWSInput))
   t.true(err instanceof errors.JWKSTimeout)
