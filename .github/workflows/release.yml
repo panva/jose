@@ -36,7 +36,8 @@ jobs:
           fail-on-cache-miss: true
       - name: Prepare distribution
         run: node tools/publish.cjs
-      - run: npm publish
+      - run: npm install -g npm@latest
+      - run: npm stage publish
 
   jsr:
     runs-on: ubuntu-latest
