@@ -3,6 +3,7 @@ import { isJWK } from './type_checks.js'
 import { decode } from '../util/base64url.js'
 import { jwkToKey } from './jwk_to_key.js'
 import { isCryptoKey, isKeyObject } from './is_key_like.js'
+import { isPqKemAlgorithm } from './pqkem.js'
 
 const unusableForAlg = 'given KeyObject instance cannot be used for this algorithm'
 
@@ -230,6 +231,10 @@ export async function normalizeKey(
   if (isJWK(key)) {
     if (key.k) {
       return decode(key.k)
+    }
+    if (isPqKemAlgorithm(alg)) {
+      Object.freeze(key)
+      return key as unknown as types.CryptoKey
     }
     return handleJWK(key, key, alg, true)
   }

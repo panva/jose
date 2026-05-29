@@ -16,6 +16,7 @@ import { validateCrit } from '../../lib/validate_crit.js'
 import { normalizeKey } from '../../lib/normalize_key.js'
 import { checkKeyType } from '../../lib/check_key_type.js'
 import { compress } from '../../lib/deflate.js'
+import { isDirect as isDirectPqKem } from '../../lib/pqkem.js'
 
 /**
  * The FlattenedEncrypt class is used to build and encrypt Flattened JWE objects.
@@ -209,7 +210,7 @@ export class FlattenedEncrypt {
 
     let encryptedKey: Uint8Array | undefined
 
-    if (this.#cek && (alg === 'dir' || alg === 'ECDH-ES')) {
+    if (this.#cek && (alg === 'dir' || alg === 'ECDH-ES' || isDirectPqKem(alg))) {
       throw new TypeError(
         `setContentEncryptionKey cannot be called with JWE "alg" (Algorithm) Header ${alg}`,
       )

@@ -248,5 +248,9 @@
     "typedoc-plugin-mdn-links": "^5.1.1",
     "typescript": "^6.0.3",
     "undici": "^7.25.0"
+  },
+  "dependencies": {
+    "@noble/hashes": "^2.2.0",
+    "mlkem": "^2.7.0"
   }
 }

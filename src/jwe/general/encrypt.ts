@@ -15,6 +15,7 @@ import { encode as b64u } from '../../util/base64url.js'
 import { validateCrit } from '../../lib/validate_crit.js'
 import { normalizeKey } from '../../lib/normalize_key.js'
 import { checkKeyType } from '../../lib/check_key_type.js'
+import { isDirect as isDirectPqKem } from '../../lib/pqkem.js'
 
 /** Used to build General JWE object's individual recipients. */
 export interface Recipient {
@@ -232,8 +233,10 @@ export class GeneralEncrypt {
         throw new JWEInvalid('JWE "alg" (Algorithm) Header Parameter missing or invalid')
       }
 
-      if (alg === 'dir' || alg === 'ECDH-ES') {
-        throw new JWEInvalid('"dir" and "ECDH-ES" alg may only be used with a single recipient')
+      if (alg === 'dir' || alg === 'ECDH-ES' || isDirectPqKem(alg)) {
+        throw new JWEInvalid(
+          '"dir", "ECDH-ES", and direct ML-KEM alg may only be used with a single recipient',
+        )
       }
 
       if (typeof joseHeader.enc !== 'string' || !joseHeader.enc) {

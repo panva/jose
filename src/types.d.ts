@@ -334,6 +334,13 @@ export interface JWEKeyManagementHeaderParameters {
    *   validation purposes.
    */
   epk?: CryptoKey | KeyObject
+  /**
+   * @deprecated You should not use this parameter. It is only intended for testing and vector
+   *   validation purposes.
+   */
+  kemSeed?: Uint8Array
+  /** Mutually known private information for PQ-KEM key derivation. */
+  suppPrivInfo?: Uint8Array
 }
 
 /** Flattened JWE JSON Serialization Syntax token. */
@@ -423,6 +430,9 @@ export interface JWEHeaderParameters extends JoseHeaderParameters {
    * @see {@link https://www.rfc-editor.org/rfc/rfc7516#section-4.1.3 JWE "zip" Header Parameter}
    */
   zip?: string
+
+  /** JWE "kemct" (KEM Ciphertext) Header Parameter. */
+  kemct?: string
 
   /** Any other JWE Header member. */
   [propName: string]: unknown

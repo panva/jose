@@ -14,6 +14,7 @@ import { exportJWK } from '../key/export.js'
 import { isObject } from './type_checks.js'
 import { wrap as aesGcmKwWrap, unwrap as aesGcmKwUnwrap } from './aesgcmkw.js'
 import { assertCryptoKey } from './is_key_like.js'
+import * as pqkem from './pqkem.js'
 
 const unsupportedAlgHeader = 'Invalid or unsupported "alg" (JWE Algorithm) header value'
 
@@ -88,6 +89,33 @@ export async function decryptKeyManagement(
       assertEncryptedKey(encryptedKey)
 
       return aeskw.unwrap(alg.slice(-6), sharedSecret, encryptedKey)
+    }
+    case 'ML-KEM-512':
+    case 'ML-KEM-768':
+    case 'ML-KEM-1024':
+    case 'ML-KEM-512+A128KW':
+    case 'ML-KEM-768+A192KW':
+    case 'ML-KEM-1024+A256KW': {
+      if (typeof joseHeader.kemct !== 'string') {
+        throw new JWEInvalid(`JOSE Header "kemct" (KEM Ciphertext) missing or invalid`)
+      }
+      if (pqkem.isDirect(alg) && encryptedKey !== undefined) {
+        throw new JWEInvalid('Encountered unexpected JWE Encrypted Key')
+      }
+
+      const sharedSecret = await pqkem.decapsulate(
+        alg,
+        key as unknown as types.JWK,
+        decodeBase64url(joseHeader.kemct, 'kemct', JWEInvalid),
+      )
+      const keyLength = pqkem.isDirect(alg) ? cekLength(joseHeader.enc!) : pqkem.keyWrapLength(alg)
+      const algorithmID = pqkem.isDirect(alg) ? joseHeader.enc! : alg
+      const sharedKey = pqkem.deriveKey(sharedSecret, algorithmID, keyLength)
+
+      if (pqkem.isDirect(alg)) return sharedKey
+
+      assertEncryptedKey(encryptedKey)
+      return aeskw.unwrap(alg.slice(-6), sharedKey, encryptedKey)
     }
     case 'RSA-OAEP':
     case 'RSA-OAEP-256':
@@ -216,6 +244,36 @@ export async function encryptKeyManagement(
       cek = providedCek || generateCek(enc)
       const kwAlg = alg.slice(-6)
       encryptedKey = await aeskw.wrap(kwAlg, sharedSecret, cek)
+      break
+    }
+    case 'ML-KEM-512':
+    case 'ML-KEM-768':
+    case 'ML-KEM-1024':
+    case 'ML-KEM-512+A128KW':
+    case 'ML-KEM-768+A192KW':
+    case 'ML-KEM-1024+A256KW': {
+      const { ciphertext, sharedSecret } = await pqkem.encapsulate(
+        alg,
+        key as unknown as types.JWK,
+        providedParameters.kemSeed,
+      )
+      const keyLength = pqkem.isDirect(alg) ? cekLength(enc) : pqkem.keyWrapLength(alg)
+      const algorithmID = pqkem.isDirect(alg) ? enc : alg
+      const sharedKey = pqkem.deriveKey(
+        sharedSecret,
+        algorithmID,
+        keyLength,
+        providedParameters.suppPrivInfo,
+      )
+      parameters = { kemct: b64u(ciphertext) }
+
+      if (pqkem.isDirect(alg)) {
+        cek = sharedKey
+        break
+      }
+
+      cek = providedCek || generateCek(enc)
+      encryptedKey = await aeskw.wrap(alg.slice(-6), sharedKey, cek)
       break
     }
     case 'RSA-OAEP':

@@ -26,8 +26,10 @@ const jwkMatchesOp = (alg: string, key: types.JWK, usage: Usage) => {
     }
   }
 
-  if (key.alg !== undefined && key.alg !== alg) {
-    throw new TypeError(`Invalid key for this operation, its "alg" must be "${alg}" when present`)
+  if (key.alg !== undefined && !jwkAlgMatches(alg, key.alg)) {
+    throw new TypeError(
+      `Invalid key for this operation, its "alg" must be "${expectedJwkAlg(alg)}" when present`,
+    )
   }
 
   if (Array.isArray(key.key_ops)) {
@@ -41,6 +43,9 @@ const jwkMatchesOp = (alg: string, key: types.JWK, usage: Usage) => {
         break
       case alg.startsWith('PBES2'):
         expectedKeyOp = 'deriveBits'
+        break
+      case alg.startsWith('ML-KEM-'):
+        expectedKeyOp = usage === 'encrypt' ? 'encapsulateBits' : 'decapsulateBits'
         break
       case /^A\d{3}(?:GCM)?(?:KW)?$/.test(alg):
         if (!alg.includes('GCM') && alg.endsWith('KW')) {
@@ -65,6 +70,23 @@ const jwkMatchesOp = (alg: string, key: types.JWK, usage: Usage) => {
   }
 
   return true
+}
+
+function expectedJwkAlg(alg: string) {
+  switch (alg) {
+    case 'ML-KEM-512+A128KW':
+      return 'ML-KEM-512'
+    case 'ML-KEM-768+A192KW':
+      return 'ML-KEM-768'
+    case 'ML-KEM-1024+A256KW':
+      return 'ML-KEM-1024'
+    default:
+      return alg
+  }
+}
+
+function jwkAlgMatches(alg: string, jwkAlg: string) {
+  return jwkAlg === alg || jwkAlg === expectedJwkAlg(alg)
 }
 
 const symmetricTypeCheck = (alg: string, key: unknown, usage: Usage) => {
