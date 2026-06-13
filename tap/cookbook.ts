@@ -146,7 +146,10 @@ export default (
         (typeof DOMException !== 'undefined' &&
           error instanceof DOMException &&
           error.name === 'NotSupportedError') ||
-        (error as { code?: string })?.code === 'ERR_JOSE_NOT_SUPPORTED'
+        (error as { code?: string })?.code === 'ERR_JOSE_NOT_SUPPORTED' ||
+        (error as { code?: string })?.code === 'ERR_CRYPTO_INVALID_JWK' ||
+        ((error as { code?: string; message?: string })?.code === 'ERR_INVALID_ARG_VALUE' &&
+          (error as { message?: string })?.message?.includes("property 'key.alg'"))
       )
     }
 

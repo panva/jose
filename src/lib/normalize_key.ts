@@ -85,6 +85,18 @@ const handleKeyObject = (keyObject: ConvertableKeyObject, alg: string) => {
     isPublic || (keyObject.type === 'private' && requiresExtractablePrivateKey(alg))
 
   let cryptoKey: types.CryptoKey | undefined
+  if (keyObject.asymmetricKeyType === 'ml-kem-768') {
+    if (alg !== 'HPKE-12') {
+      throw new TypeError(unusableForAlg)
+    }
+
+    cryptoKey = keyObject.toCryptoKey(
+      'ML-KEM-768',
+      extractable,
+      isPublic ? ['encapsulateBits'] : ['decapsulateBits'],
+    )
+  }
+
   if (keyObject.asymmetricKeyType === 'x25519') {
     switch (alg) {
       case 'ECDH-ES':

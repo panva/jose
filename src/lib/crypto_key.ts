@@ -1,5 +1,5 @@
 import type * as types from '../types.d.ts'
-import { keyAlgorithm } from './hpke.js'
+import { keyAlgorithm, subtleKemAlgorithmName } from './hpke.js'
 
 const unusable = (name: string | number, prop = 'algorithm.name') =>
   new TypeError(`CryptoKey does not support this operation, its ${prop} must be ${name}`)
@@ -137,7 +137,9 @@ export function checkEncCryptoKey(key: types.CryptoKey, alg: string, usage?: Key
     case 'HPKE-1':
     case 'HPKE-3':
     case 'HPKE-4':
-    case 'HPKE-7': {
+    case 'HPKE-7':
+    case 'HPKE-9':
+    case 'HPKE-12': {
       const expected = keyAlgorithm(alg)
       if (!isAlgorithm(key.algorithm, expected.name)) throw unusable(expected.name)
       if (
@@ -145,6 +147,10 @@ export function checkEncCryptoKey(key: types.CryptoKey, alg: string, usage?: Key
         (key.algorithm as EcKeyAlgorithm).namedCurve !== (expected as EcKeyAlgorithm).namedCurve
       ) {
         throw unusable((expected as EcKeyAlgorithm).namedCurve!, 'algorithm.namedCurve')
+      }
+      if (subtleKemAlgorithmName(alg)) {
+        checkUsage(key, usage)
+        return
       }
       break
     }

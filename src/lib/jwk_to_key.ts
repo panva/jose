@@ -1,6 +1,6 @@
 import { JOSENotSupported } from '../util/errors.js'
 import type * as types from '../types.d.ts'
-import { keyAlgorithm, privateKeyUsages, publicKeyUsages } from './hpke.js'
+import { isIntegratedEncryption, keyAlgorithm, privateKeyUsages, publicKeyUsages } from './hpke.js'
 
 const unsupportedAlg = 'Invalid or unsupported JWK "alg" (Algorithm) Parameter value'
 
@@ -14,6 +14,11 @@ function subtleMapping(jwk: types.JWK): {
   switch (jwk.kty) {
     case 'AKP': {
       switch (jwk.alg) {
+        case 'HPKE-9':
+        case 'HPKE-12':
+          algorithm = keyAlgorithm(jwk.alg)
+          keyUsages = jwk.priv ? privateKeyUsages(jwk.alg) : publicKeyUsages(jwk.alg)
+          break
         case 'ML-DSA-44':
         case 'ML-DSA-65':
         case 'ML-DSA-87':
@@ -121,7 +126,11 @@ export async function jwkToKey(jwk: types.JWK): Promise<types.CryptoKey> {
 
   const { algorithm, keyUsages } = subtleMapping(jwk)
   const keyData: types.JWK = { ...jwk }
-  if (keyData.kty !== 'AKP') {
+  if (keyData.kty === 'AKP') {
+    if (isIntegratedEncryption(jwk.alg)) {
+      keyData.alg = keyAlgorithm(jwk.alg).name
+    }
+  } else {
     delete keyData.alg
   }
   delete keyData.use

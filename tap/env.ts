@@ -64,6 +64,12 @@ export function supported(identifier?: string, op?: string) {
       return isDeno || (isNode && isNodeVersionAtLeast(24, 7))
     case 'HPKE-4':
       return isDeno || (isNode && isNodeVersionAtLeast(24, 0))
+    case 'HPKE-9':
+      // TODO: Replace with the exact Node.js version that ships MLKEM768-X25519.
+      return isNode && isNodeVersionAtLeast(27, 0)
+    case 'HPKE-12':
+      // TODO: Replace with the exact Node.js version that ships ML-KEM-768 JWK support.
+      return isDeno || (isNode && isNodeVersionAtLeast(24, 0))
   }
 
   if (isBlink) {

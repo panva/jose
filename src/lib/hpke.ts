@@ -2,13 +2,14 @@ import type * as types from '../types.d.ts'
 import { JOSENotSupported, JWEDecryptionFailed } from '../util/errors.js'
 import { concat, encode } from './buffer_utils.js'
 
-type KDF = 'HKDF-SHA256' | 'HKDF-SHA384'
+type KDF = 'HKDF-SHA256' | 'HKDF-SHA384' | 'SHAKE256'
 type AEAD = 'AES-128-GCM' | 'AES-256-GCM' | 'ChaCha20Poly1305'
+type KEMType = 'dh' | 'mlkem' | 'hybrid'
 
 interface Suite {
   kem: {
     id: number
-    type: 'dh'
+    type: KEMType
     algorithm: EcKeyAlgorithm | KeyAlgorithm
     nSecret: number
     nEnc: number
@@ -33,6 +34,15 @@ interface Suite {
 
 interface ModernSubtleCrypto extends SubtleCrypto {
   getPublicKey?: (key: CryptoKey, keyUsages: KeyUsage[]) => Promise<CryptoKey>
+  encapsulateBits?: (
+    encapsulationAlgorithm: AlgorithmIdentifier,
+    encapsulationKey: CryptoKey,
+  ) => Promise<{ sharedKey: ArrayBuffer; ciphertext: ArrayBuffer }>
+  decapsulateBits?: (
+    decapsulationAlgorithm: AlgorithmIdentifier,
+    decapsulationKey: CryptoKey,
+    ciphertext: BufferSource,
+  ) => Promise<ArrayBuffer>
 }
 
 const L_HPKE = encode('HPKE')
@@ -48,10 +58,14 @@ const L_BASE_NONCE = encode('base_nonce')
 
 const EMPTY = new Uint8Array()
 
-const HPKE_ALGS = new Set(['HPKE-0', 'HPKE-1', 'HPKE-3', 'HPKE-4', 'HPKE-7'])
+const HPKE_ALGS = new Set(['HPKE-0', 'HPKE-1', 'HPKE-3', 'HPKE-4', 'HPKE-7', 'HPKE-9', 'HPKE-12'])
 
 export function isIntegratedEncryption(alg: string): boolean {
   return HPKE_ALGS.has(alg)
+}
+
+export function isSubtleKem(alg: string): boolean {
+  return alg === 'HPKE-9' || alg === 'HPKE-12'
 }
 
 export function keyAlgorithm(alg: string): EcKeyAlgorithm | KeyAlgorithm {
@@ -64,19 +78,33 @@ export function keyAlgorithm(alg: string): EcKeyAlgorithm | KeyAlgorithm {
     case 'HPKE-3':
     case 'HPKE-4':
       return { name: 'X25519' }
+    case 'HPKE-9':
+      return { name: 'MLKEM768-X25519' }
+    case 'HPKE-12':
+      return { name: 'ML-KEM-768' }
     default:
       throw new JOSENotSupported('Invalid or unsupported JWK "alg" (Algorithm) Parameter value')
   }
 }
 
+export function subtleKemAlgorithmName(alg: string): string | undefined {
+  if (alg === 'HPKE-9') return 'MLKEM768-X25519'
+  if (alg === 'HPKE-12') return 'ML-KEM-768'
+  return undefined
+}
+
+export function algFromSubtleKem(name: string): string | undefined {
+  if (name === 'MLKEM768-X25519') return 'HPKE-9'
+  if (name === 'ML-KEM-768') return 'HPKE-12'
+  return undefined
+}
+
 export function publicKeyUsages(alg: string): KeyUsage[] {
-  keyAlgorithm(alg)
-  return []
+  return isSubtleKem(alg) ? ['encapsulateBits' as KeyUsage] : []
 }
 
 export function privateKeyUsages(alg: string): KeyUsage[] {
-  keyAlgorithm(alg)
-  return ['deriveBits']
+  return isSubtleKem(alg) ? ['decapsulateBits' as KeyUsage] : ['deriveBits']
 }
 
 function i2osp(n: number, w: number): Uint8Array {
@@ -86,6 +114,10 @@ function i2osp(n: number, w: number): Uint8Array {
     n >>>= 8
   }
   return ret
+}
+
+function lengthPrefixed(input: Uint8Array): Uint8Array {
+  return concat(i2osp(input.byteLength, 2), input)
 }
 
 function suiteId(kemId: number, kdfId: number, aeadId: number): Uint8Array {
@@ -108,6 +140,24 @@ function dhSuite(
     kem: { id: kemId, type: 'dh', algorithm, nSecret, nEnc, nDh },
     kdf: { id: kdfId, name: kdf, nH },
     aead: aeadParams(aeadId, aead),
+    id: suiteId(kemId, kdfId, aeadId),
+    kemId: concat(L_KEM, i2osp(kemId, 2)),
+  }
+}
+
+function subtleKemSuite(
+  type: Extract<KEMType, 'mlkem' | 'hybrid'>,
+  kemId: number,
+  algorithm: string,
+  nSecret: number,
+  nEnc: number,
+): Suite {
+  const kdfId = 0x0011
+  const aeadId = 0x0002
+  return {
+    kem: { id: kemId, type, algorithm: { name: algorithm }, nSecret, nEnc },
+    kdf: { id: kdfId, name: 'SHAKE256', nH: 64 },
+    aead: aeadParams(aeadId, 'AES-256-GCM'),
     id: suiteId(kemId, kdfId, aeadId),
     kemId: concat(L_KEM, i2osp(kemId, 2)),
   }
@@ -167,6 +217,10 @@ function suite(alg: string): Suite {
         'HKDF-SHA256',
         'AES-256-GCM',
       )
+    case 'HPKE-9':
+      return subtleKemSuite('hybrid', 0x647a, 'MLKEM768-X25519', 32, 1120)
+    case 'HPKE-12':
+      return subtleKemSuite('mlkem', 0x0041, 'ML-KEM-768', 32, 1088)
     default:
       throw new JOSENotSupported(
         'Invalid or unsupported JWE "alg" (Algorithm) Header Parameter value',
@@ -199,7 +253,7 @@ function checkUsage(key: types.CryptoKey, usage: KeyUsage) {
 }
 
 export async function getPublicKey(
-  _name: string,
+  name: string,
   key: types.CryptoKey,
   usages: KeyUsage[],
 ): Promise<types.CryptoKey> {
@@ -210,6 +264,10 @@ export async function getPublicKey(
 
   if (!key.extractable) {
     throw new TypeError('"privateKey" must be extractable in this runtime')
+  }
+
+  if (algFromSubtleKem(name)) {
+    throw new JOSENotSupported(`${name} is not supported in this runtime`)
   }
 
   const jwk = await crypto.subtle.exportKey('jwk', key)
@@ -286,6 +344,41 @@ async function dhDecap(suite: Suite, encryptedKey: Uint8Array, privateKey: types
   return extractAndExpand(suite, dh, concat(encryptedKey, pkRm))
 }
 
+async function subtleKemEncap(suite: Suite, publicKey: types.CryptoKey) {
+  assertKeyAlgorithm(publicKey, suite.kem.algorithm)
+  checkUsage(publicKey, 'encapsulateBits' as KeyUsage)
+
+  const subtle = crypto.subtle as ModernSubtleCrypto
+  if (typeof subtle.encapsulateBits !== 'function') {
+    throw new JOSENotSupported(`${suite.kem.algorithm.name} is not supported in this runtime`)
+  }
+
+  const { sharedKey, ciphertext } = await subtle.encapsulateBits(suite.kem.algorithm, publicKey)
+  return { enc: new Uint8Array(ciphertext), sharedSecret: new Uint8Array(sharedKey) }
+}
+
+async function subtleKemDecap(suite: Suite, encryptedKey: Uint8Array, privateKey: types.CryptoKey) {
+  assertKeyAlgorithm(privateKey, suite.kem.algorithm)
+  checkUsage(privateKey, 'decapsulateBits' as KeyUsage)
+
+  if (encryptedKey.byteLength !== suite.kem.nEnc) {
+    throw new JWEDecryptionFailed()
+  }
+
+  const subtle = crypto.subtle as ModernSubtleCrypto
+  if (typeof subtle.decapsulateBits !== 'function') {
+    throw new JOSENotSupported(`${suite.kem.algorithm.name} is not supported in this runtime`)
+  }
+
+  return new Uint8Array(
+    await subtle.decapsulateBits(
+      suite.kem.algorithm,
+      privateKey,
+      encryptedKey as Uint8Array<ArrayBuffer>,
+    ),
+  )
+}
+
 async function hmac(hash: string, key: Uint8Array, data: Uint8Array): Promise<Uint8Array> {
   const cryptoKey = await crypto.subtle.importKey(
     'raw',
@@ -339,6 +432,29 @@ async function labeledExpand(
   return expand(suite, prk, concat(i2osp(length, 2), L_HPKE_V1, suiteId, label, info), length)
 }
 
+async function labeledDerive(
+  suiteId: Uint8Array,
+  ikm: Uint8Array,
+  label: Uint8Array,
+  context: Uint8Array,
+  length: number,
+): Promise<Uint8Array> {
+  const bits = length << 3
+  return new Uint8Array(
+    await crypto.subtle.digest(
+      { name: 'cSHAKE256', outputLength: bits } as AlgorithmIdentifier,
+      concat(
+        ikm,
+        L_HPKE_V1,
+        suiteId,
+        lengthPrefixed(label),
+        i2osp(length, 2),
+        context,
+      ) as Uint8Array<ArrayBuffer>,
+    ),
+  )
+}
+
 async function extractAndExpand(
   suite: Suite,
   dh: Uint8Array,
@@ -349,6 +465,21 @@ async function extractAndExpand(
 }
 
 async function keySchedule(suite: Suite, sharedSecret: Uint8Array) {
+  if (suite.kdf.name === 'SHAKE256') {
+    const secret = await labeledDerive(
+      suite.id,
+      concat(lengthPrefixed(EMPTY), lengthPrefixed(sharedSecret)),
+      L_SECRET,
+      concat(i2osp(0, 1), lengthPrefixed(EMPTY), lengthPrefixed(EMPTY)),
+      suite.aead.nK + suite.aead.nN + suite.kdf.nH,
+    )
+
+    return {
+      key: secret.slice(0, suite.aead.nK),
+      baseNonce: secret.slice(suite.aead.nK, suite.aead.nK + suite.aead.nN),
+    }
+  }
+
   const [pskIdHash, infoHash] = await Promise.all([
     labeledExtract(suite, suite.id, EMPTY, L_PSK_ID_HASH, EMPTY),
     labeledExtract(suite, suite.id, EMPTY, L_INFO_HASH, EMPTY),
@@ -425,7 +556,8 @@ export async function seal(
   aad: Uint8Array,
 ): Promise<{ encryptedKey: Uint8Array; ciphertext: Uint8Array }> {
   const s = suite(alg)
-  const { enc, sharedSecret } = await dhEncap(s, publicKey)
+  const { enc, sharedSecret } =
+    s.kem.type === 'dh' ? await dhEncap(s, publicKey) : await subtleKemEncap(s, publicKey)
   const { key, baseNonce } = await keySchedule(s, sharedSecret)
   return { encryptedKey: enc, ciphertext: await aeadSeal(s, key, baseNonce, aad, plaintext) }
 }
@@ -440,7 +572,10 @@ export async function open(
   const s = suite(alg)
   let sharedSecret: Uint8Array
   try {
-    sharedSecret = await dhDecap(s, encryptedKey, privateKey)
+    sharedSecret =
+      s.kem.type === 'dh'
+        ? await dhDecap(s, encryptedKey, privateKey)
+        : await subtleKemDecap(s, encryptedKey, privateKey)
   } catch (cause) {
     if (cause instanceof TypeError || cause instanceof JOSENotSupported) {
       throw cause

@@ -176,6 +176,8 @@ export async function generateKeyPair(
     case 'HPKE-3':
     case 'HPKE-4':
     case 'HPKE-7':
+    case 'HPKE-9':
+    case 'HPKE-12':
       algorithm = keyAlgorithm(alg)
       keyUsages = [...privateKeyUsages(alg), ...publicKeyUsages(alg)]
       break

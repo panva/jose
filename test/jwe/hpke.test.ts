@@ -9,6 +9,8 @@ import {
   flattenedDecrypt,
   generalDecrypt,
   generateKeyPair,
+  exportJWK,
+  importJWK,
 } from '../../src/index.js'
 
 import type { FlattenedJWE, JWEHeaderParameters } from '../../src/index.js'
@@ -18,9 +20,11 @@ const decoder = new TextDecoder()
 const plaintext = encoder.encode('Integrated HPKE JWE')
 const aad = encoder.encode('additional authenticated data')
 
-const algorithms = ['HPKE-0', 'HPKE-1', 'HPKE-3', 'HPKE-4', 'HPKE-7']
+const algorithms = ['HPKE-0', 'HPKE-1', 'HPKE-3', 'HPKE-4', 'HPKE-7', 'HPKE-9', 'HPKE-12']
+const akpAlgorithms = ['HPKE-9', 'HPKE-12']
 
 const supported = new Map<string, boolean>()
+const jwkSupported = new Map<string, boolean>()
 
 function getPublicKeyAvailable() {
   return typeof (crypto.subtle as { getPublicKey?: unknown }).getPublicKey === 'function'
@@ -55,12 +59,35 @@ async function isSupported(alg: string) {
         ['encrypt'],
       )
     }
+    if (akpAlgorithms.includes(alg)) {
+      await crypto.subtle.digest(
+        { name: 'cSHAKE256', outputLength: 256 } as AlgorithmIdentifier,
+        new Uint8Array(),
+      )
+    }
     supported.set(alg, true)
   } catch {
     supported.set(alg, false)
   }
 
   return supported.get(alg)!
+}
+
+async function isJWKSupported(alg: string) {
+  if (jwkSupported.has(alg)) {
+    return jwkSupported.get(alg)!
+  }
+
+  try {
+    const { publicKey, privateKey } = await generateKeyPair(alg, { extractable: true })
+    await importJWK(await exportJWK(publicKey))
+    await importJWK(await exportJWK(privateKey))
+    jwkSupported.set(alg, true)
+  } catch {
+    jwkSupported.set(alg, false)
+  }
+
+  return jwkSupported.get(alg)!
 }
 
 async function firstSupported(...algs: string[]) {
@@ -321,4 +348,38 @@ test('Integrated HPKE validation', async (t) => {
       message: '"enc" (Encryption Algorithm) Header Parameter value not allowed',
     },
   )
+})
+
+test('Integrated HPKE AKP JWK import and export', async (t) => {
+  for (const alg of akpAlgorithms) {
+    if (!(await isSupported(alg)) || !(await isJWKSupported(alg))) {
+      t.pass(`${alg} JWK import/export unsupported in this runtime`)
+      continue
+    }
+
+    const { publicKey, privateKey } = await generateKeyPair(alg, { extractable: true })
+    const publicJwk = await exportJWK(publicKey)
+    const privateJwk = await exportJWK(privateKey)
+
+    t.is(publicJwk.kty, 'AKP')
+    t.is(publicJwk.alg, alg)
+    t.truthy(publicJwk.pub)
+    t.false('priv' in publicJwk)
+
+    t.is(privateJwk.kty, 'AKP')
+    t.is(privateJwk.alg, alg)
+    t.is(privateJwk.pub, publicJwk.pub)
+    t.truthy(privateJwk.priv)
+
+    const importedPublicKey = await importJWK(publicJwk)
+    const importedPrivateKey = await importJWK(privateJwk)
+    const jwe = await new FlattenedEncrypt(plaintext)
+      .setProtectedHeader({ alg })
+      .encrypt(importedPublicKey)
+
+    const { plaintext: decrypted } = await flattenedDecrypt(jwe, importedPrivateKey, {
+      keyManagementAlgorithms: [alg],
+    })
+    t.deepEqual(decrypted, plaintext)
+  }
 })

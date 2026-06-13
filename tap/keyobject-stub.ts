@@ -20,12 +20,19 @@ const stub: Pick<
       k = key
     }
 
-    return (k as unknown as crypto.KeyObject).export({ format: 'jwk' })
+    const jwk = (k as unknown as crypto.KeyObject).export({ format: 'jwk' })
+    if (jwk.kty === 'AKP' && jwk.alg === 'ML-KEM-768') {
+      jwk.alg = 'HPKE-12'
+    }
+    return jwk
   },
   // @ts-expect-error
   importJWK(jwk) {
     if (jwk.k) {
       return Buffer.from(jwk.k, 'base64url')
+    }
+    if (jwk.kty === 'AKP' && jwk.alg === 'HPKE-12') {
+      jwk = { ...jwk, alg: 'ML-KEM-768' }
     }
     if (jwk.d || jwk.priv) {
       return crypto.createPrivateKey({ format: 'jwk', key: jwk as crypto.JsonWebKey })
