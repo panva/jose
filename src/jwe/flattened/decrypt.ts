@@ -19,6 +19,71 @@ import { validateAlgorithms } from '../../lib/validate_algorithms.js'
 import { normalizeKey } from '../../lib/normalize_key.js'
 import { checkKeyType } from '../../lib/check_key_type.js'
 import { decompress } from '../../lib/deflate.js'
+import { isIntegratedEncryption, open as hpkeOpen } from '../../lib/hpke.js'
+import { assertCryptoKey } from '../../lib/is_key_like.js'
+
+function prepareAdditionalData(jwe: types.FlattenedJWE) {
+  const protectedHeader = jwe.protected !== undefined ? encode(jwe.protected) : new Uint8Array()
+
+  if (jwe.aad !== undefined) {
+    return concat(protectedHeader, encode('.'), encode(jwe.aad))
+  }
+
+  return protectedHeader
+}
+
+async function prepareResult(
+  jwe: types.FlattenedJWE,
+  joseHeader: types.JWEHeaderParameters,
+  parsedProt: types.JWEHeaderParameters | undefined,
+  plaintext: Uint8Array,
+  key: types.CryptoKey | Uint8Array,
+  resolvedKey: boolean,
+  options?: types.DecryptOptions,
+) {
+  const result: types.FlattenedDecryptResult = { plaintext }
+
+  if (joseHeader.zip === 'DEF') {
+    const maxDecompressedLength = options?.maxDecompressedLength ?? 250_000
+    if (maxDecompressedLength === 0) {
+      throw new JOSENotSupported(
+        'JWE "zip" (Compression Algorithm) Header Parameter is not supported.',
+      )
+    }
+    if (
+      maxDecompressedLength !== Infinity &&
+      (!Number.isSafeInteger(maxDecompressedLength) || maxDecompressedLength < 1)
+    ) {
+      throw new TypeError('maxDecompressedLength must be 0, a positive safe integer, or Infinity')
+    }
+    result.plaintext = await decompress(plaintext, maxDecompressedLength).catch((cause) => {
+      if (cause instanceof JWEInvalid) throw cause
+      throw new JWEInvalid('Failed to decompress plaintext', { cause })
+    })
+  }
+
+  if (jwe.protected !== undefined) {
+    result.protectedHeader = parsedProt
+  }
+
+  if (jwe.aad !== undefined) {
+    result.additionalAuthenticatedData = decodeBase64url(jwe.aad, 'aad', JWEInvalid)
+  }
+
+  if (jwe.unprotected !== undefined) {
+    result.sharedUnprotectedHeader = jwe.unprotected
+  }
+
+  if (jwe.header !== undefined) {
+    result.unprotectedHeader = jwe.header
+  }
+
+  if (resolvedKey) {
+    return { ...result, key }
+  }
+
+  return result
+}
 
 /**
  * Interface for Flattened JWE Decryption dynamic key resolution. No token components have been
@@ -164,10 +229,6 @@ export async function flattenedDecrypt(
     throw new JWEInvalid('missing JWE Algorithm (alg) in JWE Header')
   }
 
-  if (typeof enc !== 'string' || !enc) {
-    throw new JWEInvalid('missing JWE Encryption Algorithm (enc) in JWE Header')
-  }
-
   const keyManagementAlgorithms =
     options && validateAlgorithms('keyManagementAlgorithms', options.keyManagementAlgorithms)
   const contentEncryptionAlgorithms =
@@ -179,6 +240,63 @@ export async function flattenedDecrypt(
     (!keyManagementAlgorithms && alg.startsWith('PBES2'))
   ) {
     throw new JOSEAlgNotAllowed('"alg" (Algorithm) Header Parameter value not allowed')
+  }
+
+  if (isIntegratedEncryption(alg)) {
+    if (contentEncryptionAlgorithms) {
+      throw new JOSEAlgNotAllowed('"enc" (Encryption Algorithm) Header Parameter value not allowed')
+    }
+
+    if (parsedProt?.alg !== alg) {
+      throw new JWEInvalid('JWE "alg" (Algorithm) Header Parameter MUST be in a protected header.')
+    }
+
+    if (enc !== undefined) {
+      throw new JWEInvalid(
+        'JWE "enc" (Encryption Algorithm) Header Parameter must not be present for integrated encryption',
+      )
+    }
+
+    if (joseHeader.ek !== undefined) {
+      throw new JWEInvalid('JWE "ek" Header Parameter must not be present')
+    }
+
+    if (joseHeader.psk_id !== undefined) {
+      throw new JOSENotSupported('JWE HPKE PSK mode is not supported')
+    }
+
+    if (jwe.encrypted_key === undefined) {
+      throw new JWEInvalid('JWE Encrypted Key missing')
+    }
+
+    if (jwe.iv !== undefined && jwe.iv !== '') {
+      throw new JWEInvalid('JWE Initialization Vector must be empty for integrated encryption')
+    }
+
+    if (jwe.tag !== undefined && jwe.tag !== '') {
+      throw new JWEInvalid('JWE Authentication Tag must be empty for integrated encryption')
+    }
+
+    const encryptedKey = decodeBase64url(jwe.encrypted_key, 'encrypted_key', JWEInvalid)
+
+    let resolvedKey = false
+    if (typeof key === 'function') {
+      key = await key(parsedProt, jwe)
+      resolvedKey = true
+    }
+    checkKeyType(alg, key, 'decrypt')
+
+    const k = await normalizeKey(key, alg)
+    assertCryptoKey(k)
+
+    const ciphertext = decodeBase64url(jwe.ciphertext, 'ciphertext', JWEInvalid)
+    const plaintext = await hpkeOpen(alg, k, encryptedKey, ciphertext, prepareAdditionalData(jwe))
+
+    return prepareResult(jwe, joseHeader, parsedProt, plaintext, k, resolvedKey, options)
+  }
+
+  if (typeof enc !== 'string' || !enc) {
+    throw new JWEInvalid('missing JWE Encryption Algorithm (enc) in JWE Header')
   }
 
   if (contentEncryptionAlgorithms && !contentEncryptionAlgorithms.has(enc)) {
@@ -224,59 +342,8 @@ export async function flattenedDecrypt(
     tag = decodeBase64url(jwe.tag, 'tag', JWEInvalid)
   }
 
-  const protectedHeader: Uint8Array =
-    jwe.protected !== undefined ? encode(jwe.protected) : new Uint8Array()
-  let additionalData: Uint8Array
-
-  if (jwe.aad !== undefined) {
-    additionalData = concat(protectedHeader, encode('.'), encode(jwe.aad))
-  } else {
-    additionalData = protectedHeader
-  }
-
   const ciphertext = decodeBase64url(jwe.ciphertext, 'ciphertext', JWEInvalid)
-  const plaintext = await decrypt(enc, cek, ciphertext, iv, tag, additionalData)
+  const plaintext = await decrypt(enc, cek, ciphertext, iv, tag, prepareAdditionalData(jwe))
 
-  const result: types.FlattenedDecryptResult = { plaintext }
-
-  if (joseHeader.zip === 'DEF') {
-    const maxDecompressedLength = options?.maxDecompressedLength ?? 250_000
-    if (maxDecompressedLength === 0) {
-      throw new JOSENotSupported(
-        'JWE "zip" (Compression Algorithm) Header Parameter is not supported.',
-      )
-    }
-    if (
-      maxDecompressedLength !== Infinity &&
-      (!Number.isSafeInteger(maxDecompressedLength) || maxDecompressedLength < 1)
-    ) {
-      throw new TypeError('maxDecompressedLength must be 0, a positive safe integer, or Infinity')
-    }
-    result.plaintext = await decompress(plaintext, maxDecompressedLength).catch((cause) => {
-      if (cause instanceof JWEInvalid) throw cause
-      throw new JWEInvalid('Failed to decompress plaintext', { cause })
-    })
-  }
-
-  if (jwe.protected !== undefined) {
-    result.protectedHeader = parsedProt
-  }
-
-  if (jwe.aad !== undefined) {
-    result.additionalAuthenticatedData = decodeBase64url(jwe.aad!, 'aad', JWEInvalid)
-  }
-
-  if (jwe.unprotected !== undefined) {
-    result.sharedUnprotectedHeader = jwe.unprotected
-  }
-
-  if (jwe.header !== undefined) {
-    result.unprotectedHeader = jwe.header
-  }
-
-  if (resolvedKey) {
-    return { ...result, key: k }
-  }
-
-  return result
+  return prepareResult(jwe, joseHeader, parsedProt, plaintext, k, resolvedKey, options)
 }

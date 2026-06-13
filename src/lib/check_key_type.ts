@@ -2,6 +2,7 @@ import { withAlg as invalidKeyInput } from './invalid_key_input.js'
 import { isKeyLike } from './is_key_like.js'
 import * as jwk from './type_checks.js'
 import type * as types from '../types.d.ts'
+import { isIntegratedEncryption } from './hpke.js'
 
 // @ts-ignore
 const tag = (key: unknown): string => key?.[Symbol.toStringTag]
@@ -40,6 +41,9 @@ const jwkMatchesOp = (alg: string, key: types.JWK, usage: Usage) => {
         expectedKeyOp = usage
         break
       case alg.startsWith('PBES2'):
+        expectedKeyOp = 'deriveBits'
+        break
+      case isIntegratedEncryption(alg) && usage === 'decrypt':
         expectedKeyOp = 'deriveBits'
         break
       case /^A\d{3}(?:GCM)?(?:KW)?$/.test(alg):

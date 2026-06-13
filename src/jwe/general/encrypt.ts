@@ -15,6 +15,7 @@ import { encode as b64u } from '../../util/base64url.js'
 import { validateCrit } from '../../lib/validate_crit.js'
 import { normalizeKey } from '../../lib/normalize_key.js'
 import { checkKeyType } from '../../lib/check_key_type.js'
+import { isIntegratedEncryption } from '../../lib/hpke.js'
 
 /** Used to build General JWE object's individual recipients. */
 export interface Recipient {
@@ -195,13 +196,13 @@ export class GeneralEncrypt {
 
       const jwe: types.GeneralJWE = {
         ciphertext: flattened.ciphertext,
-        iv: flattened.iv,
         recipients: [{}],
-        tag: flattened.tag,
       }
 
       if (flattened.aad) jwe.aad = flattened.aad
+      if (flattened.iv) jwe.iv = flattened.iv
       if (flattened.protected) jwe.protected = flattened.protected
+      if (flattened.tag) jwe.tag = flattened.tag
       if (flattened.unprotected) jwe.unprotected = flattened.unprotected
       if (flattened.encrypted_key) jwe.recipients![0].encrypted_key = flattened.encrypted_key
       if (flattened.header) jwe.recipients![0].header = flattened.header
@@ -232,8 +233,8 @@ export class GeneralEncrypt {
         throw new JWEInvalid('JWE "alg" (Algorithm) Header Parameter missing or invalid')
       }
 
-      if (alg === 'dir' || alg === 'ECDH-ES') {
-        throw new JWEInvalid('"dir" and "ECDH-ES" alg may only be used with a single recipient')
+      if (alg === 'dir' || alg === 'ECDH-ES' || isIntegratedEncryption(alg)) {
+        throw new JWEInvalid(`"${alg}" alg may only be used with a single recipient`)
       }
 
       if (typeof joseHeader.enc !== 'string' || !joseHeader.enc) {

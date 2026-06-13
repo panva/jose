@@ -716,7 +716,7 @@ export interface JWTHeaderParameters extends CompactJWSHeaderParameters {
 /** Recognized Compact JWE Header Parameters, any other Header Members may also be present. */
 export interface CompactJWEHeaderParameters extends JWEHeaderParameters {
   alg: string
-  enc: string
+  enc?: string
 }
 
 /** JSON Web Key Set */

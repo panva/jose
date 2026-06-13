@@ -1,5 +1,6 @@
 import { JOSENotSupported } from '../util/errors.js'
 import type * as types from '../types.d.ts'
+import { keyAlgorithm, privateKeyUsages, publicKeyUsages } from './hpke.js'
 
 const unsupportedAlg = 'Invalid or unsupported JWK "alg" (Algorithm) Parameter value'
 
@@ -71,6 +72,12 @@ function subtleMapping(jwk: types.JWK): {
           algorithm = { name: 'ECDH', namedCurve: jwk.crv! }
           keyUsages = jwk.d ? ['deriveBits'] : []
           break
+        case 'HPKE-0':
+        case 'HPKE-1':
+        case 'HPKE-7':
+          algorithm = keyAlgorithm(jwk.alg)
+          keyUsages = jwk.d ? privateKeyUsages(jwk.alg) : publicKeyUsages(jwk.alg)
+          break
         default:
           throw new JOSENotSupported(unsupportedAlg)
       }
@@ -90,6 +97,11 @@ function subtleMapping(jwk: types.JWK): {
           algorithm = { name: jwk.crv! }
           keyUsages = jwk.d ? ['deriveBits'] : []
           break
+        case 'HPKE-3':
+        case 'HPKE-4':
+          algorithm = keyAlgorithm(jwk.alg)
+          keyUsages = jwk.d ? privateKeyUsages(jwk.alg) : publicKeyUsages(jwk.alg)
+          break
         default:
           throw new JOSENotSupported(unsupportedAlg)
       }
@@ -108,7 +120,6 @@ export async function jwkToKey(jwk: types.JWK): Promise<types.CryptoKey> {
   }
 
   const { algorithm, keyUsages } = subtleMapping(jwk)
-
   const keyData: types.JWK = { ...jwk }
   if (keyData.kty !== 'AKP') {
     delete keyData.alg

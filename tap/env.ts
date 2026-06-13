@@ -62,6 +62,8 @@ export function supported(identifier?: string, op?: string) {
     case 'ML-DSA-65':
     case 'ML-DSA-87':
       return isDeno || (isNode && isNodeVersionAtLeast(24, 7))
+    case 'HPKE-4':
+      return isDeno || (isNode && isNodeVersionAtLeast(24, 0))
   }
 
   if (isBlink) {

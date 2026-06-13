@@ -3,10 +3,32 @@ import { isJWK } from './type_checks.js'
 import { decode } from '../util/base64url.js'
 import { jwkToKey } from './jwk_to_key.js'
 import { isCryptoKey, isKeyObject } from './is_key_like.js'
+import { isIntegratedEncryption, keyAlgorithm } from './hpke.js'
 
 const unusableForAlg = 'given KeyObject instance cannot be used for this algorithm'
 
 let cache: WeakMap<object, Record<string, CryptoKey>>
+
+function getPublicKeyAvailable() {
+  return typeof (crypto.subtle as { getPublicKey?: unknown }).getPublicKey === 'function'
+}
+
+function requiresExtractablePrivateKey(alg: string) {
+  if (getPublicKeyAvailable()) {
+    return false
+  }
+
+  switch (alg) {
+    case 'HPKE-0':
+    case 'HPKE-1':
+    case 'HPKE-3':
+    case 'HPKE-4':
+    case 'HPKE-7':
+      return true
+    default:
+      return false
+  }
+}
 
 interface ConvertableKeyObject extends types.KeyObject {
   export(): Uint8Array
@@ -37,7 +59,11 @@ const handleJWK = async (
     return cached[alg]
   }
 
-  const cryptoKey = await jwkToKey({ ...jwk, alg })
+  const keyData = { ...jwk, alg }
+  if (jwk.d && requiresExtractablePrivateKey(alg)) {
+    keyData.ext = true
+  }
+  const cryptoKey = await jwkToKey(keyData)
   if (freeze) Object.freeze(key)
   if (!cached) {
     cache.set(key, { [alg]: cryptoKey })
@@ -55,7 +81,8 @@ const handleKeyObject = (keyObject: ConvertableKeyObject, alg: string) => {
   }
 
   const isPublic = keyObject.type === 'public'
-  const extractable = isPublic ? true : false
+  const extractable =
+    isPublic || (keyObject.type === 'private' && requiresExtractablePrivateKey(alg))
 
   let cryptoKey: types.CryptoKey | undefined
   if (keyObject.asymmetricKeyType === 'x25519') {
@@ -64,6 +91,8 @@ const handleKeyObject = (keyObject: ConvertableKeyObject, alg: string) => {
       case 'ECDH-ES+A128KW':
       case 'ECDH-ES+A192KW':
       case 'ECDH-ES+A256KW':
+      case 'HPKE-3':
+      case 'HPKE-4':
         break
 
       default:
@@ -172,15 +201,14 @@ const handleKeyObject = (keyObject: ConvertableKeyObject, alg: string) => {
       )
     }
 
-    if (alg.startsWith('ECDH-ES')) {
-      cryptoKey = keyObject.toCryptoKey(
-        {
-          name: 'ECDH',
-          namedCurve,
-        },
-        extractable,
-        isPublic ? [] : ['deriveBits'],
-      )
+    if (alg.startsWith('ECDH-ES') || isIntegratedEncryption(alg)) {
+      const algorithm = isIntegratedEncryption(alg)
+        ? keyAlgorithm(alg)
+        : { name: 'ECDH', namedCurve }
+      if ((algorithm as EcKeyAlgorithm).namedCurve !== namedCurve) {
+        throw new TypeError(unusableForAlg)
+      }
+      cryptoKey = keyObject.toCryptoKey(algorithm, extractable, isPublic ? [] : ['deriveBits'])
     }
   }
 

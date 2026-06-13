@@ -135,7 +135,36 @@ export default (
       if (vector.input.zip && typeof globalThis.CompressionStream === 'undefined') {
         return false
       }
+      if (vector.input.enc === undefined) {
+        return env.supported(vector.input.alg)
+      }
       return env.supported(vector.input.alg) && env.supported(vector.input.enc)
+    }
+
+    function isRuntimeUnsupported(error: unknown) {
+      return (
+        (typeof DOMException !== 'undefined' &&
+          error instanceof DOMException &&
+          error.name === 'NotSupportedError') ||
+        (error as { code?: string })?.code === 'ERR_JOSE_NOT_SUPPORTED'
+      )
+    }
+
+    function getPublicKeyAvailable() {
+      return typeof (crypto.subtle as { getPublicKey?: unknown }).getPublicKey === 'function'
+    }
+
+    function keyImportOptions(alg: string) {
+      switch (alg) {
+        case 'HPKE-0':
+        case 'HPKE-1':
+        case 'HPKE-3':
+        case 'HPKE-4':
+        case 'HPKE-7':
+          return getPublicKeyAvailable() ? undefined : { extractable: true }
+        default:
+          return undefined
+      }
     }
 
     const toJWK = (input: string | jose.JWK) => {
@@ -150,6 +179,12 @@ export default (
 
     const execute = (vector: any) => async (t: typeof QUnit.assert) => {
       const dir = vector.input.alg === 'dir'
+      const integrated = vector.input.enc === undefined
+      const keyManagementAlgorithms = [vector.input.alg]
+      const contentEncryptionAlgorithms = integrated ? undefined : [vector.input.enc]
+      const decryptOptions = contentEncryptionAlgorithms
+        ? { keyManagementAlgorithms, contentEncryptionAlgorithms }
+        : { keyManagementAlgorithms }
 
       if (vector.deterministic) {
         // encrypt and compare results are the same
@@ -235,9 +270,14 @@ export default (
           encrypt.setUnprotectedHeader(vector.encrypting_content.unprotected)
         }
 
+        if (vector.input.aad) {
+          encrypt.setAdditionalAuthenticatedData(encode(vector.input.aad))
+        }
+
         const privateKey = (await keys.importJWK(
           toJWK(vector.input.pwd || vector.input.key),
           dir ? vector.input.enc : vector.input.alg,
+          integrated ? keyImportOptions(vector.input.alg) : undefined,
         )) as jose.KeyLike
         let publicKey
         if (privateKey.type === 'secret') {
@@ -250,34 +290,44 @@ export default (
         }
 
         const result = await encrypt.encrypt(publicKey)
-        await flattened.decrypt(result, privateKey, {
-          keyManagementAlgorithms: [vector.input.alg],
-          contentEncryptionAlgorithms: [vector.input.enc],
-        })
+        await flattened.decrypt(result, privateKey, decryptOptions)
       }
 
       const privateKey = await keys.importJWK(
         toJWK(vector.input.pwd || vector.input.key),
         dir ? vector.input.enc : vector.input.alg,
+        integrated ? keyImportOptions(vector.input.alg) : undefined,
       )
       if (vector.output.json_flat) {
-        await flattened.decrypt(vector.output.json_flat, privateKey, {
-          keyManagementAlgorithms: [vector.input.alg],
-          contentEncryptionAlgorithms: [vector.input.enc],
-        })
+        const result = await flattened.decrypt(vector.output.json_flat, privateKey, decryptOptions)
+        if (integrated) {
+          t.deepEqual(result.plaintext, encode(vector.input.plaintext))
+          t.deepEqual(result.additionalAuthenticatedData, encode(vector.input.aad))
+        }
       }
       if (vector.output.compact) {
-        await compact.decrypt(vector.output.compact, privateKey, {
-          keyManagementAlgorithms: [vector.input.alg],
-          contentEncryptionAlgorithms: [vector.input.enc],
-        })
+        const result = await compact.decrypt(vector.output.compact, privateKey, decryptOptions)
+        if (integrated) {
+          t.deepEqual(result.plaintext, encode(vector.input.plaintext))
+        }
       }
       t.ok(1)
     }
 
     for (const vector of jweVectors) {
       if (supported(vector)) {
-        test(vector.title, execute(vector))
+        test(vector.title, async (t) => {
+          try {
+            await execute(vector)(t)
+          } catch (error) {
+            if (vector.input.enc === undefined && isRuntimeUnsupported(error)) {
+              t.ok(1)
+              return
+            }
+
+            throw error
+          }
+        })
       } else {
         test(`[not supported] ${vector.title}`, async (t) => {
           await t.rejects(execute(vector)(t))

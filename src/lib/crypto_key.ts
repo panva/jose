@@ -1,4 +1,5 @@
 import type * as types from '../types.d.ts'
+import { keyAlgorithm } from './hpke.js'
 
 const unusable = (name: string | number, prop = 'algorithm.name') =>
   new TypeError(`CryptoKey does not support this operation, its ${prop} must be ${name}`)
@@ -130,6 +131,21 @@ export function checkEncCryptoKey(key: types.CryptoKey, alg: string, usage?: Key
     case 'RSA-OAEP-512': {
       if (!isAlgorithm<RsaHashedKeyAlgorithm>(key.algorithm, 'RSA-OAEP')) throw unusable('RSA-OAEP')
       checkHashLength(key.algorithm, parseInt(alg.slice(9), 10) || 1)
+      break
+    }
+    case 'HPKE-0':
+    case 'HPKE-1':
+    case 'HPKE-3':
+    case 'HPKE-4':
+    case 'HPKE-7': {
+      const expected = keyAlgorithm(alg)
+      if (!isAlgorithm(key.algorithm, expected.name)) throw unusable(expected.name)
+      if (
+        (expected as EcKeyAlgorithm).namedCurve &&
+        (key.algorithm as EcKeyAlgorithm).namedCurve !== (expected as EcKeyAlgorithm).namedCurve
+      ) {
+        throw unusable((expected as EcKeyAlgorithm).namedCurve!, 'algorithm.namedCurve')
+      }
       break
     }
     default:

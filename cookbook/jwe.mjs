@@ -668,4 +668,200 @@ export default [
       },
     },
   },
+  {
+    title:
+      'https://datatracker.ietf.org/doc/html/draft-ietf-jose-hpke-encrypt#appendix-A - HPKE-0 Integrated Encryption',
+    input: {
+      plaintext:
+        'You can trust us to stick with you through thick and thin-to the bitter end. And you can trust us to keep any secret of yours-closer than you keep it yourself. But you cannot trust us to let you face trouble alone, and go off without a word. We are your friends, Frodo.',
+      key: {
+        kty: 'EC',
+        crv: 'P-256',
+        x: 'qy-BxXhaelX9Fqe8muRTu8HhseHYgMMGxyfAnIy0MC0',
+        y: 'ctfHN7Y4pkj7vZI-sgJ6BqsYwG-PDnB8j7TsfzHHJOI',
+        d: 'aAKxBMAkNm2AZDGv7LN5yodDwahJ5rKbrgiiz3dUIH4',
+        alg: 'HPKE-0',
+        use: 'enc',
+        kid: 'KfvD-eYaynUKba0ow-v9uoEV-twV6mYDyiAOWO6LoPM',
+      },
+      alg: 'HPKE-0',
+      aad: 'The Fellowship of the Ring',
+    },
+    encrypting_key: {},
+    encrypting_content: {
+      protected: {
+        alg: 'HPKE-0',
+        kid: 'KfvD-eYaynUKba0ow-v9uoEV-twV6mYDyiAOWO6LoPM',
+      },
+    },
+    output: {
+      compact:
+        'eyJhbGciOiJIUEtFLTAiLCJraWQiOiJLZnZELWVZYXluVUtiYTBvdy12OXVvRVYtdHdWNm1ZRHlpQU9XTzZMb1BNIn0.BKqUaiyoPbH1jnjApcpjGqswg7npGSSXFcFv1nGaL6YYs3S27c8Yi5V5rsds91bV_UjdqzLlj2zuuAPWetLMab8..fO8VQt1DsdgtijGci90sO8sNvws6im8Yko4NnMWXVAM5GaHbHYRSGnjs6M7GnkcaTrEjy8cxDDLZFKTwMdYGOjYBsbTVVAoIImVd8tXZNjQswaPU8t8OP1jCwo6iw8t4-Hm6hCE61uzhEd_r9XkN4blHjrcAoCICcwqn_5lgJCTPQezJtiTAhrtHpC1quPA3aO2Pyhui5CzOtk967IC8v28jq6K7C3mbu-m10bo0aWqdybibCiiS5A89PXFWurW83HNnJFdoiqZRTtF4d_OAQ2Jq9FCrahrh43Xqp1z3HYjf73_rOHYWXzv8jGorDAKjsPgxYN_9TgGUstjiRIMLj9dJXxqrPkRLQ4VSAzVWCNe5MabAR1sFFB5tx_gA.',
+      json_flat: {
+        protected:
+          'eyJhbGciOiJIUEtFLTAiLCJraWQiOiJLZnZELWVZYXluVUtiYTBvdy12OXVvRVYtdHdWNm1ZRHlpQU9XTzZMb1BNIn0',
+        aad: 'VGhlIEZlbGxvd3NoaXAgb2YgdGhlIFJpbmc',
+        encrypted_key:
+          'BNC1LPfAH7I5Fxi7X7lrQLFkdpZcSGoXpBw4FYvCY1wZqAX53caa-lyNLPHkzwQMAMFHoOoN_TRGSzb2Gw4aDlA',
+        ciphertext:
+          'I0sH6mQa6r-mgLHqI23-wzBmsTULQoNtANiHF_incW5y5BIB7qo0XN3NoOqf1IvH1UEfE1_Tu9Baf6M3z_E9eJK1oDV1Q8A6VnZUnhj0cf2UNQhufoVJOlpbPolLiecxwitIqYKPKfzJmG1uZ7lA0xUAiNPkUR9OSHpLYr9HWAa1DWDbczWOMtFnxCJwd-PfyjX5-5-X6kAcdj5z-Kx4losmN2k7r2T1BUnHNnZlSgcz5nSZBxvKqkXX3xl0Tw9ys--37IJD7UcIFfST6b0PXHzuKSw-attSD_67SRcpcxUTm3nyvtroYF8sg0ztQLuNkC-gwe7-uxPNO2iBDIypgImhvlTaAEcuHJDtFgU5geIXFMAlMDAg7cSk4ssR',
+      },
+    },
+  },
+  {
+    title:
+      'https://datatracker.ietf.org/doc/html/draft-ietf-jose-hpke-encrypt#appendix-A - HPKE-1 Integrated Encryption',
+    input: {
+      plaintext:
+        'You can trust us to stick with you through thick and thin-to the bitter end. And you can trust us to keep any secret of yours-closer than you keep it yourself. But you cannot trust us to let you face trouble alone, and go off without a word. We are your friends, Frodo.',
+      key: {
+        kty: 'EC',
+        crv: 'P-384',
+        x: 'CTphb4EF35SSZgrk9rYHXkdalQLTGRApFRiAF8eVteQtOIZRbZKV0iEv9eiSElLT',
+        y: '6KddFD8aAVzoJNq1Jr_4oZ3t7SGZm3qgXMHN7sB_KAlxTydxRaVXArFKQyyffOj6',
+        d: 'UzFpz5G-_kWkiCKWCWdRXFxVoz9fTY4u9I_XmfPoOI7eEf0glEARLbsx06wb1EYu',
+        alg: 'HPKE-1',
+        use: 'enc',
+        kid: 'K4P-SJHnqUpz-qTXlYCBV6ITFu8sH_gsx2KGMEcjk9s',
+      },
+      alg: 'HPKE-1',
+      aad: 'The Fellowship of the Ring',
+    },
+    encrypting_key: {},
+    encrypting_content: {
+      protected: {
+        alg: 'HPKE-1',
+        kid: 'K4P-SJHnqUpz-qTXlYCBV6ITFu8sH_gsx2KGMEcjk9s',
+      },
+    },
+    output: {
+      compact:
+        'eyJhbGciOiJIUEtFLTEiLCJraWQiOiJLNFAtU0pIbnFVcHotcVRYbFlDQlY2SVRGdThzSF9nc3gyS0dNRWNqazlzIn0.BG5NsNBMLw2aHZgcyEGwC2D5L3NQqWp6TCVneiNrWzK9OCuIqpZ6mxkTxf-UXtO2BiQjFLSm2GCnPItrjFEjHzTvg_aPUjZVNsSWFhgHseLC40zvBvBqhqGyRT1btnzhYw..k283DSyVnTKkfQnB0ngaY03st55x1OBqHLvnvp7VM0jA-yxgC7QgdAiyDCxfnpBgLE680KyJPJcDo0F9K50O2wZOBC5VAPUZlvkOkGucTvEfnVn6HPd1c-Btpm4eMEHOzEZ69nMQptgOtaA_XTdhiA34CX_bMaPO0MwrXu76HrMlfSXZ1C-298ZPHDOBHUx4IJROJaXMh4NKq76VLkIsdAdgguT4SXaTYBka5c1vEcLtjQh5zKtQHXHHevHO6gZmneYsg6sx-PvrXPItQe33bGwYAJ5zxhKTynoOfDa_zfZFSdWz3OX1wMa8WZMbCU1ibIjiEv0H1pOO0cs8mt7Xs5xjTqKBlW6m8EecD2H9YBqB4DVbMsckNnxkqIEM.',
+      json_flat: {
+        protected:
+          'eyJhbGciOiJIUEtFLTEiLCJraWQiOiJLNFAtU0pIbnFVcHotcVRYbFlDQlY2SVRGdThzSF9nc3gyS0dNRWNqazlzIn0',
+        aad: 'VGhlIEZlbGxvd3NoaXAgb2YgdGhlIFJpbmc',
+        encrypted_key:
+          'BFX1YGr3AR4szfTMVMWctHh2LGBPFdGdJCfft3QYR0mL-zCeJgZkcYzFlD1EID8dFfDv_YNU8DRmm3qzQ8oMsW4ZA3Qs_iQpaEVj3AOsNWFD-yLq1dt1fF4r6VAufu0unw',
+        ciphertext:
+          '_AB6I_8GkA-U9Il2XFNJ3kBDAJ9P1erWUzWzBFgRFM1NhlkE6phABLmhTNc517Vk-YJ0P_7WQqbUnMwgRBQYDycPdhh11ZGvRYI6EjbHXRD8ctVDX_WaWE6RPfY3GxA1Rplh5ZcKYus2Pln1nOseFvC9NEZkuLNLyM8jBVgwq_EQtH1GQlSZwK8I1TyBOcBtWcXnYqy-XK8Rbj3eifbQESKZPedVqMXcQ03u4xdikZp5aqLJCLmwN16pYTgSzXDW0d0IHPc1tqLF4eUFrFfPokckpe92pP5q1DMetRLP7G46oPLXMBQ8tFd_FxtdVF1mrqV3l2KB-JC6unu9ZWwEBt6s-p1xZ2jjIiqTC0Hy-0pK8YmfOEKj5SKk_re1',
+      },
+    },
+  },
+  {
+    title:
+      'https://datatracker.ietf.org/doc/html/draft-ietf-jose-hpke-encrypt#appendix-A - HPKE-3 Integrated Encryption',
+    input: {
+      plaintext:
+        'You can trust us to stick with you through thick and thin-to the bitter end. And you can trust us to keep any secret of yours-closer than you keep it yourself. But you cannot trust us to let you face trouble alone, and go off without a word. We are your friends, Frodo.',
+      key: {
+        kty: 'OKP',
+        crv: 'X25519',
+        x: 'Pyv22rGl5uY-24SOA_wda7PO4bIw6bobrD1_5VgF3H4',
+        d: 'VtBu3AuB4_RKgDCDqj1j-_Kzf12ekvaGxoAGmMDcDks',
+        alg: 'HPKE-3',
+        use: 'enc',
+        kid: 'n9hjOrhXxsQ_lTMu3PqkjHgwJURHZPF3HY5p-LFEgyg',
+      },
+      alg: 'HPKE-3',
+      aad: 'The Fellowship of the Ring',
+    },
+    encrypting_key: {},
+    encrypting_content: {
+      protected: {
+        alg: 'HPKE-3',
+        kid: 'n9hjOrhXxsQ_lTMu3PqkjHgwJURHZPF3HY5p-LFEgyg',
+      },
+    },
+    output: {
+      compact:
+        'eyJhbGciOiJIUEtFLTMiLCJraWQiOiJuOWhqT3JoWHhzUV9sVE11M1Bxa2pIZ3dKVVJIWlBGM0hZNXAtTEZFZ3lnIn0.UkLR0N2IgxHkSZMhcCfxVO_F12kcq32ccJ8x8M4MfBE..I8Obflj3vInszfr9sC1tnnhaGPSGAL9L1-mURYJqYWWxTlI0OZrFSKiPY7dAuyrITxTiaboZTF2yNo0swzp8S5DTil1KdxCzrMUtz5Lb-rMbR5Q5uNO7NXegJceIQkR8p7iMfNXETCI8Pv36J45yDQDHrjNc6ZuJ8Xn6pHNFFot67L1GI0ULsrS2TCqztg2p76A1nObMGvA-1w5zwU6NN7p9WPCrvIKwO6MIl-LR4MV0-jnlmd5dlw3wGP5DDfqms7lZNbZ5X2d5U0s_7aT4Zar6ixUZrI6bSj4gntrEg8nLz9IlBT6tE6Gic3I2Abxbj1Ewn20WAZetzAQzWNdJk7lIZYAJZLeeBip605kw5DuwSEK_3jlXnPsDO3Zs.',
+      json_flat: {
+        protected:
+          'eyJhbGciOiJIUEtFLTMiLCJraWQiOiJuOWhqT3JoWHhzUV9sVE11M1Bxa2pIZ3dKVVJIWlBGM0hZNXAtTEZFZ3lnIn0',
+        aad: 'VGhlIEZlbGxvd3NoaXAgb2YgdGhlIFJpbmc',
+        encrypted_key: 'Ch0FElgndJcJkvCLEWpRpYJo3gbwn-CzVke-s_XH5Qc',
+        ciphertext:
+          '9iGWYstawHANKOPNlkohsf0uSr5B1fSsTt5AYJzgI7WckZSyHooM2gEGrNf1b8TzPtWAnq7fGXgSTd76-Bg_DsDu-EsdEnb9XE9-7jaLLbP_pJ2JNK6R1k420ZvpTqlAPk0Zu1tW8ZREYDtbw0K8aM4gIY4P8vqFba2mJxv0OxEXTP5ur2pTOOcWhZ0E4ICUMDD1xcgzgziEsunxeFdU2X2okwVRr6pQP4XIe81bde7OY1qhaa84mxmMBNoOBgkE3vlV58KHR_JFKUkGlt_0FKBsrpt1yq9gZUzF2_8uqD1xHiMrw3zyLcKH0hdJvLfZv3s_0sYAk98tPF4uZVmkyF-FC0n83vghekRCLR_HJg_QZhfWsSAhETnydVyJ',
+      },
+    },
+  },
+  {
+    title:
+      'https://datatracker.ietf.org/doc/html/draft-ietf-jose-hpke-encrypt#appendix-A - HPKE-4 Integrated Encryption',
+    input: {
+      plaintext:
+        'You can trust us to stick with you through thick and thin-to the bitter end. And you can trust us to keep any secret of yours-closer than you keep it yourself. But you cannot trust us to let you face trouble alone, and go off without a word. We are your friends, Frodo.',
+      key: {
+        kty: 'OKP',
+        crv: 'X25519',
+        x: 'N5icT6hvBDpsc9a2t1mXfsDBGsvi4VNTNoINejK5nCY',
+        d: '0EeYQgglJkckhiVP5aGzyrQHepapUd39QlbI53HnWOQ',
+        alg: 'HPKE-4',
+        use: 'enc',
+        kid: 'EMf0FmafX1CDECti7cvCWZddOvzvPf3_nmXI39eiO18',
+      },
+      alg: 'HPKE-4',
+      aad: 'The Fellowship of the Ring',
+    },
+    encrypting_key: {},
+    encrypting_content: {
+      protected: {
+        alg: 'HPKE-4',
+        kid: 'EMf0FmafX1CDECti7cvCWZddOvzvPf3_nmXI39eiO18',
+      },
+    },
+    output: {
+      compact:
+        'eyJhbGciOiJIUEtFLTQiLCJraWQiOiJFTWYwRm1hZlgxQ0RFQ3RpN2N2Q1daZGRPdnp2UGYzX25tWEkzOWVpTzE4In0.Y2SoN-pcwe65RNXeomaV8hgkqY5sBn1t9VLp2Y9_1UU..qQJ1rsCOLV0Z2sFQh1MjkYP2Lmu2O_4g2JWWxWSJNqgvPVmXoEoW7Ls7WNcW49aSYJiAmT_J_W3TfhP48qPpsAuaLP1MK4iA-hWF0LLfCAQM5wST86_eO2ewwSfXEwTsJoMeqw2A4lTifulJmNT8IXHzhU7SmmLuRoni_MUpD5NzCy7_M4yb5v1wQ0CcbjiBJZn14Y9dufP0v6kFoR50ca95rIflu54TH_i-Z9CReJHZBmlcKcsuejfP7HCpQx60VRCpFZ9IsSIQgGJu4QSMzQToDZW6vhnSQBzeqafxC4082Lrh3YlQ21CCJ6AjOEuStYvvtYd6Yem9GxG17Y_Q-b5yePFrn2gHa0j7avoqKQqTjiuTGjruFejEBjnj.',
+      json_flat: {
+        protected:
+          'eyJhbGciOiJIUEtFLTQiLCJraWQiOiJFTWYwRm1hZlgxQ0RFQ3RpN2N2Q1daZGRPdnp2UGYzX25tWEkzOWVpTzE4In0',
+        aad: 'VGhlIEZlbGxvd3NoaXAgb2YgdGhlIFJpbmc',
+        encrypted_key: 'WPuUGt62N-ZPXl0IMvwqVI5AuWnkn-ShiF3T5xF2KAQ',
+        ciphertext:
+          'dKwJ1poXJWUfVzLGr1UbCfJpZ8bx4tLlzFMwlcb-RN4do0umqfRc_J70pxgWt6MEpFxAFd8ZzDUzGtjZbt4k1c5vcCX8_XLT87JUYEAFLcPzgT6pdqgEjOJHd3E84HgphLSC-D117RVpHH-lkUp7NKg8hbJ67ZrDnPvT_JwpAw8898diWI-Gys3K6tSox0RLHFVldHTjJQWE28EPWWJ6ewklqd28rgTMc8zm2lpapa3p5hOSYxUB2IQ6CkU7U7SaPNrW3VspdVCbpjajOchTWIBokxihbxyIH3IT5xMhYjhcrkFRLbF1X_adZjTF1nQFXnBSynAnEs5q2RBExeNLYb6Dc9TDDzjV009xEqX7mpsrhJKlkw5-SlFIsaF4',
+      },
+    },
+  },
+  {
+    title:
+      'https://datatracker.ietf.org/doc/html/draft-ietf-jose-hpke-encrypt#appendix-A - HPKE-7 Integrated Encryption',
+    input: {
+      plaintext:
+        'You can trust us to stick with you through thick and thin-to the bitter end. And you can trust us to keep any secret of yours-closer than you keep it yourself. But you cannot trust us to let you face trouble alone, and go off without a word. We are your friends, Frodo.',
+      key: {
+        kty: 'EC',
+        crv: 'P-256',
+        x: 'z860carZ9CSxTjXo7MK65h_TaZX7ipi2iUh_Bh-VP54',
+        y: 'i9X0v8PwcNgbsoMhAz-_W2OPaFU--BQAgWVzJVOfedo',
+        d: 'nklFxo0VoD3POieIKD2I_6O4pyuoX1755y_r8My3kL4',
+        alg: 'HPKE-7',
+        use: 'enc',
+        kid: 'YGdLPiZno0vV3kJKu4kEMQEjK3_upFF2D_lFDf1FFwk',
+      },
+      alg: 'HPKE-7',
+      aad: 'The Fellowship of the Ring',
+    },
+    encrypting_key: {},
+    encrypting_content: {
+      protected: {
+        alg: 'HPKE-7',
+        kid: 'YGdLPiZno0vV3kJKu4kEMQEjK3_upFF2D_lFDf1FFwk',
+      },
+    },
+    output: {
+      compact:
+        'eyJhbGciOiJIUEtFLTciLCJraWQiOiJZR2RMUGlabm8wdlYza0pLdTRrRU1RRWpLM191cEZGMkRfbEZEZjFGRndrIn0.BL2AEDUZhRslwuzyKdVKVaGwBpFly_SgLlxy2wTg42Vyfob2tCdv0SgN6OMR16kilUZ17jafK0Gzw0plYKGm08Y..0-DVK3WNJxSSX4hn0KgFlV4vRS4iJLiNCmjl9J4QKCYiOzmdHmWXvB4MS56wOmpVhDbboVIC0wOBxsUlWIXIg6N9DSlu-iwlgiqrVj2v61LrX-qjB7MAg0X5DQJSOWg-saAkhf2lEJ4z0meZIdAlY93_vgAUHKoHsSp_EciL28JtLrBU18WHv34eHONzWsVYdj-ycaBqLUAkcfYrlNZrVpCR6OdNXkuOmkhqrIZjFEl67VZVY5NfbvyFRAkkqgd42wvATdGk2gw_jDZe1fvzGNuV-e5UCrHQ-5Es2rmsLe-nfeB_9iUe-2nZswWS2qndvz6ZANF9Kj2QMJXCLN7RRSLLjP58sxoyDZC8nRBdJxsJKXc8G5eYFLJ1Bc4w.',
+      json_flat: {
+        protected:
+          'eyJhbGciOiJIUEtFLTciLCJraWQiOiJZR2RMUGlabm8wdlYza0pLdTRrRU1RRWpLM191cEZGMkRfbEZEZjFGRndrIn0',
+        aad: 'VGhlIEZlbGxvd3NoaXAgb2YgdGhlIFJpbmc',
+        encrypted_key:
+          'BJsgimlSAygpn6mErqMkZcmzVLsX6V9aYArVYAjg2LEi2shWQopeMMr5n4VNH_kCeuqXRd2LtFjQd2eWsXTAcs8',
+        ciphertext:
+          'ny4HVMntsCPyijVFtO41pSpN_jusNGtAaYjD_glEgkQlnMlJuDyiTbL9_IgWjcmaQv-ahcToh6pussscT37Oki95DB56UEK1sgwv23m54UgDFDS3Q2UI48pRzgsONMJdc46-UjqCXvDgbGZfA7Afn-mCGJZo90Tr2QyDMpevwYv4-Zd6ldw2QrF7pUXXOLUP8yh2Y8qZB7JkyUvN5gH8QIgIcC11a-2-YWWSO3JgpJ4R51YESAOJ6MbaW2otZU7JY9GW7dKpwd3mym6IxJ4onwSvABkmVaFSqxOEBlStSLirlR0sf1q9HK_gn8HHNjlaNNja2yE3C42ESTWAoH1uapvfMaQJE1ZWG7ru77nMBQJPRxAb-dXTUJa3jeVF',
+      },
+    },
+  },
 ]

@@ -16,6 +16,72 @@ import { validateCrit } from '../../lib/validate_crit.js'
 import { normalizeKey } from '../../lib/normalize_key.js'
 import { checkKeyType } from '../../lib/check_key_type.js'
 import { compress } from '../../lib/deflate.js'
+import { isIntegratedEncryption, seal as hpkeSeal } from '../../lib/hpke.js'
+import { assertCryptoKey } from '../../lib/is_key_like.js'
+
+function validateMultiUseCEK(alg: string, cek: Uint8Array | undefined) {
+  if (cek && (alg === 'dir' || alg === 'ECDH-ES' || isIntegratedEncryption(alg))) {
+    throw new TypeError(
+      `setContentEncryptionKey cannot be called with JWE "alg" (Algorithm) Header ${alg}`,
+    )
+  }
+}
+
+function prepareAdditionalData(protectedHeader?: types.JWEHeaderParameters, aad?: Uint8Array) {
+  let protectedHeaderS = ''
+  let protectedHeaderB: Uint8Array = new Uint8Array()
+  let aadMember: string | undefined
+
+  if (protectedHeader) {
+    protectedHeaderS = b64u(JSON.stringify(protectedHeader))
+    protectedHeaderB = encode(protectedHeaderS)
+  }
+
+  let additionalData: Uint8Array = protectedHeaderB
+  if (aad) {
+    aadMember = b64u(aad)
+    additionalData = concat(protectedHeaderB, encode('.'), encode(aadMember))
+  }
+
+  return { additionalData, aadMember, protectedHeaderS }
+}
+
+async function preparePlaintext(plaintext: Uint8Array, joseHeader: types.JWEHeaderParameters) {
+  if (joseHeader.zip !== 'DEF') {
+    return plaintext
+  }
+
+  return compress(plaintext).catch((cause) => {
+    throw new JWEInvalid('Failed to compress plaintext', { cause })
+  })
+}
+
+function finalizeJWE(
+  jwe: types.FlattenedJWE,
+  protectedHeader: types.JWEHeaderParameters | undefined,
+  protectedHeaderS: string,
+  aadMember: string | undefined,
+  sharedUnprotectedHeader: types.JWEHeaderParameters | undefined,
+  unprotectedHeader: types.JWEHeaderParameters | undefined,
+) {
+  if (aadMember) {
+    jwe.aad = aadMember
+  }
+
+  if (protectedHeader) {
+    jwe.protected = protectedHeaderS
+  }
+
+  if (sharedUnprotectedHeader) {
+    jwe.unprotected = sharedUnprotectedHeader
+  }
+
+  if (unprotectedHeader) {
+    jwe.header = unprotectedHeader
+  }
+
+  return jwe
+}
 
 /**
  * The FlattenedEncrypt class is used to build and encrypt Flattened JWE objects.
@@ -203,17 +269,74 @@ export class FlattenedEncrypt {
       throw new JWEInvalid('JWE "alg" (Algorithm) Header Parameter missing or invalid')
     }
 
+    validateMultiUseCEK(alg, this.#cek)
+
+    if (isIntegratedEncryption(alg)) {
+      if (this.#protectedHeader?.alg !== alg) {
+        throw new JWEInvalid(
+          'JWE "alg" (Algorithm) Header Parameter MUST be in a protected header.',
+        )
+      }
+
+      if (enc !== undefined) {
+        throw new JWEInvalid(
+          'JWE "enc" (Encryption Algorithm) Header Parameter must not be present for integrated encryption',
+        )
+      }
+
+      if (joseHeader.ek !== undefined) {
+        throw new JWEInvalid('JWE "ek" Header Parameter must not be present')
+      }
+
+      if (joseHeader.psk_id !== undefined) {
+        throw new JOSENotSupported('JWE HPKE PSK mode is not supported')
+      }
+
+      if (this.#iv) {
+        throw new TypeError(
+          `setInitializationVector cannot be called with JWE "alg" (Algorithm) Header ${alg}`,
+        )
+      }
+
+      if (
+        this.#keyManagementParameters &&
+        Object.keys(this.#keyManagementParameters).length !== 0
+      ) {
+        throw new TypeError(
+          `setKeyManagementParameters cannot be called with JWE "alg" (Algorithm) Header ${alg}`,
+        )
+      }
+
+      checkKeyType(alg, key, 'encrypt')
+      const k = await normalizeKey(key, alg)
+      assertCryptoKey(k)
+
+      const { additionalData, aadMember, protectedHeaderS } = prepareAdditionalData(
+        this.#protectedHeader,
+        this.#aad,
+      )
+
+      const plaintext = await preparePlaintext(this.#plaintext, joseHeader)
+      const { ciphertext, encryptedKey } = await hpkeSeal(alg, k, plaintext, additionalData)
+
+      return finalizeJWE(
+        {
+          ciphertext: b64u(ciphertext),
+          encrypted_key: b64u(encryptedKey),
+        },
+        this.#protectedHeader,
+        protectedHeaderS,
+        aadMember,
+        this.#sharedUnprotectedHeader,
+        this.#unprotectedHeader,
+      )
+    }
+
     if (typeof enc !== 'string' || !enc) {
       throw new JWEInvalid('JWE "enc" (Encryption Algorithm) Header Parameter missing or invalid')
     }
 
     let encryptedKey: Uint8Array | undefined
-
-    if (this.#cek && (alg === 'dir' || alg === 'ECDH-ES')) {
-      throw new TypeError(
-        `setContentEncryptionKey cannot be called with JWE "alg" (Algorithm) Header ${alg}`,
-      )
-    }
 
     checkKeyType(alg === 'dir' ? enc : alg, key, 'encrypt')
 
@@ -244,32 +367,12 @@ export class FlattenedEncrypt {
       }
     }
 
-    let additionalData: Uint8Array
-    let protectedHeaderS: string
-    let protectedHeaderB: Uint8Array
-    let aadMember: string | undefined
-    if (this.#protectedHeader) {
-      protectedHeaderS = b64u(JSON.stringify(this.#protectedHeader))
-      protectedHeaderB = encode(protectedHeaderS)
-    } else {
-      protectedHeaderS = ''
-      protectedHeaderB = new Uint8Array()
-    }
+    const { additionalData, aadMember, protectedHeaderS } = prepareAdditionalData(
+      this.#protectedHeader,
+      this.#aad,
+    )
 
-    if (this.#aad) {
-      aadMember = b64u(this.#aad)
-      const aadMemberBytes = encode(aadMember)
-      additionalData = concat(protectedHeaderB, encode('.'), aadMemberBytes)
-    } else {
-      additionalData = protectedHeaderB
-    }
-
-    let plaintext = this.#plaintext
-    if (joseHeader.zip === 'DEF') {
-      plaintext = await compress(plaintext).catch((cause) => {
-        throw new JWEInvalid('Failed to compress plaintext', { cause })
-      })
-    }
+    const plaintext = await preparePlaintext(this.#plaintext, joseHeader)
 
     const { ciphertext, tag, iv } = await encrypt(enc, plaintext, cek, this.#iv, additionalData)
 
@@ -289,22 +392,13 @@ export class FlattenedEncrypt {
       jwe.encrypted_key = b64u(encryptedKey)
     }
 
-    if (aadMember) {
-      jwe.aad = aadMember
-    }
-
-    if (this.#protectedHeader) {
-      jwe.protected = protectedHeaderS
-    }
-
-    if (this.#sharedUnprotectedHeader) {
-      jwe.unprotected = this.#sharedUnprotectedHeader
-    }
-
-    if (this.#unprotectedHeader) {
-      jwe.header = this.#unprotectedHeader
-    }
-
-    return jwe
+    return finalizeJWE(
+      jwe,
+      this.#protectedHeader,
+      protectedHeaderS,
+      aadMember,
+      this.#sharedUnprotectedHeader,
+      this.#unprotectedHeader,
+    )
   }
 }

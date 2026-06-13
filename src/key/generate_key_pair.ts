@@ -7,6 +7,7 @@
 import { JOSENotSupported } from '../util/errors.js'
 
 import type * as types from '../types.d.ts'
+import { keyAlgorithm, privateKeyUsages, publicKeyUsages } from '../lib/hpke.js'
 
 /** Asymmetric key pair generation function result. */
 export interface GenerateKeyPairResult {
@@ -170,6 +171,14 @@ export async function generateKeyPair(
       }
       break
     }
+    case 'HPKE-0':
+    case 'HPKE-1':
+    case 'HPKE-3':
+    case 'HPKE-4':
+    case 'HPKE-7':
+      algorithm = keyAlgorithm(alg)
+      keyUsages = [...privateKeyUsages(alg), ...publicKeyUsages(alg)]
+      break
     default:
       throw new JOSENotSupported('Invalid or unsupported JWK "alg" (Algorithm) Parameter value')
   }
