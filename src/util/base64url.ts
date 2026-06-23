@@ -21,6 +21,11 @@ export function decode(input: Uint8Array | string): Uint8Array {
   if (encoded instanceof Uint8Array) {
     encoded = decoder.decode(encoded)
   }
+  if (encoded.indexOf('+') !== -1 || encoded.indexOf('/') !== -1) {
+    // + and / are not in the Base64URL alphabet; reject them here so this
+    // path matches Uint8Array.fromBase64(..., { alphabet: 'base64url' }) above
+    throw new TypeError('The input to be decoded is not correctly encoded.')
+  }
   encoded = encoded.replace(/-/g, '+').replace(/_/g, '/')
   try {
     return decodeBase64(encoded)
