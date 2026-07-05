@@ -47,6 +47,11 @@ function isNodeVersionAtLeast(major: number, minor: number) {
   return parts[0] > major || (parts[0] === major && parts[1] >= minor)
 }
 
+function isElectronChromiumVersionAtLeast(major: number) {
+  const version = (process.versions as Record<string, string | undefined>).chrome
+  return typeof version === 'string' && parseInt(version.split('.')[0], 10) >= major
+}
+
 export function supported(identifier?: string, op?: string) {
   switch (identifier) {
     case 'RSA1_5':
@@ -61,6 +66,18 @@ export function supported(identifier?: string, op?: string) {
     case 'ML-DSA-44':
     case 'ML-DSA-65':
     case 'ML-DSA-87':
+      if (isElectron) {
+        if (!isNodeVersionAtLeast(24, 18)) {
+          return false
+        }
+        switch (op) {
+          case 'private jwk import':
+          case 'pem import':
+            return true
+          default:
+            return isElectronChromiumVersionAtLeast(151)
+        }
+      }
       return isDeno || (isNode && isNodeVersionAtLeast(24, 7))
   }
 
@@ -86,7 +103,7 @@ export function supported(identifier?: string, op?: string) {
       case 'ECDH-ES+A128KW':
       case 'ECDH-ES+A192KW':
       case 'ECDH-ES+A256KW':
-        return false
+        return isNodeVersionAtLeast(24, 18)
     }
   }
 

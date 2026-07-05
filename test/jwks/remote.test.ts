@@ -9,7 +9,8 @@ const agent = new MockAgent()
 agent.disableNetConnect()
 setGlobalDispatcher(agent)
 
-const fetch: typeof globalThis.fetch = (...args) => undiciFetch(...(args as Parameters<typeof undiciFetch>)) as any
+const fetch: typeof globalThis.fetch = (...args) =>
+  undiciFetch(...(args as Parameters<typeof undiciFetch>)) as any
 
 import {
   jwtVerify,
