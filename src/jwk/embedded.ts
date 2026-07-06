@@ -36,7 +36,7 @@ import { JWSInvalid } from '../util/errors.js'
 export async function EmbeddedJWK(
   protectedHeader?: types.JWSHeaderParameters,
   token?: types.FlattenedJWSInput,
-): Promise<types.CryptoKey> {
+): Promise<types.CryptoKey | types.CompositeKey> {
   const joseHeader = {
     ...protectedHeader,
     ...token?.header,

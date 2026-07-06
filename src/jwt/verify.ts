@@ -21,7 +21,7 @@ export interface JWTVerifyOptions extends types.VerifyOptions, types.JWTClaimVer
 export interface JWTVerifyGetKey extends types.GenericGetKeyFunction<
   types.JWTHeaderParameters,
   types.FlattenedJWSInput,
-  types.CryptoKey | types.KeyObject | types.JWK | Uint8Array
+  types.CryptoKey | types.CompositeKey | types.KeyObject | types.JWK | Uint8Array
 > {}
 
 /**
@@ -110,7 +110,7 @@ export interface JWTVerifyGetKey extends types.GenericGetKeyFunction<
  */
 export async function jwtVerify<PayloadType = types.JWTPayload>(
   jwt: string | Uint8Array,
-  key: types.CryptoKey | types.KeyObject | types.JWK | Uint8Array,
+  key: types.CryptoKey | types.CompositeKey | types.KeyObject | types.JWK | Uint8Array,
   options?: JWTVerifyOptions,
 ): Promise<types.JWTVerifyResult<PayloadType>>
 
@@ -143,7 +143,13 @@ export async function jwtVerify<PayloadType = types.JWTPayload>(
 
 export async function jwtVerify(
   jwt: string | Uint8Array,
-  key: types.CryptoKey | types.KeyObject | types.JWK | Uint8Array | JWTVerifyGetKey,
+  key:
+    | types.CryptoKey
+    | types.CompositeKey
+    | types.KeyObject
+    | types.JWK
+    | Uint8Array
+    | JWTVerifyGetKey,
   options?: JWTVerifyOptions,
 ) {
   const verified = await compactVerify(jwt, key as Parameters<typeof compactVerify>[1], options)

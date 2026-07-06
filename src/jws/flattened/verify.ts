@@ -27,7 +27,7 @@ import { normalizeKey } from '../../lib/normalize_key.js'
 export interface FlattenedVerifyGetKey extends types.GenericGetKeyFunction<
   types.JWSHeaderParameters | undefined,
   types.FlattenedJWSInput,
-  types.CryptoKey | types.KeyObject | types.JWK | Uint8Array
+  types.CryptoKey | types.CompositeKey | types.KeyObject | types.JWK | Uint8Array
 > {}
 
 /**
@@ -60,7 +60,7 @@ export interface FlattenedVerifyGetKey extends types.GenericGetKeyFunction<
  */
 export function flattenedVerify(
   jws: types.FlattenedJWSInput,
-  key: types.CryptoKey | types.KeyObject | types.JWK | Uint8Array,
+  key: types.CryptoKey | types.CompositeKey | types.KeyObject | types.JWK | Uint8Array,
   options?: types.VerifyOptions,
 ): Promise<types.FlattenedVerifyResult>
 /**
@@ -76,7 +76,13 @@ export function flattenedVerify(
 ): Promise<types.FlattenedVerifyResult & types.ResolvedKey>
 export async function flattenedVerify(
   jws: types.FlattenedJWSInput,
-  key: types.CryptoKey | types.KeyObject | types.JWK | Uint8Array | FlattenedVerifyGetKey,
+  key:
+    | types.CryptoKey
+    | types.CompositeKey
+    | types.KeyObject
+    | types.JWK
+    | Uint8Array
+    | FlattenedVerifyGetKey,
   options?: types.VerifyOptions,
 ) {
   if (!isObject(jws)) {

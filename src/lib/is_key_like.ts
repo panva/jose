@@ -1,4 +1,5 @@
 import type * as types from '../types.d.ts'
+import { isCompositeKey } from './composite_signature.js'
 
 export function assertCryptoKey(key: unknown): asserts key is types.CryptoKey {
   if (!isCryptoKey(key)) {
@@ -20,5 +21,7 @@ export const isKeyObject = <T extends types.KeyObject = types.KeyObject>(key: un
   // @ts-ignore
   key?.[Symbol.toStringTag] === 'KeyObject'
 
-export const isKeyLike = (key: unknown): key is types.CryptoKey | types.KeyObject =>
-  isCryptoKey(key) || isKeyObject(key)
+export const isKeyLike = (
+  key: unknown,
+): key is types.CryptoKey | types.KeyObject | types.CompositeKey =>
+  isCryptoKey(key) || isKeyObject(key) || isCompositeKey(key)

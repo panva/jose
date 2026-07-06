@@ -18,7 +18,7 @@ import { decoder } from '../../lib/buffer_utils.js'
 export interface CompactVerifyGetKey extends types.GenericGetKeyFunction<
   types.CompactJWSHeaderParameters,
   types.FlattenedJWSInput,
-  types.CryptoKey | types.KeyObject | types.JWK | Uint8Array
+  types.CryptoKey | types.CompositeKey | types.KeyObject | types.JWK | Uint8Array
 > {}
 
 /**
@@ -46,7 +46,7 @@ export interface CompactVerifyGetKey extends types.GenericGetKeyFunction<
  */
 export function compactVerify(
   jws: string | Uint8Array,
-  key: types.CryptoKey | types.KeyObject | types.JWK | Uint8Array,
+  key: types.CryptoKey | types.CompositeKey | types.KeyObject | types.JWK | Uint8Array,
   options?: types.VerifyOptions,
 ): Promise<types.CompactVerifyResult>
 /**
@@ -62,7 +62,13 @@ export function compactVerify(
 ): Promise<types.CompactVerifyResult & types.ResolvedKey>
 export async function compactVerify(
   jws: string | Uint8Array,
-  key: types.CryptoKey | types.KeyObject | types.JWK | Uint8Array | CompactVerifyGetKey,
+  key:
+    | types.CryptoKey
+    | types.CompositeKey
+    | types.KeyObject
+    | types.JWK
+    | Uint8Array
+    | CompactVerifyGetKey,
   options?: types.VerifyOptions,
 ) {
   if (jws instanceof Uint8Array) {

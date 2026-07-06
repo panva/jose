@@ -1,7 +1,12 @@
 import type QUnit from 'qunit'
 import type * as jose from '../src/index.js'
 
-type keyType = Uint8Array | jose.CryptoKey | jose.KeyObject | jose.GenerateKeyPairResult
+type keyType =
+  | Uint8Array
+  | jose.CryptoKey
+  | jose.CompositeKey
+  | jose.KeyObject
+  | jose.GenerateKeyPairResult
 
 function isKeyPair(input: keyType): input is jose.GenerateKeyPairResult {
   return 'publicKey' in input && 'privateKey' in input
@@ -11,7 +16,7 @@ async function getKeys(
   secretOrKeyPair: keyType,
   jwk: false,
   keys: Pick<typeof jose, 'exportJWK' | 'generateKeyPair' | 'generateSecret' | 'importJWK'>,
-): Promise<Array<Uint8Array | jose.CryptoKey | jose.KeyObject>>
+): Promise<Array<Uint8Array | jose.CryptoKey | jose.CompositeKey | jose.KeyObject>>
 async function getKeys(
   secretOrKeyPair: keyType,
   jwk: true,

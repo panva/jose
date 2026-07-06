@@ -18,7 +18,7 @@ import { isObject } from '../../lib/type_checks.js'
 export interface GeneralVerifyGetKey extends types.GenericGetKeyFunction<
   types.JWSHeaderParameters,
   types.FlattenedJWSInput,
-  types.CryptoKey | types.KeyObject | types.JWK | Uint8Array
+  types.CryptoKey | types.CompositeKey | types.KeyObject | types.JWK | Uint8Array
 > {}
 
 /**
@@ -62,7 +62,7 @@ export interface GeneralVerifyGetKey extends types.GenericGetKeyFunction<
  */
 export function generalVerify(
   jws: types.GeneralJWSInput,
-  key: types.CryptoKey | types.KeyObject | types.JWK | Uint8Array,
+  key: types.CryptoKey | types.CompositeKey | types.KeyObject | types.JWK | Uint8Array,
   options?: types.VerifyOptions,
 ): Promise<types.GeneralVerifyResult>
 /**
@@ -78,7 +78,13 @@ export function generalVerify(
 ): Promise<types.GeneralVerifyResult & types.ResolvedKey>
 export async function generalVerify(
   jws: types.GeneralJWSInput,
-  key: types.CryptoKey | types.KeyObject | types.JWK | Uint8Array | GeneralVerifyGetKey,
+  key:
+    | types.CryptoKey
+    | types.CompositeKey
+    | types.KeyObject
+    | types.JWK
+    | Uint8Array
+    | GeneralVerifyGetKey,
   options?: types.VerifyOptions,
 ) {
   if (!isObject(jws)) {

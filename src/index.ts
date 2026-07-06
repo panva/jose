@@ -70,6 +70,7 @@ export type {
   CompactJWEHeaderParameters,
   CompactJWSHeaderParameters,
   CompactVerifyResult,
+  CompositeKey,
   CritOption,
   CryptoKey,
   DecryptOptions,

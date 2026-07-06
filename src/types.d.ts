@@ -182,7 +182,7 @@ export interface GenericGetKeyFunction<IProtectedHeader, IToken, ReturnKeyTypes>
 export interface GetKeyFunction<IProtectedHeader, IToken> extends GenericGetKeyFunction<
   IProtectedHeader,
   IToken,
-  CryptoKey | KeyObject | JWK | Uint8Array
+  CryptoKey | CompositeKey | KeyObject | JWK | Uint8Array
 > {}
 
 /**
@@ -700,7 +700,7 @@ export interface JWTDecryptResult<PayloadType = JWTPayload> {
 /** When key resolver functions are used this becomes part of successful resolves */
 export interface ResolvedKey {
   /** Key resolved from the key resolver function. */
-  key: CryptoKey | Uint8Array
+  key: CryptoKey | CompositeKey | Uint8Array
 }
 
 /** Recognized Compact JWS Header Parameters, any other Header Members may also be present. */
@@ -743,6 +743,18 @@ export type CryptoKey = Extract<
   Awaited<ReturnType<typeof crypto.subtle.generateKey>>,
   { type: string }
 >
+
+/**
+ * Opaque key object used for JOSE composite signature algorithms when a runtime does not expose a
+ * native {@link !CryptoKey} for the composite algorithm.
+ */
+export interface CompositeKey {
+  readonly [Symbol.toStringTag]: 'CompositeKey'
+  readonly type: 'private' | 'public'
+  readonly extractable: boolean
+  readonly algorithm: { name: string }
+  readonly usages: KeyUsage[]
+}
 
 /** Generic interface for JWT producing classes. */
 export interface ProduceJWT {

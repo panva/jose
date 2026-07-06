@@ -48,7 +48,7 @@ const check = (value: unknown, description: string) => {
  * @see {@link https://www.rfc-editor.org/rfc/rfc7638 RFC7638}
  */
 export async function calculateJwkThumbprint(
-  key: types.JWK | types.CryptoKey | types.KeyObject,
+  key: types.JWK | types.CryptoKey | types.CompositeKey | types.KeyObject,
   digestAlgorithm?: 'sha256' | 'sha384' | 'sha512',
 ): Promise<string> {
   let jwk: types.JWK
@@ -132,7 +132,7 @@ export async function calculateJwkThumbprint(
  * @see {@link https://www.rfc-editor.org/rfc/rfc9278 RFC9278}
  */
 export async function calculateJwkThumbprintUri(
-  key: types.CryptoKey | types.KeyObject | types.JWK,
+  key: types.CryptoKey | types.CompositeKey | types.KeyObject | types.JWK,
   digestAlgorithm?: 'sha256' | 'sha384' | 'sha512',
 ): Promise<string> {
   digestAlgorithm ??= 'sha256'

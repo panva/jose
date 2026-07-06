@@ -63,6 +63,14 @@ export function supported(identifier?: string, op?: string) {
   }
 
   switch (identifier) {
+    case 'ML-DSA-44-ES256':
+    case 'ML-DSA-44-Ed25519':
+      return supported('ML-DSA-44')
+    case 'ML-DSA-65-ES256':
+    case 'ML-DSA-65-Ed25519':
+      return supported('ML-DSA-65')
+    case 'ML-DSA-87-ES384':
+      return supported('ML-DSA-87')
     case 'ML-DSA-44':
     case 'ML-DSA-65':
     case 'ML-DSA-87':

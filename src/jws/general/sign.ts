@@ -41,11 +41,11 @@ class IndividualSignature implements Signature {
   protectedHeader?: types.JWSHeaderParameters
   unprotectedHeader?: types.JWSHeaderParameters
   options?: types.SignOptions
-  key: types.CryptoKey | types.KeyObject | types.JWK | Uint8Array
+  key: types.CryptoKey | types.CompositeKey | types.KeyObject | types.JWK | Uint8Array
 
   constructor(
     sig: GeneralSign,
-    key: types.CryptoKey | types.KeyObject | types.JWK | Uint8Array,
+    key: types.CryptoKey | types.CompositeKey | types.KeyObject | types.JWK | Uint8Array,
     options?: types.SignOptions,
   ) {
     this.#parent = sig
@@ -121,7 +121,7 @@ export class GeneralSign {
    * @param options JWS Sign options.
    */
   addSignature(
-    key: types.CryptoKey | types.KeyObject | types.JWK | Uint8Array,
+    key: types.CryptoKey | types.CompositeKey | types.KeyObject | types.JWK | Uint8Array,
     options?: types.SignOptions,
   ): Signature {
     const signature = new IndividualSignature(this, key, options)

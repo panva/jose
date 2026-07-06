@@ -389,7 +389,7 @@ class RemoteJWKSet {
   async getKey(
     protectedHeader?: types.JWSHeaderParameters,
     token?: types.FlattenedJWSInput,
-  ): Promise<types.CryptoKey> {
+  ): Promise<types.CryptoKey | types.CompositeKey> {
     if (!this.#local || !this.fresh()) {
       await this.reload()
     }
@@ -515,7 +515,7 @@ export function createRemoteJWKSet(
   (
     protectedHeader?: types.JWSHeaderParameters,
     token?: types.FlattenedJWSInput,
-  ): Promise<types.CryptoKey>
+  ): Promise<types.CryptoKey | types.CompositeKey>
   /** @ignore */
   coolingDown: boolean
   /** @ignore */
@@ -532,7 +532,7 @@ export function createRemoteJWKSet(
   const remoteJWKSet = async (
     protectedHeader?: types.JWSHeaderParameters,
     token?: types.FlattenedJWSInput,
-  ): Promise<types.CryptoKey> => set.getKey(protectedHeader, token)
+  ): Promise<types.CryptoKey | types.CompositeKey> => set.getKey(protectedHeader, token)
 
   Object.defineProperties(remoteJWKSet, {
     coolingDown: {

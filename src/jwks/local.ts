@@ -31,7 +31,7 @@ function getKtyFromAlg(alg: unknown) {
 }
 
 interface Cache {
-  [alg: string]: types.CryptoKey
+  [alg: string]: types.CryptoKey | types.CompositeKey
 }
 
 function isJWKSLike(jwks: unknown): jwks is types.JSONWebKeySet {
@@ -69,7 +69,7 @@ class LocalJWKSet {
   async getKey(
     protectedHeader?: types.JWSHeaderParameters,
     token?: types.FlattenedJWSInput,
-  ): Promise<types.CryptoKey> {
+  ): Promise<types.CryptoKey | types.CompositeKey> {
     const { alg, kid } = { ...protectedHeader, ...token?.header }
     const kty = getKtyFromAlg(alg)
 
@@ -246,13 +246,13 @@ export function createLocalJWKSet(
 ): (
   protectedHeader?: types.JWSHeaderParameters,
   token?: types.FlattenedJWSInput,
-) => Promise<types.CryptoKey> {
+) => Promise<types.CryptoKey | types.CompositeKey> {
   const set = new LocalJWKSet(jwks)
 
   const localJWKSet = async (
     protectedHeader?: types.JWSHeaderParameters,
     token?: types.FlattenedJWSInput,
-  ): Promise<types.CryptoKey> => set.getKey(protectedHeader, token)
+  ): Promise<types.CryptoKey | types.CompositeKey> => set.getKey(protectedHeader, token)
 
   Object.defineProperties(localJWKSet, {
     jwks: {

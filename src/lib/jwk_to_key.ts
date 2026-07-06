@@ -1,5 +1,6 @@
 import { JOSENotSupported } from '../util/errors.js'
 import type * as types from '../types.d.ts'
+import { compositeJwkToKey, isCompositeSignatureAlgorithm } from './composite_signature.js'
 
 const unsupportedAlg = 'Invalid or unsupported JWK "alg" (Algorithm) Parameter value'
 
@@ -102,9 +103,13 @@ function subtleMapping(jwk: types.JWK): {
   return { algorithm, keyUsages }
 }
 
-export async function jwkToKey(jwk: types.JWK): Promise<types.CryptoKey> {
+export async function jwkToKey(jwk: types.JWK): Promise<types.CryptoKey | types.CompositeKey> {
   if (!jwk.alg) {
     throw new TypeError('"alg" argument is required when "jwk.alg" is not present')
+  }
+
+  if (jwk.kty === 'AKP' && isCompositeSignatureAlgorithm(jwk.alg)) {
+    return compositeJwkToKey(jwk)
   }
 
   const { algorithm, keyUsages } = subtleMapping(jwk)

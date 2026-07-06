@@ -2,11 +2,12 @@ import type * as types from '../types.d.ts'
 import { isJWK } from './type_checks.js'
 import { decode } from '../util/base64url.js'
 import { jwkToKey } from './jwk_to_key.js'
+import { isCompositeKey } from './composite_signature.js'
 import { isCryptoKey, isKeyObject } from './is_key_like.js'
 
 const unusableForAlg = 'given KeyObject instance cannot be used for this algorithm'
 
-let cache: WeakMap<object, Record<string, CryptoKey>>
+let cache: WeakMap<object, Record<string, CryptoKey | types.CompositeKey>>
 
 interface ConvertableKeyObject extends types.KeyObject {
   export(): Uint8Array
@@ -197,10 +198,14 @@ const handleKeyObject = (keyObject: ConvertableKeyObject, alg: string) => {
 }
 
 export async function normalizeKey(
-  key: types.CryptoKey | types.KeyObject | types.JWK | Uint8Array,
+  key: types.CryptoKey | types.CompositeKey | types.KeyObject | types.JWK | Uint8Array,
   alg: string,
-): Promise<types.CryptoKey | Uint8Array> {
+): Promise<types.CryptoKey | types.CompositeKey | Uint8Array> {
   if (key instanceof Uint8Array) {
+    return key
+  }
+
+  if (isCompositeKey(key)) {
     return key
   }
 

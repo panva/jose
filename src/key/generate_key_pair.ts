@@ -7,14 +7,18 @@
 import { JOSENotSupported } from '../util/errors.js'
 
 import type * as types from '../types.d.ts'
+import {
+  generateCompositeKeyPair,
+  isCompositeSignatureAlgorithm,
+} from '../lib/composite_signature.js'
 
 /** Asymmetric key pair generation function result. */
 export interface GenerateKeyPairResult {
   /** The generated Private Key. */
-  privateKey: types.CryptoKey
+  privateKey: types.CryptoKey | types.CompositeKey
 
   /** Public Key corresponding to the generated Private Key. */
-  publicKey: types.CryptoKey
+  publicKey: types.CryptoKey | types.CompositeKey
 }
 
 /** Asymmetric key pair generation function options. */
@@ -84,6 +88,10 @@ export async function generateKeyPair(
   alg: string,
   options?: GenerateKeyPairOptions,
 ): Promise<GenerateKeyPairResult> {
+  if (isCompositeSignatureAlgorithm(alg)) {
+    return generateCompositeKeyPair(alg, options?.extractable ?? false)
+  }
+
   let algorithm: RsaHashedKeyGenParams | EcKeyGenParams | KeyAlgorithm
   let keyUsages: KeyUsage[]
 

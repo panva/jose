@@ -186,7 +186,7 @@ export async function importJWK(
   jwk: types.JWK,
   alg?: string,
   options?: KeyImportOptions,
-): Promise<types.CryptoKey | Uint8Array> {
+): Promise<types.CryptoKey | types.CompositeKey | Uint8Array> {
   if (!isObject(jwk)) {
     throw new TypeError('JWK must be an object')
   }

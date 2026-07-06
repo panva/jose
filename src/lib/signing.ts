@@ -1,9 +1,16 @@
 import type * as types from '../types.d.ts'
 import { JOSENotSupported } from '../util/errors.js'
 import { checkSigCryptoKey } from './crypto_key.js'
+import {
+  checkCompositeKey,
+  compositeSign,
+  compositeVerify,
+  isCompositeKey,
+  isCompositeSignatureAlgorithm,
+} from './composite_signature.js'
 import { invalidKeyInput } from './invalid_key_input.js'
 
-export function checkKeyLength(alg: string, key: types.CryptoKey) {
+export function checkKeyLength(alg: string, key: types.CryptoKey | types.CompositeKey) {
   if (alg.startsWith('RS') || alg.startsWith('PS')) {
     const { modulusLength } = key.algorithm as RsaKeyAlgorithm
     if (typeof modulusLength !== 'number' || modulusLength < 2048) {
@@ -45,7 +52,11 @@ function subtleAlgorithm(alg: string, algorithm: KeyAlgorithm | EcKeyAlgorithm) 
   }
 }
 
-async function getSigKey(alg: string, key: types.CryptoKey | Uint8Array, usage: KeyUsage) {
+async function getSigKey(
+  alg: string,
+  key: types.CryptoKey | types.CompositeKey | Uint8Array,
+  usage: KeyUsage,
+) {
   if (key instanceof Uint8Array) {
     if (!alg.startsWith('HS')) {
       throw new TypeError(invalidKeyInput(key, 'CryptoKey', 'KeyObject', 'JSON Web Key'))
@@ -59,13 +70,26 @@ async function getSigKey(alg: string, key: types.CryptoKey | Uint8Array, usage: 
     )
   }
 
+  if (isCompositeKey(key)) {
+    checkCompositeKey(key, alg, usage)
+    return key
+  }
+
   checkSigCryptoKey(key, alg, usage)
   return key
 }
 
-export async function sign(alg: string, key: types.CryptoKey | Uint8Array, data: Uint8Array) {
+export async function sign(
+  alg: string,
+  key: types.CryptoKey | types.CompositeKey | Uint8Array,
+  data: Uint8Array,
+) {
   const cryptoKey = await getSigKey(alg, key, 'sign')
   checkKeyLength(alg, cryptoKey)
+  if (isCompositeKey(cryptoKey)) {
+    return compositeSign(alg, cryptoKey, data)
+  }
+
   const signature = await crypto.subtle.sign(
     subtleAlgorithm(alg, cryptoKey.algorithm),
     cryptoKey,
@@ -76,12 +100,19 @@ export async function sign(alg: string, key: types.CryptoKey | Uint8Array, data:
 
 export async function verify(
   alg: string,
-  key: types.CryptoKey | Uint8Array,
+  key: types.CryptoKey | types.CompositeKey | Uint8Array,
   signature: Uint8Array,
   data: Uint8Array,
 ) {
   const cryptoKey = await getSigKey(alg, key, 'verify')
   checkKeyLength(alg, cryptoKey)
+  if (isCompositeKey(cryptoKey)) {
+    if (!isCompositeSignatureAlgorithm(alg)) {
+      return false
+    }
+    return compositeVerify(alg, cryptoKey, signature, data)
+  }
+
   const algorithm = subtleAlgorithm(alg, cryptoKey.algorithm)
   try {
     return await crypto.subtle.verify(

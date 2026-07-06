@@ -68,7 +68,7 @@ export async function exportPKCS8(key: types.CryptoKey | types.KeyObject): Promi
  * @param key Key to export as JWK.
  */
 export async function exportJWK(
-  key: types.CryptoKey | types.KeyObject | Uint8Array,
+  key: types.CryptoKey | types.KeyObject | types.CompositeKey | Uint8Array,
 ): Promise<types.JWK> {
   return keyToJWK(key)
 }

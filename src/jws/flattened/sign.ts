@@ -83,7 +83,7 @@ export class FlattenedSign {
    * @param options JWS Sign options.
    */
   async sign(
-    key: types.CryptoKey | types.KeyObject | types.JWK | Uint8Array,
+    key: types.CryptoKey | types.CompositeKey | types.KeyObject | types.JWK | Uint8Array,
     options?: types.SignOptions,
   ): Promise<types.FlattenedJWS> {
     if (!this.#protectedHeader && !this.#unprotectedHeader) {

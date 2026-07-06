@@ -55,7 +55,7 @@ export class CompactSign {
    * @param options JWS Sign options.
    */
   async sign(
-    key: types.CryptoKey | types.KeyObject | types.JWK | Uint8Array,
+    key: types.CryptoKey | types.CompositeKey | types.KeyObject | types.JWK | Uint8Array,
     options?: types.SignOptions,
   ): Promise<string> {
     const jws = await this.#flattened.sign(key, options)

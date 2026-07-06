@@ -180,7 +180,7 @@ export class SignJWT implements types.ProduceJWT {
    * @param options JWT Sign options.
    */
   async sign(
-    key: types.CryptoKey | types.KeyObject | types.JWK | Uint8Array,
+    key: types.CryptoKey | types.CompositeKey | types.KeyObject | types.JWK | Uint8Array,
     options?: types.SignOptions,
   ): Promise<string> {
     const sig = new CompactSign(this.#jwt.data())
