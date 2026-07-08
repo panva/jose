@@ -75,7 +75,7 @@ export function supported(identifier?: string, op?: string) {
           case 'pem import':
             return true
           default:
-            return isElectronChromiumVersionAtLeast(151)
+            return isElectronChromiumVersionAtLeast(150)
         }
       }
       return isDeno || (isNode && isNodeVersionAtLeast(24, 7))
