@@ -84,7 +84,7 @@ if (typeof navigator === 'undefined' || !navigator.userAgent?.startsWith?.('Mozi
  * ```ts
  * import * as undici from 'undici'
  *
- * // see https://undici.nodejs.org/#/docs/api/EnvHttpProxyAgent
+ * // see https://undici.nodejs.org/api/EnvHttpProxyAgent
  * let envHttpProxyAgent = new undici.EnvHttpProxyAgent()
  *
  * // @ts-ignore
@@ -103,7 +103,7 @@ if (typeof navigator === 'undefined' || !navigator.userAgent?.startsWith?.('Mozi
  * ```ts
  * import * as undici from 'undici'
  *
- * // see https://undici.nodejs.org/#/docs/api/RetryAgent
+ * // see https://undici.nodejs.org/api/RetryAgent
  * let retryAgent = new undici.RetryAgent(new undici.Agent(), {
  *   statusCodes: [],
  *   errorCodes: [
@@ -133,7 +133,7 @@ if (typeof navigator === 'undefined' || !navigator.userAgent?.startsWith?.('Mozi
  * ```ts
  * import * as undici from 'undici'
  *
- * // see https://undici.nodejs.org/#/docs/api/MockAgent
+ * // see https://undici.nodejs.org/api/MockAgent
  * let mockAgent = new undici.MockAgent()
  * mockAgent.disableNetConnect()
  *
