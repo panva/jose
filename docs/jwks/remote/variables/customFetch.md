@@ -55,7 +55,7 @@ Using [nodejs/undici](https://github.com/nodejs/undici) to detect and use HTTP p
 ```ts
 import * as undici from 'undici'
 
-// see https://undici.nodejs.org/#/docs/api/EnvHttpProxyAgent
+// see https://undici.nodejs.org/api/EnvHttpProxyAgent
 let envHttpProxyAgent = new undici.EnvHttpProxyAgent()
 
 // @ts-ignore
@@ -72,7 +72,7 @@ Using [nodejs/undici](https://github.com/nodejs/undici) to automatically retry n
 ```ts
 import * as undici from 'undici'
 
-// see https://undici.nodejs.org/#/docs/api/RetryAgent
+// see https://undici.nodejs.org/api/RetryAgent
 let retryAgent = new undici.RetryAgent(new undici.Agent(), {
   statusCodes: [],
   errorCodes: [
@@ -100,7 +100,7 @@ Using [nodejs/undici](https://github.com/nodejs/undici) to mock responses in tes
 ```ts
 import * as undici from 'undici'
 
-// see https://undici.nodejs.org/#/docs/api/MockAgent
+// see https://undici.nodejs.org/api/MockAgent
 let mockAgent = new undici.MockAgent()
 mockAgent.disableNetConnect()
 
