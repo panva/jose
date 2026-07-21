@@ -69,6 +69,8 @@ export default (
 
       const exported = await lib.exportJWK(key)
 
+      t.deepEqual(Object.keys(exported).sort(), Object.keys(jwk).sort(), 'unexpected JWK members')
+
       for (const prop of [...new Set([...Object.keys(jwk), ...Object.keys(exported)])]) {
         t.strictEqual(
           exported[prop as keyof JsonWebKey],

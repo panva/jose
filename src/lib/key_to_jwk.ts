@@ -12,6 +12,10 @@ interface ExtractableKeyObject extends types.KeyObject {
   export(): Uint8Array
 }
 
+function omitUndefinedProperties(jwk: JsonWebKey): JsonWebKey {
+  return Object.fromEntries(Object.entries(jwk).filter(([, value]) => value !== undefined))
+}
+
 export async function keyToJWK(key: unknown): Promise<types.JWK> {
   if (isKeyObject(key)) {
     if (key.type === 'secret') {
@@ -32,7 +36,9 @@ export async function keyToJWK(key: unknown): Promise<types.JWK> {
   if (!key.extractable) {
     throw new TypeError('non-extractable CryptoKey cannot be exported as a JWK')
   }
-  const { ext, key_ops, alg, use, ...jwk } = await crypto.subtle.exportKey('jwk', key)
+  const { ext, key_ops, alg, use, ...jwk } = omitUndefinedProperties(
+    await crypto.subtle.exportKey('jwk', key),
+  )
 
   if (jwk.kty === 'AKP') {
     ;(jwk as types.JWK).alg = alg
