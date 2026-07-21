@@ -12,6 +12,7 @@
     "decrypt",
     "deno",
     "detached",
+    "disclosure",
     "ec",
     "ecdsa",
     "ed25519",
@@ -42,6 +43,9 @@
     "pem",
     "pkcs8",
     "rsa",
+    "sd-jwt",
+    "sdjwt",
+    "selective",
     "sign",
     "signature",
     "spki",
@@ -192,6 +196,10 @@
     "./base64url": {
       "types": "./dist/types/util/base64url.d.ts",
       "default": "./dist/webapi/util/base64url.js"
+    },
+    "./sd-jwt": {
+      "types": "./dist/types/sd-jwt/index.d.ts",
+      "default": "./dist/webapi/sd-jwt/index.js"
     },
     "./package.json": "./package.json"
   },

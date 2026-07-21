@@ -9,9 +9,11 @@
     "src/jwks/*.ts",
     "src/jws/**/*.ts",
     "src/jwt/*.ts",
+    "src/sd-jwt/*.ts",
     "src/key/*.ts",
-    "src/util/*.ts",
+    "src/util/*.ts"
   ],
+  "exclude": ["src/sd-jwt/internal.ts"],
   "excludeExternals": true,
   "excludePrivate": true,
   "excludeProtected": true,

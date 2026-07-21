@@ -32,7 +32,8 @@
     "./jwe/general/encrypt": "./src/jwe/general/encrypt.ts",
     "./jwe/general/decrypt": "./src/jwe/general/decrypt.ts",
     "./errors": "./src/util/errors.ts",
-    "./base64url": "./src/util/base64url.ts"
+    "./base64url": "./src/util/base64url.ts",
+    "./sd-jwt": "./src/sd-jwt/index.ts"
   },
   "publish": {
     "include": ["LICENSE.md", "README.md", "src/**/*.ts"]
