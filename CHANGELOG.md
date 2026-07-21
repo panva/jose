@@ -2,6 +2,18 @@
 
 All notable changes to this project will be documented in this file. See [commit-and-tag-version](https://github.com/absolute-version/commit-and-tag-version) for commit guidelines.
 
+## [6.2.4](https://github.com/panva/jose/compare/v6.2.3...v6.2.4) (2026-07-21)
+
+
+### Documentation
+
+* update README.md and SECURITY.md to reflect passed EOL dates ([2a84032](https://github.com/panva/jose/commit/2a840328fa119b46183b95199b0a6082a445d983))
+
+
+### Refactor
+
+* normalize JWK export members from runtime quirks ([386a3eb](https://github.com/panva/jose/commit/386a3eb03ceadbd2c0e9626bdcb4ec66eccd7558))
+
 ## [6.2.3](https://github.com/panva/jose/compare/v6.2.2...v6.2.3) (2026-04-27)
 
 
