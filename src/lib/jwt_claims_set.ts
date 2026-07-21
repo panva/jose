@@ -102,7 +102,7 @@ const checkAudiencePresence = (audPayload: unknown, audOption: unknown[]) => {
 }
 
 export function validateClaimsSet(
-  protectedHeader: types.JWEHeaderParameters | types.JWSHeaderParameters,
+  joseHeader: types.JWEHeaderParameters | types.JWSHeaderParameters,
   encodedPayload: Uint8Array,
   options: types.JWTClaimVerificationOptions = {},
 ) {
@@ -117,11 +117,22 @@ export function validateClaimsSet(
     throw new JWTInvalid('JWT Claims Set must be a top-level JSON object')
   }
 
+  return validateClaimsSetPayload(joseHeader, payload, options)
+}
+
+export function validateClaimsSetPayload(
+  joseHeader: types.JWEHeaderParameters | types.JWSHeaderParameters,
+  payload: types.JWTPayload,
+  options: types.JWTClaimVerificationOptions = {},
+) {
+  if (!isObject(payload)) {
+    throw new JWTInvalid('JWT Claims Set must be a top-level JSON object')
+  }
+
   const { typ } = options
   if (
     typ &&
-    (typeof protectedHeader!.typ !== 'string' ||
-      normalizeTyp(protectedHeader!.typ) !== normalizeTyp(typ))
+    (typeof joseHeader!.typ !== 'string' || normalizeTyp(joseHeader!.typ) !== normalizeTyp(typ))
   ) {
     throw new JWTClaimValidationFailed(
       'unexpected "typ" JWT header value',
@@ -141,7 +152,7 @@ export function validateClaimsSet(
   if (issuer !== undefined) presenceCheck.push('iss')
 
   for (const claim of new Set(presenceCheck.reverse())) {
-    if (!(claim in payload)) {
+    if (!Object.hasOwn(payload, claim)) {
       throw new JWTClaimValidationFailed(
         `missing required "${claim}" claim`,
         payload,

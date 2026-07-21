@@ -84,6 +84,21 @@ The `jose` module supports encryption and decryption of JWE messages with arbitr
 - Utility functions
   - [Decoding Token's Protected Header](util/decode_protected_header/functions/decodeProtectedHeader.md)
 
+### Selective Disclosure for JSON Web Tokens (SD-JWT)
+
+The [SD-JWT API](sd-jwt/README.md) is exported exclusively from the `jose/sd-jwt` subpath. It
+supports issuing, presenting, and verifying SD-JWTs and SD-JWTs with Key Binding in Compact,
+Flattened JSON, and General JSON serialization syntaxes as specified by [RFC
+9901](https://www.rfc-editor.org/rfc/rfc9901.html).
+
+```js
+import * as sdJwt from 'jose/sd-jwt'
+```
+
+- Issuance - [Compact](sd-jwt/issuer/classes/SignSDJWT.md), [Flattened JSON](sd-jwt/issuer/classes/FlattenedSignSDJWT.md), [General JSON](sd-jwt/issuer/classes/GeneralSignSDJWT.md)
+- Holder processing and presentation - [Compact](sd-jwt/holder/functions/sdJwtReceive.md), [Flattened JSON](sd-jwt/holder/functions/flattenedSdJwtReceive.md), [General JSON](sd-jwt/holder/functions/generalSdJwtReceive.md); each returns an [`SDJWTCredential`](sd-jwt/holder/interfaces/SDJWTCredential.md)
+- Verification - [Compact](sd-jwt/verifier/functions/sdJwtVerify.md), [Flattened JSON](sd-jwt/verifier/functions/flattenedSdJwtVerify.md), [General JSON](sd-jwt/verifier/functions/generalSdJwtVerify.md)
+
 ### Other
 
 The following are additional features and utilities provided by the `jose` module:

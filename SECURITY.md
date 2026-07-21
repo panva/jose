@@ -22,7 +22,7 @@ If the maintainers reject a report through the project's documented channel, tha
 
 ## Threat Model
 
-This section documents the threat model for `jose`, a JavaScript implementation of JSON Object Signing and Encryption standards including [JSON Web Token (JWT) - RFC 7519](https://www.rfc-editor.org/rfc/rfc7519), [JSON Web Signature (JWS) - RFC 7515](https://www.rfc-editor.org/rfc/rfc7515), [JSON Web Encryption (JWE) - RFC 7516](https://www.rfc-editor.org/rfc/rfc7516), [JSON Web Key (JWK) - RFC 7517](https://www.rfc-editor.org/rfc/rfc7517), and [JSON Web Algorithms (JWA) - RFC 7518](https://www.rfc-editor.org/rfc/rfc7518).
+This section documents the threat model for `jose`, a JavaScript implementation of JSON Object Signing and Encryption standards including [JSON Web Token (JWT) - RFC 7519](https://www.rfc-editor.org/rfc/rfc7519), [JSON Web Signature (JWS) - RFC 7515](https://www.rfc-editor.org/rfc/rfc7515), [JSON Web Encryption (JWE) - RFC 7516](https://www.rfc-editor.org/rfc/rfc7516), [JSON Web Key (JWK) - RFC 7517](https://www.rfc-editor.org/rfc/rfc7517), [JSON Web Algorithms (JWA) - RFC 7518](https://www.rfc-editor.org/rfc/rfc7518), and [Selective Disclosure for JSON Web Tokens (SD-JWT) - RFC 9901](https://www.rfc-editor.org/rfc/rfc9901.html).
 
 ### Purpose and Intended Users
 
@@ -48,6 +48,20 @@ The library assumes it is running in a trusted execution environment. The follow
 
 The application is responsible for its own authentication and authorization policy. This includes deciding accepted issuers, audiences, subjects, token types, required claims, maximum token age, replay prevention, nonce validation, revocation, session binding, custom claim schemas, and all authorization decisions. Missing or unexpected claims are application policy issues unless the relevant `jose` validation option was used and bypassed.
 
+For SD-JWT, application policy also includes choosing the accepted serialization, deciding which claims and Disclosures are required or permitted, and deciding whether Key Binding is forbidden or required. When Key Binding is required, the application must supply appropriate holder-key trust, signature algorithm, audience, fresh nonce, maximum-age, and replay-prevention policy. Successful cryptographic verification does not by itself establish that the resulting selective disclosure satisfies the application's credential or authorization policy.
+
+The SD-JWT API implements RFC 9901 primitives, not every application profile built on them. Issuer and Holder signatures use asymmetric keys. Applications using SD-JWT VC must separately enforce the profile's media type, integrity-protected explicit type, credential type and schema, non-selectively disclosable claims, Issuer key discovery and authorization, credential status, and any Type Metadata processing. SD-JWT provides selective disclosure rather than encryption, anonymity, or guaranteed unlinkability; credentials and Disclosures still require confidential transport and appropriate privacy controls.
+
+#### Application Callbacks
+
+Callbacks supplied by the application, including dynamic key resolvers, holder-key resolvers, fetch implementations, and cache implementations, are trusted application code. They can receive attacker-controlled headers, tokens, claims, confirmation methods, URLs, or key identifiers. The application is responsible for validating those values and returning a key or result appropriate for its own trust policy. Security failures caused by a malicious or incorrectly implemented callback are outside this library's threat model.
+
+#### Mutable Values and Retained State
+
+Values returned by this library, including payloads, protected and unprotected headers, Disclosures, and result objects, are ordinary mutable JavaScript values and are not deep-frozen. Verification, decryption, or Disclosure processing establishes properties of the input and returned values at the time the operation completes. If application code subsequently mutates a returned value, the modified value must not be treated as authenticated or otherwise covered by the completed cryptographic operation. Applications that share results across trust boundaries or require immutable records are responsible for copying or freezing them.
+
+An `SDJWTCredential` retains isolated internal snapshots for subsequent presentation operations. Mutating its exposed payload, headers, or Disclosure metadata does not mutate the verified state used to produce later presentations. This retained-state isolation does not make the exposed values immutable or authenticate application modifications to them.
+
 #### Token String Identity
 
 Applications should not treat the original string value of a verified or decrypted JWT, JWS, or JWE as a canonical security identity unless they define and enforce their own canonicalization. JOSE processing operates on decoded byte sequences and parsed JSON values. Different textual base64url encodings can decode to the same byte representation of fields such as signatures, authentication tags, encrypted keys, or ciphertext. Authorization, authentication, replay detection, revocation, cache keys, and session binding should be based on validated claims, resolved keys, validated protected headers, decoded bytes, or an application-defined canonical representation rather than raw token string equality.
@@ -70,7 +84,7 @@ As cryptographic requirements on key and secret sizes evolve over time, followin
 
 #### Input Size Limits
 
-The library does not generally enforce size limits on inputs (tokens, keys, payloads, headers, JWKS responses, JSON objects, etc.). It is the application's responsibility to enforce input size limits appropriate for its context before passing data to the library. JWE decompression has a configurable decompressed plaintext limit, but encoded input size, remote response size, number of JWS signatures, number of JWE recipients, and request rate remain the application's responsibility.
+The library does not generally enforce size limits on inputs (tokens, keys, payloads, headers, JWKS responses, JSON objects, etc.). It is the application's responsibility to enforce input size limits appropriate for its context before passing data to the library. JWE decompression has a configurable decompressed plaintext limit, but encoded input size, remote response size, number of JWS signatures, number of JWE recipients, number and nesting depth of SD-JWT Disclosures, and request rate remain the application's responsibility.
 
 #### Side-Channel Attacks
 
@@ -80,9 +94,10 @@ This library delegates all cryptographic operations to the underlying Web Crypto
 
 This library aims to provide the following security guarantees:
 
-- **Specification compliance**: Correct implementation of the JOSE family of specifications (RFC 7515, RFC 7516, RFC 7517, RFC 7518, RFC 7519, and related RFCs), validated against test vectors from the respective specifications.
+- **Specification compliance**: Correct implementation of the JOSE and SD-JWT family of specifications (RFC 7515, RFC 7516, RFC 7517, RFC 7518, RFC 7519, RFC 9901, and related RFCs), validated against test vectors from the respective specifications.
 - **JWT Claims Set validation**: Validation of JWT claims (`exp`, `nbf`, `iat`, `aud`, `iss`, `sub`, `typ`, etc.) according to the options supplied by the application. Claims or policies not required through the API remain the application's responsibility.
 - **Input validation**: Validation of inputs to prevent misuse of the API.
+- **Retained state isolation**: Mutable values exposed by an `SDJWTCredential` do not alias its private state retained for later presentation operations.
 
 ### Out of Scope
 
@@ -100,9 +115,9 @@ This library does not guarantee that key material or other sensitive data is cle
 
 ### Threat Actors and Security Properties
 
-This library aims to provide the security properties defined by the JOSE specifications. For detailed security considerations, refer to the Security Considerations sections in [RFC 7515 (JWS)](https://www.rfc-editor.org/rfc/rfc7515#section-10), [RFC 7516 (JWE)](https://www.rfc-editor.org/rfc/rfc7516#section-11), [RFC 7517 (JWK)](https://www.rfc-editor.org/rfc/rfc7517#section-9), [RFC 7518 (JWA)](https://www.rfc-editor.org/rfc/rfc7518#section-8), and [RFC 7519 (JWT)](https://www.rfc-editor.org/rfc/rfc7519#section-8).
+This library aims to provide the security properties defined by the JOSE and SD-JWT specifications. For detailed security considerations, refer to the Security Considerations sections in [RFC 7515 (JWS)](https://www.rfc-editor.org/rfc/rfc7515#section-10), [RFC 7516 (JWE)](https://www.rfc-editor.org/rfc/rfc7516#section-11), [RFC 7517 (JWK)](https://www.rfc-editor.org/rfc/rfc7517#section-9), [RFC 7518 (JWA)](https://www.rfc-editor.org/rfc/rfc7518#section-8), [RFC 7519 (JWT)](https://www.rfc-editor.org/rfc/rfc7519#section-8), and [RFC 9901 (SD-JWT)](https://www.rfc-editor.org/rfc/rfc9901.html#section-9).
 
-The primary in-scope threat actor is able to provide arbitrary JOSE objects, JWTs, JWSs, JWEs, JWKs, JWKS responses, key identifiers, and JOSE Header Parameters to application code using this library. This threat model assumes application-controlled keys, validation options, trusted URLs, runtime behavior, network configuration, and cache storage have not been compromised.
+The primary in-scope threat actor is able to provide arbitrary JOSE objects, JWTs, JWSs, JWEs, JWKs, JWKS responses, SD-JWTs, Disclosures, Key Binding JWTs, key identifiers, and JOSE Header Parameters to application code using this library. This threat model assumes application-controlled keys, validation options, callbacks, trusted URLs, runtime behavior, network configuration, and cache storage have not been compromised.
 
 ### What is NOT Considered a Vulnerability
 
@@ -119,6 +134,8 @@ The following are explicitly **not** considered vulnerabilities in this library:
 - **Oversized inputs** ([CWE-400](https://cwe.mitre.org/data/definitions/400.html)): Except for the configurable JWE decompressed plaintext limit, the library does not enforce size limits on JWTs, JWS, JWE, JWK, or JWKS inputs. Enforcing input size limits appropriate for the application's context (e.g., limiting the size of incoming tokens or payloads before passing them to the library) is the responsibility of the application.
 - **Untrusted JWKS sources**: Security issues arising from fetching keys from untrusted or compromised JWKS endpoints, insecure transport, user-provided fetch implementations, proxies, or writable caches are the user's responsibility.
 - **Application policy decisions**: Missing `exp`, `aud`, `iss`, `sub`, `typ`, `nonce`, `jti`, or custom claims, replay prevention, token revocation, session binding, and authorization checks are application responsibilities unless the relevant `jose` validation option was used and bypassed.
+- **Application mutation of values**: Returned values are mutable. Security issues caused by mutating an input while an operation is pending, or modifying a returned payload, header, Disclosure, callback argument, or result object and then treating the modified value as authenticated are application misuse, not vulnerabilities in this library.
+- **Application callbacks**: Security issues caused by a callback returning an incorrect key, trusting attacker-controlled callback input, or otherwise implementing application trust policy incorrectly are application issues unless the library failed to invoke the callback as documented.
 - **Raw token string identity**: Security issues caused by using the original JWT, JWS, or JWE string as a canonical authorization, authentication, replay-prevention, revocation, cache, or session-binding key are application misuse unless the application has defined and enforced its own canonical representation.
 - **Decode-only APIs**: Security issues caused by using `decodeJwt` or `decodeProtectedHeader` as if they authenticated, decrypted, verified, or validated a token are application misuse, not vulnerabilities in this library.
 - **Unsecured JWTs**: Security issues caused by using `UnsecuredJWT` for authenticated or integrity-protected data are application misuse, not vulnerabilities in this library.

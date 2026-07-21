@@ -252,6 +252,62 @@ export interface GeneralJWS {
   signatures: Omit<FlattenedJWSInput, 'payload'>[]
 }
 
+/** A static public asymmetric key used to verify an SD-JWT Issuer signature. */
+export type SDJWTIssuerKey = CryptoKey | KeyObject | JWK
+
+/**
+ * Dynamically resolves an SD-JWT Issuer signature verification key. No token component has been
+ * verified when this callback runs. The resolver must securely establish that the returned key
+ * belongs to the expected Issuer; an attacker-controlled `kid`, `iss`, or key URL is not a trust
+ * decision.
+ */
+export interface SDJWTIssuerGetKey extends GenericGetKeyFunction<
+  JWSHeaderParameters,
+  FlattenedJWSInput,
+  SDJWTIssuerKey
+> {}
+
+/**
+ * JWS Unprotected Header Parameters used by an SD-JWT JSON Serialization.
+ *
+ * Members of this header are not integrity protected. The `disclosures` values are linked to the
+ * Issuer-signed payload by their digests, and `kb_jwt` has its own signature, but other members
+ * must not drive security decisions. SD-JWT producers reject `typ` here; use the protected header
+ * for explicit typing.
+ */
+export interface SDJWTUnprotectedHeaderParameters extends JWSHeaderParameters {
+  /** The Disclosures carried with the SD-JWT. */
+  disclosures: string[]
+
+  /** The Key Binding JWT carried with an SD-JWT+KB. */
+  kb_jwt?: string
+}
+
+/** Flattened JWS JSON Serialization of an SD-JWT or SD-JWT+KB. */
+export interface FlattenedSDJWT extends Omit<FlattenedJWS, 'header'> {
+  header: SDJWTUnprotectedHeaderParameters
+}
+
+/** A signature entry in an SD-JWT General JWS JSON Serialization. */
+export type GeneralSDJWTSignature = Omit<FlattenedJWSInput, 'payload'>
+
+/** General JWS JSON Serialization of an SD-JWT or SD-JWT+KB. */
+export interface GeneralSDJWT extends Omit<GeneralJWS, 'signatures'> {
+  signatures: [
+    Omit<GeneralSDJWTSignature, 'header'> & { header: SDJWTUnprotectedHeaderParameters },
+    ...GeneralSDJWTSignature[],
+  ]
+}
+
+/** An SD-JWT or SD-JWT+KB in Compact or JWS JSON Serialization. */
+export type SDJWT = string | FlattenedSDJWT | GeneralSDJWT
+
+/** Hash algorithms supported for SD-JWT Disclosure digests. */
+export type SDJWTHashAlgorithm = 'sha-256' | 'sha-384' | 'sha-512'
+
+/** Number of Decoy Digests to add, either fixed or randomly selected from an inclusive range. */
+export type SDJWTDecoyCount = number | { min: number; max: number }
+
 /** Header Parameters common to JWE and JWS */
 export interface JoseHeaderParameters {
   /** "kid" (Key ID) Header Parameter */
@@ -849,4 +905,43 @@ export interface ProduceJWT {
    * @param input "iat" (Expiration Time) Claim value to set on the JWT Claims Set.
    */
   setIssuedAt(input?: number | string | Date): this
+}
+
+/** Generic interface for SD-JWT producing classes. */
+export interface ProduceSDJWT extends ProduceJWT {
+  /**
+   * Selects final JWT Claims Set values to make selectively disclosable. Paths are RFC 6901 JSON
+   * Pointers evaluated when the Claims Set is signed. This method can only be called once.
+   *
+   * The root pointer (`''`) is forbidden (`'/'` addresses an empty member name), `~0` escapes `~`,
+   * `~1` escapes `/`, and arrays use canonical zero-based indices. Missing and duplicate paths are
+   * rejected. `iss`, `exp`, `nbf`, `cnf` and its descendants, and the complete `aud` claim cannot
+   * be selectively disclosable; profiles must likewise exclude every other validity-critical
+   * claim.
+   *
+   * @example Select nested objects, array elements, and escaped member names
+   *
+   * ```js
+   * producer.setDisclosurePaths(['/address/street', '/nationalities/1', '/a~1b/~0verified'])
+   * ```
+   */
+  setDisclosurePaths(paths: readonly string[]): this
+
+  /**
+   * Selects the hash algorithm used for Disclosure and Decoy Digests. The default is `sha-256`.
+   * Choose a hash with collision resistance appropriate for the Issuer signature algorithm.
+   */
+  setHashAlgorithm(algorithm: SDJWTHashAlgorithm): this
+
+  /**
+   * Adds Decoy Digests to the object or array identified by a JSON Pointer. Decoys can obscure the
+   * number of claims or array elements but increase presentation size.
+   *
+   * @example Add a fixed number of Decoy Digests at the root and a random number to an array
+   *
+   * ```js
+   * producer.addDecoys('', 2).addDecoys('/nationalities', { min: 1, max: 3 })
+   * ```
+   */
+  addDecoys(container: string, count: SDJWTDecoyCount): this
 }
