@@ -132,7 +132,7 @@ async function cbcEncrypt(
     ),
   )
 
-  const macData = concat(aad, iv, ciphertext, uint64be(aad.length << 3))
+  const macData = concat(aad, iv, ciphertext, uint64be(aad.length * 8))
   const tag = await cbcHmacTag(macKey, macData, keySize)
 
   return { ciphertext, tag, iv }
@@ -175,7 +175,7 @@ async function cbcDecrypt(
 ) {
   const { encKey, macKey, keySize } = await cbcKeySetup(enc, cek, 'decrypt')
 
-  const macData = concat(aad, iv, ciphertext, uint64be(aad.length << 3))
+  const macData = concat(aad, iv, ciphertext, uint64be(aad.length * 8))
   const expectedTag = await cbcHmacTag(macKey, macData, keySize)
 
   let macCheckPassed!: boolean
