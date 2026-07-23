@@ -21,6 +21,22 @@ export interface GenerateSecretOptions {
 }
 
 /**
+ * JWA Algorithm Identifier for symmetric secret generation.
+ *
+ * The {@link https://github.com/panva/jose/issues/114 Algorithm Selection Guide} should be consulted
+ * as a quick reference if you're having trouble selecting an appropriate algorithm for your needs.
+ *
+ * See {@link https://github.com/panva/jose/issues/210 Algorithm Key Requirements} for usage support
+ * details.
+ */
+export type SecretKeyAlgorithm =
+  | `HS${'256' | '384' | '512'}`
+  | `A${'128' | '192' | '256'}${'GCM' | 'KW' | 'GCMKW'}`
+  | `A128CBC-HS256`
+  | `A192CBC-HS384`
+  | `A256CBC-HS512`
+
+/**
  * Generates a symmetric secret key for a given JWA algorithm identifier.
  *
  * > [!NOTE]\
@@ -45,7 +61,7 @@ export interface GenerateSecretOptions {
  * @param options Additional options passed down to the secret generation.
  */
 export async function generateSecret(
-  alg: string,
+  alg: SecretKeyAlgorithm,
   options?: GenerateSecretOptions,
 ): Promise<types.CryptoKey | Uint8Array> {
   let length: number
