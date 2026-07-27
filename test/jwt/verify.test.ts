@@ -500,3 +500,27 @@ test('maxTokenAge of 0 is enforced', async (t) => {
     .sign(t.context.secret)
   await t.notThrowsAsync(jwtVerify(fresh, t.context.secret, { maxTokenAge: 0 }))
 })
+
+test('clockTolerance and currentDate must be finite', async (t) => {
+  const jwt = await new SignJWT(t.context.payload)
+    .setProtectedHeader({ alg: 'HS256' })
+    .setExpirationTime(now - 30)
+    .sign(t.context.secret)
+
+  for (const clockTolerance of [NaN, Infinity, -Infinity]) {
+    await t.throwsAsync(jwtVerify(jwt, t.context.secret, { clockTolerance }), {
+      instanceOf: TypeError,
+      message: 'Invalid clockTolerance option input',
+    })
+  }
+
+  await t.throwsAsync(jwtVerify(jwt, t.context.secret, { currentDate: new Date('nope') }), {
+    instanceOf: TypeError,
+    message: 'Invalid currentDate option input',
+  })
+
+  // The token is genuinely expired, so a valid tolerance still rejects it.
+  await t.throwsAsync(jwtVerify(jwt, t.context.secret, { clockTolerance: 0 }), {
+    code: 'ERR_JWT_EXPIRED',
+  })
+})

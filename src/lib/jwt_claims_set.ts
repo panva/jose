@@ -199,8 +199,10 @@ export function validateClaimsSet(
       throw new TypeError('Invalid clockTolerance option type')
   }
 
+  validateInput('clockTolerance option', tolerance)
+
   const { currentDate } = options
-  const now = epoch(currentDate || new Date())
+  const now = validateInput('currentDate option', epoch(currentDate || new Date()))
 
   if ((payload.iat !== undefined || maxTokenAge !== undefined) && typeof payload.iat !== 'number') {
     throw new JWTClaimValidationFailed('"iat" claim must be a number', payload, 'iat', 'invalid')
