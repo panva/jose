@@ -152,7 +152,7 @@ export function validateClaimsSet(
   }
 
   if (
-    issuer &&
+    issuer !== undefined &&
     !((Array.isArray(issuer) ? issuer : [issuer]) as unknown[]).includes(payload.iss!)
   ) {
     throw new JWTClaimValidationFailed(
@@ -163,7 +163,7 @@ export function validateClaimsSet(
     )
   }
 
-  if (subject && payload.sub !== subject) {
+  if (subject !== undefined && payload.sub !== subject) {
     throw new JWTClaimValidationFailed(
       'unexpected "sub" claim value',
       payload,
@@ -173,7 +173,7 @@ export function validateClaimsSet(
   }
 
   if (
-    audience &&
+    audience !== undefined &&
     !checkAudiencePresence(payload.aud, typeof audience === 'string' ? [audience] : audience)
   ) {
     throw new JWTClaimValidationFailed(
@@ -202,7 +202,7 @@ export function validateClaimsSet(
   const { currentDate } = options
   const now = epoch(currentDate || new Date())
 
-  if ((payload.iat !== undefined || maxTokenAge) && typeof payload.iat !== 'number') {
+  if ((payload.iat !== undefined || maxTokenAge !== undefined) && typeof payload.iat !== 'number') {
     throw new JWTClaimValidationFailed('"iat" claim must be a number', payload, 'iat', 'invalid')
   }
 
@@ -229,7 +229,7 @@ export function validateClaimsSet(
     }
   }
 
-  if (maxTokenAge) {
+  if (maxTokenAge !== undefined) {
     const age = now - (payload.iat as number)
     const max = typeof maxTokenAge === 'number' ? maxTokenAge : secs(maxTokenAge)
 

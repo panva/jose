@@ -461,3 +461,42 @@ test('requiredClaims claims check', async (t) => {
 
   t.deepEqual(requiredClaims, ['nbf'])
 })
+
+test('empty string validation options compare the claim value', async (t) => {
+  const jwt = await new SignJWT({ iss: 'urn:example:issuer', sub: 'urn:example:subject' })
+    .setProtectedHeader({ alg: 'HS256' })
+    .setAudience('urn:example:audience')
+    .sign(t.context.secret)
+
+  for (const [claim, option] of [
+    ['iss', 'issuer'],
+    ['sub', 'subject'],
+    ['aud', 'audience'],
+  ]) {
+    await t.throwsAsync(jwtVerify(jwt, t.context.secret, { [option]: '' }), {
+      code: 'ERR_JWT_CLAIM_VALIDATION_FAILED',
+      message: `unexpected "${claim}" claim value`,
+    })
+  }
+})
+
+test('maxTokenAge of 0 is enforced', async (t) => {
+  const jwt = await new SignJWT(t.context.payload)
+    .setProtectedHeader({ alg: 'HS256' })
+    .setIssuedAt(now - 30)
+    .sign(t.context.secret)
+
+  await t.throwsAsync(jwtVerify(jwt, t.context.secret, { maxTokenAge: 0 }), {
+    code: 'ERR_JWT_EXPIRED',
+    message: '"iat" claim timestamp check failed (too far in the past)',
+  })
+  await t.throwsAsync(jwtVerify(jwt, t.context.secret, { maxTokenAge: '0 seconds' }), {
+    code: 'ERR_JWT_EXPIRED',
+  })
+
+  const fresh = await new SignJWT(t.context.payload)
+    .setProtectedHeader({ alg: 'HS256' })
+    .setIssuedAt(now)
+    .sign(t.context.secret)
+  await t.notThrowsAsync(jwtVerify(fresh, t.context.secret, { maxTokenAge: 0 }))
+})
