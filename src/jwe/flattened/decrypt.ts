@@ -7,7 +7,7 @@
 import type * as types from '../../types.d.ts'
 import { decode as b64u } from '../../util/base64url.js'
 import { decrypt } from '../../lib/content_encryption.js'
-import { decodeBase64url } from '../../lib/helpers.js'
+import { decodeBase64url, encodeBase64url } from '../../lib/helpers.js'
 import { JOSEAlgNotAllowed, JOSENotSupported, JWEInvalid } from '../../util/errors.js'
 import { isDisjoint } from '../../lib/type_checks.js'
 import { isObject } from '../../lib/type_checks.js'
@@ -229,7 +229,11 @@ export async function flattenedDecrypt(
   let additionalData: Uint8Array
 
   if (jwe.aad !== undefined) {
-    additionalData = concat(protectedHeader, encode('.'), encode(jwe.aad))
+    additionalData = concat(
+      protectedHeader,
+      encode('.'),
+      encodeBase64url(jwe.aad, 'aad', JWEInvalid),
+    )
   } else {
     additionalData = protectedHeader
   }

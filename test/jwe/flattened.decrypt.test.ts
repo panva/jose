@@ -282,3 +282,21 @@ test('decrypt with PBES2 is not allowed by default', async (t) => {
     code: 'ERR_JOSE_ALG_NOT_ALLOWED',
   })
 })
+
+test('a non-ASCII "aad" is a JWEInvalid', async (t) => {
+  // "aad" is only base64url decoded after decryption, so its octets reach the AEAD input as-is.
+  const jwe = await new FlattenedEncrypt(t.context.plaintext)
+    .setProtectedHeader({ alg: 'dir', enc: 'A128GCM' })
+    .setAdditionalAuthenticatedData(t.context.additionalAuthenticatedData)
+    .encrypt(t.context.secret)
+
+  await t.throwsAsync(flattenedDecrypt({ ...jwe, aad: '€' }, t.context.secret), {
+    code: 'ERR_JWE_INVALID',
+    message: 'The aad is not a valid base64url string',
+  })
+
+  // A well-formed but wrong "aad" still fails as a decryption failure.
+  await t.throwsAsync(flattenedDecrypt({ ...jwe, aad: 'AQID' }, t.context.secret), {
+    code: 'ERR_JWE_DECRYPTION_FAILED',
+  })
+})

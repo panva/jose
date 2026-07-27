@@ -10,7 +10,7 @@ import { verify } from '../../lib/signing.js'
 
 import { JOSEAlgNotAllowed, JWSInvalid, JWSSignatureVerificationFailed } from '../../util/errors.js'
 import { concat, encoder, decoder, encode } from '../../lib/buffer_utils.js'
-import { decodeBase64url } from '../../lib/helpers.js'
+import { decodeBase64url, encodeBase64url } from '../../lib/helpers.js'
 import { isDisjoint } from '../../lib/type_checks.js'
 import { isObject } from '../../lib/type_checks.js'
 import { checkKeyType } from '../../lib/check_key_type.js'
@@ -174,7 +174,9 @@ export async function flattenedVerify(
     encode('.'),
     typeof jws.payload === 'string'
       ? b64
-        ? encode(jws.payload)
+        ? // A base64url payload is ASCII by definition, but it reaches here without having been
+          // decoded, so a non-ASCII one must not escape as a bare TypeError.
+          encodeBase64url(jws.payload, 'payload', JWSInvalid)
         : encoder.encode(jws.payload)
       : jws.payload,
   )

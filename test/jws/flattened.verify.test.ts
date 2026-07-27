@@ -148,3 +148,20 @@ test('sign empty data', async (t) => {
   const { payload } = await flattenedVerify(jws, new Uint8Array(32))
   t.is(payload.byteLength, 0)
 })
+
+test('a non-ASCII payload is a JWSInvalid', async (t) => {
+  // The payload segment is used to rebuild the signing input before it is base64url decoded.
+  const jws = await new FlattenedSign(new TextEncoder().encode('foo'))
+    .setProtectedHeader({ alg: 'HS256' })
+    .sign(new Uint8Array(32))
+
+  await t.throwsAsync(flattenedVerify({ ...jws, payload: '€' }, new Uint8Array(32)), {
+    code: 'ERR_JWS_INVALID',
+    message: 'The payload is not a valid base64url string',
+  })
+
+  // A well-formed but wrong payload still fails as a signature verification failure.
+  await t.throwsAsync(flattenedVerify({ ...jws, payload: 'YmFy' }, new Uint8Array(32)), {
+    code: 'ERR_JWS_SIGNATURE_VERIFICATION_FAILED',
+  })
+})

@@ -1,4 +1,5 @@
 import { decode } from '../util/base64url.js'
+import { encode } from './buffer_utils.js'
 
 export const unprotected = Symbol()
 
@@ -17,6 +18,22 @@ export function decodeBase64url(
     return decode(value)
   } catch {
     throw new ErrorClass(`Failed to base64url decode the ${label}`)
+  }
+}
+
+/**
+ * Encodes the ASCII octets of a token member that is used as-is when recomputing a signing input or
+ * AEAD additional data, rather than being base64url decoded first.
+ */
+export function encodeBase64url(
+  value: string,
+  label: string,
+  ErrorClass: new (message: string) => Error,
+): Uint8Array {
+  try {
+    return encode(value)
+  } catch {
+    throw new ErrorClass(`The ${label} is not a valid base64url string`)
   }
 }
 
