@@ -258,8 +258,7 @@ export default [
     },
   },
   {
-    title:
-      'https://www.rfc-editor.org/info/rfc7520/#section-5.6 - Direction Encryption using AES-GCM',
+    title: 'https://www.rfc-editor.org/info/rfc7520/#section-5.6 - Direct Encryption using AES-GCM',
     deterministic: true,
     input: {
       plaintext:
@@ -308,7 +307,7 @@ export default [
   },
   {
     title:
-      'https://www.rfc-editor.org/info/rfc7520/#section-5.6 - Key Wrap using AES-GCM KeyWrap with AES-CBC-HMAC-SHA2',
+      'https://www.rfc-editor.org/info/rfc7520/#section-5.7 - Key Wrap using AES-GCM KeyWrap with AES-CBC-HMAC-SHA2',
     deterministic: true,
     input: {
       plaintext:
