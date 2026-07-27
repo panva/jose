@@ -21,6 +21,10 @@ export function decode(input: Uint8Array | string): Uint8Array {
   if (encoded instanceof Uint8Array) {
     encoded = decoder.decode(encoded)
   }
+  // Aligns the fallback path with the Uint8Array base64 methods.
+  if (encoded.includes('+') || encoded.includes('/')) {
+    throw new TypeError('The input to be decoded is not correctly encoded.')
+  }
   encoded = encoded.replace(/-/g, '+').replace(/_/g, '/')
   try {
     return decodeBase64(encoded)
