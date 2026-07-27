@@ -256,7 +256,7 @@ export class FlattenedEncrypt {
       protectedHeaderB = new Uint8Array()
     }
 
-    if (this.#aad) {
+    if (this.#aad?.byteLength) {
       aadMember = b64u(this.#aad)
       const aadMemberBytes = encode(aadMember)
       additionalData = concat(protectedHeaderB, encode('.'), aadMemberBytes)

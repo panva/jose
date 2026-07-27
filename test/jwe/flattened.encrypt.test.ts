@@ -1,6 +1,6 @@
 import test from 'ava'
 
-import { FlattenedEncrypt, decodeProtectedHeader } from '../../src/index.js'
+import { FlattenedEncrypt, flattenedDecrypt, decodeProtectedHeader } from '../../src/index.js'
 
 test.before(async (t) => {
   const encode = TextEncoder.prototype.encode.bind(new TextEncoder())
@@ -239,4 +239,31 @@ test('PBES2 p2c must be a positive integer on encrypt', async (t) => {
       },
     )
   }
+})
+
+test('a zero-length additional authenticated data round trips', async (t) => {
+  const cek = new Uint8Array(32)
+  const jwe = await new FlattenedEncrypt(t.context.plaintext)
+    .setProtectedHeader({ alg: 'dir', enc: 'A256GCM' })
+    .setAdditionalAuthenticatedData(new Uint8Array())
+    .encrypt(cek)
+
+  t.false(Object.hasOwn(jwe, 'aad'))
+
+  const { plaintext } = await flattenedDecrypt(jwe, cek)
+  t.deepEqual(plaintext, t.context.plaintext)
+})
+
+test('a non-empty additional authenticated data is still carried', async (t) => {
+  const cek = new Uint8Array(32)
+  const jwe = await new FlattenedEncrypt(t.context.plaintext)
+    .setProtectedHeader({ alg: 'dir', enc: 'A256GCM' })
+    .setAdditionalAuthenticatedData(new Uint8Array([1, 2, 3]))
+    .encrypt(cek)
+
+  t.is(jwe.aad, 'AQID')
+
+  const { plaintext, additionalAuthenticatedData } = await flattenedDecrypt(jwe, cek)
+  t.deepEqual(plaintext, t.context.plaintext)
+  t.deepEqual(additionalAuthenticatedData, new Uint8Array([1, 2, 3]))
 })
