@@ -27,6 +27,7 @@ import { FlattenedSign } from '../flattened/sign.js'
  */
 export class CompactSign {
   #flattened: FlattenedSign
+  #protectedHeader?: types.CompactJWSHeaderParameters
 
   /**
    * {@link CompactSign} constructor
@@ -44,6 +45,7 @@ export class CompactSign {
    */
   setProtectedHeader(protectedHeader: types.CompactJWSHeaderParameters): this {
     this.#flattened.setProtectedHeader(protectedHeader)
+    this.#protectedHeader = protectedHeader
     return this
   }
 
@@ -60,7 +62,11 @@ export class CompactSign {
   ): Promise<string> {
     const jws = await this.#flattened.sign(key, options)
 
-    if (jws.payload === undefined) {
+    if (
+      this.#protectedHeader?.b64 === false &&
+      Array.isArray(this.#protectedHeader.crit) &&
+      this.#protectedHeader.crit.includes('b64')
+    ) {
       throw new TypeError('use the flattened module for creating JWS with b64: false')
     }
 
