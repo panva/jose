@@ -1,7 +1,11 @@
 import test from 'ava'
 import * as crypto from 'crypto'
 
-import { GeneralEncrypt, generalDecrypt, generateKeyPair } from '../../src/index.js'
+import { base64url, GeneralEncrypt, generalDecrypt, generateKeyPair } from '../../src/index.js'
+import type * as types from '../../src/types.d.ts'
+
+const protectedHeader = (jwe: types.GeneralJWE): Record<string, any> =>
+  JSON.parse(new TextDecoder().decode(base64url.decode(jwe.protected!)))
 
 test.before(async (t) => {
   const encode = TextEncoder.prototype.encode.bind(new TextEncoder())
@@ -181,4 +185,41 @@ test('Default PBES2 Count', async (t) => {
   t.is(bob.p2c, 2048)
   t.is(charlie.p2c, 2048)
   t.true(bob.p2s !== charlie.p2s)
+})
+
+test('single recipient key management parameters are honoured', async (t) => {
+  const jwe = await new GeneralEncrypt(t.context.plaintext)
+    .setProtectedHeader({ alg: 'PBES2-HS256+A128KW', enc: 'A128GCM' })
+    .addRecipient(t.context.secret)
+    .setKeyManagementParameters({ p2c: 4096 })
+    .encrypt()
+
+  t.is(protectedHeader(jwe).p2c, 4096)
+
+  const { plaintext } = await generalDecrypt(jwe, t.context.secret, {
+    keyManagementAlgorithms: ['PBES2-HS256+A128KW'],
+  })
+  t.deepEqual(plaintext, t.context.plaintext)
+})
+
+test('single recipient ECDH-ES apu/apv are honoured', async (t) => {
+  const { privateKey, publicKey } = await generateKeyPair('ECDH-ES', { extractable: true })
+  const apu = crypto.randomFillSync(new Uint8Array(8))
+  const apv = crypto.randomFillSync(new Uint8Array(8))
+
+  const jwe = await new GeneralEncrypt(t.context.plaintext)
+    .setProtectedHeader({ enc: 'A256GCM' })
+    .addRecipient(publicKey)
+    .setUnprotectedHeader({ alg: 'ECDH-ES+A256KW' })
+    .setKeyManagementParameters({ apu, apv })
+    .encrypt()
+
+  // A single recipient takes the FlattenedEncrypt path without the "unprotected" option, so the
+  // derived parameters land in the JWE Protected Header rather than per-recipient.
+  const { apu: apuS, apv: apvS } = protectedHeader(jwe)
+  t.is(apuS, base64url.encode(apu))
+  t.is(apvS, base64url.encode(apv))
+
+  const { plaintext } = await generalDecrypt(jwe, privateKey)
+  t.deepEqual(plaintext, t.context.plaintext)
 })

@@ -191,6 +191,7 @@ export class GeneralEncrypt {
         .setProtectedHeader(this.#protectedHeader)
         .setSharedUnprotectedHeader(this.#unprotectedHeader)
         .setUnprotectedHeader(recipient.unprotectedHeader!)
+        .setKeyManagementParameters(recipient.keyManagementParameters!)
         .encrypt(recipient.key, { ...recipient.options })
 
       const jwe: types.GeneralJWE = {
