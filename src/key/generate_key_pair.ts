@@ -86,6 +86,7 @@ export async function generateKeyPair(
 ): Promise<GenerateKeyPairResult> {
   let algorithm: RsaHashedKeyGenParams | EcKeyGenParams | KeyAlgorithm
   let keyUsages: KeyUsage[]
+  let expectedCrv: string | undefined
 
   switch (alg) {
     case 'PS256':
@@ -123,21 +124,21 @@ export async function generateKeyPair(
       keyUsages = ['decrypt', 'unwrapKey', 'encrypt', 'wrapKey']
       break
     case 'ES256':
-      algorithm = { name: 'ECDSA', namedCurve: 'P-256' }
+      algorithm = { name: 'ECDSA', namedCurve: (expectedCrv = 'P-256') }
       keyUsages = ['sign', 'verify']
       break
     case 'ES384':
-      algorithm = { name: 'ECDSA', namedCurve: 'P-384' }
+      algorithm = { name: 'ECDSA', namedCurve: (expectedCrv = 'P-384') }
       keyUsages = ['sign', 'verify']
       break
     case 'ES512':
-      algorithm = { name: 'ECDSA', namedCurve: 'P-521' }
+      algorithm = { name: 'ECDSA', namedCurve: (expectedCrv = 'P-521') }
       keyUsages = ['sign', 'verify']
       break
     case 'Ed25519': // Fall through
     case 'EdDSA': {
       keyUsages = ['sign', 'verify']
-      algorithm = { name: 'Ed25519' }
+      algorithm = { name: (expectedCrv = 'Ed25519') }
       break
     }
     case 'ML-DSA-44':
@@ -172,6 +173,12 @@ export async function generateKeyPair(
     }
     default:
       throw new JOSENotSupported('Invalid or unsupported JWK "alg" (Algorithm) Parameter value')
+  }
+
+  if (expectedCrv !== undefined && options?.crv !== undefined && options.crv !== expectedCrv) {
+    throw new JOSENotSupported(
+      `Invalid or unsupported crv option provided, the only supported value for ${alg} is ${expectedCrv}`,
+    )
   }
 
   return crypto.subtle.generateKey(
