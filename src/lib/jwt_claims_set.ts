@@ -1,6 +1,6 @@
 import type * as types from '../types.d.ts'
 import { JWTClaimValidationFailed, JWTExpired, JWTInvalid } from '../util/errors.js'
-import { encoder, decoder } from './buffer_utils.js'
+import { encoder, strictDecoder } from './buffer_utils.js'
 import { isObject } from './type_checks.js'
 
 const epoch = (date: Date) => Math.floor(date.getTime() / 1000)
@@ -108,7 +108,7 @@ export function validateClaimsSet(
 ) {
   let payload!: { [propName: string]: unknown }
   try {
-    payload = JSON.parse(decoder.decode(encodedPayload))
+    payload = JSON.parse(strictDecoder.decode(encodedPayload))
   } catch {
     //
   }

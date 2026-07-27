@@ -7,7 +7,7 @@
 import * as b64u from '../util/base64url.js'
 
 import type * as types from '../types.d.ts'
-import { decoder } from '../lib/buffer_utils.js'
+import { strictDecoder } from '../lib/buffer_utils.js'
 import { JWTInvalid } from '../util/errors.js'
 import { validateClaimsSet, JWTClaimsBuilder } from '../lib/jwt_claims_set.js'
 
@@ -127,7 +127,7 @@ export class UnsecuredJWT implements types.ProduceJWT {
 
     let header: types.JWSHeaderParameters
     try {
-      header = JSON.parse(decoder.decode(b64u.decode(encodedHeader)))
+      header = JSON.parse(strictDecoder.decode(b64u.decode(encodedHeader)))
       if (header.alg !== 'none') throw new Error()
     } catch {
       throw new JWTInvalid('Invalid Unsecured JWT')

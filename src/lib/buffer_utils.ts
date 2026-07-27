@@ -1,5 +1,12 @@
 export const encoder = new TextEncoder()
 export const decoder = new TextDecoder()
+/**
+ * Decodes JOSE Headers and JWT Claims Sets. RFC 7519 Section 7.2 step 10 requires verifying that
+ * the octets are a UTF-8 encoding, which the lenient decoder never does because it substitutes
+ * U+FFFD for ill-formed sequences. A leading BOM is still ignored, as RFC 8259 Section 8.1
+ * permits.
+ */
+export const strictDecoder = new TextDecoder('utf-8', { fatal: true })
 
 const MAX_INT32 = 2 ** 32
 

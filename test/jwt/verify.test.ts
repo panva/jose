@@ -1,7 +1,7 @@
 import test from 'ava'
 import timekeeper from 'timekeeper'
 
-import { SignJWT, jwtVerify, CompactSign } from '../../src/index.js'
+import { base64url, SignJWT, jwtVerify, CompactSign } from '../../src/index.js'
 
 const now = 1604416038
 
@@ -522,5 +522,38 @@ test('clockTolerance and currentDate must be finite', async (t) => {
   // The token is genuinely expired, so a valid tolerance still rejects it.
   await t.throwsAsync(jwtVerify(jwt, t.context.secret, { clockTolerance: 0 }), {
     code: 'ERR_JWT_EXPIRED',
+  })
+})
+
+test('invalid UTF-8 in the Claims Set is rejected', async (t) => {
+  // RFC 7519 Section 7.2 step 10 requires verifying the octets are a UTF-8 encoding.
+  // C0 AF is an overlong encoding of "/".
+  const header = base64url.encode(JSON.stringify({ alg: 'HS256' }))
+  const claims = new Uint8Array([
+    ...new TextEncoder().encode('{"sub":"a'),
+    0xc0,
+    0xaf,
+    ...new TextEncoder().encode('b"}'),
+  ])
+  const payload = base64url.encode(claims)
+
+  const signature = base64url.encode(
+    new Uint8Array(
+      await crypto.subtle.sign(
+        'HMAC',
+        await crypto.subtle.importKey(
+          'raw',
+          t.context.secret,
+          { name: 'HMAC', hash: 'SHA-256' },
+          false,
+          ['sign'],
+        ),
+        new TextEncoder().encode(`${header}.${payload}`),
+      ),
+    ),
+  )
+
+  await t.throwsAsync(jwtVerify(`${header}.${payload}.${signature}`, t.context.secret), {
+    code: 'ERR_JWT_INVALID',
   })
 })

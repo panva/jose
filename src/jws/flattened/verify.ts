@@ -9,7 +9,7 @@ import { decode as b64u } from '../../util/base64url.js'
 import { verify } from '../../lib/signing.js'
 
 import { JOSEAlgNotAllowed, JWSInvalid, JWSSignatureVerificationFailed } from '../../util/errors.js'
-import { concat, encoder, decoder, encode } from '../../lib/buffer_utils.js'
+import { concat, encoder, encode, strictDecoder } from '../../lib/buffer_utils.js'
 import { decodeBase64url, encodeBase64url } from '../../lib/helpers.js'
 import { isDisjoint } from '../../lib/type_checks.js'
 import { isObject } from '../../lib/type_checks.js'
@@ -107,7 +107,7 @@ export async function flattenedVerify(
   if (jws.protected) {
     try {
       const protectedHeader = b64u(jws.protected)
-      parsedProt = JSON.parse(decoder.decode(protectedHeader))
+      parsedProt = JSON.parse(strictDecoder.decode(protectedHeader))
     } catch {
       throw new JWSInvalid('JWS Protected Header is invalid')
     }

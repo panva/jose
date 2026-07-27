@@ -5,7 +5,7 @@
  */
 
 import { decode as b64u } from './base64url.js'
-import { decoder } from '../lib/buffer_utils.js'
+import { strictDecoder } from '../lib/buffer_utils.js'
 import { isObject } from '../lib/type_checks.js'
 import type * as types from '../types.d.ts'
 import { JWTInvalid } from './errors.js'
@@ -49,7 +49,7 @@ export function decodeJwt<PayloadType = types.JWTPayload>(
 
   let result: unknown
   try {
-    result = JSON.parse(decoder.decode(decoded))
+    result = JSON.parse(strictDecoder.decode(decoded))
   } catch {
     throw new JWTInvalid('Failed to parse the decoded payload as JSON')
   }

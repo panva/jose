@@ -12,7 +12,7 @@ import { JOSEAlgNotAllowed, JOSENotSupported, JWEInvalid } from '../../util/erro
 import { isDisjoint } from '../../lib/type_checks.js'
 import { isObject } from '../../lib/type_checks.js'
 import { decryptKeyManagement } from '../../lib/key_management.js'
-import { decoder, concat, encode } from '../../lib/buffer_utils.js'
+import { concat, encode, strictDecoder } from '../../lib/buffer_utils.js'
 import { generateCek } from '../../lib/content_encryption.js'
 import { validateCrit } from '../../lib/validate_crit.js'
 import { validateAlgorithms } from '../../lib/validate_algorithms.js'
@@ -127,7 +127,7 @@ export async function flattenedDecrypt(
   if (jwe.protected) {
     try {
       const protectedHeader = b64u(jwe.protected)
-      parsedProt = JSON.parse(decoder.decode(protectedHeader))
+      parsedProt = JSON.parse(strictDecoder.decode(protectedHeader))
     } catch {
       throw new JWEInvalid('JWE Protected Header is invalid')
     }

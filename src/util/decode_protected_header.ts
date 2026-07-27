@@ -5,7 +5,7 @@
  */
 
 import { decode as b64u } from './base64url.js'
-import { decoder } from '../lib/buffer_utils.js'
+import { strictDecoder } from '../lib/buffer_utils.js'
 import { isObject } from '../lib/type_checks.js'
 import type * as types from '../types.d.ts'
 
@@ -47,7 +47,7 @@ export function decodeProtectedHeader(token: string | object): ProtectedHeaderPa
     if (typeof protectedB64u !== 'string' || !protectedB64u) {
       throw new Error()
     }
-    const result = JSON.parse(decoder.decode(b64u(protectedB64u!)))
+    const result = JSON.parse(strictDecoder.decode(b64u(protectedB64u!)))
     if (!isObject(result)) {
       throw new Error()
     }
