@@ -135,7 +135,7 @@ test('JWE format validation', async (t) => {
     jwe.header = null
 
     await t.throwsAsync(flattenedDecrypt(jwe, t.context.secret), {
-      message: 'JWE Shared Unprotected Header incorrect type',
+      message: 'JWE Per-Recipient Unprotected Header incorrect type',
       code: 'ERR_JWE_INVALID',
     })
   }
@@ -145,7 +145,7 @@ test('JWE format validation', async (t) => {
     jwe.unprotected = null
 
     await t.throwsAsync(flattenedDecrypt(jwe, t.context.secret), {
-      message: 'JWE Per-Recipient Unprotected Header incorrect type',
+      message: 'JWE Shared Unprotected Header incorrect type',
       code: 'ERR_JWE_INVALID',
     })
   }

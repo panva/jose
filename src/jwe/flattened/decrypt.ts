@@ -116,11 +116,11 @@ export async function flattenedDecrypt(
   }
 
   if (jwe.header !== undefined && !isObject(jwe.header)) {
-    throw new JWEInvalid('JWE Shared Unprotected Header incorrect type')
+    throw new JWEInvalid('JWE Per-Recipient Unprotected Header incorrect type')
   }
 
   if (jwe.unprotected !== undefined && !isObject(jwe.unprotected)) {
-    throw new JWEInvalid('JWE Per-Recipient Unprotected Header incorrect type')
+    throw new JWEInvalid('JWE Shared Unprotected Header incorrect type')
   }
 
   let parsedProt!: types.JWEHeaderParameters | undefined
