@@ -10,8 +10,8 @@ Imports a JWK to a [CryptoKey](https://developer.mozilla.org/docs/Web/API/Crypto
 "alg" argument, must be present for asymmetric JSON Web Key imports.
 
 > [!NOTE]\
-> The JSON Web Key parameters "use", "key_ops", and "ext" are also used in the [CryptoKey](https://developer.mozilla.org/docs/Web/API/CryptoKey)
-> import process.
+> The JSON Web Key parameters "key_ops" and "ext" are also used in the [CryptoKey](https://developer.mozilla.org/docs/Web/API/CryptoKey) import
+> process.
 
 > [!NOTE]\
 > Symmetric JSON Web Keys (i.e. `kty: "oct"`) yield back an [Uint8Array](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Uint8Array) instead of a

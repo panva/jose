@@ -144,8 +144,8 @@ export async function importPKCS8(
  * "alg" argument, must be present for asymmetric JSON Web Key imports.
  *
  * > [!NOTE]\
- * > The JSON Web Key parameters "use", "key_ops", and "ext" are also used in the {@link !CryptoKey}
- * > import process.
+ * > The JSON Web Key parameters "key_ops" and "ext" are also used in the {@link !CryptoKey} import
+ * > process.
  *
  * > [!NOTE]\
  * > Symmetric JSON Web Keys (i.e. `kty: "oct"`) yield back an {@link !Uint8Array} instead of a
