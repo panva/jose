@@ -12,7 +12,7 @@ import { isDisjoint } from '../../lib/type_checks.js'
 import { JWSInvalid } from '../../util/errors.js'
 import { concat, encode } from '../../lib/buffer_utils.js'
 import { checkKeyType } from '../../lib/check_key_type.js'
-import { validateCrit } from '../../lib/validate_crit.js'
+import { validateCrit, validateCritDuplicates } from '../../lib/validate_crit.js'
 import { normalizeKey } from '../../lib/normalize_key.js'
 import { assertNotSet } from '../../lib/helpers.js'
 
@@ -103,6 +103,7 @@ export class FlattenedSign {
       ...this.#unprotectedHeader,
     }
 
+    validateCritDuplicates(JWSInvalid, this.#protectedHeader)
     const extensions = validateCrit(
       JWSInvalid,
       new Map([['b64', true]]),

@@ -6,6 +6,21 @@ interface CritCheckHeader {
   [propName: string]: unknown
 }
 
+/**
+ * RFC 7515 Section 4.1.11 forbids producers from listing duplicate names in "crit". A recipient
+ * only MAY consider such a header invalid, so this is enforced when producing and not when
+ * consuming.
+ */
+export function validateCritDuplicates(
+  Err: typeof JWEInvalid | typeof JWSInvalid,
+  protectedHeader: CritCheckHeader | undefined,
+): void {
+  const { crit } = protectedHeader ?? {}
+  if (Array.isArray(crit) && new Set(crit).size !== crit.length) {
+    throw new Err('"crit" (Critical) Header Parameter MUST NOT contain duplicate values')
+  }
+}
+
 export function validateCrit(
   Err: typeof JWEInvalid | typeof JWSInvalid,
   recognizedDefault: Map<string, boolean>,

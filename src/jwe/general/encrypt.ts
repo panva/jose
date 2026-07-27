@@ -12,7 +12,7 @@ import { generateCek } from '../../lib/content_encryption.js'
 import { isDisjoint } from '../../lib/type_checks.js'
 import { encryptKeyManagement } from '../../lib/key_management.js'
 import { encode as b64u } from '../../util/base64url.js'
-import { validateCrit } from '../../lib/validate_crit.js'
+import { validateCrit, validateCritDuplicates } from '../../lib/validate_crit.js'
 import { normalizeKey } from '../../lib/normalize_key.js'
 import { checkKeyType } from '../../lib/check_key_type.js'
 
@@ -249,6 +249,7 @@ export class GeneralEncrypt {
         )
       }
 
+      validateCritDuplicates(JWEInvalid, this.#protectedHeader)
       validateCrit(JWEInvalid, new Map(), recipient.options.crit, this.#protectedHeader, joseHeader)
 
       if (joseHeader.zip !== undefined && joseHeader.zip !== 'DEF') {

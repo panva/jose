@@ -12,7 +12,7 @@ import { encryptKeyManagement } from '../../lib/key_management.js'
 import { JOSENotSupported, JWEInvalid } from '../../util/errors.js'
 import { isDisjoint } from '../../lib/type_checks.js'
 import { concat, encode } from '../../lib/buffer_utils.js'
-import { validateCrit } from '../../lib/validate_crit.js'
+import { validateCrit, validateCritDuplicates } from '../../lib/validate_crit.js'
 import { normalizeKey } from '../../lib/normalize_key.js'
 import { checkKeyType } from '../../lib/check_key_type.js'
 import { compress } from '../../lib/deflate.js'
@@ -183,6 +183,7 @@ export class FlattenedEncrypt {
       ...this.#sharedUnprotectedHeader,
     }
 
+    validateCritDuplicates(JWEInvalid, this.#protectedHeader)
     validateCrit(JWEInvalid, new Map(), options?.crit, this.#protectedHeader, joseHeader)
 
     if (joseHeader.zip !== undefined && joseHeader.zip !== 'DEF') {
