@@ -81,15 +81,24 @@ interface ASN1State {
 /** Creates ASN.1 parsing state */
 const createASN1State = (data: Uint8Array): ASN1State => ({ data, pos: 0 })
 
+/** Reads the byte at the current position, failing fast when the input is truncated */
+const readByte = (state: ASN1State): number => {
+  const byte = state.data[state.pos++]
+  if (byte === undefined) {
+    throw new Error('Unexpected end of ASN.1 input')
+  }
+  return byte
+}
+
 /** Parses ASN.1 length encoding (both short and long form) */
 const parseLength = (state: ASN1State): number => {
-  const first = state.data[state.pos++]
+  const first = readByte(state)
   if (first & 0x80) {
     // Long form: first byte indicates number of subsequent length bytes
     const lengthOfLen = first & 0x7f
     let length = 0
     for (let i = 0; i < lengthOfLen; i++) {
-      length = (length << 8) | state.data[state.pos++]
+      length = (length << 8) | readByte(state)
     }
     return length
   }
@@ -110,13 +119,16 @@ const skipElement = (state: ASN1State, count: number = 1): void => {
 
 /** Expects a specific tag and throws if not found */
 const expectTag = (state: ASN1State, expectedTag: number, errorMessage: string): void => {
-  if (state.data[state.pos++] !== expectedTag) {
+  if (readByte(state) !== expectedTag) {
     throw new Error(errorMessage)
   }
 }
 
 /** Gets a subarray from current position */
 const getSubarray = (state: ASN1State, length: number): Uint8Array => {
+  if (length < 0 || state.pos + length > state.data.length) {
+    throw new Error('Unexpected end of ASN.1 input')
+  }
   const result = state.data.subarray(state.pos, state.pos + length)
   state.pos += length
   return result
