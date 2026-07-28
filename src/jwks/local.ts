@@ -49,7 +49,7 @@ function isJWKLike(key: unknown) {
   return isObject<types.JWK>(key)
 }
 
-class LocalJWKSet {
+class LocalJWKSetImpl {
   #jwks: types.JSONWebKeySet
 
   #cached: WeakMap<types.JWK, Cache> = new WeakMap()
@@ -159,6 +159,22 @@ async function importWithAlgCache(cache: WeakMap<types.JWK, Cache>, jwk: types.J
 }
 
 /**
+ * The key resolution function returned by {@link createLocalJWKSet}.
+ *
+ * @see {@link jwt/verify.jwtVerify jwtVerify} and the other consuming functions, all of which accept
+ *   this directly.
+ */
+export interface LocalJWKSet {
+  (
+    protectedHeader?: types.JWSHeaderParameters,
+    token?: types.FlattenedJWSInput,
+  ): Promise<types.CryptoKey>
+
+  /** Returns a structured clone of the JSON Web Key Set this resolver was created with. */
+  jwks: () => types.JSONWebKeySet
+}
+
+/**
  * Returns a function that resolves a JWS JOSE Header to a public key object from a locally stored,
  * or otherwise available, JSON Web Key Set.
  *
@@ -241,13 +257,8 @@ async function importWithAlgCache(cache: WeakMap<types.JWK, Cache>, jwk: types.J
  *
  * @param jwks JSON Web Key Set formatted object.
  */
-export function createLocalJWKSet(
-  jwks: types.JSONWebKeySet,
-): (
-  protectedHeader?: types.JWSHeaderParameters,
-  token?: types.FlattenedJWSInput,
-) => Promise<types.CryptoKey> {
-  const set = new LocalJWKSet(jwks)
+export function createLocalJWKSet(jwks: types.JSONWebKeySet): LocalJWKSet {
+  const set = new LocalJWKSetImpl(jwks)
 
   const localJWKSet = async (
     protectedHeader?: types.JWSHeaderParameters,
@@ -263,5 +274,7 @@ export function createLocalJWKSet(
     },
   })
 
-  return localJWKSet
+  // Object.defineProperties is used for the property attributes it affords and returns the
+  // un-augmented type; LocalJWKSet describes exactly what the block above installs.
+  return localJWKSet as LocalJWKSet
 }

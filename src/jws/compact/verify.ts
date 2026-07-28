@@ -15,10 +15,9 @@ import { decoder } from '../../lib/buffer_utils.js'
  *
  * @see {@link jwks/remote.createRemoteJWKSet createRemoteJWKSet} to verify using a remote JSON Web Key Set.
  */
-export interface CompactVerifyGetKey extends types.GenericGetKeyFunction<
+export interface CompactVerifyGetKey extends types.GetKeyFunction<
   types.CompactJWSHeaderParameters,
-  types.FlattenedJWSInput,
-  types.CryptoKey | types.KeyObject | types.JWK | Uint8Array
+  types.FlattenedJWSInput
 > {}
 
 /**

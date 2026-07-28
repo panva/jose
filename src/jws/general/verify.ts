@@ -15,10 +15,9 @@ import { isObject } from '../../lib/type_checks.js'
  *
  * @see {@link jwks/remote.createRemoteJWKSet createRemoteJWKSet} to verify using a remote JSON Web Key Set.
  */
-export interface GeneralVerifyGetKey extends types.GenericGetKeyFunction<
+export interface GeneralVerifyGetKey extends types.GetKeyFunction<
   types.JWSHeaderParameters,
-  types.FlattenedJWSInput,
-  types.CryptoKey | types.KeyObject | types.JWK | Uint8Array
+  types.FlattenedJWSInput
 > {}
 
 /**

@@ -12,11 +12,11 @@ import { isObject } from '../lib/type_checks.js'
 
 function isCloudflareWorkers() {
   return (
-    // @ts-ignore
+    // @ts-expect-error
     typeof WebSocketPair !== 'undefined' ||
     // @ts-ignore
     (typeof navigator !== 'undefined' && navigator.userAgent === 'Cloudflare-Workers') ||
-    // @ts-ignore
+    // @ts-expect-error
     (typeof EdgeRuntime !== 'undefined' && EdgeRuntime === 'vercel')
   )
 }
@@ -291,6 +291,43 @@ export interface ExportedJWKSCache {
 /** See {@link jwksCache}. */
 export type JWKSCacheInput = ExportedJWKSCache | Record<string, never>
 
+/**
+ * The key resolution function returned by {@link createRemoteJWKSet}.
+ *
+ * @see {@link jwt/verify.jwtVerify jwtVerify} and the other consuming functions, all of which accept
+ *   this directly.
+ */
+export interface RemoteJWKSet {
+  (
+    protectedHeader?: types.JWSHeaderParameters,
+    token?: types.FlattenedJWSInput,
+  ): Promise<types.CryptoKey>
+
+  /** Whether the cooldown window following the last successful fetch is still in effect. */
+  readonly coolingDown: boolean
+
+  /**
+   * Whether the currently cached JSON Web Key Set is within its
+   * {@link RemoteJWKSetOptions.cacheMaxAge}.
+   */
+  readonly fresh: boolean
+
+  /** Whether a JSON Web Key Set fetch is currently in flight. */
+  readonly reloading: boolean
+
+  /**
+   * Triggers a JSON Web Key Set fetch, bypassing
+   * {@link RemoteJWKSetOptions.cooldownDuration the cooldown}.
+   */
+  reload: () => Promise<void>
+
+  /**
+   * The currently cached JSON Web Key Set, or `undefined` when none has been fetched or seeded via
+   * {@link jwksCache} yet.
+   */
+  jwks: () => types.JSONWebKeySet | undefined
+}
+
 function isFreshJwksCache(input: unknown, cacheMaxAge: number): input is ExportedJWKSCache {
   if (typeof input !== 'object' || input === null) {
     return false
@@ -312,7 +349,7 @@ function isFreshJwksCache(input: unknown, cacheMaxAge: number): input is Exporte
   return true
 }
 
-class RemoteJWKSet {
+class RemoteJWKSetImpl {
   #url: URL
 
   #timeoutDuration: number
@@ -382,7 +419,6 @@ class RemoteJWKSet {
   }
 
   jwks(): types.JSONWebKeySet | undefined {
-    // @ts-expect-error
     return this.#local?.jwks()
   }
 
@@ -508,26 +544,8 @@ class RemoteJWKSet {
  * @param url URL to fetch the JSON Web Key Set from.
  * @param options Options for the remote JSON Web Key Set.
  */
-export function createRemoteJWKSet(
-  url: URL,
-  options?: RemoteJWKSetOptions,
-): {
-  (
-    protectedHeader?: types.JWSHeaderParameters,
-    token?: types.FlattenedJWSInput,
-  ): Promise<types.CryptoKey>
-  /** @ignore */
-  coolingDown: boolean
-  /** @ignore */
-  fresh: boolean
-  /** @ignore */
-  reloading: boolean
-  /** @ignore */
-  reload: () => Promise<void>
-  /** @ignore */
-  jwks: () => types.JSONWebKeySet | undefined
-} {
-  const set = new RemoteJWKSet(url, options)
+export function createRemoteJWKSet(url: URL, options?: RemoteJWKSetOptions): RemoteJWKSet {
+  const set = new RemoteJWKSetImpl(url, options)
 
   const remoteJWKSet = async (
     protectedHeader?: types.JWSHeaderParameters,
@@ -564,6 +582,7 @@ export function createRemoteJWKSet(
     },
   })
 
-  // @ts-expect-error
-  return remoteJWKSet
+  // Object.defineProperties is used for the property attributes it affords and returns the
+  // un-augmented type; RemoteJWKSet describes exactly what the block above installs.
+  return remoteJWKSet as RemoteJWKSet
 }

@@ -14,7 +14,7 @@ import { isObject } from '../../lib/type_checks.js'
  * verified at the time of this function call.
  */
 export interface GeneralDecryptGetKey extends types.GetKeyFunction<
-  types.JWEHeaderParameters,
+  types.JWEHeaderParameters | undefined,
   types.FlattenedJWE
 > {}
 

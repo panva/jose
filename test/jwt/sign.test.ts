@@ -81,6 +81,17 @@ test('Signed JWTs cannot use unencoded payload', async (t) => {
   })
 })
 
+test('"b64" is ignored when "crit" does not list it', async (t) => {
+  // Only a "b64" listed in "crit" is in effect per RFC 7797, so this one does not make the JWT an
+  // unencoded payload one and is signed like any other.
+  const jwt = await new SignJWT(t.context.payload)
+    .setProtectedHeader({ alg: 'HS256', b64: false })
+    .sign(t.context.secret)
+
+  const { protectedHeader } = await jwtVerify(jwt, t.context.secret)
+  t.deepEqual(protectedHeader, { alg: 'HS256', b64: false })
+})
+
 async function testJWTsetFunction(t, method, claim, value, expected = value) {
   const jwt = await new SignJWT()
     .setProtectedHeader({ alg: 'HS256' })

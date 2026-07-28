@@ -415,6 +415,19 @@ test('Signed JWTs cannot use unencoded payload', async (t) => {
   )
 })
 
+test('"b64" is ignored when "crit" does not list it', async (t) => {
+  // RFC 7797 requires a producer to list "b64" in "crit" for the unencoded payload option to be in
+  // effect. Absent from "crit" the parameter is inert, the payload is base64url encoded like any
+  // other, and the JWT is ordinary - so this is not the case RFC 7797 Section 7 forbids.
+  const jwt = await new CompactSign(new TextEncoder().encode(JSON.stringify(t.context.payload)))
+    .setProtectedHeader({ alg: 'HS256', b64: false })
+    .sign(t.context.secret)
+
+  const { payload, protectedHeader } = await jwtVerify(jwt, t.context.secret)
+  t.deepEqual(protectedHeader, { alg: 'HS256', b64: false })
+  t.deepEqual(payload, t.context.payload)
+})
+
 test('signatures are compared before claim set', async (t) => {
   // https://github.com/panva/jose/discussions/447
   const jwt = await new SignJWT({ exp: 0 })

@@ -188,7 +188,6 @@ export class SignJWT implements types.ProduceJWT {
     if (
       Array.isArray(this.#protectedHeader?.crit) &&
       this.#protectedHeader.crit.includes('b64') &&
-      // @ts-expect-error
       this.#protectedHeader.b64 === false
     ) {
       throw new JWTInvalid('JWTs MUST NOT use unencoded payload')
