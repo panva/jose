@@ -12,7 +12,7 @@ export function checkKeyLength(alg: string, key: types.CryptoKey) {
   }
 }
 
-function subtleAlgorithm(alg: string, algorithm: KeyAlgorithm | EcKeyAlgorithm) {
+function subtleAlgorithm(alg: string) {
   const hash = `SHA-${alg.slice(-3)}`
   switch (alg) {
     case 'HS256':
@@ -30,7 +30,7 @@ function subtleAlgorithm(alg: string, algorithm: KeyAlgorithm | EcKeyAlgorithm) 
     case 'ES256':
     case 'ES384':
     case 'ES512':
-      return { hash, name: 'ECDSA', namedCurve: (algorithm as EcKeyAlgorithm).namedCurve }
+      return { hash, name: 'ECDSA' }
     case 'Ed25519': // Fall through
     case 'EdDSA':
       return { name: 'Ed25519' }
@@ -43,6 +43,11 @@ function subtleAlgorithm(alg: string, algorithm: KeyAlgorithm | EcKeyAlgorithm) 
         `alg ${alg} is not supported either by JOSE or your javascript runtime`,
       )
   }
+}
+
+/** Throws {@link JOSENotSupported} unless alg is a JWS signature algorithm this module implements. */
+export function checkSigAlg(alg: string) {
+  subtleAlgorithm(alg)
 }
 
 async function getSigKey(alg: string, key: types.CryptoKey | Uint8Array, usage: KeyUsage) {
@@ -67,7 +72,7 @@ export async function sign(alg: string, key: types.CryptoKey | Uint8Array, data:
   const cryptoKey = await getSigKey(alg, key, 'sign')
   checkKeyLength(alg, cryptoKey)
   const signature = await crypto.subtle.sign(
-    subtleAlgorithm(alg, cryptoKey.algorithm),
+    subtleAlgorithm(alg),
     cryptoKey,
     data as Uint8Array<ArrayBuffer>,
   )
@@ -82,7 +87,7 @@ export async function verify(
 ) {
   const cryptoKey = await getSigKey(alg, key, 'verify')
   checkKeyLength(alg, cryptoKey)
-  const algorithm = subtleAlgorithm(alg, cryptoKey.algorithm)
+  const algorithm = subtleAlgorithm(alg)
   try {
     return await crypto.subtle.verify(
       algorithm,

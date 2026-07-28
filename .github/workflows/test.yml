@@ -63,7 +63,7 @@ jobs:
       - name: Test Deno Definitions
         run: |
           npm run build:deno
-          deno check dist/deno/index.ts
+          deno check dist/deno/index.ts dist/deno/httpsig.ts
       - name: Test Deno
         run: npm run tap:deno
 
