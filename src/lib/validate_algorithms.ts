@@ -1,4 +1,4 @@
-export function validateAlgorithms(option: string, algorithms?: string[]) {
+export function validateAlgorithms(option: string, algorithms?: string[]): Set<string> | undefined {
   if (
     algorithms !== undefined &&
     (!Array.isArray(algorithms) || algorithms.some((s) => typeof s !== 'string'))

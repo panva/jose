@@ -27,7 +27,7 @@ export function validateCrit(
   recognizedOption: { [propName: string]: boolean } | undefined,
   protectedHeader: CritCheckHeader | undefined,
   joseHeader: CritCheckHeader,
-) {
+): Set<string> {
   if (joseHeader.crit !== undefined && protectedHeader?.crit === undefined) {
     throw new Err('"crit" (Critical) Header Parameter MUST be integrity protected')
   }

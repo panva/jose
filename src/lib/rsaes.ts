@@ -17,7 +17,11 @@ const subtleAlgorithm = (alg: string) => {
   }
 }
 
-export async function encrypt(alg: string, key: types.CryptoKey, cek: Uint8Array) {
+export async function encrypt(
+  alg: string,
+  key: types.CryptoKey,
+  cek: Uint8Array,
+): Promise<Uint8Array> {
   checkEncCryptoKey(key, alg, 'encrypt')
   checkKeyLength(alg, key)
 
@@ -26,7 +30,11 @@ export async function encrypt(alg: string, key: types.CryptoKey, cek: Uint8Array
   )
 }
 
-export async function decrypt(alg: string, key: types.CryptoKey, encryptedKey: Uint8Array) {
+export async function decrypt(
+  alg: string,
+  key: types.CryptoKey,
+  encryptedKey: Uint8Array,
+): Promise<Uint8Array> {
   checkEncCryptoKey(key, alg, 'decrypt')
   checkKeyLength(alg, key)
 

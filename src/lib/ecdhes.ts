@@ -59,7 +59,7 @@ export async function deriveKey(
   keyLength: number,
   apu: Uint8Array = new Uint8Array(),
   apv: Uint8Array = new Uint8Array(),
-) {
+): Promise<Uint8Array> {
   checkEncCryptoKey(publicKey, 'ECDH')
   checkEncCryptoKey(privateKey, 'ECDH', 'deriveBits')
 
@@ -98,7 +98,7 @@ function getEcdhBitLength(publicKey: CryptoKey) {
   )
 }
 
-export function allowed(key: types.CryptoKey) {
+export function allowed(key: types.CryptoKey): boolean {
   switch ((key.algorithm as EcKeyAlgorithm).namedCurve) {
     case 'P-256':
     case 'P-384':

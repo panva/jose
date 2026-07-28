@@ -3,7 +3,7 @@ import { JOSENotSupported } from '../util/errors.js'
 import { checkSigCryptoKey } from './crypto_key.js'
 import { invalidKeyInput } from './invalid_key_input.js'
 
-export function checkKeyLength(alg: string, key: types.CryptoKey) {
+export function checkKeyLength(alg: string, key: types.CryptoKey): void {
   if (alg.startsWith('RS') || alg.startsWith('PS')) {
     const { modulusLength } = key.algorithm as RsaKeyAlgorithm
     if (typeof modulusLength !== 'number' || modulusLength < 2048) {
@@ -63,7 +63,11 @@ async function getSigKey(alg: string, key: types.CryptoKey | Uint8Array, usage: 
   return key
 }
 
-export async function sign(alg: string, key: types.CryptoKey | Uint8Array, data: Uint8Array) {
+export async function sign(
+  alg: string,
+  key: types.CryptoKey | Uint8Array,
+  data: Uint8Array,
+): Promise<Uint8Array> {
   const cryptoKey = await getSigKey(alg, key, 'sign')
   checkKeyLength(alg, cryptoKey)
   const signature = await crypto.subtle.sign(
@@ -79,7 +83,7 @@ export async function verify(
   key: types.CryptoKey | Uint8Array,
   signature: Uint8Array,
   data: Uint8Array,
-) {
+): Promise<boolean> {
   const cryptoKey = await getSigKey(alg, key, 'verify')
   checkKeyLength(alg, cryptoKey)
   const algorithm = subtleAlgorithm(alg, cryptoKey.algorithm)

@@ -7,7 +7,7 @@ import { isCryptoKey } from './is_key_like.js'
 
 // --- CEK ---
 
-export function cekLength(alg: string) {
+export function cekLength(alg: string): number {
   switch (alg) {
     case 'A128GCM':
       return 128
@@ -60,7 +60,7 @@ function ivBitLength(alg: string) {
 export const generateIv = (alg: string): Uint8Array =>
   crypto.getRandomValues(new Uint8Array(ivBitLength(alg) >> 3))
 
-export function checkIvLength(enc: string, iv: Uint8Array) {
+export function checkIvLength(enc: string, iv: Uint8Array): void {
   if (iv.length << 3 !== ivBitLength(enc)) {
     throw new JWEInvalid('Invalid Initialization Vector length')
   }

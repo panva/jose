@@ -15,7 +15,11 @@ function getCryptoKey(key: types.CryptoKey | Uint8Array, alg: string, usage: Key
   return key
 }
 
-export async function wrap(alg: string, key: types.CryptoKey | Uint8Array, cek: Uint8Array) {
+export async function wrap(
+  alg: string,
+  key: types.CryptoKey | Uint8Array,
+  cek: Uint8Array,
+): Promise<Uint8Array> {
   const cryptoKey = await getCryptoKey(key, alg, 'wrapKey')
 
   checkKeySize(cryptoKey, alg)
@@ -36,7 +40,7 @@ export async function unwrap(
   alg: string,
   key: types.CryptoKey | Uint8Array,
   encryptedKey: Uint8Array,
-) {
+): Promise<Uint8Array> {
   const cryptoKey = await getCryptoKey(key, alg, 'unwrapKey')
 
   checkKeySize(cryptoKey, alg)

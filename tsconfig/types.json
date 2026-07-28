@@ -5,6 +5,7 @@
     "outDir": "../dist/types",
     "declaration": true,
     "emitDeclarationOnly": true,
-    "removeComments": false
+    "removeComments": false,
+    "isolatedDeclarations": true
   }
 }

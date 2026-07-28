@@ -52,7 +52,7 @@ export async function wrap(
   cek: Uint8Array,
   p2c = 2048,
   p2s: Uint8Array = crypto.getRandomValues(new Uint8Array(16)),
-) {
+): Promise<{ encryptedKey: Uint8Array; p2c: number; p2s: string }> {
   const derived = await deriveKey(p2s, alg, p2c, key)
 
   const encryptedKey = await aeskw.wrap(alg.slice(-6), derived, cek)
@@ -66,7 +66,7 @@ export async function unwrap(
   encryptedKey: Uint8Array,
   p2c: number,
   p2s: Uint8Array,
-) {
+): Promise<Uint8Array> {
   const derived = await deriveKey(p2s, alg, p2c, key)
 
   return aeskw.unwrap(alg.slice(-6), derived, encryptedKey)

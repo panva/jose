@@ -1,12 +1,12 @@
-export const encoder = new TextEncoder()
-export const decoder = new TextDecoder()
+export const encoder: TextEncoder = new TextEncoder()
+export const decoder: TextDecoder = new TextDecoder()
 /**
  * Decodes JOSE Headers and JWT Claims Sets. RFC 7519 Section 7.2 step 10 requires verifying that
  * the octets are a UTF-8 encoding, which the lenient decoder never does because it substitutes
  * U+FFFD for ill-formed sequences. A leading BOM is still ignored, as RFC 8259 Section 8.1
  * permits.
  */
-export const strictDecoder = new TextDecoder('utf-8', { fatal: true })
+export const strictDecoder: TextDecoder = new TextDecoder('utf-8', { fatal: true })
 
 const MAX_INT32 = 2 ** 32
 
@@ -28,7 +28,7 @@ function writeUInt32BE(buf: Uint8Array, value: number, offset?: number) {
   buf.set([value >>> 24, value >>> 16, value >>> 8, value & 0xff], offset)
 }
 
-export function uint64be(value: number) {
+export function uint64be(value: number): Uint8Array {
   const high = Math.floor(value / MAX_INT32)
   const low = value % MAX_INT32
   const buf = new Uint8Array(8)
@@ -37,7 +37,7 @@ export function uint64be(value: number) {
   return buf
 }
 
-export function uint32be(value: number) {
+export function uint32be(value: number): Uint8Array {
   const buf = new Uint8Array(4)
   writeUInt32BE(buf, value)
   return buf

@@ -16,7 +16,7 @@ export function isObject<T = object>(input: unknown): input is T {
   return Object.getPrototypeOf(input) === proto
 }
 
-export function isDisjoint(...headers: Array<object | undefined>) {
+export function isDisjoint(...headers: Array<object | undefined>): boolean {
   const sources = headers.filter(Boolean) as object[]
 
   if (sources.length === 0 || sources.length === 1) {
@@ -45,12 +45,12 @@ export function isDisjoint(...headers: Array<object | undefined>) {
 export const isJWK = (key: unknown): key is types.JWK & { kty: string } =>
   isObject<types.JWK>(key) && typeof key.kty === 'string'
 
-export const isPrivateJWK = (key: types.JWK & { kty: string }) =>
+export const isPrivateJWK = (key: types.JWK & { kty: string }): boolean =>
   key.kty !== 'oct' &&
   ((key.kty === 'AKP' && typeof key.priv === 'string') || typeof key.d === 'string')
 
-export const isPublicJWK = (key: types.JWK & { kty: string }) =>
+export const isPublicJWK = (key: types.JWK & { kty: string }): boolean =>
   key.kty !== 'oct' && key.d === undefined && key.priv === undefined
 
-export const isSecretJWK = (key: types.JWK & { kty: string }) =>
+export const isSecretJWK = (key: types.JWK & { kty: string }): boolean =>
   key.kty === 'oct' && typeof key.k === 'string'

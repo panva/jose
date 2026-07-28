@@ -1,7 +1,7 @@
 import { decode } from '../util/base64url.js'
 import { encode } from './buffer_utils.js'
 
-export const unprotected = Symbol()
+export const unprotected: unique symbol = Symbol()
 
 export function assertNotSet(value: unknown, name: string): void {
   if (value) {
