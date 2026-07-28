@@ -14,6 +14,9 @@ import { decoder } from '../../lib/buffer_utils.js'
  * Interface for Compact JWS Verification dynamic key resolution. No token components have been
  * verified at the time of this function call.
  *
+ * @typeParam KeyType Type definition of the keys the function resolves. Narrowing it is what lets
+ *   {@link types.ResolvedKey.key ResolvedKey.key} be inferred at the call site.
+ *
  * @see {@link jwks/remote.createRemoteJWKSet createRemoteJWKSet} to verify using a remote JSON Web Key Set.
  */
 export interface CompactVerifyGetKey<

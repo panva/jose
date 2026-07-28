@@ -856,7 +856,11 @@ export interface CompactVerifyResult {
   protectedHeader: CompactJWSHeaderParameters
 }
 
-/** Signed JSON Web Token (JWT) verification result */
+/**
+ * Signed JSON Web Token (JWT) verification result
+ *
+ * @typeParam PayloadType Type definition of the JWT Claims Set the token is expected to carry.
+ */
 export interface JWTVerifyResult<PayloadType = JWTPayload> {
   /** JWT Claims Set. */
   payload: PayloadType &
@@ -867,7 +871,11 @@ export interface JWTVerifyResult<PayloadType = JWTPayload> {
   protectedHeader: JWTHeaderParameters
 }
 
-/** Encrypted JSON Web Token (JWT) decryption result */
+/**
+ * Encrypted JSON Web Token (JWT) decryption result
+ *
+ * @typeParam PayloadType Type definition of the JWT Claims Set the token is expected to carry.
+ */
 export interface JWTDecryptResult<PayloadType = JWTPayload> {
   /** JWT Claims Set. */
   payload: PayloadType &
@@ -881,8 +889,8 @@ export interface JWTDecryptResult<PayloadType = JWTPayload> {
 /**
  * When key resolver functions are used this becomes part of successful resolves
  *
- * @param KeyType Type of the resolved key. Inferred from the key resolver function's return type,
- *   so a resolver declared to return only {@link CryptoKey} — as
+ * @typeParam KeyType Type of the resolved key. Inferred from the key resolver function's return
+ *   type, so a resolver declared to return only {@link CryptoKey} — as
  *   {@link jwks/remote.createRemoteJWKSet createRemoteJWKSet},
  *   {@link jwks/local.createLocalJWKSet createLocalJWKSet}, and
  *   {@link jwk/embedded.EmbeddedJWK EmbeddedJWK} all are — needs no narrowing at the call site.

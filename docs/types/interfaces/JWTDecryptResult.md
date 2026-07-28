@@ -8,9 +8,9 @@ Encrypted JSON Web Token (JWT) decryption result
 
 ## Type Parameters
 
-| Type Parameter | Default type |
-| ------ | ------ |
-| `PayloadType` | [`JWTPayload`](JWTPayload.md) |
+| Type Parameter | Default type | Description |
+| ------ | ------ | ------ |
+| `PayloadType` | [`JWTPayload`](JWTPayload.md) | Type definition of the JWT Claims Set the token is expected to carry. |
 
 ## Properties
 

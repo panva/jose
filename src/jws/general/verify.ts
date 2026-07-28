@@ -13,6 +13,9 @@ import { isObject } from '../../lib/type_checks.js'
  * Interface for General JWS Verification dynamic key resolution. No token components have been
  * verified at the time of this function call.
  *
+ * @typeParam KeyType Type definition of the keys the function resolves. Narrowing it is what lets
+ *   {@link types.ResolvedKey.key ResolvedKey.key} be inferred at the call site.
+ *
  * @see {@link jwks/remote.createRemoteJWKSet createRemoteJWKSet} to verify using a remote JSON Web Key Set.
  */
 export interface GeneralVerifyGetKey<

@@ -26,6 +26,8 @@ import { JWTInvalid } from './errors.js'
  * console.log(claims)
  * ```
  *
+ * @typeParam PayloadType Type definition of the JWT Claims Set the token is expected to carry.
+ *
  * @param jwt JWT token in compact JWS serialization.
  */
 export function decodeJwt<PayloadType = types.JWTPayload>(

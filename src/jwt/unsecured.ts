@@ -11,7 +11,11 @@ import { strictDecoder } from '../lib/buffer_utils.js'
 import { JWTInvalid } from '../util/errors.js'
 import { validateClaimsSet, JWTClaimsBuilder } from '../lib/jwt_claims_set.js'
 
-/** Result of decoding an Unsecured JWT. */
+/**
+ * Result of decoding an Unsecured JWT.
+ *
+ * @typeParam PayloadType Type definition of the JWT Claims Set the token is expected to carry.
+ */
 export interface UnsecuredResult<PayloadType = types.JWTPayload> {
   /** JWT Claims Set. */
   payload: PayloadType &

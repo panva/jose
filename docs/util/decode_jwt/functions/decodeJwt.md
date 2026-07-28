@@ -16,9 +16,9 @@ as from its subpath export `'jose/jwt/decode'`.
 
 ## Type Parameters
 
-| Type Parameter | Default type |
-| ------ | ------ |
-| `PayloadType` | [`JWTPayload`](../../../types/interfaces/JWTPayload.md) |
+| Type Parameter | Default type | Description |
+| ------ | ------ | ------ |
+| `PayloadType` | [`JWTPayload`](../../../types/interfaces/JWTPayload.md) | Type definition of the JWT Claims Set the token is expected to carry. |
 
 ## Parameters
 

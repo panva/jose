@@ -13,6 +13,9 @@ import type * as types from '../../types.d.ts'
 /**
  * Interface for Compact JWE Decryption dynamic key resolution. No token components have been
  * verified at the time of this function call.
+ *
+ * @typeParam KeyType Type definition of the keys the function resolves. Narrowing it is what lets
+ *   {@link types.ResolvedKey.key ResolvedKey.key} be inferred at the call site.
  */
 export interface CompactDecryptGetKey<
   KeyType extends types.CryptoKey | Uint8Array = types.CryptoKey | Uint8Array,
