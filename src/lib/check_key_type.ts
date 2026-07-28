@@ -3,8 +3,8 @@ import { isKeyLike } from './is_key_like.js'
 import * as jwk from './type_checks.js'
 import type * as types from '../types.d.ts'
 
-// @ts-ignore
-const tag = (key: unknown): string => key?.[Symbol.toStringTag]
+const tag = (key: object): string | undefined =>
+  (key as { [Symbol.toStringTag]?: string })[Symbol.toStringTag]
 
 const jwkMatchesOp = (alg: string, key: types.JWK, usage: Usage) => {
   if (key.use !== undefined) {

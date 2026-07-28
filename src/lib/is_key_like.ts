@@ -7,7 +7,7 @@ export function assertCryptoKey(key: unknown): asserts key is types.CryptoKey {
 }
 
 export const isCryptoKey = (key: unknown): key is types.CryptoKey => {
-  // @ts-ignore
+  // @ts-expect-error
   if (key?.[Symbol.toStringTag] === 'CryptoKey') return true
   try {
     return key instanceof CryptoKey
@@ -17,7 +17,7 @@ export const isCryptoKey = (key: unknown): key is types.CryptoKey => {
 }
 
 export const isKeyObject = <T extends types.KeyObject = types.KeyObject>(key: unknown): key is T =>
-  // @ts-ignore
+  // @ts-expect-error
   key?.[Symbol.toStringTag] === 'KeyObject'
 
 export const isKeyLike = (key: unknown): key is types.CryptoKey | types.KeyObject =>

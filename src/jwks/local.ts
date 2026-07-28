@@ -35,14 +35,11 @@ interface Cache {
 }
 
 function isJWKSLike(jwks: unknown): jwks is types.JSONWebKeySet {
-  return (
-    jwks &&
-    typeof jwks === 'object' &&
-    // @ts-expect-error
-    Array.isArray(jwks.keys) &&
-    // @ts-expect-error
-    jwks.keys.every(isJWKLike)
-  )
+  if (!jwks || typeof jwks !== 'object') {
+    return false
+  }
+  const { keys } = jwks as { keys?: unknown }
+  return Array.isArray(keys) && keys.every(isJWKLike)
 }
 
 function isJWKLike(key: unknown) {
