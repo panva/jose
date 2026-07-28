@@ -218,6 +218,7 @@
     "build:jsr": "npx --yes jsr publish --dry-run --allow-dirty",
     "clear": "rm -Rf dist",
     "sedcleanup": "find . -name '*.bak' -type f -print0 | xargs -0 rm -f",
+    "docs": "node ./tools/docs.cjs",
     "docs:generate": "typedoc",
     "types:find": "find dist/types -name '*.d.ts' -type f -print0",
     "test": "bash -c 'source .node_flags.sh && ava'",

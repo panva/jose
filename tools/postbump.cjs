@@ -4,23 +4,10 @@ const { execSync } = require('child_process')
 const { readFileSync, writeFileSync, globSync } = require('fs')
 const { version } = require('../package.json')
 
-const readme = readFileSync('docs/README.md')
 const tagName = `v${version}`
 const opts = { stdio: 'inherit' }
 
-try {
-  execSync('git rm -f docs/**/*.md', opts)
-} catch {}
-execSync('find docs -type d | grep "docs/" | xargs rm -rf', opts)
-execSync('npx patch-package', opts)
-execSync(`npm run docs:generate -- --gitRevision ${tagName}`, opts)
-globSync('docs/**/*.md').forEach((file) => {
-  const content = readFileSync(file, 'utf-8')
-  const updatedContent = content.replaceAll('\\<`ArrayBufferLike`\\>', '')
-
-  writeFileSync(file, updatedContent, 'utf-8')
-})
-writeFileSync('docs/README.md', readme)
+execSync('npm run docs', opts)
 execSync('npm pack', opts)
 execSync('rm -rf dist', opts)
 x({
@@ -34,7 +21,7 @@ x({
 execSync('npm run build:deno', opts)
 writeFileSync(
   'dist/deno/README.md',
-  readFileSync('docs/readme.md', { encoding: 'utf-8' })
+  readFileSync('docs/README.md', { encoding: 'utf-8' })
     .replace(/^`jose` is distributed.+$\n\n/m, '')
     .replace(
       /\*\*[\s\S]+```/gm,
@@ -48,7 +35,7 @@ import * as jose from 'https://deno.land/x/jose@${tagName}/index.ts'
 execSync('npm run build:bundle', opts)
 execSync('npm run build:bundle-min', opts)
 execSync('npm run build:umd', opts)
-execSync('git add docs/**/*.md', opts)
+execSync('git add -A docs', opts)
 
 const filesToUpdate = [
   { path: './README.md', regex: /jose@v\d+\.\d+\.\d+/gm, replacement: `jose@v${version}` },
