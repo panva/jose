@@ -24,7 +24,7 @@ as from its subpath export `'jose/key/import'`.
 
 | Parameter | Type | Description |
 | ------ | ------ | ------ |
-| `jwk` | [`JWK`](../../../types/interfaces/JWK.md) | JSON Web Key. |
+| `jwk` | [`JWK`](../../../types/type-aliases/JWK.md) | JSON Web Key. |
 | `alg?` | `string` | JSON Web Algorithm identifier to be used with the imported key. Default is the "alg" property on the JWK. See [Algorithm Key Requirements](https://github.com/panva/jose/issues/210). |
 | `options?` | [`KeyImportOptions`](../interfaces/KeyImportOptions.md) | - |
 

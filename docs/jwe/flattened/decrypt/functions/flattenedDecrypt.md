@@ -18,7 +18,7 @@ as from its subpath export `'jose/jwe/flattened/decrypt'`.
 | Parameter | Type | Description |
 | ------ | ------ | ------ |
 | `jwe` | [`FlattenedJWE`](../../../../types/interfaces/FlattenedJWE.md) | Flattened JWE. |
-| `key` | [`Uint8Array`](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Uint8Array) \| [`CryptoKey`](https://developer.mozilla.org/docs/Web/API/CryptoKey) \| [`JWK`](../../../../types/interfaces/JWK.md) \| [`KeyObject`](../../../../types/interfaces/KeyObject.md) | Private Key or Secret to decrypt the JWE with. See [Algorithm Key Requirements](https://github.com/panva/jose/issues/210#jwe-alg). |
+| `key` | [`Uint8Array`](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Uint8Array) \| [`CryptoKey`](https://developer.mozilla.org/docs/Web/API/CryptoKey) \| [`JWK`](../../../../types/type-aliases/JWK.md) \| [`KeyObject`](../../../../types/interfaces/KeyObject.md) | Private Key or Secret to decrypt the JWE with. See [Algorithm Key Requirements](https://github.com/panva/jose/issues/210#jwe-alg). |
 | `options?` | [`DecryptOptions`](../../../../types/interfaces/DecryptOptions.md) | JWE Decryption options. |
 
 ### Returns

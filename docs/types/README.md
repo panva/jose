@@ -7,6 +7,7 @@
 - [CompactJWSHeaderParameters](interfaces/CompactJWSHeaderParameters.md)
 - [CompactVerifyResult](interfaces/CompactVerifyResult.md)
 - [CritOption](interfaces/CritOption.md)
+- [CryptoKeyStructuralFallback](interfaces/CryptoKeyStructuralFallback.md)
 - [DecryptOptions](interfaces/DecryptOptions.md)
 - [EncryptOptions](interfaces/EncryptOptions.md)
 - [FlattenedDecryptResult](interfaces/FlattenedDecryptResult.md)
@@ -24,7 +25,6 @@
 - [JSONWebKeySet](interfaces/JSONWebKeySet.md)
 - [JWEHeaderParameters](interfaces/JWEHeaderParameters.md)
 - [JWEKeyManagementHeaderParameters](interfaces/JWEKeyManagementHeaderParameters.md)
-- [JWK](interfaces/JWK.md)
 - [JWK\_AKP\_Private](interfaces/JWK_AKP_Private.md)
 - [JWK\_AKP\_Public](interfaces/JWK_AKP_Public.md)
 - [JWK\_EC\_Private](interfaces/JWK_EC_Private.md)
@@ -34,7 +34,6 @@
 - [JWK\_OKP\_Public](interfaces/JWK_OKP_Public.md)
 - [JWK\_RSA\_Private](interfaces/JWK_RSA_Private.md)
 - [JWK\_RSA\_Public](interfaces/JWK_RSA_Public.md)
-- [JWKParameters](interfaces/JWKParameters.md)
 - [JWSHeaderParameters](interfaces/JWSHeaderParameters.md)
 - [JWTClaimVerificationOptions](interfaces/JWTClaimVerificationOptions.md)
 - [JWTDecryptResult](interfaces/JWTDecryptResult.md)
@@ -50,3 +49,5 @@
 ## Type Aliases
 
 - [CryptoKey](type-aliases/CryptoKey.md)
+- [JWK](type-aliases/JWK.md)
+- [JWKParameters](type-aliases/JWKParameters.md)

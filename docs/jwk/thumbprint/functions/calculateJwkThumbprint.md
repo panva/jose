@@ -15,7 +15,7 @@ as from its subpath export `'jose/jwk/thumbprint'`.
 
 | Parameter | Type | Description |
 | ------ | ------ | ------ |
-| `key` | [`CryptoKey`](https://developer.mozilla.org/docs/Web/API/CryptoKey) \| [`JWK`](../../../types/interfaces/JWK.md) \| [`KeyObject`](../../../types/interfaces/KeyObject.md) | Key to calculate the thumbprint for. |
+| `key` | [`CryptoKey`](https://developer.mozilla.org/docs/Web/API/CryptoKey) \| [`JWK`](../../../types/type-aliases/JWK.md) \| [`KeyObject`](../../../types/interfaces/KeyObject.md) | Key to calculate the thumbprint for. |
 | `digestAlgorithm?` | `"sha256"` \| `"sha384"` \| `"sha512"` | Digest Algorithm to use for calculating the thumbprint. Default is "sha256". |
 
 ## Returns

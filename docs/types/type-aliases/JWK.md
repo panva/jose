@@ -1,23 +1,31 @@
-# Interface: JWK
+# Type Alias: JWK
 
 ## [💗 Help the project](https://github.com/sponsors/panva)
 
 Support from the community to continue maintaining and improving this module is welcome. If you find the module useful, please consider supporting the project by [becoming a sponsor](https://github.com/sponsors/panva).
 
+• **JWK** = `object`
+
 JSON Web Key ([JWK](https://www.rfc-editor.org/info/rfc7517/)). "RSA", "EC", "OKP", "AKP",
 and "oct" key types are supported.
 
+> [!NOTE]\
+> This is declared as a type alias rather than an interface so that it satisfies the implicit index
+> signature of the `JsonWebKey` types shipped by `@types/node` and `lib.dom`. It spells out the
+> [JWKParameters](JWKParameters.md) members rather than intersecting them so that every JWK member is documented
+> in one place.
+
 ## See
 
- - [JWK\_AKP\_Public](JWK_AKP_Public.md)
- - [JWK\_AKP\_Private](JWK_AKP_Private.md)
- - [JWK\_OKP\_Public](JWK_OKP_Public.md)
- - [JWK\_OKP\_Private](JWK_OKP_Private.md)
- - [JWK\_EC\_Public](JWK_EC_Public.md)
- - [JWK\_EC\_Private](JWK_EC_Private.md)
- - [JWK\_RSA\_Public](JWK_RSA_Public.md)
- - [JWK\_RSA\_Private](JWK_RSA_Private.md)
- - [JWK\_oct](JWK_oct.md)
+ - [JWK\_AKP\_Public](../interfaces/JWK_AKP_Public.md)
+ - [JWK\_AKP\_Private](../interfaces/JWK_AKP_Private.md)
+ - [JWK\_OKP\_Public](../interfaces/JWK_OKP_Public.md)
+ - [JWK\_OKP\_Private](../interfaces/JWK_OKP_Private.md)
+ - [JWK\_EC\_Public](../interfaces/JWK_EC_Public.md)
+ - [JWK\_EC\_Private](../interfaces/JWK_EC_Private.md)
+ - [JWK\_RSA\_Public](../interfaces/JWK_RSA_Public.md)
+ - [JWK\_RSA\_Private](../interfaces/JWK_RSA_Private.md)
+ - [JWK\_oct](../interfaces/JWK_oct.md)
 
 ## Properties
 
@@ -121,6 +129,35 @@ JWK "kty" (Key Type) Parameter
 • `optional` **n?**: `string`
 
 RSA JWK "n" (Modulus) Parameter
+
+***
+
+### oth?
+
+• `optional` **oth?**: `object`[]
+
+RSA JWK "oth" (Other Primes Info) Parameter
+
+> [!NOTE]\
+> Multi-prime RSA keys are not supported; importing a JWK with this parameter present throws.
+
+#### d?
+
+• `optional` **d?**: `string`
+
+The Factor CRT Exponent
+
+#### r?
+
+• `optional` **r?**: `string`
+
+The Prime Factor
+
+#### t?
+
+• `optional` **t?**: `string`
+
+The Factor CRT Coefficient
 
 ***
 

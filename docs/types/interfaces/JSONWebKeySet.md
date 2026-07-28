@@ -10,4 +10,4 @@ JSON Web Key Set
 
 ### keys
 
-• **keys**: [`JWK`](JWK.md)[]
+• **keys**: [`JWK`](../type-aliases/JWK.md)[]

@@ -4,7 +4,7 @@
 
 Support from the community to continue maintaining and improving this module is welcome. If you find the module useful, please consider supporting the project by [becoming a sponsor](https://github.com/sponsors/panva).
 
-▸ **exportJWK**(`key`): [`Promise`](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise)\<[`JWK`](../../../types/interfaces/JWK.md)\>
+▸ **exportJWK**(`key`): [`Promise`](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise)\<[`JWK`](../../../types/type-aliases/JWK.md)\>
 
 Exports a [CryptoKey](https://developer.mozilla.org/docs/Web/API/CryptoKey), [KeyObject](https://nodejs.org/api/crypto.html#class-keyobject), or [Uint8Array](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Uint8Array) to a JWK.
 
@@ -19,7 +19,7 @@ as from its subpath export `'jose/key/export'`.
 
 ## Returns
 
-[`Promise`](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise)\<[`JWK`](../../../types/interfaces/JWK.md)\>
+[`Promise`](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise)\<[`JWK`](../../../types/type-aliases/JWK.md)\>
 
 ## Example
 

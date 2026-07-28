@@ -1,10 +1,16 @@
-# Interface: JWKParameters
+# Type Alias: JWKParameters
 
 ## [💗 Help the project](https://github.com/sponsors/panva)
 
 Support from the community to continue maintaining and improving this module is welcome. If you find the module useful, please consider supporting the project by [becoming a sponsor](https://github.com/sponsors/panva).
 
+• **JWKParameters** = `object`
+
 Generic JSON Web Key Parameters.
+
+> [!NOTE]\
+> This is declared as a type alias rather than an interface so that it satisfies the implicit index
+> signature of the `JsonWebKey` types shipped by `@types/node` and `lib.dom`.
 
 ## Properties
 

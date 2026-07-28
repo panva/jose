@@ -89,6 +89,8 @@ export type {
   JSONWebKeySet,
   JWEHeaderParameters,
   JWEKeyManagementHeaderParameters,
+  JWK_AKP_Private,
+  JWK_AKP_Public,
   JWK_EC_Private,
   JWK_EC_Public,
   JWK_oct,

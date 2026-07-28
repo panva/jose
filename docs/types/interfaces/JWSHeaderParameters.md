@@ -61,9 +61,11 @@ JWS "crit" (Critical) Header Parameter
 
 ### jwk?
 
-• `optional` **jwk?**: [`Pick`](https://www.typescriptlang.org/docs/handbook/utility-types.html#picktype-keys)\<[`JWK`](JWK.md), `"x"` \| `"y"` \| `"crv"` \| `"e"` \| `"n"` \| `"pub"` \| `"kty"` \| `"alg"`\>
+• `optional` **jwk?**: [`Omit`](https://www.typescriptlang.org/docs/handbook/utility-types.html#omittype-keys)\<[`JWK`](../type-aliases/JWK.md), `"d"` \| `"p"` \| `"q"` \| `"k"` \| `"dp"` \| `"dq"` \| `"qi"` \| `"priv"` \| `"oth"`\>
 
 "jwk" (JSON Web Key) Header Parameter
+
+Must be a public JSON Web Key; private and symmetric key parameters are not permitted.
 
 ***
 

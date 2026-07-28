@@ -18,7 +18,7 @@ A shorthand for calling addSignature() on the enclosing [GeneralSign](../classes
 
 | Parameter | Type |
 | ------ | ------ |
-| ...`args` | \[[`Uint8Array`](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Uint8Array) \| [`CryptoKey`](https://developer.mozilla.org/docs/Web/API/CryptoKey) \| [`JWK`](../../../../types/interfaces/JWK.md) \| [`KeyObject`](../../../../types/interfaces/KeyObject.md), [`SignOptions`](../../../../types/interfaces/SignOptions.md)\] |
+| ...`args` | \[[`Uint8Array`](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Uint8Array) \| [`CryptoKey`](https://developer.mozilla.org/docs/Web/API/CryptoKey) \| [`JWK`](../../../../types/type-aliases/JWK.md) \| [`KeyObject`](../../../../types/interfaces/KeyObject.md), [`SignOptions`](../../../../types/interfaces/SignOptions.md)\] |
 
 #### Returns
 

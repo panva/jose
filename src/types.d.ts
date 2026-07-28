@@ -1,5 +1,11 @@
-/** Generic JSON Web Key Parameters. */
-export interface JWKParameters {
+/**
+ * Generic JSON Web Key Parameters.
+ *
+ * > [!NOTE]\
+ * > This is declared as a type alias rather than an interface so that it satisfies the implicit index
+ * > signature of the `JsonWebKey` types shipped by `@types/node` and `lib.dom`.
+ */
+export type JWKParameters = {
   /** JWK "kty" (Key Type) Parameter */
   kty?: string
   /**
@@ -104,6 +110,12 @@ export interface JWK_oct extends JWKParameters {
  * JSON Web Key ({@link https://www.rfc-editor.org/info/rfc7517/ JWK}). "RSA", "EC", "OKP", "AKP",
  * and "oct" key types are supported.
  *
+ * > [!NOTE]\
+ * > This is declared as a type alias rather than an interface so that it satisfies the implicit index
+ * > signature of the `JsonWebKey` types shipped by `@types/node` and `lib.dom`. It spells out the
+ * > {@link JWKParameters} members rather than intersecting them so that every JWK member is documented
+ * > in one place.
+ *
  * @see {@link JWK_AKP_Public}
  * @see {@link JWK_AKP_Private}
  * @see {@link JWK_OKP_Public}
@@ -114,7 +126,31 @@ export interface JWK_oct extends JWKParameters {
  * @see {@link JWK_RSA_Private}
  * @see {@link JWK_oct}
  */
-export interface JWK extends JWKParameters {
+export type JWK = {
+  /** JWK "kty" (Key Type) Parameter */
+  kty?: string
+  /**
+   * JWK "alg" (Algorithm) Parameter
+   *
+   * @see {@link https://github.com/panva/jose/issues/210 Algorithm Key Requirements}
+   */
+  alg?: string
+  /** JWK "key_ops" (Key Operations) Parameter */
+  key_ops?: string[]
+  /** JWK "ext" (Extractable) Parameter */
+  ext?: boolean
+  /** JWK "use" (Public Key Use) Parameter */
+  use?: string
+  /** JWK "x5c" (X.509 Certificate Chain) Parameter */
+  x5c?: string[]
+  /** JWK "x5t" (X.509 Certificate SHA-1 Thumbprint) Parameter */
+  x5t?: string
+  /** JWK "x5t#S256" (X.509 Certificate SHA-256 Thumbprint) Parameter */
+  'x5t#S256'?: string
+  /** JWK "x5u" (X.509 URL) Parameter */
+  x5u?: string
+  /** JWK "kid" (Key ID) Parameter */
+  kid?: string
   /**
    * - EC JWK "crv" (Curve) Parameter
    * - OKP JWK "crv" (The Subtype of Key Pair) Parameter
@@ -153,6 +189,20 @@ export interface JWK extends JWKParameters {
   pub?: string
   /** AKP JWK "priv" (Private key) Parameter */
   priv?: string
+  /**
+   * RSA JWK "oth" (Other Primes Info) Parameter
+   *
+   * > [!NOTE]\
+   * > Multi-prime RSA keys are not supported; importing a JWK with this parameter present throws.
+   */
+  oth?: Array<{
+    /** The Factor CRT Exponent */
+    d?: string
+    /** The Prime Factor */
+    r?: string
+    /** The Factor CRT Coefficient */
+    t?: string
+  }>
 }
 
 /**
@@ -174,10 +224,10 @@ export interface GenericGetKeyFunction<IProtectedHeader, IToken, ReturnKeyTypes>
 }
 
 /**
- * Generic Interface for consuming operations dynamic key resolution.
+ * Interface for consuming operations dynamic key resolution.
  *
- * @param IProtectedHeader Type definition of the JWE or JWS Protected Header.
- * @param IToken Type definition of the consumed JWE or JWS token.
+ * @typeParam IProtectedHeader Type definition of the JWE or JWS Protected Header.
+ * @typeParam IToken Type definition of the consumed JWE or JWS token.
  */
 export interface GetKeyFunction<IProtectedHeader, IToken> extends GenericGetKeyFunction<
   IProtectedHeader,
@@ -269,8 +319,12 @@ export interface JoseHeaderParameters {
   /** "jku" (JWK Set URL) Header Parameter */
   jku?: string
 
-  /** "jwk" (JSON Web Key) Header Parameter */
-  jwk?: Pick<JWK, 'kty' | 'crv' | 'x' | 'y' | 'e' | 'n' | 'alg' | 'pub'>
+  /**
+   * "jwk" (JSON Web Key) Header Parameter
+   *
+   * Must be a public JSON Web Key; private and symmetric key parameters are not permitted.
+   */
+  jwk?: Omit<JWK, 'd' | 'dp' | 'dq' | 'k' | 'p' | 'q' | 'qi' | 'priv' | 'oth'>
 
   /** "typ" (Type) Header Parameter */
   typ?: string
@@ -730,7 +784,7 @@ export interface JSONWebKeySet {
  * {@link !createSecretKey} to obtain a {@link !KeyObject} from your existing key material.
  */
 export interface KeyObject {
-  type: string
+  type: 'private' | 'public' | 'secret'
 }
 
 /**
@@ -739,10 +793,28 @@ export interface KeyObject {
  * {@link !SubtleCrypto.importKey} API to obtain a {@link !CryptoKey} from your existing key
  * material.
  */
-export type CryptoKey = Extract<
-  Awaited<ReturnType<typeof crypto.subtle.generateKey>>,
-  { type: string }
->
+export type CryptoKey = typeof globalThis extends {
+  crypto: { subtle: { generateKey(...args: any[]): Promise<infer R> } }
+}
+  ? Extract<R, { type: string }>
+  : CryptoKeyStructuralFallback
+
+/**
+ * Used as {@link CryptoKey} only when the host runtime's `crypto` global is not typed at all, e.g. a
+ * consumer compiling with neither the DOM lib nor `@types/node`. Whenever a `CryptoKey` type is
+ * available it is aliased instead, deliberately, so that this module never introduces a competing
+ * nominal `CryptoKey` and values flow freely to and from {@link !SubtleCrypto} APIs.
+ *
+ * @internal
+ */
+export interface CryptoKeyStructuralFallback {
+  readonly algorithm: { name: string }
+  readonly extractable: boolean
+  readonly type: 'private' | 'public' | 'secret'
+  readonly usages: (
+    'decrypt' | 'deriveBits' | 'deriveKey' | 'encrypt' | 'sign' | 'unwrapKey' | 'verify' | 'wrapKey'
+  )[]
+}
 
 /** Generic interface for JWT producing classes. */
 export interface ProduceJWT {
@@ -846,7 +918,7 @@ export interface ProduceJWT {
    * subtracted from the current unix timestamp. A "from now" suffix can also be used for
    * readability when adding to the current unix timestamp.
    *
-   * @param input "iat" (Expiration Time) Claim value to set on the JWT Claims Set.
+   * @param input "iat" (Issued At) Claim value to set on the JWT Claims Set.
    */
   setIssuedAt(input?: number | string | Date): this
 }
