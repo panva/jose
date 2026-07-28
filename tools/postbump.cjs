@@ -4,7 +4,6 @@ const { execSync } = require('child_process')
 const { readFileSync, writeFileSync, globSync } = require('fs')
 const { version } = require('../package.json')
 
-const tagName = `v${version}`
 const opts = { stdio: 'inherit' }
 
 execSync('npm run docs', opts)
@@ -18,20 +17,6 @@ x({
   },
   sync: true,
 })
-execSync('npm run build:deno', opts)
-writeFileSync(
-  'dist/deno/README.md',
-  readFileSync('docs/README.md', { encoding: 'utf-8' })
-    .replace(/^`jose` is distributed.+$\n\n/m, '')
-    .replace(
-      /\*\*[\s\S]+```/gm,
-      `**\`example\`** Deno import
-\`\`\`js
-import * as jose from 'https://deno.land/x/jose@${tagName}/index.ts'
-\`\`\``,
-    )
-    .replace(/(\]\()(?!https)/gm, `](https://github.com/panva/jose/blob/${tagName}/docs/`),
-)
 execSync('npm run build:bundle', opts)
 execSync('npm run build:bundle-min', opts)
 execSync('npm run build:umd', opts)
@@ -95,6 +80,6 @@ for (const file of ts) {
   writeFileSync(file, trimExcessComment(filterExamples(readFileSync(file, { encoding: 'utf-8' }))))
 }
 
-for (const dir of ['types', 'deno', 'webapi']) {
+for (const dir of ['types', 'webapi']) {
   execSync(`git add dist/${dir} -f`, opts)
 }
