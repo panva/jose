@@ -60,14 +60,19 @@ import * as errors from './util/errors.js'
 export { errors }
 
 export { generateKeyPair } from './key/generate_key_pair.js'
-export type { GenerateKeyPairResult, GenerateKeyPairOptions } from './key/generate_key_pair.js'
+export type {
+  GenerateKeyPairAlgorithm,
+  GenerateKeyPairResult,
+  GenerateKeyPairOptions,
+} from './key/generate_key_pair.js'
 export { generateSecret } from './key/generate_secret.js'
-export type { GenerateSecretOptions } from './key/generate_secret.js'
+export type { GenerateSecretAlgorithm, GenerateSecretOptions } from './key/generate_secret.js'
 
 import * as base64url from './util/base64url.js'
 export { base64url }
 
 export type {
+  AnyJWK,
   CompactDecryptResult,
   CompactJWEHeaderParameters,
   CompactJWSHeaderParameters,
@@ -89,7 +94,9 @@ export type {
   GetKeyFunction,
   JoseHeaderParameters,
   JSONWebKeySet,
+  JWEContentEncryptionAlgorithm,
   JWEHeaderParameters,
+  JWEKeyManagementAlgorithm,
   JWEKeyManagementHeaderParameters,
   JWK_AKP_Private,
   JWK_AKP_Public,
@@ -101,7 +108,9 @@ export type {
   JWK_RSA_Private,
   JWK_RSA_Public,
   JWK,
+  JWKKeyType,
   JWKParameters,
+  JWSAlgorithm,
   JWSHeaderParameters,
   JWTClaimVerificationOptions,
   JWTDecryptResult,

@@ -48,6 +48,7 @@
 
 ## Type Aliases
 
+- [AnyJWK](type-aliases/AnyJWK.md)
 - [CryptoKey](type-aliases/CryptoKey.md)
 - [JWK](type-aliases/JWK.md)
 - [JWKParameters](type-aliases/JWKParameters.md)

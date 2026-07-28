@@ -56,12 +56,15 @@ function subtleMapping(jwk: types.JWK): {
     case 'EC': {
       switch (jwk.alg) {
         case 'ES256':
+          algorithm = { name: 'ECDSA', namedCurve: 'P-256' }
+          keyUsages = jwk.d ? ['sign'] : ['verify']
+          break
         case 'ES384':
+          algorithm = { name: 'ECDSA', namedCurve: 'P-384' }
+          keyUsages = jwk.d ? ['sign'] : ['verify']
+          break
         case 'ES512':
-          algorithm = {
-            name: 'ECDSA',
-            namedCurve: { ES256: 'P-256', ES384: 'P-384', ES512: 'P-521' }[jwk.alg],
-          }
+          algorithm = { name: 'ECDSA', namedCurve: 'P-521' }
           keyUsages = jwk.d ? ['sign'] : ['verify']
           break
         case 'ECDH-ES':

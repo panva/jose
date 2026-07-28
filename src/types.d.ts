@@ -1,4 +1,86 @@
 /**
+ * JWS "alg" (Algorithm) Header Parameter values supported by this module.
+ *
+ * Support for a given identifier additionally depends on the runtime.
+ *
+ * @ignore
+ *
+ * @see {@link https://github.com/panva/jose/issues/210#jws-alg Algorithm Key Requirements}
+ */
+export type JWSAlgorithm =
+  | 'HS256'
+  | 'HS384'
+  | 'HS512'
+  | 'RS256'
+  | 'RS384'
+  | 'RS512'
+  | 'PS256'
+  | 'PS384'
+  | 'PS512'
+  | 'ES256'
+  | 'ES384'
+  | 'ES512'
+  | 'EdDSA'
+  | 'Ed25519'
+  | 'ML-DSA-44'
+  | 'ML-DSA-65'
+  | 'ML-DSA-87'
+  | (string & {})
+
+/**
+ * JWE "alg" (Algorithm) Header Parameter values supported by this module.
+ *
+ * Support for a given identifier additionally depends on the runtime.
+ *
+ * @ignore
+ *
+ * @see {@link https://github.com/panva/jose/issues/210#jwe-alg Algorithm Key Requirements}
+ */
+export type JWEKeyManagementAlgorithm =
+  | 'dir'
+  | 'A128KW'
+  | 'A192KW'
+  | 'A256KW'
+  | 'A128GCMKW'
+  | 'A192GCMKW'
+  | 'A256GCMKW'
+  | 'ECDH-ES'
+  | 'ECDH-ES+A128KW'
+  | 'ECDH-ES+A192KW'
+  | 'ECDH-ES+A256KW'
+  | 'RSA-OAEP'
+  | 'RSA-OAEP-256'
+  | 'RSA-OAEP-384'
+  | 'RSA-OAEP-512'
+  | 'PBES2-HS256+A128KW'
+  | 'PBES2-HS384+A192KW'
+  | 'PBES2-HS512+A256KW'
+  | (string & {})
+
+/**
+ * JWE "enc" (Encryption Algorithm) Header Parameter values supported by this module.
+ *
+ * Support for a given identifier additionally depends on the runtime.
+ *
+ * @ignore
+ */
+export type JWEContentEncryptionAlgorithm =
+  | 'A128CBC-HS256'
+  | 'A192CBC-HS384'
+  | 'A256CBC-HS512'
+  | 'A128GCM'
+  | 'A192GCM'
+  | 'A256GCM'
+  | (string & {})
+
+/**
+ * JWK "kty" (Key Type) Parameter values supported by this module.
+ *
+ * @ignore
+ */
+export type JWKKeyType = 'EC' | 'RSA' | 'OKP' | 'AKP' | 'oct' | (string & {})
+
+/**
  * Generic JSON Web Key Parameters.
  *
  * > [!NOTE]\
@@ -7,19 +89,19 @@
  */
 export type JWKParameters = {
   /** JWK "kty" (Key Type) Parameter */
-  kty?: string
+  kty?: JWKKeyType
   /**
    * JWK "alg" (Algorithm) Parameter
    *
    * @see {@link https://github.com/panva/jose/issues/210 Algorithm Key Requirements}
    */
-  alg?: string
+  alg?: JWSAlgorithm | JWEKeyManagementAlgorithm | JWEContentEncryptionAlgorithm
   /** JWK "key_ops" (Key Operations) Parameter */
   key_ops?: string[]
   /** JWK "ext" (Extractable) Parameter */
   ext?: boolean
   /** JWK "use" (Public Key Use) Parameter */
-  use?: string
+  use?: 'sig' | 'enc' | (string & {})
   /** JWK "x5c" (X.509 Certificate Chain) Parameter */
   x5c?: string[]
   /** JWK "x5t" (X.509 Certificate SHA-1 Thumbprint) Parameter */
@@ -107,6 +189,37 @@ export interface JWK_oct extends JWKParameters {
 }
 
 /**
+ * Discriminated union of the JSON Web Key shapes supported by this module. Unlike {@link JWK}, this
+ * can be narrowed on the "kty" (Key Type) Parameter.
+ *
+ * Each member is the convenience interface for one key type with its "kty" (Key Type) Parameter
+ * required and fixed to that key type, rather than optional as the interface alone leaves it.
+ *
+ * @example
+ *
+ * ```ts
+ * let jwk!: jose.AnyJWK
+ *
+ * if (jwk.kty === 'EC') {
+ *   console.log(jwk.crv, jwk.x, jwk.y)
+ * }
+ * ```
+ */
+// The "kty" is intersected into each arm one at a time rather than distributed over a parenthesised
+// union - `X & (A | B)` means the same thing, but typedoc renders it without the parentheses, which
+// reads as though the second arm carried no "kty" at all.
+export type AnyJWK =
+  | (JWK_EC_Private & { kty: 'EC' })
+  | (JWK_EC_Public & { kty: 'EC' })
+  | (JWK_RSA_Private & { kty: 'RSA' })
+  | (JWK_RSA_Public & { kty: 'RSA' })
+  | (JWK_OKP_Private & { kty: 'OKP' })
+  | (JWK_OKP_Public & { kty: 'OKP' })
+  | (JWK_AKP_Private & { kty: 'AKP' })
+  | (JWK_AKP_Public & { kty: 'AKP' })
+  | (JWK_oct & { kty: 'oct' })
+
+/**
  * JSON Web Key ({@link https://www.rfc-editor.org/info/rfc7517/ JWK}). "RSA", "EC", "OKP", "AKP",
  * and "oct" key types are supported.
  *
@@ -125,22 +238,23 @@ export interface JWK_oct extends JWKParameters {
  * @see {@link JWK_RSA_Public}
  * @see {@link JWK_RSA_Private}
  * @see {@link JWK_oct}
+ * @see {@link AnyJWK} for a variant that can be narrowed on the "kty" (Key Type) Parameter.
  */
 export type JWK = {
   /** JWK "kty" (Key Type) Parameter */
-  kty?: string
+  kty?: JWKKeyType
   /**
    * JWK "alg" (Algorithm) Parameter
    *
    * @see {@link https://github.com/panva/jose/issues/210 Algorithm Key Requirements}
    */
-  alg?: string
+  alg?: JWSAlgorithm | JWEKeyManagementAlgorithm | JWEContentEncryptionAlgorithm
   /** JWK "key_ops" (Key Operations) Parameter */
   key_ops?: string[]
   /** JWK "ext" (Extractable) Parameter */
   ext?: boolean
   /** JWK "use" (Public Key Use) Parameter */
-  use?: string
+  use?: 'sig' | 'enc' | (string & {})
   /** JWK "x5c" (X.509 Certificate Chain) Parameter */
   x5c?: string[]
   /** JWK "x5t" (X.509 Certificate SHA-1 Thumbprint) Parameter */
@@ -340,7 +454,7 @@ export interface JWSHeaderParameters extends JoseHeaderParameters {
    *
    * @see {@link https://github.com/panva/jose/issues/210#jws-alg Algorithm Key Requirements}
    */
-  alg?: string
+  alg?: JWSAlgorithm
 
   /**
    * This JWS Extension Header Parameter modifies the JWS Payload representation and the JWS Signing
@@ -456,14 +570,14 @@ export interface JWEHeaderParameters extends JoseHeaderParameters {
    *
    * @see {@link https://github.com/panva/jose/issues/210#jwe-alg Algorithm Key Requirements}
    */
-  alg?: string
+  alg?: JWEKeyManagementAlgorithm
 
   /**
    * JWE "enc" (Encryption Algorithm) Header Parameter
    *
    * @see {@link https://github.com/panva/jose/issues/210#jwe-alg Algorithm Key Requirements}
    */
-  enc?: string
+  enc?: JWEContentEncryptionAlgorithm
 
   /** JWE "crit" (Critical) Header Parameter */
   crit?: string[]
@@ -476,7 +590,7 @@ export interface JWEHeaderParameters extends JoseHeaderParameters {
    *
    * @see {@link https://www.rfc-editor.org/info/rfc7516/#section-4.1.3 JWE "zip" Header Parameter}
    */
-  zip?: string
+  zip?: 'DEF' | (string & {})
 
   /** Any other JWE Header member. */
   [propName: string]: unknown
@@ -514,13 +628,13 @@ export interface DecryptOptions extends CritOption {
    * (Algorithm) Header Parameter values applicable for the used key/secret are allowed except for
    * all PBES2 Key Management Algorithms, these need to be explicitly allowed using this option.
    */
-  keyManagementAlgorithms?: string[]
+  keyManagementAlgorithms?: JWEKeyManagementAlgorithm[]
 
   /**
    * A list of accepted JWE "enc" (Encryption Algorithm) Header Parameter values. By default all
    * "enc" (Encryption Algorithm) values applicable for the used key/secret are allowed.
    */
-  contentEncryptionAlgorithms?: string[]
+  contentEncryptionAlgorithms?: JWEContentEncryptionAlgorithm[]
 
   /**
    * (PBES2 Key Management Algorithms only) Maximum allowed "p2c" (PBES2 Count) Header Parameter
@@ -618,7 +732,7 @@ export interface VerifyOptions extends CritOption {
    * > [!NOTE]\
    * > Unsecured JWTs (`{ "alg": "none" }`) are never accepted by this API.
    */
-  algorithms?: string[]
+  algorithms?: JWSAlgorithm[]
 }
 
 /** JWS Signing options. */
@@ -759,7 +873,7 @@ export interface ResolvedKey {
 
 /** Recognized Compact JWS Header Parameters, any other Header Members may also be present. */
 export interface CompactJWSHeaderParameters extends JWSHeaderParameters {
-  alg: string
+  alg: JWSAlgorithm
 }
 
 /** Recognized Signed JWT Header Parameters, any other Header Members may also be present. */
@@ -769,8 +883,8 @@ export interface JWTHeaderParameters extends CompactJWSHeaderParameters {
 
 /** Recognized Compact JWE Header Parameters, any other Header Members may also be present. */
 export interface CompactJWEHeaderParameters extends JWEHeaderParameters {
-  alg: string
-  enc: string
+  alg: JWEKeyManagementAlgorithm
+  enc: JWEContentEncryptionAlgorithm
 }
 
 /** JSON Web Key Set */

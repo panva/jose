@@ -8,6 +8,31 @@ import { JOSENotSupported } from '../util/errors.js'
 
 import type * as types from '../types.d.ts'
 
+/**
+ * JWA Algorithm Identifiers that {@link generateSecret} is able to generate a secret for.
+ *
+ * Support for a given identifier additionally depends on the runtime.
+ *
+ * @ignore
+ */
+export type GenerateSecretAlgorithm =
+  | 'HS256'
+  | 'HS384'
+  | 'HS512'
+  | 'A128CBC-HS256'
+  | 'A192CBC-HS384'
+  | 'A256CBC-HS512'
+  | 'A128KW'
+  | 'A192KW'
+  | 'A256KW'
+  | 'A128GCMKW'
+  | 'A192GCMKW'
+  | 'A256GCMKW'
+  | 'A128GCM'
+  | 'A192GCM'
+  | 'A256GCM'
+  | (string & {})
+
 /** Secret generation function options. */
 export interface GenerateSecretOptions {
   /**
@@ -45,7 +70,7 @@ export interface GenerateSecretOptions {
  * @param options Additional options passed down to the secret generation.
  */
 export async function generateSecret(
-  alg: string,
+  alg: GenerateSecretAlgorithm,
   options?: GenerateSecretOptions,
 ): Promise<types.CryptoKey | Uint8Array> {
   let length: number

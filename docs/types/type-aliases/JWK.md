@@ -24,6 +24,7 @@ and "oct" key types are supported.
  - [JWK\_RSA\_Public](../interfaces/JWK_RSA_Public.md)
  - [JWK\_RSA\_Private](../interfaces/JWK_RSA_Private.md)
  - [JWK\_oct](../interfaces/JWK_oct.md)
+ - [AnyJWK](AnyJWK.md) for a variant that can be narrowed on the "kty" (Key Type) Parameter.
 
 ## Properties
 

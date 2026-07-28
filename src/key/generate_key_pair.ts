@@ -8,6 +8,38 @@ import { JOSENotSupported } from '../util/errors.js'
 
 import type * as types from '../types.d.ts'
 
+/**
+ * JWA Algorithm Identifiers that {@link generateKeyPair} is able to generate a key pair for.
+ *
+ * Support for a given identifier additionally depends on the runtime.
+ *
+ * @ignore
+ */
+export type GenerateKeyPairAlgorithm =
+  | 'PS256'
+  | 'PS384'
+  | 'PS512'
+  | 'RS256'
+  | 'RS384'
+  | 'RS512'
+  | 'RSA-OAEP'
+  | 'RSA-OAEP-256'
+  | 'RSA-OAEP-384'
+  | 'RSA-OAEP-512'
+  | 'ES256'
+  | 'ES384'
+  | 'ES512'
+  | 'Ed25519'
+  | 'EdDSA'
+  | 'ML-DSA-44'
+  | 'ML-DSA-65'
+  | 'ML-DSA-87'
+  | 'ECDH-ES'
+  | 'ECDH-ES+A128KW'
+  | 'ECDH-ES+A192KW'
+  | 'ECDH-ES+A256KW'
+  | (string & {})
+
 /** Asymmetric key pair generation function result. */
 export interface GenerateKeyPairResult {
   /** The generated Private Key. */
@@ -81,7 +113,7 @@ function getModulusLengthOption(options?: GenerateKeyPairOptions) {
  * @param options Additional options passed down to the key pair generation.
  */
 export async function generateKeyPair(
-  alg: string,
+  alg: GenerateKeyPairAlgorithm,
   options?: GenerateKeyPairOptions,
 ): Promise<GenerateKeyPairResult> {
   let algorithm: RsaHashedKeyGenParams | EcKeyGenParams | KeyAlgorithm
