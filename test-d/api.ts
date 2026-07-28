@@ -31,7 +31,8 @@ declare const anyString: string
   type _Rsa = jose.JWK_RSA_Public | jose.JWK_RSA_Private
   type _Oct = jose.JWK_oct
   type _Extra = jose.AnyJWK | jose.JWKKeyType | jose.KeyInput
-  type _Algs = jose.JWSAlgorithm | jose.JWEKeyManagementAlgorithm | jose.JWEContentEncryptionAlgorithm
+  type _Algs =
+    jose.JWSAlgorithm | jose.JWEKeyManagementAlgorithm | jose.JWEContentEncryptionAlgorithm
   type _JwksFns = jose.RemoteJWKSet | jose.LocalJWKSet
 }
 
@@ -42,6 +43,21 @@ async function nodeInterop() {
   return createPrivateKey({ key: jwk, format: 'jwk' })
 }
 
+/* JWK spells the JWKParameters members out rather than intersecting them, so that typedoc
+ * documents all of them on the JWK page. Pin that the two cannot drift apart. */
+{
+  const _everyParameterIsOnJwk: Equals<
+    Exclude<keyof jose.JWKParameters, keyof jose.JWK>,
+    never
+  > = true
+  const _kty: jose.JWKKeyType | undefined = ({} as jose.JWK).kty
+  const _alg: jose.JWKParameters['alg'] = ({} as jose.JWK).alg
+  const _use: jose.JWKParameters['use'] = ({} as jose.JWK).use
+  const _thumbprint: string | undefined = ({} as jose.JWK)['x5t#S256']
+  // and that a JWKParameters-shaped value is still a JWK
+  const _asJwk: jose.JWK = {} as jose.JWKParameters
+}
+
 /* AnyJWK is narrowable on kty; JWK deliberately is not. */
 function narrowJwk(jwk: jose.AnyJWK) {
   if (jwk.kty === 'EC') return jwk.x + jwk.y
@@ -49,6 +65,27 @@ function narrowJwk(jwk: jose.AnyJWK) {
   if (jwk.kty === 'OKP') return jwk.x
   if (jwk.kty === 'AKP') return jwk.pub
   return jwk.k
+}
+
+/* Every arm carries its own "kty", and no arm admits a wrong or missing one. AnyJWK spells the arms
+ * out one per key type instead of intersecting over a parenthesised union, so pin that the two are
+ * the same type - `X & (A | B)` and `(X & A) | (X & B)` must stay interchangeable here. */
+{
+  const _ec: jose.AnyJWK = { kty: 'EC', crv: 'P-256', x: 'x', y: 'y' }
+  const _ecPrivate: jose.AnyJWK = { kty: 'EC', crv: 'P-256', x: 'x', y: 'y', d: 'd' }
+  const _rsa: jose.AnyJWK = { kty: 'RSA', e: 'AQAB', n: 'n' }
+  const _okp: jose.AnyJWK = { kty: 'OKP', crv: 'Ed25519', x: 'x' }
+  const _akp: jose.AnyJWK = { kty: 'AKP', alg: 'ML-DSA-44', pub: 'pub' }
+  const _oct: jose.AnyJWK = { kty: 'oct', k: 'k' }
+
+  // @ts-expect-error the arm is selected by "kty", so EC members do not satisfy an RSA one
+  const _mismatched: jose.AnyJWK = { kty: 'RSA', crv: 'P-256', x: 'x', y: 'y' }
+  // @ts-expect-error every arm requires its "kty"
+  const _missingKty: jose.AnyJWK = { crv: 'P-256', x: 'x', y: 'y' }
+
+  // an AnyJWK is always a JWK, and narrowing keeps the shared parameters reachable
+  const _widens: jose.JWK = _ec
+  const _kid: string | undefined = _ec.kid
 }
 
 /* Algorithm unions give autocompletion without narrowing the accepted inputs. */
@@ -91,6 +128,22 @@ function narrowJwk(jwk: jose.AnyJWK) {
   const _localJwks: jose.JSONWebKeySet = local.jwks()
   const _fresh: boolean = remote.fresh
   const _reload: Promise<void> = remote.reload()
+}
+
+/* A resolver annotated with JWTHeaderParameters is still accepted. That type is only a supertype of
+ * what the resolver actually observes while its "b64" stays boolean, so this is what keeps the
+ * narrowing to CompactJWSHeaderParameters from being a source break. */
+{
+  const _annotated: jose.JWTVerifyGetKey = async (
+    protectedHeader: jose.JWTHeaderParameters,
+    token: jose.FlattenedJWSInput,
+  ) => cryptoKey
+  const _viaAlias: jose.GetKeyFunction<
+    jose.JWTHeaderParameters,
+    jose.FlattenedJWSInput
+  > = async () => cryptoKey
+  // jwtVerify hands back a header whose "b64" it accepted as false, so it cannot be typed `true`
+  const _b64: boolean | undefined = ({} as jose.JWTHeaderParameters).b64
 }
 
 /* Overload resolution: a key gives no `key` back, a resolver gives a narrowed one, and a value that
@@ -200,6 +253,20 @@ function narrowByCode(err: jose.errors.AnyJOSEError) {
     default:
       return undefined
   }
+}
+
+/* The pairing of a class with its code lives on AnyJOSEError, never on the classes, so `code` is as
+ * open on a specific error as it is on the base one. Each of these was rejected while the classes
+ * carried the literal themselves, and none of them should ever be. */
+{
+  class Retagged extends jose.errors.JWKSTimeout {
+    override code = 'ERR_VENDOR_TIMEOUT'
+  }
+  const _compare = (err: jose.errors.JWKSTimeout) => err.code === 'ERR_JWKS_INVALID'
+  const _widen = (err: jose.errors.JWTExpired): string => err.code
+  const _write = (err: jose.errors.JWTExpired) => (err.code = 'ERR_WRAPPED')
+  const _static = (): string[] => [jose.errors.JWTExpired.code, jose.errors.JWKSTimeout.code]
+  const _sibling = (err: jose.errors.JWTExpired): jose.errors.JWTClaimValidationFailed => err
 }
 
 class ThirdPartyError extends jose.errors.JOSEError {

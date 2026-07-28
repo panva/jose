@@ -119,7 +119,7 @@ export default (QUnit: QUnit, lib: typeof jose) => {
         .sign(key)
       const { key: resolvedKey } = await lib.jwtVerify(jwt, JWKS)
       t.ok(resolvedKey)
-      t.equal((resolvedKey as jose.KeyLike).type, 'public')
+      t.equal(resolvedKey.type, 'public')
     }
     // Compact JWS
     {
@@ -130,7 +130,7 @@ export default (QUnit: QUnit, lib: typeof jose) => {
         .sign(key)
       const { key: resolvedKey } = await lib.compactVerify(jws, JWKS)
       t.ok(resolvedKey)
-      t.equal((resolvedKey as jose.KeyLike).type, 'public')
+      t.equal(resolvedKey.type, 'public')
     }
     // Flattened JWS
     {
@@ -142,7 +142,7 @@ export default (QUnit: QUnit, lib: typeof jose) => {
         .sign(key)
       const { key: resolvedKey } = await lib.flattenedVerify(jws, JWKS)
       t.ok(resolvedKey)
-      t.equal((resolvedKey as jose.KeyLike).type, 'public')
+      t.equal(resolvedKey.type, 'public')
     }
     // General JWS
     {
@@ -155,7 +155,7 @@ export default (QUnit: QUnit, lib: typeof jose) => {
         .sign()
       const { key: resolvedKey } = await lib.generalVerify(jws, JWKS)
       t.ok(resolvedKey)
-      t.equal((resolvedKey as jose.KeyLike).type, 'public')
+      t.equal(resolvedKey.type, 'public')
     }
     {
       await t.rejects(

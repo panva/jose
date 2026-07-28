@@ -11,7 +11,7 @@ export default (
   const { module, test } = QUnit
   module('jwk.ts')
 
-  type Vector = [string, JsonWebKey]
+  type Vector = [string, jose.JWK]
 
   const algorithms: Vector[] = [
     ['ECDH-ES', KEYS.P256.jwk],
@@ -38,7 +38,7 @@ export default (
     ['ML-DSA-87', KEYS['ML-DSA-87'].jwk],
   ]
 
-  function publicJwk(jwk: JsonWebKey) {
+  function publicJwk(jwk: jose.JWK) {
     const { d, p, q, dp, dq, qi, k, priv, ...result } = jwk
     return result
   }
@@ -47,7 +47,7 @@ export default (
     algorithms.push([vector[0], publicJwk(vector[1])])
   }
 
-  function title(alg: string, jwk: JsonWebKey, supported = true) {
+  function title(alg: string, jwk: jose.JWK, supported = true) {
     let result = ''
     if (!supported) {
       result = '[not supported] '
@@ -73,8 +73,8 @@ export default (
 
       for (const prop of [...new Set([...Object.keys(jwk), ...Object.keys(exported)])]) {
         t.strictEqual(
-          exported[prop as keyof JsonWebKey],
-          jwk[prop as keyof JsonWebKey],
+          exported[prop as keyof jose.JWK],
+          jwk[prop as keyof jose.JWK],
           `${prop} mismatch`,
         )
       }

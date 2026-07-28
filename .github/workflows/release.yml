@@ -32,7 +32,7 @@ jobs:
         id: dist
         with:
           path: dist
-          key: dist-${{ hashFiles('src/**/*.ts', 'tsconfig/*.json', '.github/workflows/*.yml', 'package-lock.json') }}
+          key: dist-${{ hashFiles('src/**/*.ts', 'tsconfig.json', 'tsconfig/*.json', 'package.json', 'jsr.json', 'tools/*.cjs', 'tools/*.js', '.github/workflows/*.yml', 'package-lock.json') }}
           fail-on-cache-miss: true
       - name: Prepare distribution
         run: node tools/publish.cjs

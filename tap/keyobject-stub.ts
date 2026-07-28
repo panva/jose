@@ -109,7 +109,7 @@ const stub: Pick<
       case 'ML-DSA-44':
       case 'ML-DSA-65':
       case 'ML-DSA-87':
-        return generate(alg.toLowerCase())
+        return generate(alg.toLowerCase() as 'ml-dsa-44' | 'ml-dsa-65' | 'ml-dsa-87')
       default:
         Error('unreachable')
     }

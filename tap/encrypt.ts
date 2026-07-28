@@ -138,7 +138,7 @@ export async function jwt(
   keys: Pick<typeof jose, 'exportJWK' | 'generateKeyPair' | 'generateSecret' | 'importJWK'>,
   alg: string,
   enc: string,
-  secretOrKeyPair: Uint8Array | jose.KeyLike | jose.GenerateKeyPairResult,
+  secretOrKeyPair: Uint8Array | jose.CryptoKey | jose.KeyObject | jose.GenerateKeyPairResult,
 ) {
   const [eKey, dKey] = await getKeys(secretOrKeyPair, false, keys)
 

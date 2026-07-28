@@ -202,7 +202,7 @@ export default (
             keyManagementParameters.epk = (await keys.importJWK(
               vector.encrypting_key.epk,
               vector.input.alg,
-            )) as jose.KeyLike
+            )) as jose.CryptoKey
           }
 
           if (Object.keys(keyManagementParameters).length !== 0) {
@@ -238,7 +238,7 @@ export default (
         const privateKey = (await keys.importJWK(
           toJWK(vector.input.pwd || vector.input.key),
           dir ? vector.input.enc : vector.input.alg,
-        )) as jose.KeyLike
+        )) as jose.CryptoKey
         let publicKey
         if (privateKey.type === 'secret') {
           publicKey = privateKey
