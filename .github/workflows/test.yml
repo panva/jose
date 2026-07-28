@@ -36,10 +36,8 @@ jobs:
         run: npm run typecheck:dist
       - name: Type-level regression tests
         run: npm run typecheck:types
-      - name: Package publishing metadata
-        run: npx --yes publint --strict
-      - name: Are the types wrong?
-        run: node tools/attw-check.js
+      - name: Packaging metadata and type resolution
+        run: npm run check:packaging
       - name: JSR slow types
         run: npm run build:jsr
       - name: Docs are in sync with src
@@ -158,7 +156,7 @@ jobs:
         with:
           path: ~/Library/Caches/ms-playwright
           key: playwright-${{ runner.os }}-${{ steps.playwright-version.outputs.version }}
-      - run: npx playwright install --only-shell chromium firefox webkit
+      - run: npm exec --no -- playwright install --only-shell chromium firefox webkit
       - name: Run Test Suite
         run: npm run tap:browsers
         env:

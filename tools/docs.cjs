@@ -27,7 +27,7 @@ for (const entry of readdirSync('docs')) {
   rmSync(`docs/${entry}`, { recursive: true, force: true })
 }
 
-execSync('npx patch-package', opts)
+execSync('npm exec --no -- patch-package', opts)
 execSync(`npm run docs:generate -- --gitRevision v${version}`, opts)
 
 globSync('docs/**/*.md').forEach((file) => {

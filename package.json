@@ -231,9 +231,10 @@
     "typecheck:types": "tsc -p test-d",
     "typecheck:dist": "./tools/typecheck-dist.sh",
     "check:subpaths": "node tools/check-subpaths.js",
-    "check:packaging": "npx --yes publint --strict && node tools/attw-check.js"
+    "check:packaging": "publint --strict && node tools/attw-check.js"
   },
   "devDependencies": {
+    "@arethetypeswrong/cli": "0.18.5",
     "@playwright/test": "^1.61.1",
     "@types/node": "^24.13.3",
     "@types/qunit": "^2.19.14",
@@ -243,6 +244,7 @@
     "patch-package": "^8.0.1",
     "prettier": "^3.9.5",
     "prettier-plugin-jsdoc": "^1.8.1",
+    "publint": "0.3.21",
     "qunit": "^2.26.0",
     "tar": "^7.5.20",
     "timekeeper": "^2.3.1",

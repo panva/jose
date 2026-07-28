@@ -10,6 +10,7 @@
 // packaging defect and fails the build.
 import { spawnSync } from 'node:child_process'
 import { mkdtempSync, openSync, closeSync, readFileSync, rmSync } from 'node:fs'
+import { createRequire } from 'node:module'
 import { tmpdir } from 'node:os'
 import { join } from 'node:path'
 
@@ -23,14 +24,21 @@ const IGNORED_PROBLEM_KINDS = new Set(['CJSResolvesToESM'])
 const dir = mkdtempSync(join(tmpdir(), 'jose-attw-'))
 const out = join(dir, 'report.json')
 
+// Resolved from node_modules, never fetched. @arethetypeswrong/cli is a pinned devDependency, so
+// the lockfile decides the version and its integrity hash - `npx --yes` would execute whatever is
+// latest at CI run time, unpinned and unverified.
+const require = createRequire(import.meta.url)
+const manifest = require.resolve('@arethetypeswrong/cli/package.json')
+const { bin } = require(manifest)
+const attw = join(manifest, '..', typeof bin === 'string' ? bin : bin.attw)
+
 let stdout
 const fd = openSync(out, 'w')
 try {
-  const { error, stderr } = spawnSync(
-    'npx',
-    ['--yes', '@arethetypeswrong/cli', '--pack', '.', '--format', 'json'],
-    { encoding: 'utf8', stdio: ['ignore', fd, 'pipe'] },
-  )
+  const { error, stderr } = spawnSync(process.execPath, [attw, '--pack', '.', '--format', 'json'], {
+    encoding: 'utf8',
+    stdio: ['ignore', fd, 'pipe'],
+  })
   closeSync(fd)
   if (error) {
     console.error(error.message || stderr)
