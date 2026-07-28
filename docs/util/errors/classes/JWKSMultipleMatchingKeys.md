@@ -26,6 +26,23 @@ if (err instanceof jose.errors.JWKSMultipleMatchingKeys) {
 
 ## Properties
 
+### \[asyncIterator\]
+
+• **\[asyncIterator\]**: () => `AsyncIterableIterator`\<[`CryptoKey`](https://developer.mozilla.org/docs/Web/API/CryptoKey)\>
+
+Iterates the public keys that matched the JWS JOSE Header, so that verification can be
+attempted with each in turn. See the [createRemoteJWKSet](../../../jwks/remote/functions/createRemoteJWKSet.md)
+and [createLocalJWKSet](../../../jwks/local/functions/createLocalJWKSet.md) examples.
+
+Instances thrown by this module always iterate the matched keys. An instance constructed by
+other code iterates nothing.
+
+#### Returns
+
+`AsyncIterableIterator`\<[`CryptoKey`](https://developer.mozilla.org/docs/Web/API/CryptoKey)\>
+
+***
+
 ### code
 
 • **code**: `string` = `'ERR_JWKS_MULTIPLE_MATCHING_KEYS'`

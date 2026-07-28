@@ -7,6 +7,68 @@
 import type * as types from '../types.d.ts'
 
 /**
+ * Every stable error code used by this module. {@link AnyJOSEError} pairs each subclass with the one
+ * it is thrown with, making that union a discriminated one.
+ *
+ * @example
+ *
+ * ```ts
+ * function handle(err: jose.errors.AnyJOSEError) {
+ *   switch (err.code) {
+ *     case 'ERR_JWT_EXPIRED':
+ *       console.log(err.payload) // narrowed to JWTExpired
+ *       break
+ *     case 'ERR_JWKS_MULTIPLE_MATCHING_KEYS':
+ *       break
+ *   }
+ * }
+ * ```
+ */
+export type JOSEErrorCode =
+  | 'ERR_JOSE_ALG_NOT_ALLOWED'
+  | 'ERR_JOSE_GENERIC'
+  | 'ERR_JOSE_NOT_SUPPORTED'
+  | 'ERR_JWE_DECRYPTION_FAILED'
+  | 'ERR_JWE_INVALID'
+  | 'ERR_JWK_INVALID'
+  | 'ERR_JWKS_INVALID'
+  | 'ERR_JWKS_MULTIPLE_MATCHING_KEYS'
+  | 'ERR_JWKS_NO_MATCHING_KEY'
+  | 'ERR_JWKS_TIMEOUT'
+  | 'ERR_JWS_INVALID'
+  | 'ERR_JWS_SIGNATURE_VERIFICATION_FAILED'
+  | 'ERR_JWT_CLAIM_VALIDATION_FAILED'
+  | 'ERR_JWT_EXPIRED'
+  | 'ERR_JWT_INVALID'
+
+/**
+ * The shape shared by the two errors thrown during JWT Claims Set validation.
+ *
+ * > [!NOTE]\
+ * > {@link JWTExpired} does not extend {@link JWTClaimValidationFailed}, so `instanceof
+ * > JWTClaimValidationFailed` is `false` for an expired JWT. Use {@link JWTClaimValidationError} or
+ * > the {@link JOSEError.code code} discriminant to handle both.
+ */
+export interface JWTClaimValidationFailure {
+  /** The Claim for which the validation failed. */
+  claim: string
+
+  /** Reason code for the validation failure. */
+  reason: JWTClaimValidationReason
+
+  /** The parsed JWT Claims Set (aka payload). */
+  payload: types.JWTPayload
+}
+
+/**
+ * Reason codes produced by JWT Claims Set validation.
+ *
+ * @ignore
+ */
+export type JWTClaimValidationReason =
+  'check_failed' | 'invalid' | 'mismatch' | 'missing' | 'unspecified' | (string & {})
+
+/**
  * A generic Error that all other JOSE specific Error subclasses extend.
  *
  * @example
@@ -25,17 +87,22 @@ export class JOSEError extends Error {
    *
    * @ignore
    */
-  static code = 'ERR_JOSE_GENERIC'
+  static code: JOSEErrorCode | (string & {}) = 'ERR_JOSE_GENERIC'
 
-  /** A unique error code for {@link JOSEError}. */
-  code = 'ERR_JOSE_GENERIC'
+  /**
+   * A unique error code for {@link JOSEError}. Each subclass sets its own; see {@link AnyJOSEError}
+   * to switch over them as a discriminated union.
+   */
+  code: JOSEErrorCode | (string & {}) = 'ERR_JOSE_GENERIC'
 
   /** @ignore */
   constructor(message?: string, options?: { cause?: unknown }) {
     super(message, options)
     this.name = this.constructor.name
-    // @ts-ignore
-    Error.captureStackTrace?.(this, this.constructor)
+    // V8-only, absent in JavaScriptCore and SpiderMonkey
+    ;(
+      Error as { captureStackTrace?: (target: object, constructor?: Function) => void }
+    ).captureStackTrace?.(this, this.constructor)
   }
 }
 
@@ -62,18 +129,21 @@ export class JOSEError extends Error {
  * }
  * ```
  */
-export class JWTClaimValidationFailed extends JOSEError {
+export class JWTClaimValidationFailed extends JOSEError implements JWTClaimValidationFailure {
   /** @ignore */
-  static override code = 'ERR_JWT_CLAIM_VALIDATION_FAILED'
+  static override code: JOSEErrorCode | (string & {}) = 'ERR_JWT_CLAIM_VALIDATION_FAILED'
 
   /** A unique error code for {@link JWTClaimValidationFailed}. */
-  override code = 'ERR_JWT_CLAIM_VALIDATION_FAILED'
+  override code: JOSEErrorCode | (string & {}) = 'ERR_JWT_CLAIM_VALIDATION_FAILED'
+
+  /** The {@link JWTClaimValidationFailure} carried by every instance of this error. */
+  declare cause: JWTClaimValidationFailure
 
   /** The Claim for which the validation failed. */
   claim: string
 
   /** Reason code for the validation failure. */
-  reason: string
+  reason: JWTClaimValidationReason
 
   /**
    * The parsed JWT Claims Set (aka payload). Other JWT claims may or may not have been verified at
@@ -88,7 +158,7 @@ export class JWTClaimValidationFailed extends JOSEError {
     message: string,
     payload: types.JWTPayload,
     claim = 'unspecified',
-    reason = 'unspecified',
+    reason: JWTClaimValidationReason = 'unspecified',
   ) {
     super(message, { cause: { claim, reason, payload } })
     this.claim = claim
@@ -120,18 +190,21 @@ export class JWTClaimValidationFailed extends JOSEError {
  * }
  * ```
  */
-export class JWTExpired extends JOSEError implements JWTClaimValidationFailed {
+export class JWTExpired extends JOSEError implements JWTClaimValidationFailure {
   /** @ignore */
-  static override code = 'ERR_JWT_EXPIRED'
+  static override code: JOSEErrorCode | (string & {}) = 'ERR_JWT_EXPIRED'
 
   /** A unique error code for {@link JWTExpired}. */
-  override code = 'ERR_JWT_EXPIRED'
+  override code: JOSEErrorCode | (string & {}) = 'ERR_JWT_EXPIRED'
+
+  /** The {@link JWTClaimValidationFailure} carried by every instance of this error. */
+  declare cause: JWTClaimValidationFailure
 
   /** The Claim for which the validation failed. */
   claim: string
 
   /** Reason code for the validation failure. */
-  reason: string
+  reason: JWTClaimValidationReason
 
   /**
    * The parsed JWT Claims Set (aka payload). Other JWT claims may or may not have been verified at
@@ -146,7 +219,7 @@ export class JWTExpired extends JOSEError implements JWTClaimValidationFailed {
     message: string,
     payload: types.JWTPayload,
     claim = 'unspecified',
-    reason = 'unspecified',
+    reason: JWTClaimValidationReason = 'unspecified',
   ) {
     super(message, { cause: { claim, reason, payload } })
     this.claim = claim
@@ -180,10 +253,10 @@ export class JWTExpired extends JOSEError implements JWTClaimValidationFailed {
  */
 export class JOSEAlgNotAllowed extends JOSEError {
   /** @ignore */
-  static override code = 'ERR_JOSE_ALG_NOT_ALLOWED'
+  static override code: JOSEErrorCode | (string & {}) = 'ERR_JOSE_ALG_NOT_ALLOWED'
 
   /** A unique error code for {@link JOSEAlgNotAllowed}. */
-  override code = 'ERR_JOSE_ALG_NOT_ALLOWED'
+  override code: JOSEErrorCode | (string & {}) = 'ERR_JOSE_ALG_NOT_ALLOWED'
 }
 
 /**
@@ -212,10 +285,10 @@ export class JOSEAlgNotAllowed extends JOSEError {
  */
 export class JOSENotSupported extends JOSEError {
   /** @ignore */
-  static override code = 'ERR_JOSE_NOT_SUPPORTED'
+  static override code: JOSEErrorCode | (string & {}) = 'ERR_JOSE_NOT_SUPPORTED'
 
   /** A unique error code for {@link JOSENotSupported}. */
-  override code = 'ERR_JOSE_NOT_SUPPORTED'
+  override code: JOSEErrorCode | (string & {}) = 'ERR_JOSE_NOT_SUPPORTED'
 }
 
 /**
@@ -243,10 +316,10 @@ export class JOSENotSupported extends JOSEError {
  */
 export class JWEDecryptionFailed extends JOSEError {
   /** @ignore */
-  static override code = 'ERR_JWE_DECRYPTION_FAILED'
+  static override code: JOSEErrorCode | (string & {}) = 'ERR_JWE_DECRYPTION_FAILED'
 
   /** A unique error code for {@link JWEDecryptionFailed}. */
-  override code = 'ERR_JWE_DECRYPTION_FAILED'
+  override code: JOSEErrorCode | (string & {}) = 'ERR_JWE_DECRYPTION_FAILED'
 
   /** @ignore */
   constructor(message = 'decryption operation failed', options?: { cause?: unknown }) {
@@ -279,10 +352,10 @@ export class JWEDecryptionFailed extends JOSEError {
  */
 export class JWEInvalid extends JOSEError {
   /** @ignore */
-  static override code = 'ERR_JWE_INVALID'
+  static override code: JOSEErrorCode | (string & {}) = 'ERR_JWE_INVALID'
 
   /** A unique error code for {@link JWEInvalid}. */
-  override code = 'ERR_JWE_INVALID'
+  override code: JOSEErrorCode | (string & {}) = 'ERR_JWE_INVALID'
 }
 
 /**
@@ -310,10 +383,10 @@ export class JWEInvalid extends JOSEError {
  */
 export class JWSInvalid extends JOSEError {
   /** @ignore */
-  static override code = 'ERR_JWS_INVALID'
+  static override code: JOSEErrorCode | (string & {}) = 'ERR_JWS_INVALID'
 
   /** A unique error code for {@link JWSInvalid}. */
-  override code = 'ERR_JWS_INVALID'
+  override code: JOSEErrorCode | (string & {}) = 'ERR_JWS_INVALID'
 }
 
 /**
@@ -341,10 +414,10 @@ export class JWSInvalid extends JOSEError {
  */
 export class JWTInvalid extends JOSEError {
   /** @ignore */
-  static override code = 'ERR_JWT_INVALID'
+  static override code: JOSEErrorCode | (string & {}) = 'ERR_JWT_INVALID'
 
   /** A unique error code for {@link JWTInvalid}. */
-  override code = 'ERR_JWT_INVALID'
+  override code: JOSEErrorCode | (string & {}) = 'ERR_JWT_INVALID'
 }
 
 /**
@@ -372,10 +445,10 @@ export class JWTInvalid extends JOSEError {
  */
 export class JWKInvalid extends JOSEError {
   /** @ignore */
-  static override code = 'ERR_JWK_INVALID'
+  static override code: JOSEErrorCode | (string & {}) = 'ERR_JWK_INVALID'
 
   /** A unique error code for {@link JWKInvalid}. */
-  override code = 'ERR_JWK_INVALID'
+  override code: JOSEErrorCode | (string & {}) = 'ERR_JWK_INVALID'
 }
 
 /**
@@ -403,10 +476,10 @@ export class JWKInvalid extends JOSEError {
  */
 export class JWKSInvalid extends JOSEError {
   /** @ignore */
-  static override code = 'ERR_JWKS_INVALID'
+  static override code: JOSEErrorCode | (string & {}) = 'ERR_JWKS_INVALID'
 
   /** A unique error code for {@link JWKSInvalid}. */
-  override code = 'ERR_JWKS_INVALID'
+  override code: JOSEErrorCode | (string & {}) = 'ERR_JWKS_INVALID'
 }
 
 /**
@@ -434,10 +507,10 @@ export class JWKSInvalid extends JOSEError {
  */
 export class JWKSNoMatchingKey extends JOSEError {
   /** @ignore */
-  static override code = 'ERR_JWKS_NO_MATCHING_KEY'
+  static override code: JOSEErrorCode | (string & {}) = 'ERR_JWKS_NO_MATCHING_KEY'
 
   /** A unique error code for {@link JWKSNoMatchingKey}. */
-  override code = 'ERR_JWKS_NO_MATCHING_KEY'
+  override code: JOSEErrorCode | (string & {}) = 'ERR_JWKS_NO_MATCHING_KEY'
 
   /** @ignore */
   constructor(
@@ -472,14 +545,21 @@ export class JWKSNoMatchingKey extends JOSEError {
  * ```
  */
 export class JWKSMultipleMatchingKeys extends JOSEError {
-  /** @ignore */
-  [Symbol.asyncIterator]!: () => AsyncIterableIterator<types.CryptoKey>
+  /**
+   * Iterates the public keys that matched the JWS JOSE Header, so that verification can be
+   * attempted with each in turn. See the {@link jwks/remote.createRemoteJWKSet createRemoteJWKSet}
+   * and {@link jwks/local.createLocalJWKSet createLocalJWKSet} examples.
+   *
+   * Instances thrown by this module always iterate the matched keys. An instance constructed by
+   * other code iterates nothing.
+   */
+  [Symbol.asyncIterator]: () => AsyncIterableIterator<types.CryptoKey> = async function* () {}
 
   /** @ignore */
-  static override code = 'ERR_JWKS_MULTIPLE_MATCHING_KEYS'
+  static override code: JOSEErrorCode | (string & {}) = 'ERR_JWKS_MULTIPLE_MATCHING_KEYS'
 
   /** A unique error code for {@link JWKSMultipleMatchingKeys}. */
-  override code = 'ERR_JWKS_MULTIPLE_MATCHING_KEYS'
+  override code: JOSEErrorCode | (string & {}) = 'ERR_JWKS_MULTIPLE_MATCHING_KEYS'
 
   /** @ignore */
   constructor(
@@ -515,10 +595,10 @@ export class JWKSMultipleMatchingKeys extends JOSEError {
  */
 export class JWKSTimeout extends JOSEError {
   /** @ignore */
-  static override code = 'ERR_JWKS_TIMEOUT'
+  static override code: JOSEErrorCode | (string & {}) = 'ERR_JWKS_TIMEOUT'
 
   /** A unique error code for {@link JWKSTimeout}. */
-  override code = 'ERR_JWKS_TIMEOUT'
+  override code: JOSEErrorCode | (string & {}) = 'ERR_JWKS_TIMEOUT'
 
   /** @ignore */
   constructor(message = 'request timed out', options?: { cause?: unknown }) {
@@ -551,13 +631,61 @@ export class JWKSTimeout extends JOSEError {
  */
 export class JWSSignatureVerificationFailed extends JOSEError {
   /** @ignore */
-  static override code = 'ERR_JWS_SIGNATURE_VERIFICATION_FAILED'
+  static override code: JOSEErrorCode | (string & {}) = 'ERR_JWS_SIGNATURE_VERIFICATION_FAILED'
 
   /** A unique error code for {@link JWSSignatureVerificationFailed}. */
-  override code = 'ERR_JWS_SIGNATURE_VERIFICATION_FAILED'
+  override code: JOSEErrorCode | (string & {}) = 'ERR_JWS_SIGNATURE_VERIFICATION_FAILED'
 
   /** @ignore */
   constructor(message = 'signature verification failed', options?: { cause?: unknown }) {
     super(message, options)
   }
 }
+
+/**
+ * Union of the errors thrown during JWT Claims Set validation.
+ *
+ * {@link JWTExpired} does not extend {@link JWTClaimValidationFailed}, so a single `instanceof` check
+ * cannot cover both. Use this type — together with the {@link JOSEError.code code} discriminant —
+ * when handling either.
+ *
+ * @example
+ *
+ * ```ts
+ * function isClaimValidationError(err: unknown): err is jose.errors.JWTClaimValidationError {
+ *   return (
+ *     err instanceof jose.errors.JWTClaimValidationFailed ||
+ *     err instanceof jose.errors.JWTExpired
+ *   )
+ * }
+ * ```
+ */
+export type JWTClaimValidationError = JWTClaimValidationFailed | JWTExpired
+
+/**
+ * Union of every {@link JOSEError} subclass this module throws, each paired with the single
+ * {@link JOSEErrorCode} it is thrown with. That pairing lives here rather than on the classes, so
+ * that `code` stays assignable, writable, and overridable on them exactly as before, while a value
+ * of this type can still be switched over as a discriminated union.
+ *
+ * > [!NOTE]\
+ * > The base {@link JOSEError} is deliberately not a member — its `code` spans every value, which
+ * > would defeat the discriminant. A small number of JSON Web Key Set HTTP failures are thrown as the
+ * > base class itself, so `instanceof JOSEError` remains the catch-all; this union is for handling a
+ * > value already known to be one of the specific errors.
+ */
+export type AnyJOSEError =
+  | (JOSEAlgNotAllowed & { code: 'ERR_JOSE_ALG_NOT_ALLOWED' })
+  | (JOSENotSupported & { code: 'ERR_JOSE_NOT_SUPPORTED' })
+  | (JWEDecryptionFailed & { code: 'ERR_JWE_DECRYPTION_FAILED' })
+  | (JWEInvalid & { code: 'ERR_JWE_INVALID' })
+  | (JWKInvalid & { code: 'ERR_JWK_INVALID' })
+  | (JWKSInvalid & { code: 'ERR_JWKS_INVALID' })
+  | (JWKSMultipleMatchingKeys & { code: 'ERR_JWKS_MULTIPLE_MATCHING_KEYS' })
+  | (JWKSNoMatchingKey & { code: 'ERR_JWKS_NO_MATCHING_KEY' })
+  | (JWKSTimeout & { code: 'ERR_JWKS_TIMEOUT' })
+  | (JWSInvalid & { code: 'ERR_JWS_INVALID' })
+  | (JWSSignatureVerificationFailed & { code: 'ERR_JWS_SIGNATURE_VERIFICATION_FAILED' })
+  | (JWTClaimValidationFailed & { code: 'ERR_JWT_CLAIM_VALIDATION_FAILED' })
+  | (JWTExpired & { code: 'ERR_JWT_EXPIRED' })
+  | (JWTInvalid & { code: 'ERR_JWT_INVALID' })

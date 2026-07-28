@@ -26,6 +26,14 @@ if (err instanceof jose.errors.JWTClaimValidationFailed) {
 
 ## Properties
 
+### cause
+
+• **cause**: [`JWTClaimValidationFailure`](../interfaces/JWTClaimValidationFailure.md)
+
+The [JWTClaimValidationFailure](../interfaces/JWTClaimValidationFailure.md) carried by every instance of this error.
+
+***
+
 ### claim
 
 • **claim**: `string`

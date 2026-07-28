@@ -22,4 +22,5 @@ if (err instanceof jose.errors.JOSEError) {
 
 • **code**: `string` = `'ERR_JOSE_GENERIC'`
 
-A unique error code for JOSEError.
+A unique error code for JOSEError. Each subclass sets its own; see [AnyJOSEError](../type-aliases/AnyJOSEError.md)
+to switch over them as a discriminated union.

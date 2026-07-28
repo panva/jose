@@ -43,6 +43,11 @@ globSync('docs/**/*.md').forEach((file) => {
     // and a union of several of them folds to one. The negative lookahead keeps `string` \|
     // `string`[] intact, where the second arm merely starts the same way.
     .replace(/`string`(?: \\\| `string`(?!\[))+/g, '`string`')
+    // AnyJOSEError intersects each arm with the one `code` literal that arm is thrown with. typedoc
+    // renders any object literal as a bare `object`, and a union arm gets no "Type Declaration"
+    // section to send the reader to, so the suffix is noise - what is left reads as the union of
+    // error classes it is.
+    .replace(/^• .*? \\\| .*$/gm, (union) => union.replaceAll(' & `object`', ''))
     // JWK and JWKParameters are type aliases only so that they carry the implicit index signature an
     // interface does not. Their whole type is one object literal, which typedoc states as `object`
     // before listing the members under "Type Declaration" anyway - so the line carries nothing an

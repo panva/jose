@@ -19,3 +19,13 @@ JOSE module errors and error codes
 - [JWTClaimValidationFailed](classes/JWTClaimValidationFailed.md)
 - [JWTExpired](classes/JWTExpired.md)
 - [JWTInvalid](classes/JWTInvalid.md)
+
+## Interfaces
+
+- [JWTClaimValidationFailure](interfaces/JWTClaimValidationFailure.md)
+
+## Type Aliases
+
+- [AnyJOSEError](type-aliases/AnyJOSEError.md)
+- [JOSEErrorCode](type-aliases/JOSEErrorCode.md)
+- [JWTClaimValidationError](type-aliases/JWTClaimValidationError.md)
