@@ -11,10 +11,14 @@ import { encodeBase64, decodeBase64 } from '../lib/base64.js'
 export function decode(input: Uint8Array | string): Uint8Array {
   // @ts-ignore
   if (Uint8Array.fromBase64) {
-    // @ts-ignore
-    return Uint8Array.fromBase64(typeof input === 'string' ? input : decoder.decode(input), {
-      alphabet: 'base64url',
-    })
+    try {
+      // @ts-ignore
+      return Uint8Array.fromBase64(typeof input === 'string' ? input : decoder.decode(input), {
+        alphabet: 'base64url',
+      })
+    } catch (cause) {
+      throw new TypeError('The input to be decoded is not correctly encoded.', { cause })
+    }
   }
 
   let encoded = input
