@@ -24,9 +24,12 @@ import { normalizeKey } from '../../lib/normalize_key.js'
  *
  * @see {@link jwks/remote.createRemoteJWKSet createRemoteJWKSet} to verify using a remote JSON Web Key Set.
  */
-export interface FlattenedVerifyGetKey extends types.GetKeyFunction<
+export interface FlattenedVerifyGetKey<
+  KeyType extends types.CryptoKey | Uint8Array = types.CryptoKey | Uint8Array,
+> extends types.GetKeyFunction<
   types.JWSHeaderParameters,
-  types.FlattenedJWSInput
+  types.FlattenedJWSInput,
+  KeyType | types.KeyObject | types.JWK
 > {}
 
 /**
@@ -59,23 +62,43 @@ export interface FlattenedVerifyGetKey extends types.GetKeyFunction<
  */
 export function flattenedVerify(
   jws: types.FlattenedJWSInput,
-  key: types.CryptoKey | types.KeyObject | types.JWK | Uint8Array,
+  key: types.KeyInput,
   options?: types.VerifyOptions,
 ): Promise<types.FlattenedVerifyResult>
 /**
+ * Verifies the signature and format of and afterwards decodes the Flattened JWS, resolving the key
+ * dynamically. The result additionally carries the {@link types.ResolvedKey.key resolved key}.
+ *
  * @param jws Flattened JWS.
  * @param getKey Function resolving a key to verify the JWS with. See
  *   {@link https://github.com/panva/jose/issues/210#jws-alg Algorithm Key Requirements}.
  * @param options JWS Verify options.
  */
+export function flattenedVerify<
+  KeyType extends types.CryptoKey | Uint8Array = types.CryptoKey | Uint8Array,
+>(
+  jws: types.FlattenedJWSInput,
+  getKey: FlattenedVerifyGetKey<KeyType>,
+  options?: types.VerifyOptions,
+): Promise<types.FlattenedVerifyResult & types.ResolvedKey<KeyType>>
+/**
+ * Accepts either form of the `key` argument. Use this overload when forwarding a value that may be
+ * either a key or a key resolution function; `key` is present on the result only when a resolution
+ * function was used.
+ *
+ * @param jws Flattened JWS.
+ * @param key Key, or function resolving a key, to verify the JWS with. See
+ *   {@link https://github.com/panva/jose/issues/210#jws-alg Algorithm Key Requirements}.
+ * @param options JWS Verify options.
+ */
 export function flattenedVerify(
   jws: types.FlattenedJWSInput,
-  getKey: FlattenedVerifyGetKey,
+  key: types.KeyInput | FlattenedVerifyGetKey,
   options?: types.VerifyOptions,
-): Promise<types.FlattenedVerifyResult & types.ResolvedKey>
+): Promise<types.FlattenedVerifyResult & Partial<types.ResolvedKey>>
 export async function flattenedVerify(
   jws: types.FlattenedJWSInput,
-  key: types.CryptoKey | types.KeyObject | types.JWK | Uint8Array | FlattenedVerifyGetKey,
+  key: types.KeyInput | FlattenedVerifyGetKey,
   options?: types.VerifyOptions,
 ) {
   if (!isObject(jws)) {

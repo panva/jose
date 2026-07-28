@@ -82,10 +82,7 @@ export class FlattenedSign {
    *   {@link https://github.com/panva/jose/issues/210#jws-alg Algorithm Key Requirements}.
    * @param options JWS Sign options.
    */
-  async sign(
-    key: types.CryptoKey | types.KeyObject | types.JWK | Uint8Array,
-    options?: types.SignOptions,
-  ): Promise<types.FlattenedJWS> {
+  async sign(key: types.KeyInput, options?: types.SignOptions): Promise<types.FlattenedJWS> {
     if (!this.#protectedHeader && !this.#unprotectedHeader) {
       throw new JWSInvalid(
         'either setProtectedHeader or setUnprotectedHeader must be called before #sign()',

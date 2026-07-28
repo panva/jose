@@ -6,6 +6,10 @@ Symmetric key generation
 
 - [GenerateSecretOptions](interfaces/GenerateSecretOptions.md)
 
+## Type Aliases
+
+- [GeneratedSecret](type-aliases/GeneratedSecret.md)
+
 ## Functions
 
 - [generateSecret](functions/generateSecret.md)

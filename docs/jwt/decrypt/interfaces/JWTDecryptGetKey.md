@@ -1,4 +1,4 @@
-# Interface: JWTDecryptGetKey()
+# Interface: JWTDecryptGetKey()\<KeyType\>
 
 ## [💗 Help the project](https://github.com/sponsors/panva)
 
@@ -7,7 +7,13 @@ Support from the community to continue maintaining and improving this module is 
 Interface for JWT Decryption dynamic key resolution. No token components have been verified at
 the time of this function call.
 
-▸ **JWTDecryptGetKey**(`protectedHeader`, `token`): [`Uint8Array`](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Uint8Array) \| [`CryptoKey`](https://developer.mozilla.org/docs/Web/API/CryptoKey) \| [`JWK`](../../../types/type-aliases/JWK.md) \| [`KeyObject`](../../../types/interfaces/KeyObject.md) \| [`Promise`](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise)\<[`Uint8Array`](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Uint8Array) \| [`CryptoKey`](https://developer.mozilla.org/docs/Web/API/CryptoKey) \| [`JWK`](../../../types/type-aliases/JWK.md) \| [`KeyObject`](../../../types/interfaces/KeyObject.md)\>
+## Type Parameters
+
+| Type Parameter | Default type |
+| ------ | ------ |
+| `KeyType` *extends* [`CryptoKey`](../../../types/type-aliases/CryptoKey.md) \| [`Uint8Array`](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Uint8Array) | [`CryptoKey`](../../../types/type-aliases/CryptoKey.md) \| [`Uint8Array`](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Uint8Array) |
+
+▸ **JWTDecryptGetKey**(`protectedHeader`, `token`): [`KeyObject`](../../../types/interfaces/KeyObject.md) \| [`JWK`](../../../types/type-aliases/JWK.md) \| `KeyType` \| [`Promise`](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise)\<[`KeyObject`](../../../types/interfaces/KeyObject.md) \| [`JWK`](../../../types/type-aliases/JWK.md) \| `KeyType`\>
 
 Dynamic key resolution function. No token components have been verified at the time of this
 function call.
@@ -23,4 +29,4 @@ If a suitable key for the token cannot be matched, throw an error instead.
 
 ## Returns
 
-[`Uint8Array`](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Uint8Array) \| [`CryptoKey`](https://developer.mozilla.org/docs/Web/API/CryptoKey) \| [`JWK`](../../../types/type-aliases/JWK.md) \| [`KeyObject`](../../../types/interfaces/KeyObject.md) \| [`Promise`](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise)\<[`Uint8Array`](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Uint8Array) \| [`CryptoKey`](https://developer.mozilla.org/docs/Web/API/CryptoKey) \| [`JWK`](../../../types/type-aliases/JWK.md) \| [`KeyObject`](../../../types/interfaces/KeyObject.md)\>
+[`KeyObject`](../../../types/interfaces/KeyObject.md) \| [`JWK`](../../../types/type-aliases/JWK.md) \| `KeyType` \| [`Promise`](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise)\<[`KeyObject`](../../../types/interfaces/KeyObject.md) \| [`JWK`](../../../types/type-aliases/JWK.md) \| `KeyType`\>

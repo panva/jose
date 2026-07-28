@@ -35,11 +35,22 @@ export interface Recipient {
    */
   setKeyManagementParameters(parameters: types.JWEKeyManagementHeaderParameters): Recipient
 
-  /** A shorthand for calling addRecipient() on the enclosing {@link GeneralEncrypt} instance */
-  addRecipient(...args: Parameters<GeneralEncrypt['addRecipient']>): Recipient
+  /**
+   * A shorthand for calling {@link GeneralEncrypt.addRecipient addRecipient()} on the enclosing
+   * {@link GeneralEncrypt} instance.
+   *
+   * @param key Public Key or Secret to encrypt the Content Encryption Key for the recipient with.
+   *   See {@link https://github.com/panva/jose/issues/210#jwe-alg Algorithm Key Requirements}.
+   * @param options JWE Encryption options.
+   */
+  addRecipient(key: types.KeyInput, options?: types.CritOption): Recipient
 
-  /** A shorthand for calling encrypt() on the enclosing {@link GeneralEncrypt} instance */
-  encrypt(...args: Parameters<GeneralEncrypt['encrypt']>): Promise<types.GeneralJWE>
+  /**
+   * A shorthand for calling {@link GeneralEncrypt.encrypt encrypt()} on the enclosing
+   * {@link GeneralEncrypt} instance. Takes no arguments — each recipient's key is supplied to
+   * {@link addRecipient}.
+   */
+  encrypt(): Promise<types.GeneralJWE>
 
   /** Returns the enclosing {@link GeneralEncrypt} instance */
   done(): GeneralEncrypt
@@ -49,14 +60,10 @@ class IndividualRecipient implements Recipient {
   #parent: GeneralEncrypt
   unprotectedHeader?: types.JWEHeaderParameters
   keyManagementParameters?: types.JWEKeyManagementHeaderParameters
-  key: types.CryptoKey | types.KeyObject | types.JWK | Uint8Array
+  key: types.KeyInput
   options: types.CritOption
 
-  constructor(
-    enc: GeneralEncrypt,
-    key: types.CryptoKey | types.KeyObject | types.JWK | Uint8Array,
-    options: types.CritOption,
-  ) {
+  constructor(enc: GeneralEncrypt, key: types.KeyInput, options: types.CritOption) {
     this.#parent = enc
     this.key = key
     this.options = options
@@ -136,10 +143,7 @@ export class GeneralEncrypt {
    *   See {@link https://github.com/panva/jose/issues/210#jwe-alg Algorithm Key Requirements}.
    * @param options JWE Encryption options.
    */
-  addRecipient(
-    key: types.CryptoKey | types.KeyObject | types.JWK | Uint8Array,
-    options?: types.CritOption,
-  ): Recipient {
+  addRecipient(key: types.KeyInput, options?: types.CritOption): Recipient {
     const recipient = new IndividualRecipient(this, key, { crit: options?.crit })
     this.#recipients.push(recipient)
     return recipient
@@ -204,8 +208,8 @@ export class GeneralEncrypt {
       if (flattened.aad) jwe.aad = flattened.aad
       if (flattened.protected) jwe.protected = flattened.protected
       if (flattened.unprotected) jwe.unprotected = flattened.unprotected
-      if (flattened.encrypted_key) jwe.recipients![0].encrypted_key = flattened.encrypted_key
-      if (flattened.header) jwe.recipients![0].header = flattened.header
+      if (flattened.encrypted_key) jwe.recipients[0].encrypted_key = flattened.encrypted_key
+      if (flattened.header) jwe.recipients[0].header = flattened.header
 
       return jwe
     }
@@ -275,7 +279,7 @@ export class GeneralEncrypt {
     for (let i = 0; i < this.#recipients.length; i++) {
       const recipient = this.#recipients[i]
       const target: Record<string, string | types.JWEHeaderParameters> = {}
-      jwe.recipients!.push(target)
+      jwe.recipients.push(target)
 
       if (i === 0) {
         const flattened = await new FlattenedEncrypt(this.#plaintext)

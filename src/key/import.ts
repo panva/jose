@@ -12,6 +12,21 @@ import { JOSENotSupported } from '../util/errors.js'
 import { isObject } from '../lib/type_checks.js'
 import type * as types from '../types.d.ts'
 
+/**
+ * Resolves what {@link importJWK} returns for a given JWK type.
+ *
+ * The "kty" (Key Type) Parameter fully determines the outcome at runtime: `"oct"` yields a
+ * {@link !Uint8Array} secret, every other supported key type yields a
+ * {@link types.CryptoKey CryptoKey}. When "kty" is not statically known — the usual case for a JWK
+ * parsed from JSON, or for a value typed as {@link types.JWK JWK} — this resolves to the union, as
+ * before.
+ */
+export type ImportedJWK<JWKType extends types.JWK> = JWKType extends { kty: 'oct' }
+  ? Uint8Array
+  : JWKType extends { kty: 'AKP' | 'EC' | 'OKP' | 'RSA' }
+    ? types.CryptoKey
+    : types.CryptoKey | Uint8Array
+
 /** Key Import Function options. */
 export interface KeyImportOptions {
   /**
@@ -182,6 +197,11 @@ export async function importPKCS8(
  *   property on the JWK. See
  *   {@link https://github.com/panva/jose/issues/210 Algorithm Key Requirements}.
  */
+export function importJWK<JWKType extends types.JWK>(
+  jwk: JWKType,
+  alg?: string,
+  options?: KeyImportOptions,
+): Promise<ImportedJWK<JWKType>>
 export async function importJWK(
   jwk: types.JWK,
   alg?: string,

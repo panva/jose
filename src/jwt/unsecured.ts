@@ -13,7 +13,10 @@ import { validateClaimsSet, JWTClaimsBuilder } from '../lib/jwt_claims_set.js'
 
 /** Result of decoding an Unsecured JWT. */
 export interface UnsecuredResult<PayloadType = types.JWTPayload> {
-  payload: PayloadType & types.JWTPayload
+  payload: PayloadType &
+    types.JWTPayload &
+    ([PayloadType] extends [object] ? unknown : unknown extends PayloadType ? unknown : never)
+
   header: types.JWSHeaderParameters
 }
 

@@ -25,11 +25,21 @@ export interface Signature {
    */
   setUnprotectedHeader(unprotectedHeader: types.JWSHeaderParameters): Signature
 
-  /** A shorthand for calling addSignature() on the enclosing {@link GeneralSign} instance */
-  addSignature(...args: Parameters<GeneralSign['addSignature']>): Signature
+  /**
+   * A shorthand for calling {@link GeneralSign.addSignature addSignature()} on the enclosing
+   * {@link GeneralSign} instance.
+   *
+   * @param key Private Key or Secret to sign the individual JWS signature with. See
+   *   {@link https://github.com/panva/jose/issues/210#jws-alg Algorithm Key Requirements}.
+   * @param options JWS Sign options.
+   */
+  addSignature(key: types.KeyInput, options?: types.SignOptions): Signature
 
-  /** A shorthand for calling encrypt() on the enclosing {@link GeneralSign} instance */
-  sign(...args: Parameters<GeneralSign['sign']>): Promise<types.GeneralJWS>
+  /**
+   * A shorthand for calling {@link GeneralSign.sign sign()} on the enclosing {@link GeneralSign}
+   * instance. Takes no arguments — each signature's key is supplied to {@link addSignature}.
+   */
+  sign(): Promise<types.GeneralJWS>
 
   /** Returns the enclosing {@link GeneralSign} instance */
   done(): GeneralSign
@@ -41,13 +51,9 @@ class IndividualSignature implements Signature {
   protectedHeader?: types.JWSHeaderParameters
   unprotectedHeader?: types.JWSHeaderParameters
   options?: types.SignOptions
-  key: types.CryptoKey | types.KeyObject | types.JWK | Uint8Array
+  key: types.KeyInput
 
-  constructor(
-    sig: GeneralSign,
-    key: types.CryptoKey | types.KeyObject | types.JWK | Uint8Array,
-    options?: types.SignOptions,
-  ) {
+  constructor(sig: GeneralSign, key: types.KeyInput, options?: types.SignOptions) {
     this.#parent = sig
     this.key = key
     this.options = options
@@ -120,10 +126,7 @@ export class GeneralSign {
    *   {@link https://github.com/panva/jose/issues/210#jws-alg Algorithm Key Requirements}.
    * @param options JWS Sign options.
    */
-  addSignature(
-    key: types.CryptoKey | types.KeyObject | types.JWK | Uint8Array,
-    options?: types.SignOptions,
-  ): Signature {
+  addSignature(key: types.KeyInput, options?: types.SignOptions): Signature {
     const signature = new IndividualSignature(this, key, options)
     this.#signatures.push(signature)
     return signature

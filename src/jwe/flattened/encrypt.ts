@@ -159,10 +159,7 @@ export class FlattenedEncrypt {
    *   {@link https://github.com/panva/jose/issues/210#jwe-alg Algorithm Key Requirements}.
    * @param options JWE Encryption options.
    */
-  async encrypt(
-    key: types.CryptoKey | types.KeyObject | types.JWK | Uint8Array,
-    options?: types.EncryptOptions,
-  ): Promise<types.FlattenedJWE> {
+  async encrypt(key: types.KeyInput, options?: types.EncryptOptions): Promise<types.FlattenedJWE> {
     if (!this.#protectedHeader && !this.#unprotectedHeader && !this.#sharedUnprotectedHeader) {
       throw new JWEInvalid(
         'either setProtectedHeader, setUnprotectedHeader, or sharedUnprotectedHeader must be called before #encrypt()',

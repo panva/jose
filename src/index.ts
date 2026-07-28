@@ -117,6 +117,7 @@ export type {
   JWTHeaderParameters,
   JWTPayload,
   JWTVerifyResult,
+  KeyInput,
   KeyObject,
   ProduceJWT,
   ResolvedKey,

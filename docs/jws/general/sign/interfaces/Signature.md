@@ -10,15 +10,17 @@ Used to build General JWS object's individual signatures.
 
 ### addSignature()
 
-▸ **addSignature**(...`args`): `Signature`
+▸ **addSignature**(`key`, `options?`): `Signature`
 
-A shorthand for calling addSignature() on the enclosing [GeneralSign](../classes/GeneralSign.md) instance
+A shorthand for calling [addSignature()](../classes/GeneralSign.md#addsignature) on the enclosing
+[GeneralSign](../classes/GeneralSign.md) instance.
 
 #### Parameters
 
-| Parameter | Type |
-| ------ | ------ |
-| ...`args` | \[[`Uint8Array`](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Uint8Array) \| [`CryptoKey`](https://developer.mozilla.org/docs/Web/API/CryptoKey) \| [`JWK`](../../../../types/type-aliases/JWK.md) \| [`KeyObject`](../../../../types/interfaces/KeyObject.md), [`SignOptions`](../../../../types/interfaces/SignOptions.md)\] |
+| Parameter | Type | Description |
+| ------ | ------ | ------ |
+| `key` | [`KeyInput`](../../../../types/type-aliases/KeyInput.md) | Private Key or Secret to sign the individual JWS signature with. See [Algorithm Key Requirements](https://github.com/panva/jose/issues/210#jws-alg). |
+| `options?` | [`SignOptions`](../../../../types/interfaces/SignOptions.md) | JWS Sign options. |
 
 #### Returns
 
@@ -76,15 +78,10 @@ Sets the JWS Unprotected Header on the Signature object.
 
 ### sign()
 
-▸ **sign**(...`args`): [`Promise`](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise)\<[`GeneralJWS`](../../../../types/interfaces/GeneralJWS.md)\>
+▸ **sign**(): [`Promise`](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise)\<[`GeneralJWS`](../../../../types/interfaces/GeneralJWS.md)\>
 
-A shorthand for calling encrypt() on the enclosing [GeneralSign](../classes/GeneralSign.md) instance
-
-#### Parameters
-
-| Parameter | Type |
-| ------ | ------ |
-| ...`args` | \[\] |
+A shorthand for calling [sign()](../classes/GeneralSign.md#sign) on the enclosing [GeneralSign](../classes/GeneralSign.md)
+instance. Takes no arguments — each signature's key is supplied to [addSignature](#addsignature).
 
 #### Returns
 

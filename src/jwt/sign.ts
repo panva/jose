@@ -179,10 +179,7 @@ export class SignJWT implements types.ProduceJWT {
    *   {@link https://github.com/panva/jose/issues/210#jws-alg Algorithm Key Requirements}.
    * @param options JWT Sign options.
    */
-  async sign(
-    key: types.CryptoKey | types.KeyObject | types.JWK | Uint8Array,
-    options?: types.SignOptions,
-  ): Promise<string> {
+  async sign(key: types.KeyInput, options?: types.SignOptions): Promise<string> {
     const sig = new CompactSign(this.#jwt.data())
     sig.setProtectedHeader(this.#protectedHeader)
     if (

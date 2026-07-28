@@ -52,3 +52,4 @@
 - [CryptoKey](type-aliases/CryptoKey.md)
 - [JWK](type-aliases/JWK.md)
 - [JWKParameters](type-aliases/JWKParameters.md)
+- [KeyInput](type-aliases/KeyInput.md)

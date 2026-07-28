@@ -15,9 +15,12 @@ import { isObject } from '../../lib/type_checks.js'
  *
  * @see {@link jwks/remote.createRemoteJWKSet createRemoteJWKSet} to verify using a remote JSON Web Key Set.
  */
-export interface GeneralVerifyGetKey extends types.GetKeyFunction<
+export interface GeneralVerifyGetKey<
+  KeyType extends types.CryptoKey | Uint8Array = types.CryptoKey | Uint8Array,
+> extends types.GetKeyFunction<
   types.JWSHeaderParameters,
-  types.FlattenedJWSInput
+  types.FlattenedJWSInput,
+  KeyType | types.KeyObject | types.JWK
 > {}
 
 /**
@@ -61,23 +64,43 @@ export interface GeneralVerifyGetKey extends types.GetKeyFunction<
  */
 export function generalVerify(
   jws: types.GeneralJWSInput,
-  key: types.CryptoKey | types.KeyObject | types.JWK | Uint8Array,
+  key: types.KeyInput,
   options?: types.VerifyOptions,
 ): Promise<types.GeneralVerifyResult>
 /**
+ * Verifies the signature and format of and afterwards decodes the General JWS, resolving the key
+ * dynamically. The result additionally carries the {@link types.ResolvedKey.key resolved key}.
+ *
  * @param jws General JWS.
  * @param getKey Function resolving a key to verify the JWS with. See
  *   {@link https://github.com/panva/jose/issues/210#jws-alg Algorithm Key Requirements}.
  * @param options JWS Verify options.
  */
+export function generalVerify<
+  KeyType extends types.CryptoKey | Uint8Array = types.CryptoKey | Uint8Array,
+>(
+  jws: types.GeneralJWSInput,
+  getKey: GeneralVerifyGetKey<KeyType>,
+  options?: types.VerifyOptions,
+): Promise<types.GeneralVerifyResult & types.ResolvedKey<KeyType>>
+/**
+ * Accepts either form of the `key` argument. Use this overload when forwarding a value that may be
+ * either a key or a key resolution function; `key` is present on the result only when a resolution
+ * function was used.
+ *
+ * @param jws General JWS.
+ * @param key Key, or function resolving a key, to verify the JWS with. See
+ *   {@link https://github.com/panva/jose/issues/210#jws-alg Algorithm Key Requirements}.
+ * @param options JWS Verify options.
+ */
 export function generalVerify(
   jws: types.GeneralJWSInput,
-  getKey: GeneralVerifyGetKey,
+  key: types.KeyInput | GeneralVerifyGetKey,
   options?: types.VerifyOptions,
-): Promise<types.GeneralVerifyResult & types.ResolvedKey>
+): Promise<types.GeneralVerifyResult & Partial<types.ResolvedKey>>
 export async function generalVerify(
   jws: types.GeneralJWSInput,
-  key: types.CryptoKey | types.KeyObject | types.JWK | Uint8Array | GeneralVerifyGetKey,
+  key: types.KeyInput | GeneralVerifyGetKey,
   options?: types.VerifyOptions,
 ) {
   if (!isObject(jws)) {
@@ -97,7 +120,7 @@ export async function generalVerify(
           protected: signature.protected,
           signature: signature.signature,
         },
-        key as Parameters<typeof flattenedVerify>[1],
+        key,
         options,
       )
     } catch {

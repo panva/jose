@@ -6,6 +6,10 @@ Cryptographic key import functions
 
 - [KeyImportOptions](interfaces/KeyImportOptions.md)
 
+## Type Aliases
+
+- [ImportedJWK](type-aliases/ImportedJWK.md)
+
 ## Functions
 
 - [importJWK](functions/importJWK.md)

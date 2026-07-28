@@ -56,10 +56,7 @@ export class CompactSign {
    *   {@link https://github.com/panva/jose/issues/210#jws-alg Algorithm Key Requirements}.
    * @param options JWS Sign options.
    */
-  async sign(
-    key: types.CryptoKey | types.KeyObject | types.JWK | Uint8Array,
-    options?: types.SignOptions,
-  ): Promise<string> {
+  async sign(key: types.KeyInput, options?: types.SignOptions): Promise<string> {
     const jws = await this.#flattened.sign(key, options)
 
     if (

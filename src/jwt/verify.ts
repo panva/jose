@@ -18,9 +18,12 @@ export interface JWTVerifyOptions extends types.VerifyOptions, types.JWTClaimVer
  *
  * @see {@link jwks/remote.createRemoteJWKSet createRemoteJWKSet} to verify using a remote JSON Web Key Set.
  */
-export interface JWTVerifyGetKey extends types.GetKeyFunction<
+export interface JWTVerifyGetKey<
+  KeyType extends types.CryptoKey | Uint8Array = types.CryptoKey | Uint8Array,
+> extends types.GetKeyFunction<
   types.CompactJWSHeaderParameters,
-  types.FlattenedJWSInput
+  types.FlattenedJWSInput,
+  KeyType | types.KeyObject | types.JWK
 > {}
 
 /**
@@ -109,7 +112,7 @@ export interface JWTVerifyGetKey extends types.GetKeyFunction<
  */
 export async function jwtVerify<PayloadType = types.JWTPayload>(
   jwt: string | Uint8Array,
-  key: types.CryptoKey | types.KeyObject | types.JWK | Uint8Array,
+  key: types.KeyInput,
   options?: JWTVerifyOptions,
 ): Promise<types.JWTVerifyResult<PayloadType>>
 
@@ -134,18 +137,37 @@ export async function jwtVerify<PayloadType = types.JWTPayload>(
  *   {@link https://github.com/panva/jose/issues/210#jws-alg Algorithm Key Requirements}.
  * @param options JWT Decryption and JWT Claims Set validation options.
  */
+export async function jwtVerify<
+  PayloadType = types.JWTPayload,
+  KeyType extends types.CryptoKey | Uint8Array = types.CryptoKey | Uint8Array,
+>(
+  jwt: string | Uint8Array,
+  getKey: JWTVerifyGetKey<KeyType>,
+  options?: JWTVerifyOptions,
+): Promise<types.JWTVerifyResult<PayloadType> & types.ResolvedKey<KeyType>>
+
+/**
+ * Accepts either form of the `key` argument. Use this overload when forwarding a value that may be
+ * either a key or a key resolution function; `key` is present on the result only when a resolution
+ * function was used.
+ *
+ * @param jwt JSON Web Token value (encoded as JWS).
+ * @param key Key, or function resolving a key, to verify the JWT with. See
+ *   {@link https://github.com/panva/jose/issues/210#jws-alg Algorithm Key Requirements}.
+ * @param options JWT Decryption and JWT Claims Set validation options.
+ */
 export async function jwtVerify<PayloadType = types.JWTPayload>(
   jwt: string | Uint8Array,
-  getKey: JWTVerifyGetKey,
+  key: types.KeyInput | JWTVerifyGetKey,
   options?: JWTVerifyOptions,
-): Promise<types.JWTVerifyResult<PayloadType> & types.ResolvedKey>
+): Promise<types.JWTVerifyResult<PayloadType> & Partial<types.ResolvedKey>>
 
 export async function jwtVerify(
   jwt: string | Uint8Array,
-  key: types.CryptoKey | types.KeyObject | types.JWK | Uint8Array | JWTVerifyGetKey,
+  key: types.KeyInput | JWTVerifyGetKey,
   options?: JWTVerifyOptions,
 ) {
-  const verified = await compactVerify(jwt, key as Parameters<typeof compactVerify>[1], options)
+  const verified = await compactVerify(jwt, key, options)
   if (verified.protectedHeader.crit?.includes('b64') && verified.protectedHeader.b64 === false) {
     throw new JWTInvalid('JWTs MUST NOT use unencoded payload')
   }

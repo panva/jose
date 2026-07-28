@@ -30,7 +30,9 @@ import { JWTInvalid } from './errors.js'
  */
 export function decodeJwt<PayloadType = types.JWTPayload>(
   jwt: string,
-): PayloadType & types.JWTPayload {
+): PayloadType &
+  types.JWTPayload &
+  ([PayloadType] extends [object] ? unknown : unknown extends PayloadType ? unknown : never) {
   if (typeof jwt !== 'string')
     throw new JWTInvalid('JWTs must use Compact JWS serialization, JWT must be a string')
 
@@ -54,8 +56,9 @@ export function decodeJwt<PayloadType = types.JWTPayload>(
     throw new JWTInvalid('Failed to parse the decoded payload as JSON')
   }
 
-  if (!isObject<PayloadType & types.JWTPayload>(result))
-    throw new JWTInvalid('Invalid JWT Claims Set')
+  if (!isObject<types.JWTPayload>(result)) throw new JWTInvalid('Invalid JWT Claims Set')
 
-  return result
+  return result as PayloadType &
+    types.JWTPayload &
+    ([PayloadType] extends [object] ? unknown : unknown extends PayloadType ? unknown : never)
 }

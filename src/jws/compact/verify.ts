@@ -6,6 +6,7 @@
 
 import type * as types from '../../types.d.ts'
 import { flattenedVerify } from '../flattened/verify.js'
+import type { FlattenedVerifyGetKey } from '../flattened/verify.js'
 import { JWSInvalid } from '../../util/errors.js'
 import { decoder } from '../../lib/buffer_utils.js'
 
@@ -15,9 +16,12 @@ import { decoder } from '../../lib/buffer_utils.js'
  *
  * @see {@link jwks/remote.createRemoteJWKSet createRemoteJWKSet} to verify using a remote JSON Web Key Set.
  */
-export interface CompactVerifyGetKey extends types.GetKeyFunction<
+export interface CompactVerifyGetKey<
+  KeyType extends types.CryptoKey | Uint8Array = types.CryptoKey | Uint8Array,
+> extends types.GetKeyFunction<
   types.CompactJWSHeaderParameters,
-  types.FlattenedJWSInput
+  types.FlattenedJWSInput,
+  KeyType | types.KeyObject | types.JWK
 > {}
 
 /**
@@ -45,23 +49,43 @@ export interface CompactVerifyGetKey extends types.GetKeyFunction<
  */
 export function compactVerify(
   jws: string | Uint8Array,
-  key: types.CryptoKey | types.KeyObject | types.JWK | Uint8Array,
+  key: types.KeyInput,
   options?: types.VerifyOptions,
 ): Promise<types.CompactVerifyResult>
 /**
+ * Verifies the signature and format of and afterwards decodes the Compact JWS, resolving the key
+ * dynamically. The result additionally carries the {@link types.ResolvedKey.key resolved key}.
+ *
  * @param jws Compact JWS.
  * @param getKey Function resolving a key to verify the JWS with. See
  *   {@link https://github.com/panva/jose/issues/210#jws-alg Algorithm Key Requirements}.
  * @param options JWS Verify options.
  */
+export function compactVerify<
+  KeyType extends types.CryptoKey | Uint8Array = types.CryptoKey | Uint8Array,
+>(
+  jws: string | Uint8Array,
+  getKey: CompactVerifyGetKey<KeyType>,
+  options?: types.VerifyOptions,
+): Promise<types.CompactVerifyResult & types.ResolvedKey<KeyType>>
+/**
+ * Accepts either form of the `key` argument. Use this overload when forwarding a value that may be
+ * either a key or a key resolution function; `key` is present on the result only when a resolution
+ * function was used.
+ *
+ * @param jws Compact JWS.
+ * @param key Key, or function resolving a key, to verify the JWS with. See
+ *   {@link https://github.com/panva/jose/issues/210#jws-alg Algorithm Key Requirements}.
+ * @param options JWS Verify options.
+ */
 export function compactVerify(
   jws: string | Uint8Array,
-  getKey: CompactVerifyGetKey,
+  key: types.KeyInput | CompactVerifyGetKey,
   options?: types.VerifyOptions,
-): Promise<types.CompactVerifyResult & types.ResolvedKey>
+): Promise<types.CompactVerifyResult & Partial<types.ResolvedKey>>
 export async function compactVerify(
   jws: string | Uint8Array,
-  key: types.CryptoKey | types.KeyObject | types.JWK | Uint8Array | CompactVerifyGetKey,
+  key: types.KeyInput | CompactVerifyGetKey,
   options?: types.VerifyOptions,
 ) {
   if (jws instanceof Uint8Array) {
@@ -77,9 +101,12 @@ export async function compactVerify(
     throw new JWSInvalid('Invalid Compact JWS')
   }
 
+  // A CompactVerifyGetKey declares a narrower Protected Header than a FlattenedVerifyGetKey does,
+  // so it is not assignable to one. Delegating is nevertheless sound: flattenedVerify rejects a JWS
+  // whose Protected Header has no "alg" before it ever calls the resolver.
   const verified = await flattenedVerify(
     { payload, protected: protectedHeader, signature },
-    key as Parameters<typeof flattenedVerify>[1],
+    key as types.KeyInput | FlattenedVerifyGetKey,
     options,
   )
 

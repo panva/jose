@@ -48,6 +48,15 @@ globSync('docs/**/*.md').forEach((file) => {
     // before listing the members under "Type Declaration" anyway - so the line carries nothing an
     // interface's page would have had, and goes.
     .replace(/^• \*\*\w+\*\* = `object`\n\n/gm, '')
+    // The JWT Claims Set types carry a third intersection member that is `unknown` for every type
+    // able to describe a Claims Set and `never` for the rest, so that a payload type parameter can
+    // be rejected without constraining it - constraining rejects a wrapper forwarding an
+    // unconstrained type parameter of its own. It contributes nothing to what the payload IS, so a
+    // reader is left with the intersection these pages have always stated.
+    .replace(
+      / & \\\[`(\w+)`\\\] \*extends\* \\\[`object`\\\] \? `unknown` : `unknown` \*extends\* `\1` \? `unknown` : `never`/g,
+      '',
+    )
 
   writeFileSync(file, content, 'utf-8')
 })

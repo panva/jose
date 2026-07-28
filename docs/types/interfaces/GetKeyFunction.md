@@ -1,4 +1,4 @@
-# Interface: GetKeyFunction()\<IProtectedHeader, IToken\>
+# Interface: GetKeyFunction()\<IProtectedHeader, IToken, KeyTypes\>
 
 ## [💗 Help the project](https://github.com/sponsors/panva)
 
@@ -8,12 +8,13 @@ Interface for consuming operations dynamic key resolution.
 
 ## Type Parameters
 
-| Type Parameter | Description |
-| ------ | ------ |
-| `IProtectedHeader` | Type definition of the JWE or JWS Protected Header. |
-| `IToken` | Type definition of the consumed JWE or JWS token. |
+| Type Parameter | Default type | Description |
+| ------ | ------ | ------ |
+| `IProtectedHeader` | - | Type definition of the JWE or JWS Protected Header. |
+| `IToken` | - | Type definition of the consumed JWE or JWS token. |
+| `KeyTypes` *extends* [`KeyInput`](../type-aliases/KeyInput.md) | [`KeyInput`](../type-aliases/KeyInput.md) | Type definition of the keys the function may resolve. Narrowing this is what lets [ResolvedKey.key](ResolvedKey.md#key) be inferred at the call site. |
 
-▸ **GetKeyFunction**(`protectedHeader`, `token`): [`Uint8Array`](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Uint8Array) \| [`CryptoKey`](https://developer.mozilla.org/docs/Web/API/CryptoKey) \| [`JWK`](../type-aliases/JWK.md) \| [`KeyObject`](KeyObject.md) \| [`Promise`](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise)\<[`Uint8Array`](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Uint8Array) \| [`CryptoKey`](https://developer.mozilla.org/docs/Web/API/CryptoKey) \| [`JWK`](../type-aliases/JWK.md) \| [`KeyObject`](KeyObject.md)\>
+▸ **GetKeyFunction**(`protectedHeader`, `token`): `KeyTypes` \| [`Promise`](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise)\<`KeyTypes`\>
 
 Dynamic key resolution function. No token components have been verified at the time of this
 function call.
@@ -29,4 +30,4 @@ If a suitable key for the token cannot be matched, throw an error instead.
 
 ## Returns
 
-[`Uint8Array`](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Uint8Array) \| [`CryptoKey`](https://developer.mozilla.org/docs/Web/API/CryptoKey) \| [`JWK`](../type-aliases/JWK.md) \| [`KeyObject`](KeyObject.md) \| [`Promise`](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise)\<[`Uint8Array`](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Uint8Array) \| [`CryptoKey`](https://developer.mozilla.org/docs/Web/API/CryptoKey) \| [`JWK`](../type-aliases/JWK.md) \| [`KeyObject`](KeyObject.md)\>
+`KeyTypes` \| [`Promise`](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise)\<`KeyTypes`\>

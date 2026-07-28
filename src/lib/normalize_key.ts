@@ -197,7 +197,7 @@ const handleKeyObject = (keyObject: ConvertableKeyObject, alg: string) => {
 }
 
 export async function normalizeKey(
-  key: types.CryptoKey | types.KeyObject | types.JWK | Uint8Array,
+  key: types.KeyInput,
   alg: string,
 ): Promise<types.CryptoKey | Uint8Array> {
   if (key instanceof Uint8Array) {

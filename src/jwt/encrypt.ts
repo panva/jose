@@ -184,10 +184,7 @@ export class EncryptJWT implements types.ProduceJWT {
    *   {@link https://github.com/panva/jose/issues/210#jwe-alg Algorithm Key Requirements}.
    * @param options JWE Encryption options.
    */
-  async encrypt(
-    key: types.CryptoKey | types.KeyObject | types.JWK | Uint8Array,
-    options?: types.EncryptOptions,
-  ): Promise<string> {
+  async encrypt(key: types.KeyInput, options?: types.EncryptOptions): Promise<string> {
     const enc = new CompactEncrypt(this.#jwt.data())
     if (
       this.#protectedHeader &&

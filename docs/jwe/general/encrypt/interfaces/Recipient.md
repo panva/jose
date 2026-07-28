@@ -10,15 +10,17 @@ Used to build General JWE object's individual recipients.
 
 ### addRecipient()
 
-▸ **addRecipient**(...`args`): `Recipient`
+▸ **addRecipient**(`key`, `options?`): `Recipient`
 
-A shorthand for calling addRecipient() on the enclosing [GeneralEncrypt](../classes/GeneralEncrypt.md) instance
+A shorthand for calling [addRecipient()](../classes/GeneralEncrypt.md#addrecipient) on the enclosing
+[GeneralEncrypt](../classes/GeneralEncrypt.md) instance.
 
 #### Parameters
 
-| Parameter | Type |
-| ------ | ------ |
-| ...`args` | \[[`Uint8Array`](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Uint8Array) \| [`CryptoKey`](https://developer.mozilla.org/docs/Web/API/CryptoKey) \| [`JWK`](../../../../types/type-aliases/JWK.md) \| [`KeyObject`](../../../../types/interfaces/KeyObject.md), [`CritOption`](../../../../types/interfaces/CritOption.md)\] |
+| Parameter | Type | Description |
+| ------ | ------ | ------ |
+| `key` | [`KeyInput`](../../../../types/type-aliases/KeyInput.md) | Public Key or Secret to encrypt the Content Encryption Key for the recipient with. See [Algorithm Key Requirements](https://github.com/panva/jose/issues/210#jwe-alg). |
+| `options?` | [`CritOption`](../../../../types/interfaces/CritOption.md) | JWE Encryption options. |
 
 #### Returns
 
@@ -40,15 +42,11 @@ Returns the enclosing [GeneralEncrypt](../classes/GeneralEncrypt.md) instance
 
 ### encrypt()
 
-▸ **encrypt**(...`args`): [`Promise`](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise)\<[`GeneralJWE`](../../../../types/interfaces/GeneralJWE.md)\>
+▸ **encrypt**(): [`Promise`](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise)\<[`GeneralJWE`](../../../../types/interfaces/GeneralJWE.md)\>
 
-A shorthand for calling encrypt() on the enclosing [GeneralEncrypt](../classes/GeneralEncrypt.md) instance
-
-#### Parameters
-
-| Parameter | Type |
-| ------ | ------ |
-| ...`args` | \[\] |
+A shorthand for calling [encrypt()](../classes/GeneralEncrypt.md#encrypt) on the enclosing
+[GeneralEncrypt](../classes/GeneralEncrypt.md) instance. Takes no arguments — each recipient's key is supplied to
+[addRecipient](#addrecipient).
 
 #### Returns
 

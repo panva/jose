@@ -114,6 +114,13 @@ export type JWKParameters = {
   kid?: string
 }
 
+/**
+ * Key or secret input accepted by all sign, verify, encrypt, and decrypt operations.
+ *
+ * @see {@link https://github.com/panva/jose/issues/210 Algorithm Key Requirements}
+ */
+export type KeyInput = CryptoKey | KeyObject | JWK | Uint8Array
+
 /** Convenience interface for Public OKP JSON Web Keys */
 export interface JWK_OKP_Public extends JWKParameters {
   /** OKP JWK "crv" (The Subtype of Key Pair) Parameter */
@@ -342,12 +349,14 @@ export interface GenericGetKeyFunction<IProtectedHeader, IToken, ReturnKeyTypes>
  *
  * @typeParam IProtectedHeader Type definition of the JWE or JWS Protected Header.
  * @typeParam IToken Type definition of the consumed JWE or JWS token.
+ * @typeParam KeyTypes Type definition of the keys the function may resolve. Narrowing this is what
+ *   lets {@link ResolvedKey.key} be inferred at the call site.
  */
-export interface GetKeyFunction<IProtectedHeader, IToken> extends GenericGetKeyFunction<
+export interface GetKeyFunction<
   IProtectedHeader,
   IToken,
-  CryptoKey | KeyObject | JWK | Uint8Array
-> {}
+  KeyTypes extends KeyInput = KeyInput,
+> extends GenericGetKeyFunction<IProtectedHeader, IToken, KeyTypes> {}
 
 /**
  * Flattened JWS definition for verify function inputs, allows payload as {@link !Uint8Array} for
@@ -850,7 +859,9 @@ export interface CompactVerifyResult {
 /** Signed JSON Web Token (JWT) verification result */
 export interface JWTVerifyResult<PayloadType = JWTPayload> {
   /** JWT Claims Set. */
-  payload: PayloadType & JWTPayload
+  payload: PayloadType &
+    JWTPayload &
+    ([PayloadType] extends [object] ? unknown : unknown extends PayloadType ? unknown : never)
 
   /** JWS Protected Header. */
   protectedHeader: JWTHeaderParameters
@@ -859,16 +870,26 @@ export interface JWTVerifyResult<PayloadType = JWTPayload> {
 /** Encrypted JSON Web Token (JWT) decryption result */
 export interface JWTDecryptResult<PayloadType = JWTPayload> {
   /** JWT Claims Set. */
-  payload: PayloadType & JWTPayload
+  payload: PayloadType &
+    JWTPayload &
+    ([PayloadType] extends [object] ? unknown : unknown extends PayloadType ? unknown : never)
 
   /** JWE Protected Header. */
   protectedHeader: CompactJWEHeaderParameters
 }
 
-/** When key resolver functions are used this becomes part of successful resolves */
-export interface ResolvedKey {
+/**
+ * When key resolver functions are used this becomes part of successful resolves
+ *
+ * @param KeyType Type of the resolved key. Inferred from the key resolver function's return type,
+ *   so a resolver declared to return only {@link CryptoKey} — as
+ *   {@link jwks/remote.createRemoteJWKSet createRemoteJWKSet},
+ *   {@link jwks/local.createLocalJWKSet createLocalJWKSet}, and
+ *   {@link jwk/embedded.EmbeddedJWK EmbeddedJWK} all are — needs no narrowing at the call site.
+ */
+export interface ResolvedKey<KeyType extends CryptoKey | Uint8Array = CryptoKey | Uint8Array> {
   /** Key resolved from the key resolver function. */
-  key: CryptoKey | Uint8Array
+  key: KeyType
 }
 
 /** Recognized Compact JWS Header Parameters, any other Header Members may also be present. */
