@@ -21,6 +21,9 @@ logging outgoing requests and their responses.
 ```ts
 import ky from 'ky'
 
+// Prerequisites
+let url!: URL
+
 let logRequest!: (request: Request) => void
 let logResponse!: (request: Request, response: Response) => void
 let logRetry!: (request: Request, error: Error, retryCount: number) => void
@@ -55,6 +58,9 @@ Using [nodejs/undici](https://github.com/nodejs/undici) to detect and use HTTP p
 ```ts
 import * as undici from 'undici'
 
+// Prerequisites
+let url!: URL
+
 // see https://undici.nodejs.org/api/EnvHttpProxyAgent
 let envHttpProxyAgent = new undici.EnvHttpProxyAgent()
 
@@ -71,6 +77,9 @@ Using [nodejs/undici](https://github.com/nodejs/undici) to automatically retry n
 
 ```ts
 import * as undici from 'undici'
+
+// Prerequisites
+let url!: URL
 
 // see https://undici.nodejs.org/api/RetryAgent
 let retryAgent = new undici.RetryAgent(new undici.Agent(), {
@@ -99,6 +108,9 @@ Using [nodejs/undici](https://github.com/nodejs/undici) to mock responses in tes
 
 ```ts
 import * as undici from 'undici'
+
+// Prerequisites
+let url!: URL
 
 // see https://undici.nodejs.org/api/MockAgent
 let mockAgent = new undici.MockAgent()

@@ -17,7 +17,7 @@ verified at the time of this function call.
 | ------ | ------ |
 | `KeyType` *extends* [`CryptoKey`](../../../../types/type-aliases/CryptoKey.md) \| [`Uint8Array`](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Uint8Array) | [`CryptoKey`](../../../../types/type-aliases/CryptoKey.md) \| [`Uint8Array`](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Uint8Array) |
 
-▸ **CompactVerifyGetKey**(`protectedHeader`, `token`): [`KeyObject`](../../../../types/interfaces/KeyObject.md) \| [`JWK`](../../../../types/type-aliases/JWK.md) \| `KeyType` \| [`Promise`](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise)\<[`KeyObject`](../../../../types/interfaces/KeyObject.md) \| [`JWK`](../../../../types/type-aliases/JWK.md) \| `KeyType`\>
+▸ **CompactVerifyGetKey**(`protectedHeader`, `token`): [`JWK`](../../../../types/type-aliases/JWK.md) \| [`KeyObject`](../../../../types/interfaces/KeyObject.md) \| `KeyType` \| [`Promise`](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise)\<[`JWK`](../../../../types/type-aliases/JWK.md) \| [`KeyObject`](../../../../types/interfaces/KeyObject.md) \| `KeyType`\>
 
 Dynamic key resolution function. No token components have been verified at the time of this
 function call.
@@ -33,4 +33,4 @@ If a suitable key for the token cannot be matched, throw an error instead.
 
 ## Returns
 
-[`KeyObject`](../../../../types/interfaces/KeyObject.md) \| [`JWK`](../../../../types/type-aliases/JWK.md) \| `KeyType` \| [`Promise`](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise)\<[`KeyObject`](../../../../types/interfaces/KeyObject.md) \| [`JWK`](../../../../types/type-aliases/JWK.md) \| `KeyType`\>
+[`JWK`](../../../../types/type-aliases/JWK.md) \| [`KeyObject`](../../../../types/interfaces/KeyObject.md) \| `KeyType` \| [`Promise`](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise)\<[`JWK`](../../../../types/type-aliases/JWK.md) \| [`KeyObject`](../../../../types/interfaces/KeyObject.md) \| `KeyType`\>

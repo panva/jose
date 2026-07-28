@@ -6,24 +6,27 @@ Support from the community to continue maintaining and improving this module is 
 
 ▸ **EmbeddedJWK**(`protectedHeader?`, `token?`): [`Promise`](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise)\<[`CryptoKey`](https://developer.mozilla.org/docs/Web/API/CryptoKey)\>
 
-EmbeddedJWK is an implementation of a GetKeyFunction intended to be used with the JWS/JWT verify
-operations whenever you need to opt-in to verify signatures with a public key embedded in the
-token's "jwk" (JSON Web Key) Header Parameter. It is recommended to combine this with the verify
-function's `algorithms` option to define accepted JWS "alg" (Algorithm) Header Parameter values.
+EmbeddedJWK is an implementation of a [GetKeyFunction](../../../types/interfaces/GetKeyFunction.md) intended to be
+used with the JWS/JWT verify operations whenever you need to opt-in to verify signatures with a
+public key embedded in the token's "jwk" (JSON Web Key) Header Parameter. It is recommended to
+combine this with the verify function's `algorithms` option to define accepted JWS "alg"
+(Algorithm) Header Parameter values.
 
 This function is exported (as a named export) from the main `'jose'` module entry point as well
 as from its subpath export `'jose/jwk/embedded'`.
 
 ## Parameters
 
-| Parameter | Type |
-| ------ | ------ |
-| `protectedHeader?` | [`JWSHeaderParameters`](../../../types/interfaces/JWSHeaderParameters.md) |
-| `token?` | [`FlattenedJWSInput`](../../../types/interfaces/FlattenedJWSInput.md) |
+| Parameter | Type | Description |
+| ------ | ------ | ------ |
+| `protectedHeader?` | [`JWSHeaderParameters`](../../../types/interfaces/JWSHeaderParameters.md) | JWS Protected Header. |
+| `token?` | [`FlattenedJWSInput`](../../../types/interfaces/FlattenedJWSInput.md) | The consumed JWS token. |
 
 ## Returns
 
 [`Promise`](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise)\<[`CryptoKey`](https://developer.mozilla.org/docs/Web/API/CryptoKey)\>
+
+The public key from the JWS "jwk" (JSON Web Key) Header Parameter.
 
 ## Example
 

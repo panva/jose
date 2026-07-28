@@ -119,7 +119,7 @@ export class EncryptJWT implements types.ProduceJWT {
 
   /**
    * Sets a content encryption key to use, by default a random suitable one is generated for the JWE
-   * enc" (Encryption Algorithm) Header Parameter.
+   * "enc" (Encryption Algorithm) Header Parameter.
    *
    * @deprecated You should not use this method. It is only really intended for test and vector
    *   validation purposes.
@@ -134,7 +134,7 @@ export class EncryptJWT implements types.ProduceJWT {
 
   /**
    * Sets the JWE Initialization Vector to use for content encryption, by default a random suitable
-   * one is generated for the JWE enc" (Encryption Algorithm) Header Parameter.
+   * one is generated for the JWE "enc" (Encryption Algorithm) Header Parameter.
    *
    * @deprecated You should not use this method. It is only really intended for test and vector
    *   validation purposes.

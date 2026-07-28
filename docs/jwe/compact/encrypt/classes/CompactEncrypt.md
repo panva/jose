@@ -65,7 +65,7 @@ Encrypts and resolves the value of the Compact JWE string.
 ▸ **setContentEncryptionKey**(`cek`): `this`
 
 Sets a content encryption key to use, by default a random suitable one is generated for the JWE
-enc" (Encryption Algorithm) Header Parameter.
+"enc" (Encryption Algorithm) Header Parameter.
 
 #### Parameters
 
@@ -89,7 +89,7 @@ You should not use this method. It is only really intended for test and vector
 ▸ **setInitializationVector**(`iv`): `this`
 
 Sets the JWE Initialization Vector to use for content encryption, by default a random suitable
-one is generated for the JWE enc" (Encryption Algorithm) Header Parameter.
+one is generated for the JWE "enc" (Encryption Algorithm) Header Parameter.
 
 #### Parameters
 

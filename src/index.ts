@@ -129,6 +129,6 @@ export type {
  * In prior releases this indicated whether a Node.js-specific build was loaded, this is now fixed
  * to `"WebCryptoAPI"`
  *
- * @deprecated
+ * @deprecated Remove any runtime branching on this value; it is always `"WebCryptoAPI"`.
  */
 export const cryptoRuntime = 'WebCryptoAPI'

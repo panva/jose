@@ -18,8 +18,12 @@ Result of decoding an Unsecured JWT.
 
 • **header**: [`JWSHeaderParameters`](../../../types/interfaces/JWSHeaderParameters.md)
 
+The decoded JOSE Header; always `{ "alg": "none" }` for an Unsecured JWT.
+
 ***
 
 ### payload
 
 • **payload**: `PayloadType` & [`JWTPayload`](../../../types/interfaces/JWTPayload.md)
+
+JWT Claims Set.

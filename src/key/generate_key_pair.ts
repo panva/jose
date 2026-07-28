@@ -98,7 +98,7 @@ function getModulusLengthOption(options?: GenerateKeyPairOptions) {
  * > {@link GenerateKeyPairOptions.extractable} to generate an extractable `privateKey`.
  *
  * This function is exported (as a named export) from the main `'jose'` module entry point as well
- * as from its subpath export `'jose/generate/keypair'`.
+ * as from its subpath export `'jose/key/generate/keypair'`.
  *
  * @example
  *

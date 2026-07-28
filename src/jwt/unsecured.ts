@@ -13,10 +13,12 @@ import { validateClaimsSet, JWTClaimsBuilder } from '../lib/jwt_claims_set.js'
 
 /** Result of decoding an Unsecured JWT. */
 export interface UnsecuredResult<PayloadType = types.JWTPayload> {
+  /** JWT Claims Set. */
   payload: PayloadType &
     types.JWTPayload &
     ([PayloadType] extends [object] ? unknown : unknown extends PayloadType ? unknown : never)
 
+  /** The decoded JOSE Header; always `{ "alg": "none" }` for an Unsecured JWT. */
   header: types.JWSHeaderParameters
 }
 
@@ -46,11 +48,12 @@ export interface UnsecuredResult<PayloadType = types.JWTPayload> {
  * Decoding
  *
  * ```js
- * const payload = jose.UnsecuredJWT.decode(unsecuredJwt, {
+ * const { payload, header } = jose.UnsecuredJWT.decode(unsecuredJwt, {
  *   issuer: 'urn:example:issuer',
  *   audience: 'urn:example:audience',
  * })
  *
+ * console.log(header)
  * console.log(payload)
  * ```
  */

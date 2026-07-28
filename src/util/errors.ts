@@ -1,6 +1,9 @@
 /**
  * JOSE module errors and error codes
  *
+ * These are exported (as the `errors` namespace) from the main `'jose'` module entry point as well
+ * as from the subpath export `'jose/errors'`.
+ *
  * @module
  */
 

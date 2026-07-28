@@ -27,11 +27,12 @@ console.log(unsecuredJwt)
 Decoding
 
 ```js
-const payload = jose.UnsecuredJWT.decode(unsecuredJwt, {
+const { payload, header } = jose.UnsecuredJWT.decode(unsecuredJwt, {
   issuer: 'urn:example:issuer',
   audience: 'urn:example:audience',
 })
 
+console.log(header)
 console.log(payload)
 ```
 

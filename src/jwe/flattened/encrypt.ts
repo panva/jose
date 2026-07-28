@@ -30,7 +30,7 @@ import { compress } from '../../lib/deflate.js'
  *   new TextEncoder().encode('It’s a dangerous business, Frodo, going out your door.'),
  * )
  *   .setProtectedHeader({ alg: 'RSA-OAEP-256', enc: 'A256GCM' })
- *   .setAdditionalAuthenticatedData(encoder.encode('The Fellowship of the Ring'))
+ *   .setAdditionalAuthenticatedData(new TextEncoder().encode('The Fellowship of the Ring'))
  *   .encrypt(publicKey)
  *
  * console.log(jwe)
@@ -124,7 +124,7 @@ export class FlattenedEncrypt {
 
   /**
    * Sets a content encryption key to use, by default a random suitable one is generated for the JWE
-   * enc" (Encryption Algorithm) Header Parameter.
+   * "enc" (Encryption Algorithm) Header Parameter.
    *
    * @deprecated You should not use this method. It is only really intended for test and vector
    *   validation purposes.
@@ -139,7 +139,7 @@ export class FlattenedEncrypt {
 
   /**
    * Sets the JWE Initialization Vector to use for content encryption, by default a random suitable
-   * one is generated for the JWE enc" (Encryption Algorithm) Header Parameter.
+   * one is generated for the JWE "enc" (Encryption Algorithm) Header Parameter.
    *
    * @deprecated You should not use this method. It is only really intended for test and vector
    *   validation purposes.

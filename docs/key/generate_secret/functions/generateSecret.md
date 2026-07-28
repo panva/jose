@@ -16,7 +16,7 @@ Generates a symmetric secret key for a given JWA algorithm identifier.
 > [CryptoKey](https://developer.mozilla.org/docs/Web/API/CryptoKey) this method yields a [Uint8Array](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Uint8Array) for them instead.
 
 This function is exported (as a named export) from the main `'jose'` module entry point as well
-as from its subpath export `'jose/generate/secret'`.
+as from its subpath export `'jose/key/generate/secret'`.
 
 ## Type Parameters
 

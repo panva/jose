@@ -61,12 +61,12 @@ const options = {
 const { payload, protectedHeader } = await jose
   .jwtVerify(jwt, JWKS, options)
   .catch(async (error) => {
-    if (error?.code === 'ERR_JWKS_MULTIPLE_MATCHING_KEYS') {
+    if (error instanceof jose.errors.JWKSMultipleMatchingKeys) {
       for await (const publicKey of error) {
         try {
           return await jose.jwtVerify(jwt, publicKey, options)
         } catch (innerError) {
-          if (innerError?.code === 'ERR_JWS_SIGNATURE_VERIFICATION_FAILED') {
+          if (innerError instanceof jose.errors.JWSSignatureVerificationFailed) {
             continue
           }
           throw innerError

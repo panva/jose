@@ -48,6 +48,9 @@ if (typeof navigator === 'undefined' || !navigator.userAgent?.startsWith?.('Mozi
  * ```ts
  * import ky from 'ky'
  *
+ * // Prerequisites
+ * let url!: URL
+ *
  * let logRequest!: (request: Request) => void
  * let logResponse!: (request: Request, response: Response) => void
  * let logRetry!: (request: Request, error: Error, retryCount: number) => void
@@ -84,6 +87,9 @@ if (typeof navigator === 'undefined' || !navigator.userAgent?.startsWith?.('Mozi
  * ```ts
  * import * as undici from 'undici'
  *
+ * // Prerequisites
+ * let url!: URL
+ *
  * // see https://undici.nodejs.org/api/EnvHttpProxyAgent
  * let envHttpProxyAgent = new undici.EnvHttpProxyAgent()
  *
@@ -102,6 +108,9 @@ if (typeof navigator === 'undefined' || !navigator.userAgent?.startsWith?.('Mozi
  *
  * ```ts
  * import * as undici from 'undici'
+ *
+ * // Prerequisites
+ * let url!: URL
  *
  * // see https://undici.nodejs.org/api/RetryAgent
  * let retryAgent = new undici.RetryAgent(new undici.Agent(), {
@@ -132,6 +141,9 @@ if (typeof navigator === 'undefined' || !navigator.userAgent?.startsWith?.('Mozi
  *
  * ```ts
  * import * as undici from 'undici'
+ *
+ * // Prerequisites
+ * let url!: URL
  *
  * // see https://undici.nodejs.org/api/MockAgent
  * let mockAgent = new undici.MockAgent()
@@ -521,12 +533,12 @@ class RemoteJWKSetImpl {
  * const { payload, protectedHeader } = await jose
  *   .jwtVerify(jwt, JWKS, options)
  *   .catch(async (error) => {
- *     if (error?.code === 'ERR_JWKS_MULTIPLE_MATCHING_KEYS') {
+ *     if (error instanceof jose.errors.JWKSMultipleMatchingKeys) {
  *       for await (const publicKey of error) {
  *         try {
  *           return await jose.jwtVerify(jwt, publicKey, options)
  *         } catch (innerError) {
- *           if (innerError?.code === 'ERR_JWS_SIGNATURE_VERIFICATION_FAILED') {
+ *           if (innerError instanceof jose.errors.JWSSignatureVerificationFailed) {
  *             continue
  *           }
  *           throw innerError

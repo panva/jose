@@ -114,13 +114,6 @@ export type JWKParameters = {
   kid?: string
 }
 
-/**
- * Key or secret input accepted by all sign, verify, encrypt, and decrypt operations.
- *
- * @see {@link https://github.com/panva/jose/issues/210 Algorithm Key Requirements}
- */
-export type KeyInput = CryptoKey | KeyObject | JWK | Uint8Array
-
 /** Convenience interface for Public OKP JSON Web Keys */
 export interface JWK_OKP_Public extends JWKParameters {
   /** OKP JWK "crv" (The Subtype of Key Pair) Parameter */
@@ -194,37 +187,6 @@ export interface JWK_oct extends JWKParameters {
   /** Oct JWK "k" (Key Value) Parameter */
   k: string
 }
-
-/**
- * Discriminated union of the JSON Web Key shapes supported by this module. Unlike {@link JWK}, this
- * can be narrowed on the "kty" (Key Type) Parameter.
- *
- * Each member is the convenience interface for one key type with its "kty" (Key Type) Parameter
- * required and fixed to that key type, rather than optional as the interface alone leaves it.
- *
- * @example
- *
- * ```ts
- * let jwk!: jose.AnyJWK
- *
- * if (jwk.kty === 'EC') {
- *   console.log(jwk.crv, jwk.x, jwk.y)
- * }
- * ```
- */
-// The "kty" is intersected into each arm one at a time rather than distributed over a parenthesised
-// union - `X & (A | B)` means the same thing, but typedoc renders it without the parentheses, which
-// reads as though the second arm carried no "kty" at all.
-export type AnyJWK =
-  | (JWK_EC_Private & { kty: 'EC' })
-  | (JWK_EC_Public & { kty: 'EC' })
-  | (JWK_RSA_Private & { kty: 'RSA' })
-  | (JWK_RSA_Public & { kty: 'RSA' })
-  | (JWK_OKP_Private & { kty: 'OKP' })
-  | (JWK_OKP_Public & { kty: 'OKP' })
-  | (JWK_AKP_Private & { kty: 'AKP' })
-  | (JWK_AKP_Public & { kty: 'AKP' })
-  | (JWK_oct & { kty: 'oct' })
 
 /**
  * JSON Web Key ({@link https://www.rfc-editor.org/info/rfc7517/ JWK}). "RSA", "EC", "OKP", "AKP",
@@ -325,6 +287,44 @@ export type JWK = {
     t?: string
   }>
 }
+
+/**
+ * Discriminated union of the JSON Web Key shapes supported by this module. Unlike {@link JWK}, this
+ * can be narrowed on the "kty" (Key Type) Parameter.
+ *
+ * Each member is the convenience interface for one key type with its "kty" (Key Type) Parameter
+ * required and fixed to that key type, rather than optional as the interface alone leaves it.
+ *
+ * @example
+ *
+ * ```ts
+ * let jwk!: jose.AnyJWK
+ *
+ * if (jwk.kty === 'EC') {
+ *   console.log(jwk.crv, jwk.x, jwk.y)
+ * }
+ * ```
+ */
+// The "kty" is intersected into each arm one at a time rather than distributed over a parenthesised
+// union - `X & (A | B)` means the same thing, but typedoc renders it without the parentheses, which
+// reads as though the second arm carried no "kty" at all.
+export type AnyJWK =
+  | (JWK_EC_Private & { kty: 'EC' })
+  | (JWK_EC_Public & { kty: 'EC' })
+  | (JWK_RSA_Private & { kty: 'RSA' })
+  | (JWK_RSA_Public & { kty: 'RSA' })
+  | (JWK_OKP_Private & { kty: 'OKP' })
+  | (JWK_OKP_Public & { kty: 'OKP' })
+  | (JWK_AKP_Private & { kty: 'AKP' })
+  | (JWK_AKP_Public & { kty: 'AKP' })
+  | (JWK_oct & { kty: 'oct' })
+
+/**
+ * Key or secret input accepted by all sign, verify, encrypt, and decrypt operations.
+ *
+ * @see {@link https://github.com/panva/jose/issues/210 Algorithm Key Requirements}
+ */
+export type KeyInput = CryptoKey | KeyObject | JWK | Uint8Array
 
 /**
  * @private

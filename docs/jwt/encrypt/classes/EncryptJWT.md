@@ -134,7 +134,7 @@ Set the "aud" (Audience) Claim.
 ▸ **setContentEncryptionKey**(`cek`): `this`
 
 Sets a content encryption key to use, by default a random suitable one is generated for the JWE
-enc" (Encryption Algorithm) Header Parameter.
+"enc" (Encryption Algorithm) Header Parameter.
 
 #### Parameters
 
@@ -194,7 +194,7 @@ readability when adding to the current unix timestamp.
 ▸ **setInitializationVector**(`iv`): `this`
 
 Sets the JWE Initialization Vector to use for content encryption, by default a random suitable
-one is generated for the JWE enc" (Encryption Algorithm) Header Parameter.
+one is generated for the JWE "enc" (Encryption Algorithm) Header Parameter.
 
 #### Parameters
 
