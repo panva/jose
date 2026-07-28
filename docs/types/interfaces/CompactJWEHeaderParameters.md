@@ -121,4 +121,4 @@ The only supported value is `"DEF"` (DEFLATE). Requires the `CompressionStream` 
 
 #### See
 
-[JWE "zip" Header Parameter](https://www.rfc-editor.org/rfc/rfc7516#section-4.1.3)
+[JWE "zip" Header Parameter](https://www.rfc-editor.org/info/rfc7516/#section-4.1.3)

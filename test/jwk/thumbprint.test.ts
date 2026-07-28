@@ -9,7 +9,7 @@ const jwk = {
   alg: 'RS256',
 }
 
-test('https://www.rfc-editor.org/rfc/rfc7638#section-3.1', async (t) => {
+test('https://www.rfc-editor.org/info/rfc7638/#section-3.1', async (t) => {
   t.is(await calculateJwkThumbprint(jwk), 'NzbLsXh8uDCcd-6MNwXF4W_7noWXFZAfHkxZsRGC9Xs')
   t.is(await calculateJwkThumbprint(jwk, 'sha256'), 'NzbLsXh8uDCcd-6MNwXF4W_7noWXFZAfHkxZsRGC9Xs')
   t.is(
@@ -22,7 +22,7 @@ test('https://www.rfc-editor.org/rfc/rfc7638#section-3.1', async (t) => {
   )
 })
 
-test('https://www.rfc-editor.org/rfc/rfc9278', async (t) => {
+test('https://www.rfc-editor.org/info/rfc9278/', async (t) => {
   t.is(
     await calculateJwkThumbprintUri(jwk),
     'urn:ietf:params:oauth:jwk-thumbprint:sha-256:NzbLsXh8uDCcd-6MNwXF4W_7noWXFZAfHkxZsRGC9Xs',

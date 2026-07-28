@@ -1,7 +1,7 @@
 export default [
   {
     title:
-      'https://www.rfc-editor.org/rfc/rfc7520#section-5.2 - Key Encryption using RSA-OAEP with AES-GCM',
+      'https://www.rfc-editor.org/info/rfc7520/#section-5.2 - Key Encryption using RSA-OAEP with AES-GCM',
     input: {
       plaintext:
         'You can trust us to stick with you through thick and thin–to the bitter end. And you can trust us to keep any secret of yours–closer than you keep it yourself. But you cannot trust us to let you face trouble alone, and go off without a word. We are your friends, Frodo.',
@@ -66,7 +66,7 @@ export default [
   },
   {
     title:
-      'https://www.rfc-editor.org/rfc/rfc7520#section-5.3 - Key Wrap using PBES2-AES-KeyWrap with AES-CBC-HMAC-SHA2',
+      'https://www.rfc-editor.org/info/rfc7520/#section-5.3 - Key Wrap using PBES2-AES-KeyWrap with AES-CBC-HMAC-SHA2',
     deterministic: true,
     input: {
       plaintext:
@@ -121,7 +121,7 @@ export default [
   },
   {
     title:
-      'https://www.rfc-editor.org/rfc/rfc7520#section-5.4 - Key Agreement with Key Wrapping using ECDH-ES and AES-KeyWrap with AES-GCM',
+      'https://www.rfc-editor.org/info/rfc7520/#section-5.4 - Key Agreement with Key Wrapping using ECDH-ES and AES-KeyWrap with AES-GCM',
     input: {
       plaintext:
         'You can trust us to stick with you through thick and thin–to the bitter end. And you can trust us to keep any secret of yours–closer than you keep it yourself. But you cannot trust us to let you face trouble alone, and go off without a word. We are your friends, Frodo.',
@@ -193,7 +193,7 @@ export default [
   },
   {
     title:
-      'https://www.rfc-editor.org/rfc/rfc7520#section-5.5 - Key Agreement using ECDH-ES with AES-CBC-HMAC-SHA2',
+      'https://www.rfc-editor.org/info/rfc7520/#section-5.5 - Key Agreement using ECDH-ES with AES-CBC-HMAC-SHA2',
     input: {
       plaintext:
         'You can trust us to stick with you through thick and thin–to the bitter end. And you can trust us to keep any secret of yours–closer than you keep it yourself. But you cannot trust us to let you face trouble alone, and go off without a word. We are your friends, Frodo.',
@@ -259,7 +259,7 @@ export default [
   },
   {
     title:
-      'https://www.rfc-editor.org/rfc/rfc7520#section-5.6 - Direction Encryption using AES-GCM',
+      'https://www.rfc-editor.org/info/rfc7520/#section-5.6 - Direction Encryption using AES-GCM',
     deterministic: true,
     input: {
       plaintext:
@@ -308,7 +308,7 @@ export default [
   },
   {
     title:
-      'https://www.rfc-editor.org/rfc/rfc7520#section-5.6 - Key Wrap using AES-GCM KeyWrap with AES-CBC-HMAC-SHA2',
+      'https://www.rfc-editor.org/info/rfc7520/#section-5.6 - Key Wrap using AES-GCM KeyWrap with AES-CBC-HMAC-SHA2',
     deterministic: true,
     input: {
       plaintext:
@@ -370,7 +370,7 @@ export default [
   },
   {
     title:
-      'https://www.rfc-editor.org/rfc/rfc7520#section-5.8 - Key Wrap using AES-KeyWrap with AES-GCM',
+      'https://www.rfc-editor.org/info/rfc7520/#section-5.8 - Key Wrap using AES-KeyWrap with AES-GCM',
     deterministic: true,
     input: {
       plaintext:
@@ -426,7 +426,7 @@ export default [
     },
   },
   {
-    title: 'https://www.rfc-editor.org/rfc/rfc7520#section-5.9 - Compressed Content',
+    title: 'https://www.rfc-editor.org/info/rfc7520/#section-5.9 - Compressed Content',
     deterministic: false, // https://www.rfc-editor.org/errata/eid7680
     input: {
       plaintext:
@@ -487,7 +487,7 @@ export default [
   },
   {
     title:
-      'https://www.rfc-editor.org/rfc/rfc7520#section-5.10 - Including Additional Authenticated Data',
+      'https://www.rfc-editor.org/info/rfc7520/#section-5.10 - Including Additional Authenticated Data',
     deterministic: true,
     input: {
       plaintext:
@@ -547,7 +547,7 @@ export default [
   },
   {
     title:
-      'https://www.rfc-editor.org/rfc/rfc7520#section-5.11 - Protecting Specific Header Fields',
+      'https://www.rfc-editor.org/info/rfc7520/#section-5.11 - Protecting Specific Header Fields',
     deterministic: true,
     input: {
       plaintext:
@@ -609,7 +609,7 @@ export default [
     },
   },
   {
-    title: 'https://www.rfc-editor.org/rfc/rfc7520#section-5.12 - Protecting Content Only',
+    title: 'https://www.rfc-editor.org/info/rfc7520/#section-5.12 - Protecting Content Only',
     deterministic: true,
     input: {
       plaintext:

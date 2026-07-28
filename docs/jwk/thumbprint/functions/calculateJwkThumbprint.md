@@ -38,4 +38,4 @@ console.log(thumbprint)
 
 ## See
 
-[RFC7638](https://www.rfc-editor.org/rfc/rfc7638)
+[RFC7638](https://www.rfc-editor.org/info/rfc7638/)

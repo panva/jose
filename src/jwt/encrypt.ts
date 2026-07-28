@@ -150,7 +150,7 @@ export class EncryptJWT implements types.ProduceJWT {
   /**
    * Replicates the "iss" (Issuer) Claim as a JWE Protected Header Parameter.
    *
-   * @see {@link https://www.rfc-editor.org/rfc/rfc7519#section-5.3 RFC7519#section-5.3}
+   * @see {@link https://www.rfc-editor.org/info/rfc7519/#section-5.3 RFC7519#section-5.3}
    */
   replicateIssuerAsHeader(): this {
     this.#replicateIssuerAsHeader = true
@@ -160,7 +160,7 @@ export class EncryptJWT implements types.ProduceJWT {
   /**
    * Replicates the "sub" (Subject) Claim as a JWE Protected Header Parameter.
    *
-   * @see {@link https://www.rfc-editor.org/rfc/rfc7519#section-5.3 RFC7519#section-5.3}
+   * @see {@link https://www.rfc-editor.org/info/rfc7519/#section-5.3 RFC7519#section-5.3}
    */
   replicateSubjectAsHeader(): this {
     this.#replicateSubjectAsHeader = true
@@ -170,7 +170,7 @@ export class EncryptJWT implements types.ProduceJWT {
   /**
    * Replicates the "aud" (Audience) Claim as a JWE Protected Header Parameter.
    *
-   * @see {@link https://www.rfc-editor.org/rfc/rfc7519#section-5.3 RFC7519#section-5.3}
+   * @see {@link https://www.rfc-editor.org/info/rfc7519/#section-5.3 RFC7519#section-5.3}
    */
   replicateAudienceAsHeader(): this {
     this.#replicateAudienceAsHeader = true

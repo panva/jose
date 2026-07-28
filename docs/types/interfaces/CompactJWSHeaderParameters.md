@@ -31,7 +31,7 @@ JWS "alg" (Algorithm) Header Parameter
 • `optional` **b64?**: `boolean`
 
 This JWS Extension Header Parameter modifies the JWS Payload representation and the JWS Signing
-Input computation as per [RFC7797](https://www.rfc-editor.org/rfc/rfc7797).
+Input computation as per [RFC7797](https://www.rfc-editor.org/info/rfc7797/).
 
 ***
 

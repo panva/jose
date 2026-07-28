@@ -22,7 +22,7 @@ JWT Audience
 
 #### See
 
-[RFC7519#section-4.1.3](https://www.rfc-editor.org/rfc/rfc7519#section-4.1.3)
+[RFC7519#section-4.1.3](https://www.rfc-editor.org/info/rfc7519/#section-4.1.3)
 
 ***
 
@@ -34,7 +34,7 @@ JWT Expiration Time
 
 #### See
 
-[RFC7519#section-4.1.4](https://www.rfc-editor.org/rfc/rfc7519#section-4.1.4)
+[RFC7519#section-4.1.4](https://www.rfc-editor.org/info/rfc7519/#section-4.1.4)
 
 ***
 
@@ -46,7 +46,7 @@ JWT Issued At
 
 #### See
 
-[RFC7519#section-4.1.6](https://www.rfc-editor.org/rfc/rfc7519#section-4.1.6)
+[RFC7519#section-4.1.6](https://www.rfc-editor.org/info/rfc7519/#section-4.1.6)
 
 ***
 
@@ -58,7 +58,7 @@ JWT Issuer
 
 #### See
 
-[RFC7519#section-4.1.1](https://www.rfc-editor.org/rfc/rfc7519#section-4.1.1)
+[RFC7519#section-4.1.1](https://www.rfc-editor.org/info/rfc7519/#section-4.1.1)
 
 ***
 
@@ -70,7 +70,7 @@ JWT ID
 
 #### See
 
-[RFC7519#section-4.1.7](https://www.rfc-editor.org/rfc/rfc7519#section-4.1.7)
+[RFC7519#section-4.1.7](https://www.rfc-editor.org/info/rfc7519/#section-4.1.7)
 
 ***
 
@@ -82,7 +82,7 @@ JWT Not Before
 
 #### See
 
-[RFC7519#section-4.1.5](https://www.rfc-editor.org/rfc/rfc7519#section-4.1.5)
+[RFC7519#section-4.1.5](https://www.rfc-editor.org/info/rfc7519/#section-4.1.5)
 
 ***
 
@@ -94,4 +94,4 @@ JWT Subject
 
 #### See
 
-[RFC7519#section-4.1.2](https://www.rfc-editor.org/rfc/rfc7519#section-4.1.2)
+[RFC7519#section-4.1.2](https://www.rfc-editor.org/info/rfc7519/#section-4.1.2)

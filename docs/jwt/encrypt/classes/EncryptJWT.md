@@ -75,7 +75,7 @@ Replicates the "aud" (Audience) Claim as a JWE Protected Header Parameter.
 
 #### See
 
-[RFC7519#section-5.3](https://www.rfc-editor.org/rfc/rfc7519#section-5.3)
+[RFC7519#section-5.3](https://www.rfc-editor.org/info/rfc7519/#section-5.3)
 
 ***
 
@@ -91,7 +91,7 @@ Replicates the "iss" (Issuer) Claim as a JWE Protected Header Parameter.
 
 #### See
 
-[RFC7519#section-5.3](https://www.rfc-editor.org/rfc/rfc7519#section-5.3)
+[RFC7519#section-5.3](https://www.rfc-editor.org/info/rfc7519/#section-5.3)
 
 ***
 
@@ -107,7 +107,7 @@ Replicates the "sub" (Subject) Claim as a JWE Protected Header Parameter.
 
 #### See
 
-[RFC7519#section-5.3](https://www.rfc-editor.org/rfc/rfc7519#section-5.3)
+[RFC7519#section-5.3](https://www.rfc-editor.org/info/rfc7519/#section-5.3)
 
 ***
 

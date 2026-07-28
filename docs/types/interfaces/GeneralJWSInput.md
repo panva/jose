@@ -14,7 +14,7 @@ detached signature validation.
 • **payload**: `string` \| [`Uint8Array`](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Uint8Array)
 
 The "payload" member MUST be present and contain the value BASE64URL(JWS Payload). When when
-JWS Unencoded Payload ([RFC7797](https://www.rfc-editor.org/rfc/rfc7797)) "b64": false is
+JWS Unencoded Payload ([RFC7797](https://www.rfc-editor.org/info/rfc7797/)) "b64": false is
 used the value passed may also be a [Uint8Array](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Uint8Array).
 
 ***

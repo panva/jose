@@ -45,7 +45,7 @@ const check = (value: unknown, description: string) => {
  * @param digestAlgorithm Digest Algorithm to use for calculating the thumbprint. Default is
  *   "sha256".
  *
- * @see {@link https://www.rfc-editor.org/rfc/rfc7638 RFC7638}
+ * @see {@link https://www.rfc-editor.org/info/rfc7638/ RFC7638}
  */
 export async function calculateJwkThumbprint(
   key: types.JWK | types.CryptoKey | types.KeyObject,
@@ -129,7 +129,7 @@ export async function calculateJwkThumbprint(
  * @param digestAlgorithm Digest Algorithm to use for calculating the thumbprint. Default is
  *   "sha256".
  *
- * @see {@link https://www.rfc-editor.org/rfc/rfc9278 RFC9278}
+ * @see {@link https://www.rfc-editor.org/info/rfc9278/ RFC9278}
  */
 export async function calculateJwkThumbprintUri(
   key: types.CryptoKey | types.KeyObject | types.JWK,

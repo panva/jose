@@ -101,8 +101,8 @@ export interface JWK_oct extends JWKParameters {
 }
 
 /**
- * JSON Web Key ({@link https://www.rfc-editor.org/rfc/rfc7517 JWK}). "RSA", "EC", "OKP", "AKP", and
- * "oct" key types are supported.
+ * JSON Web Key ({@link https://www.rfc-editor.org/info/rfc7517/ JWK}). "RSA", "EC", "OKP", "AKP",
+ * and "oct" key types are supported.
  *
  * @see {@link JWK_AKP_Public}
  * @see {@link JWK_AKP_Private}
@@ -222,7 +222,7 @@ export interface FlattenedJWSInput {
 export interface GeneralJWSInput {
   /**
    * The "payload" member MUST be present and contain the value BASE64URL(JWS Payload). When when
-   * JWS Unencoded Payload ({@link https://www.rfc-editor.org/rfc/rfc7797 RFC7797}) "b64": false is
+   * JWS Unencoded Payload ({@link https://www.rfc-editor.org/info/rfc7797/ RFC7797}) "b64": false is
    * used the value passed may also be a {@link !Uint8Array}.
    */
   payload: string | Uint8Array
@@ -236,7 +236,7 @@ export interface GeneralJWSInput {
 
 /**
  * Flattened JWS JSON Serialization Syntax token. Payload is returned as an empty string when JWS
- * Unencoded Payload ({@link https://www.rfc-editor.org/rfc/rfc7797 RFC7797}) is used.
+ * Unencoded Payload ({@link https://www.rfc-editor.org/info/rfc7797/ RFC7797}) is used.
  */
 export interface FlattenedJWS extends Partial<FlattenedJWSInput> {
   payload: string
@@ -245,7 +245,7 @@ export interface FlattenedJWS extends Partial<FlattenedJWSInput> {
 
 /**
  * General JWS JSON Serialization Syntax token. Payload is returned as an empty string when JWS
- * Unencoded Payload ({@link https://www.rfc-editor.org/rfc/rfc7797 RFC7797}) is used.
+ * Unencoded Payload ({@link https://www.rfc-editor.org/info/rfc7797/ RFC7797}) is used.
  */
 export interface GeneralJWS {
   payload: string
@@ -290,7 +290,7 @@ export interface JWSHeaderParameters extends JoseHeaderParameters {
 
   /**
    * This JWS Extension Header Parameter modifies the JWS Payload representation and the JWS Signing
-   * Input computation as per {@link https://www.rfc-editor.org/rfc/rfc7797 RFC7797}.
+   * Input computation as per {@link https://www.rfc-editor.org/info/rfc7797/ RFC7797}.
    */
   b64?: boolean
 
@@ -420,7 +420,7 @@ export interface JWEHeaderParameters extends JoseHeaderParameters {
    * The only supported value is `"DEF"` (DEFLATE). Requires the `CompressionStream` /
    * `DecompressionStream` APIs to be available in the runtime.
    *
-   * @see {@link https://www.rfc-editor.org/rfc/rfc7516#section-4.1.3 JWE "zip" Header Parameter}
+   * @see {@link https://www.rfc-editor.org/info/rfc7516/#section-4.1.3 JWE "zip" Header Parameter}
    */
   zip?: string
 
@@ -575,49 +575,49 @@ export interface JWTPayload {
   /**
    * JWT Issuer
    *
-   * @see {@link https://www.rfc-editor.org/rfc/rfc7519#section-4.1.1 RFC7519#section-4.1.1}
+   * @see {@link https://www.rfc-editor.org/info/rfc7519/#section-4.1.1 RFC7519#section-4.1.1}
    */
   iss?: string
 
   /**
    * JWT Subject
    *
-   * @see {@link https://www.rfc-editor.org/rfc/rfc7519#section-4.1.2 RFC7519#section-4.1.2}
+   * @see {@link https://www.rfc-editor.org/info/rfc7519/#section-4.1.2 RFC7519#section-4.1.2}
    */
   sub?: string
 
   /**
    * JWT Audience
    *
-   * @see {@link https://www.rfc-editor.org/rfc/rfc7519#section-4.1.3 RFC7519#section-4.1.3}
+   * @see {@link https://www.rfc-editor.org/info/rfc7519/#section-4.1.3 RFC7519#section-4.1.3}
    */
   aud?: string | string[]
 
   /**
    * JWT ID
    *
-   * @see {@link https://www.rfc-editor.org/rfc/rfc7519#section-4.1.7 RFC7519#section-4.1.7}
+   * @see {@link https://www.rfc-editor.org/info/rfc7519/#section-4.1.7 RFC7519#section-4.1.7}
    */
   jti?: string
 
   /**
    * JWT Not Before
    *
-   * @see {@link https://www.rfc-editor.org/rfc/rfc7519#section-4.1.5 RFC7519#section-4.1.5}
+   * @see {@link https://www.rfc-editor.org/info/rfc7519/#section-4.1.5 RFC7519#section-4.1.5}
    */
   nbf?: number
 
   /**
    * JWT Expiration Time
    *
-   * @see {@link https://www.rfc-editor.org/rfc/rfc7519#section-4.1.4 RFC7519#section-4.1.4}
+   * @see {@link https://www.rfc-editor.org/info/rfc7519/#section-4.1.4 RFC7519#section-4.1.4}
    */
   exp?: number
 
   /**
    * JWT Issued At
    *
-   * @see {@link https://www.rfc-editor.org/rfc/rfc7519#section-4.1.6 RFC7519#section-4.1.6}
+   * @see {@link https://www.rfc-editor.org/info/rfc7519/#section-4.1.6 RFC7519#section-4.1.6}
    */
   iat?: number
 

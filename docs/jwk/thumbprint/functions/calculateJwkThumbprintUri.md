@@ -38,4 +38,4 @@ console.log(thumbprintUri)
 
 ## See
 
-[RFC9278](https://www.rfc-editor.org/rfc/rfc9278)
+[RFC9278](https://www.rfc-editor.org/info/rfc9278/)

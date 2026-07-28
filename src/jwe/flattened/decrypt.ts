@@ -205,7 +205,7 @@ export async function flattenedDecrypt(
     if (err instanceof TypeError || err instanceof JWEInvalid || err instanceof JOSENotSupported) {
       throw err
     }
-    // https://www.rfc-editor.org/rfc/rfc7516#section-11.5
+    // https://www.rfc-editor.org/info/rfc7516/#section-11.5
     // To mitigate the attacks described in RFC 3218, the
     // recipient MUST NOT distinguish between format, padding, and length
     // errors of encrypted keys.  It is strongly recommended, in the event

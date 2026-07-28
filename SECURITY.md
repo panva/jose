@@ -22,7 +22,7 @@ If the maintainers reject a report through the project's documented channel, tha
 
 ## Threat Model
 
-This section documents the threat model for `jose`, a JavaScript implementation of JSON Object Signing and Encryption standards including [JSON Web Token (JWT) - RFC 7519](https://www.rfc-editor.org/rfc/rfc7519), [JSON Web Signature (JWS) - RFC 7515](https://www.rfc-editor.org/rfc/rfc7515), [JSON Web Encryption (JWE) - RFC 7516](https://www.rfc-editor.org/rfc/rfc7516), [JSON Web Key (JWK) - RFC 7517](https://www.rfc-editor.org/rfc/rfc7517), and [JSON Web Algorithms (JWA) - RFC 7518](https://www.rfc-editor.org/rfc/rfc7518).
+This section documents the threat model for `jose`, a JavaScript implementation of JSON Object Signing and Encryption standards including [JSON Web Token (JWT) - RFC 7519](https://www.rfc-editor.org/info/rfc7519/), [JSON Web Signature (JWS) - RFC 7515](https://www.rfc-editor.org/info/rfc7515/), [JSON Web Encryption (JWE) - RFC 7516](https://www.rfc-editor.org/info/rfc7516/), [JSON Web Key (JWK) - RFC 7517](https://www.rfc-editor.org/info/rfc7517/), and [JSON Web Algorithms (JWA) - RFC 7518](https://www.rfc-editor.org/info/rfc7518/).
 
 ### Purpose and Intended Users
 
@@ -100,7 +100,7 @@ This library does not guarantee that key material or other sensitive data is cle
 
 ### Threat Actors and Security Properties
 
-This library aims to provide the security properties defined by the JOSE specifications. For detailed security considerations, refer to the Security Considerations sections in [RFC 7515 (JWS)](https://www.rfc-editor.org/rfc/rfc7515#section-10), [RFC 7516 (JWE)](https://www.rfc-editor.org/rfc/rfc7516#section-11), [RFC 7517 (JWK)](https://www.rfc-editor.org/rfc/rfc7517#section-9), [RFC 7518 (JWA)](https://www.rfc-editor.org/rfc/rfc7518#section-8), and [RFC 7519 (JWT)](https://www.rfc-editor.org/rfc/rfc7519#section-8).
+This library aims to provide the security properties defined by the JOSE specifications. For detailed security considerations, refer to the Security Considerations sections in [RFC 7515 (JWS)](https://www.rfc-editor.org/info/rfc7515/#section-10), [RFC 7516 (JWE)](https://www.rfc-editor.org/info/rfc7516/#section-11), [RFC 7517 (JWK)](https://www.rfc-editor.org/info/rfc7517/#section-9), [RFC 7518 (JWA)](https://www.rfc-editor.org/info/rfc7518/#section-8), and [RFC 7519 (JWT)](https://www.rfc-editor.org/info/rfc7519/#section-8).
 
 The primary in-scope threat actor is able to provide arbitrary JOSE objects, JWTs, JWSs, JWEs, JWKs, JWKS responses, key identifiers, and JOSE Header Parameters to application code using this library. This threat model assumes application-controlled keys, validation options, trusted URLs, runtime behavior, network configuration, and cache storage have not been compromised.
 

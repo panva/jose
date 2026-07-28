@@ -1,6 +1,6 @@
 export default [
   {
-    title: 'https://www.rfc-editor.org/rfc/rfc7520#section-4.1 - RSA v1.5 Signature',
+    title: 'https://www.rfc-editor.org/info/rfc7520/#section-4.1 - RSA v1.5 Signature',
     deterministic: true,
     input: {
       payload:
@@ -51,7 +51,7 @@ export default [
     },
   },
   {
-    title: 'https://www.rfc-editor.org/rfc/rfc8037#appendix-A.4 - Ed25519 Signing',
+    title: 'https://www.rfc-editor.org/info/rfc8037/#appendix-A.4 - Ed25519 Signing',
     deterministic: false, // https://github.com/WICG/webcrypto-secure-curves/issues/28
     input: {
       payload: 'Example of Ed25519 signing',
@@ -91,7 +91,7 @@ export default [
     },
   },
   {
-    title: 'https://www.rfc-editor.org/rfc/rfc7520#section-4.2 - RSA-PSS Signature',
+    title: 'https://www.rfc-editor.org/info/rfc7520/#section-4.2 - RSA-PSS Signature',
     input: {
       payload:
         "It’s a dangerous business, Frodo, going out your door. You step onto the road, and if you don't keep your feet, there’s no knowing where you might be swept off to.",
@@ -141,7 +141,7 @@ export default [
     },
   },
   {
-    title: 'https://www.rfc-editor.org/rfc/rfc7520#section-4.3 - ECDSA Signature',
+    title: 'https://www.rfc-editor.org/info/rfc7520/#section-4.3 - ECDSA Signature',
     input: {
       payload:
         "It’s a dangerous business, Frodo, going out your door. You step onto the road, and if you don't keep your feet, there’s no knowing where you might be swept off to.",
@@ -187,7 +187,7 @@ export default [
     },
   },
   {
-    title: 'https://www.rfc-editor.org/rfc/rfc7520#section-4.4 - HMAC-SHA2 Integrity Protection',
+    title: 'https://www.rfc-editor.org/info/rfc7520/#section-4.4 - HMAC-SHA2 Integrity Protection',
     deterministic: true,
     input: {
       payload:
@@ -232,7 +232,8 @@ export default [
     },
   },
   {
-    title: 'https://www.rfc-editor.org/rfc/rfc7520#section-4.6 - Protecting Specific Header Fields',
+    title:
+      'https://www.rfc-editor.org/info/rfc7520/#section-4.6 - Protecting Specific Header Fields',
     deterministic: true,
     input: {
       payload:
@@ -281,7 +282,7 @@ export default [
     },
   },
   {
-    title: 'https://www.rfc-editor.org/rfc/rfc7520#section-4.7 - Protecting Content Only',
+    title: 'https://www.rfc-editor.org/info/rfc7520/#section-4.7 - Protecting Content Only',
     deterministic: true,
     input: {
       payload:
@@ -328,7 +329,7 @@ export default [
     },
   },
   {
-    title: 'https://www.rfc-editor.org/rfc/rfc7797#section-4.1 - { "b64": false } JSON only',
+    title: 'https://www.rfc-editor.org/info/rfc7797/#section-4.1 - { "b64": false } JSON only',
     deterministic: true,
     input: {
       payload: '$.02',
