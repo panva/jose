@@ -1,12 +1,11 @@
 {
-  "include": ["**/*.ts"],
-  "exclude": ["fallback.ts"],
+  "include": ["fallback.ts"],
   "compilerOptions": {
     "target": "ESNext",
     "module": "NodeNext",
     "moduleResolution": "NodeNext",
-    "lib": ["ESNext", "DOM", "DOM.Iterable"],
-    "types": ["node"],
+    "lib": ["ESNext"],
+    "types": [],
     "strict": true,
     "skipLibCheck": false,
     "noEmit": true,

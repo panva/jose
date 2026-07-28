@@ -4,7 +4,9 @@
 // assignable. Negative assertions use @ts-expect-error, which fails to compile when the error it
 // claims goes away. Run via `npm run typecheck:types`.
 import * as jose from 'jose'
-import { createPrivateKey } from 'node:crypto'
+import type { GeneratedSecret } from 'jose/key/generate/secret'
+import type { ImportedJWK } from 'jose/key/import'
+import { createPrivateKey, type JsonWebKey } from 'node:crypto'
 
 type Equals<A, B> = [A] extends [B] ? ([B] extends [A] ? true : never) : never
 
@@ -40,6 +42,7 @@ declare const anyString: string
  * tripping a key through node:crypto does not compile. */
 async function nodeInterop() {
   const jwk = await jose.exportJWK(cryptoKey)
+  const _parameters: JsonWebKey = {} as jose.JWKParameters
   return createPrivateKey({ key: jwk, format: 'jwk' })
 }
 
@@ -54,6 +57,7 @@ async function nodeInterop() {
   const _alg: jose.JWKParameters['alg'] = ({} as jose.JWK).alg
   const _use: jose.JWKParameters['use'] = ({} as jose.JWK).use
   const _thumbprint: string | undefined = ({} as jose.JWK)['x5t#S256']
+  const _multiPrime: jose.JWK = { kty: 'RSA', oth: [{ d: 'd', r: 'r', t: 't' }] }
   // and that a JWKParameters-shaped value is still a JWK
   const _asJwk: jose.JWK = {} as jose.JWKParameters
 }
@@ -91,13 +95,34 @@ function narrowJwk(jwk: jose.AnyJWK) {
 /* Algorithm unions give autocompletion without narrowing the accepted inputs. */
 {
   const _fromString: jose.JWSAlgorithm = anyString
+  const _jweAlg: jose.JWEKeyManagementAlgorithm = anyString
+  const _jweEnc: jose.JWEContentEncryptionAlgorithm = anyString
+  const _jwkType: jose.JWKKeyType = anyString
   const _toString: string = 'ES256' satisfies jose.JWSAlgorithm
   const _list: jose.JWSAlgorithm[] = [anyString, 'ES256']
   const _opts: jose.VerifyOptions = { algorithms: [anyString, 'ES256'] }
+  const _jwk: jose.JWKParameters = { kty: anyString, alg: anyString, use: anyString }
+  const _jweHeader: jose.JWEHeaderParameters = {
+    alg: anyString,
+    enc: anyString,
+    zip: anyString,
+  }
+  const _compactJweHeader: jose.CompactJWEHeaderParameters = {
+    alg: anyString,
+    enc: anyString,
+  }
+  const _decrypt: jose.DecryptOptions = {
+    keyManagementAlgorithms: [anyString, 'RSA-OAEP'],
+    contentEncryptionAlgorithms: [anyString, 'A256GCM'],
+  }
 }
 
 /* The "jwk" Header Parameter accepts every public JWK member, and rejects the secret ones. */
 {
+  type PrivateJwkMember = 'd' | 'dp' | 'dq' | 'k' | 'p' | 'q' | 'qi' | 'priv' | 'oth'
+  type EmbeddedJwk = NonNullable<jose.JoseHeaderParameters['jwk']>
+  const _privateMembersExcluded: Equals<Extract<keyof EmbeddedJwk, PrivateJwkMember>, never> = true
+
   const _ok: jose.JWSHeaderParameters = {
     alg: 'ES256',
     jwk: { kty: 'EC', crv: 'P-256', x: 'x', y: 'y', kid: 'k', use: 'sig', x5c: ['c'] },
@@ -126,8 +151,23 @@ function narrowJwk(jwk: jose.AnyJWK) {
   // the extra members of each resolver are typed and documented
   const _jwks: jose.JSONWebKeySet | undefined = remote.jwks()
   const _localJwks: jose.JSONWebKeySet = local.jwks()
+  const _coolingDown: boolean = remote.coolingDown
   const _fresh: boolean = remote.fresh
+  const _reloading: boolean = remote.reloading
   const _reload: Promise<void> = remote.reload()
+  // @ts-expect-error resolver state is readonly
+  remote.fresh = false
+
+  const _flattenedHeader: Equals<
+    Parameters<jose.FlattenedVerifyGetKey>[0],
+    jose.JWSHeaderParameters
+  > = true
+  const _jwtHeader: Equals<Parameters<jose.JWTVerifyGetKey>[0], jose.CompactJWSHeaderParameters> =
+    true
+  const _generalDecryptHeader: Equals<
+    Parameters<jose.GeneralDecryptGetKey>[0],
+    jose.JWEHeaderParameters | undefined
+  > = true
 }
 
 /* A resolver annotated with JWTHeaderParameters is still accepted. That type is only a supertype of
@@ -181,6 +221,54 @@ async function everyEntryPoint(
   await jose.jwtDecrypt(jwt, secret)
 }
 
+/* Resolver result types and key-or-resolver forwarding work across every consuming entry point. */
+async function resolverInference(
+  flattenedJws: jose.FlattenedJWSInput,
+  generalJws: jose.GeneralJWSInput,
+  flattenedJwe: jose.FlattenedJWE,
+  generalJwe: jose.GeneralJWE,
+  either: jose.KeyInput | (() => Uint8Array),
+) {
+  const resolveBytes: jose.GetKeyFunction<unknown, unknown, Uint8Array> = () => secret
+
+  const compactVerified = await jose.compactVerify(jwt, resolveBytes)
+  const flattenedVerified = await jose.flattenedVerify(flattenedJws, resolveBytes)
+  const generalVerified = await jose.generalVerify(generalJws, resolveBytes)
+  const jwtVerified = await jose.jwtVerify(jwt, resolveBytes)
+  const compactDecrypted = await jose.compactDecrypt(jwt, resolveBytes)
+  const flattenedDecrypted = await jose.flattenedDecrypt(flattenedJwe, resolveBytes)
+  const generalDecrypted = await jose.generalDecrypt(generalJwe, resolveBytes)
+  const jwtDecrypted = await jose.jwtDecrypt(jwt, resolveBytes)
+
+  const _1: Equals<typeof compactVerified.key, Uint8Array> = true
+  const _2: Equals<typeof flattenedVerified.key, Uint8Array> = true
+  const _3: Equals<typeof generalVerified.key, Uint8Array> = true
+  const _4: Equals<typeof jwtVerified.key, Uint8Array> = true
+  const _5: Equals<typeof compactDecrypted.key, Uint8Array> = true
+  const _6: Equals<typeof flattenedDecrypted.key, Uint8Array> = true
+  const _7: Equals<typeof generalDecrypted.key, Uint8Array> = true
+  const _8: Equals<typeof jwtDecrypted.key, Uint8Array> = true
+
+  const compactForwarded = await jose.compactVerify(jwt, either)
+  const flattenedForwarded = await jose.flattenedVerify(flattenedJws, either)
+  const generalForwarded = await jose.generalVerify(generalJws, either)
+  const jwtForwarded = await jose.jwtVerify(jwt, either)
+  const compactDecryptForwarded = await jose.compactDecrypt(jwt, either)
+  const flattenedDecryptForwarded = await jose.flattenedDecrypt(flattenedJwe, either)
+  const generalDecryptForwarded = await jose.generalDecrypt(generalJwe, either)
+  const jwtDecryptForwarded = await jose.jwtDecrypt(jwt, either)
+
+  type ForwardedKey = jose.CryptoKey | Uint8Array | undefined
+  const _9: Equals<typeof compactForwarded.key, ForwardedKey> = true
+  const _10: Equals<typeof flattenedForwarded.key, ForwardedKey> = true
+  const _11: Equals<typeof generalForwarded.key, ForwardedKey> = true
+  const _12: Equals<typeof jwtForwarded.key, ForwardedKey> = true
+  const _13: Equals<typeof compactDecryptForwarded.key, ForwardedKey> = true
+  const _14: Equals<typeof flattenedDecryptForwarded.key, ForwardedKey> = true
+  const _15: Equals<typeof generalDecryptForwarded.key, ForwardedKey> = true
+  const _16: Equals<typeof jwtDecryptForwarded.key, ForwardedKey> = true
+}
+
 /* A General JWE may carry alg/enc outside the Protected Header, so its resolver really can be
  * called with undefined. The type says so. */
 const generalDecryptResolver: jose.GeneralDecryptGetKey = (protectedHeader, token) => {
@@ -220,6 +308,14 @@ async function generateSecretNarrowing(alg: string) {
   const _1: Equals<typeof hs, jose.CryptoKey> = true
   const _2: Equals<typeof cbc, Uint8Array> = true
   const _3: Equals<typeof dynamic, jose.CryptoKey | Uint8Array> = true
+}
+
+/* The conditional result helpers are public from their defining subpaths. */
+{
+  const _importedOct: Equals<ImportedJWK<{ kty: 'oct' }>, Uint8Array> = true
+  const _importedEc: Equals<ImportedJWK<{ kty: 'EC' }>, jose.CryptoKey> = true
+  const _generatedCbc: Equals<GeneratedSecret<'A128CBC-HS256'>, Uint8Array> = true
+  const _generatedHmac: Equals<GeneratedSecret<'HS256'>, jose.CryptoKey> = true
 }
 
 /* Errors: instanceof narrows, the code discriminant narrows AnyJOSEError, cause is typed, and a
@@ -276,6 +372,15 @@ class ThirdPartyError extends jose.errors.JOSEError {
 function claimErrorUnion(err: jose.errors.JWTClaimValidationError) {
   const _payload: jose.JWTPayload = err.payload
   const _claim: string = err.claim
+  const _cause: jose.errors.JWTClaimValidationFailure = err.cause
+  const _reason: jose.errors.JWTClaimValidationReason = err.reason
+}
+
+{
+  const _codes: Equals<
+    jose.errors.JOSEErrorCode,
+    jose.errors.AnyJOSEError['code'] | 'ERR_JOSE_GENERIC'
+  > = true
 }
 
 /* The JWT Claims Set type parameter carries no constraint, so wrappers can forward a caller's own
@@ -382,4 +487,5 @@ async function payloadGenerics() {
   // @ts-expect-error Blob, Event and friends are not keys
   const _bad: jose.KeyObject = { type: 'totally-bogus' }
   const _good: jose.KeyObject = { type: 'secret' }
+  const _types: Equals<jose.KeyObject['type'], 'private' | 'public' | 'secret'> = true
 }
