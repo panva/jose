@@ -48,6 +48,7 @@ All notable changes to this project will be documented in this file. See [commit
 * unify base64 decode errors ([3a91833](https://github.com/panva/jose/commit/3a918336051e7b60122327af62baf16b19f4e1d7))
 * validate each token once rather than once per layer ([bbdae09](https://github.com/panva/jose/commit/bbdae094ca0acaabf33688f56971991d07523714))
 * write each algorithm identifier once ([73d83b5](https://github.com/panva/jose/commit/73d83b5854a797eb6cac8e3d4c8481a9d0207830))
+
 ## [6.2.4](https://github.com/panva/jose/compare/v6.2.3...v6.2.4) (2026-07-21)
 
 
