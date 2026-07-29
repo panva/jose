@@ -1,77 +1,67 @@
 import type * as types from '../types.d.ts'
-import { JOSENotSupported } from '../util/errors.js'
-import { checkSigCryptoKey } from './crypto_key.js'
-import { invalidKeyInput } from './invalid_key_input.js'
+import type { JWSAlgorithm } from './jws_algorithms.js'
 
-export function checkKeyLength(alg: string, key: types.CryptoKey): void {
-  if (alg.startsWith('RS') || alg.startsWith('PS')) {
-    const { modulusLength } = key.algorithm as RsaKeyAlgorithm
-    if (typeof modulusLength !== 'number' || modulusLength < 2048) {
-      throw new TypeError(`${alg} requires key modulusLength to be 2048 bits or larger`)
-    }
+const unusable = (name: string | number, prop = 'algorithm.name') =>
+  new TypeError(`CryptoKey does not support this operation, its ${prop} must be ${name}`)
+
+export function checkModulusLength(alg: string, key: types.CryptoKey): void {
+  const { modulusLength } = key.algorithm as RsaKeyAlgorithm
+  if (typeof modulusLength !== 'number' || modulusLength < 2048) {
+    throw new TypeError(`${alg} requires key modulusLength to be 2048 bits or larger`)
   }
 }
 
-function subtleAlgorithm(alg: string, algorithm: KeyAlgorithm | EcKeyAlgorithm) {
-  const hash = `SHA-${alg.slice(-3)}`
-  switch (alg) {
-    case 'HS256':
-    case 'HS384':
-    case 'HS512':
-      return { hash, name: 'HMAC' }
-    case 'PS256':
-    case 'PS384':
-    case 'PS512':
-      return { hash, name: 'RSA-PSS', saltLength: parseInt(alg.slice(-3), 10) >> 3 }
-    case 'RS256':
-    case 'RS384':
-    case 'RS512':
-      return { hash, name: 'RSASSA-PKCS1-v1_5' }
-    case 'ES256':
-    case 'ES384':
-    case 'ES512':
-      return { hash, name: 'ECDSA', namedCurve: (algorithm as EcKeyAlgorithm).namedCurve }
-    case 'Ed25519': // Fall through
-    case 'EdDSA':
-      return { name: 'Ed25519' }
-    case 'ML-DSA-44':
-    case 'ML-DSA-65':
-    case 'ML-DSA-87':
-      return { name: alg }
-    default:
-      throw new JOSENotSupported(
-        `alg ${alg} is not supported either by JOSE or your javascript runtime`,
-      )
-  }
-}
+/** Asserts a caller-supplied CryptoKey is what the algorithm needs. */
+export function checkSigCryptoKey(
+  entry: JWSAlgorithm,
+  key: types.CryptoKey,
+  usage: KeyUsage,
+): void {
+  const { subtle } = entry
+  const algorithm = key.algorithm as RsaHashedKeyAlgorithm & EcKeyAlgorithm
 
-async function getSigKey(alg: string, key: types.CryptoKey | Uint8Array, usage: KeyUsage) {
-  if (key instanceof Uint8Array) {
-    if (!alg.startsWith('HS')) {
-      throw new TypeError(invalidKeyInput(key, 'CryptoKey', 'KeyObject', 'JSON Web Key'))
-    }
-    return crypto.subtle.importKey(
-      'raw',
-      key as Uint8Array<ArrayBuffer>,
-      { hash: `SHA-${alg.slice(-3)}`, name: 'HMAC' },
-      false,
-      [usage],
+  if (algorithm.name !== subtle.name) {
+    throw unusable(subtle.name)
+  }
+
+  if (subtle.hash && algorithm.hash?.name !== subtle.hash) {
+    throw unusable(subtle.hash, 'algorithm.hash')
+  }
+
+  if (subtle.namedCurve && algorithm.namedCurve !== subtle.namedCurve) {
+    throw unusable(subtle.namedCurve, 'algorithm.namedCurve')
+  }
+
+  if (!key.usages.includes(usage)) {
+    throw new TypeError(
+      `CryptoKey does not support this operation, its usages must include ${usage}.`,
     )
   }
 
-  checkSigCryptoKey(key, alg, usage)
+  if (entry.minModulusLength) {
+    checkModulusLength(entry.alg, key)
+  }
+}
+
+async function getSigKey(entry: JWSAlgorithm, key: types.CryptoKey | Uint8Array, usage: KeyUsage) {
+  if (key instanceof Uint8Array) {
+    return crypto.subtle.importKey('raw', key as Uint8Array<ArrayBuffer>, entry.subtle, false, [
+      usage,
+    ])
+  }
+
+  checkSigCryptoKey(entry, key, usage)
   return key
 }
 
 export async function sign(
-  alg: string,
+  entry: JWSAlgorithm,
   key: types.CryptoKey | Uint8Array,
   data: Uint8Array,
 ): Promise<Uint8Array> {
-  const cryptoKey = await getSigKey(alg, key, 'sign')
-  checkKeyLength(alg, cryptoKey)
+  const cryptoKey = await getSigKey(entry, key, 'sign')
   const signature = await crypto.subtle.sign(
-    subtleAlgorithm(alg, cryptoKey.algorithm),
+    entry.operation,
     cryptoKey,
     data as Uint8Array<ArrayBuffer>,
   )
@@ -79,17 +69,15 @@ export async function sign(
 }
 
 export async function verify(
-  alg: string,
+  entry: JWSAlgorithm,
   key: types.CryptoKey | Uint8Array,
   signature: Uint8Array,
   data: Uint8Array,
 ): Promise<boolean> {
-  const cryptoKey = await getSigKey(alg, key, 'verify')
-  checkKeyLength(alg, cryptoKey)
-  const algorithm = subtleAlgorithm(alg, cryptoKey.algorithm)
+  const cryptoKey = await getSigKey(entry, key, 'verify')
   try {
     return await crypto.subtle.verify(
-      algorithm,
+      entry.operation,
       cryptoKey,
       signature as Uint8Array<ArrayBuffer>,
       data as Uint8Array<ArrayBuffer>,

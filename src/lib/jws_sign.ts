@@ -1,6 +1,7 @@
 import type * as types from '../types.d.ts'
 import { encode as b64u } from '../util/base64url.js'
 import { sign } from './signing.js'
+import { jwsAlgorithm } from './jws_algorithms.js'
 import { isDisjoint } from './type_checks.js'
 import { JWSInvalid } from '../util/errors.js'
 import { concat, encode } from './buffer_utils.js'
@@ -93,7 +94,7 @@ export async function createSignature(
   const data = concat(protectedHeaderBytes, encode('.'), payloadB)
 
   const k = await normalizeKey(key, alg)
-  const signature = await sign(alg, k, data)
+  const signature = await sign(jwsAlgorithm(alg), k, data)
 
   const jws: types.FlattenedJWS = {
     signature: b64u(signature),

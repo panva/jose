@@ -17,76 +17,12 @@ function checkHashLength(algorithm: { hash: KeyAlgorithm }, expected: number) {
   if (actual !== expected) throw unusable(`SHA-${expected}`, 'algorithm.hash')
 }
 
-function getNamedCurve(alg: string) {
-  switch (alg) {
-    case 'ES256':
-      return 'P-256'
-    case 'ES384':
-      return 'P-384'
-    case 'ES512':
-      return 'P-521'
-    default:
-      throw new Error('unreachable')
-  }
-}
-
 function checkUsage(key: types.CryptoKey, usage?: KeyUsage) {
   if (usage && !key.usages.includes(usage)) {
     throw new TypeError(
       `CryptoKey does not support this operation, its usages must include ${usage}.`,
     )
   }
-}
-
-export function checkSigCryptoKey(key: types.CryptoKey, alg: string, usage: KeyUsage): void {
-  switch (alg) {
-    case 'HS256':
-    case 'HS384':
-    case 'HS512': {
-      if (!isAlgorithm<HmacKeyAlgorithm>(key.algorithm, 'HMAC')) throw unusable('HMAC')
-      checkHashLength(key.algorithm, parseInt(alg.slice(2), 10))
-      break
-    }
-    case 'RS256':
-    case 'RS384':
-    case 'RS512': {
-      if (!isAlgorithm<RsaHashedKeyAlgorithm>(key.algorithm, 'RSASSA-PKCS1-v1_5'))
-        throw unusable('RSASSA-PKCS1-v1_5')
-      checkHashLength(key.algorithm, parseInt(alg.slice(2), 10))
-      break
-    }
-    case 'PS256':
-    case 'PS384':
-    case 'PS512': {
-      if (!isAlgorithm<RsaHashedKeyAlgorithm>(key.algorithm, 'RSA-PSS')) throw unusable('RSA-PSS')
-      checkHashLength(key.algorithm, parseInt(alg.slice(2), 10))
-      break
-    }
-    case 'Ed25519': // Fall through
-    case 'EdDSA': {
-      if (!isAlgorithm(key.algorithm, 'Ed25519')) throw unusable('Ed25519')
-      break
-    }
-    case 'ML-DSA-44': // Fall through
-    case 'ML-DSA-65': // Fall through
-    case 'ML-DSA-87': {
-      if (!isAlgorithm(key.algorithm, alg)) throw unusable(alg)
-      break
-    }
-    case 'ES256':
-    case 'ES384':
-    case 'ES512': {
-      if (!isAlgorithm<EcKeyAlgorithm>(key.algorithm, 'ECDSA')) throw unusable('ECDSA')
-      const expected = getNamedCurve(alg)
-      const actual = key.algorithm.namedCurve
-      if (actual !== expected) throw unusable(expected, 'algorithm.namedCurve')
-      break
-    }
-    default:
-      throw new TypeError('CryptoKey does not support this operation')
-  }
-
-  checkUsage(key, usage)
 }
 
 export function checkEncCryptoKey(key: types.CryptoKey, alg: string, usage?: KeyUsage): void {

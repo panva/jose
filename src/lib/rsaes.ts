@@ -1,6 +1,6 @@
 import type * as types from '../types.d.ts'
 import { checkEncCryptoKey } from './crypto_key.js'
-import { checkKeyLength } from './signing.js'
+import { checkModulusLength } from './signing.js'
 import { JOSENotSupported } from '../util/errors.js'
 
 const subtleAlgorithm = (alg: string) => {
@@ -23,7 +23,7 @@ export async function encrypt(
   cek: Uint8Array,
 ): Promise<Uint8Array> {
   checkEncCryptoKey(key, alg, 'encrypt')
-  checkKeyLength(alg, key)
+  checkModulusLength(alg, key)
 
   return new Uint8Array(
     await crypto.subtle.encrypt(subtleAlgorithm(alg), key, cek as Uint8Array<ArrayBuffer>),
@@ -36,7 +36,7 @@ export async function decrypt(
   encryptedKey: Uint8Array,
 ): Promise<Uint8Array> {
   checkEncCryptoKey(key, alg, 'decrypt')
-  checkKeyLength(alg, key)
+  checkModulusLength(alg, key)
 
   return new Uint8Array(
     await crypto.subtle.decrypt(subtleAlgorithm(alg), key, encryptedKey as Uint8Array<ArrayBuffer>),

@@ -1,6 +1,7 @@
 import type * as types from '../types.d.ts'
 import { decode as b64u } from '../util/base64url.js'
 import { verify } from './signing.js'
+import { jwsAlgorithm } from './jws_algorithms.js'
 import { JOSEAlgNotAllowed, JWSInvalid, JWSSignatureVerificationFailed } from '../util/errors.js'
 import { concat, decoder, encoder, encode, strictDecoder } from './buffer_utils.js'
 import { decodeBase64url, encodeBase64url } from './helpers.js'
@@ -143,7 +144,7 @@ export async function verifySignature(
   const signature = decodeBase64url(jws.signature, 'signature', JWSInvalid)
 
   const k = await normalizeKey(key, alg)
-  const verified = await verify(alg, k, signature, data)
+  const verified = await verify(jwsAlgorithm(alg), k, signature, data)
 
   if (!verified) {
     throw new JWSSignatureVerificationFailed()
