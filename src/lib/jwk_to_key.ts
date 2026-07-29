@@ -8,7 +8,7 @@ const unsupportedAlg = 'Invalid or unsupported JWK "alg" (Algorithm) Parameter v
  * The WebCrypto parameters for importing this JWK under this algorithm. ECDH takes its curve from
  * the key; every other algorithm has it fixed by the identifier.
  */
-export function subtleParams(
+function subtleParams(
   entry: KeyDescriptor,
   jwk: types.JWK,
 ): { name: string; hash?: string; namedCurve?: string } {

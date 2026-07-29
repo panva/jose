@@ -112,7 +112,8 @@ keyObjectTest('ECDH-ES validates KeyObject compatibility', async (t) => {
       .encrypt(rsa.publicKey),
     {
       instanceOf: TypeError,
-      message: 'given KeyObject instance cannot be used for this algorithm',
+      code: 'ERR_MISSING_OPTION',
+      message: /'namedCurve' is required/,
     },
   )
 
@@ -123,4 +124,22 @@ keyObjectTest('ECDH-ES validates KeyObject compatibility', async (t) => {
   const { plaintext } = await compactDecrypt(jwe, x25519.privateKey)
 
   t.deepEqual(plaintext, t.context.plaintext)
+})
+
+keyObjectTest('KeyObject conversion errors do not trigger a JWK fallback', async (t) => {
+  const sentinel = new RangeError('sentinel')
+  const { publicKey } = crypto.generateKeyPairSync('x25519')
+  Object.defineProperty(publicKey, 'toCryptoKey', {
+    value() {
+      throw sentinel
+    },
+  })
+
+  const error = await t.throwsAsync(
+    new CompactEncrypt(t.context.plaintext)
+      .setProtectedHeader({ alg: 'ECDH-ES', enc: 'A128GCM' })
+      .encrypt(publicKey),
+  )
+
+  t.is(error, sentinel)
 })

@@ -25,7 +25,6 @@ function rsa(name: string, bits: number, saltLength?: number): Entry {
   const subtle = { name, hash: `SHA-${bits}` }
   return {
     kty: ['RSA'],
-    asymmetricKeyType: 'rsa',
     subtle,
     operation: saltLength ? { ...subtle, saltLength } : subtle,
     usages: sig,
@@ -37,7 +36,6 @@ function ecdsa(crv: string, bits: number): Entry {
   return {
     kty: ['EC'],
     crv,
-    asymmetricKeyType: 'ec',
     subtle: { name: 'ECDSA', namedCurve: crv },
     operation: { name: 'ECDSA', hash: `SHA-${bits}` },
     usages: sig,
@@ -49,7 +47,6 @@ function eddsa(): Entry {
   return {
     kty: ['OKP'],
     crv: 'Ed25519',
-    asymmetricKeyType: 'ed25519',
     subtle,
     operation: subtle,
     usages: sig,
@@ -61,7 +58,6 @@ function mldsa(name: string): Entry {
   const subtle = { name }
   return {
     kty: ['AKP'],
-    asymmetricKeyType: name.toLowerCase(),
     subtle,
     operation: subtle,
     usages: sig,

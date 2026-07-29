@@ -6,7 +6,7 @@ import { concat, decoder, encoder, encode } from './buffer_utils.js'
 import { decodeBase64url, encodeBase64url, parseJoseHeader } from './helpers.js'
 import { isDisjoint } from './type_checks.js'
 import { validateCrit, validateAlgorithms, JWS_RECOGNIZED } from './options.js'
-import { prepareKey } from './normalize_key.js'
+import { prepareKey } from './key.js'
 
 export type VerifyGetKey = (
   protectedHeader: types.JWSHeaderParameters,

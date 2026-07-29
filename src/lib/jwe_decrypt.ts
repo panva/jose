@@ -6,7 +6,7 @@ import { isDisjoint, isObject } from './type_checks.js'
 import { decryptKeyManagement } from './key_management.js'
 import { concat, decoder, encode } from './buffer_utils.js'
 import { validateCrit, validateAlgorithms, JWE_RECOGNIZED } from './options.js'
-import { prepareKey } from './normalize_key.js'
+import { prepareKey } from './key.js'
 import { jweAlgorithm, jweEncryption } from './jwe_algorithms.js'
 import { decompress } from './deflate.js'
 

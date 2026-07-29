@@ -10,7 +10,7 @@ export interface ExpectedAlgorithm {
   length?: number
 }
 
-function checkUsage(key: types.CryptoKey, usage?: KeyUsage) {
+export function checkUsage(key: types.CryptoKey, usage?: KeyUsage): void {
   if (usage && !key.usages.includes(usage)) {
     throw new TypeError(
       `CryptoKey does not support this operation, its usages must include ${usage}.`,
@@ -43,19 +43,6 @@ export function checkCryptoKey(
 
   if (expected.length !== undefined && algorithm.length !== expected.length) {
     throw unusable(expected.length, 'algorithm.length')
-  }
-
-  checkUsage(key, usage)
-}
-
-/** ECDH accepts either of two algorithm names, so it cannot go through the generic comparison. */
-export function checkEcdhCryptoKey(key: types.CryptoKey, usage?: KeyUsage): void {
-  switch (key.algorithm.name) {
-    case 'ECDH':
-    case 'X25519':
-      break
-    default:
-      throw unusable('ECDH or X25519')
   }
 
   checkUsage(key, usage)

@@ -6,7 +6,7 @@ import { isDisjoint } from './type_checks.js'
 import { JWSInvalid } from '../util/errors.js'
 import { concat, encode } from './buffer_utils.js'
 import { validateCrit, validateCritDuplicates, JWS_RECOGNIZED } from './options.js'
-import { prepareKey } from './normalize_key.js'
+import { prepareKey } from './key.js'
 
 export interface SignInput {
   payload: Uint8Array

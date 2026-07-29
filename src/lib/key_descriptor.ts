@@ -21,8 +21,6 @@ export interface KeyDescriptor {
   }
   /** True for algorithms that take a secret rather than a key pair. */
   symmetric?: boolean
-  /** Node KeyObject asymmetricKeyType, where the key is asymmetric. */
-  asymmetricKeyType?: string
   /** WebCrypto parameters for importing, generating, and asserting a key's shape. */
   subtle: { name: string; hash?: string; namedCurve?: string; length?: number }
   /** Key usages, by whether the key is public. */

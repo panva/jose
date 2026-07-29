@@ -26,7 +26,6 @@ const none: { public: KeyUsage[]; private: KeyUsage[] } = { public: [], private:
 function rsaes(bits: number): AlgEntry {
   return {
     kty: ['RSA'],
-    asymmetricKeyType: 'rsa',
     subtle: { name: 'RSA-OAEP', hash: `SHA-${bits}` },
     usages: wrap,
     minModulusLength: 2048,

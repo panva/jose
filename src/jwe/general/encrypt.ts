@@ -14,7 +14,7 @@ import { encode as b64u } from '../../util/base64url.js'
 import { validateCritDuplicates } from '../../lib/options.js'
 import { checkEncryptHeaders, encryptJWE } from '../../lib/jwe_encrypt.js'
 import type { CheckedHeaders, EncryptInput } from '../../lib/jwe_encrypt.js'
-import { prepareKey } from '../../lib/normalize_key.js'
+import { prepareKey } from '../../lib/key.js'
 import { jweAlgorithm } from '../../lib/jwe_algorithms.js'
 
 /** Used to build General JWE object's individual recipients. */

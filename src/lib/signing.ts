@@ -10,11 +10,7 @@ export function checkModulusLength(alg: string, key: types.CryptoKey): void {
 }
 
 /** Asserts a caller-supplied CryptoKey is what the algorithm needs. */
-export function checkSigCryptoKey(
-  entry: JWSAlgorithm,
-  key: types.CryptoKey,
-  usage: KeyUsage,
-): void {
+function checkSigCryptoKey(entry: JWSAlgorithm, key: types.CryptoKey, usage: KeyUsage): void {
   checkCryptoKey(key, entry.subtle, usage)
 
   if (entry.minModulusLength) {

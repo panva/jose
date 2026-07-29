@@ -2,6 +2,8 @@ import { withAlg as invalidKeyInput } from './invalid_key_input.js'
 import { isKeyLike, isCryptoKey } from './is_key_like.js'
 import * as jwk from './type_checks.js'
 import type * as types from '../types.d.ts'
+import { decode } from '../util/base64url.js'
+import { jwkToKey } from './jwk_to_key.js'
 import type { KeyDescriptor } from './key_descriptor.js'
 
 const tag = (key: object): string | undefined =>
@@ -130,13 +132,11 @@ const CRYPTO: unique symbol = Symbol()
 const KEYOBJECT: unique symbol = Symbol()
 const JWK: unique symbol = Symbol()
 
-export { BYTES, CRYPTO, KEYOBJECT, JWK }
-
 /**
  * What the key turned out to be. Returning it means the conversion that follows does not have to
  * discriminate the input a second time.
  */
-export type Tagged =
+type Tagged =
   | { kind: typeof BYTES; key: Uint8Array }
   | { kind: typeof CRYPTO; key: types.CryptoKey }
   | { kind: typeof KEYOBJECT; key: types.KeyObject }
@@ -146,4 +146,113 @@ export function checkKeyType(entry: KeyDescriptor, key: unknown, usage: Usage): 
   return entry.symmetric
     ? symmetricTypeCheck(entry, key, usage)
     : asymmetricTypeCheck(entry, key, usage)
+}
+
+let cache: WeakMap<object, Record<string, CryptoKey>>
+
+interface ConvertibleKeyObject extends types.KeyObject {
+  export(): Uint8Array
+  export(opts: { format: 'jwk' }): types.JWK
+  asymmetricKeyType?: string
+  asymmetricKeyDetails?: { namedCurve?: string }
+  toCryptoKey(
+    alg: AlgorithmIdentifier | RsaHashedImportParams | EcKeyImportParams,
+    extractable: boolean,
+    usages: string[],
+  ): types.CryptoKey
+}
+
+/** Node names the NIST curves after the OpenSSL identifiers rather than the JOSE ones. */
+const nist: Record<string, string> = {
+  // @ts-expect-error
+  __proto__: null,
+  prime256v1: 'P-256',
+  secp384r1: 'P-384',
+  secp521r1: 'P-521',
+}
+
+function cached(key: object, alg: string): CryptoKey | undefined {
+  cache ||= new WeakMap()
+  return cache.get(key)?.[alg]
+}
+
+function store(key: object, alg: string, cryptoKey: CryptoKey): CryptoKey {
+  const entry = cache.get(key)
+  if (entry) {
+    entry[alg] = cryptoKey
+  } else {
+    cache.set(key, { [alg]: cryptoKey })
+  }
+  return cryptoKey
+}
+
+const handleJWK = async (
+  key: types.KeyObject | types.JWK,
+  jwk: types.JWK,
+  entry: KeyDescriptor,
+) => {
+  const hit = cached(key, entry.alg)
+  if (hit) return hit
+
+  const cryptoKey = await jwkToKey(entry, { ...jwk, alg: entry.alg })
+  return store(key, entry.alg, cryptoKey)
+}
+
+const handleKeyObject = (keyObject: ConvertibleKeyObject, entry: KeyDescriptor) => {
+  const hit = cached(keyObject, entry.alg)
+  if (hit) return hit
+
+  const isPublic = keyObject.type === 'public'
+  const usages = isPublic ? entry.usages.public : entry.usages.private
+
+  const { asymmetricKeyType } = keyObject
+  const crv = nist[keyObject.asymmetricKeyDetails?.namedCurve!]
+  const params = entry.subtleFor?.({ crv, asymmetricKeyType }) ?? entry.subtle
+
+  return store(keyObject, entry.alg, keyObject.toCryptoKey(params, isPublic, usages))
+}
+
+/**
+ * Asserts everything there is to assert about `key` for this algorithm and operation, and returns
+ * what the crypto primitives consume. The key is discriminated once: checkKeyType reports what it
+ * found, and the conversion below acts on that rather than testing the input all over again.
+ */
+export async function prepareKey(
+  entry: KeyDescriptor,
+  key: unknown,
+  usage: 'sign' | 'verify' | 'encrypt' | 'decrypt',
+): Promise<types.CryptoKey | Uint8Array> {
+  const tagged: Tagged = checkKeyType(entry, key, usage)
+
+  switch (tagged.kind) {
+    case BYTES:
+    case CRYPTO:
+      return tagged.key
+
+    case JWK: {
+      if (tagged.key.k) {
+        return decode(tagged.key.k)
+      }
+      if (!Object.isFrozen(tagged.key)) {
+        const { key_ops } = tagged.key
+        if (Array.isArray(key_ops)) Object.freeze(key_ops)
+        Object.freeze(tagged.key)
+      }
+      return handleJWK(tagged.key, tagged.key, entry)
+    }
+
+    case KEYOBJECT: {
+      const keyObject = tagged.key as ConvertibleKeyObject
+
+      if (keyObject.type === 'secret') {
+        return keyObject.export()
+      }
+
+      if ('toCryptoKey' in keyObject && typeof keyObject.toCryptoKey === 'function') {
+        return handleKeyObject(keyObject, entry)
+      }
+
+      return handleJWK(keyObject, keyObject.export({ format: 'jwk' }), entry)
+    }
+  }
 }
