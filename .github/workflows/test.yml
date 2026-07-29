@@ -15,7 +15,9 @@ jobs:
   build:
     uses: ./.github/workflows/build.yml
 
-  types:
+  package:
+    needs:
+      - build
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -26,18 +28,24 @@ jobs:
           node-version: lts/*
           cache: 'npm'
       - run: npm clean-install
+      - name: Load cached dist
+        uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0
+        with:
+          path: dist
+          key: ${{ needs.build.outputs.cache-key }}
+          fail-on-cache-miss: true
       - name: Documented subpath specifiers exist
         run: npm run check:subpaths
       - name: Type check the conformance suite
         run: npm run typecheck:tap
-      - name: Build
-        run: npm run build-all
       - name: Type check the emitted declarations
         run: npm run typecheck:dist
       - name: Type-level regression tests
         run: npm run typecheck:types
       - name: Packaging metadata and type resolution
         run: npm run check:packaging
+      - name: JWS and JWE stay out of each other's bundles
+        run: npm run check:bundles
       - name: JSR slow types
         run: npm run build:jsr
       - name: Docs are in sync with src
