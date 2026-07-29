@@ -1,11 +1,10 @@
 import type * as types from '../types.d.ts'
-import { decode as b64u } from '../util/base64url.js'
 import { verify } from './signing.js'
 import { jwsAlgorithm } from './jws_algorithms.js'
 import { JOSEAlgNotAllowed, JWSInvalid, JWSSignatureVerificationFailed } from '../util/errors.js'
-import { concat, decoder, encoder, encode, strictDecoder } from './buffer_utils.js'
-import { decodeBase64url, encodeBase64url } from './helpers.js'
-import { isDisjoint, isObject } from './type_checks.js'
+import { concat, decoder, encoder, encode } from './buffer_utils.js'
+import { decodeBase64url, encodeBase64url, parseJoseHeader } from './helpers.js'
+import { isDisjoint } from './type_checks.js'
 import { checkKeyType } from './check_key_type.js'
 import { validateCrit, validateAlgorithms, JWS_RECOGNIZED } from './options.js'
 import { normalizeKey } from './normalize_key.js'
@@ -71,13 +70,7 @@ export async function verifySignature(
 ): Promise<VerifiedSignature> {
   let parsedProt: types.JWSHeaderParameters = {}
   if (jws.protected) {
-    try {
-      const protectedHeader = b64u(jws.protected)
-      parsedProt = JSON.parse(strictDecoder.decode(protectedHeader))
-      if (!isObject(parsedProt)) throw new Error()
-    } catch {
-      throw new JWSInvalid('JWS Protected Header is invalid')
-    }
+    parsedProt = parseJoseHeader(jws.protected, JWSInvalid, 'JWS Protected Header is invalid')
   }
 
   let joseHeader: types.JWSHeaderParameters

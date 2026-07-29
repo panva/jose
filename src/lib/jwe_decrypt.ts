@@ -1,11 +1,10 @@
 import type * as types from '../types.d.ts'
-import { decode as b64u } from '../util/base64url.js'
 import { decrypt, generateCek } from './content_encryption.js'
-import { decodeBase64url, encodeBase64url } from './helpers.js'
+import { decodeBase64url, encodeBase64url, parseJoseHeader } from './helpers.js'
 import { JOSEAlgNotAllowed, JOSENotSupported, JWEInvalid } from '../util/errors.js'
 import { isDisjoint, isObject } from './type_checks.js'
 import { decryptKeyManagement } from './key_management.js'
-import { concat, decoder, encode, strictDecoder } from './buffer_utils.js'
+import { concat, decoder, encode } from './buffer_utils.js'
 import { validateCrit, validateAlgorithms, JWE_RECOGNIZED } from './options.js'
 import { normalizeKey } from './normalize_key.js'
 import { jweAlgorithm, jweEncryption } from './jwe_algorithms.js'
@@ -89,13 +88,7 @@ export function checkRecipient(jwe: types.FlattenedJWE): void {
 export function shareJWE(jwe: types.FlattenedJWE): SharedJWE {
   let parsedProt: types.JWEHeaderParameters | undefined
   if (jwe.protected) {
-    try {
-      const protectedHeader = b64u(jwe.protected)
-      parsedProt = JSON.parse(strictDecoder.decode(protectedHeader))
-      if (!isObject(parsedProt)) throw new Error()
-    } catch {
-      throw new JWEInvalid('JWE Protected Header is invalid')
-    }
+    parsedProt = parseJoseHeader(jwe.protected, JWEInvalid, 'JWE Protected Header is invalid')
   }
 
   const protectedHeader: Uint8Array =

@@ -1,5 +1,6 @@
 import { decode } from '../util/base64url.js'
-import { encode } from './buffer_utils.js'
+import { encode, strictDecoder } from './buffer_utils.js'
+import { isObject } from './type_checks.js'
 
 export const unprotected: unique symbol = Symbol()
 
@@ -43,4 +44,22 @@ export async function digest(
 ): Promise<Uint8Array> {
   const subtleDigest = `SHA-${algorithm.slice(-3)}`
   return new Uint8Array(await crypto.subtle.digest(subtleDigest, data as Uint8Array<ArrayBuffer>))
+}
+
+/** Base64url decode, UTF-8 decode, JSON parse, and require a JSON object - in one place. */
+export function parseJoseHeader<T>(
+  b64: string,
+  ErrorClass: new (message: string) => Error,
+  message: string,
+): T {
+  let parsed: unknown
+  try {
+    parsed = JSON.parse(strictDecoder.decode(decode(b64)))
+  } catch {
+    throw new ErrorClass(message)
+  }
+  if (!isObject(parsed)) {
+    throw new ErrorClass(message)
+  }
+  return parsed as T
 }

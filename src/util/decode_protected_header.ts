@@ -4,9 +4,7 @@
  * @module
  */
 
-import { decode as b64u } from './base64url.js'
-import { strictDecoder } from '../lib/buffer_utils.js'
-import { isObject } from '../lib/type_checks.js'
+import { parseJoseHeader } from '../lib/helpers.js'
 import type * as types from '../types.d.ts'
 
 /** JWE and JWS Header Parameters */
@@ -43,16 +41,11 @@ export function decodeProtectedHeader(token: string | object): ProtectedHeaderPa
     }
   }
 
-  try {
-    if (typeof protectedB64u !== 'string' || !protectedB64u) {
-      throw new Error()
-    }
-    const result = JSON.parse(strictDecoder.decode(b64u(protectedB64u!)))
-    if (!isObject(result)) {
-      throw new Error()
-    }
-    return result as ProtectedHeaderParameters
-  } catch {
-    throw new TypeError('Invalid Token or Protected Header formatting')
+  const invalid = 'Invalid Token or Protected Header formatting'
+
+  if (typeof protectedB64u !== 'string' || !protectedB64u) {
+    throw new TypeError(invalid)
   }
+
+  return parseJoseHeader<ProtectedHeaderParameters>(protectedB64u, TypeError, invalid)
 }
