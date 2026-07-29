@@ -2,6 +2,52 @@
 
 All notable changes to this project will be documented in this file. See [commit-and-tag-version](https://github.com/absolute-version/commit-and-tag-version) for commit guidelines.
 
+## [6.2.5](https://github.com/panva/jose/compare/v6.2.4...v6.2.5) (2026-07-29)
+
+### Fixes
+
+* compare claim values for falsy validation options ([eb86956](https://github.com/panva/jose/commit/eb8695699c75f36c736fb8159a7c7b525be5f6ff))
+* forward key management parameters for a single JWE recipient ([2d4f801](https://github.com/panva/jose/commit/2d4f8014e027a1e1ace82bdc864fd0f9b5c66248))
+* handle a zero-length JWE additional authenticated data ([16ca398](https://github.com/panva/jose/commit/16ca398103c4ab1527c6c6c51621fd963545bd7e))
+* reject a generateKeyPair crv option the algorithm does not imply ([76364e9](https://github.com/panva/jose/commit/76364e9f15f2a7d1c2ff0c260e1e2960cf51e620))
+* reject an unencoded payload in the JWS Compact Serialization ([01d053f](https://github.com/panva/jose/commit/01d053f3b02f3627396d4f70686a58f35cf09862))
+* reject characters outside the Base64URL alphabet ([0ebb971](https://github.com/panva/jose/commit/0ebb97158a6eed960ec4d5450abd28336b3c20a4)), references [#879](https://github.com/panva/jose/issues/879)
+* reject duplicate "crit" values when producing ([31d60e1](https://github.com/panva/jose/commit/31d60e1542141ddecf5b0b87bc894c4bc7e58b1d))
+* reject invalid UTF-8 in JOSE Headers and JWT Claims Sets ([5df3fed](https://github.com/panva/jose/commit/5df3fedcc06d4c52815ec9d0cccc51b508a8291c))
+* reject truncated ASN.1 key data ([7a16c66](https://github.com/panva/jose/commit/7a16c66b9f1a48bcc2aae572da38ed06396a5181))
+* surface non-ASCII token segments as JOSE errors ([194fe11](https://github.com/panva/jose/commit/194fe11450d6501d0c2141a50e60886157d3f393))
+* **types:** correct JWK and CryptoKey types ([62a196d](https://github.com/panva/jose/commit/62a196dc8e6582dc6edd20eab31c6c44b745f996))
+* **types:** correct key resolver and JWT header types ([e95f8c4](https://github.com/panva/jose/commit/e95f8c4086cbb81321497cc7d4b78fa5e88312b6))
+* validate the clockTolerance and currentDate options are finite ([ab2f18d](https://github.com/panva/jose/commit/ab2f18dad46a98ecae3f3ac5b2aae9c839fb9388))
+
+### Documentation
+
+* correct subpaths and API documentation ([2daec38](https://github.com/panva/jose/commit/2daec382964be1976d5985e0413a56633becdd74))
+* document consumer-supplied type parameters ([9e9f66c](https://github.com/panva/jose/commit/9e9f66c86bdf0f4b4ccd1e4b7b84cc85ac9c7883))
+* stop claiming the JWK "use" parameter is used during import ([47a07b2](https://github.com/panva/jose/commit/47a07b2f95c1b2ecf0308c04f35d4b482689568e))
+* update CHANGELOG.md ([fc51bf5](https://github.com/panva/jose/commit/fc51bf56f9f752aaed7d31c60a45e89f24e30d00))
+
+### Refactor
+
+* assert key shape and type from the entry ([971057e](https://github.com/panva/jose/commit/971057e088e130343beecfdbade4a602c79e6f09))
+* avoid 32-bit truncation of the AES-CBC-HMAC AAD bit length ([1c8c6e9](https://github.com/panva/jose/commit/1c8c6e9b42bf70c68c356e69148678bb6ca90b7b))
+* correct swapped JWE unprotected header type error messages ([894c498](https://github.com/panva/jose/commit/894c4983f8da6b19bd74129c5f94406dc39bdd90))
+* describe each JWS algorithm once ([7375028](https://github.com/panva/jose/commit/737502819bc4b390b48581bb44adabc98ef738df))
+* discriminate a key once ([0b59a69](https://github.com/panva/jose/commit/0b59a69f078fca85b5e0d04ac0daa6fd4355f004))
+* fold single-consumer modules into their consumers ([c2f0ca3](https://github.com/panva/jose/commit/c2f0ca308e965ae2c13207ffa0651aa7638b8eb8))
+* generate and import keys from the entry ([da69b68](https://github.com/panva/jose/commit/da69b681c5aae66d5b3977467d54f43e3bbca3b3))
+* keep JWE out of the JWKS and embedded-JWK paths ([241dd48](https://github.com/panva/jose/commit/241dd4880128d85a4c7dd92c1f18b1837be251e4))
+* keep JWS and JWE out of each other's bundles ([2a98564](https://github.com/panva/jose/commit/2a98564a5a85c8bff895a3c7dfd367ac83145e74))
+* parse a Protected Header in one place ([30f72af](https://github.com/panva/jose/commit/30f72affd239a79b35056e7e90f750b059fb9071))
+* resolve the content encryption algorithm once ([98b50ab](https://github.com/panva/jose/commit/98b50ab5c3658f864c3fa04738f9dee4d2550df1))
+* tighten key property checks ([fe0dc3b](https://github.com/panva/jose/commit/fe0dc3ba0db73866f9f67485185ef6540445072d))
+* **types:** add discriminated JOSE error types ([f7f764e](https://github.com/panva/jose/commit/f7f764e34922d871a25ac3d280905cadaa33a89c))
+* **types:** add JOSE identifier unions and JWK narrowing ([2a20f49](https://github.com/panva/jose/commit/2a20f491c20fc18a5c6357b5445076e374cf2523))
+* **types:** improve key and result inference ([cb25e77](https://github.com/panva/jose/commit/cb25e77e67ac4b2410b19ed527803c36b89f4fa5))
+* **types:** trim published declaration comments ([544f179](https://github.com/panva/jose/commit/544f179668ae632c47b2c33c0908dc1c8381fce6))
+* unify base64 decode errors ([3a91833](https://github.com/panva/jose/commit/3a918336051e7b60122327af62baf16b19f4e1d7))
+* validate each token once rather than once per layer ([bbdae09](https://github.com/panva/jose/commit/bbdae094ca0acaabf33688f56971991d07523714))
+* write each algorithm identifier once ([73d83b5](https://github.com/panva/jose/commit/73d83b5854a797eb6cac8e3d4c8481a9d0207830))
 ## [6.2.4](https://github.com/panva/jose/compare/v6.2.3...v6.2.4) (2026-07-21)
 
 
