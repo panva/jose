@@ -255,7 +255,7 @@ export class GeneralEncrypt {
       }
     }
 
-    const cek = generateCek(enc)
+    const cek = generateCek(checked[0].encEntry)
 
     const jwe: types.GeneralJWE = {
       ciphertext: '',
@@ -291,7 +291,7 @@ export class GeneralEncrypt {
       const k = await normalizeKey(recipient.key, jweAlgorithm(alg))
       const { encryptedKey, parameters } = await encryptKeyManagement(
         alg,
-        enc,
+        checked[i].encEntry,
         k,
         cek,
         recipient.keyManagementParameters,

@@ -18,7 +18,8 @@ import { isObject } from '../lib/type_checks.js'
 
 /**
  * A JWKS resolves public keys for verifying signatures, so only JWS algorithms are meaningful here
- * - and among those, only the asymmetric ones.
+ *
+ * - And among those, only the asymmetric ones.
  */
 function signatureAlgorithm(alg: unknown): JWSAlgorithm {
   const entry = typeof alg === 'string' ? maybeJWSAlgorithm(alg) : undefined

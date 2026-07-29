@@ -1,15 +1,14 @@
 import { encrypt, decrypt } from './content_encryption.js'
+import type { JWEEncryption } from './jwe_algorithms.js'
 import { encode as b64u } from '../util/base64url.js'
 
 export async function wrap(
-  alg: string,
+  gcm: JWEEncryption,
   key: unknown,
   cek: Uint8Array,
   iv?: Uint8Array,
 ): Promise<{ encryptedKey: Uint8Array; iv: string; tag: string }> {
-  const jweAlgorithm = alg.slice(0, 7)
-
-  const wrapped = await encrypt(jweAlgorithm, cek, key, iv, new Uint8Array())
+  const wrapped = await encrypt(gcm, cek, key, iv, new Uint8Array())
 
   return {
     encryptedKey: wrapped.ciphertext,
@@ -19,12 +18,11 @@ export async function wrap(
 }
 
 export async function unwrap(
-  alg: string,
+  gcm: JWEEncryption,
   key: unknown,
   encryptedKey: Uint8Array,
   iv: Uint8Array,
   tag: Uint8Array,
 ): Promise<Uint8Array> {
-  const jweAlgorithm = alg.slice(0, 7)
-  return decrypt(jweAlgorithm, key, encryptedKey, iv, tag, new Uint8Array())
+  return decrypt(gcm, key, encryptedKey, iv, tag, new Uint8Array())
 }

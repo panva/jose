@@ -7,7 +7,8 @@ import { isDisjoint } from './type_checks.js'
 import { concat, encode } from './buffer_utils.js'
 import { validateCrit, JWE_RECOGNIZED } from './options.js'
 import { normalizeKey } from './normalize_key.js'
-import { jweAlgorithm } from './jwe_algorithms.js'
+import { jweAlgorithm, jweEncryption } from './jwe_algorithms.js'
+import type { JWEEncryption } from './jwe_algorithms.js'
 import { checkKeyType } from './check_key_type.js'
 import { compress } from './deflate.js'
 
@@ -29,6 +30,7 @@ export interface CheckedHeaders {
   joseHeader: types.JWEHeaderParameters
   alg: string
   enc: string
+  encEntry: JWEEncryption
 }
 
 /**
@@ -74,7 +76,7 @@ export function checkEncryptHeaders(input: EncryptInput): CheckedHeaders {
     throw new JWEInvalid('JWE "enc" (Encryption Algorithm) Header Parameter missing or invalid')
   }
 
-  return { joseHeader, alg, enc }
+  return { joseHeader, alg, enc, encEntry: jweEncryption(enc) }
 }
 
 export async function encryptJWE(
@@ -82,7 +84,7 @@ export async function encryptJWE(
   checked: CheckedHeaders,
   key: types.KeyInput,
 ): Promise<types.FlattenedJWE> {
-  const { joseHeader, alg, enc } = checked
+  const { joseHeader, alg, enc, encEntry } = checked
   let { protectedHeader, unprotectedHeader } = input
   const { sharedUnprotectedHeader } = input
 
@@ -97,7 +99,7 @@ export async function encryptJWE(
   const k = await normalizeKey(key, jweAlgorithm(alg))
   const { cek, encryptedKey, parameters } = await encryptKeyManagement(
     alg,
-    enc,
+    encEntry,
     k,
     input.cek,
     input.keyManagementParameters,
@@ -137,7 +139,7 @@ export async function encryptJWE(
     })
   }
 
-  const { ciphertext, tag, iv } = await encrypt(enc, plaintext, cek, input.iv, additionalData)
+  const { ciphertext, tag, iv } = await encrypt(encEntry, plaintext, cek, input.iv, additionalData)
 
   const jwe: types.FlattenedJWE = {
     ciphertext: b64u(ciphertext),

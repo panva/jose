@@ -8,7 +8,7 @@ import { decryptKeyManagement } from './key_management.js'
 import { concat, decoder, encode, strictDecoder } from './buffer_utils.js'
 import { validateCrit, validateAlgorithms, JWE_RECOGNIZED } from './options.js'
 import { normalizeKey } from './normalize_key.js'
-import { jweAlgorithm } from './jwe_algorithms.js'
+import { jweAlgorithm, jweEncryption } from './jwe_algorithms.js'
 import { checkKeyType } from './check_key_type.js'
 import { decompress } from './deflate.js'
 
@@ -213,6 +213,8 @@ export async function decryptRecipient(
     throw new JOSEAlgNotAllowed('"enc" (Encryption Algorithm) Header Parameter value not allowed')
   }
 
+  const encEntry = jweEncryption(enc)
+
   let encryptedKey!: Uint8Array
   if (jwe.encrypted_key !== undefined) {
     encryptedKey = decodeBase64url(jwe.encrypted_key!, 'encrypted_key', JWEInvalid)
@@ -228,7 +230,7 @@ export async function decryptRecipient(
   const k = await normalizeKey(key, jweAlgorithm(alg))
   let cek: types.CryptoKey | Uint8Array
   try {
-    cek = await decryptKeyManagement(alg, k, encryptedKey, joseHeader, options)
+    cek = await decryptKeyManagement(alg, encEntry, k, encryptedKey, joseHeader, options)
   } catch (err) {
     if (err instanceof TypeError || err instanceof JWEInvalid || err instanceof JOSENotSupported) {
       throw err
@@ -240,11 +242,11 @@ export async function decryptRecipient(
     // of receiving an improperly formatted key, that the recipient
     // substitute a randomly generated CEK and proceed to the next step, to
     // mitigate timing attacks.
-    cek = generateCek(enc)
+    cek = generateCek(encEntry)
   }
 
   let plaintext = await decrypt(
-    enc,
+    encEntry,
     cek,
     token.ciphertext,
     token.iv,

@@ -7,10 +7,11 @@ import * as rsaes from './rsaes.js'
 import { encode as b64u } from '../util/base64url.js'
 import { normalizeKey } from './normalize_key.js'
 import { jwkToKey } from './jwk_to_key.js'
-import { jweAlgorithm } from './jwe_algorithms.js'
+import { jweAlgorithm, jweEncryption } from './jwe_algorithms.js'
+import type { JWEEncryption } from './jwe_algorithms.js'
 import { JOSENotSupported, JWEInvalid } from '../util/errors.js'
 import { decodeBase64url } from './helpers.js'
-import { generateCek, cekLength } from './content_encryption.js'
+import { generateCek } from './content_encryption.js'
 import { isObject } from './type_checks.js'
 import { wrap as aesGcmKwWrap, unwrap as aesGcmKwUnwrap } from './aesgcmkw.js'
 import { assertCryptoKey } from './is_key_like.js'
@@ -29,6 +30,7 @@ function assertEncryptedKey(
 
 export async function decryptKeyManagement(
   alg: string,
+  enc: JWEEncryption,
   key: types.CryptoKey | Uint8Array,
   encryptedKey: Uint8Array | undefined,
   joseHeader: types.JWEHeaderParameters,
@@ -79,8 +81,8 @@ export async function decryptKeyManagement(
       const sharedSecret = await ecdhes.deriveKey(
         epk,
         key,
-        alg === 'ECDH-ES' ? joseHeader.enc! : alg,
-        alg === 'ECDH-ES' ? cekLength(joseHeader.enc!) : parseInt(alg.slice(-5, -2), 10),
+        alg === 'ECDH-ES' ? enc.enc : alg,
+        alg === 'ECDH-ES' ? enc.cekBits : parseInt(alg.slice(-5, -2), 10),
         partyUInfo,
         partyVInfo,
       )
@@ -147,7 +149,7 @@ export async function decryptKeyManagement(
       let tag: Uint8Array
       tag = decodeBase64url(joseHeader.tag, 'tag', JWEInvalid)
 
-      return aesGcmKwUnwrap(alg, key, encryptedKey, iv, tag)
+      return aesGcmKwUnwrap(jweEncryption(jweAlgorithm(alg).gcmkw!), key, encryptedKey, iv, tag)
     }
     default: {
       throw new JOSENotSupported(unsupportedAlgHeader)
@@ -157,7 +159,7 @@ export async function decryptKeyManagement(
 
 export async function encryptKeyManagement(
   alg: string,
-  enc: string,
+  enc: JWEEncryption,
   key: types.CryptoKey | Uint8Array,
   providedCek?: Uint8Array,
   providedParameters: JWEKeyManagementHeaderParameters = {},
@@ -211,8 +213,8 @@ export async function encryptKeyManagement(
       const sharedSecret = await ecdhes.deriveKey(
         key,
         ephemeralKey,
-        alg === 'ECDH-ES' ? enc : alg,
-        alg === 'ECDH-ES' ? cekLength(enc) : parseInt(alg.slice(-5, -2), 10),
+        alg === 'ECDH-ES' ? enc.enc : alg,
+        alg === 'ECDH-ES' ? enc.cekBits : parseInt(alg.slice(-5, -2), 10),
         apu,
         apv,
       )
@@ -265,7 +267,12 @@ export async function encryptKeyManagement(
       // Key Wrapping (AES GCM KW)
       cek = providedCek || generateCek(enc)
       const { iv } = providedParameters
-      ;({ encryptedKey, ...parameters } = await aesGcmKwWrap(alg, key, cek, iv))
+      ;({ encryptedKey, ...parameters } = await aesGcmKwWrap(
+        jweEncryption(jweAlgorithm(alg).gcmkw!),
+        key,
+        cek,
+        iv,
+      ))
       break
     }
     default: {
