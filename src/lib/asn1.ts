@@ -2,6 +2,7 @@ import type * as types from '../types.d.ts'
 import { invalidKeyInput } from './invalid_key_input.js'
 import { encodeBase64, decodeBase64 } from '../lib/base64.js'
 import { JOSENotSupported } from '../util/errors.js'
+import { keyAlgorithm } from './key_algorithm.js'
 import { isCryptoKey, isKeyObject } from './is_key_like.js'
 
 import type { KeyImportOptions } from '../key/import.js'
@@ -213,73 +214,21 @@ const genericImport = async (
   alg: string,
   options?: KeyImportOptions & { getNamedCurve?: (keyData: Uint8Array) => string },
 ) => {
-  let algorithm: RsaHashedImportParams | EcKeyAlgorithm | Algorithm
-  let keyUsages: KeyUsage[]
-
+  const entry = keyAlgorithm(alg)
+  if (entry.symmetric) {
+    throw new JOSENotSupported('Invalid or unsupported "alg" (Algorithm) value')
+  }
   const isPublic = keyFormat === 'spki'
 
-  // Helper functions for determining key usage based on key type
-  const getSigUsages = (): KeyUsage[] => (isPublic ? ['verify'] : ['sign'])
-  const getEncUsages = (): KeyUsage[] =>
-    isPublic ? ['encrypt', 'wrapKey'] : ['decrypt', 'unwrapKey']
-
-  switch (alg) {
-    case 'PS256':
-    case 'PS384':
-    case 'PS512':
-      algorithm = { name: 'RSA-PSS', hash: `SHA-${alg.slice(-3)}` }
-      keyUsages = getSigUsages()
-      break
-    case 'RS256':
-    case 'RS384':
-    case 'RS512':
-      algorithm = { name: 'RSASSA-PKCS1-v1_5', hash: `SHA-${alg.slice(-3)}` }
-      keyUsages = getSigUsages()
-      break
-    case 'RSA-OAEP':
-    case 'RSA-OAEP-256':
-    case 'RSA-OAEP-384':
-    case 'RSA-OAEP-512':
-      algorithm = {
-        name: 'RSA-OAEP',
-        hash: `SHA-${parseInt(alg.slice(-3), 10) || 1}`,
-      }
-      keyUsages = getEncUsages()
-      break
-    case 'ES256':
-    case 'ES384':
-    case 'ES512': {
-      const curveMap = { ES256: 'P-256', ES384: 'P-384', ES512: 'P-521' } as const
-      algorithm = { name: 'ECDSA', namedCurve: curveMap[alg] }
-      keyUsages = getSigUsages()
-      break
+  let algorithm: { name: string; hash?: string; namedCurve?: string }
+  if (entry.subtleFor) {
+    try {
+      algorithm = entry.subtleFor({ crv: options!.getNamedCurve!(keyData) })
+    } catch (cause) {
+      throw new JOSENotSupported('Invalid or unsupported key format')
     }
-    case 'ECDH-ES':
-    case 'ECDH-ES+A128KW':
-    case 'ECDH-ES+A192KW':
-    case 'ECDH-ES+A256KW': {
-      try {
-        const namedCurve = options!.getNamedCurve!(keyData)
-        algorithm = namedCurve === 'X25519' ? { name: 'X25519' } : { name: 'ECDH', namedCurve }
-      } catch (cause) {
-        throw new JOSENotSupported('Invalid or unsupported key format')
-      }
-      keyUsages = isPublic ? [] : ['deriveBits']
-      break
-    }
-    case 'Ed25519':
-    case 'EdDSA':
-      algorithm = { name: 'Ed25519' }
-      keyUsages = getSigUsages()
-      break
-    case 'ML-DSA-44':
-    case 'ML-DSA-65':
-    case 'ML-DSA-87':
-      algorithm = { name: alg }
-      keyUsages = getSigUsages()
-      break
-    default:
-      throw new JOSENotSupported('Invalid or unsupported "alg" (Algorithm) value')
+  } else {
+    algorithm = entry.subtle
   }
 
   return crypto.subtle.importKey(
@@ -287,7 +236,7 @@ const genericImport = async (
     keyData as Uint8Array<ArrayBuffer>,
     algorithm,
     options?.extractable ?? (isPublic ? true : false),
-    keyUsages,
+    isPublic ? entry.usages.public : entry.usages.private,
   )
 }
 

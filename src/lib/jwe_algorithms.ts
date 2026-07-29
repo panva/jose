@@ -37,11 +37,11 @@ function ecdh(alg: string, kwBits?: number): JWEAlgorithm {
     kty: ['EC', 'OKP'],
     subtle: { name: 'ECDH' },
     subtleFor: ({ kty, crv, asymmetricKeyType }) => {
-      if (kty === 'OKP' || asymmetricKeyType === 'x25519') {
-        if (kty === 'OKP' && crv !== 'X25519') {
-          throw new JOSENotSupported('Invalid or unsupported JWK "alg" (Algorithm) Parameter value')
-        }
+      if (crv === 'X25519' || asymmetricKeyType === 'x25519') {
         return { name: 'X25519' }
+      }
+      if (kty === 'OKP') {
+        throw new JOSENotSupported('Invalid or unsupported JWK "alg" (Algorithm) Parameter value')
       }
       return { name: 'ECDH', namedCurve: crv! }
     },

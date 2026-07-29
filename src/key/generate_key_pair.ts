@@ -5,6 +5,7 @@
  */
 
 import { JOSENotSupported } from '../util/errors.js'
+import { keyAlgorithm } from '../lib/key_algorithm.js'
 
 import type * as types from '../types.d.ts'
 
@@ -116,106 +117,49 @@ export async function generateKeyPair(
   alg: GenerateKeyPairAlgorithm,
   options?: GenerateKeyPairOptions,
 ): Promise<GenerateKeyPairResult> {
+  const entry = keyAlgorithm(alg)
+
+  if (entry.symmetric) {
+    throw new JOSENotSupported('Invalid or unsupported JWK "alg" (Algorithm) Parameter value')
+  }
+
   let algorithm: RsaHashedKeyGenParams | EcKeyGenParams | KeyAlgorithm
-  let keyUsages: KeyUsage[]
-  let expectedCrv: string | undefined
 
-  switch (alg) {
-    case 'PS256':
-    case 'PS384':
-    case 'PS512':
-      algorithm = {
-        name: 'RSA-PSS',
-        hash: `SHA-${alg.slice(-3)}`,
-        publicExponent: Uint8Array.of(0x01, 0x00, 0x01),
-        modulusLength: getModulusLengthOption(options),
-      }
-      keyUsages = ['sign', 'verify']
-      break
-    case 'RS256':
-    case 'RS384':
-    case 'RS512':
-      algorithm = {
-        name: 'RSASSA-PKCS1-v1_5',
-        hash: `SHA-${alg.slice(-3)}`,
-        publicExponent: Uint8Array.of(0x01, 0x00, 0x01),
-        modulusLength: getModulusLengthOption(options),
-      }
-      keyUsages = ['sign', 'verify']
-      break
-    case 'RSA-OAEP':
-    case 'RSA-OAEP-256':
-    case 'RSA-OAEP-384':
-    case 'RSA-OAEP-512':
-      algorithm = {
-        name: 'RSA-OAEP',
-        hash: `SHA-${parseInt(alg.slice(-3), 10) || 1}`,
-        publicExponent: Uint8Array.of(0x01, 0x00, 0x01),
-        modulusLength: getModulusLengthOption(options),
-      }
-      keyUsages = ['decrypt', 'unwrapKey', 'encrypt', 'wrapKey']
-      break
-    case 'ES256':
-      algorithm = { name: 'ECDSA', namedCurve: (expectedCrv = 'P-256') }
-      keyUsages = ['sign', 'verify']
-      break
-    case 'ES384':
-      algorithm = { name: 'ECDSA', namedCurve: (expectedCrv = 'P-384') }
-      keyUsages = ['sign', 'verify']
-      break
-    case 'ES512':
-      algorithm = { name: 'ECDSA', namedCurve: (expectedCrv = 'P-521') }
-      keyUsages = ['sign', 'verify']
-      break
-    case 'Ed25519': // Fall through
-    case 'EdDSA': {
-      keyUsages = ['sign', 'verify']
-      algorithm = { name: (expectedCrv = 'Ed25519') }
-      break
+  if (entry.subtleFor) {
+    // ECDH-ES takes its curve from the option rather than from the identifier.
+    switch (options?.crv ?? 'P-256') {
+      case 'P-256':
+      case 'P-384':
+      case 'P-521':
+        algorithm = { name: 'ECDH', namedCurve: options?.crv ?? 'P-256' }
+        break
+      case 'X25519':
+        algorithm = { name: 'X25519' }
+        break
+      default:
+        throw new JOSENotSupported(
+          'Invalid or unsupported crv option provided, supported values are P-256, P-384, P-521, and X25519',
+        )
     }
-    case 'ML-DSA-44':
-    case 'ML-DSA-65':
-    case 'ML-DSA-87': {
-      keyUsages = ['sign', 'verify']
-      algorithm = { name: alg }
-      break
+  } else {
+    if (entry.crv !== undefined && options?.crv !== undefined && options.crv !== entry.crv) {
+      throw new JOSENotSupported(
+        `Invalid or unsupported crv option provided, the only supported value for ${alg} is ${entry.crv}`,
+      )
     }
-    case 'ECDH-ES':
-    case 'ECDH-ES+A128KW':
-    case 'ECDH-ES+A192KW':
-    case 'ECDH-ES+A256KW': {
-      keyUsages = ['deriveBits']
-      const crv = options?.crv ?? 'P-256'
-      switch (crv) {
-        case 'P-256':
-        case 'P-384':
-        case 'P-521': {
-          algorithm = { name: 'ECDH', namedCurve: crv }
-          break
-        }
-        case 'X25519':
-          algorithm = { name: 'X25519' }
-          break
-        default:
-          throw new JOSENotSupported(
-            'Invalid or unsupported crv option provided, supported values are P-256, P-384, P-521, and X25519',
-          )
-      }
-      break
-    }
-    default:
-      throw new JOSENotSupported('Invalid or unsupported JWK "alg" (Algorithm) Parameter value')
+
+    algorithm =
+      entry.kty[0] === 'RSA'
+        ? {
+            ...(entry.subtle as RsaHashedKeyGenParams),
+            publicExponent: Uint8Array.of(0x01, 0x00, 0x01),
+            modulusLength: getModulusLengthOption(options),
+          }
+        : entry.subtle
   }
 
-  if (expectedCrv !== undefined && options?.crv !== undefined && options.crv !== expectedCrv) {
-    throw new JOSENotSupported(
-      `Invalid or unsupported crv option provided, the only supported value for ${alg} is ${expectedCrv}`,
-    )
-  }
-
-  return crypto.subtle.generateKey(
-    algorithm,
-    options?.extractable ?? false,
-    keyUsages,
-  ) as Promise<GenerateKeyPairResult>
+  return crypto.subtle.generateKey(algorithm, options?.extractable ?? false, [
+    ...entry.usages.private,
+    ...entry.usages.public,
+  ]) as Promise<GenerateKeyPairResult>
 }

@@ -29,3 +29,10 @@ Cic5wE9P+Ol/pFNJFpfjXMsmT8lkCK954aYf2xoH1bHkONYAEEk0iQu/
 test('https://github.com/panva/jose/issues/459', (t) => {
   return t.notThrowsAsync(() => importX509(cert, 'RS256'))
 })
+
+test('X.509 import rejects symmetric algorithms', async (t) => {
+  await t.throwsAsync(importX509(cert, 'HS256'), {
+    code: 'ERR_JOSE_NOT_SUPPORTED',
+    message: 'Invalid or unsupported "alg" (Algorithm) value',
+  })
+})
