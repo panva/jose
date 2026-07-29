@@ -4,10 +4,8 @@
  * @module
  */
 
-import { flattenedDecrypt } from '../flattened/decrypt.js'
-import type { FlattenedDecryptGetKey } from '../flattened/decrypt.js'
-import { JWEInvalid } from '../../util/errors.js'
-import { decoder } from '../../lib/buffer_utils.js'
+import { prepareDecrypt, decryptCompact } from '../../lib/jwe_decrypt.js'
+import type { DecryptGetKey } from '../../lib/jwe_decrypt.js'
 import type * as types from '../../types.d.ts'
 
 /**
@@ -89,39 +87,13 @@ export async function compactDecrypt(
   key: types.KeyInput | CompactDecryptGetKey,
   options?: types.DecryptOptions,
 ) {
-  if (jwe instanceof Uint8Array) {
-    jwe = decoder.decode(jwe)
-  }
-
-  if (typeof jwe !== 'string') {
-    throw new JWEInvalid('Compact JWE must be a string or Uint8Array')
-  }
-  const {
-    0: protectedHeader,
-    1: encryptedKey,
-    2: iv,
-    3: ciphertext,
-    4: tag,
-    length,
-  } = jwe.split('.')
-
-  if (length !== 5) {
-    throw new JWEInvalid('Invalid Compact JWE')
-  }
-
-  const decrypted = await flattenedDecrypt(
-    {
-      ciphertext,
-      iv: iv || undefined,
-      protected: protectedHeader,
-      tag: tag || undefined,
-      encrypted_key: encryptedKey || undefined,
-    },
-    key as types.KeyInput | FlattenedDecryptGetKey,
-    options,
+  const decrypted = await decryptCompact(
+    jwe,
+    prepareDecrypt(options),
+    key as types.KeyInput | DecryptGetKey,
   )
 
-  const result = { plaintext: decrypted.plaintext, protectedHeader: decrypted.protectedHeader! }
+  const result = { plaintext: decrypted.plaintext, protectedHeader: decrypted.parsedProt! }
 
   if (typeof key === 'function') {
     return { ...result, key: decrypted.key }

@@ -5,6 +5,7 @@
  */
 
 import { CompactSign } from '../jws/compact/sign.js'
+import { unencodedPayload } from '../lib/jws_sign.js'
 import { JWTInvalid } from '../util/errors.js'
 import type * as types from '../types.d.ts'
 import { JWTClaimsBuilder } from '../lib/jwt_claims_set.js'
@@ -182,11 +183,7 @@ export class SignJWT implements types.ProduceJWT {
   async sign(key: types.KeyInput, options?: types.SignOptions): Promise<string> {
     const sig = new CompactSign(this.#jwt.data())
     sig.setProtectedHeader(this.#protectedHeader)
-    if (
-      Array.isArray(this.#protectedHeader?.crit) &&
-      this.#protectedHeader.crit.includes('b64') &&
-      this.#protectedHeader.b64 === false
-    ) {
+    if (unencodedPayload(this.#protectedHeader)) {
       throw new JWTInvalid('JWTs MUST NOT use unencoded payload')
     }
     return sig.sign(key, options)

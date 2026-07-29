@@ -4,7 +4,15 @@
  * @module
  */
 
-import { flattenedDecrypt } from '../flattened/decrypt.js'
+import {
+  prepareDecrypt,
+  shareJWE,
+  decryptRecipient,
+  decryptResult,
+  checkShared,
+  checkRecipient,
+} from '../../lib/jwe_decrypt.js'
+import type { DecryptShared, SharedJWE } from '../../lib/jwe_decrypt.js'
 import { JWEDecryptionFailed, JWEInvalid } from '../../util/errors.js'
 import type * as types from '../../types.d.ts'
 import { isObject } from '../../lib/type_checks.js'
@@ -121,22 +129,34 @@ export async function generalDecrypt(
     throw new JWEInvalid('JWE Recipients has no members')
   }
 
+  let shared: DecryptShared
+  let token: SharedJWE
+  try {
+    checkShared(jwe as types.FlattenedJWE)
+    shared = prepareDecrypt(options)
+    token = shareJWE(jwe as types.FlattenedJWE)
+  } catch {
+    // A fault in a shared member is a fault of the token, but reporting it as such would tell a
+    // caller which recipient - if any - their key was meant for. Stay indistinguishable.
+    throw new JWEDecryptionFailed()
+  }
+
   for (const recipient of jwe.recipients) {
     try {
-      return await flattenedDecrypt(
-        {
-          aad: jwe.aad,
-          ciphertext: jwe.ciphertext,
-          encrypted_key: recipient.encrypted_key,
-          header: recipient.header,
-          iv: jwe.iv,
-          protected: jwe.protected,
-          tag: jwe.tag,
-          unprotected: jwe.unprotected,
-        },
-        key,
-        options,
-      )
+      const flattened: types.FlattenedJWE = {
+        aad: jwe.aad,
+        ciphertext: jwe.ciphertext,
+        encrypted_key: recipient.encrypted_key,
+        header: recipient.header,
+        iv: jwe.iv,
+        protected: jwe.protected,
+        tag: jwe.tag,
+        unprotected: jwe.unprotected,
+      }
+
+      checkRecipient(flattened)
+
+      return decryptResult(flattened, await decryptRecipient(flattened, token, shared, key))
     } catch {
       //
     }

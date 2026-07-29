@@ -6,13 +6,14 @@
 
 import type * as types from '../../types.d.ts'
 import { FlattenedEncrypt } from '../flattened/encrypt.js'
-import { unprotected, assertNotSet } from '../../lib/helpers.js'
-import { JOSENotSupported, JWEInvalid } from '../../util/errors.js'
+import { assertNotSet } from '../../lib/helpers.js'
+import { JWEInvalid } from '../../util/errors.js'
 import { generateCek } from '../../lib/content_encryption.js'
-import { isDisjoint } from '../../lib/type_checks.js'
 import { encryptKeyManagement } from '../../lib/key_management.js'
 import { encode as b64u } from '../../util/base64url.js'
-import { validateCrit, validateCritDuplicates } from '../../lib/validate_crit.js'
+import { validateCritDuplicates } from '../../lib/options.js'
+import { checkEncryptHeaders, encryptJWE } from '../../lib/jwe_encrypt.js'
+import type { CheckedHeaders, EncryptInput } from '../../lib/jwe_encrypt.js'
 import { normalizeKey } from '../../lib/normalize_key.js'
 import { checkKeyType } from '../../lib/check_key_type.js'
 
@@ -187,6 +188,10 @@ export class GeneralEncrypt {
       throw new JWEInvalid('at least one recipient must be added')
     }
 
+    if (!(this.#plaintext instanceof Uint8Array)) {
+      throw new TypeError('plaintext must be an instance of Uint8Array')
+    }
+
     if (this.#recipients.length === 1) {
       const [recipient] = this.#recipients
 
@@ -214,57 +219,37 @@ export class GeneralEncrypt {
       return jwe
     }
 
+    validateCritDuplicates(JWEInvalid, this.#protectedHeader)
+
     let enc!: string
+    const inputs: EncryptInput[] = []
+    const checked: CheckedHeaders[] = []
     for (let i = 0; i < this.#recipients.length; i++) {
       const recipient = this.#recipients[i]
-      if (
-        !isDisjoint(this.#protectedHeader, this.#unprotectedHeader, recipient.unprotectedHeader)
-      ) {
-        throw new JWEInvalid(
-          'JWE Protected, JWE Shared Unprotected and JWE Per-Recipient Header Parameter names must be disjoint',
-        )
+
+      const input: EncryptInput = {
+        plaintext: this.#plaintext,
+        protectedHeader: this.#protectedHeader,
+        unprotectedHeader: recipient.unprotectedHeader,
+        sharedUnprotectedHeader: this.#unprotectedHeader,
+        aad: this.#aad,
+        keyManagementParameters: recipient.keyManagementParameters,
+        crit: recipient.options.crit,
+        unprotectedParameters: true,
       }
+      const headers = checkEncryptHeaders(input)
+      inputs.push(input)
+      checked.push(headers)
 
-      const joseHeader = {
-        ...this.#protectedHeader,
-        ...this.#unprotectedHeader,
-        ...recipient.unprotectedHeader,
-      }
-
-      const { alg } = joseHeader
-
-      if (typeof alg !== 'string' || !alg) {
-        throw new JWEInvalid('JWE "alg" (Algorithm) Header Parameter missing or invalid')
-      }
-
-      if (alg === 'dir' || alg === 'ECDH-ES') {
+      if (headers.alg === 'dir' || headers.alg === 'ECDH-ES') {
         throw new JWEInvalid('"dir" and "ECDH-ES" alg may only be used with a single recipient')
       }
 
-      if (typeof joseHeader.enc !== 'string' || !joseHeader.enc) {
-        throw new JWEInvalid('JWE "enc" (Encryption Algorithm) Header Parameter missing or invalid')
-      }
-
       if (!enc) {
-        enc = joseHeader.enc
-      } else if (enc !== joseHeader.enc) {
+        enc = headers.enc
+      } else if (enc !== headers.enc) {
         throw new JWEInvalid(
           'JWE "enc" (Encryption Algorithm) Header Parameter must be the same for all recipients',
-        )
-      }
-
-      validateCritDuplicates(JWEInvalid, this.#protectedHeader)
-      validateCrit(JWEInvalid, new Map(), recipient.options.crit, this.#protectedHeader, joseHeader)
-
-      if (joseHeader.zip !== undefined && joseHeader.zip !== 'DEF') {
-        throw new JOSENotSupported(
-          'Unsupported JWE "zip" (Compression Algorithm) Header Parameter value.',
-        )
-      }
-
-      if (joseHeader.zip !== undefined && !this.#protectedHeader?.zip) {
-        throw new JWEInvalid(
-          'JWE "zip" (Compression Algorithm) Header Parameter MUST be in a protected header.',
         )
       }
     }
@@ -282,18 +267,7 @@ export class GeneralEncrypt {
       jwe.recipients.push(target)
 
       if (i === 0) {
-        const flattened = await new FlattenedEncrypt(this.#plaintext)
-          .setAdditionalAuthenticatedData(this.#aad)
-          .setContentEncryptionKey(cek)
-          .setProtectedHeader(this.#protectedHeader)
-          .setSharedUnprotectedHeader(this.#unprotectedHeader)
-          .setUnprotectedHeader(recipient.unprotectedHeader!)
-          .setKeyManagementParameters(recipient.keyManagementParameters!)
-          .encrypt(recipient.key, {
-            ...recipient.options,
-            // @ts-expect-error
-            [unprotected]: true,
-          })
+        const flattened = await encryptJWE({ ...inputs[0], cek }, checked[0], recipient.key)
 
         jwe.ciphertext = flattened.ciphertext
         jwe.iv = flattened.iv
@@ -309,12 +283,9 @@ export class GeneralEncrypt {
         continue
       }
 
-      const alg =
-        recipient.unprotectedHeader?.alg! ||
-        this.#protectedHeader?.alg! ||
-        this.#unprotectedHeader?.alg!
+      const { alg } = checked[i]
 
-      checkKeyType(alg === 'dir' ? enc : alg, recipient.key, 'encrypt')
+      checkKeyType(alg, recipient.key, 'encrypt')
 
       const k = await normalizeKey(recipient.key, alg)
       const { encryptedKey, parameters } = await encryptKeyManagement(

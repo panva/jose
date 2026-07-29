@@ -53,6 +53,19 @@ test('General JWE encryption', async (t) => {
   }
 })
 
+test('General JWE encryption validates multi-recipient plaintext', async (t) => {
+  const encrypt = new GeneralEncrypt(new ArrayBuffer(1) as any).setProtectedHeader({
+    enc: 'A128GCM',
+  })
+  encrypt.addRecipient(t.context.secret).setUnprotectedHeader({ alg: 'A256KW' })
+  encrypt.addRecipient(t.context.secret2).setUnprotectedHeader({ alg: 'A128KW' })
+
+  await t.throwsAsync(encrypt.encrypt(), {
+    instanceOf: TypeError,
+    message: 'plaintext must be an instance of Uint8Array',
+  })
+})
+
 test('General JWE encryption (single recipient dir)', async (t) => {
   const generalJwe = await new GeneralEncrypt(t.context.plaintext)
     .setAdditionalAuthenticatedData(t.context.additionalAuthenticatedData)

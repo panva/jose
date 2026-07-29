@@ -1,7 +1,7 @@
 import test from 'ava'
 import * as crypto from 'crypto'
 
-import { FlattenedSign, flattenedVerify } from '../../src/index.js'
+import { FlattenedSign, base64url, flattenedVerify } from '../../src/index.js'
 
 test.before(async (t) => {
   const encode = TextEncoder.prototype.encode.bind(new TextEncoder())
@@ -86,6 +86,15 @@ test('JWS format validation', async (t) => {
     }
     jws.protected = `1${jws.protected}`
     await t.throwsAsync(flattenedVerify(jws, t.context.secret), assertion)
+
+    // RFC 7515 Section 4 - the Protected Header must be a JSON object. Without this a JSON
+    // string, number, null or array was accepted and returned as the protectedHeader.
+    for (const json of ['"foo"', '123', 'null', '[]']) {
+      await t.throwsAsync(
+        flattenedVerify({ ...jws, protected: base64url.encode(json) }, t.context.secret),
+        assertion,
+      )
+    }
   }
 
   {

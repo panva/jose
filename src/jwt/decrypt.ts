@@ -5,7 +5,8 @@
  */
 
 import type * as types from '../types.d.ts'
-import { compactDecrypt } from '../jwe/compact/decrypt.js'
+import { prepareDecrypt, decryptCompact } from '../lib/jwe_decrypt.js'
+import type { DecryptGetKey } from '../lib/jwe_decrypt.js'
 import { validateClaimsSet } from '../lib/jwt_claims_set.js'
 import { JWTClaimValidationFailed } from '../util/errors.js'
 
@@ -98,10 +99,13 @@ export async function jwtDecrypt(
   key: types.KeyInput | JWTDecryptGetKey,
   options?: JWTDecryptOptions,
 ) {
-  const decrypted = await compactDecrypt(jwt, key, options)
-  const payload = validateClaimsSet(decrypted.protectedHeader, decrypted.plaintext, options)
-
-  const { protectedHeader } = decrypted
+  const decrypted = await decryptCompact(
+    jwt,
+    prepareDecrypt(options),
+    key as types.KeyInput | DecryptGetKey,
+  )
+  const protectedHeader = decrypted.parsedProt as types.JWTHeaderParameters
+  const payload = validateClaimsSet(protectedHeader, decrypted.plaintext, options)
 
   if (protectedHeader.iss !== undefined && protectedHeader.iss !== payload.iss) {
     throw new JWTClaimValidationFailed(

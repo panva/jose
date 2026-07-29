@@ -4,8 +4,9 @@
  * @module
  */
 
-import { compactVerify } from '../jws/compact/verify.js'
 import type * as types from '../types.d.ts'
+import { prepareVerify, verifyCompact } from '../lib/jws_verify.js'
+import type { VerifyGetKey } from '../lib/jws_verify.js'
 import { validateClaimsSet } from '../lib/jwt_claims_set.js'
 import { JWTInvalid } from '../util/errors.js'
 
@@ -170,12 +171,16 @@ export async function jwtVerify(
   key: types.KeyInput | JWTVerifyGetKey,
   options?: JWTVerifyOptions,
 ) {
-  const verified = await compactVerify(jwt, key, options)
-  if (verified.protectedHeader.crit?.includes('b64') && verified.protectedHeader.b64 === false) {
+  const verified = await verifyCompact(
+    jwt,
+    prepareVerify(options),
+    key as types.KeyInput | VerifyGetKey,
+  )
+  if (!verified.b64) {
     throw new JWTInvalid('JWTs MUST NOT use unencoded payload')
   }
-  const payload = validateClaimsSet(verified.protectedHeader, verified.payload, options)
-  const result = { payload, protectedHeader: verified.protectedHeader }
+  const payload = validateClaimsSet(verified.parsedProt, verified.payload, options)
+  const result = { payload, protectedHeader: verified.parsedProt as types.JWTHeaderParameters }
   if (typeof key === 'function') {
     return { ...result, key: verified.key }
   }

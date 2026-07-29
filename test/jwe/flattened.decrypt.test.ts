@@ -108,6 +108,14 @@ test('JWE format validation', async (t) => {
     }
     jwe.protected = `1${jwe.protected}`
     await t.throwsAsync(flattenedDecrypt(jwe, t.context.secret), assertion)
+
+    // RFC 7516 Section 4 - the Protected Header must be a JSON object.
+    for (const json of ['"foo"', '123', 'null', '[]']) {
+      await t.throwsAsync(
+        flattenedDecrypt({ ...jwe, protected: base64url.encode(json) }, t.context.secret),
+        assertion,
+      )
+    }
   }
 
   {

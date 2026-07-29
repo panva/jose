@@ -8,6 +8,7 @@ import * as b64u from '../util/base64url.js'
 
 import type * as types from '../types.d.ts'
 import { strictDecoder } from '../lib/buffer_utils.js'
+import { decodeBase64url } from '../lib/helpers.js'
 import { JWTInvalid } from '../util/errors.js'
 import { validateClaimsSet, JWTClaimsBuilder } from '../lib/jwt_claims_set.js'
 
@@ -145,7 +146,7 @@ export class UnsecuredJWT implements types.ProduceJWT {
 
     const payload = validateClaimsSet(
       header,
-      b64u.decode(encodedPayload),
+      decodeBase64url(encodedPayload, 'payload', JWTInvalid),
       options,
     ) as UnsecuredResult<PayloadType>['payload']
 

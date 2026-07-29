@@ -6,6 +6,7 @@
 
 import type * as types from '../../types.d.ts'
 import { FlattenedSign } from '../flattened/sign.js'
+import { unencodedPayload } from '../../lib/jws_sign.js'
 
 /**
  * The CompactSign class is used to build and sign Compact JWS strings.
@@ -57,15 +58,11 @@ export class CompactSign {
    * @param options JWS Sign options.
    */
   async sign(key: types.KeyInput, options?: types.SignOptions): Promise<string> {
-    const jws = await this.#flattened.sign(key, options)
-
-    if (
-      this.#protectedHeader?.b64 === false &&
-      Array.isArray(this.#protectedHeader.crit) &&
-      this.#protectedHeader.crit.includes('b64')
-    ) {
+    if (unencodedPayload(this.#protectedHeader)) {
       throw new TypeError('use the flattened module for creating JWS with b64: false')
     }
+
+    const jws = await this.#flattened.sign(key, options)
 
     return `${jws.protected}.${jws.payload}.${jws.signature}`
   }

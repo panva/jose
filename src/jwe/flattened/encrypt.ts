@@ -4,18 +4,11 @@
  * @module
  */
 
-import { encode as b64u } from '../../util/base64url.js'
 import { unprotected, assertNotSet } from '../../lib/helpers.js'
-import { encrypt } from '../../lib/content_encryption.js'
 import type * as types from '../../types.d.ts'
-import { encryptKeyManagement } from '../../lib/key_management.js'
-import { JOSENotSupported, JWEInvalid } from '../../util/errors.js'
-import { isDisjoint } from '../../lib/type_checks.js'
-import { concat, encode } from '../../lib/buffer_utils.js'
-import { validateCrit, validateCritDuplicates } from '../../lib/validate_crit.js'
-import { normalizeKey } from '../../lib/normalize_key.js'
-import { checkKeyType } from '../../lib/check_key_type.js'
-import { compress } from '../../lib/deflate.js'
+import { JWEInvalid } from '../../util/errors.js'
+import { createJWE } from '../../lib/jwe_encrypt.js'
+import { validateCritDuplicates } from '../../lib/options.js'
 
 /**
  * The FlattenedEncrypt class is used to build and encrypt Flattened JWE objects.
@@ -166,143 +159,22 @@ export class FlattenedEncrypt {
       )
     }
 
-    if (
-      !isDisjoint(this.#protectedHeader, this.#unprotectedHeader, this.#sharedUnprotectedHeader)
-    ) {
-      throw new JWEInvalid(
-        'JWE Protected, JWE Shared Unprotected and JWE Per-Recipient Header Parameter names must be disjoint',
-      )
-    }
-
-    const joseHeader: types.JWEHeaderParameters = {
-      ...this.#protectedHeader,
-      ...this.#unprotectedHeader,
-      ...this.#sharedUnprotectedHeader,
-    }
-
     validateCritDuplicates(JWEInvalid, this.#protectedHeader)
-    validateCrit(JWEInvalid, new Map(), options?.crit, this.#protectedHeader, joseHeader)
 
-    if (joseHeader.zip !== undefined && joseHeader.zip !== 'DEF') {
-      throw new JOSENotSupported(
-        'Unsupported JWE "zip" (Compression Algorithm) Header Parameter value.',
-      )
-    }
-
-    if (joseHeader.zip !== undefined && !this.#protectedHeader?.zip) {
-      throw new JWEInvalid(
-        'JWE "zip" (Compression Algorithm) Header Parameter MUST be in a protected header.',
-      )
-    }
-
-    const { alg, enc } = joseHeader
-
-    if (typeof alg !== 'string' || !alg) {
-      throw new JWEInvalid('JWE "alg" (Algorithm) Header Parameter missing or invalid')
-    }
-
-    if (typeof enc !== 'string' || !enc) {
-      throw new JWEInvalid('JWE "enc" (Encryption Algorithm) Header Parameter missing or invalid')
-    }
-
-    let encryptedKey: Uint8Array | undefined
-
-    if (this.#cek && (alg === 'dir' || alg === 'ECDH-ES')) {
-      throw new TypeError(
-        `setContentEncryptionKey cannot be called with JWE "alg" (Algorithm) Header ${alg}`,
-      )
-    }
-
-    checkKeyType(alg === 'dir' ? enc : alg, key, 'encrypt')
-
-    let cek: types.CryptoKey | Uint8Array
-    {
-      let parameters: { [propName: string]: unknown } | undefined
-      const k = await normalizeKey(key, alg)
-      ;({ cek, encryptedKey, parameters } = await encryptKeyManagement(
-        alg,
-        enc,
-        k,
-        this.#cek,
-        this.#keyManagementParameters,
-      ))
-
-      if (parameters) {
-        if (options && unprotected in options) {
-          if (!this.#unprotectedHeader) {
-            this.setUnprotectedHeader(parameters)
-          } else {
-            this.#unprotectedHeader = { ...this.#unprotectedHeader, ...parameters }
-          }
-        } else if (!this.#protectedHeader) {
-          this.setProtectedHeader(parameters)
-        } else {
-          this.#protectedHeader = { ...this.#protectedHeader, ...parameters }
-        }
-      }
-    }
-
-    let additionalData: Uint8Array
-    let protectedHeaderS: string
-    let protectedHeaderB: Uint8Array
-    let aadMember: string | undefined
-    if (this.#protectedHeader) {
-      protectedHeaderS = b64u(JSON.stringify(this.#protectedHeader))
-      protectedHeaderB = encode(protectedHeaderS)
-    } else {
-      protectedHeaderS = ''
-      protectedHeaderB = new Uint8Array()
-    }
-
-    if (this.#aad?.byteLength) {
-      aadMember = b64u(this.#aad)
-      const aadMemberBytes = encode(aadMember)
-      additionalData = concat(protectedHeaderB, encode('.'), aadMemberBytes)
-    } else {
-      additionalData = protectedHeaderB
-    }
-
-    let plaintext = this.#plaintext
-    if (joseHeader.zip === 'DEF') {
-      plaintext = await compress(plaintext).catch((cause) => {
-        throw new JWEInvalid('Failed to compress plaintext', { cause })
-      })
-    }
-
-    const { ciphertext, tag, iv } = await encrypt(enc, plaintext, cek, this.#iv, additionalData)
-
-    const jwe: types.FlattenedJWE = {
-      ciphertext: b64u(ciphertext),
-    }
-
-    if (iv) {
-      jwe.iv = b64u(iv)
-    }
-
-    if (tag) {
-      jwe.tag = b64u(tag)
-    }
-
-    if (encryptedKey) {
-      jwe.encrypted_key = b64u(encryptedKey)
-    }
-
-    if (aadMember) {
-      jwe.aad = aadMember
-    }
-
-    if (this.#protectedHeader) {
-      jwe.protected = protectedHeaderS
-    }
-
-    if (this.#sharedUnprotectedHeader) {
-      jwe.unprotected = this.#sharedUnprotectedHeader
-    }
-
-    if (this.#unprotectedHeader) {
-      jwe.header = this.#unprotectedHeader
-    }
-
-    return jwe
+    return createJWE(
+      {
+        plaintext: this.#plaintext,
+        protectedHeader: this.#protectedHeader,
+        unprotectedHeader: this.#unprotectedHeader,
+        sharedUnprotectedHeader: this.#sharedUnprotectedHeader,
+        aad: this.#aad,
+        cek: this.#cek,
+        iv: this.#iv,
+        keyManagementParameters: this.#keyManagementParameters,
+        crit: options?.crit,
+        unprotectedParameters: options ? unprotected in options : false,
+      },
+      key,
+    )
   }
 }

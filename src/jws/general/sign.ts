@@ -5,7 +5,7 @@
  */
 
 import type * as types from '../../types.d.ts'
-import { FlattenedSign } from '../flattened/sign.js'
+import { createSignature } from '../../lib/jws_sign.js'
 import { JWSInvalid } from '../../util/errors.js'
 import { assertNotSet } from '../../lib/helpers.js'
 
@@ -138,19 +138,41 @@ export class GeneralSign {
       throw new JWSInvalid('at least one signature must be added')
     }
 
+    if (!(this.#payload instanceof Uint8Array)) {
+      throw new TypeError('payload must be an instance of Uint8Array')
+    }
+
     const jws: types.GeneralJWS = {
       signatures: [],
       payload: '',
     }
 
+    const encoded = {}
+
     for (let i = 0; i < this.#signatures.length; i++) {
       const signature = this.#signatures[i]
-      const flattened = new FlattenedSign(this.#payload)
 
-      flattened.setProtectedHeader(signature.protectedHeader!)
-      flattened.setUnprotectedHeader(signature.unprotectedHeader!)
+      if (!signature.protectedHeader && !signature.unprotectedHeader) {
+        throw new JWSInvalid(
+          'either setProtectedHeader or setUnprotectedHeader must be called before #sign()',
+        )
+      }
 
-      const { payload, ...rest } = await flattened.sign(signature.key, signature.options)
+      const { payload, ...rest } = await createSignature(
+        {
+          payload: this.#payload,
+          protectedHeader: signature.protectedHeader,
+          unprotectedHeader: signature.unprotectedHeader,
+          crit: signature.options?.crit,
+          encoded,
+        },
+        signature.key,
+      )
+
+      if (signature.unprotectedHeader) {
+        rest.header = signature.unprotectedHeader
+      }
+
       if (i === 0) {
         jws.payload = payload
       } else if (jws.payload !== payload) {

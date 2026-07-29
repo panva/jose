@@ -40,6 +40,11 @@ test('UnsecuredJWT validations', (t) => {
     code: 'ERR_JWT_INVALID',
     message: 'Invalid Unsecured JWT',
   })
+  // a payload segment that is not base64url used to escape as a bare TypeError
+  t.throws(() => UnsecuredJWT.decode('eyJhbGciOiJub25lIn0.++++.'), {
+    code: 'ERR_JWT_INVALID',
+    message: 'Failed to base64url decode the payload',
+  })
 })
 
 test('new UnsecuredJWT()', (t) => {

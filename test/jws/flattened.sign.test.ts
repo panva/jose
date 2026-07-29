@@ -141,3 +141,20 @@ test('FlattenedSign.prototype.sign JOSE header have an alg', async (t) => {
       .sign(t.context.secret),
   )
 })
+
+test('FlattenedSign only uses serialized protected header parameters', async (t) => {
+  const inherited = Object.create({ alg: 'HS256' })
+  const nonEnumerable = Object.defineProperty({}, 'alg', { value: 'HS256' })
+
+  for (const protectedHeader of [inherited, nonEnumerable]) {
+    await t.throwsAsync(
+      new FlattenedSign(t.context.payload)
+        .setProtectedHeader(protectedHeader)
+        .sign(t.context.secret),
+      {
+        code: 'ERR_JWS_INVALID',
+        message: 'JWS "alg" (Algorithm) Header Parameter missing or invalid',
+      },
+    )
+  }
+})

@@ -5,10 +5,8 @@
  */
 
 import type * as types from '../../types.d.ts'
-import { flattenedVerify } from '../flattened/verify.js'
-import type { FlattenedVerifyGetKey } from '../flattened/verify.js'
-import { JWSInvalid } from '../../util/errors.js'
-import { decoder } from '../../lib/buffer_utils.js'
+import { prepareVerify, verifyCompact } from '../../lib/jws_verify.js'
+import type { VerifyGetKey } from '../../lib/jws_verify.js'
 
 /**
  * Interface for Compact JWS Verification dynamic key resolution. No token components have been
@@ -91,29 +89,16 @@ export async function compactVerify(
   key: types.KeyInput | CompactVerifyGetKey,
   options?: types.VerifyOptions,
 ) {
-  if (jws instanceof Uint8Array) {
-    jws = decoder.decode(jws)
-  }
-
-  if (typeof jws !== 'string') {
-    throw new JWSInvalid('Compact JWS must be a string or Uint8Array')
-  }
-  const { 0: protectedHeader, 1: payload, 2: signature, length } = jws.split('.')
-
-  if (length !== 3) {
-    throw new JWSInvalid('Invalid Compact JWS')
-  }
-
-  // A CompactVerifyGetKey declares a narrower Protected Header than a FlattenedVerifyGetKey does,
-  // so it is not assignable to one. Delegating is nevertheless sound: flattenedVerify rejects a JWS
-  // whose Protected Header has no "alg" before it ever calls the resolver.
-  const verified = await flattenedVerify(
-    { payload, protected: protectedHeader, signature },
-    key as types.KeyInput | FlattenedVerifyGetKey,
-    options,
+  // A CompactVerifyGetKey declares a narrower Protected Header than a VerifyGetKey does, so it is
+  // not assignable to one. Delegating is nevertheless sound: the core rejects a JWS whose Protected
+  // Header has no "alg" before it ever calls the resolver.
+  const verified = await verifyCompact(
+    jws,
+    prepareVerify(options),
+    key as types.KeyInput | VerifyGetKey,
   )
 
-  const result = { payload: verified.payload, protectedHeader: verified.protectedHeader! }
+  const result = { payload: verified.payload, protectedHeader: verified.parsedProt }
 
   if (typeof key === 'function') {
     return { ...result, key: verified.key }

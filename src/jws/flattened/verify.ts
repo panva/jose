@@ -5,18 +5,9 @@
  */
 
 import type * as types from '../../types.d.ts'
-import { decode as b64u } from '../../util/base64url.js'
-import { verify } from '../../lib/signing.js'
-
-import { JOSEAlgNotAllowed, JWSInvalid, JWSSignatureVerificationFailed } from '../../util/errors.js'
-import { concat, encoder, encode, strictDecoder } from '../../lib/buffer_utils.js'
-import { decodeBase64url, encodeBase64url } from '../../lib/helpers.js'
-import { isDisjoint } from '../../lib/type_checks.js'
+import { JWSInvalid } from '../../util/errors.js'
 import { isObject } from '../../lib/type_checks.js'
-import { checkKeyType } from '../../lib/check_key_type.js'
-import { validateCrit } from '../../lib/validate_crit.js'
-import { validateAlgorithms } from '../../lib/validate_algorithms.js'
-import { normalizeKey } from '../../lib/normalize_key.js'
+import { prepareVerify, verifySignature, verifyResult } from '../../lib/jws_verify.js'
 
 /**
  * Interface for Flattened JWS Verification dynamic key resolution. No token components have been
@@ -128,114 +119,5 @@ export async function flattenedVerify(
     throw new JWSInvalid('JWS Unprotected Header incorrect type')
   }
 
-  let parsedProt: types.JWSHeaderParameters = {}
-  if (jws.protected) {
-    try {
-      const protectedHeader = b64u(jws.protected)
-      parsedProt = JSON.parse(strictDecoder.decode(protectedHeader))
-    } catch {
-      throw new JWSInvalid('JWS Protected Header is invalid')
-    }
-  }
-  if (!isDisjoint(parsedProt, jws.header)) {
-    throw new JWSInvalid(
-      'JWS Protected and JWS Unprotected Header Parameter names must be disjoint',
-    )
-  }
-
-  const joseHeader: types.JWSHeaderParameters = {
-    ...parsedProt,
-    ...jws.header,
-  }
-
-  const extensions = validateCrit(
-    JWSInvalid,
-    new Map([['b64', true]]),
-    options?.crit,
-    parsedProt,
-    joseHeader,
-  )
-
-  let b64 = true
-  if (extensions.has('b64')) {
-    b64 = parsedProt.b64!
-    if (typeof b64 !== 'boolean') {
-      throw new JWSInvalid(
-        'The "b64" (base64url-encode payload) Header Parameter must be a boolean',
-      )
-    }
-  }
-
-  const { alg } = joseHeader
-
-  if (typeof alg !== 'string' || !alg) {
-    throw new JWSInvalid('JWS "alg" (Algorithm) Header Parameter missing or invalid')
-  }
-
-  const algorithms = options && validateAlgorithms('algorithms', options.algorithms)
-
-  if (algorithms && !algorithms.has(alg)) {
-    throw new JOSEAlgNotAllowed('"alg" (Algorithm) Header Parameter value not allowed')
-  }
-
-  if (b64) {
-    if (typeof jws.payload !== 'string') {
-      throw new JWSInvalid('JWS Payload must be a string')
-    }
-  } else if (typeof jws.payload !== 'string' && !(jws.payload instanceof Uint8Array)) {
-    throw new JWSInvalid('JWS Payload must be a string or an Uint8Array instance')
-  }
-
-  let resolvedKey = false
-  if (typeof key === 'function') {
-    key = await key(parsedProt, jws)
-    resolvedKey = true
-  }
-
-  checkKeyType(alg, key, 'verify')
-
-  const data = concat(
-    jws.protected !== undefined ? encode(jws.protected) : new Uint8Array(),
-    encode('.'),
-    typeof jws.payload === 'string'
-      ? b64
-        ? // A base64url payload is ASCII by definition, but it reaches here without having been
-          // decoded, so a non-ASCII one must not escape as a bare TypeError.
-          encodeBase64url(jws.payload, 'payload', JWSInvalid)
-        : encoder.encode(jws.payload)
-      : jws.payload,
-  )
-  const signature = decodeBase64url(jws.signature, 'signature', JWSInvalid)
-
-  const k = await normalizeKey(key, alg)
-  const verified = await verify(alg, k, signature, data)
-
-  if (!verified) {
-    throw new JWSSignatureVerificationFailed()
-  }
-
-  let payload: Uint8Array
-  if (b64) {
-    payload = decodeBase64url(jws.payload as string, 'payload', JWSInvalid)
-  } else if (typeof jws.payload === 'string') {
-    payload = encoder.encode(jws.payload)
-  } else {
-    payload = jws.payload
-  }
-
-  const result: types.FlattenedVerifyResult = { payload }
-
-  if (jws.protected !== undefined) {
-    result.protectedHeader = parsedProt
-  }
-
-  if (jws.header !== undefined) {
-    result.unprotectedHeader = jws.header
-  }
-
-  if (resolvedKey) {
-    return { ...result, key: k }
-  }
-
-  return result
+  return verifyResult(jws, await verifySignature(jws, prepareVerify(options), key))
 }

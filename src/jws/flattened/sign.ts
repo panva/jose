@@ -5,15 +5,8 @@
  */
 
 import type * as types from '../../types.d.ts'
-import { encode as b64u } from '../../util/base64url.js'
-import { sign } from '../../lib/signing.js'
-
-import { isDisjoint } from '../../lib/type_checks.js'
 import { JWSInvalid } from '../../util/errors.js'
-import { concat, encode } from '../../lib/buffer_utils.js'
-import { checkKeyType } from '../../lib/check_key_type.js'
-import { validateCrit, validateCritDuplicates } from '../../lib/validate_crit.js'
-import { normalizeKey } from '../../lib/normalize_key.js'
+import { createSignature } from '../../lib/jws_sign.js'
 import { assertNotSet } from '../../lib/helpers.js'
 
 /**
@@ -89,80 +82,18 @@ export class FlattenedSign {
       )
     }
 
-    if (!isDisjoint(this.#protectedHeader, this.#unprotectedHeader)) {
-      throw new JWSInvalid(
-        'JWS Protected and JWS Unprotected Header Parameter names must be disjoint',
-      )
-    }
-
-    const joseHeader: types.JWSHeaderParameters = {
-      ...this.#protectedHeader,
-      ...this.#unprotectedHeader,
-    }
-
-    validateCritDuplicates(JWSInvalid, this.#protectedHeader)
-    const extensions = validateCrit(
-      JWSInvalid,
-      new Map([['b64', true]]),
-      options?.crit,
-      this.#protectedHeader,
-      joseHeader,
+    const jws: types.FlattenedJWS = await createSignature(
+      {
+        payload: this.#payload,
+        protectedHeader: this.#protectedHeader,
+        unprotectedHeader: this.#unprotectedHeader,
+        crit: options?.crit,
+      },
+      key,
     )
-
-    let b64 = true
-    if (extensions.has('b64')) {
-      b64 = this.#protectedHeader.b64!
-      if (typeof b64 !== 'boolean') {
-        throw new JWSInvalid(
-          'The "b64" (base64url-encode payload) Header Parameter must be a boolean',
-        )
-      }
-    }
-
-    const { alg } = joseHeader
-
-    if (typeof alg !== 'string' || !alg) {
-      throw new JWSInvalid('JWS "alg" (Algorithm) Header Parameter missing or invalid')
-    }
-
-    checkKeyType(alg, key, 'sign')
-
-    let payloadS: string
-    let payloadB: Uint8Array
-    if (b64) {
-      payloadS = b64u(this.#payload)
-      payloadB = encode(payloadS)
-    } else {
-      payloadB = this.#payload
-      payloadS = ''
-    }
-
-    let protectedHeaderString: string
-    let protectedHeaderBytes: Uint8Array
-    if (this.#protectedHeader) {
-      protectedHeaderString = b64u(JSON.stringify(this.#protectedHeader))
-      protectedHeaderBytes = encode(protectedHeaderString)
-    } else {
-      protectedHeaderString = ''
-      protectedHeaderBytes = new Uint8Array()
-    }
-
-    const data = concat(protectedHeaderBytes, encode('.'), payloadB)
-
-    const k = await normalizeKey(key, alg)
-    const signature = await sign(alg, k, data)
-
-    const jws: types.FlattenedJWS = {
-      signature: b64u(signature),
-      payload: payloadS,
-    }
 
     if (this.#unprotectedHeader) {
       jws.header = this.#unprotectedHeader
-    }
-
-    if (this.#protectedHeader) {
-      jws.protected = protectedHeaderString
     }
 
     return jws
