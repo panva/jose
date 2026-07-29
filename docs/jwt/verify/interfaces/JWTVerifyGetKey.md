@@ -20,9 +20,7 @@ the time of this function call.
 ▸ **JWTVerifyGetKey**(`protectedHeader`, `token`): [`JWK`](../../../types/type-aliases/JWK.md) \| [`KeyObject`](../../../types/interfaces/KeyObject.md) \| `KeyType` \| [`Promise`](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise)\<[`JWK`](../../../types/type-aliases/JWK.md) \| [`KeyObject`](../../../types/interfaces/KeyObject.md) \| `KeyType`\>
 
 Dynamic key resolution function. No token components have been verified at the time of this
-function call.
-
-If a suitable key for the token cannot be matched, throw an error instead.
+function call. If a suitable key for the token cannot be matched, throw an error instead.
 
 ## Parameters
 

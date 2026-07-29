@@ -59,10 +59,9 @@ export class FlattenedEncrypt {
   }
 
   /**
-   * Sets the JWE Key Management parameters to be used when encrypting.
-   *
-   * (ECDH-ES) Use of this method is needed for ECDH based algorithms to set the "apu" (Agreement
-   * PartyUInfo) or "apv" (Agreement PartyVInfo) parameters.
+   * Sets the JWE Key Management parameters to be used when encrypting. For ECDH based algorithms,
+   * use this method to set the "apu" (Agreement PartyUInfo) or "apv" (Agreement PartyVInfo)
+   * parameters.
    *
    * @param parameters JWE Key Management parameters.
    */

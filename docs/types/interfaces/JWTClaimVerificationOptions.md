@@ -12,9 +12,8 @@ JWT Claims Set verification options.
 
 • `optional` **audience?**: `string` \| `string`[]
 
-Expected JWT "aud" (Audience) Claim value(s).
-
-This option makes the JWT "aud" (Audience) Claim presence required.
+Expected JWT "aud" (Audience) Claim value(s). This option makes the JWT "aud" (Audience) Claim
+presence required.
 
 ***
 
@@ -22,13 +21,10 @@ This option makes the JWT "aud" (Audience) Claim presence required.
 
 • `optional` **clockTolerance?**: `string` \| `number`
 
-Clock skew tolerance
-
-- In seconds when number (e.g. 5)
-- Resolved into a number of seconds when a string (e.g. "5 seconds", "10 minutes", "2 hours").
-
-Used when validating the JWT "nbf" (Not Before) and "exp" (Expiration Time) claims, and when
-validating the "iat" (Issued At) claim if the [`maxTokenAge` option](#maxtokenage) is set.
+Clock skew tolerance in seconds when a number (e.g. 5), or resolved into seconds when a string
+(e.g. "5 seconds", "10 minutes", "2 hours"). Used when validating the JWT "nbf" (Not Before)
+and "exp" (Expiration Time) claims, and when validating the "iat" (Issued At) claim if the
+[`maxTokenAge` option](#maxtokenage) is set.
 
 ***
 
@@ -44,9 +40,8 @@ Date to use when comparing NumericDate claims, defaults to `new Date()`.
 
 • `optional` **issuer?**: `string` \| `string`[]
 
-Expected JWT "iss" (Issuer) Claim value(s).
-
-This option makes the JWT "iss" (Issuer) Claim presence required.
+Expected JWT "iss" (Issuer) Claim value(s). This option makes the JWT "iss" (Issuer) Claim
+presence required.
 
 ***
 
@@ -54,12 +49,9 @@ This option makes the JWT "iss" (Issuer) Claim presence required.
 
 • `optional` **maxTokenAge?**: `string` \| `number`
 
-Maximum time elapsed (in seconds) from the JWT "iat" (Issued At) Claim value.
-
-- In seconds when number (e.g. 5)
-- Resolved into a number of seconds when a string (e.g. "5 seconds", "10 minutes", "2 hours").
-
-This option makes the JWT "iat" (Issued At) Claim presence required.
+Maximum time elapsed from the JWT "iat" (Issued At) Claim value, in seconds when a number (e.g.
+5), or resolved into seconds when a string (e.g. "5 seconds", "10 minutes", "2 hours"). This
+option makes the JWT "iat" (Issued At) Claim presence required.
 
 ***
 
@@ -80,9 +72,8 @@ present.
 
 • `optional` **subject?**: `string`
 
-Expected JWT "sub" (Subject) Claim value.
-
-This option makes the JWT "sub" (Subject) Claim presence required.
+Expected JWT "sub" (Subject) Claim value. This option makes the JWT "sub" (Subject) Claim
+presence required.
 
 ***
 
@@ -90,6 +81,5 @@ This option makes the JWT "sub" (Subject) Claim presence required.
 
 • `optional` **typ?**: `string`
 
-Expected JWT "typ" (Type) Header Parameter value.
-
-This option makes the JWT "typ" (Type) Header Parameter presence required.
+Expected JWT "typ" (Type) Header Parameter value. This option makes the JWT "typ" (Type) Header
+Parameter presence required.

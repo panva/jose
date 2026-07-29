@@ -12,8 +12,9 @@ Support from the community to continue maintaining and improving this module is 
 > code.
 
 This option is intended for cloud computing runtimes that cannot keep an in memory cache between
-their code's invocations. Use in runtimes where an in memory cache between requests is available
-is not desirable.
+their code's invocations. The supplied writable object seeds the resolver's cache and is updated
+with `jwks` and `uat` after a successful fetch; persist it whenever `uat` changes. Using this in
+runtimes that can keep an in-memory cache between requests is not desirable.
 
 When passed to [createRemoteJWKSet](../functions/createRemoteJWKSet.md) this allows the passed in
 object to:

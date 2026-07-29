@@ -28,9 +28,8 @@ Header Parameters common to JWE and JWS
 
 • `optional` **jwk?**: [`Omit`](https://www.typescriptlang.org/docs/handbook/utility-types.html#omittype-keys)\<[`JWK`](../type-aliases/JWK.md), `"d"` \| `"p"` \| `"q"` \| `"k"` \| `"dp"` \| `"dq"` \| `"qi"` \| `"priv"` \| `"oth"`\>
 
-"jwk" (JSON Web Key) Header Parameter
-
-Must be a public JSON Web Key; private and symmetric key parameters are not permitted.
+"jwk" (JSON Web Key) Header Parameter. This must be a public JSON Web Key; private and
+symmetric key parameters are not permitted.
 
 ***
 

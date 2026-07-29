@@ -10,9 +10,8 @@ import { keyAlgorithm } from '../lib/key_algorithm.js'
 import type * as types from '../types.d.ts'
 
 /**
- * JWA Algorithm Identifiers that {@link generateKeyPair} is able to generate a key pair for.
- *
- * Support for a given identifier additionally depends on the runtime.
+ * JWA Algorithm Identifiers that {@link generateKeyPair} is able to generate a key pair for, subject
+ * to runtime support.
  *
  * @ignore
  */

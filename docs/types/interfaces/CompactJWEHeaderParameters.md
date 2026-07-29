@@ -66,9 +66,8 @@ JWE "crit" (Critical) Header Parameter
 
 • `optional` **jwk?**: [`Omit`](https://www.typescriptlang.org/docs/handbook/utility-types.html#omittype-keys)\<[`JWK`](../type-aliases/JWK.md), `"d"` \| `"p"` \| `"q"` \| `"k"` \| `"dp"` \| `"dq"` \| `"qi"` \| `"priv"` \| `"oth"`\>
 
-"jwk" (JSON Web Key) Header Parameter
-
-Must be a public JSON Web Key; private and symmetric key parameters are not permitted.
+"jwk" (JSON Web Key) Header Parameter. This must be a public JSON Web Key; private and
+symmetric key parameters are not permitted.
 
 ***
 
@@ -116,10 +115,9 @@ Must be a public JSON Web Key; private and symmetric key parameters are not perm
 
 • `optional` **zip?**: `string`
 
-JWE "zip" (Compression Algorithm) Header Parameter.
-
-The only supported value is `"DEF"` (DEFLATE). Requires the `CompressionStream` /
-`DecompressionStream` APIs to be available in the runtime.
+JWE "zip" (Compression Algorithm) Header Parameter. The only supported value is `"DEF"`
+(DEFLATE), and it requires the `CompressionStream` / `DecompressionStream` APIs to be available
+in the runtime.
 
 #### See
 

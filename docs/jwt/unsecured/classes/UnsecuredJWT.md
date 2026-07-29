@@ -115,25 +115,19 @@ Set the "aud" (Audience) Claim.
 
 ▸ **setExpirationTime**(`input`): `this`
 
-Set the "exp" (Expiration Time) Claim.
-
-- If a `number` is passed as an argument it is used as the claim directly.
-- If a `Date` instance is passed as an argument it is converted to unix timestamp and used as the
-  claim.
-- If a `string` is passed as an argument it is resolved to a time span, and then added to the
-  current unix timestamp and used as the claim.
+Set the "exp" (Expiration Time) Claim. A `number` is used directly, a `Date` is converted to a
+Unix timestamp, and a `string` is parsed as a time span relative to the current Unix timestamp.
+String units may be seconds, minutes, hours, days, weeks, or years; months are unsupported and
+a year is 365.25 days. A leading `-` or trailing `"ago"` subtracts the time span.
 
 Format used for time span should be a number followed by a unit, such as "5 minutes" or "1
 day".
 
-Valid units are: "sec", "secs", "second", "seconds", "s", "minute", "minutes", "min", "mins",
-"m", "hour", "hours", "hr", "hrs", "h", "day", "days", "d", "week", "weeks", "w", "year",
-"years", "yr", "yrs", and "y". It is not possible to specify months. 365.25 days is used as an
-alias for a year.
+Valid unit spellings are: "sec", "secs", "second", "seconds", "s", "minute", "minutes", "min",
+"mins", "m", "hour", "hours", "hr", "hrs", "h", "day", "days", "d", "week", "weeks", "w",
+"year", "years", "yr", "yrs", and "y".
 
-If the string is suffixed with "ago", or prefixed with a "-", the resulting time span gets
-subtracted from the current unix timestamp. A "from now" suffix can also be used for
-readability when adding to the current unix timestamp.
+A "from now" suffix can be used for readability when adding to the current Unix timestamp.
 
 #### Parameters
 
@@ -151,26 +145,20 @@ readability when adding to the current unix timestamp.
 
 ▸ **setIssuedAt**(`input?`): `this`
 
-Set the "iat" (Issued At) Claim.
-
-- If no argument is used the current unix timestamp is used as the claim.
-- If a `number` is passed as an argument it is used as the claim directly.
-- If a `Date` instance is passed as an argument it is converted to unix timestamp and used as the
-  claim.
-- If a `string` is passed as an argument it is resolved to a time span, and then added to the
-  current unix timestamp and used as the claim.
+Set the "iat" (Issued At) Claim. With no argument the current Unix timestamp is used. A
+`number` is used directly, a `Date` is converted to a Unix timestamp, and a `string` is parsed
+as a time span relative to the current Unix timestamp. String units may be seconds, minutes,
+hours, days, weeks, or years; months are unsupported and a year is 365.25 days. A leading `-`
+or trailing `"ago"` subtracts the time span.
 
 Format used for time span should be a number followed by a unit, such as "5 minutes" or "1
 day".
 
-Valid units are: "sec", "secs", "second", "seconds", "s", "minute", "minutes", "min", "mins",
-"m", "hour", "hours", "hr", "hrs", "h", "day", "days", "d", "week", "weeks", "w", "year",
-"years", "yr", "yrs", and "y". It is not possible to specify months. 365.25 days is used as an
-alias for a year.
+Valid unit spellings are: "sec", "secs", "second", "seconds", "s", "minute", "minutes", "min",
+"mins", "m", "hour", "hours", "hr", "hrs", "h", "day", "days", "d", "week", "weeks", "w",
+"year", "years", "yr", "yrs", and "y".
 
-If the string is suffixed with "ago", or prefixed with a "-", the resulting time span gets
-subtracted from the current unix timestamp. A "from now" suffix can also be used for
-readability when adding to the current unix timestamp.
+A "from now" suffix can be used for readability when adding to the current Unix timestamp.
 
 #### Parameters
 
@@ -224,25 +212,19 @@ Set the "jti" (JWT ID) Claim.
 
 ▸ **setNotBefore**(`input`): `this`
 
-Set the "nbf" (Not Before) Claim.
-
-- If a `number` is passed as an argument it is used as the claim directly.
-- If a `Date` instance is passed as an argument it is converted to unix timestamp and used as the
-  claim.
-- If a `string` is passed as an argument it is resolved to a time span, and then added to the
-  current unix timestamp and used as the claim.
+Set the "nbf" (Not Before) Claim. A `number` is used directly, a `Date` is converted to a Unix
+timestamp, and a `string` is parsed as a time span relative to the current Unix timestamp.
+String units may be seconds, minutes, hours, days, weeks, or years; months are unsupported and
+a year is 365.25 days. A leading `-` or trailing `"ago"` subtracts the time span.
 
 Format used for time span should be a number followed by a unit, such as "5 minutes" or "1
 day".
 
-Valid units are: "sec", "secs", "second", "seconds", "s", "minute", "minutes", "min", "mins",
-"m", "hour", "hours", "hr", "hrs", "h", "day", "days", "d", "week", "weeks", "w", "year",
-"years", "yr", "yrs", and "y". It is not possible to specify months. 365.25 days is used as an
-alias for a year.
+Valid unit spellings are: "sec", "secs", "second", "seconds", "s", "minute", "minutes", "min",
+"mins", "m", "hour", "hours", "hr", "hrs", "h", "day", "days", "d", "week", "weeks", "w",
+"year", "years", "yr", "yrs", and "y".
 
-If the string is suffixed with "ago", or prefixed with a "-", the resulting time span gets
-subtracted from the current unix timestamp. A "from now" suffix can also be used for
-readability when adding to the current unix timestamp.
+A "from now" suffix can be used for readability when adding to the current Unix timestamp.
 
 #### Parameters
 

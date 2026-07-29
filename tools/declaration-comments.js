@@ -18,19 +18,33 @@
 //                           since typedoc names its folders after source paths and that sentence is
 //                           the only place the real specifier appears; noise in an editor hover.
 //
+//   module documentation - TypeScript attaches it to the first import but does not expose it as
+//                          useful module documentation in an editor.
+//
+//   extended prose       - only the first summary paragraph, alerts, signature-help tags, and
+//                          @deprecated are useful in editor hovers. The rest remains in src for
+//                          generated documentation.
+//
 //   @ignore and friends   - typedoc acts on them, TypeScript does not, so they reach the reader as
 //                           a bare tag that means nothing to them.
 //
 //   GitHub alerts         - `> [!NOTE]` and the rest of the GFM set render as an admonition on
 //                           GitHub and in the docs, and as a literal `[!NOTE]\` in a hover. The
 //                           blockquote itself does carry over, so keep it and label it in words.
-import { globSync, readFileSync, writeFileSync } from 'node:fs'
+//
+// Set JOSE_DEBUG_TYPES=1 to print the documentation stripped from publishable declarations.
+import { readdirSync, readFileSync, writeFileSync } from 'node:fs'
+import { join, sep } from 'node:path'
 
 const SUBPATH_NOTE = /^(?:This|These)\b[^.]*\bexported\b/
 const BLOCK_TAG = /^@(\w+)/
 const MARKER_TAG = /^@(?:ignore|internal|private|hidden)\s*$/
+const PUBLISHED_TAGS = new Set(['param', 'returns', 'throws', 'deprecated'])
+const REPORT_STRIPPED = process.env.JOSE_DEBUG_TYPES === '1'
+const PRIVATE_DECLARATIONS = `${join('dist', 'types', 'lib')}${sep}`
 /** The five alert types GitHub Flavored Markdown defines. */
 const ALERT = /^>\s*\[!(NOTE|TIP|IMPORTANT|WARNING|CAUTION)\]\\?\s*$/
+const RELABELLED_ALERT = /^>\s*(?:Note|Tip|Important|Warning|Caution):\s/
 
 /**
  * Splits the text lines of a JSDoc body into paragraphs. Fenced code blocks stay whole, so neither
@@ -54,6 +68,24 @@ function paragraphs(lines) {
   return out
 }
 
+/** Splits adjacent block tags so filtering one tag cannot remove a neighboring retained tag. */
+function blockTagSections(paragraph) {
+  const out = []
+  let current = []
+  let fenced = false
+
+  for (const line of paragraph) {
+    if (!fenced && BLOCK_TAG.test(line) && current.length) {
+      out.push(current)
+      current = []
+    }
+    current.push(line)
+    if (line.trimStart().startsWith('```')) fenced = !fenced
+  }
+  if (current.length) out.push(current)
+  return out
+}
+
 /** Turns `> [!NOTE]\` followed by the quote into a quote that opens with `Note:`. */
 function relabelAlert(paragraph) {
   const [marker, ...rest] = paragraph
@@ -64,57 +96,117 @@ function relabelAlert(paragraph) {
   return [rest[0].replace(/^(\s*>\s*)/, `$1${label}: `), ...rest.slice(1)]
 }
 
+function* declarations(directory) {
+  const entries = readdirSync(directory, { withFileTypes: true }).sort((a, b) =>
+    a.name.localeCompare(b.name),
+  )
+  for (const entry of entries) {
+    const path = join(directory, entry.name)
+    if (entry.isDirectory()) {
+      yield* declarations(path)
+    } else if (entry.name.endsWith('.d.ts')) {
+      yield path
+    }
+  }
+}
+
 function transform(lines) {
   const kept = []
+  const removed = []
   let changed = false
+  let summary = false
   // an @example runs until the next block tag that is not itself an @example - its description and
   // its code fence are separate paragraphs, and there may be several in a row
   let inExample = false
+  const sections = paragraphs(lines).flatMap(blockTagSections)
 
-  for (const paragraph of paragraphs(lines)) {
+  if (sections.some((paragraph) => paragraph[0].match(BLOCK_TAG)?.[1] === 'module')) {
+    return { kept, removed: paragraphs(lines), changed: true }
+  }
+
+  for (const paragraph of sections) {
     const tag = paragraph[0].match(BLOCK_TAG)?.[1]
 
     if (tag === 'example') {
       inExample = true
       changed = true
+      removed.push(paragraph)
       continue
     }
     if (inExample) {
       if (!tag) {
         changed = true
+        removed.push(paragraph)
         continue
       }
       inExample = false
     }
     if (SUBPATH_NOTE.test(paragraph[0]) || MARKER_TAG.test(paragraph[0])) {
       changed = true
+      removed.push(paragraph)
       continue
     }
 
     const relabelled = relabelAlert(paragraph)
-    if (relabelled) changed = true
-    kept.push(relabelled ?? paragraph)
+    if (relabelled) {
+      kept.push(relabelled)
+      changed = true
+      continue
+    }
+    if (RELABELLED_ALERT.test(paragraph[0])) {
+      kept.push(paragraph)
+      continue
+    }
+    if (tag) {
+      if (PUBLISHED_TAGS.has(tag)) {
+        const previous = kept.at(-1)
+        if (previous && BLOCK_TAG.test(previous[0])) {
+          previous.push(...paragraph)
+        } else {
+          kept.push(paragraph)
+        }
+      } else {
+        changed = true
+        removed.push(paragraph)
+      }
+      continue
+    }
+    if (!summary) {
+      kept.push(paragraph)
+      summary = true
+    } else {
+      changed = true
+      removed.push(paragraph)
+    }
   }
 
-  return { kept, changed }
+  return { kept, removed, changed }
 }
 
 let touched = 0
+const reports = []
 
-for (const file of globSync('dist/types/**/*.d.ts')) {
+for (const file of declarations('dist/types')) {
   const source = readFileSync(file, 'utf8')
 
   // prettier-plugin-jsdoc puts the summary on the `/**` line when it fits, so both shapes occur
   const updated = source.replace(
     /^([ \t]*)\/\*\*[ \t]?([\s\S]*?)[ \t]*\*\/[ \t]*\n/gm,
-    (block, indent, body) => {
+    (block, indent, body, offset) => {
       const lines = body.split('\n').map((line) => line.replace(/^[ \t]*\*[ \t]?/, ''))
       while (lines.length && lines.at(-1).trim() === '') lines.pop()
 
-      const { kept, changed } = transform(lines)
+      const { kept, removed, changed } = transform(lines)
       if (!changed) return block
 
       touched++
+      if (REPORT_STRIPPED && removed.length && !file.startsWith(PRIVATE_DECLARATIONS)) {
+        const line = source.slice(0, offset).split('\n').length
+        const stripped = removed.flatMap((paragraph, index) =>
+          index ? ['', ...paragraph] : paragraph,
+        )
+        reports.push(`${file}:${line}\n${stripped.map((line) => `- ${line}`).join('\n')}`)
+      }
       if (!kept.length) return ''
 
       const flat = kept.flatMap((paragraph, i) => (i ? ['', ...paragraph] : paragraph))
@@ -128,4 +220,7 @@ for (const file of globSync('dist/types/**/*.d.ts')) {
   if (updated !== source) writeFileSync(file, updated, 'utf8')
 }
 
+if (reports.length) {
+  console.log(`stripped published declaration documentation\n\n${reports.join('\n\n')}\n`)
+}
 console.log(`rewrote ${touched} declaration comment(s) for editor hovers`)

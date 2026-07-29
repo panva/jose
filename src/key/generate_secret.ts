@@ -9,9 +9,8 @@ import { JOSENotSupported } from '../util/errors.js'
 import type * as types from '../types.d.ts'
 
 /**
- * JWA Algorithm Identifiers that {@link generateSecret} is able to generate a secret for.
- *
- * Support for a given identifier additionally depends on the runtime.
+ * JWA Algorithm Identifiers that {@link generateSecret} is able to generate a secret for, subject to
+ * runtime support.
  *
  * @ignore
  */
@@ -34,12 +33,11 @@ export type GenerateSecretAlgorithm =
   | (string & {})
 
 /**
- * Resolves what {@link generateSecret} returns for a given JWA Algorithm Identifier.
- *
- * The AES_CBC_HMAC_SHA2 content encryption algorithms have no {@link !CryptoKey} representation, so
- * they yield a {@link !Uint8Array}; every other supported identifier yields a
+ * Resolves what {@link generateSecret} returns for a given JWA Algorithm Identifier. The
+ * AES_CBC_HMAC_SHA2 content encryption algorithms have no {@link !CryptoKey} representation, so they
+ * yield a {@link !Uint8Array}; every other supported identifier yields a
  * {@link types.CryptoKey CryptoKey}. When the identifier is not statically known this resolves to
- * the union, as before.
+ * their union.
  */
 export type GeneratedSecret<Alg extends string> = Alg extends
   'A128CBC-HS256' | 'A192CBC-HS384' | 'A256CBC-HS512'

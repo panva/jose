@@ -6,11 +6,9 @@ Support from the community to continue maintaining and improving this module is 
 
 • **JWTClaimValidationError** = [`JWTClaimValidationFailed`](../classes/JWTClaimValidationFailed.md) \| [`JWTExpired`](../classes/JWTExpired.md)
 
-Union of the errors thrown during JWT Claims Set validation.
-
-[JWTExpired](../classes/JWTExpired.md) does not extend [JWTClaimValidationFailed](../classes/JWTClaimValidationFailed.md), so a single `instanceof` check
-cannot cover both. Use this type — together with the [code](../classes/JOSEError.md#code) discriminant —
-when handling either.
+Union of the errors thrown during JWT Claims Set validation. [JWTExpired](../classes/JWTExpired.md) does not extend
+[JWTClaimValidationFailed](../classes/JWTClaimValidationFailed.md), so a single `instanceof` check cannot cover both. Use this type
+— together with the [code](../classes/JOSEError.md#code) discriminant — when handling either.
 
 ## Example
 

@@ -17,9 +17,7 @@ Interface for consuming operations dynamic key resolution.
 ▸ **GetKeyFunction**(`protectedHeader`, `token`): `KeyTypes` \| [`Promise`](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise)\<`KeyTypes`\>
 
 Dynamic key resolution function. No token components have been verified at the time of this
-function call.
-
-If a suitable key for the token cannot be matched, throw an error instead.
+function call. If a suitable key for the token cannot be matched, throw an error instead.
 
 ## Parameters
 

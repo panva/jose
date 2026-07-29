@@ -551,10 +551,9 @@ export class JWKSMultipleMatchingKeys extends JOSEError {
   /**
    * Iterates the public keys that matched the JWS JOSE Header, so that verification can be
    * attempted with each in turn. See the {@link jwks/remote.createRemoteJWKSet createRemoteJWKSet}
-   * and {@link jwks/local.createLocalJWKSet createLocalJWKSet} examples.
-   *
-   * Instances thrown by this module always iterate the matched keys. An instance constructed by
-   * other code iterates nothing.
+   * and {@link jwks/local.createLocalJWKSet createLocalJWKSet} examples. Instances thrown by this
+   * module always iterate the matched keys; an instance constructed by other code iterates
+   * nothing.
    */
   [Symbol.asyncIterator]: () => AsyncIterableIterator<types.CryptoKey> = async function* () {}
 
@@ -646,11 +645,9 @@ export class JWSSignatureVerificationFailed extends JOSEError {
 }
 
 /**
- * Union of the errors thrown during JWT Claims Set validation.
- *
- * {@link JWTExpired} does not extend {@link JWTClaimValidationFailed}, so a single `instanceof` check
- * cannot cover both. Use this type — together with the {@link JOSEError.code code} discriminant —
- * when handling either.
+ * Union of the errors thrown during JWT Claims Set validation. {@link JWTExpired} does not extend
+ * {@link JWTClaimValidationFailed}, so a single `instanceof` check cannot cover both. Use this type
+ * — together with the {@link JOSEError.code code} discriminant — when handling either.
  *
  * @example
  *

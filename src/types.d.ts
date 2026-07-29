@@ -1,7 +1,6 @@
 /**
- * JWS "alg" (Algorithm) Header Parameter values supported by this module.
- *
- * Support for a given identifier additionally depends on the runtime.
+ * JWS "alg" (Algorithm) Header Parameter values supported by this module. Availability of a given
+ * identifier additionally depends on the runtime.
  *
  * @ignore
  *
@@ -28,9 +27,8 @@ export type JWSAlgorithm =
   | (string & {})
 
 /**
- * JWE "alg" (Algorithm) Header Parameter values supported by this module.
- *
- * Support for a given identifier additionally depends on the runtime.
+ * JWE "alg" (Algorithm) Header Parameter values supported by this module. Availability of a given
+ * identifier additionally depends on the runtime.
  *
  * @ignore
  *
@@ -58,9 +56,8 @@ export type JWEKeyManagementAlgorithm =
   | (string & {})
 
 /**
- * JWE "enc" (Encryption Algorithm) Header Parameter values supported by this module.
- *
- * Support for a given identifier additionally depends on the runtime.
+ * JWE "enc" (Encryption Algorithm) Header Parameter values supported by this module. Availability
+ * of a given identifier additionally depends on the runtime.
  *
  * @ignore
  */
@@ -289,11 +286,9 @@ export type JWK = {
 }
 
 /**
- * Discriminated union of the JSON Web Key shapes supported by this module. Unlike {@link JWK}, this
- * can be narrowed on the "kty" (Key Type) Parameter.
- *
- * Each member is the convenience interface for one key type with its "kty" (Key Type) Parameter
- * required and fixed to that key type, rather than optional as the interface alone leaves it.
+ * Discriminated union of the JSON Web Key shapes supported by this module. Unlike {@link JWK}, each
+ * member requires and fixes the "kty" (Key Type) Parameter to its key type so that the union can be
+ * narrowed on it.
  *
  * @example
  *
@@ -334,9 +329,7 @@ export type KeyInput = CryptoKey | KeyObject | JWK | Uint8Array
 export interface GenericGetKeyFunction<IProtectedHeader, IToken, ReturnKeyTypes> {
   /**
    * Dynamic key resolution function. No token components have been verified at the time of this
-   * function call.
-   *
-   * If a suitable key for the token cannot be matched, throw an error instead.
+   * function call. If a suitable key for the token cannot be matched, throw an error instead.
    *
    * @param protectedHeader JWE or JWS Protected Header.
    * @param token The consumed JWE or JWS token.
@@ -443,9 +436,8 @@ export interface JoseHeaderParameters {
   jku?: string
 
   /**
-   * "jwk" (JSON Web Key) Header Parameter
-   *
-   * Must be a public JSON Web Key; private and symmetric key parameters are not permitted.
+   * "jwk" (JSON Web Key) Header Parameter. This must be a public JSON Web Key; private and
+   * symmetric key parameters are not permitted.
    */
   jwk?: Omit<JWK, 'd' | 'dp' | 'dq' | 'k' | 'p' | 'q' | 'qi' | 'priv' | 'oth'>
 
@@ -592,10 +584,9 @@ export interface JWEHeaderParameters extends JoseHeaderParameters {
   crit?: string[]
 
   /**
-   * JWE "zip" (Compression Algorithm) Header Parameter.
-   *
-   * The only supported value is `"DEF"` (DEFLATE). Requires the `CompressionStream` /
-   * `DecompressionStream` APIs to be available in the runtime.
+   * JWE "zip" (Compression Algorithm) Header Parameter. The only supported value is `"DEF"`
+   * (DEFLATE), and it requires the `CompressionStream` / `DecompressionStream` APIs to be available
+   * in the runtime.
    *
    * @see {@link https://www.rfc-editor.org/info/rfc7516/#section-4.1.3 JWE "zip" Header Parameter}
    */
@@ -610,20 +601,15 @@ export interface CritOption {
   /**
    * An object with keys representing recognized "crit" (Critical) Header Parameter names. The value
    * for those is either `true` or `false`. `true` when the Header Parameter MUST be integrity
-   * protected, `false` when it's irrelevant.
+   * protected, `false` when it's irrelevant. The JWS extension Header Parameter `b64` is always
+   * recognized and processed properly; no other registered Header Parameters currently receive this
+   * built-in treatment.
    *
-   * This makes the "Extension Header Parameter "..." is not recognized" error go away.
-   *
-   * Use this when a given JWS/JWT/JWE profile requires the use of proprietary non-registered "crit"
-   * (Critical) Header Parameters. This will only make sure the Header Parameter is syntactically
-   * correct when provided and that it is optionally integrity protected. It will not process the
-   * Header Parameter in any way or reject the operation if it is missing. You MUST still verify the
-   * Header Parameter was present and process it according to the profile's validation steps after
-   * the operation succeeds.
-   *
-   * The JWS extension Header Parameter `b64` is always recognized and processed properly. No other
-   * registered Header Parameters that need this kind of default built-in treatment are currently
-   * available.
+   * > [!WARNING]\
+   * > This only checks that the Header Parameter is syntactically correct when provided and,
+   * > optionally, integrity protected. It does not process the Header Parameter or reject the
+   * > operation when it is missing. You MUST still verify its presence and process it according to
+   * > the profile's validation steps after the operation succeeds.
    */
   crit?: {
     [propName: string]: boolean
@@ -655,11 +641,8 @@ export interface DecryptOptions extends CritOption {
   /**
    * Maximum allowed size (in bytes) of the decompressed plaintext when the JWE `"zip"` (Compression
    * Algorithm) Header Parameter is present. By default this value is set to 250000 (250 KB). The
-   * value must be `0`, a positive safe integer, or `Infinity`.
-   *
-   * Set to `0` to reject all compressed JWEs during decryption.
-   *
-   * Set to `Infinity` to disable the decompressed size limit.
+   * value must be `0`, a positive safe integer, or `Infinity`. Set it to `0` to reject all
+   * compressed JWEs during decryption or to `Infinity` to disable the decompressed size limit.
    */
   maxDecompressedLength?: number
 }
@@ -670,51 +653,41 @@ export interface EncryptOptions extends CritOption {}
 /** JWT Claims Set verification options. */
 export interface JWTClaimVerificationOptions {
   /**
-   * Expected JWT "aud" (Audience) Claim value(s).
-   *
-   * This option makes the JWT "aud" (Audience) Claim presence required.
+   * Expected JWT "aud" (Audience) Claim value(s). This option makes the JWT "aud" (Audience) Claim
+   * presence required.
    */
   audience?: string | string[]
 
   /**
-   * Clock skew tolerance
-   *
-   * - In seconds when number (e.g. 5)
-   * - Resolved into a number of seconds when a string (e.g. "5 seconds", "10 minutes", "2 hours").
-   *
-   * Used when validating the JWT "nbf" (Not Before) and "exp" (Expiration Time) claims, and when
-   * validating the "iat" (Issued At) claim if the {@link maxTokenAge `maxTokenAge` option} is set.
+   * Clock skew tolerance in seconds when a number (e.g. 5), or resolved into seconds when a string
+   * (e.g. "5 seconds", "10 minutes", "2 hours"). Used when validating the JWT "nbf" (Not Before)
+   * and "exp" (Expiration Time) claims, and when validating the "iat" (Issued At) claim if the
+   * {@link maxTokenAge `maxTokenAge` option} is set.
    */
   clockTolerance?: string | number
 
   /**
-   * Expected JWT "iss" (Issuer) Claim value(s).
-   *
-   * This option makes the JWT "iss" (Issuer) Claim presence required.
+   * Expected JWT "iss" (Issuer) Claim value(s). This option makes the JWT "iss" (Issuer) Claim
+   * presence required.
    */
   issuer?: string | string[]
 
   /**
-   * Maximum time elapsed (in seconds) from the JWT "iat" (Issued At) Claim value.
-   *
-   * - In seconds when number (e.g. 5)
-   * - Resolved into a number of seconds when a string (e.g. "5 seconds", "10 minutes", "2 hours").
-   *
-   * This option makes the JWT "iat" (Issued At) Claim presence required.
+   * Maximum time elapsed from the JWT "iat" (Issued At) Claim value, in seconds when a number (e.g.
+   * 5), or resolved into seconds when a string (e.g. "5 seconds", "10 minutes", "2 hours"). This
+   * option makes the JWT "iat" (Issued At) Claim presence required.
    */
   maxTokenAge?: string | number
 
   /**
-   * Expected JWT "sub" (Subject) Claim value.
-   *
-   * This option makes the JWT "sub" (Subject) Claim presence required.
+   * Expected JWT "sub" (Subject) Claim value. This option makes the JWT "sub" (Subject) Claim
+   * presence required.
    */
   subject?: string
 
   /**
-   * Expected JWT "typ" (Type) Header Parameter value.
-   *
-   * This option makes the JWT "typ" (Type) Header Parameter presence required.
+   * Expected JWT "typ" (Type) Header Parameter value. This option makes the JWT "typ" (Type) Header
+   * Parameter presence required.
    */
   typ?: string
 
@@ -990,76 +963,58 @@ export interface ProduceJWT {
   setJti(jwtId: string): this
 
   /**
-   * Set the "nbf" (Not Before) Claim.
-   *
-   * - If a `number` is passed as an argument it is used as the claim directly.
-   * - If a `Date` instance is passed as an argument it is converted to unix timestamp and used as the
-   *   claim.
-   * - If a `string` is passed as an argument it is resolved to a time span, and then added to the
-   *   current unix timestamp and used as the claim.
+   * Set the "nbf" (Not Before) Claim. A `number` is used directly, a `Date` is converted to a Unix
+   * timestamp, and a `string` is parsed as a time span relative to the current Unix timestamp.
+   * String units may be seconds, minutes, hours, days, weeks, or years; months are unsupported and
+   * a year is 365.25 days. A leading `-` or trailing `"ago"` subtracts the time span.
    *
    * Format used for time span should be a number followed by a unit, such as "5 minutes" or "1
    * day".
    *
-   * Valid units are: "sec", "secs", "second", "seconds", "s", "minute", "minutes", "min", "mins",
-   * "m", "hour", "hours", "hr", "hrs", "h", "day", "days", "d", "week", "weeks", "w", "year",
-   * "years", "yr", "yrs", and "y". It is not possible to specify months. 365.25 days is used as an
-   * alias for a year.
+   * Valid unit spellings are: "sec", "secs", "second", "seconds", "s", "minute", "minutes", "min",
+   * "mins", "m", "hour", "hours", "hr", "hrs", "h", "day", "days", "d", "week", "weeks", "w",
+   * "year", "years", "yr", "yrs", and "y".
    *
-   * If the string is suffixed with "ago", or prefixed with a "-", the resulting time span gets
-   * subtracted from the current unix timestamp. A "from now" suffix can also be used for
-   * readability when adding to the current unix timestamp.
+   * A "from now" suffix can be used for readability when adding to the current Unix timestamp.
    *
    * @param input "nbf" (Not Before) Claim value to set on the JWT Claims Set.
    */
   setNotBefore(input: number | string | Date): this
 
   /**
-   * Set the "exp" (Expiration Time) Claim.
-   *
-   * - If a `number` is passed as an argument it is used as the claim directly.
-   * - If a `Date` instance is passed as an argument it is converted to unix timestamp and used as the
-   *   claim.
-   * - If a `string` is passed as an argument it is resolved to a time span, and then added to the
-   *   current unix timestamp and used as the claim.
+   * Set the "exp" (Expiration Time) Claim. A `number` is used directly, a `Date` is converted to a
+   * Unix timestamp, and a `string` is parsed as a time span relative to the current Unix timestamp.
+   * String units may be seconds, minutes, hours, days, weeks, or years; months are unsupported and
+   * a year is 365.25 days. A leading `-` or trailing `"ago"` subtracts the time span.
    *
    * Format used for time span should be a number followed by a unit, such as "5 minutes" or "1
    * day".
    *
-   * Valid units are: "sec", "secs", "second", "seconds", "s", "minute", "minutes", "min", "mins",
-   * "m", "hour", "hours", "hr", "hrs", "h", "day", "days", "d", "week", "weeks", "w", "year",
-   * "years", "yr", "yrs", and "y". It is not possible to specify months. 365.25 days is used as an
-   * alias for a year.
+   * Valid unit spellings are: "sec", "secs", "second", "seconds", "s", "minute", "minutes", "min",
+   * "mins", "m", "hour", "hours", "hr", "hrs", "h", "day", "days", "d", "week", "weeks", "w",
+   * "year", "years", "yr", "yrs", and "y".
    *
-   * If the string is suffixed with "ago", or prefixed with a "-", the resulting time span gets
-   * subtracted from the current unix timestamp. A "from now" suffix can also be used for
-   * readability when adding to the current unix timestamp.
+   * A "from now" suffix can be used for readability when adding to the current Unix timestamp.
    *
    * @param input "exp" (Expiration Time) Claim value to set on the JWT Claims Set.
    */
   setExpirationTime(input: number | string | Date): this
 
   /**
-   * Set the "iat" (Issued At) Claim.
-   *
-   * - If no argument is used the current unix timestamp is used as the claim.
-   * - If a `number` is passed as an argument it is used as the claim directly.
-   * - If a `Date` instance is passed as an argument it is converted to unix timestamp and used as the
-   *   claim.
-   * - If a `string` is passed as an argument it is resolved to a time span, and then added to the
-   *   current unix timestamp and used as the claim.
+   * Set the "iat" (Issued At) Claim. With no argument the current Unix timestamp is used. A
+   * `number` is used directly, a `Date` is converted to a Unix timestamp, and a `string` is parsed
+   * as a time span relative to the current Unix timestamp. String units may be seconds, minutes,
+   * hours, days, weeks, or years; months are unsupported and a year is 365.25 days. A leading `-`
+   * or trailing `"ago"` subtracts the time span.
    *
    * Format used for time span should be a number followed by a unit, such as "5 minutes" or "1
    * day".
    *
-   * Valid units are: "sec", "secs", "second", "seconds", "s", "minute", "minutes", "min", "mins",
-   * "m", "hour", "hours", "hr", "hrs", "h", "day", "days", "d", "week", "weeks", "w", "year",
-   * "years", "yr", "yrs", and "y". It is not possible to specify months. 365.25 days is used as an
-   * alias for a year.
+   * Valid unit spellings are: "sec", "secs", "second", "seconds", "s", "minute", "minutes", "min",
+   * "mins", "m", "hour", "hours", "hr", "hrs", "h", "day", "days", "d", "week", "weeks", "w",
+   * "year", "years", "yr", "yrs", and "y".
    *
-   * If the string is suffixed with "ago", or prefixed with a "-", the resulting time span gets
-   * subtracted from the current unix timestamp. A "from now" suffix can also be used for
-   * readability when adding to the current unix timestamp.
+   * A "from now" suffix can be used for readability when adding to the current Unix timestamp.
    *
    * @param input "iat" (Issued At) Claim value to set on the JWT Claims Set.
    */

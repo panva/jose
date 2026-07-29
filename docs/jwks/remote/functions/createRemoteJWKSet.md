@@ -9,7 +9,10 @@ Support from the community to continue maintaining and improving this module is 
 Returns a function that resolves a JWS JOSE Header to a public key object downloaded from a
 remote endpoint returning a JSON Web Key Set, that is, for example, an OAuth 2.0 or OIDC
 jwks_uri. The JSON Web Key Set is fetched when no key matches the selection process but only as
-frequently as the `cooldownDuration` option allows to prevent abuse.
+frequently as the `cooldownDuration` option allows to prevent abuse. Selection respects the
+header's "alg" (Algorithm) and "kid" (Key ID) as well as the JWK's "use" (Public Key Use) and
+"key_ops" (Key Operations). Exactly one key must match; if multiple keys match, the thrown
+`JWKSMultipleMatchingKeys` can be iterated.
 
 It uses the "alg" (JWS Algorithm) Header Parameter to determine the right JWK "kty" (Key Type),
 then proceeds to match the JWK "kid" (Key ID) with one found in the JWS Header Parameters (if

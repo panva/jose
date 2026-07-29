@@ -6,11 +6,9 @@ Support from the community to continue maintaining and improving this module is 
 
 • **AnyJWK** = [`JWK_EC_Private`](../interfaces/JWK_EC_Private.md) \| [`JWK_EC_Public`](../interfaces/JWK_EC_Public.md) \| [`JWK_RSA_Private`](../interfaces/JWK_RSA_Private.md) \| [`JWK_RSA_Public`](../interfaces/JWK_RSA_Public.md) \| [`JWK_OKP_Private`](../interfaces/JWK_OKP_Private.md) \| [`JWK_OKP_Public`](../interfaces/JWK_OKP_Public.md) \| [`JWK_AKP_Private`](../interfaces/JWK_AKP_Private.md) \| [`JWK_AKP_Public`](../interfaces/JWK_AKP_Public.md) \| [`JWK_oct`](../interfaces/JWK_oct.md)
 
-Discriminated union of the JSON Web Key shapes supported by this module. Unlike [JWK](JWK.md), this
-can be narrowed on the "kty" (Key Type) Parameter.
-
-Each member is the convenience interface for one key type with its "kty" (Key Type) Parameter
-required and fixed to that key type, rather than optional as the interface alone leaves it.
+Discriminated union of the JSON Web Key shapes supported by this module. Unlike [JWK](JWK.md), each
+member requires and fixes the "kty" (Key Type) Parameter to its key type so that the union can be
+narrowed on it.
 
 ## Example
 

@@ -32,10 +32,9 @@ if (err instanceof jose.errors.JWKSMultipleMatchingKeys) {
 
 Iterates the public keys that matched the JWS JOSE Header, so that verification can be
 attempted with each in turn. See the [createRemoteJWKSet](../../../jwks/remote/functions/createRemoteJWKSet.md)
-and [createLocalJWKSet](../../../jwks/local/functions/createLocalJWKSet.md) examples.
-
-Instances thrown by this module always iterate the matched keys. An instance constructed by
-other code iterates nothing.
+and [createLocalJWKSet](../../../jwks/local/functions/createLocalJWKSet.md) examples. Instances thrown by this
+module always iterate the matched keys; an instance constructed by other code iterates
+nothing.
 
 #### Returns
 

@@ -162,7 +162,10 @@ export interface LocalJWKSet {
 
 /**
  * Returns a function that resolves a JWS JOSE Header to a public key object from a locally stored,
- * or otherwise available, JSON Web Key Set.
+ * or otherwise available, JSON Web Key Set. Selection respects the header's "alg" (Algorithm) and
+ * "kid" (Key ID) as well as the JWK's "use" (Public Key Use) and "key_ops" (Key Operations).
+ * Exactly one key must match; if multiple keys match, the thrown `JWKSMultipleMatchingKeys` can be
+ * iterated.
  *
  * It uses the "alg" (JWS Algorithm) Header Parameter to determine the right JWK "kty" (Key Type),
  * then proceeds to match the JWK "kid" (Key ID) with one found in the JWS Header Parameters (if
