@@ -5,7 +5,8 @@
  */
 
 import type * as types from '../types.d.ts'
-import { importJWK } from '../key/import.js'
+import { jwkToKey } from '../lib/jwk_to_key.js'
+import { jwsAlgorithm } from '../lib/jws_algorithms.js'
 import { isObject } from '../lib/type_checks.js'
 import { JWSInvalid } from '../util/errors.js'
 
@@ -51,9 +52,10 @@ export async function EmbeddedJWK(
     throw new JWSInvalid('"jwk" (JSON Web Key) Header Parameter must be a JSON object')
   }
 
-  const key = await importJWK({ ...joseHeader.jwk, ext: true }, joseHeader.alg!)
+  const entry = jwsAlgorithm(joseHeader.alg!)
+  const key = await jwkToKey(entry, { ...joseHeader.jwk, ext: true })
 
-  if (key instanceof Uint8Array || key.type !== 'public') {
+  if (key.type !== 'public') {
     throw new JWSInvalid('"jwk" (JSON Web Key) Header Parameter must be a public key')
   }
 

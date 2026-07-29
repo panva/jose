@@ -20,6 +20,10 @@ export function subtleParams(
 }
 
 export async function jwkToKey(entry: KeyDescriptor, jwk: types.JWK): Promise<types.CryptoKey> {
+  if (jwk.kty === 'RSA' && 'oth' in jwk && jwk.oth !== undefined) {
+    throw new JOSENotSupported('RSA JWK "oth" (Other Primes Info) Parameter value is not supported')
+  }
+
   const algorithm = subtleParams(entry, jwk)
   const isPrivate = !!(jwk.d || jwk.priv)
   const keyUsages = isPrivate ? entry.usages.private : entry.usages.public

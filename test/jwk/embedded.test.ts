@@ -1,6 +1,15 @@
 import test from 'ava'
 
-import { importJWK, EmbeddedJWK, FlattenedSign, flattenedVerify } from '../../src/index.js'
+import {
+  importJWK,
+  EmbeddedJWK,
+  FlattenedSign,
+  flattenedVerify,
+  exportJWK,
+  generateKeyPair,
+} from '../../src/index.js'
+
+const mlDsaTest = SubtleCrypto.supports?.('generateKey', 'ML-DSA-65') === true ? test : test.skip
 
 function pubjwk(jwk) {
   const { d, p, q, dp, dq, qi, ext, alg, ...publicJwk } = jwk
@@ -66,4 +75,18 @@ test('EmbeddedJWK requires "jwk" to be a public one', async (t) => {
     code: 'ERR_JWS_INVALID',
     message: '"jwk" (JSON Web Key) Header Parameter must be a public key',
   })
+})
+
+mlDsaTest('EmbeddedJWK defers AKP "alg" validation to WebCrypto', async (t) => {
+  const { publicKey } = await generateKeyPair('ML-DSA-65', { extractable: true })
+  const { alg, ...jwk } = await exportJWK(publicKey)
+
+  for (const protectedHeader of [
+    { alg: 'ML-DSA-65', jwk },
+    { alg: 'ML-DSA-44', jwk: { ...jwk, alg } },
+  ]) {
+    const error = await t.throwsAsync(EmbeddedJWK(protectedHeader))
+    t.true(error instanceof DOMException)
+    t.is(error.name, 'DataError')
+  }
 })

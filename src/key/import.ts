@@ -227,11 +227,6 @@ export async function importJWK(
 
       return decodeBase64URL(jwk.k)
     case 'RSA':
-      if ('oth' in jwk && jwk.oth !== undefined) {
-        throw new JOSENotSupported(
-          'RSA JWK "oth" (Other Primes Info) Parameter value is not supported',
-        )
-      }
       return jwkToKey(keyAlgorithm(alg!), { ...jwk, alg, ext })
     case 'AKP': {
       if (typeof jwk.alg !== 'string' || !jwk.alg) {

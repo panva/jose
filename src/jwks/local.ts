@@ -5,7 +5,9 @@
  */
 
 import type * as types from '../types.d.ts'
-import { importJWK } from '../key/import.js'
+import { jwkToKey } from '../lib/jwk_to_key.js'
+import { maybeJWSAlgorithm } from '../lib/jws_algorithms.js'
+import type { JWSAlgorithm } from '../lib/jws_algorithms.js'
 import {
   JWKSInvalid,
   JOSENotSupported,
@@ -14,20 +16,16 @@ import {
 } from '../util/errors.js'
 import { isObject } from '../lib/type_checks.js'
 
-function getKtyFromAlg(alg: unknown) {
-  switch (typeof alg === 'string' && alg.slice(0, 2)) {
-    case 'RS':
-    case 'PS':
-      return 'RSA'
-    case 'ES':
-      return 'EC'
-    case 'Ed':
-      return 'OKP'
-    case 'ML':
-      return 'AKP'
-    default:
-      throw new JOSENotSupported('Unsupported "alg" value for a JSON Web Key Set')
+/**
+ * A JWKS resolves public keys for verifying signatures, so only JWS algorithms are meaningful here
+ * - and among those, only the asymmetric ones.
+ */
+function signatureAlgorithm(alg: unknown): JWSAlgorithm {
+  const entry = typeof alg === 'string' ? maybeJWSAlgorithm(alg) : undefined
+  if (!entry || entry.symmetric) {
+    throw new JOSENotSupported('Unsupported "alg" value for a JSON Web Key Set')
   }
+  return entry
 }
 
 interface Cache {
@@ -68,11 +66,11 @@ class LocalJWKSetImpl {
     token?: types.FlattenedJWSInput,
   ): Promise<types.CryptoKey> {
     const { alg, kid } = { ...protectedHeader, ...token?.header }
-    const kty = getKtyFromAlg(alg)
+    const entry = signatureAlgorithm(alg)
 
     const candidates = this.#jwks!.keys.filter((jwk) => {
       // filter keys based on the mapping of signature algorithms to Key Type
-      let candidate = kty === jwk.kty
+      let candidate = entry.kty.includes(jwk.kty!)
 
       // filter keys based on the JWK Key ID in the header
       if (candidate && typeof kid === 'string') {
@@ -80,7 +78,7 @@ class LocalJWKSetImpl {
       }
 
       // filter keys based on the key's declared Algorithm
-      if (candidate && (typeof jwk.alg === 'string' || kty === 'AKP')) {
+      if (candidate && (typeof jwk.alg === 'string' || jwk.kty === 'AKP')) {
         candidate = alg === jwk.alg
       }
 
@@ -95,22 +93,8 @@ class LocalJWKSetImpl {
       }
 
       // filter out non-applicable curves / sub types
-      if (candidate) {
-        switch (alg) {
-          case 'ES256':
-            candidate = jwk.crv === 'P-256'
-            break
-          case 'ES384':
-            candidate = jwk.crv === 'P-384'
-            break
-          case 'ES512':
-            candidate = jwk.crv === 'P-521'
-            break
-          case 'Ed25519': // Fall through
-          case 'EdDSA':
-            candidate = jwk.crv === 'Ed25519'
-            break
-        }
+      if (candidate && entry.crv) {
+        candidate = jwk.crv === entry.crv
       }
 
       return candidate
@@ -128,7 +112,7 @@ class LocalJWKSetImpl {
       error[Symbol.asyncIterator] = async function* () {
         for (const jwk of candidates) {
           try {
-            yield await importWithAlgCache(_cached, jwk, alg!)
+            yield await importWithAlgCache(_cached, jwk, entry)
           } catch {}
         }
       }
@@ -136,23 +120,27 @@ class LocalJWKSetImpl {
       throw error
     }
 
-    return importWithAlgCache(this.#cached, jwk, alg!)
+    return importWithAlgCache(this.#cached, jwk, entry)
   }
 }
 
-async function importWithAlgCache(cache: WeakMap<types.JWK, Cache>, jwk: types.JWK, alg: string) {
+async function importWithAlgCache(
+  cache: WeakMap<types.JWK, Cache>,
+  jwk: types.JWK,
+  entry: JWSAlgorithm,
+) {
   const cached = cache.get(jwk) || cache.set(jwk, {}).get(jwk)!
-  if (cached[alg] === undefined) {
-    const key = await importJWK({ ...jwk, ext: true }, alg)
+  if (cached[entry.alg] === undefined) {
+    const key = await jwkToKey(entry, { ...jwk, alg: entry.alg, ext: true })
 
-    if (key instanceof Uint8Array || key.type !== 'public') {
+    if (key.type !== 'public') {
       throw new JWKSInvalid('JSON Web Key Set members must be public keys')
     }
 
-    cached[alg] = key
+    cached[entry.alg] = key
   }
 
-  return cached[alg]
+  return cached[entry.alg]
 }
 
 /**

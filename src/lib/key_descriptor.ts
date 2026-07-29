@@ -10,9 +10,9 @@ export interface KeyDescriptor {
   /** JWK "crv" the identifier implies, where it implies one. */
   crv?: string
   /**
-   * Resolves the WebCrypto parameters from the key itself, for algorithms whose curve the identifier
-   * does not fix. Defined by the registry so the shared key handling carries no family-specific curve
-   * names.
+   * Resolves the WebCrypto parameters from the key itself, for algorithms whose curve the
+   * identifier does not fix. Defined by the registry so the shared key handling carries no
+   * family-specific curve names.
    */
   subtleFor?: (observed: { kty?: string; crv?: string; asymmetricKeyType?: string }) => {
     name: string
