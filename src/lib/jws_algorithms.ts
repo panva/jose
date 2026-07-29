@@ -1,41 +1,28 @@
 import { JOSENotSupported } from '../util/errors.js'
+import type { KeyDescriptor } from './key_descriptor.js'
 
 /**
  * Everything the implementation needs to know about one JWS "alg", in one place. Consumers are
  * handed a resolved entry rather than the identifier, so nothing below this module has to enumerate
  * algorithms - which is also what keeps JWE descriptors out of a JWS-only bundle.
  */
-export interface JWSAlgorithm {
-  /** The JWA identifier this entry describes. */
-  alg: string
-  /** JWK "kty" (Key Type) this algorithm requires. */
-  kty: 'RSA' | 'EC' | 'OKP' | 'AKP' | 'oct'
-  /** JWK "crv", where the key type has one. */
-  crv?: string
-  /** Node KeyObject asymmetricKeyType, where the key is asymmetric. */
-  asymmetricKeyType?: string
-  /** WebCrypto parameters for importing, generating, and asserting a key's shape. */
-  subtle: { name: string; hash?: string; namedCurve?: string }
+export interface JWSAlgorithm extends KeyDescriptor {
   /** WebCrypto parameters for subtle.sign and subtle.verify. */
   operation: { name: string; hash?: string; saltLength?: number }
-  /** Key usages, by whether the key is public. */
-  usages: { public: KeyUsage[]; private: KeyUsage[] }
-  /** Minimum RSA modulus length in bits. */
-  minModulusLength?: number
 }
 
 const sig: { public: KeyUsage[]; private: KeyUsage[] } = { public: ['verify'], private: ['sign'] }
 
 function hmac(alg: string, bits: number): JWSAlgorithm {
   const subtle = { name: 'HMAC', hash: `SHA-${bits}` }
-  return { alg, kty: 'oct', subtle, operation: subtle, usages: sig }
+  return { alg, kty: ['oct'], symmetric: true, subtle, operation: subtle, usages: sig }
 }
 
 function rsa(alg: string, name: string, bits: number, saltLength?: number): JWSAlgorithm {
   const subtle = { name, hash: `SHA-${bits}` }
   return {
     alg,
-    kty: 'RSA',
+    kty: ['RSA'],
     asymmetricKeyType: 'rsa',
     subtle,
     operation: saltLength ? { ...subtle, saltLength } : subtle,
@@ -47,7 +34,7 @@ function rsa(alg: string, name: string, bits: number, saltLength?: number): JWSA
 function ecdsa(alg: string, crv: string, bits: number): JWSAlgorithm {
   return {
     alg,
-    kty: 'EC',
+    kty: ['EC'],
     crv,
     asymmetricKeyType: 'ec',
     subtle: { name: 'ECDSA', namedCurve: crv },
@@ -60,7 +47,7 @@ function eddsa(alg: string): JWSAlgorithm {
   const subtle = { name: 'Ed25519' }
   return {
     alg,
-    kty: 'OKP',
+    kty: ['OKP'],
     crv: 'Ed25519',
     asymmetricKeyType: 'ed25519',
     subtle,
@@ -73,7 +60,7 @@ function mldsa(alg: string): JWSAlgorithm {
   const subtle = { name: alg }
   return {
     alg,
-    kty: 'AKP',
+    kty: ['AKP'],
     asymmetricKeyType: alg.toLowerCase(),
     subtle,
     operation: subtle,

@@ -1,116 +1,28 @@
 import { JOSENotSupported } from '../util/errors.js'
 import type * as types from '../types.d.ts'
+import type { KeyDescriptor } from './key_descriptor.js'
 
 const unsupportedAlg = 'Invalid or unsupported JWK "alg" (Algorithm) Parameter value'
 
-function subtleMapping(jwk: types.JWK): {
-  algorithm: RsaHashedImportParams | EcKeyAlgorithm | Algorithm
-  keyUsages: KeyUsage[]
-} {
-  let algorithm: RsaHashedImportParams | EcKeyAlgorithm | Algorithm
-  let keyUsages: KeyUsage[]
-
-  switch (jwk.kty) {
-    case 'AKP': {
-      switch (jwk.alg) {
-        case 'ML-DSA-44':
-        case 'ML-DSA-65':
-        case 'ML-DSA-87':
-          algorithm = { name: jwk.alg }
-          keyUsages = jwk.priv ? ['sign'] : ['verify']
-          break
-        default:
-          throw new JOSENotSupported(unsupportedAlg)
-      }
-      break
-    }
-    case 'RSA': {
-      switch (jwk.alg) {
-        case 'PS256':
-        case 'PS384':
-        case 'PS512':
-          algorithm = { name: 'RSA-PSS', hash: `SHA-${jwk.alg.slice(-3)}` }
-          keyUsages = jwk.d ? ['sign'] : ['verify']
-          break
-        case 'RS256':
-        case 'RS384':
-        case 'RS512':
-          algorithm = { name: 'RSASSA-PKCS1-v1_5', hash: `SHA-${jwk.alg.slice(-3)}` }
-          keyUsages = jwk.d ? ['sign'] : ['verify']
-          break
-        case 'RSA-OAEP':
-        case 'RSA-OAEP-256':
-        case 'RSA-OAEP-384':
-        case 'RSA-OAEP-512':
-          algorithm = {
-            name: 'RSA-OAEP',
-            hash: `SHA-${parseInt(jwk.alg.slice(-3), 10) || 1}`,
-          }
-          keyUsages = jwk.d ? ['decrypt', 'unwrapKey'] : ['encrypt', 'wrapKey']
-          break
-        default:
-          throw new JOSENotSupported(unsupportedAlg)
-      }
-      break
-    }
-    case 'EC': {
-      switch (jwk.alg) {
-        case 'ES256':
-          algorithm = { name: 'ECDSA', namedCurve: 'P-256' }
-          keyUsages = jwk.d ? ['sign'] : ['verify']
-          break
-        case 'ES384':
-          algorithm = { name: 'ECDSA', namedCurve: 'P-384' }
-          keyUsages = jwk.d ? ['sign'] : ['verify']
-          break
-        case 'ES512':
-          algorithm = { name: 'ECDSA', namedCurve: 'P-521' }
-          keyUsages = jwk.d ? ['sign'] : ['verify']
-          break
-        case 'ECDH-ES':
-        case 'ECDH-ES+A128KW':
-        case 'ECDH-ES+A192KW':
-        case 'ECDH-ES+A256KW':
-          algorithm = { name: 'ECDH', namedCurve: jwk.crv! }
-          keyUsages = jwk.d ? ['deriveBits'] : []
-          break
-        default:
-          throw new JOSENotSupported(unsupportedAlg)
-      }
-      break
-    }
-    case 'OKP': {
-      switch (jwk.alg) {
-        case 'Ed25519': // Fall through
-        case 'EdDSA':
-          algorithm = { name: 'Ed25519' }
-          keyUsages = jwk.d ? ['sign'] : ['verify']
-          break
-        case 'ECDH-ES':
-        case 'ECDH-ES+A128KW':
-        case 'ECDH-ES+A192KW':
-        case 'ECDH-ES+A256KW':
-          algorithm = { name: jwk.crv! }
-          keyUsages = jwk.d ? ['deriveBits'] : []
-          break
-        default:
-          throw new JOSENotSupported(unsupportedAlg)
-      }
-      break
-    }
-    default:
-      throw new JOSENotSupported('Invalid or unsupported JWK "kty" (Key Type) Parameter value')
+/**
+ * The WebCrypto parameters for importing this JWK under this algorithm. ECDH takes its curve from
+ * the key; every other algorithm has it fixed by the identifier.
+ */
+export function subtleParams(
+  entry: KeyDescriptor,
+  jwk: types.JWK,
+): { name: string; hash?: string; namedCurve?: string } {
+  if (!entry.kty.includes(jwk.kty!)) {
+    throw new JOSENotSupported(unsupportedAlg)
   }
 
-  return { algorithm, keyUsages }
+  return entry.subtleFor?.({ kty: jwk.kty, crv: jwk.crv }) ?? entry.subtle
 }
 
-export async function jwkToKey(jwk: types.JWK): Promise<types.CryptoKey> {
-  if (!jwk.alg) {
-    throw new TypeError('"alg" argument is required when "jwk.alg" is not present')
-  }
-
-  const { algorithm, keyUsages } = subtleMapping(jwk)
+export async function jwkToKey(entry: KeyDescriptor, jwk: types.JWK): Promise<types.CryptoKey> {
+  const algorithm = subtleParams(entry, jwk)
+  const isPrivate = !!(jwk.d || jwk.priv)
+  const keyUsages = isPrivate ? entry.usages.private : entry.usages.public
 
   const keyData: types.JWK = { ...jwk }
   if (keyData.kty !== 'AKP') {
@@ -122,7 +34,7 @@ export async function jwkToKey(jwk: types.JWK): Promise<types.CryptoKey> {
     'jwk',
     keyData,
     algorithm,
-    jwk.ext ?? (jwk.d || jwk.priv ? false : true),
+    jwk.ext ?? (isPrivate ? false : true),
     (jwk.key_ops as KeyUsage[]) ?? keyUsages,
   )
 }

@@ -38,6 +38,22 @@ test('JWK kty must be recognized', async (t) => {
   })
 })
 
+test('JWK alg must be a string', async (t) => {
+  await t.throwsAsync(
+    importJWK({
+      alg: ['ES256'],
+      crv: 'P-256',
+      kty: 'EC',
+      x: 'q3zAwR_kUwtdLEwtB2oVfucXiLHmEhu9bJUFYjJxYGs',
+      y: '8h0D-ONoU-iZqrq28TyUxEULxuGwJZGMJYTMbeMshvI',
+    } as any),
+    {
+      code: 'ERR_JOSE_NOT_SUPPORTED',
+      message: 'Invalid or unsupported JWK "alg" (Algorithm) Parameter value',
+    },
+  )
+})
+
 test('oct JWK must have "k"', async (t) => {
   await t.throwsAsync(importJWK({ kty: 'oct' }, 'HS256'), {
     instanceOf: TypeError,

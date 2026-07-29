@@ -6,14 +6,18 @@ import * as pbes2kw from './pbes2kw.js'
 import * as rsaes from './rsaes.js'
 import { encode as b64u } from '../util/base64url.js'
 import { normalizeKey } from './normalize_key.js'
+import { jwkToKey } from './jwk_to_key.js'
+import { jweAlgorithm } from './jwe_algorithms.js'
 import { JOSENotSupported, JWEInvalid } from '../util/errors.js'
 import { decodeBase64url } from './helpers.js'
 import { generateCek, cekLength } from './content_encryption.js'
-import { importJWK } from '../key/import.js'
-import { exportJWK } from '../key/export.js'
 import { isObject } from './type_checks.js'
 import { wrap as aesGcmKwWrap, unwrap as aesGcmKwUnwrap } from './aesgcmkw.js'
 import { assertCryptoKey } from './is_key_like.js'
+
+type SubtleCryptoWithGetPublicKey = SubtleCrypto & {
+  getPublicKey?(key: types.CryptoKey, keyUsages: KeyUsage[]): Promise<types.CryptoKey>
+}
 
 const unsupportedAlgHeader = 'Invalid or unsupported "alg" (JWE Algorithm) header value'
 
@@ -56,8 +60,7 @@ export async function decryptKeyManagement(
           'ECDH with the provided key is not allowed or not supported by your javascript runtime',
         )
 
-      const epk = await importJWK(joseHeader.epk, alg)
-      assertCryptoKey(epk)
+      const epk = await jwkToKey(jweAlgorithm(alg), joseHeader.epk)
       let partyUInfo!: Uint8Array
       let partyVInfo!: Uint8Array
 
@@ -187,13 +190,24 @@ export async function encryptKeyManagement(
       const { apu, apv } = providedParameters
       let ephemeralKey: types.CryptoKey
       if (providedParameters.epk) {
-        ephemeralKey = (await normalizeKey(providedParameters.epk, alg)) as types.CryptoKey
+        ephemeralKey = (await normalizeKey(
+          providedParameters.epk,
+          jweAlgorithm(alg),
+        )) as types.CryptoKey
       } else {
         ephemeralKey = (
           await crypto.subtle.generateKey(key.algorithm as EcKeyAlgorithm, true, ['deriveBits'])
         ).privateKey
       }
-      const { x, y, crv, kty } = await exportJWK(ephemeralKey!)
+      const subtle = crypto.subtle as SubtleCryptoWithGetPublicKey
+      let exportableEpk = ephemeralKey
+      if (!exportableEpk.extractable) {
+        if (typeof subtle.getPublicKey !== 'function') {
+          throw new TypeError('CryptoKey for "epk" must be extractable')
+        }
+        exportableEpk = await subtle.getPublicKey(ephemeralKey, [])
+      }
+      const { x, y, crv, kty } = (await subtle.exportKey('jwk', exportableEpk)) as types.JWK
       const sharedSecret = await ecdhes.deriveKey(
         key,
         ephemeralKey,

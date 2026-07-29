@@ -2,6 +2,13 @@ import test from 'ava'
 
 import { exportJWK, generateKeyPair } from '../../src/index.js'
 
+test('alg must be a string', async (t) => {
+  await t.throwsAsync(generateKeyPair(['ES256'] as any), {
+    code: 'ERR_JOSE_NOT_SUPPORTED',
+    message: 'Invalid or unsupported JWK "alg" (Algorithm) Parameter value',
+  })
+})
+
 test('a crv option conflicting with the algorithm is rejected', async (t) => {
   for (const [alg, crv, expected] of [
     ['EdDSA', 'Ed448', 'Ed25519'],

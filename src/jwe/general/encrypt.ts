@@ -15,6 +15,7 @@ import { validateCritDuplicates } from '../../lib/options.js'
 import { checkEncryptHeaders, encryptJWE } from '../../lib/jwe_encrypt.js'
 import type { CheckedHeaders, EncryptInput } from '../../lib/jwe_encrypt.js'
 import { normalizeKey } from '../../lib/normalize_key.js'
+import { jweAlgorithm } from '../../lib/jwe_algorithms.js'
 import { checkKeyType } from '../../lib/check_key_type.js'
 
 /** Used to build General JWE object's individual recipients. */
@@ -287,7 +288,7 @@ export class GeneralEncrypt {
 
       checkKeyType(alg, recipient.key, 'encrypt')
 
-      const k = await normalizeKey(recipient.key, alg)
+      const k = await normalizeKey(recipient.key, jweAlgorithm(alg))
       const { encryptedKey, parameters } = await encryptKeyManagement(
         alg,
         enc,

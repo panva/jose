@@ -143,8 +143,9 @@ export async function verifySignature(
   )
   const signature = decodeBase64url(jws.signature, 'signature', JWSInvalid)
 
-  const k = await normalizeKey(key, alg)
-  const verified = await verify(jwsAlgorithm(alg), k, signature, data)
+  const entry = jwsAlgorithm(alg)
+  const k = await normalizeKey(key, entry)
+  const verified = await verify(entry, k, signature, data)
 
   if (!verified) {
     throw new JWSSignatureVerificationFailed()

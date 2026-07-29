@@ -93,8 +93,9 @@ export async function createSignature(
 
   const data = concat(protectedHeaderBytes, encode('.'), payloadB)
 
-  const k = await normalizeKey(key, alg)
-  const signature = await sign(jwsAlgorithm(alg), k, data)
+  const entry = jwsAlgorithm(alg)
+  const k = await normalizeKey(key, entry)
+  const signature = await sign(entry, k, data)
 
   const jws: types.FlattenedJWS = {
     signature: b64u(signature),

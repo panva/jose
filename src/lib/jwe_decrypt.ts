@@ -8,6 +8,7 @@ import { decryptKeyManagement } from './key_management.js'
 import { concat, decoder, encode, strictDecoder } from './buffer_utils.js'
 import { validateCrit, validateAlgorithms, JWE_RECOGNIZED } from './options.js'
 import { normalizeKey } from './normalize_key.js'
+import { jweAlgorithm } from './jwe_algorithms.js'
 import { checkKeyType } from './check_key_type.js'
 import { decompress } from './deflate.js'
 
@@ -224,7 +225,7 @@ export async function decryptRecipient(
   }
   checkKeyType(alg === 'dir' ? enc : alg, key, 'decrypt')
 
-  const k = await normalizeKey(key, alg)
+  const k = await normalizeKey(key, jweAlgorithm(alg))
   let cek: types.CryptoKey | Uint8Array
   try {
     cek = await decryptKeyManagement(alg, k, encryptedKey, joseHeader, options)

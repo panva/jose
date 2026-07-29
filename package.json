@@ -229,6 +229,7 @@
     "typecheck:types": "tsc -p test-d && tsc -p test-d/tsconfig.fallback.json",
     "typecheck:dist": "./tools/typecheck-dist.sh",
     "check:subpaths": "node tools/check-subpaths.js",
+    "check:bundles": "node tools/bundle-report.js --check",
     "check:packaging": "publint --strict && node tools/attw-check.js"
   },
   "devDependencies": {

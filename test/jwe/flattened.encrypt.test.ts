@@ -1,6 +1,11 @@
 import test from 'ava'
 
-import { FlattenedEncrypt, flattenedDecrypt, decodeProtectedHeader } from '../../src/index.js'
+import {
+  FlattenedEncrypt,
+  flattenedDecrypt,
+  decodeProtectedHeader,
+  generateKeyPair,
+} from '../../src/index.js'
 
 test.before(async (t) => {
   const encode = TextEncoder.prototype.encode.bind(new TextEncoder())
@@ -238,6 +243,72 @@ test('PBES2 p2c must be a positive integer on encrypt', async (t) => {
         message: 'PBES2 Count Input must be a positive integer',
       },
     )
+  }
+})
+
+test('non-extractable ephemeral keys use getPublicKey when available', async (t) => {
+  const supportsGetPublicKey = typeof Reflect.get(crypto.subtle, 'getPublicKey') === 'function'
+
+  for (const [crv, algorithm] of [
+    ['P-256', { name: 'ECDH', namedCurve: 'P-256' }],
+    ['X25519', { name: 'X25519' }],
+  ] as const) {
+    const recipient = await generateKeyPair('ECDH-ES', { crv })
+    const ephemeralKey = (
+      (await crypto.subtle.generateKey(algorithm, false, ['deriveBits'])) as CryptoKeyPair
+    ).privateKey
+    const encryption = new FlattenedEncrypt(t.context.plaintext)
+      .setProtectedHeader({ alg: 'ECDH-ES', enc: 'A128GCM' })
+      .setKeyManagementParameters({ epk: ephemeralKey })
+      .encrypt(recipient.publicKey)
+
+    if (!supportsGetPublicKey) {
+      await t.throwsAsync(encryption, {
+        instanceOf: TypeError,
+        message: 'CryptoKey for "epk" must be extractable',
+      })
+      continue
+    }
+
+    const jwe = await encryption
+    const { plaintext } = await flattenedDecrypt(jwe, recipient.privateKey)
+    const { epk } = decodeProtectedHeader(jwe)
+
+    t.deepEqual(plaintext, t.context.plaintext)
+    t.is(epk?.crv, crv)
+    t.false('d' in epk!)
+  }
+})
+
+test.serial('a non-extractable epk has an epk-specific fallback error', async (t) => {
+  const ownDescriptor = Object.getOwnPropertyDescriptor(crypto.subtle, 'getPublicKey')
+  Object.defineProperty(crypto.subtle, 'getPublicKey', {
+    configurable: true,
+    value: undefined,
+  })
+
+  try {
+    const { publicKey } = await generateKeyPair('ECDH-ES')
+    const ephemeralKey = (
+      await crypto.subtle.generateKey({ name: 'ECDH', namedCurve: 'P-256' }, false, ['deriveBits'])
+    ).privateKey
+
+    await t.throwsAsync(
+      new FlattenedEncrypt(t.context.plaintext)
+        .setProtectedHeader({ alg: 'ECDH-ES', enc: 'A128GCM' })
+        .setKeyManagementParameters({ epk: ephemeralKey })
+        .encrypt(publicKey),
+      {
+        instanceOf: TypeError,
+        message: 'CryptoKey for "epk" must be extractable',
+      },
+    )
+  } finally {
+    if (ownDescriptor) {
+      Object.defineProperty(crypto.subtle, 'getPublicKey', ownDescriptor)
+    } else {
+      Reflect.deleteProperty(crypto.subtle, 'getPublicKey')
+    }
   }
 })
 

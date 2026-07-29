@@ -7,6 +7,7 @@ import { isDisjoint } from './type_checks.js'
 import { concat, encode } from './buffer_utils.js'
 import { validateCrit, JWE_RECOGNIZED } from './options.js'
 import { normalizeKey } from './normalize_key.js'
+import { jweAlgorithm } from './jwe_algorithms.js'
 import { checkKeyType } from './check_key_type.js'
 import { compress } from './deflate.js'
 
@@ -93,7 +94,7 @@ export async function encryptJWE(
 
   checkKeyType(alg === 'dir' ? enc : alg, key, 'encrypt')
 
-  const k = await normalizeKey(key, alg)
+  const k = await normalizeKey(key, jweAlgorithm(alg))
   const { cek, encryptedKey, parameters } = await encryptKeyManagement(
     alg,
     enc,

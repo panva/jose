@@ -1,6 +1,10 @@
 import test from 'ava'
+import * as crypto from 'node:crypto'
 
-import { CompactEncrypt } from '../../src/index.js'
+import { CompactEncrypt, compactDecrypt } from '../../src/index.js'
+
+const rsa = crypto.generateKeyPairSync('rsa', { modulusLength: 2048 })
+const keyObjectTest = typeof rsa.publicKey.toCryptoKey === 'function' ? test : test.skip
 
 test.before(async (t) => {
   const encode = TextEncoder.prototype.encode.bind(new TextEncoder())
@@ -99,4 +103,24 @@ test('CompactEncrypt.prototype.encrypt JOSE header have an enc', async (t) => {
       message: 'JWE "enc" (Encryption Algorithm) Header Parameter missing or invalid',
     },
   )
+})
+
+keyObjectTest('ECDH-ES validates KeyObject compatibility', async (t) => {
+  await t.throwsAsync(
+    new CompactEncrypt(t.context.plaintext)
+      .setProtectedHeader({ alg: 'ECDH-ES', enc: 'A128GCM' })
+      .encrypt(rsa.publicKey),
+    {
+      instanceOf: TypeError,
+      message: 'given KeyObject instance cannot be used for this algorithm',
+    },
+  )
+
+  const x25519 = crypto.generateKeyPairSync('x25519')
+  const jwe = await new CompactEncrypt(t.context.plaintext)
+    .setProtectedHeader({ alg: 'ECDH-ES', enc: 'A128GCM' })
+    .encrypt(x25519.publicKey)
+  const { plaintext } = await compactDecrypt(jwe, x25519.privateKey)
+
+  t.deepEqual(plaintext, t.context.plaintext)
 })

@@ -7,6 +7,7 @@
 import { decode as decodeBase64URL } from '../util/base64url.js'
 import { fromSPKI, fromPKCS8, fromX509 } from '../lib/asn1.js'
 import { jwkToKey } from '../lib/jwk_to_key.js'
+import { keyAlgorithm } from '../lib/key_algorithm.js'
 
 import { JOSENotSupported } from '../util/errors.js'
 import { isObject } from '../lib/type_checks.js'
@@ -211,10 +212,12 @@ export async function importJWK(
     throw new TypeError('JWK must be an object')
   }
 
-  let ext: boolean | undefined
-
   alg ??= jwk.alg
-  ext ??= options?.extractable ?? jwk.ext
+  const ext = options?.extractable ?? jwk.ext
+
+  if (jwk.kty !== 'oct' && !alg) {
+    throw new TypeError('"alg" argument is required when "jwk.alg" is not present')
+  }
 
   switch (jwk.kty) {
     case 'oct':
@@ -229,7 +232,7 @@ export async function importJWK(
           'RSA JWK "oth" (Other Primes Info) Parameter value is not supported',
         )
       }
-      return jwkToKey({ ...jwk, alg, ext })
+      return jwkToKey(keyAlgorithm(alg!), { ...jwk, alg, ext })
     case 'AKP': {
       if (typeof jwk.alg !== 'string' || !jwk.alg) {
         throw new TypeError('missing "alg" (Algorithm) Parameter value')
@@ -237,11 +240,11 @@ export async function importJWK(
       if (alg !== undefined && alg !== jwk.alg) {
         throw new TypeError('JWK alg and alg option value mismatch')
       }
-      return jwkToKey({ ...jwk, ext })
+      return jwkToKey(keyAlgorithm(jwk.alg), { ...jwk, ext })
     }
     case 'EC':
     case 'OKP':
-      return jwkToKey({ ...jwk, alg, ext })
+      return jwkToKey(keyAlgorithm(alg!), { ...jwk, alg, ext })
     default:
       throw new JOSENotSupported('Unsupported "kty" (Key Type) Parameter value')
   }
