@@ -1,9 +1,9 @@
 import type * as types from '../types.d.ts'
 import type { KeyDescriptor } from './key_descriptor.js'
-import { isJWK } from './type_checks.js'
 import { decode } from '../util/base64url.js'
 import { jwkToKey } from './jwk_to_key.js'
-import { isCryptoKey, isKeyObject } from './is_key_like.js'
+import { checkKeyType, BYTES, CRYPTO, KEYOBJECT, JWK } from './check_key_type.js'
+import type { Tagged } from './check_key_type.js'
 
 const unusableForAlg = 'given KeyObject instance cannot be used for this algorithm'
 
@@ -101,43 +101,47 @@ const handleKeyObject = (keyObject: ConvertableKeyObject, entry: KeyDescriptor) 
   return store(keyObject, entry.alg, keyObject.toCryptoKey(params, extractable, usages))
 }
 
-export async function normalizeKey(
-  key: types.KeyInput,
+/**
+ * Asserts everything there is to assert about `key` for this algorithm and operation, and returns
+ * what the crypto primitives consume. The key is discriminated once: checkKeyType reports what it
+ * found, and the conversion below acts on that rather than testing the input all over again.
+ */
+export async function prepareKey(
   entry: KeyDescriptor,
+  key: unknown,
+  usage: 'sign' | 'verify' | 'encrypt' | 'decrypt',
 ): Promise<types.CryptoKey | Uint8Array> {
-  if (key instanceof Uint8Array) {
-    return key
-  }
+  const tagged: Tagged = checkKeyType(entry, key, usage)
 
-  if (isCryptoKey(key)) {
-    return key
-  }
+  switch (tagged.kind) {
+    case BYTES:
+    case CRYPTO:
+      return tagged.key
 
-  if (isKeyObject(key)) {
-    if (key.type === 'secret') {
-      return (key as ConvertableKeyObject).export()
-    }
+    case JWK:
+      if (tagged.key.k) {
+        return decode(tagged.key.k)
+      }
+      return handleJWK(tagged.key, tagged.key, entry, true)
 
-    if ('toCryptoKey' in key && typeof key.toCryptoKey === 'function') {
-      try {
-        return handleKeyObject(key as ConvertableKeyObject, entry)
-      } catch (err) {
-        if (err instanceof TypeError) {
-          throw err
+    case KEYOBJECT: {
+      const keyObject = tagged.key as ConvertableKeyObject
+
+      if (keyObject.type === 'secret') {
+        return keyObject.export()
+      }
+
+      if ('toCryptoKey' in keyObject && typeof keyObject.toCryptoKey === 'function') {
+        try {
+          return handleKeyObject(keyObject, entry)
+        } catch (err) {
+          if (err instanceof TypeError) {
+            throw err
+          }
         }
       }
+
+      return handleJWK(keyObject, keyObject.export({ format: 'jwk' }), entry)
     }
-
-    let jwk: types.JWK = (key as ConvertableKeyObject).export({ format: 'jwk' })
-    return handleJWK(key, jwk, entry)
   }
-
-  if (isJWK(key)) {
-    if (key.k) {
-      return decode(key.k)
-    }
-    return handleJWK(key, key, entry, true)
-  }
-
-  throw new Error('unreachable')
 }

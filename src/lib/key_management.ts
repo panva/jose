@@ -5,7 +5,7 @@ import * as ecdhes from './ecdhes.js'
 import * as pbes2kw from './pbes2kw.js'
 import * as rsaes from './rsaes.js'
 import { encode as b64u } from '../util/base64url.js'
-import { normalizeKey } from './normalize_key.js'
+import { prepareKey } from './normalize_key.js'
 import { jwkToKey } from './jwk_to_key.js'
 import { jweAlgorithm, jweEncryption } from './jwe_algorithms.js'
 import type { JWEEncryption } from './jwe_algorithms.js'
@@ -192,9 +192,10 @@ export async function encryptKeyManagement(
       const { apu, apv } = providedParameters
       let ephemeralKey: types.CryptoKey
       if (providedParameters.epk) {
-        ephemeralKey = (await normalizeKey(
-          providedParameters.epk,
+        ephemeralKey = (await prepareKey(
           jweAlgorithm(alg),
+          providedParameters.epk,
+          'decrypt',
         )) as types.CryptoKey
       } else {
         ephemeralKey = (

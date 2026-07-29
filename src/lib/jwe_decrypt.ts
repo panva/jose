@@ -6,9 +6,8 @@ import { isDisjoint, isObject } from './type_checks.js'
 import { decryptKeyManagement } from './key_management.js'
 import { concat, decoder, encode } from './buffer_utils.js'
 import { validateCrit, validateAlgorithms, JWE_RECOGNIZED } from './options.js'
-import { normalizeKey } from './normalize_key.js'
+import { prepareKey } from './normalize_key.js'
 import { jweAlgorithm, jweEncryption } from './jwe_algorithms.js'
-import { checkKeyType } from './check_key_type.js'
 import { decompress } from './deflate.js'
 
 export type DecryptGetKey = (
@@ -219,9 +218,7 @@ export async function decryptRecipient(
     resolvedKey = true
   }
   const algEntry = jweAlgorithm(alg)
-  checkKeyType(alg === 'dir' ? encEntry : algEntry, key, 'decrypt')
-
-  const k = await normalizeKey(key, algEntry)
+  const k = await prepareKey(alg === 'dir' ? encEntry : algEntry, key, 'decrypt')
   let cek: types.CryptoKey | Uint8Array
   try {
     cek = await decryptKeyManagement(alg, encEntry, k, encryptedKey, joseHeader, options)

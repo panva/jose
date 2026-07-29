@@ -6,10 +6,9 @@ import { JOSENotSupported, JWEInvalid } from '../util/errors.js'
 import { isDisjoint } from './type_checks.js'
 import { concat, encode } from './buffer_utils.js'
 import { validateCrit, JWE_RECOGNIZED } from './options.js'
-import { normalizeKey } from './normalize_key.js'
+import { prepareKey } from './normalize_key.js'
 import { jweAlgorithm, jweEncryption } from './jwe_algorithms.js'
 import type { JWEEncryption } from './jwe_algorithms.js'
-import { checkKeyType } from './check_key_type.js'
 import { compress } from './deflate.js'
 
 export interface EncryptInput {
@@ -95,9 +94,7 @@ export async function encryptJWE(
   }
 
   const algEntry = jweAlgorithm(alg)
-  checkKeyType(alg === 'dir' ? encEntry : algEntry, key, 'encrypt')
-
-  const k = await normalizeKey(key, algEntry)
+  const k = await prepareKey(alg === 'dir' ? encEntry : algEntry, key, 'encrypt')
   const { cek, encryptedKey, parameters } = await encryptKeyManagement(
     alg,
     encEntry,

@@ -5,9 +5,8 @@ import { jwsAlgorithm } from './jws_algorithms.js'
 import { isDisjoint } from './type_checks.js'
 import { JWSInvalid } from '../util/errors.js'
 import { concat, encode } from './buffer_utils.js'
-import { checkKeyType } from './check_key_type.js'
 import { validateCrit, validateCritDuplicates, JWS_RECOGNIZED } from './options.js'
-import { normalizeKey } from './normalize_key.js'
+import { prepareKey } from './normalize_key.js'
 
 export interface SignInput {
   payload: Uint8Array
@@ -67,7 +66,6 @@ export async function createSignature(
   }
 
   const entry = jwsAlgorithm(alg)
-  checkKeyType(entry, key, 'sign')
 
   let payloadS: string
   let payloadB: Uint8Array
@@ -94,7 +92,7 @@ export async function createSignature(
 
   const data = concat(protectedHeaderBytes, encode('.'), payloadB)
 
-  const k = await normalizeKey(key, entry)
+  const k = await prepareKey(entry, key, 'sign')
   const signature = await sign(entry, k, data)
 
   const jws: types.FlattenedJWS = {

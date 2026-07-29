@@ -5,9 +5,8 @@ import { JOSEAlgNotAllowed, JWSInvalid, JWSSignatureVerificationFailed } from '.
 import { concat, decoder, encoder, encode } from './buffer_utils.js'
 import { decodeBase64url, encodeBase64url, parseJoseHeader } from './helpers.js'
 import { isDisjoint } from './type_checks.js'
-import { checkKeyType } from './check_key_type.js'
 import { validateCrit, validateAlgorithms, JWS_RECOGNIZED } from './options.js'
-import { normalizeKey } from './normalize_key.js'
+import { prepareKey } from './normalize_key.js'
 
 export type VerifyGetKey = (
   protectedHeader: types.JWSHeaderParameters,
@@ -122,7 +121,6 @@ export async function verifySignature(
   }
 
   const entry = jwsAlgorithm(alg)
-  checkKeyType(entry, key, 'verify')
 
   const data = concat(
     jws.protected !== undefined ? encode(jws.protected) : new Uint8Array(),
@@ -137,7 +135,7 @@ export async function verifySignature(
   )
   const signature = decodeBase64url(jws.signature, 'signature', JWSInvalid)
 
-  const k = await normalizeKey(key, entry)
+  const k = await prepareKey(entry, key, 'verify')
   const verified = await verify(entry, k, signature, data)
 
   if (!verified) {

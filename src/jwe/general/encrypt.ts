@@ -14,9 +14,8 @@ import { encode as b64u } from '../../util/base64url.js'
 import { validateCritDuplicates } from '../../lib/options.js'
 import { checkEncryptHeaders, encryptJWE } from '../../lib/jwe_encrypt.js'
 import type { CheckedHeaders, EncryptInput } from '../../lib/jwe_encrypt.js'
-import { normalizeKey } from '../../lib/normalize_key.js'
+import { prepareKey } from '../../lib/normalize_key.js'
 import { jweAlgorithm } from '../../lib/jwe_algorithms.js'
-import { checkKeyType } from '../../lib/check_key_type.js'
 
 /** Used to build General JWE object's individual recipients. */
 export interface Recipient {
@@ -286,10 +285,7 @@ export class GeneralEncrypt {
 
       const { alg } = checked[i]
 
-      const algEntry = jweAlgorithm(alg)
-      checkKeyType(algEntry, recipient.key, 'encrypt')
-
-      const k = await normalizeKey(recipient.key, algEntry)
+      const k = await prepareKey(jweAlgorithm(alg), recipient.key, 'encrypt')
       const { encryptedKey, parameters } = await encryptKeyManagement(
         alg,
         checked[i].encEntry,
