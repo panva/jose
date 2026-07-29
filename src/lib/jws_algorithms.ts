@@ -1,4 +1,5 @@
 import { JOSENotSupported } from '../util/errors.js'
+import { table } from './key_descriptor.js'
 import type { KeyDescriptor } from './key_descriptor.js'
 
 /**
@@ -11,17 +12,18 @@ export interface JWSAlgorithm extends KeyDescriptor {
   operation: { name: string; hash?: string; saltLength?: number }
 }
 
+type Entry = Omit<JWSAlgorithm, 'alg'>
+
 const sig: { public: KeyUsage[]; private: KeyUsage[] } = { public: ['verify'], private: ['sign'] }
 
-function hmac(alg: string, bits: number): JWSAlgorithm {
+function hmac(bits: number): Entry {
   const subtle = { name: 'HMAC', hash: `SHA-${bits}` }
-  return { alg, kty: ['oct'], symmetric: true, subtle, operation: subtle, usages: sig }
+  return { kty: ['oct'], symmetric: true, subtle, operation: subtle, usages: sig }
 }
 
-function rsa(alg: string, name: string, bits: number, saltLength?: number): JWSAlgorithm {
+function rsa(name: string, bits: number, saltLength?: number): Entry {
   const subtle = { name, hash: `SHA-${bits}` }
   return {
-    alg,
     kty: ['RSA'],
     asymmetricKeyType: 'rsa',
     subtle,
@@ -31,9 +33,8 @@ function rsa(alg: string, name: string, bits: number, saltLength?: number): JWSA
   }
 }
 
-function ecdsa(alg: string, crv: string, bits: number): JWSAlgorithm {
+function ecdsa(crv: string, bits: number): Entry {
   return {
-    alg,
     kty: ['EC'],
     crv,
     asymmetricKeyType: 'ec',
@@ -43,10 +44,9 @@ function ecdsa(alg: string, crv: string, bits: number): JWSAlgorithm {
   }
 }
 
-function eddsa(alg: string): JWSAlgorithm {
+function eddsa(): Entry {
   const subtle = { name: 'Ed25519' }
   return {
-    alg,
     kty: ['OKP'],
     crv: 'Ed25519',
     asymmetricKeyType: 'ed25519',
@@ -56,39 +56,37 @@ function eddsa(alg: string): JWSAlgorithm {
   }
 }
 
-function mldsa(alg: string): JWSAlgorithm {
-  const subtle = { name: alg }
+/** ML-DSA names its WebCrypto algorithm and its Node key type after the JWA identifier. */
+function mldsa(name: string): Entry {
+  const subtle = { name }
   return {
-    alg,
     kty: ['AKP'],
-    asymmetricKeyType: alg.toLowerCase(),
+    asymmetricKeyType: name.toLowerCase(),
     subtle,
     operation: subtle,
     usages: sig,
   }
 }
 
-const JWS: Record<string, JWSAlgorithm> = {
-  // @ts-expect-error
-  __proto__: null,
-  HS256: hmac('HS256', 256),
-  HS384: hmac('HS384', 384),
-  HS512: hmac('HS512', 512),
-  RS256: rsa('RS256', 'RSASSA-PKCS1-v1_5', 256),
-  RS384: rsa('RS384', 'RSASSA-PKCS1-v1_5', 384),
-  RS512: rsa('RS512', 'RSASSA-PKCS1-v1_5', 512),
-  PS256: rsa('PS256', 'RSA-PSS', 256, 32),
-  PS384: rsa('PS384', 'RSA-PSS', 384, 48),
-  PS512: rsa('PS512', 'RSA-PSS', 512, 64),
-  ES256: ecdsa('ES256', 'P-256', 256),
-  ES384: ecdsa('ES384', 'P-384', 384),
-  ES512: ecdsa('ES512', 'P-521', 512),
-  EdDSA: eddsa('EdDSA'),
-  Ed25519: eddsa('Ed25519'),
+const JWS: Record<string, JWSAlgorithm> = table({
+  HS256: hmac(256),
+  HS384: hmac(384),
+  HS512: hmac(512),
+  RS256: rsa('RSASSA-PKCS1-v1_5', 256),
+  RS384: rsa('RSASSA-PKCS1-v1_5', 384),
+  RS512: rsa('RSASSA-PKCS1-v1_5', 512),
+  PS256: rsa('RSA-PSS', 256, 32),
+  PS384: rsa('RSA-PSS', 384, 48),
+  PS512: rsa('RSA-PSS', 512, 64),
+  ES256: ecdsa('P-256', 256),
+  ES384: ecdsa('P-384', 384),
+  ES512: ecdsa('P-521', 512),
+  EdDSA: eddsa(),
+  Ed25519: eddsa(),
   'ML-DSA-44': mldsa('ML-DSA-44'),
   'ML-DSA-65': mldsa('ML-DSA-65'),
   'ML-DSA-87': mldsa('ML-DSA-87'),
-}
+})
 
 /** Resolves a JWS "alg" to its entry, or throws if this module does not implement it. */
 export function jwsAlgorithm(alg: string): JWSAlgorithm {

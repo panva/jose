@@ -36,3 +36,18 @@ export interface KeyDescriptor {
   /** Minimum RSA modulus length in bits. */
   minModulusLength?: number
 }
+
+/**
+ * Stamps each entry with the identifier it is keyed by, and gives the record a null prototype so a
+ * lookup cannot resolve to something inherited from Object.prototype. Writing the identifier once
+ * rather than as both the key and a field keeps it out of the bundle twice over.
+ */
+export function table<T extends KeyDescriptor>(
+  entries: Record<string, Omit<T, 'alg'>>,
+): Record<string, T> {
+  const out: Record<string, T> = { __proto__: null } as unknown as Record<string, T>
+  for (const alg of Object.keys(entries)) {
+    out[alg] = { ...entries[alg], alg } as T
+  }
+  return out
+}
