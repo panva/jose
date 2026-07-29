@@ -15,6 +15,7 @@ const wrap: { public: KeyUsage[]; private: KeyUsage[] } = {
   public: ['encrypt', 'wrapKey'],
   private: ['decrypt', 'unwrapKey'],
 }
+/** An ECDH public key carries no usages; the private half derives. deriveKey is not used. */
 const derive: { public: KeyUsage[]; private: KeyUsage[] } = { public: [], private: ['deriveBits'] }
 const none: { public: KeyUsage[]; private: KeyUsage[] } = { public: [], private: [] }
 
@@ -46,7 +47,8 @@ function ecdh(alg: string, kwBits?: number): JWEAlgorithm {
     },
     usages: derive,
     kwBits,
-    keyOps: { encrypt: 'deriveBits', decrypt: 'deriveBits' },
+    // Deriving with the recipient's public key implies no key_ops value; only the private half does.
+    keyOps: { decrypt: 'deriveBits' },
   }
 }
 
@@ -116,9 +118,11 @@ const JWE: Record<string, JWEAlgorithm> = {
   'PBES2-HS512+A256KW': pbes2('PBES2-HS512+A256KW', 512, 256),
 }
 
-/** Content encryption algorithms. */
-export interface JWEEncryption {
-  enc: string
+/**
+ * Content encryption algorithms. These describe a key too: with "alg" of "dir" the Content
+ * Encryption Key is the caller's key, and it is the "enc" identifier a JWK "alg" must match.
+ */
+export interface JWEEncryption extends KeyDescriptor {
   /** Content Encryption Key bit length. */
   cekBits: number
   /** Initialization Vector bit length. */
@@ -127,12 +131,35 @@ export interface JWEEncryption {
   cbc: boolean
 }
 
-function gcm(enc: string, bits: number): JWEEncryption {
-  return { enc, cekBits: bits, ivBits: 96, cbc: false }
+const content: { public: KeyUsage[]; private: KeyUsage[] } = { public: [], private: [] }
+const contentOps = { encrypt: 'encrypt', decrypt: 'decrypt' }
+
+function gcm(alg: string, bits: number): JWEEncryption {
+  return {
+    alg,
+    kty: ['oct'],
+    symmetric: true,
+    subtle: { name: 'AES-GCM', length: bits },
+    usages: content,
+    keyOps: contentOps,
+    cekBits: bits,
+    ivBits: 96,
+    cbc: false,
+  }
 }
 
-function cbc(enc: string, bits: number): JWEEncryption {
-  return { enc, cekBits: bits, ivBits: 128, cbc: true }
+function cbc(alg: string, bits: number): JWEEncryption {
+  return {
+    alg,
+    kty: ['oct'],
+    symmetric: true,
+    subtle: { name: 'AES-CBC', length: bits },
+    usages: content,
+    keyOps: contentOps,
+    cekBits: bits,
+    ivBits: 128,
+    cbc: true,
+  }
 }
 
 const ENC: Record<string, JWEEncryption> = {

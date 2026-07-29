@@ -27,8 +27,12 @@ export interface KeyDescriptor {
   subtle: { name: string; hash?: string; namedCurve?: string; length?: number }
   /** Key usages, by whether the key is public. */
   usages: { public: KeyUsage[]; private: KeyUsage[] }
-  /** JWK "key_ops" expected per operation; defaults to the operation itself. */
-  keyOps?: { encrypt: string; decrypt: string }
+  /**
+   * JWK "key_ops" expected per operation. Absent for JWS, where it is always the operation itself. A
+   * JWE entry states it explicitly, and may leave an operation out to mean that no key_ops value is
+   * implied - deriving with a recipient's public ECDH key, for one.
+   */
+  keyOps?: { encrypt?: string; decrypt?: string }
   /** Minimum RSA modulus length in bits. */
   minModulusLength?: number
 }

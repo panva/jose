@@ -1,5 +1,6 @@
 import type * as types from '../types.d.ts'
-import { checkEncCryptoKey } from './crypto_key.js'
+import { checkCryptoKey } from './crypto_key.js'
+import { jweAlgorithm } from './jwe_algorithms.js'
 
 function checkKeySize(key: types.CryptoKey, alg: string) {
   if ((key.algorithm as AesKeyAlgorithm).length !== parseInt(alg.slice(1, 4), 10)) {
@@ -11,7 +12,7 @@ function getCryptoKey(key: types.CryptoKey | Uint8Array, alg: string, usage: Key
   if (key instanceof Uint8Array) {
     return crypto.subtle.importKey('raw', key as Uint8Array<ArrayBuffer>, 'AES-KW', true, [usage])
   }
-  checkEncCryptoKey(key, alg, usage)
+  checkCryptoKey(key, jweAlgorithm(alg).subtle, usage)
   return key
 }
 

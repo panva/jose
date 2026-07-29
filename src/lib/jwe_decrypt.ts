@@ -225,9 +225,10 @@ export async function decryptRecipient(
     key = await key(parsedProt, jwe)
     resolvedKey = true
   }
-  checkKeyType(alg === 'dir' ? enc : alg, key, 'decrypt')
+  const algEntry = jweAlgorithm(alg)
+  checkKeyType(alg === 'dir' ? encEntry : algEntry, key, 'decrypt')
 
-  const k = await normalizeKey(key, jweAlgorithm(alg))
+  const k = await normalizeKey(key, algEntry)
   let cek: types.CryptoKey | Uint8Array
   try {
     cek = await decryptKeyManagement(alg, encEntry, k, encryptedKey, joseHeader, options)

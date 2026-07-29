@@ -1,8 +1,6 @@
 import type * as types from '../types.d.ts'
 import type { JWSAlgorithm } from './jws_algorithms.js'
-
-const unusable = (name: string | number, prop = 'algorithm.name') =>
-  new TypeError(`CryptoKey does not support this operation, its ${prop} must be ${name}`)
+import { checkCryptoKey } from './crypto_key.js'
 
 export function checkModulusLength(alg: string, key: types.CryptoKey): void {
   const { modulusLength } = key.algorithm as RsaKeyAlgorithm
@@ -17,26 +15,7 @@ export function checkSigCryptoKey(
   key: types.CryptoKey,
   usage: KeyUsage,
 ): void {
-  const { subtle } = entry
-  const algorithm = key.algorithm as RsaHashedKeyAlgorithm & EcKeyAlgorithm
-
-  if (algorithm.name !== subtle.name) {
-    throw unusable(subtle.name)
-  }
-
-  if (subtle.hash && algorithm.hash?.name !== subtle.hash) {
-    throw unusable(subtle.hash, 'algorithm.hash')
-  }
-
-  if (subtle.namedCurve && algorithm.namedCurve !== subtle.namedCurve) {
-    throw unusable(subtle.namedCurve, 'algorithm.namedCurve')
-  }
-
-  if (!key.usages.includes(usage)) {
-    throw new TypeError(
-      `CryptoKey does not support this operation, its usages must include ${usage}.`,
-    )
-  }
+  checkCryptoKey(key, entry.subtle, usage)
 
   if (entry.minModulusLength) {
     checkModulusLength(entry.alg, key)

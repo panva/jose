@@ -128,7 +128,8 @@ export async function verifySignature(
     resolvedKey = true
   }
 
-  checkKeyType(alg, key, 'verify')
+  const entry = jwsAlgorithm(alg)
+  checkKeyType(entry, key, 'verify')
 
   const data = concat(
     jws.protected !== undefined ? encode(jws.protected) : new Uint8Array(),
@@ -143,7 +144,6 @@ export async function verifySignature(
   )
   const signature = decodeBase64url(jws.signature, 'signature', JWSInvalid)
 
-  const entry = jwsAlgorithm(alg)
   const k = await normalizeKey(key, entry)
   const verified = await verify(entry, k, signature, data)
 

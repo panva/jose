@@ -2,11 +2,13 @@ import { withAlg as invalidKeyInput } from './invalid_key_input.js'
 import { isKeyLike } from './is_key_like.js'
 import * as jwk from './type_checks.js'
 import type * as types from '../types.d.ts'
+import type { KeyDescriptor } from './key_descriptor.js'
 
 const tag = (key: object): string | undefined =>
   (key as { [Symbol.toStringTag]?: string })[Symbol.toStringTag]
 
-const jwkMatchesOp = (alg: string, key: types.JWK, usage: Usage) => {
+const jwkMatchesOp = (entry: KeyDescriptor, key: types.JWK, usage: Usage) => {
+  const { alg } = entry
   if (key.use !== undefined) {
     let expected: string
     switch (usage) {
@@ -31,31 +33,7 @@ const jwkMatchesOp = (alg: string, key: types.JWK, usage: Usage) => {
   }
 
   if (Array.isArray(key.key_ops)) {
-    let expectedKeyOp
-
-    switch (true) {
-      case usage === 'sign' || usage === 'verify': // Fall through
-      case alg === 'dir': // Fall through
-      case alg.includes('CBC-HS'):
-        expectedKeyOp = usage
-        break
-      case alg.startsWith('PBES2'):
-        expectedKeyOp = 'deriveBits'
-        break
-      case /^A\d{3}(?:GCM)?(?:KW)?$/.test(alg):
-        if (!alg.includes('GCM') && alg.endsWith('KW')) {
-          expectedKeyOp = usage === 'encrypt' ? 'wrapKey' : 'unwrapKey'
-        } else {
-          expectedKeyOp = usage
-        }
-        break
-      case usage === 'encrypt' && alg.startsWith('RSA'):
-        expectedKeyOp = 'wrapKey'
-        break
-      case usage === 'decrypt':
-        expectedKeyOp = alg.startsWith('RSA') ? 'unwrapKey' : 'deriveBits'
-        break
-    }
+    const expectedKeyOp = usage === 'encrypt' || usage === 'decrypt' ? entry.keyOps?.[usage] : usage
 
     if (expectedKeyOp && key.key_ops?.includes?.(expectedKeyOp) === false) {
       throw new TypeError(
@@ -67,11 +45,12 @@ const jwkMatchesOp = (alg: string, key: types.JWK, usage: Usage) => {
   return true
 }
 
-const symmetricTypeCheck = (alg: string, key: unknown, usage: Usage) => {
+const symmetricTypeCheck = (entry: KeyDescriptor, key: unknown, usage: Usage) => {
+  const { alg } = entry
   if (key instanceof Uint8Array) return
 
   if (jwk.isJWK(key)) {
-    if (jwk.isSecretJWK(key) && jwkMatchesOp(alg, key, usage)) return
+    if (jwk.isSecretJWK(key) && jwkMatchesOp(entry, key, usage)) return
     throw new TypeError(
       `JSON Web Key for symmetric algorithms must have JWK "kty" (Key Type) equal to "oct" and the JWK "k" (Key Value) present`,
     )
@@ -88,16 +67,17 @@ const symmetricTypeCheck = (alg: string, key: unknown, usage: Usage) => {
   }
 }
 
-const asymmetricTypeCheck = (alg: string, key: unknown, usage: Usage) => {
+const asymmetricTypeCheck = (entry: KeyDescriptor, key: unknown, usage: Usage) => {
+  const { alg } = entry
   if (jwk.isJWK(key)) {
     switch (usage) {
       case 'decrypt':
       case 'sign':
-        if (jwk.isPrivateJWK(key) && jwkMatchesOp(alg, key, usage)) return
+        if (jwk.isPrivateJWK(key) && jwkMatchesOp(entry, key, usage)) return
         throw new TypeError(`JSON Web Key for this operation must be a private JWK`)
       case 'encrypt':
       case 'verify':
-        if (jwk.isPublicJWK(key) && jwkMatchesOp(alg, key, usage)) return
+        if (jwk.isPublicJWK(key) && jwkMatchesOp(entry, key, usage)) return
         throw new TypeError(`JSON Web Key for this operation must be a public JWK`)
     }
   }
@@ -141,16 +121,10 @@ const asymmetricTypeCheck = (alg: string, key: unknown, usage: Usage) => {
 
 type Usage = 'sign' | 'verify' | 'encrypt' | 'decrypt'
 
-export function checkKeyType(alg: string, key: unknown, usage: Usage): void {
-  switch (alg.substring(0, 2)) {
-    case 'A1': // A128.+, A192.+
-    case 'A2': // A256.+
-    case 'di': // dir
-    case 'HS': // HS\d{3}
-    case 'PB': // PBES2.+
-      symmetricTypeCheck(alg, key, usage)
-      break
-    default:
-      asymmetricTypeCheck(alg, key, usage)
+export function checkKeyType(entry: KeyDescriptor, key: unknown, usage: Usage): void {
+  if (entry.symmetric) {
+    symmetricTypeCheck(entry, key, usage)
+  } else {
+    asymmetricTypeCheck(entry, key, usage)
   }
 }

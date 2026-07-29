@@ -1,7 +1,8 @@
 import type * as types from '../types.d.ts'
 import { encode as b64u } from '../util/base64url.js'
 import * as aeskw from './aeskw.js'
-import { checkEncCryptoKey } from './crypto_key.js'
+import { checkCryptoKey } from './crypto_key.js'
+import { jweAlgorithm } from './jwe_algorithms.js'
 import { concat, encode } from './buffer_utils.js'
 import { JWEInvalid } from '../util/errors.js'
 
@@ -12,7 +13,7 @@ function getCryptoKey(key: types.CryptoKey | Uint8Array, alg: string) {
     ])
   }
 
-  checkEncCryptoKey(key, alg, 'deriveBits')
+  checkCryptoKey(key, jweAlgorithm(alg).subtle, 'deriveBits')
   return key
 }
 

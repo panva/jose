@@ -84,7 +84,7 @@ export async function encryptJWE(
   checked: CheckedHeaders,
   key: types.KeyInput,
 ): Promise<types.FlattenedJWE> {
-  const { joseHeader, alg, enc, encEntry } = checked
+  const { joseHeader, alg, encEntry } = checked
   let { protectedHeader, unprotectedHeader } = input
   const { sharedUnprotectedHeader } = input
 
@@ -94,9 +94,10 @@ export async function encryptJWE(
     )
   }
 
-  checkKeyType(alg === 'dir' ? enc : alg, key, 'encrypt')
+  const algEntry = jweAlgorithm(alg)
+  checkKeyType(alg === 'dir' ? encEntry : algEntry, key, 'encrypt')
 
-  const k = await normalizeKey(key, jweAlgorithm(alg))
+  const k = await normalizeKey(key, algEntry)
   const { cek, encryptedKey, parameters } = await encryptKeyManagement(
     alg,
     encEntry,

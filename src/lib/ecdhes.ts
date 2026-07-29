@@ -1,6 +1,6 @@
 import type * as types from '../types.d.ts'
 import { encode, concat, uint32be } from './buffer_utils.js'
-import { checkEncCryptoKey } from './crypto_key.js'
+import { checkEcdhCryptoKey } from './crypto_key.js'
 import { digest } from './helpers.js'
 
 function lengthAndInput(input: Uint8Array) {
@@ -60,8 +60,8 @@ export async function deriveKey(
   apu: Uint8Array = new Uint8Array(),
   apv: Uint8Array = new Uint8Array(),
 ): Promise<Uint8Array> {
-  checkEncCryptoKey(publicKey, 'ECDH')
-  checkEncCryptoKey(privateKey, 'ECDH', 'deriveBits')
+  checkEcdhCryptoKey(publicKey)
+  checkEcdhCryptoKey(privateKey, 'deriveBits')
 
   // Construct OtherInfo
   const algorithmID = lengthAndInput(encode(algorithm))

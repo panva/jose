@@ -1,5 +1,6 @@
 import type * as types from '../types.d.ts'
-import { checkEncCryptoKey } from './crypto_key.js'
+import { checkCryptoKey } from './crypto_key.js'
+import { jweAlgorithm } from './jwe_algorithms.js'
 import { checkModulusLength } from './signing.js'
 import { JOSENotSupported } from '../util/errors.js'
 
@@ -22,7 +23,7 @@ export async function encrypt(
   key: types.CryptoKey,
   cek: Uint8Array,
 ): Promise<Uint8Array> {
-  checkEncCryptoKey(key, alg, 'encrypt')
+  checkCryptoKey(key, jweAlgorithm(alg).subtle, 'encrypt')
   checkModulusLength(alg, key)
 
   return new Uint8Array(
@@ -35,7 +36,7 @@ export async function decrypt(
   key: types.CryptoKey,
   encryptedKey: Uint8Array,
 ): Promise<Uint8Array> {
-  checkEncCryptoKey(key, alg, 'decrypt')
+  checkCryptoKey(key, jweAlgorithm(alg).subtle, 'decrypt')
   checkModulusLength(alg, key)
 
   return new Uint8Array(

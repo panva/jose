@@ -81,7 +81,7 @@ export async function decryptKeyManagement(
       const sharedSecret = await ecdhes.deriveKey(
         epk,
         key,
-        alg === 'ECDH-ES' ? enc.enc : alg,
+        alg === 'ECDH-ES' ? enc.alg : alg,
         alg === 'ECDH-ES' ? enc.cekBits : parseInt(alg.slice(-5, -2), 10),
         partyUInfo,
         partyVInfo,
@@ -213,7 +213,7 @@ export async function encryptKeyManagement(
       const sharedSecret = await ecdhes.deriveKey(
         key,
         ephemeralKey,
-        alg === 'ECDH-ES' ? enc.enc : alg,
+        alg === 'ECDH-ES' ? enc.alg : alg,
         alg === 'ECDH-ES' ? enc.cekBits : parseInt(alg.slice(-5, -2), 10),
         apu,
         apv,

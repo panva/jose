@@ -1,6 +1,6 @@
 import type * as types from '../types.d.ts'
 import { concat, uint64be } from './buffer_utils.js'
-import { checkEncCryptoKey } from './crypto_key.js'
+import { checkCryptoKey } from './crypto_key.js'
 import { invalidKeyInput } from './invalid_key_input.js'
 import { JWEDecryptionFailed, JWEInvalid } from '../util/errors.js'
 import type { JWEEncryption } from './jwe_algorithms.js'
@@ -191,7 +191,7 @@ async function gcmEncrypt(
       ['encrypt'],
     )
   } else {
-    checkEncCryptoKey(cek, enc.enc, 'encrypt')
+    checkCryptoKey(cek, enc.subtle, 'encrypt')
     encKey = cek
   }
 
@@ -232,7 +232,7 @@ async function gcmDecrypt(
       ['decrypt'],
     )
   } else {
-    checkEncCryptoKey(cek, enc.enc, 'decrypt')
+    checkCryptoKey(cek, enc.subtle, 'decrypt')
     encKey = cek
   }
 

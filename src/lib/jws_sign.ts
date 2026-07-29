@@ -66,7 +66,8 @@ export async function createSignature(
     throw new JWSInvalid('JWS "alg" (Algorithm) Header Parameter missing or invalid')
   }
 
-  checkKeyType(alg, key, 'sign')
+  const entry = jwsAlgorithm(alg)
+  checkKeyType(entry, key, 'sign')
 
   let payloadS: string
   let payloadB: Uint8Array
@@ -93,7 +94,6 @@ export async function createSignature(
 
   const data = concat(protectedHeaderBytes, encode('.'), payloadB)
 
-  const entry = jwsAlgorithm(alg)
   const k = await normalizeKey(key, entry)
   const signature = await sign(entry, k, data)
 

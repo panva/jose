@@ -286,9 +286,10 @@ export class GeneralEncrypt {
 
       const { alg } = checked[i]
 
-      checkKeyType(alg, recipient.key, 'encrypt')
+      const algEntry = jweAlgorithm(alg)
+      checkKeyType(algEntry, recipient.key, 'encrypt')
 
-      const k = await normalizeKey(recipient.key, jweAlgorithm(alg))
+      const k = await normalizeKey(recipient.key, algEntry)
       const { encryptedKey, parameters } = await encryptKeyManagement(
         alg,
         checked[i].encEntry,
