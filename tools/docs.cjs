@@ -12,6 +12,7 @@ const opts = { stdio: 'inherit' }
 const openUnions = [
   'GenerateKeyPairAlgorithm',
   'GenerateSecretAlgorithm',
+  'HTTPSignatureAlgorithm',
   'JWEContentEncryptionAlgorithm',
   'JWEKeyManagementAlgorithm',
   'JWKKeyType',

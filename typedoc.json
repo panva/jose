@@ -4,6 +4,7 @@
   "hideBreadcrumbs": true,
   "entryPoints": [
     "src/types.d.ts",
+    "src/httpsig.ts",
     "src/jwe/**/*.ts",
     "src/jwk/*.ts",
     "src/jwks/*.ts",

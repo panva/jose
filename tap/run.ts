@@ -25,6 +25,7 @@ export default async (
     import('./general.js'),
     import('./generate_options.js'),
     import('./hmac.js'),
+    import('./httpsig.js'),
     import('./jwk.js'),
     import('./jws.js'),
     import('./pbes2.js'),

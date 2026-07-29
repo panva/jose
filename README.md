@@ -88,6 +88,13 @@ The `jose` module supports encryption and decryption of JWE messages with arbitr
 - Utility functions
   - [Decoding Token's Protected Header](docs/util/decode_protected_header/functions/decodeProtectedHeader.md)
 
+### HTTP Message Signatures
+
+The `jose` module provides the `HTTP_SIGN` and `HTTP_VERIFY` cryptographic primitives of [HTTP Message Signatures](https://www.rfc-editor.org/info/rfc9421/).
+
+- [Signing](docs/httpsig/functions/sign.md) using the `sign` function
+- [Verification](docs/httpsig/functions/verify.md) using the `verify` function
+
 ### Other
 
 The following are additional features and utilities provided by the `jose` module:
@@ -135,6 +142,7 @@ Please note that certain algorithms may not be available depending on the runtim
 - CFRG Elliptic Curve ECDH and Signatures - [RFC8037](https://www.rfc-editor.org/info/rfc8037/)
 - Fully-Specified Algorithms for JOSE - [RFC9864](https://www.rfc-editor.org/info/rfc9864/)
 - ML-DSA for JOSE - [RFC9964](https://www.rfc-editor.org/info/rfc9964/)
+- HTTP Message Signatures - [RFC9421](https://www.rfc-editor.org/info/rfc9421/)
 
 The algorithm implementations in `jose` have been tested using test vectors from their respective specifications as well as [RFC7520](https://www.rfc-editor.org/info/rfc7520/).
 

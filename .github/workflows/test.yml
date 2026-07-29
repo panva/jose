@@ -100,7 +100,7 @@ jobs:
           cache: 'npm'
       - run: npm clean-install
       - name: Test Deno Definitions
-        run: deno check --unstable-sloppy-imports src/index.ts
+        run: deno check --unstable-sloppy-imports src/index.ts src/httpsig.ts
       - name: Test Deno
         run: npm run tap:deno
 

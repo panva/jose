@@ -46,6 +46,7 @@ function family(subpath) {
   if (subpath.startsWith('./jws/') || subpath === './jwt/sign' || subpath === './jwt/verify') {
     return 'jws'
   }
+  if (subpath === './httpsig') return 'jws'
   // A JWKS resolves public keys for verifying signatures, and an embedded JWK is a JWS Header
   // Parameter. Both are documented as such, so both are held to the JWS side.
   if (subpath.startsWith('./jwks/') || subpath === './jwk/embedded') return 'jws'

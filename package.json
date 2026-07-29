@@ -193,6 +193,10 @@
       "types": "./dist/types/util/base64url.d.ts",
       "default": "./dist/webapi/util/base64url.js"
     },
+    "./httpsig": {
+      "types": "./dist/types/httpsig.d.ts",
+      "default": "./dist/webapi/httpsig.js"
+    },
     "./package.json": "./package.json"
   },
   "main": "./dist/webapi/index.js",
@@ -208,9 +212,9 @@
   "scripts": {
     "build": "tsc",
     "build-all": "run-s clear build build:*",
-    "build:bundle": "esbuild --bundle dist/webapi/index.js --format=esm --target=es2022 --outfile=dist/webapi/index.bundle.js",
-    "build:bundle-min": "esbuild --minify --bundle dist/webapi/index.js --format=esm --target=es2022 --outfile=dist/webapi/index.bundle.min.js",
-    "build:umd": "esbuild --bundle dist/webapi/index.js --format=iife --global-name=jose --target=es2022 --outfile=dist/webapi/index.umd.js && node tools/iife-to-umd.cjs dist/webapi/index.umd.js && esbuild --minify dist/webapi/index.umd.js --outfile=dist/webapi/index.umd.min.js",
+    "build:bundle": "esbuild --bundle dist/webapi/index.js dist/webapi/httpsig.js --format=esm --target=es2022 --outdir=dist/webapi --out-extension:.js=.bundle.js",
+    "build:bundle-min": "esbuild --minify --bundle dist/webapi/index.js dist/webapi/httpsig.js --format=esm --target=es2022 --outdir=dist/webapi --out-extension:.js=.bundle.min.js",
+    "build:umd": "esbuild --bundle dist/webapi/index.js --format=iife --global-name=jose --target=es2022 --outfile=dist/webapi/index.umd.js && esbuild --bundle dist/webapi/httpsig.js --format=iife --global-name=httpsig --target=es2022 --outfile=dist/webapi/httpsig.umd.js && node tools/iife-to-umd.cjs dist/webapi/index.umd.js dist/webapi/httpsig.umd.js && esbuild --minify dist/webapi/index.umd.js --outfile=dist/webapi/index.umd.min.js && esbuild --minify dist/webapi/httpsig.umd.js --outfile=dist/webapi/httpsig.umd.min.js",
     "build:types": "npm run build -- -p ./tsconfig/types.json && cd src && find . -name '*.d.ts' -type f -exec rsync -R \"{}\" ../dist/types  \\; && cd .. && node tools/declaration-comments.js",
     "build:jsr": "npx --yes jsr publish --dry-run --allow-dirty",
     "clear": "rm -Rf dist",
