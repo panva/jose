@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file. See [commit-and-tag-version](https://github.com/absolute-version/commit-and-tag-version) for commit guidelines.
 
+## [6.2.6](https://github.com/panva/jose/compare/v6.2.5...v6.2.6) (2026-07-31)
+
+### Fixes
+
+* **types:** accept host CryptoKey declarations ([b48a15b](https://github.com/panva/jose/commit/b48a15b39696f49c61136b1d4c40d33585f5df97))
+
 ## [6.2.5](https://github.com/panva/jose/compare/v6.2.4...v6.2.5) (2026-07-29)
 
 ### Fixes
