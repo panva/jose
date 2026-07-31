@@ -20,8 +20,9 @@ JWK "alg" (Algorithm) Parameter
 
 • **priv**: `string`
 
-AKP JWK "priv" (Private Key): base64url-encoded private key; ML-DSA uses a 32-octet seed (RFC
-9964, Sections 3-4)
+AKP JWK "priv" (Private Key): base64url-encoded private key. Pure ML-DSA uses a 32-octet seed
+(RFC 9964, Sections 3-4). Composite ML-DSA uses the output of `SerializePrivateKey`, with a
+32-octet ML-DSA seed (draft-ietf-jose-pq-composite-sigs-06, Section 4.1).
 
 ***
 
@@ -29,7 +30,9 @@ AKP JWK "priv" (Private Key): base64url-encoded private key; ML-DSA uses a 32-oc
 
 • **pub**: `string`
 
-AKP JWK "pub" (Public Key): base64url-encoded public key (RFC 9964, Section 3)
+AKP JWK "pub" (Public Key): base64url-encoded public key. Pure ML-DSA uses its public key bytes
+(RFC 9964, Sections 3 and 5). Composite ML-DSA uses the output of `SerializePublicKey`
+(draft-ietf-jose-pq-composite-sigs-06, Section 4.1).
 
 ***
 

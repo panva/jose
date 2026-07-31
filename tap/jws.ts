@@ -26,6 +26,8 @@ export default (
     'ML-DSA-44',
     'ML-DSA-65',
     'ML-DSA-87',
+    'ML-DSA-44-ES256',
+    'ML-DSA-44-Ed25519',
   ]
 
   const kps: Record<string, jose.GenerateKeyPairResult> = {}

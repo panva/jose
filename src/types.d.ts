@@ -23,6 +23,8 @@ export type JWSAlgorithm =
   | 'ML-DSA-44'
   | 'ML-DSA-65'
   | 'ML-DSA-87'
+  | 'ML-DSA-44-ES256'
+  | 'ML-DSA-44-Ed25519'
   | (string & {})
 
 /**
@@ -136,15 +138,20 @@ export interface JWK_AKP_Public extends JWKParameters {
   /** JWK "alg" (Algorithm) Parameter */
   alg: string
 
-  /** AKP JWK "pub" (Public Key): base64url-encoded public key (RFC 9964, Section 3) */
+  /**
+   * AKP JWK "pub" (Public Key): base64url-encoded public key. Pure ML-DSA uses its public key bytes
+   * (RFC 9964, Sections 3 and 5). Composite ML-DSA uses the output of `SerializePublicKey`
+   * (draft-ietf-jose-pq-composite-sigs-06, Section 4.1).
+   */
   pub: string
 }
 
 /** Convenience interface for private AKP JSON Web Keys. */
 export interface JWK_AKP_Private extends JWK_AKP_Public {
   /**
-   * AKP JWK "priv" (Private Key): base64url-encoded private key; ML-DSA uses a 32-octet seed (RFC
-   * 9964, Sections 3-4)
+   * AKP JWK "priv" (Private Key): base64url-encoded private key. Pure ML-DSA uses a 32-octet seed
+   * (RFC 9964, Sections 3-4). Composite ML-DSA uses the output of `SerializePrivateKey`, with a
+   * 32-octet ML-DSA seed (draft-ietf-jose-pq-composite-sigs-06, Section 4.1).
    */
   priv: string
 }
@@ -280,12 +287,17 @@ export type JWK = {
   /** Base64url-encoded EC y-coordinate (RFC 7518, Section 6.2.1.3). */
   y?: string
 
-  /** AKP JWK "pub" (Public Key): base64url-encoded public key (RFC 9964, Section 3) */
+  /**
+   * AKP JWK "pub" (Public Key): base64url-encoded public key. Pure ML-DSA uses its public key bytes
+   * (RFC 9964, Sections 3 and 5). Composite ML-DSA uses the output of `SerializePublicKey`
+   * (draft-ietf-jose-pq-composite-sigs-06, Section 4.1).
+   */
   pub?: string
 
   /**
-   * AKP JWK "priv" (Private Key): base64url-encoded private key; ML-DSA uses a 32-octet seed (RFC
-   * 9964, Sections 3-4)
+   * AKP JWK "priv" (Private Key): base64url-encoded private key. Pure ML-DSA uses a 32-octet seed
+   * (RFC 9964, Sections 3-4). Composite ML-DSA uses the output of `SerializePrivateKey`, with a
+   * 32-octet ML-DSA seed (draft-ietf-jose-pq-composite-sigs-06, Section 4.1).
    */
   priv?: string
   /** Additional RSA prime factors. */
