@@ -482,10 +482,8 @@ async function payloadGenerics() {
     .sign(secret)
 }
 
-/* KeyObject stands in for Node's opaque crypto.KeyObject and must not admit arbitrary objects. */
+/* KeyObject must remain structurally compatible with runtime declarations that use `string`. */
 {
-  // @ts-expect-error Blob, Event and friends are not keys
-  const _bad: jose.KeyObject = { type: 'totally-bogus' }
-  const _good: jose.KeyObject = { type: 'secret' }
-  const _types: Equals<jose.KeyObject['type'], 'private' | 'public' | 'secret'> = true
+  const _good: jose.KeyObject = { type: anyString }
+  const _type: Equals<jose.KeyObject['type'], string> = true
 }

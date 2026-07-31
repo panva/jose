@@ -6,10 +6,10 @@ Support from the community to continue maintaining and improving this module is 
 
 **`Internal`**
 
-Used as [CryptoKey](../type-aliases/CryptoKey.md) only when the host runtime's `crypto` global is not typed at all, e.g. a
-consumer compiling with neither the DOM lib nor `@types/node`. Whenever a `CryptoKey` type is
-available it is aliased instead, deliberately, so that this module never introduces a competing
-nominal `CryptoKey` and values flow freely to and from [SubtleCrypto](https://developer.mozilla.org/docs/Web/API/SubtleCrypto) APIs.
+Used as [CryptoKey](../type-aliases/CryptoKey.md) when the host runtime's `crypto` global is not exposed on `typeof
+globalThis`, including when it is absent from ambient types or declared with `const` or `let`. It
+remains structurally compatible with host [CryptoKey](https://developer.mozilla.org/docs/Web/API/CryptoKey) declarations so values flow freely to
+and from [SubtleCrypto](https://developer.mozilla.org/docs/Web/API/SubtleCrypto) APIs.
 
 ## Properties
 
@@ -31,10 +31,10 @@ nominal `CryptoKey` and values flow freely to and from [SubtleCrypto](https://de
 
 ### type
 
-• `readonly` **type**: `"private"` \| `"public"` \| `"secret"`
+• `readonly` **type**: `string`
 
 ***
 
 ### usages
 
-• `readonly` **usages**: (`"decrypt"` \| `"deriveBits"` \| `"deriveKey"` \| `"encrypt"` \| `"sign"` \| `"unwrapKey"` \| `"verify"` \| `"wrapKey"`)[]
+• `readonly` **usages**: `string`[]
