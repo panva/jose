@@ -1,6 +1,14 @@
 import { JOSENotSupported } from '../util/errors.js'
+import { compositeJwkToKey } from './composite_signature.js'
+import { encode } from './buffer_utils.js'
 import { table } from './key_descriptor.js'
 import type { KeyDescriptor } from './key_descriptor.js'
+
+export type CompositeParameters = readonly [
+  traditional: JWSAlgorithm,
+  preHashBits: 256 | 512,
+  label: Uint8Array,
+]
 
 /**
  * Everything the implementation needs to know about one JWS "alg", in one place. Consumers are
@@ -10,6 +18,8 @@ import type { KeyDescriptor } from './key_descriptor.js'
 export interface JWSAlgorithm extends KeyDescriptor {
   /** WebCrypto parameters for subtle.sign and subtle.verify. */
   signing: { name: string; hash?: string; saltLength?: number }
+  /** Traditional component, pre-hash, and domain separation label for a composite algorithm. */
+  composite?: () => CompositeParameters
 }
 
 type Entry = Omit<JWSAlgorithm, 'alg'>
@@ -59,16 +69,26 @@ function eddsa(): Entry {
   }
 }
 
-/** ML-DSA names its WebCrypto algorithm and its Node key type after the JWA identifier. */
-// RFC 9964, Section 5: use pure ML-DSA with an empty context, the Web Crypto default.
-function mldsa(parameterSet: 44 | 65 | 87): Entry {
-  const name = `ML-DSA-${parameterSet}`
+function akp(name: string): Entry {
   const subtle = { name }
   return {
     kty: ['AKP'],
     subtle,
     signing: subtle,
     usages: sig,
+  }
+}
+
+// draft-ietf-jose-pq-composite-sigs-06, Sections 5.1 and 5.3: the composite
+// identifier selects the traditional component, pre-hash, and ASCII algorithm label.
+function composite(traditional: string, preHashBits: 256 | 512): JWSAlgorithm {
+  const name = `ML-DSA-44-${traditional}`
+  const label = encode(`COMPSIG-MLDSA44-${traditional.replace(/^ES/, 'ECDSA-P')}-SHA${preHashBits}`)
+  return {
+    ...akp(name),
+    alg: name,
+    composite: () => [JWS[traditional], preHashBits, label],
+    importJWK: compositeJwkToKey,
   }
 }
 
@@ -87,10 +107,19 @@ export const JWS: Record<string, JWSAlgorithm> = table({
   ES512: ecdsa('P-521', 512),
   EdDSA: eddsa(),
   Ed25519: eddsa(),
-  'ML-DSA-44': mldsa(44),
-  'ML-DSA-65': mldsa(65),
-  'ML-DSA-87': mldsa(87),
+  // RFC 9964, Section 5: pure ML-DSA uses an empty context, the Web Crypto default.
+  'ML-DSA-44': akp('ML-DSA-44'),
+  'ML-DSA-65': akp('ML-DSA-65'),
+  'ML-DSA-87': akp('ML-DSA-87'),
 })
+
+for (const [traditional, preHashBits] of [
+  ['ES256', 256],
+  ['Ed25519', 512],
+] as const) {
+  const entry = composite(traditional, preHashBits)
+  JWS[entry.alg] = entry
+}
 
 /** Resolves a JWS "alg" to its entry, or throws if this module does not implement it. */
 export function jwsAlgorithm(alg: unknown): JWSAlgorithm {

@@ -20,7 +20,9 @@ JWK "alg" (Algorithm) Parameter
 
 • **pub**: `string`
 
-AKP JWK "pub" (Public Key): base64url-encoded public key (RFC 9964, Section 3)
+AKP JWK "pub" (Public Key): base64url-encoded public key. Pure ML-DSA uses its public key bytes
+(RFC 9964, Sections 3 and 5). Composite ML-DSA uses the output of `SerializePublicKey`
+(draft-ietf-jose-pq-composite-sigs-06, Section 4.1).
 
 ***
 

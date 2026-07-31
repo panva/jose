@@ -45,6 +45,11 @@ function isNodeVersionAtLeast(major: number, minor: number) {
 }
 
 export function supported(algorithm: string): boolean {
+  if (algorithm === 'ML-DSA-44-ES256' || algorithm === 'ML-DSA-44-Ed25519') {
+    // Deno does not support the non-empty ML-DSA context required by composites.
+    return !isDeno && supported('ML-DSA-44')
+  }
+
   if (/^ML-DSA-/.test(algorithm)) {
     if (isBun || isDeno || isLlrt || isElectron || isBlink) return true
     return isNode && isNodeVersionAtLeast(24, 7)
