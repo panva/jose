@@ -12,6 +12,7 @@ import {
 import { JWSInvalid } from '../util/errors.js'
 import { concat, encode, encoder } from './buffer_utils.js'
 import { prepareKey, rawKey, checkModulusLength } from './key.js'
+import { compositeSign } from './composite_signature.js'
 
 export type SignInput = [
   payload: Uint8Array,
@@ -96,11 +97,13 @@ export async function createSignature(
   const jws: types.FlattenedJWS = {
     signature: b64u(
       new Uint8Array(
-        await crypto.subtle.sign(
-          entry.signing,
-          signingKey,
-          signingInput as Uint8Array<ArrayBuffer>,
-        ),
+        entry.composite
+          ? await compositeSign(entry, signingKey, signingInput)
+          : await crypto.subtle.sign(
+              entry.signing,
+              signingKey,
+              signingInput as Uint8Array<ArrayBuffer>,
+            ),
       ),
     ),
     payload: encodedPayload,

@@ -10,6 +10,7 @@
 import { toSPKI as exportPublic, toPKCS8 as exportPrivate } from '../lib/asn1.js'
 import { invalidKeyInput, isCryptoKey, isKeyObject } from '../lib/key.js'
 import { encode as b64u } from '../util/base64url.js'
+import { compositeKeyToJWK } from '../lib/composite_signature.js'
 
 import type * as types from '../types.d.ts'
 
@@ -79,6 +80,8 @@ export function exportPKCS8(key: types.CryptoKey | types.KeyObject): Promise<str
 export async function exportJWK(
   key: types.CryptoKey | types.KeyObject | Uint8Array,
 ): Promise<types.JWK> {
+  const composite = compositeKeyToJWK(key)
+  if (composite) return composite
   if (isKeyObject<ExtractableKeyObject>(key)) {
     if (key.type === 'secret') {
       key = key.export()
