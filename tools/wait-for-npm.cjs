@@ -63,6 +63,20 @@ function updateBody(endpoint, body) {
   })
 }
 
+function updateDiscussionBody(discussionId, body) {
+  ghApi('graphql', {
+    method: 'POST',
+    input: JSON.stringify({
+      query: `mutation($discussionId: ID!, $body: String!) {
+        updateDiscussion(input: { discussionId: $discussionId, body: $body }) {
+          discussion { id }
+        }
+      }`,
+      variables: { discussionId, body },
+    }),
+  })
+}
+
 function discussionEndpoint(repository, discussionUrl) {
   const url = new URL(discussionUrl)
   const match = /^\/[^/]+\/[^/]+\/discussions\/(\d+)$/.exec(url.pathname)
@@ -89,7 +103,7 @@ function updateReleaseBodies(repository, tag, transform) {
     updateBody(`repos/${repository}/releases/${release.id}`, releaseBody)
   }
   if (discussionBody !== discussion.body) {
-    updateBody(linkedDiscussionEndpoint, discussionBody)
+    updateDiscussionBody(discussion.node_id, discussionBody)
   }
 }
 
