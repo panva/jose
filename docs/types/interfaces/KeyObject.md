@@ -12,4 +12,4 @@ use the Node.js runtime APIs [createPublicKey](https://nodejs.org/api/crypto.htm
 
 ### type
 
-• **type**: `"private"` \| `"public"` \| `"secret"`
+• **type**: `string`

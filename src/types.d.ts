@@ -900,7 +900,7 @@ export interface JSONWebKeySet {
  * {@link !createSecretKey} to obtain a {@link !KeyObject} from your existing key material.
  */
 export interface KeyObject {
-  type: 'private' | 'public' | 'secret'
+  type: string
 }
 
 /**
@@ -916,20 +916,18 @@ export type CryptoKey = typeof globalThis extends {
   : CryptoKeyStructuralFallback
 
 /**
- * Used as {@link CryptoKey} only when the host runtime's `crypto` global is not typed at all, e.g. a
- * consumer compiling with neither the DOM lib nor `@types/node`. Whenever a `CryptoKey` type is
- * available it is aliased instead, deliberately, so that this module never introduces a competing
- * nominal `CryptoKey` and values flow freely to and from {@link !SubtleCrypto} APIs.
+ * Used as {@link CryptoKey} when the host runtime's `crypto` global is not exposed on `typeof
+ * globalThis`, including when it is absent from ambient types or declared with `const` or `let`. It
+ * remains structurally compatible with host {@link !CryptoKey} declarations so values flow freely to
+ * and from {@link !SubtleCrypto} APIs.
  *
  * @internal
  */
 export interface CryptoKeyStructuralFallback {
   readonly algorithm: { name: string }
   readonly extractable: boolean
-  readonly type: 'private' | 'public' | 'secret'
-  readonly usages: (
-    'decrypt' | 'deriveBits' | 'deriveKey' | 'encrypt' | 'sign' | 'unwrapKey' | 'verify' | 'wrapKey'
-  )[]
+  readonly type: string
+  readonly usages: string[]
 }
 
 /** Generic interface for JWT producing classes. */
