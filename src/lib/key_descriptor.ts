@@ -1,3 +1,5 @@
+import type * as types from '../types.d.ts'
+
 /**
  * The parts of an algorithm entry that key handling needs, shared by the JWS and JWE registries.
  * Type-only, so importing it costs nothing at runtime and neither family's data follows it.
@@ -33,6 +35,8 @@ export interface KeyDescriptor {
   ops?: [encrypt: string | undefined, decrypt: string | undefined]
   /** Minimum RSA modulus length in bits. */
   minRsaBits?: number
+  /** Algorithm-specific JWK import when WebCrypto cannot consume the JOSE key representation. */
+  importJWK?: (entry: KeyDescriptor, jwk: types.JWK) => Promise<types.CryptoKey>
 }
 
 /**

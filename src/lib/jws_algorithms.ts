@@ -1,6 +1,23 @@
 import { JOSENotSupported } from '../util/errors.js'
+import { compositeJwkToKey } from './composite_signature.js'
+import { encode } from './buffer_utils.js'
 import { table } from './key_descriptor.js'
 import type { KeyDescriptor } from './key_descriptor.js'
+
+type RawKeyParameters = readonly [
+  publicKeyLength: number,
+  privateKeyLength: number,
+  signatureLength: number,
+]
+
+export type CompositeComponent = JWSAlgorithm & { raw: RawKeyParameters }
+
+export type CompositeParameters = readonly [
+  mldsa: CompositeComponent,
+  traditional: CompositeComponent,
+  hashBits: 256 | 512,
+  label: Uint8Array,
+]
 
 /**
  * Everything the implementation needs to know about one JWS "alg", in one place. Consumers are
@@ -10,6 +27,10 @@ import type { KeyDescriptor } from './key_descriptor.js'
 export interface JWSAlgorithm extends KeyDescriptor {
   /** WebCrypto parameters for subtle.sign and subtle.verify. */
   signing: { name: string; hash?: string; saltLength?: number }
+  /** Fixed-width values used when this algorithm is a composite component. */
+  raw?: RawKeyParameters
+  /** Component algorithms and pre-hash used by a composite signature algorithm. */
+  composite?: () => CompositeParameters
 }
 
 type Entry = Omit<JWSAlgorithm, 'alg'>
@@ -33,17 +54,18 @@ function rsa(bits: number, saltLength?: 32 | 48 | 64): Entry {
   }
 }
 
-function ecdsa(crv: string, bits: number): Entry {
+function ecdsa(crv: string, bits: number, raw?: RawKeyParameters): Entry {
   return {
     kty: ['EC'],
     crv,
     subtle: { name: 'ECDSA', namedCurve: crv },
     signing: { name: 'ECDSA', hash: `SHA-${bits}` },
     usages: sig,
+    raw,
   }
 }
 
-function eddsa(): Entry {
+function eddsa(raw?: RawKeyParameters): Entry {
   const subtle = { name: 'Ed25519' }
   return {
     kty: ['OKP'],
@@ -51,18 +73,43 @@ function eddsa(): Entry {
     subtle,
     signing: subtle,
     usages: sig,
+    raw,
   }
 }
 
-/** ML-DSA names its WebCrypto algorithm and its Node key type after the JWA identifier. */
-function mldsa(bits: 44 | 65 | 87): Entry {
-  const name = `ML-DSA-${bits}`
+function akp(name: string): Entry {
   const subtle = { name }
   return {
     kty: ['AKP'],
     subtle,
     signing: subtle,
     usages: sig,
+  }
+}
+
+/** ML-DSA names its WebCrypto algorithm and its Node key type after the JWA identifier. */
+function mldsa(name: string, publicKeyLength: number, signatureLength: number): Entry {
+  return {
+    ...akp(name),
+    raw: [publicKeyLength, 32, signatureLength],
+  }
+}
+
+function composite(mldsa: string, traditional: string, hashBits: 256 | 512): JWSAlgorithm {
+  const name = `${mldsa}-${traditional}`
+  const label = encode(
+    `COMPSIG-${mldsa.replaceAll('-', '')}-${traditional.replace(/^ES/, 'ECDSA-P')}-SHA${hashBits}`,
+  )
+  return {
+    ...akp(name),
+    alg: name,
+    composite: () => [
+      JWS[mldsa] as CompositeComponent,
+      JWS[traditional] as CompositeComponent,
+      hashBits,
+      label,
+    ],
+    importJWK: compositeJwkToKey,
   }
 }
 
@@ -76,15 +123,26 @@ export const JWS: Record<string, JWSAlgorithm> = table({
   PS256: rsa(256, 32),
   PS384: rsa(384, 48),
   PS512: rsa(512, 64),
-  ES256: ecdsa('P-256', 256),
-  ES384: ecdsa('P-384', 384),
+  ES256: ecdsa('P-256', 256, [64, 32, 64]),
+  ES384: ecdsa('P-384', 384, [96, 48, 96]),
   ES512: ecdsa('P-521', 512),
   EdDSA: eddsa(),
-  Ed25519: eddsa(),
-  'ML-DSA-44': mldsa(44),
-  'ML-DSA-65': mldsa(65),
-  'ML-DSA-87': mldsa(87),
+  Ed25519: eddsa([32, 32, 64]),
+  'ML-DSA-44': mldsa('ML-DSA-44', 1312, 2420),
+  'ML-DSA-65': mldsa('ML-DSA-65', 1952, 3309),
+  'ML-DSA-87': mldsa('ML-DSA-87', 2592, 4627),
 })
+
+for (const [mldsa, traditional, hashBits = 512] of [
+  ['ML-DSA-44', 'ES256', 256],
+  ['ML-DSA-65', 'ES256'],
+  ['ML-DSA-87', 'ES384'],
+  ['ML-DSA-44', 'Ed25519'],
+  ['ML-DSA-65', 'Ed25519'],
+] as const) {
+  const entry = composite(mldsa, traditional, hashBits)
+  JWS[entry.alg] = entry
+}
 
 /** Resolves a JWS "alg" to its entry, or throws if this module does not implement it. */
 export function jwsAlgorithm(alg: unknown): JWSAlgorithm {

@@ -6,6 +6,8 @@
 
 import { JOSENotSupported } from '../util/errors.js'
 import { keyAlgorithm, unsupportedAlg, algArgument } from '../lib/key_algorithm.js'
+import { generateCompositeKeyPair } from '../lib/composite_signature.js'
+import type { JWSAlgorithm } from '../lib/jws_algorithms.js'
 
 import type * as types from '../types.d.ts'
 
@@ -117,6 +119,10 @@ export async function generateKeyPair(
   options?: GenerateKeyPairOptions,
 ): Promise<GenerateKeyPairResult> {
   const entry = keyAlgorithm(alg, algArgument)
+
+  if ((entry as JWSAlgorithm).composite) {
+    return generateCompositeKeyPair(entry as JWSAlgorithm, options?.extractable ?? false)
+  }
 
   if (entry.secret) {
     unsupportedAlg(algArgument)

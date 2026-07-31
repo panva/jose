@@ -10,6 +10,7 @@ import type * as types from '../types.d.ts'
 import { invalidKeyInput } from '../lib/invalid_key_input.js'
 import { encode as b64u } from '../util/base64url.js'
 import { isCryptoKey, isKeyObject } from '../lib/is_key_like.js'
+import { compositeKeyToJWK } from '../lib/composite_signature.js'
 
 interface ExportOptions {
   format: 'jwk'
@@ -25,6 +26,8 @@ function omitUndefinedProperties(jwk: JsonWebKey): JsonWebKey {
 }
 
 async function keyToJWK(key: unknown): Promise<types.JWK> {
+  const composite = compositeKeyToJWK(key)
+  if (composite) return composite
   if (isKeyObject(key)) {
     if (key.type === 'secret') {
       key = (key as ExtractableKeyObject).export()

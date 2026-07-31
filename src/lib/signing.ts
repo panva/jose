@@ -1,6 +1,7 @@
 import type * as types from '../types.d.ts'
 import type { JWSAlgorithm } from './jws_algorithms.js'
 import { checkCryptoKey, checkModulusLength } from './crypto_key.js'
+import { compositeSign, compositeVerify } from './composite_signature.js'
 
 async function getSigKey(entry: JWSAlgorithm, key: types.CryptoKey | Uint8Array, usage: KeyUsage) {
   if (key instanceof Uint8Array) {
@@ -20,6 +21,9 @@ export async function sign(
   data: Uint8Array,
 ): Promise<Uint8Array> {
   const cryptoKey = await getSigKey(entry, key, 'sign')
+  if (entry.composite) {
+    return compositeSign(entry, cryptoKey, data)
+  }
   const signature = await crypto.subtle.sign(
     entry.signing,
     cryptoKey,
@@ -35,6 +39,9 @@ export async function verify(
   data: Uint8Array,
 ): Promise<boolean> {
   const cryptoKey = await getSigKey(entry, key, 'verify')
+  if (entry.composite) {
+    return compositeVerify(entry, cryptoKey, signature, data)
+  }
   try {
     return await crypto.subtle.verify(
       entry.signing,

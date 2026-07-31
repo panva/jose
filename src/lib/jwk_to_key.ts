@@ -12,6 +12,9 @@ export async function jwkToKey(entry: KeyDescriptor, jwk: types.JWK): Promise<ty
   }
 
   const algorithm = entry.resolve?.({ kty: jwk.kty, crv: jwk.crv }) ?? entry.subtle
+  if (entry.importJWK) {
+    return entry.importJWK(entry, { ...jwk, alg: entry.alg })
+  }
   const isPrivate = !!(jwk.d || jwk.priv)
 
   const keyData: types.JWK = { ...jwk }

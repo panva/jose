@@ -52,7 +52,7 @@ function isElectronChromiumVersionAtLeast(major: number) {
   return typeof version === 'string' && parseInt(version.split('.')[0], 10) >= major
 }
 
-export function supported(identifier?: string, op?: string) {
+export function supported(identifier?: string, op?: string): boolean {
   switch (identifier) {
     case 'RSA1_5':
     case 'X448':
@@ -63,6 +63,14 @@ export function supported(identifier?: string, op?: string) {
   }
 
   switch (identifier) {
+    case 'ML-DSA-44-ES256':
+    case 'ML-DSA-44-Ed25519':
+      return !isDeno && supported('ML-DSA-44')
+    case 'ML-DSA-65-ES256':
+    case 'ML-DSA-65-Ed25519':
+      return !isDeno && supported('ML-DSA-65')
+    case 'ML-DSA-87-ES384':
+      return !isDeno && supported('ML-DSA-87')
     case 'ML-DSA-44':
     case 'ML-DSA-65':
     case 'ML-DSA-87':
