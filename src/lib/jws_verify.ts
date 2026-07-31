@@ -14,6 +14,7 @@ import {
   JWS_RECOGNIZED,
 } from './validate.js'
 import { prepareKey, rawKey, checkModulusLength } from './key.js'
+import { compositeVerify } from './composite_signature.js'
 
 export type VerifyGetKey = (
   protectedHeader: types.JWSHeaderParameters,
@@ -174,12 +175,14 @@ export async function verifySignature(
   if (entry.minRsaBits) checkModulusLength(entry.alg, cryptoKey)
   let verified = false
   try {
-    verified = await crypto.subtle.verify(
-      entry.signing,
-      cryptoKey,
-      signature as Uint8Array<ArrayBuffer>,
-      signingInput as Uint8Array<ArrayBuffer>,
-    )
+    verified = entry.composite
+      ? await compositeVerify(entry, cryptoKey, signature, signingInput)
+      : await crypto.subtle.verify(
+          entry.signing,
+          cryptoKey,
+          signature as Uint8Array<ArrayBuffer>,
+          signingInput as Uint8Array<ArrayBuffer>,
+        )
   } catch {}
   if (!verified) {
     throw new JWSSignatureVerificationFailed()

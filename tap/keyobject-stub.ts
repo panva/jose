@@ -3,8 +3,35 @@
 import { promisify } from 'node:util'
 import * as crypto from 'node:crypto'
 import { Buffer } from 'node:buffer'
+import {
+  exportJWK as exportWebCryptoJWK,
+  generateKeyPair as generateWebCryptoKeyPair,
+  importJWK as importWebCryptoJWK,
+} from '../src/index.js'
 
 const generate = promisify(crypto.generateKeyPair)
+const compositeAlgorithms = [
+  'ML-DSA-44-ES256',
+  'ML-DSA-65-ES256',
+  'ML-DSA-87-ES384',
+  'ML-DSA-44-Ed25519',
+  'ML-DSA-65-Ed25519',
+] as const
+
+type CompositeAlgorithm = (typeof compositeAlgorithms)[number]
+
+function isCompositeAlgorithm(input: unknown): input is CompositeAlgorithm {
+  return typeof input === 'string' && (compositeAlgorithms as readonly string[]).includes(input)
+}
+
+function isCompositeKey(key: unknown): key is import('../src/index.js').CryptoKey {
+  return (
+    typeof key === 'object' &&
+    key !== null &&
+    'algorithm' in key &&
+    isCompositeAlgorithm((key as { algorithm?: { name?: unknown } }).algorithm?.name)
+  )
+}
 
 const stub: Pick<
   typeof import('../src/index.js'),
@@ -12,6 +39,10 @@ const stub: Pick<
 > = {
   // @ts-expect-error
   exportJWK(key) {
+    if (isCompositeKey(key)) {
+      return exportWebCryptoJWK(key)
+    }
+
     let k: crypto.KeyObject
     if (key instanceof Uint8Array) {
       k = crypto.createSecretKey(key)
@@ -26,6 +57,9 @@ const stub: Pick<
   importJWK(jwk) {
     if (jwk.k) {
       return Buffer.from(jwk.k, 'base64url')
+    }
+    if (jwk.kty === 'AKP' && isCompositeAlgorithm(jwk.alg)) {
+      return importWebCryptoJWK(jwk)
     }
     if (jwk.d || jwk.priv) {
       return crypto.createPrivateKey({ format: 'jwk', key: jwk as crypto.JsonWebKey })
@@ -63,6 +97,10 @@ const stub: Pick<
   },
   // @ts-expect-error
   async generateKeyPair(alg, options) {
+    if (isCompositeAlgorithm(alg)) {
+      return generateWebCryptoKeyPair(alg, options)
+    }
+
     switch (alg) {
       case 'RS256':
       case 'RS384':
@@ -103,7 +141,7 @@ const stub: Pick<
           case 'X25519':
             return generate('x25519')
           default:
-            Error('unreachable')
+            throw new Error('unreachable')
         }
       }
       case 'ML-DSA-44':
@@ -111,7 +149,7 @@ const stub: Pick<
       case 'ML-DSA-87':
         return generate(alg.toLowerCase() as 'ml-dsa-44' | 'ml-dsa-65' | 'ml-dsa-87')
       default:
-        Error('unreachable')
+        throw new Error('unreachable')
     }
   },
 }

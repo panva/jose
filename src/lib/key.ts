@@ -299,6 +299,9 @@ export async function jwkToKey(
   const isPrivate = !!(jwk.d || jwk.priv)
 
   const keyData: types.JWK = { ...jwk, ext: extractable ?? jwk.ext }
+  if (entry.importJWK) {
+    return entry.importJWK(entry, { ...keyData, alg: entry.alg })
+  }
   // RFC 9964, Section 3 requires alg for AKP. Other algorithms are already resolved above.
   // Removing JOSE metadata here is a Web Crypto adapter choice, not a JWK format rule.
   if (keyData.kty !== 'AKP') {
