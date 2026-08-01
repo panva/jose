@@ -472,6 +472,13 @@ test('requiredClaims claims check', async (t) => {
     message: `missing required "nbf" claim`,
   })
 
+  for (const claim of ['constructor', 'toString', '__proto__']) {
+    await t.throwsAsync(jwtVerify(jwt, t.context.secret, { requiredClaims: [claim] }), {
+      code: 'ERR_JWT_CLAIM_VALIDATION_FAILED',
+      message: `missing required "${claim}" claim`,
+    })
+  }
+
   t.deepEqual(requiredClaims, ['nbf'])
 })
 

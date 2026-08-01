@@ -55,6 +55,38 @@ test('duplicate "crit" values are rejected when producing', async (t) => {
   )
 })
 
+test('inherited object properties do not satisfy "crit"', async (t) => {
+  const key = new Uint8Array(32)
+  const payload = base64url.encode('foo')
+  const cryptoKey = await crypto.subtle.importKey(
+    'raw',
+    key,
+    { name: 'HMAC', hash: 'SHA-256' },
+    false,
+    ['sign'],
+  )
+
+  for (const parameter of ['constructor', 'toString', '__proto__']) {
+    const protectedHeader = base64url.encode(JSON.stringify({ alg: 'HS256', crit: [parameter] }))
+    const signature = base64url.encode(
+      new Uint8Array(
+        await crypto.subtle.sign('HMAC', cryptoKey, encode(`${protectedHeader}.${payload}`)),
+      ),
+    )
+    const jws = { payload, protected: protectedHeader, signature }
+    const options = { crit: { [parameter]: true } }
+
+    await t.throwsAsync(flattenedVerify(jws, key, options), {
+      code: 'ERR_JWS_INVALID',
+      message: `Extension Header Parameter "${parameter}" is missing`,
+    })
+    await t.throwsAsync(flattenedVerify({ ...jws, header: { [parameter]: true } }, key, options), {
+      code: 'ERR_JWS_INVALID',
+      message: `Extension Header Parameter "${parameter}" MUST be integrity protected`,
+    })
+  }
+})
+
 test('duplicate "crit" values are tolerated when consuming', async (t) => {
   // The recipient side only MAY consider such a header invalid, and the extension set is a Set, so
   // a duplicated entry has no effect on what is checked.

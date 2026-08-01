@@ -138,7 +138,7 @@ export function validateClaimsSet(
   if (issuer !== undefined) presenceCheck.push('iss')
 
   for (const claim of new Set(presenceCheck.reverse())) {
-    if (!(claim in payload)) {
+    if (!Object.hasOwn(payload, claim)) {
       throw new JWTClaimValidationFailed(
         `missing required "${claim}" claim`,
         payload,

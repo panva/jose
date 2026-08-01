@@ -80,10 +80,13 @@ export function validateCrit(
       throw new JOSENotSupported(`Extension Header Parameter "${parameter}" is not recognized`)
     }
 
-    if (joseHeader[parameter] === undefined) {
+    if (!Object.hasOwn(joseHeader, parameter) || joseHeader[parameter] === undefined) {
       throw new Err(`Extension Header Parameter "${parameter}" is missing`)
     }
-    if (recognized[parameter] && protectedHeader[parameter] === undefined) {
+    if (
+      recognized[parameter] &&
+      (!Object.hasOwn(protectedHeader, parameter) || protectedHeader[parameter] === undefined)
+    ) {
       throw new Err(`Extension Header Parameter "${parameter}" MUST be integrity protected`)
     }
   }
