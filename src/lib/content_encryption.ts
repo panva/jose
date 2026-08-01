@@ -37,7 +37,7 @@ async function cbcKeySetup(
   enc: JWEEncryption,
   cek: Uint8Array | types.CryptoKey,
   usage: 'encrypt' | 'decrypt',
-): Promise<{ encKey: CryptoKey; macKey: CryptoKey; keySize: number }> {
+): Promise<[encKey: CryptoKey, macKey: CryptoKey, keySize: number]> {
   if (!(cek instanceof Uint8Array)) {
     throw new TypeError(invalidKeyInput(cek, 'Uint8Array'))
   }
@@ -59,7 +59,7 @@ async function cbcKeySetup(
     false,
     ['sign'],
   )
-  return { encKey, macKey, keySize }
+  return [encKey, macKey, keySize]
 }
 
 async function cbcHmacTag(
@@ -84,7 +84,7 @@ async function cbcEncrypt(
   iv: Uint8Array,
   aad: Uint8Array,
 ) {
-  const { encKey, macKey, keySize } = await cbcKeySetup(enc, cek, 'encrypt')
+  const [encKey, macKey, keySize] = await cbcKeySetup(enc, cek, 'encrypt')
 
   const ciphertext = new Uint8Array(
     await crypto.subtle.encrypt(
@@ -104,30 +104,11 @@ async function cbcEncrypt(
 }
 
 async function timingSafeEqual(a: Uint8Array, b: Uint8Array): Promise<boolean> {
-  if (!(a instanceof Uint8Array)) {
-    throw new TypeError('First argument must be a buffer')
-  }
-  if (!(b instanceof Uint8Array)) {
-    throw new TypeError('Second argument must be a buffer')
-  }
-
   const algorithm = { name: 'HMAC', hash: 'SHA-256' }
-  const key = (await crypto.subtle.generateKey(algorithm, false, ['sign'])) as CryptoKey
+  const key = (await crypto.subtle.generateKey(algorithm, false, ['sign', 'verify'])) as CryptoKey
 
-  const aHmac = new Uint8Array(
-    await crypto.subtle.sign(algorithm, key, a as Uint8Array<ArrayBuffer>),
-  )
-  const bHmac = new Uint8Array(
-    await crypto.subtle.sign(algorithm, key, b as Uint8Array<ArrayBuffer>),
-  )
-
-  let out = 0
-  let i = -1
-  while (++i < 32) {
-    out |= aHmac[i] ^ bHmac[i]
-  }
-
-  return out === 0
+  const aHmac = await crypto.subtle.sign(algorithm, key, a as Uint8Array<ArrayBuffer>)
+  return crypto.subtle.verify(algorithm, key, aHmac, b as Uint8Array<ArrayBuffer>)
 }
 
 async function cbcDecrypt(
@@ -138,7 +119,7 @@ async function cbcDecrypt(
   tag: Uint8Array,
   aad: Uint8Array,
 ) {
-  const { encKey, macKey, keySize } = await cbcKeySetup(enc, cek, 'decrypt')
+  const [encKey, macKey, keySize] = await cbcKeySetup(enc, cek, 'decrypt')
 
   const macData = concat(aad, iv, ciphertext, uint64be(aad.length * 8))
   const expectedTag = await cbcHmacTag(macKey, macData, keySize)
@@ -181,19 +162,12 @@ async function gcmEncrypt(
   iv: Uint8Array,
   aad: Uint8Array,
 ) {
-  let encKey: types.CryptoKey
-  if (cek instanceof Uint8Array) {
-    encKey = await crypto.subtle.importKey(
-      'raw',
-      cek as Uint8Array<ArrayBuffer>,
-      'AES-GCM',
-      false,
-      ['encrypt'],
-    )
-  } else {
-    checkCryptoKey(cek, enc.subtle, 'encrypt')
-    encKey = cek
-  }
+  const encKey =
+    cek instanceof Uint8Array
+      ? await crypto.subtle.importKey('raw', cek as Uint8Array<ArrayBuffer>, 'AES-GCM', false, [
+          'encrypt',
+        ])
+      : (checkCryptoKey(cek, enc.subtle, 'encrypt'), cek)
 
   const encrypted = new Uint8Array(
     await crypto.subtle.encrypt(
@@ -222,19 +196,12 @@ async function gcmDecrypt(
   tag: Uint8Array,
   aad: Uint8Array,
 ) {
-  let encKey: types.CryptoKey
-  if (cek instanceof Uint8Array) {
-    encKey = await crypto.subtle.importKey(
-      'raw',
-      cek as Uint8Array<ArrayBuffer>,
-      'AES-GCM',
-      false,
-      ['decrypt'],
-    )
-  } else {
-    checkCryptoKey(cek, enc.subtle, 'decrypt')
-    encKey = cek
-  }
+  const encKey =
+    cek instanceof Uint8Array
+      ? await crypto.subtle.importKey('raw', cek as Uint8Array<ArrayBuffer>, 'AES-GCM', false, [
+          'decrypt',
+        ])
+      : (checkCryptoKey(cek, enc.subtle, 'decrypt'), cek)
 
   try {
     return new Uint8Array(

@@ -4,40 +4,36 @@ import type { KeyDescriptor } from './key_descriptor.js'
 
 /** Everything the implementation needs to know about one JWE "alg", in one place. */
 export interface JWEAlgorithm extends KeyDescriptor {
-  /** AES key wrapping bits embedded in the identifier, for ECDH-ES+A*KW and PBES2. */
-  kwBits?: number
-  /** PBES2 PRF hash. */
-  pbes2Hash?: string
-  /** The AES-GCM "enc" an A*GCMKW identifier wraps with. */
-  gcmkw?: string
+  subtle: KeyDescriptor['subtle'] & {
+    name: 'RSA-OAEP' | 'ECDH' | 'AES-KW' | 'AES-GCM' | 'PBKDF2'
+  }
 }
 
 type AlgEntry = Omit<JWEAlgorithm, 'alg'>
 type EncEntry = Omit<JWEEncryption, 'alg'>
 
-const wrap: { public: KeyUsage[]; private: KeyUsage[] } = {
-  public: ['encrypt', 'wrapKey'],
-  private: ['decrypt', 'unwrapKey'],
-}
+const wrap: [KeyUsage[], KeyUsage[]] = [
+  ['encrypt', 'wrapKey'],
+  ['decrypt', 'unwrapKey'],
+]
 /** An ECDH public key carries no usages; the private half derives. deriveKey is not used. */
-const derive: { public: KeyUsage[]; private: KeyUsage[] } = { public: [], private: ['deriveBits'] }
-const none: { public: KeyUsage[]; private: KeyUsage[] } = { public: [], private: [] }
+const derive: [KeyUsage[], KeyUsage[]] = [[], ['deriveBits']]
+const none: [KeyUsage[], KeyUsage[]] = [[], []]
 
 function rsaes(bits: number): AlgEntry {
   return {
     kty: ['RSA'],
     subtle: { name: 'RSA-OAEP', hash: `SHA-${bits}` },
     usages: wrap,
-    minModulusLength: 2048,
-    keyOps: { encrypt: 'wrapKey', decrypt: 'unwrapKey' },
+    ops: ['wrapKey', 'unwrapKey'],
   }
 }
 
-function ecdh(kwBits?: number): AlgEntry {
+function ecdh(): AlgEntry {
   return {
     kty: ['EC', 'OKP'],
     subtle: { name: 'ECDH' },
-    subtleFor: ({ kty, crv, asymmetricKeyType }) => {
+    resolve: ({ kty, crv, asymmetricKeyType }) => {
       if (crv === 'X25519' || asymmetricKeyType === 'x25519') {
         return { name: 'X25519' }
       }
@@ -47,70 +43,56 @@ function ecdh(kwBits?: number): AlgEntry {
       return { name: 'ECDH', namedCurve: crv! }
     },
     usages: derive,
-    kwBits,
     // Deriving with the recipient's public key implies no key_ops value; only the private half does.
-    keyOps: { decrypt: 'deriveBits' },
+    ops: [undefined, 'deriveBits'],
   }
 }
 
-function aeskw(bits: number): AlgEntry {
+function aeskw(bits: number, gcm = false): AlgEntry {
   return {
     kty: ['oct'],
-    symmetric: true,
-    subtle: { name: 'AES-KW', length: bits },
+    secret: true,
+    subtle: { name: gcm ? 'AES-GCM' : 'AES-KW', length: bits },
     usages: none,
-    keyOps: { encrypt: 'wrapKey', decrypt: 'unwrapKey' },
+    ops: gcm ? ['encrypt', 'decrypt'] : ['wrapKey', 'unwrapKey'],
   }
 }
 
-function aesgcmkw(bits: number): AlgEntry {
+function pbes2(): AlgEntry {
   return {
     kty: ['oct'],
-    symmetric: true,
-    subtle: { name: 'AES-GCM', length: bits },
-    usages: none,
-    gcmkw: `A${bits}GCM`,
-    keyOps: { encrypt: 'encrypt', decrypt: 'decrypt' },
-  }
-}
-
-function pbes2(bits: number, kwBits: number): AlgEntry {
-  return {
-    kty: ['oct'],
-    symmetric: true,
+    secret: true,
     subtle: { name: 'PBKDF2' },
     usages: none,
-    pbes2Hash: `SHA-${bits}`,
-    kwBits,
-    keyOps: { encrypt: 'deriveBits', decrypt: 'deriveBits' },
+    ops: ['deriveBits', 'deriveBits'],
   }
 }
 
 const JWE: Record<string, JWEAlgorithm> = table<JWEAlgorithm>({
   dir: {
     kty: ['oct'],
-    symmetric: true,
+    secret: true,
     subtle: { name: 'AES-GCM' },
     usages: none,
-    keyOps: { encrypt: 'encrypt', decrypt: 'decrypt' },
+    ops: ['encrypt', 'decrypt'],
   },
   'RSA-OAEP': rsaes(1),
   'RSA-OAEP-256': rsaes(256),
   'RSA-OAEP-384': rsaes(384),
   'RSA-OAEP-512': rsaes(512),
   'ECDH-ES': ecdh(),
-  'ECDH-ES+A128KW': ecdh(128),
-  'ECDH-ES+A192KW': ecdh(192),
-  'ECDH-ES+A256KW': ecdh(256),
+  'ECDH-ES+A128KW': ecdh(),
+  'ECDH-ES+A192KW': ecdh(),
+  'ECDH-ES+A256KW': ecdh(),
   A128KW: aeskw(128),
   A192KW: aeskw(192),
   A256KW: aeskw(256),
-  A128GCMKW: aesgcmkw(128),
-  A192GCMKW: aesgcmkw(192),
-  A256GCMKW: aesgcmkw(256),
-  'PBES2-HS256+A128KW': pbes2(256, 128),
-  'PBES2-HS384+A192KW': pbes2(384, 192),
-  'PBES2-HS512+A256KW': pbes2(512, 256),
+  A128GCMKW: aeskw(128, true),
+  A192GCMKW: aeskw(192, true),
+  A256GCMKW: aeskw(256, true),
+  'PBES2-HS256+A128KW': pbes2(),
+  'PBES2-HS384+A192KW': pbes2(),
+  'PBES2-HS512+A256KW': pbes2(),
 })
 
 /**
@@ -126,50 +108,36 @@ export interface JWEEncryption extends KeyDescriptor {
   cbc: boolean
 }
 
-const content: { public: KeyUsage[]; private: KeyUsage[] } = { public: [], private: [] }
-const contentOps = { encrypt: 'encrypt', decrypt: 'decrypt' }
+const contentOps: [string, string] = ['encrypt', 'decrypt']
 
-function gcm(bits: number): EncEntry {
+function contentEncryption(bits: number, cbc = false): EncEntry {
   return {
     kty: ['oct'],
-    symmetric: true,
-    subtle: { name: 'AES-GCM', length: bits },
-    usages: content,
-    keyOps: contentOps,
+    secret: true,
+    subtle: { name: cbc ? 'AES-CBC' : 'AES-GCM', length: bits },
+    usages: none,
+    ops: contentOps,
     cekBits: bits,
-    ivBits: 96,
-    cbc: false,
-  }
-}
-
-function cbc(bits: number): EncEntry {
-  return {
-    kty: ['oct'],
-    symmetric: true,
-    subtle: { name: 'AES-CBC', length: bits },
-    usages: content,
-    keyOps: contentOps,
-    cekBits: bits,
-    ivBits: 128,
-    cbc: true,
+    ivBits: cbc ? 128 : 96,
+    cbc,
   }
 }
 
 const ENC: Record<string, JWEEncryption> = table<JWEEncryption>({
-  A128GCM: gcm(128),
-  A192GCM: gcm(192),
-  A256GCM: gcm(256),
-  'A128CBC-HS256': cbc(256),
-  'A192CBC-HS384': cbc(384),
-  'A256CBC-HS512': cbc(512),
+  A128GCM: contentEncryption(128),
+  A192GCM: contentEncryption(192),
+  A256GCM: contentEncryption(256),
+  'A128CBC-HS256': contentEncryption(256, true),
+  'A192CBC-HS384': contentEncryption(384, true),
+  'A256CBC-HS512': contentEncryption(512, true),
 })
 
-const unsupportedAlgHeader = 'Invalid or unsupported "alg" (JWE Algorithm) header value'
+const unsupportedAlg = 'Invalid or unsupported "alg" (JWE Algorithm) header value'
 
 export function jweAlgorithm(alg: string): JWEAlgorithm {
   const entry = JWE[alg]
   if (!entry) {
-    throw new JOSENotSupported(unsupportedAlgHeader)
+    throw new JOSENotSupported(unsupportedAlg)
   }
   return entry
 }

@@ -23,7 +23,7 @@ import { isObject } from '../lib/type_checks.js'
  */
 function signatureAlgorithm(alg: unknown): JWSAlgorithm {
   const entry = typeof alg === 'string' ? maybeJWSAlgorithm(alg) : undefined
-  if (!entry || entry.symmetric) {
+  if (!entry || entry.secret) {
     throw new JOSENotSupported('Unsupported "alg" value for a JSON Web Key Set')
   }
   return entry
@@ -38,11 +38,7 @@ function isJWKSLike(jwks: unknown): jwks is types.JSONWebKeySet {
     return false
   }
   const { keys } = jwks as { keys?: unknown }
-  return Array.isArray(keys) && keys.every(isJWKLike)
-}
-
-function isJWKLike(key: unknown) {
-  return isObject<types.JWK>(key)
+  return Array.isArray(keys) && keys.every(isObject<types.JWK>)
 }
 
 class LocalJWKSetImpl {
@@ -69,37 +65,15 @@ class LocalJWKSetImpl {
     const { alg, kid } = { ...protectedHeader, ...token?.header }
     const entry = signatureAlgorithm(alg)
 
-    const candidates = this.#jwks!.keys.filter((jwk) => {
-      // filter keys based on the mapping of signature algorithms to Key Type
-      let candidate = entry.kty.includes(jwk.kty!)
-
-      // filter keys based on the JWK Key ID in the header
-      if (candidate && typeof kid === 'string') {
-        candidate = kid === jwk.kid
-      }
-
-      // filter keys based on the key's declared Algorithm
-      if (candidate && (typeof jwk.alg === 'string' || jwk.kty === 'AKP')) {
-        candidate = alg === jwk.alg
-      }
-
-      // filter keys based on the key's declared Public Key Use
-      if (candidate && typeof jwk.use === 'string') {
-        candidate = jwk.use === 'sig'
-      }
-
-      // filter keys based on the key's declared Key Operations
-      if (candidate && Array.isArray(jwk.key_ops)) {
-        candidate = jwk.key_ops.includes('verify')
-      }
-
-      // filter out non-applicable curves / sub types
-      if (candidate && entry.crv) {
-        candidate = jwk.crv === entry.crv
-      }
-
-      return candidate
-    })
+    const candidates = this.#jwks!.keys.filter(
+      (jwk) =>
+        entry.kty.includes(jwk.kty!) &&
+        (typeof kid !== 'string' || kid === jwk.kid) &&
+        (!(typeof jwk.alg === 'string' || jwk.kty === 'AKP') || alg === jwk.alg) &&
+        (typeof jwk.use !== 'string' || jwk.use === 'sig') &&
+        (!Array.isArray(jwk.key_ops) || jwk.key_ops.includes('verify')) &&
+        (!entry.crv || jwk.crv === entry.crv),
+    )
 
     const { 0: jwk, length } = candidates
 
@@ -254,13 +228,8 @@ export function createLocalJWKSet(jwks: types.JSONWebKeySet): LocalJWKSet {
     token?: types.FlattenedJWSInput,
   ): Promise<types.CryptoKey> => set.getKey(protectedHeader, token)
 
-  Object.defineProperties(localJWKSet, {
-    jwks: {
-      value: () => structuredClone(set.jwks()),
-      enumerable: false,
-      configurable: false,
-      writable: false,
-    },
+  Object.defineProperty(localJWKSet, 'jwks', {
+    value: () => structuredClone(set.jwks()),
   })
 
   // Object.defineProperties is used for the property attributes it affords and returns the

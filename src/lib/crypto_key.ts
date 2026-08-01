@@ -18,6 +18,13 @@ export function checkUsage(key: types.CryptoKey, usage?: KeyUsage): void {
   }
 }
 
+export function checkModulusLength(alg: string, key: types.CryptoKey): void {
+  const { modulusLength } = key.algorithm as RsaKeyAlgorithm
+  if (typeof modulusLength !== 'number' || modulusLength < 2048) {
+    throw new TypeError(`${alg} requires key modulusLength to be 2048 bits or larger`)
+  }
+}
+
 /**
  * Asserts a caller-supplied CryptoKey matches what an algorithm entry describes. Generic - it names
  * no algorithm itself, so it belongs to neither family.

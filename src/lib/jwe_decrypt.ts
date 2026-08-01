@@ -16,38 +16,39 @@ export type DecryptGetKey = (
 ) => Promise<types.KeyInput> | types.KeyInput
 
 /** Whatever a decryption needs that is the same for every recipient of a given JWE. */
-export interface DecryptShared {
-  keyManagementAlgorithms?: Set<string>
-  contentEncryptionAlgorithms?: Set<string>
-  options?: types.DecryptOptions
-}
+export type DecryptShared = [
+  keyManagementAlgorithms: Set<string> | undefined,
+  contentEncryptionAlgorithms: Set<string> | undefined,
+  options: types.DecryptOptions | undefined,
+]
 
-export interface DecryptedJWE {
-  plaintext: Uint8Array
-  parsedProt?: types.JWEHeaderParameters
-  key: types.CryptoKey | Uint8Array
-  resolvedKey: boolean
-}
+export type DecryptedJWE = [
+  plaintext: Uint8Array,
+  parsedProt: types.JWEHeaderParameters | undefined,
+  key: types.CryptoKey | Uint8Array,
+  resolvedKey: boolean,
+]
 
 /**
  * The parts of a JWE that every recipient shares. A General JWE pays for these once instead of once
  * per recipient.
  */
-export interface SharedJWE {
-  parsedProt?: types.JWEHeaderParameters
-  ciphertext: Uint8Array
-  iv?: Uint8Array
-  tag?: Uint8Array
-  additionalData: Uint8Array
-}
+export type SharedJWE = [
+  parsedProt: types.JWEHeaderParameters | undefined,
+  ciphertext: Uint8Array,
+  iv: Uint8Array | undefined,
+  tag: Uint8Array | undefined,
+  additionalData: Uint8Array,
+]
 
 /** Checks the members every recipient of a General JWE shares. */
 export function checkShared(jwe: types.FlattenedJWE): void {
+  const { ciphertext, protected: encodedProtected, unprotected } = jwe
   if (jwe.iv !== undefined && typeof jwe.iv !== 'string') {
     throw new JWEInvalid('JWE Initialization Vector incorrect type')
   }
 
-  if (typeof jwe.ciphertext !== 'string') {
+  if (typeof ciphertext !== 'string') {
     throw new JWEInvalid('JWE Ciphertext missing or incorrect type')
   }
 
@@ -55,7 +56,7 @@ export function checkShared(jwe: types.FlattenedJWE): void {
     throw new JWEInvalid('JWE Authentication Tag incorrect type')
   }
 
-  if (jwe.protected !== undefined && typeof jwe.protected !== 'string') {
+  if (encodedProtected !== undefined && typeof encodedProtected !== 'string') {
     throw new JWEInvalid('JWE Protected Header incorrect type')
   }
 
@@ -63,46 +64,47 @@ export function checkShared(jwe: types.FlattenedJWE): void {
     throw new JWEInvalid('JWE AAD incorrect type')
   }
 
-  if (jwe.unprotected !== undefined && !isObject(jwe.unprotected)) {
+  if (unprotected !== undefined && !isObject(unprotected)) {
     throw new JWEInvalid('JWE Shared Unprotected Header incorrect type')
   }
 }
 
 /** Checks the members that belong to one recipient. */
 export function checkRecipient(jwe: types.FlattenedJWE): void {
-  if (jwe.encrypted_key !== undefined && typeof jwe.encrypted_key !== 'string') {
+  const { encrypted_key: encryptedKey, header } = jwe
+  if (encryptedKey !== undefined && typeof encryptedKey !== 'string') {
     throw new JWEInvalid('JWE Encrypted Key incorrect type')
   }
 
-  if (jwe.header !== undefined && !isObject(jwe.header)) {
+  if (header !== undefined && !isObject(header)) {
     throw new JWEInvalid('JWE Per-Recipient Unprotected Header incorrect type')
   }
 
-  if (jwe.protected === undefined && jwe.header === undefined && jwe.unprotected === undefined) {
+  if (jwe.protected === undefined && header === undefined && jwe.unprotected === undefined) {
     throw new JWEInvalid('JOSE Header missing')
   }
 }
 
 /** Parses and decodes the shared members. Their types must already have been checked. */
 export function shareJWE(jwe: types.FlattenedJWE): SharedJWE {
+  const { protected: encodedProtected, ciphertext, iv, tag, aad } = jwe
   let parsedProt: types.JWEHeaderParameters | undefined
-  if (jwe.protected) {
-    parsedProt = parseJoseHeader(jwe.protected, JWEInvalid, 'JWE Protected Header is invalid')
+  if (encodedProtected) {
+    parsedProt = parseJoseHeader(encodedProtected, JWEInvalid, 'JWE Protected Header is invalid')
   }
 
   const protectedHeader: Uint8Array =
-    jwe.protected !== undefined ? encode(jwe.protected) : new Uint8Array()
+    encodedProtected !== undefined ? encode(encodedProtected) : new Uint8Array()
 
-  return {
+  return [
     parsedProt,
-    ciphertext: decodeBase64url(jwe.ciphertext, 'ciphertext', JWEInvalid),
-    iv: jwe.iv !== undefined ? decodeBase64url(jwe.iv, 'iv', JWEInvalid) : undefined,
-    tag: jwe.tag !== undefined ? decodeBase64url(jwe.tag, 'tag', JWEInvalid) : undefined,
-    additionalData:
-      jwe.aad !== undefined
-        ? concat(protectedHeader, encode('.'), encodeBase64url(jwe.aad, 'aad', JWEInvalid))
-        : protectedHeader,
-  }
+    decodeBase64url(ciphertext, 'ciphertext', JWEInvalid),
+    iv !== undefined ? decodeBase64url(iv, 'iv', JWEInvalid) : undefined,
+    tag !== undefined ? decodeBase64url(tag, 'tag', JWEInvalid) : undefined,
+    aad !== undefined
+      ? concat(protectedHeader, encode('.'), encodeBase64url(aad, 'aad', JWEInvalid))
+      : protectedHeader,
+  ]
 }
 
 /** Flattened and General results have the same shape, so they are assembled in one place. */
@@ -110,40 +112,40 @@ export function decryptResult(
   jwe: types.FlattenedJWE,
   decrypted: DecryptedJWE,
 ): types.FlattenedDecryptResult & Partial<types.ResolvedKey> {
-  const result: types.FlattenedDecryptResult = { plaintext: decrypted.plaintext }
+  const [plaintext, parsedProt, key, resolvedKey] = decrypted
+  const { protected: encodedProtected, aad, unprotected, header } = jwe
+  const result: types.FlattenedDecryptResult = { plaintext }
 
-  if (jwe.protected !== undefined) {
-    result.protectedHeader = decrypted.parsedProt
+  if (encodedProtected !== undefined) {
+    result.protectedHeader = parsedProt
   }
 
-  if (jwe.aad !== undefined) {
-    result.additionalAuthenticatedData = decodeBase64url(jwe.aad, 'aad', JWEInvalid)
+  if (aad !== undefined) {
+    result.additionalAuthenticatedData = decodeBase64url(aad, 'aad', JWEInvalid)
   }
 
-  if (jwe.unprotected !== undefined) {
-    result.sharedUnprotectedHeader = jwe.unprotected
+  if (unprotected !== undefined) {
+    result.sharedUnprotectedHeader = unprotected
   }
 
-  if (jwe.header !== undefined) {
-    result.unprotectedHeader = jwe.header
+  if (header !== undefined) {
+    result.unprotectedHeader = header
   }
 
-  if (decrypted.resolvedKey) {
-    return { ...result, key: decrypted.key }
+  if (resolvedKey) {
+    return { ...result, key }
   }
 
   return result
 }
 
 export function prepareDecrypt(options?: types.DecryptOptions): DecryptShared {
-  return {
-    keyManagementAlgorithms:
-      options && validateAlgorithms('keyManagementAlgorithms', options.keyManagementAlgorithms),
-    contentEncryptionAlgorithms:
-      options &&
+  return [
+    options && validateAlgorithms('keyManagementAlgorithms', options.keyManagementAlgorithms),
+    options &&
       validateAlgorithms('contentEncryptionAlgorithms', options.contentEncryptionAlgorithms),
     options,
-  }
+  ]
 }
 
 /** Decrypts for one recipient, given the already-parsed shared parts of the JWE. */
@@ -153,17 +155,18 @@ export async function decryptRecipient(
   shared: DecryptShared,
   key: types.KeyInput | DecryptGetKey,
 ): Promise<DecryptedJWE> {
-  const { options } = shared
-  const { parsedProt } = token
+  const [keyManagementAlgorithms, contentEncryptionAlgorithms, options] = shared
+  const [parsedProt, ciphertext, iv, tag, additionalData] = token
+  const { encrypted_key: encodedKey, header, unprotected } = jwe
 
   let joseHeader: types.JWEHeaderParameters
-  if (jwe.header !== undefined || jwe.unprotected !== undefined) {
-    if (!isDisjoint(parsedProt, jwe.header, jwe.unprotected)) {
+  if (header !== undefined || unprotected !== undefined) {
+    if (!isDisjoint(parsedProt, header, unprotected)) {
       throw new JWEInvalid(
         'JWE Protected, JWE Unprotected Header, and JWE Per-Recipient Unprotected Header Parameter names must be disjoint',
       )
     }
-    joseHeader = { ...parsedProt, ...jwe.header, ...jwe.unprotected }
+    joseHeader = { ...parsedProt, ...header, ...unprotected }
   } else {
     joseHeader = parsedProt ?? {}
   }
@@ -192,8 +195,6 @@ export async function decryptRecipient(
     throw new JWEInvalid('missing JWE Encryption Algorithm (enc) in JWE Header')
   }
 
-  const { keyManagementAlgorithms, contentEncryptionAlgorithms } = shared
-
   if (
     (keyManagementAlgorithms && !keyManagementAlgorithms.has(alg)) ||
     (!keyManagementAlgorithms && alg.startsWith('PBES2'))
@@ -208,8 +209,8 @@ export async function decryptRecipient(
   const encEntry = jweEncryption(enc)
 
   let encryptedKey!: Uint8Array
-  if (jwe.encrypted_key !== undefined) {
-    encryptedKey = decodeBase64url(jwe.encrypted_key!, 'encrypted_key', JWEInvalid)
+  if (encodedKey !== undefined) {
+    encryptedKey = decodeBase64url(encodedKey, 'encrypted_key', JWEInvalid)
   }
 
   let resolvedKey = false
@@ -236,14 +237,7 @@ export async function decryptRecipient(
     cek = generateCek(encEntry)
   }
 
-  let plaintext = await decrypt(
-    encEntry,
-    cek,
-    token.ciphertext,
-    token.iv,
-    token.tag,
-    token.additionalData,
-  )
+  let plaintext = await decrypt(encEntry, cek, ciphertext, iv, tag, additionalData)
 
   if (joseHeader.zip === 'DEF') {
     const maxDecompressedLength = options?.maxDecompressedLength ?? 250_000
@@ -264,7 +258,7 @@ export async function decryptRecipient(
     })
   }
 
-  return { plaintext, parsedProt, key: k, resolvedKey }
+  return [plaintext, parsedProt, k, resolvedKey]
 }
 
 /**

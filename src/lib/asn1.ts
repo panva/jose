@@ -109,12 +109,10 @@ const parseLength = (state: ASN1State): number => {
 
 /** Skips ASN.1 elements (tag + length + content) */
 const skipElement = (state: ASN1State, count: number = 1): void => {
-  if (count <= 0) return
-  state.pos++ // Skip tag byte
-  const length = parseLength(state)
-  state.pos += length // Skip content bytes
-  if (count > 1) {
-    skipElement(state, count - 1) // Recursively skip remaining elements
+  while (count-- > 0) {
+    state.pos++ // Skip tag byte
+    const length = parseLength(state)
+    state.pos += length // Skip content bytes
   }
 }
 
@@ -142,37 +140,21 @@ const parseAlgorithmOID = (state: ASN1State): Uint8Array => {
   return getSubarray(state, oidLen)
 }
 
-/** Parses a PKCS#8 private key structure up to the privateKey field */
-function parsePKCS8Header(state: ASN1State) {
-  // Parse outer SEQUENCE (PrivateKeyInfo)
-  expectTag(state, 0x30, 'Invalid PKCS#8 structure')
+/** Parses a PKCS#8 or SPKI structure up to its algorithm identifier. */
+function parseKeyHeader(state: ASN1State, keyFormat: 'spki' | 'pkcs8') {
+  expectTag(state, 0x30, `Invalid ${keyFormat === 'spki' ? 'SPKI' : 'PKCS#8'} structure`)
   parseLength(state) // Skip outer length
 
-  // Skip version (INTEGER)
-  expectTag(state, 0x02, 'Expected version field')
-  const verLen = parseLength(state)
-  state.pos += verLen
+  if (keyFormat === 'pkcs8') {
+    // Skip version (INTEGER)
+    expectTag(state, 0x02, 'Expected version field')
+    const length = parseLength(state)
+    state.pos += length
+  }
 
-  // Parse privateKeyAlgorithm (AlgorithmIdentifier SEQUENCE)
+  // Parse AlgorithmIdentifier SEQUENCE
   expectTag(state, 0x30, 'Expected algorithm identifier')
-  const algIdLen = parseLength(state)
-  const algIdStart = state.pos
-
-  return { algIdStart, algIdLength: algIdLen }
-}
-
-/** Parses an SPKI structure up to the subjectPublicKey field */
-function parseSPKIHeader(state: ASN1State) {
-  // Parse outer SEQUENCE (SubjectPublicKeyInfo)
-  expectTag(state, 0x30, 'Invalid SPKI structure')
-  parseLength(state) // Skip outer length
-
-  // Parse algorithm identifier (AlgorithmIdentifier SEQUENCE)
-  expectTag(state, 0x30, 'Expected algorithm identifier')
-  const algIdLen = parseLength(state)
-  const algIdStart = state.pos
-
-  return { algIdStart, algIdLength: algIdLen }
+  parseLength(state)
 }
 
 /** Parses algorithm identifier and returns curve name for EC/ECDH keys */
@@ -194,16 +176,9 @@ const parseECAlgorithmIdentifier = (state: ASN1State): string => {
   const curveOidLen = parseLength(state)
   const curveOid = getSubarray(state, curveOidLen)
 
-  // Compare with known curve OIDs - NIST curves inlined
-  for (const { name, oid } of [
-    { name: 'P-256', oid: [0x2a, 0x86, 0x48, 0xce, 0x3d, 0x03, 0x01, 0x07] }, // 1.2.840.10045.3.1.7
-    { name: 'P-384', oid: [0x2b, 0x81, 0x04, 0x00, 0x22] }, // 1.3.132.0.34
-    { name: 'P-521', oid: [0x2b, 0x81, 0x04, 0x00, 0x23] }, // 1.3.132.0.35
-  ] as const) {
-    if (bytesEqual(curveOid, oid)) {
-      return name
-    }
-  }
+  if (bytesEqual(curveOid, [0x2a, 0x86, 0x48, 0xce, 0x3d, 0x03, 0x01, 0x07])) return 'P-256'
+  if (bytesEqual(curveOid, [0x2b, 0x81, 0x04, 0x00, 0x22])) return 'P-384'
+  if (bytesEqual(curveOid, [0x2b, 0x81, 0x04, 0x00, 0x23])) return 'P-521'
 
   throw new Error('Unsupported named curve')
 }
@@ -212,19 +187,21 @@ const genericImport = async (
   keyFormat: 'spki' | 'pkcs8',
   keyData: Uint8Array,
   alg: string,
-  options?: KeyImportOptions & { getNamedCurve?: (keyData: Uint8Array) => string },
+  options?: KeyImportOptions,
 ) => {
   const entry = keyAlgorithm(alg)
-  if (entry.symmetric) {
+  if (entry.secret) {
     throw new JOSENotSupported('Invalid or unsupported "alg" (Algorithm) value')
   }
   const isPublic = keyFormat === 'spki'
 
   let algorithm: { name: string; hash?: string; namedCurve?: string }
-  if (entry.subtleFor) {
+  if (entry.resolve) {
     try {
-      algorithm = entry.subtleFor({ crv: options!.getNamedCurve!(keyData) })
-    } catch (cause) {
+      const state = createASN1State(keyData)
+      parseKeyHeader(state, keyFormat)
+      algorithm = entry.resolve({ crv: parseECAlgorithmIdentifier(state) })
+    } catch {
       throw new JOSENotSupported('Invalid or unsupported key format')
     }
   } else {
@@ -235,8 +212,8 @@ const genericImport = async (
     keyFormat,
     keyData as Uint8Array<ArrayBuffer>,
     algorithm,
-    options?.extractable ?? (isPublic ? true : false),
-    isPublic ? entry.usages.public : entry.usages.private,
+    options?.extractable ?? isPublic,
+    entry.usages[isPublic ? 0 : 1],
   )
 }
 
@@ -253,36 +230,12 @@ const processPEMData = (pem: string, pattern: RegExp): Uint8Array => {
 
 export const fromPKCS8: PEMImportFunction = (pem, alg, options?) => {
   const keyData = processPEMData(pem, /(?:-----(?:BEGIN|END) PRIVATE KEY-----|\s)/g)
-
-  let opts: Parameters<typeof genericImport>[3] = options
-
-  if (alg?.startsWith?.('ECDH-ES')) {
-    opts ||= {}
-    opts.getNamedCurve = (keyData: Uint8Array) => {
-      const state = createASN1State(keyData)
-      parsePKCS8Header(state)
-      return parseECAlgorithmIdentifier(state)
-    }
-  }
-
-  return genericImport('pkcs8', keyData, alg, opts)
+  return genericImport('pkcs8', keyData, alg, options)
 }
 
 export const fromSPKI: PEMImportFunction = (pem, alg, options?) => {
   const keyData = processPEMData(pem, /(?:-----(?:BEGIN|END) PUBLIC KEY-----|\s)/g)
-
-  let opts: Parameters<typeof genericImport>[3] = options
-
-  if (alg?.startsWith?.('ECDH-ES')) {
-    opts ||= {}
-    opts.getNamedCurve = (keyData: Uint8Array) => {
-      const state = createASN1State(keyData)
-      parseSPKIHeader(state)
-      return parseECAlgorithmIdentifier(state)
-    }
-  }
-
-  return genericImport('spki', keyData, alg, opts)
+  return genericImport('spki', keyData, alg, options)
 }
 
 /**
@@ -330,17 +283,13 @@ function spkiFromX509(buf: Uint8Array): Uint8Array {
  *
  * @returns SPKI structure as bytes
  */
-function extractX509SPKI(x509: string): Uint8Array {
-  const derBytes = processPEMData(x509, /(?:-----(?:BEGIN|END) CERTIFICATE-----|\s)/g)
-  return spkiFromX509(derBytes)
-}
-
 export const fromX509: PEMImportFunction = (pem, alg, options?) => {
   let spki: Uint8Array
   try {
-    spki = extractX509SPKI(pem)
+    const certificate = processPEMData(pem, /(?:-----(?:BEGIN|END) CERTIFICATE-----|\s)/g)
+    spki = spkiFromX509(certificate)
   } catch (cause) {
     throw new TypeError('Failed to parse the X.509 certificate', { cause })
   }
-  return fromSPKI(formatPEM(encodeBase64(spki), 'PUBLIC KEY'), alg, options)
+  return genericImport('spki', spki, alg, options)
 }

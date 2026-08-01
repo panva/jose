@@ -93,10 +93,10 @@ export async function compactDecrypt(
     key as types.KeyInput | DecryptGetKey,
   )
 
-  const result = { plaintext: decrypted.plaintext, protectedHeader: decrypted.parsedProt! }
+  const result = { plaintext: decrypted[0], protectedHeader: decrypted[1]! }
 
   if (typeof key === 'function') {
-    return { ...result, key: decrypted.key }
+    return { ...result, key: decrypted[2] }
   }
 
   return result

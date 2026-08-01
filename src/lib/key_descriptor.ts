@@ -14,25 +14,25 @@ export interface KeyDescriptor {
    * identifier does not fix. Defined by the registry so the shared key handling carries no
    * family-specific curve names.
    */
-  subtleFor?: (observed: { kty?: string; crv?: string; asymmetricKeyType?: string }) => {
+  resolve?: (observed: { kty?: string; crv?: string; asymmetricKeyType?: string }) => {
     name: string
     hash?: string
     namedCurve?: string
   }
   /** True for algorithms that take a secret rather than a key pair. */
-  symmetric?: boolean
+  secret?: boolean
   /** WebCrypto parameters for importing, generating, and asserting a key's shape. */
   subtle: { name: string; hash?: string; namedCurve?: string; length?: number }
-  /** Key usages, by whether the key is public. */
-  usages: { public: KeyUsage[]; private: KeyUsage[] }
+  /** Key usages, ordered as public then private. */
+  usages: [publicKey: KeyUsage[], privateKey: KeyUsage[]]
   /**
    * JWK "key_ops" expected per operation. Absent for JWS, where it is always the operation itself.
    * A JWE entry states it explicitly, and may leave an operation out to mean that no key_ops value
    * is implied - deriving with a recipient's public ECDH key, for one.
    */
-  keyOps?: { encrypt?: string; decrypt?: string }
+  ops?: [encrypt: string | undefined, decrypt: string | undefined]
   /** Minimum RSA modulus length in bits. */
-  minModulusLength?: number
+  minRsaBits?: number
 }
 
 /**
@@ -44,7 +44,7 @@ export function table<T extends KeyDescriptor>(
   entries: Record<string, Omit<T, 'alg'>>,
 ): Record<string, T> {
   const out: Record<string, T> = { __proto__: null } as unknown as Record<string, T>
-  for (const alg of Object.keys(entries)) {
+  for (const alg in entries) {
     out[alg] = { ...entries[alg], alg } as T
   }
   return out

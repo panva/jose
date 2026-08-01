@@ -5,7 +5,6 @@
  */
 
 import type * as types from '../../types.d.ts'
-import { JWSInvalid } from '../../util/errors.js'
 import { createSignature } from '../../lib/jws_sign.js'
 import { assertNotSet } from '../../lib/helpers.js'
 
@@ -76,13 +75,7 @@ export class FlattenedSign {
    * @param options JWS Sign options.
    */
   async sign(key: types.KeyInput, options?: types.SignOptions): Promise<types.FlattenedJWS> {
-    if (!this.#protectedHeader && !this.#unprotectedHeader) {
-      throw new JWSInvalid(
-        'either setProtectedHeader or setUnprotectedHeader must be called before #sign()',
-      )
-    }
-
-    const jws: types.FlattenedJWS = await createSignature(
+    return createSignature(
       {
         payload: this.#payload,
         protectedHeader: this.#protectedHeader,
@@ -91,11 +84,5 @@ export class FlattenedSign {
       },
       key,
     )
-
-    if (this.#unprotectedHeader) {
-      jws.header = this.#unprotectedHeader
-    }
-
-    return jws
   }
 }

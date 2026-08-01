@@ -6,6 +6,7 @@
 
 import type * as types from '../../types.d.ts'
 import { createSignature } from '../../lib/jws_sign.js'
+import type { SignInput } from '../../lib/jws_sign.js'
 import { JWSInvalid } from '../../util/errors.js'
 import { assertNotSet } from '../../lib/helpers.js'
 
@@ -45,29 +46,32 @@ export interface Signature {
   done(): GeneralSign
 }
 
+type SignatureState = [
+  protectedHeader: types.JWSHeaderParameters | undefined,
+  unprotectedHeader: types.JWSHeaderParameters | undefined,
+  key: types.KeyInput,
+  crit: types.SignOptions['crit'],
+]
+
 class IndividualSignature implements Signature {
   #parent: GeneralSign
 
-  protectedHeader?: types.JWSHeaderParameters
-  unprotectedHeader?: types.JWSHeaderParameters
-  options?: types.SignOptions
-  key: types.KeyInput
+  state: SignatureState
 
   constructor(sig: GeneralSign, key: types.KeyInput, options?: types.SignOptions) {
     this.#parent = sig
-    this.key = key
-    this.options = options
+    this.state = [undefined, undefined, key, options?.crit]
   }
 
   setProtectedHeader(protectedHeader: types.JWSHeaderParameters) {
-    assertNotSet(this.protectedHeader, 'setProtectedHeader')
-    this.protectedHeader = protectedHeader
+    assertNotSet(this.state[0], 'setProtectedHeader')
+    this.state[0] = protectedHeader
     return this
   }
 
   setUnprotectedHeader(unprotectedHeader: types.JWSHeaderParameters) {
-    assertNotSet(this.unprotectedHeader, 'setUnprotectedHeader')
-    this.unprotectedHeader = unprotectedHeader
+    assertNotSet(this.state[1], 'setUnprotectedHeader')
+    this.state[1] = unprotectedHeader
     return this
   }
 
@@ -147,31 +151,22 @@ export class GeneralSign {
       payload: '',
     }
 
-    const encoded = {}
+    const encoded: NonNullable<SignInput['encoded']> = []
 
     for (let i = 0; i < this.#signatures.length; i++) {
       const signature = this.#signatures[i]
-
-      if (!signature.protectedHeader && !signature.unprotectedHeader) {
-        throw new JWSInvalid(
-          'either setProtectedHeader or setUnprotectedHeader must be called before #sign()',
-        )
-      }
+      const [protectedHeader, unprotectedHeader, key, crit] = signature.state
 
       const { payload, ...rest } = await createSignature(
         {
           payload: this.#payload,
-          protectedHeader: signature.protectedHeader,
-          unprotectedHeader: signature.unprotectedHeader,
-          crit: signature.options?.crit,
+          protectedHeader,
+          unprotectedHeader,
+          crit,
           encoded,
         },
-        signature.key,
+        key,
       )
-
-      if (signature.unprotectedHeader) {
-        rest.header = signature.unprotectedHeader
-      }
 
       if (i === 0) {
         jws.payload = payload

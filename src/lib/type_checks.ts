@@ -1,41 +1,33 @@
 import type * as types from '../types.d.ts'
 
-const isObjectLike = (value: unknown) => typeof value === 'object' && value !== null
-
 export function isObject<T = object>(input: unknown): input is T {
-  if (!isObjectLike(input) || Object.prototype.toString.call(input) !== '[object Object]') {
+  if (
+    typeof input !== 'object' ||
+    input === null ||
+    Object.prototype.toString.call(input) !== '[object Object]'
+  ) {
     return false
   }
-  if (Object.getPrototypeOf(input) === null) {
+  const prototype = Object.getPrototypeOf(input)
+  if (prototype === null) {
     return true
   }
-  let proto = input
+  let proto = prototype
   while (Object.getPrototypeOf(proto) !== null) {
     proto = Object.getPrototypeOf(proto)
   }
-  return Object.getPrototypeOf(input) === proto
+  return prototype === proto
 }
 
 export function isDisjoint(...headers: Array<object | undefined>): boolean {
-  const sources = headers.filter(Boolean) as object[]
-
-  if (sources.length === 0 || sources.length === 1) {
-    return true
-  }
-
-  let acc!: Set<string>
-  for (const header of sources) {
-    const parameters = Object.keys(header)
-    if (!acc || acc.size === 0) {
-      acc = new Set(parameters)
-      continue
-    }
-
-    for (const parameter of parameters) {
-      if (acc.has(parameter)) {
+  const parameters = new Set<string>()
+  for (const header of headers) {
+    if (!header) continue
+    for (const parameter of Object.keys(header)) {
+      if (parameters.has(parameter)) {
         return false
       }
-      acc.add(parameter)
+      parameters.add(parameter)
     }
   }
 

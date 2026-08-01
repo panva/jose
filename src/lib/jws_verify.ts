@@ -14,48 +14,46 @@ export type VerifyGetKey = (
 ) => Promise<types.KeyInput> | types.KeyInput
 
 /** Whatever a verification needs that is the same for every signature over a given payload. */
-export interface VerifyShared {
-  algorithms?: Set<string>
-  crit?: { [propName: string]: boolean }
+export type VerifyShared = [
+  algorithms: Set<string> | undefined,
+  crit: { [propName: string]: boolean } | undefined,
   /** ASCII octets of a base64url payload, reused as signing input across signatures. */
-  b64p?: Uint8Array
-}
+  b64p?: Uint8Array,
+]
 
-export interface VerifiedSignature {
-  payload: Uint8Array
-  parsedProt: types.JWSHeaderParameters
-  b64: boolean
-  key: types.CryptoKey | Uint8Array
-  resolvedKey: boolean
-}
+export type VerifiedSignature = [
+  payload: Uint8Array,
+  parsedProt: types.JWSHeaderParameters,
+  b64: boolean,
+  key: types.CryptoKey | Uint8Array,
+  resolvedKey: boolean,
+]
 
 /** Flattened and General results have the same shape, so they are assembled in one place. */
 export function verifyResult(
   jws: types.FlattenedJWSInput | Omit<types.FlattenedJWSInput, 'payload'>,
   verified: VerifiedSignature,
 ): types.FlattenedVerifyResult & Partial<types.ResolvedKey> {
-  const result: types.FlattenedVerifyResult = { payload: verified.payload }
+  const [payload, parsedProt, , key, resolvedKey] = verified
+  const result: types.FlattenedVerifyResult = { payload }
 
   if (jws.protected !== undefined) {
-    result.protectedHeader = verified.parsedProt
+    result.protectedHeader = parsedProt
   }
 
   if (jws.header !== undefined) {
     result.unprotectedHeader = jws.header
   }
 
-  if (verified.resolvedKey) {
-    return { ...result, key: verified.key }
+  if (resolvedKey) {
+    return { ...result, key }
   }
 
   return result
 }
 
 export function prepareVerify(options?: types.VerifyOptions): VerifyShared {
-  return {
-    algorithms: options && validateAlgorithms('algorithms', options.algorithms),
-    crit: options?.crit,
-  }
+  return [options && validateAlgorithms('algorithms', options.algorithms), options?.crit]
 }
 
 /**
@@ -67,27 +65,28 @@ export async function verifySignature(
   shared: VerifyShared,
   key: types.KeyInput | VerifyGetKey,
 ): Promise<VerifiedSignature> {
+  const { protected: encodedProtected, header, payload: inputPayload } = jws
   let parsedProt: types.JWSHeaderParameters = {}
-  if (jws.protected) {
-    parsedProt = parseJoseHeader(jws.protected, JWSInvalid, 'JWS Protected Header is invalid')
+  if (encodedProtected) {
+    parsedProt = parseJoseHeader(encodedProtected, JWSInvalid, 'JWS Protected Header is invalid')
   }
 
   let joseHeader: types.JWSHeaderParameters
-  if (jws.header !== undefined) {
-    if (!isDisjoint(parsedProt, jws.header)) {
+  if (header !== undefined) {
+    if (!isDisjoint(parsedProt, header)) {
       throw new JWSInvalid(
         'JWS Protected and JWS Unprotected Header Parameter names must be disjoint',
       )
     }
-    joseHeader = { ...parsedProt, ...jws.header }
+    joseHeader = { ...parsedProt, ...header }
   } else {
     joseHeader = parsedProt
   }
 
-  const extensions = validateCrit(JWSInvalid, JWS_RECOGNIZED, shared.crit, parsedProt, joseHeader)
+  const extensions = validateCrit(JWSInvalid, JWS_RECOGNIZED, shared[1], parsedProt, joseHeader)
 
   let b64 = true
-  if (extensions.has('b64')) {
+  if (extensions.includes('b64')) {
     b64 = parsedProt.b64!
     if (typeof b64 !== 'boolean') {
       throw new JWSInvalid(
@@ -102,15 +101,15 @@ export async function verifySignature(
     throw new JWSInvalid('JWS "alg" (Algorithm) Header Parameter missing or invalid')
   }
 
-  if (shared.algorithms && !shared.algorithms.has(alg)) {
+  if (shared[0] && !shared[0].has(alg)) {
     throw new JOSEAlgNotAllowed('"alg" (Algorithm) Header Parameter value not allowed')
   }
 
   if (b64) {
-    if (typeof jws.payload !== 'string') {
+    if (typeof inputPayload !== 'string') {
       throw new JWSInvalid('JWS Payload must be a string')
     }
-  } else if (typeof jws.payload !== 'string' && !(jws.payload instanceof Uint8Array)) {
+  } else if (typeof inputPayload !== 'string' && !(inputPayload instanceof Uint8Array)) {
     throw new JWSInvalid('JWS Payload must be a string or an Uint8Array instance')
   }
 
@@ -123,15 +122,15 @@ export async function verifySignature(
   const entry = jwsAlgorithm(alg)
 
   const data = concat(
-    jws.protected !== undefined ? encode(jws.protected) : new Uint8Array(),
+    encodedProtected !== undefined ? encode(encodedProtected) : new Uint8Array(),
     encode('.'),
-    typeof jws.payload === 'string'
+    typeof inputPayload === 'string'
       ? b64
         ? // A base64url payload is ASCII by definition, but it reaches here without having been
           // decoded, so a non-ASCII one must not escape as a bare TypeError.
-          (shared.b64p ??= encodeBase64url(jws.payload, 'payload', JWSInvalid))
-        : encoder.encode(jws.payload)
-      : jws.payload,
+          (shared[2] ??= encodeBase64url(inputPayload, 'payload', JWSInvalid))
+        : encoder.encode(inputPayload)
+      : inputPayload,
   )
   const signature = decodeBase64url(jws.signature, 'signature', JWSInvalid)
 
@@ -144,14 +143,14 @@ export async function verifySignature(
 
   let payload: Uint8Array
   if (b64) {
-    payload = decodeBase64url(jws.payload as string, 'payload', JWSInvalid)
-  } else if (typeof jws.payload === 'string') {
-    payload = encoder.encode(jws.payload)
+    payload = decodeBase64url(inputPayload as string, 'payload', JWSInvalid)
+  } else if (typeof inputPayload === 'string') {
+    payload = encoder.encode(inputPayload)
   } else {
-    payload = jws.payload
+    payload = inputPayload
   }
 
-  return { payload, parsedProt, b64, key: k, resolvedKey }
+  return [payload, parsedProt, b64, k, resolvedKey]
 }
 
 /** Splits a Compact JWS and verifies it. Every member is a string by construction. */

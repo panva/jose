@@ -14,7 +14,7 @@ export interface SignInput {
   unprotectedHeader?: types.JWSHeaderParameters
   crit?: { [propName: string]: boolean }
   /** Reused across the signatures of a General JWS, which all cover the same payload. */
-  encoded?: { b64?: string; raw?: Uint8Array }
+  encoded?: [b64?: string, raw?: Uint8Array]
 }
 
 /** RFC 7797 - whether this Protected Header opts the payload out of base64url encoding. */
@@ -31,6 +31,12 @@ export async function createSignature(
   key: types.KeyInput,
 ): Promise<types.FlattenedJWS> {
   const { protectedHeader, unprotectedHeader } = input
+
+  if (!protectedHeader && !unprotectedHeader) {
+    throw new JWSInvalid(
+      'either setProtectedHeader or setUnprotectedHeader must be called before #sign()',
+    )
+  }
 
   if (!isDisjoint(protectedHeader, unprotectedHeader)) {
     throw new JWSInvalid(
@@ -50,7 +56,7 @@ export async function createSignature(
   )
 
   let b64 = true
-  if (extensions.has('b64')) {
+  if (extensions.includes('b64')) {
     b64 = protectedHeader!.b64!
     if (typeof b64 !== 'boolean') {
       throw new JWSInvalid(
@@ -70,11 +76,11 @@ export async function createSignature(
   let payloadS: string
   let payloadB: Uint8Array
   if (b64) {
-    const encoded = (input.encoded ??= {})
-    encoded.b64 ??= b64u(input.payload)
-    encoded.raw ??= encode(encoded.b64)
-    payloadS = encoded.b64
-    payloadB = encoded.raw
+    const encoded = (input.encoded ??= [])
+    encoded[0] ??= b64u(input.payload)
+    encoded[1] ??= encode(encoded[0])
+    payloadS = encoded[0]
+    payloadB = encoded[1]
   } else {
     payloadB = input.payload
     payloadS = ''
@@ -102,6 +108,9 @@ export async function createSignature(
 
   if (protectedHeader) {
     jws.protected = protectedHeaderString
+  }
+  if (unprotectedHeader) {
+    jws.header = unprotectedHeader
   }
 
   return jws

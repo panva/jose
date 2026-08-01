@@ -5,14 +5,18 @@ import { isObject } from './type_checks.js'
 
 const epoch = (date: Date) => Math.floor(date.getTime() / 1000)
 
-const minute = 60
-const hour = minute * 60
-const day = hour * 24
-const week = day * 7
-const year = day * 365.25
+const multipliers: Record<string, number> = {
+  s: 1,
+  m: 60,
+  h: 3600,
+  d: 86400,
+  w: 604800,
+  y: 31557600,
+}
 
 const REGEX =
   /^(\+|\-)? ?(\d+|\d+\.\d+) ?(seconds?|secs?|s|minutes?|mins?|m|hours?|hrs?|h|days?|d|weeks?|w|years?|yrs?|y)(?: (ago|from now))?$/i
+const checkFailed = 'check_failed'
 
 export function secs(str: string): number {
   const matched = REGEX.exec(str)
@@ -22,47 +26,7 @@ export function secs(str: string): number {
   }
 
   const value = parseFloat(matched[2])
-  const unit = matched[3].toLowerCase()
-
-  let numericDate: number
-
-  switch (unit) {
-    case 'sec':
-    case 'secs':
-    case 'second':
-    case 'seconds':
-    case 's':
-      numericDate = Math.round(value)
-      break
-    case 'minute':
-    case 'minutes':
-    case 'min':
-    case 'mins':
-    case 'm':
-      numericDate = Math.round(value * minute)
-      break
-    case 'hour':
-    case 'hours':
-    case 'hr':
-    case 'hrs':
-    case 'h':
-      numericDate = Math.round(value * hour)
-      break
-    case 'day':
-    case 'days':
-    case 'd':
-      numericDate = Math.round(value * day)
-      break
-    case 'week':
-    case 'weeks':
-    case 'w':
-      numericDate = Math.round(value * week)
-      break
-    // years matched
-    default:
-      numericDate = Math.round(value * year)
-      break
-  }
+  const numericDate = Math.round(value * multipliers[matched[3][0].toLowerCase()])
 
   if (matched[1] === '-' || matched[4] === 'ago') {
     return -numericDate
@@ -77,6 +41,12 @@ function validateInput(label: string, input: number) {
   }
 
   return input
+}
+
+function numericDate(value: number | string | Date, label: string) {
+  if (typeof value === 'number') return validateInput(label, value)
+  if (value instanceof Date) return validateInput(label, epoch(value))
+  return epoch(new Date()) + secs(value)
 }
 
 const normalizeTyp = (value: string) => {
@@ -95,10 +65,37 @@ const checkAudiencePresence = (audPayload: unknown, audOption: unknown[]) => {
   if (Array.isArray(audPayload)) {
     // Each principal intended to process the JWT MUST
     // identify itself with a value in the audience claim
-    return audOption.some(Set.prototype.has.bind(new Set(audPayload)))
+    return audOption.some((aud) => audPayload.includes(aud))
   }
 
   return false
+}
+
+function validateNumericDate(
+  payload: { [propName: string]: unknown },
+  claim: 'iat' | 'nbf' | 'exp',
+  required = false,
+): number | undefined {
+  const value = payload[claim]
+  if (value === undefined && !required) return undefined
+  if (typeof value !== 'number') {
+    throw new JWTClaimValidationFailed(
+      `"${claim}" claim must be a number`,
+      payload,
+      claim,
+      'invalid',
+    )
+  }
+  return value
+}
+
+function unexpectedClaim(payload: types.JWTPayload, claim: 'iss' | 'sub' | 'aud'): never {
+  throw new JWTClaimValidationFailed(
+    `unexpected "${claim}" claim value`,
+    payload,
+    claim,
+    checkFailed,
+  )
 }
 
 export function validateClaimsSet(
@@ -127,7 +124,7 @@ export function validateClaimsSet(
       'unexpected "typ" JWT header value',
       payload,
       'typ',
-      'check_failed',
+      checkFailed,
     )
   }
 
@@ -155,48 +152,29 @@ export function validateClaimsSet(
     issuer !== undefined &&
     !((Array.isArray(issuer) ? issuer : [issuer]) as unknown[]).includes(payload.iss!)
   ) {
-    throw new JWTClaimValidationFailed(
-      'unexpected "iss" claim value',
-      payload,
-      'iss',
-      'check_failed',
-    )
+    unexpectedClaim(payload, 'iss')
   }
 
   if (subject !== undefined && payload.sub !== subject) {
-    throw new JWTClaimValidationFailed(
-      'unexpected "sub" claim value',
-      payload,
-      'sub',
-      'check_failed',
-    )
+    unexpectedClaim(payload, 'sub')
   }
 
   if (
     audience !== undefined &&
     !checkAudiencePresence(payload.aud, typeof audience === 'string' ? [audience] : audience)
   ) {
-    throw new JWTClaimValidationFailed(
-      'unexpected "aud" claim value',
-      payload,
-      'aud',
-      'check_failed',
-    )
+    unexpectedClaim(payload, 'aud')
   }
 
-  let tolerance: number
-  switch (typeof options.clockTolerance) {
-    case 'string':
-      tolerance = secs(options.clockTolerance)
-      break
-    case 'number':
-      tolerance = options.clockTolerance
-      break
-    case 'undefined':
-      tolerance = 0
-      break
-    default:
+  const { clockTolerance } = options
+  let tolerance = 0
+  if (typeof clockTolerance === 'string') {
+    tolerance = secs(clockTolerance)
+  } else if (clockTolerance !== undefined) {
+    if (typeof clockTolerance !== 'number') {
       throw new TypeError('Invalid clockTolerance option type')
+    }
+    tolerance = clockTolerance
   }
 
   validateInput('clockTolerance option', tolerance)
@@ -204,35 +182,29 @@ export function validateClaimsSet(
   const { currentDate } = options
   const now = validateInput('currentDate option', epoch(currentDate || new Date()))
 
-  if ((payload.iat !== undefined || maxTokenAge !== undefined) && typeof payload.iat !== 'number') {
-    throw new JWTClaimValidationFailed('"iat" claim must be a number', payload, 'iat', 'invalid')
-  }
+  const iat = validateNumericDate(payload, 'iat', maxTokenAge !== undefined)
 
-  if (payload.nbf !== undefined) {
-    if (typeof payload.nbf !== 'number') {
-      throw new JWTClaimValidationFailed('"nbf" claim must be a number', payload, 'nbf', 'invalid')
-    }
-    if (payload.nbf > now + tolerance) {
+  const nbf = validateNumericDate(payload, 'nbf')
+  if (nbf !== undefined) {
+    if (nbf > now + tolerance) {
       throw new JWTClaimValidationFailed(
         '"nbf" claim timestamp check failed',
         payload,
         'nbf',
-        'check_failed',
+        checkFailed,
       )
     }
   }
 
-  if (payload.exp !== undefined) {
-    if (typeof payload.exp !== 'number') {
-      throw new JWTClaimValidationFailed('"exp" claim must be a number', payload, 'exp', 'invalid')
-    }
-    if (payload.exp <= now - tolerance) {
-      throw new JWTExpired('"exp" claim timestamp check failed', payload, 'exp', 'check_failed')
+  const exp = validateNumericDate(payload, 'exp')
+  if (exp !== undefined) {
+    if (exp <= now - tolerance) {
+      throw new JWTExpired('"exp" claim timestamp check failed', payload, 'exp', checkFailed)
     }
   }
 
   if (maxTokenAge !== undefined) {
-    const age = now - (payload.iat as number)
+    const age = now - iat!
     const max = typeof maxTokenAge === 'number' ? maxTokenAge : secs(maxTokenAge)
 
     if (age - tolerance > max) {
@@ -240,7 +212,7 @@ export function validateClaimsSet(
         '"iat" claim timestamp check failed (too far in the past)',
         payload,
         'iat',
-        'check_failed',
+        checkFailed,
       )
     }
 
@@ -249,7 +221,7 @@ export function validateClaimsSet(
         '"iat" claim timestamp check failed (it should be in the past)',
         payload,
         'iat',
-        'check_failed',
+        checkFailed,
       )
     }
   }
@@ -300,34 +272,20 @@ export class JWTClaimsBuilder {
   }
 
   set nbf(value: number | string | Date) {
-    if (typeof value === 'number') {
-      this.#payload.nbf = validateInput('setNotBefore', value)
-    } else if (value instanceof Date) {
-      this.#payload.nbf = validateInput('setNotBefore', epoch(value))
-    } else {
-      this.#payload.nbf = epoch(new Date()) + secs(value)
-    }
+    this.#payload.nbf = numericDate(value, 'setNotBefore')
   }
 
   set exp(value: number | string | Date) {
-    if (typeof value === 'number') {
-      this.#payload.exp = validateInput('setExpirationTime', value)
-    } else if (value instanceof Date) {
-      this.#payload.exp = validateInput('setExpirationTime', epoch(value))
-    } else {
-      this.#payload.exp = epoch(new Date()) + secs(value)
-    }
+    this.#payload.exp = numericDate(value, 'setExpirationTime')
   }
 
   set iat(value: number | string | Date | undefined) {
     if (value === undefined) {
       this.#payload.iat = epoch(new Date())
-    } else if (value instanceof Date) {
-      this.#payload.iat = validateInput('setIssuedAt', epoch(value))
     } else if (typeof value === 'string') {
       this.#payload.iat = validateInput('setIssuedAt', epoch(new Date()) + secs(value))
     } else {
-      this.#payload.iat = validateInput('setIssuedAt', value)
+      this.#payload.iat = numericDate(value, 'setIssuedAt')
     }
   }
 }

@@ -161,18 +161,18 @@ export class FlattenedEncrypt {
     validateCritDuplicates(JWEInvalid, this.#protectedHeader)
 
     return createJWE(
-      {
-        plaintext: this.#plaintext,
-        protectedHeader: this.#protectedHeader,
-        unprotectedHeader: this.#unprotectedHeader,
-        sharedUnprotectedHeader: this.#sharedUnprotectedHeader,
-        aad: this.#aad,
-        cek: this.#cek,
-        iv: this.#iv,
-        keyManagementParameters: this.#keyManagementParameters,
-        crit: options?.crit,
-        unprotectedParameters: options ? unprotected in options : false,
-      },
+      [
+        this.#plaintext,
+        this.#protectedHeader,
+        this.#unprotectedHeader,
+        this.#sharedUnprotectedHeader,
+        this.#aad,
+        this.#cek,
+        this.#iv,
+        this.#keyManagementParameters,
+        options?.crit,
+        options ? unprotected in options : false,
+      ],
       key,
     )
   }

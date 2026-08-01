@@ -389,12 +389,12 @@ class RemoteJWKSetImpl {
     }
     this.#url = new URL(url.href)
 
-    this.#timeoutDuration =
-      typeof options?.timeoutDuration === 'number' ? options?.timeoutDuration : 5000
+    const opts = options ?? {}
+    this.#timeoutDuration = typeof opts.timeoutDuration === 'number' ? opts.timeoutDuration : 5000
     this.#cooldownDuration =
-      typeof options?.cooldownDuration === 'number' ? options?.cooldownDuration : 30000
-    this.#cacheMaxAge = typeof options?.cacheMaxAge === 'number' ? options?.cacheMaxAge : 600000
-    this.#headers = new Headers(options?.headers)
+      typeof opts.cooldownDuration === 'number' ? opts.cooldownDuration : 30000
+    this.#cacheMaxAge = typeof opts.cacheMaxAge === 'number' ? opts.cacheMaxAge : 600000
+    this.#headers = new Headers(opts.headers)
     if (USER_AGENT && !this.#headers.has('User-Agent')) {
       this.#headers.set('User-Agent', USER_AGENT)
     }
@@ -404,11 +404,12 @@ class RemoteJWKSetImpl {
       this.#headers.append('accept', 'application/jwk-set+json')
     }
 
-    this.#customFetch = options?.[customFetch]
+    this.#customFetch = opts[customFetch]
 
-    if (options?.[jwksCache] !== undefined) {
-      this.#cache = options?.[jwksCache]
-      if (isFreshJwksCache(options?.[jwksCache], this.#cacheMaxAge)) {
+    const cache = opts[jwksCache]
+    if (cache !== undefined) {
+      this.#cache = cache
+      if (isFreshJwksCache(cache, this.#cacheMaxAge)) {
         this.#jwksTimestamp = this.#cache.uat
         this.#local = createLocalJWKSet(this.#cache.jwks)
       }
@@ -419,16 +420,16 @@ class RemoteJWKSetImpl {
     return !!this.#pendingFetch
   }
 
+  #validFor(duration: number): boolean {
+    return typeof this.#jwksTimestamp === 'number' && Date.now() < this.#jwksTimestamp + duration
+  }
+
   coolingDown(): boolean {
-    return typeof this.#jwksTimestamp === 'number'
-      ? Date.now() < this.#jwksTimestamp + this.#cooldownDuration
-      : false
+    return this.#validFor(this.#cooldownDuration)
   }
 
   fresh(): boolean {
-    return typeof this.#jwksTimestamp === 'number'
-      ? Date.now() < this.#jwksTimestamp + this.#cacheMaxAge
-      : false
+    return this.#validFor(this.#cacheMaxAge)
   }
 
   jwks(): types.JSONWebKeySet | undefined {
@@ -476,11 +477,9 @@ class RemoteJWKSetImpl {
           this.#cache.jwks = json as unknown as types.JSONWebKeySet
         }
         this.#jwksTimestamp = Date.now()
-        this.#pendingFetch = undefined
       })
-      .catch((err: Error) => {
+      .finally(() => {
         this.#pendingFetch = undefined
-        throw err
       })
 
     await this.#pendingFetch
@@ -572,29 +571,22 @@ export function createRemoteJWKSet(url: URL, options?: RemoteJWKSetOptions): Rem
     coolingDown: {
       get: () => set.coolingDown(),
       enumerable: true,
-      configurable: false,
     },
     fresh: {
       get: () => set.fresh(),
       enumerable: true,
-      configurable: false,
     },
     reload: {
       value: () => set.reload(),
       enumerable: true,
-      configurable: false,
-      writable: false,
     },
     reloading: {
       get: () => set.pendingFetch(),
       enumerable: true,
-      configurable: false,
     },
     jwks: {
       value: () => set.jwks(),
       enumerable: true,
-      configurable: false,
-      writable: false,
     },
   })
 

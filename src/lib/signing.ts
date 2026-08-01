@@ -1,22 +1,6 @@
 import type * as types from '../types.d.ts'
 import type { JWSAlgorithm } from './jws_algorithms.js'
-import { checkCryptoKey } from './crypto_key.js'
-
-export function checkModulusLength(alg: string, key: types.CryptoKey): void {
-  const { modulusLength } = key.algorithm as RsaKeyAlgorithm
-  if (typeof modulusLength !== 'number' || modulusLength < 2048) {
-    throw new TypeError(`${alg} requires key modulusLength to be 2048 bits or larger`)
-  }
-}
-
-/** Asserts a caller-supplied CryptoKey is what the algorithm needs. */
-function checkSigCryptoKey(entry: JWSAlgorithm, key: types.CryptoKey, usage: KeyUsage): void {
-  checkCryptoKey(key, entry.subtle, usage)
-
-  if (entry.minModulusLength) {
-    checkModulusLength(entry.alg, key)
-  }
-}
+import { checkCryptoKey, checkModulusLength } from './crypto_key.js'
 
 async function getSigKey(entry: JWSAlgorithm, key: types.CryptoKey | Uint8Array, usage: KeyUsage) {
   if (key instanceof Uint8Array) {
@@ -25,7 +9,8 @@ async function getSigKey(entry: JWSAlgorithm, key: types.CryptoKey | Uint8Array,
     ])
   }
 
-  checkSigCryptoKey(entry, key, usage)
+  checkCryptoKey(key, entry.subtle, usage)
+  if (entry.minRsaBits) checkModulusLength(entry.alg, key)
   return key
 }
 
@@ -36,7 +21,7 @@ export async function sign(
 ): Promise<Uint8Array> {
   const cryptoKey = await getSigKey(entry, key, 'sign')
   const signature = await crypto.subtle.sign(
-    entry.operation,
+    entry.signing,
     cryptoKey,
     data as Uint8Array<ArrayBuffer>,
   )
@@ -52,7 +37,7 @@ export async function verify(
   const cryptoKey = await getSigKey(entry, key, 'verify')
   try {
     return await crypto.subtle.verify(
-      entry.operation,
+      entry.signing,
       cryptoKey,
       signature as Uint8Array<ArrayBuffer>,
       data as Uint8Array<ArrayBuffer>,

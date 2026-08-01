@@ -12,17 +12,7 @@ const tag = (key: object): string | undefined =>
 const jwkMatchesOp = (entry: KeyDescriptor, key: types.JWK, usage: Usage) => {
   const { alg } = entry
   if (key.use !== undefined) {
-    let expected: string
-    switch (usage) {
-      case 'sign':
-      case 'verify':
-        expected = 'sig'
-        break
-      case 'encrypt':
-      case 'decrypt':
-        expected = 'enc'
-        break
-    }
+    const expected = usage === 'sign' || usage === 'verify' ? 'sig' : 'enc'
     if (key.use !== expected) {
       throw new TypeError(
         `Invalid key for this operation, its "use" must be "${expected}" when present`,
@@ -35,118 +25,88 @@ const jwkMatchesOp = (entry: KeyDescriptor, key: types.JWK, usage: Usage) => {
   }
 
   if (Array.isArray(key.key_ops)) {
-    const expectedKeyOp = usage === 'encrypt' || usage === 'decrypt' ? entry.keyOps?.[usage] : usage
+    const expectedKeyOp =
+      usage === 'encrypt' || usage === 'decrypt' ? entry.ops?.[usage === 'encrypt' ? 0 : 1] : usage
 
-    if (expectedKeyOp && key.key_ops?.includes?.(expectedKeyOp) === false) {
+    if (expectedKeyOp && !key.key_ops.includes(expectedKeyOp)) {
       throw new TypeError(
         `Invalid key for this operation, its "key_ops" must include "${expectedKeyOp}" when present`,
       )
     }
   }
-
-  return true
 }
 
-const symmetricTypeCheck = (entry: KeyDescriptor, key: unknown, usage: Usage): Tagged => {
-  const { alg } = entry
-  if (key instanceof Uint8Array) return { kind: BYTES, key }
+export function checkKeyType(entry: KeyDescriptor, key: unknown, usage: Usage): Tagged {
+  const { alg, secret } = entry
+  const privateKey = usage === 'decrypt' || usage === 'sign'
+  if (secret && key instanceof Uint8Array) return [BYTES, key]
 
   if (jwk.isJWK(key)) {
-    if (jwk.isSecretJWK(key) && jwkMatchesOp(entry, key, usage)) return { kind: JWK, key }
-    throw new TypeError(
-      `JSON Web Key for symmetric algorithms must have JWK "kty" (Key Type) equal to "oct" and the JWK "k" (Key Value) present`,
-    )
+    if (
+      secret ? !jwk.isSecretJWK(key) : !(privateKey ? jwk.isPrivateJWK(key) : jwk.isPublicJWK(key))
+    ) {
+      throw new TypeError(
+        secret
+          ? `JSON Web Key for symmetric algorithms must have JWK "kty" (Key Type) equal to "oct" and the JWK "k" (Key Value) present`
+          : `JSON Web Key for this operation must be a ${privateKey ? 'private' : 'public'} JWK`,
+      )
+    }
+    jwkMatchesOp(entry, key, usage)
+    return [JWK, key]
   }
 
   if (!isKeyLike(key)) {
     throw new TypeError(
-      invalidKeyInput(alg, key, 'CryptoKey', 'KeyObject', 'JSON Web Key', 'Uint8Array'),
+      secret
+        ? invalidKeyInput(alg, key, 'CryptoKey', 'KeyObject', 'JSON Web Key', 'Uint8Array')
+        : invalidKeyInput(alg, key, 'CryptoKey', 'KeyObject', 'JSON Web Key'),
     )
   }
 
-  if (key.type !== 'secret') {
-    throw new TypeError(`${tag(key)} instances for symmetric algorithms must be of type "secret"`)
-  }
+  if (secret) {
+    if (key.type !== 'secret') {
+      throw new TypeError(`${tag(key)} instances for symmetric algorithms must be of type "secret"`)
+    }
+  } else {
+    if (key.type === 'secret') {
+      throw new TypeError(
+        `${tag(key)} instances for asymmetric algorithms must not be of type "secret"`,
+      )
+    }
 
-  return isCryptoKey(key) ? { kind: CRYPTO, key } : { kind: KEYOBJECT, key }
-}
-
-const asymmetricTypeCheck = (entry: KeyDescriptor, key: unknown, usage: Usage): Tagged => {
-  const { alg } = entry
-  if (jwk.isJWK(key)) {
-    switch (usage) {
-      case 'decrypt':
-      case 'sign':
-        if (jwk.isPrivateJWK(key) && jwkMatchesOp(entry, key, usage)) return { kind: JWK, key }
-        throw new TypeError(`JSON Web Key for this operation must be a private JWK`)
-      case 'encrypt':
-      case 'verify':
-        if (jwk.isPublicJWK(key) && jwkMatchesOp(entry, key, usage)) return { kind: JWK, key }
-        throw new TypeError(`JSON Web Key for this operation must be a public JWK`)
+    const expectedType = privateKey ? 'private' : 'public'
+    if ((key.type === 'public' || key.type === 'private') && key.type !== expectedType) {
+      const operation =
+        usage === 'sign'
+          ? 'signing'
+          : usage === 'verify'
+            ? 'verifying'
+            : `${usage.slice(0, -1)}tion`
+      throw new TypeError(
+        `${tag(key)} instances for asymmetric algorithm ${operation} must be of type "${expectedType}"`,
+      )
     }
   }
 
-  if (!isKeyLike(key)) {
-    throw new TypeError(invalidKeyInput(alg, key, 'CryptoKey', 'KeyObject', 'JSON Web Key'))
-  }
-
-  if (key.type === 'secret') {
-    throw new TypeError(
-      `${tag(key)} instances for asymmetric algorithms must not be of type "secret"`,
-    )
-  }
-
-  if (key.type === 'public') {
-    switch (usage) {
-      case 'sign':
-        throw new TypeError(
-          `${tag(key)} instances for asymmetric algorithm signing must be of type "private"`,
-        )
-      case 'decrypt':
-        throw new TypeError(
-          `${tag(key)} instances for asymmetric algorithm decryption must be of type "private"`,
-        )
-    }
-  }
-
-  if (key.type === 'private') {
-    switch (usage) {
-      case 'verify':
-        throw new TypeError(
-          `${tag(key)} instances for asymmetric algorithm verifying must be of type "public"`,
-        )
-      case 'encrypt':
-        throw new TypeError(
-          `${tag(key)} instances for asymmetric algorithm encryption must be of type "public"`,
-        )
-    }
-  }
-
-  return isCryptoKey(key) ? { kind: CRYPTO, key } : { kind: KEYOBJECT, key }
+  return isCryptoKey(key) ? [CRYPTO, key] : [KEYOBJECT, key]
 }
 
 type Usage = 'sign' | 'verify' | 'encrypt' | 'decrypt'
 
-const BYTES: unique symbol = Symbol()
-const CRYPTO: unique symbol = Symbol()
-const KEYOBJECT: unique symbol = Symbol()
-const JWK: unique symbol = Symbol()
+const BYTES = 0
+const CRYPTO = 1
+const KEYOBJECT = 2
+const JWK = 3
 
 /**
  * What the key turned out to be. Returning it means the conversion that follows does not have to
  * discriminate the input a second time.
  */
 type Tagged =
-  | { kind: typeof BYTES; key: Uint8Array }
-  | { kind: typeof CRYPTO; key: types.CryptoKey }
-  | { kind: typeof KEYOBJECT; key: types.KeyObject }
-  | { kind: typeof JWK; key: types.JWK }
-
-export function checkKeyType(entry: KeyDescriptor, key: unknown, usage: Usage): Tagged {
-  return entry.symmetric
-    ? symmetricTypeCheck(entry, key, usage)
-    : asymmetricTypeCheck(entry, key, usage)
-}
+  | [kind: typeof BYTES, key: Uint8Array]
+  | [kind: typeof CRYPTO, key: types.CryptoKey]
+  | [kind: typeof KEYOBJECT, key: types.KeyObject]
+  | [kind: typeof JWK, key: types.JWK]
 
 let cache: WeakMap<object, Record<string, CryptoKey>>
 
@@ -171,45 +131,37 @@ const nist: Record<string, string> = {
   secp521r1: 'P-521',
 }
 
-function cached(key: object, alg: string): CryptoKey | undefined {
+function cached(key: object, alg: string): CryptoKey | undefined
+function cached(key: object, alg: string, value: CryptoKey): CryptoKey
+function cached(key: object, alg: string, value?: CryptoKey): CryptoKey | undefined {
   cache ||= new WeakMap()
-  return cache.get(key)?.[alg]
-}
-
-function store(key: object, alg: string, cryptoKey: CryptoKey): CryptoKey {
   const entry = cache.get(key)
-  if (entry) {
-    entry[alg] = cryptoKey
-  } else {
-    cache.set(key, { [alg]: cryptoKey })
+  if (value) {
+    if (entry) {
+      entry[alg] = value
+    } else {
+      cache.set(key, { [alg]: value })
+    }
   }
-  return cryptoKey
+  return value ?? entry?.[alg]
 }
 
-const handleJWK = async (
-  key: types.KeyObject | types.JWK,
-  jwk: types.JWK,
-  entry: KeyDescriptor,
-) => {
-  const hit = cached(key, entry.alg)
-  if (hit) return hit
-
-  const cryptoKey = await jwkToKey(entry, { ...jwk, alg: entry.alg })
-  return store(key, entry.alg, cryptoKey)
-}
+const handleJWK = async (key: types.KeyObject | types.JWK, jwk: types.JWK, entry: KeyDescriptor) =>
+  cached(key, entry.alg) ??
+  cached(key, entry.alg, await jwkToKey(entry, { ...jwk, alg: entry.alg }))
 
 const handleKeyObject = (keyObject: ConvertibleKeyObject, entry: KeyDescriptor) => {
   const hit = cached(keyObject, entry.alg)
   if (hit) return hit
 
   const isPublic = keyObject.type === 'public'
-  const usages = isPublic ? entry.usages.public : entry.usages.private
+  const usages = entry.usages[isPublic ? 0 : 1]
 
   const { asymmetricKeyType } = keyObject
   const crv = nist[keyObject.asymmetricKeyDetails?.namedCurve!]
-  const params = entry.subtleFor?.({ crv, asymmetricKeyType }) ?? entry.subtle
+  const params = entry.resolve?.({ crv, asymmetricKeyType }) ?? entry.subtle
 
-  return store(keyObject, entry.alg, keyObject.toCryptoKey(params, isPublic, usages))
+  return cached(keyObject, entry.alg, keyObject.toCryptoKey(params, isPublic, usages))
 }
 
 /**
@@ -224,25 +176,26 @@ export async function prepareKey(
 ): Promise<types.CryptoKey | Uint8Array> {
   const tagged: Tagged = checkKeyType(entry, key, usage)
 
-  switch (tagged.kind) {
+  switch (tagged[0]) {
     case BYTES:
     case CRYPTO:
-      return tagged.key
+      return tagged[1]
 
     case JWK: {
-      if (tagged.key.k) {
-        return decode(tagged.key.k)
+      const key = tagged[1]
+      if (key.k) {
+        return decode(key.k)
       }
-      if (!Object.isFrozen(tagged.key)) {
-        const { key_ops } = tagged.key
+      if (!Object.isFrozen(key)) {
+        const { key_ops } = key
         if (Array.isArray(key_ops)) Object.freeze(key_ops)
-        Object.freeze(tagged.key)
+        Object.freeze(key)
       }
-      return handleJWK(tagged.key, tagged.key, entry)
+      return handleJWK(key, key, entry)
     }
 
     case KEYOBJECT: {
-      const keyObject = tagged.key as ConvertibleKeyObject
+      const keyObject = tagged[1] as ConvertibleKeyObject
 
       if (keyObject.type === 'secret') {
         return keyObject.export()

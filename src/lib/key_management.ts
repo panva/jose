@@ -9,8 +9,7 @@ import { JOSENotSupported, JWEInvalid } from '../util/errors.js'
 import { decodeBase64url, digest } from './helpers.js'
 import { generateCek, encrypt, decrypt } from './content_encryption.js'
 import { isObject } from './type_checks.js'
-import { checkCryptoKey, checkUsage } from './crypto_key.js'
-import { checkModulusLength } from './signing.js'
+import { checkCryptoKey, checkModulusLength, checkUsage } from './crypto_key.js'
 import { concat, encode, uint32be } from './buffer_utils.js'
 import { assertCryptoKey } from './is_key_like.js'
 
@@ -20,14 +19,10 @@ type SubtleCryptoWithGetPublicKey = SubtleCrypto & {
 
 /** ECDH accepts either of two algorithm names, so it cannot go through the generic comparison. */
 function checkEcdhCryptoKey(key: types.CryptoKey, usage?: KeyUsage): void {
-  switch (key.algorithm.name) {
-    case 'ECDH':
-    case 'X25519':
-      break
-    default:
-      throw new TypeError(
-        'CryptoKey does not support this operation, its algorithm.name must be ECDH or X25519',
-      )
+  if (key.algorithm.name !== 'ECDH' && key.algorithm.name !== 'X25519') {
+    throw new TypeError(
+      'CryptoKey does not support this operation, its algorithm.name must be ECDH or X25519',
+    )
   }
 
   checkUsage(key, usage)
@@ -35,18 +30,16 @@ function checkEcdhCryptoKey(key: types.CryptoKey, usage?: KeyUsage): void {
 
 // --- aeskw ---
 
-function checkKeySize(key: types.CryptoKey, alg: string) {
-  if ((key.algorithm as AesKeyAlgorithm).length !== parseInt(alg.slice(1, 4), 10)) {
-    throw new TypeError(`Invalid key size for alg: ${alg}`)
-  }
-}
-
-function aeskwCryptoKey(key: types.CryptoKey | Uint8Array, alg: string, usage: KeyUsage) {
-  if (key instanceof Uint8Array) {
-    return crypto.subtle.importKey('raw', key as Uint8Array<ArrayBuffer>, 'AES-KW', true, [usage])
-  }
-  checkCryptoKey(key, jweAlgorithm(alg).subtle, usage)
-  return key
+async function aeskwCryptoKey(key: types.CryptoKey | Uint8Array, alg: string, usage: KeyUsage) {
+  const expected = jweAlgorithm(alg).subtle
+  const cryptoKey =
+    key instanceof Uint8Array
+      ? await crypto.subtle.importKey('raw', key as Uint8Array<ArrayBuffer>, 'AES-KW', true, [
+          usage,
+        ])
+      : key
+  checkCryptoKey(cryptoKey, expected, usage)
+  return cryptoKey
 }
 
 async function aeskwWrap(
@@ -55,8 +48,6 @@ async function aeskwWrap(
   cek: Uint8Array,
 ): Promise<Uint8Array> {
   const cryptoKey = await aeskwCryptoKey(key, alg, 'wrapKey')
-
-  checkKeySize(cryptoKey, alg)
 
   // algorithm used is irrelevant
   const cryptoKeyCek = await crypto.subtle.importKey(
@@ -77,8 +68,6 @@ async function aeskwUnwrap(
 ): Promise<Uint8Array> {
   const cryptoKey = await aeskwCryptoKey(key, alg, 'unwrapKey')
 
-  checkKeySize(cryptoKey, alg)
-
   // algorithm used is irrelevant
   const cryptoKeyCek = await crypto.subtle.unwrapKey(
     'raw',
@@ -93,73 +82,11 @@ async function aeskwUnwrap(
   return new Uint8Array(await crypto.subtle.exportKey('raw', cryptoKeyCek))
 }
 
-// --- aesgcmkw ---
-
-async function aesGcmKwWrap(
-  gcm: JWEEncryption,
-  key: unknown,
-  cek: Uint8Array,
-  iv?: Uint8Array,
-): Promise<{ encryptedKey: Uint8Array; iv: string; tag: string }> {
-  const wrapped = await encrypt(gcm, cek, key, iv, new Uint8Array())
-
-  return {
-    encryptedKey: wrapped.ciphertext,
-    iv: b64u(wrapped.iv!),
-    tag: b64u(wrapped.tag!),
-  }
-}
-
-async function aesGcmKwUnwrap(
-  gcm: JWEEncryption,
-  key: unknown,
-  encryptedKey: Uint8Array,
-  iv: Uint8Array,
-  tag: Uint8Array,
-): Promise<Uint8Array> {
-  return decrypt(gcm, key, encryptedKey, iv, tag, new Uint8Array())
-}
-
 // --- rsaes ---
 
-const subtleAlgorithm = (alg: string) => {
-  switch (alg) {
-    case 'RSA-OAEP':
-    case 'RSA-OAEP-256':
-    case 'RSA-OAEP-384':
-    case 'RSA-OAEP-512':
-      return 'RSA-OAEP'
-    default:
-      throw new JOSENotSupported(
-        `alg ${alg} is not supported either by JOSE or your javascript runtime`,
-      )
-  }
-}
-
-async function rsaesEncrypt(
-  alg: string,
-  key: types.CryptoKey,
-  cek: Uint8Array,
-): Promise<Uint8Array> {
-  checkCryptoKey(key, jweAlgorithm(alg).subtle, 'encrypt')
+function checkRsaKey(alg: string, key: types.CryptoKey, usage: 'encrypt' | 'decrypt') {
+  checkCryptoKey(key, jweAlgorithm(alg).subtle, usage)
   checkModulusLength(alg, key)
-
-  return new Uint8Array(
-    await crypto.subtle.encrypt(subtleAlgorithm(alg), key, cek as Uint8Array<ArrayBuffer>),
-  )
-}
-
-async function rsaesDecrypt(
-  alg: string,
-  key: types.CryptoKey,
-  encryptedKey: Uint8Array,
-): Promise<Uint8Array> {
-  checkCryptoKey(key, jweAlgorithm(alg).subtle, 'decrypt')
-  checkModulusLength(alg, key)
-
-  return new Uint8Array(
-    await crypto.subtle.decrypt(subtleAlgorithm(alg), key, encryptedKey as Uint8Array<ArrayBuffer>),
-  )
 }
 
 // --- pbes2kw ---
@@ -175,9 +102,6 @@ function pbes2CryptoKey(key: types.CryptoKey | Uint8Array, alg: string) {
   return key
 }
 
-const concatSalt = (alg: string, p2sInput: Uint8Array) =>
-  concat(encode(alg), Uint8Array.of(0x00), p2sInput)
-
 async function deriveKey(
   p2s: Uint8Array,
   alg: string,
@@ -191,7 +115,7 @@ async function deriveKey(
     throw new JWEInvalid('PBES2 Count Input must be a positive integer')
   }
 
-  const salt = concatSalt(alg, p2s)
+  const salt = concat(encode(alg), Uint8Array.of(0), p2s)
   const keylen = parseInt(alg.slice(13, 16), 10)
   const subtleAlg = {
     hash: `SHA-${alg.slice(8, 11)}`,
@@ -203,32 +127,6 @@ async function deriveKey(
   const cryptoKey = await pbes2CryptoKey(key, alg)
 
   return new Uint8Array(await crypto.subtle.deriveBits(subtleAlg, cryptoKey, keylen))
-}
-
-async function pbes2kwWrap(
-  alg: string,
-  key: types.CryptoKey | Uint8Array,
-  cek: Uint8Array,
-  p2c = 2048,
-  p2s: Uint8Array = crypto.getRandomValues(new Uint8Array(16)),
-): Promise<{ encryptedKey: Uint8Array; p2c: number; p2s: string }> {
-  const derived = await deriveKey(p2s, alg, p2c, key)
-
-  const encryptedKey = await aeskwWrap(alg.slice(-6), derived, cek)
-
-  return { encryptedKey, p2c, p2s: b64u(p2s) }
-}
-
-async function pbes2kwUnwrap(
-  alg: string,
-  key: types.CryptoKey | Uint8Array,
-  encryptedKey: Uint8Array,
-  p2c: number,
-  p2s: Uint8Array,
-): Promise<Uint8Array> {
-  const derived = await deriveKey(p2s, alg, p2c, key)
-
-  return aeskwUnwrap(alg.slice(-6), derived, encryptedKey)
 }
 
 // --- ecdhes ---
@@ -256,14 +154,8 @@ async function concatKdf(Z: Uint8Array, L: number, OtherInfo: Uint8Array) {
 
   // Perform reps iterations of the hash function
   for (let i = 1; i <= reps; i++) {
-    // Construct Hash_i input: Counter || Z || OtherInfo
-    const hashInput = new Uint8Array(4 + Z.length + OtherInfo.length)
-    hashInput.set(uint32be(i), 0) // 32-bit big-endian counter
-    hashInput.set(Z, 4) // Shared secret Z
-    hashInput.set(OtherInfo, 4 + Z.length) // OtherInfo
-
     // Hash_i = Hash(Counter || Z || OtherInfo)
-    const hashResult = await digest('sha256', hashInput)
+    const hashResult = await digest('sha256', concat(uint32be(i), Z, OtherInfo))
     dk.set(hashResult, (i - 1) * hashLen)
   }
 
@@ -293,14 +185,12 @@ async function ecdhesDeriveKey(
   checkEcdhCryptoKey(publicKey)
   checkEcdhCryptoKey(privateKey, 'deriveBits')
 
-  // Construct OtherInfo
-  const algorithmID = lengthAndInput(encode(algorithm))
-  const partyUInfo = lengthAndInput(apu)
-  const partyVInfo = lengthAndInput(apv)
-  const suppPubInfo = uint32be(keyLength)
-  const suppPrivInfo = new Uint8Array()
-
-  const otherInfo = concat(algorithmID, partyUInfo, partyVInfo, suppPubInfo, suppPrivInfo)
+  const otherInfo = concat(
+    lengthAndInput(encode(algorithm)),
+    lengthAndInput(apu),
+    lengthAndInput(apv),
+    uint32be(keyLength),
+  )
 
   // Perform ECDH to get the shared secret Z
   const Z = new Uint8Array(
@@ -310,7 +200,11 @@ async function ecdhesDeriveKey(
         public: publicKey,
       },
       privateKey,
-      getEcdhBitLength(publicKey),
+      publicKey.algorithm.name === 'X25519'
+        ? 256
+        : Math.ceil(
+            parseInt((publicKey.algorithm as EcKeyAlgorithm).namedCurve.slice(-3), 10) / 8,
+          ) << 3,
     ),
   )
 
@@ -318,33 +212,29 @@ async function ecdhesDeriveKey(
   return concatKdf(Z, keyLength, otherInfo)
 }
 
-function getEcdhBitLength(publicKey: CryptoKey) {
-  if (publicKey.algorithm.name === 'X25519') {
-    return 256
-  }
-
-  return (
-    Math.ceil(parseInt((publicKey.algorithm as EcKeyAlgorithm).namedCurve.slice(-3), 10) / 8) << 3
-  )
-}
-
-function ecdhesAllowed(key: types.CryptoKey): boolean {
-  switch ((key.algorithm as EcKeyAlgorithm).namedCurve) {
-    case 'P-256':
-    case 'P-384':
-    case 'P-521':
-      return true
-    default:
-      return key.algorithm.name === 'X25519'
+function assertEcdhKey(key: types.CryptoKey | Uint8Array): asserts key is types.CryptoKey {
+  assertCryptoKey(key)
+  const curve = (key.algorithm as EcKeyAlgorithm).namedCurve
+  if (
+    curve !== 'P-256' &&
+    curve !== 'P-384' &&
+    curve !== 'P-521' &&
+    key.algorithm.name !== 'X25519'
+  ) {
+    throw new JOSENotSupported(
+      'ECDH with the provided key is not allowed or not supported by your javascript runtime',
+    )
   }
 }
-
-const unsupportedAlgHeader = 'Invalid or unsupported "alg" (JWE Algorithm) header value'
 
 function assertEncryptedKey(
   encryptedKey: Uint8Array | undefined,
 ): asserts encryptedKey is Uint8Array {
   if (encryptedKey === undefined) throw new JWEInvalid('JWE Encrypted Key missing')
+}
+
+function assertNoEncryptedKey(encryptedKey: Uint8Array | undefined): void {
+  if (encryptedKey !== undefined) throw new JWEInvalid('Encountered unexpected JWE Encrypted Key')
 }
 
 export async function decryptKeyManagement(
@@ -355,33 +245,22 @@ export async function decryptKeyManagement(
   joseHeader: types.JWEHeaderParameters,
   options?: types.DecryptOptions,
 ): Promise<types.CryptoKey | Uint8Array> {
-  switch (alg) {
-    case 'dir': {
-      // Direct Encryption
-      if (encryptedKey !== undefined)
-        throw new JWEInvalid('Encountered unexpected JWE Encrypted Key')
+  const entry = jweAlgorithm(alg)
+  if (alg === 'dir') {
+    assertNoEncryptedKey(encryptedKey)
 
-      return key
-    }
-    case 'ECDH-ES':
-      // Direct Key Agreement
-      if (encryptedKey !== undefined)
-        throw new JWEInvalid('Encountered unexpected JWE Encrypted Key')
+    return key
+  }
 
-    case 'ECDH-ES+A128KW':
-    case 'ECDH-ES+A192KW':
-    case 'ECDH-ES+A256KW': {
-      // Direct Key Agreement
+  switch (entry.subtle.name) {
+    case 'ECDH': {
+      if (alg === 'ECDH-ES') assertNoEncryptedKey(encryptedKey)
       if (!isObject<types.JWK>(joseHeader.epk))
         throw new JWEInvalid(`JOSE Header "epk" (Ephemeral Public Key) missing or invalid`)
 
-      assertCryptoKey(key)
-      if (!ecdhesAllowed(key))
-        throw new JOSENotSupported(
-          'ECDH with the provided key is not allowed or not supported by your javascript runtime',
-        )
+      assertEcdhKey(key)
 
-      const epk = await jwkToKey(jweAlgorithm(alg), joseHeader.epk)
+      const epk = await jwkToKey(entry, joseHeader.epk)
       let partyUInfo!: Uint8Array
       let partyVInfo!: Uint8Array
 
@@ -413,19 +292,15 @@ export async function decryptKeyManagement(
 
       return aeskwUnwrap(alg.slice(-6), sharedSecret, encryptedKey)
     }
-    case 'RSA-OAEP':
-    case 'RSA-OAEP-256':
-    case 'RSA-OAEP-384':
-    case 'RSA-OAEP-512': {
-      // Key Encryption (RSA)
+    case 'RSA-OAEP': {
       assertEncryptedKey(encryptedKey)
       assertCryptoKey(key)
-      return rsaesDecrypt(alg, key, encryptedKey)
+      checkRsaKey(alg, key, 'decrypt')
+      return new Uint8Array(
+        await crypto.subtle.decrypt('RSA-OAEP', key, encryptedKey as Uint8Array<ArrayBuffer>),
+      )
     }
-    case 'PBES2-HS256+A128KW':
-    case 'PBES2-HS384+A192KW':
-    case 'PBES2-HS512+A256KW': {
-      // Key Encryption (PBES2)
+    case 'PBKDF2': {
       assertEncryptedKey(encryptedKey)
 
       if (typeof joseHeader.p2c !== 'number')
@@ -439,22 +314,16 @@ export async function decryptKeyManagement(
       if (typeof joseHeader.p2s !== 'string')
         throw new JWEInvalid(`JOSE Header "p2s" (PBES2 Salt) missing or invalid`)
 
-      let p2s: Uint8Array
-      p2s = decodeBase64url(joseHeader.p2s, 'p2s', JWEInvalid)
-      return pbes2kwUnwrap(alg, key, encryptedKey, joseHeader.p2c, p2s)
+      const p2s = decodeBase64url(joseHeader.p2s, 'p2s', JWEInvalid)
+      const derived = await deriveKey(p2s, alg, joseHeader.p2c, key)
+      return aeskwUnwrap(alg.slice(-6), derived, encryptedKey)
     }
-    case 'A128KW':
-    case 'A192KW':
-    case 'A256KW': {
-      // Key Wrapping (AES KW)
+    case 'AES-KW': {
       assertEncryptedKey(encryptedKey)
 
       return aeskwUnwrap(alg, key, encryptedKey)
     }
-    case 'A128GCMKW':
-    case 'A192GCMKW':
-    case 'A256GCMKW': {
-      // Key Wrapping (AES GCM KW)
+    case 'AES-GCM': {
       assertEncryptedKey(encryptedKey)
 
       if (typeof joseHeader.iv !== 'string')
@@ -468,10 +337,7 @@ export async function decryptKeyManagement(
       let tag: Uint8Array
       tag = decodeBase64url(joseHeader.tag, 'tag', JWEInvalid)
 
-      return aesGcmKwUnwrap(jweEncryption(jweAlgorithm(alg).gcmkw!), key, encryptedKey, iv, tag)
-    }
-    default: {
-      throw new JOSENotSupported(unsupportedAlgHeader)
+      return decrypt(jweEncryption(alg.slice(0, -2)), key, encryptedKey, iv, tag, new Uint8Array())
     }
   }
 }
@@ -482,37 +348,28 @@ export async function encryptKeyManagement(
   key: types.CryptoKey | Uint8Array,
   providedCek?: Uint8Array,
   providedParameters: JWEKeyManagementHeaderParameters = {},
-): Promise<{
-  cek: types.CryptoKey | Uint8Array
-  encryptedKey?: Uint8Array
-  parameters?: JWEHeaderParameters
-}> {
+): Promise<
+  [
+    cek: types.CryptoKey | Uint8Array,
+    encryptedKey: Uint8Array | undefined,
+    parameters: JWEHeaderParameters | undefined,
+  ]
+> {
   let encryptedKey: Uint8Array | undefined
   let parameters: (JWEHeaderParameters & { epk?: JWK }) | undefined
   let cek: types.CryptoKey | Uint8Array
 
-  switch (alg) {
-    case 'dir': {
-      // Direct Encryption
-      cek = key
-      break
-    }
-    case 'ECDH-ES':
-    case 'ECDH-ES+A128KW':
-    case 'ECDH-ES+A192KW':
-    case 'ECDH-ES+A256KW': {
-      assertCryptoKey(key)
-      // Direct Key Agreement
-      if (!ecdhesAllowed(key)) {
-        throw new JOSENotSupported(
-          'ECDH with the provided key is not allowed or not supported by your javascript runtime',
-        )
-      }
+  const entry = jweAlgorithm(alg)
+  if (alg === 'dir') return [key, undefined, undefined]
+
+  switch (entry.subtle.name) {
+    case 'ECDH': {
+      assertEcdhKey(key)
       const { apu, apv } = providedParameters
       let ephemeralKey: types.CryptoKey
       if (providedParameters.epk) {
         ephemeralKey = (await prepareKey(
-          jweAlgorithm(alg),
+          entry,
           providedParameters.epk,
           'decrypt',
         )) as types.CryptoKey
@@ -554,51 +411,37 @@ export async function encryptKeyManagement(
       encryptedKey = await aeskwWrap(kwAlg, sharedSecret, cek)
       break
     }
-    case 'RSA-OAEP':
-    case 'RSA-OAEP-256':
-    case 'RSA-OAEP-384':
-    case 'RSA-OAEP-512': {
-      // Key Encryption (RSA)
+    case 'RSA-OAEP': {
       cek = providedCek || generateCek(enc)
       assertCryptoKey(key)
-      encryptedKey = await rsaesEncrypt(alg, key, cek)
+      checkRsaKey(alg, key, 'encrypt')
+      encryptedKey = new Uint8Array(
+        await crypto.subtle.encrypt('RSA-OAEP', key, cek as Uint8Array<ArrayBuffer>),
+      )
       break
     }
-    case 'PBES2-HS256+A128KW':
-    case 'PBES2-HS384+A192KW':
-    case 'PBES2-HS512+A256KW': {
-      // Key Encryption (PBES2)
+    case 'PBKDF2': {
       cek = providedCek || generateCek(enc)
-      const { p2c, p2s } = providedParameters
-      ;({ encryptedKey, ...parameters } = await pbes2kwWrap(alg, key, cek, p2c, p2s))
+      const { p2c = 2048, p2s = crypto.getRandomValues(new Uint8Array(16)) } = providedParameters
+      const derived = await deriveKey(p2s, alg, p2c, key)
+      encryptedKey = await aeskwWrap(alg.slice(-6), derived, cek)
+      parameters = { p2c, p2s: b64u(p2s) }
       break
     }
-    case 'A128KW':
-    case 'A192KW':
-    case 'A256KW': {
-      // Key Wrapping (AES KW)
+    case 'AES-KW': {
       cek = providedCek || generateCek(enc)
       encryptedKey = await aeskwWrap(alg, key, cek)
       break
     }
-    case 'A128GCMKW':
-    case 'A192GCMKW':
-    case 'A256GCMKW': {
-      // Key Wrapping (AES GCM KW)
+    case 'AES-GCM': {
       cek = providedCek || generateCek(enc)
       const { iv } = providedParameters
-      ;({ encryptedKey, ...parameters } = await aesGcmKwWrap(
-        jweEncryption(jweAlgorithm(alg).gcmkw!),
-        key,
-        cek,
-        iv,
-      ))
+      const wrapped = await encrypt(jweEncryption(alg.slice(0, -2)), cek, key, iv, new Uint8Array())
+      encryptedKey = wrapped.ciphertext
+      parameters = { iv: b64u(wrapped.iv!), tag: b64u(wrapped.tag!) }
       break
-    }
-    default: {
-      throw new JOSENotSupported(unsupportedAlgHeader)
     }
   }
 
-  return { cek, encryptedKey, parameters }
+  return [cek, encryptedKey, parameters]
 }

@@ -118,19 +118,20 @@ export async function generateKeyPair(
 ): Promise<GenerateKeyPairResult> {
   const entry = keyAlgorithm(alg)
 
-  if (entry.symmetric) {
+  if (entry.secret) {
     throw new JOSENotSupported('Invalid or unsupported JWK "alg" (Algorithm) Parameter value')
   }
 
   let algorithm: RsaHashedKeyGenParams | EcKeyGenParams | KeyAlgorithm
 
-  if (entry.subtleFor) {
+  if (entry.resolve) {
     // ECDH-ES takes its curve from the option rather than from the identifier.
-    switch (options?.crv ?? 'P-256') {
+    const crv = options?.crv ?? 'P-256'
+    switch (crv) {
       case 'P-256':
       case 'P-384':
       case 'P-521':
-        algorithm = { name: 'ECDH', namedCurve: options?.crv ?? 'P-256' }
+        algorithm = { name: 'ECDH', namedCurve: crv }
         break
       case 'X25519':
         algorithm = { name: 'X25519' }
@@ -158,7 +159,7 @@ export async function generateKeyPair(
   }
 
   return crypto.subtle.generateKey(algorithm, options?.extractable ?? false, [
-    ...entry.usages.private,
-    ...entry.usages.public,
+    ...entry.usages[1],
+    ...entry.usages[0],
   ]) as Promise<GenerateKeyPairResult>
 }

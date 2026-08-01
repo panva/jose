@@ -98,10 +98,10 @@ export async function compactVerify(
     key as types.KeyInput | VerifyGetKey,
   )
 
-  const result = { payload: verified.payload, protectedHeader: verified.parsedProt }
+  const result = { payload: verified[0], protectedHeader: verified[1] }
 
   if (typeof key === 'function') {
-    return { ...result, key: verified.key }
+    return { ...result, key: verified[3] }
   }
 
   return result

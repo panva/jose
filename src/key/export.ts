@@ -71,7 +71,7 @@ async function keyToJWK(key: unknown): Promise<types.JWK> {
  *
  * @param key Key to export to a PEM-encoded SPKI string format.
  */
-export async function exportSPKI(key: types.CryptoKey | types.KeyObject): Promise<string> {
+export function exportSPKI(key: types.CryptoKey | types.KeyObject): Promise<string> {
   return exportPublic(key)
 }
 
@@ -91,7 +91,7 @@ export async function exportSPKI(key: types.CryptoKey | types.KeyObject): Promis
  *
  * @param key Key to export to a PEM-encoded PKCS8 string format.
  */
-export async function exportPKCS8(key: types.CryptoKey | types.KeyObject): Promise<string> {
+export function exportPKCS8(key: types.CryptoKey | types.KeyObject): Promise<string> {
   return exportPrivate(key)
 }
 
@@ -113,8 +113,6 @@ export async function exportPKCS8(key: types.CryptoKey | types.KeyObject): Promi
  *
  * @param key Key to export as JWK.
  */
-export async function exportJWK(
-  key: types.CryptoKey | types.KeyObject | Uint8Array,
-): Promise<types.JWK> {
+export function exportJWK(key: types.CryptoKey | types.KeyObject | Uint8Array): Promise<types.JWK> {
   return keyToJWK(key)
 }

@@ -7,10 +7,10 @@ interface CritCheckHeader {
 }
 
 /** Extension Header Parameters a JWS implementation recognizes without being asked to. */
-export const JWS_RECOGNIZED: Map<string, boolean> = new Map([['b64', true]])
+export const JWS_RECOGNIZED = { __proto__: null, b64: true } as unknown as Record<string, boolean>
 
 /** JWE defines no Extension Header Parameters that are recognized by default. */
-export const JWE_RECOGNIZED: Map<string, boolean> = new Map()
+export const JWE_RECOGNIZED = { __proto__: null } as unknown as Record<string, boolean>
 
 export function validateAlgorithms(option: string, algorithms?: string[]): Set<string> | undefined {
   if (
@@ -44,17 +44,17 @@ export function validateCritDuplicates(
 
 export function validateCrit(
   Err: typeof JWEInvalid | typeof JWSInvalid,
-  recognizedDefault: Map<string, boolean>,
+  recognizedDefault: Record<string, boolean>,
   recognizedOption: { [propName: string]: boolean } | undefined,
   protectedHeader: CritCheckHeader | undefined,
   joseHeader: CritCheckHeader,
-): Set<string> {
+): string[] {
   if (joseHeader.crit !== undefined && protectedHeader?.crit === undefined) {
     throw new Err('"crit" (Critical) Header Parameter MUST be integrity protected')
   }
 
   if (!protectedHeader || protectedHeader.crit === undefined) {
-    return new Set()
+    return []
   }
 
   if (
@@ -67,25 +67,26 @@ export function validateCrit(
     )
   }
 
-  let recognized: Map<string, boolean>
-  if (recognizedOption !== undefined) {
-    recognized = new Map([...Object.entries(recognizedOption), ...recognizedDefault.entries()])
-  } else {
-    recognized = recognizedDefault
-  }
+  const recognized: Record<string, boolean> =
+    recognizedOption === undefined
+      ? recognizedDefault
+      : ({ __proto__: null, ...recognizedOption, ...recognizedDefault } as unknown as Record<
+          string,
+          boolean
+        >)
 
   for (const parameter of protectedHeader.crit) {
-    if (!recognized.has(parameter)) {
+    if (!(parameter in recognized)) {
       throw new JOSENotSupported(`Extension Header Parameter "${parameter}" is not recognized`)
     }
 
     if (joseHeader[parameter] === undefined) {
       throw new Err(`Extension Header Parameter "${parameter}" is missing`)
     }
-    if (recognized.get(parameter) && protectedHeader[parameter] === undefined) {
+    if (recognized[parameter] && protectedHeader[parameter] === undefined) {
       throw new Err(`Extension Header Parameter "${parameter}" MUST be integrity protected`)
     }
   }
 
-  return new Set(protectedHeader.crit)
+  return protectedHeader.crit
 }

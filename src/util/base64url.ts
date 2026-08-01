@@ -7,6 +7,8 @@
 import { encoder, decoder } from '../lib/buffer_utils.js'
 import { encodeBase64, decodeBase64 } from '../lib/base64.js'
 
+const invalid = 'The input to be decoded is not correctly encoded.'
+
 /**
  * Decodes a Base64URL encoded input.
  *
@@ -35,7 +37,7 @@ export function decode(input: Uint8Array | string): Uint8Array {
         alphabet: 'base64url',
       })
     } catch (cause) {
-      throw new TypeError('The input to be decoded is not correctly encoded.', { cause })
+      throw new TypeError(invalid, { cause })
     }
   }
 
@@ -45,13 +47,13 @@ export function decode(input: Uint8Array | string): Uint8Array {
   }
   // Aligns the fallback path with the Uint8Array base64 methods.
   if (encoded.includes('+') || encoded.includes('/')) {
-    throw new TypeError('The input to be decoded is not correctly encoded.')
+    throw new TypeError(invalid)
   }
   encoded = encoded.replace(/-/g, '+').replace(/_/g, '/')
   try {
     return decodeBase64(encoded)
   } catch {
-    throw new TypeError('The input to be decoded is not correctly encoded.')
+    throw new TypeError(invalid)
   }
 }
 
