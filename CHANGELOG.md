@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file. See [commit-and-tag-version](https://github.com/absolute-version/commit-and-tag-version) for commit guidelines.
 
+## [6.2.7](https://github.com/panva/jose/compare/v6.2.6...v6.2.7) (2026-08-01)
+
+### Fixes
+
+* require own JOSE properties for presence checks ([90ab09c](https://github.com/panva/jose/commit/90ab09c461c9bc82fd24af269616be0907a28bc5))
+
+### Refactor
+
+* reduce bundle size ([767d7f1](https://github.com/panva/jose/commit/767d7f12d025ce54e74f3d38fde3571cc23de5f6))
+
 ## [6.2.6](https://github.com/panva/jose/compare/v6.2.5...v6.2.6) (2026-07-31)
 
 ### Fixes
