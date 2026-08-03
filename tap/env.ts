@@ -57,6 +57,14 @@ export function supported(algorithm: string): boolean {
     return isNode && isNodeVersionAtLeast(24, 7)
   }
 
+  switch (algorithm) {
+    case 'HPKE-9':
+      return isNode && isNodeVersionAtLeast(26, 10)
+    case 'HPKE-12':
+    case 'HPKE-13':
+      return isDeno || (isNode && isNodeVersionAtLeast(24, 7))
+  }
+
   // Blink does not support AES-192.
   if (isBlink && /A192/.test(algorithm)) return false
 

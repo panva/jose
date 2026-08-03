@@ -341,7 +341,7 @@ Sets the JWE Protected Header. May only be called once.
 
 | Parameter | Type | Description |
 | ------ | ------ | ------ |
-| `protectedHeader` | [`CompactJWEHeaderParameters`](../../../types/interfaces/CompactJWEHeaderParameters.md) | JWE Protected Header. Must contain an "alg" (JWE Algorithm) and "enc" (JWE Encryption Algorithm) properties. |
+| `protectedHeader` | [`CompactJWEHeaderParameters`](../../../types/interfaces/CompactJWEHeaderParameters.md) | JWE Protected Header. Must contain an "alg" (JWE Algorithm) property, and an "enc" (JWE Encryption Algorithm) one unless the "alg" encrypts the content itself. |
 
 #### Returns
 

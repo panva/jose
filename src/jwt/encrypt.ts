@@ -46,8 +46,8 @@ export class EncryptJWT extends EncryptJWT_base {
   /**
    * Sets the JWE Protected Header. May only be called once.
    *
-   * @param protectedHeader JWE Protected Header. Must contain an "alg" (JWE Algorithm) and "enc"
-   *   (JWE Encryption Algorithm) properties.
+   * @param protectedHeader JWE Protected Header. Must contain an "alg" (JWE Algorithm) property,
+   *   and an "enc" (JWE Encryption Algorithm) one unless the "alg" encrypts the content itself.
    */
   setProtectedHeader(protectedHeader: types.CompactJWEHeaderParameters): this {
     assertNotSet(this.#input[1], 'setProtectedHeader')
