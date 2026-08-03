@@ -5,7 +5,7 @@
  */
 
 import { JOSENotSupported } from '../util/errors.js'
-import { keyAlgorithm } from '../lib/key_algorithm.js'
+import { keyAlgorithm, unsupportedAlg, algArgument } from '../lib/key_algorithm.js'
 
 import type * as types from '../types.d.ts'
 
@@ -116,10 +116,10 @@ export async function generateKeyPair(
   alg: GenerateKeyPairAlgorithm,
   options?: GenerateKeyPairOptions,
 ): Promise<GenerateKeyPairResult> {
-  const entry = keyAlgorithm(alg)
+  const entry = keyAlgorithm(alg, algArgument)
 
   if (entry.secret) {
-    throw new JOSENotSupported('Invalid or unsupported JWK "alg" (Algorithm) Parameter value')
+    unsupportedAlg(algArgument)
   }
 
   let algorithm: RsaHashedKeyGenParams | EcKeyGenParams | KeyAlgorithm

@@ -2,7 +2,7 @@ import type * as types from '../types.d.ts'
 import { invalidKeyInput } from './invalid_key_input.js'
 import { encodeBase64, decodeBase64 } from '../lib/base64.js'
 import { JOSENotSupported } from '../util/errors.js'
-import { keyAlgorithm } from './key_algorithm.js'
+import { keyAlgorithm, unsupportedAlg, algArgument } from './key_algorithm.js'
 import { isCryptoKey, isKeyObject } from './is_key_like.js'
 
 import type { KeyImportOptions } from '../key/import.js'
@@ -189,9 +189,9 @@ const genericImport = async (
   alg: string,
   options?: KeyImportOptions,
 ) => {
-  const entry = keyAlgorithm(alg)
+  const entry = keyAlgorithm(alg, algArgument)
   if (entry.secret) {
-    throw new JOSENotSupported('Invalid or unsupported "alg" (Algorithm) value')
+    unsupportedAlg(algArgument)
   }
   const isPublic = keyFormat === 'spki'
 

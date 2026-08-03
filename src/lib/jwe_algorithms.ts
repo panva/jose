@@ -132,20 +132,16 @@ const ENC: Record<string, JWEEncryption> = table<JWEEncryption>({
   'A256CBC-HS512': contentEncryption(512, true),
 })
 
-const unsupportedAlg = 'Invalid or unsupported "alg" (JWE Algorithm) header value'
+function unsupported(parameter: string, name: string): never {
+  throw new JOSENotSupported(`Invalid or unsupported "${parameter}" (JWE ${name}) header value`)
+}
 
 export function jweAlgorithm(alg: unknown): JWEAlgorithm {
-  const entry = typeof alg === 'string' ? JWE[alg] : undefined
-  if (!entry) {
-    throw new JOSENotSupported(unsupportedAlg)
-  }
-  return entry
+  return (typeof alg === 'string' ? JWE[alg] : undefined) ?? unsupported('alg', 'Algorithm')
 }
 
 export function jweEncryption(enc: unknown): JWEEncryption {
-  const entry = typeof enc === 'string' ? ENC[enc] : undefined
-  if (!entry) {
-    throw new JOSENotSupported(`Unsupported JWE Algorithm: ${enc}`)
-  }
-  return entry
+  return (
+    (typeof enc === 'string' ? ENC[enc] : undefined) ?? unsupported('enc', 'Encryption Algorithm')
+  )
 }

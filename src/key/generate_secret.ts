@@ -4,7 +4,7 @@
  * @module
  */
 
-import { JOSENotSupported } from '../util/errors.js'
+import { unsupportedAlg, algArgument } from '../lib/key_algorithm.js'
 
 import type * as types from '../types.d.ts'
 
@@ -124,7 +124,7 @@ export async function generateSecret(
       keyUsages = ['encrypt', 'decrypt']
       break
     default:
-      throw new JOSENotSupported('Invalid or unsupported JWK "alg" (Algorithm) Parameter value')
+      unsupportedAlg(algArgument)
   }
 
   return crypto.subtle.generateKey(algorithm, options?.extractable ?? false, keyUsages)
