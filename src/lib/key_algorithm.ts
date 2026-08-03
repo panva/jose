@@ -7,7 +7,7 @@ import { JWE } from './jwe_algorithms.js'
  * Resolves an identifier from either family. Only the key material APIs need this - an operation
  * knows which family it is in and resolves against that registry alone.
  */
-export function keyAlgorithm(alg: string): KeyDescriptor {
+export function keyAlgorithm(alg: unknown): KeyDescriptor {
   const entry = typeof alg === 'string' ? (JWS[alg] ?? JWE[alg]) : undefined
   if (!entry) {
     throw new JOSENotSupported('Invalid or unsupported JWK "alg" (Algorithm) Parameter value')

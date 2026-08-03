@@ -77,6 +77,16 @@ test('EmbeddedJWK requires "jwk" to be a public one', async (t) => {
   })
 })
 
+test('EmbeddedJWK requires "alg" to be a string', async (t) => {
+  const jwk = pubjwk(t.context.key)
+  // A non-string that stringifies to a registered identifier must not resolve one.
+  for (const alg of [['ES256'], { toString: () => 'ES256' }, undefined]) {
+    await t.throwsAsync(EmbeddedJWK({ alg, jwk } as any), {
+      code: 'ERR_JOSE_NOT_SUPPORTED',
+    })
+  }
+})
+
 mlDsaTest('EmbeddedJWK defers AKP "alg" validation to WebCrypto', async (t) => {
   const { publicKey } = await generateKeyPair('ML-DSA-65', { extractable: true })
   const { alg, ...jwk } = await exportJWK(publicKey)

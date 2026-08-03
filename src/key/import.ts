@@ -225,7 +225,7 @@ export async function importJWK(
 
       return decodeBase64URL(jwk.k)
     case 'RSA':
-      return jwkToKey(keyAlgorithm(alg!), { ...jwk, alg, ext })
+      return jwkToKey(keyAlgorithm(alg), { ...jwk, alg, ext })
     case 'AKP': {
       if (typeof jwk.alg !== 'string' || !jwk.alg) {
         throw new TypeError('missing "alg" (Algorithm) Parameter value')
@@ -237,7 +237,7 @@ export async function importJWK(
     }
     case 'EC':
     case 'OKP':
-      return jwkToKey(keyAlgorithm(alg!), { ...jwk, alg, ext })
+      return jwkToKey(keyAlgorithm(alg), { ...jwk, alg, ext })
     default:
       throw new JOSENotSupported('Unsupported "kty" (Key Type) Parameter value')
   }

@@ -87,8 +87,8 @@ export const JWS: Record<string, JWSAlgorithm> = table({
 })
 
 /** Resolves a JWS "alg" to its entry, or throws if this module does not implement it. */
-export function jwsAlgorithm(alg: string): JWSAlgorithm {
-  const entry = JWS[alg]
+export function jwsAlgorithm(alg: unknown): JWSAlgorithm {
+  const entry = typeof alg === 'string' ? JWS[alg] : undefined
   if (!entry) {
     throw new JOSENotSupported(
       `alg ${alg} is not supported either by JOSE or your javascript runtime`,

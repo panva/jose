@@ -52,7 +52,7 @@ export async function EmbeddedJWK(
     throw new JWSInvalid('"jwk" (JSON Web Key) Header Parameter must be a JSON object')
   }
 
-  const entry = jwsAlgorithm(joseHeader.alg!)
+  const entry = jwsAlgorithm(joseHeader.alg)
   const key = await jwkToKey(entry, { ...joseHeader.jwk, ext: true })
 
   if (key.type !== 'public') {
