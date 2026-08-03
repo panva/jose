@@ -24,6 +24,18 @@ function omitUndefinedProperties(jwk: JsonWebKey): JsonWebKey {
   return Object.fromEntries(Object.entries(jwk).filter(([, value]) => value !== undefined))
 }
 
+/**
+ * WebCrypto names the HPKE KEMs after the KEM, where the JWK "alg" names the JWE algorithm. Spelled
+ * out here rather than resolved from the JWE registry, which this export has no other use for.
+ */
+const kem: Record<string, string> = {
+  // @ts-expect-error
+  __proto__: null,
+  'MLKEM768-X25519': 'HPKE-9',
+  'ML-KEM-768': 'HPKE-12',
+  'ML-KEM-1024': 'HPKE-13',
+}
+
 async function keyToJWK(key: unknown): Promise<types.JWK> {
   if (isKeyObject(key)) {
     if (key.type === 'secret') {
@@ -48,8 +60,8 @@ async function keyToJWK(key: unknown): Promise<types.JWK> {
     await crypto.subtle.exportKey('jwk', key),
   )
 
-  if (jwk.kty === 'AKP') {
-    ;(jwk as types.JWK).alg = alg
+  if (jwk.kty === 'AKP' && typeof alg === 'string') {
+    ;(jwk as types.JWK).alg = kem[alg] ?? alg
   }
 
   return jwk as types.JWK

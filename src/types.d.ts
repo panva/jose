@@ -53,6 +53,9 @@ export type JWEKeyManagementAlgorithm =
   | 'PBES2-HS256+A128KW'
   | 'PBES2-HS384+A192KW'
   | 'PBES2-HS512+A256KW'
+  | 'HPKE-9'
+  | 'HPKE-12'
+  | 'HPKE-13'
   | (string & {})
 
 /**
@@ -880,7 +883,7 @@ export interface JWTHeaderParameters extends CompactJWSHeaderParameters {
 /** Recognized Compact JWE Header Parameters; additional members may also be present. */
 export interface CompactJWEHeaderParameters extends JWEHeaderParameters {
   alg: JWEKeyManagementAlgorithm
-  enc: JWEContentEncryptionAlgorithm
+  enc?: JWEContentEncryptionAlgorithm
 }
 
 /** JSON Web Key Set. */

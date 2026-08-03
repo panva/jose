@@ -81,6 +81,13 @@ export function supported(identifier?: string, op?: string) {
         }
       }
       return isBun || isDeno || (isNode && isNodeVersionAtLeast(24, 7))
+    case 'HPKE-9':
+      if (op === 'keyobject import') return false
+      // TODO: update
+      return isNode && isNodeVersionAtLeast(27, 0)
+    case 'HPKE-12':
+    case 'HPKE-13':
+      return isDeno || (isNode && isNodeVersionAtLeast(24, 7))
   }
 
   if (isBlink) {

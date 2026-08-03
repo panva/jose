@@ -2,6 +2,7 @@ import { JOSENotSupported } from '../util/errors.js'
 import type * as types from '../types.d.ts'
 import { table } from './key_descriptor.js'
 import type { KeyDescriptor } from './key_descriptor.js'
+import { hpke } from './hpke.js'
 
 export type JWECEKTransportMode =
   'key-wrapping' | 'key-encryption' | 'key-agreement-with-key-wrapping'
@@ -139,6 +140,10 @@ export const JWE: Record<string, JWEAlgorithm> = table<JWEConventionalAlgorithm>
   'PBES2-HS384+A192KW': pbes2(),
   'PBES2-HS512+A256KW': pbes2(),
 })
+
+JWE['HPKE-9'] = hpke('HPKE-9', 'MLKEM768-X25519', [0x647a, 0x0011, 0x0002, 1120])
+JWE['HPKE-12'] = hpke('HPKE-12', 'ML-KEM-768', [0x0041, 0x0011, 0x0002, 1088])
+JWE['HPKE-13'] = hpke('HPKE-13', 'ML-KEM-1024', [0x0042, 0x0011, 0x0002, 1568])
 
 /**
  * Content encryption algorithms. These describe a key too: with "alg" of "dir" the Content

@@ -11,7 +11,9 @@ export async function jwkToKey(entry: KeyDescriptor, jwk: types.JWK): Promise<ty
   const isPrivate = !!(jwk.d || jwk.priv)
 
   const keyData: types.JWK = { ...jwk }
-  if (keyData.kty !== 'AKP') {
+  if (keyData.kty === 'AKP') {
+    keyData.alg = entry.jwkAlg ?? keyData.alg
+  } else {
     delete keyData.alg
   }
   delete keyData.use
