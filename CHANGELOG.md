@@ -2,6 +2,18 @@
 
 All notable changes to this project will be documented in this file. See [commit-and-tag-version](https://github.com/absolute-version/commit-and-tag-version) for commit guidelines.
 
+## [6.2.8](https://github.com/panva/jose/compare/v6.2.7...v6.2.8) (2026-08-03)
+
+### Fixes
+
+* enforce a single recipient when decrypting dir and ECDH-ES ([505c383](https://github.com/panva/jose/commit/505c3833ecae19807e32ad7be50ff4677d31bcad))
+* reject a non-string "alg" in EmbeddedJWK ([714f870](https://github.com/panva/jose/commit/714f8704347ccee8b3d0007e028b6e3f546b443c))
+
+### Refactor
+
+* index the JWS and JWE registries without a wrapper ([925f3bb](https://github.com/panva/jose/commit/925f3bbbee4b8d5e335774ffbf6ec086e71c3a05))
+* name the "alg" source in unsupported algorithm failures ([1500459](https://github.com/panva/jose/commit/1500459c6ffce48fb486c15cb213d24064a26673))
+
 ## [6.2.7](https://github.com/panva/jose/compare/v6.2.6...v6.2.7) (2026-08-01)
 
 ### Fixes
