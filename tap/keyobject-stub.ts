@@ -6,6 +6,20 @@ import { Buffer } from 'node:buffer'
 
 const generate = promisify(crypto.generateKeyPair)
 
+/** KeyObject AKP JWKs name the KEM; jose names the JWE algorithm. */
+const kemToAlg: Record<string, string> = {
+  // @ts-expect-error
+  __proto__: null,
+  'ML-KEM-768': 'HPKE-12',
+  'ML-KEM-1024': 'HPKE-13',
+}
+const algToKem: Record<string, string> = {
+  // @ts-expect-error
+  __proto__: null,
+  'HPKE-12': 'ML-KEM-768',
+  'HPKE-13': 'ML-KEM-1024',
+}
+
 const stub: Pick<
   typeof import('../src/index.js'),
   'exportJWK' | 'generateKeyPair' | 'generateSecret' | 'importJWK'
@@ -20,12 +34,19 @@ const stub: Pick<
       k = key
     }
 
-    return (k as unknown as crypto.KeyObject).export({ format: 'jwk' })
+    const jwk = (k as unknown as crypto.KeyObject).export({ format: 'jwk' })
+    if (jwk.kty === 'AKP') {
+      jwk.alg = kemToAlg[jwk.alg as string] ?? jwk.alg
+    }
+    return jwk
   },
   // @ts-expect-error
   importJWK(jwk) {
     if (jwk.k) {
       return Buffer.from(jwk.k, 'base64url')
+    }
+    if (jwk.kty === 'AKP' && jwk.alg && algToKem[jwk.alg]) {
+      jwk = { ...jwk, alg: algToKem[jwk.alg] }
     }
     if (jwk.d || jwk.priv) {
       return crypto.createPrivateKey({ format: 'jwk', key: jwk as crypto.JsonWebKey })

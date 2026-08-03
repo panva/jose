@@ -23,6 +23,8 @@ export interface KeyDescriptor {
   secret?: boolean
   /** WebCrypto parameters for importing, generating, and asserting a key's shape. */
   subtle: { name: string; hash?: string; namedCurve?: string; length?: number }
+  /** Native JWK "alg" value when it differs from the JOSE identifier. */
+  jwkAlg?: string
   /** Key usages, ordered as public then private. */
   usages: [publicKey: KeyUsage[], privateKey: KeyUsage[]]
   /**

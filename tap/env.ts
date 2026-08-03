@@ -87,6 +87,12 @@ export function supported(identifier?: string, op?: string) {
         (isNode && isNodeVersionAtLeast(24, 7)) ||
         (isBlink && isBrowserVersionAtLeast(155))
       )
+    case 'HPKE-9':
+      if (op === 'keyobject import') return false
+      return isNode && isNodeVersionAtLeast(26, 10)
+    case 'HPKE-12':
+    case 'HPKE-13':
+      return isDeno || (isNode && isNodeVersionAtLeast(24, 7))
   }
 
   if (isBlink) {
