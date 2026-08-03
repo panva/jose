@@ -6,7 +6,7 @@
 
 import type * as types from '../types.d.ts'
 import { jwkToKey } from '../lib/jwk_to_key.js'
-import { maybeJWSAlgorithm } from '../lib/jws_algorithms.js'
+import { JWS } from '../lib/jws_algorithms.js'
 import type { JWSAlgorithm } from '../lib/jws_algorithms.js'
 import {
   JWKSInvalid,
@@ -22,7 +22,7 @@ import { isObject } from '../lib/type_checks.js'
  * - And among those, only the asymmetric ones.
  */
 function signatureAlgorithm(alg: unknown): JWSAlgorithm {
-  const entry = typeof alg === 'string' ? maybeJWSAlgorithm(alg) : undefined
+  const entry = typeof alg === 'string' ? JWS[alg] : undefined
   if (!entry || entry.secret) {
     throw new JOSENotSupported('Unsupported "alg" value for a JSON Web Key Set')
   }
@@ -104,7 +104,7 @@ async function importWithAlgCache(
   jwk: types.JWK,
   entry: JWSAlgorithm,
 ) {
-  const cached = cache.get(jwk) || cache.set(jwk, {}).get(jwk)!
+  const cached = cache.get(jwk) || cache.set(jwk, { __proto__: null } as unknown as Cache).get(jwk)!
   if (cached[entry.alg] === undefined) {
     const key = await jwkToKey(entry, { ...jwk, alg: entry.alg, ext: true })
 

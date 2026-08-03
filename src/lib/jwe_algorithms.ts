@@ -68,7 +68,7 @@ function pbes2(): AlgEntry {
   }
 }
 
-const JWE: Record<string, JWEAlgorithm> = table<JWEAlgorithm>({
+export const JWE: Record<string, JWEAlgorithm> = table<JWEAlgorithm>({
   dir: {
     kty: ['oct'],
     secret: true,
@@ -140,10 +140,6 @@ export function jweAlgorithm(alg: string): JWEAlgorithm {
     throw new JOSENotSupported(unsupportedAlg)
   }
   return entry
-}
-
-export function maybeJWEAlgorithm(alg: string): JWEAlgorithm | undefined {
-  return JWE[alg]
 }
 
 export function jweEncryption(enc: string): JWEEncryption {

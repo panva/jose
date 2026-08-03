@@ -66,7 +66,7 @@ function mldsa(bits: 44 | 65 | 87): Entry {
   }
 }
 
-const JWS: Record<string, JWSAlgorithm> = table({
+export const JWS: Record<string, JWSAlgorithm> = table({
   HS256: hmac(256),
   HS384: hmac(384),
   HS512: hmac(512),
@@ -95,9 +95,4 @@ export function jwsAlgorithm(alg: string): JWSAlgorithm {
     )
   }
   return entry
-}
-
-/** Resolves a JWS "alg" to its entry, or undefined when it is not a JWS algorithm at all. */
-export function maybeJWSAlgorithm(alg: string): JWSAlgorithm | undefined {
-  return JWS[alg]
 }

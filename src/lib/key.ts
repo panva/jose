@@ -140,7 +140,7 @@ function cached(key: object, alg: string, value?: CryptoKey): CryptoKey | undefi
     if (entry) {
       entry[alg] = value
     } else {
-      cache.set(key, { [alg]: value })
+      cache.set(key, { __proto__: null, [alg]: value } as unknown as Record<string, CryptoKey>)
     }
   }
   return value ?? entry?.[alg]
