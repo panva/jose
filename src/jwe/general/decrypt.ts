@@ -141,6 +141,17 @@ export async function generalDecrypt(
     throw new JWEDecryptionFailed()
   }
 
+  if (jwe.recipients.length > 1) {
+    for (const { header } of jwe.recipients) {
+      // https://www.rfc-editor.org/rfc/rfc7516#section-5.2 step 7 - these modes have no
+      // per-recipient JWE Encrypted Key, so more than one recipient cannot be addressed.
+      const alg = token[0]?.alg ?? header?.alg ?? jwe.unprotected?.alg
+      if (alg === 'dir' || alg === 'ECDH-ES') {
+        throw new JWEInvalid(`"${alg}" alg may only have a single recipient`)
+      }
+    }
+  }
+
   for (const recipient of jwe.recipients) {
     try {
       const flattened: types.FlattenedJWE = {

@@ -1,7 +1,13 @@
 import test from 'ava'
 import * as crypto from 'crypto'
 
-import { base64url, GeneralEncrypt, generalDecrypt, generateKeyPair } from '../../src/index.js'
+import {
+  base64url,
+  FlattenedEncrypt,
+  GeneralEncrypt,
+  generalDecrypt,
+  generateKeyPair,
+} from '../../src/index.js'
 import type * as types from '../../src/types.d.ts'
 
 const protectedHeader = (jwe: types.GeneralJWE): Record<string, any> =>
@@ -184,6 +190,80 @@ test('General JWE format validation', async (t) => {
     const jwe = { ...generalJwe, recipients: [{}, generalJwe.recipients[0]] }
 
     await t.notThrowsAsync(generalDecrypt(jwe, t.context.secret))
+  }
+})
+
+test('General JWE decryption requires a single recipient for dir and ECDH-ES', async (t) => {
+  const direct = await new GeneralEncrypt(t.context.plaintext)
+    .setProtectedHeader({ alg: 'dir', enc: 'A256GCM' })
+    .addRecipient(t.context.secret)
+    .encrypt()
+
+  await t.throwsAsync(generalDecrypt({ ...direct, recipients: [{}, {}] }, t.context.secret), {
+    message: '"dir" alg may only have a single recipient',
+    code: 'ERR_JWE_INVALID',
+  })
+
+  const perRecipient = await new GeneralEncrypt(t.context.plaintext)
+    .setProtectedHeader({ enc: 'A256GCM' })
+    .addRecipient(t.context.secret)
+    .setUnprotectedHeader({ alg: 'A256GCMKW' })
+    .addRecipient(t.context.secret2)
+    .setUnprotectedHeader({ alg: 'A128GCMKW' })
+    .encrypt()
+
+  await t.throwsAsync(
+    generalDecrypt(
+      {
+        ...perRecipient,
+        recipients: [perRecipient.recipients[0], { header: { alg: 'ECDH-ES' } }],
+      },
+      t.context.secret,
+    ),
+    {
+      message: '"ECDH-ES" alg may only have a single recipient',
+      code: 'ERR_JWE_INVALID',
+    },
+  )
+})
+
+test('General JWE decryption rejects a dir CEK key-wrapped for a second recipient', async (t) => {
+  const cek = crypto.randomFillSync(new Uint8Array(32))
+  const kek = crypto.randomFillSync(new Uint8Array(32))
+
+  const flattened = await new FlattenedEncrypt(t.context.plaintext)
+    .setProtectedHeader({ enc: 'A256GCM' })
+    .setUnprotectedHeader({ alg: 'dir' })
+    .encrypt(cek)
+
+  const wrapped = await crypto.subtle.wrapKey(
+    'raw',
+    await crypto.subtle.importKey('raw', cek, 'AES-GCM', true, ['encrypt']),
+    await crypto.subtle.importKey('raw', kek, 'AES-KW', false, ['wrapKey']),
+    'AES-KW',
+  )
+
+  const jwe = {
+    protected: flattened.protected,
+    iv: flattened.iv,
+    ciphertext: flattened.ciphertext,
+    tag: flattened.tag,
+    recipients: [
+      { header: { alg: 'dir' as const } },
+      {
+        header: { alg: 'A256KW' as const },
+        encrypted_key: base64url.encode(new Uint8Array(wrapped)),
+      },
+    ],
+  }
+
+  // "dir" fixes the CEK rather than transporting it, so a second recipient can key wrap that same
+  // CEK and both parties really do decrypt. RFC 7516 forbids it regardless.
+  for (const key of [cek, kek]) {
+    await t.throwsAsync(generalDecrypt(jwe, key), {
+      message: '"dir" alg may only have a single recipient',
+      code: 'ERR_JWE_INVALID',
+    })
   }
 })
 

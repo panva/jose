@@ -257,7 +257,7 @@ export class GeneralEncrypt {
       checked.push(headers)
 
       if (headers[1] === 'dir' || headers[1] === 'ECDH-ES') {
-        throw new JWEInvalid('"dir" and "ECDH-ES" alg may only be used with a single recipient')
+        throw new JWEInvalid(`"${headers[1]}" alg may only have a single recipient`)
       }
 
       if (!enc) {
