@@ -7,9 +7,11 @@ import { isDisjoint } from './type_checks.js'
 import { concat, encode } from './buffer_utils.js'
 import { validateCrit, JWE_RECOGNIZED } from './options.js'
 import { prepareKey } from './key.js'
-import { jweAlgorithm, jweEncryption } from './jwe_algorithms.js'
-import type { JWEEncryption } from './jwe_algorithms.js'
+import { JWE, jweAlgorithm, jweEncryption } from './jwe_algorithms.js'
+import type { JWEAlgorithm, JWEEncryption } from './jwe_algorithms.js'
 import { compress } from './deflate.js'
+import { assertCryptoKey } from './is_key_like.js'
+import { checkHPKEHeaders, seal } from './hpke.js'
 
 export type EncryptInput = [
   plaintext: Uint8Array,
@@ -28,8 +30,9 @@ export type EncryptInput = [
 export type CheckedHeaders = [
   joseHeader: types.JWEHeaderParameters,
   alg: string,
-  enc: string,
-  encEntry: JWEEncryption,
+  enc: string | undefined,
+  encEntry: JWEEncryption | undefined,
+  algEntry: JWEAlgorithm,
 ]
 
 /**
@@ -71,11 +74,17 @@ export function checkEncryptHeaders(input: EncryptInput): CheckedHeaders {
     throw new JWEInvalid('JWE "alg" (Algorithm) Header Parameter missing or invalid')
   }
 
+  const algEntry: JWEAlgorithm | undefined = JWE[alg]
+  if (algEntry?.hpke) {
+    checkHPKEHeaders(alg, protectedHeader?.alg, joseHeader)
+    return [joseHeader, alg, undefined, undefined, algEntry]
+  }
+
   if (typeof enc !== 'string' || !enc) {
     throw new JWEInvalid('JWE "enc" (Encryption Algorithm) Header Parameter missing or invalid')
   }
 
-  return [joseHeader, alg, enc, jweEncryption(enc)]
+  return [joseHeader, alg, enc, jweEncryption(enc), algEntry ?? jweAlgorithm(alg)]
 }
 
 export async function encryptJWE(
@@ -83,7 +92,7 @@ export async function encryptJWE(
   checked: CheckedHeaders,
   key: types.KeyInput,
 ): Promise<types.FlattenedJWE> {
-  const [joseHeader, alg, , encEntry] = checked
+  const [joseHeader, alg, , encEntry, algEntry] = checked
   const [
     inputPlaintext,
     inputProtectedHeader,
@@ -99,21 +108,43 @@ export async function encryptJWE(
   let protectedHeader = inputProtectedHeader
   let unprotectedHeader = inputUnprotectedHeader
 
-  if (providedCek && (alg === 'dir' || alg === 'ECDH-ES')) {
+  if (providedCek && (alg === 'dir' || alg === 'ECDH-ES' || algEntry.hpke)) {
     throw new TypeError(
       `setContentEncryptionKey cannot be called with JWE "alg" (Algorithm) Header ${alg}`,
     )
   }
 
-  const algEntry = jweAlgorithm(alg)
-  const k = await prepareKey(alg === 'dir' ? encEntry : algEntry, key, 'encrypt')
-  const [cek, encryptedKey, parameters] = await encryptKeyManagement(
-    alg,
-    encEntry,
-    k,
-    providedCek,
-    keyManagementParameters,
-  )
+  let cek!: types.CryptoKey | Uint8Array
+  let encryptedKey: Uint8Array | undefined
+  let parameters: types.JWEHeaderParameters | undefined
+  let hpkeKey: types.CryptoKey | undefined
+
+  if (algEntry.hpke) {
+    if (inputIv) {
+      throw new TypeError(
+        `setInitializationVector cannot be called with JWE "alg" (Algorithm) Header ${alg}`,
+      )
+    }
+
+    if (keyManagementParameters && Object.keys(keyManagementParameters).length !== 0) {
+      throw new TypeError(
+        `setKeyManagementParameters cannot be called with JWE "alg" (Algorithm) Header ${alg}`,
+      )
+    }
+
+    const k = await prepareKey(algEntry, key, 'encrypt')
+    assertCryptoKey(k)
+    hpkeKey = k
+  } else {
+    const k = await prepareKey(alg === 'dir' ? encEntry! : algEntry, key, 'encrypt')
+    ;[cek, encryptedKey, parameters] = await encryptKeyManagement(
+      alg,
+      encEntry!,
+      k,
+      providedCek,
+      keyManagementParameters,
+    )
+  }
 
   if (parameters) {
     if (unprotectedParameters) {
@@ -149,7 +180,14 @@ export async function encryptJWE(
     })
   }
 
-  const { ciphertext, tag, iv } = await encrypt(encEntry, plaintext, cek, inputIv, additionalData)
+  let ciphertext: Uint8Array
+  let tag: Uint8Array | undefined
+  let iv: Uint8Array | undefined
+  if (hpkeKey) {
+    ;[encryptedKey, ciphertext] = await seal(algEntry, hpkeKey, plaintext, additionalData)
+  } else {
+    ;({ ciphertext, tag, iv } = await encrypt(encEntry!, plaintext, cek, inputIv, additionalData))
+  }
 
   const jwe: types.FlattenedJWE = {
     ciphertext: b64u(ciphertext),

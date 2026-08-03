@@ -8,7 +8,10 @@ import { concat, decoder, encode } from './buffer_utils.js'
 import { validateCrit, validateAlgorithms, JWE_RECOGNIZED } from './options.js'
 import { prepareKey } from './key.js'
 import { jweAlgorithm, jweEncryption } from './jwe_algorithms.js'
+import type { JWEEncryption } from './jwe_algorithms.js'
 import { decompress } from './deflate.js'
+import { assertCryptoKey } from './is_key_like.js'
+import { checkHPKEHeaders, open } from './hpke.js'
 
 export type DecryptGetKey = (
   protectedHeader: types.JWEHeaderParameters | undefined,
@@ -191,10 +194,6 @@ export async function decryptRecipient(
     throw new JWEInvalid('missing JWE Algorithm (alg) in JWE Header')
   }
 
-  if (typeof enc !== 'string' || !enc) {
-    throw new JWEInvalid('missing JWE Encryption Algorithm (enc) in JWE Header')
-  }
-
   if (
     (keyManagementAlgorithms && !keyManagementAlgorithms.has(alg)) ||
     (!keyManagementAlgorithms && alg.startsWith('PBES2'))
@@ -202,11 +201,37 @@ export async function decryptRecipient(
     throw new JOSEAlgNotAllowed('"alg" (Algorithm) Header Parameter value not allowed')
   }
 
-  if (contentEncryptionAlgorithms && !contentEncryptionAlgorithms.has(enc)) {
-    throw new JOSEAlgNotAllowed('"enc" (Encryption Algorithm) Header Parameter value not allowed')
-  }
+  const algEntry = jweAlgorithm(alg)
+  let encEntry: JWEEncryption | undefined
+  if (algEntry.hpke) {
+    if (contentEncryptionAlgorithms) {
+      throw new JOSEAlgNotAllowed('"enc" (Encryption Algorithm) Header Parameter value not allowed')
+    }
 
-  const encEntry = jweEncryption(enc)
+    checkHPKEHeaders(alg, parsedProt?.alg, joseHeader)
+
+    if (encodedKey === undefined) {
+      throw new JWEInvalid('JWE Encrypted Key missing')
+    }
+
+    if (jwe.iv) {
+      throw new JWEInvalid('JWE Initialization Vector must be empty for integrated encryption')
+    }
+
+    if (jwe.tag) {
+      throw new JWEInvalid('JWE Authentication Tag must be empty for integrated encryption')
+    }
+  } else {
+    if (typeof enc !== 'string' || !enc) {
+      throw new JWEInvalid('missing JWE Encryption Algorithm (enc) in JWE Header')
+    }
+
+    if (contentEncryptionAlgorithms && !contentEncryptionAlgorithms.has(enc)) {
+      throw new JOSEAlgNotAllowed('"enc" (Encryption Algorithm) Header Parameter value not allowed')
+    }
+
+    encEntry = jweEncryption(enc)
+  }
 
   let encryptedKey!: Uint8Array
   if (encodedKey !== undefined) {
@@ -218,26 +243,36 @@ export async function decryptRecipient(
     key = await key(parsedProt, jwe)
     resolvedKey = true
   }
-  const algEntry = jweAlgorithm(alg)
-  const k = await prepareKey(alg === 'dir' ? encEntry : algEntry, key, 'decrypt')
-  let cek: types.CryptoKey | Uint8Array
-  try {
-    cek = await decryptKeyManagement(alg, encEntry, k, encryptedKey, joseHeader, options)
-  } catch (err) {
-    if (err instanceof TypeError || err instanceof JWEInvalid || err instanceof JOSENotSupported) {
-      throw err
-    }
-    // https://www.rfc-editor.org/info/rfc7516/#section-11.5
-    // To mitigate the attacks described in RFC 3218, the
-    // recipient MUST NOT distinguish between format, padding, and length
-    // errors of encrypted keys.  It is strongly recommended, in the event
-    // of receiving an improperly formatted key, that the recipient
-    // substitute a randomly generated CEK and proceed to the next step, to
-    // mitigate timing attacks.
-    cek = generateCek(encEntry)
-  }
+  const k = await prepareKey(alg === 'dir' ? encEntry! : algEntry, key, 'decrypt')
 
-  let plaintext = await decrypt(encEntry, cek, ciphertext, iv, tag, additionalData)
+  let plaintext: Uint8Array
+  if (algEntry.hpke) {
+    assertCryptoKey(k)
+    plaintext = await open(algEntry, k, encryptedKey, ciphertext, additionalData)
+  } else {
+    let cek: types.CryptoKey | Uint8Array
+    try {
+      cek = await decryptKeyManagement(alg, encEntry!, k, encryptedKey, joseHeader, options)
+    } catch (err) {
+      if (
+        err instanceof TypeError ||
+        err instanceof JWEInvalid ||
+        err instanceof JOSENotSupported
+      ) {
+        throw err
+      }
+      // https://www.rfc-editor.org/info/rfc7516/#section-11.5
+      // To mitigate the attacks described in RFC 3218, the
+      // recipient MUST NOT distinguish between format, padding, and length
+      // errors of encrypted keys.  It is strongly recommended, in the event
+      // of receiving an improperly formatted key, that the recipient
+      // substitute a randomly generated CEK and proceed to the next step,
+      // to mitigate timing attacks.
+      cek = generateCek(encEntry!)
+    }
+
+    plaintext = await decrypt(encEntry!, cek, ciphertext, iv, tag, additionalData)
+  }
 
   if (joseHeader.zip === 'DEF') {
     const maxDecompressedLength = options?.maxDecompressedLength ?? 250_000

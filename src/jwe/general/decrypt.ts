@@ -16,6 +16,7 @@ import type { DecryptShared, SharedJWE } from '../../lib/jwe_decrypt.js'
 import { JWEDecryptionFailed, JWEInvalid } from '../../util/errors.js'
 import type * as types from '../../types.d.ts'
 import { isObject } from '../../lib/type_checks.js'
+import { JWE } from '../../lib/jwe_algorithms.js'
 
 /**
  * Interface for General JWE Decryption dynamic key resolution. No token components have been
@@ -146,7 +147,7 @@ export async function generalDecrypt(
       // https://www.rfc-editor.org/rfc/rfc7516#section-5.2 step 7 - these modes have no
       // per-recipient JWE Encrypted Key, so more than one recipient cannot be addressed.
       const alg = token[0]?.alg ?? header?.alg ?? jwe.unprotected?.alg
-      if (alg === 'dir' || alg === 'ECDH-ES') {
+      if (alg === 'dir' || alg === 'ECDH-ES' || (typeof alg === 'string' && JWE[alg]?.hpke)) {
         throw new JWEInvalid(`"${alg}" alg may only have a single recipient`)
       }
     }

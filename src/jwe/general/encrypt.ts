@@ -220,11 +220,11 @@ export class GeneralEncrypt {
 
       const jwe: types.GeneralJWE = {
         ciphertext: flattened.ciphertext,
-        iv: flattened.iv,
         recipients: [{}],
-        tag: flattened.tag,
       }
 
+      if (flattened.iv) jwe.iv = flattened.iv
+      if (flattened.tag) jwe.tag = flattened.tag
       if (flattened.encrypted_key) jwe.recipients[0].encrypted_key = flattened.encrypted_key
       copyOptionalMembers(flattened, jwe, jwe.recipients[0])
 
@@ -256,12 +256,12 @@ export class GeneralEncrypt {
       inputs.push(input)
       checked.push(headers)
 
-      if (headers[1] === 'dir' || headers[1] === 'ECDH-ES') {
+      if (headers[4].hpke || headers[1] === 'dir' || headers[1] === 'ECDH-ES') {
         throw new JWEInvalid(`"${headers[1]}" alg may only have a single recipient`)
       }
 
       if (!enc) {
-        enc = headers[2]
+        enc = headers[2]!
       } else if (enc !== headers[2]) {
         throw new JWEInvalid(
           'JWE "enc" (Encryption Algorithm) Header Parameter must be the same for all recipients',
@@ -269,7 +269,7 @@ export class GeneralEncrypt {
       }
     }
 
-    const cek = generateCek(checked[0][3])
+    const cek = generateCek(checked[0][3]!)
 
     const jwe: types.GeneralJWE = {
       ciphertext: '',
@@ -301,7 +301,7 @@ export class GeneralEncrypt {
       const k = await prepareKey(jweAlgorithm(alg), key, 'encrypt')
       const [, encryptedKey, parameters] = await encryptKeyManagement(
         alg,
-        encEntry,
+        encEntry!,
         k,
         cek,
         keyManagementParameters,

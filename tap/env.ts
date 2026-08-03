@@ -79,6 +79,19 @@ export function supported(identifier?: string, op?: string) {
         }
       }
       return isDeno || (isNode && isNodeVersionAtLeast(24, 7))
+    case 'HPKE-8':
+    case 'HPKE-9':
+    case 'HPKE-10':
+      // Node.js implements the PQ/T hybrid KEMs in Web Crypto only; they have no KeyObject.
+      if (op === 'keyobject import') {
+        return false
+      }
+      // TODO: Replace with the exact Node.js version that ships the PQ/T hybrid KEMs.
+      return isNode && isNodeVersionAtLeast(27, 0)
+    case 'HPKE-12':
+    case 'HPKE-13':
+      // TODO: Replace with the exact Node.js version that ships ML-KEM JWK support.
+      return isDeno || (isNode && isNodeVersionAtLeast(24, 0))
   }
 
   if (isBlink) {

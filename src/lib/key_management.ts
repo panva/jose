@@ -17,6 +17,9 @@ type SubtleCryptoWithGetPublicKey = SubtleCrypto & {
   getPublicKey?(key: types.CryptoKey, keyUsages: KeyUsage[]): Promise<types.CryptoKey>
 }
 
+/** Unreachable - the integrated algorithms never come through here, but their names widen the union. */
+const unsupportedAlg = 'Unsupported JWE key management algorithm'
+
 /** ECDH accepts either of two algorithm names, so it cannot go through the generic comparison. */
 function checkEcdhCryptoKey(key: types.CryptoKey, usage?: KeyUsage): void {
   if (key.algorithm.name !== 'ECDH' && key.algorithm.name !== 'X25519') {
@@ -339,6 +342,8 @@ export async function decryptKeyManagement(
 
       return decrypt(jweEncryption(alg.slice(0, -2)), key, encryptedKey, iv, tag, new Uint8Array())
     }
+    default:
+      throw new JOSENotSupported(unsupportedAlg)
   }
 }
 
@@ -441,6 +446,8 @@ export async function encryptKeyManagement(
       parameters = { iv: b64u(wrapped.iv!), tag: b64u(wrapped.tag!) }
       break
     }
+    default:
+      throw new JOSENotSupported(unsupportedAlg)
   }
 
   return [cek, encryptedKey, parameters]

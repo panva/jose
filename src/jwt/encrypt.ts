@@ -94,8 +94,8 @@ export class EncryptJWT implements types.ProduceJWT {
   /**
    * Sets the JWE Protected Header on the EncryptJWT object.
    *
-   * @param protectedHeader JWE Protected Header. Must contain an "alg" (JWE Algorithm) and "enc"
-   *   (JWE Encryption Algorithm) properties.
+   * @param protectedHeader JWE Protected Header. Must contain an "alg" (JWE Algorithm) property,
+   *   and an "enc" (JWE Encryption Algorithm) one unless the "alg" encrypts the content itself.
    */
   setProtectedHeader(protectedHeader: types.CompactJWEHeaderParameters): this {
     assertNotSet(this.#protectedHeader, 'setProtectedHeader')

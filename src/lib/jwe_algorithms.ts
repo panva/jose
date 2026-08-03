@@ -2,11 +2,22 @@ import { JOSENotSupported } from '../util/errors.js'
 import { table } from './key_descriptor.js'
 import type { KeyDescriptor } from './key_descriptor.js'
 
+/**
+ * The RFC 9180 suite an HPKE identifier stands for. The KDF and AEAD are the same for every
+ * registered suite, but they are what the suite_id is built from, so they are stated rather than
+ * assumed.
+ */
+export type HPKESuite = [kemId: number, kdfId: number, aeadId: number, nEnc: number]
+
+type HPKEKem = 'MLKEM768-P256' | 'MLKEM768-X25519' | 'MLKEM1024-P384' | 'ML-KEM-768' | 'ML-KEM-1024'
+
 /** Everything the implementation needs to know about one JWE "alg", in one place. */
 export interface JWEAlgorithm extends KeyDescriptor {
   subtle: KeyDescriptor['subtle'] & {
-    name: 'RSA-OAEP' | 'ECDH' | 'AES-KW' | 'AES-GCM' | 'PBKDF2'
+    name: 'RSA-OAEP' | 'ECDH' | HPKEKem | 'AES-KW' | 'AES-GCM' | 'PBKDF2'
   }
+  /** Present when the algorithm performs key management and content encryption as one operation. */
+  hpke?: HPKESuite
 }
 
 type AlgEntry = Omit<JWEAlgorithm, 'alg'>
@@ -18,6 +29,10 @@ const wrap: [KeyUsage[], KeyUsage[]] = [
 ]
 /** An ECDH public key carries no usages; the private half derives. deriveKey is not used. */
 const derive: [KeyUsage[], KeyUsage[]] = [[], ['deriveBits']]
+const encapsulate: [KeyUsage[], KeyUsage[]] = [
+  ['encapsulateBits' as KeyUsage],
+  ['decapsulateBits' as KeyUsage],
+]
 const none: [KeyUsage[], KeyUsage[]] = [[], []]
 
 function rsaes(bits: number): AlgEntry {
@@ -45,6 +60,17 @@ function ecdh(): AlgEntry {
     usages: derive,
     // Deriving with the recipient's public key implies no key_ops value; only the private half does.
     ops: [undefined, 'deriveBits'],
+  }
+}
+
+function hpkeKem(name: HPKEKem, suite: HPKESuite): AlgEntry {
+  return {
+    kty: ['AKP'],
+    subtle: { name },
+    jwkAlg: name,
+    usages: encapsulate,
+    ops: ['encapsulateBits', 'decapsulateBits'],
+    hpke: suite,
   }
 }
 
@@ -93,6 +119,11 @@ export const JWE: Record<string, JWEAlgorithm> = table<JWEAlgorithm>({
   'PBES2-HS256+A128KW': pbes2(),
   'PBES2-HS384+A192KW': pbes2(),
   'PBES2-HS512+A256KW': pbes2(),
+  'HPKE-8': hpkeKem('MLKEM768-P256', [0x0050, 0x0011, 0x0002, 1153]),
+  'HPKE-9': hpkeKem('MLKEM768-X25519', [0x647a, 0x0011, 0x0002, 1120]),
+  'HPKE-10': hpkeKem('MLKEM1024-P384', [0x0051, 0x0011, 0x0002, 1665]),
+  'HPKE-12': hpkeKem('ML-KEM-768', [0x0041, 0x0011, 0x0002, 1088]),
+  'HPKE-13': hpkeKem('ML-KEM-1024', [0x0042, 0x0011, 0x0002, 1568]),
 })
 
 /**
