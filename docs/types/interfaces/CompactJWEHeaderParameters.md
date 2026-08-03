@@ -26,18 +26,6 @@ JWE "alg" (Algorithm) Header Parameter
 
 ***
 
-### enc
-
-• **enc**: `string`
-
-JWE "enc" (Encryption Algorithm) Header Parameter
-
-#### See
-
-[Algorithm Key Requirements](https://github.com/panva/jose/issues/210#jwe-alg)
-
-***
-
 ### crit?
 
 • `optional` **crit?**: `string`[]
@@ -52,6 +40,18 @@ must be integrity protected (RFC 7516, Section 4.1.13).
 • `optional` **cty?**: `string`
 
 "cty" (Content Type) Header Parameter (RFC 7515, Section 4.1.10).
+
+***
+
+### enc?
+
+• `optional` **enc?**: `string`
+
+JWE "enc" (Encryption Algorithm) Header Parameter
+
+#### See
+
+[Algorithm Key Requirements](https://github.com/panva/jose/issues/210#jwe-alg)
 
 ***
 

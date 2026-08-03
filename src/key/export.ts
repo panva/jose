@@ -19,6 +19,18 @@ interface ExtractableKeyObject extends types.KeyObject {
 }
 
 /**
+ * WebCrypto names the HPKE KEMs after the KEM, where the JWK "alg" names the JWE algorithm. Spelled
+ * out here rather than resolved from the JWE registry, which this export has no other use for.
+ */
+const kem: Record<string, string> = {
+  // @ts-expect-error
+  __proto__: null,
+  'MLKEM768-X25519': 'HPKE-9',
+  'ML-KEM-768': 'HPKE-12',
+  'ML-KEM-1024': 'HPKE-13',
+}
+
+/**
  * Exports a public key to PEM-encoded SPKI. CryptoKey inputs must be extractable.
  *
  * This function is exported (as a named export) from the main `'jose'` module entry point as well
@@ -105,7 +117,11 @@ export async function exportJWK(
   delete jwk.ext
   delete jwk.key_ops
   delete jwk.use
-  if (jwk.kty !== 'AKP') delete jwk.alg
+  if (jwk.kty !== 'AKP') {
+    delete jwk.alg
+  } else if (typeof jwk.alg === 'string') {
+    jwk.alg = kem[jwk.alg] ?? jwk.alg
+  }
   for (const parameter of Object.keys(jwk) as (keyof types.JWK)[]) {
     if (jwk[parameter] === undefined) delete jwk[parameter]
   }

@@ -131,11 +131,17 @@ export default (
       decrypt: lib.compactDecrypt,
     }
 
+    // Node.js KeyObjects cannot represent every key a CryptoKey can.
+    const op = keys === lib ? undefined : 'keyobject import'
+
     function supported(vector: any) {
       if (vector.input.zip && typeof globalThis.CompressionStream === 'undefined') {
         return false
       }
-      return env.supported(vector.input.alg) && env.supported(vector.input.enc)
+      if (vector.input.enc === undefined) {
+        return env.supported(vector.input.alg, op)
+      }
+      return env.supported(vector.input.alg, op) && env.supported(vector.input.enc, op)
     }
 
     const toJWK = (input: string | jose.JWK) => {
@@ -150,6 +156,12 @@ export default (
 
     const execute = (vector: any) => async (t: typeof QUnit.assert) => {
       const dir = vector.input.alg === 'dir'
+      const integrated = vector.input.enc === undefined
+      const keyManagementAlgorithms = [vector.input.alg]
+      const contentEncryptionAlgorithms = integrated ? undefined : [vector.input.enc]
+      const decryptOptions = contentEncryptionAlgorithms
+        ? { keyManagementAlgorithms, contentEncryptionAlgorithms }
+        : { keyManagementAlgorithms }
 
       if (vector.deterministic) {
         // encrypt and compare results are the same
@@ -235,6 +247,10 @@ export default (
           encrypt.setUnprotectedHeader(vector.encrypting_content.unprotected)
         }
 
+        if (vector.input.aad) {
+          encrypt.setAdditionalAuthenticatedData(encode(vector.input.aad))
+        }
+
         const privateKey = (await keys.importJWK(
           toJWK(vector.input.pwd || vector.input.key),
           dir ? vector.input.enc : vector.input.alg,
@@ -250,10 +266,7 @@ export default (
         }
 
         const result = await encrypt.encrypt(publicKey)
-        await flattened.decrypt(result, privateKey, {
-          keyManagementAlgorithms: [vector.input.alg],
-          contentEncryptionAlgorithms: [vector.input.enc],
-        })
+        await flattened.decrypt(result, privateKey, decryptOptions)
       }
 
       const privateKey = await keys.importJWK(
@@ -261,16 +274,17 @@ export default (
         dir ? vector.input.enc : vector.input.alg,
       )
       if (vector.output.json_flat) {
-        await flattened.decrypt(vector.output.json_flat, privateKey, {
-          keyManagementAlgorithms: [vector.input.alg],
-          contentEncryptionAlgorithms: [vector.input.enc],
-        })
+        const result = await flattened.decrypt(vector.output.json_flat, privateKey, decryptOptions)
+        if (integrated) {
+          t.deepEqual(result.plaintext, encode(vector.input.plaintext))
+          t.deepEqual(result.additionalAuthenticatedData, encode(vector.input.aad))
+        }
       }
       if (vector.output.compact) {
-        await compact.decrypt(vector.output.compact, privateKey, {
-          keyManagementAlgorithms: [vector.input.alg],
-          contentEncryptionAlgorithms: [vector.input.enc],
-        })
+        const result = await compact.decrypt(vector.output.compact, privateKey, decryptOptions)
+        if (integrated) {
+          t.deepEqual(result.plaintext, encode(vector.input.plaintext))
+        }
       }
       t.ok(1)
     }

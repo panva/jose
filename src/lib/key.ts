@@ -301,7 +301,9 @@ export async function jwkToKey(
   const keyData: types.JWK = { ...jwk, ext: extractable ?? jwk.ext }
   // RFC 9964, Section 3 requires alg for AKP. Other algorithms are already resolved above.
   // Removing JOSE metadata here is a Web Crypto adapter choice, not a JWK format rule.
-  if (keyData.kty !== 'AKP') {
+  if (keyData.kty === 'AKP') {
+    keyData.alg = entry.jwkAlg ?? keyData.alg
+  } else {
     delete keyData.alg
   }
   delete keyData.use
