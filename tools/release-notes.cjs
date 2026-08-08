@@ -1,6 +1,5 @@
 const fs = require('fs')
 const { execSync } = require('child_process')
-const { addPendingNotice } = require('./wait-for-npm.cjs')
 
 function extractReleaseNotes(changelog, version) {
   const releaseHeading = `## [${version}]`
@@ -21,7 +20,7 @@ function main() {
   const changelog = fs.readFileSync('CHANGELOG.md', 'utf8')
   const notes = extractReleaseNotes(changelog, version)
 
-  fs.writeFileSync('notes.md', addPendingNotice(notes))
+  fs.writeFileSync('notes.md', notes)
   execSync(`gh release create ${tag} -F notes.md --title ${tag} --discussion-category Releases`)
 }
 

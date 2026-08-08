@@ -91,13 +91,3 @@ jobs:
       - run: node tools/release-notes.cjs
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
-  npm-availability:
-    needs:
-      - github
-    permissions:
-      contents: write
-      discussions: write
-    uses: ./.github/workflows/npm-availability.yml
-    with:
-      tag: ${{ github.ref_name }}
