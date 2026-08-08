@@ -5,6 +5,16 @@ WORKERD_VERSION=$(npm ls --global --json | jq -r '.dependencies.workerd.version'
 
 echo "Using workerd $WORKERD_VERSION, compatibility date $COMPATIBILITY_DATE"
 
+# nodejs_compat is on by default from this compatibility date onwards, and
+# specifying it explicitly from then on is an error
+if [[ "$COMPATIBILITY_DATE" < "2026-08-04" ]]; then
+  NO_COMPAT_FLAGS='[]'
+  COMPAT_FLAGS='["nodejs_compat"]'
+else
+  NO_COMPAT_FLAGS='["no_nodejs_compat"]'
+  COMPAT_FLAGS='[]'
+fi
+
 ./node_modules/.bin/esbuild \
   --log-level=warning \
   --format=esm \
@@ -42,10 +52,10 @@ run_test() {
   return $?
 }
 
-run_test "[]"
+run_test "$NO_COMPAT_FLAGS"
 NO_COMPAT=$?
 
-run_test '["nodejs_compat"]'
+run_test "$COMPAT_FLAGS"
 COMPAT=$?
 
 echo ""
