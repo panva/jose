@@ -7,87 +7,14 @@ on:
     tags: ['v6.[0-9]+.[0-9]+']
 
 jobs:
-  build:
-    uses: ./.github/workflows/build.yml
-
-  npm:
-    needs:
-      - build
-    runs-on: ubuntu-latest
+  release:
     permissions:
-      contents: read
-      id-token: write
-    steps:
-      - name: Checkout
-        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
-        with:
-          fetch-depth: 0
-      - name: Setup node
-        uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
-        with:
-          node-version: lts/*
-          registry-url: https://registry.npmjs.org
-      - name: Load cached dist
-        uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0
-        id: dist
-        with:
-          path: dist
-          key: dist-${{ hashFiles('src/**/*.ts', 'tsconfig.json', 'tsconfig/*.json', 'package.json', 'jsr.json', 'tools/*.cjs', 'tools/*.js', '.github/workflows/*.yml', 'package-lock.json') }}
-          fail-on-cache-miss: true
-      - name: Prepare distribution
-        run: node tools/publish.cjs
-      - run: npm install -g npm@latest
-      - run: npm stage publish
-
-  jsr:
-    runs-on: ubuntu-latest
-    permissions:
-      contents: read
-      id-token: write
-    steps:
-      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
-        with:
-          fetch-depth: 0
-      - run: npx jsr publish
-
-  cleanup:
-    needs:
-      - npm
-      - jsr
-    runs-on: ubuntu-latest
-    permissions:
-      contents: write
-    steps:
-      - name: Checkout
-        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
-        with:
-          fetch-depth: 0
-      - run: git push origin $GITHUB_SHA:v6.x
-      - run: git rm -r dist
-      - run: |
-          git config --local user.name "github-actions[bot]"
-          git config --local user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git commit -m "chore: cleanup after release"
-      - run: git push origin HEAD:main
-
-  github:
-    needs:
-      - npm
-      - jsr
-    runs-on: ubuntu-latest
-    permissions:
+      actions: read
       contents: write
       discussions: write
-    steps:
-      - name: Checkout
-        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
-        with:
-          fetch-depth: 2
-      - name: Setup node
-        uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
-        with:
-          node-version: lts/*
-          cache: 'npm'
-      - run: node tools/release-notes.cjs
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      id-token: write
+    uses: panva/.github/.github/workflows/npm-release.yml@main
+    with:
+      cleanup_paths: '["dist"]'
+      prepare_command: npm clean-install && npm run build-all && node tools/publish.cjs
+      publish_jsr: true
