@@ -234,24 +234,24 @@
   },
   "devDependencies": {
     "@arethetypeswrong/cli": "0.18.5",
-    "@playwright/test": "^1.61.1",
+    "@playwright/test": "^1.62.1",
     "@types/node": "^24.13.3",
     "@types/qunit": "^2.19.14",
     "ava": "^7.0.0",
     "esbuild": "^0.28.1",
-    "npm-run-all2": "^9.0.2",
+    "npm-run-all2": "^9.0.3",
     "patch-package": "^8.0.1",
-    "prettier": "^3.9.5",
+    "prettier": "^3.9.6",
     "prettier-plugin-jsdoc": "^1.8.1",
     "publint": "0.3.21",
     "qunit": "^2.26.0",
-    "tar": "^7.5.20",
+    "tar": "^7.5.22",
     "timekeeper": "^2.3.1",
     "ts-blank-space": "^0.9.0",
     "typedoc": "^0.28.20",
     "typedoc-plugin-markdown": "^4.12.0",
     "typedoc-plugin-mdn-links": "^5.1.1",
     "typescript": "^6.0.3",
-    "undici": "^7.28.0"
+    "undici": "^7.29.0"
   }
 }
