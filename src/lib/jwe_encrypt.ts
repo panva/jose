@@ -32,6 +32,19 @@ export type CheckedHeaders = [
   encEntry: JWEEncryption,
 ]
 
+/** https://www.rfc-editor.org/rfc/rfc7516#section-7.2.1 */
+export function checkDisjoint(
+  protectedHeader: types.JWEHeaderParameters | undefined,
+  unprotectedHeader: types.JWEHeaderParameters | undefined,
+  sharedUnprotectedHeader: types.JWEHeaderParameters | undefined,
+): void {
+  if (!isDisjoint(protectedHeader, unprotectedHeader, sharedUnprotectedHeader)) {
+    throw new JWEInvalid(
+      'JWE Protected, JWE Shared Unprotected and JWE Per-Recipient Header Parameter names must be disjoint',
+    )
+  }
+}
+
 /**
  * Validates the headers of one recipient. Split out so a General JWE can validate every recipient
  * up front and then encrypt without validating any of them a second time.
@@ -39,11 +52,7 @@ export type CheckedHeaders = [
 export function checkEncryptHeaders(input: EncryptInput): CheckedHeaders {
   const [, protectedHeader, unprotectedHeader, sharedUnprotectedHeader, , , , , crit] = input
 
-  if (!isDisjoint(protectedHeader, unprotectedHeader, sharedUnprotectedHeader)) {
-    throw new JWEInvalid(
-      'JWE Protected, JWE Shared Unprotected and JWE Per-Recipient Header Parameter names must be disjoint',
-    )
-  }
+  checkDisjoint(protectedHeader, unprotectedHeader, sharedUnprotectedHeader)
 
   const joseHeader: types.JWEHeaderParameters = {
     ...protectedHeader,
@@ -121,6 +130,10 @@ export async function encryptJWE(
     } else {
       protectedHeader = protectedHeader ? { ...protectedHeader, ...parameters } : parameters
     }
+
+    // The generated Key Management Parameters join a header only after the input headers were
+    // checked, so a name they collide with in another header would otherwise reach the result.
+    checkDisjoint(protectedHeader, unprotectedHeader, sharedUnprotectedHeader)
   }
 
   let protectedHeaderS: string

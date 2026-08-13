@@ -316,3 +316,35 @@ test('single recipient ECDH-ES apu/apv are honoured', async (t) => {
   const { plaintext } = await generalDecrypt(jwe, privateKey)
   t.deepEqual(plaintext, t.context.plaintext)
 })
+
+test('General JWE generated Key Management Parameters must be disjoint', async (t) => {
+  // With more than one recipient the generated Key Management Parameters land in the JWE
+  // Per-Recipient Unprotected Header, so a name the caller already used in another header would
+  // make the emitted JWE violate RFC 7516 Section 7.2.1 - and generalDecrypt rejects such a JWE.
+  const message = {
+    code: 'ERR_JWE_INVALID',
+    message:
+      'JWE Protected, JWE Shared Unprotected and JWE Per-Recipient Header Parameter names must be disjoint',
+  }
+  await t.throwsAsync(
+    new GeneralEncrypt(t.context.plaintext)
+      .setProtectedHeader({ enc: 'A128GCM', p2c: 4096 })
+      .addRecipient(t.context.secret)
+      .setUnprotectedHeader({ alg: 'PBES2-HS256+A128KW' })
+      .addRecipient(t.context.secret2)
+      .setUnprotectedHeader({ alg: 'A128GCMKW' })
+      .encrypt(),
+    message,
+  )
+  await t.throwsAsync(
+    new GeneralEncrypt(t.context.plaintext)
+      .setProtectedHeader({ enc: 'A128GCM' })
+      .setSharedUnprotectedHeader({ p2c: 4096 })
+      .addRecipient(t.context.secret2)
+      .setUnprotectedHeader({ alg: 'A128GCMKW' })
+      .addRecipient(t.context.secret)
+      .setUnprotectedHeader({ alg: 'PBES2-HS256+A128KW' })
+      .encrypt(),
+    message,
+  )
+})
