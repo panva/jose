@@ -196,6 +196,33 @@ test('FlattenedEncrypt.prototype.encrypt JOSE header must be disjoint', async (t
   )
 })
 
+test('FlattenedEncrypt.prototype.encrypt generated Key Management Parameters must be disjoint', async (t) => {
+  // The generated "p2s" and "p2c" join the JWE Protected Header, so a "p2c" the caller put in
+  // another header would make the result violate RFC 7516 Section 7.2.1.
+  await t.throwsAsync(
+    new FlattenedEncrypt(t.context.plaintext)
+      .setProtectedHeader({ alg: 'PBES2-HS256+A128KW', enc: 'A128GCM' })
+      .setSharedUnprotectedHeader({ p2c: 4096 })
+      .encrypt(t.context.secret),
+    {
+      code: 'ERR_JWE_INVALID',
+      message:
+        'JWE Protected, JWE Shared Unprotected and JWE Per-Recipient Header Parameter names must be disjoint',
+    },
+  )
+  await t.throwsAsync(
+    new FlattenedEncrypt(t.context.plaintext)
+      .setProtectedHeader({ alg: 'A128GCMKW', enc: 'A128GCM' })
+      .setUnprotectedHeader({ tag: 'not-the-generated-one' })
+      .encrypt(t.context.secret),
+    {
+      code: 'ERR_JWE_INVALID',
+      message:
+        'JWE Protected, JWE Shared Unprotected and JWE Per-Recipient Header Parameter names must be disjoint',
+    },
+  )
+})
+
 test('FlattenedEncrypt.prototype.encrypt JOSE header have an alg', async (t) => {
   await t.throwsAsync(
     new FlattenedEncrypt(t.context.plaintext)

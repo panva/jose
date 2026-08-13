@@ -12,7 +12,7 @@ import { generateCek } from '../../lib/content_encryption.js'
 import { encryptKeyManagement } from '../../lib/key_management.js'
 import { encode as b64u } from '../../util/base64url.js'
 import { validateCritDuplicates } from '../../lib/options.js'
-import { checkEncryptHeaders, encryptJWE } from '../../lib/jwe_encrypt.js'
+import { checkDisjoint, checkEncryptHeaders, encryptJWE } from '../../lib/jwe_encrypt.js'
 import type { CheckedHeaders, EncryptInput } from '../../lib/jwe_encrypt.js'
 import { prepareKey } from '../../lib/key.js'
 import { jweAlgorithm } from '../../lib/jwe_algorithms.js'
@@ -307,7 +307,14 @@ export class GeneralEncrypt {
         keyManagementParameters,
       )
       target.encrypted_key = b64u(encryptedKey!)
-      if (unprotectedHeader || parameters) target.header = { ...unprotectedHeader, ...parameters }
+      if (unprotectedHeader || parameters) {
+        const header: types.JWEHeaderParameters = { ...unprotectedHeader, ...parameters }
+        // The generated Key Management Parameters join the JWE Per-Recipient Unprotected Header
+        // only after the headers were checked, so a name they collide with in another header would
+        // otherwise reach the result.
+        if (parameters) checkDisjoint(this.#protectedHeader, header, this.#unprotectedHeader)
+        target.header = header
+      }
     }
 
     return jwe as types.GeneralJWE
