@@ -48,14 +48,12 @@ You should not use this parameter. It is only intended for testing and vector
 
 ***
 
-### ~~p2c?~~
+### p2c?
 
 • `optional` **p2c?**: `number`
 
-#### Deprecated
-
-You should not use this parameter. It is only intended for testing and vector
-  validation purposes.
+PBES2 "p2c" (PBES2 Count). This will be used as a JOSE Header Parameter and as the PBKDF2
+iteration count.
 
 ***
 

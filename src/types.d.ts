@@ -483,11 +483,13 @@ export interface JWEKeyManagementHeaderParameters {
    * used in ECDH's ConcatKDF.
    */
   apv?: Uint8Array
+
   /**
-   * @deprecated You should not use this parameter. It is only intended for testing and vector
-   *   validation purposes.
+   * PBES2 "p2c" (PBES2 Count). This will be used as a JOSE Header Parameter and as the PBKDF2
+   * iteration count.
    */
   p2c?: number
+
   /**
    * @deprecated You should not use this parameter. It is only intended for testing and vector
    *   validation purposes.

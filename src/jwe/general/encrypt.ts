@@ -27,9 +27,10 @@ export interface Recipient {
   setUnprotectedHeader(unprotectedHeader: types.JWEHeaderParameters): Recipient
 
   /**
-   * Sets the JWE Key Management parameters to be used when encrypting. For ECDH based algorithms,
-   * use this method to set the "apu" (Agreement PartyUInfo) or "apv" (Agreement PartyVInfo)
-   * parameters.
+   * Sets the JWE Key Management parameters to be used when encrypting. Use this method instead of
+   * the header setters to configure algorithm inputs such as ECDH-ES "apu" (Agreement PartyUInfo)
+   * and "apv" (Agreement PartyVInfo), or PBES2 "p2c" (PBES2 Count). The parameters are added to the
+   * appropriate JOSE Header.
    *
    * @param parameters JWE Key Management parameters.
    */
