@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [commit-and-tag-version](https://github.com/absolute-version/commit-and-tag-version) for commit guidelines.
 
+## [6.2.9](https://github.com/panva/jose/compare/v6.2.8...v6.2.9) (2026-08-15)
+
+### Fixes
+
+* reject a JWE whose generated Key Management Parameters collide ([6ed19a6](https://github.com/panva/jose/commit/6ed19a6a9798a7d55a647958b4ee816c4b77627d))
+* **types:** undeprecate PBES2 p2c parameter ([33bf832](https://github.com/panva/jose/commit/33bf832986d21cce0336b27441e3588499a70d67))
+
 ## [6.2.8](https://github.com/panva/jose/compare/v6.2.7...v6.2.8) (2026-08-03)
 
 ### Fixes
