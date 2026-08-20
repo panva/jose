@@ -15,6 +15,7 @@ import {
   JWKSMultipleMatchingKeys,
 } from '../util/errors.js'
 import { isObject } from '../lib/type_checks.js'
+import { validateJwkMetadata } from '../lib/jwk_metadata.js'
 
 /**
  * A JWKS resolves public keys for verifying signatures, so only JWS algorithms are meaningful here
@@ -41,6 +42,23 @@ function isJWKSLike(jwks: unknown): jwks is types.JSONWebKeySet {
   return Array.isArray(keys) && keys.every(isObject<types.JWK>)
 }
 
+function isUsableJWK(jwk: types.JWK, entry: JWSAlgorithm, alg: string, kid: unknown): boolean {
+  try {
+    validateJwkMetadata(jwk)
+  } catch {
+    return false
+  }
+
+  return (
+    entry.kty.includes(jwk.kty!) &&
+    (kid === undefined || (typeof kid === 'string' && kid === jwk.kid)) &&
+    (jwk.alg === undefined ? jwk.kty !== 'AKP' : typeof jwk.alg === 'string' && alg === jwk.alg) &&
+    (jwk.use === undefined || (typeof jwk.use === 'string' && jwk.use === 'sig')) &&
+    (jwk.key_ops === undefined || jwk.key_ops.includes('verify')) &&
+    (!entry.crv || jwk.crv === entry.crv)
+  )
+}
+
 class LocalJWKSetImpl {
   #jwks: types.JSONWebKeySet
 
@@ -65,15 +83,7 @@ class LocalJWKSetImpl {
     const { alg, kid } = { ...protectedHeader, ...token?.header }
     const entry = signatureAlgorithm(alg)
 
-    const candidates = this.#jwks!.keys.filter(
-      (jwk) =>
-        entry.kty.includes(jwk.kty!) &&
-        (typeof kid !== 'string' || kid === jwk.kid) &&
-        (!(typeof jwk.alg === 'string' || jwk.kty === 'AKP') || alg === jwk.alg) &&
-        (typeof jwk.use !== 'string' || jwk.use === 'sig') &&
-        (!Array.isArray(jwk.key_ops) || jwk.key_ops.includes('verify')) &&
-        (!entry.crv || jwk.crv === entry.crv),
-    )
+    const candidates = this.#jwks!.keys.filter((jwk) => isUsableJWK(jwk, entry, alg!, kid))
 
     const { 0: jwk, length } = candidates
 

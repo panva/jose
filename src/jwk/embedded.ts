@@ -53,6 +53,12 @@ export async function EmbeddedJWK(
   }
 
   const entry = jwsAlgorithm(joseHeader.alg)
+  if (joseHeader.jwk.use !== undefined && joseHeader.jwk.use !== 'sig') {
+    throw new JWSInvalid('Invalid Embedded JWK, its "use" must be "sig" when present')
+  }
+  if (joseHeader.jwk.alg !== undefined && joseHeader.jwk.alg !== entry.alg) {
+    throw new JWSInvalid(`Invalid Embedded JWK, its "alg" must be "${entry.alg}" when present`)
+  }
   const key = await jwkToKey(entry, { ...joseHeader.jwk, ext: true })
 
   if (key.type !== 'public') {
