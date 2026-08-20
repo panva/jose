@@ -185,8 +185,8 @@ export async function prepareKey(
 
     case JWK: {
       const key = tagged[1]
-      if (key.k) {
-        return decode(key.k)
+      if (key.kty === 'oct') {
+        return decode(key.k!)
       }
       if (!Object.isFrozen(key)) {
         const { key_ops } = key

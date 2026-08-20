@@ -149,6 +149,13 @@ test('oct JWK', async (t) => {
   t.is(await calculateJwkThumbprint(oct), 'prDKy90VJzrDTpm8-W2Q_pv_kzrX_zyZ7ANjRAasDxc')
 })
 
+test('empty octet sequence JWK', async (t) => {
+  t.is(
+    await calculateJwkThumbprint({ kty: 'oct', k: '' }),
+    '5exvXhSI3US_SE4QpsoFa894lp-yiLtLfAFfvolC8XM',
+  )
+})
+
 test('AKP JWK', async (t) => {
   const akp = {
     kty: 'AKP',

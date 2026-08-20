@@ -223,7 +223,7 @@ export async function importJWK(
 
   switch (jwk.kty) {
     case 'oct':
-      if (typeof jwk.k !== 'string' || !jwk.k) {
+      if (typeof jwk.k !== 'string') {
         throw new TypeError('missing "k" (Key Value) Parameter value')
       }
 

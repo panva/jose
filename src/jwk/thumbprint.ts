@@ -94,7 +94,9 @@ export async function calculateJwkThumbprint(
       components = { e: jwk.e, kty: jwk.kty, n: jwk.n }
       break
     case 'oct':
-      check(jwk.k, '"k" (Key Value) Parameter')
+      if (typeof jwk.k !== 'string') {
+        throw new JWKInvalid('"k" (Key Value) Parameter missing or invalid')
+      }
       components = { k: jwk.k, kty: jwk.kty }
       break
     default:

@@ -127,6 +127,14 @@ test('JWK ext must be a boolean', async (t) => {
   )
 })
 
+test('empty octet sequence JWK export/import round trip', async (t) => {
+  const key = new Uint8Array()
+  const jwk = await exportJWK(key)
+
+  t.deepEqual(jwk, { kty: 'oct', k: '' })
+  t.deepEqual(await importJWK(jwk), key)
+})
+
 test('Uin8tArray can be transformed to a JWK', async (t) => {
   t.deepEqual(
     await exportJWK(new Uint8Array([1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15])),
