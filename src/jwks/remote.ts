@@ -297,7 +297,7 @@ export interface RemoteJWKSetOptions {
 export interface ExportedJWKSCache {
   /** Current cached JSON Web Key Set */
   jwks: types.JSONWebKeySet
-  /** Last updated at timestamp (seconds since epoch) */
+  /** Last updated at timestamp (milliseconds since epoch) */
   uat: number
 }
 
