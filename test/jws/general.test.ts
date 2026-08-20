@@ -151,4 +151,15 @@ test('sign empty data', async (t) => {
 
   const { payload } = await generalVerify(jws, new Uint8Array(32))
   t.is(payload.byteLength, 0)
+
+  const mixed = new GeneralSign(new Uint8Array(0))
+    .addSignature(new Uint8Array(32))
+    .setProtectedHeader({ alg: 'HS256' })
+    .addSignature(new Uint8Array(32))
+    .setProtectedHeader({ alg: 'HS256', b64: false, crit: ['b64'] })
+
+  await t.throwsAsync(mixed.sign(), {
+    message: 'inconsistent use of JWS Unencoded Payload (RFC7797)',
+    code: 'ERR_JWS_INVALID',
+  })
 })
