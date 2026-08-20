@@ -5,6 +5,7 @@
  */
 
 import { JOSENotSupported } from '../util/errors.js'
+import { validateExtractableOption } from '../lib/key_options.js'
 import { keyAlgorithm, unsupportedAlg, algArgument } from '../lib/key_algorithm.js'
 
 import type * as types from '../types.d.ts'
@@ -81,7 +82,11 @@ export interface GenerateKeyPairOptions {
 
 function getModulusLengthOption(options?: GenerateKeyPairOptions) {
   const modulusLength = options?.modulusLength ?? 2048
-  if (typeof modulusLength !== 'number' || modulusLength < 2048) {
+  if (
+    typeof modulusLength !== 'number' ||
+    !Number.isInteger(modulusLength) ||
+    modulusLength < 2048
+  ) {
     throw new JOSENotSupported(
       'Invalid or unsupported modulusLength option provided, 2048 bits or larger keys must be used',
     )
@@ -116,6 +121,7 @@ export async function generateKeyPair(
   alg: GenerateKeyPairAlgorithm,
   options?: GenerateKeyPairOptions,
 ): Promise<GenerateKeyPairResult> {
+  validateExtractableOption(options?.extractable)
   const entry = keyAlgorithm(alg, algArgument)
 
   if (entry.secret) {

@@ -7,6 +7,7 @@
 import { unsupportedAlg, algArgument } from '../lib/key_algorithm.js'
 
 import type * as types from '../types.d.ts'
+import { validateExtractableOption } from '../lib/key_options.js'
 
 /**
  * JWA Algorithm Identifiers that {@link generateSecret} is able to generate a secret for, subject to
@@ -90,6 +91,7 @@ export async function generateSecret(
   alg: string,
   options?: GenerateSecretOptions,
 ): Promise<types.CryptoKey | Uint8Array> {
+  validateExtractableOption(options?.extractable)
   let length: number
   let algorithm: AesKeyGenParams | HmacKeyGenParams
   let keyUsages: KeyUsage[]

@@ -1,11 +1,28 @@
 import test from 'ava'
 
-import { exportJWK, generateKeyPair } from '../../src/index.js'
+import { exportJWK, generateKeyPair, generateSecret } from '../../src/index.js'
 
 test('alg must be a string', async (t) => {
   await t.throwsAsync(generateKeyPair(['ES256'] as any), {
     code: 'ERR_JOSE_NOT_SUPPORTED',
     message: 'Invalid or unsupported "alg" (Algorithm) value',
+  })
+})
+
+test('RSA modulusLength must be an integer', async (t) => {
+  await t.throwsAsync(generateKeyPair('RS256', { modulusLength: 2048.5 }), {
+    code: 'ERR_JOSE_NOT_SUPPORTED',
+    message:
+      'Invalid or unsupported modulusLength option provided, 2048 bits or larger keys must be used',
+  })
+})
+
+test('extractable must be a boolean', async (t) => {
+  await t.throwsAsync(generateKeyPair('ES256', { extractable: 'false' as never }), {
+    instanceOf: TypeError,
+  })
+  await t.throwsAsync(generateSecret('HS256', { extractable: 'false' as never }), {
+    instanceOf: TypeError,
   })
 })
 

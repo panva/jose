@@ -6,6 +6,7 @@ import { keyAlgorithm, unsupportedAlg, algArgument } from './key_algorithm.js'
 import { isCryptoKey, isKeyObject } from './is_key_like.js'
 
 import type { KeyImportOptions } from '../key/import.js'
+import { validateExtractableOption } from './key_options.js'
 
 /**
  * Formats a base64 string as a PEM-encoded key with proper line breaks and headers.
@@ -189,6 +190,7 @@ const genericImport = async (
   alg: string,
   options?: KeyImportOptions,
 ) => {
+  validateExtractableOption(options?.extractable)
   const entry = keyAlgorithm(alg, algArgument)
   if (entry.secret) {
     unsupportedAlg(algArgument)
