@@ -1,7 +1,7 @@
 import test from 'ava'
 import * as crypto from 'crypto'
 
-import { FlattenedEncrypt, base64url, flattenedDecrypt } from '../../src/index.js'
+import { FlattenedEncrypt, base64url, flattenedDecrypt, generateKeyPair } from '../../src/index.js'
 
 test.before(async (t) => {
   const encode = TextEncoder.prototype.encode.bind(new TextEncoder())
@@ -307,4 +307,26 @@ test('a non-ASCII "aad" is a JWEInvalid', async (t) => {
   await t.throwsAsync(flattenedDecrypt({ ...jwe, aad: 'AQID' }, t.context.secret), {
     code: 'ERR_JWE_DECRYPTION_FAILED',
   })
+})
+
+test('encrypted CEK length errors are indistinguishable from decryption failures', async (t) => {
+  const { publicKey, privateKey } = await generateKeyPair('RSA-OAEP-256')
+  const jwe = await new FlattenedEncrypt(t.context.plaintext)
+    .setProtectedHeader({ alg: 'RSA-OAEP-256', enc: 'A128GCM' })
+    .encrypt(publicKey)
+
+  const wrongLength = new Uint8Array(
+    await crypto.subtle.encrypt('RSA-OAEP', publicKey, new Uint8Array(1)),
+  )
+  const malformed = crypto.randomFillSync(new Uint8Array(256))
+
+  for (const encryptedKey of [wrongLength, malformed]) {
+    await t.throwsAsync(
+      flattenedDecrypt({ ...jwe, encrypted_key: base64url.encode(encryptedKey) }, privateKey),
+      {
+        code: 'ERR_JWE_DECRYPTION_FAILED',
+        message: 'decryption operation failed',
+      },
+    )
+  }
 })

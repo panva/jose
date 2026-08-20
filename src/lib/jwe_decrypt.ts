@@ -223,6 +223,13 @@ export async function decryptRecipient(
   let cek: types.CryptoKey | Uint8Array
   try {
     cek = await decryptKeyManagement(alg, encEntry, k, encryptedKey, joseHeader, options)
+    if (
+      encodedKey !== undefined &&
+      cek instanceof Uint8Array &&
+      cek.byteLength << 3 !== encEntry.cekBits
+    ) {
+      cek = generateCek(encEntry)
+    }
   } catch (err) {
     if (err instanceof TypeError || err instanceof JWEInvalid || err instanceof JOSENotSupported) {
       throw err
