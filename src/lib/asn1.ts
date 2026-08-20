@@ -253,7 +253,10 @@ function spkiFromX509(buf: Uint8Array): Uint8Array {
 
   // Parse outer certificate SEQUENCE
   expectTag(state, 0x30, 'Invalid certificate structure')
-  parseLength(state) // Skip certificate length
+  const certificateLength = parseLength(state)
+  if (certificateLength < 0 || state.pos + certificateLength > state.data.length) {
+    throw new Error('Unexpected end of ASN.1 input')
+  }
 
   // Parse tbsCertificate (To Be Signed Certificate) SEQUENCE
   expectTag(state, 0x30, 'Invalid tbsCertificate structure')

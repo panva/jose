@@ -30,6 +30,17 @@ test('https://github.com/panva/jose/issues/459', (t) => {
   return t.notThrowsAsync(() => importX509(cert, 'RS256'))
 })
 
+test('X.509 import rejects a truncated certificate', async (t) => {
+  const der = Buffer.from(cert.replace(/-----[^-]+-----|\s/g, ''), 'base64')
+  const truncated = `-----BEGIN CERTIFICATE-----\n${der.subarray(0, -1).toString('base64')}\n-----END CERTIFICATE-----`
+
+  await t.throwsAsync(importX509(truncated, 'RS256'))
+})
+
+test('X.509 import tolerates data after the PEM footer', async (t) => {
+  await t.notThrowsAsync(importX509(`${cert}AAAA`, 'RS256'))
+})
+
 test('X.509 import rejects symmetric algorithms', async (t) => {
   await t.throwsAsync(importX509(cert, 'HS256'), {
     code: 'ERR_JOSE_NOT_SUPPORTED',
