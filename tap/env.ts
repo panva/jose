@@ -78,7 +78,7 @@ export function supported(identifier?: string, op?: string) {
             return isElectronChromiumVersionAtLeast(150)
         }
       }
-      return isDeno || (isNode && isNodeVersionAtLeast(24, 7))
+      return isBun || isDeno || (isNode && isNodeVersionAtLeast(24, 7))
   }
 
   if (isBlink) {
