@@ -5,7 +5,12 @@ import { jwsAlgorithm } from './jws_algorithms.js'
 import { isDisjoint } from './type_checks.js'
 import { JWSInvalid } from '../util/errors.js'
 import { concat, encode } from './buffer_utils.js'
-import { validateCrit, validateCritDuplicates, JWS_RECOGNIZED } from './options.js'
+import {
+  serializeJoseHeader,
+  validateCrit,
+  validateCritDuplicates,
+  JWS_RECOGNIZED,
+} from './options.js'
 import { prepareKey } from './key.js'
 
 export interface SignInput {
@@ -16,6 +21,8 @@ export interface SignInput {
   /** Reused across the signatures of a General JWS, which all cover the same payload. */
   encoded?: [b64?: string, raw?: Uint8Array]
 }
+
+export type CreatedSignature = [jws: types.FlattenedJWS, b64: boolean]
 
 /** RFC 7797 - whether this Protected Header opts the payload out of base64url encoding. */
 export function unencodedPayload(protectedHeader?: types.JWSHeaderParameters): boolean {
@@ -29,8 +36,18 @@ export function unencodedPayload(protectedHeader?: types.JWSHeaderParameters): b
 export async function createSignature(
   input: SignInput,
   key: types.KeyInput,
-): Promise<types.FlattenedJWS> {
-  const { protectedHeader, unprotectedHeader } = input
+): Promise<CreatedSignature> {
+  let { protectedHeader, unprotectedHeader } = input
+
+  let protectedHeaderString = ''
+  if (protectedHeader !== undefined) {
+    const normalized = serializeJoseHeader(JWSInvalid, protectedHeader)
+    protectedHeader = normalized[0]
+    protectedHeaderString = b64u(normalized[1])
+  }
+  if (unprotectedHeader !== undefined) {
+    unprotectedHeader = serializeJoseHeader(JWSInvalid, unprotectedHeader)[0]
+  }
 
   if (!protectedHeader && !unprotectedHeader) {
     throw new JWSInvalid(
@@ -86,15 +103,7 @@ export async function createSignature(
     payloadS = ''
   }
 
-  let protectedHeaderString: string
-  let protectedHeaderBytes: Uint8Array
-  if (protectedHeader) {
-    protectedHeaderString = b64u(JSON.stringify(protectedHeader))
-    protectedHeaderBytes = encode(protectedHeaderString)
-  } else {
-    protectedHeaderString = ''
-    protectedHeaderBytes = new Uint8Array()
-  }
+  const protectedHeaderBytes = encode(protectedHeaderString)
 
   const data = concat(protectedHeaderBytes, encode('.'), payloadB)
 
@@ -113,5 +122,5 @@ export async function createSignature(
     jws.header = unprotectedHeader
   }
 
-  return jws
+  return [jws, b64]
 }

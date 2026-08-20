@@ -8,7 +8,6 @@ import { unprotected, assertNotSet } from '../../lib/helpers.js'
 import type * as types from '../../types.d.ts'
 import { JWEInvalid } from '../../util/errors.js'
 import { createJWE } from '../../lib/jwe_encrypt.js'
-import { validateCritDuplicates } from '../../lib/options.js'
 
 /**
  * The FlattenedEncrypt class is used to build and encrypt Flattened JWE objects.
@@ -158,8 +157,6 @@ export class FlattenedEncrypt {
         'either setProtectedHeader, setUnprotectedHeader, or sharedUnprotectedHeader must be called before #encrypt()',
       )
     }
-
-    validateCritDuplicates(JWEInvalid, this.#protectedHeader)
 
     return createJWE(
       [

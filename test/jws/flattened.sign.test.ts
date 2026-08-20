@@ -87,6 +87,26 @@ test('FlattenedSign.prototype.setUnprotectedHeader', (t) => {
   )
 })
 
+test('FlattenedSign JOSE header values must be objects', async (t) => {
+  for (const value of [null, 'not an object', [], new Date(0), 42, false]) {
+    await t.throwsAsync(
+      new FlattenedSign(t.context.payload)
+        .setProtectedHeader(value as never)
+        .setUnprotectedHeader({ alg: 'HS256' })
+        .sign(t.context.secret),
+      { code: 'ERR_JWS_INVALID' },
+    )
+
+    await t.throwsAsync(
+      new FlattenedSign(t.context.payload)
+        .setProtectedHeader({ alg: 'HS256' })
+        .setUnprotectedHeader(value as never)
+        .sign(t.context.secret),
+      { code: 'ERR_JWS_INVALID' },
+    )
+  }
+})
+
 test('FlattenedSign.prototype.sign must have a JOSE header', async (t) => {
   await t.throwsAsync(new FlattenedSign(t.context.payload).sign(t.context.secret), {
     code: 'ERR_JWS_INVALID',

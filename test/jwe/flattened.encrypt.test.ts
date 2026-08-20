@@ -137,6 +137,99 @@ test('FlattenedEncrypt.prototype.setSharedUnprotectedHeader', (t) => {
   )
 })
 
+test('FlattenedEncrypt JOSE header values must be objects', async (t) => {
+  for (const value of [null, 'not an object', [], new Date(0), 42, false]) {
+    await t.throwsAsync(
+      new FlattenedEncrypt(t.context.plaintext)
+        .setProtectedHeader(value as never)
+        .setUnprotectedHeader({ alg: 'dir', enc: 'A128GCM' })
+        .encrypt(t.context.secret),
+      { code: 'ERR_JWE_INVALID' },
+    )
+
+    await t.throwsAsync(
+      new FlattenedEncrypt(t.context.plaintext)
+        .setProtectedHeader({ alg: 'dir', enc: 'A128GCM' })
+        .setSharedUnprotectedHeader(value as never)
+        .encrypt(t.context.secret),
+      { code: 'ERR_JWE_INVALID' },
+    )
+
+    await t.throwsAsync(
+      new FlattenedEncrypt(t.context.plaintext)
+        .setProtectedHeader({ alg: 'dir', enc: 'A128GCM' })
+        .setUnprotectedHeader(value as never)
+        .encrypt(t.context.secret),
+      { code: 'ERR_JWE_INVALID' },
+    )
+  }
+})
+
+test('critical JWE extension values must survive JSON serialization', async (t) => {
+  for (const foo of [() => true, Symbol('foo')]) {
+    await t.throwsAsync(
+      new FlattenedEncrypt(t.context.plaintext)
+        .setProtectedHeader({ alg: 'dir', enc: 'A128GCM', crit: ['foo'], foo })
+        .encrypt(t.context.secret, { crit: { foo: true } }),
+      { code: 'ERR_JWE_INVALID' },
+    )
+
+    await t.throwsAsync(
+      new FlattenedEncrypt(t.context.plaintext)
+        .setProtectedHeader({ enc: 'A128GCM', crit: ['foo'] })
+        .setUnprotectedHeader({ alg: 'dir', foo })
+        .encrypt(t.context.secret, { crit: { foo: false } }),
+      { code: 'ERR_JWE_INVALID' },
+    )
+  }
+
+  await t.notThrowsAsync(
+    new FlattenedEncrypt(t.context.plaintext)
+      .setProtectedHeader({ enc: 'A128GCM', crit: ['foo'] })
+      .setUnprotectedHeader({ alg: 'dir', foo: true })
+      .encrypt(t.context.secret, { crit: { foo: false } }),
+  )
+
+  let critReads = 0
+  const jwe = await new FlattenedEncrypt(t.context.plaintext)
+    .setProtectedHeader({
+      alg: 'dir',
+      enc: 'A128GCM',
+      get crit() {
+        critReads++
+        return critReads === 1 ? ['foo'] : ['foo', 'foo']
+      },
+      foo: true,
+    })
+    .encrypt(t.context.secret, { crit: { foo: true } })
+
+  t.is(critReads, 1)
+  t.deepEqual(decodeProtectedHeader(jwe).crit, ['foo'])
+})
+
+test('FlattenedEncrypt only uses serialized protected header parameters', async (t) => {
+  const inherited = Object.create({ alg: 'dir', enc: 'A128GCM' })
+  const nonEnumerable = Object.defineProperties(
+    {},
+    {
+      alg: { value: 'dir' },
+      enc: { value: 'A128GCM' },
+    },
+  )
+
+  for (const protectedHeader of [inherited, nonEnumerable]) {
+    await t.throwsAsync(
+      new FlattenedEncrypt(t.context.plaintext)
+        .setProtectedHeader(protectedHeader)
+        .encrypt(t.context.secret),
+      {
+        code: 'ERR_JWE_INVALID',
+        message: 'JWE "alg" (Algorithm) Header Parameter missing or invalid',
+      },
+    )
+  }
+})
+
 test('FlattenedEncrypt.prototype.setInitializationVector', (t) => {
   t.throws(
     () =>

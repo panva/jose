@@ -40,6 +40,29 @@ test('General JWS signing b64:false', async (t) => {
   t.is(generalJws.signatures.length, 2)
 })
 
+test('General JWS signing compares serialized b64 modes', async (t) => {
+  let b64Reads = 0
+  const protectedHeader = {
+    alg: 'HS256',
+    crit: ['b64'],
+    get b64() {
+      b64Reads++
+      return b64Reads === 1 ? false : true
+    },
+  }
+
+  const generalJws = await new GeneralSign(new TextEncoder().encode('foo'))
+    .addSignature(t.context.secret)
+    .setProtectedHeader(protectedHeader)
+    .addSignature(t.context.secret)
+    .setProtectedHeader({ alg: 'HS256', b64: false, crit: ['b64'] })
+    .sign()
+
+  t.is(b64Reads, 1)
+  t.is(generalJws.payload, '')
+  await t.notThrowsAsync(generalVerify({ ...generalJws, payload: 'foo' }, t.context.secret))
+})
+
 test('General JWS signing validations', async (t) => {
   const sig = new GeneralSign(t.context.plaintext)
 
@@ -68,6 +91,28 @@ test('General JWS signing validations', async (t) => {
     message: 'inconsistent use of JWS Unencoded Payload (RFC7797)',
     code: 'ERR_JWS_INVALID',
   })
+})
+
+test('GeneralSign JOSE header values must be objects', async (t) => {
+  for (const value of [null, 'not an object', [], new Date(0), 42, false]) {
+    await t.throwsAsync(
+      new GeneralSign(t.context.plaintext)
+        .addSignature(t.context.secret)
+        .setProtectedHeader(value as never)
+        .setUnprotectedHeader({ alg: 'HS256' })
+        .sign(),
+      { code: 'ERR_JWS_INVALID' },
+    )
+
+    await t.throwsAsync(
+      new GeneralSign(t.context.plaintext)
+        .addSignature(t.context.secret)
+        .setProtectedHeader({ alg: 'HS256' })
+        .setUnprotectedHeader(value as never)
+        .sign(),
+      { code: 'ERR_JWS_INVALID' },
+    )
+  }
 })
 
 test('General JWS verify format validation', async (t) => {

@@ -5,7 +5,12 @@ import { encryptKeyManagement } from './key_management.js'
 import { JOSENotSupported, JWEInvalid } from '../util/errors.js'
 import { isDisjoint } from './type_checks.js'
 import { concat, encode } from './buffer_utils.js'
-import { validateCrit, JWE_RECOGNIZED } from './options.js'
+import {
+  serializeJoseHeader,
+  validateCrit,
+  validateCritDuplicates,
+  JWE_RECOGNIZED,
+} from './options.js'
 import { prepareKey } from './key.js'
 import { jweAlgorithm, jweEncryption } from './jwe_algorithms.js'
 import type { JWEEncryption } from './jwe_algorithms.js'
@@ -50,7 +55,20 @@ export function checkDisjoint(
  * up front and then encrypt without validating any of them a second time.
  */
 export function checkEncryptHeaders(input: EncryptInput): CheckedHeaders {
-  const [, protectedHeader, unprotectedHeader, sharedUnprotectedHeader, , , , , crit] = input
+  let [, protectedHeader, unprotectedHeader, sharedUnprotectedHeader, , , , , crit] = input
+
+  if (protectedHeader !== undefined) {
+    protectedHeader = serializeJoseHeader(JWEInvalid, protectedHeader)[0]
+    input[1] = protectedHeader
+  }
+  if (unprotectedHeader !== undefined) {
+    unprotectedHeader = serializeJoseHeader(JWEInvalid, unprotectedHeader)[0]
+    input[2] = unprotectedHeader
+  }
+  if (sharedUnprotectedHeader !== undefined) {
+    sharedUnprotectedHeader = serializeJoseHeader(JWEInvalid, sharedUnprotectedHeader)[0]
+    input[3] = sharedUnprotectedHeader
+  }
 
   checkDisjoint(protectedHeader, unprotectedHeader, sharedUnprotectedHeader)
 
@@ -60,6 +78,7 @@ export function checkEncryptHeaders(input: EncryptInput): CheckedHeaders {
     ...sharedUnprotectedHeader,
   }
 
+  validateCritDuplicates(JWEInvalid, protectedHeader)
   validateCrit(JWEInvalid, JWE_RECOGNIZED, crit, protectedHeader, joseHeader)
 
   if (joseHeader.zip !== undefined && joseHeader.zip !== 'DEF') {

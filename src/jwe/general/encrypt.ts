@@ -11,7 +11,6 @@ import { JWEInvalid } from '../../util/errors.js'
 import { generateCek } from '../../lib/content_encryption.js'
 import { encryptKeyManagement } from '../../lib/key_management.js'
 import { encode as b64u } from '../../util/base64url.js'
-import { validateCritDuplicates } from '../../lib/options.js'
 import { checkDisjoint, checkEncryptHeaders, encryptJWE } from '../../lib/jwe_encrypt.js'
 import type { CheckedHeaders, EncryptInput } from '../../lib/jwe_encrypt.js'
 import { prepareKey } from '../../lib/key.js'
@@ -232,9 +231,9 @@ export class GeneralEncrypt {
       return jwe
     }
 
-    validateCritDuplicates(JWEInvalid, this.#protectedHeader)
-
     let enc!: string
+    let protectedHeader = this.#protectedHeader
+    let sharedUnprotectedHeader = this.#unprotectedHeader
     const inputs: EncryptInput[] = []
     const checked: CheckedHeaders[] = []
     for (let i = 0; i < this.#recipients.length; i++) {
@@ -243,9 +242,9 @@ export class GeneralEncrypt {
 
       const input: EncryptInput = [
         this.#plaintext,
-        this.#protectedHeader,
+        protectedHeader,
         unprotectedHeader,
-        this.#unprotectedHeader,
+        sharedUnprotectedHeader,
         this.#aad,
         undefined,
         undefined,
@@ -256,6 +255,11 @@ export class GeneralEncrypt {
       const headers = checkEncryptHeaders(input)
       inputs.push(input)
       checked.push(headers)
+
+      if (i === 0) {
+        protectedHeader = input[1]!
+        sharedUnprotectedHeader = input[3]!
+      }
 
       if (headers[1] === 'dir' || headers[1] === 'ECDH-ES') {
         throw new JWEInvalid(`"${headers[1]}" alg may only have a single recipient`)
@@ -279,7 +283,7 @@ export class GeneralEncrypt {
 
     for (let i = 0; i < this.#recipients.length; i++) {
       const recipient = this.#recipients[i]
-      const [unprotectedHeader, keyManagementParameters, key] = recipient.state
+      const [, keyManagementParameters, key] = recipient.state
       const target: Record<string, string | types.JWEHeaderParameters> = {}
       jwe.recipients.push(target)
 
@@ -298,6 +302,7 @@ export class GeneralEncrypt {
       }
 
       const [, alg, , encEntry] = checked[i]
+      const unprotectedHeader = inputs[i][2]
 
       const k = await prepareKey(jweAlgorithm(alg), key, 'encrypt')
       const [, encryptedKey, parameters] = await encryptKeyManagement(
@@ -313,7 +318,7 @@ export class GeneralEncrypt {
         // The generated Key Management Parameters join the JWE Per-Recipient Unprotected Header
         // only after the headers were checked, so a name they collide with in another header would
         // otherwise reach the result.
-        if (parameters) checkDisjoint(this.#protectedHeader, header, this.#unprotectedHeader)
+        if (parameters) checkDisjoint(inputs[i][1], header, inputs[i][3])
         target.header = header
       }
     }

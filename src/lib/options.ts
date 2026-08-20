@@ -1,4 +1,5 @@
 import { JOSENotSupported, JWEInvalid, JWSInvalid } from '../util/errors.js'
+import { isObject } from './type_checks.js'
 
 interface CritCheckHeader {
   b64?: boolean
@@ -92,4 +93,24 @@ export function validateCrit(
   }
 
   return protectedHeader.crit
+}
+
+export function serializeJoseHeader<T extends CritCheckHeader>(
+  Err: typeof JWEInvalid | typeof JWSInvalid,
+  header: T,
+): [header: T, serialized: string] {
+  let serialized: string
+  let parsed: unknown
+  try {
+    serialized = JSON.stringify(header)!
+    parsed = JSON.parse(serialized)
+  } catch (cause) {
+    throw new Err('JOSE Header is not valid JSON', { cause })
+  }
+
+  if (!isObject<T>(parsed)) {
+    throw new Err('JOSE Header is not a JSON object')
+  }
+
+  return [parsed, serialized]
 }

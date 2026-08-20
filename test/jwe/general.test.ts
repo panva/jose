@@ -59,6 +59,43 @@ test('General JWE encryption', async (t) => {
   }
 })
 
+test('GeneralEncrypt validates and emits normalized recipient headers', async (t) => {
+  await t.throwsAsync(
+    new GeneralEncrypt(t.context.plaintext)
+      .setProtectedHeader({ enc: 'A128GCM', crit: ['foo'] })
+      .addRecipient(t.context.secret, { crit: { foo: false } })
+      .setUnprotectedHeader({ alg: 'A256KW', foo: true })
+      .addRecipient(t.context.secret2, { crit: { foo: false } })
+      .setUnprotectedHeader({ alg: 'A128KW', foo: () => true })
+      .encrypt(),
+    { code: 'ERR_JWE_INVALID' },
+  )
+
+  let protectedReads = 0
+  let recipientReads = 0
+  const jwe = await new GeneralEncrypt(t.context.plaintext)
+    .setProtectedHeader({
+      get enc() {
+        protectedReads++
+        return 'A128GCM'
+      },
+    })
+    .addRecipient(t.context.secret)
+    .setUnprotectedHeader({ alg: 'A256KW' })
+    .addRecipient(t.context.secret2)
+    .setUnprotectedHeader({
+      get alg() {
+        recipientReads++
+        return recipientReads === 1 ? 'A128KW' : 'A256KW'
+      },
+    })
+    .encrypt()
+
+  t.is(protectedReads, 1)
+  t.is(recipientReads, 1)
+  t.is(jwe.recipients[1].header!.alg, 'A128KW')
+  await t.notThrowsAsync(generalDecrypt(jwe, t.context.secret2))
+})
 test('AES-GCMKW authentication tags must be 128 bits', async (t) => {
   const jwe = await new GeneralEncrypt(t.context.plaintext)
     .setProtectedHeader({ enc: 'A256GCM' })

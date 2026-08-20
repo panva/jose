@@ -75,7 +75,7 @@ export class FlattenedSign {
    * @param options JWS Sign options.
    */
   async sign(key: types.KeyInput, options?: types.SignOptions): Promise<types.FlattenedJWS> {
-    return createSignature(
+    const [jws] = await createSignature(
       {
         payload: this.#payload,
         protectedHeader: this.#protectedHeader,
@@ -84,5 +84,6 @@ export class FlattenedSign {
       },
       key,
     )
+    return jws
   }
 }

@@ -5,7 +5,7 @@
  */
 
 import type * as types from '../../types.d.ts'
-import { createSignature, unencodedPayload } from '../../lib/jws_sign.js'
+import { createSignature } from '../../lib/jws_sign.js'
 import type { SignInput } from '../../lib/jws_sign.js'
 import { JWSInvalid } from '../../util/errors.js'
 import { assertNotSet } from '../../lib/helpers.js'
@@ -157,9 +157,8 @@ export class GeneralSign {
     for (let i = 0; i < this.#signatures.length; i++) {
       const signature = this.#signatures[i]
       const [protectedHeader, unprotectedHeader, key, crit] = signature.state
-      const signatureB64 = !unencodedPayload(protectedHeader)
 
-      const { payload, ...rest } = await createSignature(
+      const [{ payload, ...rest }, signatureB64] = await createSignature(
         {
           payload: this.#payload,
           protectedHeader,
