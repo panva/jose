@@ -108,6 +108,27 @@ export function parseJwsHeaders(
   return [parsedProt, joseHeader, b64]
 }
 
+function encodeUnencodedPayload(payload: string, compact: boolean): Uint8Array {
+  if (compact) {
+    try {
+      return encode(payload)
+    } catch {
+      throw new JWSInvalid('JWS Compact Serialization payload must use only ASCII characters')
+    }
+  }
+
+  for (const character of payload) {
+    const codePoint = character.codePointAt(0)!
+    if (codePoint >= 0xd800 && codePoint <= 0xdfff) {
+      throw new JWSInvalid('JWS Payload must be a well-formed Unicode string')
+    }
+    if (/\p{Cn}/u.test(character)) {
+      throw new JWSInvalid('JWS Payload must not contain unassigned Unicode code points')
+    }
+  }
+  return encoder.encode(payload)
+}
+
 /**
  * Verifies one signature. `jws` must already have been checked to have the member types the
  * Flattened Serialization requires; the Compact adapter gets that for free from String#split.
@@ -116,6 +137,7 @@ export async function verifySignature(
   jws: types.FlattenedJWSInput,
   shared: VerifyShared,
   key: types.KeyInput | VerifyGetKey,
+  compact = false,
 ): Promise<VerifiedSignature> {
   const { protected: encodedProtected, header, payload: inputPayload } = jws
   const [parsedProt, joseHeader, b64] = parseJwsHeaders(encodedProtected, header, shared[1])
@@ -138,6 +160,11 @@ export async function verifySignature(
     throw new JWSInvalid('JWS Payload must be a string or an Uint8Array instance')
   }
 
+  const unencodedPayload =
+    !b64 && typeof inputPayload === 'string'
+      ? encodeUnencodedPayload(inputPayload, compact)
+      : undefined
+
   let resolvedKey = false
   if (typeof key === 'function') {
     key = await key(parsedProt, jws)
@@ -154,7 +181,7 @@ export async function verifySignature(
         ? // A base64url payload is ASCII by definition, but it reaches here without having been
           // decoded, so a non-ASCII one must not escape as a bare TypeError.
           (shared[2] ??= encodeBase64url(inputPayload, 'payload', JWSInvalid))
-        : encoder.encode(inputPayload)
+        : unencodedPayload!
       : inputPayload,
   )
   const signature = decodeBase64url(jws.signature, 'signature', JWSInvalid)
@@ -170,7 +197,7 @@ export async function verifySignature(
   if (b64) {
     payload = decodeBase64url(inputPayload as string, 'payload', JWSInvalid)
   } else if (typeof inputPayload === 'string') {
-    payload = encoder.encode(inputPayload)
+    payload = unencodedPayload!
   } else {
     payload = inputPayload
   }
@@ -198,5 +225,5 @@ export async function verifyCompact(
     throw new JWSInvalid('Invalid Compact JWS')
   }
 
-  return verifySignature({ payload, protected: protectedHeader, signature }, shared, key)
+  return verifySignature({ payload, protected: protectedHeader, signature }, shared, key, true)
 }

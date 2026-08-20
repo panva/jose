@@ -1,6 +1,6 @@
 import test from 'ava'
 
-import { CompactSign, FlattenedSign, flattenedVerify } from '../../src/index.js'
+import { CompactSign, compactVerify, FlattenedSign, flattenedVerify } from '../../src/index.js'
 const encode = TextEncoder.prototype.encode.bind(new TextEncoder())
 
 test('JSON Web Signature (JWS) Unencoded Payload Option', async (t) => {
@@ -56,6 +56,59 @@ test('CompactSign rejects an unencoded payload', async (t) => {
       message: 'use the flattened module for creating JWS with b64: false',
     },
   )
+})
+
+test('Compact JWS rejects a non-ASCII unencoded payload', async (t) => {
+  const key = new Uint8Array(32)
+  const jws = await new FlattenedSign(encode('é'))
+    .setProtectedHeader({ alg: 'HS256', b64: false, crit: ['b64'] })
+    .sign(key)
+
+  await t.throwsAsync(compactVerify(`${jws.protected}.é.${jws.signature}`, key), {
+    code: 'ERR_JWS_INVALID',
+    message: 'JWS Compact Serialization payload must use only ASCII characters',
+  })
+
+  const ascii = await new FlattenedSign(encode('% ~'))
+    .setProtectedHeader({ alg: 'HS256', b64: false, crit: ['b64'] })
+    .sign(key)
+  const verified = await compactVerify(`${ascii.protected}.% ~.${ascii.signature}`, key)
+  t.deepEqual(verified.payload, encode('% ~'))
+})
+
+test('JWS JSON rejects lone surrogates in an unencoded payload', async (t) => {
+  const key = new Uint8Array(32)
+  const jws = await new FlattenedSign(encode('\ud800'))
+    .setProtectedHeader({ alg: 'HS256', b64: false, crit: ['b64'] })
+    .sign(key)
+
+  // TextEncoder replaces every lone surrogate with the same U+FFFD bytes. Without validating the
+  // JSON string first, replacing one lone surrogate with another leaves the signature valid.
+  for (const payload of ['\ud801', '\udfff']) {
+    await t.throwsAsync(flattenedVerify({ ...jws, payload }, key), {
+      code: 'ERR_JWS_INVALID',
+      message: 'JWS Payload must be a well-formed Unicode string',
+    })
+  }
+
+  const astral = await new FlattenedSign(encode('😀'))
+    .setProtectedHeader({ alg: 'HS256', b64: false, crit: ['b64'] })
+    .sign(key)
+  const verified = await flattenedVerify({ ...astral, payload: '😀' }, key)
+  t.deepEqual(verified.payload, encode('😀'))
+})
+
+test('JWS JSON rejects unassigned code points in an unencoded payload', async (t) => {
+  const key = new Uint8Array(32)
+  const payload = '\u0378'
+  const jws = await new FlattenedSign(encode(payload))
+    .setProtectedHeader({ alg: 'HS256', b64: false, crit: ['b64'] })
+    .sign(key)
+
+  await t.throwsAsync(flattenedVerify({ ...jws, payload }, key), {
+    code: 'ERR_JWS_INVALID',
+    message: 'JWS Payload must not contain unassigned Unicode code points',
+  })
 })
 
 test('CompactSign is unaffected when b64 is not in crit', async (t) => {
