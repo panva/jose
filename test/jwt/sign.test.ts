@@ -81,6 +81,16 @@ test('Signed JWTs cannot use unencoded payload', async (t) => {
   })
 })
 
+test('SignJWT protected header can only be set once', (t) => {
+  t.throws(
+    () => new SignJWT().setProtectedHeader({ alg: 'HS256' }).setProtectedHeader({ alg: 'HS384' }),
+    {
+      instanceOf: TypeError,
+      message: 'setProtectedHeader can only be called once',
+    },
+  )
+})
+
 test('time setters reject overflowing duration strings', (t) => {
   const duration = `${'9'.repeat(400)} years`
 
