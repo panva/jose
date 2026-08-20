@@ -2,7 +2,7 @@ import test from 'ava'
 import timekeeper from 'timekeeper'
 import { setters } from './time_setters.js'
 
-import { UnsecuredJWT, decodeJwt } from '../../src/index.js'
+import { UnsecuredJWT, base64url, decodeJwt } from '../../src/index.js'
 
 const now = 1604416038
 
@@ -44,6 +44,28 @@ test('UnsecuredJWT validations', (t) => {
   t.throws(() => UnsecuredJWT.decode('eyJhbGciOiJub25lIn0.++++.'), {
     code: 'ERR_JWT_INVALID',
     message: 'Failed to base64url decode the payload',
+  })
+})
+
+test('UnsecuredJWT rejects unrecognized critical header parameters', (t) => {
+  const header = base64url.encode(
+    JSON.stringify({ alg: 'none', crit: ['urn:example:critical'], 'urn:example:critical': true }),
+  )
+  const payload = base64url.encode(JSON.stringify(t.context.payload))
+
+  t.throws(() => UnsecuredJWT.decode(`${header}.${payload}.`), {
+    code: 'ERR_JOSE_NOT_SUPPORTED',
+    message: 'Extension Header Parameter "urn:example:critical" is not recognized',
+  })
+})
+
+test('UnsecuredJWT rejects the unencoded payload option', (t) => {
+  const header = base64url.encode(JSON.stringify({ alg: 'none', b64: false, crit: ['b64'] }))
+  const payload = base64url.encode(JSON.stringify(t.context.payload))
+
+  t.throws(() => UnsecuredJWT.decode(`${header}.${payload}.`), {
+    code: 'ERR_JWT_INVALID',
+    message: 'JWTs MUST NOT use unencoded payload',
   })
 })
 
