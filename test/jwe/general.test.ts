@@ -59,6 +59,40 @@ test('General JWE encryption', async (t) => {
   }
 })
 
+test('AES-GCMKW authentication tags must be 128 bits', async (t) => {
+  const jwe = await new GeneralEncrypt(t.context.plaintext)
+    .setProtectedHeader({ enc: 'A256GCM' })
+    .addRecipient(t.context.secret)
+    .setUnprotectedHeader({ alg: 'A256GCMKW' })
+    .addRecipient(t.context.secret2)
+    .setUnprotectedHeader({ alg: 'A128GCMKW' })
+    .encrypt()
+  const recipient = jwe.recipients[0]
+  const encryptedKey = base64url.decode(recipient.encrypted_key!)
+  const tag = base64url.decode(recipient.header!.tag!)
+
+  const shifted = [
+    {
+      encryptedKey: encryptedKey.slice(0, -1),
+      tag: new Uint8Array([...encryptedKey.slice(-1), ...tag]),
+    },
+    {
+      encryptedKey: new Uint8Array([...encryptedKey, tag[0]]),
+      tag: tag.slice(1),
+    },
+  ]
+
+  for (const members of shifted) {
+    const malformed = structuredClone(jwe)
+    malformed.recipients[0].encrypted_key = base64url.encode(members.encryptedKey)
+    malformed.recipients[0].header!.tag = base64url.encode(members.tag)
+
+    await t.throwsAsync(generalDecrypt(malformed, t.context.secret), {
+      code: 'ERR_JWE_DECRYPTION_FAILED',
+    })
+  }
+})
+
 test('General JWE encryption validates multi-recipient plaintext', async (t) => {
   const encrypt = new GeneralEncrypt(new ArrayBuffer(1) as any).setProtectedHeader({
     enc: 'A128GCM',

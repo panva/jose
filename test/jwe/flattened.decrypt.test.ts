@@ -342,6 +342,48 @@ test('a non-ASCII "aad" is a JWEInvalid', async (t) => {
   })
 })
 
+test('AES-GCM authentication tags must be 128 bits', async (t) => {
+  const jwe = await new FlattenedEncrypt(t.context.plaintext)
+    .setProtectedHeader({ alg: 'dir', enc: 'A128GCM' })
+    .encrypt(t.context.secret)
+  const ciphertext = base64url.decode(jwe.ciphertext)
+  const tag = base64url.decode(jwe.tag!)
+
+  const shifted = [
+    {
+      ciphertext: ciphertext.slice(0, -1),
+      tag: new Uint8Array([...ciphertext.slice(-1), ...tag]),
+    },
+    {
+      ciphertext: new Uint8Array([...ciphertext, tag[0]]),
+      tag: tag.slice(1),
+    },
+    {
+      ciphertext: new Uint8Array([...ciphertext, ...tag]),
+      tag: new Uint8Array(),
+    },
+    {
+      ciphertext: new Uint8Array(),
+      tag: new Uint8Array([...ciphertext, ...tag]),
+    },
+  ]
+
+  // Without checking the member boundary, every case reconstructs the original ciphertext || tag.
+  for (const members of shifted) {
+    await t.throwsAsync(
+      flattenedDecrypt(
+        {
+          ...jwe,
+          ciphertext: base64url.encode(members.ciphertext),
+          tag: base64url.encode(members.tag),
+        },
+        t.context.secret,
+      ),
+      { code: 'ERR_JWE_INVALID' },
+    )
+  }
+})
+
 test('encrypted CEK length errors are indistinguishable from decryption failures', async (t) => {
   const { publicKey, privateKey } = await generateKeyPair('RSA-OAEP-256')
   const jwe = await new FlattenedEncrypt(t.context.plaintext)

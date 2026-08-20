@@ -275,6 +275,9 @@ export async function decrypt(
   if (!tag) {
     throw new JWEInvalid('JWE Authentication Tag missing')
   }
+  if (!enc.cbc && tag.length !== 16) {
+    throw new JWEInvalid('Invalid Authentication Tag length')
+  }
 
   checkIvLength(enc, iv)
 
