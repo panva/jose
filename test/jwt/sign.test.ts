@@ -81,6 +81,28 @@ test('Signed JWTs cannot use unencoded payload', async (t) => {
   })
 })
 
+test('time setters reject overflowing duration strings', (t) => {
+  const duration = `${'9'.repeat(400)} years`
+
+  for (const method of ['setExpirationTime', 'setNotBefore', 'setIssuedAt'] as const) {
+    t.throws(() => new SignJWT()[method](duration), {
+      instanceOf: TypeError,
+      message: 'Invalid time period format',
+    })
+  }
+})
+
+test('time setters reject values that only coerce to duration strings', (t) => {
+  const durationLike = { toString: () => '1 hour' }
+
+  for (const method of ['setExpirationTime', 'setNotBefore', 'setIssuedAt'] as const) {
+    t.throws(() => new SignJWT()[method](durationLike as never), {
+      instanceOf: TypeError,
+      message: 'Invalid time period format',
+    })
+  }
+})
+
 test('"b64" is ignored when "crit" does not list it', async (t) => {
   // Only a "b64" listed in "crit" is in effect per RFC 7797, so this one does not make the JWT an
   // unencoded payload one and is signed like any other.

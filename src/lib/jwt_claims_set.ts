@@ -19,6 +19,10 @@ const REGEX =
 const checkFailed = 'check_failed'
 
 export function secs(str: string): number {
+  if (typeof str !== 'string') {
+    throw new TypeError('Invalid time period format')
+  }
+
   const matched = REGEX.exec(str)
 
   if (!matched || (matched[4] && matched[1])) {
@@ -27,6 +31,10 @@ export function secs(str: string): number {
 
   const value = parseFloat(matched[2])
   const numericDate = Math.round(value * multipliers[matched[3][0].toLowerCase()])
+
+  if (!Number.isFinite(numericDate)) {
+    throw new TypeError('Invalid time period format')
+  }
 
   if (matched[1] === '-' || matched[4] === 'ago') {
     return -numericDate

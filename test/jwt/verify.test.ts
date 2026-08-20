@@ -579,6 +579,20 @@ test('currentDate must not silently default invalid falsy values', async (t) => 
   }
 })
 
+test('maxTokenAge must not coerce arbitrary values to duration strings', async (t) => {
+  const jwt = await new SignJWT(t.context.payload)
+    .setProtectedHeader({ alg: 'HS256' })
+    .setIssuedAt()
+    .sign(t.context.secret)
+
+  await t.throwsAsync(
+    jwtVerify(jwt, t.context.secret, {
+      maxTokenAge: { toString: () => '1 hour' } as never,
+    }),
+    { instanceOf: TypeError, message: 'Invalid time period format' },
+  )
+})
+
 test('invalid UTF-8 in the Claims Set is rejected', async (t) => {
   // RFC 7519 Section 7.2 step 10 requires verifying the octets are a UTF-8 encoding.
   // C0 AF is an overlong encoding of "/".
