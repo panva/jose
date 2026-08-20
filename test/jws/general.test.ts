@@ -1,7 +1,7 @@
 import test from 'ava'
 import * as crypto from 'crypto'
 
-import { GeneralSign, generalVerify } from '../../src/index.js'
+import { FlattenedSign, GeneralSign, generalVerify } from '../../src/index.js'
 
 test.before(async (t) => {
   const encode = TextEncoder.prototype.encode.bind(new TextEncoder())
@@ -113,6 +113,97 @@ test('GeneralSign JOSE header values must be objects', async (t) => {
       { code: 'ERR_JWS_INVALID' },
     )
   }
+})
+
+test('General JWS verification rejects inconsistent b64 modes', async (t) => {
+  const encoded = await new FlattenedSign(new TextEncoder().encode('foo'))
+    .setProtectedHeader({ alg: 'HS256' })
+    .sign(t.context.secret)
+  const unencoded = await new FlattenedSign(new TextEncoder().encode(encoded.payload))
+    .setProtectedHeader({ alg: 'HS256', b64: false, crit: ['b64'] })
+    .sign(t.context.secret)
+
+  const signatures = [
+    { protected: encoded.protected, signature: encoded.signature },
+    { protected: unencoded.protected, signature: unencoded.signature },
+  ]
+  let resolveCalls = 0
+  const resolve = () => {
+    resolveCalls++
+    return t.context.secret
+  }
+
+  for (const ordered of [signatures, [...signatures].reverse()]) {
+    await t.throwsAsync(generalVerify({ payload: encoded.payload, signatures: ordered }, resolve), {
+      code: 'ERR_JWS_INVALID',
+      message: 'inconsistent use of JWS Unencoded Payload (RFC7797)',
+    })
+  }
+  t.is(resolveCalls, 0)
+
+  const { payload } = await generalVerify(
+    { payload: encoded.payload, signatures: [signatures[0], signatures[0]] },
+    resolve,
+  )
+  t.deepEqual(payload, new TextEncoder().encode('foo'))
+  t.is(resolveCalls, 1)
+
+  const ignored = await new FlattenedSign(new TextEncoder().encode('foo'))
+    .setProtectedHeader({ alg: 'HS256', b64: false })
+    .sign(t.context.secret)
+  const ignoredResult = await generalVerify(
+    {
+      payload: encoded.payload,
+      signatures: [signatures[0], { protected: ignored.protected, signature: ignored.signature }],
+    },
+    t.context.secret,
+  )
+  t.deepEqual(ignoredResult.payload, new TextEncoder().encode('foo'))
+
+  const unrecognized = await new FlattenedSign(new TextEncoder().encode(encoded.payload))
+    .setProtectedHeader({
+      alg: 'HS256',
+      b64: false,
+      crit: ['b64', 'unknown'],
+      unknown: true,
+    })
+    .sign(t.context.secret, { crit: { unknown: true } })
+  await t.throwsAsync(
+    generalVerify(
+      {
+        payload: encoded.payload,
+        signatures: [
+          { protected: unrecognized.protected, signature: unrecognized.signature },
+          signatures[0],
+        ],
+      },
+      resolve,
+    ),
+    {
+      code: 'ERR_JWS_INVALID',
+      message: 'inconsistent use of JWS Unencoded Payload (RFC7797)',
+    },
+  )
+  t.is(resolveCalls, 1)
+
+  const throwing = Object.defineProperty({ signature: '' }, 'protected', {
+    get() {
+      throw new Error('unexpected getter')
+    },
+  })
+  const afterThrowing = await generalVerify(
+    { payload: encoded.payload, signatures: [throwing as never, signatures[0]] },
+    resolve,
+  )
+  t.deepEqual(afterThrowing.payload, new TextEncoder().encode('foo'))
+  t.is(resolveCalls, 2)
+
+  const detached = new TextEncoder().encode(encoded.payload)
+  await t.throwsAsync(generalVerify({ payload: detached, signatures }, resolve), {
+    code: 'ERR_JWS_INVALID',
+    message: 'inconsistent use of JWS Unencoded Payload (RFC7797)',
+  })
+  t.is(resolveCalls, 2)
 })
 
 test('General JWS verify format validation', async (t) => {

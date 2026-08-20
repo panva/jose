@@ -56,20 +56,24 @@ export function prepareVerify(options?: types.VerifyOptions): VerifyShared {
   return [options && validateAlgorithms('algorithms', options.algorithms), options?.crit]
 }
 
-/**
- * Verifies one signature. `jws` must already have been checked to have the member types the
- * Flattened Serialization requires; the Compact adapter gets that for free from String#split.
- */
-export async function verifySignature(
-  jws: types.FlattenedJWSInput,
-  shared: VerifyShared,
-  key: types.KeyInput | VerifyGetKey,
-): Promise<VerifiedSignature> {
-  const { protected: encodedProtected, header, payload: inputPayload } = jws
-  let parsedProt: types.JWSHeaderParameters = {}
-  if (encodedProtected !== undefined) {
-    parsedProt = parseJoseHeader(encodedProtected, JWSInvalid, 'JWS Protected Header is invalid')
-  }
+export function parseProtectedHeader(
+  encodedProtected: string | undefined,
+): types.JWSHeaderParameters {
+  return encodedProtected === undefined
+    ? {}
+    : parseJoseHeader(encodedProtected, JWSInvalid, 'JWS Protected Header is invalid')
+}
+
+export function parseJwsHeaders(
+  encodedProtected: string | undefined,
+  header: types.JWSHeaderParameters | undefined,
+  recognizedOption: VerifyShared[1],
+): [
+  protectedHeader: types.JWSHeaderParameters,
+  joseHeader: types.JWSHeaderParameters,
+  b64: boolean,
+] {
+  const parsedProt = parseProtectedHeader(encodedProtected)
 
   let joseHeader: types.JWSHeaderParameters
   if (header !== undefined) {
@@ -83,7 +87,13 @@ export async function verifySignature(
     joseHeader = parsedProt
   }
 
-  const extensions = validateCrit(JWSInvalid, JWS_RECOGNIZED, shared[1], parsedProt, joseHeader)
+  const extensions = validateCrit(
+    JWSInvalid,
+    JWS_RECOGNIZED,
+    recognizedOption,
+    parsedProt,
+    joseHeader,
+  )
 
   let b64 = true
   if (extensions.includes('b64')) {
@@ -94,6 +104,21 @@ export async function verifySignature(
       )
     }
   }
+
+  return [parsedProt, joseHeader, b64]
+}
+
+/**
+ * Verifies one signature. `jws` must already have been checked to have the member types the
+ * Flattened Serialization requires; the Compact adapter gets that for free from String#split.
+ */
+export async function verifySignature(
+  jws: types.FlattenedJWSInput,
+  shared: VerifyShared,
+  key: types.KeyInput | VerifyGetKey,
+): Promise<VerifiedSignature> {
+  const { protected: encodedProtected, header, payload: inputPayload } = jws
+  const [parsedProt, joseHeader, b64] = parseJwsHeaders(encodedProtected, header, shared[1])
 
   const { alg } = joseHeader
 
