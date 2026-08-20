@@ -200,6 +200,39 @@ test('JWE format validation', async (t) => {
   }
 })
 
+test('an empty JWE AAD value must be represented by omitting the member', async (t) => {
+  const encode = TextEncoder.prototype.encode.bind(new TextEncoder())
+  const protectedHeader = base64url.encode(JSON.stringify({ alg: 'dir', enc: 'A128GCM' }))
+  const iv = new Uint8Array(12)
+  const key = await crypto.subtle.importKey('raw', t.context.secret, 'AES-GCM', false, ['encrypt'])
+  const encrypted = new Uint8Array(
+    await crypto.subtle.encrypt(
+      {
+        additionalData: encode(`${protectedHeader}.`),
+        iv,
+        name: 'AES-GCM',
+        tagLength: 128,
+      },
+      key,
+      t.context.plaintext,
+    ),
+  )
+
+  await t.throwsAsync(
+    flattenedDecrypt(
+      {
+        aad: '',
+        ciphertext: base64url.encode(encrypted.slice(0, -16)),
+        iv: base64url.encode(iv),
+        protected: protectedHeader,
+        tag: base64url.encode(encrypted.slice(-16)),
+      },
+      t.context.secret,
+    ),
+    { code: 'ERR_JWE_INVALID' },
+  )
+})
+
 test('AES CBC + HMAC', async (t) => {
   const secret = crypto.randomFillSync(new Uint8Array(32))
   const jwe = await new FlattenedEncrypt(t.context.plaintext)
@@ -329,4 +362,14 @@ test('encrypted CEK length errors are indistinguishable from decryption failures
       },
     )
   }
+})
+
+test('an empty protected member is not an encoded protected header', async (t) => {
+  const jwe = await new FlattenedEncrypt(t.context.plaintext)
+    .setSharedUnprotectedHeader({ alg: 'dir', enc: 'A128GCM' })
+    .encrypt(t.context.secret)
+
+  await t.throwsAsync(flattenedDecrypt({ ...jwe, protected: '' }, t.context.secret), {
+    code: 'ERR_JWE_INVALID',
+  })
 })

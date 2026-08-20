@@ -67,7 +67,7 @@ export async function verifySignature(
 ): Promise<VerifiedSignature> {
   const { protected: encodedProtected, header, payload: inputPayload } = jws
   let parsedProt: types.JWSHeaderParameters = {}
-  if (encodedProtected) {
+  if (encodedProtected !== undefined) {
     parsedProt = parseJoseHeader(encodedProtected, JWSInvalid, 'JWS Protected Header is invalid')
   }
 

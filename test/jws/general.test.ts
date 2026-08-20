@@ -141,6 +141,19 @@ test('General JWS verify format validation', async (t) => {
   }
 })
 
+test('an empty protected member is not an encoded protected header', async (t) => {
+  const jws = await new GeneralSign(t.context.plaintext)
+    .addSignature(t.context.secret)
+    .setUnprotectedHeader({ alg: 'HS256' })
+    .sign()
+
+  jws.signatures[0].protected = ''
+
+  await t.throwsAsync(generalVerify(jws, t.context.secret), {
+    code: 'ERR_JWS_SIGNATURE_VERIFICATION_FAILED',
+  })
+})
+
 test('sign empty data', async (t) => {
   const jws = await new GeneralSign(new Uint8Array(0))
     .addSignature(new Uint8Array(32))

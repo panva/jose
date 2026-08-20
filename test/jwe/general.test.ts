@@ -193,6 +193,19 @@ test('General JWE format validation', async (t) => {
   }
 })
 
+test('an empty protected member is not an encoded protected header', async (t) => {
+  const jwe = await new GeneralEncrypt(t.context.plaintext)
+    .setSharedUnprotectedHeader({ alg: 'dir', enc: 'A256GCM' })
+    .addRecipient(t.context.secret)
+    .encrypt()
+
+  jwe.protected = ''
+
+  await t.throwsAsync(generalDecrypt(jwe, t.context.secret), {
+    code: 'ERR_JWE_DECRYPTION_FAILED',
+  })
+})
+
 test('General JWE decryption requires a single recipient for dir and ECDH-ES', async (t) => {
   const direct = await new GeneralEncrypt(t.context.plaintext)
     .setProtectedHeader({ alg: 'dir', enc: 'A256GCM' })

@@ -174,3 +174,13 @@ test('a non-ASCII payload is a JWSInvalid', async (t) => {
     code: 'ERR_JWS_SIGNATURE_VERIFICATION_FAILED',
   })
 })
+
+test('an empty protected member is not an encoded protected header', async (t) => {
+  const jws = await new FlattenedSign(new TextEncoder().encode('foo'))
+    .setUnprotectedHeader({ alg: 'HS256' })
+    .sign(new Uint8Array(32))
+
+  await t.throwsAsync(flattenedVerify({ ...jws, protected: '' }, new Uint8Array(32)), {
+    code: 'ERR_JWS_INVALID',
+  })
+})

@@ -60,7 +60,7 @@ export function checkShared(jwe: types.FlattenedJWE): void {
     throw new JWEInvalid('JWE Protected Header incorrect type')
   }
 
-  if (jwe.aad !== undefined && typeof jwe.aad !== 'string') {
+  if (jwe.aad !== undefined && (typeof jwe.aad !== 'string' || !jwe.aad)) {
     throw new JWEInvalid('JWE AAD incorrect type')
   }
 
@@ -89,7 +89,7 @@ export function checkRecipient(jwe: types.FlattenedJWE): void {
 export function shareJWE(jwe: types.FlattenedJWE): SharedJWE {
   const { protected: encodedProtected, ciphertext, iv, tag, aad } = jwe
   let parsedProt: types.JWEHeaderParameters | undefined
-  if (encodedProtected) {
+  if (encodedProtected !== undefined) {
     parsedProt = parseJoseHeader(encodedProtected, JWEInvalid, 'JWE Protected Header is invalid')
   }
 
