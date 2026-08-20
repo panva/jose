@@ -301,6 +301,69 @@ test.serial('createRemoteJWKSet manual reload', async (t) => {
   }
 })
 
+test.serial('an older concurrent workerd reload cannot overwrite a newer JWKS', async (t) => {
+  const descriptor = Object.getOwnPropertyDescriptor(globalThis, 'WebSocketPair')
+  Object.defineProperty(globalThis, 'WebSocketPair', {
+    configurable: true,
+    value: class {},
+  })
+
+  const responders: ((response: Response) => void)[] = []
+  const controlledFetch = () =>
+    new Promise<Response>((resolve) => {
+      responders.push(resolve)
+    })
+
+  try {
+    const JWKS = createRemoteJWKSet(new URL('https://as.example.com/jwks'), {
+      [customFetch]: controlledFetch,
+    })
+
+    const older = JWKS.reload()
+    const newer = JWKS.reload()
+
+    t.is(responders.length, 2)
+    responders[1](
+      new Response(JSON.stringify({ keys: [{ kty: 'RSA', kid: 'newer' }] }), { status: 200 }),
+    )
+    await newer
+    t.is(JWKS.jwks()!.keys[0].kid, 'newer')
+
+    responders[0](
+      new Response(JSON.stringify({ keys: [{ kty: 'RSA', kid: 'older' }] }), { status: 200 }),
+    )
+    await older
+    t.is(JWKS.jwks()!.keys[0].kid, 'newer')
+
+    responders.length = 0
+    const Recovery = createRemoteJWKSet(new URL('https://as.example.com/jwks'), {
+      [customFetch]: controlledFetch,
+    })
+    const recoverable = Recovery.reload()
+    const failing = Recovery.reload()
+
+    responders[0](
+      new Response(JSON.stringify({ keys: [{ kty: 'RSA', kid: 'recovered' }] }), { status: 200 }),
+    )
+    await recoverable
+    t.true(Recovery.reloading)
+    t.is(Recovery.jwks()!.keys[0].kid, 'recovered')
+
+    responders[1](new Response(null, { status: 500 }))
+    await t.throwsAsync(failing, {
+      message: 'Expected 200 OK from the JSON Web Key Set HTTP response',
+    })
+    t.false(Recovery.reloading)
+    t.is(Recovery.jwks()!.keys[0].kid, 'recovered')
+  } finally {
+    if (descriptor) {
+      Object.defineProperty(globalThis, 'WebSocketPair', descriptor)
+    } else {
+      Reflect.deleteProperty(globalThis, 'WebSocketPair')
+    }
+  }
+})
+
 test.serial('refreshes the JWKS once stale', async (t) => {
   timekeeper.freeze(now * 1000)
   const jwk = {

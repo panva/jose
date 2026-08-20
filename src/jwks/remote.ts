@@ -375,6 +375,10 @@ class RemoteJWKSetImpl {
 
   #pendingFetch?: Promise<unknown>
 
+  #reloadSequence = 0
+
+  #appliedSequence = 0
+
   #headers: Headers
 
   #customFetch?: FetchImplementation
@@ -464,23 +468,35 @@ class RemoteJWKSetImpl {
       this.#pendingFetch = undefined
     }
 
-    this.#pendingFetch ||= fetchJwks(
-      this.#url.href,
-      this.#headers,
-      AbortSignal.timeout(this.#timeoutDuration),
-      this.#customFetch,
-    )
-      .then((json) => {
-        this.#local = createLocalJWKSet(json as unknown as types.JSONWebKeySet)
-        if (this.#cache) {
-          this.#cache.uat = Date.now()
-          this.#cache.jwks = json as unknown as types.JSONWebKeySet
-        }
-        this.#jwksTimestamp = Date.now()
-      })
-      .finally(() => {
-        this.#pendingFetch = undefined
-      })
+    if (!this.#pendingFetch) {
+      const sequence = ++this.#reloadSequence
+      const pendingFetch = fetchJwks(
+        this.#url.href,
+        this.#headers,
+        AbortSignal.timeout(this.#timeoutDuration),
+        this.#customFetch,
+      )
+        .then((json) => {
+          const local = createLocalJWKSet(json as unknown as types.JSONWebKeySet)
+          if (sequence <= this.#appliedSequence) {
+            return
+          }
+          this.#local = local
+          if (this.#cache) {
+            this.#cache.uat = Date.now()
+            this.#cache.jwks = json as unknown as types.JSONWebKeySet
+          }
+          this.#jwksTimestamp = Date.now()
+          this.#appliedSequence = sequence
+        })
+        .finally(() => {
+          if (this.#pendingFetch === pendingFetch) {
+            this.#pendingFetch = undefined
+          }
+        })
+
+      this.#pendingFetch = pendingFetch
+    }
 
     await this.#pendingFetch
   }
