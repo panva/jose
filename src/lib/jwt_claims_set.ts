@@ -51,6 +51,21 @@ function validateInput(label: string, input: number) {
   return input
 }
 
+function validateStringClaim(claim: 'iss' | 'sub' | 'jti', value: unknown): void {
+  if (typeof value !== 'string') {
+    throw new TypeError(`"${claim}" claim must be a string`)
+  }
+}
+
+function validateAudienceClaim(value: unknown): void {
+  if (
+    typeof value !== 'string' &&
+    (!Array.isArray(value) || Array.from(value).some((member) => typeof member !== 'string'))
+  ) {
+    throw new TypeError('"aud" claim must be a string or an array of strings')
+  }
+}
+
 function numericDate(value: number | string | Date, label: string) {
   if (typeof value === 'number') return validateInput(label, value)
   if (value instanceof Date) return validateInput(label, epoch(value))
@@ -254,6 +269,13 @@ export class JWTClaimsBuilder {
   }
 
   data(): Uint8Array {
+    for (const claim of ['iat', 'nbf', 'exp'] as const) {
+      const value = this.#payload[claim]
+      if (typeof value === 'number' && !Number.isFinite(value)) {
+        throw new TypeError(`"${claim}" claim must be a finite number`)
+      }
+    }
+
     return encoder.encode(JSON.stringify(this.#payload))
   }
 
@@ -262,6 +284,7 @@ export class JWTClaimsBuilder {
   }
 
   set iss(value: string) {
+    validateStringClaim('iss', value)
     this.#payload.iss = value
   }
 
@@ -270,6 +293,7 @@ export class JWTClaimsBuilder {
   }
 
   set sub(value: string) {
+    validateStringClaim('sub', value)
     this.#payload.sub = value
   }
 
@@ -278,10 +302,12 @@ export class JWTClaimsBuilder {
   }
 
   set aud(value: string | string[]) {
+    validateAudienceClaim(value)
     this.#payload.aud = value
   }
 
   set jti(value: string) {
+    validateStringClaim('jti', value)
     this.#payload.jti = value
   }
 

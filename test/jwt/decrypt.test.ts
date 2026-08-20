@@ -217,9 +217,8 @@ test('Issuer[] verification failed', async (t) => {
 
 test('Issuer[] verification failed []', async (t) => {
   const issuer = 'urn:example:issuer'
-  const jwt = await new EncryptJWT(t.context.payload)
+  const jwt = await new EncryptJWT({ ...t.context.payload, iss: [issuer] as never })
     .setProtectedHeader({ alg: 'dir', enc: 'A256GCM' })
-    .setIssuer([issuer])
     .encrypt(t.context.secret)
 
   await t.throwsAsync(

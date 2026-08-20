@@ -103,6 +103,35 @@ test('time setters reject values that only coerce to duration strings', (t) => {
   }
 })
 
+test('registered string claim setters reject invalid types', (t) => {
+  for (const [setClaim, message] of [
+    [() => new SignJWT().setIssuer(0 as never), '"iss" claim must be a string'],
+    [() => new SignJWT().setSubject(null as never), '"sub" claim must be a string'],
+    [() => new SignJWT().setJti({} as never), '"jti" claim must be a string'],
+    [
+      () => new SignJWT().setAudience(0 as never),
+      '"aud" claim must be a string or an array of strings',
+    ],
+    [
+      () => new SignJWT().setAudience(['audience', 0] as never),
+      '"aud" claim must be a string or an array of strings',
+    ],
+  ] as const) {
+    t.throws(setClaim, { instanceOf: TypeError, message })
+  }
+})
+
+test('JWT production rejects non-finite NumericDate claims', async (t) => {
+  for (const claim of ['exp', 'nbf', 'iat']) {
+    for (const value of [NaN, Infinity, -Infinity]) {
+      await t.throwsAsync(
+        new SignJWT({ [claim]: value }).setProtectedHeader({ alg: 'HS256' }).sign(t.context.secret),
+        { instanceOf: TypeError, message: `"${claim}" claim must be a finite number` },
+      )
+    }
+  }
+})
+
 test('"b64" is ignored when "crit" does not list it', async (t) => {
   // Only a "b64" listed in "crit" is in effect per RFC 7797, so this one does not make the JWT an
   // unencoded payload one and is signed like any other.
