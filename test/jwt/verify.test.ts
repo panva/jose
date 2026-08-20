@@ -125,6 +125,16 @@ test('algorithms options', async (t) => {
 
 test('typ verification', async (t) => {
   {
+    const jwt = await new SignJWT(t.context.payload)
+      .setProtectedHeader({ alg: 'HS256', typ: 'JWT' })
+      .sign(t.context.secret)
+
+    await t.throwsAsync(jwtVerify(jwt, t.context.secret, { typ: '' }), {
+      code: 'ERR_JWT_CLAIM_VALIDATION_FAILED',
+      message: 'unexpected "typ" JWT header value',
+    })
+  }
+  {
     const typ = 'urn:example:typ'
     const jwt = await new SignJWT(t.context.payload)
       .setProtectedHeader({ alg: 'HS256', typ })
@@ -521,7 +531,7 @@ test('maxTokenAge of 0 is enforced', async (t) => {
   await t.notThrowsAsync(jwtVerify(fresh, t.context.secret, { maxTokenAge: 0 }))
 })
 
-test('clockTolerance and currentDate must be finite', async (t) => {
+test('time validation options must be finite', async (t) => {
   const jwt = await new SignJWT(t.context.payload)
     .setProtectedHeader({ alg: 'HS256' })
     .setExpirationTime(now - 30)
@@ -539,10 +549,34 @@ test('clockTolerance and currentDate must be finite', async (t) => {
     message: 'Invalid currentDate option input',
   })
 
+  const issued = await new SignJWT(t.context.payload)
+    .setProtectedHeader({ alg: 'HS256' })
+    .setIssuedAt(now)
+    .sign(t.context.secret)
+  for (const maxTokenAge of [NaN, Infinity, -Infinity]) {
+    await t.throwsAsync(jwtVerify(issued, t.context.secret, { maxTokenAge }), {
+      instanceOf: TypeError,
+      message: 'Invalid maxTokenAge option input',
+    })
+  }
+
   // The token is genuinely expired, so a valid tolerance still rejects it.
   await t.throwsAsync(jwtVerify(jwt, t.context.secret, { clockTolerance: 0 }), {
     code: 'ERR_JWT_EXPIRED',
   })
+})
+
+test('currentDate must not silently default invalid falsy values', async (t) => {
+  const jwt = await new SignJWT(t.context.payload)
+    .setProtectedHeader({ alg: 'HS256' })
+    .setExpirationTime(now + 30)
+    .sign(t.context.secret)
+
+  for (const currentDate of [null, 0, false, '']) {
+    await t.throwsAsync(jwtVerify(jwt, t.context.secret, { currentDate: currentDate as never }), {
+      instanceOf: TypeError,
+    })
+  }
 })
 
 test('invalid UTF-8 in the Claims Set is rejected', async (t) => {

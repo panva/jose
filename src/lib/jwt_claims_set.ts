@@ -116,7 +116,7 @@ export function validateClaimsSet(
 
   const { typ } = options
   if (
-    typ &&
+    typ !== undefined &&
     (typeof protectedHeader!.typ !== 'string' ||
       normalizeTyp(protectedHeader!.typ) !== normalizeTyp(typ))
   ) {
@@ -180,7 +180,10 @@ export function validateClaimsSet(
   validateInput('clockTolerance option', tolerance)
 
   const { currentDate } = options
-  const now = validateInput('currentDate option', epoch(currentDate || new Date()))
+  const now = validateInput(
+    'currentDate option',
+    epoch(currentDate === undefined ? new Date() : currentDate),
+  )
 
   const iat = validateNumericDate(payload, 'iat', maxTokenAge !== undefined)
 
@@ -205,7 +208,10 @@ export function validateClaimsSet(
 
   if (maxTokenAge !== undefined) {
     const age = now - iat!
-    const max = typeof maxTokenAge === 'number' ? maxTokenAge : secs(maxTokenAge)
+    const max = validateInput(
+      'maxTokenAge option',
+      typeof maxTokenAge === 'number' ? maxTokenAge : secs(maxTokenAge),
+    )
 
     if (age - tolerance > max) {
       throw new JWTExpired(
