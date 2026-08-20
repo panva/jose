@@ -21,14 +21,12 @@ import {
 } from './internal.js'
 import type { SDJWTIssuerGetKey, SDJWTIssuerKey } from '../types.d.ts'
 
-type SDJWTIssuerKeyLike = SDJWTIssuerKey | SDJWTIssuerGetKey
-
 export type SDJWTHolderVerificationKey = types.CryptoKey | types.KeyObject | types.JWK
 
 /** Resolves confirmation methods other than `cnf.jwk`. */
 export interface SDJWTHolderKeyResolver {
   (
-    protectedHeader: types.JWTHeaderParameters,
+    protectedHeader: types.CompactJWSHeaderParameters,
     token: types.FlattenedJWSInput,
     confirmation: Record<string, unknown>,
     sdJwtPayload: types.JWTPayload,
@@ -45,7 +43,7 @@ export interface SDJWTKeyBindingVerificationOptions {
    */
   nonce: string
   /** Allowed asymmetric JWS signature algorithms. */
-  algorithms: string[]
+  algorithms: types.JWSAlgorithm[]
   /** Maximum age of the Key Binding JWT. This is not a substitute for nonce replay protection. */
   maxTokenAge: string | number
   /** Clock skew tolerance used for `iat` validation. */
@@ -87,7 +85,9 @@ interface SDJWTVerifyResultProperties<PayloadType> {
    * Processed SD-JWT Payload containing permanently disclosed claims and successfully presented
    * Disclosures, with `_sd` and `_sd_alg` removed.
    */
-  payload: PayloadType & types.JWTPayload
+  payload: PayloadType &
+    types.JWTPayload &
+    ([PayloadType] extends [object] ? unknown : unknown extends PayloadType ? unknown : never)
 
   /** Metadata for the Disclosures included in the presentation. */
   disclosures: SDJWTDisclosure[]
@@ -99,7 +99,11 @@ interface SDJWTVerifyResultProperties<PayloadType> {
   keyBinding?: SDJWTKeyBindingVerifyResult
 }
 
-/** Result of verifying a Compact serialized SD-JWT presentation. */
+/**
+ * Result of verifying a Compact serialized SD-JWT presentation.
+ *
+ * @typeParam PayloadType Type definition of the JWT Claims Set the SD-JWT is expected to carry.
+ */
 export interface SDJWTVerifyResult<
   PayloadType = types.JWTPayload,
 > extends SDJWTVerifyResultProperties<PayloadType> {
@@ -107,7 +111,11 @@ export interface SDJWTVerifyResult<
   protectedHeader: types.JWTHeaderParameters
 }
 
-/** Result of verifying a Flattened JWS JSON serialized SD-JWT presentation. */
+/**
+ * Result of verifying a Flattened JWS JSON serialized SD-JWT presentation.
+ *
+ * @typeParam PayloadType Type definition of the JWT Claims Set the SD-JWT is expected to carry.
+ */
 export interface FlattenedSDJWTVerifyResult<
   PayloadType = types.JWTPayload,
 > extends SDJWTVerifyResultProperties<PayloadType> {
@@ -122,7 +130,11 @@ export interface FlattenedSDJWTVerifyResult<
   unprotectedHeader?: types.JWSHeaderParameters
 }
 
-/** Result of verifying a General JWS JSON serialized SD-JWT presentation. */
+/**
+ * Result of verifying a General JWS JSON serialized SD-JWT presentation.
+ *
+ * @typeParam PayloadType Type definition of the JWT Claims Set the SD-JWT is expected to carry.
+ */
 export interface GeneralSDJWTVerifyResult<
   PayloadType = types.JWTPayload,
 > extends FlattenedSDJWTVerifyResult<PayloadType> {}
@@ -223,7 +235,7 @@ async function verifyKeyBinding(
   let verificationKey:
     | SDJWTHolderVerificationKey
     | ((
-        protectedHeader: types.JWTHeaderParameters,
+        protectedHeader: types.CompactJWSHeaderParameters,
         token: types.FlattenedJWSInput,
       ) => Promise<SDJWTHolderVerificationKey>)
 
@@ -327,7 +339,7 @@ interface InternalSDJWTVerifyResult<PayloadType> {
 
 async function verifySDJWT<PayloadType>(
   sdJwt: SDJWTInput | Uint8Array,
-  key: SDJWTIssuerKeyLike,
+  key: SDJWTIssuerKey | SDJWTIssuerGetKey,
   options: SDJWTVerifyOptions,
   expectedSerialization: SDJWTSerialization,
 ): Promise<InternalSDJWTVerifyResult<PayloadType>> {
@@ -438,6 +450,8 @@ async function verifySDJWT<PayloadType>(
  *   keyBinding: false,
  * })
  * ```
+ *
+ * @typeParam PayloadType Type definition of the JWT Claims Set the SD-JWT is expected to carry.
  */
 export function sdJwtVerify<PayloadType = types.JWTPayload>(
   sdJwt: string | Uint8Array,
@@ -460,30 +474,62 @@ export function sdJwtVerify<PayloadType = types.JWTPayload>(
   key: SDJWTIssuerKey,
   options: SDJWTVerifyOptions,
 ): Promise<SDJWTVerifyResult<PayloadType>>
-export function sdJwtVerify<PayloadType = types.JWTPayload>(
+export function sdJwtVerify<
+  PayloadType = types.JWTPayload,
+  KeyType extends types.CryptoKey = types.CryptoKey,
+>(
   sdJwt: string | Uint8Array,
-  getKey: SDJWTIssuerGetKey,
+  getKey: SDJWTIssuerGetKey<KeyType>,
   options: Omit<SDJWTVerifyOptions, 'keyBinding'> & { keyBinding: false },
-): Promise<Omit<SDJWTVerifyResult<PayloadType>, 'keyBinding'> & types.ResolvedKey>
-export function sdJwtVerify<PayloadType = types.JWTPayload>(
+): Promise<Omit<SDJWTVerifyResult<PayloadType>, 'keyBinding'> & types.ResolvedKey<KeyType>>
+export function sdJwtVerify<
+  PayloadType = types.JWTPayload,
+  KeyType extends types.CryptoKey = types.CryptoKey,
+>(
   sdJwt: string | Uint8Array,
-  getKey: SDJWTIssuerGetKey,
+  getKey: SDJWTIssuerGetKey<KeyType>,
   options: Omit<SDJWTVerifyOptions, 'keyBinding'> & {
     keyBinding: SDJWTKeyBindingVerificationOptions
   },
 ): Promise<
   Omit<SDJWTVerifyResult<PayloadType>, 'keyBinding'> & {
     keyBinding: SDJWTKeyBindingVerifyResult
-  } & types.ResolvedKey
+  } & types.ResolvedKey<KeyType>
+>
+export function sdJwtVerify<
+  PayloadType = types.JWTPayload,
+  KeyType extends types.CryptoKey = types.CryptoKey,
+>(
+  sdJwt: string | Uint8Array,
+  getKey: SDJWTIssuerGetKey<KeyType>,
+  options: SDJWTVerifyOptions,
+): Promise<SDJWTVerifyResult<PayloadType> & types.ResolvedKey<KeyType>>
+export function sdJwtVerify<PayloadType = types.JWTPayload>(
+  sdJwt: string | Uint8Array,
+  key: SDJWTIssuerKey | SDJWTIssuerGetKey,
+  options: Omit<SDJWTVerifyOptions, 'keyBinding'> & { keyBinding: false },
+): Promise<
+  Omit<SDJWTVerifyResult<PayloadType>, 'keyBinding'> & Partial<types.ResolvedKey<types.CryptoKey>>
 >
 export function sdJwtVerify<PayloadType = types.JWTPayload>(
   sdJwt: string | Uint8Array,
-  getKey: SDJWTIssuerGetKey,
-  options: SDJWTVerifyOptions,
-): Promise<SDJWTVerifyResult<PayloadType> & types.ResolvedKey>
+  key: SDJWTIssuerKey | SDJWTIssuerGetKey,
+  options: Omit<SDJWTVerifyOptions, 'keyBinding'> & {
+    keyBinding: SDJWTKeyBindingVerificationOptions
+  },
+): Promise<
+  Omit<SDJWTVerifyResult<PayloadType>, 'keyBinding'> & {
+    keyBinding: SDJWTKeyBindingVerifyResult
+  } & Partial<types.ResolvedKey<types.CryptoKey>>
+>
 export function sdJwtVerify<PayloadType = types.JWTPayload>(
   sdJwt: string | Uint8Array,
-  key: SDJWTIssuerKeyLike,
+  key: SDJWTIssuerKey | SDJWTIssuerGetKey,
+  options: SDJWTVerifyOptions,
+): Promise<SDJWTVerifyResult<PayloadType> & Partial<types.ResolvedKey<types.CryptoKey>>>
+export function sdJwtVerify<PayloadType = types.JWTPayload>(
+  sdJwt: string | Uint8Array,
+  key: SDJWTIssuerKey | SDJWTIssuerGetKey,
   options: SDJWTVerifyOptions,
 ): Promise<SDJWTVerifyResult<PayloadType>> {
   return verifySDJWT(sdJwt, key, options, 'compact') as Promise<SDJWTVerifyResult<PayloadType>>
@@ -510,6 +556,8 @@ export function sdJwtVerify<PayloadType = types.JWTPayload>(
  *   },
  * )
  * ```
+ *
+ * @typeParam PayloadType Type definition of the JWT Claims Set the SD-JWT is expected to carry.
  */
 export function flattenedSdJwtVerify<PayloadType = types.JWTPayload>(
   sdJwt: types.FlattenedJWS,
@@ -532,30 +580,63 @@ export function flattenedSdJwtVerify<PayloadType = types.JWTPayload>(
   key: SDJWTIssuerKey,
   options: SDJWTVerifyOptions,
 ): Promise<FlattenedSDJWTVerifyResult<PayloadType>>
-export function flattenedSdJwtVerify<PayloadType = types.JWTPayload>(
+export function flattenedSdJwtVerify<
+  PayloadType = types.JWTPayload,
+  KeyType extends types.CryptoKey = types.CryptoKey,
+>(
   sdJwt: types.FlattenedJWS,
-  getKey: SDJWTIssuerGetKey,
+  getKey: SDJWTIssuerGetKey<KeyType>,
   options: Omit<SDJWTVerifyOptions, 'keyBinding'> & { keyBinding: false },
-): Promise<Omit<FlattenedSDJWTVerifyResult<PayloadType>, 'keyBinding'> & types.ResolvedKey>
-export function flattenedSdJwtVerify<PayloadType = types.JWTPayload>(
+): Promise<Omit<FlattenedSDJWTVerifyResult<PayloadType>, 'keyBinding'> & types.ResolvedKey<KeyType>>
+export function flattenedSdJwtVerify<
+  PayloadType = types.JWTPayload,
+  KeyType extends types.CryptoKey = types.CryptoKey,
+>(
   sdJwt: types.FlattenedJWS,
-  getKey: SDJWTIssuerGetKey,
+  getKey: SDJWTIssuerGetKey<KeyType>,
   options: Omit<SDJWTVerifyOptions, 'keyBinding'> & {
     keyBinding: SDJWTKeyBindingVerificationOptions
   },
 ): Promise<
   Omit<FlattenedSDJWTVerifyResult<PayloadType>, 'keyBinding'> & {
     keyBinding: SDJWTKeyBindingVerifyResult
-  } & types.ResolvedKey
+  } & types.ResolvedKey<KeyType>
+>
+export function flattenedSdJwtVerify<
+  PayloadType = types.JWTPayload,
+  KeyType extends types.CryptoKey = types.CryptoKey,
+>(
+  sdJwt: types.FlattenedJWS,
+  getKey: SDJWTIssuerGetKey<KeyType>,
+  options: SDJWTVerifyOptions,
+): Promise<FlattenedSDJWTVerifyResult<PayloadType> & types.ResolvedKey<KeyType>>
+export function flattenedSdJwtVerify<PayloadType = types.JWTPayload>(
+  sdJwt: types.FlattenedJWS,
+  key: SDJWTIssuerKey | SDJWTIssuerGetKey,
+  options: Omit<SDJWTVerifyOptions, 'keyBinding'> & { keyBinding: false },
+): Promise<
+  Omit<FlattenedSDJWTVerifyResult<PayloadType>, 'keyBinding'> &
+    Partial<types.ResolvedKey<types.CryptoKey>>
 >
 export function flattenedSdJwtVerify<PayloadType = types.JWTPayload>(
   sdJwt: types.FlattenedJWS,
-  getKey: SDJWTIssuerGetKey,
-  options: SDJWTVerifyOptions,
-): Promise<FlattenedSDJWTVerifyResult<PayloadType> & types.ResolvedKey>
+  key: SDJWTIssuerKey | SDJWTIssuerGetKey,
+  options: Omit<SDJWTVerifyOptions, 'keyBinding'> & {
+    keyBinding: SDJWTKeyBindingVerificationOptions
+  },
+): Promise<
+  Omit<FlattenedSDJWTVerifyResult<PayloadType>, 'keyBinding'> & {
+    keyBinding: SDJWTKeyBindingVerifyResult
+  } & Partial<types.ResolvedKey<types.CryptoKey>>
+>
 export function flattenedSdJwtVerify<PayloadType = types.JWTPayload>(
   sdJwt: types.FlattenedJWS,
-  key: SDJWTIssuerKeyLike,
+  key: SDJWTIssuerKey | SDJWTIssuerGetKey,
+  options: SDJWTVerifyOptions,
+): Promise<FlattenedSDJWTVerifyResult<PayloadType> & Partial<types.ResolvedKey<types.CryptoKey>>>
+export function flattenedSdJwtVerify<PayloadType = types.JWTPayload>(
+  sdJwt: types.FlattenedJWS,
+  key: SDJWTIssuerKey | SDJWTIssuerGetKey,
   options: SDJWTVerifyOptions,
 ): Promise<FlattenedSDJWTVerifyResult<PayloadType>> {
   return verifySDJWT(sdJwt, key, options, 'flattened')
@@ -583,6 +664,8 @@ export function flattenedSdJwtVerify<PayloadType = types.JWTPayload>(
  *   },
  * })
  * ```
+ *
+ * @typeParam PayloadType Type definition of the JWT Claims Set the SD-JWT is expected to carry.
  */
 export function generalSdJwtVerify<PayloadType = types.JWTPayload>(
   sdJwt: types.GeneralJWS,
@@ -605,30 +688,63 @@ export function generalSdJwtVerify<PayloadType = types.JWTPayload>(
   key: SDJWTIssuerKey,
   options: SDJWTVerifyOptions,
 ): Promise<GeneralSDJWTVerifyResult<PayloadType>>
-export function generalSdJwtVerify<PayloadType = types.JWTPayload>(
+export function generalSdJwtVerify<
+  PayloadType = types.JWTPayload,
+  KeyType extends types.CryptoKey = types.CryptoKey,
+>(
   sdJwt: types.GeneralJWS,
-  getKey: SDJWTIssuerGetKey,
+  getKey: SDJWTIssuerGetKey<KeyType>,
   options: Omit<SDJWTVerifyOptions, 'keyBinding'> & { keyBinding: false },
-): Promise<Omit<GeneralSDJWTVerifyResult<PayloadType>, 'keyBinding'> & types.ResolvedKey>
-export function generalSdJwtVerify<PayloadType = types.JWTPayload>(
+): Promise<Omit<GeneralSDJWTVerifyResult<PayloadType>, 'keyBinding'> & types.ResolvedKey<KeyType>>
+export function generalSdJwtVerify<
+  PayloadType = types.JWTPayload,
+  KeyType extends types.CryptoKey = types.CryptoKey,
+>(
   sdJwt: types.GeneralJWS,
-  getKey: SDJWTIssuerGetKey,
+  getKey: SDJWTIssuerGetKey<KeyType>,
   options: Omit<SDJWTVerifyOptions, 'keyBinding'> & {
     keyBinding: SDJWTKeyBindingVerificationOptions
   },
 ): Promise<
   Omit<GeneralSDJWTVerifyResult<PayloadType>, 'keyBinding'> & {
     keyBinding: SDJWTKeyBindingVerifyResult
-  } & types.ResolvedKey
+  } & types.ResolvedKey<KeyType>
+>
+export function generalSdJwtVerify<
+  PayloadType = types.JWTPayload,
+  KeyType extends types.CryptoKey = types.CryptoKey,
+>(
+  sdJwt: types.GeneralJWS,
+  getKey: SDJWTIssuerGetKey<KeyType>,
+  options: SDJWTVerifyOptions,
+): Promise<GeneralSDJWTVerifyResult<PayloadType> & types.ResolvedKey<KeyType>>
+export function generalSdJwtVerify<PayloadType = types.JWTPayload>(
+  sdJwt: types.GeneralJWS,
+  key: SDJWTIssuerKey | SDJWTIssuerGetKey,
+  options: Omit<SDJWTVerifyOptions, 'keyBinding'> & { keyBinding: false },
+): Promise<
+  Omit<GeneralSDJWTVerifyResult<PayloadType>, 'keyBinding'> &
+    Partial<types.ResolvedKey<types.CryptoKey>>
 >
 export function generalSdJwtVerify<PayloadType = types.JWTPayload>(
   sdJwt: types.GeneralJWS,
-  getKey: SDJWTIssuerGetKey,
-  options: SDJWTVerifyOptions,
-): Promise<GeneralSDJWTVerifyResult<PayloadType> & types.ResolvedKey>
+  key: SDJWTIssuerKey | SDJWTIssuerGetKey,
+  options: Omit<SDJWTVerifyOptions, 'keyBinding'> & {
+    keyBinding: SDJWTKeyBindingVerificationOptions
+  },
+): Promise<
+  Omit<GeneralSDJWTVerifyResult<PayloadType>, 'keyBinding'> & {
+    keyBinding: SDJWTKeyBindingVerifyResult
+  } & Partial<types.ResolvedKey<types.CryptoKey>>
+>
 export function generalSdJwtVerify<PayloadType = types.JWTPayload>(
   sdJwt: types.GeneralJWS,
-  key: SDJWTIssuerKeyLike,
+  key: SDJWTIssuerKey | SDJWTIssuerGetKey,
+  options: SDJWTVerifyOptions,
+): Promise<GeneralSDJWTVerifyResult<PayloadType> & Partial<types.ResolvedKey<types.CryptoKey>>>
+export function generalSdJwtVerify<PayloadType = types.JWTPayload>(
+  sdJwt: types.GeneralJWS,
+  key: SDJWTIssuerKey | SDJWTIssuerGetKey,
   options: SDJWTVerifyOptions,
 ): Promise<GeneralSDJWTVerifyResult<PayloadType>> {
   return verifySDJWT(sdJwt, key, options, 'general')

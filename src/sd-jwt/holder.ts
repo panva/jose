@@ -21,8 +21,6 @@ import {
 } from './internal.js'
 import type { SDJWTIssuerGetKey, SDJWTIssuerKey } from '../types.d.ts'
 
-type SDJWTIssuerKeyLike = SDJWTIssuerKey | SDJWTIssuerGetKey
-
 /**
  * Options used when an Issuer-signed SD-JWT is received by a Holder. When `typ` is expected, it
  * must be carried in the integrity-protected header.
@@ -74,7 +72,11 @@ export interface SDJWTDisclosure {
 /** Private asymmetric key accepted when signing an RFC 9901 Key Binding JWT. */
 export type SDJWTHolderSigningKey = types.CryptoKey | types.KeyObject | types.JWK
 
-/** Builds a Key Binding JWT for an SD-JWT presentation. */
+/**
+ * Builds a Key Binding JWT for an SD-JWT presentation.
+ *
+ * @typeParam SerializationType Serialization syntax returned by {@link present}.
+ */
 export interface SDJWTKeyBinding<SerializationType extends types.SDJWT = types.SDJWT> {
   /**
    * Sets custom Key Binding JWT Claims. The `aud`, `nonce`, `iat`, and `sd_hash` claims are managed
@@ -118,6 +120,9 @@ export interface SDJWTKeyBinding<SerializationType extends types.SDJWT = types.S
  * Disclosures. A Holder cannot determine whether the Issuer supplied every non-decoy Disclosure.
  * Values exposed by a credential are ordinary mutable JavaScript values. Presentation operations
  * use separate internal snapshots and are not affected by mutations to those exposed values.
+ *
+ * @typeParam PayloadType Type definition of the JWT Claims Set the SD-JWT is expected to carry.
+ * @typeParam SerializationType Serialization syntax returned by presentation operations.
  */
 export interface SDJWTCredential<
   PayloadType = types.JWTPayload,
@@ -127,7 +132,9 @@ export interface SDJWTCredential<
    * Processed SD-JWT Payload containing permanently disclosed claims and every successfully
    * processed Disclosure, with `_sd` and `_sd_alg` removed.
    */
-  payload: PayloadType & types.JWTPayload
+  payload: PayloadType &
+    types.JWTPayload &
+    ([PayloadType] extends [object] ? unknown : unknown extends PayloadType ? unknown : never)
 
   /** Protected header of the successfully verified Issuer signature, if present. */
   protectedHeader?: types.JWSHeaderParameters
@@ -141,9 +148,6 @@ export interface SDJWTCredential<
 
   /** Metadata for all Disclosures received from the Issuer. */
   disclosures: SDJWTDisclosure[]
-
-  /** Key resolved by a dynamic Issuer key resolver. */
-  key?: types.CryptoKey
 
   /**
    * Creates a presentation without Key Binding. `paths` must contain exact values exposed by this
@@ -430,7 +434,7 @@ class SDJWTCredentialImplementation<PayloadType, SerializationType extends types
 
 async function receiveSDJWT<PayloadType, SerializationType extends types.SDJWT>(
   sdJwt: SDJWTInput | Uint8Array,
-  key: SDJWTIssuerKeyLike,
+  key: SDJWTIssuerKey | SDJWTIssuerGetKey,
   options: SDJWTReceiveOptions,
   expectedSerialization: SDJWTSerialization,
 ): Promise<SDJWTCredential<PayloadType, SerializationType>> {
@@ -467,6 +471,8 @@ async function receiveSDJWT<PayloadType, SerializationType extends types.SDJWT>(
  *
  * const presentation = await credential.present(['/given_name'])
  * ```
+ *
+ * @typeParam PayloadType Type definition of the JWT Claims Set the SD-JWT is expected to carry.
  */
 export function sdJwtReceive<PayloadType = types.JWTPayload>(
   sdJwt: string | Uint8Array,
@@ -477,18 +483,30 @@ export function sdJwtReceive<PayloadType = types.JWTPayload>(
     protectedHeader: types.JWTHeaderParameters
   }
 >
-export function sdJwtReceive<PayloadType = types.JWTPayload>(
+export function sdJwtReceive<
+  PayloadType = types.JWTPayload,
+  KeyType extends types.CryptoKey = types.CryptoKey,
+>(
   sdJwt: string | Uint8Array,
-  getKey: SDJWTIssuerGetKey,
+  getKey: SDJWTIssuerGetKey<KeyType>,
   options?: SDJWTReceiveOptions,
 ): Promise<
   Omit<SDJWTCredential<PayloadType, string>, 'protectedHeader' | 'unprotectedHeader'> & {
     protectedHeader: types.JWTHeaderParameters
-  } & types.ResolvedKey
+  } & types.ResolvedKey<KeyType>
 >
 export function sdJwtReceive<PayloadType = types.JWTPayload>(
   sdJwt: string | Uint8Array,
-  key: SDJWTIssuerKeyLike,
+  key: SDJWTIssuerKey | SDJWTIssuerGetKey,
+  options?: SDJWTReceiveOptions,
+): Promise<
+  Omit<SDJWTCredential<PayloadType, string>, 'protectedHeader' | 'unprotectedHeader'> & {
+    protectedHeader: types.JWTHeaderParameters
+  } & Partial<types.ResolvedKey<types.CryptoKey>>
+>
+export function sdJwtReceive<PayloadType = types.JWTPayload>(
+  sdJwt: string | Uint8Array,
+  key: SDJWTIssuerKey | SDJWTIssuerGetKey,
   options: SDJWTReceiveOptions = {},
 ): Promise<SDJWTCredential<PayloadType, string>> {
   return receiveSDJWT(sdJwt, key, options, 'compact')
@@ -506,20 +524,32 @@ export function sdJwtReceive<PayloadType = types.JWTPayload>(
  * const available = credential.disclosures.map(({ path }) => path)
  * const presentation = await credential.present(['/address/street'])
  * ```
+ *
+ * @typeParam PayloadType Type definition of the JWT Claims Set the SD-JWT is expected to carry.
  */
 export function flattenedSdJwtReceive<PayloadType = types.JWTPayload>(
   sdJwt: types.FlattenedJWS,
   key: SDJWTIssuerKey,
   options?: SDJWTReceiveOptions,
 ): Promise<SDJWTCredential<PayloadType, types.FlattenedSDJWT>>
-export function flattenedSdJwtReceive<PayloadType = types.JWTPayload>(
+export function flattenedSdJwtReceive<
+  PayloadType = types.JWTPayload,
+  KeyType extends types.CryptoKey = types.CryptoKey,
+>(
   sdJwt: types.FlattenedJWS,
-  getKey: SDJWTIssuerGetKey,
+  getKey: SDJWTIssuerGetKey<KeyType>,
   options?: SDJWTReceiveOptions,
-): Promise<SDJWTCredential<PayloadType, types.FlattenedSDJWT> & types.ResolvedKey>
+): Promise<SDJWTCredential<PayloadType, types.FlattenedSDJWT> & types.ResolvedKey<KeyType>>
 export function flattenedSdJwtReceive<PayloadType = types.JWTPayload>(
   sdJwt: types.FlattenedJWS,
-  key: SDJWTIssuerKeyLike,
+  key: SDJWTIssuerKey | SDJWTIssuerGetKey,
+  options?: SDJWTReceiveOptions,
+): Promise<
+  SDJWTCredential<PayloadType, types.FlattenedSDJWT> & Partial<types.ResolvedKey<types.CryptoKey>>
+>
+export function flattenedSdJwtReceive<PayloadType = types.JWTPayload>(
+  sdJwt: types.FlattenedJWS,
+  key: SDJWTIssuerKey | SDJWTIssuerGetKey,
   options: SDJWTReceiveOptions = {},
 ): Promise<SDJWTCredential<PayloadType, types.FlattenedSDJWT>> {
   return receiveSDJWT(sdJwt, key, options, 'flattened')
@@ -542,20 +572,32 @@ export function flattenedSdJwtReceive<PayloadType = types.JWTPayload>(
  *   .setIssuedAt()
  *   .present(['/given_name'])
  * ```
+ *
+ * @typeParam PayloadType Type definition of the JWT Claims Set the SD-JWT is expected to carry.
  */
 export function generalSdJwtReceive<PayloadType = types.JWTPayload>(
   sdJwt: types.GeneralJWS,
   key: SDJWTIssuerKey,
   options?: SDJWTReceiveOptions,
 ): Promise<SDJWTCredential<PayloadType, types.GeneralSDJWT>>
-export function generalSdJwtReceive<PayloadType = types.JWTPayload>(
+export function generalSdJwtReceive<
+  PayloadType = types.JWTPayload,
+  KeyType extends types.CryptoKey = types.CryptoKey,
+>(
   sdJwt: types.GeneralJWS,
-  getKey: SDJWTIssuerGetKey,
+  getKey: SDJWTIssuerGetKey<KeyType>,
   options?: SDJWTReceiveOptions,
-): Promise<SDJWTCredential<PayloadType, types.GeneralSDJWT> & types.ResolvedKey>
+): Promise<SDJWTCredential<PayloadType, types.GeneralSDJWT> & types.ResolvedKey<KeyType>>
 export function generalSdJwtReceive<PayloadType = types.JWTPayload>(
   sdJwt: types.GeneralJWS,
-  key: SDJWTIssuerKeyLike,
+  key: SDJWTIssuerKey | SDJWTIssuerGetKey,
+  options?: SDJWTReceiveOptions,
+): Promise<
+  SDJWTCredential<PayloadType, types.GeneralSDJWT> & Partial<types.ResolvedKey<types.CryptoKey>>
+>
+export function generalSdJwtReceive<PayloadType = types.JWTPayload>(
+  sdJwt: types.GeneralJWS,
+  key: SDJWTIssuerKey | SDJWTIssuerGetKey,
   options: SDJWTReceiveOptions = {},
 ): Promise<SDJWTCredential<PayloadType, types.GeneralSDJWT>> {
   return receiveSDJWT(sdJwt, key, options, 'general')

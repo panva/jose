@@ -426,11 +426,14 @@ export type SDJWTIssuerKey = CryptoKey | KeyObject | JWK
  * verified when this callback runs. The resolver must securely establish that the returned key
  * belongs to the expected Issuer; an attacker-controlled `kid`, `iss`, or key URL is not a trust
  * decision.
+ *
+ * @typeParam KeyType Type definition of the keys the function resolves. Narrowing it is what lets
+ *   {@link ResolvedKey.key} be inferred at the call site.
  */
-export interface SDJWTIssuerGetKey extends GenericGetKeyFunction<
+export interface SDJWTIssuerGetKey<KeyType extends CryptoKey = CryptoKey> extends GetKeyFunction<
   JWSHeaderParameters,
   FlattenedJWSInput,
-  SDJWTIssuerKey
+  KeyType | KeyObject | JWK
 > {}
 
 /**
