@@ -83,6 +83,50 @@ test('oct JWK', async (t) => {
   )
 })
 
+test('JWK key_ops must be an array of unique strings', async (t) => {
+  for (const key_ops of [null, {}, 0, 'sign', Array(1), ['sign', 'sign'], ['sign', 0]]) {
+    await t.throwsAsync(
+      importJWK(
+        {
+          kty: 'oct',
+          k: 'FyCq1CKBflh3I5gikEjpYrdOXllzxB_yc02za8ERknI',
+          key_ops,
+        } as never,
+        'HS256',
+      ),
+      { instanceOf: TypeError },
+    )
+  }
+})
+
+test('JWK ext must be a boolean', async (t) => {
+  await t.throwsAsync(
+    importJWK(
+      {
+        crv: 'P-256',
+        ext: 'false',
+        kty: 'EC',
+        x: 'q3zAwR_kUwtdLEwtB2oVfucXiLHmEhu9bJUFYjJxYGs',
+        y: '8h0D-ONoU-iZqrq28TyUxEULxuGwJZGMJYTMbeMshvI',
+      } as never,
+      'ES256',
+    ),
+    { instanceOf: TypeError },
+  )
+
+  await t.throwsAsync(
+    importJWK(
+      {
+        ext: 'false',
+        k: 'FyCq1CKBflh3I5gikEjpYrdOXllzxB_yc02za8ERknI',
+        kty: 'oct',
+      } as never,
+      'HS256',
+    ),
+    { instanceOf: TypeError },
+  )
+})
+
 test('Uin8tArray can be transformed to a JWK', async (t) => {
   t.deepEqual(
     await exportJWK(new Uint8Array([1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15])),

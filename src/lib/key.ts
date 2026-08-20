@@ -5,6 +5,7 @@ import type * as types from '../types.d.ts'
 import { decode } from '../util/base64url.js'
 import { jwkToKey } from './jwk_to_key.js'
 import type { KeyDescriptor } from './key_descriptor.js'
+import { validateJwkMetadata } from './jwk_metadata.js'
 
 const tag = (key: object): string | undefined =>
   (key as { [Symbol.toStringTag]?: string })[Symbol.toStringTag]
@@ -42,6 +43,7 @@ export function checkKeyType(entry: KeyDescriptor, key: unknown, usage: Usage): 
   if (secret && key instanceof Uint8Array) return [BYTES, key]
 
   if (jwk.isJWK(key)) {
+    validateJwkMetadata(key)
     if (
       secret ? !jwk.isSecretJWK(key) : !(privateKey ? jwk.isPrivateJWK(key) : jwk.isPublicJWK(key))
     ) {

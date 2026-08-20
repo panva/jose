@@ -57,3 +57,19 @@ test.serial('JWK inputs are frozen before import and cached afterward', async (t
     }
   }
 })
+
+test('direct oct JWK key_ops must be an array of unique strings', async (t) => {
+  const key = {
+    k: 'AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA',
+    kty: 'oct' as const,
+  }
+
+  for (const key_ops of [null, {}, 0, 'sign', ['sign', 'sign'], ['sign', 0]]) {
+    await t.throwsAsync(
+      new CompactSign(payload)
+        .setProtectedHeader({ alg: 'HS256' })
+        .sign({ ...key, key_ops } as never),
+      { instanceOf: TypeError },
+    )
+  }
+})

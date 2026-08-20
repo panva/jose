@@ -13,6 +13,7 @@ import { JOSENotSupported } from '../util/errors.js'
 import { isObject } from '../lib/type_checks.js'
 import type * as types from '../types.d.ts'
 import { validateExtractableOption } from '../lib/key_options.js'
+import { validateJwkMetadata } from '../lib/jwk_metadata.js'
 
 /**
  * Resolves what {@link importJWK} returns for a given JWK type. The "kty" (Key Type) Parameter fully
@@ -210,6 +211,7 @@ export async function importJWK(
   if (!isObject(jwk)) {
     throw new TypeError('JWK must be an object')
   }
+  validateJwkMetadata(jwk)
   validateExtractableOption(options?.extractable)
 
   alg ??= jwk.alg
