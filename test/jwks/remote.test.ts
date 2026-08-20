@@ -434,6 +434,28 @@ test.serial('can be configured to never be stale', async (t) => {
   }
 })
 
+test('remote JWKS duration options reject NaN', (t) => {
+  const url = new URL('https://as.example.com/jwks')
+
+  for (const option of ['timeoutDuration', 'cooldownDuration', 'cacheMaxAge'] as const) {
+    t.throws(() => createRemoteJWKSet(url, { [option]: NaN }), {
+      instanceOf: TypeError,
+    })
+  }
+})
+
+test('remote JWKS timeoutDuration must be a non-negative integer', (t) => {
+  const url = new URL('https://as.example.com/jwks')
+
+  for (const timeoutDuration of [-1, 0.5, Infinity, -Infinity]) {
+    t.throws(() => createRemoteJWKSet(url, { timeoutDuration }), {
+      instanceOf: TypeError,
+    })
+  }
+
+  t.notThrows(() => createRemoteJWKSet(url, { timeoutDuration: 0 }))
+})
+
 test.serial('throws on invalid JWKSet', async (t) => {
   const mockAgent = agent.get('https://as.example.com')
 

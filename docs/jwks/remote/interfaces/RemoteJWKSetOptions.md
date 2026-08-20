@@ -55,4 +55,4 @@ Headers to be sent with the HTTP request.
 • `optional` **timeoutDuration?**: `number`
 
 Timeout (in milliseconds) for the HTTP request. When reached the request will be aborted and
-the verification will fail. Default is 5000 (5 seconds).
+the verification will fail. Must be a non-negative integer. Default is 5000 (5 seconds).

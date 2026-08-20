@@ -267,7 +267,7 @@ export const jwksCache: unique symbol = Symbol()
 export interface RemoteJWKSetOptions {
   /**
    * Timeout (in milliseconds) for the HTTP request. When reached the request will be aborted and
-   * the verification will fail. Default is 5000 (5 seconds).
+   * the verification will fail. Must be a non-negative integer. Default is 5000 (5 seconds).
    */
   timeoutDuration?: number
 
@@ -362,6 +362,21 @@ function isFreshJwksCache(input: unknown, cacheMaxAge: number): input is Exporte
   return true
 }
 
+function validateDurationOptions(options: RemoteJWKSetOptions): void {
+  if (
+    typeof options.timeoutDuration === 'number' &&
+    (!Number.isInteger(options.timeoutDuration) || options.timeoutDuration < 0)
+  ) {
+    throw new TypeError('"timeoutDuration" option must be a non-negative integer')
+  }
+
+  for (const option of ['cooldownDuration', 'cacheMaxAge'] as const) {
+    if (Number.isNaN(options[option])) {
+      throw new TypeError(`"${option}" option must not be NaN`)
+    }
+  }
+}
+
 class RemoteJWKSetImpl {
   #url: URL
 
@@ -394,6 +409,7 @@ class RemoteJWKSetImpl {
     this.#url = new URL(url.href)
 
     const opts = options ?? {}
+    validateDurationOptions(opts)
     this.#timeoutDuration = typeof opts.timeoutDuration === 'number' ? opts.timeoutDuration : 5000
     this.#cooldownDuration =
       typeof opts.cooldownDuration === 'number' ? opts.cooldownDuration : 30000
