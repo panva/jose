@@ -11,7 +11,7 @@ import {
 } from '../../src/lib/sd.js'
 
 // RFC 9901, Appendix A.3 and A.5:
-// https://www.rfc-editor.org/rfc/rfc9901.html#appendix-A.3
+// https://www.rfc-editor.org/info/rfc9901/#appendix-A.3
 
 const ISSUER_PUBLIC_JWK = {
   kty: 'EC',

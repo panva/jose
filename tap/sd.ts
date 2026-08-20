@@ -10,40 +10,42 @@ export default async (
   QUnit.module('sd-jwt')
 
   QUnit.test('Compact issue, receive, present, and verify', async (t) => {
-    const secret = crypto.getRandomValues(new Uint8Array(32))
+    const issuer = await keys.generateKeyPair('ES256')
     const issued = await new lib.SignSDJWT({ always: true, concealed: 'value' })
-      .setProtectedHeader({ alg: 'HS256' })
+      .setProtectedHeader({ alg: 'ES256' })
       .setDisclosurePaths(['/concealed'])
-      .sign(secret)
+      .sign(issuer.privateKey)
 
-    const credential = await lib.sdJwtReceive(issued, secret)
+    const credential = await lib.sdJwtReceive(issued, issuer.publicKey)
     const presentation = await credential.present(['/concealed'])
-    const verified = await lib.sdJwtVerify(presentation, secret, { keyBinding: false })
+    const verified = await lib.sdJwtVerify(presentation, issuer.publicKey, { keyBinding: false })
 
     t.deepEqual(verified.payload, { always: true, concealed: 'value' })
   })
 
   QUnit.test('JSON issue, receive, present, and verify', async (t) => {
-    const secret = crypto.getRandomValues(new Uint8Array(32))
+    const issuer = await keys.generateKeyPair('ES256')
     const flattened = await new lib.FlattenedSignSDJWT({ concealed: 'flattened' })
-      .setProtectedHeader({ alg: 'HS256' })
+      .setProtectedHeader({ alg: 'ES256' })
       .setDisclosurePaths(['/concealed'])
-      .sign(secret)
+      .sign(issuer.privateKey)
     const general = await new lib.GeneralSignSDJWT({ concealed: 'general' })
       .setDisclosurePaths(['/concealed'])
-      .addSignature(secret)
-      .setProtectedHeader({ alg: 'HS256' })
+      .addSignature(issuer.privateKey)
+      .setProtectedHeader({ alg: 'ES256' })
       .sign()
 
-    const flattenedCredential = await lib.flattenedSdJwtReceive(flattened, secret)
+    const flattenedCredential = await lib.flattenedSdJwtReceive(flattened, issuer.publicKey)
     const flattenedPresentation = await flattenedCredential.present(['/concealed'])
-    const flattenedResult = await lib.flattenedSdJwtVerify(flattenedPresentation, secret, {
-      keyBinding: false,
-    })
+    const flattenedResult = await lib.flattenedSdJwtVerify(
+      flattenedPresentation,
+      issuer.publicKey,
+      { keyBinding: false },
+    )
 
-    const generalCredential = await lib.generalSdJwtReceive(general, secret)
+    const generalCredential = await lib.generalSdJwtReceive(general, issuer.publicKey)
     const generalPresentation = await generalCredential.present(['/concealed'])
-    const generalResult = await lib.generalSdJwtVerify(generalPresentation, secret, {
+    const generalResult = await lib.generalSdJwtVerify(generalPresentation, issuer.publicKey, {
       keyBinding: false,
     })
 

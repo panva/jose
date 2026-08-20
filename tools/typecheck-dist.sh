@@ -10,7 +10,7 @@ BASE="--noEmit --ignoreConfig --strict --skipLibCheck false --target esnext"
 
 # Entry points that package.json#exports maps to a .d.ts, reduced to the roots that transitively
 # cover the rest.
-ENTRIES="dist/types/index.d.ts"
+ENTRIES="dist/types/index.d.ts dist/types/sd-jwt/index.d.ts"
 
 for entry in $ENTRIES; do
   if [ ! -f "$entry" ]; then

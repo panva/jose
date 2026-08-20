@@ -102,7 +102,7 @@ export function validateClaimsSet(
   joseHeader: types.JWEHeaderParameters | types.JWSHeaderParameters,
   encodedPayload: Uint8Array,
   options: types.JWTClaimVerificationOptions = {},
-) {
+): types.JWTPayload {
   let payload!: { [propName: string]: unknown }
   try {
     payload = JSON.parse(strictDecoder.decode(encodedPayload))
@@ -121,7 +121,7 @@ export function validateClaimsSetPayload(
   joseHeader: types.JWEHeaderParameters | types.JWSHeaderParameters,
   payload: types.JWTPayload,
   options: types.JWTClaimVerificationOptions = {},
-) {
+): types.JWTPayload {
   if (!isObject(payload)) {
     throw new JWTInvalid('JWT Claims Set must be a top-level JSON object')
   }

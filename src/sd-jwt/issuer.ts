@@ -124,7 +124,7 @@ abstract class SDJWTProducer implements types.ProduceSDJWT {
 
   /**
    * Selects final JWT Claims Set values to make selectively disclosable. Each path is an
-   * {@link https://www.rfc-editor.org/rfc/rfc6901 RFC 6901 JSON Pointer} evaluated against the
+   * {@link https://www.rfc-editor.org/info/rfc6901/ RFC 6901 JSON Pointer} evaluated against the
    * Claims Set when it is signed. This method can only be called once.
    *
    * The root pointer (`''`) is not a valid Disclosure path (`'/'` addresses an object member whose
@@ -200,9 +200,7 @@ abstract class SDJWTProducer implements types.ProduceSDJWT {
     return this
   }
 
-  protected issue(): Promise<
-    ReturnType<typeof issueSDJWTPayload> extends Promise<infer T> ? T : never
-  > {
+  protected issue(): Promise<{ payload: Uint8Array; disclosures: string[] }> {
     return issueSDJWTPayload(this.#jwt.data(), {
       disclosurePaths: validateDisclosurePaths(
         this.#disclosurePathsSet ? this.#disclosurePaths : [],

@@ -213,6 +213,15 @@ function validateCompactJwt(jwt: unknown, label: string): asserts jwt is string 
   canonicalBase64url(signature, `${label} signature`)
 }
 
+function validateCompactJwtStructure(jwt: unknown, label: string): asserts jwt is string {
+  if (typeof jwt !== 'string') {
+    throw new JWTInvalid(`${label} must be a string`)
+  }
+  if (jwt.split('.').length !== 3) {
+    throw new JWTInvalid(`${label} must use JWS Compact Serialization`)
+  }
+}
+
 /** Strictly decodes and validates the shape of a Disclosure. */
 export function parseDisclosure(disclosure: string): ParsedDisclosure {
   const value = decodeJson(disclosure, 'Disclosure')
@@ -354,7 +363,10 @@ function inspectJsonSignature(
   return { protectedHeader: protectedValue, unprotectedHeader: unprotectedValue }
 }
 
-function readTransportHeader(header: Record<string, unknown> | undefined): {
+function readTransportHeader(
+  header: Record<string, unknown> | undefined,
+  validateJws = true,
+): {
   disclosures: string[]
   kbJwt?: string
 } {
@@ -373,7 +385,11 @@ function readTransportHeader(header: Record<string, unknown> | undefined): {
     if (typeof value !== 'string' || value.length === 0) {
       throw new JWTInvalid('SD-JWT kb_jwt header parameter must be a non-empty string')
     }
-    validateCompactJwt(value, 'KB-JWT')
+    if (validateJws) {
+      validateCompactJwt(value, 'KB-JWT')
+    } else {
+      validateCompactJwtStructure(value, 'KB-JWT')
+    }
     kbJwt = value
   }
 
@@ -386,13 +402,25 @@ function removeTransportHeader(header: types.JWSHeaderParameters | undefined) {
   delete header[KB_JWT]
 }
 
-function parseFlattenedSdJwt(token: types.FlattenedJWS): ParsedSdJwt<types.FlattenedJWS> {
+function readUnprotectedHeader(signature: unknown, label: string) {
+  if (!isJsonObject(signature)) {
+    throw new JWTInvalid(`${label} must be a JSON object`)
+  }
+  return unprotectedHeader(signature.header, label)
+}
+
+function parseFlattenedSdJwt(
+  token: types.FlattenedJWS,
+  validateJws = true,
+): ParsedSdJwt<types.FlattenedJWS> {
   if (!isJsonObject(token) || Object.hasOwn(token, 'signatures')) {
     throw new JWTInvalid('Invalid Flattened SD-JWT')
   }
 
-  const inspected = inspectJsonSignature(token, token.payload, 'Flattened JWS signature')
-  const { disclosures, kbJwt } = readTransportHeader(inspected.unprotectedHeader)
+  const unprotected = validateJws
+    ? inspectJsonSignature(token, token.payload, 'Flattened JWS signature').unprotectedHeader
+    : unprotectedHeader(token.header, 'Flattened JWS signature')
+  const { disclosures, kbJwt } = readTransportHeader(unprotected, validateJws)
   const jws = clone(token)
   removeTransportHeader(jws.header)
   if (jws.header && Object.keys(jws.header).length === 0) {
@@ -402,24 +430,26 @@ function parseFlattenedSdJwt(token: types.FlattenedJWS): ParsedSdJwt<types.Flatt
   return { jws, disclosures, kbJwt, serialization: 'flattened' }
 }
 
-function parseGeneralSdJwt(token: types.GeneralJWS): ParsedSdJwt<types.GeneralJWS> {
+function parseGeneralSdJwt(
+  token: types.GeneralJWS,
+  validateJws = true,
+): ParsedSdJwt<types.GeneralJWS> {
   if (!isJsonObject(token) || !Array.isArray(token.signatures) || token.signatures.length === 0) {
     throw new JWTInvalid('Invalid General SD-JWT')
   }
 
   let transport: ReturnType<typeof readTransportHeader> | undefined
   for (let index = 0; index < token.signatures.length; index++) {
-    const inspected = inspectJsonSignature(
-      token.signatures[index],
-      token.payload,
-      `General JWS signature at index ${index}`,
-    )
+    const label = `General JWS signature at index ${index}`
+    const signature = token.signatures[index]
+    const unprotected = validateJws
+      ? inspectJsonSignature(signature, token.payload, label).unprotectedHeader
+      : readUnprotectedHeader(signature, label)
     if (index === 0) {
-      transport = readTransportHeader(inspected.unprotectedHeader)
+      transport = readTransportHeader(unprotected, validateJws)
     } else if (
-      inspected.unprotectedHeader &&
-      (Object.hasOwn(inspected.unprotectedHeader, DISCLOSURES) ||
-        Object.hasOwn(inspected.unprotectedHeader, KB_JWT))
+      unprotected &&
+      (Object.hasOwn(unprotected, DISCLOSURES) || Object.hasOwn(unprotected, KB_JWT))
     ) {
       throw new JWTInvalid('SD-JWT transport parameters must only be in the first signature')
     }
@@ -448,6 +478,20 @@ export function parseSdJwt(token: types.GeneralJWS): ParsedSdJwt<types.GeneralJW
 export function parseSdJwt(
   token: string | types.FlattenedJWS | types.GeneralJWS,
 ): ParsedSdJwt<string | types.FlattenedJWS | types.GeneralJWS> {
+  return parseSdJwtValue(token, true)
+}
+
+/** Parses SD-JWT transport without duplicating validation performed by the JWS verification core. */
+export function parseSdJwtForVerification(
+  token: string | types.FlattenedJWS | types.GeneralJWS,
+): ParsedSdJwt<string | types.FlattenedJWS | types.GeneralJWS> {
+  return parseSdJwtValue(token, false)
+}
+
+function parseSdJwtValue(
+  token: string | types.FlattenedJWS | types.GeneralJWS,
+  validateJws: boolean,
+): ParsedSdJwt<string | types.FlattenedJWS | types.GeneralJWS> {
   if (typeof token === 'string') {
     const parts = token.split('~')
     if (parts.length < 2) {
@@ -455,12 +499,18 @@ export function parseSdJwt(
     }
 
     const jws = parts.shift()!
-    validateCompactJwt(jws, 'Issuer-signed JWT')
+    if (validateJws) {
+      validateCompactJwt(jws, 'Issuer-signed JWT')
+    }
 
     const final = parts.pop()!
     let kbJwt: string | undefined
     if (final.length !== 0) {
-      validateCompactJwt(final, 'KB-JWT')
+      if (validateJws) {
+        validateCompactJwt(final, 'KB-JWT')
+      } else {
+        validateCompactJwtStructure(final, 'KB-JWT')
+      }
       kbJwt = final
     }
 
@@ -472,9 +522,9 @@ export function parseSdJwt(
     throw new JWTInvalid('Invalid SD-JWT')
   }
   if (Object.hasOwn(token, 'signatures')) {
-    return parseGeneralSdJwt(token as types.GeneralJWS)
+    return parseGeneralSdJwt(token as types.GeneralJWS, validateJws)
   }
-  return parseFlattenedSdJwt(token as types.FlattenedJWS)
+  return parseFlattenedSdJwt(token as types.FlattenedJWS, validateJws)
 }
 
 function ensureNoTransportHeaders(token: types.FlattenedJWS | types.GeneralJWS) {

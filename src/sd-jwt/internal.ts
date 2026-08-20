@@ -1,11 +1,10 @@
 /** @ignore */
 
 import type * as types from '../types.d.ts'
-import { compactVerify } from '../jws/compact/verify.js'
-import { flattenedVerify } from '../jws/flattened/verify.js'
-import { generalVerify } from '../jws/general/verify.js'
 import { decoder } from '../lib/buffer_utils.js'
 import { validateClaimsSetPayload } from '../lib/jwt_claims_set.js'
+import { prepareVerify, verifyCompact, verifyResult, verifySignature } from '../lib/jws_verify.js'
+import type { VerifyGetKey, VerifyShared } from '../lib/jws_verify.js'
 import {
   decodeSdJwtPayload,
   type DisclosureDetail,
@@ -14,11 +13,11 @@ import {
   hasMultipleConfirmationKeyRepresentations,
   isPublicAsymmetricJWK,
   type ParsedSdJwt,
-  parseSdJwt,
+  parseSdJwtForVerification,
   processDisclosures,
 } from '../lib/sd.js'
 import { isObject } from '../lib/type_checks.js'
-import { JWTInvalid } from '../util/errors.js'
+import { JWSInvalid, JWSSignatureVerificationFailed, JWTInvalid } from '../util/errors.js'
 import type { SDJWTIssuerGetKey, SDJWTIssuerKey } from '../types.d.ts'
 
 /** @ignore */
@@ -56,6 +55,100 @@ function assertIssuerSignatureAlgorithm(
   }
 }
 
+function assertNoProtectedTransport(protectedHeader: types.JWSHeaderParameters | undefined): void {
+  if (
+    protectedHeader &&
+    (Object.hasOwn(protectedHeader, 'disclosures') || Object.hasOwn(protectedHeader, 'kb_jwt'))
+  ) {
+    const error = new JWTInvalid('SD-JWT transport parameters must be unprotected')
+    protectedTransportErrors.add(error)
+    throw error
+  }
+}
+
+const protectedTransportErrors = new WeakSet<JWTInvalid>()
+
+function prepareIssuerVerificationKey(key: SDJWTIssuerKeyLike): VerifyGetKey {
+  return async (protectedHeader, token) => {
+    assertNoProtectedTransport(protectedHeader)
+    return typeof key === 'function' ? key(protectedHeader, token) : key
+  }
+}
+
+async function verifyIssuerSignature(
+  jws: SDJWTInput,
+  key: SDJWTIssuerKeyLike,
+  options: types.VerifyOptions,
+): Promise<types.FlattenedVerifyResult & Partial<types.ResolvedKey>> {
+  const verificationKey = prepareIssuerVerificationKey(key)
+
+  if (typeof jws === 'string') {
+    const verified = await verifyCompact(jws, prepareVerify(options), verificationKey)
+    const result: types.CompactVerifyResult = {
+      payload: verified[0],
+      protectedHeader: verified[1] as types.CompactJWSHeaderParameters,
+    }
+    return typeof key === 'function' ? { ...result, key: verified[3] } : result
+  }
+
+  if (!('signatures' in jws)) {
+    if (jws.protected === undefined && jws.header === undefined) {
+      throw new JWSInvalid('Flattened JWS must have either of the "protected" or "header" members')
+    }
+    if (jws.protected !== undefined && typeof jws.protected !== 'string') {
+      throw new JWSInvalid('JWS Protected Header incorrect type')
+    }
+    if (jws.payload === undefined) {
+      throw new JWSInvalid('JWS Payload missing')
+    }
+    if (typeof jws.signature !== 'string') {
+      throw new JWSInvalid('JWS Signature missing or incorrect type')
+    }
+
+    const result = verifyResult(
+      jws,
+      await verifySignature(jws, prepareVerify(options), verificationKey),
+    )
+    if (typeof key !== 'function') delete result.key
+    return result
+  }
+
+  const { payload, signatures } = jws
+  let shared: VerifyShared
+  try {
+    if (payload === undefined) throw new Error()
+    shared = prepareVerify(options)
+  } catch {
+    throw new JWSSignatureVerificationFailed()
+  }
+
+  for (const signature of signatures) {
+    try {
+      const { protected: encodedProtected, header, signature: encodedSignature } = signature
+      if (encodedProtected === undefined && header === undefined) throw new Error()
+      if (encodedProtected !== undefined && typeof encodedProtected !== 'string') throw new Error()
+      if (typeof encodedSignature !== 'string') throw new Error()
+
+      const result = verifyResult(
+        signature,
+        await verifySignature(
+          { header, payload, protected: encodedProtected, signature: encodedSignature },
+          shared,
+          verificationKey,
+        ),
+      )
+      if (typeof key !== 'function') delete result.key
+      return result
+    } catch (cause) {
+      if (cause instanceof JWTInvalid && protectedTransportErrors.has(cause)) {
+        throw cause
+      }
+      // Try the next signature.
+    }
+  }
+  throw new JWSSignatureVerificationFailed()
+}
+
 function validateConfirmationClaim(payload: types.JWTPayload): void {
   if (!Object.hasOwn(payload, 'cnf')) {
     return
@@ -73,7 +166,7 @@ function validateConfirmationClaim(payload: types.JWTPayload): void {
 
 /** @ignore */
 export function parseSDJWT(input: SDJWTInput | Uint8Array): ParsedSDJWT {
-  return parseSdJwt(
+  return parseSdJwtForVerification(
     input instanceof Uint8Array ? decoder.decode(input) : (input as never),
   ) as ParsedSDJWT
 }
@@ -89,21 +182,10 @@ export async function verifySDJWTIssuer<PayloadType = types.JWTPayload>(
   key: SDJWTIssuerKeyLike,
   options: types.VerifyOptions & types.JWTClaimVerificationOptions = {},
 ): Promise<VerifiedSDJWTIssuer & { payload: PayloadType & types.JWTPayload }> {
-  let verified: types.FlattenedVerifyResult & { key?: types.CryptoKey | Uint8Array }
-
-  if (typeof parsed.jws === 'string') {
-    verified = await compactVerify(parsed.jws, key as Parameters<typeof compactVerify>[1], options)
-  } else if ('signatures' in parsed.jws) {
-    verified = await generalVerify(parsed.jws, key as Parameters<typeof generalVerify>[1], options)
-  } else {
-    verified = await flattenedVerify(
-      parsed.jws,
-      key as Parameters<typeof flattenedVerify>[1],
-      options,
-    )
-  }
+  const verified = await verifyIssuerSignature(parsed.jws, key, options)
 
   assertIssuerSignatureAlgorithm(verified.protectedHeader, verified.unprotectedHeader)
+  assertNoProtectedTransport(verified.protectedHeader)
   if (hasUnencodedPayload(verified.protectedHeader, verified.unprotectedHeader)) {
     throw new JWTInvalid('JWTs MUST NOT use unencoded payload')
   }

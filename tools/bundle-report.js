@@ -43,7 +43,12 @@ const JWS_ONLY = ['RSASSA-PKCS1-v1_5', 'RSA-PSS', 'ECDSA', 'ML-DSA', 'Ed25519']
 
 /** Which family a subpath belongs to, or null when it legitimately spans both. */
 function family(subpath) {
-  if (subpath.startsWith('./jws/') || subpath === './jwt/sign' || subpath === './jwt/verify') {
+  if (
+    subpath.startsWith('./jws/') ||
+    subpath === './jwt/sign' ||
+    subpath === './jwt/verify' ||
+    subpath === './sd-jwt'
+  ) {
     return 'jws'
   }
   // A JWKS resolves public keys for verifying signatures, and an embedded JWK is a JWS Header
