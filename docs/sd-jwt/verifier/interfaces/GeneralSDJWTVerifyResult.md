@@ -8,9 +8,9 @@ Result of verifying a General JWS JSON serialized SD-JWT presentation.
 
 ## Type Parameters
 
-| Type Parameter | Default type |
-| ------ | ------ |
-| `PayloadType` | [`JWTPayload`](../../../types/interfaces/JWTPayload.md) |
+| Type Parameter | Default type | Description |
+| ------ | ------ | ------ |
+| `PayloadType` | [`JWTPayload`](../../../types/interfaces/JWTPayload.md) | Type definition of the JWT Claims Set the SD-JWT is expected to carry. |
 
 ## Properties
 
@@ -24,7 +24,7 @@ Metadata for the Disclosures included in the presentation.
 
 ### payload
 
-• **payload**: `PayloadType` & [`JWTPayload`](../../../types/interfaces/JWTPayload.md)
+• **payload**: `PayloadType` & [`JWTPayload`](../../../types/interfaces/JWTPayload.md) & \[`PayloadType`\] *extends* \[`object`\] ? `unknown` : `unknown` *extends* `PayloadType` ? `PayloadType` : `never`
 
 Processed SD-JWT Payload containing permanently disclosed claims and successfully presented
 Disclosures, with `_sd` and `_sd_alg` removed.

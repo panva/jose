@@ -5,10 +5,10 @@ Selective Disclosure for JSON Web Tokens (SD-JWT)
 Supports issuing, presenting, and verifying SD-JWTs and SD-JWTs with Key Binding in Compact,
 Flattened JSON, and General JSON serialization syntaxes.
 
-This functionality is exported exclusively from the `'jose/sd-jwt'` subpath.
+This module is exported exclusively from the subpath export `'jose/sd-jwt'`.
 
 This module implements the SD-JWT format and processing rules in [RFC
-9901](https://www.rfc-editor.org/rfc/rfc9901.html). Application profiles remain responsible for
+9901](https://www.rfc-editor.org/info/rfc9901/). Application profiles remain responsible for
 defining and enforcing their credential schema, required claims, Issuer trust, accepted
 algorithms and types, status and revocation checks, and Key Binding policy.
 
@@ -16,7 +16,7 @@ Disclosure paths are RFC 6901 JSON Pointers evaluated against the final JWT Clai
 producer prevents selective disclosure of `iss`, `exp`, `nbf`, `cnf`, and the complete `aud`
 claim. Application profiles must likewise avoid selecting any other claim they rely on to
 determine a credential's validity, as described in [RFC 9901 Section
-9.7](https://www.rfc-editor.org/rfc/rfc9901.html#section-9.7).
+9.7](https://www.rfc-editor.org/info/rfc9901/#section-9.7).
 
 Paths are evaluated against the final Claims Set. For example, `/address/street` selects a nested
 object member, `/nationalities/1` selects the second array element, and `/a~1b/~0verified`

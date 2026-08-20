@@ -93,7 +93,7 @@ The `jose` module supports encryption and decryption of JWE messages with arbitr
 The [SD-JWT API](docs/sd-jwt/README.md) is exported exclusively from the `jose/sd-jwt` subpath. It
 supports issuing, presenting, and verifying SD-JWTs and SD-JWTs with Key Binding in Compact,
 Flattened JSON, and General JSON serialization syntaxes as specified by [RFC
-9901](https://www.rfc-editor.org/rfc/rfc9901.html).
+9901](https://www.rfc-editor.org/info/rfc9901/).
 
 ```js
 import * as sdJwt from 'jose/sd-jwt'

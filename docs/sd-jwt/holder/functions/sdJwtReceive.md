@@ -14,9 +14,9 @@ not the Issuer, creates Key Binding JWTs.
 
 ### Type Parameters
 
-| Type Parameter | Default type |
-| ------ | ------ |
-| `PayloadType` | [`JWTPayload`](../../../types/interfaces/JWTPayload.md) |
+| Type Parameter | Default type | Description |
+| ------ | ------ | ------ |
+| `PayloadType` | [`JWTPayload`](../../../types/interfaces/JWTPayload.md) | Type definition of the JWT Claims Set the SD-JWT is expected to carry. |
 
 ### Parameters
 
@@ -47,7 +47,7 @@ const presentation = await credential.present(['/given_name'])
 
 ## Call Signature
 
-▸ **sdJwtReceive**\<`PayloadType`\>(`sdJwt`, `getKey`, `options?`): [`Promise`](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise)\<[`Omit`](https://www.typescriptlang.org/docs/handbook/utility-types.html#omittype-keys)\<[`SDJWTCredential`](../interfaces/SDJWTCredential.md)\<`PayloadType`, `string`\>, `"protectedHeader"` \| `"unprotectedHeader"`\> & `object` & [`ResolvedKey`](../../../types/interfaces/ResolvedKey.md)\<[`Uint8Array`](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Uint8Array) \| [`CryptoKey`](https://developer.mozilla.org/docs/Web/API/CryptoKey)\>\>
+▸ **sdJwtReceive**\<`PayloadType`, `KeyType`\>(`sdJwt`, `getKey`, `options?`): [`Promise`](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise)\<[`Omit`](https://www.typescriptlang.org/docs/handbook/utility-types.html#omittype-keys)\<[`SDJWTCredential`](../interfaces/SDJWTCredential.md)\<`PayloadType`, `string`\>, `"protectedHeader"` \| `"unprotectedHeader"`\> & `object` & [`ResolvedKey`](../../../types/interfaces/ResolvedKey.md)\<`KeyType`\>\>
 
 Verifies and processes a Compact serialized Issuer-provided SD-JWT for a Holder. The returned
 credential always contains its `protectedHeader`. An SD-JWT+KB is rejected because the Holder,
@@ -55,21 +55,63 @@ not the Issuer, creates Key Binding JWTs.
 
 ### Type Parameters
 
-| Type Parameter | Default type |
-| ------ | ------ |
-| `PayloadType` | [`JWTPayload`](../../../types/interfaces/JWTPayload.md) |
+| Type Parameter | Default type | Description |
+| ------ | ------ | ------ |
+| `PayloadType` | [`JWTPayload`](../../../types/interfaces/JWTPayload.md) | Type definition of the JWT Claims Set the SD-JWT is expected to carry. |
+| `KeyType` *extends* [`CryptoKey`](https://developer.mozilla.org/docs/Web/API/CryptoKey) | [`CryptoKey`](https://developer.mozilla.org/docs/Web/API/CryptoKey) | - |
 
 ### Parameters
 
 | Parameter | Type |
 | ------ | ------ |
 | `sdJwt` | `string` \| [`Uint8Array`](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Uint8Array) |
-| `getKey` | [`SDJWTIssuerGetKey`](../../../types/interfaces/SDJWTIssuerGetKey.md) |
+| `getKey` | [`SDJWTIssuerGetKey`](../../../types/interfaces/SDJWTIssuerGetKey.md)\<`KeyType`\> |
 | `options?` | [`SDJWTReceiveOptions`](../interfaces/SDJWTReceiveOptions.md) |
 
 ### Returns
 
-[`Promise`](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise)\<[`Omit`](https://www.typescriptlang.org/docs/handbook/utility-types.html#omittype-keys)\<[`SDJWTCredential`](../interfaces/SDJWTCredential.md)\<`PayloadType`, `string`\>, `"protectedHeader"` \| `"unprotectedHeader"`\> & `object` & [`ResolvedKey`](../../../types/interfaces/ResolvedKey.md)\<[`Uint8Array`](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Uint8Array) \| [`CryptoKey`](https://developer.mozilla.org/docs/Web/API/CryptoKey)\>\>
+[`Promise`](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise)\<[`Omit`](https://www.typescriptlang.org/docs/handbook/utility-types.html#omittype-keys)\<[`SDJWTCredential`](../interfaces/SDJWTCredential.md)\<`PayloadType`, `string`\>, `"protectedHeader"` \| `"unprotectedHeader"`\> & `object` & [`ResolvedKey`](../../../types/interfaces/ResolvedKey.md)\<`KeyType`\>\>
+
+### Example
+
+```js
+import { sdJwtReceive } from 'jose/sd-jwt'
+
+const credential = await sdJwtReceive(sdJwt, issuerPublicKey, {
+  issuer: 'https://issuer.example',
+})
+
+console.log(credential.payload)
+console.log(credential.disclosures.map(({ path }) => path))
+
+const presentation = await credential.present(['/given_name'])
+```
+
+## Call Signature
+
+▸ **sdJwtReceive**\<`PayloadType`\>(`sdJwt`, `key`, `options?`): [`Promise`](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise)\<[`Omit`](https://www.typescriptlang.org/docs/handbook/utility-types.html#omittype-keys)\<[`SDJWTCredential`](../interfaces/SDJWTCredential.md)\<`PayloadType`, `string`\>, `"protectedHeader"` \| `"unprotectedHeader"`\> & `object` & [`Partial`](https://www.typescriptlang.org/docs/handbook/utility-types.html#partialtype)\<[`ResolvedKey`](../../../types/interfaces/ResolvedKey.md)\<[`CryptoKey`](https://developer.mozilla.org/docs/Web/API/CryptoKey)\>\>\>
+
+Verifies and processes a Compact serialized Issuer-provided SD-JWT for a Holder. The returned
+credential always contains its `protectedHeader`. An SD-JWT+KB is rejected because the Holder,
+not the Issuer, creates Key Binding JWTs.
+
+### Type Parameters
+
+| Type Parameter | Default type | Description |
+| ------ | ------ | ------ |
+| `PayloadType` | [`JWTPayload`](../../../types/interfaces/JWTPayload.md) | Type definition of the JWT Claims Set the SD-JWT is expected to carry. |
+
+### Parameters
+
+| Parameter | Type |
+| ------ | ------ |
+| `sdJwt` | `string` \| [`Uint8Array`](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Uint8Array) |
+| `key` | [`SDJWTIssuerKey`](../../../types/type-aliases/SDJWTIssuerKey.md) \| [`SDJWTIssuerGetKey`](../../../types/interfaces/SDJWTIssuerGetKey.md)\<[`CryptoKey`](https://developer.mozilla.org/docs/Web/API/CryptoKey)\> |
+| `options?` | [`SDJWTReceiveOptions`](../interfaces/SDJWTReceiveOptions.md) |
+
+### Returns
+
+[`Promise`](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise)\<[`Omit`](https://www.typescriptlang.org/docs/handbook/utility-types.html#omittype-keys)\<[`SDJWTCredential`](../interfaces/SDJWTCredential.md)\<`PayloadType`, `string`\>, `"protectedHeader"` \| `"unprotectedHeader"`\> & `object` & [`Partial`](https://www.typescriptlang.org/docs/handbook/utility-types.html#partialtype)\<[`ResolvedKey`](../../../types/interfaces/ResolvedKey.md)\<[`CryptoKey`](https://developer.mozilla.org/docs/Web/API/CryptoKey)\>\>\>
 
 ### Example
 

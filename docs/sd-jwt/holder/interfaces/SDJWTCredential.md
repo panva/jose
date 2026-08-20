@@ -11,10 +11,10 @@ use separate internal snapshots and are not affected by mutations to those expos
 
 ## Type Parameters
 
-| Type Parameter | Default type |
-| ------ | ------ |
-| `PayloadType` | [`JWTPayload`](../../../types/interfaces/JWTPayload.md) |
-| `SerializationType` *extends* [`SDJWT`](../../../types/type-aliases/SDJWT.md) | [`SDJWT`](../../../types/type-aliases/SDJWT.md) |
+| Type Parameter | Default type | Description |
+| ------ | ------ | ------ |
+| `PayloadType` | [`JWTPayload`](../../../types/interfaces/JWTPayload.md) | Type definition of the JWT Claims Set the SD-JWT is expected to carry. |
+| `SerializationType` *extends* [`SDJWT`](../../../types/type-aliases/SDJWT.md) | [`SDJWT`](../../../types/type-aliases/SDJWT.md) | Serialization syntax returned by presentation operations. |
 
 ## Properties
 
@@ -32,14 +32,6 @@ Metadata for all Disclosures received from the Issuer.
 
 Processed SD-JWT Payload containing permanently disclosed claims and every successfully
 processed Disclosure, with `_sd` and `_sd_alg` removed.
-
-***
-
-### key?
-
-• `optional` **key?**: [`CryptoKey`](https://developer.mozilla.org/docs/Web/API/CryptoKey)
-
-Key resolved by a dynamic Issuer key resolver.
 
 ***
 

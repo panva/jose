@@ -14,7 +14,7 @@ Resolves confirmation methods other than `cnf.jwk`.
 
 | Parameter | Type |
 | ------ | ------ |
-| `protectedHeader` | [`JWTHeaderParameters`](../../../types/interfaces/JWTHeaderParameters.md) |
+| `protectedHeader` | [`CompactJWSHeaderParameters`](../../../types/interfaces/CompactJWSHeaderParameters.md) |
 | `token` | [`FlattenedJWSInput`](../../../types/interfaces/FlattenedJWSInput.md) |
 | `confirmation` | [`Record`](https://www.typescriptlang.org/docs/handbook/utility-types.html#recordkeys-type)\<`string`, `unknown`\> |
 | `sdJwtPayload` | [`JWTPayload`](../../../types/interfaces/JWTPayload.md) |

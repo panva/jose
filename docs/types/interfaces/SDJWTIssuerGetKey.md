@@ -1,4 +1,4 @@
-# Interface: SDJWTIssuerGetKey()
+# Interface: SDJWTIssuerGetKey()\<KeyType\>
 
 ## [💗 Help the project](https://github.com/sponsors/panva)
 
@@ -9,7 +9,13 @@ verified when this callback runs. The resolver must securely establish that the 
 belongs to the expected Issuer; an attacker-controlled `kid`, `iss`, or key URL is not a trust
 decision.
 
-▸ **SDJWTIssuerGetKey**(`protectedHeader`, `token`): [`SDJWTIssuerKey`](../type-aliases/SDJWTIssuerKey.md) \| [`Promise`](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise)\<[`SDJWTIssuerKey`](../type-aliases/SDJWTIssuerKey.md)\>
+## Type Parameters
+
+| Type Parameter | Default type | Description |
+| ------ | ------ | ------ |
+| `KeyType` *extends* [`CryptoKey`](../type-aliases/CryptoKey.md) | [`CryptoKey`](../type-aliases/CryptoKey.md) | Type definition of the keys the function resolves. Narrowing it is what lets [ResolvedKey.key](ResolvedKey.md#key) be inferred at the call site. |
+
+▸ **SDJWTIssuerGetKey**(`protectedHeader`, `token`): [`JWK`](../type-aliases/JWK.md) \| [`KeyObject`](KeyObject.md) \| `KeyType` \| [`Promise`](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise)\<[`JWK`](../type-aliases/JWK.md) \| [`KeyObject`](KeyObject.md) \| `KeyType`\>
 
 Dynamic key resolution function. No token components have been verified at the time of this
 function call. If a suitable key for the token cannot be matched, throw an error instead.
@@ -23,4 +29,4 @@ function call. If a suitable key for the token cannot be matched, throw an error
 
 ## Returns
 
-[`SDJWTIssuerKey`](../type-aliases/SDJWTIssuerKey.md) \| [`Promise`](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise)\<[`SDJWTIssuerKey`](../type-aliases/SDJWTIssuerKey.md)\>
+[`JWK`](../type-aliases/JWK.md) \| [`KeyObject`](KeyObject.md) \| `KeyType` \| [`Promise`](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise)\<[`JWK`](../type-aliases/JWK.md) \| [`KeyObject`](KeyObject.md) \| `KeyType`\>

@@ -110,7 +110,7 @@ Set the "aud" (Audience) Claim.
 ▸ **setDisclosurePaths**(`paths`): `this`
 
 Selects final JWT Claims Set values to make selectively disclosable. Each path is an
-[RFC 6901 JSON Pointer](https://www.rfc-editor.org/rfc/rfc6901) evaluated against the
+[RFC 6901 JSON Pointer](https://www.rfc-editor.org/info/rfc6901/) evaluated against the
 Claims Set when it is signed. This method can only be called once.
 
 The root pointer (`''`) is not a valid Disclosure path (`'/'` addresses an object member whose

@@ -16,9 +16,9 @@ verifies successfully.
 
 ### Type Parameters
 
-| Type Parameter | Default type |
-| ------ | ------ |
-| `PayloadType` | [`JWTPayload`](../../../types/interfaces/JWTPayload.md) |
+| Type Parameter | Default type | Description |
+| ------ | ------ | ------ |
+| `PayloadType` | [`JWTPayload`](../../../types/interfaces/JWTPayload.md) | Type definition of the JWT Claims Set the SD-JWT is expected to carry. |
 
 ### Parameters
 
@@ -60,9 +60,9 @@ verifies successfully.
 
 ### Type Parameters
 
-| Type Parameter | Default type |
-| ------ | ------ |
-| `PayloadType` | [`JWTPayload`](../../../types/interfaces/JWTPayload.md) |
+| Type Parameter | Default type | Description |
+| ------ | ------ | ------ |
+| `PayloadType` | [`JWTPayload`](../../../types/interfaces/JWTPayload.md) | Type definition of the JWT Claims Set the SD-JWT is expected to carry. |
 
 ### Parameters
 
@@ -104,9 +104,9 @@ verifies successfully.
 
 ### Type Parameters
 
-| Type Parameter | Default type |
-| ------ | ------ |
-| `PayloadType` | [`JWTPayload`](../../../types/interfaces/JWTPayload.md) |
+| Type Parameter | Default type | Description |
+| ------ | ------ | ------ |
+| `PayloadType` | [`JWTPayload`](../../../types/interfaces/JWTPayload.md) | Type definition of the JWT Claims Set the SD-JWT is expected to carry. |
 
 ### Parameters
 
@@ -138,7 +138,7 @@ const { payload, keyBinding } = await generalSdJwtVerify(presentation, issuerPub
 
 ## Call Signature
 
-▸ **generalSdJwtVerify**\<`PayloadType`\>(`sdJwt`, `getKey`, `options`): [`Promise`](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise)\<[`Omit`](https://www.typescriptlang.org/docs/handbook/utility-types.html#omittype-keys)\<[`GeneralSDJWTVerifyResult`](../interfaces/GeneralSDJWTVerifyResult.md)\<`PayloadType`\>, `"keyBinding"`\> & [`ResolvedKey`](../../../types/interfaces/ResolvedKey.md)\<[`Uint8Array`](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Uint8Array) \| [`CryptoKey`](https://developer.mozilla.org/docs/Web/API/CryptoKey)\>\>
+▸ **generalSdJwtVerify**\<`PayloadType`, `KeyType`\>(`sdJwt`, `getKey`, `options`): [`Promise`](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise)\<[`Omit`](https://www.typescriptlang.org/docs/handbook/utility-types.html#omittype-keys)\<[`GeneralSDJWTVerifyResult`](../interfaces/GeneralSDJWTVerifyResult.md)\<`PayloadType`\>, `"keyBinding"`\> & [`ResolvedKey`](../../../types/interfaces/ResolvedKey.md)\<`KeyType`\>\>
 
 Verifies a General JWS JSON serialized SD-JWT presentation. Passing `keyBinding: false` rejects a
 KB-JWT and returns no `keyBinding` property; passing a policy object requires and validates a
@@ -148,21 +148,22 @@ verifies successfully.
 
 ### Type Parameters
 
-| Type Parameter | Default type |
-| ------ | ------ |
-| `PayloadType` | [`JWTPayload`](../../../types/interfaces/JWTPayload.md) |
+| Type Parameter | Default type | Description |
+| ------ | ------ | ------ |
+| `PayloadType` | [`JWTPayload`](../../../types/interfaces/JWTPayload.md) | Type definition of the JWT Claims Set the SD-JWT is expected to carry. |
+| `KeyType` *extends* [`CryptoKey`](https://developer.mozilla.org/docs/Web/API/CryptoKey) | [`CryptoKey`](https://developer.mozilla.org/docs/Web/API/CryptoKey) | - |
 
 ### Parameters
 
 | Parameter | Type |
 | ------ | ------ |
 | `sdJwt` | [`GeneralJWS`](../../../types/interfaces/GeneralJWS.md) |
-| `getKey` | [`SDJWTIssuerGetKey`](../../../types/interfaces/SDJWTIssuerGetKey.md) |
+| `getKey` | [`SDJWTIssuerGetKey`](../../../types/interfaces/SDJWTIssuerGetKey.md)\<`KeyType`\> |
 | `options` | [`Omit`](https://www.typescriptlang.org/docs/handbook/utility-types.html#omittype-keys)\<[`SDJWTVerifyOptions`](../interfaces/SDJWTVerifyOptions.md), `"keyBinding"`\> & `object` |
 
 ### Returns
 
-[`Promise`](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise)\<[`Omit`](https://www.typescriptlang.org/docs/handbook/utility-types.html#omittype-keys)\<[`GeneralSDJWTVerifyResult`](../interfaces/GeneralSDJWTVerifyResult.md)\<`PayloadType`\>, `"keyBinding"`\> & [`ResolvedKey`](../../../types/interfaces/ResolvedKey.md)\<[`Uint8Array`](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Uint8Array) \| [`CryptoKey`](https://developer.mozilla.org/docs/Web/API/CryptoKey)\>\>
+[`Promise`](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise)\<[`Omit`](https://www.typescriptlang.org/docs/handbook/utility-types.html#omittype-keys)\<[`GeneralSDJWTVerifyResult`](../interfaces/GeneralSDJWTVerifyResult.md)\<`PayloadType`\>, `"keyBinding"`\> & [`ResolvedKey`](../../../types/interfaces/ResolvedKey.md)\<`KeyType`\>\>
 
 ### Example
 
@@ -182,7 +183,7 @@ const { payload, keyBinding } = await generalSdJwtVerify(presentation, issuerPub
 
 ## Call Signature
 
-▸ **generalSdJwtVerify**\<`PayloadType`\>(`sdJwt`, `getKey`, `options`): [`Promise`](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise)\<[`Omit`](https://www.typescriptlang.org/docs/handbook/utility-types.html#omittype-keys)\<[`GeneralSDJWTVerifyResult`](../interfaces/GeneralSDJWTVerifyResult.md)\<`PayloadType`\>, `"keyBinding"`\> & `object` & [`ResolvedKey`](../../../types/interfaces/ResolvedKey.md)\<[`Uint8Array`](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Uint8Array) \| [`CryptoKey`](https://developer.mozilla.org/docs/Web/API/CryptoKey)\>\>
+▸ **generalSdJwtVerify**\<`PayloadType`, `KeyType`\>(`sdJwt`, `getKey`, `options`): [`Promise`](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise)\<[`Omit`](https://www.typescriptlang.org/docs/handbook/utility-types.html#omittype-keys)\<[`GeneralSDJWTVerifyResult`](../interfaces/GeneralSDJWTVerifyResult.md)\<`PayloadType`\>, `"keyBinding"`\> & `object` & [`ResolvedKey`](../../../types/interfaces/ResolvedKey.md)\<`KeyType`\>\>
 
 Verifies a General JWS JSON serialized SD-JWT presentation. Passing `keyBinding: false` rejects a
 KB-JWT and returns no `keyBinding` property; passing a policy object requires and validates a
@@ -192,21 +193,22 @@ verifies successfully.
 
 ### Type Parameters
 
-| Type Parameter | Default type |
-| ------ | ------ |
-| `PayloadType` | [`JWTPayload`](../../../types/interfaces/JWTPayload.md) |
+| Type Parameter | Default type | Description |
+| ------ | ------ | ------ |
+| `PayloadType` | [`JWTPayload`](../../../types/interfaces/JWTPayload.md) | Type definition of the JWT Claims Set the SD-JWT is expected to carry. |
+| `KeyType` *extends* [`CryptoKey`](https://developer.mozilla.org/docs/Web/API/CryptoKey) | [`CryptoKey`](https://developer.mozilla.org/docs/Web/API/CryptoKey) | - |
 
 ### Parameters
 
 | Parameter | Type |
 | ------ | ------ |
 | `sdJwt` | [`GeneralJWS`](../../../types/interfaces/GeneralJWS.md) |
-| `getKey` | [`SDJWTIssuerGetKey`](../../../types/interfaces/SDJWTIssuerGetKey.md) |
+| `getKey` | [`SDJWTIssuerGetKey`](../../../types/interfaces/SDJWTIssuerGetKey.md)\<`KeyType`\> |
 | `options` | [`Omit`](https://www.typescriptlang.org/docs/handbook/utility-types.html#omittype-keys)\<[`SDJWTVerifyOptions`](../interfaces/SDJWTVerifyOptions.md), `"keyBinding"`\> & `object` |
 
 ### Returns
 
-[`Promise`](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise)\<[`Omit`](https://www.typescriptlang.org/docs/handbook/utility-types.html#omittype-keys)\<[`GeneralSDJWTVerifyResult`](../interfaces/GeneralSDJWTVerifyResult.md)\<`PayloadType`\>, `"keyBinding"`\> & `object` & [`ResolvedKey`](../../../types/interfaces/ResolvedKey.md)\<[`Uint8Array`](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Uint8Array) \| [`CryptoKey`](https://developer.mozilla.org/docs/Web/API/CryptoKey)\>\>
+[`Promise`](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise)\<[`Omit`](https://www.typescriptlang.org/docs/handbook/utility-types.html#omittype-keys)\<[`GeneralSDJWTVerifyResult`](../interfaces/GeneralSDJWTVerifyResult.md)\<`PayloadType`\>, `"keyBinding"`\> & `object` & [`ResolvedKey`](../../../types/interfaces/ResolvedKey.md)\<`KeyType`\>\>
 
 ### Example
 
@@ -226,7 +228,7 @@ const { payload, keyBinding } = await generalSdJwtVerify(presentation, issuerPub
 
 ## Call Signature
 
-▸ **generalSdJwtVerify**\<`PayloadType`\>(`sdJwt`, `getKey`, `options`): [`Promise`](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise)\<[`GeneralSDJWTVerifyResult`](../interfaces/GeneralSDJWTVerifyResult.md)\<`PayloadType`\> & [`ResolvedKey`](../../../types/interfaces/ResolvedKey.md)\<[`Uint8Array`](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Uint8Array) \| [`CryptoKey`](https://developer.mozilla.org/docs/Web/API/CryptoKey)\>\>
+▸ **generalSdJwtVerify**\<`PayloadType`, `KeyType`\>(`sdJwt`, `getKey`, `options`): [`Promise`](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise)\<[`GeneralSDJWTVerifyResult`](../interfaces/GeneralSDJWTVerifyResult.md)\<`PayloadType`\> & [`ResolvedKey`](../../../types/interfaces/ResolvedKey.md)\<`KeyType`\>\>
 
 Verifies a General JWS JSON serialized SD-JWT presentation. Passing `keyBinding: false` rejects a
 KB-JWT and returns no `keyBinding` property; passing a policy object requires and validates a
@@ -236,21 +238,154 @@ verifies successfully.
 
 ### Type Parameters
 
-| Type Parameter | Default type |
-| ------ | ------ |
-| `PayloadType` | [`JWTPayload`](../../../types/interfaces/JWTPayload.md) |
+| Type Parameter | Default type | Description |
+| ------ | ------ | ------ |
+| `PayloadType` | [`JWTPayload`](../../../types/interfaces/JWTPayload.md) | Type definition of the JWT Claims Set the SD-JWT is expected to carry. |
+| `KeyType` *extends* [`CryptoKey`](https://developer.mozilla.org/docs/Web/API/CryptoKey) | [`CryptoKey`](https://developer.mozilla.org/docs/Web/API/CryptoKey) | - |
 
 ### Parameters
 
 | Parameter | Type |
 | ------ | ------ |
 | `sdJwt` | [`GeneralJWS`](../../../types/interfaces/GeneralJWS.md) |
-| `getKey` | [`SDJWTIssuerGetKey`](../../../types/interfaces/SDJWTIssuerGetKey.md) |
+| `getKey` | [`SDJWTIssuerGetKey`](../../../types/interfaces/SDJWTIssuerGetKey.md)\<`KeyType`\> |
 | `options` | [`SDJWTVerifyOptions`](../interfaces/SDJWTVerifyOptions.md) |
 
 ### Returns
 
-[`Promise`](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise)\<[`GeneralSDJWTVerifyResult`](../interfaces/GeneralSDJWTVerifyResult.md)\<`PayloadType`\> & [`ResolvedKey`](../../../types/interfaces/ResolvedKey.md)\<[`Uint8Array`](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Uint8Array) \| [`CryptoKey`](https://developer.mozilla.org/docs/Web/API/CryptoKey)\>\>
+[`Promise`](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise)\<[`GeneralSDJWTVerifyResult`](../interfaces/GeneralSDJWTVerifyResult.md)\<`PayloadType`\> & [`ResolvedKey`](../../../types/interfaces/ResolvedKey.md)\<`KeyType`\>\>
+
+### Example
+
+```js
+import { generalSdJwtVerify } from 'jose/sd-jwt'
+
+const { payload, keyBinding } = await generalSdJwtVerify(presentation, issuerPublicKey, {
+  algorithms: ['ES256'],
+  keyBinding: {
+    audience,
+    nonce,
+    algorithms: ['ES256'],
+    maxTokenAge: '5 minutes',
+  },
+})
+```
+
+## Call Signature
+
+▸ **generalSdJwtVerify**\<`PayloadType`\>(`sdJwt`, `key`, `options`): [`Promise`](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise)\<[`Omit`](https://www.typescriptlang.org/docs/handbook/utility-types.html#omittype-keys)\<[`GeneralSDJWTVerifyResult`](../interfaces/GeneralSDJWTVerifyResult.md)\<`PayloadType`\>, `"keyBinding"`\> & [`Partial`](https://www.typescriptlang.org/docs/handbook/utility-types.html#partialtype)\<[`ResolvedKey`](../../../types/interfaces/ResolvedKey.md)\<[`CryptoKey`](https://developer.mozilla.org/docs/Web/API/CryptoKey)\>\>\>
+
+Verifies a General JWS JSON serialized SD-JWT presentation. Passing `keyBinding: false` rejects a
+KB-JWT and returns no `keyBinding` property; passing a policy object requires and validates a
+KB-JWT and returns a required `keyBinding` property. These policy-specific result shapes are
+reflected by the TypeScript overloads. The returned headers belong to the first signature that
+verifies successfully.
+
+### Type Parameters
+
+| Type Parameter | Default type | Description |
+| ------ | ------ | ------ |
+| `PayloadType` | [`JWTPayload`](../../../types/interfaces/JWTPayload.md) | Type definition of the JWT Claims Set the SD-JWT is expected to carry. |
+
+### Parameters
+
+| Parameter | Type |
+| ------ | ------ |
+| `sdJwt` | [`GeneralJWS`](../../../types/interfaces/GeneralJWS.md) |
+| `key` | [`SDJWTIssuerKey`](../../../types/type-aliases/SDJWTIssuerKey.md) \| [`SDJWTIssuerGetKey`](../../../types/interfaces/SDJWTIssuerGetKey.md)\<[`CryptoKey`](https://developer.mozilla.org/docs/Web/API/CryptoKey)\> |
+| `options` | [`Omit`](https://www.typescriptlang.org/docs/handbook/utility-types.html#omittype-keys)\<[`SDJWTVerifyOptions`](../interfaces/SDJWTVerifyOptions.md), `"keyBinding"`\> & `object` |
+
+### Returns
+
+[`Promise`](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise)\<[`Omit`](https://www.typescriptlang.org/docs/handbook/utility-types.html#omittype-keys)\<[`GeneralSDJWTVerifyResult`](../interfaces/GeneralSDJWTVerifyResult.md)\<`PayloadType`\>, `"keyBinding"`\> & [`Partial`](https://www.typescriptlang.org/docs/handbook/utility-types.html#partialtype)\<[`ResolvedKey`](../../../types/interfaces/ResolvedKey.md)\<[`CryptoKey`](https://developer.mozilla.org/docs/Web/API/CryptoKey)\>\>\>
+
+### Example
+
+```js
+import { generalSdJwtVerify } from 'jose/sd-jwt'
+
+const { payload, keyBinding } = await generalSdJwtVerify(presentation, issuerPublicKey, {
+  algorithms: ['ES256'],
+  keyBinding: {
+    audience,
+    nonce,
+    algorithms: ['ES256'],
+    maxTokenAge: '5 minutes',
+  },
+})
+```
+
+## Call Signature
+
+▸ **generalSdJwtVerify**\<`PayloadType`\>(`sdJwt`, `key`, `options`): [`Promise`](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise)\<[`Omit`](https://www.typescriptlang.org/docs/handbook/utility-types.html#omittype-keys)\<[`GeneralSDJWTVerifyResult`](../interfaces/GeneralSDJWTVerifyResult.md)\<`PayloadType`\>, `"keyBinding"`\> & `object` & [`Partial`](https://www.typescriptlang.org/docs/handbook/utility-types.html#partialtype)\<[`ResolvedKey`](../../../types/interfaces/ResolvedKey.md)\<[`CryptoKey`](https://developer.mozilla.org/docs/Web/API/CryptoKey)\>\>\>
+
+Verifies a General JWS JSON serialized SD-JWT presentation. Passing `keyBinding: false` rejects a
+KB-JWT and returns no `keyBinding` property; passing a policy object requires and validates a
+KB-JWT and returns a required `keyBinding` property. These policy-specific result shapes are
+reflected by the TypeScript overloads. The returned headers belong to the first signature that
+verifies successfully.
+
+### Type Parameters
+
+| Type Parameter | Default type | Description |
+| ------ | ------ | ------ |
+| `PayloadType` | [`JWTPayload`](../../../types/interfaces/JWTPayload.md) | Type definition of the JWT Claims Set the SD-JWT is expected to carry. |
+
+### Parameters
+
+| Parameter | Type |
+| ------ | ------ |
+| `sdJwt` | [`GeneralJWS`](../../../types/interfaces/GeneralJWS.md) |
+| `key` | [`SDJWTIssuerKey`](../../../types/type-aliases/SDJWTIssuerKey.md) \| [`SDJWTIssuerGetKey`](../../../types/interfaces/SDJWTIssuerGetKey.md)\<[`CryptoKey`](https://developer.mozilla.org/docs/Web/API/CryptoKey)\> |
+| `options` | [`Omit`](https://www.typescriptlang.org/docs/handbook/utility-types.html#omittype-keys)\<[`SDJWTVerifyOptions`](../interfaces/SDJWTVerifyOptions.md), `"keyBinding"`\> & `object` |
+
+### Returns
+
+[`Promise`](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise)\<[`Omit`](https://www.typescriptlang.org/docs/handbook/utility-types.html#omittype-keys)\<[`GeneralSDJWTVerifyResult`](../interfaces/GeneralSDJWTVerifyResult.md)\<`PayloadType`\>, `"keyBinding"`\> & `object` & [`Partial`](https://www.typescriptlang.org/docs/handbook/utility-types.html#partialtype)\<[`ResolvedKey`](../../../types/interfaces/ResolvedKey.md)\<[`CryptoKey`](https://developer.mozilla.org/docs/Web/API/CryptoKey)\>\>\>
+
+### Example
+
+```js
+import { generalSdJwtVerify } from 'jose/sd-jwt'
+
+const { payload, keyBinding } = await generalSdJwtVerify(presentation, issuerPublicKey, {
+  algorithms: ['ES256'],
+  keyBinding: {
+    audience,
+    nonce,
+    algorithms: ['ES256'],
+    maxTokenAge: '5 minutes',
+  },
+})
+```
+
+## Call Signature
+
+▸ **generalSdJwtVerify**\<`PayloadType`\>(`sdJwt`, `key`, `options`): [`Promise`](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise)\<[`GeneralSDJWTVerifyResult`](../interfaces/GeneralSDJWTVerifyResult.md)\<`PayloadType`\> & [`Partial`](https://www.typescriptlang.org/docs/handbook/utility-types.html#partialtype)\<[`ResolvedKey`](../../../types/interfaces/ResolvedKey.md)\<[`CryptoKey`](https://developer.mozilla.org/docs/Web/API/CryptoKey)\>\>\>
+
+Verifies a General JWS JSON serialized SD-JWT presentation. Passing `keyBinding: false` rejects a
+KB-JWT and returns no `keyBinding` property; passing a policy object requires and validates a
+KB-JWT and returns a required `keyBinding` property. These policy-specific result shapes are
+reflected by the TypeScript overloads. The returned headers belong to the first signature that
+verifies successfully.
+
+### Type Parameters
+
+| Type Parameter | Default type | Description |
+| ------ | ------ | ------ |
+| `PayloadType` | [`JWTPayload`](../../../types/interfaces/JWTPayload.md) | Type definition of the JWT Claims Set the SD-JWT is expected to carry. |
+
+### Parameters
+
+| Parameter | Type |
+| ------ | ------ |
+| `sdJwt` | [`GeneralJWS`](../../../types/interfaces/GeneralJWS.md) |
+| `key` | [`SDJWTIssuerKey`](../../../types/type-aliases/SDJWTIssuerKey.md) \| [`SDJWTIssuerGetKey`](../../../types/interfaces/SDJWTIssuerGetKey.md)\<[`CryptoKey`](https://developer.mozilla.org/docs/Web/API/CryptoKey)\> |
+| `options` | [`SDJWTVerifyOptions`](../interfaces/SDJWTVerifyOptions.md) |
+
+### Returns
+
+[`Promise`](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise)\<[`GeneralSDJWTVerifyResult`](../interfaces/GeneralSDJWTVerifyResult.md)\<`PayloadType`\> & [`Partial`](https://www.typescriptlang.org/docs/handbook/utility-types.html#partialtype)\<[`ResolvedKey`](../../../types/interfaces/ResolvedKey.md)\<[`CryptoKey`](https://developer.mozilla.org/docs/Web/API/CryptoKey)\>\>\>
 
 ### Example
 

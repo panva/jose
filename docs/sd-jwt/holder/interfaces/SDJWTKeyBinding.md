@@ -8,9 +8,9 @@ Builds a Key Binding JWT for an SD-JWT presentation.
 
 ## Type Parameters
 
-| Type Parameter | Default type |
-| ------ | ------ |
-| `SerializationType` *extends* [`SDJWT`](../../../types/type-aliases/SDJWT.md) | [`SDJWT`](../../../types/type-aliases/SDJWT.md) |
+| Type Parameter | Default type | Description |
+| ------ | ------ | ------ |
+| `SerializationType` *extends* [`SDJWT`](../../../types/type-aliases/SDJWT.md) | [`SDJWT`](../../../types/type-aliases/SDJWT.md) | Serialization syntax returned by [present](#present). |
 
 ## Methods
 
