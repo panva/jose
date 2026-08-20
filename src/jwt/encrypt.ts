@@ -200,13 +200,13 @@ export class EncryptJWT implements types.ProduceJWT {
       }
     }
     enc.setProtectedHeader(this.#protectedHeader)
-    if (this.#iv) {
+    if (this.#iv !== undefined) {
       enc.setInitializationVector(this.#iv)
     }
-    if (this.#cek) {
+    if (this.#cek !== undefined) {
       enc.setContentEncryptionKey(this.#cek)
     }
-    if (this.#keyManagementParameters) {
+    if (this.#keyManagementParameters !== undefined) {
       enc.setKeyManagementParameters(this.#keyManagementParameters)
     }
     return enc.encrypt(key, options)

@@ -366,8 +366,14 @@ export async function encryptKeyManagement(
     case 'ECDH': {
       assertEcdhKey(key)
       const { apu, apv } = providedParameters
+      if (apu !== undefined && !(apu instanceof Uint8Array)) {
+        throw new TypeError('"apu" must be an instance of Uint8Array')
+      }
+      if (apv !== undefined && !(apv instanceof Uint8Array)) {
+        throw new TypeError('"apv" must be an instance of Uint8Array')
+      }
       let ephemeralKey: types.CryptoKey
-      if (providedParameters.epk) {
+      if (providedParameters.epk !== undefined) {
         ephemeralKey = (await prepareKey(
           entry,
           providedParameters.epk,

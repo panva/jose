@@ -96,6 +96,39 @@ test('GeneralEncrypt validates and emits normalized recipient headers', async (t
   t.is(jwe.recipients[1].header!.alg, 'A128KW')
   await t.notThrowsAsync(generalDecrypt(jwe, t.context.secret2))
 })
+
+test('GeneralEncrypt additional authenticated data must be a Uint8Array', async (t) => {
+  for (const aad of ['secret aad', [1, 2, 3], new ArrayBuffer(3)]) {
+    await t.throwsAsync(
+      new GeneralEncrypt(t.context.plaintext)
+        .setAdditionalAuthenticatedData(aad as never)
+        .setProtectedHeader({ enc: 'A128GCM' })
+        .addRecipient(t.context.secret)
+        .setUnprotectedHeader({ alg: 'A256GCMKW' })
+        .addRecipient(t.context.secret2)
+        .setUnprotectedHeader({ alg: 'A128GCMKW' })
+        .encrypt(),
+      { instanceOf: TypeError },
+    )
+  }
+})
+
+test('GeneralEncrypt key management parameters must be an object', async (t) => {
+  for (const value of [null, 'not an object', [], new Date(0), 42, false]) {
+    await t.throwsAsync(
+      new GeneralEncrypt(t.context.plaintext)
+        .setProtectedHeader({ enc: 'A128GCM' })
+        .addRecipient(t.context.secret)
+        .setUnprotectedHeader({ alg: 'A256KW' })
+        .setKeyManagementParameters(value as never)
+        .addRecipient(t.context.secret2)
+        .setUnprotectedHeader({ alg: 'A128KW' })
+        .encrypt(),
+      { instanceOf: TypeError },
+    )
+  }
+})
+
 test('AES-GCMKW authentication tags must be 128 bits', async (t) => {
   const jwe = await new GeneralEncrypt(t.context.plaintext)
     .setProtectedHeader({ enc: 'A256GCM' })

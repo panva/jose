@@ -165,6 +165,18 @@ test('FlattenedEncrypt JOSE header values must be objects', async (t) => {
   }
 })
 
+test('FlattenedEncrypt key management parameters must be an object', async (t) => {
+  for (const value of [null, 'not an object', [], new Date(0), 42, false]) {
+    await t.throwsAsync(
+      new FlattenedEncrypt(t.context.plaintext)
+        .setProtectedHeader({ alg: 'dir', enc: 'A128GCM' })
+        .setKeyManagementParameters(value as never)
+        .encrypt(t.context.secret),
+      { instanceOf: TypeError },
+    )
+  }
+})
+
 test('critical JWE extension values must survive JSON serialization', async (t) => {
   for (const foo of [() => true, Symbol('foo')]) {
     await t.throwsAsync(
@@ -366,6 +378,34 @@ test('PBES2 p2c must be a positive integer on encrypt', async (t) => {
   }
 })
 
+test('ECDH apu and apv must be Uint8Array instances', async (t) => {
+  const { publicKey } = await generateKeyPair('ECDH-ES')
+
+  for (const parameter of ['apu', 'apv'] as const) {
+    await t.throwsAsync(
+      new FlattenedEncrypt(t.context.plaintext)
+        .setProtectedHeader({ alg: 'ECDH-ES', enc: 'A128GCM' })
+        .setKeyManagementParameters({ [parameter]: 'abc' as never })
+        .encrypt(publicKey),
+      { instanceOf: TypeError },
+    )
+  }
+})
+
+test('ECDH epk must not ignore invalid falsy values', async (t) => {
+  const { publicKey } = await generateKeyPair('ECDH-ES')
+
+  for (const epk of [null, false, 0, '']) {
+    await t.throwsAsync(
+      new FlattenedEncrypt(t.context.plaintext)
+        .setProtectedHeader({ alg: 'ECDH-ES', enc: 'A128GCM' })
+        .setKeyManagementParameters({ epk: epk as never })
+        .encrypt(publicKey),
+      { instanceOf: TypeError },
+    )
+  }
+})
+
 test('non-extractable ephemeral keys use getPublicKey when available', async (t) => {
   const supportsGetPublicKey = typeof Reflect.get(crypto.subtle, 'getPublicKey') === 'function'
 
@@ -443,6 +483,18 @@ test('a zero-length additional authenticated data round trips', async (t) => {
 
   const { plaintext } = await flattenedDecrypt(jwe, cek)
   t.deepEqual(plaintext, t.context.plaintext)
+})
+
+test('additional authenticated data must be a Uint8Array', async (t) => {
+  for (const aad of ['secret aad', [1, 2, 3], new ArrayBuffer(3)]) {
+    await t.throwsAsync(
+      new FlattenedEncrypt(t.context.plaintext)
+        .setProtectedHeader({ alg: 'dir', enc: 'A256GCM' })
+        .setAdditionalAuthenticatedData(aad as never)
+        .encrypt(new Uint8Array(32)),
+      { instanceOf: TypeError },
+    )
+  }
 })
 
 test('a non-empty additional authenticated data is still carried', async (t) => {

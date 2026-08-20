@@ -157,3 +157,34 @@ test('EncryptJWT.prototype.setInitializationVector', (t) => {
     },
   )
 })
+
+test('EncryptJWT does not ignore invalid falsy encryption parameters', async (t) => {
+  for (const [configure, message] of [
+    [
+      (jwt: EncryptJWT) => jwt.setInitializationVector(0 as never),
+      'JWE Initialization Vector must be an instance of Uint8Array',
+    ],
+    [
+      (jwt: EncryptJWT) => jwt.setContentEncryptionKey(0 as never),
+      'JWE Content Encryption Key must be an instance of Uint8Array',
+    ],
+    [
+      (jwt: EncryptJWT) => jwt.setKeyManagementParameters(null as never),
+      'JWE Key Management Parameters must be an object',
+    ],
+    [
+      (jwt: EncryptJWT) => jwt.setKeyManagementParameters(false as never),
+      'JWE Key Management Parameters must be an object',
+    ],
+  ] as const) {
+    await t.throwsAsync(
+      configure(new EncryptJWT(t.context.payload))
+        .setProtectedHeader({
+          alg: 'dir',
+          enc: 'A128GCM',
+        })
+        .encrypt(t.context.secret),
+      { instanceOf: TypeError, message },
+    )
+  }
+})

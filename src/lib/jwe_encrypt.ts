@@ -3,7 +3,7 @@ import { encode as b64u } from '../util/base64url.js'
 import { encrypt } from './content_encryption.js'
 import { encryptKeyManagement } from './key_management.js'
 import { JOSENotSupported, JWEInvalid } from '../util/errors.js'
-import { isDisjoint } from './type_checks.js'
+import { isDisjoint, isObject } from './type_checks.js'
 import { concat, encode } from './buffer_utils.js'
 import {
   serializeJoseHeader,
@@ -55,7 +55,29 @@ export function checkDisjoint(
  * up front and then encrypt without validating any of them a second time.
  */
 export function checkEncryptHeaders(input: EncryptInput): CheckedHeaders {
-  let [, protectedHeader, unprotectedHeader, sharedUnprotectedHeader, , , , , crit] = input
+  let [
+    ,
+    protectedHeader,
+    unprotectedHeader,
+    sharedUnprotectedHeader,
+    aad,
+    cek,
+    iv,
+    keyManagementParameters,
+    crit,
+  ] = input
+
+  if (aad !== undefined && !(aad instanceof Uint8Array)) {
+    throw new TypeError('JWE Additional Authenticated Data must be an instance of Uint8Array')
+  }
+
+  if (cek !== undefined && !(cek instanceof Uint8Array)) {
+    throw new TypeError('JWE Content Encryption Key must be an instance of Uint8Array')
+  }
+
+  if (iv !== undefined && !(iv instanceof Uint8Array)) {
+    throw new TypeError('JWE Initialization Vector must be an instance of Uint8Array')
+  }
 
   if (protectedHeader !== undefined) {
     protectedHeader = serializeJoseHeader(JWEInvalid, protectedHeader)[0]
@@ -68,6 +90,10 @@ export function checkEncryptHeaders(input: EncryptInput): CheckedHeaders {
   if (sharedUnprotectedHeader !== undefined) {
     sharedUnprotectedHeader = serializeJoseHeader(JWEInvalid, sharedUnprotectedHeader)[0]
     input[3] = sharedUnprotectedHeader
+  }
+
+  if (keyManagementParameters !== undefined && !isObject(keyManagementParameters)) {
+    throw new TypeError('JWE Key Management Parameters must be an object')
   }
 
   checkDisjoint(protectedHeader, unprotectedHeader, sharedUnprotectedHeader)

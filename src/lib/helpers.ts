@@ -5,7 +5,7 @@ import { isObject } from './type_checks.js'
 export const unprotected: unique symbol = Symbol()
 
 export function assertNotSet(value: unknown, name: string): void {
-  if (value) {
+  if (value !== undefined) {
     throw new TypeError(`${name} can only be called once`)
   }
 }
