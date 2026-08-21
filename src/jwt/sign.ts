@@ -7,8 +7,15 @@
 import { createSignature } from '../lib/jws_sign.js'
 import { JWTInvalid } from '../util/errors.js'
 import type * as types from '../types.d.ts'
-import { JWTClaimsBuilder } from '../lib/jwt_claims_set.js'
+import { JWTClaimsBuilder, jwtData } from '../lib/jwt_claims_set.js'
 import { assertNotSet } from '../lib/helpers.js'
+
+/**
+ * SignJWT constructor
+ *
+ * @param payload The JWT Claims Set object. Defaults to an empty object.
+ */
+const SignJWT_base: new (payload?: types.JWTPayload) => types.ProduceJWT = JWTClaimsBuilder
 
 /**
  * The SignJWT class is used to build and sign Compact JWS formatted JSON Web Tokens.
@@ -114,54 +121,8 @@ import { assertNotSet } from '../lib/helpers.js'
  * console.log(jwt)
  * ```
  */
-export class SignJWT implements types.ProduceJWT {
+export class SignJWT extends SignJWT_base {
   #protectedHeader!: types.JWTHeaderParameters
-
-  #jwt: JWTClaimsBuilder
-
-  /**
-   * {@link SignJWT} constructor
-   *
-   * @param payload The JWT Claims Set object. Defaults to an empty object.
-   */
-  constructor(payload: types.JWTPayload = {}) {
-    this.#jwt = new JWTClaimsBuilder(payload)
-  }
-
-  setIssuer(issuer: string): this {
-    this.#jwt.iss = issuer
-    return this
-  }
-
-  setSubject(subject: string): this {
-    this.#jwt.sub = subject
-    return this
-  }
-
-  setAudience(audience: string | string[]): this {
-    this.#jwt.aud = audience
-    return this
-  }
-
-  setJti(jwtId: string): this {
-    this.#jwt.jti = jwtId
-    return this
-  }
-
-  setNotBefore(input: number | string | Date): this {
-    this.#jwt.nbf = input
-    return this
-  }
-
-  setExpirationTime(input: number | string | Date): this {
-    this.#jwt.exp = input
-    return this
-  }
-
-  setIssuedAt(input?: number | string | Date): this {
-    this.#jwt.iat = input
-    return this
-  }
 
   /**
    * Sets the JWS Protected Header on the SignJWT object.
@@ -184,7 +145,7 @@ export class SignJWT implements types.ProduceJWT {
   async sign(key: types.KeyInput, options?: types.SignOptions): Promise<string> {
     const [jws] = await createSignature(
       {
-        payload: this.#jwt.data(),
+        payload: jwtData(this),
         protectedHeader: this.#protectedHeader,
         crit: options?.crit,
       },

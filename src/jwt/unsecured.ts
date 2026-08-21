@@ -9,7 +9,7 @@ import * as b64u from '../util/base64url.js'
 import type * as types from '../types.d.ts'
 import { decodeBase64url, parseJoseHeader } from '../lib/helpers.js'
 import { JWSInvalid, JWTInvalid } from '../util/errors.js'
-import { validateClaimsSet, JWTClaimsBuilder } from '../lib/jwt_claims_set.js'
+import { validateClaimsSet, JWTClaimsBuilder, jwtData } from '../lib/jwt_claims_set.js'
 import { JWS_RECOGNIZED, validateB64, validateCrit } from '../lib/options.js'
 
 /**
@@ -26,6 +26,13 @@ export interface UnsecuredResult<PayloadType = types.JWTPayload> {
   /** The decoded JOSE Header; always `{ "alg": "none" }` for an Unsecured JWT. */
   header: types.JWSHeaderParameters
 }
+
+/**
+ * UnsecuredJWT constructor
+ *
+ * @param payload The JWT Claims Set object. Defaults to an empty object.
+ */
+const UnsecuredJWT_base: new (payload?: types.JWTPayload) => types.ProduceJWT = JWTClaimsBuilder
 
 /**
  * The UnsecuredJWT class is a utility for dealing with `{ "alg": "none" }` Unsecured JWTs.
@@ -62,59 +69,15 @@ export interface UnsecuredResult<PayloadType = types.JWTPayload> {
  * console.log(payload)
  * ```
  */
-export class UnsecuredJWT implements types.ProduceJWT {
-  #jwt: JWTClaimsBuilder
-
-  /**
-   * {@link UnsecuredJWT} constructor
-   *
-   * @param payload The JWT Claims Set object. Defaults to an empty object.
-   */
-  constructor(payload: types.JWTPayload = {}) {
-    this.#jwt = new JWTClaimsBuilder(payload)
-  }
+export class UnsecuredJWT extends UnsecuredJWT_base {
+  declare private jwt: never
 
   /** Encodes the Unsecured JWT. */
   encode(): string {
     const header = b64u.encode(JSON.stringify({ alg: 'none' }))
-    const payload = b64u.encode(this.#jwt.data())
+    const payload = b64u.encode(jwtData(this))
 
     return `${header}.${payload}.`
-  }
-
-  setIssuer(issuer: string): this {
-    this.#jwt.iss = issuer
-    return this
-  }
-
-  setSubject(subject: string): this {
-    this.#jwt.sub = subject
-    return this
-  }
-
-  setAudience(audience: string | string[]): this {
-    this.#jwt.aud = audience
-    return this
-  }
-
-  setJti(jwtId: string): this {
-    this.#jwt.jti = jwtId
-    return this
-  }
-
-  setNotBefore(input: number | string | Date): this {
-    this.#jwt.nbf = input
-    return this
-  }
-
-  setExpirationTime(input: number | string | Date): this {
-    this.#jwt.exp = input
-    return this
-  }
-
-  setIssuedAt(input?: number | string | Date): this {
-    this.#jwt.iat = input
-    return this
   }
 
   /**

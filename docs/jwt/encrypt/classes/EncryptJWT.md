@@ -36,7 +36,7 @@ EncryptJWT constructor
 
 | Parameter | Type | Description |
 | ------ | ------ | ------ |
-| `payload` | [`JWTPayload`](../../../types/interfaces/JWTPayload.md) | The JWT Claims Set object. Defaults to an empty object. |
+| `payload?` | [`JWTPayload`](../../../types/interfaces/JWTPayload.md) | The JWT Claims Set object. Defaults to an empty object. |
 
 #### Returns
 

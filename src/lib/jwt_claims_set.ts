@@ -258,74 +258,79 @@ export function validateClaimsSet(
   return payload as types.JWTPayload
 }
 
-export class JWTClaimsBuilder {
-  #payload!: types.JWTPayload
+let producerPayloads: WeakMap<object, types.JWTPayload>
 
-  constructor(payload: types.JWTPayload) {
+function producerPayload(producer: object): types.JWTPayload {
+  return producerPayloads.get(producer)!
+}
+
+export function jwtData(producer: object): Uint8Array {
+  const payload = producerPayload(producer)
+  for (const claim of ['iat', 'nbf', 'exp'] as const) {
+    const value = payload[claim]
+    if (typeof value === 'number' && !Number.isFinite(value)) {
+      throw new TypeError(`"${claim}" claim must be a finite number`)
+    }
+  }
+
+  return encoder.encode(JSON.stringify(payload))
+}
+
+export function jwtClaim(producer: object, claim: 'iss' | 'sub' | 'aud'): unknown {
+  return producerPayload(producer)[claim]
+}
+
+export class JWTClaimsBuilder {
+  constructor(payload: types.JWTPayload = {}) {
     if (!isObject(payload)) {
       throw new TypeError('JWT Claims Set MUST be an object')
     }
-    this.#payload = structuredClone(payload)
+    ;(producerPayloads ||= new WeakMap()).set(this, structuredClone(payload))
   }
 
-  data(): Uint8Array {
-    for (const claim of ['iat', 'nbf', 'exp'] as const) {
-      const value = this.#payload[claim]
-      if (typeof value === 'number' && !Number.isFinite(value)) {
-        throw new TypeError(`"${claim}" claim must be a finite number`)
-      }
-    }
-
-    return encoder.encode(JSON.stringify(this.#payload))
-  }
-
-  get iss(): string | undefined {
-    return this.#payload.iss
-  }
-
-  set iss(value: string) {
+  setIssuer(value: string): this {
     validateStringClaim('iss', value)
-    this.#payload.iss = value
+    producerPayload(this).iss = value
+    return this
   }
 
-  get sub(): string | undefined {
-    return this.#payload.sub
-  }
-
-  set sub(value: string) {
+  setSubject(value: string): this {
     validateStringClaim('sub', value)
-    this.#payload.sub = value
+    producerPayload(this).sub = value
+    return this
   }
 
-  get aud(): string | string[] | undefined {
-    return this.#payload.aud
-  }
-
-  set aud(value: string | string[]) {
+  setAudience(value: string | string[]): this {
     validateAudienceClaim(value)
-    this.#payload.aud = value
+    producerPayload(this).aud = value
+    return this
   }
 
-  set jti(value: string) {
+  setJti(value: string): this {
     validateStringClaim('jti', value)
-    this.#payload.jti = value
+    producerPayload(this).jti = value
+    return this
   }
 
-  set nbf(value: number | string | Date) {
-    this.#payload.nbf = numericDate(value, 'setNotBefore')
+  setNotBefore(value: number | string | Date): this {
+    producerPayload(this).nbf = numericDate(value, 'setNotBefore')
+    return this
   }
 
-  set exp(value: number | string | Date) {
-    this.#payload.exp = numericDate(value, 'setExpirationTime')
+  setExpirationTime(value: number | string | Date): this {
+    producerPayload(this).exp = numericDate(value, 'setExpirationTime')
+    return this
   }
 
-  set iat(value: number | string | Date | undefined) {
+  setIssuedAt(value?: number | string | Date): this {
+    const payload = producerPayload(this)
     if (value === undefined) {
-      this.#payload.iat = epoch(new Date())
+      payload.iat = epoch(new Date())
     } else if (typeof value === 'string') {
-      this.#payload.iat = validateInput('setIssuedAt', epoch(new Date()) + secs(value))
+      payload.iat = validateInput('setIssuedAt', epoch(new Date()) + secs(value))
     } else {
-      this.#payload.iat = numericDate(value, 'setIssuedAt')
+      payload.iat = numericDate(value, 'setIssuedAt')
     }
+    return this
   }
 }

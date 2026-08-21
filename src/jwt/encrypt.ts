@@ -6,8 +6,15 @@
 
 import type * as types from '../types.d.ts'
 import { createJWE } from '../lib/jwe_encrypt.js'
-import { JWTClaimsBuilder } from '../lib/jwt_claims_set.js'
+import { JWTClaimsBuilder, jwtClaim, jwtData } from '../lib/jwt_claims_set.js'
 import { assertNotSet } from '../lib/helpers.js'
+
+/**
+ * EncryptJWT constructor
+ *
+ * @param payload The JWT Claims Set object. Defaults to an empty object.
+ */
+const EncryptJWT_base: new (payload?: types.JWTPayload) => types.ProduceJWT = JWTClaimsBuilder
 
 /**
  * The EncryptJWT class is used to build and encrypt Compact JWE formatted JSON Web Tokens.
@@ -30,7 +37,7 @@ import { assertNotSet } from '../lib/helpers.js'
  * console.log(jwt)
  * ```
  */
-export class EncryptJWT implements types.ProduceJWT {
+export class EncryptJWT extends EncryptJWT_base {
   #cek!: Uint8Array
 
   #iv!: Uint8Array
@@ -44,52 +51,6 @@ export class EncryptJWT implements types.ProduceJWT {
   #replicateSubjectAsHeader!: boolean
 
   #replicateAudienceAsHeader!: boolean
-
-  #jwt: JWTClaimsBuilder
-
-  /**
-   * {@link EncryptJWT} constructor
-   *
-   * @param payload The JWT Claims Set object. Defaults to an empty object.
-   */
-  constructor(payload: types.JWTPayload = {}) {
-    this.#jwt = new JWTClaimsBuilder(payload)
-  }
-
-  setIssuer(issuer: string): this {
-    this.#jwt.iss = issuer
-    return this
-  }
-
-  setSubject(subject: string): this {
-    this.#jwt.sub = subject
-    return this
-  }
-
-  setAudience(audience: string | string[]): this {
-    this.#jwt.aud = audience
-    return this
-  }
-
-  setJti(jwtId: string): this {
-    this.#jwt.jti = jwtId
-    return this
-  }
-
-  setNotBefore(input: number | string | Date): this {
-    this.#jwt.nbf = input
-    return this
-  }
-
-  setExpirationTime(input: number | string | Date): this {
-    this.#jwt.exp = input
-    return this
-  }
-
-  setIssuedAt(input?: number | string | Date): this {
-    this.#jwt.iat = input
-    return this
-  }
 
   /**
    * Sets the JWE Protected Header on the EncryptJWT object.
@@ -185,7 +146,7 @@ export class EncryptJWT implements types.ProduceJWT {
    * @param options JWE Encryption options.
    */
   async encrypt(key: types.KeyInput, options?: types.EncryptOptions): Promise<string> {
-    const plaintext = this.#jwt.data()
+    const plaintext = jwtData(this)
     if (
       this.#protectedHeader &&
       (this.#replicateIssuerAsHeader ||
@@ -194,9 +155,9 @@ export class EncryptJWT implements types.ProduceJWT {
     ) {
       this.#protectedHeader = {
         ...this.#protectedHeader,
-        iss: this.#replicateIssuerAsHeader ? this.#jwt.iss : undefined,
-        sub: this.#replicateSubjectAsHeader ? this.#jwt.sub : undefined,
-        aud: this.#replicateAudienceAsHeader ? this.#jwt.aud : undefined,
+        iss: this.#replicateIssuerAsHeader ? jwtClaim(this, 'iss') : undefined,
+        sub: this.#replicateSubjectAsHeader ? jwtClaim(this, 'sub') : undefined,
+        aud: this.#replicateAudienceAsHeader ? jwtClaim(this, 'aud') : undefined,
       }
     }
 
