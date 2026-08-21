@@ -345,6 +345,13 @@ function isFreshFor(timestamp: unknown, duration: number): timestamp is number {
   return Number.isFinite(timestamp) && Date.now() < (timestamp as number) + duration
 }
 
+function validateDuration(value: number | undefined, fallback: number, option: string): number {
+  if (Number.isNaN(value)) {
+    throw new TypeError(`"${option}" option must not be NaN`)
+  }
+  return typeof value === 'number' ? value : fallback
+}
+
 /**
  * Returns a function that resolves a JWS JOSE Header to a public key object downloaded from a
  * remote endpoint returning a JSON Web Key Set, that is, for example, an OAuth 2.0 or OIDC
@@ -432,25 +439,15 @@ export function createRemoteJWKSet(url: URL, options?: RemoteJWKSetOptions): Rem
   ) {
     throw new TypeError('"timeoutDuration" option must be a non-negative integer')
   }
-  const cooldownOption = opts.cooldownDuration
-  if (Number.isNaN(cooldownOption)) {
-    throw new TypeError('"cooldownDuration" option must not be NaN')
-  }
-  const cacheAgeOption = opts.cacheMaxAge
-  if (Number.isNaN(cacheAgeOption)) {
-    throw new TypeError('"cacheMaxAge" option must not be NaN')
-  }
-
   const timeoutDuration = typeof timeoutOption === 'number' ? timeoutOption : 5000
-  const cooldownDuration = typeof cooldownOption === 'number' ? cooldownOption : 30000
-  const cacheMaxAge = typeof cacheAgeOption === 'number' ? cacheAgeOption : 600000
+  const cooldownDuration = validateDuration(opts.cooldownDuration, 30000, 'cooldownDuration')
+  const cacheMaxAge = validateDuration(opts.cacheMaxAge, 600000, 'cacheMaxAge')
   const headers = new Headers(opts.headers)
   if (USER_AGENT && !headers.has('User-Agent')) {
     headers.set('User-Agent', USER_AGENT)
   }
   if (!headers.has('accept')) {
-    headers.set('accept', 'application/json')
-    headers.append('accept', 'application/jwk-set+json')
+    headers.set('accept', 'application/json, application/jwk-set+json')
   }
 
   const fetchImpl = opts[customFetch]
@@ -461,7 +458,7 @@ export function createRemoteJWKSet(url: URL, options?: RemoteJWKSetOptions): Rem
   let appliedSequence = 0
   let local: ReturnType<typeof createLocalJWKSet> | undefined
 
-  if (typeof cache === 'object' && cache !== null) {
+  if (cache && typeof cache === 'object') {
     const { uat, jwks } = cache as Partial<ExportedJWKSCache>
     if (isFreshFor(uat, cacheMaxAge) && isJwkSet(jwks)) {
       jwksTimestamp = uat
@@ -478,7 +475,12 @@ export function createRemoteJWKSet(url: URL, options?: RemoteJWKSetOptions): Rem
 
     if (!pendingFetch) {
       const sequence = ++reloadSequence
-      const current = fetchJwks(href, headers, AbortSignal.timeout(timeoutDuration), fetchImpl)
+      const current = (pendingFetch = fetchJwks(
+        href,
+        headers,
+        AbortSignal.timeout(timeoutDuration),
+        fetchImpl,
+      )
         .then((json) => {
           const next = createLocalJWKSet(json as unknown as types.JSONWebKeySet)
           if (sequence <= appliedSequence) {
@@ -497,9 +499,7 @@ export function createRemoteJWKSet(url: URL, options?: RemoteJWKSetOptions): Rem
           if (pendingFetch === current) {
             pendingFetch = undefined
           }
-        })
-
-      pendingFetch = current
+        }))
     }
 
     await pendingFetch
@@ -524,7 +524,9 @@ export function createRemoteJWKSet(url: URL, options?: RemoteJWKSetOptions): Rem
     }
   }
 
-  Object.defineProperties(remoteJWKSet, {
+  // Object.defineProperties is used for the property attributes it affords and returns the
+  // un-augmented type; RemoteJWKSet describes exactly what the block below installs.
+  return Object.defineProperties(remoteJWKSet, {
     coolingDown: {
       get: () => isFreshFor(jwksTimestamp, cooldownDuration),
       enumerable: true,
@@ -545,9 +547,5 @@ export function createRemoteJWKSet(url: URL, options?: RemoteJWKSetOptions): Rem
       value: () => local?.jwks(),
       enumerable: true,
     },
-  })
-
-  // Object.defineProperties is used for the property attributes it affords and returns the
-  // un-augmented type; RemoteJWKSet describes exactly what the block above installs.
-  return remoteJWKSet as RemoteJWKSet
+  }) as RemoteJWKSet
 }
