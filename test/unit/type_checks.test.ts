@@ -15,4 +15,13 @@ test('isObject recognizes stable plain-object prototype shapes', (t) => {
   t.false(isObject(Object.create({})))
   t.false(isObject([]))
   t.false(isObject(new Date()))
+
+  for (const input of [undefined, null, true, 0, '', Symbol(), () => {}]) {
+    t.false(isObject(input))
+  }
+
+  const callable = () => {}
+  Object.setPrototypeOf(callable, null)
+  Object.defineProperty(callable, Symbol.toStringTag, { value: 'Object' })
+  t.false(isObject(callable))
 })
