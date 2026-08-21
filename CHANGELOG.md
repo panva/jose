@@ -2,6 +2,54 @@
 
 All notable changes to this project will be documented in this file. See [commit-and-tag-version](https://github.com/absolute-version/commit-and-tag-version) for commit guidelines.
 
+## [6.2.10](https://github.com/panva/jose/compare/v6.2.9...v6.2.10) (2026-08-21)
+
+### Fixes
+
+* **jose:** consume serialization members once ([9bee285](https://github.com/panva/jose/commit/9bee285a6bc356b495c29ae0a5e70b24e723568e))
+* **jose:** reject empty protected and JWE AAD members ([8da4145](https://github.com/panva/jose/commit/8da41453dce79967c6e3f47a787039a7f94de8fe))
+* **jose:** validate serialized header values ([b711d8f](https://github.com/panva/jose/commit/b711d8fe223e3e85520d6c822d7a417cd872b718))
+* **jwe:** conceal invalid decrypted CEK lengths ([41fafe0](https://github.com/panva/jose/commit/41fafe035a62d85f4b313e166100004dd09b111f))
+* **jwe:** enforce AES-GCM tag boundaries ([9a5b744](https://github.com/panva/jose/commit/9a5b74454bf145a106312d519efe95b8a9b53a87))
+* **jwe:** validate explicit encryption parameters ([7a02697](https://github.com/panva/jose/commit/7a02697126e40757ed9e02ae786ec9a2b180aa5c))
+* **jwk:** accept empty octet-sequence keys ([3f871e7](https://github.com/panva/jose/commit/3f871e7859c1ce51d1afcbfeff92c354b8e96dd9))
+* **jwk:** normalize key resolution inputs ([f54ee7b](https://github.com/panva/jose/commit/f54ee7bad8e21c975606bc5e47b352921ac0d890))
+* **jwks:** enforce verification key metadata ([f9ba510](https://github.com/panva/jose/commit/f9ba5101383154147780da7acf1aabc705f75aaf))
+* **jwks:** order overlapping remote reloads ([9a1a913](https://github.com/panva/jose/commit/9a1a913983aa44d065a423692a92148b2a6a36c3))
+* **jwks:** reject invalid remote duration values ([7bdb9e5](https://github.com/panva/jose/commit/7bdb9e56e6a74b833af582532c6fff5bc727ec1c))
+* **jwk:** validate ext and key_ops parameters ([4d91c37](https://github.com/panva/jose/commit/4d91c37fdd36241785cb172774fa017bb8854458))
+* **jws:** reject mixed payload encoding modes ([dc69713](https://github.com/panva/jose/commit/dc69713081a55a3d6955dd1d8c2cf184905febad))
+* **jws:** validate unencoded payload strings ([541f282](https://github.com/panva/jose/commit/541f28234442c5cbfc5f843a95ccd18a721f3697))
+* **jwt:** enforce explicit verification policies ([b347182](https://github.com/panva/jose/commit/b3471826b02589656eaf71843671922644cc60e2))
+* **jwt:** prevent replacing protected headers ([ae07d09](https://github.com/panva/jose/commit/ae07d09bcbac91825e27cde9989b603af3495263))
+* **jwt:** reject invalid duration inputs ([282f9aa](https://github.com/panva/jose/commit/282f9aaa496e57f55417bca15e13c369b3f242fb))
+* **jwt:** validate builder claim values ([ea03f83](https://github.com/panva/jose/commit/ea03f83d607fcaee6fc0778c8a4d40a2bbd75c9e))
+* **jwt:** validate unsecured protected headers ([230c14e](https://github.com/panva/jose/commit/230c14e7a148f168912a4b9c21daff935f07722c))
+* **key:** validate generation and import options ([15d880e](https://github.com/panva/jose/commit/15d880e112777991cc9d38e0af255cc762c79884))
+* reject mixed b64 modes for empty General JWS payloads ([61a2ef7](https://github.com/panva/jose/commit/61a2ef7bc405580073152b52e39287149b247dfe))
+* **x509:** reject DER truncated past its outer length ([d8db9f6](https://github.com/panva/jose/commit/d8db9f6dd751ecb852cd492f62d19d299b4fa1fe))
+
+### Documentation
+
+* **jwks:** correct cache timestamp units ([01a44d9](https://github.com/panva/jose/commit/01a44d918abd25a93259ada4f89e83bb2ff130c6))
+
+### Refactor
+
+* **jose:** share binary input validation ([eedb124](https://github.com/panva/jose/commit/eedb124fe2a719305f579a3e444f6ce74abbc681))
+* **jose:** share compact token processing internals ([85e30ed](https://github.com/panva/jose/commit/85e30ed91ead6c10f19a500f14a49dc97875f2e2))
+* **jwe:** consolidate CBC decryption failures ([1ee6f61](https://github.com/panva/jose/commit/1ee6f61cda63174c55c915687e34893b7c40de33))
+* **jwe:** specialize compact processing ([a998927](https://github.com/panva/jose/commit/a998927cbd2faa8e1cdad36f97a86ebff13d0a5b))
+* **jwe:** streamline single-recipient encryption ([290aaa6](https://github.com/panva/jose/commit/290aaa60f14a8362024f1e23fb2659cebb3471be))
+* **jwks:** compact JWK Set shape validation ([930c7df](https://github.com/panva/jose/commit/930c7dfc7979feb83ed2d1420dd627c42c5f44c4)), references [Array#every](https://github.com/panva/jose/issues/every)
+* **jwks:** compact local key selection ([4cb5ae5](https://github.com/panva/jose/commit/4cb5ae59ac4fae2cb4cfadcdba868be8203a58d4))
+* **jwks:** compact remote resolver state ([ef5eaf4](https://github.com/panva/jose/commit/ef5eaf405f7d07b61c1d52104af24bdc22ac1a52))
+* **jws:** specialize compact processing ([021abf4](https://github.com/panva/jose/commit/021abf48774ef3921738cc7ea9f9705d488cae90))
+* **jwt:** compact claim validation helpers ([f390683](https://github.com/panva/jose/commit/f39068383f8bd0db43c476b7447440c4a8406a5d))
+* **jwt:** consolidate replicated claim checks ([7dd5591](https://github.com/panva/jose/commit/7dd559118bc76303f888cd61a0356556580c9273))
+* **jwt:** share producer claim state ([52ba159](https://github.com/panva/jose/commit/52ba1592cb7fe9e1995bd4c8230e3a5da56230c7))
+* **key:** compact JWK algorithm selection ([a6b29da](https://github.com/panva/jose/commit/a6b29da1b8d4ed0f1f19f39d2684be44ce05aad0))
+* **key:** compact secret length parsing ([cc03be8](https://github.com/panva/jose/commit/cc03be885053160abc64fd90224fc8d0fa9edd0b))
+
 ## [6.2.9](https://github.com/panva/jose/compare/v6.2.8...v6.2.9) (2026-08-15)
 
 ### Fixes
