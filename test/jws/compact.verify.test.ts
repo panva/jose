@@ -39,3 +39,29 @@ test('sign empty data', async (t) => {
   const { payload } = await compactVerify(jws, new Uint8Array(32))
   t.is(payload.byteLength, 0)
 })
+
+test.serial('resolved keys are returned as own data properties', async (t) => {
+  const jws = await new CompactSign(new Uint8Array())
+    .setProtectedHeader({ alg: 'HS256' })
+    .sign(t.context.secret)
+  let intercepted: unknown
+  let result
+  const descriptor = Object.getOwnPropertyDescriptor(Object.prototype, 'key')
+
+  Object.defineProperty(Object.prototype, 'key', {
+    configurable: true,
+    set(value) {
+      intercepted = value
+    },
+  })
+  try {
+    result = await compactVerify(jws, async () => t.context.secret)
+  } finally {
+    if (descriptor) Object.defineProperty(Object.prototype, 'key', descriptor)
+    else Reflect.deleteProperty(Object.prototype, 'key')
+  }
+
+  t.true(Object.hasOwn(result!, 'key'))
+  t.is(result!.key, t.context.secret)
+  t.is(intercepted, undefined)
+})

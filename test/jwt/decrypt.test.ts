@@ -77,6 +77,32 @@ test('Payload must be an object', async (t) => {
   }
 })
 
+test.serial('resolved keys are returned as own data properties', async (t) => {
+  const jwt = await new EncryptJWT(t.context.payload)
+    .setProtectedHeader({ alg: 'dir', enc: 'A256GCM' })
+    .encrypt(t.context.secret)
+  let intercepted: unknown
+  let result
+  const descriptor = Object.getOwnPropertyDescriptor(Object.prototype, 'key')
+
+  Object.defineProperty(Object.prototype, 'key', {
+    configurable: true,
+    set(value) {
+      intercepted = value
+    },
+  })
+  try {
+    result = await jwtDecrypt(jwt, async () => t.context.secret)
+  } finally {
+    if (descriptor) Object.defineProperty(Object.prototype, 'key', descriptor)
+    else Reflect.deleteProperty(Object.prototype, 'key')
+  }
+
+  t.true(Object.hasOwn(result!, 'key'))
+  t.is(result!.key, t.context.secret)
+  t.is(intercepted, undefined)
+})
+
 test('Payload must JSON parseable', async (t) => {
   const encode = TextEncoder.prototype.encode.bind(new TextEncoder())
   const token = await new CompactEncrypt(encode('{'))
