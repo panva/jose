@@ -214,7 +214,8 @@ export async function importJWK(
   const normalized = normalizeJwk(jwk)
   const extractable = validateExtractableOption(options?.extractable)
 
-  alg ??= normalized.alg
+  const { alg: jwkAlg } = normalized
+  alg ??= jwkAlg
   const ext = extractable ?? normalized.ext
 
   if (normalized.kty !== 'oct' && !alg) {
@@ -228,17 +229,16 @@ export async function importJWK(
       }
 
       return decodeBase64URL(normalized.k)
-    case 'RSA':
-      return jwkToKey(keyAlgorithm(alg), { ...normalized, alg, ext })
     case 'AKP': {
-      if (typeof normalized.alg !== 'string' || !normalized.alg) {
+      if (typeof jwkAlg !== 'string' || !jwkAlg) {
         throw new TypeError('missing "alg" (Algorithm) Parameter value')
       }
-      if (alg !== undefined && alg !== normalized.alg) {
+      if (alg !== jwkAlg) {
         throw new TypeError('JWK alg and alg option value mismatch')
       }
-      return jwkToKey(keyAlgorithm(normalized.alg), { ...normalized, ext })
+      return jwkToKey(keyAlgorithm(alg), { ...normalized, ext })
     }
+    case 'RSA':
     case 'EC':
     case 'OKP':
       return jwkToKey(keyAlgorithm(alg), { ...normalized, alg, ext })
