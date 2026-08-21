@@ -124,33 +124,20 @@ async function cbcDecrypt(
   const macData = concat(aad, iv, ciphertext, uint64be(aad.length * 8))
   const expectedTag = await cbcHmacTag(macKey, macData, keySize)
 
-  let macCheckPassed!: boolean
   try {
-    macCheckPassed = await timingSafeEqual(tag, expectedTag)
+    if (await timingSafeEqual(tag, expectedTag)) {
+      return new Uint8Array(
+        await crypto.subtle.decrypt(
+          { iv: iv as Uint8Array<ArrayBuffer>, name: 'AES-CBC' },
+          encKey,
+          ciphertext as Uint8Array<ArrayBuffer>,
+        ),
+      )
+    }
   } catch {
     //
   }
-  if (!macCheckPassed) {
-    throw new JWEDecryptionFailed()
-  }
-
-  let plaintext!: Uint8Array
-  try {
-    plaintext = new Uint8Array(
-      await crypto.subtle.decrypt(
-        { iv: iv as Uint8Array<ArrayBuffer>, name: 'AES-CBC' },
-        encKey,
-        ciphertext as Uint8Array<ArrayBuffer>,
-      ),
-    )
-  } catch {
-    //
-  }
-  if (!plaintext) {
-    throw new JWEDecryptionFailed()
-  }
-
-  return plaintext
+  throw new JWEDecryptionFailed()
 }
 
 // --- GCM encrypt/decrypt ---
