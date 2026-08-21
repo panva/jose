@@ -1,6 +1,6 @@
 // Bundles every published subpath on its own and reports two things:
 //
-//   size   - the minified byte count a CDN consumer actually downloads for that import
+//   size   - raw, gzip, and Brotli byte counts for a minified consumer import
 //   bleed  - occurrences of algorithm names belonging to the *other* JOSE family
 //
 // The second one is the point. A JWS import must not ship the RSA-OAEP / ECDH-ES key paths and
@@ -8,7 +8,8 @@
 // stays in the two registries and everything below them takes a resolved entry: a function that
 // switches on the identifier has to enumerate both families, and no bundler can split a function
 // body. A byte ceiling would notice such a regression late and vaguely; naming the forbidden
-// strings says which import grew and what leaked into it.
+// strings says which import grew and what leaked into it. Compressed sizes are informational
+// because Node and its bundled zlib version move independently of this project.
 //
 // The key-material APIs are general purpose - importJWK, exportJWK and generateKeyPair have to
 // know every algorithm - so they are exempt rather than expected to pass.
@@ -20,7 +21,7 @@
 //   node tools/bundle-report.js --baseline f.json  show the change against a saved --json run
 import { globSync, readFileSync } from 'node:fs'
 import { dirname, resolve } from 'node:path'
-import { gzipSync } from 'node:zlib'
+import { brotliCompressSync, constants, gzipSync } from 'node:zlib'
 
 const { exports: exportsMap } = JSON.parse(readFileSync('package.json', 'utf8'))
 
@@ -87,6 +88,15 @@ function reachable(entry) {
 const check = process.argv.includes('--check')
 const results = []
 
+function compressedSize(source) {
+  return {
+    gzip: gzipSync(source, { level: 9 }).length,
+    brotli: brotliCompressSync(source, {
+      params: { [constants.BROTLI_PARAM_QUALITY]: 11 },
+    }).length,
+  }
+}
+
 for (const [subpath, target] of Object.entries(exportsMap)) {
   if (subpath === './package.json') continue
   const entry = typeof target === 'string' ? target : target.default
@@ -107,6 +117,8 @@ for (const [subpath, target] of Object.entries(exportsMap)) {
 
   // Minifying every subpath is only worth it for the size column, which --check does not print.
   let bytes
+  let gzip
+  let brotli
   if (!check) {
     const { build } = await import('esbuild')
     const { outputFiles } = await build({
@@ -118,7 +130,9 @@ for (const [subpath, target] of Object.entries(exportsMap)) {
       logLevel: 'error',
       write: false,
     })
-    bytes = Buffer.byteLength(outputFiles[0].text)
+    const source = outputFiles[0].contents
+    bytes = source.length
+    ;({ gzip, brotli } = compressedSize(source))
   }
 
   results.push({
@@ -126,6 +140,8 @@ for (const [subpath, target] of Object.entries(exportsMap)) {
     family: fam ?? 'both',
     files: modules.size,
     bytes,
+    gzip,
+    brotli,
     bleed,
   })
 }
@@ -136,7 +152,7 @@ const isBundle = (file) => /\.(bundle|umd)(\.min)?\.js$/.test(file)
 
 function measure(file) {
   const source = readFileSync(file)
-  return { file, bytes: source.length, gzip: gzipSync(source, { level: 9 }).length }
+  return { file, bytes: source.length, ...compressedSize(source) }
 }
 
 /**
@@ -171,16 +187,30 @@ function delta(now, before) {
 if (process.argv.includes('--json')) {
   console.log(JSON.stringify({ subpaths: results, modules, bundles }, null, 2))
 } else {
-  const before = new Map((baseline?.subpaths ?? []).map((r) => [r.subpath, r.bytes]))
+  const before = new Map((baseline?.subpaths ?? []).map((r) => [r.subpath, r]))
   const width = Math.max(...results.map((r) => r.subpath.length))
+  if (!check) console.log(`${'subpath'.padEnd(width)}      raw    gzip      br`)
   for (const r of results) {
     const leaked = Object.entries(r.bleed)
       .map(([m, n]) => `${m}×${n}`)
       .join(' ')
     const status = r.family === 'both' ? '(exempt)' : leaked ? `BLEED ${leaked}` : 'clean'
-    const size = check ? `${String(r.files).padStart(3)} files` : `${String(r.bytes).padStart(7)}`
+    const previous = before.get(r.subpath)
+    const size = check
+      ? `${String(r.files).padStart(3)} files`
+      : `${String(r.bytes).padStart(7)} ${String(r.gzip).padStart(7)} ${String(r.brotli).padStart(7)}`
+    const changes = previous
+      ? [
+          ['raw', delta(r.bytes, previous.bytes)],
+          ['gz', delta(r.gzip, previous.gzip)],
+          ['br', delta(r.brotli, previous.brotli)],
+        ]
+          .filter(([, change]) => change)
+          .map(([label, change]) => `${label}${change}`)
+          .join(', ')
+      : ''
     console.log(
-      `${r.subpath.padEnd(width)}  ${size}  ${r.family.padEnd(5)}  ${status}${check ? '' : delta(r.bytes, before.get(r.subpath))}`,
+      `${r.subpath.padEnd(width)}  ${size}  ${r.family.padEnd(5)}  ${status}${changes ? `  ${changes}` : ''}`,
     )
   }
 
@@ -191,7 +221,7 @@ if (process.argv.includes('--json')) {
   } else {
     const label = `dist/webapi modules (${modules.length} files)`
     console.log(
-      `\n${label}  ${String(total(modules, 'bytes')).padStart(7)}  ${String(total(modules, 'gzip')).padStart(6)} gz` +
+      `\n${label}  ${String(total(modules, 'bytes')).padStart(7)}  ${String(total(modules, 'gzip')).padStart(6)} gz  ${String(total(modules, 'brotli')).padStart(6)} br` +
         delta(
           total(modules, 'bytes'),
           baseline ? total(baseline.modules ?? [], 'bytes') : undefined,
@@ -212,10 +242,10 @@ if (process.argv.includes('--json')) {
   } else {
     const bundlesBefore = new Map((baseline?.bundles ?? []).map((a) => [a.file, a.bytes]))
     const w = Math.max(...bundles.map((a) => a.file.length))
-    console.log('\ndist/webapi bundles (raw / gzip)')
+    console.log('\ndist/webapi bundles (raw / gzip / Brotli)')
     for (const a of bundles) {
       console.log(
-        `  ${a.file.padEnd(w)}  ${String(a.bytes).padStart(7)}  ${String(a.gzip).padStart(6)} gz${delta(a.bytes, bundlesBefore.get(a.file))}`,
+        `  ${a.file.padEnd(w)}  ${String(a.bytes).padStart(7)}  ${String(a.gzip).padStart(6)} gz  ${String(a.brotli).padStart(6)} br${delta(a.bytes, bundlesBefore.get(a.file))}`,
       )
     }
   }
