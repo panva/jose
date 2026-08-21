@@ -81,6 +81,13 @@ test('Signed JWTs cannot use unencoded payload', async (t) => {
   })
 })
 
+test('SignJWT rejects unencoded payloads before validating alg', async (t) => {
+  await t.throwsAsync(
+    new SignJWT().setProtectedHeader({ b64: false, crit: ['b64'] }).sign(t.context.secret),
+    { code: 'ERR_JWT_INVALID', message: 'JWTs MUST NOT use unencoded payload' },
+  )
+})
+
 test('SignJWT uses one normalized protected header snapshot', async (t) => {
   let b64Reads = 0
   const jwt = await new SignJWT(t.context.payload)

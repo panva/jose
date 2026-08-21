@@ -4,7 +4,7 @@
  * @module
  */
 
-import { createSignature } from '../lib/jws_sign.js'
+import { createCompactSignature } from '../lib/jws_sign.js'
 import { JWTInvalid } from '../util/errors.js'
 import type * as types from '../types.d.ts'
 import { JWTClaimsBuilder, jwtData } from '../lib/jwt_claims_set.js'
@@ -143,19 +143,8 @@ export class SignJWT extends SignJWT_base {
    * @param options JWT Sign options.
    */
   async sign(key: types.KeyInput, options?: types.SignOptions): Promise<string> {
-    const [jws] = await createSignature(
-      {
-        payload: jwtData(this),
-        protectedHeader: this.#protectedHeader,
-        crit: options?.crit,
-      },
-      key,
-      (b64) => {
-        if (!b64) {
-          throw new JWTInvalid('JWTs MUST NOT use unencoded payload')
-        }
-      },
-    )
-    return `${jws.protected}.${jws.payload}.${jws.signature}`
+    return createCompactSignature(jwtData(this), this.#protectedHeader, options?.crit, key, () => {
+      throw new JWTInvalid('JWTs MUST NOT use unencoded payload')
+    })
   }
 }

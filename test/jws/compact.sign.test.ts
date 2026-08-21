@@ -41,3 +41,27 @@ test('CompactSign.prototype.sign JOSE header have an alg', async (t) => {
     },
   )
 })
+
+test('CompactSign rejects unencoded payloads before validating alg', async (t) => {
+  await t.throwsAsync(
+    new CompactSign(t.context.payload)
+      .setProtectedHeader({ b64: false, crit: ['b64'] })
+      .sign(t.context.secret),
+    {
+      instanceOf: TypeError,
+      message: 'use the flattened module for creating JWS with b64: false',
+    },
+  )
+})
+
+test('CompactSign reads crit options before requiring a header', async (t) => {
+  const marker = new Error('crit option read')
+  await t.throwsAsync(
+    new CompactSign(t.context.payload).sign(t.context.secret, {
+      get crit(): never {
+        throw marker
+      },
+    }),
+    { is: marker },
+  )
+})

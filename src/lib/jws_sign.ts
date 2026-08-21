@@ -25,6 +25,45 @@ export interface SignInput {
 
 export type CreatedSignature = [jws: types.FlattenedJWS, b64: boolean]
 
+function serializeProtectedHeader(
+  protectedHeader: types.JWSHeaderParameters | undefined,
+): [types.JWSHeaderParameters | undefined, string] {
+  if (protectedHeader === undefined) return [undefined, '']
+  const normalized = serializeJoseHeader(JWSInvalid, protectedHeader)
+  return [normalized[0], b64u(normalized[1])]
+}
+
+function validateSignatureHeader(
+  protectedHeader: types.JWSHeaderParameters | undefined,
+  joseHeader: types.JWSHeaderParameters,
+  crit: { [propName: string]: boolean } | undefined,
+): boolean {
+  validateCritDuplicates(JWSInvalid, protectedHeader)
+  return validateB64(
+    protectedHeader,
+    validateCrit(JWSInvalid, JWS_RECOGNIZED, crit, protectedHeader, joseHeader),
+  )
+}
+
+function signatureAlgorithm(joseHeader: types.JWSHeaderParameters) {
+  const alg = joseHeader.alg
+  if (typeof alg !== 'string' || !alg) {
+    throw new JWSInvalid('JWS "alg" (Algorithm) Header Parameter missing or invalid')
+  }
+  return jwsAlgorithm(alg)
+}
+
+async function signSignature(
+  protectedHeader: string,
+  payload: Uint8Array,
+  entry: ReturnType<typeof jwsAlgorithm>,
+  key: types.KeyInput,
+): Promise<string> {
+  const data = concat(encode(protectedHeader), encode('.'), payload)
+  const k = await prepareKey(entry, key, 'sign')
+  return b64u(await sign(entry, k, data))
+}
+
 export async function createSignature(
   input: SignInput,
   key: types.KeyInput,
@@ -32,12 +71,8 @@ export async function createSignature(
 ): Promise<CreatedSignature> {
   let { protectedHeader, unprotectedHeader } = input
 
-  let protectedHeaderString = ''
-  if (protectedHeader !== undefined) {
-    const normalized = serializeJoseHeader(JWSInvalid, protectedHeader)
-    protectedHeader = normalized[0]
-    protectedHeaderString = b64u(normalized[1])
-  }
+  let protectedHeaderString: string
+  ;[protectedHeader, protectedHeaderString] = serializeProtectedHeader(protectedHeader)
   if (unprotectedHeader !== undefined) {
     unprotectedHeader = serializeJoseHeader(JWSInvalid, unprotectedHeader)[0]
   }
@@ -56,26 +91,11 @@ export async function createSignature(
 
   const joseHeader: types.JWSHeaderParameters = { ...protectedHeader, ...unprotectedHeader }
 
-  validateCritDuplicates(JWSInvalid, protectedHeader)
-  const extensions = validateCrit(
-    JWSInvalid,
-    JWS_RECOGNIZED,
-    input.crit,
-    protectedHeader,
-    joseHeader,
-  )
-
-  const b64 = validateB64(protectedHeader, extensions)
+  const b64 = validateSignatureHeader(protectedHeader, joseHeader, input.crit)
 
   assertB64?.(b64)
 
-  const { alg } = joseHeader
-
-  if (typeof alg !== 'string' || !alg) {
-    throw new JWSInvalid('JWS "alg" (Algorithm) Header Parameter missing or invalid')
-  }
-
-  const entry = jwsAlgorithm(alg)
+  const entry = signatureAlgorithm(joseHeader)
 
   let payloadS: string
   let payloadB: Uint8Array
@@ -90,15 +110,8 @@ export async function createSignature(
     payloadS = ''
   }
 
-  const protectedHeaderBytes = encode(protectedHeaderString)
-
-  const data = concat(protectedHeaderBytes, encode('.'), payloadB)
-
-  const k = await prepareKey(entry, key, 'sign')
-  const signature = await sign(entry, k, data)
-
   const jws: types.FlattenedJWS = {
-    signature: b64u(signature),
+    signature: await signSignature(protectedHeaderString, payloadB, entry, key),
     payload: payloadS,
   }
 
@@ -110,4 +123,28 @@ export async function createSignature(
   }
 
   return [jws, b64]
+}
+
+export async function createCompactSignature(
+  payload: Uint8Array,
+  inputProtectedHeader: types.JWSHeaderParameters | undefined,
+  inputCrit: { [propName: string]: boolean } | undefined,
+  key: types.KeyInput,
+  rejectUnencoded: () => never,
+): Promise<string> {
+  const [protectedHeader, protectedHeaderString] = serializeProtectedHeader(inputProtectedHeader)
+
+  if (!protectedHeader) {
+    throw new JWSInvalid(
+      'either setProtectedHeader or setUnprotectedHeader must be called before #sign()',
+    )
+  }
+
+  const b64 = validateSignatureHeader(protectedHeader, protectedHeader, inputCrit)
+  if (!b64) rejectUnencoded()
+
+  const entry = signatureAlgorithm(protectedHeader)
+  const encodedPayload = b64u(payload)
+  const signature = await signSignature(protectedHeaderString, encode(encodedPayload), entry, key)
+  return `${protectedHeaderString}.${encodedPayload}.${signature}`
 }

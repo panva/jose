@@ -5,7 +5,7 @@
  */
 
 import type * as types from '../../types.d.ts'
-import { createSignature } from '../../lib/jws_sign.js'
+import { createCompactSignature } from '../../lib/jws_sign.js'
 import { assertNotSet } from '../../lib/helpers.js'
 
 /**
@@ -62,20 +62,8 @@ export class CompactSign {
    * @param options JWS Sign options.
    */
   async sign(key: types.KeyInput, options?: types.SignOptions): Promise<string> {
-    const [jws] = await createSignature(
-      {
-        payload: this.#payload,
-        protectedHeader: this.#protectedHeader,
-        crit: options?.crit,
-      },
-      key,
-      (b64) => {
-        if (!b64) {
-          throw new TypeError('use the flattened module for creating JWS with b64: false')
-        }
-      },
-    )
-
-    return `${jws.protected}.${jws.payload}.${jws.signature}`
+    return createCompactSignature(this.#payload, this.#protectedHeader, options?.crit, key, () => {
+      throw new TypeError('use the flattened module for creating JWS with b64: false')
+    })
   }
 }

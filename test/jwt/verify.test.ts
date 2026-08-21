@@ -415,13 +415,18 @@ for (const claim of ['iat', 'nbf', 'exp']) {
 }
 
 test('Signed JWTs cannot use unencoded payload', async (t) => {
-  await t.throwsAsync(
-    jwtVerify(
-      'eyJhbGciOiJIUzI1NiIsImI2NCI6ZmFsc2UsImNyaXQiOlsiYjY0Il19.foo.VklKdp4tVYD61VNPDBTqxqdEQcUL3JK-D4dGXu9NvWs',
-      t.context.secret,
-    ),
-    { code: 'ERR_JWT_INVALID', message: 'JWTs MUST NOT use unencoded payload' },
-  )
+  const jwt =
+    'eyJhbGciOiJIUzI1NiIsImI2NCI6ZmFsc2UsImNyaXQiOlsiYjY0Il19.foo.VklKdp4tVYD61VNPDBTqxqdEQcUL3JK-D4dGXu9NvWs'
+
+  await t.throwsAsync(jwtVerify(jwt, t.context.secret), {
+    code: 'ERR_JWT_INVALID',
+    message: 'JWTs MUST NOT use unencoded payload',
+  })
+
+  const [protectedHeader, payload] = jwt.split('.')
+  await t.throwsAsync(jwtVerify(`${protectedHeader}.${payload}.AA`, t.context.secret), {
+    code: 'ERR_JWS_SIGNATURE_VERIFICATION_FAILED',
+  })
 })
 
 test('JWT verification ignores b64 false without crit', async (t) => {
