@@ -15,6 +15,7 @@ import { prepareKey } from './key.js'
 import { jweAlgorithm, jweEncryption } from './jwe_algorithms.js'
 import type { JWEEncryption } from './jwe_algorithms.js'
 import { compress } from './deflate.js'
+import { unprotected } from './helpers.js'
 
 export type EncryptInput = [
   plaintext: Uint8Array,
@@ -247,6 +248,18 @@ export async function encryptJWE(
 export async function createJWE(
   input: EncryptInput,
   key: types.KeyInput,
+  options?: types.EncryptOptions,
 ): Promise<types.FlattenedJWE> {
+  if (!input[1] && !input[2] && !input[3]) {
+    throw new JWEInvalid(
+      'either setProtectedHeader, setUnprotectedHeader, or sharedUnprotectedHeader must be called before #encrypt()',
+    )
+  }
+
+  if (options !== undefined) {
+    input[8] = options?.crit
+    input[9] = options ? unprotected in options : false
+  }
+
   return encryptJWE(input, checkEncryptHeaders(input), key)
 }

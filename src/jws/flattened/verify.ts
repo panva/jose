@@ -7,7 +7,13 @@
 import type * as types from '../../types.d.ts'
 import { JWSInvalid } from '../../util/errors.js'
 import { isObject } from '../../lib/type_checks.js'
-import { prepareVerify, snapshotJws, verifySignature, verifyResult } from '../../lib/jws_verify.js'
+import {
+  encodeJsonUnencodedPayload,
+  prepareVerify,
+  snapshotJws,
+  verifySignature,
+  verifyResult,
+} from '../../lib/jws_verify.js'
 
 /**
  * Interface for Flattened JWS Verification dynamic key resolution. No token components have been
@@ -121,5 +127,8 @@ export async function flattenedVerify(
     throw new JWSInvalid('JWS Unprotected Header incorrect type')
   }
 
-  return verifyResult(snapshot, await verifySignature(snapshot, prepareVerify(options), key))
+  return verifyResult(
+    snapshot,
+    await verifySignature(snapshot, prepareVerify(options), key, encodeJsonUnencodedPayload),
+  )
 }

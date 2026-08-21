@@ -122,15 +122,7 @@ export function parseJwsHeaders(
   return [parsedProt, joseHeader, b64]
 }
 
-function encodeUnencodedPayload(payload: string, compact: boolean): Uint8Array {
-  if (compact) {
-    try {
-      return encode(payload)
-    } catch {
-      throw new JWSInvalid('JWS Compact Serialization payload must use only ASCII characters')
-    }
-  }
-
+export function encodeJsonUnencodedPayload(payload: string): Uint8Array {
   const invalid = /[\p{Cs}\p{Cn}]/u.exec(payload)?.[0]
   if (invalid !== undefined) {
     throw new JWSInvalid(
@@ -142,6 +134,14 @@ function encodeUnencodedPayload(payload: string, compact: boolean): Uint8Array {
   return encoder.encode(payload)
 }
 
+function encodeCompactUnencodedPayload(payload: string): Uint8Array {
+  try {
+    return encode(payload)
+  } catch {
+    throw new JWSInvalid('JWS Compact Serialization payload must use only ASCII characters')
+  }
+}
+
 /**
  * Verifies one signature. `jws` must already have been checked to have the member types the
  * Flattened Serialization requires; the Compact adapter gets that for free from String#split.
@@ -150,7 +150,7 @@ export async function verifySignature(
   jws: types.FlattenedJWSInput,
   shared: VerifyShared,
   key: types.KeyInput | VerifyGetKey,
-  compact = false,
+  encodeUnencodedPayload: (payload: string) => Uint8Array,
   parsedProtected?: types.JWSHeaderParameters,
 ): Promise<VerifiedSignature> {
   const { protected: encodedProtected, header, payload: inputPayload } = jws
@@ -180,9 +180,7 @@ export async function verifySignature(
   }
 
   const unencodedPayload =
-    !b64 && typeof inputPayload === 'string'
-      ? encodeUnencodedPayload(inputPayload, compact)
-      : undefined
+    !b64 && typeof inputPayload === 'string' ? encodeUnencodedPayload(inputPayload) : undefined
 
   let resolvedKey = false
   if (typeof key === 'function') {
@@ -244,5 +242,10 @@ export async function verifyCompact(
     throw new JWSInvalid('Invalid Compact JWS')
   }
 
-  return verifySignature({ payload, protected: protectedHeader, signature }, shared, key, true)
+  return verifySignature(
+    { payload, protected: protectedHeader, signature },
+    shared,
+    key,
+    encodeCompactUnencodedPayload,
+  )
 }

@@ -4,9 +4,8 @@
  * @module
  */
 
-import { unprotected, assertNotSet } from '../../lib/helpers.js'
+import { assertNotSet } from '../../lib/helpers.js'
 import type * as types from '../../types.d.ts'
-import { JWEInvalid } from '../../util/errors.js'
 import { createJWE } from '../../lib/jwe_encrypt.js'
 
 /**
@@ -152,12 +151,6 @@ export class FlattenedEncrypt {
    * @param options JWE Encryption options.
    */
   async encrypt(key: types.KeyInput, options?: types.EncryptOptions): Promise<types.FlattenedJWE> {
-    if (!this.#protectedHeader && !this.#unprotectedHeader && !this.#sharedUnprotectedHeader) {
-      throw new JWEInvalid(
-        'either setProtectedHeader, setUnprotectedHeader, or sharedUnprotectedHeader must be called before #encrypt()',
-      )
-    }
-
     return createJWE(
       [
         this.#plaintext,
@@ -168,10 +161,11 @@ export class FlattenedEncrypt {
         this.#cek,
         this.#iv,
         this.#keyManagementParameters,
-        options?.crit,
-        options ? unprotected in options : false,
+        undefined,
+        false,
       ],
       key,
+      options,
     )
   }
 }

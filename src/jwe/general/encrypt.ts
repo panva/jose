@@ -208,12 +208,6 @@ export class GeneralEncrypt {
     if (this.#recipients.length === 1) {
       const [unprotectedHeader, keyManagementParameters, key, crit] = this.#recipients[0].state
 
-      if (!this.#protectedHeader && !unprotectedHeader && !this.#unprotectedHeader) {
-        throw new JWEInvalid(
-          'either setProtectedHeader, setUnprotectedHeader, or sharedUnprotectedHeader must be called before #encrypt()',
-        )
-      }
-
       const flattened = await createJWE(
         [
           this.#plaintext,

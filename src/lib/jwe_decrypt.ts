@@ -212,15 +212,8 @@ export async function decryptRecipient(
   shared: DecryptShared,
   key: types.KeyInput | DecryptGetKey,
 ): Promise<DecryptedJWE> {
-  const [
-    keyManagementAlgorithms,
-    contentEncryptionAlgorithms,
-    crit,
-    maxPBES2Count,
-    maxDecompressedLength,
-  ] = shared
-  const [parsedProt, ciphertext, iv, tag, additionalData] = token
-  const { encrypted_key: encodedKey, header, unprotected } = jwe
+  const [parsedProt] = token
+  const { header, unprotected } = jwe
 
   let joseHeader: types.JWEHeaderParameters
   if (header !== undefined || unprotected !== undefined) {
@@ -233,6 +226,27 @@ export async function decryptRecipient(
   } else {
     joseHeader = parsedProt ?? {}
   }
+
+  return decryptRecipientCore(jwe, token, shared, key, joseHeader)
+}
+
+/** Performs the common cryptographic work after a serialization adapter has assembled its header. */
+async function decryptRecipientCore(
+  jwe: types.FlattenedJWE,
+  token: SharedJWE,
+  shared: DecryptShared,
+  key: types.KeyInput | DecryptGetKey,
+  joseHeader: types.JWEHeaderParameters,
+): Promise<DecryptedJWE> {
+  const [
+    keyManagementAlgorithms,
+    contentEncryptionAlgorithms,
+    crit,
+    maxPBES2Count,
+    maxDecompressedLength,
+  ] = shared
+  const [parsedProt, ciphertext, iv, tag, additionalData] = token
+  const { encrypted_key: encodedKey } = jwe
 
   validateCrit(JWEInvalid, JWE_RECOGNIZED, crit, parsedProt, joseHeader)
 
@@ -370,15 +384,14 @@ export async function decryptCompact(
     throw new JWEInvalid('Invalid Compact JWE')
   }
 
-  return decryptJWE(
-    {
-      ciphertext,
-      iv: iv || undefined,
-      protected: protectedHeader,
-      tag: tag || undefined,
-      encrypted_key: encryptedKey || undefined,
-    },
-    shared,
-    key,
-  )
+  const flattened = {
+    ciphertext,
+    iv: iv || undefined,
+    protected: protectedHeader,
+    tag: tag || undefined,
+    encrypted_key: encryptedKey || undefined,
+  }
+  const token = shareJWE(flattened)
+
+  return decryptRecipientCore(flattened, token, shared, key, token[0]!)
 }

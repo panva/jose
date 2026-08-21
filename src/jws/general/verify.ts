@@ -6,6 +6,7 @@
 
 import type * as types from '../../types.d.ts'
 import {
+  encodeJsonUnencodedPayload,
   parseProtectedHeader,
   prepareVerify,
   snapshotJws,
@@ -190,7 +191,7 @@ export async function generalVerify(
     try {
       return verifyResult(
         candidate[0],
-        await verifySignature(candidate[0], shared, key, false, candidate[1]),
+        await verifySignature(candidate[0], shared, key, encodeJsonUnencodedPayload, candidate[1]),
       )
     } catch {
       //

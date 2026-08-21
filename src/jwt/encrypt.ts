@@ -5,7 +5,7 @@
  */
 
 import type * as types from '../types.d.ts'
-import { CompactEncrypt } from '../jwe/compact/encrypt.js'
+import { createJWE } from '../lib/jwe_encrypt.js'
 import { JWTClaimsBuilder } from '../lib/jwt_claims_set.js'
 import { assertNotSet } from '../lib/helpers.js'
 
@@ -185,7 +185,7 @@ export class EncryptJWT implements types.ProduceJWT {
    * @param options JWE Encryption options.
    */
   async encrypt(key: types.KeyInput, options?: types.EncryptOptions): Promise<string> {
-    const enc = new CompactEncrypt(this.#jwt.data())
+    const plaintext = this.#jwt.data()
     if (
       this.#protectedHeader &&
       (this.#replicateIssuerAsHeader ||
@@ -199,16 +199,24 @@ export class EncryptJWT implements types.ProduceJWT {
         aud: this.#replicateAudienceAsHeader ? this.#jwt.aud : undefined,
       }
     }
-    enc.setProtectedHeader(this.#protectedHeader)
-    if (this.#iv !== undefined) {
-      enc.setInitializationVector(this.#iv)
-    }
-    if (this.#cek !== undefined) {
-      enc.setContentEncryptionKey(this.#cek)
-    }
-    if (this.#keyManagementParameters !== undefined) {
-      enc.setKeyManagementParameters(this.#keyManagementParameters)
-    }
-    return enc.encrypt(key, options)
+
+    const jwe = await createJWE(
+      [
+        plaintext,
+        this.#protectedHeader,
+        undefined,
+        undefined,
+        undefined,
+        this.#cek,
+        this.#iv,
+        this.#keyManagementParameters,
+        undefined,
+        false,
+      ],
+      key,
+      options,
+    )
+
+    return [jwe.protected, jwe.encrypted_key, jwe.iv, jwe.ciphertext, jwe.tag].join('.')
   }
 }
