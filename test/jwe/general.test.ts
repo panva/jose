@@ -176,6 +176,16 @@ test('General JWE encryption validates multi-recipient plaintext', async (t) => 
   })
 })
 
+test('General JWE single-recipient encryption requires a JOSE header', async (t) => {
+  const encrypt = new GeneralEncrypt(t.context.plaintext).addRecipient(t.context.secret)
+
+  await t.throwsAsync(encrypt.encrypt(), {
+    code: 'ERR_JWE_INVALID',
+    message:
+      'either setProtectedHeader, setUnprotectedHeader, or sharedUnprotectedHeader must be called before #encrypt()',
+  })
+})
+
 test('General JWE encryption (single recipient dir)', async (t) => {
   const generalJwe = await new GeneralEncrypt(t.context.plaintext)
     .setAdditionalAuthenticatedData(t.context.additionalAuthenticatedData)

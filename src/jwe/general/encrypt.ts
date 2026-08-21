@@ -5,13 +5,12 @@
  */
 
 import type * as types from '../../types.d.ts'
-import { FlattenedEncrypt } from '../flattened/encrypt.js'
 import { assertNotSet } from '../../lib/helpers.js'
 import { JWEInvalid } from '../../util/errors.js'
 import { generateCek } from '../../lib/content_encryption.js'
 import { encryptKeyManagement } from '../../lib/key_management.js'
 import { encode as b64u } from '../../util/base64url.js'
-import { checkDisjoint, checkEncryptHeaders, encryptJWE } from '../../lib/jwe_encrypt.js'
+import { checkDisjoint, checkEncryptHeaders, createJWE, encryptJWE } from '../../lib/jwe_encrypt.js'
 import type { CheckedHeaders, EncryptInput } from '../../lib/jwe_encrypt.js'
 import { prepareKey } from '../../lib/key.js'
 import { jweAlgorithm } from '../../lib/jwe_algorithms.js'
@@ -207,16 +206,29 @@ export class GeneralEncrypt {
     }
 
     if (this.#recipients.length === 1) {
-      const [recipient] = this.#recipients
-      const [unprotectedHeader, keyManagementParameters, key, crit] = recipient.state
+      const [unprotectedHeader, keyManagementParameters, key, crit] = this.#recipients[0].state
 
-      const flattened = await new FlattenedEncrypt(this.#plaintext)
-        .setAdditionalAuthenticatedData(this.#aad)
-        .setProtectedHeader(this.#protectedHeader)
-        .setSharedUnprotectedHeader(this.#unprotectedHeader)
-        .setUnprotectedHeader(unprotectedHeader!)
-        .setKeyManagementParameters(keyManagementParameters!)
-        .encrypt(key, { crit })
+      if (!this.#protectedHeader && !unprotectedHeader && !this.#unprotectedHeader) {
+        throw new JWEInvalid(
+          'either setProtectedHeader, setUnprotectedHeader, or sharedUnprotectedHeader must be called before #encrypt()',
+        )
+      }
+
+      const flattened = await createJWE(
+        [
+          this.#plaintext,
+          this.#protectedHeader,
+          unprotectedHeader,
+          this.#unprotectedHeader,
+          this.#aad,
+          undefined,
+          undefined,
+          keyManagementParameters,
+          crit,
+          false,
+        ],
+        key,
+      )
 
       const jwe: types.GeneralJWE = {
         ciphertext: flattened.ciphertext,
