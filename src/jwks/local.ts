@@ -15,30 +15,30 @@ import {
   JWKSMultipleMatchingKeys,
 } from '../util/errors.js'
 import { isJwkSet } from '../lib/type_checks.js'
-import { normalizeJwk } from '../lib/jwk_metadata.js'
+import { snapshotJwk } from '../lib/jwk_metadata.js'
 
 interface Cache {
   [alg: string]: types.CryptoKey
 }
 
 function isUsableJWK(jwk: types.JWK, entry: JWSAlgorithm, alg: string, kid: unknown): boolean {
-  let normalized: types.JWK
-  try {
-    normalized = normalizeJwk(jwk)
-  } catch {
-    return false
-  }
+  const { kty, key_ops, ext, kid: jwkKid, alg: jwkAlg, use, crv } = snapshotJwk(jwk)
+  const keyOps = Array.isArray(key_ops) ? [...key_ops] : key_ops
 
   return (
-    entry.kty.includes(normalized.kty!) &&
-    (kid === undefined || (typeof kid === 'string' && kid === normalized.kid)) &&
-    (normalized.alg === undefined
-      ? normalized.kty !== 'AKP'
-      : typeof normalized.alg === 'string' && alg === normalized.alg) &&
-    (normalized.use === undefined ||
-      (typeof normalized.use === 'string' && normalized.use === 'sig')) &&
-    (normalized.key_ops === undefined || normalized.key_ops.includes('verify')) &&
-    (!entry.crv || normalized.crv === entry.crv)
+    (ext === undefined || typeof ext === 'boolean') &&
+    (keyOps === undefined ||
+      (Array.isArray(keyOps) &&
+        keyOps.every(
+          (operation, index) =>
+            typeof operation === 'string' && keyOps.indexOf(operation) === index,
+        ) &&
+        keyOps.includes('verify'))) &&
+    entry.kty.includes(kty!) &&
+    (kid === undefined || (typeof kid === 'string' && kid === jwkKid)) &&
+    (jwkAlg === undefined ? kty !== 'AKP' : alg === jwkAlg) &&
+    (use === undefined || use === 'sig') &&
+    (!entry.crv || crv === entry.crv)
   )
 }
 
@@ -48,17 +48,18 @@ async function importWithAlgCache(
   entry: JWSAlgorithm,
 ) {
   const cached = cache.get(jwk) || cache.set(jwk, {}).get(jwk)!
-  if (cached[entry.alg] === undefined) {
-    const key = await jwkToKey(entry, { ...jwk, alg: entry.alg, ext: true })
+  const { alg } = entry
+  if (cached[alg] === undefined) {
+    const key = await jwkToKey(entry, { ...jwk, alg, ext: true })
 
     if (key.type !== 'public') {
       throw new JWKSInvalid('JSON Web Key Set members must be public keys')
     }
 
-    cached[entry.alg] = key
+    cached[alg] = key
   }
 
-  return cached[entry.alg]
+  return cached[alg]
 }
 
 /**
@@ -188,7 +189,7 @@ export function createLocalJWKSet(jwks: types.JSONWebKeySet): LocalJWKSet {
     const candidates = snapshot.keys.filter((jwk) => isUsableJWK(jwk, entry, alg!, kid))
     const { 0: jwk, length } = candidates
 
-    if (length === 0) {
+    if (!length) {
       throw new JWKSNoMatchingKey()
     }
     if (length !== 1) {
@@ -206,11 +207,9 @@ export function createLocalJWKSet(jwks: types.JSONWebKeySet): LocalJWKSet {
     return importWithAlgCache(cached, jwk, entry)
   }
 
-  Object.defineProperty(localJWKSet, 'jwks', {
+  // Object.defineProperty is used for the property attributes it affords and returns the
+  // un-augmented type; LocalJWKSet describes exactly what the block below installs.
+  return Object.defineProperty(localJWKSet, 'jwks', {
     value: () => structuredClone(snapshot),
-  })
-
-  // Object.defineProperties is used for the property attributes it affords and returns the
-  // un-augmented type; LocalJWKSet describes exactly what the block above installs.
-  return localJWKSet as LocalJWKSet
+  }) as LocalJWKSet
 }
