@@ -18,6 +18,20 @@ test('JSON Web Signature (JWS) Unencoded Payload Option', async (t) => {
   await t.notThrowsAsync(flattenedVerify({ ...jws, payload: encode('foo') }, new Uint8Array(32)))
 })
 
+test('detached byte payloads are copied before resolving a key', async (t) => {
+  const key = new Uint8Array(32)
+  const jws = await new FlattenedSign(encode('foo'))
+    .setProtectedHeader({ alg: 'HS256', b64: false, crit: ['b64'] })
+    .sign(key)
+  const payload = Buffer.from('foo')
+
+  const verified = await flattenedVerify({ ...jws, payload }, async () => {
+    payload[0] = 0
+    return key
+  })
+  t.deepEqual(verified.payload, encode('foo'))
+})
+
 test('b64 check', async (t) => {
   await t.throwsAsync(
     new FlattenedSign(encode('foo'))
@@ -56,6 +70,26 @@ test('CompactSign rejects an unencoded payload', async (t) => {
       message: 'use the flattened module for creating JWS with b64: false',
     },
   )
+})
+
+test('CompactSign uses one normalized protected header snapshot', async (t) => {
+  let b64Reads = 0
+  const key = new Uint8Array(32)
+  const jws = await new CompactSign(encode('foo'))
+    .setProtectedHeader({
+      alg: 'HS256',
+      crit: ['b64'],
+      get b64() {
+        b64Reads++
+        return b64Reads === 1 ? true : false
+      },
+    })
+    .sign(key)
+
+  t.is(b64Reads, 1)
+  t.is(jws.split('.')[1], 'Zm9v')
+  const verified = await compactVerify(jws, key)
+  t.is(verified.protectedHeader.b64, true)
 })
 
 test('Compact JWS rejects a non-ASCII unencoded payload', async (t) => {
@@ -111,17 +145,50 @@ test('JWS JSON rejects unassigned code points in an unencoded payload', async (t
   })
 })
 
-test('CompactSign is unaffected when b64 is not in crit', async (t) => {
-  // Without "crit" listing it, "b64" is not in effect and the payload is encoded as usual.
-  const jws = await new CompactSign(encode('foo'))
-    .setProtectedHeader({ alg: 'HS256', b64: false })
-    .sign(new Uint8Array(32))
+test('JWS JSON reports the first invalid Unicode property', async (t) => {
+  const key = new Uint8Array(32)
+  const jws = await new FlattenedSign(encode('valid'))
+    .setProtectedHeader({ alg: 'HS256', b64: false, crit: ['b64'] })
+    .sign(key)
 
-  const { 1: payload } = jws.split('.')
-  t.is(payload, 'Zm9v')
+  for (const [payload, message] of [
+    ['\u0378\ud800', 'JWS Payload must not contain unassigned Unicode code points'],
+    ['\ud800\u0378', 'JWS Payload must be a well-formed Unicode string'],
+  ]) {
+    await t.throwsAsync(flattenedVerify({ ...jws, payload }, key), {
+      code: 'ERR_JWS_INVALID',
+      message,
+    })
+  }
+})
+
+test('b64 only affects payload encoding when protected and listed in crit', async (t) => {
+  const key = new Uint8Array(32)
+
+  for (const b64 of [false, true]) {
+    const jws = await new CompactSign(encode('foo'))
+      .setProtectedHeader({ alg: 'HS256', b64 })
+      .sign(key)
+
+    t.is(jws.split('.')[1], 'Zm9v')
+    await t.notThrowsAsync(compactVerify(jws, key))
+  }
+
+  const malformed = await new CompactSign(encode('foo'))
+    .setProtectedHeader({ alg: 'HS256', b64: null } as never)
+    .sign(key)
+  t.is(malformed.split('.')[1], 'Zm9v')
+  await t.notThrowsAsync(compactVerify(malformed, key))
+
+  const unprotected = await new FlattenedSign(encode('foo'))
+    .setProtectedHeader({ alg: 'HS256' })
+    .setUnprotectedHeader({ b64: false })
+    .sign(key)
+  t.is(unprotected.payload, 'Zm9v')
+  await t.notThrowsAsync(flattenedVerify(unprotected, key))
 
   const jws2 = await new CompactSign(encode('foo'))
     .setProtectedHeader({ alg: 'HS256', b64: true, crit: ['b64'] })
-    .sign(new Uint8Array(32))
+    .sign(key)
   t.is(jws2.split('.')[1], 'Zm9v')
 })

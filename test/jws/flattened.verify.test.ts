@@ -147,6 +147,24 @@ test('JWS format validation', async (t) => {
   }
 })
 
+test('Flattened JWS members are read once', async (t) => {
+  const fullJws = await new FlattenedSign(t.context.plaintext)
+    .setProtectedHeader({ alg: 'HS256' })
+    .sign(t.context.secret)
+  let signatureReads = 0
+  const switching = Object.defineProperty({ ...fullJws }, 'signature', {
+    enumerable: true,
+    get() {
+      signatureReads++
+      if (signatureReads > 1) throw new Error('signature was read twice')
+      return fullJws.signature
+    },
+  })
+
+  await t.notThrowsAsync(flattenedVerify(switching, t.context.secret))
+  t.is(signatureReads, 1)
+})
+
 test('sign empty data', async (t) => {
   const jws = await new FlattenedSign(new Uint8Array(0))
     .setProtectedHeader({ alg: 'HS256' })

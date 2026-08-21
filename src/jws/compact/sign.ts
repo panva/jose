@@ -5,8 +5,8 @@
  */
 
 import type * as types from '../../types.d.ts'
-import { FlattenedSign } from '../flattened/sign.js'
-import { unencodedPayload } from '../../lib/jws_sign.js'
+import { createSignature } from '../../lib/jws_sign.js'
+import { assertNotSet } from '../../lib/helpers.js'
 
 /**
  * The CompactSign class is used to build and sign Compact JWS strings.
@@ -27,8 +27,9 @@ import { unencodedPayload } from '../../lib/jws_sign.js'
  * ```
  */
 export class CompactSign {
-  #flattened: FlattenedSign
-  #protectedHeader?: types.CompactJWSHeaderParameters
+  #payload: Uint8Array
+
+  #protectedHeader!: types.CompactJWSHeaderParameters
 
   /**
    * {@link CompactSign} constructor
@@ -36,7 +37,10 @@ export class CompactSign {
    * @param payload Binary representation of the payload to sign.
    */
   constructor(payload: Uint8Array) {
-    this.#flattened = new FlattenedSign(payload)
+    if (!(payload instanceof Uint8Array)) {
+      throw new TypeError('payload must be an instance of Uint8Array')
+    }
+    this.#payload = payload
   }
 
   /**
@@ -45,7 +49,7 @@ export class CompactSign {
    * @param protectedHeader JWS Protected Header.
    */
   setProtectedHeader(protectedHeader: types.CompactJWSHeaderParameters): this {
-    this.#flattened.setProtectedHeader(protectedHeader)
+    assertNotSet(this.#protectedHeader, 'setProtectedHeader')
     this.#protectedHeader = protectedHeader
     return this
   }
@@ -58,11 +62,19 @@ export class CompactSign {
    * @param options JWS Sign options.
    */
   async sign(key: types.KeyInput, options?: types.SignOptions): Promise<string> {
-    if (unencodedPayload(this.#protectedHeader)) {
-      throw new TypeError('use the flattened module for creating JWS with b64: false')
-    }
-
-    const jws = await this.#flattened.sign(key, options)
+    const [jws] = await createSignature(
+      {
+        payload: this.#payload,
+        protectedHeader: this.#protectedHeader,
+        crit: options?.crit,
+      },
+      key,
+      (b64) => {
+        if (!b64) {
+          throw new TypeError('use the flattened module for creating JWS with b64: false')
+        }
+      },
+    )
 
     return `${jws.protected}.${jws.payload}.${jws.signature}`
   }

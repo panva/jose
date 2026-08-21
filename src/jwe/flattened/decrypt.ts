@@ -11,8 +11,9 @@ import {
   prepareDecrypt,
   decryptJWE,
   decryptResult,
-  checkShared,
   checkRecipient,
+  snapshotSharedJWE,
+  snapshotRecipientJWE,
 } from '../../lib/jwe_decrypt.js'
 
 /**
@@ -108,8 +109,11 @@ export async function flattenedDecrypt(
     throw new JWEInvalid('Flattened JWE must be an object')
   }
 
-  checkShared(jwe)
-  checkRecipient(jwe)
+  const shared = snapshotSharedJWE(jwe)
+  const [recipient, , error] = snapshotRecipientJWE(jwe)
+  if (!recipient) throw error
+  const snapshot: types.FlattenedJWE = { ...shared, ...recipient }
+  checkRecipient(snapshot)
 
-  return decryptResult(jwe, await decryptJWE(jwe, prepareDecrypt(options), key))
+  return decryptResult(snapshot, await decryptJWE(snapshot, prepareDecrypt(options), key))
 }

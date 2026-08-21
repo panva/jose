@@ -200,6 +200,45 @@ test('JWE format validation', async (t) => {
   }
 })
 
+test('shared headers are snapshotted before recipient members', async (t) => {
+  const direct = await new FlattenedEncrypt(t.context.plaintext)
+    .setSharedUnprotectedHeader({ alg: 'dir', enc: 'A128GCM' })
+    .encrypt(t.context.secret)
+  const unprotected = { alg: 'A256KW', enc: 'A128GCM' }
+  let encryptedKeyReads = 0
+  const switching = Object.defineProperty({ ...direct, unprotected }, 'encrypted_key', {
+    enumerable: true,
+    get() {
+      encryptedKeyReads++
+      unprotected.alg = 'dir'
+      return undefined
+    },
+  })
+
+  await t.throwsAsync(flattenedDecrypt(switching, t.context.secret))
+  t.is(encryptedKeyReads, 1)
+})
+
+test('recipient snapshots preserve an undefined thrown value', async (t) => {
+  const direct = await new FlattenedEncrypt(t.context.plaintext)
+    .setProtectedHeader({ alg: 'dir', enc: 'A128GCM' })
+    .encrypt(t.context.secret)
+  const throwing = Object.defineProperty({ ...direct }, 'encrypted_key', {
+    enumerable: true,
+    get() {
+      throw undefined
+    },
+  })
+
+  let rejected = false
+  const reason = await flattenedDecrypt(throwing, t.context.secret).catch((error) => {
+    rejected = true
+    return error
+  })
+  t.true(rejected)
+  t.is(reason, undefined)
+})
+
 test('an empty JWE AAD value must be represented by omitting the member', async (t) => {
   const encode = TextEncoder.prototype.encode.bind(new TextEncoder())
   const protectedHeader = base64url.encode(JSON.stringify({ alg: 'dir', enc: 'A128GCM' }))
@@ -218,19 +257,29 @@ test('an empty JWE AAD value must be represented by omitting the member', async 
     ),
   )
 
-  await t.throwsAsync(
-    flattenedDecrypt(
-      {
-        aad: '',
-        ciphertext: base64url.encode(encrypted.slice(0, -16)),
-        iv: base64url.encode(iv),
-        protected: protectedHeader,
-        tag: base64url.encode(encrypted.slice(-16)),
-      },
-      t.context.secret,
-    ),
-    { code: 'ERR_JWE_INVALID' },
-  )
+  const jwe = {
+    aad: '',
+    ciphertext: base64url.encode(encrypted.slice(0, -16)),
+    iv: base64url.encode(iv),
+    protected: protectedHeader,
+    tag: base64url.encode(encrypted.slice(-16)),
+  }
+
+  await t.throwsAsync(flattenedDecrypt(jwe, t.context.secret), { code: 'ERR_JWE_INVALID' })
+
+  let reads = 0
+  const accessor = Object.defineProperty({ ...jwe, aad: undefined }, 'aad', {
+    enumerable: true,
+    get() {
+      reads++
+      return reads === 2 || reads === 3 ? 'eA' : ''
+    },
+  })
+
+  await t.throwsAsync(flattenedDecrypt(accessor, t.context.secret), {
+    code: 'ERR_JWE_INVALID',
+  })
+  t.is(reads, 1)
 })
 
 test('AES CBC + HMAC', async (t) => {

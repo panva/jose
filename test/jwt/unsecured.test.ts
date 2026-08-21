@@ -69,6 +69,43 @@ test('UnsecuredJWT rejects the unencoded payload option', (t) => {
   })
 })
 
+test('UnsecuredJWT applies JWS crit and b64 validation', (t) => {
+  const payload = base64url.encode(JSON.stringify(t.context.payload))
+  const token = (header: object) =>
+    `${base64url.encode(JSON.stringify({ alg: 'none', ...header }))}.${payload}.`
+
+  for (const [header, causeMessage] of [
+    [
+      { crit: null },
+      '"crit" (Critical) Header Parameter MUST be an array of non-empty strings when present',
+    ],
+    [{ crit: ['b64'] }, 'Extension Header Parameter "b64" is missing'],
+    [
+      { b64: 'true', crit: ['b64'] },
+      'The "b64" (base64url-encode payload) Header Parameter must be a boolean',
+    ],
+  ] as const) {
+    const error = t.throws(() => UnsecuredJWT.decode(token(header)), {
+      code: 'ERR_JWT_INVALID',
+      message: 'Invalid Unsecured JWT',
+    })
+    t.true(
+      error.cause instanceof Error &&
+        'code' in error.cause &&
+        error.cause.code === 'ERR_JWS_INVALID' &&
+        error.cause.message === causeMessage,
+    )
+  }
+
+  for (const b64 of [false, true, 'false']) {
+    const decoded = UnsecuredJWT.decode(token({ b64 }))
+    t.deepEqual(decoded.payload, t.context.payload)
+  }
+
+  const decoded = UnsecuredJWT.decode(token({ b64: true, crit: ['b64', 'b64'] }))
+  t.deepEqual(decoded.payload, t.context.payload)
+})
+
 test('new UnsecuredJWT()', (t) => {
   t.is(new UnsecuredJWT().encode(), 'eyJhbGciOiJub25lIn0.e30.')
 })

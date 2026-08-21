@@ -261,6 +261,13 @@ test('General JWE format validation', async (t) => {
   }
 
   {
+    await t.throwsAsync(generalDecrypt({ recipients: Array(1) }, t.context.secret), {
+      message: 'JWE Recipients missing or incorrect type',
+      code: 'ERR_JWE_INVALID',
+    })
+  }
+
+  {
     const jwe = { ...generalJwe, recipients: [] }
 
     await t.throwsAsync(generalDecrypt(jwe, t.context.secret), {
@@ -342,6 +349,108 @@ test('General JWE decryption requires a single recipient for dir and ECDH-ES', a
       code: 'ERR_JWE_INVALID',
     },
   )
+
+  await t.throwsAsync(
+    generalDecrypt(
+      {
+        ...perRecipient,
+        recipients: [
+          perRecipient.recipients[0],
+          { header: { alg: 'dir' }, encrypted_key: 0 as never },
+        ],
+      },
+      t.context.secret,
+    ),
+    {
+      message: '"dir" alg may only have a single recipient',
+      code: 'ERR_JWE_INVALID',
+    },
+  )
+
+  const mutatingHeader = { alg: 'dir' }
+  const mutatingRecipient = Object.defineProperty({ header: mutatingHeader }, 'encrypted_key', {
+    enumerable: true,
+    get() {
+      mutatingHeader.alg = 'A256KW'
+      return 0
+    },
+  })
+  await t.throwsAsync(
+    generalDecrypt(
+      { ...perRecipient, recipients: [perRecipient.recipients[0], mutatingRecipient] },
+      t.context.secret,
+    ),
+    {
+      message: '"dir" alg may only have a single recipient',
+      code: 'ERR_JWE_INVALID',
+    },
+  )
+
+  for (const thrown of [new Error('unexpected encrypted key getter'), undefined]) {
+    const throwingRecipient = {
+      header: { alg: 'dir' },
+      get encrypted_key(): string {
+        throw thrown
+      },
+    }
+    await t.throwsAsync(
+      generalDecrypt(
+        { ...perRecipient, recipients: [perRecipient.recipients[0], throwingRecipient] },
+        t.context.secret,
+      ),
+      {
+        message: '"dir" alg may only have a single recipient',
+        code: 'ERR_JWE_INVALID',
+      },
+    )
+  }
+
+  const partiallyThrowingHeader = {
+    alg: 'dir',
+    get z(): never {
+      throw new Error('unexpected header getter')
+    },
+  }
+  await t.throwsAsync(
+    generalDecrypt(
+      {
+        ...perRecipient,
+        recipients: [perRecipient.recipients[0], { header: partiallyThrowingHeader }],
+      },
+      t.context.secret,
+    ),
+    {
+      message: '"dir" alg may only have a single recipient',
+      code: 'ERR_JWE_INVALID',
+    },
+  )
+
+  const flattened = await new FlattenedEncrypt(t.context.plaintext)
+    .setProtectedHeader({ enc: 'A256GCM' })
+    .setUnprotectedHeader({ alg: 'dir' })
+    .encrypt(t.context.secret)
+  let reads = 0
+  const switching = {
+    get header() {
+      reads++
+      return reads === 1 ? { alg: 'A256KW' } : { alg: 'dir' }
+    },
+  }
+
+  await t.throwsAsync(
+    generalDecrypt(
+      {
+        ciphertext: flattened.ciphertext,
+        iv: flattened.iv,
+        protected: flattened.protected,
+        recipients: [switching, {}],
+        tag: flattened.tag,
+      },
+      t.context.secret,
+    ),
+    { code: 'ERR_JWE_DECRYPTION_FAILED' },
+  )
+  t.is(reads, 1)
 })
 
 test('General JWE decryption rejects a dir CEK key-wrapped for a second recipient', async (t) => {

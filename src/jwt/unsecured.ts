@@ -7,10 +7,10 @@
 import * as b64u from '../util/base64url.js'
 
 import type * as types from '../types.d.ts'
-import { decodeBase64url } from '../lib/helpers.js'
+import { decodeBase64url, parseJoseHeader } from '../lib/helpers.js'
 import { JWSInvalid, JWTInvalid } from '../util/errors.js'
 import { validateClaimsSet, JWTClaimsBuilder } from '../lib/jwt_claims_set.js'
-import { parseJwsHeaders } from '../lib/jws_verify.js'
+import { JWS_RECOGNIZED, validateB64, validateCrit } from '../lib/options.js'
 
 /**
  * Result of decoding an Unsecured JWT.
@@ -139,9 +139,9 @@ export class UnsecuredJWT implements types.ProduceJWT {
     let header: types.JWSHeaderParameters
     let b64: boolean
     try {
-      const parsed = parseJwsHeaders(encodedHeader, undefined, undefined)
-      header = parsed[0]
-      b64 = parsed[2]
+      header = parseJoseHeader(encodedHeader, JWSInvalid, 'JWS Protected Header is invalid')
+      const extensions = validateCrit(JWSInvalid, JWS_RECOGNIZED, undefined, header, header)
+      b64 = validateB64(header, extensions)
     } catch (cause) {
       if (!(cause instanceof JWSInvalid)) {
         throw cause

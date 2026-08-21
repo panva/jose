@@ -7,7 +7,7 @@
 import type * as types from '../../types.d.ts'
 import { JWSInvalid } from '../../util/errors.js'
 import { isObject } from '../../lib/type_checks.js'
-import { prepareVerify, verifySignature, verifyResult } from '../../lib/jws_verify.js'
+import { prepareVerify, snapshotJws, verifySignature, verifyResult } from '../../lib/jws_verify.js'
 
 /**
  * Interface for Flattened JWS Verification dynamic key resolution. No token components have been
@@ -99,25 +99,27 @@ export async function flattenedVerify(
     throw new JWSInvalid('Flattened JWS must be an object')
   }
 
-  if (jws.protected === undefined && jws.header === undefined) {
+  const snapshot = snapshotJws(jws)
+
+  if (snapshot.protected === undefined && snapshot.header === undefined) {
     throw new JWSInvalid('Flattened JWS must have either of the "protected" or "header" members')
   }
 
-  if (jws.protected !== undefined && typeof jws.protected !== 'string') {
+  if (snapshot.protected !== undefined && typeof snapshot.protected !== 'string') {
     throw new JWSInvalid('JWS Protected Header incorrect type')
   }
 
-  if (jws.payload === undefined) {
+  if (snapshot.payload === undefined) {
     throw new JWSInvalid('JWS Payload missing')
   }
 
-  if (typeof jws.signature !== 'string') {
+  if (typeof snapshot.signature !== 'string') {
     throw new JWSInvalid('JWS Signature missing or incorrect type')
   }
 
-  if (jws.header !== undefined && !isObject(jws.header)) {
+  if (snapshot.header !== undefined && !isObject(snapshot.header)) {
     throw new JWSInvalid('JWS Unprotected Header incorrect type')
   }
 
-  return verifyResult(jws, await verifySignature(jws, prepareVerify(options), key))
+  return verifyResult(snapshot, await verifySignature(snapshot, prepareVerify(options), key))
 }

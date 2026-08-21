@@ -9,8 +9,9 @@ import {
   shareJWE,
   decryptRecipient,
   decryptResult,
-  checkShared,
   checkRecipient,
+  snapshotSharedJWE,
+  snapshotRecipientJWE,
 } from '../../lib/jwe_decrypt.js'
 import type { DecryptShared, SharedJWE } from '../../lib/jwe_decrypt.js'
 import { JWEDecryptionFailed, JWEInvalid } from '../../util/errors.js'
@@ -121,52 +122,50 @@ export async function generalDecrypt(
     throw new JWEInvalid('General JWE must be an object')
   }
 
-  if (!Array.isArray(jwe.recipients) || !jwe.recipients.every(isObject)) {
+  const inputRecipients = jwe.recipients
+  if (!Array.isArray(inputRecipients)) {
     throw new JWEInvalid('JWE Recipients missing or incorrect type')
   }
 
-  if (!jwe.recipients.length) {
+  const recipients = Array.from(inputRecipients)
+  if (!recipients.every(isObject)) {
+    throw new JWEInvalid('JWE Recipients missing or incorrect type')
+  }
+
+  if (!recipients.length) {
     throw new JWEInvalid('JWE Recipients has no members')
   }
 
   let shared: DecryptShared
+  let sharedJwe!: types.FlattenedJWE
   let token: SharedJWE
   try {
-    checkShared(jwe as types.FlattenedJWE)
     shared = prepareDecrypt(options)
-    token = shareJWE(jwe as types.FlattenedJWE)
+    sharedJwe = snapshotSharedJWE(jwe)
+    token = shareJWE(sharedJwe)
   } catch {
     // A fault in a shared member is a fault of the token, but reporting it as such would tell a
     // caller which recipient - if any - their key was meant for. Stay indistinguishable.
     throw new JWEDecryptionFailed()
   }
 
-  if (jwe.recipients.length > 1) {
-    for (const { header } of jwe.recipients) {
-      // https://www.rfc-editor.org/rfc/rfc7516#section-5.2 step 7 - these modes have no
-      // per-recipient JWE Encrypted Key, so more than one recipient cannot be addressed.
-      const alg = token[0]?.alg ?? header?.alg ?? jwe.unprotected?.alg
+  const recipientSnapshots = recipients.map((recipient) => snapshotRecipientJWE(recipient))
+
+  if (recipients.length > 1) {
+    for (const [, headerAlg] of recipientSnapshots) {
+      // This implementation supports these direct key-management modes for one recipient only.
+      const alg = token[0]?.alg ?? headerAlg ?? sharedJwe.unprotected?.alg
       if (alg === 'dir' || alg === 'ECDH-ES') {
         throw new JWEInvalid(`"${alg}" alg may only have a single recipient`)
       }
     }
   }
 
-  for (const recipient of jwe.recipients) {
+  for (const [recipient] of recipientSnapshots) {
+    if (!recipient) continue
     try {
-      const flattened: types.FlattenedJWE = {
-        aad: jwe.aad,
-        ciphertext: jwe.ciphertext,
-        encrypted_key: recipient.encrypted_key,
-        header: recipient.header,
-        iv: jwe.iv,
-        protected: jwe.protected,
-        tag: jwe.tag,
-        unprotected: jwe.unprotected,
-      }
-
+      const flattened: types.FlattenedJWE = { ...sharedJwe, ...recipient }
       checkRecipient(flattened)
-
       return decryptResult(flattened, await decryptRecipient(flattened, token, shared, key))
     } catch {
       //

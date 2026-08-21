@@ -198,6 +198,22 @@ test('General JWS verification rejects inconsistent b64 modes', async (t) => {
   t.deepEqual(afterThrowing.payload, new TextEncoder().encode('foo'))
   t.is(resolveCalls, 2)
 
+  let protectedReads = 0
+  const switching = Object.defineProperty({ signature: unencoded.signature }, 'protected', {
+    enumerable: true,
+    get() {
+      protectedReads++
+      return protectedReads === 1 ? encoded.protected : unencoded.protected
+    },
+  })
+  const afterSwitching = await generalVerify(
+    { payload: encoded.payload, signatures: [switching as never, signatures[0]] },
+    t.context.secret,
+  )
+  t.is(protectedReads, 1)
+  t.deepEqual(afterSwitching.protectedHeader, { alg: 'HS256' })
+  t.deepEqual(afterSwitching.payload, new TextEncoder().encode('foo'))
+
   const detached = new TextEncoder().encode(encoded.payload)
   await t.throwsAsync(generalVerify({ payload: detached, signatures }, resolve), {
     code: 'ERR_JWS_INVALID',

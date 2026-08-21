@@ -8,6 +8,7 @@ import type * as types from '../../types.d.ts'
 import {
   parseProtectedHeader,
   prepareVerify,
+  snapshotJws,
   verifySignature,
   verifyResult,
 } from '../../lib/jws_verify.js'
@@ -15,20 +16,40 @@ import type { VerifyShared } from '../../lib/jws_verify.js'
 import { JWSInvalid, JWSSignatureVerificationFailed } from '../../util/errors.js'
 import { isObject } from '../../lib/type_checks.js'
 
-function getB64Mode(signature: Record<string, unknown>): 0 | 1 | 2 {
-  try {
-    const { protected: encodedProtected, header, signature: encodedSignature } = signature
-    if (encodedProtected === undefined && header === undefined) return 0
-    if (encodedProtected !== undefined && typeof encodedProtected !== 'string') return 0
-    if (encodedProtected === '') return 0
-    if (typeof encodedSignature !== 'string') return 0
-    if (header !== undefined && !isObject<types.JWSHeaderParameters>(header)) return 0
+type SignatureCandidate = [
+  jws: types.FlattenedJWSInput,
+  protectedHeader: types.JWSHeaderParameters,
+  mode: 0 | 1 | 2,
+]
 
-    const { b64, crit } = parseProtectedHeader(encodedProtected)
-    if (!Array.isArray(crit) || !crit.includes('b64')) return 1
-    return typeof b64 === 'boolean' ? (b64 ? 1 : 2) : 0
+function snapshotSignature(
+  signature: Record<string, unknown>,
+  payload: types.FlattenedJWSInput['payload'],
+): SignatureCandidate | undefined {
+  try {
+    const jws = snapshotJws(signature as unknown as types.FlattenedJWSInput, [payload])
+    const { protected: encodedProtected, header, signature: encodedSignature } = jws
+    if (encodedProtected === undefined && header === undefined) return undefined
+    if (encodedProtected !== undefined && typeof encodedProtected !== 'string') return undefined
+    if (typeof encodedSignature !== 'string') return undefined
+    if (header !== undefined && !isObject<types.JWSHeaderParameters>(header)) return undefined
+
+    const protectedHeader = parseProtectedHeader(encodedProtected)
+
+    const { b64, crit } = protectedHeader
+    return [
+      jws,
+      protectedHeader,
+      Array.isArray(crit) && crit.includes('b64')
+        ? typeof b64 === 'boolean'
+          ? b64
+            ? 1
+            : 2
+          : 0
+        : 1,
+    ]
   } catch {
-    return 0
+    return undefined
   }
 }
 
@@ -133,14 +154,18 @@ export async function generalVerify(
     throw new JWSInvalid('General JWS must be an object')
   }
 
-  const { signatures, payload } = jws
-  if (!Array.isArray(signatures) || !signatures.every(isObject)) {
+  const { signatures, payload: inputPayload } = jws
+  if (!Array.isArray(signatures)) {
+    throw new JWSInvalid('JWS Signatures missing or incorrect type')
+  }
+  const signatureEntries = Array.from(signatures)
+  if (!signatureEntries.every(isObject)) {
     throw new JWSInvalid('JWS Signatures missing or incorrect type')
   }
 
   let shared: VerifyShared
   try {
-    if (payload === undefined) throw new Error()
+    if (inputPayload === undefined) throw new Error()
     shared = prepareVerify(options)
   } catch {
     // Reporting the real fault here would distinguish a malformed token from a signature that is
@@ -148,36 +173,24 @@ export async function generalVerify(
     throw new JWSSignatureVerificationFailed()
   }
 
+  const payload = inputPayload instanceof Uint8Array ? new Uint8Array(inputPayload) : inputPayload
+  const candidates = signatureEntries
+    .map((signature) => snapshotSignature(signature, payload))
+    .filter((candidate): candidate is SignatureCandidate => candidate !== undefined)
+
   let modes = 0
-  for (const signature of signatures) {
-    modes |= getB64Mode(signature)
+  for (const [, , mode] of candidates) {
+    modes |= mode
     if (modes === 3) {
       throw new JWSInvalid('inconsistent use of JWS Unencoded Payload (RFC7797)')
     }
   }
 
-  for (const signature of signatures) {
+  for (const candidate of candidates) {
     try {
-      const { protected: encodedProtected, header, signature: encodedSignature } = signature
-      if (encodedProtected === undefined && header === undefined) throw new Error()
-      if (encodedProtected !== undefined && typeof encodedProtected !== 'string') {
-        throw new Error()
-      }
-      if (typeof encodedSignature !== 'string') throw new Error()
-      if (header !== undefined && !isObject(header)) throw new Error()
-
       return verifyResult(
-        signature,
-        await verifySignature(
-          {
-            header,
-            payload,
-            protected: encodedProtected,
-            signature: encodedSignature,
-          },
-          shared,
-          key,
-        ),
+        candidate[0],
+        await verifySignature(candidate[0], shared, key, false, candidate[1]),
       )
     } catch {
       //

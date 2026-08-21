@@ -7,6 +7,7 @@ import { JWSInvalid } from '../util/errors.js'
 import { concat, encode } from './buffer_utils.js'
 import {
   serializeJoseHeader,
+  validateB64,
   validateCrit,
   validateCritDuplicates,
   JWS_RECOGNIZED,
@@ -24,18 +25,10 @@ export interface SignInput {
 
 export type CreatedSignature = [jws: types.FlattenedJWS, b64: boolean]
 
-/** RFC 7797 - whether this Protected Header opts the payload out of base64url encoding. */
-export function unencodedPayload(protectedHeader?: types.JWSHeaderParameters): boolean {
-  return (
-    protectedHeader?.b64 === false &&
-    Array.isArray(protectedHeader.crit) &&
-    protectedHeader.crit.includes('b64')
-  )
-}
-
 export async function createSignature(
   input: SignInput,
   key: types.KeyInput,
+  assertB64?: (b64: boolean) => void,
 ): Promise<CreatedSignature> {
   let { protectedHeader, unprotectedHeader } = input
 
@@ -72,15 +65,9 @@ export async function createSignature(
     joseHeader,
   )
 
-  let b64 = true
-  if (extensions.includes('b64')) {
-    b64 = protectedHeader!.b64!
-    if (typeof b64 !== 'boolean') {
-      throw new JWSInvalid(
-        'The "b64" (base64url-encode payload) Header Parameter must be a boolean',
-      )
-    }
-  }
+  const b64 = validateB64(protectedHeader, extensions)
+
+  assertB64?.(b64)
 
   const { alg } = joseHeader
 

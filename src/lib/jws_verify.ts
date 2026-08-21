@@ -4,8 +4,8 @@ import { jwsAlgorithm } from './jws_algorithms.js'
 import { JOSEAlgNotAllowed, JWSInvalid, JWSSignatureVerificationFailed } from '../util/errors.js'
 import { concat, decoder, encoder, encode } from './buffer_utils.js'
 import { decodeBase64url, encodeBase64url, parseJoseHeader } from './helpers.js'
-import { isDisjoint } from './type_checks.js'
-import { validateCrit, validateAlgorithms, JWS_RECOGNIZED } from './options.js'
+import { isDisjoint, isObject } from './type_checks.js'
+import { validateB64, validateCrit, validateAlgorithms, JWS_RECOGNIZED } from './options.js'
 import { prepareKey } from './key.js'
 
 export type VerifyGetKey = (
@@ -28,6 +28,26 @@ export type VerifiedSignature = [
   key: types.CryptoKey | Uint8Array,
   resolvedKey: boolean,
 ]
+
+/** Captures a Flattened JWS and its unprotected header into data properties. */
+export function snapshotJws(
+  jws: types.FlattenedJWSInput,
+  sharedPayload?: [payload: types.FlattenedJWSInput['payload']],
+): types.FlattenedJWSInput {
+  const encodedProtected = jws.protected
+  const inputHeader = jws.header
+  const header = isObject<types.JWSHeaderParameters>(inputHeader) ? { ...inputHeader } : inputHeader
+  let payload = sharedPayload ? sharedPayload[0] : jws.payload
+  if (!sharedPayload && payload instanceof Uint8Array) {
+    payload = new Uint8Array(payload)
+  }
+  const signature = jws.signature
+
+  const snapshot: types.FlattenedJWSInput = { payload, signature }
+  if (encodedProtected !== undefined) snapshot.protected = encodedProtected
+  if (inputHeader !== undefined) snapshot.header = header!
+  return snapshot
+}
 
 /** Flattened and General results have the same shape, so they are assembled in one place. */
 export function verifyResult(
@@ -58,22 +78,24 @@ export function prepareVerify(options?: types.VerifyOptions): VerifyShared {
 
 export function parseProtectedHeader(
   encodedProtected: string | undefined,
-): types.JWSHeaderParameters {
-  return encodedProtected === undefined
+  parsedProtected: types.JWSHeaderParameters = encodedProtected === undefined
     ? {}
-    : parseJoseHeader(encodedProtected, JWSInvalid, 'JWS Protected Header is invalid')
+    : parseJoseHeader(encodedProtected, JWSInvalid, 'JWS Protected Header is invalid'),
+): types.JWSHeaderParameters {
+  return parsedProtected
 }
 
 export function parseJwsHeaders(
   encodedProtected: string | undefined,
   header: types.JWSHeaderParameters | undefined,
   recognizedOption: VerifyShared[1],
+  parsedProtected?: types.JWSHeaderParameters,
 ): [
   protectedHeader: types.JWSHeaderParameters,
   joseHeader: types.JWSHeaderParameters,
   b64: boolean,
 ] {
-  const parsedProt = parseProtectedHeader(encodedProtected)
+  const parsedProt = parseProtectedHeader(encodedProtected, parsedProtected)
 
   let joseHeader: types.JWSHeaderParameters
   if (header !== undefined) {
@@ -95,15 +117,7 @@ export function parseJwsHeaders(
     joseHeader,
   )
 
-  let b64 = true
-  if (extensions.includes('b64')) {
-    b64 = parsedProt.b64!
-    if (typeof b64 !== 'boolean') {
-      throw new JWSInvalid(
-        'The "b64" (base64url-encode payload) Header Parameter must be a boolean',
-      )
-    }
-  }
+  const b64 = validateB64(parsedProt, extensions)
 
   return [parsedProt, joseHeader, b64]
 }
@@ -117,14 +131,13 @@ function encodeUnencodedPayload(payload: string, compact: boolean): Uint8Array {
     }
   }
 
-  for (const character of payload) {
-    const codePoint = character.codePointAt(0)!
-    if (codePoint >= 0xd800 && codePoint <= 0xdfff) {
-      throw new JWSInvalid('JWS Payload must be a well-formed Unicode string')
-    }
-    if (/\p{Cn}/u.test(character)) {
-      throw new JWSInvalid('JWS Payload must not contain unassigned Unicode code points')
-    }
+  const invalid = /[\p{Cs}\p{Cn}]/u.exec(payload)?.[0]
+  if (invalid !== undefined) {
+    throw new JWSInvalid(
+      /\p{Cs}/u.test(invalid)
+        ? 'JWS Payload must be a well-formed Unicode string'
+        : 'JWS Payload must not contain unassigned Unicode code points',
+    )
   }
   return encoder.encode(payload)
 }
@@ -138,9 +151,15 @@ export async function verifySignature(
   shared: VerifyShared,
   key: types.KeyInput | VerifyGetKey,
   compact = false,
+  parsedProtected?: types.JWSHeaderParameters,
 ): Promise<VerifiedSignature> {
   const { protected: encodedProtected, header, payload: inputPayload } = jws
-  const [parsedProt, joseHeader, b64] = parseJwsHeaders(encodedProtected, header, shared[1])
+  const [parsedProt, joseHeader, b64] = parseJwsHeaders(
+    encodedProtected,
+    header,
+    shared[1],
+    parsedProtected,
+  )
 
   const { alg } = joseHeader
 

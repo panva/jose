@@ -81,6 +81,25 @@ test('Signed JWTs cannot use unencoded payload', async (t) => {
   })
 })
 
+test('SignJWT uses one normalized protected header snapshot', async (t) => {
+  let b64Reads = 0
+  const jwt = await new SignJWT(t.context.payload)
+    .setProtectedHeader({
+      alg: 'HS256',
+      crit: ['b64'],
+      get b64() {
+        b64Reads++
+        return b64Reads === 1 ? true : false
+      },
+    })
+    .sign(t.context.secret)
+
+  t.is(b64Reads, 1)
+  const { protectedHeader, payload } = await jwtVerify(jwt, t.context.secret)
+  t.is(protectedHeader.b64, true)
+  t.deepEqual(payload, t.context.payload)
+})
+
 test('SignJWT protected header can only be set once', (t) => {
   t.throws(
     () => new SignJWT().setProtectedHeader({ alg: 'HS256' }).setProtectedHeader({ alg: 'HS384' }),
@@ -142,15 +161,14 @@ test('JWT production rejects non-finite NumericDate claims', async (t) => {
   }
 })
 
-test('"b64" is ignored when "crit" does not list it', async (t) => {
-  // Only a "b64" listed in "crit" is in effect per RFC 7797, so this one does not make the JWT an
-  // unencoded payload one and is signed like any other.
+test('Signed JWTs ignore b64 false without crit', async (t) => {
   const jwt = await new SignJWT(t.context.payload)
     .setProtectedHeader({ alg: 'HS256', b64: false })
     .sign(t.context.secret)
+  const { payload, protectedHeader } = await jwtVerify(jwt, t.context.secret)
 
-  const { protectedHeader } = await jwtVerify(jwt, t.context.secret)
-  t.deepEqual(protectedHeader, { alg: 'HS256', b64: false })
+  t.deepEqual(payload, t.context.payload)
+  t.false(protectedHeader.b64)
 })
 
 async function testJWTsetFunction(t, method, claim, value, expected = value) {

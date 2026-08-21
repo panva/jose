@@ -95,6 +95,23 @@ export function validateCrit(
   return protectedHeader.crit
 }
 
+export function validateB64(
+  protectedHeader: CritCheckHeader | undefined,
+  extensions: string[],
+): boolean {
+  if (extensions.includes('b64')) {
+    const b64 = protectedHeader!.b64
+    if (typeof b64 !== 'boolean') {
+      throw new JWSInvalid(
+        'The "b64" (base64url-encode payload) Header Parameter must be a boolean',
+      )
+    }
+    return b64
+  }
+
+  return true
+}
+
 export function serializeJoseHeader<T extends CritCheckHeader>(
   Err: typeof JWEInvalid | typeof JWSInvalid,
   header: T,

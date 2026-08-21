@@ -19,7 +19,9 @@ export type DecryptGetKey = (
 export type DecryptShared = [
   keyManagementAlgorithms: Set<string> | undefined,
   contentEncryptionAlgorithms: Set<string> | undefined,
-  options: types.DecryptOptions | undefined,
+  crit: { [propName: string]: boolean } | undefined,
+  maxPBES2Count: number | undefined,
+  maxDecompressedLength: number | undefined,
 ]
 
 export type DecryptedJWE = [
@@ -41,10 +43,21 @@ export type SharedJWE = [
   additionalData: Uint8Array,
 ]
 
-/** Checks the members every recipient of a General JWE shares. */
-export function checkShared(jwe: types.FlattenedJWE): void {
-  const { ciphertext, protected: encodedProtected, unprotected } = jwe
-  if (jwe.iv !== undefined && typeof jwe.iv !== 'string') {
+export type SharedJWEMembers = Pick<
+  types.FlattenedJWE,
+  'aad' | 'ciphertext' | 'iv' | 'protected' | 'tag' | 'unprotected'
+>
+
+export type RecipientJWEMembers = Pick<types.FlattenedJWE, 'encrypted_key' | 'header'>
+
+export type RecipientJWESnapshot =
+  | [members: RecipientJWEMembers, headerAlg: unknown, error?: never]
+  | [members: undefined, headerAlg: unknown, error: unknown]
+
+/** Captures and validates shared members without reading any of them twice. */
+export function snapshotSharedJWE(jwe: types.FlattenedJWE | types.GeneralJWE): SharedJWEMembers {
+  const { aad, ciphertext, iv, protected: encodedProtected, tag, unprotected } = jwe
+  if (iv !== undefined && typeof iv !== 'string') {
     throw new JWEInvalid('JWE Initialization Vector incorrect type')
   }
 
@@ -52,7 +65,7 @@ export function checkShared(jwe: types.FlattenedJWE): void {
     throw new JWEInvalid('JWE Ciphertext missing or incorrect type')
   }
 
-  if (jwe.tag !== undefined && typeof jwe.tag !== 'string') {
+  if (tag !== undefined && typeof tag !== 'string') {
     throw new JWEInvalid('JWE Authentication Tag incorrect type')
   }
 
@@ -60,12 +73,52 @@ export function checkShared(jwe: types.FlattenedJWE): void {
     throw new JWEInvalid('JWE Protected Header incorrect type')
   }
 
-  if (jwe.aad !== undefined && (typeof jwe.aad !== 'string' || !jwe.aad)) {
+  if (aad !== undefined && (typeof aad !== 'string' || !aad)) {
     throw new JWEInvalid('JWE AAD incorrect type')
   }
 
   if (unprotected !== undefined && !isObject(unprotected)) {
     throw new JWEInvalid('JWE Shared Unprotected Header incorrect type')
+  }
+
+  return {
+    aad,
+    ciphertext,
+    iv,
+    protected: encodedProtected,
+    tag,
+    unprotected: unprotected === undefined ? undefined : { ...unprotected },
+  }
+}
+
+/** Captures one recipient's serialization members without reading either of them twice. */
+export function snapshotRecipientJWE(recipient: RecipientJWEMembers): RecipientJWESnapshot {
+  let header: types.JWEHeaderParameters | undefined
+  let headerAlg: unknown
+  try {
+    const { header: inputHeader } = recipient
+    if (isObject<types.JWEHeaderParameters>(inputHeader)) {
+      headerAlg = inputHeader.alg
+      const parameters = Object.keys(inputHeader)
+      if (!parameters.includes('alg')) headerAlg = undefined
+      header = Object.fromEntries(
+        parameters.map((parameter) => [
+          parameter,
+          parameter === 'alg' ? headerAlg : inputHeader[parameter],
+        ]),
+      )
+    } else {
+      header = inputHeader
+    }
+  } catch (error) {
+    return [undefined, headerAlg, error]
+  }
+
+  try {
+    const { encrypted_key: encryptedKey } = recipient
+    return [{ encrypted_key: encryptedKey, header }, headerAlg]
+  } catch (error) {
+    return [undefined, headerAlg, error]
   }
 }
 
@@ -76,8 +129,10 @@ export function checkRecipient(jwe: types.FlattenedJWE): void {
     throw new JWEInvalid('JWE Encrypted Key incorrect type')
   }
 
-  if (header !== undefined && !isObject(header)) {
-    throw new JWEInvalid('JWE Per-Recipient Unprotected Header incorrect type')
+  if (header !== undefined) {
+    if (!isObject(header)) {
+      throw new JWEInvalid('JWE Per-Recipient Unprotected Header incorrect type')
+    }
   }
 
   if (jwe.protected === undefined && header === undefined && jwe.unprotected === undefined) {
@@ -86,7 +141,7 @@ export function checkRecipient(jwe: types.FlattenedJWE): void {
 }
 
 /** Parses and decodes the shared members. Their types must already have been checked. */
-export function shareJWE(jwe: types.FlattenedJWE): SharedJWE {
+export function shareJWE(jwe: SharedJWEMembers): SharedJWE {
   const { protected: encodedProtected, ciphertext, iv, tag, aad } = jwe
   let parsedProt: types.JWEHeaderParameters | undefined
   if (encodedProtected !== undefined) {
@@ -144,7 +199,9 @@ export function prepareDecrypt(options?: types.DecryptOptions): DecryptShared {
     options && validateAlgorithms('keyManagementAlgorithms', options.keyManagementAlgorithms),
     options &&
       validateAlgorithms('contentEncryptionAlgorithms', options.contentEncryptionAlgorithms),
-    options,
+    options?.crit,
+    options?.maxPBES2Count,
+    options?.maxDecompressedLength,
   ]
 }
 
@@ -155,7 +212,13 @@ export async function decryptRecipient(
   shared: DecryptShared,
   key: types.KeyInput | DecryptGetKey,
 ): Promise<DecryptedJWE> {
-  const [keyManagementAlgorithms, contentEncryptionAlgorithms, options] = shared
+  const [
+    keyManagementAlgorithms,
+    contentEncryptionAlgorithms,
+    crit,
+    maxPBES2Count,
+    maxDecompressedLength,
+  ] = shared
   const [parsedProt, ciphertext, iv, tag, additionalData] = token
   const { encrypted_key: encodedKey, header, unprotected } = jwe
 
@@ -171,7 +234,7 @@ export async function decryptRecipient(
     joseHeader = parsedProt ?? {}
   }
 
-  validateCrit(JWEInvalid, JWE_RECOGNIZED, options?.crit, parsedProt, joseHeader)
+  validateCrit(JWEInvalid, JWE_RECOGNIZED, crit, parsedProt, joseHeader)
 
   if (joseHeader.zip !== undefined && joseHeader.zip !== 'DEF') {
     throw new JOSENotSupported(
@@ -222,7 +285,7 @@ export async function decryptRecipient(
   const k = await prepareKey(alg === 'dir' ? encEntry : algEntry, key, 'decrypt')
   let cek: types.CryptoKey | Uint8Array
   try {
-    cek = await decryptKeyManagement(alg, encEntry, k, encryptedKey, joseHeader, options)
+    cek = await decryptKeyManagement(alg, encEntry, k, encryptedKey, joseHeader, maxPBES2Count)
     if (
       encodedKey !== undefined &&
       cek instanceof Uint8Array &&
@@ -247,19 +310,19 @@ export async function decryptRecipient(
   let plaintext = await decrypt(encEntry, cek, ciphertext, iv, tag, additionalData)
 
   if (joseHeader.zip === 'DEF') {
-    const maxDecompressedLength = options?.maxDecompressedLength ?? 250_000
-    if (maxDecompressedLength === 0) {
+    const decompressionLimit = maxDecompressedLength ?? 250_000
+    if (decompressionLimit === 0) {
       throw new JOSENotSupported(
         'JWE "zip" (Compression Algorithm) Header Parameter is not supported.',
       )
     }
     if (
-      maxDecompressedLength !== Infinity &&
-      (!Number.isSafeInteger(maxDecompressedLength) || maxDecompressedLength < 1)
+      decompressionLimit !== Infinity &&
+      (!Number.isSafeInteger(decompressionLimit) || decompressionLimit < 1)
     ) {
       throw new TypeError('maxDecompressedLength must be 0, a positive safe integer, or Infinity')
     }
-    plaintext = await decompress(plaintext, maxDecompressedLength).catch((cause) => {
+    plaintext = await decompress(plaintext, decompressionLimit).catch((cause) => {
       if (cause instanceof JWEInvalid) throw cause
       throw new JWEInvalid('Failed to decompress plaintext', { cause })
     })
