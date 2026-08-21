@@ -1,5 +1,23 @@
+import type * as types from '../types.d.ts'
 import { JOSENotSupported, JWEInvalid } from '../util/errors.js'
 import { concat } from './buffer_utils.js'
+
+export function validateZip(
+  joseHeader: types.JWEHeaderParameters,
+  protectedHeader: types.JWEHeaderParameters | undefined,
+): void {
+  if (joseHeader.zip !== undefined && joseHeader.zip !== 'DEF') {
+    throw new JOSENotSupported(
+      'Unsupported JWE "zip" (Compression Algorithm) Header Parameter value.',
+    )
+  }
+
+  if (joseHeader.zip !== undefined && !protectedHeader?.zip) {
+    throw new JWEInvalid(
+      'JWE "zip" (Compression Algorithm) Header Parameter MUST be in a protected header.',
+    )
+  }
+}
 
 function supported(name: 'CompressionStream' | 'DecompressionStream') {
   if (typeof globalThis[name] === 'undefined') {

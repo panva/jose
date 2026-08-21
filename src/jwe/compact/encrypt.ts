@@ -5,7 +5,9 @@
  */
 
 import type * as types from '../../types.d.ts'
-import { FlattenedEncrypt } from '../flattened/encrypt.js'
+import { assertNotSet } from '../../lib/helpers.js'
+import { assertUint8Array } from '../../lib/type_checks.js'
+import { createJWE } from '../../lib/jwe_encrypt.js'
 
 /**
  * The CompactEncrypt class is used to build and encrypt Compact JWE strings.
@@ -26,7 +28,15 @@ import { FlattenedEncrypt } from '../flattened/encrypt.js'
  * ```
  */
 export class CompactEncrypt {
-  #flattened: FlattenedEncrypt
+  #plaintext: Uint8Array
+
+  #protectedHeader!: types.CompactJWEHeaderParameters
+
+  #cek!: Uint8Array
+
+  #iv!: Uint8Array
+
+  #keyManagementParameters!: types.JWEKeyManagementHeaderParameters
 
   /**
    * {@link CompactEncrypt} constructor
@@ -34,7 +44,8 @@ export class CompactEncrypt {
    * @param plaintext Binary representation of the plaintext to encrypt.
    */
   constructor(plaintext: Uint8Array) {
-    this.#flattened = new FlattenedEncrypt(plaintext)
+    assertUint8Array(plaintext, 'plaintext')
+    this.#plaintext = plaintext
   }
 
   /**
@@ -47,7 +58,8 @@ export class CompactEncrypt {
    * @param cek JWE Content Encryption Key.
    */
   setContentEncryptionKey(cek: Uint8Array): this {
-    this.#flattened.setContentEncryptionKey(cek)
+    assertNotSet(this.#cek, 'setContentEncryptionKey')
+    this.#cek = cek
     return this
   }
 
@@ -61,7 +73,8 @@ export class CompactEncrypt {
    * @param iv JWE Initialization Vector.
    */
   setInitializationVector(iv: Uint8Array): this {
-    this.#flattened.setInitializationVector(iv)
+    assertNotSet(this.#iv, 'setInitializationVector')
+    this.#iv = iv
     return this
   }
 
@@ -71,7 +84,8 @@ export class CompactEncrypt {
    * @param protectedHeader JWE Protected Header object.
    */
   setProtectedHeader(protectedHeader: types.CompactJWEHeaderParameters): this {
-    this.#flattened.setProtectedHeader(protectedHeader)
+    assertNotSet(this.#protectedHeader, 'setProtectedHeader')
+    this.#protectedHeader = protectedHeader
     return this
   }
 
@@ -84,7 +98,8 @@ export class CompactEncrypt {
    * @param parameters JWE Key Management parameters.
    */
   setKeyManagementParameters(parameters: types.JWEKeyManagementHeaderParameters): this {
-    this.#flattened.setKeyManagementParameters(parameters)
+    assertNotSet(this.#keyManagementParameters, 'setKeyManagementParameters')
+    this.#keyManagementParameters = parameters
     return this
   }
 
@@ -96,7 +111,22 @@ export class CompactEncrypt {
    * @param options JWE Encryption options.
    */
   async encrypt(key: types.KeyInput, options?: types.EncryptOptions): Promise<string> {
-    const jwe = await this.#flattened.encrypt(key, options)
+    const jwe = await createJWE(
+      [
+        this.#plaintext,
+        this.#protectedHeader,
+        undefined,
+        undefined,
+        undefined,
+        this.#cek,
+        this.#iv,
+        this.#keyManagementParameters,
+        undefined,
+        false,
+      ],
+      key,
+      options,
+    )
 
     return [jwe.protected, jwe.encrypted_key, jwe.iv, jwe.ciphertext, jwe.tag].join('.')
   }

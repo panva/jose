@@ -8,7 +8,7 @@ import { concat, decoder, encode } from './buffer_utils.js'
 import { validateCrit, validateAlgorithms, JWE_RECOGNIZED } from './options.js'
 import { prepareKey } from './key.js'
 import { jweAlgorithm, jweEncryption } from './jwe_algorithms.js'
-import { decompress } from './deflate.js'
+import { decompress, validateZip } from './deflate.js'
 
 export type DecryptGetKey = (
   protectedHeader: types.JWEHeaderParameters | undefined,
@@ -250,17 +250,7 @@ async function decryptRecipientCore(
 
   validateCrit(JWEInvalid, JWE_RECOGNIZED, crit, parsedProt, joseHeader)
 
-  if (joseHeader.zip !== undefined && joseHeader.zip !== 'DEF') {
-    throw new JOSENotSupported(
-      'Unsupported JWE "zip" (Compression Algorithm) Header Parameter value.',
-    )
-  }
-
-  if (joseHeader.zip !== undefined && !parsedProt?.zip) {
-    throw new JWEInvalid(
-      'JWE "zip" (Compression Algorithm) Header Parameter MUST be in a protected header.',
-    )
-  }
+  validateZip(joseHeader, parsedProt)
 
   const { alg, enc } = joseHeader
 
@@ -391,7 +381,19 @@ export async function decryptCompact(
     tag: tag || undefined,
     encrypted_key: encryptedKey || undefined,
   }
-  const token = shareJWE(flattened)
+  const parsedProt = parseJoseHeader<types.JWEHeaderParameters>(
+    protectedHeader,
+    JWEInvalid,
+    'JWE Protected Header is invalid',
+  )
+  const protectedBytes = encode(protectedHeader)
+  const token: SharedJWE = [
+    parsedProt,
+    decodeBase64url(ciphertext, 'ciphertext', JWEInvalid),
+    iv ? decodeBase64url(iv, 'iv', JWEInvalid) : undefined,
+    tag ? decodeBase64url(tag, 'tag', JWEInvalid) : undefined,
+    protectedBytes,
+  ]
 
-  return decryptRecipientCore(flattened, token, shared, key, token[0]!)
+  return decryptRecipientCore(flattened, token, shared, key, parsedProt)
 }

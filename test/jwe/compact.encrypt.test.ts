@@ -13,6 +13,13 @@ test.before(async (t) => {
   t.context.secret = new Uint8Array(16)
 })
 
+test('CompactEncrypt constructor validates plaintext', (t) => {
+  t.throws(() => new CompactEncrypt(null as never), {
+    instanceOf: TypeError,
+    message: 'plaintext must be an instance of Uint8Array',
+  })
+})
+
 test('CompactEncrypt', async (t) => {
   const jwe = await new CompactEncrypt(t.context.plaintext)
     .setInitializationVector(t.context.initializationVector)
@@ -79,6 +86,23 @@ test('CompactEncrypt.prototype.encrypt must have a JOSE header', async (t) => {
     message:
       'either setProtectedHeader, setUnprotectedHeader, or sharedUnprotectedHeader must be called before #encrypt()',
   })
+})
+
+test('CompactEncrypt.prototype.encrypt validates the JOSE header before options', async (t) => {
+  let reads = 0
+  const options = {
+    get crit() {
+      reads++
+      throw new Error('options read')
+    },
+  }
+
+  await t.throwsAsync(new CompactEncrypt(t.context.plaintext).encrypt(t.context.secret, options), {
+    code: 'ERR_JWE_INVALID',
+    message:
+      'either setProtectedHeader, setUnprotectedHeader, or sharedUnprotectedHeader must be called before #encrypt()',
+  })
+  t.is(reads, 0)
 })
 
 test('CompactEncrypt.prototype.encrypt JOSE header have an alg', async (t) => {

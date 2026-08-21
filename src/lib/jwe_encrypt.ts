@@ -2,7 +2,7 @@ import type * as types from '../types.d.ts'
 import { encode as b64u } from '../util/base64url.js'
 import { encrypt } from './content_encryption.js'
 import { encryptKeyManagement } from './key_management.js'
-import { JOSENotSupported, JWEInvalid } from '../util/errors.js'
+import { JWEInvalid } from '../util/errors.js'
 import { assertUint8Array, isDisjoint, isObject } from './type_checks.js'
 import { concat, encode } from './buffer_utils.js'
 import {
@@ -14,7 +14,7 @@ import {
 import { prepareKey } from './key.js'
 import { jweAlgorithm, jweEncryption } from './jwe_algorithms.js'
 import type { JWEEncryption } from './jwe_algorithms.js'
-import { compress } from './deflate.js'
+import { compress, validateZip } from './deflate.js'
 import { unprotected } from './helpers.js'
 
 export type EncryptInput = [
@@ -108,17 +108,7 @@ export function checkEncryptHeaders(input: EncryptInput): CheckedHeaders {
   validateCritDuplicates(JWEInvalid, protectedHeader)
   validateCrit(JWEInvalid, JWE_RECOGNIZED, crit, protectedHeader, joseHeader)
 
-  if (joseHeader.zip !== undefined && joseHeader.zip !== 'DEF') {
-    throw new JOSENotSupported(
-      'Unsupported JWE "zip" (Compression Algorithm) Header Parameter value.',
-    )
-  }
-
-  if (joseHeader.zip !== undefined && !protectedHeader?.zip) {
-    throw new JWEInvalid(
-      'JWE "zip" (Compression Algorithm) Header Parameter MUST be in a protected header.',
-    )
-  }
+  validateZip(joseHeader, protectedHeader)
 
   const { alg, enc } = joseHeader
 
