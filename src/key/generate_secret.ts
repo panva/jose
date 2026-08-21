@@ -99,19 +99,18 @@ export async function generateSecret(
     case 'HS256':
     case 'HS384':
     case 'HS512':
-      length = parseInt(alg.slice(-3), 10)
+      length = +alg.slice(-3)
       algorithm = { name: 'HMAC', hash: `SHA-${length}`, length }
       keyUsages = ['sign', 'verify']
       break
     case 'A128CBC-HS256':
     case 'A192CBC-HS384':
     case 'A256CBC-HS512':
-      length = parseInt(alg.slice(-3), 10)
-      return crypto.getRandomValues(new Uint8Array(length >> 3))
+      return crypto.getRandomValues(new Uint8Array(+alg.slice(-3) >> 3))
     case 'A128KW':
     case 'A192KW':
     case 'A256KW':
-      length = parseInt(alg.slice(1, 4), 10)
+      length = +alg.slice(1, 4)
       algorithm = { name: 'AES-KW', length }
       keyUsages = ['wrapKey', 'unwrapKey']
       break
@@ -121,7 +120,7 @@ export async function generateSecret(
     case 'A128GCM':
     case 'A192GCM':
     case 'A256GCM':
-      length = parseInt(alg.slice(1, 4), 10)
+      length = +alg.slice(1, 4)
       algorithm = { name: 'AES-GCM', length }
       keyUsages = ['encrypt', 'decrypt']
       break
