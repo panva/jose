@@ -14,6 +14,7 @@ import { checkDisjoint, checkEncryptHeaders, createJWE, encryptJWE } from '../..
 import type { CheckedHeaders, EncryptInput } from '../../lib/jwe_encrypt.js'
 import { prepareKey } from '../../lib/key.js'
 import { jweAlgorithm } from '../../lib/jwe_algorithms.js'
+import { assertUint8Array } from '../../lib/type_checks.js'
 
 /** Used to build General JWE object's individual recipients. */
 export interface Recipient {
@@ -201,9 +202,7 @@ export class GeneralEncrypt {
       throw new JWEInvalid('at least one recipient must be added')
     }
 
-    if (!(this.#plaintext instanceof Uint8Array)) {
-      throw new TypeError('plaintext must be an instance of Uint8Array')
-    }
+    assertUint8Array(this.#plaintext, 'plaintext')
 
     if (this.#recipients.length === 1) {
       const [unprotectedHeader, keyManagementParameters, key, crit] = this.#recipients[0].state

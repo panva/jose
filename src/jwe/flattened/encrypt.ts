@@ -7,6 +7,7 @@
 import { assertNotSet } from '../../lib/helpers.js'
 import type * as types from '../../types.d.ts'
 import { createJWE } from '../../lib/jwe_encrypt.js'
+import { assertUint8Array } from '../../lib/type_checks.js'
 
 /**
  * The FlattenedEncrypt class is used to build and encrypt Flattened JWE objects.
@@ -50,9 +51,7 @@ export class FlattenedEncrypt {
    * @param plaintext Binary representation of the plaintext to encrypt.
    */
   constructor(plaintext: Uint8Array) {
-    if (!(plaintext instanceof Uint8Array)) {
-      throw new TypeError('plaintext must be an instance of Uint8Array')
-    }
+    assertUint8Array(plaintext, 'plaintext')
     this.#plaintext = plaintext
   }
 

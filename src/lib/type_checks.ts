@@ -1,5 +1,11 @@
 import type * as types from '../types.d.ts'
 
+export function assertUint8Array(input: unknown, label: string): asserts input is Uint8Array {
+  if (!(input instanceof Uint8Array)) {
+    throw new TypeError(`${label} must be an instance of Uint8Array`)
+  }
+}
+
 export function isObject<T = object>(input: unknown): input is T {
   if (
     typeof input !== 'object' ||

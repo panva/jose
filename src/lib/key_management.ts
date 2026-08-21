@@ -8,7 +8,7 @@ import type { JWEEncryption } from './jwe_algorithms.js'
 import { JOSENotSupported, JWEInvalid } from '../util/errors.js'
 import { decodeBase64url, digest } from './helpers.js'
 import { generateCek, encrypt, decrypt } from './content_encryption.js'
-import { isObject } from './type_checks.js'
+import { assertUint8Array, isObject } from './type_checks.js'
 import { checkCryptoKey, checkModulusLength, checkUsage } from './crypto_key.js'
 import { concat, encode, uint32be } from './buffer_utils.js'
 import { assertCryptoKey } from './is_key_like.js'
@@ -366,11 +366,11 @@ export async function encryptKeyManagement(
     case 'ECDH': {
       assertEcdhKey(key)
       const { apu, apv } = providedParameters
-      if (apu !== undefined && !(apu instanceof Uint8Array)) {
-        throw new TypeError('"apu" must be an instance of Uint8Array')
+      if (apu !== undefined) {
+        assertUint8Array(apu, '"apu"')
       }
-      if (apv !== undefined && !(apv instanceof Uint8Array)) {
-        throw new TypeError('"apv" must be an instance of Uint8Array')
+      if (apv !== undefined) {
+        assertUint8Array(apv, '"apv"')
       }
       let ephemeralKey: types.CryptoKey
       if (providedParameters.epk !== undefined) {

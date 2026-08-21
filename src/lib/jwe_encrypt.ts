@@ -3,7 +3,7 @@ import { encode as b64u } from '../util/base64url.js'
 import { encrypt } from './content_encryption.js'
 import { encryptKeyManagement } from './key_management.js'
 import { JOSENotSupported, JWEInvalid } from '../util/errors.js'
-import { isDisjoint, isObject } from './type_checks.js'
+import { assertUint8Array, isDisjoint, isObject } from './type_checks.js'
 import { concat, encode } from './buffer_utils.js'
 import {
   serializeJoseHeader,
@@ -68,16 +68,16 @@ export function checkEncryptHeaders(input: EncryptInput): CheckedHeaders {
     crit,
   ] = input
 
-  if (aad !== undefined && !(aad instanceof Uint8Array)) {
-    throw new TypeError('JWE Additional Authenticated Data must be an instance of Uint8Array')
+  if (aad !== undefined) {
+    assertUint8Array(aad, 'JWE Additional Authenticated Data')
   }
 
-  if (cek !== undefined && !(cek instanceof Uint8Array)) {
-    throw new TypeError('JWE Content Encryption Key must be an instance of Uint8Array')
+  if (cek !== undefined) {
+    assertUint8Array(cek, 'JWE Content Encryption Key')
   }
 
-  if (iv !== undefined && !(iv instanceof Uint8Array)) {
-    throw new TypeError('JWE Initialization Vector must be an instance of Uint8Array')
+  if (iv !== undefined) {
+    assertUint8Array(iv, 'JWE Initialization Vector')
   }
 
   if (protectedHeader !== undefined) {
