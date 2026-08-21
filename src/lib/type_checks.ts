@@ -13,22 +13,11 @@ export function isObject<T = object>(input: unknown): input is T {
 }
 
 export function isJwkSet(input: unknown): input is types.JSONWebKeySet {
-  if (!isObject<types.JSONWebKeySet>(input)) {
-    return false
-  }
-
-  const { keys } = input
-  if (!Array.isArray(keys)) {
-    return false
-  }
-
-  for (const key of keys) {
-    if (!isObject<types.JWK>(key)) {
-      return false
-    }
-  }
-
-  return true
+  return (
+    isObject<types.JSONWebKeySet>(input) &&
+    Array.isArray(input.keys) &&
+    Array.from(input.keys).every(isObject)
+  )
 }
 
 export function isDisjoint(...headers: Array<object | undefined>): boolean {
