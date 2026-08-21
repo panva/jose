@@ -107,34 +107,20 @@ export async function jwtDecrypt(
   const protectedHeader = decrypted[1] as types.JWTHeaderParameters
   const payload = validateClaimsSet(protectedHeader, decrypted[0], options)
 
-  if (protectedHeader.iss !== undefined && protectedHeader.iss !== payload.iss) {
-    throw new JWTClaimValidationFailed(
-      'replicated "iss" claim header parameter mismatch',
-      payload,
-      'iss',
-      'mismatch',
-    )
-  }
-
-  if (protectedHeader.sub !== undefined && protectedHeader.sub !== payload.sub) {
-    throw new JWTClaimValidationFailed(
-      'replicated "sub" claim header parameter mismatch',
-      payload,
-      'sub',
-      'mismatch',
-    )
-  }
-
-  if (
-    protectedHeader.aud !== undefined &&
-    JSON.stringify(protectedHeader.aud) !== JSON.stringify(payload.aud)
-  ) {
-    throw new JWTClaimValidationFailed(
-      'replicated "aud" claim header parameter mismatch',
-      payload,
-      'aud',
-      'mismatch',
-    )
+  for (const claim of ['iss', 'sub', 'aud'] as const) {
+    if (
+      protectedHeader[claim] !== undefined &&
+      (claim === 'aud'
+        ? JSON.stringify(protectedHeader.aud) !== JSON.stringify(payload.aud)
+        : protectedHeader[claim] !== payload[claim])
+    ) {
+      throw new JWTClaimValidationFailed(
+        `replicated "${claim}" claim header parameter mismatch`,
+        payload,
+        claim,
+        'mismatch',
+      )
+    }
   }
 
   const result = { payload, protectedHeader }
