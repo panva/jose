@@ -543,8 +543,8 @@ test('single recipient ECDH-ES apu/apv are honoured', async (t) => {
     .setKeyManagementParameters({ apu, apv })
     .encrypt()
 
-  // A single recipient takes the FlattenedEncrypt path without the "unprotected" option, so the
-  // derived parameters land in the JWE Protected Header rather than per-recipient.
+  // A single recipient does not request per-recipient parameter placement, so the derived
+  // parameters land in the JWE Protected Header.
   const { apu: apuS, apv: apvS } = protectedHeader(jwe)
   t.is(apuS, base64url.encode(apu))
   t.is(apvS, base64url.encode(apv))
