@@ -3,6 +3,7 @@ import test from 'ava'
 import { createLocalJWKSet } from '../../src/index.js'
 
 test('LocalJWKSet', async (t) => {
+  const sparseKeys = Array<object>(1)
   for (const f of [
     null,
     {},
@@ -12,6 +13,7 @@ test('LocalJWKSet', async (t) => {
     { keys: [0] },
     { keys: [undefined] },
     { keys: [[]] },
+    { keys: sparseKeys },
     1,
     Boolean,
   ]) {

@@ -91,7 +91,7 @@ export async function generateSecret(
   alg: string,
   options?: GenerateSecretOptions,
 ): Promise<types.CryptoKey | Uint8Array> {
-  validateExtractableOption(options?.extractable)
+  const extractable = validateExtractableOption(options?.extractable)
   let length: number
   let algorithm: AesKeyGenParams | HmacKeyGenParams
   let keyUsages: KeyUsage[]
@@ -129,5 +129,5 @@ export async function generateSecret(
       unsupportedAlg(algArgument)
   }
 
-  return crypto.subtle.generateKey(algorithm, options?.extractable ?? false, keyUsages)
+  return crypto.subtle.generateKey(algorithm, extractable ?? false, keyUsages)
 }

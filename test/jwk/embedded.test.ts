@@ -93,6 +93,35 @@ test('EmbeddedJWK rejects a key intended for another algorithm', async (t) => {
   })
 })
 
+test('EmbeddedJWK snapshots JWK operation metadata', async (t) => {
+  for (const [parameter, first, second] of [
+    ['use', 'sig', 'enc'],
+    ['alg', 'ES256', 'ECDH-ES'],
+  ] as const) {
+    let reads = 0
+    const jwk = pubjwk(t.context.key)
+    Object.defineProperty(jwk, parameter, {
+      enumerable: true,
+      get() {
+        return reads++ === 0 ? first : second
+      },
+    })
+
+    await t.notThrowsAsync(EmbeddedJWK({ alg: 'ES256', jwk }))
+    t.is(reads, 1)
+  }
+})
+
+test('EmbeddedJWK translates malformed JWK metadata', async (t) => {
+  await t.throwsAsync(
+    EmbeddedJWK({ alg: 'ES256', jwk: { ...pubjwk(t.context.key), ext: 'false' as never } }),
+    {
+      code: 'ERR_JWS_INVALID',
+      message: 'Invalid Embedded JWK',
+    },
+  )
+})
+
 test('EmbeddedJWK requires "alg" to be a string', async (t) => {
   const jwk = pubjwk(t.context.key)
   // A non-string that stringifies to a registered identifier must not resolve one.

@@ -11,9 +11,10 @@ import { JOSENotSupported, JWKInvalid } from '../util/errors.js'
 import { encode } from '../lib/buffer_utils.js'
 import type * as types from '../types.d.ts'
 import { isKeyLike } from '../lib/is_key_like.js'
-import { isJWK } from '../lib/type_checks.js'
+import { isObject } from '../lib/type_checks.js'
 import { exportJWK } from '../key/export.js'
 import { invalidKeyInput } from '../lib/invalid_key_input.js'
+import { snapshotJwk } from '../lib/jwk_metadata.js'
 
 const check = (value: unknown, description: string) => {
   if (typeof value !== 'string' || !value) {
@@ -52,10 +53,13 @@ export async function calculateJwkThumbprint(
   digestAlgorithm?: 'sha256' | 'sha384' | 'sha512',
 ): Promise<string> {
   let jwk: types.JWK
-  if (isJWK(key)) {
-    jwk = key
+  if (isObject<types.JWK>(key)) {
+    jwk = snapshotJwk(key)
+    if (typeof jwk.kty !== 'string') {
+      throw new TypeError(invalidKeyInput(key, 'CryptoKey', 'KeyObject', 'JSON Web Key'))
+    }
   } else if (isKeyLike(key)) {
-    jwk = await exportJWK(key)
+    jwk = snapshotJwk(await exportJWK(key))
   } else {
     throw new TypeError(invalidKeyInput(key, 'CryptoKey', 'KeyObject', 'JSON Web Key'))
   }

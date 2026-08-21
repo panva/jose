@@ -14,99 +14,32 @@ import {
   JWKSNoMatchingKey,
   JWKSMultipleMatchingKeys,
 } from '../util/errors.js'
-import { isObject } from '../lib/type_checks.js'
-import { validateJwkMetadata } from '../lib/jwk_metadata.js'
-
-/**
- * A JWKS resolves public keys for verifying signatures, so only JWS algorithms are meaningful here
- *
- * - And among those, only the asymmetric ones.
- */
-function signatureAlgorithm(alg: unknown): JWSAlgorithm {
-  const entry = typeof alg === 'string' ? JWS[alg] : undefined
-  if (!entry || entry.secret) {
-    throw new JOSENotSupported('Unsupported "alg" value for a JSON Web Key Set')
-  }
-  return entry
-}
+import { isJwkSet } from '../lib/type_checks.js'
+import { normalizeJwk } from '../lib/jwk_metadata.js'
 
 interface Cache {
   [alg: string]: types.CryptoKey
 }
 
-function isJWKSLike(jwks: unknown): jwks is types.JSONWebKeySet {
-  if (!jwks || typeof jwks !== 'object') {
-    return false
-  }
-  const { keys } = jwks as { keys?: unknown }
-  return Array.isArray(keys) && keys.every(isObject<types.JWK>)
-}
-
 function isUsableJWK(jwk: types.JWK, entry: JWSAlgorithm, alg: string, kid: unknown): boolean {
+  let normalized: types.JWK
   try {
-    validateJwkMetadata(jwk)
+    normalized = normalizeJwk(jwk)
   } catch {
     return false
   }
 
   return (
-    entry.kty.includes(jwk.kty!) &&
-    (kid === undefined || (typeof kid === 'string' && kid === jwk.kid)) &&
-    (jwk.alg === undefined ? jwk.kty !== 'AKP' : typeof jwk.alg === 'string' && alg === jwk.alg) &&
-    (jwk.use === undefined || (typeof jwk.use === 'string' && jwk.use === 'sig')) &&
-    (jwk.key_ops === undefined || jwk.key_ops.includes('verify')) &&
-    (!entry.crv || jwk.crv === entry.crv)
+    entry.kty.includes(normalized.kty!) &&
+    (kid === undefined || (typeof kid === 'string' && kid === normalized.kid)) &&
+    (normalized.alg === undefined
+      ? normalized.kty !== 'AKP'
+      : typeof normalized.alg === 'string' && alg === normalized.alg) &&
+    (normalized.use === undefined ||
+      (typeof normalized.use === 'string' && normalized.use === 'sig')) &&
+    (normalized.key_ops === undefined || normalized.key_ops.includes('verify')) &&
+    (!entry.crv || normalized.crv === entry.crv)
   )
-}
-
-class LocalJWKSetImpl {
-  #jwks: types.JSONWebKeySet
-
-  #cached: WeakMap<types.JWK, Cache> = new WeakMap()
-
-  constructor(jwks: unknown) {
-    if (!isJWKSLike(jwks)) {
-      throw new JWKSInvalid('JSON Web Key Set malformed')
-    }
-
-    this.#jwks = structuredClone<types.JSONWebKeySet>(jwks)
-  }
-
-  jwks(): types.JSONWebKeySet {
-    return this.#jwks
-  }
-
-  async getKey(
-    protectedHeader?: types.JWSHeaderParameters,
-    token?: types.FlattenedJWSInput,
-  ): Promise<types.CryptoKey> {
-    const { alg, kid } = { ...protectedHeader, ...token?.header }
-    const entry = signatureAlgorithm(alg)
-
-    const candidates = this.#jwks!.keys.filter((jwk) => isUsableJWK(jwk, entry, alg!, kid))
-
-    const { 0: jwk, length } = candidates
-
-    if (length === 0) {
-      throw new JWKSNoMatchingKey()
-    }
-    if (length !== 1) {
-      const error = new JWKSMultipleMatchingKeys()
-
-      const _cached = this.#cached
-      error[Symbol.asyncIterator] = async function* () {
-        for (const jwk of candidates) {
-          try {
-            yield await importWithAlgCache(_cached, jwk, entry)
-          } catch {}
-        }
-      }
-
-      throw error
-    }
-
-    return importWithAlgCache(this.#cached, jwk, entry)
-  }
 }
 
 async function importWithAlgCache(
@@ -114,7 +47,7 @@ async function importWithAlgCache(
   jwk: types.JWK,
   entry: JWSAlgorithm,
 ) {
-  const cached = cache.get(jwk) || cache.set(jwk, { __proto__: null } as unknown as Cache).get(jwk)!
+  const cached = cache.get(jwk) || cache.set(jwk, {}).get(jwk)!
   if (cached[entry.alg] === undefined) {
     const key = await jwkToKey(entry, { ...jwk, alg: entry.alg, ext: true })
 
@@ -231,15 +164,50 @@ export interface LocalJWKSet {
  * @param jwks JSON Web Key Set formatted object.
  */
 export function createLocalJWKSet(jwks: types.JSONWebKeySet): LocalJWKSet {
-  const set = new LocalJWKSetImpl(jwks)
+  let snapshot: unknown
+  try {
+    snapshot = structuredClone(jwks)
+  } catch {}
+
+  if (!isJwkSet(snapshot)) {
+    throw new JWKSInvalid('JSON Web Key Set malformed')
+  }
+
+  const cached = new WeakMap<types.JWK, Cache>()
 
   const localJWKSet = async (
     protectedHeader?: types.JWSHeaderParameters,
     token?: types.FlattenedJWSInput,
-  ): Promise<types.CryptoKey> => set.getKey(protectedHeader, token)
+  ): Promise<types.CryptoKey> => {
+    const { alg, kid } = { ...protectedHeader, ...token?.header }
+    const entry = typeof alg === 'string' ? JWS[alg] : undefined
+    if (!entry || entry.secret) {
+      throw new JOSENotSupported('Unsupported "alg" value for a JSON Web Key Set')
+    }
+
+    const candidates = snapshot.keys.filter((jwk) => isUsableJWK(jwk, entry, alg!, kid))
+    const { 0: jwk, length } = candidates
+
+    if (length === 0) {
+      throw new JWKSNoMatchingKey()
+    }
+    if (length !== 1) {
+      const error = new JWKSMultipleMatchingKeys()
+      error[Symbol.asyncIterator] = async function* () {
+        for (const jwk of candidates) {
+          try {
+            yield await importWithAlgCache(cached, jwk, entry)
+          } catch {}
+        }
+      }
+      throw error
+    }
+
+    return importWithAlgCache(cached, jwk, entry)
+  }
 
   Object.defineProperty(localJWKSet, 'jwks', {
-    value: () => structuredClone(set.jwks()),
+    value: () => structuredClone(snapshot),
   })
 
   // Object.defineProperties is used for the property attributes it affords and returns the

@@ -29,7 +29,7 @@ See [jwksCache](../variables/jwksCache.md).
 • `optional` **cacheMaxAge?**: `number`
 
 Maximum time (in milliseconds) between successful HTTP requests. Default is 600000 (10
-minutes).
+minutes). Must not be `NaN`.
 
 ***
 
@@ -38,7 +38,7 @@ minutes).
 • `optional` **cooldownDuration?**: `number`
 
 Duration (in milliseconds) for which no more HTTP requests will be triggered after a previous
-successful fetch. Default is 30000 (30 seconds).
+successful fetch. Must not be `NaN`. Default is 30000 (30 seconds).
 
 ***
 

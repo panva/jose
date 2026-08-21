@@ -127,6 +127,39 @@ test('JWK ext must be a boolean', async (t) => {
   )
 })
 
+test('importJWK snapshots JWK data properties', async (t) => {
+  let extReads = 0
+  const key = await importJWK(
+    {
+      crv: 'P-256',
+      get ext() {
+        return extReads++ === 0 ? false : true
+      },
+      kty: 'EC',
+      x: 'q3zAwR_kUwtdLEwtB2oVfucXiLHmEhu9bJUFYjJxYGs',
+      y: '8h0D-ONoU-iZqrq28TyUxEULxuGwJZGMJYTMbeMshvI',
+    },
+    'ES256',
+  )
+  t.is(extReads, 1)
+  t.false(key.extractable)
+
+  const first = 'FyCq1CKBflh3I5gikEjpYrdOXllzxB_yc02za8ERknI'
+  const second = 'AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA'
+  let keyReads = 0
+  const secret = await importJWK(
+    {
+      get k() {
+        return keyReads++ === 0 ? first : second
+      },
+      kty: 'oct',
+    },
+    'HS256',
+  )
+  t.is(keyReads, 1)
+  t.deepEqual(secret, await importJWK({ k: first, kty: 'oct' }, 'HS256'))
+})
+
 test('empty octet sequence JWK export/import round trip', async (t) => {
   const key = new Uint8Array()
   const jwk = await exportJWK(key)

@@ -26,6 +26,23 @@ test('extractable must be a boolean', async (t) => {
   })
 })
 
+test('key generation snapshots the extractable option', async (t) => {
+  for (const generate of [
+    async (options) => (await generateKeyPair('ES256', options)).privateKey,
+    (options) => generateSecret('HS256', options),
+  ]) {
+    let reads = 0
+    const key = await generate({
+      get extractable() {
+        return reads++ === 0 ? false : true
+      },
+    })
+
+    t.is(reads, 1)
+    t.false((key as CryptoKey).extractable)
+  }
+})
+
 test('a crv option conflicting with the algorithm is rejected', async (t) => {
   for (const [alg, crv, expected] of [
     ['EdDSA', 'Ed448', 'Ed25519'],

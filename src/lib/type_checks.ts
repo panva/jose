@@ -9,14 +9,26 @@ export function isObject<T = object>(input: unknown): input is T {
     return false
   }
   const prototype = Object.getPrototypeOf(input)
-  if (prototype === null) {
-    return true
+  return prototype === null || Object.getPrototypeOf(prototype) === null
+}
+
+export function isJwkSet(input: unknown): input is types.JSONWebKeySet {
+  if (!isObject<types.JSONWebKeySet>(input)) {
+    return false
   }
-  let proto = prototype
-  while (Object.getPrototypeOf(proto) !== null) {
-    proto = Object.getPrototypeOf(proto)
+
+  const { keys } = input
+  if (!Array.isArray(keys)) {
+    return false
   }
-  return prototype === proto
+
+  for (const key of keys) {
+    if (!isObject<types.JWK>(key)) {
+      return false
+    }
+  }
+
+  return true
 }
 
 export function isDisjoint(...headers: Array<object | undefined>): boolean {
@@ -33,16 +45,3 @@ export function isDisjoint(...headers: Array<object | undefined>): boolean {
 
   return true
 }
-
-export const isJWK = (key: unknown): key is types.JWK & { kty: string } =>
-  isObject<types.JWK>(key) && typeof key.kty === 'string'
-
-export const isPrivateJWK = (key: types.JWK & { kty: string }): boolean =>
-  key.kty !== 'oct' &&
-  ((key.kty === 'AKP' && typeof key.priv === 'string') || typeof key.d === 'string')
-
-export const isPublicJWK = (key: types.JWK & { kty: string }): boolean =>
-  key.kty !== 'oct' && key.d === undefined && key.priv === undefined
-
-export const isSecretJWK = (key: types.JWK & { kty: string }): boolean =>
-  key.kty === 'oct' && typeof key.k === 'string'

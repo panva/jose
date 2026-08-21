@@ -37,3 +37,24 @@ test('private key import extractable option must be a boolean', async (t) => {
     instanceOf: TypeError,
   })
 })
+
+test('key imports snapshot the extractable option', async (t) => {
+  const { privateKey, publicKey } = await generateKeyPair('ES256', { extractable: true })
+  const pkcs8 = await exportPKCS8(privateKey)
+  const jwk = await exportJWK(publicKey)
+
+  for (const importKey of [
+    (options) => importPKCS8(pkcs8, 'ES256', options),
+    (options) => importJWK(jwk, 'ES256', options),
+  ]) {
+    let reads = 0
+    const key = await importKey({
+      get extractable() {
+        return reads++ === 0 ? false : true
+      },
+    })
+
+    t.is(reads, 1)
+    t.false(key.extractable)
+  }
+})

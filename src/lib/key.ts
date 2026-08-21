@@ -1,11 +1,11 @@
 import { withAlg as invalidKeyInput } from './invalid_key_input.js'
 import { isKeyLike, isCryptoKey } from './is_key_like.js'
-import * as jwk from './type_checks.js'
+import { isObject } from './type_checks.js'
 import type * as types from '../types.d.ts'
 import { decode } from '../util/base64url.js'
 import { jwkToKey } from './jwk_to_key.js'
 import type { KeyDescriptor } from './key_descriptor.js'
-import { validateJwkMetadata } from './jwk_metadata.js'
+import { normalizeJwk } from './jwk_metadata.js'
 
 const tag = (key: object): string | undefined =>
   (key as { [Symbol.toStringTag]?: string })[Symbol.toStringTag]
@@ -42,19 +42,31 @@ export function checkKeyType(entry: KeyDescriptor, key: unknown, usage: Usage): 
   const privateKey = usage === 'decrypt' || usage === 'sign'
   if (secret && key instanceof Uint8Array) return [BYTES, key]
 
-  if (jwk.isJWK(key)) {
-    validateJwkMetadata(key)
-    if (
-      secret ? !jwk.isSecretJWK(key) : !(privateKey ? jwk.isPrivateJWK(key) : jwk.isPublicJWK(key))
-    ) {
+  if (isObject<types.JWK>(key)) {
+    const normalized = normalizeJwk(key)
+    if (typeof normalized.kty !== 'string') {
+      throw new TypeError(
+        secret
+          ? invalidKeyInput(alg, key, 'CryptoKey', 'KeyObject', 'JSON Web Key', 'Uint8Array')
+          : invalidKeyInput(alg, key, 'CryptoKey', 'KeyObject', 'JSON Web Key'),
+      )
+    }
+    const valid = secret
+      ? normalized.kty === 'oct' && typeof normalized.k === 'string'
+      : normalized.kty !== 'oct' &&
+        (privateKey
+          ? (normalized.kty === 'AKP' && typeof normalized.priv === 'string') ||
+            typeof normalized.d === 'string'
+          : normalized.d === undefined && normalized.priv === undefined)
+    if (!valid) {
       throw new TypeError(
         secret
           ? `JSON Web Key for symmetric algorithms must have JWK "kty" (Key Type) equal to "oct" and the JWK "k" (Key Value) present`
           : `JSON Web Key for this operation must be a ${privateKey ? 'private' : 'public'} JWK`,
       )
     }
-    jwkMatchesOp(entry, key, usage)
-    return [JWK, key]
+    jwkMatchesOp(entry, normalized, usage)
+    return [JWK, key, normalized]
   }
 
   if (!isKeyLike(key)) {
@@ -108,7 +120,7 @@ type Tagged =
   | [kind: typeof BYTES, key: Uint8Array]
   | [kind: typeof CRYPTO, key: types.CryptoKey]
   | [kind: typeof KEYOBJECT, key: types.KeyObject]
-  | [kind: typeof JWK, key: types.JWK]
+  | [kind: typeof JWK, key: types.JWK, normalized: types.JWK]
 
 let cache: WeakMap<object, Record<string, CryptoKey>>
 
@@ -142,7 +154,7 @@ function cached(key: object, alg: string, value?: CryptoKey): CryptoKey | undefi
     if (entry) {
       entry[alg] = value
     } else {
-      cache.set(key, { __proto__: null, [alg]: value } as unknown as Record<string, CryptoKey>)
+      cache.set(key, { [alg]: value })
     }
   }
   return value ?? entry?.[alg]
@@ -185,15 +197,16 @@ export async function prepareKey(
 
     case JWK: {
       const key = tagged[1]
-      if (key.kty === 'oct') {
-        return decode(key.k!)
+      const normalized = tagged[2]
+      if (normalized.kty === 'oct') {
+        return decode(normalized.k!)
       }
       if (!Object.isFrozen(key)) {
         const { key_ops } = key
         if (Array.isArray(key_ops)) Object.freeze(key_ops)
         Object.freeze(key)
       }
-      return handleJWK(key, key, entry)
+      return handleJWK(key, normalized, entry)
     }
 
     case KEYOBJECT: {

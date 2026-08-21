@@ -13,7 +13,7 @@ import { JOSENotSupported } from '../util/errors.js'
 import { isObject } from '../lib/type_checks.js'
 import type * as types from '../types.d.ts'
 import { validateExtractableOption } from '../lib/key_options.js'
-import { validateJwkMetadata } from '../lib/jwk_metadata.js'
+import { normalizeJwk } from '../lib/jwk_metadata.js'
 
 /**
  * Resolves what {@link importJWK} returns for a given JWK type. The "kty" (Key Type) Parameter fully
@@ -211,37 +211,37 @@ export async function importJWK(
   if (!isObject(jwk)) {
     throw new TypeError('JWK must be an object')
   }
-  validateJwkMetadata(jwk)
-  validateExtractableOption(options?.extractable)
+  const normalized = normalizeJwk(jwk)
+  const extractable = validateExtractableOption(options?.extractable)
 
-  alg ??= jwk.alg
-  const ext = options?.extractable ?? jwk.ext
+  alg ??= normalized.alg
+  const ext = extractable ?? normalized.ext
 
-  if (jwk.kty !== 'oct' && !alg) {
+  if (normalized.kty !== 'oct' && !alg) {
     throw new TypeError('"alg" argument is required when "jwk.alg" is not present')
   }
 
-  switch (jwk.kty) {
+  switch (normalized.kty) {
     case 'oct':
-      if (typeof jwk.k !== 'string') {
+      if (typeof normalized.k !== 'string') {
         throw new TypeError('missing "k" (Key Value) Parameter value')
       }
 
-      return decodeBase64URL(jwk.k)
+      return decodeBase64URL(normalized.k)
     case 'RSA':
-      return jwkToKey(keyAlgorithm(alg), { ...jwk, alg, ext })
+      return jwkToKey(keyAlgorithm(alg), { ...normalized, alg, ext })
     case 'AKP': {
-      if (typeof jwk.alg !== 'string' || !jwk.alg) {
+      if (typeof normalized.alg !== 'string' || !normalized.alg) {
         throw new TypeError('missing "alg" (Algorithm) Parameter value')
       }
-      if (alg !== undefined && alg !== jwk.alg) {
+      if (alg !== undefined && alg !== normalized.alg) {
         throw new TypeError('JWK alg and alg option value mismatch')
       }
-      return jwkToKey(keyAlgorithm(jwk.alg), { ...jwk, ext })
+      return jwkToKey(keyAlgorithm(normalized.alg), { ...normalized, ext })
     }
     case 'EC':
     case 'OKP':
-      return jwkToKey(keyAlgorithm(alg), { ...jwk, alg, ext })
+      return jwkToKey(keyAlgorithm(alg), { ...normalized, alg, ext })
     default:
       throw new JOSENotSupported('Unsupported "kty" (Key Type) Parameter value')
   }

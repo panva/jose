@@ -190,7 +190,7 @@ const genericImport = async (
   alg: string,
   options?: KeyImportOptions,
 ) => {
-  validateExtractableOption(options?.extractable)
+  const extractable = validateExtractableOption(options?.extractable)
   const entry = keyAlgorithm(alg, algArgument)
   if (entry.secret) {
     unsupportedAlg(algArgument)
@@ -214,7 +214,7 @@ const genericImport = async (
     keyFormat,
     keyData as Uint8Array<ArrayBuffer>,
     algorithm,
-    options?.extractable ?? isPublic,
+    extractable ?? isPublic,
     entry.usages[isPublic ? 0 : 1],
   )
 }

@@ -121,7 +121,7 @@ export async function generateKeyPair(
   alg: GenerateKeyPairAlgorithm,
   options?: GenerateKeyPairOptions,
 ): Promise<GenerateKeyPairResult> {
-  validateExtractableOption(options?.extractable)
+  const extractable = validateExtractableOption(options?.extractable)
   const entry = keyAlgorithm(alg, algArgument)
 
   if (entry.secret) {
@@ -164,7 +164,7 @@ export async function generateKeyPair(
         : entry.subtle
   }
 
-  return crypto.subtle.generateKey(algorithm, options?.extractable ?? false, [
+  return crypto.subtle.generateKey(algorithm, extractable ?? false, [
     ...entry.usages[1],
     ...entry.usages[0],
   ]) as Promise<GenerateKeyPairResult>

@@ -156,6 +156,19 @@ test('empty octet sequence JWK', async (t) => {
   )
 })
 
+test('JWK thumbprints use a single data snapshot', async (t) => {
+  let reads = 0
+  const thumbprint = await calculateJwkThumbprint({
+    get k() {
+      return reads++ === 0 ? '' : 'FyCq1CKBflh3I5gikEjpYrdOXllzxB_yc02za8ERknI'
+    },
+    kty: 'oct',
+  })
+
+  t.is(reads, 1)
+  t.is(thumbprint, '5exvXhSI3US_SE4QpsoFa894lp-yiLtLfAFfvolC8XM')
+})
+
 test('AKP JWK', async (t) => {
   const akp = {
     kty: 'AKP',

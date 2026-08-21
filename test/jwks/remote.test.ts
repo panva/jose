@@ -18,6 +18,7 @@ import {
   importJWK,
   createRemoteJWKSet,
   customFetch,
+  jwksCache,
   errors,
   type FlattenedJWSInput,
 } from '../../src/index.js'
@@ -454,6 +455,66 @@ test('remote JWKS timeoutDuration must be a non-negative integer', (t) => {
   }
 
   t.notThrows(() => createRemoteJWKSet(url, { timeoutDuration: 0 }))
+})
+
+test('remote JWKS duration options are read once', (t) => {
+  const url = new URL('https://as.example.com/jwks')
+
+  for (const [option, value] of [
+    ['timeoutDuration', 0],
+    ['cooldownDuration', 30_000],
+    ['cacheMaxAge', 600_000],
+  ] as const) {
+    let reads = 0
+    const options = {} as Record<string, unknown>
+    Object.defineProperty(options, option, {
+      enumerable: true,
+      get() {
+        reads++
+        return value
+      },
+    })
+
+    t.notThrows(() => createRemoteJWKSet(url, options))
+    t.is(reads, 1)
+  }
+})
+
+test('remote JWKS validates a single cache snapshot', (t) => {
+  timekeeper.freeze(now * 1000)
+  const url = new URL('https://as.example.com/jwks')
+  const jwks = { keys: [] }
+  let timestampReads = 0
+  let jwksReads = 0
+  const cache = Object.defineProperties(
+    {},
+    {
+      uat: {
+        enumerable: true,
+        get() {
+          timestampReads++
+          return timestampReads === 1 ? now * 1000 : NaN
+        },
+      },
+      jwks: {
+        enumerable: true,
+        get() {
+          jwksReads++
+          return jwksReads === 1 ? jwks : { keys: [null] }
+        },
+      },
+    },
+  )
+
+  const resolver = createRemoteJWKSet(url, { [jwksCache]: cache })
+  t.deepEqual(resolver.jwks(), jwks)
+  t.is(timestampReads, 1)
+  t.is(jwksReads, 1)
+
+  for (const uat of [NaN, Infinity, now * 1000 - 600_000]) {
+    const stale = createRemoteJWKSet(url, { [jwksCache]: { uat, jwks } })
+    t.is(stale.jwks(), undefined)
+  }
 })
 
 test.serial('throws on invalid JWKSet', async (t) => {
