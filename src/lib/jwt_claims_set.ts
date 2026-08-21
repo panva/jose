@@ -17,23 +17,26 @@ const multipliers: Record<string, number> = {
 const REGEX =
   /^(\+|\-)? ?(\d+|\d+\.\d+) ?(seconds?|secs?|s|minutes?|mins?|m|hours?|hrs?|h|days?|d|weeks?|w|years?|yrs?|y)(?: (ago|from now))?$/i
 const checkFailed = 'check_failed'
+function invalidDuration(): never {
+  throw new TypeError('Invalid time period format')
+}
 
 export function secs(str: string): number {
   if (typeof str !== 'string') {
-    throw new TypeError('Invalid time period format')
+    invalidDuration()
   }
 
   const matched = REGEX.exec(str)
 
   if (!matched || (matched[4] && matched[1])) {
-    throw new TypeError('Invalid time period format')
+    invalidDuration()
   }
 
   const value = parseFloat(matched[2])
   const numericDate = Math.round(value * multipliers[matched[3][0].toLowerCase()])
 
   if (!Number.isFinite(numericDate)) {
-    throw new TypeError('Invalid time period format')
+    invalidDuration()
   }
 
   if (matched[1] === '-' || matched[4] === 'ago') {
@@ -73,11 +76,8 @@ function numericDate(value: number | string | Date, label: string) {
 }
 
 const normalizeTyp = (value: string) => {
-  if (value.includes('/')) {
-    return value.toLowerCase()
-  }
-
-  return `application/${value.toLowerCase()}`
+  const normalized = value.toLowerCase()
+  return value.includes('/') ? normalized : `application/${normalized}`
 }
 
 const checkAudiencePresence = (audPayload: unknown, audOption: unknown[]) => {
@@ -245,7 +245,7 @@ export function validateClaimsSet(
       )
     }
 
-    if (age < 0 - tolerance) {
+    if (age < -tolerance) {
       throw new JWTClaimValidationFailed(
         '"iat" claim timestamp check failed (it should be in the past)',
         payload,
