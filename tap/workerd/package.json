@@ -1,0 +1,7 @@
+{
+  "name": "jose-workerd-tests",
+  "private": true,
+  "devDependencies": {
+    "workerd": "1.20260824.1"
+  }
+}

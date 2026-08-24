@@ -1,10 +1,28 @@
 version: 2
 updates:
-  - package-ecosystem: "github-actions"
-    directory: "/"
+  - package-ecosystem: 'github-actions'
+    directory: '/'
     schedule:
-      interval: "monthly"
+      interval: 'monthly'
     groups:
       actions:
         patterns:
-          - "*"
+          - '*'
+  - package-ecosystem: 'npm'
+    directory: '/'
+    schedule:
+      interval: 'monthly'
+    allow:
+      - dependency-name: '@playwright/test'
+  - package-ecosystem: 'npm'
+    directory: '/tap/workerd'
+    schedule:
+      interval: 'monthly'
+    allow:
+      - dependency-name: 'workerd'
+  - package-ecosystem: 'npm'
+    directory: '/tap/electron'
+    schedule:
+      interval: 'monthly'
+    allow:
+      - dependency-name: 'electron'
