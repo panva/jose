@@ -223,6 +223,7 @@
     "tap:bun": "./tap/.bun.sh",
     "tap:deno": "./tap/.deno.sh",
     "tap:electron": "./tap/.electron.sh",
+    "tap:llrt": "./tap/.llrt.sh",
     "tap:node": "bash -c './tap/.node.sh'",
     "tap:workerd": "./tap/.workerd.sh",
     "typecheck:tap": "tsc -p tap",

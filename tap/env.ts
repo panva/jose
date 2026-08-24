@@ -13,9 +13,11 @@ export const isBrowser =
 export const isWorkerd =
   typeof navigator !== 'undefined' && navigator.userAgent === 'Cloudflare-Workers'
 
+export const isLlrt = typeof process !== 'undefined' && process.release?.name === 'llrt'
+
 // @ts-ignore
 export const isNode =
-  !isBun && !isElectron && !isDeno && !isWorkerd && typeof process !== 'undefined'
+  !isBun && !isElectron && !isDeno && !isLlrt && !isWorkerd && typeof process !== 'undefined'
 
 const BOWSER = 'https://cdn.jsdelivr.net/npm/bowser@2.11.0/src/bowser.js'
 
