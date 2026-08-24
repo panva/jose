@@ -10,10 +10,12 @@ jobs:
   release:
     permissions:
       actions: read
+      attestations: write
+      artifact-metadata: write
       contents: write
       discussions: write
       id-token: write
-    uses: panva/.github/.github/workflows/npm-release.yml@main
+    uses: panva/.github/.github/workflows/npm-release.yml@bd045b0d7d15f7827910cdedd3e7f0570bc5bf58
     with:
       cleanup_paths: '["dist"]'
       prepare_command: npm clean-install && npm run build-all && node tools/publish.cjs
