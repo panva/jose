@@ -1,7 +1,7 @@
 const { readFileSync, writeFileSync } = require('fs')
 
 function formatChangelog(changelog) {
-  return changelog.replace(/### \[/g, '## [').replace(/([^\n])\n(?=## \[)/g, '$1\n\n')
+  return changelog.replace(/^### \[/gm, '## [').replace(/([^\r\n])(\r?\n)(?=## )/g, '$1$2$2')
 }
 
 function main() {
