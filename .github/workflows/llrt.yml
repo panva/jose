@@ -27,35 +27,34 @@ jobs:
           cache: 'npm'
       - run: npm clean-install
       - name: Checkout LLRT
-        if: ${{ env.LLRT_VERSION == 'main' }}
+        if: env.LLRT_VERSION == 'main'
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
           repository: awslabs/llrt
           ref: main
           path: .llrt
       - name: Setup Rust
-        if: ${{ env.LLRT_VERSION == 'main' }}
+        if: env.LLRT_VERSION == 'main'
         uses: actions-rust-lang/setup-rust-toolchain@166cdcfd11aee3cb47222f9ddb555ce30ddb9659 # v1.17.0
         with:
           toolchain: nightly
+          target: x86_64-unknown-linux-musl
+          components: rust-src
           rust-src-dir: .llrt
           cache-bin: false
+          cache-on-failure: true
+          rustflags: ''
       - name: Build LLRT
-        if: ${{ env.LLRT_VERSION == 'main' }}
+        if: env.LLRT_VERSION == 'main'
         working-directory: .llrt
         run: |
-          git submodule update --init --checkout zstd
-          sudo apt-get -y update
-          sudo apt-get -y install make nodejs zip zstd
-          sudo snap install zig --classic --beta
           corepack enable
           yarn --frozen-lockfile
-          make stdlib-x64
-          make libs-x64
+          sudo snap install zig --classic --beta
           make llrt-linux-x64.zip
           cp llrt-linux-x64.zip "$RUNNER_TEMP"
       - name: Download LLRT
-        if: ${{ env.LLRT_VERSION != 'main' }}
+        if: env.LLRT_VERSION != 'main'
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
