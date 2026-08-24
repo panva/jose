@@ -1,4 +1,5 @@
 import test from 'ava'
+import fc from 'fast-check'
 
 import * as base64url from '../../src/util/base64url.js'
 
@@ -30,8 +31,12 @@ test('the Base64URL alphabet is accepted', (t) => {
 })
 
 test('a round trip preserves the input', (t) => {
-  const bytes = crypto.getRandomValues(new Uint8Array(128))
-  const encoded = base64url.encode(bytes)
-  t.regex(encoded, /^[A-Za-z0-9_-]*$/)
-  t.deepEqual([...base64url.decode(encoded)], [...bytes])
+  fc.assert(
+    fc.property(fc.uint8Array({ maxLength: 4096 }), (bytes) => {
+      const encoded = base64url.encode(bytes)
+      t.regex(encoded, /^[A-Za-z0-9_-]*$/)
+      t.deepEqual(base64url.decode(encoded), bytes)
+    }),
+    { numRuns: 1000 },
+  )
 })

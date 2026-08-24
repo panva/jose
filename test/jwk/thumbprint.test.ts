@@ -1,6 +1,74 @@
 import test from 'ava'
+import fc from 'fast-check'
 
-import { calculateJwkThumbprint, calculateJwkThumbprintUri } from '../../src/index.js'
+import { calculateJwkThumbprint, calculateJwkThumbprintUri, type JWK } from '../../src/index.js'
+
+const digestAlgorithms = ['sha256', 'sha384', 'sha512'] as const
+const base64urlCharacters =
+  'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-_'.split('')
+const irrelevantMetadata = fc.dictionary(
+  fc.string({ minLength: 1, maxLength: 16 }).map((name) => `metadata:${name}`),
+  fc.jsonValue({ maxDepth: 3 }),
+  { maxKeys: 6 },
+)
+
+async function checkThumbprintProperties(jwk: JWK, changedMember: keyof JWK) {
+  const entries = Object.entries(jwk)
+  const shuffledEntries = fc.shuffledSubarray(entries, {
+    minLength: entries.length,
+    maxLength: entries.length,
+  })
+  const current = jwk[changedMember]
+
+  if (typeof current !== 'string' || current.length === 0) {
+    throw new TypeError('changedMember must identify a non-empty string JWK member')
+  }
+
+  const replacementCharacter = fc.constantFrom(
+    ...base64urlCharacters.filter((character) => character !== current[0]),
+  )
+
+  for (const digestAlgorithm of digestAlgorithms) {
+    const thumbprint = await calculateJwkThumbprint(jwk, digestAlgorithm)
+    const uri = await calculateJwkThumbprintUri(jwk, digestAlgorithm)
+
+    await fc.assert(
+      fc.asyncProperty(
+        shuffledEntries,
+        irrelevantMetadata,
+        fc.boolean(),
+        replacementCharacter,
+        async (requiredEntries, metadata, metadataFirst, replacement) => {
+          const metadataEntries = Object.entries(metadata)
+          const reordered = Object.fromEntries(
+            metadataFirst
+              ? [...metadataEntries, ...requiredEntries]
+              : [...requiredEntries, ...metadataEntries],
+          ) as JWK
+          const changed = {
+            ...jwk,
+            [changedMember]: `${replacement}${current.slice(1)}`,
+          }
+
+          if (
+            (await calculateJwkThumbprint(reordered, digestAlgorithm)) !== thumbprint ||
+            (await calculateJwkThumbprintUri(reordered, digestAlgorithm)) !== uri
+          ) {
+            throw new Error('JWK member order or irrelevant metadata changed the thumbprint')
+          }
+
+          if (
+            (await calculateJwkThumbprint(changed, digestAlgorithm)) === thumbprint ||
+            (await calculateJwkThumbprintUri(changed, digestAlgorithm)) === uri
+          ) {
+            throw new Error('Changing required JWK key material did not change the thumbprint')
+          }
+        },
+      ),
+      { numRuns: 25 },
+    )
+  }
+}
 
 const jwk = {
   kty: 'RSA',
@@ -98,6 +166,7 @@ test('EC JWK', async (t) => {
     message: '"y" (Y Coordinate) Parameter missing or invalid',
   })
   t.is(await calculateJwkThumbprint(ec), 'ZrBaai73Hi8Fg4MElvDGzIne2NsbI75RHubOViHYE5Q')
+  await checkThumbprintProperties(ec, 'x')
 })
 
 test('OKP JWK', async (t) => {
@@ -116,6 +185,7 @@ test('OKP JWK', async (t) => {
     message: '"x" (Public Key) Parameter missing or invalid',
   })
   t.is(await calculateJwkThumbprint(okp), '1OzNmMHhNzbSJyoePAtdoVedRZlFvER3K3RAzCrfX0k')
+  await checkThumbprintProperties(okp, 'x')
 })
 
 test('RSA JWK', async (t) => {
@@ -134,6 +204,7 @@ test('RSA JWK', async (t) => {
     message: '"n" (Modulus) Parameter missing or invalid',
   })
   t.is(await calculateJwkThumbprint(rsa), 'dQiQXSGtV4XcPK143Cu2-ZSsQtVNjQZrleUMs9nLnKQ')
+  await checkThumbprintProperties(rsa, 'n')
 })
 
 test('oct JWK', async (t) => {
@@ -147,6 +218,7 @@ test('oct JWK', async (t) => {
     message: '"k" (Key Value) Parameter missing or invalid',
   })
   t.is(await calculateJwkThumbprint(oct), 'prDKy90VJzrDTpm8-W2Q_pv_kzrX_zyZ7ANjRAasDxc')
+  await checkThumbprintProperties(oct, 'k')
 })
 
 test('empty octet sequence JWK', async (t) => {
@@ -187,4 +259,5 @@ test('AKP JWK', async (t) => {
   })
 
   t.is(await calculateJwkThumbprint(akp), 'T4xl70S7MT6Zeq6r9V9fPJGVn76wfnXJ21-gyo0Gu6o')
+  await checkThumbprintProperties(akp, 'pub')
 })
