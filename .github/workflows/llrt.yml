@@ -7,7 +7,7 @@ on:
   workflow_dispatch:
     inputs:
       version:
-        description: LLRT release tag or latest
+        description: LLRT release tag, latest, or main
         required: true
         default: latest
         type: string
@@ -26,7 +26,36 @@ jobs:
           node-version: lts/*
           cache: 'npm'
       - run: npm clean-install
+      - name: Checkout LLRT
+        if: ${{ env.LLRT_VERSION == 'main' }}
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          repository: awslabs/llrt
+          ref: main
+          path: .llrt
+      - name: Setup Rust
+        if: ${{ env.LLRT_VERSION == 'main' }}
+        uses: actions-rust-lang/setup-rust-toolchain@166cdcfd11aee3cb47222f9ddb555ce30ddb9659 # v1.17.0
+        with:
+          toolchain: nightly
+          rust-src-dir: .llrt
+          cache-bin: false
+      - name: Build LLRT
+        if: ${{ env.LLRT_VERSION == 'main' }}
+        working-directory: .llrt
+        run: |
+          git submodule update --init --checkout zstd
+          sudo apt-get -y update
+          sudo apt-get -y install make nodejs zip zstd
+          sudo snap install zig --classic --beta
+          corepack enable
+          yarn --frozen-lockfile
+          make stdlib-x64
+          make libs-x64
+          make llrt-linux-x64.zip
+          cp llrt-linux-x64.zip "$RUNNER_TEMP"
       - name: Download LLRT
+        if: ${{ env.LLRT_VERSION != 'main' }}
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
@@ -39,6 +68,8 @@ jobs:
               --pattern llrt-linux-x64.zip \
               --dir "$RUNNER_TEMP"
           fi
+      - name: Install LLRT
+        run: |
           mkdir "$RUNNER_TEMP/llrt"
           unzip -q "$RUNNER_TEMP/llrt-linux-x64.zip" -d "$RUNNER_TEMP/llrt"
           chmod +x "$RUNNER_TEMP/llrt/llrt"
