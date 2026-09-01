@@ -2,6 +2,6 @@
   "name": "jose-workerd-tests",
   "private": true,
   "devDependencies": {
-    "workerd": "1.20260824.1"
+    "workerd": "1.20260829.1"
   }
 }
