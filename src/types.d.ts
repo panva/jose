@@ -269,12 +269,7 @@ export type JWK = {
   pub?: string
   /** AKP JWK "priv" (Private key) Parameter */
   priv?: string
-  /**
-   * RSA JWK "oth" (Other Primes Info) Parameter
-   *
-   * > [!NOTE]\
-   * > Multi-prime RSA keys are not supported; importing a JWK with this parameter present throws.
-   */
+  /** RSA JWK "oth" (Other Primes Info) Parameter */
   oth?: Array<{
     /** The Factor CRT Exponent */
     d?: string
@@ -300,9 +295,13 @@ export type JWK = {
  * }
  * ```
  */
-// The "kty" is intersected into each arm one at a time rather than distributed over a parenthesised
-// union - `X & (A | B)` means the same thing, but typedoc renders it without the parentheses, which
-// reads as though the second arm carried no "kty" at all.
+/*
+ * The "kty" is intersected into each arm one at a time rather than distributed over a parenthesised
+ * union - `X & (A | B)` means the same thing, but typedoc renders it without the parentheses, which
+ * reads as though the second arm carried no "kty" at all.
+ *
+ * @internal
+ */
 export type AnyJWK =
   | (JWK_EC_Private & { kty: 'EC' })
   | (JWK_EC_Public & { kty: 'EC' })
@@ -636,7 +635,8 @@ export interface DecryptOptions extends CritOption {
   /**
    * (PBES2 Key Management Algorithms only) Maximum allowed "p2c" (PBES2 Count) Header Parameter
    * value. The PBKDF2 iteration count defines the algorithm's computational expense. By default
-   * this value is set to 10000.
+   * this value is set to 10000. The value must be a positive safe integer or `Infinity`. Set it to
+   * `Infinity` to disable the limit.
    */
   maxPBES2Count?: number
 
@@ -873,6 +873,158 @@ export interface JWTDecryptResult<PayloadType = JWTPayload> {
 export interface ResolvedKey<KeyType extends CryptoKey | Uint8Array = CryptoKey | Uint8Array> {
   /** Key resolved from the key resolver function. */
   key: KeyType
+}
+
+/** @ignore */
+export interface ConsumeFunction<
+  Input,
+  Key extends KeyInput,
+  ResolvableKey extends CryptoKey | Uint8Array,
+  Header,
+  Token,
+  Options,
+  Result,
+> {
+  /**
+   * Processes the JOSE input with a directly supplied key.
+   *
+   * @param input JOSE input to process.
+   * @param key Key or Secret for the operation. See
+   *   {@link https://github.com/panva/jose/issues/210 Algorithm Key Requirements}.
+   * @param options Options for verification or decryption, including JWT Claims Set validation when
+   *   applicable.
+   */
+  (input: Input, key: Key, options?: Options): Promise<Result>
+  /**
+   * Processes the JOSE input, resolving the key dynamically. The result additionally carries the
+   * {@link ResolvedKey.key resolved key}.
+   *
+   * @typeParam Resolved Concrete key type returned by the resolver and exposed as `result.key`.
+   *
+   * @param input JOSE input to process.
+   * @param getKey Function resolving a key or Secret for the operation. See
+   *   {@link https://github.com/panva/jose/issues/210 Algorithm Key Requirements}.
+   * @param options Options for verification or decryption, including JWT Claims Set validation when
+   *   applicable.
+   */
+  <Resolved extends ResolvableKey = ResolvableKey>(
+    input: Input,
+    getKey: GetKeyFunction<Header, Token, Resolved | KeyObject | JWK>,
+    options?: Options,
+  ): Promise<Result & ResolvedKey<Resolved>>
+  /**
+   * Accepts either a directly supplied key or a dynamic key resolver. Use this overload when
+   * forwarding a value whose form is not statically known; `key` is present on the result only when
+   * a resolver was used.
+   *
+   * @param input JOSE input to process.
+   * @param key Key, Secret, or function resolving one, for the operation. See
+   *   {@link https://github.com/panva/jose/issues/210 Algorithm Key Requirements}.
+   * @param options Options for verification or decryption, including JWT Claims Set validation when
+   *   applicable.
+   */
+  (
+    input: Input,
+    key: Key | GetKeyFunction<Header, Token, ResolvableKey | KeyObject | JWK>,
+    options?: Options,
+  ): Promise<Result & Partial<ResolvedKey<ResolvableKey>>>
+}
+
+/** @ignore */
+export interface SignConstructor<Instance> {
+  /**
+   * JWS producer constructor.
+   *
+   * @param payload Binary representation of the payload to sign.
+   */
+  new (payload: Uint8Array): Instance
+  readonly prototype: Instance
+}
+
+/** @ignore */
+export interface EncryptConstructor<Instance> {
+  /**
+   * JWE producer constructor.
+   *
+   * @param plaintext Binary representation of the plaintext to encrypt.
+   */
+  new (plaintext: Uint8Array): Instance
+  readonly prototype: Instance
+}
+
+/** @ignore */
+export interface JWTConstructor<Instance> {
+  /**
+   * JWT producer constructor.
+   *
+   * @param payload The JWT Claims Set object. Defaults to an empty object.
+   */
+  new (payload?: JWTPayload): Instance
+  readonly prototype: Instance
+}
+
+/** @ignore */
+export interface SetProtectedHeader<Header> {
+  /**
+   * Sets the Protected Header on the JWS, JWE, or JWT producer.
+   *
+   * @param protectedHeader JOSE Protected Header accepted by this producer.
+   */
+  setProtectedHeader(protectedHeader: Header): this
+}
+
+/** @ignore */
+export interface SetUnprotectedHeader<Header> {
+  /**
+   * Sets the JWS Unprotected Header or JWE Per-Recipient Unprotected Header on the producer.
+   *
+   * @param unprotectedHeader JWS Unprotected Header or JWE Per-Recipient Unprotected Header.
+   */
+  setUnprotectedHeader(unprotectedHeader: Header): this
+}
+
+/** @ignore */
+export interface SetSharedUnprotectedHeader<Header> {
+  /**
+   * Sets the JWE Shared Unprotected Header on the producer.
+   *
+   * @param sharedUnprotectedHeader JWE Shared Unprotected Header.
+   */
+  setSharedUnprotectedHeader(sharedUnprotectedHeader: Header): this
+}
+
+/** @ignore */
+export interface SetAdditionalAuthenticatedData {
+  /**
+   * Sets the Additional Authenticated Data on the JWE producer.
+   *
+   * @param aad Additional Authenticated Data.
+   */
+  setAdditionalAuthenticatedData(aad: Uint8Array): this
+}
+
+/** @ignore */
+export interface SignWith<Key, Result> {
+  /**
+   * Signs and resolves the JWS or signed JWT.
+   *
+   * @param key Private Key or Secret to sign the JWS or JWT with. See
+   *   {@link https://github.com/panva/jose/issues/210#jws-alg Algorithm Key Requirements}.
+   * @param options JWS or JWT Sign options.
+   */
+  sign(key: Key, options?: SignOptions): Promise<Result>
+}
+
+/** @ignore */
+export interface EncryptWith<Result> {
+  /**
+   * Encrypts and resolves the JWE or encrypted JWT.
+   *
+   * @param key Public Key or Secret to encrypt the JWE or JWT with. See
+   *   {@link https://github.com/panva/jose/issues/210#jwe-alg Algorithm Key Requirements}.
+   * @param options JWE Encryption options.
+   */
+  encrypt(key: KeyInput, options?: EncryptOptions): Promise<Result>
 }
 
 /** Recognized Compact JWS Header Parameters, any other Header Members may also be present. */

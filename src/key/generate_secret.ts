@@ -4,10 +4,9 @@
  * @module
  */
 
-import { unsupportedAlg, algArgument } from '../lib/key_algorithm.js'
-
 import type * as types from '../types.d.ts'
-import { validateExtractableOption } from '../lib/key_options.js'
+import { algArgument, unsupportedAlg } from '../lib/key_algorithm.js'
+import { validateExtractableOption } from '../lib/type_checks.js'
 
 /**
  * JWA Algorithm Identifiers that {@link generateSecret} is able to generate a secret for, subject to

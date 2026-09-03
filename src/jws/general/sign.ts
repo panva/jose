@@ -5,13 +5,19 @@
  */
 
 import type * as types from '../../types.d.ts'
-import { createSignature } from '../../lib/jws_sign.js'
-import type { SignInput } from '../../lib/jws_sign.js'
-import { JWSInvalid } from '../../util/errors.js'
-import { assertNotSet } from '../../lib/helpers.js'
+import type {
+  GeneralSignConstructor,
+  GeneralSignature,
+  GeneralSignInstance,
+} from '../../composable/jws/general/sign.js'
+import { jwsAlgorithm } from '../../lib/jws_algorithms.js'
+import { createGeneralSignClass } from '../../lib/jws_serialization.js'
 
 /** Used to build General JWS object's individual signatures. */
-export interface Signature {
+export interface Signature extends Omit<
+  GeneralSignature<types.JWSAlgorithm>,
+  'setProtectedHeader' | 'setUnprotectedHeader' | 'addSignature' | 'done'
+> {
   /**
    * Sets the JWS Protected Header on the Signature object.
    *
@@ -36,56 +42,22 @@ export interface Signature {
    */
   addSignature(key: types.KeyInput, options?: types.SignOptions): Signature
 
-  /**
-   * A shorthand for calling {@link GeneralSign.sign sign()} on the enclosing {@link GeneralSign}
-   * instance. Takes no arguments — each signature's key is supplied to {@link addSignature}.
-   */
-  sign(): Promise<types.GeneralJWS>
-
   /** Returns the enclosing {@link GeneralSign} instance */
   done(): GeneralSign
 }
 
-type SignatureState = [
-  protectedHeader: types.JWSHeaderParameters | undefined,
-  unprotectedHeader: types.JWSHeaderParameters | undefined,
-  key: types.KeyInput,
-  crit: types.SignOptions['crit'],
-]
+const GeneralSignBase: GeneralSignConstructor<types.JWSAlgorithm> =
+  createGeneralSignClass(jwsAlgorithm)
 
-class IndividualSignature implements Signature {
-  #parent: GeneralSign
-
-  state: SignatureState
-
-  constructor(sig: GeneralSign, key: types.KeyInput, options?: types.SignOptions) {
-    this.#parent = sig
-    this.state = [undefined, undefined, key, options?.crit]
-  }
-
-  setProtectedHeader(protectedHeader: types.JWSHeaderParameters) {
-    assertNotSet(this.state[0], 'setProtectedHeader')
-    this.state[0] = protectedHeader
-    return this
-  }
-
-  setUnprotectedHeader(unprotectedHeader: types.JWSHeaderParameters) {
-    assertNotSet(this.state[1], 'setUnprotectedHeader')
-    this.state[1] = unprotectedHeader
-    return this
-  }
-
-  addSignature(...args: Parameters<GeneralSign['addSignature']>) {
-    return this.#parent.addSignature(...args)
-  }
-
-  sign(...args: Parameters<GeneralSign['sign']>) {
-    return this.#parent.sign(...args)
-  }
-
-  done() {
-    return this.#parent
-  }
+export interface GeneralSign extends GeneralSignInstance<types.JWSAlgorithm> {
+  /**
+   * Adds an additional signature for the General JWS object.
+   *
+   * @param key Private Key or Secret to sign the individual JWS signature with. See
+   *   {@link https://github.com/panva/jose/issues/210#jws-alg Algorithm Key Requirements}.
+   * @param options JWS Sign options.
+   */
+  addSignature(key: types.KeyInput, options?: types.SignOptions): Signature
 }
 
 /**
@@ -109,10 +81,8 @@ class IndividualSignature implements Signature {
  * console.log(jws)
  * ```
  */
-export class GeneralSign {
-  #payload: Uint8Array
-
-  #signatures: IndividualSignature[] = []
+export class GeneralSign extends GeneralSignBase {
+  declare private generalSignBrand: never
 
   /**
    * {@link GeneralSign} constructor
@@ -120,64 +90,6 @@ export class GeneralSign {
    * @param payload Binary representation of the payload to sign.
    */
   constructor(payload: Uint8Array) {
-    this.#payload = payload
-  }
-
-  /**
-   * Adds an additional signature for the General JWS object.
-   *
-   * @param key Private Key or Secret to sign the individual JWS signature with. See
-   *   {@link https://github.com/panva/jose/issues/210#jws-alg Algorithm Key Requirements}.
-   * @param options JWS Sign options.
-   */
-  addSignature(key: types.KeyInput, options?: types.SignOptions): Signature {
-    const signature = new IndividualSignature(this, key, options)
-    this.#signatures.push(signature)
-    return signature
-  }
-
-  /** Signs and resolves the value of the General JWS object. */
-  async sign(): Promise<types.GeneralJWS> {
-    if (!this.#signatures.length) {
-      throw new JWSInvalid('at least one signature must be added')
-    }
-
-    if (!(this.#payload instanceof Uint8Array)) {
-      throw new TypeError('payload must be an instance of Uint8Array')
-    }
-
-    const jws: types.GeneralJWS = {
-      signatures: [],
-      payload: '',
-    }
-
-    const encoded: NonNullable<SignInput['encoded']> = []
-    let b64: boolean | undefined
-
-    for (let i = 0; i < this.#signatures.length; i++) {
-      const signature = this.#signatures[i]
-      const [protectedHeader, unprotectedHeader, key, crit] = signature.state
-
-      const [{ payload, ...rest }, signatureB64] = await createSignature(
-        {
-          payload: this.#payload,
-          protectedHeader,
-          unprotectedHeader,
-          crit,
-          encoded,
-        },
-        key,
-      )
-
-      if (b64 === undefined) {
-        b64 = signatureB64
-        jws.payload = payload
-      } else if (b64 !== signatureB64) {
-        throw new JWSInvalid('inconsistent use of JWS Unencoded Payload (RFC7797)')
-      }
-      jws.signatures.push(rest)
-    }
-
-    return jws
+    super(payload)
   }
 }

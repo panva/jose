@@ -1,5 +1,5 @@
 import type * as types from '../types.d.ts'
-import type { JWSAlgorithm } from './jws_algorithms.js'
+import type { JWSAlgorithm } from './jws_algorithm.js'
 import { checkCryptoKey, checkModulusLength } from './crypto_key.js'
 
 async function getSigKey(entry: JWSAlgorithm, key: types.CryptoKey | Uint8Array, usage: KeyUsage) {

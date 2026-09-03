@@ -16,8 +16,7 @@ their code's invocations. The supplied writable object seeds the resolver's cach
 with `jwks` and `uat` after a successful fetch; persist it whenever `uat` changes. Using this in
 runtimes that can keep an in-memory cache between requests is not desirable.
 
-When passed to [createRemoteJWKSet](../functions/createRemoteJWKSet.md) this allows the passed in
-object to:
+When passed to [createRemoteJWKSet](../functions/createRemoteJWKSet.md) this allows the passed in object to:
 
 - Serve as an initial value for the JSON Web Key Set that the module would otherwise need to
   trigger an HTTP request for
@@ -26,9 +25,8 @@ object to:
 
 The intended use pattern is:
 
-- Before verifying with [createRemoteJWKSet](../functions/createRemoteJWKSet.md) you pull the
-  previously cached object from a low-latency key-value store offered by the cloud computing
-  runtime it is executed on;
+- Before verifying with [createRemoteJWKSet](../functions/createRemoteJWKSet.md) you pull the previously cached object from a
+  low-latency key-value store offered by the cloud computing runtime it is executed on;
 - Default to an empty object `{}` instead when there's no previously cached value;
 - Pass it in as [\[jwksCache\]](../interfaces/RemoteJWKSetOptions.md);
 - Afterwards, update the key-value storage if the [`uat`](../interfaces/ExportedJWKSCache.md#uat) property of

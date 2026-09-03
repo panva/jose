@@ -2,16 +2,15 @@ import { JOSENotSupported } from '../util/errors.js'
 import type * as types from '../types.d.ts'
 import type { KeyDescriptor } from './key_descriptor.js'
 
-export async function jwkToKey(entry: KeyDescriptor, jwk: types.JWK): Promise<types.CryptoKey> {
-  if (jwk.kty === 'RSA' && 'oth' in jwk && jwk.oth !== undefined) {
-    throw new JOSENotSupported('RSA JWK "oth" (Other Primes Info) Parameter value is not supported')
-  }
-
+export async function jwkToKey(
+  entry: KeyDescriptor,
+  jwk: types.JWK,
+  algorithm: KeyDescriptor['subtle'] = entry.subtle,
+): Promise<types.CryptoKey> {
   if (!entry.kty.includes(jwk.kty!)) {
     throw new JOSENotSupported('Invalid or unsupported JWK "alg" (Algorithm) Parameter value')
   }
 
-  const algorithm = entry.resolve?.({ kty: jwk.kty, crv: jwk.crv }) ?? entry.subtle
   const isPrivate = !!(jwk.d || jwk.priv)
 
   const keyData: types.JWK = { ...jwk }

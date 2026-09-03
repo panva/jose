@@ -19,6 +19,48 @@ const openUnions = [
   'JWTClaimValidationReason',
 ]
 
+const jwtConsumerPages = new Set([
+  'docs/composable/jwt/decrypt/interfaces/ComposedJWTDecryptFunction.md',
+  'docs/composable/jwt/verify/interfaces/JWTVerifyFunction.md',
+])
+
+function documentJWTConsumerParameters(content) {
+  return content.replace(
+    /\| Parameter \| Type \|\n\| ------ \| ------ \|\n((?:\| `(?:jwt|key|getKey|options\?)` \| .+ \|\n?)+)/g,
+    (_, rows) => {
+      const documented = rows
+        .trimEnd()
+        .split('\n')
+        .map((row) => {
+          const [, parameter, type] = row.match(/^\| `([^`]+)` \| (.+) \|$/)
+          let description
+          switch (parameter) {
+            case 'jwt':
+              description = 'JWT to process.'
+              break
+            case 'getKey':
+              description =
+                'Function resolving a Key or Secret for the operation. See [Algorithm Key Requirements](https://github.com/panva/jose/issues/210).'
+              break
+            case 'key':
+              description = type.includes('GetKey')
+                ? 'Key, Secret, or function resolving one, for the operation. See [Algorithm Key Requirements](https://github.com/panva/jose/issues/210).'
+                : 'Key or Secret for the operation. See [Algorithm Key Requirements](https://github.com/panva/jose/issues/210).'
+              break
+            case 'options?':
+              description =
+                'Options for verification or decryption, including JWT Claims Set validation.'
+              break
+          }
+          return `| \`${parameter}\` | ${type} | ${description} |`
+        })
+        .join('\n')
+
+      return `| Parameter | Type | Description |\n| ------ | ------ | ------ |\n${documented}\n`
+    },
+  )
+}
+
 // docs/README.md is hand-written, typedoc must not clobber it
 const readme = readFileSync('docs/README.md')
 
@@ -31,15 +73,40 @@ execSync('npm exec --no -- patch-package', opts)
 execSync(`npm run docs:generate -- --gitRevision v${version}`, opts)
 
 globSync('docs/**/*.md').forEach((file) => {
-  const content = readFileSync(file, 'utf-8')
+  let content = readFileSync(file, 'utf-8')
     .replaceAll('\\<`ArrayBufferLike`\\>', '')
     .replace(new RegExp(`\`(?:${openUnions.join('|')})\``, 'g'), '`string`')
+    // AlgorithmOf is an internal helper, so leaving its unlinked name in public signatures sends a
+    // reader to a type that has deliberately got no documentation page. Every public occurrence
+    // supplies a factory tuple; show that equivalent, self-contained expression instead.
+    .replaceAll(
+      '`AlgorithmOf`\\<`Factories`\\>',
+      '[`ReturnType`](https://www.typescriptlang.org/docs/handbook/utility-types.html#returntypetype)\\<`Factories`\\[`number`\\]\\>\\[`"algorithm"`\\]',
+    )
+    // The tuple constraints enforce useful selection rules but are deliberately private type
+    // machinery. State those rules in the parameter table instead of leaking unlinked helper names
+    // (or typedoc's expanded conditional type) into every compose function signature.
+    .replace(
+      /^(\| \.\.\.`factories` \| )[^\n]*`UniqueAlgorithmFactories`\\<`Factories`\\>[^\n]*`C`\\<`Factories`, `"jwe-key-management"`\\>[^\n]* \|$/gm,
+      '$1`Factories` — algorithm identifiers must be unique and the selection must include at least one key-management and one content-encryption factory |',
+    )
+    .replace(
+      /^(\| \.\.\.`algorithms` \| )`Factories` & `ValidJWSAlgorithmSelection`\\<`Factories`\\> \|$/gm,
+      '$1`Factories` — algorithm identifiers must be unique |',
+    )
+    .replace(
+      /^(\| \.\.\.`factories` \| )`Factories` & `UniqueAlgorithmFactories`\\<`Factories`\\> \|$/gm,
+      '$1`Factories` — algorithm identifiers must be unique |',
+    )
     // an inline union carrying the arm - "sig" | "enc" | (string & {}) and the like - widens the
     // same way, wherever typedoc sorted the arm within it
-    .replace(
-      /^(• .*?[:=] )([^=\n]*`string` & `object`[^=\n]*)/gm,
-      (_, head, union) => `${head}\`string\`${union.endsWith(' ') ? ' ' : ''}`,
-    )
+    .replace(/^(• .*?[:=] )([^=\n]*`string` & `object`[^=\n]*)/gm, (_, head, union) => {
+      const trailing = union.endsWith(' ') ? ' ' : ''
+      if (/^readonly \(.+\)\[\]$/.test(union.trimEnd())) {
+        return `${head}readonly \`string\`[]${trailing}`
+      }
+      return `${head}\`string\`${trailing}`
+    })
     // and a union of several of them folds to one. The negative lookahead keeps `string` \|
     // `string`[] intact, where the second arm merely starts the same way.
     .replace(/`string`(?: \\\| `string`(?!\[))+/g, '`string`')
@@ -62,6 +129,21 @@ globSync('docs/**/*.md').forEach((file) => {
       / & \\\[`(\w+)`\\\] \*extends\* \\\[`object`\\\] \? `unknown` : `unknown` \*extends\* `\1` \? `unknown` : `never`/g,
       '',
     )
+
+  if (jwtConsumerPages.has(file)) {
+    content = documentJWTConsumerParameters(content)
+    if (content.includes('| Parameter | Type |\n')) {
+      throw new Error(`undocumented JWT consumer parameter table in ${file}`)
+    }
+  }
+
+  if (
+    file.startsWith('docs/composable/') &&
+    /\/functions\/compose[^/]+\.md$/.test(file) &&
+    /`(?:UniqueAlgorithmFactories|ValidJWSAlgorithmSelection|C)`\\</.test(content)
+  ) {
+    throw new Error(`private algorithm selection helper leaked into ${file}`)
+  }
 
   writeFileSync(file, content, 'utf-8')
 })

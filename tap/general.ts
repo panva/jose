@@ -13,6 +13,7 @@ export default (
   const aad = crypto.getRandomValues(new Uint8Array(16))
 
   test('General JWE with multiple recipients', async (t) => {
+    const d = await keys.generateKeyPair('ECDH-ES', { extractable: true })
     const a = await keys.generateSecret('A256KW', { extractable: true })
     const b = await keys.generateKeyPair('RSA-OAEP-256', { extractable: true })
     const c = crypto.getRandomValues(new Uint8Array(32))
@@ -20,6 +21,8 @@ export default (
     const jwe = await new lib.GeneralEncrypt(plaintext)
       .setProtectedHeader({ enc: 'A256GCM' })
       .setAdditionalAuthenticatedData(aad)
+      .addRecipient(d.publicKey)
+      .setUnprotectedHeader({ alg: 'ECDH-ES+A256KW' })
       .addRecipient(a)
       .setUnprotectedHeader({ alg: 'A256KW' })
       .addRecipient(b.publicKey)
@@ -28,9 +31,9 @@ export default (
       .setUnprotectedHeader({ alg: 'A256GCMKW' })
       .encrypt()
 
-    t.equal(jwe.recipients.length, 3)
+    t.equal(jwe.recipients.length, 4)
 
-    for (const key of [a, b.privateKey, c]) {
+    for (const key of [d.privateKey, a, b.privateKey, c]) {
       const { plaintext: pt, additionalAuthenticatedData } = await lib.generalDecrypt(jwe, key)
       t.deepEqual([...pt], [...plaintext])
       t.deepEqual([...additionalAuthenticatedData!], [...aad])

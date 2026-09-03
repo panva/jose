@@ -45,13 +45,13 @@ CompactSign constructor
 
 ▸ **setProtectedHeader**(`protectedHeader`): `this`
 
-Sets the JWS Protected Header on the CompactSign object.
+Sets the Protected Header on the JWS, JWE, or JWT producer.
 
 #### Parameters
 
 | Parameter | Type | Description |
 | ------ | ------ | ------ |
-| `protectedHeader` | [`CompactJWSHeaderParameters`](../../../../types/interfaces/CompactJWSHeaderParameters.md) | JWS Protected Header. |
+| `protectedHeader` | [`SelectedCompactJWSHeaderParameters`](../../../../algorithms/jws/interfaces/SelectedCompactJWSHeaderParameters.md) | JOSE Protected Header accepted by this producer. |
 
 #### Returns
 
@@ -63,14 +63,14 @@ Sets the JWS Protected Header on the CompactSign object.
 
 ▸ **sign**(`key`, `options?`): [`Promise`](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise)\<`string`\>
 
-Signs and resolves the value of the Compact JWS string.
+Signs and resolves the JWS or signed JWT.
 
 #### Parameters
 
 | Parameter | Type | Description |
 | ------ | ------ | ------ |
-| `key` | [`KeyInput`](../../../../types/type-aliases/KeyInput.md) | Private Key or Secret to sign the JWS with. See [Algorithm Key Requirements](https://github.com/panva/jose/issues/210#jws-alg). |
-| `options?` | [`SignOptions`](../../../../types/interfaces/SignOptions.md) | JWS Sign options. |
+| `key` | [`JWSKeyInput`](../../../../algorithms/jws/type-aliases/JWSKeyInput.md) | Private Key or Secret to sign the JWS or JWT with. See [Algorithm Key Requirements](https://github.com/panva/jose/issues/210#jws-alg). |
+| `options?` | [`SignOptions`](../../../../types/interfaces/SignOptions.md) | JWS or JWT Sign options. |
 
 #### Returns
 

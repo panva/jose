@@ -42,6 +42,37 @@ const MARKER_TAG = /^@(?:ignore|internal|private|hidden)\s*$/
 const PUBLISHED_TAGS = new Set(['param', 'returns', 'throws', 'deprecated'])
 const REPORT_STRIPPED = process.env.JOSE_DEBUG_TYPES === '1'
 const PRIVATE_DECLARATIONS = `${join('dist', 'types', 'lib')}${sep}`
+const COMPOSABLE_DECLARATIONS = `${join('dist', 'types', 'composable')}${sep}`
+const PUBLIC_TYPES = join('dist', 'types', 'types.d.ts')
+const ALGORITHM_CATALOGS = new Set([
+  join('dist', 'types', 'algorithms', 'jws.d.ts'),
+  join('dist', 'types', 'algorithms', 'key.d.ts'),
+  join('dist', 'types', 'algorithms', 'jwe.d.ts'),
+  join('dist', 'types', 'algorithms', 'jwe', 'enc.d.ts'),
+  join('dist', 'types', 'algorithms', 'jwe', 'zip.d.ts'),
+])
+const CATALOG_FACTORY_TYPES = new Map([
+  [join('dist', 'types', 'algorithms', 'jws.d.ts'), 'JWSAlgorithmFactory'],
+  [join('dist', 'types', 'algorithms', 'key.d.ts'), 'KeyAlgorithmFactory'],
+  [join('dist', 'types', 'algorithms', 'jwe.d.ts'), 'JWEKeyManagementFactory'],
+  [join('dist', 'types', 'algorithms', 'jwe', 'enc.d.ts'), 'JWEContentEncryptionFactory'],
+  [join('dist', 'types', 'algorithms', 'jwe', 'zip.d.ts'), 'JWECompressionFactory'],
+])
+const ALGORITHM_TYPES = join('dist', 'types', 'algorithms', 'types.d.ts')
+const ERROR_TYPES = join('dist', 'types', 'util', 'errors.d.ts')
+const REDUNDANT_PARAMETERS = new Set([
+  'aad',
+  'cek',
+  'iv',
+  'jwe',
+  'jws',
+  'jwt',
+  'options',
+  'parameters',
+  'protectedHeader',
+  'sharedUnprotectedHeader',
+  'unprotectedHeader',
+])
 /** The five alert types GitHub Flavored Markdown defines. */
 const ALERT = /^>\s*\[!(NOTE|TIP|IMPORTANT|WARNING|CAUTION)\]\\?\s*$/
 const RELABELLED_ALERT = /^>\s*(?:Note|Tip|Important|Warning|Caution):\s/
@@ -110,7 +141,7 @@ function* declarations(directory) {
   }
 }
 
-function transform(lines) {
+function transform(lines, drop) {
   const kept = []
   const removed = []
   let changed = false
@@ -120,12 +151,13 @@ function transform(lines) {
   let inExample = false
   const sections = paragraphs(lines).flatMap(blockTagSections)
 
-  if (sections.some((paragraph) => paragraph[0].match(BLOCK_TAG)?.[1] === 'module')) {
+  if (drop || lines.some((line) => /(?:^|\s)@module(?:\s|$)/.test(line))) {
     return { kept, removed: paragraphs(lines), changed: true }
   }
 
   for (const paragraph of sections) {
     const tag = paragraph[0].match(BLOCK_TAG)?.[1]
+    const parameter = tag === 'param' ? paragraph[0].match(/^@param\s+(\w+)/)?.[1] : undefined
 
     if (tag === 'example') {
       inExample = true
@@ -142,6 +174,11 @@ function transform(lines) {
       inExample = false
     }
     if (SUBPATH_NOTE.test(paragraph[0]) || MARKER_TAG.test(paragraph[0])) {
+      changed = true
+      removed.push(paragraph)
+      continue
+    }
+    if (parameter && REDUNDANT_PARAMETERS.has(parameter)) {
       changed = true
       removed.push(paragraph)
       continue
@@ -190,13 +227,42 @@ for (const file of declarations('dist/types')) {
   const source = readFileSync(file, 'utf8')
 
   // prettier-plugin-jsdoc puts the summary on the `/**` line when it fits, so both shapes occur
-  const updated = source.replace(
+  let updated = source.replace(
     /^([ \t]*)\/\*\*[ \t]?([\s\S]*?)[ \t]*\*\/[ \t]*\n/gm,
     (block, indent, body, offset) => {
       const lines = body.split('\n').map((line) => line.replace(/^[ \t]*\*[ \t]?/, ''))
       while (lines.length && lines.at(-1).trim() === '') lines.pop()
 
-      const { kept, removed, changed } = transform(lines)
+      const following = source.slice(offset + block.length)
+      const catalogConstant =
+        ALGORITHM_CATALOGS.has(file) && /^export declare const\b/.test(following)
+      const repeatedErrorCode =
+        file === ERROR_TYPES &&
+        /A unique error code for \{@link/.test(body) &&
+        !/Each subclass sets its own/.test(body)
+      // These repeated shape names make inferred composed types readable, but their summaries only
+      // restate the declaration. Result, options, resolver, and other public composability types
+      // retain their summaries.
+      const composableHelper =
+        file.startsWith(COMPOSABLE_DECLARATIONS) &&
+        /^export interface \w+(?:Instance|Constructor|Function)\b/.test(following)
+      // ConsumeFunction's call signatures are the single source for all eight composed consumer
+      // overloads. Their parameter prose belongs in the generated reference, but repeating it in
+      // the shared published helper would spend declaration bytes without improving its public
+      // hover (the concrete composed function already names all of these types).
+      const sharedConsumerOverload =
+        file === PUBLIC_TYPES &&
+        /^(?:  \(input: Input,|  <Resolved extends ResolvableKey|  \(\n    input: Input,)/.test(
+          following,
+        )
+      const { kept, removed, changed } = transform(
+        lines,
+        file === ALGORITHM_TYPES ||
+          catalogConstant ||
+          repeatedErrorCode ||
+          composableHelper ||
+          sharedConsumerOverload,
+      )
       if (!changed) return block
 
       touched++
@@ -216,6 +282,35 @@ for (const file of declarations('dist/types')) {
       return `${indent}/**\n${rendered}\n${indent} */\n`
     },
   )
+
+  if (ALGORITHM_CATALOGS.has(file)) {
+    const factory = CATALOG_FACTORY_TYPES.get(file)
+    updated = updated
+      .replace(`import type { ${factory} }`, `import type { ${factory} as F }`)
+      .replace(new RegExp(`(: )${factory}(?=<)`, 'g'), '$1F')
+    updated = updated.replace(
+      /^(export declare const [^;\n]+;)(?:\nexport declare const [^;\n]+;)+/gm,
+      (block) => {
+        const prefix = 'export declare const '
+        const lines = block.split('\n')
+        return lines
+          .map((line, index) => {
+            const declaration = index ? `  ${line.slice(prefix.length, -1)}` : line.slice(0, -1)
+            return `${declaration}${index === lines.length - 1 ? ';' : ','}`
+          })
+          .join('\n')
+      },
+    )
+  }
+
+  // Namespace imports only qualify the referenced public type names. A short local alias keeps the
+  // same declarations and editor hovers while avoiding repeating `types.` hundreds of times in the
+  // published artifact.
+  if (/^import type \* as types from /m.test(updated)) {
+    updated = updated
+      .replace(/^import type \* as types from /m, 'import type * as t from ')
+      .replace(/\btypes\.(?=[A-Z])/g, 't.')
+  }
 
   if (updated !== source) writeFileSync(file, updated, 'utf8')
 }

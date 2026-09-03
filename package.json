@@ -77,21 +77,20 @@
       "types": "./dist/types/index.d.ts",
       "default": "./dist/webapi/index.js"
     },
-    "./jwk/embedded": {
-      "types": "./dist/types/jwk/embedded.d.ts",
-      "default": "./dist/webapi/jwk/embedded.js"
+    "./algorithms/types": null,
+    "./algorithms/*": {
+      "types": "./dist/types/algorithms/*.d.ts",
+      "default": "./dist/webapi/algorithms/*.js"
     },
-    "./jwk/thumbprint": {
-      "types": "./dist/types/jwk/thumbprint.d.ts",
-      "default": "./dist/webapi/jwk/thumbprint.js"
+    "./composable/jwe/types": null,
+    "./composable/jws/types": null,
+    "./composable/*": {
+      "types": "./dist/types/composable/*.d.ts",
+      "default": "./dist/webapi/composable/*.js"
     },
-    "./key/import": {
-      "types": "./dist/types/key/import.d.ts",
-      "default": "./dist/webapi/key/import.js"
-    },
-    "./key/export": {
-      "types": "./dist/types/key/export.d.ts",
-      "default": "./dist/webapi/key/export.js"
+    "./jwk/*": {
+      "types": "./dist/types/jwk/*.d.ts",
+      "default": "./dist/webapi/jwk/*.js"
     },
     "./key/generate/keypair": {
       "types": "./dist/types/key/generate_key_pair.d.ts",
@@ -101,89 +100,36 @@
       "types": "./dist/types/key/generate_secret.d.ts",
       "default": "./dist/webapi/key/generate_secret.js"
     },
-    "./jwks/remote": {
-      "types": "./dist/types/jwks/remote.d.ts",
-      "default": "./dist/webapi/jwks/remote.js"
+    "./key/generate_key_pair": null,
+    "./key/generate_secret": null,
+    "./key/*": {
+      "types": "./dist/types/key/*.d.ts",
+      "default": "./dist/webapi/key/*.js"
     },
-    "./jwks/local": {
-      "types": "./dist/types/jwks/local.d.ts",
-      "default": "./dist/webapi/jwks/local.js"
-    },
-    "./jwt/sign": {
-      "types": "./dist/types/jwt/sign.d.ts",
-      "default": "./dist/webapi/jwt/sign.js"
-    },
-    "./jwt/verify": {
-      "types": "./dist/types/jwt/verify.d.ts",
-      "default": "./dist/webapi/jwt/verify.js"
-    },
-    "./jwt/encrypt": {
-      "types": "./dist/types/jwt/encrypt.d.ts",
-      "default": "./dist/webapi/jwt/encrypt.js"
-    },
-    "./jwt/decrypt": {
-      "types": "./dist/types/jwt/decrypt.d.ts",
-      "default": "./dist/webapi/jwt/decrypt.js"
-    },
-    "./jwt/unsecured": {
-      "types": "./dist/types/jwt/unsecured.d.ts",
-      "default": "./dist/webapi/jwt/unsecured.js"
+    "./jwks/symbols": null,
+    "./jwks/*": {
+      "types": "./dist/types/jwks/*.d.ts",
+      "default": "./dist/webapi/jwks/*.js"
     },
     "./jwt/decode": {
       "types": "./dist/types/util/decode_jwt.d.ts",
       "default": "./dist/webapi/util/decode_jwt.js"
     },
+    "./jwt/*": {
+      "types": "./dist/types/jwt/*.d.ts",
+      "default": "./dist/webapi/jwt/*.js"
+    },
     "./decode/protected_header": {
       "types": "./dist/types/util/decode_protected_header.d.ts",
       "default": "./dist/webapi/util/decode_protected_header.js"
     },
-    "./jws/compact/sign": {
-      "types": "./dist/types/jws/compact/sign.d.ts",
-      "default": "./dist/webapi/jws/compact/sign.js"
+    "./jws/*": {
+      "types": "./dist/types/jws/*.d.ts",
+      "default": "./dist/webapi/jws/*.js"
     },
-    "./jws/compact/verify": {
-      "types": "./dist/types/jws/compact/verify.d.ts",
-      "default": "./dist/webapi/jws/compact/verify.js"
-    },
-    "./jws/flattened/sign": {
-      "types": "./dist/types/jws/flattened/sign.d.ts",
-      "default": "./dist/webapi/jws/flattened/sign.js"
-    },
-    "./jws/flattened/verify": {
-      "types": "./dist/types/jws/flattened/verify.d.ts",
-      "default": "./dist/webapi/jws/flattened/verify.js"
-    },
-    "./jws/general/sign": {
-      "types": "./dist/types/jws/general/sign.d.ts",
-      "default": "./dist/webapi/jws/general/sign.js"
-    },
-    "./jws/general/verify": {
-      "types": "./dist/types/jws/general/verify.d.ts",
-      "default": "./dist/webapi/jws/general/verify.js"
-    },
-    "./jwe/compact/encrypt": {
-      "types": "./dist/types/jwe/compact/encrypt.d.ts",
-      "default": "./dist/webapi/jwe/compact/encrypt.js"
-    },
-    "./jwe/compact/decrypt": {
-      "types": "./dist/types/jwe/compact/decrypt.d.ts",
-      "default": "./dist/webapi/jwe/compact/decrypt.js"
-    },
-    "./jwe/flattened/encrypt": {
-      "types": "./dist/types/jwe/flattened/encrypt.d.ts",
-      "default": "./dist/webapi/jwe/flattened/encrypt.js"
-    },
-    "./jwe/flattened/decrypt": {
-      "types": "./dist/types/jwe/flattened/decrypt.d.ts",
-      "default": "./dist/webapi/jwe/flattened/decrypt.js"
-    },
-    "./jwe/general/encrypt": {
-      "types": "./dist/types/jwe/general/encrypt.d.ts",
-      "default": "./dist/webapi/jwe/general/encrypt.js"
-    },
-    "./jwe/general/decrypt": {
-      "types": "./dist/types/jwe/general/decrypt.d.ts",
-      "default": "./dist/webapi/jwe/general/decrypt.js"
+    "./jwe/*": {
+      "types": "./dist/types/jwe/*.d.ts",
+      "default": "./dist/webapi/jwe/*.js"
     },
     "./errors": {
       "types": "./dist/types/util/errors.d.ts",
@@ -203,15 +149,18 @@
     "!dist/**/*.bundle.js",
     "!dist/**/*.umd.js",
     "!dist/**/*.min.js",
+    "!dist/webapi/algorithms/types.js",
+    "!dist/webapi/composable/jwe/types.js",
+    "!dist/webapi/lib/key_descriptor.js",
     "!dist/types/lib/**"
   ],
   "scripts": {
-    "build": "tsc",
+    "build": "tsc && node tools/annotate-pure.js && node tools/minify-syntax.js && node tools/check-composer-names.js",
     "build-all": "run-s clear build build:*",
     "build:bundle": "esbuild --bundle dist/webapi/index.js --format=esm --target=es2022 --outfile=dist/webapi/index.bundle.js",
     "build:bundle-min": "esbuild --minify --bundle dist/webapi/index.js --format=esm --target=es2022 --outfile=dist/webapi/index.bundle.min.js",
     "build:umd": "esbuild --bundle dist/webapi/index.js --format=iife --global-name=jose --target=es2022 --outfile=dist/webapi/index.umd.js && node tools/iife-to-umd.cjs dist/webapi/index.umd.js && esbuild --minify dist/webapi/index.umd.js --outfile=dist/webapi/index.umd.min.js",
-    "build:types": "npm run build -- -p ./tsconfig/types.json && cd src && find . -name '*.d.ts' -type f -exec rsync -R \"{}\" ../dist/types  \\; && cd .. && node tools/declaration-comments.js",
+    "build:types": "tsc -p ./tsconfig/types.json && cd src && find . -name '*.d.ts' -type f -exec rsync -R \"{}\" ../dist/types  \\; && cd .. && node tools/declaration-comments.js",
     "build:jsr": "npx --yes jsr publish --dry-run --allow-dirty",
     "clear": "rm -Rf dist",
     "docs": "node ./tools/docs.cjs",
@@ -230,8 +179,9 @@
     "typecheck:types": "tsc -p test-d && tsc -p test-d/tsconfig.fallback.json",
     "typecheck:dist": "./tools/typecheck-dist.sh",
     "check:subpaths": "node tools/check-subpaths.js",
+    "check:treeshaking": "node tools/check-treeshaking.js",
     "check:bundles": "node tools/bundle-report.js --check",
-    "check:packaging": "publint --strict && node tools/attw-check.js"
+    "check:packaging": "publint --strict && node tools/attw-check.js && node tools/check-package-exports.js"
   },
   "devDependencies": {
     "@arethetypeswrong/cli": "0.18.5",
@@ -241,6 +191,7 @@
     "ava": "^7.0.0",
     "esbuild": "^0.28.1",
     "fast-check": "^4.9.0",
+    "hpke": "^1.1.5",
     "npm-run-all2": "^9.0.3",
     "patch-package": "^8.0.1",
     "prettier": "^3.9.6",

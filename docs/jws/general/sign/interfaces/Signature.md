@@ -80,8 +80,8 @@ Sets the JWS Unprotected Header on the Signature object.
 
 ▸ **sign**(): [`Promise`](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise)\<[`GeneralJWS`](../../../../types/interfaces/GeneralJWS.md)\>
 
-A shorthand for calling [sign()](../classes/GeneralSign.md#sign) on the enclosing [GeneralSign](../classes/GeneralSign.md)
-instance. Takes no arguments — each signature's key is supplied to [addSignature](#addsignature).
+A shorthand for calling `sign()` on the enclosing `GeneralSign` instance. Takes no arguments —
+each signature's key is supplied to `addSignature()`.
 
 #### Returns
 

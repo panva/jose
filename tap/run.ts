@@ -20,6 +20,7 @@ export default async (
     !skipFetch ? import('./jwks.js') : import('./noop.js'),
     import('./aes.js'),
     import('./aeskw.js'),
+    import('./composable.js'),
     import('./cookbook.js'),
     import('./ecdh.js'),
     import('./general.js'),

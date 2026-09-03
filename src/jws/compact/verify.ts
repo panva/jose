@@ -5,8 +5,10 @@
  */
 
 import type * as types from '../../types.d.ts'
-import { prepareVerify, verifyCompact } from '../../lib/jws_verify.js'
-import type { VerifyGetKey } from '../../lib/jws_verify.js'
+import { createCompactVerifyFunction } from '../../lib/jws_serialization.js'
+import { jwsAlgorithm } from '../../lib/jws_algorithms.js'
+
+const verify = createCompactVerifyFunction(jwsAlgorithm)
 
 /**
  * Interface for Compact JWS Verification dynamic key resolution. No token components have been
@@ -89,20 +91,5 @@ export async function compactVerify(
   key: types.KeyInput | CompactVerifyGetKey,
   options?: types.VerifyOptions,
 ) {
-  // A CompactVerifyGetKey declares a narrower Protected Header than a VerifyGetKey does, so it is
-  // not assignable to one. Delegating is nevertheless sound: the core rejects a JWS whose Protected
-  // Header has no "alg" before it ever calls the resolver.
-  const verified = await verifyCompact(
-    jws,
-    prepareVerify(options),
-    key as types.KeyInput | VerifyGetKey,
-  )
-
-  const result = { payload: verified[0], protectedHeader: verified[1] }
-
-  if (typeof key === 'function') {
-    return { ...result, key: verified[3] }
-  }
-
-  return result
+  return verify(jws, key, options)
 }

@@ -117,6 +117,55 @@ function narrowJwk(jwk: jose.AnyJWK) {
   }
 }
 
+/* Root producer classes retain their nominal instance types after moving their implementations
+ * behind shared class factories. Their inherited constructors and subclassing behavior stay the
+ * same, while an unrelated object with the same public methods is not one of these instances. */
+{
+  type PublicShape<Instance> = { [Key in keyof Instance]: Instance[Key] }
+
+  class CompactSignLookalike {
+    setProtectedHeader(_protectedHeader: jose.CompactJWSHeaderParameters): this {
+      return this
+    }
+
+    async sign(_key: jose.KeyInput, _options?: jose.SignOptions): Promise<string> {
+      return ''
+    }
+  }
+
+  // @ts-expect-error a public-shape lookalike is not a CompactSign instance
+  const _compactSign: jose.CompactSign = new CompactSignLookalike()
+  // @ts-expect-error a public-shape lookalike is not a FlattenedSign instance
+  const _flattenedSign: jose.FlattenedSign = null as unknown as PublicShape<jose.FlattenedSign>
+  // @ts-expect-error a public-shape lookalike is not a GeneralSign instance
+  const _generalSign: jose.GeneralSign = null as unknown as PublicShape<jose.GeneralSign>
+  // @ts-expect-error a public-shape lookalike is not a CompactEncrypt instance
+  const _compactEncrypt: jose.CompactEncrypt = null as unknown as PublicShape<jose.CompactEncrypt>
+  // @ts-expect-error a public-shape lookalike is not a FlattenedEncrypt instance
+  const _flattenedEncrypt: jose.FlattenedEncrypt =
+    null as unknown as PublicShape<jose.FlattenedEncrypt>
+  // @ts-expect-error a public-shape lookalike is not a GeneralEncrypt instance
+  const _generalEncrypt: jose.GeneralEncrypt = null as unknown as PublicShape<jose.GeneralEncrypt>
+  // @ts-expect-error a public-shape lookalike is not a SignJWT instance
+  const _signJwt: jose.SignJWT = null as unknown as PublicShape<jose.SignJWT>
+  // @ts-expect-error a public-shape lookalike is not an EncryptJWT instance
+  const _encryptJwt: jose.EncryptJWT = null as unknown as PublicShape<jose.EncryptJWT>
+
+  const _signConstructor: Equals<
+    ConstructorParameters<typeof jose.CompactSign>,
+    [payload: Uint8Array]
+  > = true
+  const _encryptConstructor: Equals<
+    ConstructorParameters<typeof jose.EncryptJWT>,
+    [payload?: jose.JWTPayload]
+  > = true
+
+  class DerivedSignJWT extends jose.SignJWT {}
+  class DerivedGeneralEncrypt extends jose.GeneralEncrypt {}
+  new DerivedSignJWT().setProtectedHeader({ alg: anyString }).sign(secret)
+  new DerivedGeneralEncrypt(secret).setProtectedHeader({ enc: anyString })
+}
+
 /* The "jwk" Header Parameter accepts every public JWK member, and rejects the secret ones. */
 {
   type PrivateJwkMember = 'd' | 'dp' | 'dq' | 'k' | 'p' | 'q' | 'qi' | 'priv' | 'oth'

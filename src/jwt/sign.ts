@@ -4,18 +4,19 @@
  * @module
  */
 
-import { createCompactSignature } from '../lib/jws_sign.js'
-import { JWTInvalid } from '../util/errors.js'
 import type * as types from '../types.d.ts'
-import { JWTClaimsBuilder, jwtData } from '../lib/jwt_claims_set.js'
-import { assertNotSet } from '../lib/helpers.js'
+import type { SignJWTConstructor, SignJWTInstance } from '../composable/jwt/sign.js'
+import { jwsAlgorithm } from '../lib/jws_algorithms.js'
+import { createSignJWTClass } from '../lib/jwt_jws.js'
 
 /**
  * SignJWT constructor
  *
  * @param payload The JWT Claims Set object. Defaults to an empty object.
  */
-const SignJWT_base: new (payload?: types.JWTPayload) => types.ProduceJWT = JWTClaimsBuilder
+const SignJWTBase: SignJWTConstructor<types.JWSAlgorithm> = createSignJWTClass(jwsAlgorithm)
+
+export interface SignJWT extends SignJWTInstance<types.JWSAlgorithm> {}
 
 /**
  * The SignJWT class is used to build and sign Compact JWS formatted JSON Web Tokens.
@@ -121,30 +122,6 @@ const SignJWT_base: new (payload?: types.JWTPayload) => types.ProduceJWT = JWTCl
  * console.log(jwt)
  * ```
  */
-export class SignJWT extends SignJWT_base {
-  #protectedHeader!: types.JWTHeaderParameters
-
-  /**
-   * Sets the JWS Protected Header on the SignJWT object.
-   *
-   * @param protectedHeader JWS Protected Header. Must contain an "alg" (JWS Algorithm) property.
-   */
-  setProtectedHeader(protectedHeader: types.JWTHeaderParameters): this {
-    assertNotSet(this.#protectedHeader, 'setProtectedHeader')
-    this.#protectedHeader = protectedHeader
-    return this
-  }
-
-  /**
-   * Signs and returns the JWT.
-   *
-   * @param key Private Key or Secret to sign the JWT with. See
-   *   {@link https://github.com/panva/jose/issues/210#jws-alg Algorithm Key Requirements}.
-   * @param options JWT Sign options.
-   */
-  async sign(key: types.KeyInput, options?: types.SignOptions): Promise<string> {
-    return createCompactSignature(jwtData(this), this.#protectedHeader, options?.crit, key, () => {
-      throw new JWTInvalid('JWTs MUST NOT use unencoded payload')
-    })
-  }
+export class SignJWT extends SignJWTBase {
+  declare private signJwtBrand: never
 }

@@ -109,7 +109,7 @@ console.log(jwt)
 
 ▸ **new SignJWT**(`payload?`): `SignJWT`
 
-SignJWT constructor
+JWT producer constructor.
 
 #### Parameters
 
@@ -272,13 +272,13 @@ A "from now" suffix can be used for readability when adding to the current Unix 
 
 ▸ **setProtectedHeader**(`protectedHeader`): `this`
 
-Sets the JWS Protected Header on the SignJWT object.
+Sets the Protected Header on the JWS, JWE, or JWT producer.
 
 #### Parameters
 
 | Parameter | Type | Description |
 | ------ | ------ | ------ |
-| `protectedHeader` | [`JWTHeaderParameters`](../../../types/interfaces/JWTHeaderParameters.md) | JWS Protected Header. Must contain an "alg" (JWS Algorithm) property. |
+| `protectedHeader` | [`SelectedJWTHeaderParameters`](../../../algorithms/jws/interfaces/SelectedJWTHeaderParameters.md) | JOSE Protected Header accepted by this producer. |
 
 #### Returns
 
@@ -308,14 +308,14 @@ Set the "sub" (Subject) Claim.
 
 ▸ **sign**(`key`, `options?`): [`Promise`](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise)\<`string`\>
 
-Signs and returns the JWT.
+Signs and resolves the JWS or signed JWT.
 
 #### Parameters
 
 | Parameter | Type | Description |
 | ------ | ------ | ------ |
-| `key` | [`KeyInput`](../../../types/type-aliases/KeyInput.md) | Private Key or Secret to sign the JWT with. See [Algorithm Key Requirements](https://github.com/panva/jose/issues/210#jws-alg). |
-| `options?` | [`SignOptions`](../../../types/interfaces/SignOptions.md) | JWT Sign options. |
+| `key` | [`JWSKeyInput`](../../../algorithms/jws/type-aliases/JWSKeyInput.md) | Private Key or Secret to sign the JWS or JWT with. See [Algorithm Key Requirements](https://github.com/panva/jose/issues/210#jws-alg). |
+| `options?` | [`SignOptions`](../../../types/interfaces/SignOptions.md) | JWS or JWT Sign options. |
 
 #### Returns
 

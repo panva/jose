@@ -44,9 +44,8 @@ Returns the enclosing [GeneralEncrypt](../classes/GeneralEncrypt.md) instance
 
 ▸ **encrypt**(): [`Promise`](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise)\<[`GeneralJWE`](../../../../types/interfaces/GeneralJWE.md)\>
 
-A shorthand for calling [encrypt()](../classes/GeneralEncrypt.md#encrypt) on the enclosing
-[GeneralEncrypt](../classes/GeneralEncrypt.md) instance. Takes no arguments — each recipient's key is supplied to
-[addRecipient](#addrecipient).
+A shorthand for calling `encrypt()` on the enclosing `GeneralEncrypt` instance. Takes no
+arguments — each recipient's key is supplied to `addRecipient()`.
 
 #### Returns
 

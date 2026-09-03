@@ -5,10 +5,10 @@
  */
 
 import type * as types from '../types.d.ts'
-import { prepareVerify, verifyCompact } from '../lib/jws_verify.js'
-import type { VerifyGetKey } from '../lib/jws_verify.js'
-import { validateClaimsSet } from '../lib/jwt_claims_set.js'
-import { JWTInvalid } from '../util/errors.js'
+import { createJwtVerifyFunction } from '../lib/jwt_jws.js'
+import { jwsAlgorithm } from '../lib/jws_algorithms.js'
+
+const verify = createJwtVerifyFunction(jwsAlgorithm)
 
 /** Combination of JWS Verification options and JWT Claims Set verification options. */
 export interface JWTVerifyOptions extends types.VerifyOptions, types.JWTClaimVerificationOptions {}
@@ -171,18 +171,5 @@ export async function jwtVerify(
   key: types.KeyInput | JWTVerifyGetKey,
   options?: JWTVerifyOptions,
 ) {
-  const verified = await verifyCompact(
-    jwt,
-    prepareVerify(options),
-    key as types.KeyInput | VerifyGetKey,
-  )
-  if (!verified[2]) {
-    throw new JWTInvalid('JWTs MUST NOT use unencoded payload')
-  }
-  const payload = validateClaimsSet(verified[1], verified[0], options)
-  const result = { payload, protectedHeader: verified[1] as types.JWTHeaderParameters }
-  if (typeof key === 'function') {
-    return { ...result, key: verified[3] }
-  }
-  return result
+  return verify(jwt, key, options)
 }

@@ -3,7 +3,7 @@ import { isKeyLike, isCryptoKey } from './is_key_like.js'
 import { isObject } from './type_checks.js'
 import type * as types from '../types.d.ts'
 import { decode } from '../util/base64url.js'
-import { jwkToKey } from './jwk_to_key.js'
+import { resolvedJwkToKey } from './jwk_to_key_resolved.js'
 import type { KeyDescriptor } from './key_descriptor.js'
 import { normalizeJwk } from './jwk_metadata.js'
 
@@ -154,7 +154,7 @@ function cached(key: object, alg: string, value?: CryptoKey): CryptoKey | undefi
     if (entry) {
       entry[alg] = value
     } else {
-      cache.set(key, { [alg]: value })
+      cache.set(key, { __proto__: null, [alg]: value } as unknown as Record<string, CryptoKey>)
     }
   }
   return value ?? entry?.[alg]
@@ -162,7 +162,7 @@ function cached(key: object, alg: string, value?: CryptoKey): CryptoKey | undefi
 
 const handleJWK = async (key: types.KeyObject | types.JWK, jwk: types.JWK, entry: KeyDescriptor) =>
   cached(key, entry.alg) ??
-  cached(key, entry.alg, await jwkToKey(entry, { ...jwk, alg: entry.alg }))
+  cached(key, entry.alg, await resolvedJwkToKey(entry, { ...jwk, alg: entry.alg }))
 
 const handleKeyObject = (keyObject: ConvertibleKeyObject, entry: KeyDescriptor) => {
   const hit = cached(keyObject, entry.alg)
@@ -175,7 +175,7 @@ const handleKeyObject = (keyObject: ConvertibleKeyObject, entry: KeyDescriptor) 
   const crv = nist[keyObject.asymmetricKeyDetails?.namedCurve!]
   const params = entry.resolve?.({ crv, asymmetricKeyType }) ?? entry.subtle
 
-  return cached(keyObject, entry.alg, keyObject.toCryptoKey(params, isPublic, usages))
+  return cached(keyObject, entry.alg, keyObject.toCryptoKey(params, isPublic, [...usages]))
 }
 
 /**

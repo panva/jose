@@ -5,10 +5,10 @@
  */
 
 import type * as types from '../types.d.ts'
-import { prepareDecrypt, decryptCompact } from '../lib/jwe_decrypt.js'
-import type { DecryptGetKey } from '../lib/jwe_decrypt.js'
-import { validateClaimsSet } from '../lib/jwt_claims_set.js'
-import { JWTClaimValidationFailed } from '../util/errors.js'
+import { allJWEAlgorithms } from '../lib/jwe_algorithms.js'
+import { createJwtDecryptFunction } from '../lib/jwt_jwe.js'
+
+const decrypt = createJwtDecryptFunction(allJWEAlgorithms)
 
 /** Combination of JWE Decryption options and JWT Claims Set verification options. */
 export interface JWTDecryptOptions
@@ -99,35 +99,5 @@ export async function jwtDecrypt(
   key: types.KeyInput | JWTDecryptGetKey,
   options?: JWTDecryptOptions,
 ) {
-  const decrypted = await decryptCompact(
-    jwt,
-    prepareDecrypt(options),
-    key as types.KeyInput | DecryptGetKey,
-  )
-  const protectedHeader = decrypted[1] as types.JWTHeaderParameters
-  const payload = validateClaimsSet(protectedHeader, decrypted[0], options)
-
-  for (const claim of ['iss', 'sub', 'aud'] as const) {
-    if (
-      protectedHeader[claim] !== undefined &&
-      (claim === 'aud'
-        ? JSON.stringify(protectedHeader.aud) !== JSON.stringify(payload.aud)
-        : protectedHeader[claim] !== payload[claim])
-    ) {
-      throw new JWTClaimValidationFailed(
-        `replicated "${claim}" claim header parameter mismatch`,
-        payload,
-        claim,
-        'mismatch',
-      )
-    }
-  }
-
-  const result = { payload, protectedHeader }
-
-  if (typeof key === 'function') {
-    return { ...result, key: decrypted[2] }
-  }
-
-  return result
+  return decrypt(jwt, key, options)
 }

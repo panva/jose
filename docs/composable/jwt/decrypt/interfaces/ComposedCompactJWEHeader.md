@@ -1,0 +1,130 @@
+# Interface: ComposedCompactJWEHeader\<Factories\>
+
+## [💗 Help the project](https://github.com/sponsors/panva)
+
+Support from the community to continue maintaining and improving this module is welcome. If you find the module useful, please consider supporting the project by [becoming a sponsor](https://github.com/sponsors/panva).
+
+A Compact JWE header with IntelliSense for the algorithms supplied to a composer.
+
+## Type Parameters
+
+| Type Parameter |
+| ------ |
+| `Factories` *extends* [`JWEAlgorithmSelection`](../../../../algorithms/jwe/type-aliases/JWEAlgorithmSelection.md) |
+
+## Indexable
+
+> \[`propName`: `string`\]: `unknown`
+
+Any other JWE Header member.
+
+## Properties
+
+### alg
+
+• **alg**: `string`
+
+JWE "alg" (Algorithm) Header Parameter
+
+#### See
+
+[Algorithm Key Requirements](https://github.com/panva/jose/issues/210#jwe-alg)
+
+***
+
+### enc
+
+• **enc**: `string`
+
+JWE "enc" (Encryption Algorithm) Header Parameter
+
+#### See
+
+[Algorithm Key Requirements](https://github.com/panva/jose/issues/210#jwe-alg)
+
+***
+
+### crit?
+
+• `optional` **crit?**: `string`[]
+
+JWE "crit" (Critical) Header Parameter
+
+***
+
+### cty?
+
+• `optional` **cty?**: `string`
+
+"cty" (Content Type) Header Parameter
+
+***
+
+### jku?
+
+• `optional` **jku?**: `string`
+
+"jku" (JWK Set URL) Header Parameter
+
+***
+
+### jwk?
+
+• `optional` **jwk?**: [`Omit`](https://www.typescriptlang.org/docs/handbook/utility-types.html#omittype-keys)\<[`JWK`](../../../../types/type-aliases/JWK.md), `"d"` \| `"p"` \| `"q"` \| `"k"` \| `"dp"` \| `"dq"` \| `"qi"` \| `"priv"` \| `"oth"`\>
+
+"jwk" (JSON Web Key) Header Parameter. This must be a public JSON Web Key; private and
+symmetric key parameters are not permitted.
+
+***
+
+### kid?
+
+• `optional` **kid?**: `string`
+
+"kid" (Key ID) Header Parameter
+
+***
+
+### typ?
+
+• `optional` **typ?**: `string`
+
+"typ" (Type) Header Parameter
+
+***
+
+### x5c?
+
+• `optional` **x5c?**: `string`[]
+
+"x5c" (X.509 Certificate Chain) Header Parameter
+
+***
+
+### x5t?
+
+• `optional` **x5t?**: `string`
+
+"x5t" (X.509 Certificate SHA-1 Thumbprint) Header Parameter
+
+***
+
+### x5u?
+
+• `optional` **x5u?**: `string`
+
+"x5u" (X.509 URL) Header Parameter
+
+***
+
+### zip?
+
+• `optional` **zip?**: `string`
+
+JWE "zip" (Compression Algorithm) Header Parameter. The only supported value is `"DEF"`
+(DEFLATE), and it requires the `CompressionStream` / `DecompressionStream` APIs to be available
+in the runtime.
+
+#### See
+
+[JWE "zip" Header Parameter](https://www.rfc-editor.org/info/rfc7516/#section-4.1.3)

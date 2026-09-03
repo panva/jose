@@ -11,6 +11,9 @@ test('tools/declaration-comments.js', (t) => {
   const cwd = mkdtempSync(join(tmpdir(), 'jose-declaration-comments-'))
   const types = join(cwd, 'dist', 'types')
   const declaration = join(types, 'example.d.ts')
+  const publicTypes = join(types, 'types.d.ts')
+  const catalog = join(types, 'algorithms', 'jws.d.ts')
+  const composable = join(types, 'composable', 'jws', 'compact', 'sign.d.ts')
 
   t.teardown(() => rmSync(cwd, { recursive: true }))
   const input = `/**
@@ -18,7 +21,7 @@ test('tools/declaration-comments.js', (t) => {
  *
  * @module
  */
-import type { KeyLike } from './types.d.ts'
+import type * as types from './types.d.ts'
 /**
  * First summary.
  *
@@ -39,10 +42,12 @@ import type { KeyLike } from './types.d.ts'
  * @see https://example.com
  * @deprecated Use next instead.
  * @param value Input value.
+ * @param jws Compact JWS input.
+ * @param options Options for this operation.
  * @returns The result.
  * @throws When the input is invalid.
  */
-export declare function example<T>(value: T): KeyLike
+export declare function example<T>(value: T): types.KeyLike
 /**
  * > [!NOTE]
  * > Alerts can precede a summary.
@@ -68,16 +73,85 @@ export interface Options {
  * @internal
  */
 export interface InternalHelper {}
+export {};
 `
 
   mkdirSync(types, { recursive: true })
   writeFileSync(declaration, input)
+  writeFileSync(
+    publicTypes,
+    `export interface ConsumeFunction<Input, Key, ResolvableKey, Result> {
+  /**
+   * Processes the JOSE input with a directly supplied key.
+   *
+   * @param input JOSE input to verify or decrypt.
+   * @param key Key or Secret to verify or decrypt with.
+   */
+  (input: Input, key: Key): Promise<Result>
+  /**
+   * Processes the JOSE input, resolving the key dynamically.
+   *
+   * @param input JOSE input to verify or decrypt.
+   * @param getKey Function resolving a key or Secret.
+   */
+  <Resolved extends ResolvableKey>(input: Input, getKey: () => Resolved): Promise<Result>
+  /**
+   * Accepts either a directly supplied key or a dynamic key resolver.
+   *
+   * @param input JOSE input to verify or decrypt.
+   * @param key Key, Secret, or function resolving one.
+   */
+  (
+    input: Input,
+    key: Key | (() => ResolvableKey),
+  ): Promise<Result>
+}
+`,
+  )
+  mkdirSync(join(types, 'algorithms'))
+  writeFileSync(
+    catalog,
+    `/** Tree-shakeable JWS factories. @module */
+import type { JWSAlgorithmFactory } from './types.js'
+/** The \`ES256\` JWS algorithm capability factory. */
+export declare const ES256: JWSAlgorithmFactory<'ES256'>;
+/** The \`HS256\` JWS algorithm capability factory. */
+export declare const HS256: JWSAlgorithmFactory<'HS256'>;
+/** Represents a JWS algorithm factory. */
+export type { JWSAlgorithmFactory } from './types.js'
+`,
+  )
+  writeFileSync(
+    join(types, 'algorithms', 'types.d.ts'),
+    `/** Internal type machinery explanation. */
+export type AlgorithmOf<T> = T
+`,
+  )
+  mkdirSync(join(types, 'composable', 'jws', 'compact'), { recursive: true })
+  writeFileSync(
+    composable,
+    `/** Interface implemented by a composed CompactSign instance. */
+export interface CompactSignInstance {
+  /** Signs and resolves the JWS. */
+  sign(): Promise<string>
+}
+/** Compact JWS verification result with selected header suggestions. */
+export type CompactVerifyResult = { payload: Uint8Array }
+/** Key resolver for a composed JWT verifier. */
+export interface JWTVerifyGetKey {
+  /** Resolves a verification key. */
+  get(): Promise<CryptoKey>
+}
+/** Composes a CompactSign constructor supporting the selected algorithms. */
+export declare function composeCompactSign(): CompactSignInstance
+`,
+  )
   const env = { ...process.env }
   delete env.NODE_OPTIONS
   const output = execFileSync(process.execPath, [processor], { cwd, env, encoding: 'utf8' })
 
-  t.is(output, 'rewrote 5 declaration comment(s) for editor hovers\n')
-  const expected = `import type { KeyLike } from './types.d.ts'
+  t.is(output, 'rewrote 13 declaration comment(s) for editor hovers\n')
+  const expected = `import type * as t from './types.d.ts'
 /**
  * First summary.
  *
@@ -88,7 +162,7 @@ export interface InternalHelper {}
  * @returns The result.
  * @throws When the input is invalid.
  */
-export declare function example<T>(value: T): KeyLike
+export declare function example<T>(value: T): t.KeyLike
 /**
  * > Note: Alerts can precede a summary.
  *
@@ -101,9 +175,53 @@ export interface Options {
 }
 /** Internal helper summary. */
 export interface InternalHelper {}
+export {};
 `
 
   t.is(readFileSync(declaration, 'utf8'), expected)
+  t.is(
+    readFileSync(publicTypes, 'utf8'),
+    `export interface ConsumeFunction<Input, Key, ResolvableKey, Result> {
+  (input: Input, key: Key): Promise<Result>
+  <Resolved extends ResolvableKey>(input: Input, getKey: () => Resolved): Promise<Result>
+  (
+    input: Input,
+    key: Key | (() => ResolvableKey),
+  ): Promise<Result>
+}
+`,
+  )
+  t.is(
+    readFileSync(catalog, 'utf8'),
+    `import type { JWSAlgorithmFactory as F } from './types.js'
+export declare const ES256: F<'ES256'>,
+  HS256: F<'HS256'>;
+/** Represents a JWS algorithm factory. */
+export type { JWSAlgorithmFactory } from './types.js'
+`,
+  )
+  t.is(
+    readFileSync(join(types, 'algorithms', 'types.d.ts'), 'utf8'),
+    `export type AlgorithmOf<T> = T
+`,
+  )
+  t.is(
+    readFileSync(composable, 'utf8'),
+    `export interface CompactSignInstance {
+  /** Signs and resolves the JWS. */
+  sign(): Promise<string>
+}
+/** Compact JWS verification result with selected header suggestions. */
+export type CompactVerifyResult = { payload: Uint8Array }
+/** Key resolver for a composed JWT verifier. */
+export interface JWTVerifyGetKey {
+  /** Resolves a verification key. */
+  get(): Promise<CryptoKey>
+}
+/** Composes a CompactSign constructor supporting the selected algorithms. */
+export declare function composeCompactSign(): CompactSignInstance
+`,
+  )
   t.is(
     execFileSync(process.execPath, [processor], { cwd, env, encoding: 'utf8' }),
     'rewrote 0 declaration comment(s) for editor hovers\n',
@@ -137,6 +255,8 @@ export interface PrivateDeclaration {}
   )
   t.true(report.includes('- @example'))
   t.true(report.includes('- @typeParam T Type parameter documentation.'))
+  t.true(report.includes('- @param jws Compact JWS input.'))
+  t.true(report.includes('- @param options Options for this operation.'))
   t.true(report.includes('- @see https://example.com'))
   t.true(report.includes('- @internal'))
   t.false(report.includes('- @deprecated Use next instead.'))

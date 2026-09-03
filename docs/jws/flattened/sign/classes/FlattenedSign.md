@@ -45,13 +45,13 @@ FlattenedSign constructor
 
 ▸ **setProtectedHeader**(`protectedHeader`): `this`
 
-Sets the JWS Protected Header on the FlattenedSign object.
+Sets the Protected Header on the JWS, JWE, or JWT producer.
 
 #### Parameters
 
 | Parameter | Type | Description |
 | ------ | ------ | ------ |
-| `protectedHeader` | [`JWSHeaderParameters`](../../../../types/interfaces/JWSHeaderParameters.md) | JWS Protected Header. |
+| `protectedHeader` | [`SelectedJWSHeaderParameters`](../../../../algorithms/jws/interfaces/SelectedJWSHeaderParameters.md) | JOSE Protected Header accepted by this producer. |
 
 #### Returns
 
@@ -63,13 +63,13 @@ Sets the JWS Protected Header on the FlattenedSign object.
 
 ▸ **setUnprotectedHeader**(`unprotectedHeader`): `this`
 
-Sets the JWS Unprotected Header on the FlattenedSign object.
+Sets the JWS Unprotected Header or JWE Per-Recipient Unprotected Header on the producer.
 
 #### Parameters
 
 | Parameter | Type | Description |
 | ------ | ------ | ------ |
-| `unprotectedHeader` | [`JWSHeaderParameters`](../../../../types/interfaces/JWSHeaderParameters.md) | JWS Unprotected Header. |
+| `unprotectedHeader` | [`SelectedJWSHeaderParameters`](../../../../algorithms/jws/interfaces/SelectedJWSHeaderParameters.md) | JWS Unprotected Header or JWE Per-Recipient Unprotected Header. |
 
 #### Returns
 
@@ -81,14 +81,14 @@ Sets the JWS Unprotected Header on the FlattenedSign object.
 
 ▸ **sign**(`key`, `options?`): [`Promise`](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise)\<[`FlattenedJWS`](../../../../types/interfaces/FlattenedJWS.md)\>
 
-Signs and resolves the value of the Flattened JWS object.
+Signs and resolves the JWS or signed JWT.
 
 #### Parameters
 
 | Parameter | Type | Description |
 | ------ | ------ | ------ |
-| `key` | [`KeyInput`](../../../../types/type-aliases/KeyInput.md) | Private Key or Secret to sign the JWS with. See [Algorithm Key Requirements](https://github.com/panva/jose/issues/210#jws-alg). |
-| `options?` | [`SignOptions`](../../../../types/interfaces/SignOptions.md) | JWS Sign options. |
+| `key` | [`JWSKeyInput`](../../../../algorithms/jws/type-aliases/JWSKeyInput.md) | Private Key or Secret to sign the JWS or JWT with. See [Algorithm Key Requirements](https://github.com/panva/jose/issues/210#jws-alg). |
+| `options?` | [`SignOptions`](../../../../types/interfaces/SignOptions.md) | JWS or JWT Sign options. |
 
 #### Returns
 

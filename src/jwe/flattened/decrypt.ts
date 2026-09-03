@@ -5,16 +5,10 @@
  */
 
 import type * as types from '../../types.d.ts'
-import { JWEInvalid } from '../../util/errors.js'
-import { isObject } from '../../lib/type_checks.js'
-import {
-  prepareDecrypt,
-  decryptJWE,
-  decryptResult,
-  checkRecipient,
-  snapshotSharedJWE,
-  snapshotRecipientJWE,
-} from '../../lib/jwe_decrypt.js'
+import { allJWEAlgorithms } from '../../lib/jwe_algorithms.js'
+import { createFlattenedDecryptFunction } from '../../lib/jwe_serialization.js'
+
+const decrypt = createFlattenedDecryptFunction(allJWEAlgorithms)
 
 /**
  * Interface for Flattened JWE Decryption dynamic key resolution. No token components have been
@@ -105,15 +99,5 @@ export async function flattenedDecrypt(
   key: types.KeyInput | FlattenedDecryptGetKey,
   options?: types.DecryptOptions,
 ) {
-  if (!isObject(jwe)) {
-    throw new JWEInvalid('Flattened JWE must be an object')
-  }
-
-  const shared = snapshotSharedJWE(jwe)
-  const [recipient, , error] = snapshotRecipientJWE(jwe)
-  if (!recipient) throw error
-  const snapshot: types.FlattenedJWE = { ...shared, ...recipient }
-  checkRecipient(snapshot)
-
-  return decryptResult(snapshot, await decryptJWE(snapshot, prepareDecrypt(options), key))
+  return decrypt(jwe, key, options)
 }

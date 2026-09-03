@@ -3,12 +3,18 @@ import { decrypt, generateCek } from './content_encryption.js'
 import { decodeBase64url, encodeBase64url, parseJoseHeader } from './helpers.js'
 import { JOSEAlgNotAllowed, JOSENotSupported, JWEInvalid } from '../util/errors.js'
 import { isDisjoint, isObject } from './type_checks.js'
-import { decryptKeyManagement } from './key_management.js'
 import { concat, decoder, encode } from './buffer_utils.js'
 import { validateCrit, validateAlgorithms, JWE_RECOGNIZED } from './options.js'
 import { prepareKey } from './key.js'
-import { jweAlgorithm, jweEncryption } from './jwe_algorithms.js'
-import { decompress, validateZip } from './deflate.js'
+import { validateZip } from './deflate.js'
+import {
+  invalidJWEKeyManagementMode,
+  isJWECEKTransport,
+  resolveJWEContentEncryption,
+  resolveJWEKeyManagement,
+  type JWEAlgorithmSet,
+  type JWEContentEncryptionCapability,
+} from './jwe_algorithm.js'
 
 export type DecryptGetKey = (
   protectedHeader: types.JWEHeaderParameters | undefined,
@@ -22,6 +28,7 @@ export type DecryptShared = [
   crit: { [propName: string]: boolean } | undefined,
   maxPBES2Count: number | undefined,
   maxDecompressedLength: number | undefined,
+  algorithms: JWEAlgorithmSet,
 ]
 
 export type DecryptedJWE = [
@@ -57,7 +64,7 @@ export type RecipientJWESnapshot =
 /** Captures and validates shared members without reading any of them twice. */
 export function snapshotSharedJWE(jwe: types.FlattenedJWE | types.GeneralJWE): SharedJWEMembers {
   const { aad, ciphertext, iv, protected: encodedProtected, tag, unprotected } = jwe
-  if (iv !== undefined && typeof iv !== 'string') {
+  if (iv !== undefined && (typeof iv !== 'string' || !iv)) {
     throw new JWEInvalid('JWE Initialization Vector incorrect type')
   }
 
@@ -65,7 +72,7 @@ export function snapshotSharedJWE(jwe: types.FlattenedJWE | types.GeneralJWE): S
     throw new JWEInvalid('JWE Ciphertext missing or incorrect type')
   }
 
-  if (tag !== undefined && typeof tag !== 'string') {
+  if (tag !== undefined && (typeof tag !== 'string' || !tag)) {
     throw new JWEInvalid('JWE Authentication Tag incorrect type')
   }
 
@@ -125,7 +132,7 @@ export function snapshotRecipientJWE(recipient: RecipientJWEMembers): RecipientJ
 /** Checks the members that belong to one recipient. */
 export function checkRecipient(jwe: types.FlattenedJWE): void {
   const { encrypted_key: encryptedKey, header } = jwe
-  if (encryptedKey !== undefined && typeof encryptedKey !== 'string') {
+  if (encryptedKey !== undefined && (typeof encryptedKey !== 'string' || !encryptedKey)) {
     throw new JWEInvalid('JWE Encrypted Key incorrect type')
   }
 
@@ -194,7 +201,10 @@ export function decryptResult(
   return result
 }
 
-export function prepareDecrypt(options?: types.DecryptOptions): DecryptShared {
+export function prepareDecrypt(
+  options: types.DecryptOptions | undefined,
+  algorithms: JWEAlgorithmSet,
+): DecryptShared {
   return [
     options && validateAlgorithms('keyManagementAlgorithms', options.keyManagementAlgorithms),
     options &&
@@ -202,6 +212,7 @@ export function prepareDecrypt(options?: types.DecryptOptions): DecryptShared {
     options?.crit,
     options?.maxPBES2Count,
     options?.maxDecompressedLength,
+    algorithms,
   ]
 }
 
@@ -244,21 +255,23 @@ async function decryptRecipientCore(
     crit,
     maxPBES2Count,
     maxDecompressedLength,
+    algorithms,
   ] = shared
   const [parsedProt, ciphertext, iv, tag, additionalData] = token
   const { encrypted_key: encodedKey } = jwe
 
   validateCrit(JWEInvalid, JWE_RECOGNIZED, crit, parsedProt, joseHeader)
 
-  validateZip(joseHeader, parsedProt)
-
+  const compression = validateZip(joseHeader, parsedProt, algorithms)
   const { alg, enc } = joseHeader
 
   if (typeof alg !== 'string' || !alg) {
     throw new JWEInvalid('missing JWE Algorithm (alg) in JWE Header')
   }
 
-  if (typeof enc !== 'string' || !enc) {
+  const selected = algorithms.alg[alg]
+  const integrated = selected?.mode === 'integrated-encryption'
+  if (!integrated && (typeof enc !== 'string' || !enc)) {
     throw new JWEInvalid('missing JWE Encryption Algorithm (enc) in JWE Header')
   }
 
@@ -269,13 +282,27 @@ async function decryptRecipientCore(
     throw new JOSEAlgNotAllowed('"alg" (Algorithm) Header Parameter value not allowed')
   }
 
-  if (contentEncryptionAlgorithms && !contentEncryptionAlgorithms.has(enc)) {
-    throw new JOSEAlgNotAllowed('"enc" (Encryption Algorithm) Header Parameter value not allowed')
+  let encEntry: Readonly<JWEContentEncryptionCapability> | undefined
+  if (integrated) {
+    if (enc !== undefined) {
+      throw new JWEInvalid(
+        'JWE "enc" (Encryption Algorithm) Header Parameter must not be present for integrated encryption',
+      )
+    }
+    if (iv?.byteLength) {
+      throw new JWEInvalid('JWE Initialization Vector must be empty for integrated encryption')
+    }
+    if (tag?.byteLength) {
+      throw new JWEInvalid('JWE Authentication Tag must be empty for integrated encryption')
+    }
+  } else {
+    if (contentEncryptionAlgorithms && !contentEncryptionAlgorithms.has(enc as string)) {
+      throw new JOSEAlgNotAllowed('"enc" (Encryption Algorithm) Header Parameter value not allowed')
+    }
+    encEntry = resolveJWEContentEncryption(algorithms, enc)
   }
 
-  const encEntry = jweEncryption(enc)
-
-  let encryptedKey!: Uint8Array
+  let encryptedKey: Uint8Array | undefined
   if (encodedKey !== undefined) {
     encryptedKey = decodeBase64url(encodedKey, 'encrypted_key', JWEInvalid)
   }
@@ -285,35 +312,81 @@ async function decryptRecipientCore(
     key = await key(parsedProt, jwe)
     resolvedKey = true
   }
-  const algEntry = jweAlgorithm(alg)
-  const k = await prepareKey(alg === 'dir' ? encEntry : algEntry, key, 'decrypt')
-  let cek: types.CryptoKey | Uint8Array
-  try {
-    cek = await decryptKeyManagement(alg, encEntry, k, encryptedKey, joseHeader, maxPBES2Count)
-    if (
-      encodedKey !== undefined &&
-      cek instanceof Uint8Array &&
-      cek.byteLength << 3 !== encEntry.cekBits
-    ) {
-      cek = generateCek(encEntry)
+  const algEntry = selected ?? resolveJWEKeyManagement(algorithms, alg)
+  let k: types.CryptoKey | Uint8Array
+  switch (algEntry.mode) {
+    case 'direct-encryption':
+      k = await prepareKey(encEntry!.key, key, 'decrypt')
+      break
+    case 'direct-key-agreement':
+    case 'key-wrapping':
+    case 'key-encryption':
+    case 'key-agreement-with-key-wrapping':
+    case 'integrated-encryption':
+      k = await prepareKey(algEntry.key, key, 'decrypt')
+      break
+    default:
+      invalidJWEKeyManagementMode(algEntry)
+  }
+  let plaintext: Uint8Array
+  if (algEntry.mode === 'integrated-encryption') {
+    plaintext = await algEntry.decrypt(
+      k,
+      encryptedKey,
+      ciphertext,
+      additionalData,
+      parsedProt,
+      joseHeader,
+    )
+  } else {
+    const encryption = encEntry!
+    let cek: types.CryptoKey | Uint8Array
+    if (algEntry.mode === 'direct-encryption') {
+      if (encryptedKey !== undefined) {
+        throw new JWEInvalid('Encountered unexpected JWE Encrypted Key')
+      }
+      cek = k
+    } else {
+      try {
+        if (algEntry.mode === 'direct-key-agreement') {
+          if (encryptedKey !== undefined) {
+            throw new JWEInvalid('Encountered unexpected JWE Encrypted Key')
+          }
+          cek = await algEntry.decrypt(encryption, k, joseHeader)
+        } else if (isJWECEKTransport(algEntry)) {
+          cek = await algEntry.decrypt(encryption, k, encryptedKey, joseHeader, maxPBES2Count)
+          if (
+            encodedKey !== undefined &&
+            cek instanceof Uint8Array &&
+            cek.byteLength << 3 !== encryption.cekBits
+          ) {
+            cek = generateCek(encryption)
+          }
+        } else {
+          invalidJWEKeyManagementMode(algEntry)
+        }
+      } catch (err) {
+        if (
+          err instanceof TypeError ||
+          err instanceof JWEInvalid ||
+          err instanceof JOSENotSupported
+        ) {
+          throw err
+        }
+        // https://www.rfc-editor.org/info/rfc7516/#section-11.5
+        // To mitigate the attacks described in RFC 3218, the
+        // recipient MUST NOT distinguish between format, padding, and length
+        // errors of encrypted keys.  It is strongly recommended, in the event
+        // of receiving an improperly formatted key, that the recipient
+        // substitute a randomly generated CEK and proceed to the next step, to
+        // mitigate timing attacks.
+        cek = generateCek(encryption)
+      }
     }
-  } catch (err) {
-    if (err instanceof TypeError || err instanceof JWEInvalid || err instanceof JOSENotSupported) {
-      throw err
-    }
-    // https://www.rfc-editor.org/info/rfc7516/#section-11.5
-    // To mitigate the attacks described in RFC 3218, the
-    // recipient MUST NOT distinguish between format, padding, and length
-    // errors of encrypted keys.  It is strongly recommended, in the event
-    // of receiving an improperly formatted key, that the recipient
-    // substitute a randomly generated CEK and proceed to the next step, to
-    // mitigate timing attacks.
-    cek = generateCek(encEntry)
+    plaintext = await decrypt(encryption, cek, ciphertext, iv, tag, additionalData)
   }
 
-  let plaintext = await decrypt(encEntry, cek, ciphertext, iv, tag, additionalData)
-
-  if (joseHeader.zip === 'DEF') {
+  if (compression) {
     const decompressionLimit = maxDecompressedLength ?? 250_000
     if (decompressionLimit === 0) {
       throw new JOSENotSupported(
@@ -326,7 +399,7 @@ async function decryptRecipientCore(
     ) {
       throw new TypeError('maxDecompressedLength must be 0, a positive safe integer, or Infinity')
     }
-    plaintext = await decompress(plaintext, decompressionLimit).catch((cause) => {
+    plaintext = await compression.decompress(plaintext, decompressionLimit).catch((cause) => {
       if (cause instanceof JWEInvalid) throw cause
       throw new JWEInvalid('Failed to decompress plaintext', { cause })
     })

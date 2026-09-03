@@ -94,6 +94,82 @@ The following are additional features and utilities provided by the `jose` modul
 - [Unsecured JWT](jwt/unsecured/classes/UnsecuredJWT.md)
 - [JOSE Errors](util/errors/README.md)
 
+## Composition and Per-Algorithm Tree Shaking
+
+The main `jose` entry point keeps the complete API and all built-in algorithms. Applications that
+need smaller bundles can instead import a composer matching an existing algorithm-aware subpath and
+provide only the algorithm factories they use. The composer returns the same class or function API
+as its complete counterpart, limited to the selected algorithms.
+
+For example, compose `SignJWT` with Ed25519 and ES256 support.
+
+```ts
+import { composeSignJWT } from 'jose/composable/jwt/sign'
+import { Ed25519, ES256 } from 'jose/algorithms/jws'
+
+const SignJWT = composeSignJWT(Ed25519, ES256)
+```
+
+JWE composers accept key-management, content-encryption, and optional compression factories in any
+order. They require at least one key-management algorithm and one content-encryption algorithm.
+
+```ts
+import { composeEncryptJWT } from 'jose/composable/jwt/encrypt'
+import { dir } from 'jose/algorithms/jwe'
+import { A256CBC_HS512, A256GCM } from 'jose/algorithms/jwe/enc'
+
+const EncryptJWT = composeEncryptJWT(dir, A256GCM, A256CBC_HS512)
+```
+
+Key import and generation composers use the separate lightweight key algorithm catalog.
+
+```ts
+import { Ed25519, ES256 } from 'jose/algorithms/key'
+import { composeKeyImport } from 'jose/composable/key/import'
+import { composeGenerateKeyPair } from 'jose/composable/key/generate/keypair'
+
+const keyImport = composeKeyImport(Ed25519, ES256)
+const generateKeyPair = composeGenerateKeyPair(Ed25519, ES256)
+```
+
+<details>
+<summary>Composable APIs</summary>
+
+| Existing API(s)                                            | Composer                  | Subpath                                 |
+| ---------------------------------------------------------- | ------------------------- | --------------------------------------- |
+| `SignJWT`                                                  | `composeSignJWT`          | `jose/composable/jwt/sign`              |
+| `jwtVerify`                                                | `composeJwtVerify`        | `jose/composable/jwt/verify`            |
+| `EncryptJWT`                                               | `composeEncryptJWT`       | `jose/composable/jwt/encrypt`           |
+| `jwtDecrypt`                                               | `composeJwtDecrypt`       | `jose/composable/jwt/decrypt`           |
+| `CompactSign`                                              | `composeCompactSign`      | `jose/composable/jws/compact/sign`      |
+| `compactVerify`                                            | `composeCompactVerify`    | `jose/composable/jws/compact/verify`    |
+| `FlattenedSign`                                            | `composeFlattenedSign`    | `jose/composable/jws/flattened/sign`    |
+| `flattenedVerify`                                          | `composeFlattenedVerify`  | `jose/composable/jws/flattened/verify`  |
+| `GeneralSign`                                              | `composeGeneralSign`      | `jose/composable/jws/general/sign`      |
+| `generalVerify`                                            | `composeGeneralVerify`    | `jose/composable/jws/general/verify`    |
+| `CompactEncrypt`                                           | `composeCompactEncrypt`   | `jose/composable/jwe/compact/encrypt`   |
+| `compactDecrypt`                                           | `composeCompactDecrypt`   | `jose/composable/jwe/compact/decrypt`   |
+| `FlattenedEncrypt`                                         | `composeFlattenedEncrypt` | `jose/composable/jwe/flattened/encrypt` |
+| `flattenedDecrypt`                                         | `composeFlattenedDecrypt` | `jose/composable/jwe/flattened/decrypt` |
+| `GeneralEncrypt`                                           | `composeGeneralEncrypt`   | `jose/composable/jwe/general/encrypt`   |
+| `generalDecrypt`                                           | `composeGeneralDecrypt`   | `jose/composable/jwe/general/decrypt`   |
+| `EmbeddedJWK`                                              | `composeEmbeddedJWK`      | `jose/composable/jwk/embedded`          |
+| `createLocalJWKSet`                                        | `composeLocalJWKSet`      | `jose/composable/jwks/local`            |
+| `createRemoteJWKSet`                                       | `composeRemoteJWKSet`     | `jose/composable/jwks/remote`           |
+| `importJWK`, `importPKCS8`, `importSPKI`, and `importX509` | `composeKeyImport`        | `jose/composable/key/import`            |
+| `generateKeyPair`                                          | `composeGenerateKeyPair`  | `jose/composable/key/generate/keypair`  |
+| `generateSecret`                                           | `composeGenerateSecret`   | `jose/composable/key/generate/secret`   |
+
+</details>
+
+JWS algorithms are exported by [`jose/algorithms/jws`](algorithms/jws/README.md). JWE key-management,
+content-encryption, and compression algorithms are exported by
+[`jose/algorithms/jwe`](algorithms/jwe/README.md),
+[`jose/algorithms/jwe/enc`](algorithms/jwe/enc/README.md), and
+[`jose/algorithms/jwe/zip`](algorithms/jwe/zip/README.md), respectively. Key import and generation
+composers use [`jose/algorithms/key`](algorithms/key/README.md). Composer documentation is available
+in the corresponding `composable/...` module pages.
+
 [sponsor-auth0]: https://a0.to/signup/panva
 
 [^cjs]: CJS style `let jose = require('jose')` is possible in Node.js versions where `process.features.require_module` is `true` or with the `--experimental-require-module` Node.js CLI flag.

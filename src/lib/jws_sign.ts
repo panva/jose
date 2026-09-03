@@ -1,7 +1,7 @@
 import type * as types from '../types.d.ts'
 import { encode as b64u } from '../util/base64url.js'
 import { sign } from './signing.js'
-import { jwsAlgorithm } from './jws_algorithms.js'
+import type { JWSAlgorithm, JWSAlgorithmResolver } from './jws_algorithm.js'
 import { isDisjoint } from './type_checks.js'
 import { JWSInvalid } from '../util/errors.js'
 import { concat, encode } from './buffer_utils.js'
@@ -50,13 +50,13 @@ function signatureAlgorithm(joseHeader: types.JWSHeaderParameters) {
   if (typeof alg !== 'string' || !alg) {
     throw new JWSInvalid('JWS "alg" (Algorithm) Header Parameter missing or invalid')
   }
-  return jwsAlgorithm(alg)
+  return alg
 }
 
 async function signSignature(
   protectedHeader: string,
   payload: Uint8Array,
-  entry: ReturnType<typeof jwsAlgorithm>,
+  entry: Readonly<JWSAlgorithm>,
   key: types.KeyInput,
 ): Promise<string> {
   const data = concat(encode(protectedHeader), encode('.'), payload)
@@ -65,6 +65,7 @@ async function signSignature(
 }
 
 export async function createSignature(
+  resolve: JWSAlgorithmResolver,
   input: SignInput,
   key: types.KeyInput,
   assertB64?: (b64: boolean) => void,
@@ -95,7 +96,7 @@ export async function createSignature(
 
   assertB64?.(b64)
 
-  const entry = signatureAlgorithm(joseHeader)
+  const entry = resolve(signatureAlgorithm(joseHeader))
 
   let payloadS: string
   let payloadB: Uint8Array
@@ -126,6 +127,7 @@ export async function createSignature(
 }
 
 export async function createCompactSignature(
+  resolve: JWSAlgorithmResolver,
   payload: Uint8Array,
   inputProtectedHeader: types.JWSHeaderParameters | undefined,
   inputCrit: { [propName: string]: boolean } | undefined,
@@ -143,7 +145,7 @@ export async function createCompactSignature(
   const b64 = validateSignatureHeader(protectedHeader, protectedHeader, inputCrit)
   if (!b64) rejectUnencoded()
 
-  const entry = signatureAlgorithm(protectedHeader)
+  const entry = resolve(signatureAlgorithm(protectedHeader))
   const encodedPayload = b64u(payload)
   const signature = await signSignature(protectedHeaderString, encode(encodedPayload), entry, key)
   return `${protectedHeaderString}.${encodedPayload}.${signature}`

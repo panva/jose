@@ -80,7 +80,7 @@ Encrypts and resolves the value of the General JWE object.
 
 ▸ **setAdditionalAuthenticatedData**(`aad`): `this`
 
-Sets the Additional Authenticated Data on the GeneralEncrypt object.
+Sets the Additional Authenticated Data on the JWE producer.
 
 #### Parameters
 
@@ -98,13 +98,13 @@ Sets the Additional Authenticated Data on the GeneralEncrypt object.
 
 ▸ **setProtectedHeader**(`protectedHeader`): `this`
 
-Sets the JWE Protected Header on the GeneralEncrypt object.
+Sets the Protected Header on the JWS, JWE, or JWT producer.
 
 #### Parameters
 
 | Parameter | Type | Description |
 | ------ | ------ | ------ |
-| `protectedHeader` | [`JWEHeaderParameters`](../../../../types/interfaces/JWEHeaderParameters.md) | JWE Protected Header object. |
+| `protectedHeader` | [`JWEHeaderParameters`](../../../../types/interfaces/JWEHeaderParameters.md) | JOSE Protected Header accepted by this producer. |
 
 #### Returns
 
@@ -116,13 +116,13 @@ Sets the JWE Protected Header on the GeneralEncrypt object.
 
 ▸ **setSharedUnprotectedHeader**(`sharedUnprotectedHeader`): `this`
 
-Sets the JWE Shared Unprotected Header on the GeneralEncrypt object.
+Sets the JWE Shared Unprotected Header on the producer.
 
 #### Parameters
 
 | Parameter | Type | Description |
 | ------ | ------ | ------ |
-| `sharedUnprotectedHeader` | [`JWEHeaderParameters`](../../../../types/interfaces/JWEHeaderParameters.md) | JWE Shared Unprotected Header object. |
+| `sharedUnprotectedHeader` | [`JWEHeaderParameters`](../../../../types/interfaces/JWEHeaderParameters.md) | JWE Shared Unprotected Header. |
 
 #### Returns
 

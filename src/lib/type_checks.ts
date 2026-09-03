@@ -1,5 +1,13 @@
 import type * as types from '../types.d.ts'
 
+export function validateExtractableOption(extractable: unknown): boolean | undefined {
+  if (extractable !== undefined && typeof extractable !== 'boolean') {
+    throw new TypeError('"extractable" option must be a boolean')
+  }
+
+  return extractable
+}
+
 export function assertUint8Array(input: unknown, label: string): asserts input is Uint8Array {
   if (!(input instanceof Uint8Array)) {
     throw new TypeError(`${label} must be an instance of Uint8Array`)

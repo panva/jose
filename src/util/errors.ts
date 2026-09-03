@@ -9,6 +9,9 @@
 
 import type * as types from '../types.d.ts'
 
+const joseErrorMarker = Symbol.for('panva.jose.error')
+const nativeHasInstance = Function.prototype[Symbol.hasInstance]
+
 /**
  * Every stable error code used by this module. {@link AnyJOSEError} pairs each subclass with the one
  * it is thrown with, making that union a discriminated one.
@@ -99,8 +102,24 @@ export class JOSEError extends Error {
   code: JOSEErrorCode | (string & {}) = 'ERR_JOSE_GENERIC'
 
   /** @ignore */
+  static override [Symbol.hasInstance](instance: unknown): boolean {
+    if (nativeHasInstance.call(this, instance)) return true
+    if (instance === null || (typeof instance !== 'object' && typeof instance !== 'function')) {
+      return false
+    }
+    const brand = Object.getOwnPropertyDescriptor(instance, joseErrorMarker)
+    return (
+      typeof brand?.value === 'string' &&
+      (this === JOSEError || (Object.hasOwn(this, 'code') && brand.value === this.code))
+    )
+  }
+
+  /** @ignore */
   constructor(message?: string, options?: { cause?: unknown }) {
     super(message, options)
+    Object.defineProperty(this, joseErrorMarker, {
+      value: (this.constructor as typeof JOSEError).code,
+    })
     this.name = this.constructor.name
     // V8-only, absent in JavaScriptCore and SpiderMonkey
     ;(

@@ -46,13 +46,13 @@ FlattenedEncrypt constructor
 
 ▸ **encrypt**(`key`, `options?`): [`Promise`](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise)\<[`FlattenedJWE`](../../../../types/interfaces/FlattenedJWE.md)\>
 
-Encrypts and resolves the value of the Flattened JWE object.
+Encrypts and resolves the JWE or encrypted JWT.
 
 #### Parameters
 
 | Parameter | Type | Description |
 | ------ | ------ | ------ |
-| `key` | [`KeyInput`](../../../../types/type-aliases/KeyInput.md) | Public Key or Secret to encrypt the JWE with. See [Algorithm Key Requirements](https://github.com/panva/jose/issues/210#jwe-alg). |
+| `key` | [`KeyInput`](../../../../types/type-aliases/KeyInput.md) | Public Key or Secret to encrypt the JWE or JWT with. See [Algorithm Key Requirements](https://github.com/panva/jose/issues/210#jwe-alg). |
 | `options?` | [`EncryptOptions`](../../../../types/interfaces/EncryptOptions.md) | JWE Encryption options. |
 
 #### Returns
@@ -65,7 +65,7 @@ Encrypts and resolves the value of the Flattened JWE object.
 
 ▸ **setAdditionalAuthenticatedData**(`aad`): `this`
 
-Sets the Additional Authenticated Data on the FlattenedEncrypt object.
+Sets the Additional Authenticated Data on the JWE producer.
 
 #### Parameters
 
@@ -152,13 +152,13 @@ appropriate JOSE Header.
 
 ▸ **setProtectedHeader**(`protectedHeader`): `this`
 
-Sets the JWE Protected Header on the FlattenedEncrypt object.
+Sets the Protected Header on the JWS, JWE, or JWT producer.
 
 #### Parameters
 
 | Parameter | Type | Description |
 | ------ | ------ | ------ |
-| `protectedHeader` | [`JWEHeaderParameters`](../../../../types/interfaces/JWEHeaderParameters.md) | JWE Protected Header. |
+| `protectedHeader` | [`JWEHeaderParameters`](../../../../types/interfaces/JWEHeaderParameters.md) | JOSE Protected Header accepted by this producer. |
 
 #### Returns
 
@@ -170,7 +170,7 @@ Sets the JWE Protected Header on the FlattenedEncrypt object.
 
 ▸ **setSharedUnprotectedHeader**(`sharedUnprotectedHeader`): `this`
 
-Sets the JWE Shared Unprotected Header on the FlattenedEncrypt object.
+Sets the JWE Shared Unprotected Header on the producer.
 
 #### Parameters
 
@@ -188,13 +188,13 @@ Sets the JWE Shared Unprotected Header on the FlattenedEncrypt object.
 
 ▸ **setUnprotectedHeader**(`unprotectedHeader`): `this`
 
-Sets the JWE Per-Recipient Unprotected Header on the FlattenedEncrypt object.
+Sets the JWS Unprotected Header or JWE Per-Recipient Unprotected Header on the producer.
 
 #### Parameters
 
 | Parameter | Type | Description |
 | ------ | ------ | ------ |
-| `unprotectedHeader` | [`JWEHeaderParameters`](../../../../types/interfaces/JWEHeaderParameters.md) | JWE Per-Recipient Unprotected Header. |
+| `unprotectedHeader` | [`JWEHeaderParameters`](../../../../types/interfaces/JWEHeaderParameters.md) | JWS Unprotected Header or JWE Per-Recipient Unprotected Header. |
 
 #### Returns
 

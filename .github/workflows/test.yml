@@ -42,10 +42,12 @@ jobs:
         run: npm run typecheck:dist
       - name: Type-level regression tests
         run: npm run typecheck:types
-      - name: Packaging metadata and type resolution
+      - name: Packaging metadata, artifact imports, and type resolution
         run: npm run check:packaging
       - name: JWS and JWE stay out of each other's bundles
         run: npm run check:bundles
+      - name: Algorithms remain independently tree-shakeable
+        run: npm run check:treeshaking
       - name: JSR slow types
         run: npm run build:jsr
       - name: Docs are in sync with src

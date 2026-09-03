@@ -30,7 +30,7 @@ console.log(jwt)
 
 ▸ **new EncryptJWT**(`payload?`): `EncryptJWT`
 
-EncryptJWT constructor
+JWT producer constructor.
 
 #### Parameters
 
@@ -48,13 +48,13 @@ EncryptJWT constructor
 
 ▸ **encrypt**(`key`, `options?`): [`Promise`](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise)\<`string`\>
 
-Encrypts and returns the JWT.
+Encrypts and resolves the JWE or encrypted JWT.
 
 #### Parameters
 
 | Parameter | Type | Description |
 | ------ | ------ | ------ |
-| `key` | [`KeyInput`](../../../types/type-aliases/KeyInput.md) | Public Key or Secret to encrypt the JWT with. See [Algorithm Key Requirements](https://github.com/panva/jose/issues/210#jwe-alg). |
+| `key` | [`KeyInput`](../../../types/type-aliases/KeyInput.md) | Public Key or Secret to encrypt the JWE or JWT with. See [Algorithm Key Requirements](https://github.com/panva/jose/issues/210#jwe-alg). |
 | `options?` | [`EncryptOptions`](../../../types/interfaces/EncryptOptions.md) | JWE Encryption options. |
 
 #### Returns
@@ -329,13 +329,13 @@ A "from now" suffix can be used for readability when adding to the current Unix 
 
 ▸ **setProtectedHeader**(`protectedHeader`): `this`
 
-Sets the JWE Protected Header on the EncryptJWT object.
+Sets the Protected Header on the JWS, JWE, or JWT producer.
 
 #### Parameters
 
 | Parameter | Type | Description |
 | ------ | ------ | ------ |
-| `protectedHeader` | [`CompactJWEHeaderParameters`](../../../types/interfaces/CompactJWEHeaderParameters.md) | JWE Protected Header. Must contain an "alg" (JWE Algorithm) and "enc" (JWE Encryption Algorithm) properties. |
+| `protectedHeader` | [`CompactJWEHeaderParameters`](../../../types/interfaces/CompactJWEHeaderParameters.md) | JOSE Protected Header accepted by this producer. |
 
 #### Returns
 

@@ -1,0 +1,9 @@
+# Variable: PBES2\_HS512\_A256KW
+
+## [💗 Help the project](https://github.com/sponsors/panva)
+
+Support from the community to continue maintaining and improving this module is welcome. If you find the module useful, please consider supporting the project by [becoming a sponsor](https://github.com/sponsors/panva).
+
+• `const` **PBES2\_HS512\_A256KW**: [`JWEKeyManagementFactory`](../type-aliases/JWEKeyManagementFactory.md)\<`"PBES2-HS512+A256KW"`\>
+
+The `PBES2-HS512+A256KW` JWE key-management algorithm capability factory.

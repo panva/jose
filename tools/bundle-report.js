@@ -1,15 +1,16 @@
 // Bundles every published subpath on its own and reports two things:
 //
 //   size   - raw, gzip, and Brotli byte counts for a minified consumer import
-//   bleed  - occurrences of algorithm names belonging to the *other* JOSE family
+//   bleed  - occurrences of algorithm names belonging to the *other* JOSE family in the emitted
+//            bundle, or a general key-import module contributing bytes to a JWKS-only graph
 //
-// The second one is the point. A JWS import must not ship the RSA-OAEP / ECDH-ES key paths and
-// a JWE import must not ship the ECDSA / ML-DSA ones. That only holds while family knowledge
-// stays in the two registries and everything below them takes a resolved entry: a function that
-// switches on the identifier has to enumerate both families, and no bundler can split a function
-// body. A byte ceiling would notice such a regression late and vaguely; naming the forbidden
-// strings says which import grew and what leaked into it. Compressed sizes are informational
-// because Node and its bundled zlib version move independently of this project.
+// The second one is the point. A JWS import must not ship the RSA-OAEP / ECDH-ES key paths and a
+// JWE import must not ship the ECDSA / ML-DSA ones. Catalogs deliberately share PURE-marked recipe
+// barrels, so reachability alone is no longer equivalent to shipped code. Inspect the actual
+// minified output and only count modules that contribute bytes. A byte ceiling would notice such a
+// regression late and vaguely; naming the forbidden strings says which import grew and what leaked
+// into it. Compressed sizes are informational because Node and its bundled zlib version move
+// independently of this project.
 //
 // The key-material APIs are general purpose - importJWK, exportJWK and generateKeyPair have to
 // know every algorithm - so they are exempt rather than expected to pass.
@@ -20,10 +21,10 @@
 //   node tools/bundle-report.js --json           machine-readable
 //   node tools/bundle-report.js --baseline f.json  show the change against a saved --json run
 import { globSync, readFileSync } from 'node:fs'
-import { dirname, resolve } from 'node:path'
 import { brotliCompressSync, constants, gzipSync } from 'node:zlib'
+import { build } from 'esbuild'
 
-const { exports: exportsMap } = JSON.parse(readFileSync('package.json', 'utf8'))
+const { exports: jsrExports } = JSON.parse(readFileSync('jsr.json', 'utf8'))
 
 /** Algorithm names that only a JWE implementation has any use for. */
 const JWE_ONLY = [
@@ -42,47 +43,30 @@ const JWE_ONLY = [
 // so it says nothing about family bleed.
 const JWS_ONLY = ['RSASSA-PKCS1-v1_5', 'RSA-PSS', 'ECDSA', 'ML-DSA', 'Ed25519']
 
+// Local and remote JWKS resolution only imports public JWS verification keys. Keep it off the
+// general key-material path, whose descriptor resolution also serves JWE key imports.
+const JWKS_FORBIDDEN_MODULES = ['key/import.js', 'lib/jwk_to_key_resolved.js']
+
 /** Which family a subpath belongs to, or null when it legitimately spans both. */
 function family(subpath) {
-  if (subpath.startsWith('./jws/') || subpath === './jwt/sign' || subpath === './jwt/verify') {
+  if (subpath === './algorithms/jws') return 'jws'
+  if (subpath.startsWith('./algorithms/jwe')) return 'jwe'
+
+  const api = subpath.startsWith('./composable/')
+    ? `./${subpath.slice('./composable/'.length)}`
+    : subpath
+  if (api.startsWith('./jws/') || api === './jwt/sign' || api === './jwt/verify') {
     return 'jws'
   }
   // A JWKS resolves public keys for verifying signatures, and an embedded JWK is a JWS Header
   // Parameter. Both are documented as such, so both are held to the JWS side.
-  if (subpath.startsWith('./jwks/') || subpath === './jwk/embedded') return 'jws'
-  if (subpath.startsWith('./jwe/') || subpath === './jwt/encrypt' || subpath === './jwt/decrypt') {
+  if (api.startsWith('./jwks/') || api === './jwk/embedded') return 'jws'
+  if (api.startsWith('./jwe/') || api === './jwt/encrypt' || api === './jwt/decrypt') {
     return 'jwe'
   }
   // '.', './key/*', './jwk/thumbprint', './errors', './base64url', './jwt/decode',
   // './jwt/unsecured', './decode/protected_header'
   return null
-}
-
-/**
- * Every dist module an entry point transitively imports. A bundle is the concatenation of exactly
- * this set, so scanning it for the forbidden names is as strong as scanning the bundle - and needs
- * no bundler, which is what lets --check run against the dist the build job already produced.
- *
- * It is only as strong as long as no shared module carries a name it does not use: a bundler drops
- * an unused export, this does not. That is a property worth holding to anyway.
- */
-function reachable(entry) {
-  const seen = new Set()
-  const stack = [resolve(entry)]
-  while (stack.length) {
-    const file = stack.pop()
-    if (seen.has(file)) continue
-    const source = readFileSync(file, 'utf8')
-    seen.add(file)
-    const specifiers = [
-      ...source.matchAll(/^\s*(?:import|export)\b[^'"]*?from\s*['"]([^'"]+)['"]/gm),
-      ...source.matchAll(/^\s*import\s*['"]([^'"]+)['"]/gm),
-    ]
-    for (const [, specifier] of specifiers) {
-      if (specifier.startsWith('.')) stack.push(resolve(dirname(file), specifier))
-    }
-  }
-  return seen
 }
 
 const check = process.argv.includes('--check')
@@ -97,40 +81,49 @@ function compressedSize(source) {
   }
 }
 
-for (const [subpath, target] of Object.entries(exportsMap)) {
-  if (subpath === './package.json') continue
-  const entry = typeof target === 'string' ? target : target.default
+for (const [subpath, target] of Object.entries(jsrExports)) {
+  const entry = target.replace(/^\.\/src\//u, './dist/webapi/').replace(/\.ts$/u, '.js')
   const fam = family(subpath)
 
-  const modules = reachable(entry)
+  const result = await build({
+    entryPoints: [entry],
+    bundle: true,
+    minify: true,
+    format: 'esm',
+    target: 'es2022',
+    logLevel: 'error',
+    metafile: true,
+    write: false,
+  })
+  const source = result.outputFiles[0].contents
+  const sourceText = Buffer.from(source).toString()
+  const output = Object.values(result.metafile.outputs)[0]
+  const modules = new Set(
+    Object.entries(output.inputs)
+      .filter(([, contribution]) => contribution.bytesInOutput)
+      .map(([file]) => file),
+  )
   const forbidden = fam === 'jws' ? JWE_ONLY : fam === 'jwe' ? JWS_ONLY : []
   const bleed = {}
   if (forbidden.length) {
+    for (const marker of forbidden) {
+      const n = sourceText.split(marker).length - 1
+      if (n) bleed[marker] = n
+    }
+  }
+  if (subpath.startsWith('./jwks/') || subpath.startsWith('./composable/jwks/')) {
     for (const file of modules) {
-      const source = readFileSync(file, 'utf8')
-      for (const marker of forbidden) {
-        const n = source.split(marker).length - 1
-        if (n) bleed[marker] = (bleed[marker] ?? 0) + n
+      const normalized = file.replaceAll('\\', '/')
+      for (const marker of JWKS_FORBIDDEN_MODULES) {
+        if (normalized.endsWith(`/${marker}`)) bleed[marker] = (bleed[marker] ?? 0) + 1
       }
     }
   }
 
-  // Minifying every subpath is only worth it for the size column, which --check does not print.
   let bytes
   let gzip
   let brotli
   if (!check) {
-    const { build } = await import('esbuild')
-    const { outputFiles } = await build({
-      entryPoints: [entry],
-      bundle: true,
-      minify: true,
-      format: 'esm',
-      target: 'es2022',
-      logLevel: 'error',
-      write: false,
-    })
-    const source = outputFiles[0].contents
     bytes = source.length
     ;({ gzip, brotli } = compressedSize(source))
   }
@@ -253,6 +246,6 @@ if (process.argv.includes('--json')) {
 
 const violations = results.filter((r) => Object.keys(r.bleed).length)
 if (violations.length) {
-  console.error(`\n${violations.length} subpath(s) ship cross-family code`)
+  console.error(`\n${violations.length} subpath(s) ship forbidden bundle code`)
   if (process.argv.includes('--check')) process.exit(1)
 }

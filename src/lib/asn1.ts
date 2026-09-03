@@ -2,11 +2,11 @@ import type * as types from '../types.d.ts'
 import { invalidKeyInput } from './invalid_key_input.js'
 import { encodeBase64, decodeBase64 } from '../lib/base64.js'
 import { JOSENotSupported } from '../util/errors.js'
-import { keyAlgorithm, unsupportedAlg, algArgument } from './key_algorithm.js'
+import type { KeyDescriptor } from './key_descriptor.js'
 import { isCryptoKey, isKeyObject } from './is_key_like.js'
 
 import type { KeyImportOptions } from '../key/import.js'
-import { validateExtractableOption } from './key_options.js'
+import { validateExtractableOption } from './type_checks.js'
 
 /**
  * Formats a base64 string as a PEM-encoded key with proper line breaks and headers.
@@ -187,13 +187,13 @@ const parseECAlgorithmIdentifier = (state: ASN1State): string => {
 const genericImport = async (
   keyFormat: 'spki' | 'pkcs8',
   keyData: Uint8Array,
-  alg: string,
+  resolve: () => KeyDescriptor,
   options?: KeyImportOptions,
 ) => {
   const extractable = validateExtractableOption(options?.extractable)
-  const entry = keyAlgorithm(alg, algArgument)
+  const entry = resolve()
   if (entry.secret) {
-    unsupportedAlg(algArgument)
+    throw new JOSENotSupported('Invalid or unsupported "alg" (Algorithm) value')
   }
   const isPublic = keyFormat === 'spki'
 
@@ -221,7 +221,7 @@ const genericImport = async (
 
 type PEMImportFunction = (
   pem: string,
-  alg: string,
+  resolve: () => KeyDescriptor,
   options?: KeyImportOptions,
 ) => Promise<types.CryptoKey>
 
@@ -230,14 +230,14 @@ const processPEMData = (pem: string, pattern: RegExp): Uint8Array => {
   return decodeBase64(pem.replace(pattern, ''))
 }
 
-export const fromPKCS8: PEMImportFunction = (pem, alg, options?) => {
+export const fromPKCS8: PEMImportFunction = (pem, resolve, options?) => {
   const keyData = processPEMData(pem, /(?:-----(?:BEGIN|END) PRIVATE KEY-----|\s)/g)
-  return genericImport('pkcs8', keyData, alg, options)
+  return genericImport('pkcs8', keyData, resolve, options)
 }
 
-export const fromSPKI: PEMImportFunction = (pem, alg, options?) => {
+export const fromSPKI: PEMImportFunction = (pem, resolve, options?) => {
   const keyData = processPEMData(pem, /(?:-----(?:BEGIN|END) PUBLIC KEY-----|\s)/g)
-  return genericImport('spki', keyData, alg, options)
+  return genericImport('spki', keyData, resolve, options)
 }
 
 /**
@@ -288,7 +288,7 @@ function spkiFromX509(buf: Uint8Array): Uint8Array {
  *
  * @returns SPKI structure as bytes
  */
-export const fromX509: PEMImportFunction = (pem, alg, options?) => {
+export const fromX509: PEMImportFunction = (pem, resolve, options?) => {
   let spki: Uint8Array
   try {
     const certificate = processPEMData(pem, /(?:-----(?:BEGIN|END) CERTIFICATE-----|\s)/g)
@@ -296,5 +296,5 @@ export const fromX509: PEMImportFunction = (pem, alg, options?) => {
   } catch (cause) {
     throw new TypeError('Failed to parse the X.509 certificate', { cause })
   }
-  return genericImport('spki', spki, alg, options)
+  return genericImport('spki', spki, resolve, options)
 }
