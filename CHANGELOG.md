@@ -2,6 +2,18 @@
 
 All notable changes to this project will be documented in this file. See [commit-and-tag-version](https://github.com/absolute-version/commit-and-tag-version) for commit guidelines.
 
+## [6.2.11](https://github.com/panva/jose/compare/v6.2.10...v6.2.11) (2026-09-04)
+
+### Documentation
+
+* render subpath indexes as tables ([94589ee](https://github.com/panva/jose/commit/94589ee9efe6cf257a133765d753bbe8d55f6ed3))
+* shorten API index descriptions ([681482f](https://github.com/panva/jose/commit/681482fcca7577c6a4b8df61c992f195f6e6ac1b))
+
+### Refactor
+
+* model JWE key management modes ([e01dda6](https://github.com/panva/jose/commit/e01dda65d5d272c8dd44710d0c70673c1530038e))
+* **types:** reduce declaration repetition ([55b970f](https://github.com/panva/jose/commit/55b970fc08c9082041f40473470ee0fe0e8b0087))
+
 ## [6.2.10](https://github.com/panva/jose/compare/v6.2.9...v6.2.10) (2026-08-21)
 
 ### Fixes
