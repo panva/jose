@@ -6,7 +6,7 @@ Support from the community to continue maintaining and improving this module is 
 
 ▸ **encode**(`input`): `string`
 
-Encodes an input using Base64URL with no padding.
+Encodes input using unpadded base64url.
 
 These functions are exported (as the `base64url` namespace) from the main `'jose'` module entry
 point as well as from its subpath export `'jose/base64url'`.

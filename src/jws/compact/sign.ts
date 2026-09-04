@@ -9,7 +9,7 @@ import { createCompactSignature } from '../../lib/jws_sign.js'
 import { assertNotSet } from '../../lib/helpers.js'
 
 /**
- * The CompactSign class is used to build and sign Compact JWS strings.
+ * Builds and signs Compact JWS strings.
  *
  * This class is exported (as a named export) from the main `'jose'` module entry point as well as
  * from its subpath export `'jose/jws/compact/sign'`.

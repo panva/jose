@@ -6,18 +6,12 @@ Support from the community to continue maintaining and improving this module is 
 
 ▸ **createRemoteJWKSet**(`url`, `options?`): [`RemoteJWKSet`](../interfaces/RemoteJWKSet.md)
 
-Returns a function that resolves a JWS JOSE Header to a public key object downloaded from a
-remote endpoint returning a JSON Web Key Set, that is, for example, an OAuth 2.0 or OIDC
-jwks_uri. The JSON Web Key Set is fetched when no key matches the selection process but only as
-frequently as the `cooldownDuration` option allows to prevent abuse. Selection respects the
-header's "alg" (Algorithm) and "kid" (Key ID) as well as the JWK's "use" (Public Key Use) and
-"key_ops" (Key Operations). Exactly one key must match; if multiple keys match, the thrown
-`JWKSMultipleMatchingKeys` can be iterated.
+Creates a resolver for a JSON Web Key Set available at an HTTP(S) URL.
 
-It uses the "alg" (JWS Algorithm) Header Parameter to determine the right JWK "kty" (Key Type),
-then proceeds to match the JWK "kid" (Key ID) with one found in the JWS Header Parameters (if
-there is one) while also respecting the JWK "use" (Public Key Use) and JWK "key_ops" (Key
-Operations) Parameters (if they are present on the JWK).
+The JSON Web Key Set is fetched when no key matches, but only as frequently as the
+`cooldownDuration` option allows. Selection uses the header's "alg" (Algorithm) and "kid" (Key
+ID), and respects the JWK's "use" (Public Key Use) and "key_ops" (Key Operations). Exactly one
+key must match.
 
 Only a single public key must match the selection process. As shown in the example below when
 multiple keys get matched it is possible to opt-in to iterate over the matched keys and attempt

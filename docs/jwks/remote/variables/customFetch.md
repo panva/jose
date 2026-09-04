@@ -6,8 +6,10 @@ Support from the community to continue maintaining and improving this module is 
 
 • `const` **customFetch**: unique `symbol`
 
-When passed to [createRemoteJWKSet](../functions/createRemoteJWKSet.md) this allows the resolver
-to make use of advanced fetch configurations, HTTP Proxies, retry on network errors, etc.
+Symbol used to configure a custom fetch implementation for remote JWKS retrieval.
+
+Pass this to [createRemoteJWKSet](../functions/createRemoteJWKSet.md) to use advanced fetch
+configurations, HTTP proxies, network-error retries, and similar behavior.
 
 > [!NOTE]\
 > Known caveat: Expect Type-related issues when passing the inputs through to fetch-like modules,

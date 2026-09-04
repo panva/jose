@@ -20,8 +20,9 @@ import { isObject } from '../../lib/type_checks.js'
 import { JWE, isJWECEKTransport } from '../../lib/jwe_algorithms.js'
 
 /**
- * Interface for General JWE Decryption dynamic key resolution. No token components have been
- * verified at the time of this function call.
+ * Dynamic key resolver for General JWE decryption.
+ *
+ * No token components have been verified at the time of this function call.
  *
  * @typeParam KeyType Type definition of the keys the function resolves. Narrowing it is what lets
  *   {@link types.ResolvedKey.key ResolvedKey.key} be inferred at the call site.

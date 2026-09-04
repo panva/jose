@@ -10,13 +10,14 @@ import type { DecryptGetKey } from '../lib/jwe_decrypt.js'
 import { validateClaimsSet } from '../lib/jwt_claims_set.js'
 import { JWTClaimValidationFailed } from '../util/errors.js'
 
-/** Combination of JWE Decryption options and JWT Claims Set verification options. */
+/** JWE decryption and JWT Claims Set validation options. */
 export interface JWTDecryptOptions
   extends types.DecryptOptions, types.JWTClaimVerificationOptions {}
 
 /**
- * Interface for JWT Decryption dynamic key resolution. No token components have been verified at
- * the time of this function call.
+ * Dynamic key resolver for JWT decryption.
+ *
+ * No token components have been verified at the time of this function call.
  *
  * @typeParam KeyType Type definition of the keys the function resolves. Narrowing it is what lets
  *   {@link types.ResolvedKey.key ResolvedKey.key} be inferred at the call site.
@@ -30,8 +31,7 @@ export interface JWTDecryptGetKey<
 > {}
 
 /**
- * Verifies the JWT format (to be a JWE Compact format), decrypts the ciphertext, validates the JWT
- * Claims Set.
+ * Decrypts a Compact JWE-formatted JWT and validates its Claims Set.
  *
  * This function is exported (as a named export) from the main `'jose'` module entry point as well
  * as from its subpath export `'jose/jwt/decrypt'`.

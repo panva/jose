@@ -20,7 +20,7 @@ import type { CheckedHeaders, EncryptInput } from '../../lib/jwe_encrypt.js'
 import { JWE, isJWECEKTransport, jweAlgorithm } from '../../lib/jwe_algorithms.js'
 import { assertUint8Array } from '../../lib/type_checks.js'
 
-/** Used to build General JWE object's individual recipients. */
+/** Configures an individual recipient in a General JWE. */
 export interface Recipient {
   /**
    * Sets the JWE Per-Recipient Unprotected Header on the Recipient object.
@@ -114,7 +114,7 @@ function copyOptionalMembers(
 }
 
 /**
- * The GeneralEncrypt class is used to build and encrypt General JWE objects.
+ * Builds and encrypts General JWE objects.
  *
  * This class is exported (as a named export) from the main `'jose'` module entry point as well as
  * from its subpath export `'jose/jwe/general/encrypt'`.

@@ -6,8 +6,9 @@ Support from the community to continue maintaining and improving this module is 
 
 ▸ **generateKeyPair**(`alg`, `options?`): [`Promise`](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise)\<[`GenerateKeyPairResult`](../interfaces/GenerateKeyPairResult.md)\>
 
-Generates a private and a public key for a given JWA algorithm identifier. This can only generate
-asymmetric key pairs. For symmetric secrets use the `generateSecret` function.
+Generates an asymmetric key pair for a JWA algorithm identifier.
+
+For symmetric secrets use the [generateSecret](../../generate_secret/functions/generateSecret.md) function.
 
 > [!NOTE]\
 > The `privateKey` is generated with `extractable` set to `false` by default. See

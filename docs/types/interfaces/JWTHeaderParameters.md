@@ -4,7 +4,7 @@
 
 Support from the community to continue maintaining and improving this module is welcome. If you find the module useful, please consider supporting the project by [becoming a sponsor](https://github.com/sponsors/panva).
 
-Recognized Signed JWT Header Parameters, any other Header Members may also be present.
+Recognized signed JWT Header Parameters; additional members may also be present.
 
 ## Indexable
 

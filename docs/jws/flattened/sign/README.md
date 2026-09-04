@@ -6,4 +6,4 @@ Signing JSON Web Signature (JWS) in Flattened JSON Serialization
 
 | Class | Description |
 | ------ | ------ |
-| [FlattenedSign](classes/FlattenedSign.md) | The FlattenedSign class is used to build and sign Flattened JWS objects. |
+| [FlattenedSign](classes/FlattenedSign.md) | Builds and signs Flattened JWS objects. |

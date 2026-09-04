@@ -41,7 +41,7 @@ export type GenerateKeyPairAlgorithm =
   | 'ECDH-ES+A256KW'
   | (string & {})
 
-/** Asymmetric key pair generation function result. */
+/** Generated asymmetric key pair. */
 export interface GenerateKeyPairResult {
   /** The generated Private Key. */
   privateKey: types.CryptoKey
@@ -50,7 +50,7 @@ export interface GenerateKeyPairResult {
   publicKey: types.CryptoKey
 }
 
-/** Asymmetric key pair generation function options. */
+/** Asymmetric key pair generation options. */
 export interface GenerateKeyPairOptions {
   /**
    * The EC "crv" (Curve) or OKP "crv" (Subtype of Key Pair) value to generate. The curve must be
@@ -95,8 +95,9 @@ function getModulusLengthOption(options?: GenerateKeyPairOptions) {
 }
 
 /**
- * Generates a private and a public key for a given JWA algorithm identifier. This can only generate
- * asymmetric key pairs. For symmetric secrets use the `generateSecret` function.
+ * Generates an asymmetric key pair for a JWA algorithm identifier.
+ *
+ * For symmetric secrets use the {@link key/generate_secret.generateSecret generateSecret} function.
  *
  * > [!NOTE]\
  * > The `privateKey` is generated with `extractable` set to `false` by default. See

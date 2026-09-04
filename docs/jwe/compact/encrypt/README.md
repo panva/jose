@@ -6,4 +6,4 @@ Encrypting JSON Web Encryption (JWE) in Compact Serialization
 
 | Class | Description |
 | ------ | ------ |
-| [CompactEncrypt](classes/CompactEncrypt.md) | The CompactEncrypt class is used to build and encrypt Compact JWE strings. |
+| [CompactEncrypt](classes/CompactEncrypt.md) | Builds and encrypts Compact JWE strings. |

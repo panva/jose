@@ -6,10 +6,11 @@ Support from the community to continue maintaining and improving this module is 
 
 **`Internal`**
 
-Used as [CryptoKey](../type-aliases/CryptoKey.md) when the host runtime's `crypto` global is not exposed on `typeof
-globalThis`, including when it is absent from ambient types or declared with `const` or `let`. It
-remains structurally compatible with host [CryptoKey](https://developer.mozilla.org/docs/Web/API/CryptoKey) declarations so values flow freely to
-and from [SubtleCrypto](https://developer.mozilla.org/docs/Web/API/SubtleCrypto) APIs.
+Structural fallback used when a host [CryptoKey](https://developer.mozilla.org/docs/Web/API/CryptoKey) type cannot be inferred.
+
+This is used when the host runtime's `crypto` global is not exposed on `typeof globalThis`,
+including when it is absent from ambient types or declared with `const` or `let`. It remains
+structurally compatible with host [CryptoKey](https://developer.mozilla.org/docs/Web/API/CryptoKey) declarations.
 
 ## Properties
 

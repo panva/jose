@@ -17,7 +17,7 @@ import { assertNotSet } from '../lib/helpers.js'
 const EncryptJWT_base: new (payload?: types.JWTPayload) => types.ProduceJWT = JWTClaimsBuilder
 
 /**
- * The EncryptJWT class is used to build and encrypt Compact JWE formatted JSON Web Tokens.
+ * Builds and encrypts Compact JWE-formatted JSON Web Tokens.
  *
  * This class is exported (as a named export) from the main `'jose'` module entry point as well as
  * from its subpath export `'jose/jwt/encrypt'`.

@@ -6,11 +6,12 @@ Support from the community to continue maintaining and improving this module is 
 
 • **ImportedJWK**\<`JWKType`\> = `JWKType` *extends* `object` ? [`Uint8Array`](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Uint8Array) : `JWKType` *extends* `object` ? [`CryptoKey`](../../../types/type-aliases/CryptoKey.md) : [`CryptoKey`](../../../types/type-aliases/CryptoKey.md) \| [`Uint8Array`](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Uint8Array)
 
-Resolves what [importJWK](../functions/importJWK.md) returns for a given JWK type. The "kty" (Key Type) Parameter fully
-determines the outcome at runtime: `"oct"` yields a [Uint8Array](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Uint8Array) secret, every other
-supported key type yields a [CryptoKey](../../../types/type-aliases/CryptoKey.md). When "kty" is not statically known
-— the usual case for a JWK parsed from JSON, or for a value typed as [JWK](../../../types/type-aliases/JWK.md) — this
-resolves to their union.
+Maps a JWK key type to the value returned by [importJWK](../functions/importJWK.md).
+
+The "kty" (Key Type) Parameter fully determines the outcome at runtime: `"oct"` yields a
+[Uint8Array](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Uint8Array) secret and every other supported key type yields a
+[CryptoKey](../../../types/type-aliases/CryptoKey.md). When "kty" is not statically known — the usual case for a JWK
+parsed from JSON or typed as [JWK](../../../types/type-aliases/JWK.md) — this resolves to their union.
 
 ## Type Parameters
 

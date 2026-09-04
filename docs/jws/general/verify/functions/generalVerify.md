@@ -8,7 +8,7 @@ Support from the community to continue maintaining and improving this module is 
 
 ▸ **generalVerify**(`jws`, `key`, `options?`): [`Promise`](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise)\<[`GeneralVerifyResult`](../../../../types/interfaces/GeneralVerifyResult.md)\>
 
-Verifies the signature and format of and afterwards decodes the General JWS.
+Verifies a General JWS signature and decodes its payload.
 
 This function is exported (as a named export) from the main `'jose'` module entry point as well
 as from its subpath export `'jose/jws/general/verify'`.
@@ -57,8 +57,8 @@ console.log(new TextDecoder().decode(payload))
 
 ▸ **generalVerify**\<`KeyType`\>(`jws`, `getKey`, `options?`): [`Promise`](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise)\<[`GeneralVerifyResult`](../../../../types/interfaces/GeneralVerifyResult.md) & [`ResolvedKey`](../../../../types/interfaces/ResolvedKey.md)\<`KeyType`\>\>
 
-Verifies the signature and format of and afterwards decodes the General JWS, resolving the key
-dynamically. The result additionally carries the [resolved key](../../../../types/interfaces/ResolvedKey.md#key).
+Verifies a General JWS signature and decodes its payload, resolving the key dynamically. The
+result additionally carries the [resolved key](../../../../types/interfaces/ResolvedKey.md#key).
 
 ### Type Parameters
 

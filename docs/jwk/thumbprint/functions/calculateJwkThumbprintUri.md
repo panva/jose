@@ -6,7 +6,7 @@ Support from the community to continue maintaining and improving this module is 
 
 ▸ **calculateJwkThumbprintUri**(`key`, `digestAlgorithm?`): [`Promise`](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise)\<`string`\>
 
-Calculates a JSON Web Key (JWK) Thumbprint URI
+Calculates a JSON Web Key (JWK) Thumbprint URI.
 
 This function is exported (as a named export) from the main `'jose'` module entry point as well
 as from its subpath export `'jose/jwk/thumbprint'`.

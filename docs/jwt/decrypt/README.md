@@ -6,11 +6,11 @@ JSON Web Token (JWT) Decryption (JWT is in JWE format)
 
 | Interface | Description |
 | ------ | ------ |
-| [JWTDecryptGetKey](interfaces/JWTDecryptGetKey.md) | Interface for JWT Decryption dynamic key resolution. No token components have been verified at the time of this function call. |
-| [JWTDecryptOptions](interfaces/JWTDecryptOptions.md) | Combination of JWE Decryption options and JWT Claims Set verification options. |
+| [JWTDecryptGetKey](interfaces/JWTDecryptGetKey.md) | Dynamic key resolver for JWT decryption. |
+| [JWTDecryptOptions](interfaces/JWTDecryptOptions.md) | JWE decryption and JWT Claims Set validation options. |
 
 ## Functions
 
 | Function | Description |
 | ------ | ------ |
-| [jwtDecrypt](functions/jwtDecrypt.md) | Verifies the JWT format (to be a JWE Compact format), decrypts the ciphertext, validates the JWT Claims Set. |
+| [jwtDecrypt](functions/jwtDecrypt.md) | Decrypts a Compact JWE-formatted JWT and validates its Claims Set. |

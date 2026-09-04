@@ -10,12 +10,13 @@ import type { VerifyGetKey } from '../lib/jws_verify.js'
 import { validateClaimsSet } from '../lib/jwt_claims_set.js'
 import { JWTInvalid } from '../util/errors.js'
 
-/** Combination of JWS Verification options and JWT Claims Set verification options. */
+/** JWS verification and JWT Claims Set validation options. */
 export interface JWTVerifyOptions extends types.VerifyOptions, types.JWTClaimVerificationOptions {}
 
 /**
- * Interface for JWT Verification dynamic key resolution. No token components have been verified at
- * the time of this function call.
+ * Dynamic key resolver for JWT verification.
+ *
+ * No token components have been verified at the time of this function call.
  *
  * @typeParam KeyType Type definition of the keys the function resolves. Narrowing it is what lets
  *   {@link types.ResolvedKey.key ResolvedKey.key} be inferred at the call site.
@@ -31,8 +32,7 @@ export interface JWTVerifyGetKey<
 > {}
 
 /**
- * Verifies the JWT format (to be a JWS Compact format), verifies the JWS signature, validates the
- * JWT Claims Set.
+ * Verifies a Compact JWS-formatted JWT and validates its Claims Set.
  *
  * This function is exported (as a named export) from the main `'jose'` module entry point as well
  * as from its subpath export `'jose/jwt/verify'`.

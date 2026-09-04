@@ -6,4 +6,4 @@ Support from the community to continue maintaining and improving this module is 
 
 • **ProtectedHeaderParameters** = [`JWSHeaderParameters`](../../../types/interfaces/JWSHeaderParameters.md) & [`JWEHeaderParameters`](../../../types/interfaces/JWEHeaderParameters.md)
 
-JWE and JWS Header Parameters
+JWE and JWS Header Parameters.

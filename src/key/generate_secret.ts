@@ -34,9 +34,10 @@ export type GenerateSecretAlgorithm =
   | (string & {})
 
 /**
- * Resolves what {@link generateSecret} returns for a given JWA Algorithm Identifier. The
- * AES_CBC_HMAC_SHA2 content encryption algorithms have no {@link !CryptoKey} representation, so they
- * yield a {@link !Uint8Array}; every other supported identifier yields a
+ * Maps a JWA algorithm identifier to the value returned by {@link generateSecret}.
+ *
+ * The AES_CBC_HMAC_SHA2 content encryption algorithms have no {@link !CryptoKey} representation, so
+ * they yield a {@link !Uint8Array}; every other supported identifier yields a
  * {@link types.CryptoKey CryptoKey}. When the identifier is not statically known this resolves to
  * their union.
  */
@@ -47,7 +48,7 @@ export type GeneratedSecret<Alg extends string> = Alg extends
     ? types.CryptoKey | Uint8Array
     : types.CryptoKey
 
-/** Secret generation function options. */
+/** Secret generation options. */
 export interface GenerateSecretOptions {
   /**
    * The value to use as {@link !SubtleCrypto.generateKey} `extractable` argument. Default is false.

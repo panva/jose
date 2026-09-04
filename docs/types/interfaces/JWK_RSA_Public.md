@@ -4,7 +4,7 @@
 
 Support from the community to continue maintaining and improving this module is welcome. If you find the module useful, please consider supporting the project by [becoming a sponsor](https://github.com/sponsors/panva).
 
-Convenience interface for Public RSA JSON Web Keys
+Convenience interface for public RSA JSON Web Keys.
 
 ## Properties
 

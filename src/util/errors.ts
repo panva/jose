@@ -10,8 +10,9 @@
 import type * as types from '../types.d.ts'
 
 /**
- * Every stable error code used by this module. {@link AnyJOSEError} pairs each subclass with the one
- * it is thrown with, making that union a discriminated one.
+ * Stable error codes used by this module.
+ *
+ * {@link AnyJOSEError} pairs each subclass with its error code to form a discriminated union.
  *
  * @example
  *
@@ -45,7 +46,7 @@ export type JOSEErrorCode =
   | 'ERR_JWT_INVALID'
 
 /**
- * The shape shared by the two errors thrown during JWT Claims Set validation.
+ * Shared properties of JWT Claims Set validation errors.
  *
  * > [!NOTE]\
  * > {@link JWTExpired} does not extend {@link JWTClaimValidationFailed}, so `instanceof
@@ -72,7 +73,7 @@ export type JWTClaimValidationReason =
   'check_failed' | 'invalid' | 'mismatch' | 'missing' | 'unspecified' | (string & {})
 
 /**
- * A generic Error that all other JOSE specific Error subclasses extend.
+ * Base class for JOSE errors.
  *
  * @example
  *
@@ -110,7 +111,7 @@ export class JOSEError extends Error {
 }
 
 /**
- * An error subclass thrown when a JWT Claim Set member validation fails.
+ * Thrown when JWT Claims Set validation fails.
  *
  * @example
  *
@@ -171,7 +172,7 @@ export class JWTClaimValidationFailed extends JOSEError implements JWTClaimValid
 }
 
 /**
- * An error subclass thrown when a JWT is expired.
+ * Thrown when a JWT is expired.
  *
  * @example
  *
@@ -232,7 +233,7 @@ export class JWTExpired extends JOSEError implements JWTClaimValidationFailure {
 }
 
 /**
- * An error subclass thrown when a JOSE Algorithm is not allowed per developer preference.
+ * Thrown when an algorithm is disallowed by configuration.
  *
  * @example
  *
@@ -263,8 +264,7 @@ export class JOSEAlgNotAllowed extends JOSEError {
 }
 
 /**
- * An error subclass thrown when a particular feature or algorithm is not supported by this
- * implementation or JOSE in general.
+ * Thrown when a feature or algorithm is unsupported.
  *
  * @example
  *
@@ -295,7 +295,7 @@ export class JOSENotSupported extends JOSEError {
 }
 
 /**
- * An error subclass thrown when a JWE ciphertext decryption fails.
+ * Thrown when JWE ciphertext decryption fails.
  *
  * @example
  *
@@ -331,7 +331,7 @@ export class JWEDecryptionFailed extends JOSEError {
 }
 
 /**
- * An error subclass thrown when a JWE is invalid.
+ * Thrown when a JWE is invalid.
  *
  * @example
  *
@@ -362,7 +362,7 @@ export class JWEInvalid extends JOSEError {
 }
 
 /**
- * An error subclass thrown when a JWS is invalid.
+ * Thrown when a JWS is invalid.
  *
  * @example
  *
@@ -393,7 +393,7 @@ export class JWSInvalid extends JOSEError {
 }
 
 /**
- * An error subclass thrown when a JWT is invalid.
+ * Thrown when a JWT is invalid.
  *
  * @example
  *
@@ -424,7 +424,7 @@ export class JWTInvalid extends JOSEError {
 }
 
 /**
- * An error subclass thrown when a JWK is invalid.
+ * Thrown when a JWK is invalid.
  *
  * @example
  *
@@ -455,7 +455,7 @@ export class JWKInvalid extends JOSEError {
 }
 
 /**
- * An error subclass thrown when a JWKS is invalid.
+ * Thrown when a JWKS is invalid.
  *
  * @example
  *
@@ -486,7 +486,7 @@ export class JWKSInvalid extends JOSEError {
 }
 
 /**
- * An error subclass thrown when no keys match from a JWKS.
+ * Thrown when no keys match in a JWKS.
  *
  * @example
  *
@@ -525,7 +525,7 @@ export class JWKSNoMatchingKey extends JOSEError {
 }
 
 /**
- * An error subclass thrown when multiple keys match from a JWKS.
+ * Thrown when multiple keys match in a JWKS.
  *
  * @example
  *
@@ -573,7 +573,7 @@ export class JWKSMultipleMatchingKeys extends JOSEError {
 }
 
 /**
- * Timeout was reached when retrieving the JWKS response.
+ * Thrown when fetching a remote JWKS times out.
  *
  * @example
  *
@@ -609,7 +609,7 @@ export class JWKSTimeout extends JOSEError {
 }
 
 /**
- * An error subclass thrown when JWS signature verification fails.
+ * Thrown when JWS signature verification fails.
  *
  * @example
  *
@@ -645,9 +645,11 @@ export class JWSSignatureVerificationFailed extends JOSEError {
 }
 
 /**
- * Union of the errors thrown during JWT Claims Set validation. {@link JWTExpired} does not extend
- * {@link JWTClaimValidationFailed}, so a single `instanceof` check cannot cover both. Use this type
- * — together with the {@link JOSEError.code code} discriminant — when handling either.
+ * Errors thrown during JWT Claims Set validation.
+ *
+ * {@link JWTExpired} does not extend {@link JWTClaimValidationFailed}, so a single `instanceof` check
+ * cannot cover both. Use this type together with the {@link JOSEError.code code} discriminant when
+ * handling either.
  *
  * @example
  *
@@ -663,10 +665,11 @@ export class JWSSignatureVerificationFailed extends JOSEError {
 export type JWTClaimValidationError = JWTClaimValidationFailed | JWTExpired
 
 /**
- * Union of every {@link JOSEError} subclass this module throws, each paired with the single
- * {@link JOSEErrorCode} it is thrown with. That pairing lives here rather than on the classes, so
- * that `code` stays assignable, writable, and overridable on them exactly as before, while a value
- * of this type can still be switched over as a discriminated union.
+ * Discriminated union of the specific {@link JOSEError} subclasses.
+ *
+ * Each subclass is paired with its {@link JOSEErrorCode}. That pairing lives here rather than on the
+ * classes, so `code` stays assignable, writable, and overridable while values of this type can be
+ * narrowed by their error code.
  *
  * > [!NOTE]\
  * > The base {@link JOSEError} is deliberately not a member — its `code` spans every value, which

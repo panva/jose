@@ -6,16 +6,10 @@ Support from the community to continue maintaining and improving this module is 
 
 ▸ **createLocalJWKSet**(`jwks`): [`LocalJWKSet`](../interfaces/LocalJWKSet.md)
 
-Returns a function that resolves a JWS JOSE Header to a public key object from a locally stored,
-or otherwise available, JSON Web Key Set. Selection respects the header's "alg" (Algorithm) and
-"kid" (Key ID) as well as the JWK's "use" (Public Key Use) and "key_ops" (Key Operations).
-Exactly one key must match; if multiple keys match, the thrown `JWKSMultipleMatchingKeys` can be
-iterated.
+Creates a resolver for a locally available JSON Web Key Set.
 
-It uses the "alg" (JWS Algorithm) Header Parameter to determine the right JWK "kty" (Key Type),
-then proceeds to match the JWK "kid" (Key ID) with one found in the JWS Header Parameters (if
-there is one) while also respecting the JWK "use" (Public Key Use) and JWK "key_ops" (Key
-Operations) Parameters (if they are present on the JWK).
+Selection uses the header's "alg" (Algorithm) and "kid" (Key ID), and respects the JWK's "use"
+(Public Key Use) and "key_ops" (Key Operations). Exactly one key must match.
 
 Only a single public key must match the selection process. As shown in the example below when
 multiple keys get matched it is possible to opt-in to iterate over the matched keys and attempt

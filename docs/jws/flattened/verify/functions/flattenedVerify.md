@@ -8,7 +8,7 @@ Support from the community to continue maintaining and improving this module is 
 
 ▸ **flattenedVerify**(`jws`, `key`, `options?`): [`Promise`](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise)\<[`FlattenedVerifyResult`](../../../../types/interfaces/FlattenedVerifyResult.md)\>
 
-Verifies the signature and format of and afterwards decodes the Flattened JWS.
+Verifies a Flattened JWS signature and decodes its payload.
 
 This function is exported (as a named export) from the main `'jose'` module entry point as well
 as from its subpath export `'jose/jws/flattened/verify'`.
@@ -46,8 +46,8 @@ console.log(decoder.decode(payload))
 
 ▸ **flattenedVerify**\<`KeyType`\>(`jws`, `getKey`, `options?`): [`Promise`](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise)\<[`FlattenedVerifyResult`](../../../../types/interfaces/FlattenedVerifyResult.md) & [`ResolvedKey`](../../../../types/interfaces/ResolvedKey.md)\<`KeyType`\>\>
 
-Verifies the signature and format of and afterwards decodes the Flattened JWS, resolving the key
-dynamically. The result additionally carries the [resolved key](../../../../types/interfaces/ResolvedKey.md#key).
+Verifies a Flattened JWS signature and decodes its payload, resolving the key dynamically. The
+result additionally carries the [resolved key](../../../../types/interfaces/ResolvedKey.md#key).
 
 ### Type Parameters
 

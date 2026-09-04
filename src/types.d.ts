@@ -111,7 +111,7 @@ export type JWKParameters = {
   kid?: string
 }
 
-/** Convenience interface for Public OKP JSON Web Keys */
+/** Convenience interface for public OKP JSON Web Keys. */
 export interface JWK_OKP_Public extends JWKParameters {
   /** OKP JWK "crv" (The Subtype of Key Pair) Parameter */
   crv: string
@@ -119,13 +119,13 @@ export interface JWK_OKP_Public extends JWKParameters {
   x: string
 }
 
-/** Convenience interface for Private OKP JSON Web Keys */
+/** Convenience interface for private OKP JSON Web Keys. */
 export interface JWK_OKP_Private extends JWK_OKP_Public {
   /** OKP JWK "d" (The Private Key) Parameter */
   d: string
 }
 
-/** Convenience interface for Public AKP JSON Web Keys */
+/** Convenience interface for public AKP JSON Web Keys. */
 export interface JWK_AKP_Public extends JWKParameters {
   /** JWK "alg" (Algorithm) Parameter */
   alg: string
@@ -133,13 +133,13 @@ export interface JWK_AKP_Public extends JWKParameters {
   pub: string
 }
 
-/** Convenience interface for Private AKP JSON Web Keys */
+/** Convenience interface for private AKP JSON Web Keys. */
 export interface JWK_AKP_Private extends JWK_AKP_Public {
   /** AKP JWK "priv" (The Private Key) Parameter */
   priv: string
 }
 
-/** Convenience interface for Public EC JSON Web Keys */
+/** Convenience interface for public EC JSON Web Keys. */
 export interface JWK_EC_Public extends JWKParameters {
   /** EC JWK "crv" (Curve) Parameter */
   crv: string
@@ -149,13 +149,13 @@ export interface JWK_EC_Public extends JWKParameters {
   y: string
 }
 
-/** Convenience interface for Private EC JSON Web Keys */
+/** Convenience interface for private EC JSON Web Keys. */
 export interface JWK_EC_Private extends JWK_EC_Public {
   /** EC JWK "d" (ECC Private Key) Parameter */
   d: string
 }
 
-/** Convenience interface for Public RSA JSON Web Keys */
+/** Convenience interface for public RSA JSON Web Keys. */
 export interface JWK_RSA_Public extends JWKParameters {
   /** RSA JWK "e" (Exponent) Parameter */
   e: string
@@ -163,7 +163,7 @@ export interface JWK_RSA_Public extends JWKParameters {
   n: string
 }
 
-/** Convenience interface for Private RSA JSON Web Keys */
+/** Convenience interface for private RSA JSON Web Keys. */
 export interface JWK_RSA_Private extends JWK_RSA_Public {
   /** RSA JWK "d" (Private Exponent) Parameter */
   d: string
@@ -179,7 +179,7 @@ export interface JWK_RSA_Private extends JWK_RSA_Public {
   qi: string
 }
 
-/** Convenience interface for oct JSON Web Keys */
+/** Convenience interface for "oct" JSON Web Keys. */
 export interface JWK_oct extends JWKParameters {
   /** Oct JWK "k" (Key Value) Parameter */
   k: string
@@ -281,9 +281,10 @@ export type JWK = {
 }
 
 /**
- * Discriminated union of the JSON Web Key shapes supported by this module. Unlike {@link JWK}, each
- * member requires and fixes the "kty" (Key Type) Parameter to its key type so that the union can be
- * narrowed on it.
+ * Discriminated union of the supported JSON Web Key shapes.
+ *
+ * Unlike {@link JWK}, each member requires and fixes the "kty" (Key Type) Parameter to its key type
+ * so that the union can be narrowed on it.
  *
  * @example
  *
@@ -333,7 +334,7 @@ export interface GenericGetKeyFunction<IProtectedHeader, IToken, ReturnKeyTypes>
 }
 
 /**
- * Interface for consuming operations dynamic key resolution.
+ * Dynamic key resolver for consuming operations.
  *
  * @typeParam IProtectedHeader Type definition of the JWE or JWS Protected Header.
  * @typeParam IToken Type definition of the consumed JWE or JWS token.
@@ -347,8 +348,9 @@ export interface GetKeyFunction<
 > extends GenericGetKeyFunction<IProtectedHeader, IToken, KeyTypes> {}
 
 /**
- * Flattened JWS definition for verify function inputs, allows payload as {@link !Uint8Array} for
- * detached signature validation.
+ * Flattened JWS verification input.
+ *
+ * The payload may be a {@link !Uint8Array} for detached signature validation.
  */
 export interface FlattenedJWSInput {
   /**
@@ -377,8 +379,9 @@ export interface FlattenedJWSInput {
 }
 
 /**
- * General JWS definition for verify function inputs, allows payload as {@link !Uint8Array} for
- * detached signature validation.
+ * General JWS verification input.
+ *
+ * The payload may be a {@link !Uint8Array} for detached signature validation.
  */
 export interface GeneralJWSInput {
   /**
@@ -396,8 +399,10 @@ export interface GeneralJWSInput {
 }
 
 /**
- * Flattened JWS JSON Serialization Syntax token. Payload is returned as an empty string when JWS
- * Unencoded Payload ({@link https://www.rfc-editor.org/info/rfc7797/ RFC7797}) is used.
+ * Flattened JWS JSON Serialization token.
+ *
+ * The payload is returned as an empty string when JWS Unencoded Payload
+ * ({@link https://www.rfc-editor.org/info/rfc7797/ RFC7797}) is used.
  */
 export interface FlattenedJWS extends Partial<FlattenedJWSInput> {
   payload: string
@@ -405,15 +410,17 @@ export interface FlattenedJWS extends Partial<FlattenedJWSInput> {
 }
 
 /**
- * General JWS JSON Serialization Syntax token. Payload is returned as an empty string when JWS
- * Unencoded Payload ({@link https://www.rfc-editor.org/info/rfc7797/ RFC7797}) is used.
+ * General JWS JSON Serialization token.
+ *
+ * The payload is returned as an empty string when JWS Unencoded Payload
+ * ({@link https://www.rfc-editor.org/info/rfc7797/ RFC7797}) is used.
  */
 export interface GeneralJWS {
   payload: string
   signatures: Omit<FlattenedJWSInput, 'payload'>[]
 }
 
-/** Header Parameters common to JWE and JWS */
+/** Header Parameters common to JWE and JWS. */
 export interface JoseHeaderParameters {
   /** "kid" (Key ID) Header Parameter */
   kid?: string
@@ -443,7 +450,7 @@ export interface JoseHeaderParameters {
   cty?: string
 }
 
-/** Recognized JWS Header Parameters, any other Header Members may also be present. */
+/** Recognized JWS Header Parameters; additional members may also be present. */
 export interface JWSHeaderParameters extends JoseHeaderParameters {
   /**
    * JWS "alg" (Algorithm) Header Parameter
@@ -502,7 +509,7 @@ export interface JWEKeyManagementHeaderParameters {
   epk?: CryptoKey | KeyObject
 }
 
-/** Flattened JWE JSON Serialization Syntax token. */
+/** Flattened JWE JSON Serialization token. */
 export interface FlattenedJWE {
   /**
    * The "aad" member MUST be present and contain the value BASE64URL(JWE AAD)) when the JWE AAD
@@ -556,12 +563,12 @@ export interface FlattenedJWE {
   unprotected?: JWEHeaderParameters
 }
 
-/** General JWE JSON Serialization Syntax token. */
+/** General JWE JSON Serialization token. */
 export interface GeneralJWE extends Omit<FlattenedJWE, 'encrypted_key' | 'header'> {
   recipients: Pick<FlattenedJWE, 'encrypted_key' | 'header'>[]
 }
 
-/** Recognized JWE Header Parameters, any other Header members may also be present. */
+/** Recognized JWE Header Parameters; additional members may also be present. */
 export interface JWEHeaderParameters extends JoseHeaderParameters {
   /**
    * JWE "alg" (Algorithm) Header Parameter
@@ -593,7 +600,7 @@ export interface JWEHeaderParameters extends JoseHeaderParameters {
   [propName: string]: unknown
 }
 
-/** Shared Interface with a "crit" property for all sign, verify, encrypt and decrypt operations. */
+/** Shared "crit" option for signing, verification, encryption, and decryption. */
 export interface CritOption {
   /**
    * An object with keys representing recognized "crit" (Critical) Header Parameter names. The value
@@ -718,7 +725,7 @@ export interface VerifyOptions extends CritOption {
 /** JWS Signing options. */
 export interface SignOptions extends CritOption {}
 
-/** Recognized JWT Claims Set members, any other members may also be present. */
+/** Recognized JWT Claims Set members; additional members may also be present. */
 export interface JWTPayload {
   /**
    * JWT Issuer
@@ -773,7 +780,7 @@ export interface JWTPayload {
   [propName: string]: unknown
 }
 
-/** Flattened JWE JSON Serialization Syntax decryption result */
+/** Flattened JWE JSON Serialization decryption result. */
 export interface FlattenedDecryptResult {
   /** JWE AAD. */
   additionalAuthenticatedData?: Uint8Array
@@ -791,10 +798,10 @@ export interface FlattenedDecryptResult {
   unprotectedHeader?: JWEHeaderParameters
 }
 
-/** General JWE JSON Serialization Syntax decryption result */
+/** General JWE JSON Serialization decryption result. */
 export interface GeneralDecryptResult extends FlattenedDecryptResult {}
 
-/** Compact JWE decryption result */
+/** Compact JWE decryption result. */
 export interface CompactDecryptResult {
   /** Plaintext. */
   plaintext: Uint8Array
@@ -803,7 +810,7 @@ export interface CompactDecryptResult {
   protectedHeader: CompactJWEHeaderParameters
 }
 
-/** Flattened JWS JSON Serialization Syntax verification result */
+/** Flattened JWS JSON Serialization verification result. */
 export interface FlattenedVerifyResult {
   /** JWS Payload. */
   payload: Uint8Array
@@ -815,10 +822,10 @@ export interface FlattenedVerifyResult {
   unprotectedHeader?: JWSHeaderParameters
 }
 
-/** General JWS JSON Serialization Syntax verification result */
+/** General JWS JSON Serialization verification result. */
 export interface GeneralVerifyResult extends FlattenedVerifyResult {}
 
-/** Compact JWS verification result */
+/** Compact JWS verification result. */
 export interface CompactVerifyResult {
   /** JWS Payload. */
   payload: Uint8Array
@@ -828,7 +835,7 @@ export interface CompactVerifyResult {
 }
 
 /**
- * Signed JSON Web Token (JWT) verification result
+ * Signed JSON Web Token (JWT) verification result.
  *
  * @typeParam PayloadType Type definition of the JWT Claims Set the token is expected to carry.
  */
@@ -843,7 +850,7 @@ export interface JWTVerifyResult<PayloadType = JWTPayload> {
 }
 
 /**
- * Encrypted JSON Web Token (JWT) decryption result
+ * Encrypted JSON Web Token (JWT) decryption result.
  *
  * @typeParam PayloadType Type definition of the JWT Claims Set the token is expected to carry.
  */
@@ -858,7 +865,7 @@ export interface JWTDecryptResult<PayloadType = JWTPayload> {
 }
 
 /**
- * When key resolver functions are used this becomes part of successful resolves
+ * Key resolver result metadata.
  *
  * @typeParam KeyType Type of the resolved key. Inferred from the key resolver function's return
  *   type, so a resolver declared to return only {@link CryptoKey} — as
@@ -871,41 +878,42 @@ export interface ResolvedKey<KeyType extends CryptoKey | Uint8Array = CryptoKey 
   key: KeyType
 }
 
-/** Recognized Compact JWS Header Parameters, any other Header Members may also be present. */
+/** Recognized Compact JWS Header Parameters; additional members may also be present. */
 export interface CompactJWSHeaderParameters extends JWSHeaderParameters {
   alg: JWSAlgorithm
 }
 
-/** Recognized Signed JWT Header Parameters, any other Header Members may also be present. */
+/** Recognized signed JWT Header Parameters; additional members may also be present. */
 export interface JWTHeaderParameters extends CompactJWSHeaderParameters {
   b64?: boolean
 }
 
-/** Recognized Compact JWE Header Parameters, any other Header Members may also be present. */
+/** Recognized Compact JWE Header Parameters; additional members may also be present. */
 export interface CompactJWEHeaderParameters extends JWEHeaderParameters {
   alg: JWEKeyManagementAlgorithm
   enc: JWEContentEncryptionAlgorithm
 }
 
-/** JSON Web Key Set */
+/** JSON Web Key Set. */
 export interface JSONWebKeySet {
   keys: JWK[]
 }
 
 /**
- * {@link !KeyObject} is a representation of a key/secret available in the Node.js runtime. You may
- * use the Node.js runtime APIs {@link !createPublicKey}, {@link !createPrivateKey}, and
- * {@link !createSecretKey} to obtain a {@link !KeyObject} from your existing key material.
+ * Node.js {@link !KeyObject} representation accepted as key input.
+ *
+ * Use {@link !createPublicKey}, {@link !createPrivateKey}, or {@link !createSecretKey} to obtain a
+ * {@link !KeyObject} from existing key material.
  */
 export interface KeyObject {
   type: string
 }
 
 /**
- * {@link !CryptoKey} is a representation of a key/secret available in all supported runtimes. In
- * addition to the {@link key/import Key Import Functions} you may use the
- * {@link !SubtleCrypto.importKey} API to obtain a {@link !CryptoKey} from your existing key
- * material.
+ * Web Cryptography API {@link !CryptoKey} representation accepted as key input.
+ *
+ * In addition to the {@link key/import Key Import Functions}, use {@link !SubtleCrypto.importKey} to
+ * obtain a {@link !CryptoKey} from existing key material.
  */
 export type CryptoKey = typeof globalThis extends {
   crypto: { subtle: { generateKey(...args: any[]): Promise<infer R> } }
@@ -914,10 +922,11 @@ export type CryptoKey = typeof globalThis extends {
   : CryptoKeyStructuralFallback
 
 /**
- * Used as {@link CryptoKey} when the host runtime's `crypto` global is not exposed on `typeof
- * globalThis`, including when it is absent from ambient types or declared with `const` or `let`. It
- * remains structurally compatible with host {@link !CryptoKey} declarations so values flow freely to
- * and from {@link !SubtleCrypto} APIs.
+ * Structural fallback used when a host {@link !CryptoKey} type cannot be inferred.
+ *
+ * This is used when the host runtime's `crypto` global is not exposed on `typeof globalThis`,
+ * including when it is absent from ambient types or declared with `const` or `let`. It remains
+ * structurally compatible with host {@link !CryptoKey} declarations.
  *
  * @internal
  */
@@ -928,7 +937,7 @@ export interface CryptoKeyStructuralFallback {
   readonly usages: string[]
 }
 
-/** Generic interface for JWT producing classes. */
+/** Shared fluent API for JWT-producing classes. */
 export interface ProduceJWT {
   /**
    * Set the "iss" (Issuer) Claim.

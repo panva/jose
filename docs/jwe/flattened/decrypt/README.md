@@ -6,7 +6,7 @@ Decrypting JSON Web Encryption (JWE) in Flattened JSON Serialization
 
 | Interface | Description |
 | ------ | ------ |
-| [FlattenedDecryptGetKey](interfaces/FlattenedDecryptGetKey.md) | Interface for Flattened JWE Decryption dynamic key resolution. No token components have been verified at the time of this function call. |
+| [FlattenedDecryptGetKey](interfaces/FlattenedDecryptGetKey.md) | Dynamic key resolver for Flattened JWE decryption. |
 
 ## Functions
 

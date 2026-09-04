@@ -10,7 +10,7 @@ import type { SignInput } from '../../lib/jws_sign.js'
 import { JWSInvalid } from '../../util/errors.js'
 import { assertNotSet } from '../../lib/helpers.js'
 
-/** Used to build General JWS object's individual signatures. */
+/** Configures an individual signature in a General JWS. */
 export interface Signature {
   /**
    * Sets the JWS Protected Header on the Signature object.
@@ -89,7 +89,7 @@ class IndividualSignature implements Signature {
 }
 
 /**
- * The GeneralSign class is used to build and sign General JWS objects.
+ * Builds and signs General JWS objects.
  *
  * This class is exported (as a named export) from the main `'jose'` module entry point as well as
  * from its subpath export `'jose/jws/general/sign'`.

@@ -4,9 +4,10 @@
 
 Support from the community to continue maintaining and improving this module is welcome. If you find the module useful, please consider supporting the project by [becoming a sponsor](https://github.com/sponsors/panva).
 
-[KeyObject](https://nodejs.org/api/crypto.html#class-keyobject) is a representation of a key/secret available in the Node.js runtime. You may
-use the Node.js runtime APIs [createPublicKey](https://nodejs.org/api/crypto.html#cryptocreatepublickeykey), [createPrivateKey](https://nodejs.org/api/crypto.html#cryptocreateprivatekeykey), and
-[createSecretKey](https://nodejs.org/api/crypto.html#cryptocreatesecretkeykey-encoding) to obtain a [KeyObject](https://nodejs.org/api/crypto.html#class-keyobject) from your existing key material.
+Node.js [KeyObject](https://nodejs.org/api/crypto.html#class-keyobject) representation accepted as key input.
+
+Use [createPublicKey](https://nodejs.org/api/crypto.html#cryptocreatepublickeykey), [createPrivateKey](https://nodejs.org/api/crypto.html#cryptocreateprivatekeykey), or [createSecretKey](https://nodejs.org/api/crypto.html#cryptocreatesecretkeykey-encoding) to obtain a
+[KeyObject](https://nodejs.org/api/crypto.html#class-keyobject) from existing key material.
 
 ## Properties
 

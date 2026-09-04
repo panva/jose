@@ -6,10 +6,10 @@ Signing JSON Web Signature (JWS) in General JSON Serialization
 
 | Class | Description |
 | ------ | ------ |
-| [GeneralSign](classes/GeneralSign.md) | The GeneralSign class is used to build and sign General JWS objects. |
+| [GeneralSign](classes/GeneralSign.md) | Builds and signs General JWS objects. |
 
 ## Interfaces
 
 | Interface | Description |
 | ------ | ------ |
-| [Signature](interfaces/Signature.md) | Used to build General JWS object's individual signatures. |
+| [Signature](interfaces/Signature.md) | Configures an individual signature in a General JWS. |

@@ -4,7 +4,7 @@
 
 Support from the community to continue maintaining and improving this module is welcome. If you find the module useful, please consider supporting the project by [becoming a sponsor](https://github.com/sponsors/panva).
 
-An error subclass thrown when a JWE ciphertext decryption fails.
+Thrown when JWE ciphertext decryption fails.
 
 ## Examples
 

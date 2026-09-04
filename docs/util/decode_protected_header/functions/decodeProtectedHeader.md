@@ -6,7 +6,7 @@ Support from the community to continue maintaining and improving this module is 
 
 ▸ **decodeProtectedHeader**(`token`): [`ProtectedHeaderParameters`](../type-aliases/ProtectedHeaderParameters.md)
 
-Decodes the Protected Header of a JWE/JWS/JWT token utilizing any JOSE serialization.
+Decodes the Protected Header of a JWE, JWS, or JWT in any JOSE serialization.
 
 This function is exported (as a named export) from the main `'jose'` module entry point as well
 as from its subpath export `'jose/decode/protected_header'`.

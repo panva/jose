@@ -16,11 +16,12 @@ import { validateExtractableOption } from '../lib/key_options.js'
 import { normalizeJwk } from '../lib/jwk_metadata.js'
 
 /**
- * Resolves what {@link importJWK} returns for a given JWK type. The "kty" (Key Type) Parameter fully
- * determines the outcome at runtime: `"oct"` yields a {@link !Uint8Array} secret, every other
- * supported key type yields a {@link types.CryptoKey CryptoKey}. When "kty" is not statically known
- * — the usual case for a JWK parsed from JSON, or for a value typed as {@link types.JWK JWK} — this
- * resolves to their union.
+ * Maps a JWK key type to the value returned by {@link importJWK}.
+ *
+ * The "kty" (Key Type) Parameter fully determines the outcome at runtime: `"oct"` yields a
+ * {@link !Uint8Array} secret and every other supported key type yields a
+ * {@link types.CryptoKey CryptoKey}. When "kty" is not statically known — the usual case for a JWK
+ * parsed from JSON or typed as {@link types.JWK JWK} — this resolves to their union.
  */
 export type ImportedJWK<JWKType extends types.JWK> = JWKType extends { kty: 'oct' }
   ? Uint8Array
@@ -28,7 +29,7 @@ export type ImportedJWK<JWKType extends types.JWK> = JWKType extends { kty: 'oct
     ? types.CryptoKey
     : types.CryptoKey | Uint8Array
 
-/** Key Import Function options. */
+/** Key import options. */
 export interface KeyImportOptions {
   /**
    * The value to use as {@link !SubtleCrypto.importKey} `extractable` argument. Default is false for
@@ -156,8 +157,10 @@ export async function importPKCS8(
 }
 
 /**
- * Imports a JWK to a {@link !CryptoKey}. Either the JWK "alg" (Algorithm) Parameter, or the optional
- * "alg" argument, must be present for asymmetric JSON Web Key imports.
+ * Imports a JWK as a {@link !CryptoKey} or {@link !Uint8Array}.
+ *
+ * Either the JWK "alg" (Algorithm) Parameter or the optional "alg" argument must be present for
+ * asymmetric JSON Web Key imports.
  *
  * > [!NOTE]\
  * > The JSON Web Key parameters "key_ops" and "ext" are also used in the {@link !CryptoKey} import

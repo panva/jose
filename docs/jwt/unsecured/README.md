@@ -6,10 +6,10 @@ Unsecured (unsigned & unencrypted) JSON Web Tokens (JWT)
 
 | Class | Description |
 | ------ | ------ |
-| [UnsecuredJWT](classes/UnsecuredJWT.md) | The UnsecuredJWT class is a utility for dealing with `{ "alg": "none" }` Unsecured JWTs. |
+| [UnsecuredJWT](classes/UnsecuredJWT.md) | Encodes and decodes `{ "alg": "none" }` Unsecured JWTs. |
 
 ## Interfaces
 
 | Interface | Description |
 | ------ | ------ |
-| [UnsecuredResult](interfaces/UnsecuredResult.md) | Result of decoding an Unsecured JWT. |
+| [UnsecuredResult](interfaces/UnsecuredResult.md) | Decoded Unsecured JWT. |

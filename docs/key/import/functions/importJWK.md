@@ -6,8 +6,10 @@ Support from the community to continue maintaining and improving this module is 
 
 ▸ **importJWK**\<`JWKType`\>(`jwk`, `alg?`, `options?`): [`Promise`](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise)\<[`ImportedJWK`](../type-aliases/ImportedJWK.md)\<`JWKType`\>\>
 
-Imports a JWK to a [CryptoKey](https://developer.mozilla.org/docs/Web/API/CryptoKey). Either the JWK "alg" (Algorithm) Parameter, or the optional
-"alg" argument, must be present for asymmetric JSON Web Key imports.
+Imports a JWK as a [CryptoKey](https://developer.mozilla.org/docs/Web/API/CryptoKey) or [Uint8Array](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Uint8Array).
+
+Either the JWK "alg" (Algorithm) Parameter or the optional "alg" argument must be present for
+asymmetric JSON Web Key imports.
 
 > [!NOTE]\
 > The JSON Web Key parameters "key_ops" and "ext" are also used in the [CryptoKey](https://developer.mozilla.org/docs/Web/API/CryptoKey) import

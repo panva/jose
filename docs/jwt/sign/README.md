@@ -6,4 +6,4 @@ JSON Web Token (JWT) Signing (JWT is in JWS format)
 
 | Class | Description |
 | ------ | ------ |
-| [SignJWT](classes/SignJWT.md) | The SignJWT class is used to build and sign Compact JWS formatted JSON Web Tokens. |
+| [SignJWT](classes/SignJWT.md) | Builds and signs Compact JWS-formatted JSON Web Tokens. |

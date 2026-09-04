@@ -4,7 +4,7 @@
 
 Support from the community to continue maintaining and improving this module is welcome. If you find the module useful, please consider supporting the project by [becoming a sponsor](https://github.com/sponsors/panva).
 
-Convenience interface for Private OKP JSON Web Keys
+Convenience interface for private OKP JSON Web Keys.
 
 ## Properties
 

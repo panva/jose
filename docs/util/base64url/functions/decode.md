@@ -6,7 +6,7 @@ Support from the community to continue maintaining and improving this module is 
 
 ▸ **decode**(`input`): [`Uint8Array`](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Uint8Array)
 
-Decodes a Base64URL encoded input.
+Decodes a base64url-encoded input.
 
 These functions are exported (as the `base64url` namespace) from the main `'jose'` module entry
 point as well as from its subpath export `'jose/base64url'`.

@@ -6,26 +6,26 @@ Verification using a JSON Web Key Set (JWKS) available on an HTTP(S) URL
 
 | Interface | Description |
 | ------ | ------ |
-| [ExportedJWKSCache](interfaces/ExportedJWKSCache.md) | See [jwksCache](variables/jwksCache.md). |
-| [RemoteJWKSet](interfaces/RemoteJWKSet.md) | The key resolution function returned by [createRemoteJWKSet](functions/createRemoteJWKSet.md). |
-| [RemoteJWKSetOptions](interfaces/RemoteJWKSetOptions.md) | Options for the remote JSON Web Key Set. |
+| [ExportedJWKSCache](interfaces/ExportedJWKSCache.md) | Shape of an externally persisted remote JWKS cache. |
+| [RemoteJWKSet](interfaces/RemoteJWKSet.md) | A key resolver created by [createRemoteJWKSet](functions/createRemoteJWKSet.md). |
+| [RemoteJWKSetOptions](interfaces/RemoteJWKSetOptions.md) | Remote JWKS resolver options. |
 
 ## Type Aliases
 
 | Type Alias | Description |
 | ------ | ------ |
-| [FetchImplementation](type-aliases/FetchImplementation.md) | See [customFetch](variables/customFetch.md). |
-| [JWKSCacheInput](type-aliases/JWKSCacheInput.md) | See [jwksCache](variables/jwksCache.md). |
+| [FetchImplementation](type-aliases/FetchImplementation.md) | Function signature accepted by [customFetch](variables/customFetch.md). |
+| [JWKSCacheInput](type-aliases/JWKSCacheInput.md) | Values accepted by the [jwksCache](variables/jwksCache.md) option. |
 
 ## Variables
 
 | Variable | Description |
 | ------ | ------ |
-| [customFetch](variables/customFetch.md) | When passed to [createRemoteJWKSet](functions/createRemoteJWKSet.md) this allows the resolver to make use of advanced fetch configurations, HTTP Proxies, retry on network errors, etc. |
-| [jwksCache](variables/jwksCache.md) | **Warning:** This option has security implications that must be understood, assessed for applicability, and accepted before use. It is critical that the JSON Web Key Set cache only be writable by your own code. |
+| [customFetch](variables/customFetch.md) | Symbol used to configure a custom fetch implementation for remote JWKS retrieval. |
+| [jwksCache](variables/jwksCache.md) | Symbol used to configure an externally persisted remote JWKS cache. |
 
 ## Functions
 
 | Function | Description |
 | ------ | ------ |
-| [createRemoteJWKSet](functions/createRemoteJWKSet.md) | Returns a function that resolves a JWS JOSE Header to a public key object downloaded from a remote endpoint returning a JSON Web Key Set, that is, for example, an OAuth 2.0 or OIDC jwks_uri. The JSON Web Key Set is fetched when no key matches the selection process but only as frequently as the `cooldownDuration` option allows to prevent abuse. Selection respects the header's "alg" (Algorithm) and "kid" (Key ID) as well as the JWK's "use" (Public Key Use) and "key_ops" (Key Operations). Exactly one key must match; if multiple keys match, the thrown `JWKSMultipleMatchingKeys` can be iterated. |
+| [createRemoteJWKSet](functions/createRemoteJWKSet.md) | Creates a resolver for a JSON Web Key Set available at an HTTP(S) URL. |

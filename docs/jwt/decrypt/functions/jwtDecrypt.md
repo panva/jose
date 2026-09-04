@@ -8,8 +8,7 @@ Support from the community to continue maintaining and improving this module is 
 
 ▸ **jwtDecrypt**\<`PayloadType`\>(`jwt`, `key`, `options?`): [`Promise`](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise)\<[`JWTDecryptResult`](../../../types/interfaces/JWTDecryptResult.md)\<`PayloadType`\>\>
 
-Verifies the JWT format (to be a JWE Compact format), decrypts the ciphertext, validates the JWT
-Claims Set.
+Decrypts a Compact JWE-formatted JWT and validates its Claims Set.
 
 This function is exported (as a named export) from the main `'jose'` module entry point as well
 as from its subpath export `'jose/jwt/decrypt'`.

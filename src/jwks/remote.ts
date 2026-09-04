@@ -33,8 +33,10 @@ if (typeof navigator === 'undefined' || !navigator.userAgent?.startsWith?.('Mozi
 }
 
 /**
- * When passed to {@link jwks/remote.createRemoteJWKSet createRemoteJWKSet} this allows the resolver
- * to make use of advanced fetch configurations, HTTP Proxies, retry on network errors, etc.
+ * Symbol used to configure a custom fetch implementation for remote JWKS retrieval.
+ *
+ * Pass this to {@link jwks/remote.createRemoteJWKSet createRemoteJWKSet} to use advanced fetch
+ * configurations, HTTP proxies, network-error retries, and similar behavior.
  *
  * > [!NOTE]\
  * > Known caveat: Expect Type-related issues when passing the inputs through to fetch-like modules,
@@ -160,7 +162,7 @@ if (typeof navigator === 'undefined' || !navigator.userAgent?.startsWith?.('Mozi
  */
 export const customFetch: unique symbol = Symbol()
 
-/** See {@link customFetch}. */
+/** Function signature accepted by {@link customFetch}. */
 export type FetchImplementation = (
   /** URL the request is being made sent to {@link !fetch} as the `resource` argument */
   url: string,
@@ -207,6 +209,8 @@ async function fetchJwks(
 }
 
 /**
+ * Symbol used to configure an externally persisted remote JWKS cache.
+ *
  * > [!WARNING]\
  * > This option has security implications that must be understood, assessed for applicability, and
  * > accepted before use. It is critical that the JSON Web Key Set cache only be writable by your own
@@ -263,7 +267,7 @@ async function fetchJwks(
  */
 export const jwksCache: unique symbol = Symbol()
 
-/** Options for the remote JSON Web Key Set. */
+/** Remote JWKS resolver options. */
 export interface RemoteJWKSetOptions {
   /**
    * Timeout (in milliseconds) for the HTTP request. When reached the request will be aborted and
@@ -293,7 +297,7 @@ export interface RemoteJWKSetOptions {
   [customFetch]?: FetchImplementation
 }
 
-/** See {@link jwksCache}. */
+/** Shape of an externally persisted remote JWKS cache. */
 export interface ExportedJWKSCache {
   /** Current cached JSON Web Key Set */
   jwks: types.JSONWebKeySet
@@ -301,11 +305,11 @@ export interface ExportedJWKSCache {
   uat: number
 }
 
-/** See {@link jwksCache}. */
+/** Values accepted by the {@link jwksCache} option. */
 export type JWKSCacheInput = ExportedJWKSCache | Record<string, never>
 
 /**
- * The key resolution function returned by {@link createRemoteJWKSet}.
+ * A key resolver created by {@link createRemoteJWKSet}.
  *
  * @see {@link jwt/verify.jwtVerify jwtVerify} and the other consuming functions, all of which accept
  *   this directly.
@@ -353,18 +357,12 @@ function validateDuration(value: number | undefined, fallback: number, option: s
 }
 
 /**
- * Returns a function that resolves a JWS JOSE Header to a public key object downloaded from a
- * remote endpoint returning a JSON Web Key Set, that is, for example, an OAuth 2.0 or OIDC
- * jwks_uri. The JSON Web Key Set is fetched when no key matches the selection process but only as
- * frequently as the `cooldownDuration` option allows to prevent abuse. Selection respects the
- * header's "alg" (Algorithm) and "kid" (Key ID) as well as the JWK's "use" (Public Key Use) and
- * "key_ops" (Key Operations). Exactly one key must match; if multiple keys match, the thrown
- * `JWKSMultipleMatchingKeys` can be iterated.
+ * Creates a resolver for a JSON Web Key Set available at an HTTP(S) URL.
  *
- * It uses the "alg" (JWS Algorithm) Header Parameter to determine the right JWK "kty" (Key Type),
- * then proceeds to match the JWK "kid" (Key ID) with one found in the JWS Header Parameters (if
- * there is one) while also respecting the JWK "use" (Public Key Use) and JWK "key_ops" (Key
- * Operations) Parameters (if they are present on the JWK).
+ * The JSON Web Key Set is fetched when no key matches, but only as frequently as the
+ * `cooldownDuration` option allows. Selection uses the header's "alg" (Algorithm) and "kid" (Key
+ * ID), and respects the JWK's "use" (Public Key Use) and "key_ops" (Key Operations). Exactly one
+ * key must match.
  *
  * Only a single public key must match the selection process. As shown in the example below when
  * multiple keys get matched it is possible to opt-in to iterate over the matched keys and attempt

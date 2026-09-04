@@ -9,7 +9,7 @@ import { createSignature } from '../../lib/jws_sign.js'
 import { assertNotSet } from '../../lib/helpers.js'
 
 /**
- * The FlattenedSign class is used to build and sign Flattened JWS objects.
+ * Builds and signs Flattened JWS objects.
  *
  * This class is exported (as a named export) from the main `'jose'` module entry point as well as
  * from its subpath export `'jose/jws/flattened/sign'`.

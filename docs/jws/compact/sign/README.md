@@ -6,4 +6,4 @@ Signing JSON Web Signature (JWS) in Compact Serialization
 
 | Class | Description |
 | ------ | ------ |
-| [CompactSign](classes/CompactSign.md) | The CompactSign class is used to build and sign Compact JWS strings. |
+| [CompactSign](classes/CompactSign.md) | Builds and signs Compact JWS strings. |

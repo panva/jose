@@ -6,4 +6,4 @@ Encrypting JSON Web Encryption (JWE) in Flattened JSON Serialization
 
 | Class | Description |
 | ------ | ------ |
-| [FlattenedEncrypt](classes/FlattenedEncrypt.md) | The FlattenedEncrypt class is used to build and encrypt Flattened JWE objects. |
+| [FlattenedEncrypt](classes/FlattenedEncrypt.md) | Builds and encrypts Flattened JWE objects. |

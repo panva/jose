@@ -4,7 +4,7 @@
 
 Support from the community to continue maintaining and improving this module is welcome. If you find the module useful, please consider supporting the project by [becoming a sponsor](https://github.com/sponsors/panva).
 
-Recognized JWE Header Parameters, any other Header members may also be present.
+Recognized JWE Header Parameters; additional members may also be present.
 
 ## Indexable
 

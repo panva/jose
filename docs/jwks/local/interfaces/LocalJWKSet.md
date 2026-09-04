@@ -4,7 +4,7 @@
 
 Support from the community to continue maintaining and improving this module is welcome. If you find the module useful, please consider supporting the project by [becoming a sponsor](https://github.com/sponsors/panva).
 
-The key resolution function returned by [createLocalJWKSet](../functions/createLocalJWKSet.md).
+A key resolver created by [createLocalJWKSet](../functions/createLocalJWKSet.md).
 
 ## See
 
@@ -13,7 +13,7 @@ The key resolution function returned by [createLocalJWKSet](../functions/createL
 
 ▸ **LocalJWKSet**(`protectedHeader?`, `token?`): [`Promise`](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise)\<[`CryptoKey`](https://developer.mozilla.org/docs/Web/API/CryptoKey)\>
 
-The key resolution function returned by [createLocalJWKSet](../functions/createLocalJWKSet.md).
+A key resolver created by [createLocalJWKSet](../functions/createLocalJWKSet.md).
 
 ## Parameters
 

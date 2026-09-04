@@ -8,8 +8,7 @@ Support from the community to continue maintaining and improving this module is 
 
 ▸ **jwtVerify**\<`PayloadType`\>(`jwt`, `key`, `options?`): [`Promise`](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise)\<[`JWTVerifyResult`](../../../types/interfaces/JWTVerifyResult.md)\<`PayloadType`\>\>
 
-Verifies the JWT format (to be a JWS Compact format), verifies the JWS signature, validates the
-JWT Claims Set.
+Verifies a Compact JWS-formatted JWT and validates its Claims Set.
 
 This function is exported (as a named export) from the main `'jose'` module entry point as well
 as from its subpath export `'jose/jwt/verify'`.

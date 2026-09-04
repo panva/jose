@@ -16,8 +16,9 @@ import {
 } from '../../lib/jws_verify.js'
 
 /**
- * Interface for Flattened JWS Verification dynamic key resolution. No token components have been
- * verified at the time of this function call.
+ * Dynamic key resolver for Flattened JWS verification.
+ *
+ * No token components have been verified at the time of this function call.
  *
  * @typeParam KeyType Type definition of the keys the function resolves. Narrowing it is what lets
  *   {@link types.ResolvedKey.key ResolvedKey.key} be inferred at the call site.
@@ -33,7 +34,7 @@ export interface FlattenedVerifyGetKey<
 > {}
 
 /**
- * Verifies the signature and format of and afterwards decodes the Flattened JWS.
+ * Verifies a Flattened JWS signature and decodes its payload.
  *
  * This function is exported (as a named export) from the main `'jose'` module entry point as well
  * as from its subpath export `'jose/jws/flattened/verify'`.
@@ -66,8 +67,8 @@ export function flattenedVerify(
   options?: types.VerifyOptions,
 ): Promise<types.FlattenedVerifyResult>
 /**
- * Verifies the signature and format of and afterwards decodes the Flattened JWS, resolving the key
- * dynamically. The result additionally carries the {@link types.ResolvedKey.key resolved key}.
+ * Verifies a Flattened JWS signature and decodes its payload, resolving the key dynamically. The
+ * result additionally carries the {@link types.ResolvedKey.key resolved key}.
  *
  * @param jws Flattened JWS.
  * @param getKey Function resolving a key to verify the JWS with. See

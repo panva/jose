@@ -55,8 +55,9 @@ function snapshotSignature(
 }
 
 /**
- * Interface for General JWS Verification dynamic key resolution. No token components have been
- * verified at the time of this function call.
+ * Dynamic key resolver for General JWS verification.
+ *
+ * No token components have been verified at the time of this function call.
  *
  * @typeParam KeyType Type definition of the keys the function resolves. Narrowing it is what lets
  *   {@link types.ResolvedKey.key ResolvedKey.key} be inferred at the call site.
@@ -72,7 +73,7 @@ export interface GeneralVerifyGetKey<
 > {}
 
 /**
- * Verifies the signature and format of and afterwards decodes the General JWS.
+ * Verifies a General JWS signature and decodes its payload.
  *
  * This function is exported (as a named export) from the main `'jose'` module entry point as well
  * as from its subpath export `'jose/jws/general/verify'`.
@@ -116,8 +117,8 @@ export function generalVerify(
   options?: types.VerifyOptions,
 ): Promise<types.GeneralVerifyResult>
 /**
- * Verifies the signature and format of and afterwards decodes the General JWS, resolving the key
- * dynamically. The result additionally carries the {@link types.ResolvedKey.key resolved key}.
+ * Verifies a General JWS signature and decodes its payload, resolving the key dynamically. The
+ * result additionally carries the {@link types.ResolvedKey.key resolved key}.
  *
  * @param jws General JWS.
  * @param getKey Function resolving a key to verify the JWS with. See

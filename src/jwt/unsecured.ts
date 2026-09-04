@@ -13,7 +13,7 @@ import { validateClaimsSet, JWTClaimsBuilder, jwtData } from '../lib/jwt_claims_
 import { JWS_RECOGNIZED, validateB64, validateCrit } from '../lib/options.js'
 
 /**
- * Result of decoding an Unsecured JWT.
+ * Decoded Unsecured JWT.
  *
  * @typeParam PayloadType Type definition of the JWT Claims Set the token is expected to carry.
  */
@@ -35,7 +35,7 @@ export interface UnsecuredResult<PayloadType = types.JWTPayload> {
 const UnsecuredJWT_base: new (payload?: types.JWTPayload) => types.ProduceJWT = JWTClaimsBuilder
 
 /**
- * The UnsecuredJWT class is a utility for dealing with `{ "alg": "none" }` Unsecured JWTs.
+ * Encodes and decodes `{ "alg": "none" }` Unsecured JWTs.
  *
  * This class is exported (as a named export) from the main `'jose'` module entry point as well as
  * from its subpath export `'jose/jwt/unsecured'`.

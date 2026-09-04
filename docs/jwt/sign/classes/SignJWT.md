@@ -4,7 +4,7 @@
 
 Support from the community to continue maintaining and improving this module is welcome. If you find the module useful, please consider supporting the project by [becoming a sponsor](https://github.com/sponsors/panva).
 
-The SignJWT class is used to build and sign Compact JWS formatted JSON Web Tokens.
+Builds and signs Compact JWS-formatted JSON Web Tokens.
 
 This class is exported (as a named export) from the main `'jose'` module entry point as well as
 from its subpath export `'jose/jwt/sign'`.

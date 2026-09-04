@@ -6,6 +6,8 @@ Support from the community to continue maintaining and improving this module is 
 
 • `const` **jwksCache**: unique `symbol`
 
+Symbol used to configure an externally persisted remote JWKS cache.
+
 > [!WARNING]\
 > This option has security implications that must be understood, assessed for applicability, and
 > accepted before use. It is critical that the JSON Web Key Set cache only be writable by your own

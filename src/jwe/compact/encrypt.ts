@@ -10,7 +10,7 @@ import { assertUint8Array } from '../../lib/type_checks.js'
 import { createJWE } from '../../lib/jwe_encrypt.js'
 
 /**
- * The CompactEncrypt class is used to build and encrypt Compact JWE strings.
+ * Builds and encrypts Compact JWE strings.
  *
  * This class is exported (as a named export) from the main `'jose'` module entry point as well as
  * from its subpath export `'jose/jwe/compact/encrypt'`.

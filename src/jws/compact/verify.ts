@@ -9,8 +9,9 @@ import { prepareVerify, verifyCompact } from '../../lib/jws_verify.js'
 import type { VerifyGetKey } from '../../lib/jws_verify.js'
 
 /**
- * Interface for Compact JWS Verification dynamic key resolution. No token components have been
- * verified at the time of this function call.
+ * Dynamic key resolver for Compact JWS verification.
+ *
+ * No token components have been verified at the time of this function call.
  *
  * @typeParam KeyType Type definition of the keys the function resolves. Narrowing it is what lets
  *   {@link types.ResolvedKey.key ResolvedKey.key} be inferred at the call site.
@@ -26,7 +27,7 @@ export interface CompactVerifyGetKey<
 > {}
 
 /**
- * Verifies the signature and format of and afterwards decodes the Compact JWS.
+ * Verifies a Compact JWS signature and decodes its payload.
  *
  * This function is exported (as a named export) from the main `'jose'` module entry point as well
  * as from its subpath export `'jose/jws/compact/verify'`.
@@ -54,8 +55,8 @@ export function compactVerify(
   options?: types.VerifyOptions,
 ): Promise<types.CompactVerifyResult>
 /**
- * Verifies the signature and format of and afterwards decodes the Compact JWS, resolving the key
- * dynamically. The result additionally carries the {@link types.ResolvedKey.key resolved key}.
+ * Verifies a Compact JWS signature and decodes its payload, resolving the key dynamically. The
+ * result additionally carries the {@link types.ResolvedKey.key resolved key}.
  *
  * @param jws Compact JWS.
  * @param getKey Function resolving a key to verify the JWS with. See

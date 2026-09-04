@@ -18,7 +18,7 @@ import { assertNotSet } from '../lib/helpers.js'
 const SignJWT_base: new (payload?: types.JWTPayload) => types.ProduceJWT = JWTClaimsBuilder
 
 /**
- * The SignJWT class is used to build and sign Compact JWS formatted JSON Web Tokens.
+ * Builds and signs Compact JWS-formatted JSON Web Tokens.
  *
  * This class is exported (as a named export) from the main `'jose'` module entry point as well as
  * from its subpath export `'jose/jwt/sign'`.

@@ -6,10 +6,10 @@ Verifying JSON Web Signature (JWS) in Compact Serialization
 
 | Interface | Description |
 | ------ | ------ |
-| [CompactVerifyGetKey](interfaces/CompactVerifyGetKey.md) | Interface for Compact JWS Verification dynamic key resolution. No token components have been verified at the time of this function call. |
+| [CompactVerifyGetKey](interfaces/CompactVerifyGetKey.md) | Dynamic key resolver for Compact JWS verification. |
 
 ## Functions
 
 | Function | Description |
 | ------ | ------ |
-| [compactVerify](functions/compactVerify.md) | Verifies the signature and format of and afterwards decodes the Compact JWS. |
+| [compactVerify](functions/compactVerify.md) | Verifies a Compact JWS signature and decodes its payload. |

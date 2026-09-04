@@ -10,7 +10,7 @@ import { encodeBase64, decodeBase64 } from '../lib/base64.js'
 const invalid = 'The input to be decoded is not correctly encoded.'
 
 /**
- * Decodes a Base64URL encoded input.
+ * Decodes a base64url-encoded input.
  *
  * These functions are exported (as the `base64url` namespace) from the main `'jose'` module entry
  * point as well as from its subpath export `'jose/base64url'`.
@@ -58,7 +58,7 @@ export function decode(input: Uint8Array | string): Uint8Array {
 }
 
 /**
- * Encodes an input using Base64URL with no padding.
+ * Encodes input using unpadded base64url.
  *
  * These functions are exported (as the `base64url` namespace) from the main `'jose'` module entry
  * point as well as from its subpath export `'jose/base64url'`.

@@ -4,7 +4,7 @@
 
 Support from the community to continue maintaining and improving this module is welcome. If you find the module useful, please consider supporting the project by [becoming a sponsor](https://github.com/sponsors/panva).
 
-Combination of JWS Verification options and JWT Claims Set verification options.
+JWS verification and JWT Claims Set validation options.
 
 ## Properties
 

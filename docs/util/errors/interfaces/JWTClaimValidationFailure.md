@@ -4,7 +4,7 @@
 
 Support from the community to continue maintaining and improving this module is welcome. If you find the module useful, please consider supporting the project by [becoming a sponsor](https://github.com/sponsors/panva).
 
-The shape shared by the two errors thrown during JWT Claims Set validation.
+Shared properties of JWT Claims Set validation errors.
 
 > [!NOTE]\
 > [JWTExpired](../classes/JWTExpired.md) does not extend [JWTClaimValidationFailed](../classes/JWTClaimValidationFailed.md), so `instanceof

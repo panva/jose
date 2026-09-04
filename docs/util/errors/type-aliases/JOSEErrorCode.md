@@ -6,8 +6,9 @@ Support from the community to continue maintaining and improving this module is 
 
 • **JOSEErrorCode** = `"ERR_JOSE_ALG_NOT_ALLOWED"` \| `"ERR_JOSE_GENERIC"` \| `"ERR_JOSE_NOT_SUPPORTED"` \| `"ERR_JWE_DECRYPTION_FAILED"` \| `"ERR_JWE_INVALID"` \| `"ERR_JWK_INVALID"` \| `"ERR_JWKS_INVALID"` \| `"ERR_JWKS_MULTIPLE_MATCHING_KEYS"` \| `"ERR_JWKS_NO_MATCHING_KEY"` \| `"ERR_JWKS_TIMEOUT"` \| `"ERR_JWS_INVALID"` \| `"ERR_JWS_SIGNATURE_VERIFICATION_FAILED"` \| `"ERR_JWT_CLAIM_VALIDATION_FAILED"` \| `"ERR_JWT_EXPIRED"` \| `"ERR_JWT_INVALID"`
 
-Every stable error code used by this module. [AnyJOSEError](AnyJOSEError.md) pairs each subclass with the one
-it is thrown with, making that union a discriminated one.
+Stable error codes used by this module.
+
+[AnyJOSEError](AnyJOSEError.md) pairs each subclass with its error code to form a discriminated union.
 
 ## Example
 

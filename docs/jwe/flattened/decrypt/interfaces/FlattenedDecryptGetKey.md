@@ -4,8 +4,9 @@
 
 Support from the community to continue maintaining and improving this module is welcome. If you find the module useful, please consider supporting the project by [becoming a sponsor](https://github.com/sponsors/panva).
 
-Interface for Flattened JWE Decryption dynamic key resolution. No token components have been
-verified at the time of this function call.
+Dynamic key resolver for Flattened JWE decryption.
+
+No token components have been verified at the time of this function call.
 
 ## Type Parameters
 
