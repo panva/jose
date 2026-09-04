@@ -1,5 +1,7 @@
 {
-  "$schema": "https://typedoc.org/schema.json",
+  "$schema": "https://typedoc-plugin-markdown.org/schema.json",
+  "logLevel": "Warn",
+  "treatWarningsAsErrors": true,
   "disableSources": true,
   "hideBreadcrumbs": true,
   "entryPoints": [
@@ -10,7 +12,7 @@
     "src/jws/**/*.ts",
     "src/jwt/*.ts",
     "src/key/*.ts",
-    "src/util/*.ts",
+    "src/util/*.ts"
   ],
   "excludeExternals": true,
   "excludePrivate": true,
@@ -23,6 +25,7 @@
   "sort": ["kind", "static-first", "required-first", "alphabetical"],
   "githubPages": false,
   "parametersFormat": "table",
+  "indexFormat": "table",
   "pageTitleTemplates": {
     "member": "{keyword} {kind}: {name}\n\n## [💗 Help the project](https://github.com/sponsors/panva)\n\nSupport from the community to continue maintaining and improving this module is welcome. If you find the module useful, please consider supporting the project by [becoming a sponsor](https://github.com/sponsors/panva)."
   },

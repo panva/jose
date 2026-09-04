@@ -19,6 +19,16 @@ const openUnions = [
   'JWTClaimValidationReason',
 ]
 
+// GitHub alerts cannot span a pipe-table cell. TypeDoc flattens their blockquote markers into
+// visible text, so preserve the warning level as an inline label in index descriptions instead.
+function formatIndexTableAlerts(content) {
+  return content.replace(
+    /^(\| .+ \|) > \[!(NOTE|TIP|IMPORTANT|WARNING|CAUTION)\]\\ > (.+) \|$/gm,
+    (_, columns, level, description) =>
+      `${columns} **${level[0]}${level.slice(1).toLowerCase()}:** ${description.replaceAll(' > ', ' ')} |`,
+  )
+}
+
 // docs/README.md is hand-written, typedoc must not clobber it
 const readme = readFileSync('docs/README.md')
 
@@ -31,7 +41,7 @@ execSync('npm exec --no -- patch-package', opts)
 execSync(`npm run docs:generate -- --gitRevision v${version}`, opts)
 
 globSync('docs/**/*.md').forEach((file) => {
-  const content = readFileSync(file, 'utf-8')
+  let content = readFileSync(file, 'utf-8')
     .replaceAll('\\<`ArrayBufferLike`\\>', '')
     .replace(new RegExp(`\`(?:${openUnions.join('|')})\``, 'g'), '`string`')
     // an inline union carrying the arm - "sig" | "enc" | (string & {}) and the like - widens the
@@ -62,6 +72,11 @@ globSync('docs/**/*.md').forEach((file) => {
       / & \\\[`(\w+)`\\\] \*extends\* \\\[`object`\\\] \? `unknown` : `unknown` \*extends\* `\1` \? `unknown` : `never`/g,
       '',
     )
+
+  content = formatIndexTableAlerts(content)
+  if (/^\| .+ \| > \[![A-Z]+\]/m.test(content)) {
+    throw new Error(`unrenderable alert in index table in ${file}`)
+  }
 
   writeFileSync(file, content, 'utf-8')
 })

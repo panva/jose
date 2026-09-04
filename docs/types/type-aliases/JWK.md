@@ -137,9 +137,6 @@ RSA JWK "n" (Modulus) Parameter
 
 RSA JWK "oth" (Other Primes Info) Parameter
 
-> [!NOTE]\
-> Multi-prime RSA keys are not supported; importing a JWK with this parameter present throws.
-
 #### d?
 
 • `optional` **d?**: `string`

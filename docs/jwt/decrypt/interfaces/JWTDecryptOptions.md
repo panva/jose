@@ -103,7 +103,8 @@ compressed JWEs during decryption or to `Infinity` to disable the decompressed s
 
 (PBES2 Key Management Algorithms only) Maximum allowed "p2c" (PBES2 Count) Header Parameter
 value. The PBKDF2 iteration count defines the algorithm's computational expense. By default
-this value is set to 10000.
+this value is set to 10000. The value must be a positive safe integer or `Infinity`. Set it to
+`Infinity` to disable the limit.
 
 ***
 

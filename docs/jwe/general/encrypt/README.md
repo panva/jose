@@ -4,8 +4,12 @@ Encrypting JSON Web Encryption (JWE) in General JSON Serialization
 
 ## Classes
 
-- [GeneralEncrypt](classes/GeneralEncrypt.md)
+| Class | Description |
+| ------ | ------ |
+| [GeneralEncrypt](classes/GeneralEncrypt.md) | The GeneralEncrypt class is used to build and encrypt General JWE objects. |
 
 ## Interfaces
 
-- [Recipient](interfaces/Recipient.md)
+| Interface | Description |
+| ------ | ------ |
+| [Recipient](interfaces/Recipient.md) | Used to build General JWE object's individual recipients. |

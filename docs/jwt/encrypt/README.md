@@ -4,4 +4,6 @@ JSON Web Token (JWT) Encryption (JWT is in JWE format)
 
 ## Classes
 
-- [EncryptJWT](classes/EncryptJWT.md)
+| Class | Description |
+| ------ | ------ |
+| [EncryptJWT](classes/EncryptJWT.md) | The EncryptJWT class is used to build and encrypt Compact JWE formatted JSON Web Tokens. |
