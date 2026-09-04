@@ -115,3 +115,21 @@ test('JWK key_ops must be an array of unique strings', async (t) => {
     })
   }
 })
+
+test('JWKS imports remain limited to public JWS keys', async (t) => {
+  const privateKeySet = createLocalJWKSet({
+    keys: [
+      {
+        crv: 'P-256',
+        d: 'hRVo5TGE_d_4tQC1KEQIlCdo9rteZmLSmaMPpFOjeDI',
+        kty: 'EC',
+        x: 'Sp3KpzPjwcCF04_W2GvSSf-vGDvp3Iv2kQYqAjnMB-Y',
+        y: 'lZmecT2quXe0i9f7b4qHvDAFDpxs0oxCoJx4tOOqsks',
+      },
+    ],
+  })
+  await t.throwsAsync(privateKeySet({ alg: 'ES256' }), {
+    code: 'ERR_JWKS_INVALID',
+    message: 'JSON Web Key Set members must be public keys',
+  })
+})

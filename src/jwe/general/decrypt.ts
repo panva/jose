@@ -17,6 +17,7 @@ import type { DecryptShared, SharedJWE } from '../../lib/jwe_decrypt.js'
 import { JWEDecryptionFailed, JWEInvalid } from '../../util/errors.js'
 import type * as types from '../../types.d.ts'
 import { isObject } from '../../lib/type_checks.js'
+import { JWE, isJWECEKTransport } from '../../lib/jwe_algorithms.js'
 
 /**
  * Interface for General JWE Decryption dynamic key resolution. No token components have been
@@ -150,12 +151,17 @@ export async function generalDecrypt(
   }
 
   const recipientSnapshots = recipients.map((recipient) => snapshotRecipientJWE(recipient))
+  const recipientAlgorithms = recipientSnapshots.map(
+    ([, headerAlg]) => token[0]?.alg ?? headerAlg ?? sharedJwe.unprotected?.alg,
+  )
 
   if (recipients.length > 1) {
-    for (const [, headerAlg] of recipientSnapshots) {
-      // This implementation supports these direct key-management modes for one recipient only.
-      const alg = token[0]?.alg ?? headerAlg ?? sharedJwe.unprotected?.alg
-      if (alg === 'dir' || alg === 'ECDH-ES') {
+    // A recognized direct mode makes the serialization invalid as a whole. Unknown or otherwise
+    // invalid algorithms remain recipient-local so a successful recipient can still be returned,
+    // as required by General JWE's documented failure-collapsing behavior.
+    for (const alg of recipientAlgorithms) {
+      const algEntry = typeof alg === 'string' ? JWE[alg] : undefined
+      if (algEntry && !isJWECEKTransport(algEntry)) {
         throw new JWEInvalid(`"${alg}" alg may only have a single recipient`)
       }
     }

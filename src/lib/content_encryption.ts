@@ -11,7 +11,7 @@ import { isCryptoKey } from './is_key_like.js'
 export const generateCek = (enc: JWEEncryption): Uint8Array =>
   crypto.getRandomValues(new Uint8Array(enc.cekBits >> 3))
 
-function checkCekLength(cek: Uint8Array, expected: number) {
+export function checkCekLength(cek: Uint8Array, expected: number): void {
   const actual = cek.byteLength << 3
   if (actual !== expected) {
     throw new JWEInvalid(

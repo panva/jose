@@ -241,6 +241,7 @@
     "ava": "^7.0.0",
     "esbuild": "^0.28.1",
     "fast-check": "^4.9.0",
+    "hpke": "^1.1.5",
     "npm-run-all2": "^9.0.3",
     "patch-package": "^8.0.1",
     "prettier": "^3.9.6",

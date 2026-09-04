@@ -1,7 +1,13 @@
 import test from 'ava'
 import * as crypto from 'crypto'
 
-import { FlattenedEncrypt, base64url, flattenedDecrypt, generateKeyPair } from '../../src/index.js'
+import {
+  FlattenedEncrypt,
+  base64url,
+  flattenedDecrypt,
+  generateKeyPair,
+  generateSecret,
+} from '../../src/index.js'
 
 test.before(async (t) => {
   const encode = TextEncoder.prototype.encode.bind(new TextEncoder())
@@ -51,6 +57,8 @@ test('JWE format validation', async (t) => {
     await t.throwsAsync(flattenedDecrypt(jwe, t.context.secret), assertion)
     jwe.iv = null
     await t.throwsAsync(flattenedDecrypt(jwe, t.context.secret), assertion)
+    jwe.iv = ''
+    await t.throwsAsync(flattenedDecrypt(jwe, t.context.secret), assertion)
     jwe.iv = undefined
     await t.throwsAsync(flattenedDecrypt(jwe, t.context.secret), {
       message: 'JWE Initialization Vector missing',
@@ -82,6 +90,8 @@ test('JWE format validation', async (t) => {
     jwe.tag = 12
     await t.throwsAsync(flattenedDecrypt(jwe, t.context.secret), assertion)
     jwe.tag = null
+    await t.throwsAsync(flattenedDecrypt(jwe, t.context.secret), assertion)
+    jwe.tag = ''
     await t.throwsAsync(flattenedDecrypt(jwe, t.context.secret), assertion)
     jwe.tag = undefined
     await t.throwsAsync(flattenedDecrypt(jwe, t.context.secret), {
@@ -120,12 +130,15 @@ test('JWE format validation', async (t) => {
 
   {
     const jwe = { ...fullJwe }
-    jwe.encrypted_key = null
-
-    await t.throwsAsync(flattenedDecrypt(jwe, t.context.secret), {
+    const assertion = {
       message: 'JWE Encrypted Key incorrect type',
       code: 'ERR_JWE_INVALID',
-    })
+    }
+
+    jwe.encrypted_key = null
+    await t.throwsAsync(flattenedDecrypt(jwe, t.context.secret), assertion)
+    jwe.encrypted_key = ''
+    await t.throwsAsync(flattenedDecrypt(jwe, t.context.secret), assertion)
   }
 
   {
@@ -197,6 +210,116 @@ test('JWE format validation', async (t) => {
       message: 'Encountered unexpected JWE Encrypted Key',
       code: 'ERR_JWE_INVALID',
     })
+  }
+})
+
+test('ECDH-ES with key wrapping validates epk before the encrypted key', async (t) => {
+  const { privateKey } = await generateKeyPair('ECDH-ES', { crv: 'P-256' })
+  const jwe = {
+    protected: base64url.encode(JSON.stringify({ alg: 'ECDH-ES+A128KW', enc: 'A128GCM' })),
+    ciphertext: 'AA',
+    iv: 'AA',
+    tag: 'AA',
+  }
+
+  await t.throwsAsync(flattenedDecrypt(jwe, privateKey), {
+    code: 'ERR_JWE_INVALID',
+    message: 'JOSE Header "epk" (Ephemeral Public Key) missing or invalid',
+  })
+})
+
+test('ECDH-ES validates party info and a public-only epk', async (t) => {
+  const { privateKey, publicKey } = await generateKeyPair('ECDH-ES', { crv: 'P-256' })
+  const jwe = await new FlattenedEncrypt(t.context.plaintext)
+    .setProtectedHeader({ alg: 'ECDH-ES+A128KW', enc: 'A128GCM' })
+    .setKeyManagementParameters({ apu: Uint8Array.of(1), apv: Uint8Array.of(2) })
+    .encrypt(publicKey)
+  const protectedHeader = JSON.parse(new TextDecoder().decode(base64url.decode(jwe.protected!)))
+
+  await t.throwsAsync(
+    flattenedDecrypt(
+      {
+        ...jwe,
+        protected: base64url.encode(
+          JSON.stringify({ ...protectedHeader, apv: protectedHeader.apu }),
+        ),
+      },
+      privateKey,
+    ),
+    {
+      code: 'ERR_JWE_INVALID',
+      message: 'JOSE Header "apu" and "apv" values must be distinct',
+    },
+  )
+
+  for (const privateParameter of ['d', 'k', 'p', 'q', 'dp', 'dq', 'qi', 'oth', 'priv'] as const) {
+    await t.throwsAsync(
+      flattenedDecrypt(
+        {
+          ...jwe,
+          protected: base64url.encode(
+            JSON.stringify({
+              ...protectedHeader,
+              epk: { ...protectedHeader.epk, [privateParameter]: 'AA' },
+            }),
+          ),
+        },
+        privateKey,
+      ),
+      {
+        code: 'ERR_JWE_INVALID',
+        message: 'JOSE Header "epk" (Ephemeral Public Key) missing or invalid',
+      },
+    )
+  }
+
+  for (const parameter of ['apu', 'apv'] as const) {
+    const party = parameter === 'apu' ? 'U' : 'V'
+    for (const [value, message] of [
+      [0, `JOSE Header "${parameter}" (Agreement Party${party}Info) invalid`],
+      ['!', `Failed to base64url decode the ${parameter}`],
+    ] as const) {
+      await t.throwsAsync(
+        flattenedDecrypt(
+          {
+            ...jwe,
+            protected: base64url.encode(JSON.stringify({ ...protectedHeader, [parameter]: value })),
+          },
+          privateKey,
+        ),
+        { code: 'ERR_JWE_INVALID', message },
+      )
+    }
+  }
+})
+
+test('AES-GCMKW validates its key-management iv and tag', async (t) => {
+  const jwe = await new FlattenedEncrypt(t.context.plaintext)
+    .setProtectedHeader({ alg: 'A128GCMKW', enc: 'A128GCM' })
+    .encrypt(t.context.secret)
+  const protectedHeader = JSON.parse(new TextDecoder().decode(base64url.decode(jwe.protected!)))
+
+  const cases = [
+    ['iv', undefined, 'JOSE Header "iv" (Initialization Vector) missing or invalid'],
+    ['iv', 0, 'JOSE Header "iv" (Initialization Vector) missing or invalid'],
+    ['iv', '!', 'Failed to base64url decode the iv'],
+    ['iv', base64url.encode(new Uint8Array(11)), 'Invalid Initialization Vector length'],
+    ['tag', undefined, 'JOSE Header "tag" (Authentication Tag) missing or invalid'],
+    ['tag', 0, 'JOSE Header "tag" (Authentication Tag) missing or invalid'],
+    ['tag', '!', 'Failed to base64url decode the tag'],
+    ['tag', base64url.encode(new Uint8Array(15)), 'Invalid Authentication Tag length'],
+  ] as const
+
+  for (const [parameter, value, message] of cases) {
+    const header = { ...protectedHeader, [parameter]: value }
+    if (value === undefined) delete header[parameter]
+    await t.throwsAsync(
+      flattenedDecrypt(
+        { ...jwe, protected: base64url.encode(JSON.stringify(header)) },
+        t.context.secret,
+      ),
+      { code: 'ERR_JWE_INVALID', message },
+    )
   }
 })
 
@@ -339,6 +462,26 @@ test('decrypt PBES2 p2c limit', async (t) => {
       code: 'ERR_JWE_INVALID',
     },
   )
+
+  await t.notThrowsAsync(
+    flattenedDecrypt(jwe, new Uint8Array(32), {
+      maxPBES2Count: Infinity,
+      keyManagementAlgorithms: ['PBES2-HS256+A128KW'],
+    }),
+  )
+
+  for (const maxPBES2Count of [0, -1, 1.5, NaN, -Infinity, Number.MAX_SAFE_INTEGER + 1]) {
+    await t.throwsAsync(
+      flattenedDecrypt(jwe, new Uint8Array(32), {
+        maxPBES2Count,
+        keyManagementAlgorithms: ['PBES2-HS256+A128KW'],
+      }),
+      {
+        instanceOf: TypeError,
+        message: 'maxPBES2Count must be a positive safe integer or Infinity',
+      },
+    )
+  }
 })
 
 test('PBES2 p2c must be a positive integer on decrypt', async (t) => {
@@ -360,6 +503,33 @@ test('PBES2 p2c must be a positive integer on decrypt', async (t) => {
       message: 'PBES2 Count Input must be a positive integer',
     },
   )
+})
+
+test('PBES2 p2s must be present, encoded, and contain at least 8 octets', async (t) => {
+  const jwe = await new FlattenedEncrypt(new Uint8Array())
+    .setProtectedHeader({ alg: 'PBES2-HS256+A128KW', enc: 'A128CBC-HS256' })
+    .setKeyManagementParameters({ p2c: 1 })
+    .encrypt(new Uint8Array(32))
+  const protectedHeader = JSON.parse(new TextDecoder().decode(base64url.decode(jwe.protected!)))
+  const cases = [
+    [undefined, 'JOSE Header "p2s" (PBES2 Salt) missing or invalid'],
+    [0, 'JOSE Header "p2s" (PBES2 Salt) missing or invalid'],
+    ['!', 'Failed to base64url decode the p2s'],
+    [base64url.encode(new Uint8Array(7)), 'PBES2 Salt Input must be 8 or more octets'],
+  ] as const
+
+  for (const [value, message] of cases) {
+    const header = { ...protectedHeader, p2s: value }
+    if (value === undefined) delete header.p2s
+    await t.throwsAsync(
+      flattenedDecrypt(
+        { ...jwe, protected: base64url.encode(JSON.stringify(header)) },
+        new Uint8Array(32),
+        { keyManagementAlgorithms: ['PBES2-HS256+A128KW'] },
+      ),
+      { code: 'ERR_JWE_INVALID', message },
+    )
+  }
 })
 
 test('decrypt with PBES2 is not allowed by default', async (t) => {
@@ -444,14 +614,48 @@ test('encrypted CEK length errors are indistinguishable from decryption failures
   )
   const malformed = crypto.randomFillSync(new Uint8Array(256))
 
-  for (const encryptedKey of [wrongLength, malformed]) {
-    await t.throwsAsync(
-      flattenedDecrypt({ ...jwe, encrypted_key: base64url.encode(encryptedKey) }, privateKey),
+  const inputs = [
+    { ...jwe, encrypted_key: base64url.encode(wrongLength) },
+    { ...jwe, encrypted_key: base64url.encode(malformed) },
+    { ...jwe, encrypted_key: '!' },
+    { ...jwe, encrypted_key: '' },
+    { ...jwe, encrypted_key: undefined },
+  ]
+
+  for (const input of inputs) {
+    await t.throwsAsync(flattenedDecrypt(input, privateKey), {
+      code: 'ERR_JWE_DECRYPTION_FAILED',
+      message: 'decryption operation failed',
+    })
+  }
+})
+
+test('an authenticated empty AES-GCMKW CEK still follows failure substitution', async (t) => {
+  const key = await generateSecret('A128GCMKW')
+  const jwe = await new FlattenedEncrypt(t.context.plaintext)
+    .setProtectedHeader({ alg: 'A128GCMKW', enc: 'A128GCM' })
+    .encrypt(key)
+  const protectedHeader = JSON.parse(new TextDecoder().decode(base64url.decode(jwe.protected!)))
+  const authenticationTag = new Uint8Array(
+    await crypto.subtle.encrypt(
       {
-        code: 'ERR_JWE_DECRYPTION_FAILED',
-        message: 'decryption operation failed',
+        additionalData: new Uint8Array(),
+        iv: base64url.decode(protectedHeader.iv),
+        name: 'AES-GCM',
+        tagLength: 128,
       },
-    )
+      key,
+      new Uint8Array(),
+    ),
+  )
+  protectedHeader.tag = base64url.encode(authenticationTag)
+  jwe.protected = base64url.encode(JSON.stringify(protectedHeader))
+
+  for (const encryptedKey of [undefined, '']) {
+    await t.throwsAsync(flattenedDecrypt({ ...jwe, encrypted_key: encryptedKey }, key), {
+      code: 'ERR_JWE_DECRYPTION_FAILED',
+      message: 'decryption operation failed',
+    })
   }
 })
 

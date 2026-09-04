@@ -3,8 +3,12 @@ import type { JWEKeyManagementHeaderParameters, JWEHeaderParameters, JWK } from 
 import { encode as b64u } from '../util/base64url.js'
 import { prepareKey } from './key.js'
 import { jwkToKey } from './jwk_to_key.js'
-import { jweAlgorithm, jweEncryption } from './jwe_algorithms.js'
-import type { JWEEncryption } from './jwe_algorithms.js'
+import {
+  jweAlgorithm,
+  jweEncryption,
+  type JWEConventionalAlgorithm,
+  type JWEEncryption,
+} from './jwe_algorithms.js'
 import { JOSENotSupported, JWEInvalid } from '../util/errors.js'
 import { decodeBase64url, digest } from './helpers.js'
 import { generateCek, encrypt, decrypt } from './content_encryption.js'
@@ -227,6 +231,25 @@ function assertEcdhKey(key: types.CryptoKey | Uint8Array): asserts key is types.
   }
 }
 
+function partyInfo(joseHeader: types.JWEHeaderParameters, name: 'apu' | 'apv') {
+  const value = joseHeader[name]
+  if (value === undefined) return undefined
+  if (typeof value !== 'string') {
+    throw new JWEInvalid(
+      `JOSE Header "${name}" (Agreement Party${name === 'apu' ? 'U' : 'V'}Info) invalid`,
+    )
+  }
+  return decodeBase64url(value, name, JWEInvalid)
+}
+
+function checkPartyInfo(apu: Uint8Array | undefined, apv: Uint8Array | undefined): void {
+  if (apu === undefined || apv === undefined || apu.byteLength !== apv.byteLength) return
+  for (let i = 0; i < apu.byteLength; i++) {
+    if (apu[i] !== apv[i]) return
+  }
+  throw new JWEInvalid('JOSE Header "apu" and "apv" values must be distinct')
+}
+
 function assertEncryptedKey(
   encryptedKey: Uint8Array | undefined,
 ): asserts encryptedKey is Uint8Array {
@@ -237,55 +260,64 @@ function assertNoEncryptedKey(encryptedKey: Uint8Array | undefined): void {
   if (encryptedKey !== undefined) throw new JWEInvalid('Encountered unexpected JWE Encrypted Key')
 }
 
+export function validateMaxPBES2Count(value: number | undefined): void {
+  if (value !== undefined && value !== Infinity && (!Number.isSafeInteger(value) || value < 1)) {
+    throw new TypeError('maxPBES2Count must be a positive safe integer or Infinity')
+  }
+}
+
 export async function decryptKeyManagement(
-  alg: string,
+  entry: JWEConventionalAlgorithm,
   enc: JWEEncryption,
   key: types.CryptoKey | Uint8Array,
   encryptedKey: Uint8Array | undefined,
   joseHeader: types.JWEHeaderParameters,
   maxPBES2Count?: number,
 ): Promise<types.CryptoKey | Uint8Array> {
-  const entry = jweAlgorithm(alg)
-  if (alg === 'dir') {
-    assertNoEncryptedKey(encryptedKey)
-
-    return key
+  const { alg } = entry
+  const mode = entry.mode
+  switch (mode) {
+    case 'direct-encryption':
+      assertNoEncryptedKey(encryptedKey)
+      return key
+    case 'direct-key-agreement':
+    case 'key-wrapping':
+    case 'key-encryption':
+    case 'key-agreement-with-key-wrapping':
+      break
   }
 
   switch (entry.subtle.name) {
     case 'ECDH': {
-      if (alg === 'ECDH-ES') assertNoEncryptedKey(encryptedKey)
-      if (!isObject<types.JWK>(joseHeader.epk))
+      const direct = mode === 'direct-key-agreement'
+      if (direct) assertNoEncryptedKey(encryptedKey)
+      const { epk } = joseHeader
+      if (
+        !isObject<types.JWK>(epk) ||
+        ['d', 'k', 'p', 'q', 'dp', 'dq', 'qi', 'oth', 'priv'].some((parameter) =>
+          Object.hasOwn(epk, parameter),
+        )
+      ) {
         throw new JWEInvalid(`JOSE Header "epk" (Ephemeral Public Key) missing or invalid`)
+      }
 
       assertEcdhKey(key)
 
-      const epk = await jwkToKey(entry, joseHeader.epk)
-      let partyUInfo!: Uint8Array
-      let partyVInfo!: Uint8Array
-
-      if (joseHeader.apu !== undefined) {
-        if (typeof joseHeader.apu !== 'string')
-          throw new JWEInvalid(`JOSE Header "apu" (Agreement PartyUInfo) invalid`)
-        partyUInfo = decodeBase64url(joseHeader.apu, 'apu', JWEInvalid)
-      }
-
-      if (joseHeader.apv !== undefined) {
-        if (typeof joseHeader.apv !== 'string')
-          throw new JWEInvalid(`JOSE Header "apv" (Agreement PartyVInfo) invalid`)
-        partyVInfo = decodeBase64url(joseHeader.apv, 'apv', JWEInvalid)
-      }
+      const ephemeralPublicKey = await jwkToKey(entry, epk)
+      const partyUInfo = partyInfo(joseHeader, 'apu')
+      const partyVInfo = partyInfo(joseHeader, 'apv')
+      checkPartyInfo(partyUInfo, partyVInfo)
 
       const sharedSecret = await ecdhesDeriveKey(
-        epk,
+        ephemeralPublicKey,
         key,
-        alg === 'ECDH-ES' ? enc.alg : alg,
-        alg === 'ECDH-ES' ? enc.cekBits : parseInt(alg.slice(-5, -2), 10),
+        direct ? enc.alg : alg,
+        direct ? enc.cekBits : parseInt(alg.slice(-5, -2), 10),
         partyUInfo,
         partyVInfo,
       )
 
-      if (alg === 'ECDH-ES') return sharedSecret
+      if (direct) return sharedSecret
 
       // Key Agreement with Key Wrapping
       assertEncryptedKey(encryptedKey)
@@ -306,7 +338,9 @@ export async function decryptKeyManagement(
       if (typeof joseHeader.p2c !== 'number')
         throw new JWEInvalid(`JOSE Header "p2c" (PBES2 Count) missing or invalid`)
 
-      const p2cLimit = maxPBES2Count || 10_000
+      validateMaxPBES2Count(maxPBES2Count)
+
+      const p2cLimit = maxPBES2Count ?? 10_000
 
       if (joseHeader.p2c > p2cLimit)
         throw new JWEInvalid(`JOSE Header "p2c" (PBES2 Count) out is of acceptable bounds`)
@@ -337,15 +371,19 @@ export async function decryptKeyManagement(
       let tag: Uint8Array
       tag = decodeBase64url(joseHeader.tag, 'tag', JWEInvalid)
 
+      if (iv.byteLength !== 12) throw new JWEInvalid('Invalid Initialization Vector length')
+      if (tag.byteLength !== 16) throw new JWEInvalid('Invalid Authentication Tag length')
+
       return decrypt(jweEncryption(alg.slice(0, -2)), key, encryptedKey, iv, tag, new Uint8Array())
     }
   }
 }
 
 export async function encryptKeyManagement(
-  alg: string,
+  entry: JWEConventionalAlgorithm,
   enc: JWEEncryption,
   key: types.CryptoKey | Uint8Array,
+  joseHeader: types.JWEHeaderParameters,
   providedCek?: Uint8Array,
   providedParameters: JWEKeyManagementHeaderParameters = {},
 ): Promise<
@@ -357,21 +395,33 @@ export async function encryptKeyManagement(
 > {
   let encryptedKey: Uint8Array | undefined
   let parameters: (JWEHeaderParameters & { epk?: JWK }) | undefined
-  let cek: types.CryptoKey | Uint8Array
+  let cek: types.CryptoKey | Uint8Array | undefined
 
-  const entry = jweAlgorithm(alg)
-  if (alg === 'dir') return [key, undefined, undefined]
+  const { alg } = entry
+  const mode = entry.mode
+  switch (mode) {
+    case 'direct-encryption':
+      return [key, undefined, undefined]
+    case 'direct-key-agreement':
+    case 'key-wrapping':
+    case 'key-encryption':
+    case 'key-agreement-with-key-wrapping':
+      break
+  }
 
   switch (entry.subtle.name) {
     case 'ECDH': {
       assertEcdhKey(key)
-      const { apu, apv } = providedParameters
-      if (apu !== undefined) {
-        assertUint8Array(apu, '"apu"')
+      const { apu: providedApu, apv: providedApv } = providedParameters
+      if (providedApu !== undefined) {
+        assertUint8Array(providedApu, '"apu"')
       }
-      if (apv !== undefined) {
-        assertUint8Array(apv, '"apv"')
+      if (providedApv !== undefined) {
+        assertUint8Array(providedApv, '"apv"')
       }
+      const apu = providedApu ?? partyInfo(joseHeader, 'apu')
+      const apv = providedApv ?? partyInfo(joseHeader, 'apv')
+      checkPartyInfo(apu, apv)
       let ephemeralKey: types.CryptoKey
       if (providedParameters.epk !== undefined) {
         ephemeralKey = (await prepareKey(
@@ -393,32 +443,33 @@ export async function encryptKeyManagement(
         exportableEpk = await subtle.getPublicKey(ephemeralKey, [])
       }
       const { x, y, crv, kty } = (await subtle.exportKey('jwk', exportableEpk)) as types.JWK
+      const direct = mode === 'direct-key-agreement'
       const sharedSecret = await ecdhesDeriveKey(
         key,
         ephemeralKey,
-        alg === 'ECDH-ES' ? enc.alg : alg,
-        alg === 'ECDH-ES' ? enc.cekBits : parseInt(alg.slice(-5, -2), 10),
+        direct ? enc.alg : alg,
+        direct ? enc.cekBits : parseInt(alg.slice(-5, -2), 10),
         apu,
         apv,
       )
       parameters = { epk: { x, crv, kty } }
       if (kty === 'EC') parameters.epk!.y = y
-      if (apu) parameters.apu = b64u(apu)
-      if (apv) parameters.apv = b64u(apv)
+      if (providedApu !== undefined) parameters.apu = b64u(providedApu)
+      if (providedApv !== undefined) parameters.apv = b64u(providedApv)
 
-      if (alg === 'ECDH-ES') {
+      if (direct) {
         cek = sharedSecret
         break
       }
 
       // Key Agreement with Key Wrapping
-      cek = providedCek || generateCek(enc)
+      cek = providedCek ?? generateCek(enc)
       const kwAlg = alg.slice(-6)
       encryptedKey = await aeskwWrap(kwAlg, sharedSecret, cek)
       break
     }
     case 'RSA-OAEP': {
-      cek = providedCek || generateCek(enc)
+      cek = providedCek ?? generateCek(enc)
       assertCryptoKey(key)
       checkRsaKey(alg, key, 'encrypt')
       encryptedKey = new Uint8Array(
@@ -427,7 +478,7 @@ export async function encryptKeyManagement(
       break
     }
     case 'PBKDF2': {
-      cek = providedCek || generateCek(enc)
+      cek = providedCek ?? generateCek(enc)
       const { p2c = 2048, p2s = crypto.getRandomValues(new Uint8Array(16)) } = providedParameters
       const derived = await deriveKey(p2s, alg, p2c, key)
       encryptedKey = await aeskwWrap(alg.slice(-6), derived, cek)
@@ -435,13 +486,19 @@ export async function encryptKeyManagement(
       break
     }
     case 'AES-KW': {
-      cek = providedCek || generateCek(enc)
+      cek = providedCek ?? generateCek(enc)
       encryptedKey = await aeskwWrap(alg, key, cek)
       break
     }
     case 'AES-GCM': {
-      cek = providedCek || generateCek(enc)
-      const { iv } = providedParameters
+      cek = providedCek ?? generateCek(enc)
+      const iv =
+        providedParameters.iv === undefined
+          ? crypto.getRandomValues(new Uint8Array(12))
+          : providedParameters.iv
+      if (!(iv instanceof Uint8Array)) {
+        throw new TypeError('"iv" must be an instance of Uint8Array')
+      }
       const wrapped = await encrypt(jweEncryption(alg.slice(0, -2)), cek, key, iv, new Uint8Array())
       encryptedKey = wrapped.ciphertext
       parameters = { iv: b64u(wrapped.iv!), tag: b64u(wrapped.tag!) }
@@ -449,5 +506,6 @@ export async function encryptKeyManagement(
     }
   }
 
+  if (cek === undefined) throw new TypeError('Invalid JWE key management algorithm')
   return [cek, encryptedKey, parameters]
 }

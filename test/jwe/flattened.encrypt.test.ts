@@ -2,6 +2,7 @@ import test from 'ava'
 
 import {
   FlattenedEncrypt,
+  base64url,
   flattenedDecrypt,
   decodeProtectedHeader,
   generateKeyPair,
@@ -364,7 +365,7 @@ test('Default PBES2 Count', async (t) => {
 })
 
 test('PBES2 p2c must be a positive integer on encrypt', async (t) => {
-  for (const p2c of [0, -1, 1.5]) {
+  for (const p2c of [0, -1, 1.5, NaN, Infinity, -Infinity, Number.MAX_SAFE_INTEGER + 1]) {
     await t.throwsAsync(
       new FlattenedEncrypt(t.context.plaintext)
         .setProtectedHeader({ alg: 'PBES2-HS256+A128KW', enc: 'A128GCM' })
@@ -373,6 +374,21 @@ test('PBES2 p2c must be a positive integer on encrypt', async (t) => {
       {
         code: 'ERR_JWE_INVALID',
         message: 'PBES2 Count Input must be a positive integer',
+      },
+    )
+  }
+})
+
+test('PBES2 p2s must contain at least 8 octets', async (t) => {
+  for (const p2s of [new Uint8Array(7), null, false, 0, '']) {
+    await t.throwsAsync(
+      new FlattenedEncrypt(t.context.plaintext)
+        .setProtectedHeader({ alg: 'PBES2-HS256+A128KW', enc: 'A128GCM' })
+        .setKeyManagementParameters({ p2c: 1, p2s: p2s as never })
+        .encrypt(t.context.secret),
+      {
+        code: 'ERR_JWE_INVALID',
+        message: 'PBES2 Salt Input must be 8 or more octets',
       },
     )
   }
@@ -390,6 +406,81 @@ test('ECDH apu and apv must be Uint8Array instances', async (t) => {
       { instanceOf: TypeError },
     )
   }
+})
+
+test('ECDH apu and apv must be distinct', async (t) => {
+  const { publicKey } = await generateKeyPair('ECDH-ES')
+  const partyInfo = new Uint8Array()
+
+  for (const alg of ['ECDH-ES', 'ECDH-ES+A128KW'] as const) {
+    await t.throwsAsync(
+      new FlattenedEncrypt(t.context.plaintext)
+        .setProtectedHeader({ alg, enc: 'A128GCM' })
+        .setKeyManagementParameters({ apu: partyInfo, apv: partyInfo })
+        .encrypt(publicKey),
+      {
+        code: 'ERR_JWE_INVALID',
+        message: 'JOSE Header "apu" and "apv" values must be distinct',
+      },
+    )
+  }
+})
+
+test('ECDH processes apu and apv supplied as JOSE Header Parameters', async (t) => {
+  const { privateKey, publicKey } = await generateKeyPair('ECDH-ES')
+  const apu = base64url.encode(Uint8Array.of(1))
+  const apv = base64url.encode(Uint8Array.of(2))
+
+  for (const alg of ['ECDH-ES', 'ECDH-ES+A128KW'] as const) {
+    for (const protectedParameters of [true, false]) {
+      const encryption = new FlattenedEncrypt(t.context.plaintext).setProtectedHeader(
+        protectedParameters ? { alg, enc: 'A128GCM', apu, apv } : { alg, enc: 'A128GCM' },
+      )
+      if (!protectedParameters) encryption.setUnprotectedHeader({ apu, apv })
+      const jwe = await encryption.encrypt(publicKey)
+      const result = await flattenedDecrypt(jwe, privateKey)
+      t.deepEqual(result.plaintext, t.context.plaintext)
+    }
+  }
+})
+
+test('AES-GCMKW iv must not ignore invalid falsy values', async (t) => {
+  for (const iv of [null, false, 0, '']) {
+    await t.throwsAsync(
+      new FlattenedEncrypt(t.context.plaintext)
+        .setProtectedHeader({ alg: 'A128GCMKW', enc: 'A128GCM' })
+        .setKeyManagementParameters({ iv: iv as never })
+        .encrypt(t.context.secret),
+      {
+        instanceOf: TypeError,
+        message: '"iv" must be an instance of Uint8Array',
+      },
+    )
+  }
+})
+
+test('ECDH and AES-GCMKW generate fresh per-operation values', async (t) => {
+  const { publicKey } = await generateKeyPair('ECDH-ES')
+  const ecdh = await Promise.all(
+    [0, 1].map(() =>
+      new FlattenedEncrypt(t.context.plaintext)
+        .setProtectedHeader({ alg: 'ECDH-ES', enc: 'A128GCM' })
+        .encrypt(publicKey),
+    ),
+  )
+  const [firstEpk, secondEpk] = ecdh.map(
+    (jwe) => decodeProtectedHeader(jwe).epk as Record<string, unknown>,
+  )
+  t.notDeepEqual(firstEpk, secondEpk)
+
+  const gcmkw = await Promise.all(
+    [0, 1].map(() =>
+      new FlattenedEncrypt(t.context.plaintext)
+        .setProtectedHeader({ alg: 'A128GCMKW', enc: 'A128GCM' })
+        .encrypt(t.context.secret),
+    ),
+  )
+  t.not(decodeProtectedHeader(gcmkw[0]).iv, decodeProtectedHeader(gcmkw[1]).iv)
 })
 
 test('ECDH epk must not ignore invalid falsy values', async (t) => {

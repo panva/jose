@@ -1,6 +1,6 @@
 import test from 'ava'
 
-import { importJWK, exportJWK } from '../../src/index.js'
+import { errors, importJWK, exportJWK } from '../../src/index.js'
 
 test('JWK must be an object', async (t) => {
   await t.throwsAsync(importJWK(true), {
@@ -61,11 +61,33 @@ test('oct JWK must have "k"', async (t) => {
   })
 })
 
-test('RSA JWK with oth is not supported', async (t) => {
-  await t.throwsAsync(importJWK({ kty: 'RSA', oth: [] }, 'RS256'), {
-    code: 'ERR_JOSE_NOT_SUPPORTED',
-    message: 'RSA JWK "oth" (Other Primes Info) Parameter value is not supported',
-  })
+test('RSA JWK oth validation is left to WebCrypto', async (t) => {
+  try {
+    await importJWK(
+      {
+        kty: 'RSA',
+        n: 'oyYNlYf4jWxQoEGPpXFg7k2w2TzeWKJ60ZfKQFf3NNO0X6Q98FiTkaMdYfLMUUcPU1eNrtG2HHXVbJzaiBiEwhZyJImCk4MVZmeG0_OizmAXNbHVFx8Yth_3SsYhcwQ0JjQAb-MiClKin9nCZDzfYJK32g0u8d9k5mWvf8oIQ1BwedFermjPrMzGIjv5ae2Tmn561Ucp7MCsWfHq36BCjmoZqPEBA4iNrfqMP0UjVj8aWy2H_tF5TQWN3ecTlKLlXyyLe1k7LX0CL-atk_Abyv6nwW9Evj1zSf41Rwrc0ppBd9rVNWha1w_xT-iJrmF_p7dfWxbiDpsBAL2Y7PhoUQ',
+        e: 'AQAB',
+        d: 'hr1NqLoUB1B2QfQDW4KIqCbXsIH5q7_8qQ6wRXWgvys8o2R0lwPAVB4fjR5FqbaDLLR5WfDucxDKA5qDTLTbJ6P7_rrmcUdoLBvCGVf0lHZ9lKXas6B81EbRkZR_kqwLGcr9KUgwpIecSWvtGPmD8F3nkiet5K4nt92D0BLJxMS9BDProig4ufbJc4QTLcptEUzuXxIpS2GSGZWJt3Dg4K0DkyKX3POmm9GLDzCK6dxsLEaZPi7Uc9xC2SGd_QqQTdFK4gtNmeFbBL3D1LzQQzSF9ehaUUqi0rE-U6qsiAjTJYO7QzC56mnqjROiT8vzojbO_BCphZpDdDa-iIzD8Q',
+        p: 'B2kDhh0c2eqIfL2wCA5QpfaGol7XD7MtQsKDvS_iuAmh6vsRV1qwOj0itVfC380egRaV95tmzA67gY-OM0V0l_vT3kOyzz7y7tX9M-eDvRlkIy5tgIM',
+        q: 'BluXe6kE6899vPdzI_o06MSid0jMKx7iD-HdOl6CLahxHWC33bulkZcHbldvxQJJcpgK1D22WOd71ADxNRUVGaj2k-xvDMMxOkAlEEbM8ZjeTuSNXI8',
+        dp: 'BBM7TeDqweiZ4MfMa9G7hlmZ1ueDK-4kgOdJ3Zvc-crKUdh6w-hqq8x9Lu8xizRZhzItjPrYQHYFpg2VbRrQMNjbvgrK5fA_Vxs1YPr71t2E1Vgt_hM',
+        dq: 'BBBM_bRludewtbSwOqG1acYtVfMI1NLziVVDkwhPSqGsUyu7uhUzWaBgFo36mcDBc2ZtHYWoZKDoy_QiOFyWVQVjPd9Uh6LHd0UCq6mlWxLrnR-Gn08',
+        qi: 'BoI69XFCVG75TTJ1FA2lx0aed0PTDkz509agSBuUkpHe5qp7U2ESrcVUhYuop9RypYgnoYlkhw2UXdu9G3dkO0sfa1lakPe5EkVzs7PVNq98KBGnKUc',
+        oth: [
+          {
+            r: 'A3aEh8x-O_mosY-0RQReHMrwmW3KqSnTmALoTsV23xePSeYC60HdQmbyGzrMr3rX51gqDY-lTUlVSeF9LAgB9lHQwPnBRb1B0r59J47YBpzoPjBj1jU',
+            d: 'ApIyH-kyKDFakEqTm1J81X_PVvrvJt3JHem6tRFjCowhdMpzjFvgfPaV9qWXZwob1sXcoyjtoA48ZpgmKVTgsBNanIxSdQbpIiEQJxilR3Oj8thWp6k',
+            t: 'AztfynJ6yc4Dy-V_k54ZMgquUEEeIvLTeVrqBKra1NkaIdfZGHrO34WxgRpX_7hhr9tc_JmyNCtnk2QBSBOyrQ75QP76j3BgF132XRt3FKRcY3R6uYs',
+          },
+        ],
+      },
+      'RS256',
+    )
+    t.pass()
+  } catch (err) {
+    t.false(err instanceof errors.JOSEError)
+  }
 })
 
 test('oct JWK', async (t) => {

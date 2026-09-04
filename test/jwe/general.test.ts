@@ -197,11 +197,57 @@ test('General JWE multi-recipient encryption preserves missing alg validation', 
   })
 })
 
+test('General JWE resolves algorithms after cross-recipient validation', async (t) => {
+  await t.throwsAsync(
+    new GeneralEncrypt(t.context.plaintext)
+      .setProtectedHeader({ enc: 'A128GCM' })
+      .addRecipient(t.context.secret)
+      .setUnprotectedHeader({ alg: 'unsupported' })
+      .addRecipient(t.context.secret2)
+      .setUnprotectedHeader({ alg: 'dir' })
+      .encrypt(),
+    {
+      code: 'ERR_JWE_INVALID',
+      message: '"dir" alg may only have a single recipient',
+    },
+  )
+
+  await t.throwsAsync(
+    new GeneralEncrypt(t.context.plaintext)
+      .addRecipient(t.context.secret)
+      .setUnprotectedHeader({ alg: 'unsupported', enc: 'A128GCM' })
+      .addRecipient(t.context.secret2)
+      .setUnprotectedHeader({ alg: 'A128KW', enc: 'A256GCM' })
+      .encrypt(),
+    {
+      code: 'ERR_JWE_INVALID',
+      message:
+        'JWE "enc" (Encryption Algorithm) Header Parameter must be the same for all recipients',
+    },
+  )
+})
+
+test('General JWE resolves every recipient before performing cryptographic operations', async (t) => {
+  await t.throwsAsync(
+    new GeneralEncrypt(t.context.plaintext)
+      .setProtectedHeader({ enc: 'A128GCM' })
+      .addRecipient(new Uint8Array(1))
+      .setUnprotectedHeader({ alg: 'A128KW' })
+      .addRecipient(t.context.secret2)
+      .setUnprotectedHeader({ alg: 'unsupported' })
+      .encrypt(),
+    {
+      code: 'ERR_JOSE_NOT_SUPPORTED',
+      message: 'Invalid or unsupported "alg" (JWE Algorithm) header value',
+    },
+  )
+})
+
 test('General JWE encryption (single recipient dir)', async (t) => {
   const generalJwe = await new GeneralEncrypt(t.context.plaintext)
     .setAdditionalAuthenticatedData(t.context.additionalAuthenticatedData)
     .setProtectedHeader({ enc: 'A256GCM' })
-    .setSharedUnprotectedHeader({ alg: 'A256GCMKW' })
+    .setSharedUnprotectedHeader({ alg: 'dir' })
     .addRecipient(t.context.secret)
     .encrypt()
 
@@ -217,11 +263,7 @@ test('General JWE encryption (single recipient dir)', async (t) => {
   )
   t.is(generalJwe.recipients.length, 1)
 
-  t.true(
-    generalJwe.recipients[0].encrypted_key &&
-      typeof generalJwe.recipients[0].encrypted_key === 'string',
-  )
-  t.false('header' in generalJwe.recipients[0])
+  t.deepEqual(generalJwe.recipients, [{}])
 
   await generalDecrypt(generalJwe, t.context.secret)
 })

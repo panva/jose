@@ -269,12 +269,7 @@ export type JWK = {
   pub?: string
   /** AKP JWK "priv" (Private key) Parameter */
   priv?: string
-  /**
-   * RSA JWK "oth" (Other Primes Info) Parameter
-   *
-   * > [!NOTE]\
-   * > Multi-prime RSA keys are not supported; importing a JWK with this parameter present throws.
-   */
+  /** RSA JWK "oth" (Other Primes Info) Parameter */
   oth?: Array<{
     /** The Factor CRT Exponent */
     d?: string
@@ -636,7 +631,8 @@ export interface DecryptOptions extends CritOption {
   /**
    * (PBES2 Key Management Algorithms only) Maximum allowed "p2c" (PBES2 Count) Header Parameter
    * value. The PBKDF2 iteration count defines the algorithm's computational expense. By default
-   * this value is set to 10000.
+   * this value is set to 10000. The value must be a positive safe integer or `Infinity`. Set it to
+   * `Infinity` to disable the limit.
    */
   maxPBES2Count?: number
 

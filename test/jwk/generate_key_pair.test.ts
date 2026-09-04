@@ -9,6 +9,15 @@ test('alg must be a string', async (t) => {
   })
 })
 
+test('algorithm lookup ignores Object prototype properties', async (t) => {
+  for (const alg of ['toString', 'constructor', '__proto__']) {
+    await t.throwsAsync(generateKeyPair(alg), {
+      code: 'ERR_JOSE_NOT_SUPPORTED',
+      message: 'Invalid or unsupported "alg" (Algorithm) value',
+    })
+  }
+})
+
 test('RSA modulusLength must be an integer', async (t) => {
   await t.throwsAsync(generateKeyPair('RS256', { modulusLength: 2048.5 }), {
     code: 'ERR_JOSE_NOT_SUPPORTED',

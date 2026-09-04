@@ -1,15 +1,55 @@
 import { JOSENotSupported } from '../util/errors.js'
+import type * as types from '../types.d.ts'
 import { table } from './key_descriptor.js'
 import type { KeyDescriptor } from './key_descriptor.js'
 
-/** Everything the implementation needs to know about one JWE "alg", in one place. */
-export interface JWEAlgorithm extends KeyDescriptor {
+export type JWECEKTransportMode =
+  'key-wrapping' | 'key-encryption' | 'key-agreement-with-key-wrapping'
+
+export type JWEConventionalMode = JWECEKTransportMode | 'direct-encryption' | 'direct-key-agreement'
+
+/** The five RFC 7516 key-management modes plus Integrated Encryption. */
+export type JWEKeyManagementMode = JWEConventionalMode | 'integrated-encryption'
+
+/** Everything the implementation needs to know about one conventional JWE "alg". */
+export interface JWEConventionalAlgorithm extends KeyDescriptor {
+  mode: JWEConventionalMode
   subtle: KeyDescriptor['subtle'] & {
     name: 'RSA-OAEP' | 'ECDH' | 'AES-KW' | 'AES-GCM' | 'PBKDF2'
   }
 }
 
-type AlgEntry = Omit<JWEAlgorithm, 'alg'>
+/** A JWE algorithm that directly encrypts plaintext without a separate content-encryption step. */
+export interface JWEIntegratedEncryptionAlgorithm extends KeyDescriptor {
+  mode: 'integrated-encryption'
+  encrypt: (
+    key: types.CryptoKey | Uint8Array,
+    plaintext: Uint8Array,
+    aad: Uint8Array,
+    protectedHeader: types.JWEHeaderParameters | undefined,
+    joseHeader: types.JWEHeaderParameters,
+    providedParameters?: types.JWEKeyManagementHeaderParameters,
+  ) => Promise<[encryptedKey: Uint8Array | undefined, ciphertext: Uint8Array]>
+  /**
+   * Integrated algorithms own authentication and MUST normalize authentication and key-decryption
+   * failures to `JWEDecryptionFailed`.
+   */
+  decrypt: (
+    key: types.CryptoKey | Uint8Array,
+    encryptedKey: Uint8Array | undefined,
+    ciphertext: Uint8Array,
+    aad: Uint8Array,
+    protectedHeader: types.JWEHeaderParameters | undefined,
+    joseHeader: types.JWEHeaderParameters,
+  ) => Promise<Uint8Array>
+}
+
+export type JWEAlgorithm = JWEConventionalAlgorithm | JWEIntegratedEncryptionAlgorithm
+export type JWECEKTransportAlgorithm = JWEConventionalAlgorithm & {
+  mode: JWECEKTransportMode
+}
+
+type AlgEntry = Omit<JWEConventionalAlgorithm, 'alg'>
 type EncEntry = Omit<JWEEncryption, 'alg'>
 
 const wrap: [KeyUsage[], KeyUsage[]] = [
@@ -23,15 +63,17 @@ const none: [KeyUsage[], KeyUsage[]] = [[], []]
 function rsaes(bits: number): AlgEntry {
   return {
     kty: ['RSA'],
+    mode: 'key-encryption',
     subtle: { name: 'RSA-OAEP', hash: `SHA-${bits}` },
     usages: wrap,
     ops: ['wrapKey', 'unwrapKey'],
   }
 }
 
-function ecdh(): AlgEntry {
+function ecdh(mode: 'direct-key-agreement' | 'key-agreement-with-key-wrapping'): AlgEntry {
   return {
     kty: ['EC', 'OKP'],
+    mode,
     subtle: { name: 'ECDH' },
     resolve: ({ kty, crv, asymmetricKeyType }) => {
       if (crv === 'X25519' || asymmetricKeyType === 'x25519') {
@@ -51,6 +93,7 @@ function ecdh(): AlgEntry {
 function aeskw(bits: number, gcm = false): AlgEntry {
   return {
     kty: ['oct'],
+    mode: 'key-wrapping',
     secret: true,
     subtle: { name: gcm ? 'AES-GCM' : 'AES-KW', length: bits },
     usages: none,
@@ -61,6 +104,7 @@ function aeskw(bits: number, gcm = false): AlgEntry {
 function pbes2(): AlgEntry {
   return {
     kty: ['oct'],
+    mode: 'key-wrapping',
     secret: true,
     subtle: { name: 'PBKDF2' },
     usages: none,
@@ -68,9 +112,10 @@ function pbes2(): AlgEntry {
   }
 }
 
-export const JWE: Record<string, JWEAlgorithm> = table<JWEAlgorithm>({
+export const JWE: Record<string, JWEAlgorithm> = table<JWEConventionalAlgorithm>({
   dir: {
     kty: ['oct'],
+    mode: 'direct-encryption',
     secret: true,
     subtle: { name: 'AES-GCM' },
     usages: none,
@@ -80,10 +125,10 @@ export const JWE: Record<string, JWEAlgorithm> = table<JWEAlgorithm>({
   'RSA-OAEP-256': rsaes(256),
   'RSA-OAEP-384': rsaes(384),
   'RSA-OAEP-512': rsaes(512),
-  'ECDH-ES': ecdh(),
-  'ECDH-ES+A128KW': ecdh(),
-  'ECDH-ES+A192KW': ecdh(),
-  'ECDH-ES+A256KW': ecdh(),
+  'ECDH-ES': ecdh('direct-key-agreement'),
+  'ECDH-ES+A128KW': ecdh('key-agreement-with-key-wrapping'),
+  'ECDH-ES+A192KW': ecdh('key-agreement-with-key-wrapping'),
+  'ECDH-ES+A256KW': ecdh('key-agreement-with-key-wrapping'),
   A128KW: aeskw(128),
   A192KW: aeskw(192),
   A256KW: aeskw(256),
@@ -138,6 +183,18 @@ function unsupported(parameter: string, name: string): never {
 
 export function jweAlgorithm(alg: unknown): JWEAlgorithm {
   return (typeof alg === 'string' ? JWE[alg] : undefined) ?? unsupported('alg', 'Algorithm')
+}
+
+export function isJWECEKTransport(algorithm: JWEAlgorithm): algorithm is JWECEKTransportAlgorithm {
+  return (
+    algorithm.mode === 'key-wrapping' ||
+    algorithm.mode === 'key-encryption' ||
+    algorithm.mode === 'key-agreement-with-key-wrapping'
+  )
+}
+
+export function invalidJWEKeyManagementMode(_mode: never): never {
+  throw new TypeError('Invalid JWE key management mode')
 }
 
 export function jweEncryption(enc: unknown): JWEEncryption {

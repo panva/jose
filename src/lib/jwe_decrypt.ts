@@ -7,7 +7,14 @@ import { decryptKeyManagement } from './key_management.js'
 import { concat, decoder, encode } from './buffer_utils.js'
 import { validateCrit, validateAlgorithms, JWE_RECOGNIZED } from './options.js'
 import { prepareKey } from './key.js'
-import { jweAlgorithm, jweEncryption } from './jwe_algorithms.js'
+import {
+  JWE,
+  invalidJWEKeyManagementMode,
+  isJWECEKTransport,
+  jweAlgorithm,
+  jweEncryption,
+} from './jwe_algorithms.js'
+import type { JWEEncryption } from './jwe_algorithms.js'
 import { decompress, validateZip } from './deflate.js'
 
 export type DecryptGetKey = (
@@ -57,7 +64,7 @@ export type RecipientJWESnapshot =
 /** Captures and validates shared members without reading any of them twice. */
 export function snapshotSharedJWE(jwe: types.FlattenedJWE | types.GeneralJWE): SharedJWEMembers {
   const { aad, ciphertext, iv, protected: encodedProtected, tag, unprotected } = jwe
-  if (iv !== undefined && typeof iv !== 'string') {
+  if (iv !== undefined && (typeof iv !== 'string' || !iv)) {
     throw new JWEInvalid('JWE Initialization Vector incorrect type')
   }
 
@@ -65,7 +72,7 @@ export function snapshotSharedJWE(jwe: types.FlattenedJWE | types.GeneralJWE): S
     throw new JWEInvalid('JWE Ciphertext missing or incorrect type')
   }
 
-  if (tag !== undefined && typeof tag !== 'string') {
+  if (tag !== undefined && (typeof tag !== 'string' || !tag)) {
     throw new JWEInvalid('JWE Authentication Tag incorrect type')
   }
 
@@ -125,6 +132,8 @@ export function snapshotRecipientJWE(recipient: RecipientJWEMembers): RecipientJ
 /** Checks the members that belong to one recipient. */
 export function checkRecipient(jwe: types.FlattenedJWE): void {
   const { encrypted_key: encryptedKey, header } = jwe
+  // Whether an empty string is a structural error depends on the resolved key-management mode.
+  // CEK transports must send it through RFC 3218 failure substitution instead.
   if (encryptedKey !== undefined && typeof encryptedKey !== 'string') {
     throw new JWEInvalid('JWE Encrypted Key incorrect type')
   }
@@ -258,7 +267,12 @@ async function decryptRecipientCore(
     throw new JWEInvalid('missing JWE Algorithm (alg) in JWE Header')
   }
 
-  if (typeof enc !== 'string' || !enc) {
+  const selected = JWE[alg]
+  if (encodedKey === '' && (!selected || !isJWECEKTransport(selected))) {
+    throw new JWEInvalid('JWE Encrypted Key incorrect type')
+  }
+  const integrated = selected?.mode === 'integrated-encryption'
+  if (!integrated && (typeof enc !== 'string' || !enc)) {
     throw new JWEInvalid('missing JWE Encryption Algorithm (enc) in JWE Header')
   }
 
@@ -269,15 +283,37 @@ async function decryptRecipientCore(
     throw new JOSEAlgNotAllowed('"alg" (Algorithm) Header Parameter value not allowed')
   }
 
-  if (contentEncryptionAlgorithms && !contentEncryptionAlgorithms.has(enc)) {
-    throw new JOSEAlgNotAllowed('"enc" (Encryption Algorithm) Header Parameter value not allowed')
+  let encEntry: JWEEncryption | undefined
+  if (integrated) {
+    if (enc !== undefined) {
+      throw new JWEInvalid(
+        'JWE "enc" (Encryption Algorithm) Header Parameter must not be present for integrated encryption',
+      )
+    }
+    if (iv?.byteLength) {
+      throw new JWEInvalid('JWE Initialization Vector must be empty for integrated encryption')
+    }
+    if (tag?.byteLength) {
+      throw new JWEInvalid('JWE Authentication Tag must be empty for integrated encryption')
+    }
+  } else {
+    if (contentEncryptionAlgorithms && !contentEncryptionAlgorithms.has(enc as string)) {
+      throw new JOSEAlgNotAllowed('"enc" (Encryption Algorithm) Header Parameter value not allowed')
+    }
+    encEntry = jweEncryption(enc)
   }
 
-  const encEntry = jweEncryption(enc)
-
-  let encryptedKey!: Uint8Array
+  let encryptedKey: Uint8Array | undefined
   if (encodedKey !== undefined) {
-    encryptedKey = decodeBase64url(encodedKey, 'encrypted_key', JWEInvalid)
+    try {
+      encryptedKey = decodeBase64url(encodedKey, 'encrypted_key', JWEInvalid)
+    } catch (error) {
+      if (!selected || !isJWECEKTransport(selected)) throw error
+      // RFC 7516 Section 11.5 requires a transported CEK's format, padding, and length failures
+      // to be indistinguishable. Feed malformed encodings through the same unwrap/decrypt and
+      // random-CEK substitution path as other malformed Encrypted Key values.
+      encryptedKey = new Uint8Array()
+    }
   }
 
   let resolvedKey = false
@@ -285,33 +321,78 @@ async function decryptRecipientCore(
     key = await key(parsedProt, jwe)
     resolvedKey = true
   }
-  const algEntry = jweAlgorithm(alg)
-  const k = await prepareKey(alg === 'dir' ? encEntry : algEntry, key, 'decrypt')
-  let cek: types.CryptoKey | Uint8Array
-  try {
-    cek = await decryptKeyManagement(alg, encEntry, k, encryptedKey, joseHeader, maxPBES2Count)
-    if (
-      encodedKey !== undefined &&
-      cek instanceof Uint8Array &&
-      cek.byteLength << 3 !== encEntry.cekBits
-    ) {
-      cek = generateCek(encEntry)
-    }
-  } catch (err) {
-    if (err instanceof TypeError || err instanceof JWEInvalid || err instanceof JOSENotSupported) {
-      throw err
-    }
-    // https://www.rfc-editor.org/info/rfc7516/#section-11.5
-    // To mitigate the attacks described in RFC 3218, the
-    // recipient MUST NOT distinguish between format, padding, and length
-    // errors of encrypted keys.  It is strongly recommended, in the event
-    // of receiving an improperly formatted key, that the recipient
-    // substitute a randomly generated CEK and proceed to the next step, to
-    // mitigate timing attacks.
-    cek = generateCek(encEntry)
+  const algEntry = selected ?? jweAlgorithm(alg)
+  if (isJWECEKTransport(algEntry) && encryptedKey === undefined) {
+    // RFC 7516 Section 11.5 requires malformed, missing, and wrong-length transported CEKs to be
+    // indistinguishable. Let the unwrap/decrypt fail and substitute a random CEK below.
+    encryptedKey = new Uint8Array()
+  }
+  let k: types.CryptoKey | Uint8Array
+  const mode = algEntry.mode
+  switch (mode) {
+    case 'direct-encryption':
+      k = await prepareKey(encEntry!, key, 'decrypt')
+      break
+    case 'direct-key-agreement':
+    case 'key-wrapping':
+    case 'key-encryption':
+    case 'key-agreement-with-key-wrapping':
+    case 'integrated-encryption':
+      k = await prepareKey(algEntry, key, 'decrypt')
+      break
+    default:
+      invalidJWEKeyManagementMode(mode)
   }
 
-  let plaintext = await decrypt(encEntry, cek, ciphertext, iv, tag, additionalData)
+  let plaintext: Uint8Array
+  if (algEntry.mode === 'integrated-encryption') {
+    plaintext = await algEntry.decrypt(
+      k,
+      encryptedKey,
+      ciphertext,
+      additionalData,
+      parsedProt,
+      joseHeader,
+    )
+  } else {
+    const encryption = encEntry!
+    let cek: types.CryptoKey | Uint8Array
+    try {
+      cek = await decryptKeyManagement(
+        algEntry,
+        encryption,
+        k,
+        encryptedKey,
+        joseHeader,
+        maxPBES2Count,
+      )
+      if (
+        isJWECEKTransport(algEntry) &&
+        cek instanceof Uint8Array &&
+        cek.byteLength << 3 !== encryption.cekBits
+      ) {
+        cek = generateCek(encryption)
+      }
+    } catch (err) {
+      if (
+        err instanceof TypeError ||
+        err instanceof JWEInvalid ||
+        err instanceof JOSENotSupported
+      ) {
+        throw err
+      }
+      // https://www.rfc-editor.org/info/rfc7516/#section-11.5
+      // To mitigate the attacks described in RFC 3218, the
+      // recipient MUST NOT distinguish between format, padding, and length
+      // errors of encrypted keys.  It is strongly recommended, in the event
+      // of receiving an improperly formatted key, that the recipient
+      // substitute a randomly generated CEK and proceed to the next step, to
+      // mitigate timing attacks.
+      cek = generateCek(encryption)
+    }
+
+    plaintext = await decrypt(encryption, cek, ciphertext, iv, tag, additionalData)
+  }
 
   if (joseHeader.zip === 'DEF') {
     const decompressionLimit = maxDecompressedLength ?? 250_000
