@@ -21,9 +21,13 @@
 //   module documentation - TypeScript attaches it to the first import but does not expose it as
 //                          useful module documentation in an editor.
 //
-//   extended prose       - only the first summary paragraph, alerts, signature-help tags, and
-//                          @deprecated are useful in editor hovers. The rest remains in src for
+//   extended prose       - only the first summary paragraph, alerts, useful signature-help tags,
+//                          and @deprecated are useful in editor hovers. The rest remains in src for
 //                          generated documentation.
+//
+//   redundant parameters - signature help already shows the parameter name and type. Descriptions
+//                          which only repeat those are dropped; constraints and other useful
+//                          context remain.
 //
 //   @ignore and friends   - typedoc acts on them, TypeScript does not, so they reach the reader as
 //                           a bare tag that means nothing to them.
@@ -42,6 +46,41 @@ const MARKER_TAG = /^@(?:ignore|internal|private|hidden)\s*$/
 const PUBLISHED_TAGS = new Set(['param', 'returns', 'throws', 'deprecated'])
 const REPORT_STRIPPED = process.env.JOSE_DEBUG_TYPES === '1'
 const PRIVATE_DECLARATIONS = `${join('dist', 'types', 'lib')}${sep}`
+const ERROR_TYPES = join('dist', 'types', 'util', 'errors.d.ts')
+const REDUNDANT_PARAMETER_DESCRIPTIONS = new Set([
+  'Additional Authenticated Data.',
+  'Additional options passed down to the key pair generation.',
+  'Additional options passed down to the secret generation.',
+  'Compact JWE.',
+  'Compact JWS.',
+  'Flattened JWE.',
+  'Flattened JWS.',
+  'General JWE.',
+  'General JWS.',
+  'JSON Web Token value (encoded as JWE).',
+  'JSON Web Token value (encoded as JWS).',
+  'JWE Content Encryption Key.',
+  'JWE Decryption options.',
+  'JWE Encryption options.',
+  'JWE Initialization Vector.',
+  'JWE Key Management parameters.',
+  'JWE or JWS Protected Header.',
+  'JWE Per-Recipient Unprotected Header.',
+  'JWE Protected Header object.',
+  'JWE Protected Header.',
+  'JWE Shared Unprotected Header object.',
+  'JWE Shared Unprotected Header.',
+  'JWS Protected Header.',
+  'JWS Sign options.',
+  'JWS Unprotected Header.',
+  'JWS Verify options.',
+  'JWT Claims Set validation options.',
+  'JWT Decryption and JWT Claims Set validation options.',
+  'JWT Sign options.',
+  'JWT token in compact JWS serialization.',
+  'Options for the remote JSON Web Key Set.',
+  'Unsecured JWT to decode the payload of.',
+])
 /** The five alert types GitHub Flavored Markdown defines. */
 const ALERT = /^>\s*\[!(NOTE|TIP|IMPORTANT|WARNING|CAUTION)\]\\?\s*$/
 const RELABELLED_ALERT = /^>\s*(?:Note|Tip|Important|Warning|Caution):\s/
@@ -96,6 +135,15 @@ function relabelAlert(paragraph) {
   return [rest[0].replace(/^(\s*>\s*)/, `$1${label}: `), ...rest.slice(1)]
 }
 
+/** Whether an `@param` description only repeats the declaration's parameter name and type. */
+function redundantParameter(paragraph) {
+  const match = paragraph[0].match(/^@param\s+\w+\s+(.+)$/)
+  if (!match) return false
+
+  const description = [match[1], ...paragraph.slice(1)].join(' ').replaceAll(/\s+/g, ' ').trim()
+  return REDUNDANT_PARAMETER_DESCRIPTIONS.has(description)
+}
+
 function* declarations(directory) {
   const entries = readdirSync(directory, { withFileTypes: true }).sort((a, b) =>
     a.name.localeCompare(b.name),
@@ -110,7 +158,7 @@ function* declarations(directory) {
   }
 }
 
-function transform(lines) {
+function transform(lines, drop = false) {
   const kept = []
   const removed = []
   let changed = false
@@ -120,7 +168,7 @@ function transform(lines) {
   let inExample = false
   const sections = paragraphs(lines).flatMap(blockTagSections)
 
-  if (sections.some((paragraph) => paragraph[0].match(BLOCK_TAG)?.[1] === 'module')) {
+  if (drop || sections.some((paragraph) => paragraph[0].match(BLOCK_TAG)?.[1] === 'module')) {
     return { kept, removed: paragraphs(lines), changed: true }
   }
 
@@ -142,6 +190,11 @@ function transform(lines) {
       inExample = false
     }
     if (SUBPATH_NOTE.test(paragraph[0]) || MARKER_TAG.test(paragraph[0])) {
+      changed = true
+      removed.push(paragraph)
+      continue
+    }
+    if (tag === 'param' && redundantParameter(paragraph)) {
       changed = true
       removed.push(paragraph)
       continue
@@ -190,13 +243,17 @@ for (const file of declarations('dist/types')) {
   const source = readFileSync(file, 'utf8')
 
   // prettier-plugin-jsdoc puts the summary on the `/**` line when it fits, so both shapes occur
-  const updated = source.replace(
+  let updated = source.replace(
     /^([ \t]*)\/\*\*[ \t]?([\s\S]*?)[ \t]*\*\/[ \t]*\n/gm,
     (block, indent, body, offset) => {
       const lines = body.split('\n').map((line) => line.replace(/^[ \t]*\*[ \t]?/, ''))
       while (lines.length && lines.at(-1).trim() === '') lines.pop()
 
-      const { kept, removed, changed } = transform(lines)
+      const repeatedErrorCode =
+        file === ERROR_TYPES &&
+        /A unique error code for \{@link/.test(body) &&
+        !/Each subclass sets its own/.test(body)
+      const { kept, removed, changed } = transform(lines, repeatedErrorCode)
       if (!changed) return block
 
       touched++
@@ -216,6 +273,14 @@ for (const file of declarations('dist/types')) {
       return `${indent}/**\n${rendered}\n${indent} */\n`
     },
   )
+
+  // Namespace imports only qualify referenced public type names. Shortening the local alias does
+  // not change the declaration's API or its editor hovers.
+  if (/^import type \* as types from /m.test(updated)) {
+    updated = updated
+      .replace(/^import type \* as types from /m, 'import type * as t from ')
+      .replace(/\btypes\.(?=[A-Z])/g, 't.')
+  }
 
   if (updated !== source) writeFileSync(file, updated, 'utf8')
 }

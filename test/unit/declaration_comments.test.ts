@@ -18,7 +18,7 @@ test('tools/declaration-comments.js', (t) => {
  *
  * @module
  */
-import type { KeyLike } from './types.d.ts'
+import type * as types from './types.d.ts'
 /**
  * First summary.
  *
@@ -39,10 +39,16 @@ import type { KeyLike } from './types.d.ts'
  * @see https://example.com
  * @deprecated Use next instead.
  * @param value Input value.
+ * @param options JWS Verify options.
+ * @param protectedHeader JWS Protected Header. Must contain an "alg" property.
  * @returns The result.
  * @throws When the input is invalid.
  */
-export declare function example<T>(value: T): KeyLike
+export declare function example<T>(
+  value: T,
+  options?: unknown,
+  protectedHeader?: unknown,
+): types.KeyLike
 /**
  * > [!NOTE]
  * > Alerts can precede a summary.
@@ -72,12 +78,29 @@ export interface InternalHelper {}
 
   mkdirSync(types, { recursive: true })
   writeFileSync(declaration, input)
+  const errorTypes = join(types, 'util')
+  mkdirSync(errorTypes)
+  const errors = join(errorTypes, 'errors.d.ts')
+  writeFileSync(
+    errors,
+    `export declare class JOSEError {
+  /**
+   * A unique error code for {@link JOSEError}. Each subclass sets its own.
+   */
+  code: string
+}
+export declare class JWTExpired extends JOSEError {
+  /** A unique error code for {@link JWTExpired}. */
+  code: string
+}
+`,
+  )
   const env = { ...process.env }
   delete env.NODE_OPTIONS
   const output = execFileSync(process.execPath, [processor], { cwd, env, encoding: 'utf8' })
 
-  t.is(output, 'rewrote 5 declaration comment(s) for editor hovers\n')
-  const expected = `import type { KeyLike } from './types.d.ts'
+  t.is(output, 'rewrote 6 declaration comment(s) for editor hovers\n')
+  const expected = `import type * as t from './types.d.ts'
 /**
  * First summary.
  *
@@ -85,10 +108,15 @@ export interface InternalHelper {}
  *
  * @deprecated Use next instead.
  * @param value Input value.
+ * @param protectedHeader JWS Protected Header. Must contain an "alg" property.
  * @returns The result.
  * @throws When the input is invalid.
  */
-export declare function example<T>(value: T): KeyLike
+export declare function example<T>(
+  value: T,
+  options?: unknown,
+  protectedHeader?: unknown,
+): t.KeyLike
 /**
  * > Note: Alerts can precede a summary.
  *
@@ -104,6 +132,19 @@ export interface InternalHelper {}
 `
 
   t.is(readFileSync(declaration, 'utf8'), expected)
+  t.is(
+    readFileSync(errors, 'utf8'),
+    `export declare class JOSEError {
+  /**
+   * A unique error code for {@link JOSEError}. Each subclass sets its own.
+   */
+  code: string
+}
+export declare class JWTExpired extends JOSEError {
+  code: string
+}
+`,
+  )
   t.is(
     execFileSync(process.execPath, [processor], { cwd, env, encoding: 'utf8' }),
     'rewrote 0 declaration comment(s) for editor hovers\n',

@@ -318,22 +318,6 @@ export type AnyJWK =
 export type KeyInput = CryptoKey | KeyObject | JWK | Uint8Array
 
 /**
- * @private
- *
- * @internal
- */
-export interface GenericGetKeyFunction<IProtectedHeader, IToken, ReturnKeyTypes> {
-  /**
-   * Dynamic key resolution function. No token components have been verified at the time of this
-   * function call. If a suitable key for the token cannot be matched, throw an error instead.
-   *
-   * @param protectedHeader JWE or JWS Protected Header.
-   * @param token The consumed JWE or JWS token.
-   */
-  (protectedHeader: IProtectedHeader, token: IToken): Promise<ReturnKeyTypes> | ReturnKeyTypes
-}
-
-/**
  * Dynamic key resolver for consuming operations.
  *
  * @typeParam IProtectedHeader Type definition of the JWE or JWS Protected Header.
@@ -341,11 +325,16 @@ export interface GenericGetKeyFunction<IProtectedHeader, IToken, ReturnKeyTypes>
  * @typeParam KeyTypes Type definition of the keys the function may resolve. Narrowing this is what
  *   lets {@link ResolvedKey.key} be inferred at the call site.
  */
-export interface GetKeyFunction<
-  IProtectedHeader,
-  IToken,
-  KeyTypes extends KeyInput = KeyInput,
-> extends GenericGetKeyFunction<IProtectedHeader, IToken, KeyTypes> {}
+export interface GetKeyFunction<IProtectedHeader, IToken, KeyTypes extends KeyInput = KeyInput> {
+  /**
+   * Dynamic key resolution function. No token components have been verified at the time of this
+   * function call. If a suitable key for the token cannot be matched, throw an error instead.
+   *
+   * @param protectedHeader JWE or JWS Protected Header.
+   * @param token The consumed JWE or JWS token.
+   */
+  (protectedHeader: IProtectedHeader, token: IToken): Promise<KeyTypes> | KeyTypes
+}
 
 /**
  * Flattened JWS verification input.
