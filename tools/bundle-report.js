@@ -22,8 +22,10 @@
 import { globSync, readFileSync } from 'node:fs'
 import { dirname, resolve } from 'node:path'
 import { brotliCompressSync, constants, gzipSync } from 'node:zlib'
+import { resolvePackageExport } from './export-map.js'
 
 const { exports: exportsMap } = JSON.parse(readFileSync('package.json', 'utf8'))
+const { exports: publicEntries } = JSON.parse(readFileSync('jsr.json', 'utf8'))
 
 /** Algorithm names that only a JWE implementation has any use for. */
 const JWE_ONLY = [
@@ -97,8 +99,8 @@ function compressedSize(source) {
   }
 }
 
-for (const [subpath, target] of Object.entries(exportsMap)) {
-  if (subpath === './package.json') continue
+for (const subpath of Object.keys(publicEntries)) {
+  const target = resolvePackageExport(exportsMap, subpath)
   const entry = typeof target === 'string' ? target : target.default
   const fam = family(subpath)
 

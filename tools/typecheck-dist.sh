@@ -8,9 +8,10 @@ set -e
 TSC="./node_modules/.bin/tsc"
 BASE="--noEmit --ignoreConfig --strict --skipLibCheck false --target esnext"
 
-# Entry points that package.json#exports maps to a .d.ts, reduced to the roots that transitively
-# cover the rest.
-ENTRIES="dist/types/index.d.ts"
+node tools/check-declaration-entries.js
+
+# Check every declaration entry point from jsr.json so each public subpath is covered independently.
+ENTRIES=$(node -e "const jsr = require('./jsr.json'); for (const target of Object.values(jsr.exports)) console.log(target.replace(/^\.\/src\//, 'dist/types/').replace(/\.ts$/, '.d.ts'))")
 
 for entry in $ENTRIES; do
   if [ ! -f "$entry" ]; then
