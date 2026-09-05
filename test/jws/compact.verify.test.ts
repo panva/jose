@@ -1,7 +1,7 @@
 import test from 'ava'
 import * as crypto from 'crypto'
 
-import { base64url, compactVerify, CompactSign } from '../../src/index.js'
+import { base64url, compactVerify, CompactSign, errors } from '../../src/index.js'
 
 test.before(async (t) => {
   t.context.secret = crypto.randomFillSync(new Uint8Array(32))
@@ -42,24 +42,34 @@ test('sign empty data', async (t) => {
 
 test('Compact JWS payload checks retain their resolver timing', async (t) => {
   const encoded = base64url.encode(JSON.stringify({ alg: 'HS256' }))
+  const unencoded = base64url.encode(JSON.stringify({ alg: 'HS256', b64: false, crit: ['b64'] }))
   let resolverCalls = 0
   const resolver = async () => {
     resolverCalls++
     return t.context.secret
   }
 
-  await t.throwsAsync(compactVerify(`${encoded}.é.`, resolver), {
-    code: 'ERR_JWS_INVALID',
-    message: 'The payload is not a valid base64url string',
-  })
-  t.is(resolverCalls, 1)
+  for (const payload of [
+    'é',
+    'a'.repeat(127) + 'é',
+    'a'.repeat(128) + 'é',
+    'a'.repeat(1024) + '\ud800',
+  ]) {
+    const previousCalls = resolverCalls
+    await t.throwsAsync(compactVerify(`${encoded}.${payload}.`, resolver), {
+      instanceOf: errors.JWSInvalid,
+      code: 'ERR_JWS_INVALID',
+      message: 'The payload is not a valid base64url string',
+    })
+    t.is(resolverCalls, previousCalls + 1)
 
-  const unencoded = base64url.encode(JSON.stringify({ alg: 'HS256', b64: false, crit: ['b64'] }))
-  await t.throwsAsync(compactVerify(`${unencoded}.é.`, resolver), {
-    code: 'ERR_JWS_INVALID',
-    message: 'JWS Compact Serialization payload must use only ASCII characters',
-  })
-  t.is(resolverCalls, 1)
+    await t.throwsAsync(compactVerify(`${unencoded}.${payload}.`, resolver), {
+      instanceOf: errors.JWSInvalid,
+      code: 'ERR_JWS_INVALID',
+      message: 'JWS Compact Serialization payload must use only ASCII characters',
+    })
+    t.is(resolverCalls, previousCalls + 1)
+  }
 })
 
 test('Compact JWS resolves a key before rejecting an unsupported alg', async (t) => {

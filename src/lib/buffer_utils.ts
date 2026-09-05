@@ -43,8 +43,18 @@ export function uint32be(value: number): Uint8Array {
   return buf
 }
 
+const NON_ASCII = /[^\x00-\x7f]/
+
 /** Encodes ASCII-only strings as Uint8Array */
 export function encode(string: string): Uint8Array {
+  // Keep the loop for short strings to avoid the overhead of a native call.
+  if (typeof string === 'string' && string.length >= 128) {
+    if (NON_ASCII.test(string)) {
+      throw new TypeError('non-ASCII string encountered in encode()')
+    }
+    return encoder.encode(string)
+  }
+
   const bytes = new Uint8Array(string.length)
   for (let i = 0; i < string.length; i++) {
     const code = string.charCodeAt(i)
