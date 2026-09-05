@@ -97,6 +97,80 @@ test('GeneralEncrypt validates and emits normalized recipient headers', async (t
   await t.notThrowsAsync(generalDecrypt(jwe, t.context.secret2))
 })
 
+test('GeneralEncrypt snapshots shared headers in the first recipient normalization order', async (t) => {
+  const reads: string[] = []
+  let sharedValue = 'initial'
+  const jwe = await new GeneralEncrypt(t.context.plaintext)
+    .setProtectedHeader({
+      get enc() {
+        reads.push('protected')
+        return 'A128GCM'
+      },
+    })
+    .setSharedUnprotectedHeader({
+      get foo() {
+        reads.push('shared')
+        return sharedValue
+      },
+    })
+    .addRecipient(t.context.secret)
+    .setUnprotectedHeader({
+      toJSON() {
+        reads.push('first recipient')
+        sharedValue = 'first'
+        return { alg: 'A256KW' }
+      },
+    })
+    .addRecipient(t.context.secret2)
+    .setUnprotectedHeader({
+      toJSON() {
+        reads.push('second recipient')
+        sharedValue = 'second'
+        return { alg: 'A128KW' }
+      },
+    })
+    .encrypt()
+
+  t.deepEqual(reads, ['protected', 'first recipient', 'shared', 'second recipient'])
+  t.deepEqual(jwe.unprotected, { foo: 'first' })
+  t.is(sharedValue, 'second')
+  t.deepEqual((await generalDecrypt(jwe, t.context.secret2)).plaintext, t.context.plaintext)
+})
+
+test('GeneralEncrypt reports recipient normalization errors before reading the shared header', async (t) => {
+  const reads: string[] = []
+  const recipientError = new Error('recipient header')
+  const error = await t.throwsAsync(
+    new GeneralEncrypt(t.context.plaintext)
+      .setProtectedHeader({
+        get enc() {
+          reads.push('protected')
+          return 'A128GCM'
+        },
+      })
+      .setSharedUnprotectedHeader({
+        get foo() {
+          reads.push('shared')
+          throw new Error('shared header')
+        },
+      })
+      .addRecipient(t.context.secret)
+      .setUnprotectedHeader({
+        toJSON() {
+          reads.push('recipient')
+          throw recipientError
+        },
+      })
+      .addRecipient(t.context.secret2)
+      .setUnprotectedHeader({ alg: 'A128KW' })
+      .encrypt(),
+    { code: 'ERR_JWE_INVALID' },
+  )
+
+  t.is(error?.cause, recipientError)
+  t.deepEqual(reads, ['protected', 'recipient'])
+})
+
 test('GeneralEncrypt additional authenticated data must be a Uint8Array', async (t) => {
   for (const aad of ['secret aad', [1, 2, 3], new ArrayBuffer(3)]) {
     await t.throwsAsync(

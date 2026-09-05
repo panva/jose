@@ -53,11 +53,13 @@ export function checkDisjoint(
 
 /**
  * Validates the headers of one recipient. Split out so a General JWE can validate every recipient
- * up front and then encrypt without validating any of them a second time.
+ * up front and then encrypt without validating any of them a second time. Later recipients reuse
+ * the first recipient's normalized shared headers.
  */
 export function checkEncryptHeaders(
   input: EncryptInput,
   options?: types.EncryptOptions,
+  sharedHeadersNormalized = false,
 ): CheckedHeaders {
   if (!input[1] && !input[2] && !input[3]) {
     throw new JWEInvalid(
@@ -93,7 +95,7 @@ export function checkEncryptHeaders(
     assertUint8Array(iv, 'JWE Initialization Vector')
   }
 
-  if (protectedHeader !== undefined) {
+  if (!sharedHeadersNormalized && protectedHeader !== undefined) {
     protectedHeader = serializeJoseHeader(JWEInvalid, protectedHeader)[0]
     input[1] = protectedHeader
   }
@@ -101,7 +103,7 @@ export function checkEncryptHeaders(
     unprotectedHeader = serializeJoseHeader(JWEInvalid, unprotectedHeader)[0]
     input[2] = unprotectedHeader
   }
-  if (sharedUnprotectedHeader !== undefined) {
+  if (!sharedHeadersNormalized && sharedUnprotectedHeader !== undefined) {
     sharedUnprotectedHeader = serializeJoseHeader(JWEInvalid, sharedUnprotectedHeader)[0]
     input[3] = sharedUnprotectedHeader
   }

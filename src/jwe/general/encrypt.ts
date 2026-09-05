@@ -208,7 +208,7 @@ export class GeneralEncrypt {
         crit,
         multiple,
       ]
-      const headers = checkEncryptHeaders(input)
+      const headers = checkEncryptHeaders(input, undefined, recipients.length > 0)
       if (!recipients.length) {
         protectedHeader = input[1]!
         sharedUnprotectedHeader = input[3]!
