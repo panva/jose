@@ -182,7 +182,7 @@ export async function encrypt(
       plaintext as Uint8Array<ArrayBuffer>,
     ),
   )
-  return { ciphertext: encrypted.slice(0, -16), tag: encrypted.slice(-16), iv }
+  return { ciphertext: encrypted.subarray(0, -16), tag: encrypted.subarray(-16), iv }
 }
 
 export async function decrypt(
