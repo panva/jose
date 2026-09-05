@@ -6,7 +6,8 @@
 
 import type * as types from '../../types.d.ts'
 import { createSignature } from '../../lib/jws_sign.js'
-import { assertNotSet } from '../../lib/helpers.js'
+import type { SignInput } from '../../lib/jws_sign.js'
+import { assertNotSet, assertUint8Array } from '../../lib/validate.js'
 
 /**
  * Builds and signs Flattened JWS objects.
@@ -27,11 +28,7 @@ import { assertNotSet } from '../../lib/helpers.js'
  * ```
  */
 export class FlattenedSign {
-  #payload: Uint8Array
-
-  #protectedHeader!: types.JWSHeaderParameters
-
-  #unprotectedHeader!: types.JWSHeaderParameters
+  #input: SignInput
 
   /**
    * {@link FlattenedSign} constructor
@@ -39,10 +36,8 @@ export class FlattenedSign {
    * @param payload Binary representation of the payload to sign.
    */
   constructor(payload: Uint8Array) {
-    if (!(payload instanceof Uint8Array)) {
-      throw new TypeError('payload must be an instance of Uint8Array')
-    }
-    this.#payload = payload
+    assertUint8Array(payload, 'payload')
+    this.#input = [payload]
   }
 
   /**
@@ -51,8 +46,8 @@ export class FlattenedSign {
    * @param protectedHeader JWS Protected Header.
    */
   setProtectedHeader(protectedHeader: types.JWSHeaderParameters): this {
-    assertNotSet(this.#protectedHeader, 'setProtectedHeader')
-    this.#protectedHeader = protectedHeader
+    assertNotSet(this.#input[1], 'setProtectedHeader')
+    this.#input[1] = protectedHeader
     return this
   }
 
@@ -62,8 +57,8 @@ export class FlattenedSign {
    * @param unprotectedHeader JWS Unprotected Header.
    */
   setUnprotectedHeader(unprotectedHeader: types.JWSHeaderParameters): this {
-    assertNotSet(this.#unprotectedHeader, 'setUnprotectedHeader')
-    this.#unprotectedHeader = unprotectedHeader
+    assertNotSet(this.#input[2], 'setUnprotectedHeader')
+    this.#input[2] = unprotectedHeader
     return this
   }
 
@@ -75,15 +70,9 @@ export class FlattenedSign {
    * @param options JWS Sign options.
    */
   async sign(key: types.KeyInput, options?: types.SignOptions): Promise<types.FlattenedJWS> {
-    const [jws] = await createSignature(
-      {
-        payload: this.#payload,
-        protectedHeader: this.#protectedHeader,
-        unprotectedHeader: this.#unprotectedHeader,
-        crit: options?.crit,
-      },
-      key,
-    )
+    const input: SignInput = [...this.#input]
+    input[3] = options?.crit
+    const [jws] = await createSignature(input, key)
     return jws
   }
 }

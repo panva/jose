@@ -6,9 +6,9 @@
 
 import { decode as b64u } from './base64url.js'
 import { strictDecoder } from '../lib/buffer_utils.js'
-import { isObject } from '../lib/type_checks.js'
-import type * as types from '../types.d.ts'
+import { isObject } from '../lib/validate.js'
 import { JWTInvalid } from './errors.js'
+import type * as types from '../types.d.ts'
 
 /**
  * Decodes the Claims Set of a JWS-formatted JSON Web Token without verifying the signature.

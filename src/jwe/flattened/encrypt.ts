@@ -4,10 +4,10 @@
  * @module
  */
 
-import { assertNotSet } from '../../lib/helpers.js'
-import type * as types from '../../types.d.ts'
+import { assertNotSet, assertUint8Array } from '../../lib/validate.js'
 import { createJWE } from '../../lib/jwe_encrypt.js'
-import { assertUint8Array } from '../../lib/type_checks.js'
+import type { EncryptInput } from '../../lib/jwe_encrypt.js'
+import type * as types from '../../types.d.ts'
 
 /**
  * Builds and encrypts Flattened JWE objects.
@@ -29,21 +29,7 @@ import { assertUint8Array } from '../../lib/type_checks.js'
  * ```
  */
 export class FlattenedEncrypt {
-  #plaintext: Uint8Array
-
-  #protectedHeader!: types.JWEHeaderParameters | undefined
-
-  #sharedUnprotectedHeader!: types.JWEHeaderParameters | undefined
-
-  #unprotectedHeader!: types.JWEHeaderParameters | undefined
-
-  #aad!: Uint8Array | undefined
-
-  #cek!: Uint8Array | undefined
-
-  #iv!: Uint8Array | undefined
-
-  #keyManagementParameters?: types.JWEKeyManagementHeaderParameters
+  #input: EncryptInput
 
   /**
    * {@link FlattenedEncrypt} constructor
@@ -52,7 +38,7 @@ export class FlattenedEncrypt {
    */
   constructor(plaintext: Uint8Array) {
     assertUint8Array(plaintext, 'plaintext')
-    this.#plaintext = plaintext
+    this.#input = [plaintext]
   }
 
   /**
@@ -64,8 +50,8 @@ export class FlattenedEncrypt {
    * @param parameters JWE Key Management parameters.
    */
   setKeyManagementParameters(parameters: types.JWEKeyManagementHeaderParameters): this {
-    assertNotSet(this.#keyManagementParameters, 'setKeyManagementParameters')
-    this.#keyManagementParameters = parameters
+    assertNotSet(this.#input[7], 'setKeyManagementParameters')
+    this.#input[7] = parameters
     return this
   }
 
@@ -75,8 +61,8 @@ export class FlattenedEncrypt {
    * @param protectedHeader JWE Protected Header.
    */
   setProtectedHeader(protectedHeader: types.JWEHeaderParameters): this {
-    assertNotSet(this.#protectedHeader, 'setProtectedHeader')
-    this.#protectedHeader = protectedHeader
+    assertNotSet(this.#input[1], 'setProtectedHeader')
+    this.#input[1] = protectedHeader
     return this
   }
 
@@ -86,8 +72,8 @@ export class FlattenedEncrypt {
    * @param sharedUnprotectedHeader JWE Shared Unprotected Header.
    */
   setSharedUnprotectedHeader(sharedUnprotectedHeader: types.JWEHeaderParameters): this {
-    assertNotSet(this.#sharedUnprotectedHeader, 'setSharedUnprotectedHeader')
-    this.#sharedUnprotectedHeader = sharedUnprotectedHeader
+    assertNotSet(this.#input[3], 'setSharedUnprotectedHeader')
+    this.#input[3] = sharedUnprotectedHeader
     return this
   }
 
@@ -97,8 +83,8 @@ export class FlattenedEncrypt {
    * @param unprotectedHeader JWE Per-Recipient Unprotected Header.
    */
   setUnprotectedHeader(unprotectedHeader: types.JWEHeaderParameters): this {
-    assertNotSet(this.#unprotectedHeader, 'setUnprotectedHeader')
-    this.#unprotectedHeader = unprotectedHeader
+    assertNotSet(this.#input[2], 'setUnprotectedHeader')
+    this.#input[2] = unprotectedHeader
     return this
   }
 
@@ -108,7 +94,7 @@ export class FlattenedEncrypt {
    * @param aad Additional Authenticated Data.
    */
   setAdditionalAuthenticatedData(aad: Uint8Array): this {
-    this.#aad = aad
+    this.#input[4] = aad
     return this
   }
 
@@ -122,8 +108,8 @@ export class FlattenedEncrypt {
    * @param cek JWE Content Encryption Key.
    */
   setContentEncryptionKey(cek: Uint8Array): this {
-    assertNotSet(this.#cek, 'setContentEncryptionKey')
-    this.#cek = cek
+    assertNotSet(this.#input[5], 'setContentEncryptionKey')
+    this.#input[5] = cek
     return this
   }
 
@@ -137,8 +123,8 @@ export class FlattenedEncrypt {
    * @param iv JWE Initialization Vector.
    */
   setInitializationVector(iv: Uint8Array): this {
-    assertNotSet(this.#iv, 'setInitializationVector')
-    this.#iv = iv
+    assertNotSet(this.#input[6], 'setInitializationVector')
+    this.#input[6] = iv
     return this
   }
 
@@ -150,21 +136,6 @@ export class FlattenedEncrypt {
    * @param options JWE Encryption options.
    */
   async encrypt(key: types.KeyInput, options?: types.EncryptOptions): Promise<types.FlattenedJWE> {
-    return createJWE(
-      [
-        this.#plaintext,
-        this.#protectedHeader,
-        this.#unprotectedHeader,
-        this.#sharedUnprotectedHeader,
-        this.#aad,
-        this.#cek,
-        this.#iv,
-        this.#keyManagementParameters,
-        undefined,
-        false,
-      ],
-      key,
-      options,
-    )
+    return createJWE([...this.#input], key, options)
   }
 }

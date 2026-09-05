@@ -6,9 +6,8 @@
 
 import type * as types from '../types.d.ts'
 import { JOSEError, JWKSNoMatchingKey, JWKSTimeout } from '../util/errors.js'
-
 import { createLocalJWKSet } from './local.js'
-import { isJwkSet } from '../lib/type_checks.js'
+import { isJwkSet } from '../lib/validate.js'
 
 function isCloudflareWorkers() {
   return (

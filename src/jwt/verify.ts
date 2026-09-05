@@ -171,18 +171,14 @@ export async function jwtVerify(
   key: types.KeyInput | JWTVerifyGetKey,
   options?: JWTVerifyOptions,
 ) {
-  const verified = await verifyCompact(
+  const [verified, b64] = await verifyCompact(
     jwt,
     prepareVerify(options),
     key as types.KeyInput | VerifyGetKey,
   )
-  if (!verified[2]) {
+  if (!b64) {
     throw new JWTInvalid('JWTs MUST NOT use unencoded payload')
   }
-  const payload = validateClaimsSet(verified[1], verified[0], options)
-  const result = { payload, protectedHeader: verified[1] as types.JWTHeaderParameters }
-  if (typeof key === 'function') {
-    return { ...result, key: verified[3] }
-  }
-  return result
+  const payload = validateClaimsSet(verified.protectedHeader!, verified.payload, options)
+  return { ...verified, payload }
 }

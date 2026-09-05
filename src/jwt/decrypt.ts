@@ -99,13 +99,13 @@ export async function jwtDecrypt(
   key: types.KeyInput | JWTDecryptGetKey,
   options?: JWTDecryptOptions,
 ) {
-  const decrypted = await decryptCompact(
+  const { plaintext, ...result } = await decryptCompact(
     jwt,
     prepareDecrypt(options),
     key as types.KeyInput | DecryptGetKey,
   )
-  const protectedHeader = decrypted[1] as types.JWTHeaderParameters
-  const payload = validateClaimsSet(protectedHeader, decrypted[0], options)
+  const { protectedHeader } = result
+  const payload = validateClaimsSet(protectedHeader, plaintext, options)
 
   for (const claim of ['iss', 'sub', 'aud'] as const) {
     if (
@@ -123,11 +123,5 @@ export async function jwtDecrypt(
     }
   }
 
-  const result = { payload, protectedHeader }
-
-  if (typeof key === 'function') {
-    return { ...result, key: decrypted[2] }
-  }
-
-  return result
+  return { payload, ...result }
 }

@@ -6,9 +6,9 @@
 
 import { createCompactSignature } from '../lib/jws_sign.js'
 import { JWTInvalid } from '../util/errors.js'
-import type * as types from '../types.d.ts'
 import { JWTClaimsBuilder, jwtData } from '../lib/jwt_claims_set.js'
-import { assertNotSet } from '../lib/helpers.js'
+import { assertNotSet } from '../lib/validate.js'
+import type * as types from '../types.d.ts'
 
 /**
  * SignJWT constructor

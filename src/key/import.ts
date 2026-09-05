@@ -6,14 +6,12 @@
 
 import { decode as decodeBase64URL } from '../util/base64url.js'
 import { fromSPKI, fromPKCS8, fromX509 } from '../lib/asn1.js'
-import { jwkToKey } from '../lib/jwk_to_key.js'
+import { jwkToKey, validateExtractableOption, normalizeJwk } from '../lib/key.js'
 import { keyAlgorithm } from '../lib/key_algorithm.js'
-
 import { JOSENotSupported } from '../util/errors.js'
-import { isObject } from '../lib/type_checks.js'
+import { isObject } from '../lib/validate.js'
+
 import type * as types from '../types.d.ts'
-import { validateExtractableOption } from '../lib/key_options.js'
-import { normalizeJwk } from '../lib/jwk_metadata.js'
 
 /**
  * Maps a JWK key type to the value returned by {@link importJWK}.
@@ -219,7 +217,6 @@ export async function importJWK(
 
   const { alg: jwkAlg } = normalized
   alg ??= jwkAlg
-  const ext = extractable ?? normalized.ext
 
   if (normalized.kty !== 'oct' && !alg) {
     throw new TypeError('"alg" argument is required when "jwk.alg" is not present')
@@ -239,12 +236,12 @@ export async function importJWK(
       if (alg !== jwkAlg) {
         throw new TypeError('JWK alg and alg option value mismatch')
       }
-      return jwkToKey(keyAlgorithm(alg), { ...normalized, ext })
+      return jwkToKey(keyAlgorithm(alg), normalized, extractable)
     }
     case 'RSA':
     case 'EC':
     case 'OKP':
-      return jwkToKey(keyAlgorithm(alg), { ...normalized, alg, ext })
+      return jwkToKey(keyAlgorithm(alg), normalized, extractable)
     default:
       throw new JOSENotSupported('Unsupported "kty" (Key Type) Parameter value')
   }

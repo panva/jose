@@ -1,47 +1,41 @@
 import type * as types from '../types.d.ts'
 import { encode as b64u } from '../util/base64url.js'
-import { checkCekLength, encrypt, generateCek } from './content_encryption.js'
+import { encrypt } from './content_encryption.js'
 import { encryptKeyManagement } from './key_management.js'
 import { JWEInvalid } from '../util/errors.js'
-import { assertUint8Array, isDisjoint, isObject } from './type_checks.js'
-import { concat, encode } from './buffer_utils.js'
 import {
+  assertUint8Array,
+  isDisjoint,
+  isObject,
   serializeJoseHeader,
   validateCrit,
   validateCritDuplicates,
   JWE_RECOGNIZED,
-} from './options.js'
+} from './validate.js'
+import { encode } from './buffer_utils.js'
 import { prepareKey } from './key.js'
-import {
-  JWE,
-  invalidJWEKeyManagementMode,
-  isJWECEKTransport,
-  jweAlgorithm,
-  jweEncryption,
-} from './jwe_algorithms.js'
-import type { JWEAlgorithm, JWECEKTransportAlgorithm, JWEEncryption } from './jwe_algorithms.js'
+import { JWE, jweAlgorithm, jweEncryption } from './jwe_algorithms.js'
+import type { JWEAlgorithm, JWEEncryption } from './jwe_algorithms.js'
 import { compress, validateZip } from './deflate.js'
-import { unprotected } from './helpers.js'
 
 export type EncryptInput = [
   plaintext: Uint8Array,
-  protectedHeader: types.JWEHeaderParameters | undefined,
-  unprotectedHeader: types.JWEHeaderParameters | undefined,
-  sharedUnprotectedHeader: types.JWEHeaderParameters | undefined,
-  aad: Uint8Array | undefined,
-  cek: Uint8Array | undefined,
-  iv: Uint8Array | undefined,
-  keyManagementParameters: types.JWEKeyManagementHeaderParameters | undefined,
-  crit: { [propName: string]: boolean } | undefined,
+  protectedHeader?: types.JWEHeaderParameters,
+  unprotectedHeader?: types.JWEHeaderParameters,
+  sharedUnprotectedHeader?: types.JWEHeaderParameters,
+  aad?: Uint8Array,
+  cek?: Uint8Array,
+  iv?: Uint8Array,
+  keyManagementParameters?: types.JWEKeyManagementHeaderParameters,
+  crit?: { [propName: string]: boolean },
   /** Put the key management parameters in the Per-Recipient Unprotected Header. */
-  unprotectedParameters: boolean,
+  unprotectedParameters?: boolean,
 ]
 
 export type CheckedHeaders = [
   joseHeader: types.JWEHeaderParameters,
-  alg: string,
-  enc: string | undefined,
   encEntry: JWEEncryption | undefined,
+  algEntry: JWEAlgorithm | undefined,
 ]
 
 /** https://www.rfc-editor.org/rfc/rfc7516#section-7.2.1 */
@@ -61,7 +55,20 @@ export function checkDisjoint(
  * Validates the headers of one recipient. Split out so a General JWE can validate every recipient
  * up front and then encrypt without validating any of them a second time.
  */
-export function checkEncryptHeaders(input: EncryptInput): CheckedHeaders {
+export function checkEncryptHeaders(
+  input: EncryptInput,
+  options?: types.EncryptOptions,
+): CheckedHeaders {
+  if (!input[1] && !input[2] && !input[3]) {
+    throw new JWEInvalid(
+      'either setProtectedHeader, setUnprotectedHeader, or sharedUnprotectedHeader must be called before #encrypt()',
+    )
+  }
+
+  if (options !== undefined) {
+    input[8] = options?.crit
+  }
+
   let [
     ,
     protectedHeader,
@@ -122,7 +129,8 @@ export function checkEncryptHeaders(input: EncryptInput): CheckedHeaders {
     throw new JWEInvalid('JWE "alg" (Algorithm) Header Parameter missing or invalid')
   }
 
-  if (JWE[alg]?.mode === 'integrated-encryption') {
+  const algEntry = JWE[alg]
+  if (algEntry?.mode === 'integrated-encryption') {
     if (enc !== undefined) {
       throw new JWEInvalid(
         'JWE "enc" (Encryption Algorithm) Header Parameter must not be present for integrated encryption',
@@ -138,57 +146,22 @@ export function checkEncryptHeaders(input: EncryptInput): CheckedHeaders {
         `setInitializationVector cannot be called with JWE "alg" (Algorithm) Header ${alg}`,
       )
     }
-    return [joseHeader, alg, undefined, undefined]
+    return [joseHeader, undefined, algEntry]
   }
 
   if (typeof enc !== 'string' || !enc) {
     throw new JWEInvalid('JWE "enc" (Encryption Algorithm) Header Parameter missing or invalid')
   }
 
-  return [joseHeader, alg, enc, jweEncryption(enc)]
-}
-
-function checkProducedEncryptedKey(
-  encryptedKey: Uint8Array | undefined,
-): asserts encryptedKey is Uint8Array {
-  if (!(encryptedKey instanceof Uint8Array) || !encryptedKey.byteLength) {
-    throw new TypeError('JWE key management algorithm did not produce an Encrypted Key')
-  }
-}
-
-/** Prepares a recipient key and transports one caller- or core-owned CEK. */
-export async function transportCek(
-  algEntry: JWECEKTransportAlgorithm,
-  encEntry: JWEEncryption,
-  key: types.KeyInput,
-  providedCek: Uint8Array | undefined,
-  joseHeader: types.JWEHeaderParameters,
-  providedParameters: types.JWEKeyManagementHeaderParameters | undefined,
-): Promise<
-  [cek: Uint8Array, encryptedKey: Uint8Array, parameters: types.JWEHeaderParameters | undefined]
-> {
-  const preparedKey = await prepareKey(algEntry, key, 'encrypt')
-  const cek = providedCek ?? generateCek(encEntry)
-  checkCekLength(cek, encEntry.cekBits)
-  const [, encryptedKey, parameters] = await encryptKeyManagement(
-    algEntry,
-    encEntry,
-    preparedKey,
-    joseHeader,
-    cek,
-    providedParameters,
-  )
-  checkProducedEncryptedKey(encryptedKey)
-  return [cek, encryptedKey, parameters]
+  return [joseHeader, jweEncryption(enc), algEntry]
 }
 
 export async function encryptJWE(
   input: EncryptInput,
   checked: CheckedHeaders,
   key: types.KeyInput,
-  resolvedAlgEntry?: JWEAlgorithm,
 ): Promise<types.FlattenedJWE> {
-  const [joseHeader, alg, , encEntry] = checked
+  const [joseHeader, encEntry, selected] = checked
   const [
     inputPlaintext,
     inputProtectedHeader,
@@ -204,51 +177,21 @@ export async function encryptJWE(
   let protectedHeader = inputProtectedHeader
   let unprotectedHeader = inputUnprotectedHeader
 
-  const algEntry = resolvedAlgEntry ?? jweAlgorithm(alg)
-  if (providedCek !== undefined && !isJWECEKTransport(algEntry)) {
-    throw new TypeError(
-      `setContentEncryptionKey cannot be called with JWE "alg" (Algorithm) Header ${alg}`,
-    )
-  }
-
+  const algEntry = selected ?? jweAlgorithm(joseHeader.alg)
   let encryptedKey: Uint8Array | undefined
   let parameters: types.JWEHeaderParameters | undefined
-  let cek: types.CryptoKey | Uint8Array | undefined
-  let integratedKey: types.CryptoKey | Uint8Array | undefined
-  const mode = algEntry.mode
-  switch (mode) {
-    case 'direct-encryption':
-      cek = await prepareKey(encEntry!, key, 'encrypt')
-      break
-    case 'direct-key-agreement': {
-      const preparedKey = await prepareKey(algEntry, key, 'encrypt')
-      ;[cek, , parameters] = await encryptKeyManagement(
-        algEntry,
-        encEntry!,
-        preparedKey,
-        joseHeader,
-        undefined,
-        keyManagementParameters,
-      )
-      break
-    }
-    case 'key-wrapping':
-    case 'key-encryption':
-    case 'key-agreement-with-key-wrapping':
-      ;[cek, encryptedKey, parameters] = await transportCek(
-        algEntry as JWECEKTransportAlgorithm,
-        encEntry!,
-        key,
-        providedCek,
-        joseHeader,
-        keyManagementParameters,
-      )
-      break
-    case 'integrated-encryption':
-      integratedKey = await prepareKey(algEntry, key, 'encrypt')
-      break
-    default:
-      invalidJWEKeyManagementMode(mode)
+  let cek: types.CryptoKey | Uint8Array
+  if (algEntry.mode === 'integrated-encryption') {
+    cek = await prepareKey(algEntry, key, 'encrypt')
+  } else {
+    ;[cek, encryptedKey, parameters] = await encryptKeyManagement(
+      algEntry,
+      encEntry!,
+      key,
+      joseHeader,
+      providedCek,
+      keyManagementParameters,
+    )
   }
 
   if (parameters) {
@@ -263,24 +206,9 @@ export async function encryptJWE(
     checkDisjoint(protectedHeader, unprotectedHeader, sharedUnprotectedHeader)
   }
 
-  let protectedHeaderS: string
-  let protectedHeaderB: Uint8Array
-  if (protectedHeader) {
-    protectedHeaderS = b64u(JSON.stringify(protectedHeader))
-    protectedHeaderB = encode(protectedHeaderS)
-  } else {
-    protectedHeaderS = ''
-    protectedHeaderB = new Uint8Array()
-  }
-
-  let additionalData: Uint8Array
-  let aadMember: string | undefined
-  if (aad?.byteLength) {
-    aadMember = b64u(aad)
-    additionalData = concat(protectedHeaderB, encode('.'), encode(aadMember))
-  } else {
-    additionalData = protectedHeaderB
-  }
+  const protectedHeaderS = protectedHeader ? b64u(JSON.stringify(protectedHeader)) : ''
+  const aadMember = aad?.byteLength ? b64u(aad) : undefined
+  const additionalData = encode(aadMember ? `${protectedHeaderS}.${aadMember}` : protectedHeaderS)
 
   let plaintext = inputPlaintext
   if (joseHeader.zip === 'DEF') {
@@ -294,7 +222,7 @@ export async function encryptJWE(
   let iv: Uint8Array | undefined
   if (algEntry.mode === 'integrated-encryption') {
     ;[encryptedKey, ciphertext] = await algEntry.encrypt(
-      integratedKey!,
+      cek,
       plaintext,
       additionalData,
       protectedHeader,
@@ -345,16 +273,9 @@ export async function createJWE(
   key: types.KeyInput,
   options?: types.EncryptOptions,
 ): Promise<types.FlattenedJWE> {
-  if (!input[1] && !input[2] && !input[3]) {
-    throw new JWEInvalid(
-      'either setProtectedHeader, setUnprotectedHeader, or sharedUnprotectedHeader must be called before #encrypt()',
-    )
-  }
+  return encryptJWE(input, checkEncryptHeaders(input, options), key)
+}
 
-  if (options !== undefined) {
-    input[8] = options?.crit
-    input[9] = options ? unprotected in options : false
-  }
-
-  return encryptJWE(input, checkEncryptHeaders(input), key)
+export function compactJWE(jwe: types.FlattenedJWE): string {
+  return [jwe.protected, jwe.encrypted_key, jwe.iv, jwe.ciphertext, jwe.tag].join('.')
 }

@@ -1,11 +1,31 @@
 import test from 'ava'
 
-import { FlattenedSign } from '../../src/index.js'
+import { FlattenedSign, flattenedVerify } from '../../src/index.js'
 
 test.before(async (t) => {
   const encode = TextEncoder.prototype.encode.bind(new TextEncoder())
   t.context.payload = encode('It’s a dangerous business, Frodo, going out your door.')
   t.context.secret = new Uint8Array(32)
+})
+
+test('FlattenedSign encodes the current payload and options for each operation', async (t) => {
+  const payload = Uint8Array.of(1)
+  const builder = new FlattenedSign(payload).setProtectedHeader({
+    alg: 'HS256',
+    crit: ['test'],
+    test: true,
+  })
+  const options = { crit: { test: true } }
+  const first = builder.sign(t.context.secret, options)
+  payload[0] = 2
+  const second = builder.sign(t.context.secret, options)
+
+  const results = await Promise.all(
+    [first, second].map(async (jws) => flattenedVerify(await jws, t.context.secret, options)),
+  )
+  t.deepEqual(results[0].payload, Uint8Array.of(1))
+  t.deepEqual(results[1].payload, Uint8Array.of(2))
+  await t.throwsAsync(builder.sign(t.context.secret), { code: 'ERR_JOSE_NOT_SUPPORTED' })
 })
 
 test('FlattenedSign', async (t) => {

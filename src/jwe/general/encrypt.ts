@@ -5,20 +5,15 @@
  */
 
 import type * as types from '../../types.d.ts'
-import { assertNotSet } from '../../lib/helpers.js'
+import { assertNotSet, assertUint8Array } from '../../lib/validate.js'
 import { JWEInvalid } from '../../util/errors.js'
 import { generateCek } from '../../lib/content_encryption.js'
 import { encode as b64u } from '../../util/base64url.js'
-import {
-  checkDisjoint,
-  checkEncryptHeaders,
-  createJWE,
-  encryptJWE,
-  transportCek,
-} from '../../lib/jwe_encrypt.js'
+import { checkDisjoint, checkEncryptHeaders, encryptJWE } from '../../lib/jwe_encrypt.js'
+import { encryptKeyManagement } from '../../lib/key_management.js'
 import type { CheckedHeaders, EncryptInput } from '../../lib/jwe_encrypt.js'
-import { JWE, isJWECEKTransport, jweAlgorithm } from '../../lib/jwe_algorithms.js'
-import { assertUint8Array } from '../../lib/type_checks.js'
+import { isJWECEKTransport, jweAlgorithm } from '../../lib/jwe_algorithms.js'
+import type { JWECEKTransportAlgorithm } from '../../lib/jwe_algorithms.js'
 
 /** Configures an individual recipient in a General JWE. */
 export interface Recipient {
@@ -99,18 +94,6 @@ class IndividualRecipient implements Recipient {
   done() {
     return this.#parent
   }
-}
-
-function copyOptionalMembers(
-  flattened: types.FlattenedJWE,
-  jwe: types.GeneralJWE,
-  recipient: types.GeneralJWE['recipients'][number],
-) {
-  const { aad, protected: protectedHeader, unprotected, header } = flattened
-  if (aad) jwe.aad = aad
-  if (protectedHeader) jwe.protected = protectedHeader
-  if (unprotected) jwe.unprotected = unprotected
-  if (header) recipient.header = header
 }
 
 /**
@@ -208,46 +191,13 @@ export class GeneralEncrypt {
 
     assertUint8Array(this.#plaintext, 'plaintext')
 
-    if (this.#recipients.length === 1) {
-      const [unprotectedHeader, keyManagementParameters, key, crit] = this.#recipients[0].state
-
-      const flattened = await createJWE(
-        [
-          this.#plaintext,
-          this.#protectedHeader,
-          unprotectedHeader,
-          this.#unprotectedHeader,
-          this.#aad,
-          undefined,
-          undefined,
-          keyManagementParameters,
-          crit,
-          false,
-        ],
-        key,
-      )
-
-      const jwe: types.GeneralJWE = {
-        ciphertext: flattened.ciphertext,
-        recipients: [{}],
-      }
-
-      if (flattened.iv) jwe.iv = flattened.iv
-      if (flattened.tag) jwe.tag = flattened.tag
-      if (flattened.encrypted_key) jwe.recipients[0].encrypted_key = flattened.encrypted_key
-      copyOptionalMembers(flattened, jwe, jwe.recipients[0])
-
-      return jwe
-    }
-
+    const multiple = this.#recipients.length > 1
     let enc: string | undefined
     let protectedHeader = this.#protectedHeader
     let sharedUnprotectedHeader = this.#unprotectedHeader
-    const inputs: EncryptInput[] = []
-    const checked: CheckedHeaders[] = []
-    for (let i = 0; i < this.#recipients.length; i++) {
-      const recipient = this.#recipients[i]
-      const [unprotectedHeader, keyManagementParameters, , crit] = recipient.state
+    const recipients: [input: EncryptInput, headers: CheckedHeaders, key: types.KeyInput][] = []
+    for (const recipient of this.#recipients) {
+      const [unprotectedHeader, keyManagementParameters, key, crit] = recipient.state
 
       const input: EncryptInput = [
         this.#plaintext,
@@ -259,87 +209,74 @@ export class GeneralEncrypt {
         undefined,
         keyManagementParameters,
         crit,
-        true,
+        multiple,
       ]
       const headers = checkEncryptHeaders(input)
-      inputs.push(input)
-      checked.push(headers)
-
-      if (i === 0) {
+      if (!recipients.length) {
         protectedHeader = input[1]!
         sharedUnprotectedHeader = input[3]!
       }
+      recipients.push([input, headers, key])
 
-      const algEntry = JWE[headers[1]]
-      if (algEntry && !isJWECEKTransport(algEntry)) {
-        throw new JWEInvalid(`"${headers[1]}" alg may only have a single recipient`)
+      const [{ alg, enc: recipientEnc }, , algEntry] = headers
+      if (multiple && algEntry && !isJWECEKTransport(algEntry)) {
+        throw new JWEInvalid(`"${alg}" alg may only have a single recipient`)
       }
 
       if (!enc) {
-        enc = headers[2]!
-      } else if (enc !== headers[2]) {
+        enc = recipientEnc
+      } else if (enc !== recipientEnc) {
         throw new JWEInvalid(
           'JWE "enc" (Encryption Algorithm) Header Parameter must be the same for all recipients',
         )
       }
     }
 
-    const algEntries = checked.map(([, alg]) => {
-      const algEntry = jweAlgorithm(alg)
-      if (!isJWECEKTransport(algEntry)) {
-        throw new JWEInvalid(`"${alg}" alg may only have a single recipient`)
-      }
-      return algEntry
-    })
-    const cek = generateCek(checked[0][3]!)
+    for (const [, headers] of recipients) {
+      headers[2] ??= jweAlgorithm(headers[0].alg)
+    }
+    const [firstInput, firstHeaders, firstKey] = recipients[0]
+    const cek = multiple ? generateCek(firstHeaders[1]!) : undefined
+    firstInput[5] = cek
+    const { encrypted_key, header, ...shared } = await encryptJWE(
+      firstInput,
+      firstHeaders,
+      firstKey,
+    )
 
     const jwe: types.GeneralJWE = {
-      ciphertext: '',
-      recipients: [],
+      ...shared,
+      recipients: [{}],
     }
+    if (encrypted_key) jwe.recipients[0].encrypted_key = encrypted_key
+    if (header) jwe.recipients[0].header = header
 
-    for (let i = 0; i < this.#recipients.length; i++) {
-      const recipient = this.#recipients[i]
-      const [, keyManagementParameters, key] = recipient.state
-      const target: Record<string, string | types.JWEHeaderParameters> = {}
-      jwe.recipients.push(target)
+    for (let i = 1; i < recipients.length; i++) {
+      const [input, [joseHeader, encEntry, algEntry], key] = recipients[i]
+      const unprotectedHeader = input[2]
 
-      if (i === 0) {
-        inputs[0][5] = cek
-        const flattened = await encryptJWE(inputs[0], checked[0], key, algEntries[0])
-
-        jwe.ciphertext = flattened.ciphertext
-        if (flattened.iv) jwe.iv = flattened.iv
-        if (flattened.tag) jwe.tag = flattened.tag
-
-        if (flattened.encrypted_key) target.encrypted_key = flattened.encrypted_key
-        copyOptionalMembers(flattened, jwe, target)
-
-        continue
-      }
-
-      const [joseHeader, , , encEntry] = checked[i]
-      const unprotectedHeader = inputs[i][2]
-
-      const [, encryptedKey, parameters] = await transportCek(
-        algEntries[i],
+      const [, encryptedKey, parameters] = await encryptKeyManagement(
+        algEntry as JWECEKTransportAlgorithm,
         encEntry!,
         key,
-        cek,
         joseHeader,
-        keyManagementParameters,
+        cek,
+        input[7],
       )
-      target.encrypted_key = b64u(encryptedKey)
+      const target: types.GeneralJWE['recipients'][number] = {
+        encrypted_key: b64u(encryptedKey!),
+      }
       if (unprotectedHeader || parameters) {
         const header: types.JWEHeaderParameters = { ...unprotectedHeader, ...parameters }
         // The generated Key Management Parameters join the JWE Per-Recipient Unprotected Header
         // only after the headers were checked, so a name they collide with in another header would
         // otherwise reach the result.
-        if (parameters) checkDisjoint(inputs[i][1], header, inputs[i][3])
+        if (parameters) checkDisjoint(input[1], header, input[3])
         target.header = header
       }
+      jwe.recipients.push(target)
     }
 
-    return jwe as types.GeneralJWE
+    return jwe
   }
 }

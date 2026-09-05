@@ -5,9 +5,9 @@
  */
 
 import type * as types from '../../types.d.ts'
-import { assertNotSet } from '../../lib/helpers.js'
-import { assertUint8Array } from '../../lib/type_checks.js'
-import { createJWE } from '../../lib/jwe_encrypt.js'
+import { assertNotSet, assertUint8Array } from '../../lib/validate.js'
+import { compactJWE, createJWE } from '../../lib/jwe_encrypt.js'
+import type { EncryptInput } from '../../lib/jwe_encrypt.js'
 
 /**
  * Builds and encrypts Compact JWE strings.
@@ -28,15 +28,7 @@ import { createJWE } from '../../lib/jwe_encrypt.js'
  * ```
  */
 export class CompactEncrypt {
-  #plaintext: Uint8Array
-
-  #protectedHeader!: types.CompactJWEHeaderParameters
-
-  #cek!: Uint8Array
-
-  #iv!: Uint8Array
-
-  #keyManagementParameters!: types.JWEKeyManagementHeaderParameters
+  #input: EncryptInput
 
   /**
    * {@link CompactEncrypt} constructor
@@ -45,7 +37,7 @@ export class CompactEncrypt {
    */
   constructor(plaintext: Uint8Array) {
     assertUint8Array(plaintext, 'plaintext')
-    this.#plaintext = plaintext
+    this.#input = [plaintext]
   }
 
   /**
@@ -58,8 +50,8 @@ export class CompactEncrypt {
    * @param cek JWE Content Encryption Key.
    */
   setContentEncryptionKey(cek: Uint8Array): this {
-    assertNotSet(this.#cek, 'setContentEncryptionKey')
-    this.#cek = cek
+    assertNotSet(this.#input[5], 'setContentEncryptionKey')
+    this.#input[5] = cek
     return this
   }
 
@@ -73,8 +65,8 @@ export class CompactEncrypt {
    * @param iv JWE Initialization Vector.
    */
   setInitializationVector(iv: Uint8Array): this {
-    assertNotSet(this.#iv, 'setInitializationVector')
-    this.#iv = iv
+    assertNotSet(this.#input[6], 'setInitializationVector')
+    this.#input[6] = iv
     return this
   }
 
@@ -84,8 +76,8 @@ export class CompactEncrypt {
    * @param protectedHeader JWE Protected Header object.
    */
   setProtectedHeader(protectedHeader: types.CompactJWEHeaderParameters): this {
-    assertNotSet(this.#protectedHeader, 'setProtectedHeader')
-    this.#protectedHeader = protectedHeader
+    assertNotSet(this.#input[1], 'setProtectedHeader')
+    this.#input[1] = protectedHeader
     return this
   }
 
@@ -98,8 +90,8 @@ export class CompactEncrypt {
    * @param parameters JWE Key Management parameters.
    */
   setKeyManagementParameters(parameters: types.JWEKeyManagementHeaderParameters): this {
-    assertNotSet(this.#keyManagementParameters, 'setKeyManagementParameters')
-    this.#keyManagementParameters = parameters
+    assertNotSet(this.#input[7], 'setKeyManagementParameters')
+    this.#input[7] = parameters
     return this
   }
 
@@ -111,23 +103,6 @@ export class CompactEncrypt {
    * @param options JWE Encryption options.
    */
   async encrypt(key: types.KeyInput, options?: types.EncryptOptions): Promise<string> {
-    const jwe = await createJWE(
-      [
-        this.#plaintext,
-        this.#protectedHeader,
-        undefined,
-        undefined,
-        undefined,
-        this.#cek,
-        this.#iv,
-        this.#keyManagementParameters,
-        undefined,
-        false,
-      ],
-      key,
-      options,
-    )
-
-    return [jwe.protected, jwe.encrypted_key, jwe.iv, jwe.ciphertext, jwe.tag].join('.')
+    return compactJWE(await createJWE([...this.#input], key, options))
   }
 }

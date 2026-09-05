@@ -5,7 +5,7 @@
  */
 
 import { JOSENotSupported } from '../util/errors.js'
-import { validateExtractableOption } from '../lib/key_options.js'
+import { validateExtractableOption } from '../lib/key.js'
 import { keyAlgorithm, unsupportedAlg, algArgument } from '../lib/key_algorithm.js'
 
 import type * as types from '../types.d.ts'
@@ -134,20 +134,12 @@ export async function generateKeyPair(
   if (entry.resolve) {
     // ECDH-ES takes its curve from the option rather than from the identifier.
     const crv = options?.crv ?? 'P-256'
-    switch (crv) {
-      case 'P-256':
-      case 'P-384':
-      case 'P-521':
-        algorithm = { name: 'ECDH', namedCurve: crv }
-        break
-      case 'X25519':
-        algorithm = { name: 'X25519' }
-        break
-      default:
-        throw new JOSENotSupported(
-          'Invalid or unsupported crv option provided, supported values are P-256, P-384, P-521, and X25519',
-        )
+    if (!['P-256', 'P-384', 'P-521', 'X25519'].includes(crv)) {
+      throw new JOSENotSupported(
+        'Invalid or unsupported crv option provided, supported values are P-256, P-384, P-521, and X25519',
+      )
     }
+    algorithm = entry.resolve({ crv })
   } else {
     if (entry.crv !== undefined && options?.crv !== undefined && options.crv !== entry.crv) {
       throw new JOSENotSupported(

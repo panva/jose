@@ -8,7 +8,7 @@ import type * as types from '../../types.d.ts'
 import { createSignature } from '../../lib/jws_sign.js'
 import type { SignInput } from '../../lib/jws_sign.js'
 import { JWSInvalid } from '../../util/errors.js'
-import { assertNotSet } from '../../lib/helpers.js'
+import { assertNotSet, assertUint8Array } from '../../lib/validate.js'
 
 /** Configures an individual signature in a General JWS. */
 export interface Signature {
@@ -142,30 +142,21 @@ export class GeneralSign {
       throw new JWSInvalid('at least one signature must be added')
     }
 
-    if (!(this.#payload instanceof Uint8Array)) {
-      throw new TypeError('payload must be an instance of Uint8Array')
-    }
+    assertUint8Array(this.#payload, 'payload')
 
     const jws: types.GeneralJWS = {
       signatures: [],
       payload: '',
     }
 
-    const encoded: NonNullable<SignInput['encoded']> = []
+    const encoded: NonNullable<SignInput[4]> = []
     let b64: boolean | undefined
 
-    for (let i = 0; i < this.#signatures.length; i++) {
-      const signature = this.#signatures[i]
+    for (const signature of this.#signatures) {
       const [protectedHeader, unprotectedHeader, key, crit] = signature.state
 
       const [{ payload, ...rest }, signatureB64] = await createSignature(
-        {
-          payload: this.#payload,
-          protectedHeader,
-          unprotectedHeader,
-          crit,
-          encoded,
-        },
+        [this.#payload, protectedHeader, unprotectedHeader, crit, encoded],
         key,
       )
 

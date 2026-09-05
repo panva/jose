@@ -55,3 +55,47 @@ export function encode(string: string): Uint8Array {
   }
   return bytes
 }
+
+export function encodeBase64(input: Uint8Array, url = false): string {
+  // @ts-ignore
+  if (Uint8Array.prototype.toBase64) {
+    // @ts-ignore
+    return input.toBase64({ alphabet: url ? 'base64url' : 'base64', omitPadding: url })
+  }
+
+  const CHUNK_SIZE = 0x8000
+  const arr = []
+  for (let i = 0; i < input.length; i += CHUNK_SIZE) {
+    // @ts-ignore
+    arr.push(String.fromCharCode.apply(null, input.subarray(i, i + CHUNK_SIZE)))
+  }
+  const encoded = btoa(arr.join(''))
+  return url ? encoded.replace(/=/g, '').replace(/\+/g, '-').replace(/\//g, '_') : encoded
+}
+
+export function decodeBase64(encoded: string, url = false): Uint8Array {
+  // @ts-ignore
+  if (Uint8Array.fromBase64) {
+    // @ts-ignore
+    return Uint8Array.fromBase64(encoded, { alphabet: url ? 'base64url' : 'base64' })
+  }
+
+  if (url) {
+    if (encoded.includes('+') || encoded.includes('/')) throw new TypeError('Invalid base64url')
+    encoded = encoded.replace(/-/g, '+').replace(/_/g, '/')
+  }
+  const binary = atob(encoded)
+  const bytes = new Uint8Array(binary.length)
+  for (let i = 0; i < binary.length; i++) {
+    bytes[i] = binary.charCodeAt(i)
+  }
+  return bytes
+}
+
+export async function digest(
+  algorithm: 'sha256' | 'sha384' | 'sha512',
+  data: Uint8Array,
+): Promise<Uint8Array> {
+  const subtleDigest = `SHA-${algorithm.slice(-3)}`
+  return new Uint8Array(await crypto.subtle.digest(subtleDigest, data as Uint8Array<ArrayBuffer>))
+}

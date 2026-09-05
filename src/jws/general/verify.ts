@@ -11,11 +11,10 @@ import {
   prepareVerify,
   snapshotJws,
   verifySignature,
-  verifyResult,
 } from '../../lib/jws_verify.js'
 import type { VerifyShared } from '../../lib/jws_verify.js'
 import { JWSInvalid, JWSSignatureVerificationFailed } from '../../util/errors.js'
-import { isObject } from '../../lib/type_checks.js'
+import { isObject } from '../../lib/validate.js'
 
 type SignatureCandidate = [
   jws: types.FlattenedJWSInput,
@@ -29,13 +28,7 @@ function snapshotSignature(
 ): SignatureCandidate | undefined {
   try {
     const jws = snapshotJws(signature as unknown as types.FlattenedJWSInput, [payload])
-    const { protected: encodedProtected, header, signature: encodedSignature } = jws
-    if (encodedProtected === undefined && header === undefined) return undefined
-    if (encodedProtected !== undefined && typeof encodedProtected !== 'string') return undefined
-    if (typeof encodedSignature !== 'string') return undefined
-    if (header !== undefined && !isObject<types.JWSHeaderParameters>(header)) return undefined
-
-    const protectedHeader = parseProtectedHeader(encodedProtected)
+    const protectedHeader = parseProtectedHeader(jws.protected)
 
     const { b64, crit } = protectedHeader
     return [
@@ -190,10 +183,14 @@ export async function generalVerify(
 
   for (const candidate of candidates) {
     try {
-      return verifyResult(
+      const [result] = await verifySignature(
         candidate[0],
-        await verifySignature(candidate[0], shared, key, encodeJsonUnencodedPayload, candidate[1]),
+        shared,
+        key,
+        encodeJsonUnencodedPayload,
+        candidate[1],
       )
+      return result
     } catch {
       //
     }

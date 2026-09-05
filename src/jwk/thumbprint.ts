@@ -4,17 +4,14 @@
  * @module
  */
 
-import { digest } from '../lib/helpers.js'
+import { digest, encode } from '../lib/buffer_utils.js'
 import { encode as b64u } from '../util/base64url.js'
-
 import { JOSENotSupported, JWKInvalid } from '../util/errors.js'
-import { encode } from '../lib/buffer_utils.js'
-import type * as types from '../types.d.ts'
-import { isKeyLike } from '../lib/is_key_like.js'
-import { isObject } from '../lib/type_checks.js'
+import { isKeyLike, invalidKeyInput, snapshotJwk } from '../lib/key.js'
+import { isObject } from '../lib/validate.js'
 import { exportJWK } from '../key/export.js'
-import { invalidKeyInput } from '../lib/invalid_key_input.js'
-import { snapshotJwk } from '../lib/jwk_metadata.js'
+
+import type * as types from '../types.d.ts'
 
 const check = (value: unknown, description: string) => {
   if (typeof value !== 'string' || !value) {

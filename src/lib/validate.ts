@@ -1,5 +1,100 @@
+import type * as types from '../types.d.ts'
 import { JOSENotSupported, JWEInvalid, JWSInvalid } from '../util/errors.js'
-import { isObject } from './type_checks.js'
+import { decode } from '../util/base64url.js'
+import { encode, strictDecoder } from './buffer_utils.js'
+
+export function assertUint8Array(input: unknown, label: string): asserts input is Uint8Array {
+  if (!(input instanceof Uint8Array)) {
+    throw new TypeError(`${label} must be an instance of Uint8Array`)
+  }
+}
+
+export function isObject<T = object>(input: unknown): input is T {
+  if (
+    typeof input !== 'object' ||
+    input === null ||
+    Object.prototype.toString.call(input) !== '[object Object]'
+  ) {
+    return false
+  }
+  const prototype = Object.getPrototypeOf(input)
+  return prototype === null || Object.getPrototypeOf(prototype) === null
+}
+
+export function isJwkSet(input: unknown): input is types.JSONWebKeySet {
+  return (
+    isObject<types.JSONWebKeySet>(input) &&
+    Array.isArray(input.keys) &&
+    Array.from(input.keys).every(isObject)
+  )
+}
+
+export function isDisjoint(...headers: Array<object | undefined>): boolean {
+  const parameters = new Set<string>()
+  for (const header of headers) {
+    if (!header) continue
+    for (const parameter of Object.keys(header)) {
+      if (parameters.has(parameter)) {
+        return false
+      }
+      parameters.add(parameter)
+    }
+  }
+
+  return true
+}
+
+export function assertNotSet(value: unknown, name: string): void {
+  if (value !== undefined) {
+    throw new TypeError(`${name} can only be called once`)
+  }
+}
+
+export function decodeBase64url(
+  value: string,
+  label: string,
+  ErrorClass: new (message: string) => Error,
+): Uint8Array {
+  try {
+    return decode(value)
+  } catch {
+    throw new ErrorClass(`Failed to base64url decode the ${label}`)
+  }
+}
+
+/**
+ * Encodes the ASCII octets of a token member that is used as-is when recomputing a signing input or
+ * AEAD additional data, rather than being base64url decoded first.
+ */
+export function encodeBase64url(
+  value: string,
+  label: string,
+  ErrorClass: new (message: string) => Error,
+): Uint8Array {
+  try {
+    return encode(value)
+  } catch {
+    throw new ErrorClass(`The ${label} is not a valid base64url string`)
+  }
+}
+
+/** Base64url decode, UTF-8 decode, JSON parse, and require a JSON object - in one place. */
+export function parseJoseHeader<T>(
+  b64: string,
+  ErrorClass: new (message: string) => Error,
+  message: string,
+): T {
+  let parsed: unknown
+  try {
+    parsed = JSON.parse(strictDecoder.decode(decode(b64)))
+  } catch {
+    throw new ErrorClass(message)
+  }
+  if (!isObject(parsed)) {
+    throw new ErrorClass(message)
+  }
+  return parsed as T
+}
 
 interface CritCheckHeader {
   b64?: boolean
@@ -21,11 +116,7 @@ export function validateAlgorithms(option: string, algorithms?: string[]): Set<s
     throw new TypeError(`"${option}" option must be an array of strings`)
   }
 
-  if (!algorithms) {
-    return undefined
-  }
-
-  return new Set(algorithms)
+  return algorithms === undefined ? undefined : new Set(algorithms)
 }
 
 /**

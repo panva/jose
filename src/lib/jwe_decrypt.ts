@@ -1,19 +1,20 @@
 import type * as types from '../types.d.ts'
 import { decrypt, generateCek } from './content_encryption.js'
-import { decodeBase64url, encodeBase64url, parseJoseHeader } from './helpers.js'
-import { JOSEAlgNotAllowed, JOSENotSupported, JWEInvalid } from '../util/errors.js'
-import { isDisjoint, isObject } from './type_checks.js'
-import { decryptKeyManagement } from './key_management.js'
-import { concat, decoder, encode } from './buffer_utils.js'
-import { validateCrit, validateAlgorithms, JWE_RECOGNIZED } from './options.js'
-import { prepareKey } from './key.js'
 import {
-  JWE,
-  invalidJWEKeyManagementMode,
-  isJWECEKTransport,
-  jweAlgorithm,
-  jweEncryption,
-} from './jwe_algorithms.js'
+  decodeBase64url,
+  encodeBase64url,
+  parseJoseHeader,
+  isDisjoint,
+  isObject,
+  validateCrit,
+  validateAlgorithms,
+  JWE_RECOGNIZED,
+} from './validate.js'
+import { JOSEAlgNotAllowed, JOSENotSupported, JWEInvalid } from '../util/errors.js'
+import { decryptKeyManagement } from './key_management.js'
+import { decoder } from './buffer_utils.js'
+import { prepareKey } from './key.js'
+import { JWE, isJWECEKTransport, jweAlgorithm, jweEncryption } from './jwe_algorithms.js'
 import type { JWEEncryption } from './jwe_algorithms.js'
 import { decompress, validateZip } from './deflate.js'
 
@@ -29,13 +30,6 @@ export type DecryptShared = [
   crit: { [propName: string]: boolean } | undefined,
   maxPBES2Count: number | undefined,
   maxDecompressedLength: number | undefined,
-]
-
-export type DecryptedJWE = [
-  plaintext: Uint8Array,
-  parsedProt: types.JWEHeaderParameters | undefined,
-  key: types.CryptoKey | Uint8Array,
-  resolvedKey: boolean,
 ]
 
 /**
@@ -117,11 +111,6 @@ export function snapshotRecipientJWE(recipient: RecipientJWEMembers): RecipientJ
     } else {
       header = inputHeader
     }
-  } catch (error) {
-    return [undefined, headerAlg, error]
-  }
-
-  try {
     const { encrypted_key: encryptedKey } = recipient
     return [{ encrypted_key: encryptedKey, header }, headerAlg]
   } catch (error) {
@@ -157,50 +146,17 @@ export function shareJWE(jwe: SharedJWEMembers): SharedJWE {
     parsedProt = parseJoseHeader(encodedProtected, JWEInvalid, 'JWE Protected Header is invalid')
   }
 
-  const protectedHeader: Uint8Array =
-    encodedProtected !== undefined ? encode(encodedProtected) : new Uint8Array()
-
   return [
     parsedProt,
     decodeBase64url(ciphertext, 'ciphertext', JWEInvalid),
     iv !== undefined ? decodeBase64url(iv, 'iv', JWEInvalid) : undefined,
     tag !== undefined ? decodeBase64url(tag, 'tag', JWEInvalid) : undefined,
-    aad !== undefined
-      ? concat(protectedHeader, encode('.'), encodeBase64url(aad, 'aad', JWEInvalid))
-      : protectedHeader,
+    encodeBase64url(
+      (encodedProtected ?? '') + (aad !== undefined ? `.${aad}` : ''),
+      'aad',
+      JWEInvalid,
+    ),
   ]
-}
-
-/** Flattened and General results have the same shape, so they are assembled in one place. */
-export function decryptResult(
-  jwe: types.FlattenedJWE,
-  decrypted: DecryptedJWE,
-): types.FlattenedDecryptResult & Partial<types.ResolvedKey> {
-  const [plaintext, parsedProt, key, resolvedKey] = decrypted
-  const { protected: encodedProtected, aad, unprotected, header } = jwe
-  const result: types.FlattenedDecryptResult = { plaintext }
-
-  if (encodedProtected !== undefined) {
-    result.protectedHeader = parsedProt
-  }
-
-  if (aad !== undefined) {
-    result.additionalAuthenticatedData = decodeBase64url(aad, 'aad', JWEInvalid)
-  }
-
-  if (unprotected !== undefined) {
-    result.sharedUnprotectedHeader = unprotected
-  }
-
-  if (header !== undefined) {
-    result.unprotectedHeader = header
-  }
-
-  if (resolvedKey) {
-    return { ...result, key }
-  }
-
-  return result
 }
 
 export function prepareDecrypt(options?: types.DecryptOptions): DecryptShared {
@@ -214,15 +170,15 @@ export function prepareDecrypt(options?: types.DecryptOptions): DecryptShared {
   ]
 }
 
-/** Decrypts for one recipient, given the already-parsed shared parts of the JWE. */
-export async function decryptRecipient(
+/** Decrypts one recipient, optionally reusing a General JWE's already-decoded shared members. */
+export async function decryptJWE(
   jwe: types.FlattenedJWE,
-  token: SharedJWE,
   shared: DecryptShared,
   key: types.KeyInput | DecryptGetKey,
-): Promise<DecryptedJWE> {
-  const [parsedProt] = token
-  const { header, unprotected } = jwe
+  token: SharedJWE = shareJWE(jwe),
+): Promise<types.FlattenedDecryptResult & Partial<types.ResolvedKey>> {
+  const [parsedProt, ciphertext, iv, tag, additionalData] = token
+  const { header, unprotected, aad } = jwe
 
   let joseHeader: types.JWEHeaderParameters
   if (header !== undefined || unprotected !== undefined) {
@@ -236,17 +192,6 @@ export async function decryptRecipient(
     joseHeader = parsedProt ?? {}
   }
 
-  return decryptRecipientCore(jwe, token, shared, key, joseHeader)
-}
-
-/** Performs the common cryptographic work after a serialization adapter has assembled its header. */
-async function decryptRecipientCore(
-  jwe: types.FlattenedJWE,
-  token: SharedJWE,
-  shared: DecryptShared,
-  key: types.KeyInput | DecryptGetKey,
-  joseHeader: types.JWEHeaderParameters,
-): Promise<DecryptedJWE> {
   const [
     keyManagementAlgorithms,
     contentEncryptionAlgorithms,
@@ -254,7 +199,6 @@ async function decryptRecipientCore(
     maxPBES2Count,
     maxDecompressedLength,
   ] = shared
-  const [parsedProt, ciphertext, iv, tag, additionalData] = token
   const { encrypted_key: encodedKey } = jwe
 
   validateCrit(JWEInvalid, JWE_RECOGNIZED, crit, parsedProt, joseHeader)
@@ -327,22 +271,11 @@ async function decryptRecipientCore(
     // indistinguishable. Let the unwrap/decrypt fail and substitute a random CEK below.
     encryptedKey = new Uint8Array()
   }
-  let k: types.CryptoKey | Uint8Array
-  const mode = algEntry.mode
-  switch (mode) {
-    case 'direct-encryption':
-      k = await prepareKey(encEntry!, key, 'decrypt')
-      break
-    case 'direct-key-agreement':
-    case 'key-wrapping':
-    case 'key-encryption':
-    case 'key-agreement-with-key-wrapping':
-    case 'integrated-encryption':
-      k = await prepareKey(algEntry, key, 'decrypt')
-      break
-    default:
-      invalidJWEKeyManagementMode(mode)
-  }
+  const k = await prepareKey(
+    algEntry.mode === 'direct-encryption' ? encEntry! : algEntry,
+    key,
+    'decrypt',
+  )
 
   let plaintext: Uint8Array
   if (algEntry.mode === 'integrated-encryption') {
@@ -413,19 +346,16 @@ async function decryptRecipientCore(
     })
   }
 
-  return [plaintext, parsedProt, k, resolvedKey]
-}
-
-/**
- * Decrypts a single-recipient JWE. `jwe` must already have been checked to have the member types
- * the Flattened Serialization requires; the Compact adapter gets that for free from String#split.
- */
-export async function decryptJWE(
-  jwe: types.FlattenedJWE,
-  shared: DecryptShared,
-  key: types.KeyInput | DecryptGetKey,
-): Promise<DecryptedJWE> {
-  return decryptRecipient(jwe, shareJWE(jwe), shared, key)
+  return {
+    plaintext,
+    ...(parsedProt && { protectedHeader: parsedProt }),
+    ...(aad !== undefined && {
+      additionalAuthenticatedData: decodeBase64url(aad, 'aad', JWEInvalid),
+    }),
+    ...(unprotected && { sharedUnprotectedHeader: unprotected }),
+    ...(header && { unprotectedHeader: header }),
+    ...(resolvedKey && { key: k }),
+  }
 }
 
 /** Splits a Compact JWE and decrypts it. Every member is a string by construction. */
@@ -433,7 +363,7 @@ export async function decryptCompact(
   jwe: string | Uint8Array,
   shared: DecryptShared,
   key: types.KeyInput | DecryptGetKey,
-): Promise<DecryptedJWE> {
+): Promise<types.CompactDecryptResult & Partial<types.ResolvedKey>> {
   if (jwe instanceof Uint8Array) {
     jwe = decoder.decode(jwe)
   }
@@ -462,19 +392,7 @@ export async function decryptCompact(
     tag: tag || undefined,
     encrypted_key: encryptedKey || undefined,
   }
-  const parsedProt = parseJoseHeader<types.JWEHeaderParameters>(
-    protectedHeader,
-    JWEInvalid,
-    'JWE Protected Header is invalid',
-  )
-  const protectedBytes = encode(protectedHeader)
-  const token: SharedJWE = [
-    parsedProt,
-    decodeBase64url(ciphertext, 'ciphertext', JWEInvalid),
-    iv ? decodeBase64url(iv, 'iv', JWEInvalid) : undefined,
-    tag ? decodeBase64url(tag, 'tag', JWEInvalid) : undefined,
-    protectedBytes,
-  ]
-
-  return decryptRecipientCore(flattened, token, shared, key, parsedProt)
+  return decryptJWE(flattened, shared, key) as Promise<
+    types.CompactDecryptResult & Partial<types.ResolvedKey>
+  >
 }

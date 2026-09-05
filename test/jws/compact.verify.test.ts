@@ -93,6 +93,22 @@ test('Compact JWS verification snapshots the protected member before resolving a
   )
 })
 
+test('Compact JWS results retain their serialization shape after key resolution', async (t) => {
+  const jws = await new CompactSign(new Uint8Array())
+    .setProtectedHeader({ alg: 'HS256' })
+    .sign(t.context.secret)
+
+  const result = await compactVerify(jws, async (_protectedHeader, token) => {
+    delete token.protected
+    token.header = { unexpected: true }
+    return t.context.secret
+  })
+
+  t.deepEqual(result.protectedHeader, { alg: 'HS256' })
+  t.false('unprotectedHeader' in result)
+  t.is(result.key, t.context.secret)
+})
+
 test.serial('resolved keys are returned as own data properties', async (t) => {
   const jws = await new CompactSign(new Uint8Array())
     .setProtectedHeader({ alg: 'HS256' })

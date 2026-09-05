@@ -93,17 +93,11 @@ export async function compactVerify(
   // A CompactVerifyGetKey declares a narrower Protected Header than a VerifyGetKey does, so it is
   // not assignable to one. Delegating is nevertheless sound: the core rejects a JWS whose Protected
   // Header has no "alg" before it ever calls the resolver.
-  const verified = await verifyCompact(
+  const [result] = await verifyCompact(
     jws,
     prepareVerify(options),
     key as types.KeyInput | VerifyGetKey,
   )
 
-  const result = { payload: verified[0], protectedHeader: verified[1] }
-
-  if (typeof key === 'function') {
-    return { ...result, key: verified[3] }
-  }
-
-  return result
+  return result as types.CompactVerifyResult & Partial<types.ResolvedKey>
 }

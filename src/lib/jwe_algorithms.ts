@@ -1,7 +1,7 @@
 import { JOSENotSupported } from '../util/errors.js'
-import type * as types from '../types.d.ts'
 import { table } from './key_descriptor.js'
 import type { KeyDescriptor } from './key_descriptor.js'
+import type * as types from '../types.d.ts'
 
 export type JWECEKTransportMode =
   'key-wrapping' | 'key-encryption' | 'key-agreement-with-key-wrapping'
@@ -191,10 +191,6 @@ export function isJWECEKTransport(algorithm: JWEAlgorithm): algorithm is JWECEKT
     algorithm.mode === 'key-encryption' ||
     algorithm.mode === 'key-agreement-with-key-wrapping'
   )
-}
-
-export function invalidJWEKeyManagementMode(_mode: never): never {
-  throw new TypeError('Invalid JWE key management mode')
 }
 
 export function jweEncryption(enc: unknown): JWEEncryption {

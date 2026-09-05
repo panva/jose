@@ -88,17 +88,5 @@ export async function compactDecrypt(
   key: types.KeyInput | CompactDecryptGetKey,
   options?: types.DecryptOptions,
 ) {
-  const decrypted = await decryptCompact(
-    jwe,
-    prepareDecrypt(options),
-    key as types.KeyInput | DecryptGetKey,
-  )
-
-  const result = { plaintext: decrypted[0], protectedHeader: decrypted[1]! }
-
-  if (typeof key === 'function') {
-    return { ...result, key: decrypted[2] }
-  }
-
-  return result
+  return decryptCompact(jwe, prepareDecrypt(options), key as types.KeyInput | DecryptGetKey)
 }

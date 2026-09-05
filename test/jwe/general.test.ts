@@ -186,14 +186,15 @@ test('General JWE single-recipient encryption requires a JOSE header', async (t)
   })
 })
 
-test('General JWE multi-recipient encryption preserves missing alg validation', async (t) => {
+test('General JWE multi-recipient encryption requires a JOSE header', async (t) => {
   const encrypt = new GeneralEncrypt(t.context.plaintext)
   encrypt.addRecipient(t.context.secret)
   encrypt.addRecipient(t.context.secret2)
 
   await t.throwsAsync(encrypt.encrypt(), {
     code: 'ERR_JWE_INVALID',
-    message: 'JWE "alg" (Algorithm) Header Parameter missing or invalid',
+    message:
+      'either setProtectedHeader, setUnprotectedHeader, or sharedUnprotectedHeader must be called before #encrypt()',
   })
 })
 

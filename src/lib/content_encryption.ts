@@ -1,10 +1,8 @@
 import type * as types from '../types.d.ts'
 import { concat, uint64be } from './buffer_utils.js'
-import { checkCryptoKey } from './crypto_key.js'
-import { invalidKeyInput } from './invalid_key_input.js'
+import { rawKey, invalidKeyInput, isCryptoKey } from './key.js'
 import { JWEDecryptionFailed, JWEInvalid } from '../util/errors.js'
 import type { JWEEncryption } from './jwe_algorithms.js'
-import { isCryptoKey } from './is_key_like.js'
 
 // --- CEK ---
 
@@ -140,74 +138,6 @@ async function cbcDecrypt(
   throw new JWEDecryptionFailed()
 }
 
-// --- GCM encrypt/decrypt ---
-
-async function gcmEncrypt(
-  enc: JWEEncryption,
-  plaintext: Uint8Array,
-  cek: Uint8Array | types.CryptoKey,
-  iv: Uint8Array,
-  aad: Uint8Array,
-) {
-  const encKey =
-    cek instanceof Uint8Array
-      ? await crypto.subtle.importKey('raw', cek as Uint8Array<ArrayBuffer>, 'AES-GCM', false, [
-          'encrypt',
-        ])
-      : (checkCryptoKey(cek, enc.subtle, 'encrypt'), cek)
-
-  const encrypted = new Uint8Array(
-    await crypto.subtle.encrypt(
-      {
-        additionalData: aad as Uint8Array<ArrayBuffer>,
-        iv: iv as Uint8Array<ArrayBuffer>,
-        name: 'AES-GCM',
-        tagLength: 128,
-      },
-      encKey,
-      plaintext as Uint8Array<ArrayBuffer>,
-    ),
-  )
-
-  const tag = encrypted.slice(-16)
-  const ciphertext = encrypted.slice(0, -16)
-
-  return { ciphertext, tag, iv }
-}
-
-async function gcmDecrypt(
-  enc: JWEEncryption,
-  cek: Uint8Array | types.CryptoKey,
-  ciphertext: Uint8Array,
-  iv: Uint8Array,
-  tag: Uint8Array,
-  aad: Uint8Array,
-) {
-  const encKey =
-    cek instanceof Uint8Array
-      ? await crypto.subtle.importKey('raw', cek as Uint8Array<ArrayBuffer>, 'AES-GCM', false, [
-          'decrypt',
-        ])
-      : (checkCryptoKey(cek, enc.subtle, 'decrypt'), cek)
-
-  try {
-    return new Uint8Array(
-      await crypto.subtle.decrypt(
-        {
-          additionalData: aad as Uint8Array<ArrayBuffer>,
-          iv: iv as Uint8Array<ArrayBuffer>,
-          name: 'AES-GCM',
-          tagLength: 128,
-        },
-        encKey,
-        concat(ciphertext, tag) as Uint8Array<ArrayBuffer>,
-      ),
-    )
-  } catch {
-    throw new JWEDecryptionFailed()
-  }
-}
-
 // --- Public API ---
 
 export async function encrypt(
@@ -237,9 +167,22 @@ export async function encrypt(
     checkCekLength(cek, enc.cekBits)
   }
 
-  return enc.cbc
-    ? cbcEncrypt(enc, plaintext, cek, iv, aad)
-    : gcmEncrypt(enc, plaintext, cek, iv, aad)
+  if (enc.cbc) return cbcEncrypt(enc, plaintext, cek, iv, aad)
+
+  const encKey = await rawKey(cek, enc.subtle, 'encrypt')
+  const encrypted = new Uint8Array(
+    await crypto.subtle.encrypt(
+      {
+        additionalData: aad as Uint8Array<ArrayBuffer>,
+        iv: iv as Uint8Array<ArrayBuffer>,
+        name: 'AES-GCM',
+        tagLength: 128,
+      },
+      encKey,
+      plaintext as Uint8Array<ArrayBuffer>,
+    ),
+  )
+  return { ciphertext: encrypted.slice(0, -16), tag: encrypted.slice(-16), iv }
 }
 
 export async function decrypt(
@@ -272,7 +215,23 @@ export async function decrypt(
     checkCekLength(cek, enc.cekBits)
   }
 
-  return enc.cbc
-    ? cbcDecrypt(enc, cek, ciphertext, iv, tag, aad)
-    : gcmDecrypt(enc, cek, ciphertext, iv, tag, aad)
+  if (enc.cbc) return cbcDecrypt(enc, cek, ciphertext, iv, tag, aad)
+
+  const encKey = await rawKey(cek, enc.subtle, 'decrypt')
+  try {
+    return new Uint8Array(
+      await crypto.subtle.decrypt(
+        {
+          additionalData: aad as Uint8Array<ArrayBuffer>,
+          iv: iv as Uint8Array<ArrayBuffer>,
+          name: 'AES-GCM',
+          tagLength: 128,
+        },
+        encKey,
+        concat(ciphertext, tag) as Uint8Array<ArrayBuffer>,
+      ),
+    )
+  } catch {
+    throw new JWEDecryptionFailed()
+  }
 }

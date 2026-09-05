@@ -4,8 +4,7 @@
  * @module
  */
 
-import { encoder, decoder } from '../lib/buffer_utils.js'
-import { encodeBase64, decodeBase64 } from '../lib/base64.js'
+import { encoder, decoder, encodeBase64, decodeBase64 } from '../lib/buffer_utils.js'
 
 const invalid = 'The input to be decoded is not correctly encoded.'
 
@@ -29,31 +28,10 @@ const invalid = 'The input to be decoded is not correctly encoded.'
  *   (i.e. containing `+` or `/`) is rejected.
  */
 export function decode(input: Uint8Array | string): Uint8Array {
-  // @ts-ignore
-  if (Uint8Array.fromBase64) {
-    try {
-      // @ts-ignore
-      return Uint8Array.fromBase64(typeof input === 'string' ? input : decoder.decode(input), {
-        alphabet: 'base64url',
-      })
-    } catch (cause) {
-      throw new TypeError(invalid, { cause })
-    }
-  }
-
-  let encoded = input
-  if (encoded instanceof Uint8Array) {
-    encoded = decoder.decode(encoded)
-  }
-  // Aligns the fallback path with the Uint8Array base64 methods.
-  if (encoded.includes('+') || encoded.includes('/')) {
-    throw new TypeError(invalid)
-  }
-  encoded = encoded.replace(/-/g, '+').replace(/_/g, '/')
   try {
-    return decodeBase64(encoded)
-  } catch {
-    throw new TypeError(invalid)
+    return decodeBase64(typeof input === 'string' ? input : decoder.decode(input), true)
+  } catch (cause) {
+    throw new TypeError(invalid, { cause })
   }
 }
 
@@ -74,16 +52,5 @@ export function decode(input: Uint8Array | string): Uint8Array {
  * @returns The Base64URL encoded, unpadded, representation of the input.
  */
 export function encode(input: Uint8Array | string): string {
-  let unencoded = input
-  if (typeof unencoded === 'string') {
-    unencoded = encoder.encode(unencoded)
-  }
-
-  // @ts-ignore
-  if (Uint8Array.prototype.toBase64) {
-    // @ts-ignore
-    return unencoded.toBase64({ alphabet: 'base64url', omitPadding: true })
-  }
-
-  return encodeBase64(unencoded).replace(/=/g, '').replace(/\+/g, '-').replace(/\//g, '_')
+  return encodeBase64(typeof input === 'string' ? encoder.encode(input) : input, true)
 }

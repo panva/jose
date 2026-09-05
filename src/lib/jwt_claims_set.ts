@@ -1,7 +1,7 @@
 import type * as types from '../types.d.ts'
 import { JWTClaimValidationFailed, JWTExpired, JWTInvalid } from '../util/errors.js'
 import { encoder, strictDecoder } from './buffer_utils.js'
-import { isObject } from './type_checks.js'
+import { isObject } from './validate.js'
 
 const epoch = (date: Date) => Math.floor(date.getTime() / 1000)
 

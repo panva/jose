@@ -4,7 +4,7 @@
  * @module
  */
 
-import { parseJoseHeader } from '../lib/helpers.js'
+import { parseJoseHeader } from '../lib/validate.js'
 import type * as types from '../types.d.ts'
 
 /** JWE and JWS Header Parameters. */

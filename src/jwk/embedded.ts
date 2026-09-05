@@ -5,11 +5,10 @@
  */
 
 import type * as types from '../types.d.ts'
-import { jwkToKey } from '../lib/jwk_to_key.js'
+import { jwkToKey, normalizeJwk } from '../lib/key.js'
 import { jwsAlgorithm } from '../lib/jws_algorithms.js'
-import { isObject } from '../lib/type_checks.js'
+import { isObject } from '../lib/validate.js'
 import { JWSInvalid } from '../util/errors.js'
-import { normalizeJwk } from '../lib/jwk_metadata.js'
 
 /**
  * Resolves a verification key from an embedded "jwk" (JSON Web Key) Header Parameter.
@@ -67,7 +66,7 @@ export async function EmbeddedJWK(
   if (jwk.alg !== undefined && jwk.alg !== entry.alg) {
     throw new JWSInvalid(`Invalid Embedded JWK, its "alg" must be "${entry.alg}" when present`)
   }
-  const key = await jwkToKey(entry, { ...jwk, ext: true })
+  const key = await jwkToKey(entry, jwk, true)
 
   if (key.type !== 'public') {
     throw new JWSInvalid('"jwk" (JSON Web Key) Header Parameter must be a public key')

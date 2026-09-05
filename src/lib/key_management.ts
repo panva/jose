@@ -1,21 +1,26 @@
 import type * as types from '../types.d.ts'
 import type { JWEKeyManagementHeaderParameters, JWEHeaderParameters, JWK } from '../types.d.ts'
 import { encode as b64u } from '../util/base64url.js'
-import { prepareKey } from './key.js'
-import { jwkToKey } from './jwk_to_key.js'
+import {
+  prepareKey,
+  rawKey,
+  jwkToKey,
+  checkCryptoKey,
+  checkModulusLength,
+  checkUsage,
+  assertCryptoKey,
+} from './key.js'
 import {
   jweAlgorithm,
   jweEncryption,
+  isJWECEKTransport,
   type JWEConventionalAlgorithm,
   type JWEEncryption,
 } from './jwe_algorithms.js'
 import { JOSENotSupported, JWEInvalid } from '../util/errors.js'
-import { decodeBase64url, digest } from './helpers.js'
-import { generateCek, encrypt, decrypt } from './content_encryption.js'
-import { assertUint8Array, isObject } from './type_checks.js'
-import { checkCryptoKey, checkModulusLength, checkUsage } from './crypto_key.js'
-import { concat, encode, uint32be } from './buffer_utils.js'
-import { assertCryptoKey } from './is_key_like.js'
+import { decodeBase64url, assertUint8Array, isObject } from './validate.js'
+import { digest, concat, encode, uint32be } from './buffer_utils.js'
+import { checkCekLength, generateCek, encrypt, decrypt } from './content_encryption.js'
 
 type SubtleCryptoWithGetPublicKey = SubtleCrypto & {
   getPublicKey?(key: types.CryptoKey, keyUsages: KeyUsage[]): Promise<types.CryptoKey>
@@ -34,24 +39,12 @@ function checkEcdhCryptoKey(key: types.CryptoKey, usage?: KeyUsage): void {
 
 // --- aeskw ---
 
-async function aeskwCryptoKey(key: types.CryptoKey | Uint8Array, alg: string, usage: KeyUsage) {
-  const expected = jweAlgorithm(alg).subtle
-  const cryptoKey =
-    key instanceof Uint8Array
-      ? await crypto.subtle.importKey('raw', key as Uint8Array<ArrayBuffer>, 'AES-KW', true, [
-          usage,
-        ])
-      : key
-  checkCryptoKey(cryptoKey, expected, usage)
-  return cryptoKey
-}
-
 async function aeskwWrap(
   alg: string,
   key: types.CryptoKey | Uint8Array,
   cek: Uint8Array,
 ): Promise<Uint8Array> {
-  const cryptoKey = await aeskwCryptoKey(key, alg, 'wrapKey')
+  const cryptoKey = await rawKey(key, jweAlgorithm(alg).subtle, 'wrapKey', true)
 
   // algorithm used is irrelevant
   const cryptoKeyCek = await crypto.subtle.importKey(
@@ -70,7 +63,7 @@ async function aeskwUnwrap(
   key: types.CryptoKey | Uint8Array,
   encryptedKey: Uint8Array,
 ): Promise<Uint8Array> {
-  const cryptoKey = await aeskwCryptoKey(key, alg, 'unwrapKey')
+  const cryptoKey = await rawKey(key, jweAlgorithm(alg).subtle, 'unwrapKey', true)
 
   // algorithm used is irrelevant
   const cryptoKeyCek = await crypto.subtle.unwrapKey(
@@ -95,17 +88,6 @@ function checkRsaKey(alg: string, key: types.CryptoKey, usage: 'encrypt' | 'decr
 
 // --- pbes2kw ---
 
-function pbes2CryptoKey(key: types.CryptoKey | Uint8Array, alg: string) {
-  if (key instanceof Uint8Array) {
-    return crypto.subtle.importKey('raw', key as Uint8Array<ArrayBuffer>, 'PBKDF2', false, [
-      'deriveBits',
-    ])
-  }
-
-  checkCryptoKey(key, jweAlgorithm(alg).subtle, 'deriveBits')
-  return key
-}
-
 async function deriveKey(
   p2s: Uint8Array,
   alg: string,
@@ -128,7 +110,7 @@ async function deriveKey(
     salt,
   }
 
-  const cryptoKey = await pbes2CryptoKey(key, alg)
+  const cryptoKey = await rawKey(key, jweAlgorithm(alg).subtle, 'deriveBits')
 
   return new Uint8Array(await crypto.subtle.deriveBits(subtleAlg, cryptoKey, keylen))
 }
@@ -276,21 +258,16 @@ export async function decryptKeyManagement(
 ): Promise<types.CryptoKey | Uint8Array> {
   const { alg } = entry
   const mode = entry.mode
-  switch (mode) {
-    case 'direct-encryption':
-      assertNoEncryptedKey(encryptedKey)
-      return key
-    case 'direct-key-agreement':
-    case 'key-wrapping':
-    case 'key-encryption':
-    case 'key-agreement-with-key-wrapping':
-      break
+  if (mode === 'direct-encryption') {
+    assertNoEncryptedKey(encryptedKey)
+    return key
   }
+  const direct = mode === 'direct-key-agreement'
+  if (direct) assertNoEncryptedKey(encryptedKey)
+  else assertEncryptedKey(encryptedKey)
 
   switch (entry.subtle.name) {
     case 'ECDH': {
-      const direct = mode === 'direct-key-agreement'
-      if (direct) assertNoEncryptedKey(encryptedKey)
       const { epk } = joseHeader
       if (
         !isObject<types.JWK>(epk) ||
@@ -319,13 +296,10 @@ export async function decryptKeyManagement(
 
       if (direct) return sharedSecret
 
-      // Key Agreement with Key Wrapping
-      assertEncryptedKey(encryptedKey)
-
-      return aeskwUnwrap(alg.slice(-6), sharedSecret, encryptedKey)
+      key = sharedSecret
+      break
     }
     case 'RSA-OAEP': {
-      assertEncryptedKey(encryptedKey)
       assertCryptoKey(key)
       checkRsaKey(alg, key, 'decrypt')
       return new Uint8Array(
@@ -333,8 +307,6 @@ export async function decryptKeyManagement(
       )
     }
     case 'PBKDF2': {
-      assertEncryptedKey(encryptedKey)
-
       if (typeof joseHeader.p2c !== 'number')
         throw new JWEInvalid(`JOSE Header "p2c" (PBES2 Count) missing or invalid`)
 
@@ -349,40 +321,32 @@ export async function decryptKeyManagement(
         throw new JWEInvalid(`JOSE Header "p2s" (PBES2 Salt) missing or invalid`)
 
       const p2s = decodeBase64url(joseHeader.p2s, 'p2s', JWEInvalid)
-      const derived = await deriveKey(p2s, alg, joseHeader.p2c, key)
-      return aeskwUnwrap(alg.slice(-6), derived, encryptedKey)
-    }
-    case 'AES-KW': {
-      assertEncryptedKey(encryptedKey)
-
-      return aeskwUnwrap(alg, key, encryptedKey)
+      key = await deriveKey(p2s, alg, joseHeader.p2c, key)
+      break
     }
     case 'AES-GCM': {
-      assertEncryptedKey(encryptedKey)
-
       if (typeof joseHeader.iv !== 'string')
         throw new JWEInvalid(`JOSE Header "iv" (Initialization Vector) missing or invalid`)
 
       if (typeof joseHeader.tag !== 'string')
         throw new JWEInvalid(`JOSE Header "tag" (Authentication Tag) missing or invalid`)
 
-      let iv: Uint8Array
-      iv = decodeBase64url(joseHeader.iv, 'iv', JWEInvalid)
-      let tag: Uint8Array
-      tag = decodeBase64url(joseHeader.tag, 'tag', JWEInvalid)
+      const iv = decodeBase64url(joseHeader.iv, 'iv', JWEInvalid)
+      const tag = decodeBase64url(joseHeader.tag, 'tag', JWEInvalid)
 
       if (iv.byteLength !== 12) throw new JWEInvalid('Invalid Initialization Vector length')
       if (tag.byteLength !== 16) throw new JWEInvalid('Invalid Authentication Tag length')
 
-      return decrypt(jweEncryption(alg.slice(0, -2)), key, encryptedKey, iv, tag, new Uint8Array())
+      return decrypt(jweEncryption(alg.slice(0, -2)), key, encryptedKey!, iv, tag, new Uint8Array())
     }
   }
+  return aeskwUnwrap(alg.slice(-6), key, encryptedKey!)
 }
 
 export async function encryptKeyManagement(
   entry: JWEConventionalAlgorithm,
   enc: JWEEncryption,
-  key: types.CryptoKey | Uint8Array,
+  inputKey: types.KeyInput,
   joseHeader: types.JWEHeaderParameters,
   providedCek?: Uint8Array,
   providedParameters: JWEKeyManagementHeaderParameters = {},
@@ -393,22 +357,20 @@ export async function encryptKeyManagement(
     parameters: JWEHeaderParameters | undefined,
   ]
 > {
-  let encryptedKey: Uint8Array | undefined
-  let parameters: (JWEHeaderParameters & { epk?: JWK }) | undefined
-  let cek: types.CryptoKey | Uint8Array | undefined
-
-  const { alg } = entry
-  const mode = entry.mode
-  switch (mode) {
-    case 'direct-encryption':
-      return [key, undefined, undefined]
-    case 'direct-key-agreement':
-    case 'key-wrapping':
-    case 'key-encryption':
-    case 'key-agreement-with-key-wrapping':
-      break
+  const { alg, mode } = entry
+  const transport = isJWECEKTransport(entry)
+  if (providedCek !== undefined && !transport) {
+    throw new TypeError(
+      `setContentEncryptionKey cannot be called with JWE "alg" (Algorithm) Header ${alg}`,
+    )
   }
+  let key = await prepareKey(mode === 'direct-encryption' ? enc : entry, inputKey, 'encrypt')
+  if (mode === 'direct-encryption') return [key, undefined, undefined]
 
+  const cek = transport ? (providedCek ?? generateCek(enc)) : undefined
+  if (cek) checkCekLength(cek, enc.cekBits)
+  let encryptedKey: Uint8Array | undefined
+  let parameters: JWEHeaderParameters | undefined
   switch (entry.subtle.name) {
     case 'ECDH': {
       assertEcdhKey(key)
@@ -452,24 +414,18 @@ export async function encryptKeyManagement(
         apu,
         apv,
       )
-      parameters = { epk: { x, crv, kty } }
-      if (kty === 'EC') parameters.epk!.y = y
+      const epk: JWK = { x, crv, kty }
+      if (kty === 'EC') epk.y = y
+      parameters = { epk }
       if (providedApu !== undefined) parameters.apu = b64u(providedApu)
       if (providedApv !== undefined) parameters.apv = b64u(providedApv)
 
-      if (direct) {
-        cek = sharedSecret
-        break
-      }
+      if (direct) return [sharedSecret, undefined, parameters]
 
-      // Key Agreement with Key Wrapping
-      cek = providedCek ?? generateCek(enc)
-      const kwAlg = alg.slice(-6)
-      encryptedKey = await aeskwWrap(kwAlg, sharedSecret, cek)
+      key = sharedSecret
       break
     }
     case 'RSA-OAEP': {
-      cek = providedCek ?? generateCek(enc)
       assertCryptoKey(key)
       checkRsaKey(alg, key, 'encrypt')
       encryptedKey = new Uint8Array(
@@ -478,20 +434,12 @@ export async function encryptKeyManagement(
       break
     }
     case 'PBKDF2': {
-      cek = providedCek ?? generateCek(enc)
       const { p2c = 2048, p2s = crypto.getRandomValues(new Uint8Array(16)) } = providedParameters
-      const derived = await deriveKey(p2s, alg, p2c, key)
-      encryptedKey = await aeskwWrap(alg.slice(-6), derived, cek)
+      key = await deriveKey(p2s, alg, p2c, key)
       parameters = { p2c, p2s: b64u(p2s) }
       break
     }
-    case 'AES-KW': {
-      cek = providedCek ?? generateCek(enc)
-      encryptedKey = await aeskwWrap(alg, key, cek)
-      break
-    }
     case 'AES-GCM': {
-      cek = providedCek ?? generateCek(enc)
       const iv =
         providedParameters.iv === undefined
           ? crypto.getRandomValues(new Uint8Array(12))
@@ -499,13 +447,20 @@ export async function encryptKeyManagement(
       if (!(iv instanceof Uint8Array)) {
         throw new TypeError('"iv" must be an instance of Uint8Array')
       }
-      const wrapped = await encrypt(jweEncryption(alg.slice(0, -2)), cek, key, iv, new Uint8Array())
+      const wrapped = await encrypt(
+        jweEncryption(alg.slice(0, -2)),
+        cek!,
+        key,
+        iv,
+        new Uint8Array(),
+      )
       encryptedKey = wrapped.ciphertext
       parameters = { iv: b64u(wrapped.iv!), tag: b64u(wrapped.tag!) }
-      break
     }
   }
-
-  if (cek === undefined) throw new TypeError('Invalid JWE key management algorithm')
-  return [cek, encryptedKey, parameters]
+  encryptedKey ??= await aeskwWrap(alg.slice(-6), key, cek!)
+  if (!(encryptedKey instanceof Uint8Array) || !encryptedKey.byteLength) {
+    throw new TypeError('JWE key management algorithm did not produce an Encrypted Key')
+  }
+  return [cek!, encryptedKey, parameters]
 }

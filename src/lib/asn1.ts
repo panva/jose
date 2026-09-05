@@ -1,12 +1,9 @@
 import type * as types from '../types.d.ts'
-import { invalidKeyInput } from './invalid_key_input.js'
-import { encodeBase64, decodeBase64 } from '../lib/base64.js'
+import { invalidKeyInput, isCryptoKey, isKeyObject, validateExtractableOption } from './key.js'
+import { encodeBase64, decodeBase64 } from './buffer_utils.js'
 import { JOSENotSupported } from '../util/errors.js'
 import { keyAlgorithm, unsupportedAlg, algArgument } from './key_algorithm.js'
-import { isCryptoKey, isKeyObject } from './is_key_like.js'
-
 import type { KeyImportOptions } from '../key/import.js'
-import { validateExtractableOption } from './key_options.js'
 
 /**
  * Formats a base64 string as a PEM-encoded key with proper line breaks and headers.

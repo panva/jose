@@ -125,6 +125,24 @@ test('duplicated', testJWTsetFunction, 'setIssuer', 'iss', 'urn:example:issuer',
 test('duplicated', testJWTsetFunction, 'setSubject', 'sub', 'urn:example:subject', true)
 test('duplicated', testJWTsetFunction, 'setAudience', 'aud', 'urn:example:audience', true)
 
+test('EncryptJWT serializes updated claims and replicated headers per operation', async (t) => {
+  const builder = new EncryptJWT()
+    .setProtectedHeader({ alg: 'dir', enc: 'A128GCM' })
+    .setIssuer('first')
+    .replicateIssuerAsHeader()
+  const first = builder.encrypt(t.context.secret)
+  builder.setIssuer('second')
+  const second = builder.encrypt(t.context.secret)
+
+  const results = await Promise.all(
+    [first, second].map(async (jwt) => jwtDecrypt(await jwt, t.context.secret)),
+  )
+  t.is(results[0].payload.iss, 'first')
+  t.is(results[0].protectedHeader.iss, 'first')
+  t.is(results[1].payload.iss, 'second')
+  t.is(results[1].protectedHeader.iss, 'second')
+})
+
 test('EncryptJWT.prototype.setProtectedHeader', (t) => {
   t.throws(() => new EncryptJWT(t.context.payload).setProtectedHeader({}).setProtectedHeader({}), {
     instanceOf: TypeError,

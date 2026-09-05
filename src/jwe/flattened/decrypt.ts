@@ -6,11 +6,10 @@
 
 import type * as types from '../../types.d.ts'
 import { JWEInvalid } from '../../util/errors.js'
-import { isObject } from '../../lib/type_checks.js'
+import { isObject } from '../../lib/validate.js'
 import {
   prepareDecrypt,
   decryptJWE,
-  decryptResult,
   checkRecipient,
   snapshotSharedJWE,
   snapshotRecipientJWE,
@@ -116,5 +115,5 @@ export async function flattenedDecrypt(
   const snapshot: types.FlattenedJWE = { ...shared, ...recipient }
   checkRecipient(snapshot)
 
-  return decryptResult(snapshot, await decryptJWE(snapshot, prepareDecrypt(options), key))
+  return decryptJWE(snapshot, prepareDecrypt(options), key)
 }

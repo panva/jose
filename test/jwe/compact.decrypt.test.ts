@@ -53,3 +53,22 @@ test('Uint8Array input and resolver receive the Compact JWE member shape', async
   t.deepEqual(result.plaintext, plaintext)
   t.is(result.key, secret)
 })
+
+test('Compact JWE results retain their shape when a resolver mutates token members', async (t) => {
+  const plaintext = new TextEncoder().encode('plaintext')
+  const secret = new Uint8Array(16)
+  const protectedHeader = { alg: 'dir', enc: 'A128GCM' } as const
+  const jwe = await new CompactEncrypt(plaintext)
+    .setProtectedHeader(protectedHeader)
+    .encrypt(secret)
+
+  const result = await compactDecrypt(jwe, (_, token) => {
+    delete token.protected
+    token.header = { kid: 'added' }
+    token.unprotected = { kid: 'added' }
+    token.aad = 'YWRkZWQ'
+    return secret
+  })
+
+  t.deepEqual(result, { plaintext, protectedHeader, key: secret })
+})

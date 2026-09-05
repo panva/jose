@@ -2,7 +2,7 @@ import { runInNewContext } from 'node:vm'
 
 import test from 'ava'
 
-import { isObject } from '../../src/lib/type_checks.js'
+import { isObject } from '../../src/lib/validate.js'
 
 test('isObject recognizes stable plain-object prototype shapes', (t) => {
   t.true(isObject({}))

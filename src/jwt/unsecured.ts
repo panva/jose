@@ -7,10 +7,15 @@
 import * as b64u from '../util/base64url.js'
 
 import type * as types from '../types.d.ts'
-import { decodeBase64url, parseJoseHeader } from '../lib/helpers.js'
+import {
+  decodeBase64url,
+  parseJoseHeader,
+  JWS_RECOGNIZED,
+  validateB64,
+  validateCrit,
+} from '../lib/validate.js'
 import { JWSInvalid, JWTInvalid } from '../util/errors.js'
 import { validateClaimsSet, JWTClaimsBuilder, jwtData } from '../lib/jwt_claims_set.js'
-import { JWS_RECOGNIZED, validateB64, validateCrit } from '../lib/options.js'
 
 /**
  * Decoded Unsecured JWT.

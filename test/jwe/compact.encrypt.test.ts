@@ -1,7 +1,13 @@
 import test from 'ava'
 import * as crypto from 'node:crypto'
 
-import { CompactEncrypt, compactDecrypt } from '../../src/index.js'
+import {
+  CompactEncrypt,
+  FlattenedEncrypt,
+  EncryptJWT,
+  compactDecrypt,
+  decodeProtectedHeader,
+} from '../../src/index.js'
 
 const rsa = crypto.generateKeyPairSync('rsa', { modulusLength: 2048 })
 const keyObjectTest = typeof rsa.publicKey.toCryptoKey === 'function' ? test : test.skip
@@ -29,6 +35,30 @@ test('CompactEncrypt', async (t) => {
     jwe,
     'eyJhbGciOiJkaXIiLCJlbmMiOiJBMTI4R0NNIn0..AAAAAAAAAAAAAAAA.Svw4TvnFg_PTTKPXFteMF4Lmisk8ODBNko7607TNs49EbT0BKRz9tEep2dmks9KPvD-CfX7hW1M.Y5cdeOSFYNyxcPWQlrVFzw',
   )
+})
+
+test('JWE builders snapshot headers and critical extension options per operation', async (t) => {
+  for (const builder of [
+    new CompactEncrypt(t.context.plaintext),
+    new FlattenedEncrypt(t.context.plaintext),
+    new EncryptJWT(),
+  ]) {
+    const protectedHeader = {
+      alg: 'dir',
+      enc: 'A128GCM',
+      crit: ['test'],
+      test: 'first',
+    }
+    builder.setProtectedHeader(protectedHeader)
+    const first = builder.encrypt(t.context.secret, { crit: { test: true } })
+    protectedHeader.test = 'second'
+    const second = builder.encrypt(t.context.secret, { crit: { test: true } })
+
+    const headers = (await Promise.all([first, second])).map(decodeProtectedHeader)
+    t.is(headers[0].test, 'first')
+    t.is(headers[1].test, 'second')
+    await t.throwsAsync(builder.encrypt(t.context.secret), { code: 'ERR_JOSE_NOT_SUPPORTED' })
+  }
 })
 
 test('CompactEncrypt.prototype.setProtectedHeader', (t) => {

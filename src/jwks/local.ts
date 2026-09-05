@@ -5,7 +5,7 @@
  */
 
 import type * as types from '../types.d.ts'
-import { jwkToKey } from '../lib/jwk_to_key.js'
+import { jwkToKey, snapshotJwk } from '../lib/key.js'
 import { JWS } from '../lib/jws_algorithms.js'
 import type { JWSAlgorithm } from '../lib/jws_algorithms.js'
 import {
@@ -14,8 +14,7 @@ import {
   JWKSNoMatchingKey,
   JWKSMultipleMatchingKeys,
 } from '../util/errors.js'
-import { isJwkSet } from '../lib/type_checks.js'
-import { snapshotJwk } from '../lib/jwk_metadata.js'
+import { isJwkSet } from '../lib/validate.js'
 
 interface Cache {
   [alg: string]: types.CryptoKey
@@ -50,7 +49,7 @@ async function importWithAlgCache(
   const cached = cache.get(jwk) || cache.set(jwk, {}).get(jwk)!
   const { alg } = entry
   if (cached[alg] === undefined) {
-    const key = await jwkToKey(entry, { ...jwk, alg, ext: true })
+    const key = await jwkToKey(entry, jwk, true)
 
     if (key.type !== 'public') {
       throw new JWKSInvalid('JSON Web Key Set members must be public keys')
