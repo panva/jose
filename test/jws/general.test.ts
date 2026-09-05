@@ -1,7 +1,7 @@
 import test from 'ava'
 import * as crypto from 'crypto'
 
-import { FlattenedSign, GeneralSign, generalVerify } from '../../src/index.js'
+import { FlattenedSign, flattenedVerify, GeneralSign, generalVerify } from '../../src/index.js'
 
 test.before(async (t) => {
   const encode = TextEncoder.prototype.encode.bind(new TextEncoder())
@@ -24,6 +24,32 @@ test('General JWS signing', async (t) => {
     'SXTigJlzIGEgZGFuZ2Vyb3VzIGJ1c2luZXNzLCBGcm9kbywgZ29pbmcgb3V0IHlvdXIgZG9vci4',
   )
   t.is(generalJws.signatures.length, 2)
+})
+
+test('General JWS signs one payload for all signatures and refreshes it for each operation', async (t) => {
+  const payload = Uint8Array.of(1, 128, 255)
+  const builder = new GeneralSign(payload)
+    .addSignature(t.context.secret)
+    .setProtectedHeader({ alg: 'HS256' })
+    .addSignature(t.context.secret)
+    .setProtectedHeader({
+      get alg() {
+        payload[0]++
+        return 'HS256'
+      },
+    })
+
+  for (const expectedFirstByte of [1, 2]) {
+    const jws = await builder.sign()
+    t.is(payload[0], expectedFirstByte + 1)
+    for (const signature of jws.signatures) {
+      const verified = await flattenedVerify(
+        { ...signature, payload: jws.payload },
+        t.context.secret,
+      )
+      t.deepEqual(verified.payload, Uint8Array.of(expectedFirstByte, 128, 255))
+    }
+  }
 })
 
 test('General JWS signing b64:false', async (t) => {

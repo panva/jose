@@ -10,7 +10,7 @@ import {
   JWS_RECOGNIZED,
 } from './validate.js'
 import { JWSInvalid } from '../util/errors.js'
-import { concat, encode } from './buffer_utils.js'
+import { concat, encode, encoder } from './buffer_utils.js'
 import { prepareKey, rawKey, checkModulusLength } from './key.js'
 
 export type SignInput = [
@@ -69,20 +69,22 @@ export async function createSignature(
   }
   const entry = jwsAlgorithm(alg)
 
-  let payloadS: string
-  let payloadB: Uint8Array
+  let payloadS = ''
+  let payloadB = payload
+  let data: Uint8Array | undefined
   if (b64) {
-    const encoded = (input[4] ??= [])
-    encoded[0] ??= b64u(payload)
-    encoded[1] ??= encode(encoded[0])
-    payloadS = encoded[0]
-    payloadB = encoded[1]
-  } else {
-    payloadB = payload
-    payloadS = ''
+    const encoded = input[4]
+    if (encoded) {
+      payloadS = encoded[0] ??= b64u(payload)
+      payloadB = encoded[1] ??= encode(payloadS)
+    } else {
+      payloadS = b64u(payload)
+      // Both components are generated base64url strings.
+      data = encoder.encode(`${protectedHeaderString}.${payloadS}`)
+    }
   }
 
-  const data = concat(encode(protectedHeaderString), encode('.'), payloadB)
+  data ??= concat(encode(protectedHeaderString), encode('.'), payloadB)
   const k = await rawKey(await prepareKey(entry, key, 'sign'), entry.subtle, 'sign')
   if (entry.minRsaBits) checkModulusLength(entry.alg, k)
   const jws: types.FlattenedJWS = {
