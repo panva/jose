@@ -1,27 +1,17 @@
-// Bundles every published subpath on its own and reports two things:
-//
-//   size   - raw, gzip, and Brotli byte counts for a minified consumer import
-//   bleed  - occurrences of algorithm names belonging to the *other* JOSE family
-//
-// The second one is the point. A JWS import must not ship the RSA-OAEP / ECDH-ES key paths and
-// a JWE import must not ship the ECDSA / ML-DSA ones. That only holds while family knowledge
-// stays in the two registries and everything below them takes a resolved entry: a function that
-// switches on the identifier has to enumerate both families, and no bundler can split a function
-// body. A byte ceiling would notice such a regression late and vaguely; naming the forbidden
-// strings says which import grew and what leaked into it. Compressed sizes are informational
-// because Node and its bundled zlib version move independently of this project.
-//
-// The key-material APIs are general purpose - importJWK, exportJWK and generateKeyPair have to
-// know every algorithm - so they are exempt rather than expected to pass.
+// Reports subpath and individual-binding sizes, and checks both the unbundled dependency graph
+// and actual tree-shaken consumers. Root and direct imports must retain the same implementation;
+// JWS/JWE consumers must stay within their family, and non-General consumers must drop General
+// adapters. Size changes are informational, including gzip/Brotli differences between zlib versions.
 //
 // Usage:
 //   node tools/bundle-report.js                  report only
-//   node tools/bundle-report.js --check          exit 1 on any bleed in a non-exempt subpath
+//   node tools/bundle-report.js --check          exit 1 on a graph or tree-shaking violation
 //   node tools/bundle-report.js --json           machine-readable
 //   node tools/bundle-report.js --baseline f.json  show the change against a saved --json run
 import { globSync, readFileSync } from 'node:fs'
 import { dirname, resolve } from 'node:path'
 import { brotliCompressSync, constants, gzipSync } from 'node:zlib'
+import { build } from 'esbuild'
 import { resolvePackageExport } from './export-map.js'
 
 const { exports: exportsMap } = JSON.parse(readFileSync('package.json', 'utf8'))
@@ -60,14 +50,7 @@ function family(subpath) {
   return null
 }
 
-/**
- * Every dist module an entry point transitively imports. A bundle is the concatenation of exactly
- * this set, so scanning it for the forbidden names is as strong as scanning the bundle - and needs
- * no bundler, which is what lets --check run against the dist the build job already produced.
- *
- * It is only as strong as long as no shared module carries a name it does not use: a bundler drops
- * an unused export, this does not. That is a property worth holding to anyway.
- */
+/** Keep the stricter graph check too: unused exports should not hide cross-family dependencies. */
 function reachable(entry) {
   const seen = new Set()
   const stack = [resolve(entry)]
@@ -89,6 +72,28 @@ function reachable(entry) {
 
 const check = process.argv.includes('--check')
 const results = []
+const entries = new Map()
+const bundleOptions = {
+  bundle: true,
+  minify: true,
+  format: 'esm',
+  target: 'es2022',
+  logLevel: 'error',
+  write: false,
+  metafile: true,
+}
+
+function forbidden(fam) {
+  return fam === 'jws' ? JWE_ONLY : fam === 'jwe' ? JWS_ONLY : []
+}
+
+function findBleed(source, fam, bleed = {}) {
+  for (const marker of forbidden(fam)) {
+    const n = source.split(marker).length - 1
+    if (n) bleed[marker] = (bleed[marker] ?? 0) + n
+  }
+  return bleed
+}
 
 function compressedSize(source) {
   return {
@@ -105,50 +110,109 @@ for (const subpath of Object.keys(publicEntries)) {
   const fam = family(subpath)
 
   const modules = reachable(entry)
-  const forbidden = fam === 'jws' ? JWE_ONLY : fam === 'jwe' ? JWS_ONLY : []
   const bleed = {}
-  if (forbidden.length) {
+  if (fam) {
     for (const file of modules) {
-      const source = readFileSync(file, 'utf8')
-      for (const marker of forbidden) {
-        const n = source.split(marker).length - 1
-        if (n) bleed[marker] = (bleed[marker] ?? 0) + n
-      }
+      findBleed(readFileSync(file, 'utf8'), fam, bleed)
     }
   }
 
-  // Minifying every subpath is only worth it for the size column, which --check does not print.
-  let bytes
-  let gzip
-  let brotli
-  if (!check) {
-    const { build } = await import('esbuild')
-    const { outputFiles } = await build({
-      entryPoints: [entry],
-      bundle: true,
-      minify: true,
-      format: 'esm',
-      target: 'es2022',
-      logLevel: 'error',
-      write: false,
-    })
-    const source = outputFiles[0].contents
-    bytes = source.length
-    ;({ gzip, brotli } = compressedSize(source))
-  }
+  const { outputFiles, metafile } = await build({ ...bundleOptions, entryPoints: [entry] })
+  const source = outputFiles[0].contents
+  entries.set(subpath, { entry, exports: Object.values(metafile.outputs)[0].exports })
 
   results.push({
     subpath: subpath === '.' ? 'jose' : `jose/${subpath.slice(2)}`,
     family: fam ?? 'both',
     files: modules.size,
-    bytes,
-    gzip,
-    brotli,
+    bytes: source.length,
+    ...compressedSize(source),
     bleed,
   })
 }
 
 results.sort((a, b) => (b.bytes ?? b.files) - (a.bytes ?? a.files))
+
+const root = entries.get('.')
+const consumer = 'bundle-consumer.js'
+
+/** Measure only code that survived bundling, excluding the barrel and synthetic consumer. */
+async function consume(contents, fam) {
+  const { outputFiles, metafile } = await build({
+    ...bundleOptions,
+    stdin: { contents, resolveDir: process.cwd(), sourcefile: consumer },
+  })
+  const source = outputFiles[0].contents
+  const inputs = Object.values(metafile.outputs)[0].inputs
+  return {
+    bytes: source.length,
+    ...compressedSize(source),
+    files: Object.keys(inputs)
+      .filter(
+        (file) =>
+          inputs[file].bytesInOutput > 0 &&
+          resolve(file) !== resolve(root.entry) &&
+          resolve(file) !== resolve(consumer),
+      )
+      .sort(),
+    bleed: findBleed(outputFiles[0].text, fam),
+  }
+}
+
+const bindings = []
+const rootBindings = new Set(['cryptoRuntime'])
+for (const [subpath, { entry, exports }] of entries) {
+  if (subpath === '.') continue
+  const namespace = subpath === './errors' || subpath === './base64url' ? subpath.slice(2) : null
+  const fam = family(subpath)
+  for (const binding of namespace ? [...exports, '*'] : exports) {
+    const rootName = namespace ?? binding
+    if (!root.exports.includes(rootName)) throw new Error(`Missing root export: ${rootName}`)
+    rootBindings.add(rootName)
+    const rootValue = namespace && binding !== '*' ? `${namespace}.${binding}` : rootName
+    const directImport = binding === '*' ? '* as value' : `{ ${binding} as value }`
+    const [fromRoot, direct] = await Promise.all([
+      consume(
+        `import { ${rootName} } from '${root.entry}'; export const value = ${rootValue}`,
+        fam,
+      ),
+      consume(`import ${directImport} from '${entry}'; export { value }`, fam),
+    ])
+    const violations = []
+    if (fromRoot.files.join('\n') !== direct.files.join('\n')) {
+      violations.push('root/direct retain different implementation modules')
+    }
+    for (const [source, report] of Object.entries({ root: fromRoot, direct })) {
+      if (Object.keys(report.bleed).length) violations.push(`${source}: cross-family code`)
+      if (
+        !subpath.includes('/general/') &&
+        report.files.some((file) => /\/(jws|jwe)\/general\//.test(file))
+      ) {
+        violations.push(`${source}: retains General orchestration`)
+      }
+    }
+    bindings.push({
+      subpath: `jose/${subpath.slice(2)}`,
+      binding,
+      family: fam ?? 'both',
+      root: fromRoot,
+      direct,
+      violations,
+    })
+  }
+}
+for (const binding of root.exports) {
+  if (!rootBindings.has(binding)) throw new Error(`Missing consumer for root export: ${binding}`)
+}
+
+const runtime = await consume(`export { cryptoRuntime as value } from '${root.entry}'`, null)
+bindings.push({
+  subpath: 'jose',
+  binding: 'cryptoRuntime',
+  family: 'both',
+  root: runtime,
+  violations: runtime.files.length ? ['cryptoRuntime retains implementation modules'] : [],
+})
 
 const isBundle = (file) => /\.(bundle|umd)(\.min)?\.js$/.test(file)
 
@@ -177,6 +241,18 @@ const total = (list, key) => list.reduce((sum, a) => sum + a[key], 0)
 
 const baselineArg = process.argv.indexOf('--baseline')
 const baseline = baselineArg === -1 ? null : JSON.parse(readFileSync(process.argv[baselineArg + 1]))
+const bindingName = (r) => `${r.subpath}:${r.binding}`
+const bindingsBefore = new Map((baseline?.bindings ?? []).map((r) => [bindingName(r), r]))
+for (const binding of bindings) {
+  const before = bindingsBefore.get(bindingName(binding))
+  for (const route of ['root', 'direct']) {
+    if (binding[route] && before?.[route]) {
+      binding[route].delta = Object.fromEntries(
+        ['bytes', 'gzip', 'brotli'].map((key) => [key, binding[route][key] - before[route][key]]),
+      )
+    }
+  }
+}
 
 /** Renders a byte count, with the change against the baseline when there is one. */
 function delta(now, before) {
@@ -187,7 +263,7 @@ function delta(now, before) {
 }
 
 if (process.argv.includes('--json')) {
-  console.log(JSON.stringify({ subpaths: results, modules, bundles }, null, 2))
+  console.log(JSON.stringify({ subpaths: results, bindings, modules, bundles }, null, 2))
 } else {
   const before = new Map((baseline?.subpaths ?? []).map((r) => [r.subpath, r]))
   const width = Math.max(...results.map((r) => r.subpath.length))
@@ -216,8 +292,32 @@ if (process.argv.includes('--json')) {
     )
   }
 
+  const bw = Math.max(...bindings.map((r) => bindingName(r).length))
+  console.log(
+    check
+      ? `\n${bindings.length} individual bindings checked`
+      : `\n${'binding'.padEnd(bw)}  import      raw    gzip      br`,
+  )
+  for (const binding of bindings) {
+    const previous = bindingsBefore.get(bindingName(binding))
+    for (const route of check ? [] : ['root', 'direct']) {
+      const report = binding[route]
+      if (!report) continue
+      const changes = ['bytes', 'gzip', 'brotli']
+        .map((key) => [key === 'bytes' ? 'raw' : key, delta(report[key], previous?.[route]?.[key])])
+        .filter(([, change]) => change)
+        .map(([key, change]) => `${key}${change}`)
+        .join(', ')
+      console.log(
+        `${bindingName(binding).padEnd(bw)}  ${route.padEnd(6)} ${String(report.bytes).padStart(7)} ${String(report.gzip).padStart(7)} ${String(report.brotli).padStart(7)}${changes ? `  ${changes}` : ''}`,
+      )
+    }
+    for (const violation of binding.violations)
+      console.log(`  FAIL ${bindingName(binding)}: ${violation}`)
+  }
+
   if (check) {
-    // nothing further: --check is about the graph, not the artifacts
+    // --check omits artifact sizes
   } else if (!modules.length) {
     console.log('\ndist/webapi: not built - run `npm run build`')
   } else {
@@ -253,8 +353,11 @@ if (process.argv.includes('--json')) {
   }
 }
 
-const violations = results.filter((r) => Object.keys(r.bleed).length)
-if (violations.length) {
-  console.error(`\n${violations.length} subpath(s) ship cross-family code`)
-  if (process.argv.includes('--check')) process.exit(1)
+const graphViolations = results.filter((r) => Object.keys(r.bleed).length)
+const bindingViolations = bindings.filter((r) => r.violations.length)
+if (graphViolations.length || bindingViolations.length) {
+  console.error(
+    `\n${graphViolations.length} subpath(s) ship cross-family code; ${bindingViolations.length} binding(s) fail tree-shaking checks`,
+  )
+  if (check) process.exit(1)
 }
