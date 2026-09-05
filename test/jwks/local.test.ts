@@ -1,6 +1,27 @@
-import test from 'ava'
+import test, { type ExecutionContext } from 'ava'
 
 import { createLocalJWKSet, errors, exportJWK, generateKeyPair } from '../../src/index.js'
+
+function trackImports(t: ExecutionContext, failure?: Error) {
+  const subtle = crypto.subtle
+  const descriptor = Object.getOwnPropertyDescriptor(subtle, 'importKey')
+  const importKey = subtle.importKey
+  const state = { count: 0, failure }
+  Object.defineProperty(subtle, 'importKey', {
+    configurable: true,
+    value(...args: Parameters<SubtleCrypto['importKey']>) {
+      state.count++
+      const error = state.failure
+      state.failure = undefined
+      return error ? Promise.reject(error) : Reflect.apply(importKey, subtle, args)
+    },
+  })
+  t.teardown(() => {
+    if (descriptor) Object.defineProperty(subtle, 'importKey', descriptor)
+    else Reflect.deleteProperty(subtle, 'importKey')
+  })
+  return state
+}
 
 test('LocalJWKSet', async (t) => {
   const sparseKeys = Array<object>(1)
@@ -174,7 +195,53 @@ test('JWKS selection preserves snapshots, candidate order, and cached keys', asy
   t.deepEqual(set.jwks(), original)
 })
 
-test('JWKS imports remain limited to public JWS keys', async (t) => {
+test.serial('concurrent JWKS lookups share a pending import', async (t) => {
+  const key = await exportJWK((await generateKeyPair('ES256')).publicKey)
+  const set = createLocalJWKSet({ keys: [key] })
+  const imports = trackImports(t)
+  const keys = await Promise.all(Array.from({ length: 16 }, () => set({ alg: 'ES256' })))
+  t.is(imports.count, 1)
+  t.is(new Set(keys).size, 1)
+  t.is(keys[0].type, 'public')
+  t.is(await set({ alg: 'ES256' }), keys[0])
+  t.is(imports.count, 1)
+})
+
+test.serial('failed pending JWKS imports can be retried', async (t) => {
+  const key = await exportJWK((await generateKeyPair('ES256')).publicKey)
+  const set = createLocalJWKSet({ keys: [key] })
+  const failure = new Error('transient import failure')
+  const imports = trackImports(t, failure)
+  const results = await Promise.allSettled(Array.from({ length: 16 }, () => set({ alg: 'ES256' })))
+  t.true(results.every((result) => result.status === 'rejected' && result.reason === failure))
+  t.is(imports.count, 1)
+
+  const keys = await Promise.all(Array.from({ length: 16 }, () => set({ alg: 'ES256' })))
+  t.is(imports.count, 2)
+  t.is(new Set(keys).size, 1)
+  t.is(await set({ alg: 'ES256' }), keys[0])
+  t.is(imports.count, 2)
+})
+
+test.serial('pending JWKS imports remain separate for each algorithm', async (t) => {
+  const key = await exportJWK((await generateKeyPair('RS256')).publicKey)
+  const set = createLocalJWKSet({ keys: [key] })
+  const imports = trackImports(t)
+  const [rs, ps] = await Promise.all(
+    ['RS256', 'PS256'].map((alg) => Promise.all(Array.from({ length: 16 }, () => set({ alg })))),
+  )
+  t.is(imports.count, 2)
+  t.is(new Set(rs).size, 1)
+  t.is(new Set(ps).size, 1)
+  t.not(rs[0], ps[0])
+  t.is(rs[0].algorithm.name, 'RSASSA-PKCS1-v1_5')
+  t.is(ps[0].algorithm.name, 'RSA-PSS')
+  t.is(await set({ alg: 'RS256' }), rs[0])
+  t.is(await set({ alg: 'PS256' }), ps[0])
+  t.is(imports.count, 2)
+})
+
+test.serial('JWKS imports never cache rejected private keys', async (t) => {
   const privateKeySet = createLocalJWKSet({
     keys: [
       {
@@ -186,8 +253,12 @@ test('JWKS imports remain limited to public JWS keys', async (t) => {
       },
     ],
   })
-  await t.throwsAsync(privateKeySet({ alg: 'ES256' }), {
-    code: 'ERR_JWKS_INVALID',
-    message: 'JSON Web Key Set members must be public keys',
-  })
+  const imports = trackImports(t)
+  for (let i = 0; i < 2; i++) {
+    await t.throwsAsync(privateKeySet({ alg: 'ES256' }), {
+      code: 'ERR_JWKS_INVALID',
+      message: 'JSON Web Key Set members must be public keys',
+    })
+  }
+  t.is(imports.count, 2)
 })

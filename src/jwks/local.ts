@@ -17,7 +17,7 @@ import {
 import { isJwkSet } from '../lib/validate.js'
 
 interface Cache {
-  [alg: string]: types.CryptoKey
+  [alg: string]: types.CryptoKey | Promise<types.CryptoKey>
 }
 
 function isUsableJWK(jwk: types.JWK, entry: JWSAlgorithm, alg: string, kid: unknown): boolean {
@@ -48,13 +48,19 @@ async function importWithAlgCache(
   const cached = cache.get(jwk) || cache.set(jwk, {}).get(jwk)!
   const { alg } = entry
   if (cached[alg] === undefined) {
-    const key = await jwkToKey(entry, jwk, true)
-
-    if (key.type !== 'public') {
-      throw new JWKSInvalid('JSON Web Key Set members must be public keys')
-    }
-
-    cached[alg] = key
+    const pending = jwkToKey(entry, jwk, true)
+      .then((key) => {
+        if (key.type !== 'public') {
+          throw new JWKSInvalid('JSON Web Key Set members must be public keys')
+        }
+        cached[alg] = key
+        return key
+      })
+      .catch((error) => {
+        if (cached[alg] === pending) delete cached[alg]
+        throw error
+      })
+    cached[alg] = pending
   }
 
   return cached[alg]
