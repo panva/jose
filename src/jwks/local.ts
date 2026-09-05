@@ -21,8 +21,7 @@ interface Cache {
 }
 
 function isUsableJWK(jwk: types.JWK, entry: JWSAlgorithm, alg: string, kid: unknown): boolean {
-  const { kty, key_ops, ext, kid: jwkKid, alg: jwkAlg, use, crv } = snapshotJwk(jwk)
-  const keyOps = Array.isArray(key_ops) ? [...key_ops] : key_ops
+  const { kty, key_ops: keyOps, ext, kid: jwkKid, alg: jwkAlg, use, crv } = jwk
 
   return (
     (ext === undefined || typeof ext === 'boolean') &&
@@ -165,6 +164,13 @@ export function createLocalJWKSet(jwks: types.JSONWebKeySet): LocalJWKSet {
     throw new JWKSInvalid('JSON Web Key Set malformed')
   }
 
+  // Normalize the owned selection metadata once; keep the original keys for imports and jwks().
+  const metadata = snapshot.keys.map((jwk) => {
+    const normalized = snapshotJwk(jwk)
+    // Materialize holes so validation does not skip sparse key_ops entries.
+    if (Array.isArray(normalized.key_ops)) normalized.key_ops = [...normalized.key_ops]
+    return normalized
+  })
   const cached = new WeakMap<types.JWK, Cache>()
 
   const localJWKSet = async (
@@ -177,7 +183,9 @@ export function createLocalJWKSet(jwks: types.JSONWebKeySet): LocalJWKSet {
       throw new JOSENotSupported('Unsupported "alg" value for a JSON Web Key Set')
     }
 
-    const candidates = snapshot.keys.filter((jwk) => isUsableJWK(jwk, entry, alg!, kid))
+    const candidates = snapshot.keys.filter((_, index) =>
+      isUsableJWK(metadata[index], entry, alg!, kid),
+    )
     const { 0: jwk, length } = candidates
 
     if (!length) {
