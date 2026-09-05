@@ -30,7 +30,7 @@ JWE "alg" (Algorithm) Header Parameter
 
 • `optional` **crit?**: `string`[]
 
-JWE "crit" (Critical) Header Parameter
+Extension parameters that must be recognized.
 
 ***
 
@@ -38,7 +38,7 @@ JWE "crit" (Critical) Header Parameter
 
 • `optional` **cty?**: `string`
 
-"cty" (Content Type) Header Parameter
+Content type.
 
 ***
 
@@ -58,7 +58,7 @@ JWE "enc" (Encryption Algorithm) Header Parameter
 
 • `optional` **jku?**: `string`
 
-"jku" (JWK Set URL) Header Parameter
+JWK Set URL.
 
 ***
 
@@ -66,8 +66,7 @@ JWE "enc" (Encryption Algorithm) Header Parameter
 
 • `optional` **jwk?**: [`Omit`](https://www.typescriptlang.org/docs/handbook/utility-types.html#omittype-keys)\<[`JWK`](../type-aliases/JWK.md), `"d"` \| `"p"` \| `"q"` \| `"k"` \| `"dp"` \| `"dq"` \| `"qi"` \| `"priv"` \| `"oth"`\>
 
-"jwk" (JSON Web Key) Header Parameter. This must be a public JSON Web Key; private and
-symmetric key parameters are not permitted.
+Public JWK only; private and symmetric key parameters are not permitted.
 
 ***
 
@@ -91,7 +90,7 @@ symmetric key parameters are not permitted.
 
 • `optional` **x5c?**: `string`[]
 
-"x5c" (X.509 Certificate Chain) Header Parameter
+X.509 certificate chain.
 
 ***
 
@@ -99,7 +98,7 @@ symmetric key parameters are not permitted.
 
 • `optional` **x5t?**: `string`
 
-"x5t" (X.509 Certificate SHA-1 Thumbprint) Header Parameter
+X.509 certificate SHA-1 thumbprint.
 
 ***
 
@@ -107,7 +106,7 @@ symmetric key parameters are not permitted.
 
 • `optional` **x5u?**: `string`
 
-"x5u" (X.509 URL) Header Parameter
+X.509 certificate URL.
 
 ***
 
@@ -115,9 +114,8 @@ symmetric key parameters are not permitted.
 
 • `optional` **zip?**: `string`
 
-JWE "zip" (Compression Algorithm) Header Parameter. The only supported value is `"DEF"`
-(DEFLATE), and it requires the `CompressionStream` / `DecompressionStream` APIs to be available
-in the runtime.
+JWE compression algorithm. Only `"DEF"` (DEFLATE) is supported, requiring the runtime's
+`CompressionStream` / `DecompressionStream` APIs.
 
 #### See
 

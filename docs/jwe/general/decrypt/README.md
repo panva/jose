@@ -6,7 +6,7 @@ Decrypting JSON Web Encryption (JWE) in General JSON Serialization
 
 | Interface | Description |
 | ------ | ------ |
-| [GeneralDecryptGetKey](interfaces/GeneralDecryptGetKey.md) | Dynamic key resolver for General JWE decryption. |
+| [GeneralDecryptGetKey](interfaces/GeneralDecryptGetKey.md) | Resolves a key for General JWE decryption from unverified headers and token data. |
 
 ## Functions
 

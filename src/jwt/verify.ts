@@ -14,9 +14,8 @@ import { JWTInvalid } from '../util/errors.js'
 export interface JWTVerifyOptions extends types.VerifyOptions, types.JWTClaimVerificationOptions {}
 
 /**
- * Dynamic key resolver for JWT verification.
- *
- * No token components have been verified at the time of this function call.
+ * Resolves a JWT verification key. No token components have been authenticated when this function
+ * is called.
  *
  * @typeParam KeyType Type definition of the keys the function resolves. Narrowing it is what lets
  *   {@link types.ResolvedKey.key ResolvedKey.key} be inferred at the call site.
@@ -110,9 +109,9 @@ export interface JWTVerifyGetKey<
  * ```
  *
  * @param jwt JSON Web Token value (encoded as JWS).
- * @param key Key to verify the JWT with. See
+ * @param key Public key or shared secret to verify the JWT with. See
  *   {@link https://github.com/panva/jose/issues/210#jws-alg Algorithm Key Requirements}.
- * @param options JWT Decryption and JWT Claims Set validation options.
+ * @param options JWT Verification and JWT Claims Set validation options.
  */
 export async function jwtVerify<PayloadType = types.JWTPayload>(
   jwt: string | Uint8Array,
@@ -121,6 +120,8 @@ export async function jwtVerify<PayloadType = types.JWTPayload>(
 ): Promise<types.JWTVerifyResult<PayloadType>>
 
 /**
+ * Verifies the JWT signature and claims, returning the resolved key.
+ *
  * @example
  *
  * Usage with a public JSON Web Key Set hosted on a remote URL
@@ -137,9 +138,9 @@ export async function jwtVerify<PayloadType = types.JWTPayload>(
  * ```
  *
  * @param jwt JSON Web Token value (encoded as JWS).
- * @param getKey Function resolving a key to verify the JWT with. See
+ * @param getKey Function resolving a public key or shared secret to verify the JWT with. See
  *   {@link https://github.com/panva/jose/issues/210#jws-alg Algorithm Key Requirements}.
- * @param options JWT Decryption and JWT Claims Set validation options.
+ * @param options JWT Verification and JWT Claims Set validation options.
  */
 export async function jwtVerify<
   PayloadType = types.JWTPayload,
@@ -151,14 +152,13 @@ export async function jwtVerify<
 ): Promise<types.JWTVerifyResult<PayloadType> & types.ResolvedKey<KeyType>>
 
 /**
- * Accepts either form of the `key` argument. Use this overload when forwarding a value that may be
- * either a key or a key resolution function; `key` is present on the result only when a resolution
- * function was used.
+ * Accepts a key or key resolver. Use this overload when forwarding either form; the result includes
+ * `key` only when a resolver was used.
  *
  * @param jwt JSON Web Token value (encoded as JWS).
  * @param key Key, or function resolving a key, to verify the JWT with. See
  *   {@link https://github.com/panva/jose/issues/210#jws-alg Algorithm Key Requirements}.
- * @param options JWT Decryption and JWT Claims Set validation options.
+ * @param options JWT Verification and JWT Claims Set validation options.
  */
 export async function jwtVerify<PayloadType = types.JWTPayload>(
   jwt: string | Uint8Array,

@@ -12,12 +12,8 @@ Generated asymmetric key pair.
 
 • **privateKey**: [`CryptoKey`](https://developer.mozilla.org/docs/Web/API/CryptoKey)
 
-The generated Private Key.
-
 ***
 
 ### publicKey
 
 • **publicKey**: [`CryptoKey`](https://developer.mozilla.org/docs/Web/API/CryptoKey)
-
-Public Key corresponding to the generated Private Key.

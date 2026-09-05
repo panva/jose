@@ -1,6 +1,5 @@
 /**
- * JWS "alg" (Algorithm) Header Parameter values supported by this module. Availability of a given
- * identifier additionally depends on the runtime.
+ * Supported JWS "alg" (Algorithm) Header Parameter values. Availability depends on the runtime.
  *
  * @ignore
  *
@@ -27,8 +26,7 @@ export type JWSAlgorithm =
   | (string & {})
 
 /**
- * JWE "alg" (Algorithm) Header Parameter values supported by this module. Availability of a given
- * identifier additionally depends on the runtime.
+ * Supported JWE "alg" (Algorithm) Header Parameter values. Availability depends on the runtime.
  *
  * @ignore
  *
@@ -56,8 +54,8 @@ export type JWEKeyManagementAlgorithm =
   | (string & {})
 
 /**
- * JWE "enc" (Encryption Algorithm) Header Parameter values supported by this module. Availability
- * of a given identifier additionally depends on the runtime.
+ * Supported JWE "enc" (Encryption Algorithm) Header Parameter values. Availability depends on the
+ * runtime.
  *
  * @ignore
  */
@@ -93,35 +91,37 @@ export type JWKParameters = {
    * @see {@link https://github.com/panva/jose/issues/210 Algorithm Key Requirements}
    */
   alg?: JWSAlgorithm | JWEKeyManagementAlgorithm | JWEContentEncryptionAlgorithm
-  /** JWK "key_ops" (Key Operations) Parameter */
+  /** Permitted key operations. */
   key_ops?: string[]
-  /** JWK "ext" (Extractable) Parameter */
+  /** Whether the key may be exported. */
   ext?: boolean
+
   /** JWK "use" (Public Key Use) Parameter */
   use?: 'sig' | 'enc' | (string & {})
-  /** JWK "x5c" (X.509 Certificate Chain) Parameter */
+  /** X.509 certificate chain. */
   x5c?: string[]
-  /** JWK "x5t" (X.509 Certificate SHA-1 Thumbprint) Parameter */
+  /** X.509 certificate SHA-1 thumbprint. */
   x5t?: string
-  /** JWK "x5t#S256" (X.509 Certificate SHA-256 Thumbprint) Parameter */
+  /** X.509 certificate SHA-256 thumbprint. */
   'x5t#S256'?: string
-  /** JWK "x5u" (X.509 URL) Parameter */
+  /** X.509 certificate URL. */
   x5u?: string
+
   /** JWK "kid" (Key ID) Parameter */
   kid?: string
 }
 
 /** Convenience interface for public OKP JSON Web Keys. */
 export interface JWK_OKP_Public extends JWKParameters {
-  /** OKP JWK "crv" (The Subtype of Key Pair) Parameter */
+  /** Key pair subtype. */
   crv: string
-  /** OKP JWK "x" (The public key) Parameter */
+  /** Public key. */
   x: string
 }
 
 /** Convenience interface for private OKP JSON Web Keys. */
 export interface JWK_OKP_Private extends JWK_OKP_Public {
-  /** OKP JWK "d" (The Private Key) Parameter */
+  /** Private key. */
   d: string
 }
 
@@ -129,6 +129,7 @@ export interface JWK_OKP_Private extends JWK_OKP_Public {
 export interface JWK_AKP_Public extends JWKParameters {
   /** JWK "alg" (Algorithm) Parameter */
   alg: string
+
   /** AKP JWK "pub" (The Public key) Parameter */
   pub: string
 }
@@ -141,47 +142,47 @@ export interface JWK_AKP_Private extends JWK_AKP_Public {
 
 /** Convenience interface for public EC JSON Web Keys. */
 export interface JWK_EC_Public extends JWKParameters {
-  /** EC JWK "crv" (Curve) Parameter */
+  /** Curve. */
   crv: string
-  /** EC JWK "x" (X Coordinate) Parameter */
+  /** Public key X coordinate. */
   x: string
-  /** EC JWK "y" (Y Coordinate) Parameter */
+  /** Public key Y coordinate. */
   y: string
 }
 
 /** Convenience interface for private EC JSON Web Keys. */
 export interface JWK_EC_Private extends JWK_EC_Public {
-  /** EC JWK "d" (ECC Private Key) Parameter */
+  /** Private key. */
   d: string
 }
 
 /** Convenience interface for public RSA JSON Web Keys. */
 export interface JWK_RSA_Public extends JWKParameters {
-  /** RSA JWK "e" (Exponent) Parameter */
+  /** Public exponent. */
   e: string
-  /** RSA JWK "n" (Modulus) Parameter */
+  /** Modulus. */
   n: string
 }
 
 /** Convenience interface for private RSA JSON Web Keys. */
 export interface JWK_RSA_Private extends JWK_RSA_Public {
-  /** RSA JWK "d" (Private Exponent) Parameter */
+  /** Private exponent. */
   d: string
-  /** RSA JWK "dp" (First Factor CRT Exponent) Parameter */
+  /** First factor CRT exponent. */
   dp: string
-  /** RSA JWK "dq" (Second Factor CRT Exponent) Parameter */
+  /** Second factor CRT exponent. */
   dq: string
-  /** RSA JWK "p" (First Prime Factor) Parameter */
+  /** First prime factor. */
   p: string
-  /** RSA JWK "q" (Second Prime Factor) Parameter */
+  /** Second prime factor. */
   q: string
-  /** RSA JWK "qi" (First CRT Coefficient) Parameter */
+  /** First CRT coefficient. */
   qi: string
 }
 
 /** Convenience interface for "oct" JSON Web Keys. */
 export interface JWK_oct extends JWKParameters {
-  /** Oct JWK "k" (Key Value) Parameter */
+  /** Symmetric key value. */
   k: string
 }
 
@@ -215,73 +216,67 @@ export type JWK = {
    * @see {@link https://github.com/panva/jose/issues/210 Algorithm Key Requirements}
    */
   alg?: JWSAlgorithm | JWEKeyManagementAlgorithm | JWEContentEncryptionAlgorithm
-  /** JWK "key_ops" (Key Operations) Parameter */
+  /** Permitted key operations. */
   key_ops?: string[]
-  /** JWK "ext" (Extractable) Parameter */
+  /** Whether the key may be exported. */
   ext?: boolean
+
   /** JWK "use" (Public Key Use) Parameter */
   use?: 'sig' | 'enc' | (string & {})
-  /** JWK "x5c" (X.509 Certificate Chain) Parameter */
+  /** X.509 certificate chain. */
   x5c?: string[]
-  /** JWK "x5t" (X.509 Certificate SHA-1 Thumbprint) Parameter */
+  /** X.509 certificate SHA-1 thumbprint. */
   x5t?: string
-  /** JWK "x5t#S256" (X.509 Certificate SHA-256 Thumbprint) Parameter */
+  /** X.509 certificate SHA-256 thumbprint. */
   'x5t#S256'?: string
-  /** JWK "x5u" (X.509 URL) Parameter */
+  /** X.509 certificate URL. */
   x5u?: string
+
   /** JWK "kid" (Key ID) Parameter */
   kid?: string
-  /**
-   * - EC JWK "crv" (Curve) Parameter
-   * - OKP JWK "crv" (The Subtype of Key Pair) Parameter
-   */
+  /** EC curve or OKP key pair subtype. */
   crv?: string
-  /**
-   * - Private RSA JWK "d" (Private Exponent) Parameter
-   * - Private EC JWK "d" (ECC Private Key) Parameter
-   * - Private OKP JWK "d" (The Private Key) Parameter
-   */
+  /** Private RSA exponent, EC key, or OKP key. */
   d?: string
-  /** Private RSA JWK "dp" (First Factor CRT Exponent) Parameter */
+  /** RSA first factor CRT exponent. */
   dp?: string
-  /** Private RSA JWK "dq" (Second Factor CRT Exponent) Parameter */
+  /** RSA second factor CRT exponent. */
   dq?: string
-  /** RSA JWK "e" (Exponent) Parameter */
+  /** RSA public exponent. */
   e?: string
-  /** Oct JWK "k" (Key Value) Parameter */
+  /** Symmetric key value. */
   k?: string
-  /** RSA JWK "n" (Modulus) Parameter */
+  /** RSA modulus. */
   n?: string
-  /** Private RSA JWK "p" (First Prime Factor) Parameter */
+  /** RSA first prime factor. */
   p?: string
-  /** Private RSA JWK "q" (Second Prime Factor) Parameter */
+  /** RSA second prime factor. */
   q?: string
-  /** Private RSA JWK "qi" (First CRT Coefficient) Parameter */
+  /** RSA first CRT coefficient. */
   qi?: string
-  /**
-   * - EC JWK "x" (X Coordinate) Parameter
-   * - OKP JWK "x" (The public key) Parameter
-   */
+  /** EC public key X coordinate or OKP public key. */
   x?: string
-  /** EC JWK "y" (Y Coordinate) Parameter */
+  /** EC public key Y coordinate. */
   y?: string
+
   /** AKP JWK "pub" (Public Key) Parameter */
   pub?: string
+
   /** AKP JWK "priv" (Private key) Parameter */
   priv?: string
-  /** RSA JWK "oth" (Other Primes Info) Parameter */
+  /** Additional RSA prime factors. */
   oth?: Array<{
-    /** The Factor CRT Exponent */
+    /** Factor CRT exponent. */
     d?: string
-    /** The Prime Factor */
+    /** Prime factor. */
     r?: string
-    /** The Factor CRT Coefficient */
+    /** Factor CRT coefficient. */
     t?: string
   }>
 }
 
 /**
- * Discriminated union of the supported JSON Web Key shapes.
+ * Discriminated union of supported JSON Web Key shapes, narrowed by the "kty" (Key Type) Parameter.
  *
  * Unlike {@link JWK}, each member requires and fixes the "kty" (Key Type) Parameter to its key type
  * so that the union can be narrowed on it.
@@ -296,9 +291,7 @@ export type JWK = {
  * }
  * ```
  */
-// The "kty" is intersected into each arm one at a time rather than distributed over a parenthesised
-// union - `X & (A | B)` means the same thing, but typedoc renders it without the parentheses, which
-// reads as though the second arm carried no "kty" at all.
+// Intersect "kty" into each member separately: typedoc omits the parentheses in `X & (A | B)`.
 export type AnyJWK =
   | (JWK_EC_Private & { kty: 'EC' })
   | (JWK_EC_Public & { kty: 'EC' })
@@ -327,11 +320,10 @@ export type KeyInput = CryptoKey | KeyObject | JWK | Uint8Array
  */
 export interface GetKeyFunction<IProtectedHeader, IToken, KeyTypes extends KeyInput = KeyInput> {
   /**
-   * Dynamic key resolution function. No token components have been verified at the time of this
-   * function call. If a suitable key for the token cannot be matched, throw an error instead.
+   * Resolves a key for an unverified token. Throw if no suitable key can be resolved.
    *
    * @param protectedHeader JWE or JWS Protected Header.
-   * @param token The consumed JWE or JWS token.
+   * @param token The consumed JWE or JWS token; none of its components have been verified.
    */
   (protectedHeader: IProtectedHeader, token: IToken): Promise<KeyTypes> | KeyTypes
 }
@@ -342,28 +334,16 @@ export interface GetKeyFunction<IProtectedHeader, IToken, KeyTypes extends KeyIn
  * The payload may be a {@link !Uint8Array} for detached signature validation.
  */
 export interface FlattenedJWSInput {
-  /**
-   * The "header" member MUST be present and contain the value JWS Unprotected Header when the JWS
-   * Unprotected Header value is non- empty; otherwise, it MUST be absent. This value is represented
-   * as an unencoded JSON object, rather than as a string. These Header Parameter values are not
-   * integrity protected.
-   */
+  /** JWS Unprotected Header as a JSON object. Not integrity protected; omit when empty. */
   header?: JWSHeaderParameters
 
-  /**
-   * The "payload" member MUST be present and contain the value BASE64URL(JWS Payload). When RFC7797
-   * "b64": false is used the value passed may also be a {@link !Uint8Array}.
-   */
+  /** Base64url-encoded payload; with `b64: false`, supply an unencoded string or Uint8Array. */
   payload: string | Uint8Array
 
-  /**
-   * The "protected" member MUST be present and contain the value BASE64URL(UTF8(JWS Protected
-   * Header)) when the JWS Protected Header value is non-empty; otherwise, it MUST be absent. These
-   * Header Parameter values are integrity protected.
-   */
+  /** Base64url-encoded UTF-8 JWS Protected Header. Integrity protected; omit when empty. */
   protected?: string
 
-  /** The "signature" member MUST be present and contain the value BASE64URL(JWS Signature). */
+  /** Base64url-encoded signature or MAC. */
   signature: string
 }
 
@@ -373,11 +353,7 @@ export interface FlattenedJWSInput {
  * The payload may be a {@link !Uint8Array} for detached signature validation.
  */
 export interface GeneralJWSInput {
-  /**
-   * The "payload" member MUST be present and contain the value BASE64URL(JWS Payload). When when
-   * JWS Unencoded Payload ({@link https://www.rfc-editor.org/info/rfc7797/ RFC7797}) "b64": false is
-   * used the value passed may also be a {@link !Uint8Array}.
-   */
+  /** Base64url-encoded payload; with `b64: false`, supply an unencoded string or Uint8Array. */
   payload: string | Uint8Array
 
   /**
@@ -388,10 +364,8 @@ export interface GeneralJWSInput {
 }
 
 /**
- * Flattened JWS JSON Serialization token.
- *
- * The payload is returned as an empty string when JWS Unencoded Payload
- * ({@link https://www.rfc-editor.org/info/rfc7797/ RFC7797}) is used.
+ * Flattened JWS JSON Serialization token. The payload is an empty string when the
+ * {@link https://www.rfc-editor.org/info/rfc7797/ unencoded payload option} is used.
  */
 export interface FlattenedJWS extends Partial<FlattenedJWSInput> {
   payload: string
@@ -399,10 +373,8 @@ export interface FlattenedJWS extends Partial<FlattenedJWSInput> {
 }
 
 /**
- * General JWS JSON Serialization token.
- *
- * The payload is returned as an empty string when JWS Unencoded Payload
- * ({@link https://www.rfc-editor.org/info/rfc7797/ RFC7797}) is used.
+ * General JWS JSON Serialization token. The payload is an empty string when the
+ * {@link https://www.rfc-editor.org/info/rfc7797/ unencoded payload option} is used.
  */
 export interface GeneralJWS {
   payload: string
@@ -414,28 +386,25 @@ export interface JoseHeaderParameters {
   /** "kid" (Key ID) Header Parameter */
   kid?: string
 
-  /** "x5t" (X.509 Certificate SHA-1 Thumbprint) Header Parameter */
+  /** X.509 certificate SHA-1 thumbprint. */
   x5t?: string
 
-  /** "x5c" (X.509 Certificate Chain) Header Parameter */
+  /** X.509 certificate chain. */
   x5c?: string[]
 
-  /** "x5u" (X.509 URL) Header Parameter */
+  /** X.509 certificate URL. */
   x5u?: string
 
-  /** "jku" (JWK Set URL) Header Parameter */
+  /** JWK Set URL. */
   jku?: string
 
-  /**
-   * "jwk" (JSON Web Key) Header Parameter. This must be a public JSON Web Key; private and
-   * symmetric key parameters are not permitted.
-   */
+  /** Public JWK only; private and symmetric key parameters are not permitted. */
   jwk?: Omit<JWK, 'd' | 'dp' | 'dq' | 'k' | 'p' | 'q' | 'qi' | 'priv' | 'oth'>
 
   /** "typ" (Type) Header Parameter */
   typ?: string
 
-  /** "cty" (Content Type) Header Parameter */
+  /** Content type. */
   cty?: string
 }
 
@@ -449,12 +418,13 @@ export interface JWSHeaderParameters extends JoseHeaderParameters {
   alg?: JWSAlgorithm
 
   /**
-   * This JWS Extension Header Parameter modifies the JWS Payload representation and the JWS Signing
-   * Input computation as per {@link https://www.rfc-editor.org/info/rfc7797/ RFC7797}.
+   * Controls payload encoding and the JWS signing input as defined by
+   * {@link https://www.rfc-editor.org/info/rfc7797/ RFC7797}. Set to `false` and list `b64` in
+   * `crit` to use an unencoded payload.
    */
   b64?: boolean
 
-  /** JWS "crit" (Critical) Header Parameter */
+  /** Extension parameters that must be recognized. */
   crit?: string[]
 
   /** Any other JWS Header member. */
@@ -463,92 +433,53 @@ export interface JWSHeaderParameters extends JoseHeaderParameters {
 
 /** Recognized JWE Key Management-related Header Parameters. */
 export interface JWEKeyManagementHeaderParameters {
-  /**
-   * ECDH-ES "apu" (Agreement PartyUInfo). This will be used as a JOSE Header Parameter and will be
-   * used in ECDH's ConcatKDF.
-   */
+  /** ECDH-ES Agreement PartyUInfo bytes, used in ConcatKDF and added to the JOSE header. */
   apu?: Uint8Array
 
-  /**
-   * ECDH-ES "apv" (Agreement PartyVInfo). This will be used as a JOSE Header Parameter and will be
-   * used in ECDH's ConcatKDF.
-   */
+  /** ECDH-ES Agreement PartyVInfo bytes, used in ConcatKDF and added to the JOSE header. */
   apv?: Uint8Array
 
-  /**
-   * PBES2 "p2c" (PBES2 Count). This will be used as a JOSE Header Parameter and as the PBKDF2
-   * iteration count.
-   */
+  /** PBES2 PBKDF2 iteration count, added to the JOSE header. */
   p2c?: number
 
-  /**
-   * @deprecated You should not use this parameter. It is only intended for testing and vector
-   *   validation purposes.
-   */
+  /** @deprecated For testing and vector validation only. */
   p2s?: Uint8Array
-  /**
-   * @deprecated You should not use this parameter. It is only intended for testing and vector
-   *   validation purposes.
-   */
+  /** @deprecated For testing and vector validation only. */
   iv?: Uint8Array
-  /**
-   * @deprecated You should not use this parameter. It is only intended for testing and vector
-   *   validation purposes.
-   */
+  /** @deprecated For testing and vector validation only. */
   epk?: CryptoKey | KeyObject
 }
 
 /** Flattened JWE JSON Serialization token. */
 export interface FlattenedJWE {
   /**
-   * The "aad" member MUST be present and contain the value BASE64URL(JWE AAD)) when the JWE AAD
-   * value is non-empty; otherwise, it MUST be absent. A JWE AAD value can be included to supply a
-   * base64url-encoded value to be integrity protected but not encrypted.
+   * Base64url-encoded additional authenticated data; integrity protected but not encrypted. Omit
+   * when empty.
    */
   aad?: string
 
-  /** The "ciphertext" member MUST be present and contain the value BASE64URL(JWE Ciphertext). */
+  /** Base64url-encoded ciphertext. */
   ciphertext: string
 
-  /**
-   * The "encrypted_key" member MUST be present and contain the value BASE64URL(JWE Encrypted Key)
-   * when the JWE Encrypted Key value is non-empty; otherwise, it MUST be absent.
-   */
+  /** Base64url-encoded encrypted key. Omit when empty. */
   encrypted_key?: string
 
   /**
-   * The "header" member MUST be present and contain the value JWE Per- Recipient Unprotected Header
-   * when the JWE Per-Recipient Unprotected Header value is non-empty; otherwise, it MUST be absent.
-   * This value is represented as an unencoded JSON object, rather than as a string. These Header
-   * Parameter values are not integrity protected.
+   * JWE Per-Recipient Unprotected Header as a JSON object. Not integrity protected; omit when
+   * empty.
    */
   header?: JWEHeaderParameters
 
-  /**
-   * The "iv" member MUST be present and contain the value BASE64URL(JWE Initialization Vector) when
-   * the JWE Initialization Vector value is non-empty; otherwise, it MUST be absent.
-   */
+  /** Base64url-encoded initialization vector. Omit when empty. */
   iv?: string
 
-  /**
-   * The "protected" member MUST be present and contain the value BASE64URL(UTF8(JWE Protected
-   * Header)) when the JWE Protected Header value is non-empty; otherwise, it MUST be absent. These
-   * Header Parameter values are integrity protected.
-   */
+  /** Base64url-encoded UTF-8 JWE Protected Header. Integrity protected; omit when empty. */
   protected?: string
 
-  /**
-   * The "tag" member MUST be present and contain the value BASE64URL(JWE Authentication Tag) when
-   * the JWE Authentication Tag value is non-empty; otherwise, it MUST be absent.
-   */
+  /** Base64url-encoded authentication tag. Omit when empty. */
   tag?: string
 
-  /**
-   * The "unprotected" member MUST be present and contain the value JWE Shared Unprotected Header
-   * when the JWE Shared Unprotected Header value is non-empty; otherwise, it MUST be absent. This
-   * value is represented as an unencoded JSON object, rather than as a string. These Header
-   * Parameter values are not integrity protected.
-   */
+  /** JWE Shared Unprotected Header as a JSON object. Not integrity protected; omit when empty. */
   unprotected?: JWEHeaderParameters
 }
 
@@ -573,13 +504,12 @@ export interface JWEHeaderParameters extends JoseHeaderParameters {
    */
   enc?: JWEContentEncryptionAlgorithm
 
-  /** JWE "crit" (Critical) Header Parameter */
+  /** Extension parameters that must be recognized. */
   crit?: string[]
 
   /**
-   * JWE "zip" (Compression Algorithm) Header Parameter. The only supported value is `"DEF"`
-   * (DEFLATE), and it requires the `CompressionStream` / `DecompressionStream` APIs to be available
-   * in the runtime.
+   * JWE compression algorithm. Only `"DEF"` (DEFLATE) is supported, requiring the runtime's
+   * `CompressionStream` / `DecompressionStream` APIs.
    *
    * @see {@link https://www.rfc-editor.org/info/rfc7516/#section-4.1.3 JWE "zip" Header Parameter}
    */
@@ -592,17 +522,14 @@ export interface JWEHeaderParameters extends JoseHeaderParameters {
 /** Shared "crit" option for signing, verification, encryption, and decryption. */
 export interface CritOption {
   /**
-   * An object with keys representing recognized "crit" (Critical) Header Parameter names. The value
-   * for those is either `true` or `false`. `true` when the Header Parameter MUST be integrity
-   * protected, `false` when it's irrelevant. The JWS extension Header Parameter `b64` is always
-   * recognized and processed properly; no other registered Header Parameters currently receive this
-   * built-in treatment.
+   * Recognized "crit" (Critical) Header Parameter names. Set each value to `true` to require
+   * integrity protection, or `false` when protection is optional. The JWS `b64` extension is always
+   * recognized and processed.
    *
    * > [!WARNING]\
-   * > This only checks that the Header Parameter is syntactically correct when provided and,
-   * > optionally, integrity protected. It does not process the Header Parameter or reject the
-   * > operation when it is missing. You MUST still verify its presence and process it according to
-   * > the profile's validation steps after the operation succeeds.
+   * > Other extensions are only checked for syntax and optional integrity protection. Their presence
+   * > is not required by this option. You must check their presence and process them according to the
+   * > profile's validation steps after the operation succeeds.
    */
   crit?: {
     [propName: string]: boolean
@@ -612,31 +539,27 @@ export interface CritOption {
 /** JWE Decryption options. */
 export interface DecryptOptions extends CritOption {
   /**
-   * A list of accepted JWE "alg" (Algorithm) Header Parameter values. By default all "alg"
-   * (Algorithm) Header Parameter values applicable for the used key/secret are allowed except for
-   * all PBES2 Key Management Algorithms, these need to be explicitly allowed using this option.
+   * Accepted JWE "alg" (Algorithm) Header Parameter values. Defaults to all algorithms applicable
+   * to the key or secret except PBES2, which must be explicitly allowed.
    */
   keyManagementAlgorithms?: JWEKeyManagementAlgorithm[]
 
   /**
-   * A list of accepted JWE "enc" (Encryption Algorithm) Header Parameter values. By default all
-   * "enc" (Encryption Algorithm) values applicable for the used key/secret are allowed.
+   * Accepted JWE "enc" (Encryption Algorithm) Header Parameter values. Defaults to all algorithms
+   * applicable to the key or secret.
    */
   contentEncryptionAlgorithms?: JWEContentEncryptionAlgorithm[]
 
   /**
-   * (PBES2 Key Management Algorithms only) Maximum allowed "p2c" (PBES2 Count) Header Parameter
-   * value. The PBKDF2 iteration count defines the algorithm's computational expense. By default
-   * this value is set to 10000. The value must be a positive safe integer or `Infinity`. Set it to
-   * `Infinity` to disable the limit.
+   * Maximum "p2c" (PBES2 Count) Header Parameter value, limiting PBKDF2 iterations and their
+   * computational expense. Defaults to 10000; must be a positive safe integer or `Infinity` to
+   * disable the limit.
    */
   maxPBES2Count?: number
 
   /**
-   * Maximum allowed size (in bytes) of the decompressed plaintext when the JWE `"zip"` (Compression
-   * Algorithm) Header Parameter is present. By default this value is set to 250000 (250 KB). The
-   * value must be `0`, a positive safe integer, or `Infinity`. Set it to `0` to reject all
-   * compressed JWEs during decryption or to `Infinity` to disable the decompressed size limit.
+   * Maximum decompressed plaintext size in bytes. Defaults to 250000; `0` rejects compressed JWEs,
+   * and `Infinity` disables the limit. Other values must be positive safe integers.
    */
   maxDecompressedLength?: number
 }
@@ -646,55 +569,38 @@ export interface EncryptOptions extends CritOption {}
 
 /** JWT Claims Set verification options. */
 export interface JWTClaimVerificationOptions {
-  /**
-   * Expected JWT "aud" (Audience) Claim value(s). This option makes the JWT "aud" (Audience) Claim
-   * presence required.
-   */
+  /** Expected JWT "aud" (Audience) Claim value(s). Requires the claim to be present. */
   audience?: string | string[]
 
   /**
-   * Clock skew tolerance in seconds when a number (e.g. 5), or resolved into seconds when a string
-   * (e.g. "5 seconds", "10 minutes", "2 hours"). Used when validating the JWT "nbf" (Not Before)
-   * and "exp" (Expiration Time) claims, and when validating the "iat" (Issued At) claim if the
-   * {@link maxTokenAge `maxTokenAge` option} is set.
+   * Clock skew tolerance in seconds or a duration string (e.g. "5 seconds"). Applies to the "nbf"
+   * (Not Before) and "exp" (Expiration Time) claims, and to "iat" (Issued At) when
+   * {@link maxTokenAge} is set.
    */
   clockTolerance?: string | number
 
-  /**
-   * Expected JWT "iss" (Issuer) Claim value(s). This option makes the JWT "iss" (Issuer) Claim
-   * presence required.
-   */
+  /** Expected JWT "iss" (Issuer) Claim value(s). Requires the claim to be present. */
   issuer?: string | string[]
 
   /**
-   * Maximum time elapsed from the JWT "iat" (Issued At) Claim value, in seconds when a number (e.g.
-   * 5), or resolved into seconds when a string (e.g. "5 seconds", "10 minutes", "2 hours"). This
-   * option makes the JWT "iat" (Issued At) Claim presence required.
+   * Maximum time since the JWT "iat" (Issued At) Claim, in seconds or a duration string (e.g. "2
+   * hours"). Requires the claim to be present.
    */
   maxTokenAge?: string | number
 
-  /**
-   * Expected JWT "sub" (Subject) Claim value. This option makes the JWT "sub" (Subject) Claim
-   * presence required.
-   */
+  /** Expected JWT "sub" (Subject) Claim value. Requires the claim to be present. */
   subject?: string
 
-  /**
-   * Expected JWT "typ" (Type) Header Parameter value. This option makes the JWT "typ" (Type) Header
-   * Parameter presence required.
-   */
+  /** Expected JWT "typ" (Type) Header Parameter value. Requires the parameter to be present. */
   typ?: string
 
-  /** Date to use when comparing NumericDate claims, defaults to `new Date()`. */
+  /** Date for NumericDate comparisons. Defaults to `new Date()`. */
   currentDate?: Date
 
   /**
-   * Array of required Claim Names that must be present in the JWT Claims Set. Default is that: if
-   * the {@link issuer `issuer` option} is set, then JWT "iss" (Issuer) Claim must be present; if the
-   * {@link audience `audience` option} is set, then JWT "aud" (Audience) Claim must be present; if
-   * the {@link subject `subject` option} is set, then JWT "sub" (Subject) Claim must be present; if
-   * the {@link maxTokenAge `maxTokenAge` option} is set, then JWT "iat" (Issued At) Claim must be
-   * present.
+   * Additional claim names required in the JWT Claims Set. The {@link issuer}, {@link audience},
+   * {@link subject}, and {@link maxTokenAge} options independently require "iss", "aud", "sub", and
+   * "iat", respectively.
    */
   requiredClaims?: string[]
 }
@@ -702,11 +608,8 @@ export interface JWTClaimVerificationOptions {
 /** JWS Verification options. */
 export interface VerifyOptions extends CritOption {
   /**
-   * A list of accepted JWS "alg" (Algorithm) Header Parameter values. By default all "alg"
-   * (Algorithm) values applicable for the used key/secret are allowed.
-   *
-   * > [!NOTE]\
-   * > Unsecured JWTs (`{ "alg": "none" }`) are never accepted by this API.
+   * Accepted JWS "alg" (Algorithm) Header Parameter values. Defaults to all algorithms applicable
+   * to the key or secret. Unsecured JWTs (`alg: "none"`) are never accepted.
    */
   algorithms?: JWSAlgorithm[]
 }
@@ -745,21 +648,21 @@ export interface JWTPayload {
   jti?: string
 
   /**
-   * JWT Not Before
+   * Not valid before this Unix timestamp in seconds.
    *
    * @see {@link https://www.rfc-editor.org/info/rfc7519/#section-4.1.5 RFC7519#section-4.1.5}
    */
   nbf?: number
 
   /**
-   * JWT Expiration Time
+   * Expiration Unix timestamp in seconds.
    *
    * @see {@link https://www.rfc-editor.org/info/rfc7519/#section-4.1.4 RFC7519#section-4.1.4}
    */
   exp?: number
 
   /**
-   * JWT Issued At
+   * Issued-at Unix timestamp in seconds.
    *
    * @see {@link https://www.rfc-editor.org/info/rfc7519/#section-4.1.6 RFC7519#section-4.1.6}
    */
@@ -771,7 +674,7 @@ export interface JWTPayload {
 
 /** Flattened JWE JSON Serialization decryption result. */
 export interface FlattenedDecryptResult {
-  /** JWE AAD. */
+  /** JWE Additional Authenticated Data, integrity protected but not encrypted. */
   additionalAuthenticatedData?: Uint8Array
 
   /** Plaintext. */
@@ -780,10 +683,10 @@ export interface FlattenedDecryptResult {
   /** JWE Protected Header. */
   protectedHeader?: JWEHeaderParameters
 
-  /** JWE Shared Unprotected Header. */
+  /** JWE Shared Unprotected Header. Not integrity protected. */
   sharedUnprotectedHeader?: JWEHeaderParameters
 
-  /** JWE Per-Recipient Unprotected Header. */
+  /** JWE Per-Recipient Unprotected Header. Not integrity protected. */
   unprotectedHeader?: JWEHeaderParameters
 }
 
@@ -807,7 +710,7 @@ export interface FlattenedVerifyResult {
   /** JWS Protected Header. */
   protectedHeader?: JWSHeaderParameters
 
-  /** JWS Unprotected Header. */
+  /** JWS Unprotected Header. Not integrity protected. */
   unprotectedHeader?: JWSHeaderParameters
 }
 
@@ -863,7 +766,7 @@ export interface JWTDecryptResult<PayloadType = JWTPayload> {
  *   {@link jwk/embedded.EmbeddedJWK EmbeddedJWK} all are — needs no narrowing at the call site.
  */
 export interface ResolvedKey<KeyType extends CryptoKey | Uint8Array = CryptoKey | Uint8Array> {
-  /** Key resolved from the key resolver function. */
+  /** The resolved key, present only when a key resolver is used. */
   key: KeyType
 }
 
@@ -899,7 +802,7 @@ export interface KeyObject {
 }
 
 /**
- * Web Cryptography API {@link !CryptoKey} representation accepted as key input.
+ * The runtime's Web Crypto {@link !CryptoKey} representation accepted as key input.
  *
  * In addition to the {@link key/import Key Import Functions}, use {@link !SubtleCrypto.importKey} to
  * obtain a {@link !CryptoKey} from existing key material.
@@ -911,7 +814,7 @@ export type CryptoKey = typeof globalThis extends {
   : CryptoKeyStructuralFallback
 
 /**
- * Structural fallback used when a host {@link !CryptoKey} type cannot be inferred.
+ * Structural fallback used when the host {@link !CryptoKey} type cannot be inferred.
  *
  * This is used when the host runtime's `crypto` global is not exposed on `typeof globalThis`,
  * including when it is absent from ambient types or declared with `const` or `let`. It remains
@@ -957,10 +860,9 @@ export interface ProduceJWT {
   setJti(jwtId: string): this
 
   /**
-   * Set the "nbf" (Not Before) Claim. A `number` is used directly, a `Date` is converted to a Unix
-   * timestamp, and a `string` is parsed as a time span relative to the current Unix timestamp.
-   * String units may be seconds, minutes, hours, days, weeks, or years; months are unsupported and
-   * a year is 365.25 days. A leading `-` or trailing `"ago"` subtracts the time span.
+   * Set the "nbf" (Not Before) Claim. Numbers are Unix timestamps in seconds; Dates are converted
+   * to seconds. Strings are relative to now, using seconds, minutes, hours, days, weeks, or years
+   * (365.25 days; no months). Prefix `-` or suffix `ago` subtracts the duration.
    *
    * Format used for time span should be a number followed by a unit, such as "5 minutes" or "1
    * day".
@@ -971,15 +873,13 @@ export interface ProduceJWT {
    *
    * A "from now" suffix can be used for readability when adding to the current Unix timestamp.
    *
-   * @param input "nbf" (Not Before) Claim value to set on the JWT Claims Set.
+   * @param input "nbf" (Not Before) Claim value as a timestamp, Date, or relative duration.
    */
   setNotBefore(input: number | string | Date): this
 
   /**
-   * Set the "exp" (Expiration Time) Claim. A `number` is used directly, a `Date` is converted to a
-   * Unix timestamp, and a `string` is parsed as a time span relative to the current Unix timestamp.
-   * String units may be seconds, minutes, hours, days, weeks, or years; months are unsupported and
-   * a year is 365.25 days. A leading `-` or trailing `"ago"` subtracts the time span.
+   * Set the "exp" (Expiration Time) Claim. Accepts a Unix timestamp in seconds, a Date, or a
+   * duration relative to now using the same formats as {@link setNotBefore}.
    *
    * Format used for time span should be a number followed by a unit, such as "5 minutes" or "1
    * day".
@@ -990,16 +890,14 @@ export interface ProduceJWT {
    *
    * A "from now" suffix can be used for readability when adding to the current Unix timestamp.
    *
-   * @param input "exp" (Expiration Time) Claim value to set on the JWT Claims Set.
+   * @param input "exp" (Expiration Time) Claim value as a timestamp, Date, or relative duration.
    */
   setExpirationTime(input: number | string | Date): this
 
   /**
-   * Set the "iat" (Issued At) Claim. With no argument the current Unix timestamp is used. A
-   * `number` is used directly, a `Date` is converted to a Unix timestamp, and a `string` is parsed
-   * as a time span relative to the current Unix timestamp. String units may be seconds, minutes,
-   * hours, days, weeks, or years; months are unsupported and a year is 365.25 days. A leading `-`
-   * or trailing `"ago"` subtracts the time span.
+   * Set the "iat" (Issued At) Claim. Defaults to the current Unix timestamp in seconds. Accepts a
+   * Unix timestamp in seconds, a Date, or a duration relative to now using the same formats as
+   * {@link setNotBefore}.
    *
    * Format used for time span should be a number followed by a unit, such as "5 minutes" or "1
    * day".
@@ -1010,7 +908,7 @@ export interface ProduceJWT {
    *
    * A "from now" suffix can be used for readability when adding to the current Unix timestamp.
    *
-   * @param input "iat" (Issued At) Claim value to set on the JWT Claims Set.
+   * @param input "iat" (Issued At) Claim value as a timestamp, Date, or relative duration.
    */
   setIssuedAt(input?: number | string | Date): this
 }

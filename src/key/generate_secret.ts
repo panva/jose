@@ -10,8 +10,7 @@ import { validateExtractableOption } from '../lib/key.js'
 import type * as types from '../types.d.ts'
 
 /**
- * JWA Algorithm Identifiers that {@link generateSecret} is able to generate a secret for, subject to
- * runtime support.
+ * Algorithms supported by {@link generateSecret}, subject to runtime support.
  *
  * @ignore
  */
@@ -34,12 +33,10 @@ export type GenerateSecretAlgorithm =
   | (string & {})
 
 /**
- * Maps a JWA algorithm identifier to the value returned by {@link generateSecret}.
- *
- * The AES_CBC_HMAC_SHA2 content encryption algorithms have no {@link !CryptoKey} representation, so
- * they yield a {@link !Uint8Array}; every other supported identifier yields a
- * {@link types.CryptoKey CryptoKey}. When the identifier is not statically known this resolves to
- * their union.
+ * Maps a JWA algorithm identifier to the value returned by {@link generateSecret}. AES-CBC-HMAC
+ * algorithms return {@link !Uint8Array}; other supported algorithms return
+ * {@link types.CryptoKey CryptoKey}. When the algorithm is not statically known, the result is their
+ * union.
  */
 export type GeneratedSecret<Alg extends string> = Alg extends
   'A128CBC-HS256' | 'A192CBC-HS384' | 'A256CBC-HS512'
@@ -51,11 +48,8 @@ export type GeneratedSecret<Alg extends string> = Alg extends
 /** Secret generation options. */
 export interface GenerateSecretOptions {
   /**
-   * The value to use as {@link !SubtleCrypto.generateKey} `extractable` argument. Default is false.
-   *
-   * > [!NOTE]\
-   * > Because A128CBC-HS256, A192CBC-HS384, and A256CBC-HS512 secrets cannot be represented as
-   * > {@link !CryptoKey} this option has no effect for them.
+   * Whether the generated CryptoKey is extractable. Defaults to false; has no effect for
+   * A128CBC-HS256, A192CBC-HS384, and A256CBC-HS512, which return raw bytes.
    */
   extractable?: boolean
 }
@@ -67,8 +61,8 @@ export interface GenerateSecretOptions {
  * > The secret key is generated with `extractable` set to `false` by default.
  *
  * > [!NOTE]\
- * > Because A128CBC-HS256, A192CBC-HS384, and A256CBC-HS512 secrets cannot be represented as
- * > {@link !CryptoKey} this method yields a {@link !Uint8Array} for them instead.
+ * > A128CBC-HS256, A192CBC-HS384, and A256CBC-HS512 return {@link !Uint8Array} because these secrets
+ * > have no CryptoKey representation.
  *
  * This function is exported (as a named export) from the main `'jose'` module entry point as well
  * as from its subpath export `'jose/key/generate/secret'`.

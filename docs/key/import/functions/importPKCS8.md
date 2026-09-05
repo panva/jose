@@ -9,9 +9,8 @@ Support from the community to continue maintaining and improving this module is 
 Imports a PEM-encoded PKCS#8 string as a [CryptoKey](https://developer.mozilla.org/docs/Web/API/CryptoKey).
 
 > [!NOTE]\
-> The OID id-RSASSA-PSS (1.2.840.113549.1.1.10) is not supported in
-> [Web Cryptography API](https://w3c.github.io/webcrypto/), use the OID rsaEncryption
-> (1.2.840.113549.1.1.1) instead for all RSA algorithms.
+> For RSA keys, use the rsaEncryption OID (1.2.840.113549.1.1.1). The id-RSASSA-PSS OID
+> (1.2.840.113549.1.1.10) is not supported by the Web Cryptography API.
 
 This function is exported (as a named export) from the main `'jose'` module entry point as well
 as from its subpath export `'jose/key/import'`.

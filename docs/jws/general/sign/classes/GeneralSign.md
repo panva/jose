@@ -30,7 +30,7 @@ console.log(jws)
 
 ▸ **new GeneralSign**(`payload`): `GeneralSign`
 
-GeneralSign constructor
+Creates a General JWS signer.
 
 #### Parameters
 
@@ -48,13 +48,13 @@ GeneralSign constructor
 
 ▸ **addSignature**(`key`, `options?`): [`Signature`](../interfaces/Signature.md)
 
-Adds an additional signature for the General JWS object.
+Adds a signature and returns its configuration.
 
 #### Parameters
 
 | Parameter | Type | Description |
 | ------ | ------ | ------ |
-| `key` | [`KeyInput`](../../../../types/type-aliases/KeyInput.md) | Private Key or Secret to sign the individual JWS signature with. See [Algorithm Key Requirements](https://github.com/panva/jose/issues/210#jws-alg). |
+| `key` | [`KeyInput`](../../../../types/type-aliases/KeyInput.md) | Private key or shared secret. See [Algorithm Key Requirements](https://github.com/panva/jose/issues/210#jws-alg). |
 | `options?` | [`SignOptions`](../../../../types/interfaces/SignOptions.md) | JWS Sign options. |
 
 #### Returns
@@ -67,7 +67,7 @@ Adds an additional signature for the General JWS object.
 
 ▸ **sign**(): [`Promise`](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise)\<[`GeneralJWS`](../../../../types/interfaces/GeneralJWS.md)\>
 
-Signs and resolves the value of the General JWS object.
+Signs the payload as a General JWS.
 
 #### Returns
 

@@ -9,7 +9,7 @@ import { encoder, decoder, encodeBase64, decodeBase64 } from '../lib/buffer_util
 const invalid = 'The input to be decoded is not correctly encoded.'
 
 /**
- * Decodes a base64url-encoded input.
+ * Decodes base64url text or its UTF-8 bytes.
  *
  * These functions are exported (as the `base64url` namespace) from the main `'jose'` module entry
  * point as well as from its subpath export `'jose/base64url'`.
@@ -20,12 +20,12 @@ const invalid = 'The input to be decoded is not correctly encoded.'
  * const decoded = jose.base64url.decode('SGVsbG8gV29ybGQh')
  * ```
  *
- * @param input Base64URL encoded input, as a string or its UTF-8 bytes.
+ * @param input Base64url-encoded string or its UTF-8 bytes.
  *
  * @returns The decoded bytes.
  *
- * @throws {!TypeError} When the input is not correctly Base64URL encoded. Standard Base64 input
- *   (i.e. containing `+` or `/`) is rejected.
+ * @throws {TypeError} If the input is not valid base64url. Standard Base64 `+` and `/` are
+ *   rejected.
  */
 export function decode(input: Uint8Array | string): Uint8Array {
   try {
@@ -36,7 +36,7 @@ export function decode(input: Uint8Array | string): Uint8Array {
 }
 
 /**
- * Encodes input using unpadded base64url.
+ * Encodes unpadded base64url; strings are first encoded as UTF-8.
  *
  * These functions are exported (as the `base64url` namespace) from the main `'jose'` module entry
  * point as well as from its subpath export `'jose/base64url'`.
@@ -47,9 +47,9 @@ export function decode(input: Uint8Array | string): Uint8Array {
  * const encoded = jose.base64url.encode('Hello World!')
  * ```
  *
- * @param input Input to encode, as a string or as bytes. Strings are encoded as UTF-8 first.
+ * @param input Bytes or a string to encode. Strings are first encoded as UTF-8.
  *
- * @returns The Base64URL encoded, unpadded, representation of the input.
+ * @returns The unpadded base64url representation of the input.
  */
 export function encode(input: Uint8Array | string): string {
   return encodeBase64(typeof input === 'string' ? encoder.encode(input) : input, true)

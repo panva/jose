@@ -30,7 +30,7 @@ JWT Audience
 
 • `optional` **exp?**: `number`
 
-JWT Expiration Time
+Expiration Unix timestamp in seconds.
 
 #### See
 
@@ -42,7 +42,7 @@ JWT Expiration Time
 
 • `optional` **iat?**: `number`
 
-JWT Issued At
+Issued-at Unix timestamp in seconds.
 
 #### See
 
@@ -78,7 +78,7 @@ JWT ID
 
 • `optional` **nbf?**: `number`
 
-JWT Not Before
+Not valid before this Unix timestamp in seconds.
 
 #### See
 

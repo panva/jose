@@ -32,11 +32,7 @@ export interface UnsecuredResult<PayloadType = types.JWTPayload> {
   header: types.JWSHeaderParameters
 }
 
-/**
- * UnsecuredJWT constructor
- *
- * @param payload The JWT Claims Set object. Defaults to an empty object.
- */
+/** @param payload Initial JWT Claims Set. Defaults to an empty object. */
 const UnsecuredJWT_base: new (payload?: types.JWTPayload) => types.ProduceJWT = JWTClaimsBuilder
 
 /**
@@ -86,7 +82,7 @@ export class UnsecuredJWT extends UnsecuredJWT_base {
   }
 
   /**
-   * Decodes an unsecured JWT.
+   * Decodes an unsecured JWT and validates its claims without authenticating the token.
    *
    * @param jwt Unsecured JWT to decode the payload of.
    * @param options JWT Claims Set validation options.

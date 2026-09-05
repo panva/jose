@@ -6,7 +6,7 @@ Support from the community to continue maintaining and improving this module is 
 
 • **FetchImplementation** = (`url`, `options`) => [`Promise`](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise)\<[`Response`](https://developer.mozilla.org/docs/Web/API/Response)\>
 
-Function signature accepted by [customFetch](../variables/customFetch.md).
+Custom fetch function. Must return HTTP 200 with a JSON JWKS. See [customFetch](../variables/customFetch.md).
 
 ## Parameters
 
@@ -14,8 +14,8 @@ Function signature accepted by [customFetch](../variables/customFetch.md).
 | ------ | ------ | ------ |
 | `url` | `string` | - |
 | `options` | \{ `headers`: [`Headers`](https://developer.mozilla.org/docs/Web/API/Headers); `method`: `"GET"`; `redirect`: `"manual"`; `signal`: [`AbortSignal`](https://developer.mozilla.org/docs/Web/API/AbortSignal); \} | - |
-| `options.headers` | [`Headers`](https://developer.mozilla.org/docs/Web/API/Headers) | HTTP Headers |
-| `options.method` | `"GET"` | The [request method](https://developer.mozilla.org/en-US/docs/Web/HTTP/Methods) |
+| `options.headers` | [`Headers`](https://developer.mozilla.org/docs/Web/API/Headers) | - |
+| `options.method` | `"GET"` | - |
 | `options.redirect` | `"manual"` | See [Request.redirect](https://developer.mozilla.org/docs/Web/API/Request/redirect) |
 | `options.signal` | [`AbortSignal`](https://developer.mozilla.org/docs/Web/API/AbortSignal) | - |
 

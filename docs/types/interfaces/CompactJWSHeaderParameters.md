@@ -30,8 +30,9 @@ JWS "alg" (Algorithm) Header Parameter
 
 • `optional` **b64?**: `boolean`
 
-This JWS Extension Header Parameter modifies the JWS Payload representation and the JWS Signing
-Input computation as per [RFC7797](https://www.rfc-editor.org/info/rfc7797/).
+Controls payload encoding and the JWS signing input as defined by
+[RFC7797](https://www.rfc-editor.org/info/rfc7797/). Set to `false` and list `b64` in
+`crit` to use an unencoded payload.
 
 ***
 
@@ -39,7 +40,7 @@ Input computation as per [RFC7797](https://www.rfc-editor.org/info/rfc7797/).
 
 • `optional` **crit?**: `string`[]
 
-JWS "crit" (Critical) Header Parameter
+Extension parameters that must be recognized.
 
 ***
 
@@ -47,7 +48,7 @@ JWS "crit" (Critical) Header Parameter
 
 • `optional` **cty?**: `string`
 
-"cty" (Content Type) Header Parameter
+Content type.
 
 ***
 
@@ -55,7 +56,7 @@ JWS "crit" (Critical) Header Parameter
 
 • `optional` **jku?**: `string`
 
-"jku" (JWK Set URL) Header Parameter
+JWK Set URL.
 
 ***
 
@@ -63,8 +64,7 @@ JWS "crit" (Critical) Header Parameter
 
 • `optional` **jwk?**: [`Omit`](https://www.typescriptlang.org/docs/handbook/utility-types.html#omittype-keys)\<[`JWK`](../type-aliases/JWK.md), `"d"` \| `"p"` \| `"q"` \| `"k"` \| `"dp"` \| `"dq"` \| `"qi"` \| `"priv"` \| `"oth"`\>
 
-"jwk" (JSON Web Key) Header Parameter. This must be a public JSON Web Key; private and
-symmetric key parameters are not permitted.
+Public JWK only; private and symmetric key parameters are not permitted.
 
 ***
 
@@ -88,7 +88,7 @@ symmetric key parameters are not permitted.
 
 • `optional` **x5c?**: `string`[]
 
-"x5c" (X.509 Certificate Chain) Header Parameter
+X.509 certificate chain.
 
 ***
 
@@ -96,7 +96,7 @@ symmetric key parameters are not permitted.
 
 • `optional` **x5t?**: `string`
 
-"x5t" (X.509 Certificate SHA-1 Thumbprint) Header Parameter
+X.509 certificate SHA-1 thumbprint.
 
 ***
 
@@ -104,4 +104,4 @@ symmetric key parameters are not permitted.
 
 • `optional` **x5u?**: `string`
 
-"x5u" (X.509 URL) Header Parameter
+X.509 certificate URL.

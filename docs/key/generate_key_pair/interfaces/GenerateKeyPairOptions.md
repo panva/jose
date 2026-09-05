@@ -12,8 +12,8 @@ Asymmetric key pair generation options.
 
 • `optional` **crv?**: `string`
 
-The EC "crv" (Curve) or OKP "crv" (Subtype of Key Pair) value to generate. The curve must be
-both supported on the runtime as well as applicable for the given JWA algorithm identifier.
+EC curve or OKP key subtype. Must be supported by the algorithm and runtime. ECDH-ES defaults
+to P-256.
 
 ***
 
@@ -21,7 +21,8 @@ both supported on the runtime as well as applicable for the given JWA algorithm 
 
 • `optional` **extractable?**: `boolean`
 
-The value to use as [SubtleCrypto.generateKey](https://developer.mozilla.org/docs/Web/API/SubtleCrypto/generateKey) `extractable` argument. Default is false.
+Whether the private key is extractable. Defaults to false; the public key is always
+extractable.
 
 #### Example
 
@@ -39,5 +40,4 @@ console.log(await jose.exportPKCS8(privateKey))
 
 • `optional` **modulusLength?**: `number`
 
-A hint for RSA algorithms to generate an RSA key of a given `modulusLength` (Key size in bits).
-JOSE requires 2048 bits or larger. Default is 2048.
+RSA modulus length in bits. Must be an integer of at least 2048; defaults to 2048.

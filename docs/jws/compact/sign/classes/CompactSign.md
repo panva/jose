@@ -27,7 +27,7 @@ console.log(jws)
 
 ▸ **new CompactSign**(`payload`): `CompactSign`
 
-CompactSign constructor
+Creates a Compact JWS signer.
 
 #### Parameters
 
@@ -45,7 +45,7 @@ CompactSign constructor
 
 ▸ **setProtectedHeader**(`protectedHeader`): `this`
 
-Sets the JWS Protected Header on the CompactSign object.
+Sets the JWS Protected Header. May only be called once.
 
 #### Parameters
 
@@ -63,13 +63,13 @@ Sets the JWS Protected Header on the CompactSign object.
 
 ▸ **sign**(`key`, `options?`): [`Promise`](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise)\<`string`\>
 
-Signs and resolves the value of the Compact JWS string.
+Signs the payload as a Compact JWS.
 
 #### Parameters
 
 | Parameter | Type | Description |
 | ------ | ------ | ------ |
-| `key` | [`KeyInput`](../../../../types/type-aliases/KeyInput.md) | Private Key or Secret to sign the JWS with. See [Algorithm Key Requirements](https://github.com/panva/jose/issues/210#jws-alg). |
+| `key` | [`KeyInput`](../../../../types/type-aliases/KeyInput.md) | Private key or shared secret. See [Algorithm Key Requirements](https://github.com/panva/jose/issues/210#jws-alg). |
 | `options?` | [`SignOptions`](../../../../types/interfaces/SignOptions.md) | JWS Sign options. |
 
 #### Returns

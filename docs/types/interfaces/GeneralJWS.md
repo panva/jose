@@ -4,10 +4,8 @@
 
 Support from the community to continue maintaining and improving this module is welcome. If you find the module useful, please consider supporting the project by [becoming a sponsor](https://github.com/sponsors/panva).
 
-General JWS JSON Serialization token.
-
-The payload is returned as an empty string when JWS Unencoded Payload
-([RFC7797](https://www.rfc-editor.org/info/rfc7797/)) is used.
+General JWS JSON Serialization token. The payload is an empty string when the
+[unencoded payload option](https://www.rfc-editor.org/info/rfc7797/) is used.
 
 ## Properties
 

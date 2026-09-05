@@ -37,7 +37,7 @@ A key resolver created by [createLocalJWKSet](../functions/createLocalJWKSet.md)
 
 • **jwks**: () => [`JSONWebKeySet`](../../../types/interfaces/JSONWebKeySet.md)
 
-Returns a structured clone of the JSON Web Key Set this resolver was created with.
+Returns a structured clone of the original JSON Web Key Set.
 
 #### Returns
 

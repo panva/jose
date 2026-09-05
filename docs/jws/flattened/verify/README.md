@@ -6,7 +6,7 @@ Verifying JSON Web Signature (JWS) in Flattened JSON Serialization
 
 | Interface | Description |
 | ------ | ------ |
-| [FlattenedVerifyGetKey](interfaces/FlattenedVerifyGetKey.md) | Dynamic key resolver for Flattened JWS verification. |
+| [FlattenedVerifyGetKey](interfaces/FlattenedVerifyGetKey.md) | Resolves a key for Flattened JWS verification from unverified headers and token data. |
 
 ## Functions
 

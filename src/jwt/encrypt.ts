@@ -10,11 +10,7 @@ import type { EncryptInput } from '../lib/jwe_encrypt.js'
 import { JWTClaimsBuilder, jwtClaim, jwtData } from '../lib/jwt_claims_set.js'
 import { assertNotSet } from '../lib/validate.js'
 
-/**
- * EncryptJWT constructor
- *
- * @param payload The JWT Claims Set object. Defaults to an empty object.
- */
+/** @param payload Initial JWT Claims Set. Defaults to an empty object. */
 const EncryptJWT_base: new (payload?: types.JWTPayload) => types.ProduceJWT = JWTClaimsBuilder
 
 /**
@@ -48,7 +44,7 @@ export class EncryptJWT extends EncryptJWT_base {
   #replicateAudienceAsHeader!: boolean
 
   /**
-   * Sets the JWE Protected Header on the EncryptJWT object.
+   * Sets the JWE Protected Header. May only be called once.
    *
    * @param protectedHeader JWE Protected Header. Must contain an "alg" (JWE Algorithm) and "enc"
    *   (JWE Encryption Algorithm) properties.
@@ -60,10 +56,9 @@ export class EncryptJWT extends EncryptJWT_base {
   }
 
   /**
-   * Sets the JWE Key Management parameters to be used when encrypting. Use this method instead of
-   * the header setters to configure algorithm inputs such as ECDH-ES "apu" (Agreement PartyUInfo)
-   * and "apv" (Agreement PartyVInfo), or PBES2 "p2c" (PBES2 Count). The parameters are added to the
-   * appropriate JOSE Header.
+   * Sets JWE Key Management parameters, such as ECDH-ES "apu" and "apv" or PBES2 "p2c", and adds
+   * them to the appropriate JOSE Header. Use this instead of the header setters for algorithm
+   * inputs. May only be called once.
    *
    * @param parameters JWE Key Management parameters.
    */
@@ -74,11 +69,10 @@ export class EncryptJWT extends EncryptJWT_base {
   }
 
   /**
-   * Sets a content encryption key to use, by default a random suitable one is generated for the JWE
-   * "enc" (Encryption Algorithm) Header Parameter.
+   * Sets the content encryption key. By default, a suitable random key is generated for the JWE
+   * "enc" (Encryption Algorithm). May only be called once.
    *
-   * @deprecated You should not use this method. It is only really intended for test and vector
-   *   validation purposes.
+   * @deprecated For testing and vector validation only; allow random generation in production.
    *
    * @param cek JWE Content Encryption Key.
    */
@@ -89,11 +83,10 @@ export class EncryptJWT extends EncryptJWT_base {
   }
 
   /**
-   * Sets the JWE Initialization Vector to use for content encryption, by default a random suitable
-   * one is generated for the JWE "enc" (Encryption Algorithm) Header Parameter.
+   * Sets the Initialization Vector for content encryption. By default, a suitable random IV is
+   * generated for the JWE "enc" (Encryption Algorithm). May only be called once.
    *
-   * @deprecated You should not use this method. It is only really intended for test and vector
-   *   validation purposes.
+   * @deprecated For testing and vector validation only; allow random generation in production.
    *
    * @param iv JWE Initialization Vector.
    */
@@ -104,7 +97,8 @@ export class EncryptJWT extends EncryptJWT_base {
   }
 
   /**
-   * Replicates the "iss" (Issuer) Claim as a JWE Protected Header Parameter.
+   * Replicates the "iss" (Issuer) Claim in the JWE Protected Header, exposing it without
+   * decryption.
    *
    * @see {@link https://www.rfc-editor.org/info/rfc7519/#section-5.3 RFC7519#section-5.3}
    */
@@ -114,7 +108,8 @@ export class EncryptJWT extends EncryptJWT_base {
   }
 
   /**
-   * Replicates the "sub" (Subject) Claim as a JWE Protected Header Parameter.
+   * Replicates the "sub" (Subject) Claim in the JWE Protected Header, exposing it without
+   * decryption.
    *
    * @see {@link https://www.rfc-editor.org/info/rfc7519/#section-5.3 RFC7519#section-5.3}
    */
@@ -124,7 +119,8 @@ export class EncryptJWT extends EncryptJWT_base {
   }
 
   /**
-   * Replicates the "aud" (Audience) Claim as a JWE Protected Header Parameter.
+   * Replicates the "aud" (Audience) Claim in the JWE Protected Header, exposing it without
+   * decryption.
    *
    * @see {@link https://www.rfc-editor.org/info/rfc7519/#section-5.3 RFC7519#section-5.3}
    */
@@ -136,7 +132,7 @@ export class EncryptJWT extends EncryptJWT_base {
   /**
    * Encrypts and returns the JWT.
    *
-   * @param key Public Key or Secret to encrypt the JWT with. See
+   * @param key Public key or shared secret to encrypt the JWT with. See
    *   {@link https://github.com/panva/jose/issues/210#jwe-alg Algorithm Key Requirements}.
    * @param options JWE Encryption options.
    */

@@ -12,7 +12,7 @@ Convenience interface for public EC JSON Web Keys.
 
 • **crv**: `string`
 
-EC JWK "crv" (Curve) Parameter
+Curve.
 
 ***
 
@@ -20,7 +20,7 @@ EC JWK "crv" (Curve) Parameter
 
 • **x**: `string`
 
-EC JWK "x" (X Coordinate) Parameter
+Public key X coordinate.
 
 ***
 
@@ -28,7 +28,7 @@ EC JWK "x" (X Coordinate) Parameter
 
 • **y**: `string`
 
-EC JWK "y" (Y Coordinate) Parameter
+Public key Y coordinate.
 
 ***
 
@@ -48,7 +48,7 @@ JWK "alg" (Algorithm) Parameter
 
 • `optional` **ext?**: `boolean`
 
-JWK "ext" (Extractable) Parameter
+Whether the key may be exported.
 
 ***
 
@@ -56,7 +56,7 @@ JWK "ext" (Extractable) Parameter
 
 • `optional` **key\_ops?**: `string`[]
 
-JWK "key_ops" (Key Operations) Parameter
+Permitted key operations.
 
 ***
 
@@ -88,7 +88,7 @@ JWK "use" (Public Key Use) Parameter
 
 • `optional` **x5c?**: `string`[]
 
-JWK "x5c" (X.509 Certificate Chain) Parameter
+X.509 certificate chain.
 
 ***
 
@@ -96,7 +96,7 @@ JWK "x5c" (X.509 Certificate Chain) Parameter
 
 • `optional` **x5t?**: `string`
 
-JWK "x5t" (X.509 Certificate SHA-1 Thumbprint) Parameter
+X.509 certificate SHA-1 thumbprint.
 
 ***
 
@@ -104,7 +104,7 @@ JWK "x5t" (X.509 Certificate SHA-1 Thumbprint) Parameter
 
 • `optional` **x5t#S256?**: `string`
 
-JWK "x5t#S256" (X.509 Certificate SHA-256 Thumbprint) Parameter
+X.509 certificate SHA-256 thumbprint.
 
 ***
 
@@ -112,4 +112,4 @@ JWK "x5t#S256" (X.509 Certificate SHA-256 Thumbprint) Parameter
 
 • `optional` **x5u?**: `string`
 
-JWK "x5u" (X.509 URL) Parameter
+X.509 certificate URL.

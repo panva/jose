@@ -9,17 +9,17 @@
 | [CompactJWSHeaderParameters](interfaces/CompactJWSHeaderParameters.md) | Recognized Compact JWS Header Parameters; additional members may also be present. |
 | [CompactVerifyResult](interfaces/CompactVerifyResult.md) | Compact JWS verification result. |
 | [CritOption](interfaces/CritOption.md) | Shared "crit" option for signing, verification, encryption, and decryption. |
-| [CryptoKeyStructuralFallback](interfaces/CryptoKeyStructuralFallback.md) | Structural fallback used when a host [CryptoKey](https://developer.mozilla.org/docs/Web/API/CryptoKey) type cannot be inferred. |
+| [CryptoKeyStructuralFallback](interfaces/CryptoKeyStructuralFallback.md) | Structural fallback used when the host [CryptoKey](https://developer.mozilla.org/docs/Web/API/CryptoKey) type cannot be inferred. |
 | [DecryptOptions](interfaces/DecryptOptions.md) | JWE Decryption options. |
 | [EncryptOptions](interfaces/EncryptOptions.md) | JWE Encryption options. |
 | [FlattenedDecryptResult](interfaces/FlattenedDecryptResult.md) | Flattened JWE JSON Serialization decryption result. |
 | [FlattenedJWE](interfaces/FlattenedJWE.md) | Flattened JWE JSON Serialization token. |
-| [FlattenedJWS](interfaces/FlattenedJWS.md) | Flattened JWS JSON Serialization token. |
+| [FlattenedJWS](interfaces/FlattenedJWS.md) | Flattened JWS JSON Serialization token. The payload is an empty string when the [unencoded payload option](https://www.rfc-editor.org/info/rfc7797/) is used. |
 | [FlattenedJWSInput](interfaces/FlattenedJWSInput.md) | Flattened JWS verification input. |
 | [FlattenedVerifyResult](interfaces/FlattenedVerifyResult.md) | Flattened JWS JSON Serialization verification result. |
 | [GeneralDecryptResult](interfaces/GeneralDecryptResult.md) | General JWE JSON Serialization decryption result. |
 | [GeneralJWE](interfaces/GeneralJWE.md) | General JWE JSON Serialization token. |
-| [GeneralJWS](interfaces/GeneralJWS.md) | General JWS JSON Serialization token. |
+| [GeneralJWS](interfaces/GeneralJWS.md) | General JWS JSON Serialization token. The payload is an empty string when the [unencoded payload option](https://www.rfc-editor.org/info/rfc7797/) is used. |
 | [GeneralJWSInput](interfaces/GeneralJWSInput.md) | General JWS verification input. |
 | [GeneralVerifyResult](interfaces/GeneralVerifyResult.md) | General JWS JSON Serialization verification result. |
 | [GetKeyFunction](interfaces/GetKeyFunction.md) | Dynamic key resolver for consuming operations. |
@@ -52,8 +52,8 @@
 
 | Type Alias | Description |
 | ------ | ------ |
-| [AnyJWK](type-aliases/AnyJWK.md) | Discriminated union of the supported JSON Web Key shapes. |
-| [CryptoKey](type-aliases/CryptoKey.md) | Web Cryptography API [CryptoKey](https://developer.mozilla.org/docs/Web/API/CryptoKey) representation accepted as key input. |
+| [AnyJWK](type-aliases/AnyJWK.md) | Discriminated union of supported JSON Web Key shapes, narrowed by the "kty" (Key Type) Parameter. |
+| [CryptoKey](type-aliases/CryptoKey.md) | The runtime's Web Crypto [CryptoKey](https://developer.mozilla.org/docs/Web/API/CryptoKey) representation accepted as key input. |
 | [JWK](type-aliases/JWK.md) | JSON Web Key ([JWK](https://www.rfc-editor.org/info/rfc7517/)). "RSA", "EC", "OKP", "AKP", and "oct" key types are supported. |
 | [JWKParameters](type-aliases/JWKParameters.md) | Generic JSON Web Key Parameters. |
 | [KeyInput](type-aliases/KeyInput.md) | Key or secret input accepted by all sign, verify, encrypt, and decrypt operations. |

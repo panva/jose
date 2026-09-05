@@ -4,10 +4,8 @@
 
 Support from the community to continue maintaining and improving this module is welcome. If you find the module useful, please consider supporting the project by [becoming a sponsor](https://github.com/sponsors/panva).
 
-Flattened JWS JSON Serialization token.
-
-The payload is returned as an empty string when JWS Unencoded Payload
-([RFC7797](https://www.rfc-editor.org/info/rfc7797/)) is used.
+Flattened JWS JSON Serialization token. The payload is an empty string when the
+[unencoded payload option](https://www.rfc-editor.org/info/rfc7797/) is used.
 
 ## Properties
 
@@ -15,8 +13,7 @@ The payload is returned as an empty string when JWS Unencoded Payload
 
 • **payload**: `string`
 
-The "payload" member MUST be present and contain the value BASE64URL(JWS Payload). When RFC7797
-"b64": false is used the value passed may also be a [Uint8Array](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Uint8Array).
+Base64url-encoded payload; with `b64: false`, supply an unencoded string or Uint8Array.
 
 ***
 
@@ -24,7 +21,7 @@ The "payload" member MUST be present and contain the value BASE64URL(JWS Payload
 
 • **signature**: `string`
 
-The "signature" member MUST be present and contain the value BASE64URL(JWS Signature).
+Base64url-encoded signature or MAC.
 
 ***
 
@@ -32,10 +29,7 @@ The "signature" member MUST be present and contain the value BASE64URL(JWS Signa
 
 • `optional` **header?**: [`JWSHeaderParameters`](JWSHeaderParameters.md)
 
-The "header" member MUST be present and contain the value JWS Unprotected Header when the JWS
-Unprotected Header value is non- empty; otherwise, it MUST be absent. This value is represented
-as an unencoded JSON object, rather than as a string. These Header Parameter values are not
-integrity protected.
+JWS Unprotected Header as a JSON object. Not integrity protected; omit when empty.
 
 ***
 
@@ -43,6 +37,4 @@ integrity protected.
 
 • `optional` **protected?**: `string`
 
-The "protected" member MUST be present and contain the value BASE64URL(UTF8(JWS Protected
-Header)) when the JWS Protected Header value is non-empty; otherwise, it MUST be absent. These
-Header Parameter values are integrity protected.
+Base64url-encoded UTF-8 JWS Protected Header. Integrity protected; omit when empty.

@@ -14,18 +14,16 @@ This function is exported (as a named export) from the main `'jose'` module entr
 as from its subpath export `'jose/jwe/general/decrypt'`.
 
 > [!NOTE]\
-> The function iterates over the `recipients` array in the General JWE and returns the decryption
-> result of the first recipient entry that can be successfully decrypted. The result only contains
-> the plaintext and headers of that successfully decrypted recipient entry. Other recipient entries
-> in the General JWE are not validated, and their headers are not included in the returned result.
-> Recipients of a General JWE should only rely on the returned (decrypted) data.
+> Returns plaintext and headers from the first recipient that decrypts successfully. Other
+> recipients may be inspected to enforce serialization rules, but their headers are not included in
+> the result. Rely only on the returned data.
 
 ### Parameters
 
 | Parameter | Type | Description |
 | ------ | ------ | ------ |
 | `jwe` | [`GeneralJWE`](../../../../types/interfaces/GeneralJWE.md) | General JWE. |
-| `key` | [`KeyInput`](../../../../types/type-aliases/KeyInput.md) | Private Key or Secret to decrypt the JWE with. See [Algorithm Key Requirements](https://github.com/panva/jose/issues/210#jwe-alg). |
+| `key` | [`KeyInput`](../../../../types/type-aliases/KeyInput.md) | Private key or shared secret. See [Algorithm Key Requirements](https://github.com/panva/jose/issues/210#jwe-alg). |
 | `options?` | [`DecryptOptions`](../../../../types/interfaces/DecryptOptions.md) | JWE Decryption options. |
 
 ### Returns
@@ -62,8 +60,7 @@ console.log(decoder.decode(additionalAuthenticatedData))
 
 ▸ **generalDecrypt**\<`KeyType`\>(`jwe`, `getKey`, `options?`): [`Promise`](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise)\<[`GeneralDecryptResult`](../../../../types/interfaces/GeneralDecryptResult.md) & [`ResolvedKey`](../../../../types/interfaces/ResolvedKey.md)\<`KeyType`\>\>
 
-Decrypts a General JWE, resolving the key dynamically. The result additionally carries the
-[resolved key](../../../../types/interfaces/ResolvedKey.md#key).
+Decrypts a General JWE with a dynamically resolved key, included in the result.
 
 ### Type Parameters
 
@@ -76,7 +73,7 @@ Decrypts a General JWE, resolving the key dynamically. The result additionally c
 | Parameter | Type | Description |
 | ------ | ------ | ------ |
 | `jwe` | [`GeneralJWE`](../../../../types/interfaces/GeneralJWE.md) | General JWE. |
-| `getKey` | [`GeneralDecryptGetKey`](../interfaces/GeneralDecryptGetKey.md)\<`KeyType`\> | Function resolving Private Key or Secret to decrypt the JWE with. See [Algorithm Key Requirements](https://github.com/panva/jose/issues/210#jwe-alg). |
+| `getKey` | [`GeneralDecryptGetKey`](../interfaces/GeneralDecryptGetKey.md)\<`KeyType`\> | Resolves a private key or shared secret from unverified token data. |
 | `options?` | [`DecryptOptions`](../../../../types/interfaces/DecryptOptions.md) | JWE Decryption options. |
 
 ### Returns
@@ -87,16 +84,15 @@ Decrypts a General JWE, resolving the key dynamically. The result additionally c
 
 ▸ **generalDecrypt**(`jwe`, `key`, `options?`): [`Promise`](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise)\<[`GeneralDecryptResult`](../../../../types/interfaces/GeneralDecryptResult.md) & [`Partial`](https://www.typescriptlang.org/docs/handbook/utility-types.html#partialtype)\<[`ResolvedKey`](../../../../types/interfaces/ResolvedKey.md)\<[`Uint8Array`](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Uint8Array) \| [`CryptoKey`](https://developer.mozilla.org/docs/Web/API/CryptoKey)\>\>\>
 
-Accepts either form of the `key` argument. Use this overload when forwarding a value that may be
-either a key or a key resolution function; `key` is present on the result only when a resolution
-function was used.
+Decrypts a General JWE with a key or key resolver. The result includes `key` only when a resolver
+is used.
 
 ### Parameters
 
 | Parameter | Type | Description |
 | ------ | ------ | ------ |
 | `jwe` | [`GeneralJWE`](../../../../types/interfaces/GeneralJWE.md) | General JWE. |
-| `key` | [`KeyInput`](../../../../types/type-aliases/KeyInput.md) \| [`GeneralDecryptGetKey`](../interfaces/GeneralDecryptGetKey.md)\<[`Uint8Array`](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Uint8Array) \| [`CryptoKey`](https://developer.mozilla.org/docs/Web/API/CryptoKey)\> | Private Key or Secret, or a function resolving one, to decrypt the JWE with. See [Algorithm Key Requirements](https://github.com/panva/jose/issues/210#jwe-alg). |
+| `key` | [`KeyInput`](../../../../types/type-aliases/KeyInput.md) \| [`GeneralDecryptGetKey`](../interfaces/GeneralDecryptGetKey.md)\<[`Uint8Array`](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Uint8Array) \| [`CryptoKey`](https://developer.mozilla.org/docs/Web/API/CryptoKey)\> | Private key or shared secret, or a function resolving one. |
 | `options?` | [`DecryptOptions`](../../../../types/interfaces/DecryptOptions.md) | JWE Decryption options. |
 
 ### Returns

@@ -6,7 +6,7 @@ Support from the community to continue maintaining and improving this module is 
 
 ▸ **encode**(`input`): `string`
 
-Encodes input using unpadded base64url.
+Encodes unpadded base64url; strings are first encoded as UTF-8.
 
 These functions are exported (as the `base64url` namespace) from the main `'jose'` module entry
 point as well as from its subpath export `'jose/base64url'`.
@@ -15,13 +15,13 @@ point as well as from its subpath export `'jose/base64url'`.
 
 | Parameter | Type | Description |
 | ------ | ------ | ------ |
-| `input` | `string` \| [`Uint8Array`](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Uint8Array) | Input to encode, as a string or as bytes. Strings are encoded as UTF-8 first. |
+| `input` | `string` \| [`Uint8Array`](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Uint8Array) | Bytes or a string to encode. Strings are first encoded as UTF-8. |
 
 ## Returns
 
 `string`
 
-The Base64URL encoded, unpadded, representation of the input.
+The unpadded base64url representation of the input.
 
 ## Example
 

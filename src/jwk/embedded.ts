@@ -11,11 +11,9 @@ import { isObject } from '../lib/validate.js'
 import { JWSInvalid } from '../util/errors.js'
 
 /**
- * Resolves a verification key from an embedded "jwk" (JSON Web Key) Header Parameter.
- *
- * This {@link types.GetKeyFunction GetKeyFunction} opts JWS and JWT verification into trusting a
- * public key supplied by the token. Combine it with the verify function's `algorithms` option to
- * define the accepted JWS "alg" (Algorithm) Header Parameter values.
+ * Resolves a verification key from an embedded "jwk" (JSON Web Key) Header Parameter. This key
+ * resolver opts JWS and JWT verification into trusting a public key supplied by the token. Use the
+ * verification function's `algorithms` option to restrict accepted algorithms.
  *
  * This function is exported (as a named export) from the main `'jose'` module entry point as well
  * as from its subpath export `'jose/jwk/embedded'`.

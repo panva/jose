@@ -20,7 +20,7 @@ const check = (value: unknown, description: string) => {
 }
 
 /**
- * Calculates a base64url-encoded JSON Web Key (JWK) Thumbprint.
+ * Calculates a base64url-encoded JWK Thumbprint. CryptoKey inputs must be extractable.
  *
  * This function is exported (as a named export) from the main `'jose'` module entry point as well
  * as from its subpath export `'jose/jwk/thumbprint'`.
@@ -40,8 +40,7 @@ const check = (value: unknown, description: string) => {
  * ```
  *
  * @param key Key to calculate the thumbprint for.
- * @param digestAlgorithm Digest Algorithm to use for calculating the thumbprint. Default is
- *   "sha256".
+ * @param digestAlgorithm Digest algorithm. Defaults to "sha256".
  *
  * @see {@link https://www.rfc-editor.org/info/rfc7638/ RFC7638}
  */
@@ -109,7 +108,7 @@ export async function calculateJwkThumbprint(
 }
 
 /**
- * Calculates a JSON Web Key (JWK) Thumbprint URI.
+ * Calculates a JWK Thumbprint URI. CryptoKey inputs must be extractable.
  *
  * This function is exported (as a named export) from the main `'jose'` module entry point as well
  * as from its subpath export `'jose/jwk/thumbprint'`.
@@ -129,8 +128,7 @@ export async function calculateJwkThumbprint(
  * ```
  *
  * @param key Key to calculate the thumbprint for.
- * @param digestAlgorithm Digest Algorithm to use for calculating the thumbprint. Default is
- *   "sha256".
+ * @param digestAlgorithm Digest algorithm. Defaults to "sha256".
  *
  * @see {@link https://www.rfc-editor.org/info/rfc9278/ RFC9278}
  */

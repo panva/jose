@@ -9,9 +9,7 @@ import type { DecryptGetKey } from '../../lib/jwe_decrypt.js'
 import type * as types from '../../types.d.ts'
 
 /**
- * Dynamic key resolver for Compact JWE decryption.
- *
- * No token components have been verified at the time of this function call.
+ * Resolves a key for Compact JWE decryption from unverified headers and token data.
  *
  * @typeParam KeyType Type definition of the keys the function resolves. Narrowing it is what lets
  *   {@link types.ResolvedKey.key ResolvedKey.key} be inferred at the call site.
@@ -43,7 +41,7 @@ export interface CompactDecryptGetKey<
  * ```
  *
  * @param jwe Compact JWE.
- * @param key Private Key or Secret to decrypt the JWE with. See
+ * @param key Private key or shared secret. See
  *   {@link https://github.com/panva/jose/issues/210#jwe-alg Algorithm Key Requirements}.
  * @param options JWE Decryption options.
  */
@@ -53,12 +51,10 @@ export function compactDecrypt(
   options?: types.DecryptOptions,
 ): Promise<types.CompactDecryptResult>
 /**
- * Decrypts a Compact JWE, resolving the key dynamically. The result additionally carries the
- * {@link types.ResolvedKey.key resolved key}.
+ * Decrypts a Compact JWE with a dynamically resolved key, included in the result.
  *
  * @param jwe Compact JWE.
- * @param getKey Function resolving Private Key or Secret to decrypt the JWE with. See
- *   {@link https://github.com/panva/jose/issues/210#jwe-alg Algorithm Key Requirements}.
+ * @param getKey Resolves a private key or shared secret from unverified token data.
  * @param options JWE Decryption options.
  */
 export function compactDecrypt<
@@ -69,13 +65,11 @@ export function compactDecrypt<
   options?: types.DecryptOptions,
 ): Promise<types.CompactDecryptResult & types.ResolvedKey<KeyType>>
 /**
- * Accepts either form of the `key` argument. Use this overload when forwarding a value that may be
- * either a key or a key resolution function; `key` is present on the result only when a resolution
- * function was used.
+ * Decrypts a Compact JWE with a key or key resolver. The result includes `key` only when a resolver
+ * is used.
  *
  * @param jwe Compact JWE.
- * @param key Private Key or Secret, or a function resolving one, to decrypt the JWE with. See
- *   {@link https://github.com/panva/jose/issues/210#jwe-alg Algorithm Key Requirements}.
+ * @param key Private key or shared secret, or a function resolving one.
  * @param options JWE Decryption options.
  */
 export function compactDecrypt(

@@ -12,8 +12,8 @@ Generates a symmetric secret key for a given JWA algorithm identifier.
 > The secret key is generated with `extractable` set to `false` by default.
 
 > [!NOTE]\
-> Because A128CBC-HS256, A192CBC-HS384, and A256CBC-HS512 secrets cannot be represented as
-> [CryptoKey](https://developer.mozilla.org/docs/Web/API/CryptoKey) this method yields a [Uint8Array](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Uint8Array) for them instead.
+> A128CBC-HS256, A192CBC-HS384, and A256CBC-HS512 return [Uint8Array](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Uint8Array) because these secrets
+> have no CryptoKey representation.
 
 This function is exported (as a named export) from the main `'jose'` module entry point as well
 as from its subpath export `'jose/key/generate/secret'`.

@@ -6,14 +6,14 @@ Support from the community to continue maintaining and improving this module is 
 
 • `const` **customFetch**: unique `symbol`
 
-Symbol used to configure a custom fetch implementation for remote JWKS retrieval.
+Configures a custom fetch implementation for remote JWKS retrieval.
 
 Pass this to [createRemoteJWKSet](../functions/createRemoteJWKSet.md) to use advanced fetch
 configurations, HTTP proxies, network-error retries, and similar behavior.
 
 > [!NOTE]\
-> Known caveat: Expect Type-related issues when passing the inputs through to fetch-like modules,
-> they hardly ever get their typings inline with actual fetch, you should `@ts-expect-error` them.
+> Fetch-like libraries may have incompatible TypeScript signatures even when they accept the
+> supplied arguments at runtime.
 
 ## Examples
 

@@ -6,7 +6,7 @@ Support from the community to continue maintaining and improving this module is 
 
 • **CryptoKey** = *typeof* `globalThis` *extends* `object` ? [`Extract`](https://www.typescriptlang.org/docs/handbook/utility-types.html#extracttype-union)\<`R`, \{ `type`: `string`; \}\> : [`CryptoKeyStructuralFallback`](../interfaces/CryptoKeyStructuralFallback.md)
 
-Web Cryptography API [CryptoKey](https://developer.mozilla.org/docs/Web/API/CryptoKey) representation accepted as key input.
+The runtime's Web Crypto [CryptoKey](https://developer.mozilla.org/docs/Web/API/CryptoKey) representation accepted as key input.
 
 In addition to the [Key Import Functions](../../key/import/README.md), use [SubtleCrypto.importKey](https://developer.mozilla.org/docs/Web/API/SubtleCrypto/importKey) to
 obtain a [CryptoKey](https://developer.mozilla.org/docs/Web/API/CryptoKey) from existing key material.

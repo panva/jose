@@ -11,10 +11,11 @@ import { JWTInvalid } from './errors.js'
 import type * as types from '../types.d.ts'
 
 /**
- * Decodes the Claims Set of a JWS-formatted JSON Web Token without verifying the signature.
+ * Decodes the Claims Set of a JWT in Compact JWS serialization without checking its signature or
+ * validating claim types and values.
  *
- * This does not validate the JWT Claims Set types or values. Use `jose.jwtVerify()` for signed JWT
- * validation and `jose.jwtDecrypt()` for encrypted JWT validation.
+ * Use {@link "jwt/verify".jwtVerify jwtVerify} to verify signed JWTs or
+ * {@link "jwt/decrypt".jwtDecrypt jwtDecrypt} to decrypt and validate encrypted JWTs.
  *
  * This function is exported (as a named export) from the main `'jose'` module entry point as well
  * as from its subpath export `'jose/jwt/decode'`.
@@ -29,6 +30,8 @@ import type * as types from '../types.d.ts'
  * @typeParam PayloadType Type definition of the JWT Claims Set the token is expected to carry.
  *
  * @param jwt JWT token in compact JWS serialization.
+ *
+ * @returns The parsed JWT Claims Set.
  */
 export function decodeJwt<PayloadType = types.JWTPayload>(
   jwt: string,

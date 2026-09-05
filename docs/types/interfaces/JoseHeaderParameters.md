@@ -12,7 +12,7 @@ Header Parameters common to JWE and JWS.
 
 • `optional` **cty?**: `string`
 
-"cty" (Content Type) Header Parameter
+Content type.
 
 ***
 
@@ -20,7 +20,7 @@ Header Parameters common to JWE and JWS.
 
 • `optional` **jku?**: `string`
 
-"jku" (JWK Set URL) Header Parameter
+JWK Set URL.
 
 ***
 
@@ -28,8 +28,7 @@ Header Parameters common to JWE and JWS.
 
 • `optional` **jwk?**: [`Omit`](https://www.typescriptlang.org/docs/handbook/utility-types.html#omittype-keys)\<[`JWK`](../type-aliases/JWK.md), `"d"` \| `"p"` \| `"q"` \| `"k"` \| `"dp"` \| `"dq"` \| `"qi"` \| `"priv"` \| `"oth"`\>
 
-"jwk" (JSON Web Key) Header Parameter. This must be a public JSON Web Key; private and
-symmetric key parameters are not permitted.
+Public JWK only; private and symmetric key parameters are not permitted.
 
 ***
 
@@ -53,7 +52,7 @@ symmetric key parameters are not permitted.
 
 • `optional` **x5c?**: `string`[]
 
-"x5c" (X.509 Certificate Chain) Header Parameter
+X.509 certificate chain.
 
 ***
 
@@ -61,7 +60,7 @@ symmetric key parameters are not permitted.
 
 • `optional` **x5t?**: `string`
 
-"x5t" (X.509 Certificate SHA-1 Thumbprint) Header Parameter
+X.509 certificate SHA-1 thumbprint.
 
 ***
 
@@ -69,4 +68,4 @@ symmetric key parameters are not permitted.
 
 • `optional` **x5u?**: `string`
 
-"x5u" (X.509 URL) Header Parameter
+X.509 certificate URL.

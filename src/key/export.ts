@@ -16,7 +16,7 @@ interface ExtractableKeyObject extends types.KeyObject {
 }
 
 /**
- * Exports a public {@link !CryptoKey} or {@link !KeyObject} to a PEM-encoded SPKI string format.
+ * Exports a public key to PEM-encoded SPKI. CryptoKey inputs must be extractable.
  *
  * This function is exported (as a named export) from the main `'jose'` module entry point as well
  * as from its subpath export `'jose/key/export'`.
@@ -29,14 +29,14 @@ interface ExtractableKeyObject extends types.KeyObject {
  * console.log(spkiPem)
  * ```
  *
- * @param key Key to export to a PEM-encoded SPKI string format.
+ * @param key Key to export.
  */
 export function exportSPKI(key: types.CryptoKey | types.KeyObject): Promise<string> {
   return exportPublic(key)
 }
 
 /**
- * Exports a private {@link !CryptoKey} or {@link !KeyObject} to a PEM-encoded PKCS8 string format.
+ * Exports a private key to PEM-encoded PKCS#8. CryptoKey inputs must be extractable.
  *
  * This function is exported (as a named export) from the main `'jose'` module entry point as well
  * as from its subpath export `'jose/key/export'`.
@@ -49,14 +49,14 @@ export function exportSPKI(key: types.CryptoKey | types.KeyObject): Promise<stri
  * console.log(pkcs8Pem)
  * ```
  *
- * @param key Key to export to a PEM-encoded PKCS8 string format.
+ * @param key Key to export.
  */
 export function exportPKCS8(key: types.CryptoKey | types.KeyObject): Promise<string> {
   return exportPrivate(key)
 }
 
 /**
- * Exports a {@link !CryptoKey}, {@link !KeyObject}, or {@link !Uint8Array} to a JWK.
+ * Exports a key to JWK. CryptoKey inputs must be extractable.
  *
  * This function is exported (as a named export) from the main `'jose'` module entry point as well
  * as from its subpath export `'jose/key/export'`.
@@ -71,7 +71,7 @@ export function exportPKCS8(key: types.CryptoKey | types.KeyObject): Promise<str
  * console.log(publicJwk)
  * ```
  *
- * @param key Key to export as JWK.
+ * @param key Key to export.
  */
 export async function exportJWK(
   key: types.CryptoKey | types.KeyObject | Uint8Array,

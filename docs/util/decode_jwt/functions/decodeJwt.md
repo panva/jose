@@ -6,10 +6,11 @@ Support from the community to continue maintaining and improving this module is 
 
 ▸ **decodeJwt**\<`PayloadType`\>(`jwt`): `PayloadType` & [`JWTPayload`](../../../types/interfaces/JWTPayload.md)
 
-Decodes the Claims Set of a JWS-formatted JSON Web Token without verifying the signature.
+Decodes the Claims Set of a JWT in Compact JWS serialization without checking its signature or
+validating claim types and values.
 
-This does not validate the JWT Claims Set types or values. Use `jose.jwtVerify()` for signed JWT
-validation and `jose.jwtDecrypt()` for encrypted JWT validation.
+Use [jwtVerify](../../../jwt/verify/functions/jwtVerify.md) to verify signed JWTs or
+[jwtDecrypt](../../../jwt/decrypt/functions/jwtDecrypt.md) to decrypt and validate encrypted JWTs.
 
 This function is exported (as a named export) from the main `'jose'` module entry point as well
 as from its subpath export `'jose/jwt/decode'`.
@@ -29,6 +30,8 @@ as from its subpath export `'jose/jwt/decode'`.
 ## Returns
 
 `PayloadType` & [`JWTPayload`](../../../types/interfaces/JWTPayload.md)
+
+The parsed JWT Claims Set.
 
 ## Example
 

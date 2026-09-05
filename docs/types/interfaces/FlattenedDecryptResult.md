@@ -20,7 +20,7 @@ Plaintext.
 
 • `optional` **additionalAuthenticatedData?**: [`Uint8Array`](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Uint8Array)
 
-JWE AAD.
+JWE Additional Authenticated Data, integrity protected but not encrypted.
 
 ***
 
@@ -36,7 +36,7 @@ JWE Protected Header.
 
 • `optional` **sharedUnprotectedHeader?**: [`JWEHeaderParameters`](JWEHeaderParameters.md)
 
-JWE Shared Unprotected Header.
+JWE Shared Unprotected Header. Not integrity protected.
 
 ***
 
@@ -44,4 +44,4 @@ JWE Shared Unprotected Header.
 
 • `optional` **unprotectedHeader?**: [`JWEHeaderParameters`](JWEHeaderParameters.md)
 
-JWE Per-Recipient Unprotected Header.
+JWE Per-Recipient Unprotected Header. Not integrity protected.

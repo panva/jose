@@ -11,8 +11,7 @@ import { keyAlgorithm, unsupportedAlg, algArgument } from '../lib/key_algorithm.
 import type * as types from '../types.d.ts'
 
 /**
- * JWA Algorithm Identifiers that {@link generateKeyPair} is able to generate a key pair for, subject
- * to runtime support.
+ * Algorithms supported by {@link generateKeyPair}, subject to runtime support.
  *
  * @ignore
  */
@@ -43,29 +42,25 @@ export type GenerateKeyPairAlgorithm =
 
 /** Generated asymmetric key pair. */
 export interface GenerateKeyPairResult {
-  /** The generated Private Key. */
   privateKey: types.CryptoKey
 
-  /** Public Key corresponding to the generated Private Key. */
   publicKey: types.CryptoKey
 }
 
 /** Asymmetric key pair generation options. */
 export interface GenerateKeyPairOptions {
   /**
-   * The EC "crv" (Curve) or OKP "crv" (Subtype of Key Pair) value to generate. The curve must be
-   * both supported on the runtime as well as applicable for the given JWA algorithm identifier.
+   * EC curve or OKP key subtype. Must be supported by the algorithm and runtime. ECDH-ES defaults
+   * to P-256.
    */
   crv?: string
 
-  /**
-   * A hint for RSA algorithms to generate an RSA key of a given `modulusLength` (Key size in bits).
-   * JOSE requires 2048 bits or larger. Default is 2048.
-   */
+  /** RSA modulus length in bits. Must be an integer of at least 2048; defaults to 2048. */
   modulusLength?: number
 
   /**
-   * The value to use as {@link !SubtleCrypto.generateKey} `extractable` argument. Default is false.
+   * Whether the private key is extractable. Defaults to false; the public key is always
+   * extractable.
    *
    * @example
    *
@@ -100,8 +95,8 @@ function getModulusLengthOption(options?: GenerateKeyPairOptions) {
  * For symmetric secrets use the {@link key/generate_secret.generateSecret generateSecret} function.
  *
  * > [!NOTE]\
- * > The `privateKey` is generated with `extractable` set to `false` by default. See
- * > {@link GenerateKeyPairOptions.extractable} to generate an extractable `privateKey`.
+ * > Private keys are not extractable by default. Set {@link GenerateKeyPairOptions.extractable} to
+ * > export them; public keys are always extractable.
  *
  * This function is exported (as a named export) from the main `'jose'` module entry point as well
  * as from its subpath export `'jose/key/generate/keypair'`.

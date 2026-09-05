@@ -16,15 +16,14 @@ Dynamic key resolver for consuming operations.
 
 ▸ **GetKeyFunction**(`protectedHeader`, `token`): `KeyTypes` \| [`Promise`](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise)\<`KeyTypes`\>
 
-Dynamic key resolution function. No token components have been verified at the time of this
-function call. If a suitable key for the token cannot be matched, throw an error instead.
+Resolves a key for an unverified token. Throw if no suitable key can be resolved.
 
 ## Parameters
 
 | Parameter | Type | Description |
 | ------ | ------ | ------ |
 | `protectedHeader` | `IProtectedHeader` | JWE or JWS Protected Header. |
-| `token` | `IToken` | The consumed JWE or JWS token. |
+| `token` | `IToken` | The consumed JWE or JWS token; none of its components have been verified. |
 
 ## Returns
 

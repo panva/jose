@@ -32,7 +32,7 @@ export class FlattenedEncrypt {
   #input: EncryptInput
 
   /**
-   * {@link FlattenedEncrypt} constructor
+   * Creates a Flattened JWE encryptor.
    *
    * @param plaintext Binary representation of the plaintext to encrypt.
    */
@@ -42,10 +42,9 @@ export class FlattenedEncrypt {
   }
 
   /**
-   * Sets the JWE Key Management parameters to be used when encrypting. Use this method instead of
-   * the header setters to configure algorithm inputs such as ECDH-ES "apu" (Agreement PartyUInfo)
-   * and "apv" (Agreement PartyVInfo), or PBES2 "p2c" (PBES2 Count). The parameters are added to the
-   * appropriate JOSE Header.
+   * Sets key management inputs such as ECDH-ES "apu"/"apv" or PBES2 "p2c". Use this method instead
+   * of header setters; the resulting parameters are added to the JOSE header. May only be called
+   * once.
    *
    * @param parameters JWE Key Management parameters.
    */
@@ -56,7 +55,7 @@ export class FlattenedEncrypt {
   }
 
   /**
-   * Sets the JWE Protected Header on the FlattenedEncrypt object.
+   * Sets the JWE Protected Header. May only be called once.
    *
    * @param protectedHeader JWE Protected Header.
    */
@@ -67,7 +66,7 @@ export class FlattenedEncrypt {
   }
 
   /**
-   * Sets the JWE Shared Unprotected Header on the FlattenedEncrypt object.
+   * Sets the JWE Shared Unprotected Header. May only be called once.
    *
    * @param sharedUnprotectedHeader JWE Shared Unprotected Header.
    */
@@ -78,7 +77,7 @@ export class FlattenedEncrypt {
   }
 
   /**
-   * Sets the JWE Per-Recipient Unprotected Header on the FlattenedEncrypt object.
+   * Sets the JWE Per-Recipient Unprotected Header. May only be called once.
    *
    * @param unprotectedHeader JWE Per-Recipient Unprotected Header.
    */
@@ -89,7 +88,7 @@ export class FlattenedEncrypt {
   }
 
   /**
-   * Sets the Additional Authenticated Data on the FlattenedEncrypt object.
+   * Sets additional data to authenticate without encrypting it.
    *
    * @param aad Additional Authenticated Data.
    */
@@ -99,11 +98,10 @@ export class FlattenedEncrypt {
   }
 
   /**
-   * Sets a content encryption key to use, by default a random suitable one is generated for the JWE
-   * "enc" (Encryption Algorithm) Header Parameter.
+   * Sets a content encryption key instead of generating a random one for the JWE "enc" algorithm.
+   * May only be called once.
    *
-   * @deprecated You should not use this method. It is only really intended for test and vector
-   *   validation purposes.
+   * @deprecated Use only for testing and vector validation.
    *
    * @param cek JWE Content Encryption Key.
    */
@@ -114,11 +112,10 @@ export class FlattenedEncrypt {
   }
 
   /**
-   * Sets the JWE Initialization Vector to use for content encryption, by default a random suitable
-   * one is generated for the JWE "enc" (Encryption Algorithm) Header Parameter.
+   * Sets the content encryption IV instead of generating a random one for the JWE "enc" algorithm.
+   * May only be called once.
    *
-   * @deprecated You should not use this method. It is only really intended for test and vector
-   *   validation purposes.
+   * @deprecated Use only for testing and vector validation.
    *
    * @param iv JWE Initialization Vector.
    */
@@ -129,9 +126,9 @@ export class FlattenedEncrypt {
   }
 
   /**
-   * Encrypts and resolves the value of the Flattened JWE object.
+   * Encrypts the plaintext as a Flattened JWE.
    *
-   * @param key Public Key or Secret to encrypt the JWE with. See
+   * @param key Public key or shared secret. See
    *   {@link https://github.com/panva/jose/issues/210#jwe-alg Algorithm Key Requirements}.
    * @param options JWE Encryption options.
    */

@@ -46,21 +46,19 @@ export type JOSEErrorCode =
   | 'ERR_JWT_INVALID'
 
 /**
- * Shared properties of JWT Claims Set validation errors.
+ * Shared details of JWT claim or header validation failures.
  *
- * > [!NOTE]\
- * > {@link JWTExpired} does not extend {@link JWTClaimValidationFailed}, so `instanceof
- * > JWTClaimValidationFailed` is `false` for an expired JWT. Use {@link JWTClaimValidationError} or
- * > the {@link JOSEError.code code} discriminant to handle both.
+ * {@link JWTExpired} does not extend {@link JWTClaimValidationFailed}. Use
+ * {@link JWTClaimValidationError} or the {@link JOSEError.code code} discriminant to handle both.
  */
 export interface JWTClaimValidationFailure {
-  /** The Claim for which the validation failed. */
+  /** Claim or header that failed validation. */
   claim: string
 
   /** Reason code for the validation failure. */
   reason: JWTClaimValidationReason
 
-  /** The parsed JWT Claims Set (aka payload). */
+  /** The parsed JWT Claims Set; validation of other claims may be incomplete. */
   payload: types.JWTPayload
 }
 
@@ -87,16 +85,13 @@ export type JWTClaimValidationReason =
  */
 export class JOSEError extends Error {
   /**
-   * A unique error code for the particular error subclass.
+   * Stable code identifying the error class.
    *
    * @ignore
    */
   static code: JOSEErrorCode | (string & {}) = 'ERR_JOSE_GENERIC'
 
-  /**
-   * A unique error code for {@link JOSEError}. Each subclass sets its own; see {@link AnyJOSEError}
-   * to switch over them as a discriminated union.
-   */
+  /** Stable code identifying the error class. Use {@link AnyJOSEError} to narrow subclasses by code. */
   code: JOSEErrorCode | (string & {}) = 'ERR_JOSE_GENERIC'
 
   /** @ignore */
@@ -111,7 +106,8 @@ export class JOSEError extends Error {
 }
 
 /**
- * Thrown when JWT Claims Set validation fails.
+ * Thrown when JWT claim or header validation fails. Expiration is reported separately as
+ * {@link JWTExpired}.
  *
  * @example
  *
@@ -140,20 +136,20 @@ export class JWTClaimValidationFailed extends JOSEError implements JWTClaimValid
   /** A unique error code for {@link JWTClaimValidationFailed}. */
   override code: JOSEErrorCode | (string & {}) = 'ERR_JWT_CLAIM_VALIDATION_FAILED'
 
-  /** The {@link JWTClaimValidationFailure} carried by every instance of this error. */
+  /** The {@link JWTClaimValidationFailure} details carried by this error. */
   declare cause: JWTClaimValidationFailure
 
-  /** The Claim for which the validation failed. */
+  /** Claim or header that failed validation. */
   claim: string
 
   /** Reason code for the validation failure. */
   reason: JWTClaimValidationReason
 
   /**
-   * The parsed JWT Claims Set (aka payload). Other JWT claims may or may not have been verified at
-   * this point. The JSON Web Signature (JWS) or a JSON Web Encryption (JWE) structures' integrity
-   * has however been verified. Claims Set verification happens after the JWS Signature or JWE
-   * Decryption processes.
+   * The parsed JWT Claims Set; validation of other claims may be incomplete. With
+   * {@link jwt/verify.jwtVerify jwtVerify} and {@link jwt/decrypt.jwtDecrypt jwtDecrypt}, token
+   * authentication precedes claim validation. {@link jwt/unsecured.UnsecuredJWT.decode} does not
+   * authenticate tokens.
    */
   payload: types.JWTPayload
 
@@ -172,7 +168,7 @@ export class JWTClaimValidationFailed extends JOSEError implements JWTClaimValid
 }
 
 /**
- * Thrown when a JWT is expired.
+ * Thrown when a JWT has expired or exceeds the configured maximum token age.
  *
  * @example
  *
@@ -201,20 +197,20 @@ export class JWTExpired extends JOSEError implements JWTClaimValidationFailure {
   /** A unique error code for {@link JWTExpired}. */
   override code: JOSEErrorCode | (string & {}) = 'ERR_JWT_EXPIRED'
 
-  /** The {@link JWTClaimValidationFailure} carried by every instance of this error. */
+  /** The {@link JWTClaimValidationFailure} details carried by this error. */
   declare cause: JWTClaimValidationFailure
 
-  /** The Claim for which the validation failed. */
+  /** Claim or header that failed validation. */
   claim: string
 
   /** Reason code for the validation failure. */
   reason: JWTClaimValidationReason
 
   /**
-   * The parsed JWT Claims Set (aka payload). Other JWT claims may or may not have been verified at
-   * this point. The JSON Web Signature (JWS) or a JSON Web Encryption (JWE) structures' integrity
-   * has however been verified. Claims Set verification happens after the JWS Signature or JWE
-   * Decryption processes.
+   * The parsed JWT Claims Set; validation of other claims may be incomplete. With
+   * {@link jwt/verify.jwtVerify jwtVerify} and {@link jwt/decrypt.jwtDecrypt jwtDecrypt}, token
+   * authentication precedes claim validation. {@link jwt/unsecured.UnsecuredJWT.decode} does not
+   * authenticate tokens.
    */
   payload: types.JWTPayload
 
@@ -295,7 +291,7 @@ export class JOSENotSupported extends JOSEError {
 }
 
 /**
- * Thrown when JWE ciphertext decryption fails.
+ * Thrown when JWE ciphertext decryption or authentication fails.
  *
  * @example
  *
@@ -549,11 +545,10 @@ export class JWKSNoMatchingKey extends JOSEError {
  */
 export class JWKSMultipleMatchingKeys extends JOSEError {
   /**
-   * Iterates the public keys that matched the JWS JOSE Header, so that verification can be
-   * attempted with each in turn. See the {@link jwks/remote.createRemoteJWKSet createRemoteJWKSet}
-   * and {@link jwks/local.createLocalJWKSet createLocalJWKSet} examples. Instances thrown by this
-   * module always iterate the matched keys; an instance constructed by other code iterates
-   * nothing.
+   * Yields public keys matching the JWS Header so verification can be attempted with each. See the
+   * {@link jwks/remote.createRemoteJWKSet createRemoteJWKSet} and
+   * {@link jwks/local.createLocalJWKSet createLocalJWKSet} examples. Empty on manually constructed
+   * errors.
    */
   [Symbol.asyncIterator]: () => AsyncIterableIterator<types.CryptoKey> = async function* () {}
 
@@ -665,17 +660,15 @@ export class JWSSignatureVerificationFailed extends JOSEError {
 export type JWTClaimValidationError = JWTClaimValidationFailed | JWTExpired
 
 /**
- * Discriminated union of the specific {@link JOSEError} subclasses.
+ * Discriminated union of specific {@link JOSEError} subclasses, narrowed by `code`. Excludes base
+ * {@link JOSEError} instances; use `instanceof JOSEError` to catch all module errors.
  *
  * Each subclass is paired with its {@link JOSEErrorCode}. That pairing lives here rather than on the
  * classes, so `code` stays assignable, writable, and overridable while values of this type can be
  * narrowed by their error code.
  *
- * > [!NOTE]\
- * > The base {@link JOSEError} is deliberately not a member — its `code` spans every value, which
- * > would defeat the discriminant. A small number of JSON Web Key Set HTTP failures are thrown as the
- * > base class itself, so `instanceof JOSEError` remains the catch-all; this union is for handling a
- * > value already known to be one of the specific errors.
+ * Some JWKS HTTP failures use the base {@link JOSEError} class. This union is for values already
+ * known to be one of the specific subclasses.
  */
 export type AnyJOSEError =
   | (JOSEAlgNotAllowed & { code: 'ERR_JOSE_ALG_NOT_ALLOWED' })

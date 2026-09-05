@@ -4,7 +4,8 @@
 
 Support from the community to continue maintaining and improving this module is welcome. If you find the module useful, please consider supporting the project by [becoming a sponsor](https://github.com/sponsors/panva).
 
-Thrown when JWT Claims Set validation fails.
+Thrown when JWT claim or header validation fails. Expiration is reported separately as
+[JWTExpired](JWTExpired.md).
 
 ## Examples
 
@@ -30,7 +31,7 @@ if (err instanceof jose.errors.JWTClaimValidationFailed) {
 
 • **cause**: [`JWTClaimValidationFailure`](../interfaces/JWTClaimValidationFailure.md)
 
-The [JWTClaimValidationFailure](../interfaces/JWTClaimValidationFailure.md) carried by every instance of this error.
+The [JWTClaimValidationFailure](../interfaces/JWTClaimValidationFailure.md) details carried by this error.
 
 ***
 
@@ -38,7 +39,7 @@ The [JWTClaimValidationFailure](../interfaces/JWTClaimValidationFailure.md) carr
 
 • **claim**: `string`
 
-The Claim for which the validation failed.
+Claim or header that failed validation.
 
 ***
 
@@ -54,10 +55,10 @@ A unique error code for JWTClaimValidationFailed.
 
 • **payload**: [`JWTPayload`](../../../types/interfaces/JWTPayload.md)
 
-The parsed JWT Claims Set (aka payload). Other JWT claims may or may not have been verified at
-this point. The JSON Web Signature (JWS) or a JSON Web Encryption (JWE) structures' integrity
-has however been verified. Claims Set verification happens after the JWS Signature or JWE
-Decryption processes.
+The parsed JWT Claims Set; validation of other claims may be incomplete. With
+[jwtVerify](../../../jwt/verify/functions/jwtVerify.md) and [jwtDecrypt](../../../jwt/decrypt/functions/jwtDecrypt.md), token
+authentication precedes claim validation. [jwt/unsecured.UnsecuredJWT.decode](../../../jwt/unsecured/classes/UnsecuredJWT.md#decode) does not
+authenticate tokens.
 
 ***
 

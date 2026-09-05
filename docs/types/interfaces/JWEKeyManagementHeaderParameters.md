@@ -12,8 +12,7 @@ Recognized JWE Key Management-related Header Parameters.
 
 • `optional` **apu?**: [`Uint8Array`](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Uint8Array)
 
-ECDH-ES "apu" (Agreement PartyUInfo). This will be used as a JOSE Header Parameter and will be
-used in ECDH's ConcatKDF.
+ECDH-ES Agreement PartyUInfo bytes, used in ConcatKDF and added to the JOSE header.
 
 ***
 
@@ -21,8 +20,7 @@ used in ECDH's ConcatKDF.
 
 • `optional` **apv?**: [`Uint8Array`](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Uint8Array)
 
-ECDH-ES "apv" (Agreement PartyVInfo). This will be used as a JOSE Header Parameter and will be
-used in ECDH's ConcatKDF.
+ECDH-ES Agreement PartyVInfo bytes, used in ConcatKDF and added to the JOSE header.
 
 ***
 
@@ -32,8 +30,7 @@ used in ECDH's ConcatKDF.
 
 #### Deprecated
 
-You should not use this parameter. It is only intended for testing and vector
-  validation purposes.
+For testing and vector validation only.
 
 ***
 
@@ -43,8 +40,7 @@ You should not use this parameter. It is only intended for testing and vector
 
 #### Deprecated
 
-You should not use this parameter. It is only intended for testing and vector
-  validation purposes.
+For testing and vector validation only.
 
 ***
 
@@ -52,8 +48,7 @@ You should not use this parameter. It is only intended for testing and vector
 
 • `optional` **p2c?**: `number`
 
-PBES2 "p2c" (PBES2 Count). This will be used as a JOSE Header Parameter and as the PBKDF2
-iteration count.
+PBES2 PBKDF2 iteration count, added to the JOSE header.
 
 ***
 
@@ -63,5 +58,4 @@ iteration count.
 
 #### Deprecated
 
-You should not use this parameter. It is only intended for testing and vector
-  validation purposes.
+For testing and vector validation only.

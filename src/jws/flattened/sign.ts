@@ -31,7 +31,7 @@ export class FlattenedSign {
   #input: SignInput
 
   /**
-   * {@link FlattenedSign} constructor
+   * Creates a Flattened JWS signer.
    *
    * @param payload Binary representation of the payload to sign.
    */
@@ -41,7 +41,7 @@ export class FlattenedSign {
   }
 
   /**
-   * Sets the JWS Protected Header on the FlattenedSign object.
+   * Sets the JWS Protected Header. May only be called once.
    *
    * @param protectedHeader JWS Protected Header.
    */
@@ -52,7 +52,7 @@ export class FlattenedSign {
   }
 
   /**
-   * Sets the JWS Unprotected Header on the FlattenedSign object.
+   * Sets the JWS Unprotected Header. May only be called once.
    *
    * @param unprotectedHeader JWS Unprotected Header.
    */
@@ -63,9 +63,9 @@ export class FlattenedSign {
   }
 
   /**
-   * Signs and resolves the value of the Flattened JWS object.
+   * Signs the payload as a Flattened JWS.
    *
-   * @param key Private Key or Secret to sign the JWS with. See
+   * @param key Private key or shared secret. See
    *   {@link https://github.com/panva/jose/issues/210#jws-alg Algorithm Key Requirements}.
    * @param options JWS Sign options.
    */

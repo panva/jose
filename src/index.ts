@@ -126,8 +126,7 @@ export type {
 } from './types.d.ts'
 
 /**
- * In prior releases this indicated whether a Node.js-specific build was loaded, this is now fixed
- * to `"WebCryptoAPI"`
+ * Identified the loaded runtime-specific build in prior releases; now always `"WebCryptoAPI"`.
  *
  * @deprecated Remove any runtime branching on this value; it is always `"WebCryptoAPI"`.
  */

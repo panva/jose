@@ -20,4 +20,4 @@ Current cached JSON Web Key Set
 
 • **uat**: `number`
 
-Last updated at timestamp (milliseconds since epoch)
+Last successful fetch, in milliseconds since Unix epoch.

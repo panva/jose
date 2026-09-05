@@ -10,11 +10,7 @@ import { JWTClaimsBuilder, jwtData } from '../lib/jwt_claims_set.js'
 import { assertNotSet } from '../lib/validate.js'
 import type * as types from '../types.d.ts'
 
-/**
- * SignJWT constructor
- *
- * @param payload The JWT Claims Set object. Defaults to an empty object.
- */
+/** @param payload Initial JWT Claims Set. Defaults to an empty object. */
 const SignJWT_base: new (payload?: types.JWTPayload) => types.ProduceJWT = JWTClaimsBuilder
 
 /**
@@ -125,7 +121,7 @@ export class SignJWT extends SignJWT_base {
   #protectedHeader!: types.JWTHeaderParameters
 
   /**
-   * Sets the JWS Protected Header on the SignJWT object.
+   * Sets the JWS Protected Header. May only be called once.
    *
    * @param protectedHeader JWS Protected Header. Must contain an "alg" (JWS Algorithm) property.
    */
@@ -138,7 +134,7 @@ export class SignJWT extends SignJWT_base {
   /**
    * Signs and returns the JWT.
    *
-   * @param key Private Key or Secret to sign the JWT with. See
+   * @param key Private key or shared secret to sign the JWT with. See
    *   {@link https://github.com/panva/jose/issues/210#jws-alg Algorithm Key Requirements}.
    * @param options JWT Sign options.
    */

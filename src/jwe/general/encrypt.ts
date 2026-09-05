@@ -18,40 +18,37 @@ import type { JWECEKTransportAlgorithm } from '../../lib/jwe_algorithms.js'
 /** Configures an individual recipient in a General JWE. */
 export interface Recipient {
   /**
-   * Sets the JWE Per-Recipient Unprotected Header on the Recipient object.
+   * Sets the JWE Per-Recipient Unprotected Header. May only be called once.
    *
    * @param unprotectedHeader JWE Per-Recipient Unprotected Header.
    */
   setUnprotectedHeader(unprotectedHeader: types.JWEHeaderParameters): Recipient
 
   /**
-   * Sets the JWE Key Management parameters to be used when encrypting. Use this method instead of
-   * the header setters to configure algorithm inputs such as ECDH-ES "apu" (Agreement PartyUInfo)
-   * and "apv" (Agreement PartyVInfo), or PBES2 "p2c" (PBES2 Count). The parameters are added to the
-   * appropriate JOSE Header.
+   * Sets key management inputs such as ECDH-ES "apu"/"apv" or PBES2 "p2c". Use this method instead
+   * of header setters; the resulting parameters are added to the JOSE header. May only be called
+   * once.
    *
    * @param parameters JWE Key Management parameters.
    */
   setKeyManagementParameters(parameters: types.JWEKeyManagementHeaderParameters): Recipient
 
   /**
-   * A shorthand for calling {@link GeneralEncrypt.addRecipient addRecipient()} on the enclosing
-   * {@link GeneralEncrypt} instance.
+   * Adds another recipient to the enclosing {@link GeneralEncrypt} and returns its configuration.
    *
-   * @param key Public Key or Secret to encrypt the Content Encryption Key for the recipient with.
-   *   See {@link https://github.com/panva/jose/issues/210#jwe-alg Algorithm Key Requirements}.
+   * @param key Public key or shared secret. See
+   *   {@link https://github.com/panva/jose/issues/210#jwe-alg Algorithm Key Requirements}.
    * @param options JWE Encryption options.
    */
   addRecipient(key: types.KeyInput, options?: types.CritOption): Recipient
 
   /**
-   * A shorthand for calling {@link GeneralEncrypt.encrypt encrypt()} on the enclosing
-   * {@link GeneralEncrypt} instance. Takes no arguments — each recipient's key is supplied to
-   * {@link addRecipient}.
+   * Encrypts for all recipients on the enclosing {@link GeneralEncrypt}, using their configured
+   * keys.
    */
   encrypt(): Promise<types.GeneralJWE>
 
-  /** Returns the enclosing {@link GeneralEncrypt} instance */
+  /** Returns the enclosing {@link GeneralEncrypt} instance. */
   done(): GeneralEncrypt
 }
 
@@ -130,7 +127,7 @@ export class GeneralEncrypt {
   #aad!: Uint8Array
 
   /**
-   * {@link GeneralEncrypt} constructor
+   * Creates a General JWE encryptor.
    *
    * @param plaintext Binary representation of the plaintext to encrypt.
    */
@@ -139,10 +136,10 @@ export class GeneralEncrypt {
   }
 
   /**
-   * Adds an additional recipient for the General JWE object.
+   * Adds a recipient and returns its configuration.
    *
-   * @param key Public Key or Secret to encrypt the Content Encryption Key for the recipient with.
-   *   See {@link https://github.com/panva/jose/issues/210#jwe-alg Algorithm Key Requirements}.
+   * @param key Public key or shared secret. See
+   *   {@link https://github.com/panva/jose/issues/210#jwe-alg Algorithm Key Requirements}.
    * @param options JWE Encryption options.
    */
   addRecipient(key: types.KeyInput, options?: types.CritOption): Recipient {
@@ -152,7 +149,7 @@ export class GeneralEncrypt {
   }
 
   /**
-   * Sets the JWE Protected Header on the GeneralEncrypt object.
+   * Sets the JWE Protected Header. May only be called once.
    *
    * @param protectedHeader JWE Protected Header object.
    */
@@ -163,7 +160,7 @@ export class GeneralEncrypt {
   }
 
   /**
-   * Sets the JWE Shared Unprotected Header on the GeneralEncrypt object.
+   * Sets the JWE Shared Unprotected Header. May only be called once.
    *
    * @param sharedUnprotectedHeader JWE Shared Unprotected Header object.
    */
@@ -174,7 +171,7 @@ export class GeneralEncrypt {
   }
 
   /**
-   * Sets the Additional Authenticated Data on the GeneralEncrypt object.
+   * Sets additional data to authenticate without encrypting it.
    *
    * @param aad Additional Authenticated Data.
    */
@@ -183,7 +180,7 @@ export class GeneralEncrypt {
     return this
   }
 
-  /** Encrypts and resolves the value of the General JWE object. */
+  /** Encrypts the plaintext as a General JWE. */
   async encrypt(): Promise<types.GeneralJWE> {
     if (!this.#recipients.length) {
       throw new JWEInvalid('at least one recipient must be added')

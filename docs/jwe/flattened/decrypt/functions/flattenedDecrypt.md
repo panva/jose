@@ -18,7 +18,7 @@ as from its subpath export `'jose/jwe/flattened/decrypt'`.
 | Parameter | Type | Description |
 | ------ | ------ | ------ |
 | `jwe` | [`FlattenedJWE`](../../../../types/interfaces/FlattenedJWE.md) | Flattened JWE. |
-| `key` | [`KeyInput`](../../../../types/type-aliases/KeyInput.md) | Private Key or Secret to decrypt the JWE with. See [Algorithm Key Requirements](https://github.com/panva/jose/issues/210#jwe-alg). |
+| `key` | [`KeyInput`](../../../../types/type-aliases/KeyInput.md) | Private key or shared secret. See [Algorithm Key Requirements](https://github.com/panva/jose/issues/210#jwe-alg). |
 | `options?` | [`DecryptOptions`](../../../../types/interfaces/DecryptOptions.md) | JWE Decryption options. |
 
 ### Returns
@@ -51,8 +51,7 @@ console.log(decoder.decode(additionalAuthenticatedData))
 
 ▸ **flattenedDecrypt**\<`KeyType`\>(`jwe`, `getKey`, `options?`): [`Promise`](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise)\<[`FlattenedDecryptResult`](../../../../types/interfaces/FlattenedDecryptResult.md) & [`ResolvedKey`](../../../../types/interfaces/ResolvedKey.md)\<`KeyType`\>\>
 
-Decrypts a Flattened JWE, resolving the key dynamically. The result additionally carries the
-[resolved key](../../../../types/interfaces/ResolvedKey.md#key).
+Decrypts a Flattened JWE with a dynamically resolved key, included in the result.
 
 ### Type Parameters
 
@@ -65,7 +64,7 @@ Decrypts a Flattened JWE, resolving the key dynamically. The result additionally
 | Parameter | Type | Description |
 | ------ | ------ | ------ |
 | `jwe` | [`FlattenedJWE`](../../../../types/interfaces/FlattenedJWE.md) | Flattened JWE. |
-| `getKey` | [`FlattenedDecryptGetKey`](../interfaces/FlattenedDecryptGetKey.md)\<`KeyType`\> | Function resolving Private Key or Secret to decrypt the JWE with. See [Algorithm Key Requirements](https://github.com/panva/jose/issues/210#jwe-alg). |
+| `getKey` | [`FlattenedDecryptGetKey`](../interfaces/FlattenedDecryptGetKey.md)\<`KeyType`\> | Resolves a private key or shared secret from unverified token data. |
 | `options?` | [`DecryptOptions`](../../../../types/interfaces/DecryptOptions.md) | JWE Decryption options. |
 
 ### Returns
@@ -76,16 +75,15 @@ Decrypts a Flattened JWE, resolving the key dynamically. The result additionally
 
 ▸ **flattenedDecrypt**(`jwe`, `key`, `options?`): [`Promise`](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise)\<[`FlattenedDecryptResult`](../../../../types/interfaces/FlattenedDecryptResult.md) & [`Partial`](https://www.typescriptlang.org/docs/handbook/utility-types.html#partialtype)\<[`ResolvedKey`](../../../../types/interfaces/ResolvedKey.md)\<[`Uint8Array`](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Uint8Array) \| [`CryptoKey`](https://developer.mozilla.org/docs/Web/API/CryptoKey)\>\>\>
 
-Accepts either form of the `key` argument. Use this overload when forwarding a value that may be
-either a key or a key resolution function; `key` is present on the result only when a resolution
-function was used.
+Decrypts a Flattened JWE with a key or key resolver. The result includes `key` only when a
+resolver is used.
 
 ### Parameters
 
 | Parameter | Type | Description |
 | ------ | ------ | ------ |
 | `jwe` | [`FlattenedJWE`](../../../../types/interfaces/FlattenedJWE.md) | Flattened JWE. |
-| `key` | [`KeyInput`](../../../../types/type-aliases/KeyInput.md) \| [`FlattenedDecryptGetKey`](../interfaces/FlattenedDecryptGetKey.md)\<[`Uint8Array`](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Uint8Array) \| [`CryptoKey`](https://developer.mozilla.org/docs/Web/API/CryptoKey)\> | Private Key or Secret, or a function resolving one, to decrypt the JWE with. See [Algorithm Key Requirements](https://github.com/panva/jose/issues/210#jwe-alg). |
+| `key` | [`KeyInput`](../../../../types/type-aliases/KeyInput.md) \| [`FlattenedDecryptGetKey`](../interfaces/FlattenedDecryptGetKey.md)\<[`Uint8Array`](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Uint8Array) \| [`CryptoKey`](https://developer.mozilla.org/docs/Web/API/CryptoKey)\> | Private key or shared secret, or a function resolving one. |
 | `options?` | [`DecryptOptions`](../../../../types/interfaces/DecryptOptions.md) | JWE Decryption options. |
 
 ### Returns

@@ -31,7 +31,7 @@ console.log(jwe)
 
 ▸ **new GeneralEncrypt**(`plaintext`): `GeneralEncrypt`
 
-GeneralEncrypt constructor
+Creates a General JWE encryptor.
 
 #### Parameters
 
@@ -49,13 +49,13 @@ GeneralEncrypt constructor
 
 ▸ **addRecipient**(`key`, `options?`): [`Recipient`](../interfaces/Recipient.md)
 
-Adds an additional recipient for the General JWE object.
+Adds a recipient and returns its configuration.
 
 #### Parameters
 
 | Parameter | Type | Description |
 | ------ | ------ | ------ |
-| `key` | [`KeyInput`](../../../../types/type-aliases/KeyInput.md) | Public Key or Secret to encrypt the Content Encryption Key for the recipient with. See [Algorithm Key Requirements](https://github.com/panva/jose/issues/210#jwe-alg). |
+| `key` | [`KeyInput`](../../../../types/type-aliases/KeyInput.md) | Public key or shared secret. See [Algorithm Key Requirements](https://github.com/panva/jose/issues/210#jwe-alg). |
 | `options?` | [`CritOption`](../../../../types/interfaces/CritOption.md) | JWE Encryption options. |
 
 #### Returns
@@ -68,7 +68,7 @@ Adds an additional recipient for the General JWE object.
 
 ▸ **encrypt**(): [`Promise`](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise)\<[`GeneralJWE`](../../../../types/interfaces/GeneralJWE.md)\>
 
-Encrypts and resolves the value of the General JWE object.
+Encrypts the plaintext as a General JWE.
 
 #### Returns
 
@@ -80,7 +80,7 @@ Encrypts and resolves the value of the General JWE object.
 
 ▸ **setAdditionalAuthenticatedData**(`aad`): `this`
 
-Sets the Additional Authenticated Data on the GeneralEncrypt object.
+Sets additional data to authenticate without encrypting it.
 
 #### Parameters
 
@@ -98,7 +98,7 @@ Sets the Additional Authenticated Data on the GeneralEncrypt object.
 
 ▸ **setProtectedHeader**(`protectedHeader`): `this`
 
-Sets the JWE Protected Header on the GeneralEncrypt object.
+Sets the JWE Protected Header. May only be called once.
 
 #### Parameters
 
@@ -116,7 +116,7 @@ Sets the JWE Protected Header on the GeneralEncrypt object.
 
 ▸ **setSharedUnprotectedHeader**(`sharedUnprotectedHeader`): `this`
 
-Sets the JWE Shared Unprotected Header on the GeneralEncrypt object.
+Sets the JWE Shared Unprotected Header. May only be called once.
 
 #### Parameters
 

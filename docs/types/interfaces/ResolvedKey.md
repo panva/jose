@@ -18,4 +18,4 @@ Key resolver result metadata.
 
 • **key**: `KeyType`
 
-Key resolved from the key resolver function.
+The resolved key, present only when a key resolver is used.

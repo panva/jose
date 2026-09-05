@@ -27,7 +27,7 @@ console.log(jws)
 
 ▸ **new FlattenedSign**(`payload`): `FlattenedSign`
 
-FlattenedSign constructor
+Creates a Flattened JWS signer.
 
 #### Parameters
 
@@ -45,7 +45,7 @@ FlattenedSign constructor
 
 ▸ **setProtectedHeader**(`protectedHeader`): `this`
 
-Sets the JWS Protected Header on the FlattenedSign object.
+Sets the JWS Protected Header. May only be called once.
 
 #### Parameters
 
@@ -63,7 +63,7 @@ Sets the JWS Protected Header on the FlattenedSign object.
 
 ▸ **setUnprotectedHeader**(`unprotectedHeader`): `this`
 
-Sets the JWS Unprotected Header on the FlattenedSign object.
+Sets the JWS Unprotected Header. May only be called once.
 
 #### Parameters
 
@@ -81,13 +81,13 @@ Sets the JWS Unprotected Header on the FlattenedSign object.
 
 ▸ **sign**(`key`, `options?`): [`Promise`](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise)\<[`FlattenedJWS`](../../../../types/interfaces/FlattenedJWS.md)\>
 
-Signs and resolves the value of the Flattened JWS object.
+Signs the payload as a Flattened JWS.
 
 #### Parameters
 
 | Parameter | Type | Description |
 | ------ | ------ | ------ |
-| `key` | [`KeyInput`](../../../../types/type-aliases/KeyInput.md) | Private Key or Secret to sign the JWS with. See [Algorithm Key Requirements](https://github.com/panva/jose/issues/210#jws-alg). |
+| `key` | [`KeyInput`](../../../../types/type-aliases/KeyInput.md) | Private key or shared secret. See [Algorithm Key Requirements](https://github.com/panva/jose/issues/210#jws-alg). |
 | `options?` | [`SignOptions`](../../../../types/interfaces/SignOptions.md) | JWS Sign options. |
 
 #### Returns

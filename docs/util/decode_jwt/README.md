@@ -6,4 +6,4 @@ JSON Web Token (JWT) Claims Set Decoding (no validation, no signature checking)
 
 | Function | Description |
 | ------ | ------ |
-| [decodeJwt](functions/decodeJwt.md) | Decodes the Claims Set of a JWS-formatted JSON Web Token without verifying the signature. |
+| [decodeJwt](functions/decodeJwt.md) | Decodes the Claims Set of a JWT in Compact JWS serialization without checking its signature or validating claim types and values. |

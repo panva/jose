@@ -54,8 +54,8 @@ Whether the currently cached JSON Web Key Set is within its
 
 • **jwks**: () => [`JSONWebKeySet`](../../../types/interfaces/JSONWebKeySet.md) \| `undefined`
 
-The currently cached JSON Web Key Set, or `undefined` when none has been fetched or seeded via
-[jwksCache](../variables/jwksCache.md) yet.
+Returns a structured clone of the cached JSON Web Key Set, or `undefined` before keys have been
+fetched or seeded via [jwksCache](../variables/jwksCache.md).
 
 #### Returns
 

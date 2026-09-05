@@ -12,11 +12,8 @@ JWS Verification options.
 
 • `optional` **algorithms?**: `string`[]
 
-A list of accepted JWS "alg" (Algorithm) Header Parameter values. By default all "alg"
-(Algorithm) values applicable for the used key/secret are allowed.
-
-> [!NOTE]\
-> Unsecured JWTs (`{ "alg": "none" }`) are never accepted by this API.
+Accepted JWS "alg" (Algorithm) Header Parameter values. Defaults to all algorithms applicable
+to the key or secret. Unsecured JWTs (`alg: "none"`) are never accepted.
 
 ***
 
@@ -24,17 +21,14 @@ A list of accepted JWS "alg" (Algorithm) Header Parameter values. By default all
 
 • `optional` **crit?**: `object`
 
-An object with keys representing recognized "crit" (Critical) Header Parameter names. The value
-for those is either `true` or `false`. `true` when the Header Parameter MUST be integrity
-protected, `false` when it's irrelevant. The JWS extension Header Parameter `b64` is always
-recognized and processed properly; no other registered Header Parameters currently receive this
-built-in treatment.
+Recognized "crit" (Critical) Header Parameter names. Set each value to `true` to require
+integrity protection, or `false` when protection is optional. The JWS `b64` extension is always
+recognized and processed.
 
 > [!WARNING]\
-> This only checks that the Header Parameter is syntactically correct when provided and,
-> optionally, integrity protected. It does not process the Header Parameter or reject the
-> operation when it is missing. You MUST still verify its presence and process it according to
-> the profile's validation steps after the operation succeeds.
+> Other extensions are only checked for syntax and optional integrity protection. Their presence
+> is not required by this option. You must check their presence and process them according to the
+> profile's validation steps after the operation succeeds.
 
 #### Index Signature
 

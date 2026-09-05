@@ -18,7 +18,7 @@ as from its subpath export `'jose/jws/compact/verify'`.
 | Parameter | Type | Description |
 | ------ | ------ | ------ |
 | `jws` | `string` \| [`Uint8Array`](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Uint8Array) | Compact JWS. |
-| `key` | [`KeyInput`](../../../../types/type-aliases/KeyInput.md) | Key to verify the JWS with. See [Algorithm Key Requirements](https://github.com/panva/jose/issues/210#jws-alg). |
+| `key` | [`KeyInput`](../../../../types/type-aliases/KeyInput.md) | Public key or shared secret. See [Algorithm Key Requirements](https://github.com/panva/jose/issues/210#jws-alg). |
 | `options?` | [`VerifyOptions`](../../../../types/interfaces/VerifyOptions.md) | JWS Verify options. |
 
 ### Returns
@@ -41,8 +41,8 @@ console.log(new TextDecoder().decode(payload))
 
 ▸ **compactVerify**\<`KeyType`\>(`jws`, `getKey`, `options?`): [`Promise`](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise)\<[`CompactVerifyResult`](../../../../types/interfaces/CompactVerifyResult.md) & [`ResolvedKey`](../../../../types/interfaces/ResolvedKey.md)\<`KeyType`\>\>
 
-Verifies a Compact JWS signature and decodes its payload, resolving the key dynamically. The
-result additionally carries the [resolved key](../../../../types/interfaces/ResolvedKey.md#key).
+Verifies a Compact JWS signature and decodes its payload with a dynamically resolved key,
+included in the result.
 
 ### Type Parameters
 
@@ -55,7 +55,7 @@ result additionally carries the [resolved key](../../../../types/interfaces/Reso
 | Parameter | Type | Description |
 | ------ | ------ | ------ |
 | `jws` | `string` \| [`Uint8Array`](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Uint8Array) | Compact JWS. |
-| `getKey` | [`CompactVerifyGetKey`](../interfaces/CompactVerifyGetKey.md)\<`KeyType`\> | Function resolving a key to verify the JWS with. See [Algorithm Key Requirements](https://github.com/panva/jose/issues/210#jws-alg). |
+| `getKey` | [`CompactVerifyGetKey`](../interfaces/CompactVerifyGetKey.md)\<`KeyType`\> | Resolves a public key or shared secret from unverified token data. |
 | `options?` | [`VerifyOptions`](../../../../types/interfaces/VerifyOptions.md) | JWS Verify options. |
 
 ### Returns
@@ -66,16 +66,15 @@ result additionally carries the [resolved key](../../../../types/interfaces/Reso
 
 ▸ **compactVerify**(`jws`, `key`, `options?`): [`Promise`](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise)\<[`CompactVerifyResult`](../../../../types/interfaces/CompactVerifyResult.md) & [`Partial`](https://www.typescriptlang.org/docs/handbook/utility-types.html#partialtype)\<[`ResolvedKey`](../../../../types/interfaces/ResolvedKey.md)\<[`Uint8Array`](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Uint8Array) \| [`CryptoKey`](https://developer.mozilla.org/docs/Web/API/CryptoKey)\>\>\>
 
-Accepts either form of the `key` argument. Use this overload when forwarding a value that may be
-either a key or a key resolution function; `key` is present on the result only when a resolution
-function was used.
+Verifies a Compact JWS and decodes its payload using a key or key resolver. The result includes
+`key` only when a resolver is used.
 
 ### Parameters
 
 | Parameter | Type | Description |
 | ------ | ------ | ------ |
 | `jws` | `string` \| [`Uint8Array`](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Uint8Array) | Compact JWS. |
-| `key` | [`KeyInput`](../../../../types/type-aliases/KeyInput.md) \| [`CompactVerifyGetKey`](../interfaces/CompactVerifyGetKey.md)\<[`Uint8Array`](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Uint8Array) \| [`CryptoKey`](https://developer.mozilla.org/docs/Web/API/CryptoKey)\> | Key, or function resolving a key, to verify the JWS with. See [Algorithm Key Requirements](https://github.com/panva/jose/issues/210#jws-alg). |
+| `key` | [`KeyInput`](../../../../types/type-aliases/KeyInput.md) \| [`CompactVerifyGetKey`](../interfaces/CompactVerifyGetKey.md)\<[`Uint8Array`](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Uint8Array) \| [`CryptoKey`](https://developer.mozilla.org/docs/Web/API/CryptoKey)\> | Public key or shared secret, or a function resolving one. |
 | `options?` | [`VerifyOptions`](../../../../types/interfaces/VerifyOptions.md) | JWS Verify options. |
 
 ### Returns

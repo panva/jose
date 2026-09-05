@@ -31,7 +31,7 @@ export class CompactEncrypt {
   #input: EncryptInput
 
   /**
-   * {@link CompactEncrypt} constructor
+   * Creates a Compact JWE encryptor.
    *
    * @param plaintext Binary representation of the plaintext to encrypt.
    */
@@ -41,11 +41,10 @@ export class CompactEncrypt {
   }
 
   /**
-   * Sets a content encryption key to use, by default a random suitable one is generated for the JWE
-   * "enc" (Encryption Algorithm) Header Parameter.
+   * Sets a content encryption key instead of generating a random one for the JWE "enc" algorithm.
+   * May only be called once.
    *
-   * @deprecated You should not use this method. It is only really intended for test and vector
-   *   validation purposes.
+   * @deprecated Use only for testing and vector validation.
    *
    * @param cek JWE Content Encryption Key.
    */
@@ -56,11 +55,10 @@ export class CompactEncrypt {
   }
 
   /**
-   * Sets the JWE Initialization Vector to use for content encryption, by default a random suitable
-   * one is generated for the JWE "enc" (Encryption Algorithm) Header Parameter.
+   * Sets the content encryption IV instead of generating a random one for the JWE "enc" algorithm.
+   * May only be called once.
    *
-   * @deprecated You should not use this method. It is only really intended for test and vector
-   *   validation purposes.
+   * @deprecated Use only for testing and vector validation.
    *
    * @param iv JWE Initialization Vector.
    */
@@ -71,7 +69,7 @@ export class CompactEncrypt {
   }
 
   /**
-   * Sets the JWE Protected Header on the CompactEncrypt object.
+   * Sets the JWE Protected Header. May only be called once.
    *
    * @param protectedHeader JWE Protected Header object.
    */
@@ -82,10 +80,9 @@ export class CompactEncrypt {
   }
 
   /**
-   * Sets the JWE Key Management parameters to be used when encrypting. Use this method instead of
-   * the header setters to configure algorithm inputs such as ECDH-ES "apu" (Agreement PartyUInfo)
-   * and "apv" (Agreement PartyVInfo), or PBES2 "p2c" (PBES2 Count). The parameters are added to the
-   * appropriate JOSE Header.
+   * Sets key management inputs such as ECDH-ES "apu"/"apv" or PBES2 "p2c". Use this method instead
+   * of header setters; the resulting parameters are added to the JOSE header. May only be called
+   * once.
    *
    * @param parameters JWE Key Management parameters.
    */
@@ -96,9 +93,9 @@ export class CompactEncrypt {
   }
 
   /**
-   * Encrypts and resolves the value of the Compact JWE string.
+   * Encrypts the plaintext as a Compact JWE.
    *
-   * @param key Public Key or Secret to encrypt the JWE with. See
+   * @param key Public key or shared secret. See
    *   {@link https://github.com/panva/jose/issues/210#jwe-alg Algorithm Key Requirements}.
    * @param options JWE Encryption options.
    */

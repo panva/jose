@@ -12,14 +12,13 @@ Configures an individual signature in a General JWS.
 
 ▸ **addSignature**(`key`, `options?`): `Signature`
 
-A shorthand for calling [addSignature()](../classes/GeneralSign.md#addsignature) on the enclosing
-[GeneralSign](../classes/GeneralSign.md) instance.
+Adds another signature to the enclosing [GeneralSign](../classes/GeneralSign.md) and returns its configuration.
 
 #### Parameters
 
 | Parameter | Type | Description |
 | ------ | ------ | ------ |
-| `key` | [`KeyInput`](../../../../types/type-aliases/KeyInput.md) | Private Key or Secret to sign the individual JWS signature with. See [Algorithm Key Requirements](https://github.com/panva/jose/issues/210#jws-alg). |
+| `key` | [`KeyInput`](../../../../types/type-aliases/KeyInput.md) | Private key or shared secret. See [Algorithm Key Requirements](https://github.com/panva/jose/issues/210#jws-alg). |
 | `options?` | [`SignOptions`](../../../../types/interfaces/SignOptions.md) | JWS Sign options. |
 
 #### Returns
@@ -32,7 +31,7 @@ A shorthand for calling [addSignature()](../classes/GeneralSign.md#addsignature)
 
 ▸ **done**(): [`GeneralSign`](../classes/GeneralSign.md)
 
-Returns the enclosing [GeneralSign](../classes/GeneralSign.md) instance
+Returns the enclosing [GeneralSign](../classes/GeneralSign.md) instance.
 
 #### Returns
 
@@ -44,7 +43,7 @@ Returns the enclosing [GeneralSign](../classes/GeneralSign.md) instance
 
 ▸ **setProtectedHeader**(`protectedHeader`): `Signature`
 
-Sets the JWS Protected Header on the Signature object.
+Sets the JWS Protected Header. May only be called once.
 
 #### Parameters
 
@@ -62,7 +61,7 @@ Sets the JWS Protected Header on the Signature object.
 
 ▸ **setUnprotectedHeader**(`unprotectedHeader`): `Signature`
 
-Sets the JWS Unprotected Header on the Signature object.
+Sets the JWS Unprotected Header. May only be called once.
 
 #### Parameters
 
@@ -80,8 +79,7 @@ Sets the JWS Unprotected Header on the Signature object.
 
 ▸ **sign**(): [`Promise`](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise)\<[`GeneralJWS`](../../../../types/interfaces/GeneralJWS.md)\>
 
-A shorthand for calling [sign()](../classes/GeneralSign.md#sign) on the enclosing [GeneralSign](../classes/GeneralSign.md)
-instance. Takes no arguments — each signature's key is supplied to [addSignature](#addsignature).
+Creates all signatures on the enclosing [GeneralSign](../classes/GeneralSign.md), using their configured keys.
 
 #### Returns
 

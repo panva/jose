@@ -6,7 +6,7 @@ JSON Web Token (JWT) Verification (JWT is in JWS format)
 
 | Interface | Description |
 | ------ | ------ |
-| [JWTVerifyGetKey](interfaces/JWTVerifyGetKey.md) | Dynamic key resolver for JWT verification. |
+| [JWTVerifyGetKey](interfaces/JWTVerifyGetKey.md) | Resolves a JWT verification key. No token components have been authenticated when this function is called. |
 | [JWTVerifyOptions](interfaces/JWTVerifyOptions.md) | JWS verification and JWT Claims Set validation options. |
 
 ## Functions

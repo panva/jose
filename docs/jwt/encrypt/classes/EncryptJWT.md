@@ -30,13 +30,11 @@ console.log(jwt)
 
 ▸ **new EncryptJWT**(`payload?`): `EncryptJWT`
 
-EncryptJWT constructor
-
 #### Parameters
 
 | Parameter | Type | Description |
 | ------ | ------ | ------ |
-| `payload?` | [`JWTPayload`](../../../types/interfaces/JWTPayload.md) | The JWT Claims Set object. Defaults to an empty object. |
+| `payload?` | [`JWTPayload`](../../../types/interfaces/JWTPayload.md) | Initial JWT Claims Set. Defaults to an empty object. |
 
 #### Returns
 
@@ -54,7 +52,7 @@ Encrypts and returns the JWT.
 
 | Parameter | Type | Description |
 | ------ | ------ | ------ |
-| `key` | [`KeyInput`](../../../types/type-aliases/KeyInput.md) | Public Key or Secret to encrypt the JWT with. See [Algorithm Key Requirements](https://github.com/panva/jose/issues/210#jwe-alg). |
+| `key` | [`KeyInput`](../../../types/type-aliases/KeyInput.md) | Public key or shared secret to encrypt the JWT with. See [Algorithm Key Requirements](https://github.com/panva/jose/issues/210#jwe-alg). |
 | `options?` | [`EncryptOptions`](../../../types/interfaces/EncryptOptions.md) | JWE Encryption options. |
 
 #### Returns
@@ -67,7 +65,8 @@ Encrypts and returns the JWT.
 
 ▸ **replicateAudienceAsHeader**(): `this`
 
-Replicates the "aud" (Audience) Claim as a JWE Protected Header Parameter.
+Replicates the "aud" (Audience) Claim in the JWE Protected Header, exposing it without
+decryption.
 
 #### Returns
 
@@ -83,7 +82,8 @@ Replicates the "aud" (Audience) Claim as a JWE Protected Header Parameter.
 
 ▸ **replicateIssuerAsHeader**(): `this`
 
-Replicates the "iss" (Issuer) Claim as a JWE Protected Header Parameter.
+Replicates the "iss" (Issuer) Claim in the JWE Protected Header, exposing it without
+decryption.
 
 #### Returns
 
@@ -99,7 +99,8 @@ Replicates the "iss" (Issuer) Claim as a JWE Protected Header Parameter.
 
 ▸ **replicateSubjectAsHeader**(): `this`
 
-Replicates the "sub" (Subject) Claim as a JWE Protected Header Parameter.
+Replicates the "sub" (Subject) Claim in the JWE Protected Header, exposing it without
+decryption.
 
 #### Returns
 
@@ -133,8 +134,8 @@ Set the "aud" (Audience) Claim.
 
 ▸ **setContentEncryptionKey**(`cek`): `this`
 
-Sets a content encryption key to use, by default a random suitable one is generated for the JWE
-"enc" (Encryption Algorithm) Header Parameter.
+Sets the content encryption key. By default, a suitable random key is generated for the JWE
+"enc" (Encryption Algorithm). May only be called once.
 
 #### Parameters
 
@@ -148,8 +149,7 @@ Sets a content encryption key to use, by default a random suitable one is genera
 
 #### Deprecated
 
-You should not use this method. It is only really intended for test and vector
-  validation purposes.
+For testing and vector validation only; allow random generation in production.
 
 ***
 
@@ -157,10 +157,8 @@ You should not use this method. It is only really intended for test and vector
 
 ▸ **setExpirationTime**(`input`): `this`
 
-Set the "exp" (Expiration Time) Claim. A `number` is used directly, a `Date` is converted to a
-Unix timestamp, and a `string` is parsed as a time span relative to the current Unix timestamp.
-String units may be seconds, minutes, hours, days, weeks, or years; months are unsupported and
-a year is 365.25 days. A leading `-` or trailing `"ago"` subtracts the time span.
+Set the "exp" (Expiration Time) Claim. Accepts a Unix timestamp in seconds, a Date, or a
+duration relative to now using the same formats as [setNotBefore](../../../types/interfaces/ProduceJWT.md#setnotbefore).
 
 Format used for time span should be a number followed by a unit, such as "5 minutes" or "1
 day".
@@ -175,7 +173,7 @@ A "from now" suffix can be used for readability when adding to the current Unix 
 
 | Parameter | Type | Description |
 | ------ | ------ | ------ |
-| `input` | `string` \| `number` \| [`Date`](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Date) | "exp" (Expiration Time) Claim value to set on the JWT Claims Set. |
+| `input` | `string` \| `number` \| [`Date`](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Date) | "exp" (Expiration Time) Claim value as a timestamp, Date, or relative duration. |
 
 #### Returns
 
@@ -187,8 +185,8 @@ A "from now" suffix can be used for readability when adding to the current Unix 
 
 ▸ **setInitializationVector**(`iv`): `this`
 
-Sets the JWE Initialization Vector to use for content encryption, by default a random suitable
-one is generated for the JWE "enc" (Encryption Algorithm) Header Parameter.
+Sets the Initialization Vector for content encryption. By default, a suitable random IV is
+generated for the JWE "enc" (Encryption Algorithm). May only be called once.
 
 #### Parameters
 
@@ -202,8 +200,7 @@ one is generated for the JWE "enc" (Encryption Algorithm) Header Parameter.
 
 #### Deprecated
 
-You should not use this method. It is only really intended for test and vector
-  validation purposes.
+For testing and vector validation only; allow random generation in production.
 
 ***
 
@@ -211,11 +208,9 @@ You should not use this method. It is only really intended for test and vector
 
 ▸ **setIssuedAt**(`input?`): `this`
 
-Set the "iat" (Issued At) Claim. With no argument the current Unix timestamp is used. A
-`number` is used directly, a `Date` is converted to a Unix timestamp, and a `string` is parsed
-as a time span relative to the current Unix timestamp. String units may be seconds, minutes,
-hours, days, weeks, or years; months are unsupported and a year is 365.25 days. A leading `-`
-or trailing `"ago"` subtracts the time span.
+Set the "iat" (Issued At) Claim. Defaults to the current Unix timestamp in seconds. Accepts a
+Unix timestamp in seconds, a Date, or a duration relative to now using the same formats as
+[setNotBefore](../../../types/interfaces/ProduceJWT.md#setnotbefore).
 
 Format used for time span should be a number followed by a unit, such as "5 minutes" or "1
 day".
@@ -230,7 +225,7 @@ A "from now" suffix can be used for readability when adding to the current Unix 
 
 | Parameter | Type | Description |
 | ------ | ------ | ------ |
-| `input?` | `string` \| `number` \| [`Date`](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Date) | "iat" (Issued At) Claim value to set on the JWT Claims Set. |
+| `input?` | `string` \| `number` \| [`Date`](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Date) | "iat" (Issued At) Claim value as a timestamp, Date, or relative duration. |
 
 #### Returns
 
@@ -278,10 +273,9 @@ Set the "jti" (JWT ID) Claim.
 
 ▸ **setKeyManagementParameters**(`parameters`): `this`
 
-Sets the JWE Key Management parameters to be used when encrypting. Use this method instead of
-the header setters to configure algorithm inputs such as ECDH-ES "apu" (Agreement PartyUInfo)
-and "apv" (Agreement PartyVInfo), or PBES2 "p2c" (PBES2 Count). The parameters are added to the
-appropriate JOSE Header.
+Sets JWE Key Management parameters, such as ECDH-ES "apu" and "apv" or PBES2 "p2c", and adds
+them to the appropriate JOSE Header. Use this instead of the header setters for algorithm
+inputs. May only be called once.
 
 #### Parameters
 
@@ -299,10 +293,9 @@ appropriate JOSE Header.
 
 ▸ **setNotBefore**(`input`): `this`
 
-Set the "nbf" (Not Before) Claim. A `number` is used directly, a `Date` is converted to a Unix
-timestamp, and a `string` is parsed as a time span relative to the current Unix timestamp.
-String units may be seconds, minutes, hours, days, weeks, or years; months are unsupported and
-a year is 365.25 days. A leading `-` or trailing `"ago"` subtracts the time span.
+Set the "nbf" (Not Before) Claim. Numbers are Unix timestamps in seconds; Dates are converted
+to seconds. Strings are relative to now, using seconds, minutes, hours, days, weeks, or years
+(365.25 days; no months). Prefix `-` or suffix `ago` subtracts the duration.
 
 Format used for time span should be a number followed by a unit, such as "5 minutes" or "1
 day".
@@ -317,7 +310,7 @@ A "from now" suffix can be used for readability when adding to the current Unix 
 
 | Parameter | Type | Description |
 | ------ | ------ | ------ |
-| `input` | `string` \| `number` \| [`Date`](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Date) | "nbf" (Not Before) Claim value to set on the JWT Claims Set. |
+| `input` | `string` \| `number` \| [`Date`](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Date) | "nbf" (Not Before) Claim value as a timestamp, Date, or relative duration. |
 
 #### Returns
 
@@ -329,7 +322,7 @@ A "from now" suffix can be used for readability when adding to the current Unix 
 
 ▸ **setProtectedHeader**(`protectedHeader`): `this`
 
-Sets the JWE Protected Header on the EncryptJWT object.
+Sets the JWE Protected Header. May only be called once.
 
 #### Parameters
 

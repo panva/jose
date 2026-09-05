@@ -6,5 +6,5 @@ Base64URL encoding and decoding utilities
 
 | Function | Description |
 | ------ | ------ |
-| [decode](functions/decode.md) | Decodes a base64url-encoded input. |
-| [encode](functions/encode.md) | Encodes input using unpadded base64url. |
+| [decode](functions/decode.md) | Decodes base64url text or its UTF-8 bytes. |
+| [encode](functions/encode.md) | Encodes unpadded base64url; strings are first encoded as UTF-8. |

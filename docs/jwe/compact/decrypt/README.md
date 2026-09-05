@@ -6,7 +6,7 @@ Decrypting JSON Web Encryption (JWE) in Compact Serialization
 
 | Interface | Description |
 | ------ | ------ |
-| [CompactDecryptGetKey](interfaces/CompactDecryptGetKey.md) | Dynamic key resolver for Compact JWE decryption. |
+| [CompactDecryptGetKey](interfaces/CompactDecryptGetKey.md) | Resolves a key for Compact JWE decryption from unverified headers and token data. |
 
 ## Functions
 

@@ -6,18 +6,16 @@ Support from the community to continue maintaining and improving this module is 
 
 ▸ **createLocalJWKSet**(`jwks`): [`LocalJWKSet`](../interfaces/LocalJWKSet.md)
 
-Creates a resolver for a locally available JSON Web Key Set.
+Creates a resolver for a locally available JSON Web Key Set. Selection uses the header's "alg"
+(Algorithm) and "kid" (Key ID), and respects the JWK's "use" (Public Key Use) and "key_ops" (Key
+Operations). Exactly one key must match.
 
-Selection uses the header's "alg" (Algorithm) and "kid" (Key ID), and respects the JWK's "use"
-(Public Key Use) and "key_ops" (Key Operations). Exactly one key must match.
-
-Only a single public key must match the selection process. As shown in the example below when
-multiple keys get matched it is possible to opt-in to iterate over the matched keys and attempt
-verification in an iterative manner.
+If multiple keys match, the thrown [util/errors.JWKSMultipleMatchingKeys](../../../util/errors/classes/JWKSMultipleMatchingKeys.md) error exposes an
+async iterator over the matching keys. The example below shows how to attempt verification with
+each.
 
 > [!NOTE]\
-> The function's purpose is to resolve public keys used for verifying signatures and will not work
-> for public encryption keys.
+> Only public signature verification keys are supported, not public encryption keys.
 
 This function is exported (as a named export) from the main `'jose'` module entry point as well
 as from its subpath export `'jose/jwks/local'`.

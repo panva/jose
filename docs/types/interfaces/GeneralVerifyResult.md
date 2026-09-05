@@ -28,4 +28,4 @@ JWS Protected Header.
 
 • `optional` **unprotectedHeader?**: [`JWSHeaderParameters`](JWSHeaderParameters.md)
 
-JWS Unprotected Header.
+JWS Unprotected Header. Not integrity protected.

@@ -9,9 +9,7 @@ import { prepareVerify, verifyCompact } from '../../lib/jws_verify.js'
 import type { VerifyGetKey } from '../../lib/jws_verify.js'
 
 /**
- * Dynamic key resolver for Compact JWS verification.
- *
- * No token components have been verified at the time of this function call.
+ * Resolves a key for Compact JWS verification from unverified headers and token data.
  *
  * @typeParam KeyType Type definition of the keys the function resolves. Narrowing it is what lets
  *   {@link types.ResolvedKey.key ResolvedKey.key} be inferred at the call site.
@@ -45,7 +43,7 @@ export interface CompactVerifyGetKey<
  * ```
  *
  * @param jws Compact JWS.
- * @param key Key to verify the JWS with. See
+ * @param key Public key or shared secret. See
  *   {@link https://github.com/panva/jose/issues/210#jws-alg Algorithm Key Requirements}.
  * @param options JWS Verify options.
  */
@@ -55,12 +53,11 @@ export function compactVerify(
   options?: types.VerifyOptions,
 ): Promise<types.CompactVerifyResult>
 /**
- * Verifies a Compact JWS signature and decodes its payload, resolving the key dynamically. The
- * result additionally carries the {@link types.ResolvedKey.key resolved key}.
+ * Verifies a Compact JWS signature and decodes its payload with a dynamically resolved key,
+ * included in the result.
  *
  * @param jws Compact JWS.
- * @param getKey Function resolving a key to verify the JWS with. See
- *   {@link https://github.com/panva/jose/issues/210#jws-alg Algorithm Key Requirements}.
+ * @param getKey Resolves a public key or shared secret from unverified token data.
  * @param options JWS Verify options.
  */
 export function compactVerify<
@@ -71,13 +68,11 @@ export function compactVerify<
   options?: types.VerifyOptions,
 ): Promise<types.CompactVerifyResult & types.ResolvedKey<KeyType>>
 /**
- * Accepts either form of the `key` argument. Use this overload when forwarding a value that may be
- * either a key or a key resolution function; `key` is present on the result only when a resolution
- * function was used.
+ * Verifies a Compact JWS and decodes its payload using a key or key resolver. The result includes
+ * `key` only when a resolver is used.
  *
  * @param jws Compact JWS.
- * @param key Key, or function resolving a key, to verify the JWS with. See
- *   {@link https://github.com/panva/jose/issues/210#jws-alg Algorithm Key Requirements}.
+ * @param key Public key or shared secret, or a function resolving one.
  * @param options JWS Verify options.
  */
 export function compactVerify(

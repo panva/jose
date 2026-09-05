@@ -12,8 +12,8 @@ JWE Decryption options.
 
 • `optional` **contentEncryptionAlgorithms?**: `string`[]
 
-A list of accepted JWE "enc" (Encryption Algorithm) Header Parameter values. By default all
-"enc" (Encryption Algorithm) values applicable for the used key/secret are allowed.
+Accepted JWE "enc" (Encryption Algorithm) Header Parameter values. Defaults to all algorithms
+applicable to the key or secret.
 
 ***
 
@@ -21,17 +21,14 @@ A list of accepted JWE "enc" (Encryption Algorithm) Header Parameter values. By 
 
 • `optional` **crit?**: `object`
 
-An object with keys representing recognized "crit" (Critical) Header Parameter names. The value
-for those is either `true` or `false`. `true` when the Header Parameter MUST be integrity
-protected, `false` when it's irrelevant. The JWS extension Header Parameter `b64` is always
-recognized and processed properly; no other registered Header Parameters currently receive this
-built-in treatment.
+Recognized "crit" (Critical) Header Parameter names. Set each value to `true` to require
+integrity protection, or `false` when protection is optional. The JWS `b64` extension is always
+recognized and processed.
 
 > [!WARNING]\
-> This only checks that the Header Parameter is syntactically correct when provided and,
-> optionally, integrity protected. It does not process the Header Parameter or reject the
-> operation when it is missing. You MUST still verify its presence and process it according to
-> the profile's validation steps after the operation succeeds.
+> Other extensions are only checked for syntax and optional integrity protection. Their presence
+> is not required by this option. You must check their presence and process them according to the
+> profile's validation steps after the operation succeeds.
 
 #### Index Signature
 
@@ -43,9 +40,8 @@ built-in treatment.
 
 • `optional` **keyManagementAlgorithms?**: `string`[]
 
-A list of accepted JWE "alg" (Algorithm) Header Parameter values. By default all "alg"
-(Algorithm) Header Parameter values applicable for the used key/secret are allowed except for
-all PBES2 Key Management Algorithms, these need to be explicitly allowed using this option.
+Accepted JWE "alg" (Algorithm) Header Parameter values. Defaults to all algorithms applicable
+to the key or secret except PBES2, which must be explicitly allowed.
 
 ***
 
@@ -53,10 +49,8 @@ all PBES2 Key Management Algorithms, these need to be explicitly allowed using t
 
 • `optional` **maxDecompressedLength?**: `number`
 
-Maximum allowed size (in bytes) of the decompressed plaintext when the JWE `"zip"` (Compression
-Algorithm) Header Parameter is present. By default this value is set to 250000 (250 KB). The
-value must be `0`, a positive safe integer, or `Infinity`. Set it to `0` to reject all
-compressed JWEs during decryption or to `Infinity` to disable the decompressed size limit.
+Maximum decompressed plaintext size in bytes. Defaults to 250000; `0` rejects compressed JWEs,
+and `Infinity` disables the limit. Other values must be positive safe integers.
 
 ***
 
@@ -64,7 +58,6 @@ compressed JWEs during decryption or to `Infinity` to disable the decompressed s
 
 • `optional` **maxPBES2Count?**: `number`
 
-(PBES2 Key Management Algorithms only) Maximum allowed "p2c" (PBES2 Count) Header Parameter
-value. The PBKDF2 iteration count defines the algorithm's computational expense. By default
-this value is set to 10000. The value must be a positive safe integer or `Infinity`. Set it to
-`Infinity` to disable the limit.
+Maximum "p2c" (PBES2 Count) Header Parameter value, limiting PBKDF2 iterations and their
+computational expense. Defaults to 10000; must be a positive safe integer or `Infinity` to
+disable the limit.

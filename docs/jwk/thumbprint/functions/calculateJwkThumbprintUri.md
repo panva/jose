@@ -6,7 +6,7 @@ Support from the community to continue maintaining and improving this module is 
 
 ▸ **calculateJwkThumbprintUri**(`key`, `digestAlgorithm?`): [`Promise`](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise)\<`string`\>
 
-Calculates a JSON Web Key (JWK) Thumbprint URI.
+Calculates a JWK Thumbprint URI. CryptoKey inputs must be extractable.
 
 This function is exported (as a named export) from the main `'jose'` module entry point as well
 as from its subpath export `'jose/jwk/thumbprint'`.
@@ -16,7 +16,7 @@ as from its subpath export `'jose/jwk/thumbprint'`.
 | Parameter | Type | Description |
 | ------ | ------ | ------ |
 | `key` | [`CryptoKey`](https://developer.mozilla.org/docs/Web/API/CryptoKey) \| [`JWK`](../../../types/type-aliases/JWK.md) \| [`KeyObject`](../../../types/interfaces/KeyObject.md) | Key to calculate the thumbprint for. |
-| `digestAlgorithm?` | `"sha256"` \| `"sha384"` \| `"sha512"` | Digest Algorithm to use for calculating the thumbprint. Default is "sha256". |
+| `digestAlgorithm?` | `"sha256"` \| `"sha384"` \| `"sha512"` | Digest algorithm. Defaults to "sha256". |
 
 ## Returns
 

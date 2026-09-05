@@ -15,9 +15,8 @@ export interface JWTDecryptOptions
   extends types.DecryptOptions, types.JWTClaimVerificationOptions {}
 
 /**
- * Dynamic key resolver for JWT decryption.
- *
- * No token components have been verified at the time of this function call.
+ * Resolves a JWT decryption key. No token components have been authenticated when this function is
+ * called.
  *
  * @typeParam KeyType Type definition of the keys the function resolves. Narrowing it is what lets
  *   {@link types.ResolvedKey.key ResolvedKey.key} be inferred at the call site.
@@ -53,7 +52,7 @@ export interface JWTDecryptGetKey<
  * ```
  *
  * @param jwt JSON Web Token value (encoded as JWE).
- * @param key Private Key or Secret to decrypt and verify the JWT with. See
+ * @param key Private key or shared secret to decrypt and verify the JWT with. See
  *   {@link https://github.com/panva/jose/issues/210#jwe-alg Algorithm Key Requirements}.
  * @param options JWT Decryption and JWT Claims Set validation options.
  */
@@ -63,12 +62,12 @@ export function jwtDecrypt<PayloadType = types.JWTPayload>(
   options?: JWTDecryptOptions,
 ): Promise<types.JWTDecryptResult<PayloadType>>
 /**
- * Decrypts a JWT and validates its JWT Claims Set, resolving the key dynamically. The result
- * additionally carries the {@link types.ResolvedKey.key resolved key}.
+ * Decrypts a JWT and validates its claims, returning the dynamically
+ * {@link types.ResolvedKey.key resolved key}.
  *
  * @param jwt JSON Web Token value (encoded as JWE).
- * @param getKey Function resolving Private Key or Secret to decrypt and verify the JWT with. See
- *   {@link https://github.com/panva/jose/issues/210#jwe-alg Algorithm Key Requirements}.
+ * @param getKey Function resolving a private key or shared secret to decrypt and verify the JWT
+ *   with. See {@link https://github.com/panva/jose/issues/210#jwe-alg Algorithm Key Requirements}.
  * @param options JWT Decryption and JWT Claims Set validation options.
  */
 export function jwtDecrypt<
@@ -80,13 +79,13 @@ export function jwtDecrypt<
   options?: JWTDecryptOptions,
 ): Promise<types.JWTDecryptResult<PayloadType> & types.ResolvedKey<KeyType>>
 /**
- * Accepts either form of the `key` argument. Use this overload when forwarding a value that may be
- * either a key or a key resolution function; `key` is present on the result only when a resolution
- * function was used.
+ * Accepts a key or key resolver. Use this overload when forwarding either form; the result includes
+ * `key` only when a resolver was used.
  *
  * @param jwt JSON Web Token value (encoded as JWE).
- * @param key Private Key or Secret, or a function resolving one, to decrypt and verify the JWT
- *   with. See {@link https://github.com/panva/jose/issues/210#jwe-alg Algorithm Key Requirements}.
+ * @param key Private key or shared secret, or a function resolving one, to decrypt and verify the
+ *   JWT with. See
+ *   {@link https://github.com/panva/jose/issues/210#jwe-alg Algorithm Key Requirements}.
  * @param options JWT Decryption and JWT Claims Set validation options.
  */
 export function jwtDecrypt<PayloadType = types.JWTPayload>(

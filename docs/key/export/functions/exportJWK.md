@@ -6,7 +6,7 @@ Support from the community to continue maintaining and improving this module is 
 
 ▸ **exportJWK**(`key`): [`Promise`](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise)\<[`JWK`](../../../types/type-aliases/JWK.md)\>
 
-Exports a [CryptoKey](https://developer.mozilla.org/docs/Web/API/CryptoKey), [KeyObject](https://nodejs.org/api/crypto.html#class-keyobject), or [Uint8Array](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Uint8Array) to a JWK.
+Exports a key to JWK. CryptoKey inputs must be extractable.
 
 This function is exported (as a named export) from the main `'jose'` module entry point as well
 as from its subpath export `'jose/key/export'`.
@@ -15,7 +15,7 @@ as from its subpath export `'jose/key/export'`.
 
 | Parameter | Type | Description |
 | ------ | ------ | ------ |
-| `key` | [`Uint8Array`](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Uint8Array) \| [`CryptoKey`](https://developer.mozilla.org/docs/Web/API/CryptoKey) \| [`KeyObject`](../../../types/interfaces/KeyObject.md) | Key to export as JWK. |
+| `key` | [`Uint8Array`](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Uint8Array) \| [`CryptoKey`](https://developer.mozilla.org/docs/Web/API/CryptoKey) \| [`KeyObject`](../../../types/interfaces/KeyObject.md) | Key to export. |
 
 ## Returns
 

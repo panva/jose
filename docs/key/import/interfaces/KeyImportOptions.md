@@ -12,5 +12,5 @@ Key import options.
 
 • `optional` **extractable?**: `boolean`
 
-The value to use as [SubtleCrypto.importKey](https://developer.mozilla.org/docs/Web/API/SubtleCrypto/importKey) `extractable` argument. Default is false for
-private keys, true otherwise.
+Whether the imported CryptoKey is extractable. Overrides JWK "ext" when set. Without either,
+defaults to false for private keys, true otherwise.

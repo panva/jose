@@ -12,14 +12,13 @@ Configures an individual recipient in a General JWE.
 
 ▸ **addRecipient**(`key`, `options?`): `Recipient`
 
-A shorthand for calling [addRecipient()](../classes/GeneralEncrypt.md#addrecipient) on the enclosing
-[GeneralEncrypt](../classes/GeneralEncrypt.md) instance.
+Adds another recipient to the enclosing [GeneralEncrypt](../classes/GeneralEncrypt.md) and returns its configuration.
 
 #### Parameters
 
 | Parameter | Type | Description |
 | ------ | ------ | ------ |
-| `key` | [`KeyInput`](../../../../types/type-aliases/KeyInput.md) | Public Key or Secret to encrypt the Content Encryption Key for the recipient with. See [Algorithm Key Requirements](https://github.com/panva/jose/issues/210#jwe-alg). |
+| `key` | [`KeyInput`](../../../../types/type-aliases/KeyInput.md) | Public key or shared secret. See [Algorithm Key Requirements](https://github.com/panva/jose/issues/210#jwe-alg). |
 | `options?` | [`CritOption`](../../../../types/interfaces/CritOption.md) | JWE Encryption options. |
 
 #### Returns
@@ -32,7 +31,7 @@ A shorthand for calling [addRecipient()](../classes/GeneralEncrypt.md#addrecipie
 
 ▸ **done**(): [`GeneralEncrypt`](../classes/GeneralEncrypt.md)
 
-Returns the enclosing [GeneralEncrypt](../classes/GeneralEncrypt.md) instance
+Returns the enclosing [GeneralEncrypt](../classes/GeneralEncrypt.md) instance.
 
 #### Returns
 
@@ -44,9 +43,8 @@ Returns the enclosing [GeneralEncrypt](../classes/GeneralEncrypt.md) instance
 
 ▸ **encrypt**(): [`Promise`](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise)\<[`GeneralJWE`](../../../../types/interfaces/GeneralJWE.md)\>
 
-A shorthand for calling [encrypt()](../classes/GeneralEncrypt.md#encrypt) on the enclosing
-[GeneralEncrypt](../classes/GeneralEncrypt.md) instance. Takes no arguments — each recipient's key is supplied to
-[addRecipient](#addrecipient).
+Encrypts for all recipients on the enclosing [GeneralEncrypt](../classes/GeneralEncrypt.md), using their configured
+keys.
 
 #### Returns
 
@@ -58,10 +56,9 @@ A shorthand for calling [encrypt()](../classes/GeneralEncrypt.md#encrypt) on the
 
 ▸ **setKeyManagementParameters**(`parameters`): `Recipient`
 
-Sets the JWE Key Management parameters to be used when encrypting. Use this method instead of
-the header setters to configure algorithm inputs such as ECDH-ES "apu" (Agreement PartyUInfo)
-and "apv" (Agreement PartyVInfo), or PBES2 "p2c" (PBES2 Count). The parameters are added to the
-appropriate JOSE Header.
+Sets key management inputs such as ECDH-ES "apu"/"apv" or PBES2 "p2c". Use this method instead
+of header setters; the resulting parameters are added to the JOSE header. May only be called
+once.
 
 #### Parameters
 
@@ -79,7 +76,7 @@ appropriate JOSE Header.
 
 ▸ **setUnprotectedHeader**(`unprotectedHeader`): `Recipient`
 
-Sets the JWE Per-Recipient Unprotected Header on the Recipient object.
+Sets the JWE Per-Recipient Unprotected Header. May only be called once.
 
 #### Parameters
 

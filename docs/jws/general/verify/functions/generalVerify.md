@@ -14,19 +14,16 @@ This function is exported (as a named export) from the main `'jose'` module entr
 as from its subpath export `'jose/jws/general/verify'`.
 
 > [!NOTE]\
-> The function iterates over the `signatures` array in the General JWS and returns the verification
-> result of the first signature entry that can be successfully verified. The result only contains
-> the payload, protected header, and unprotected header of that successfully verified signature
-> entry. Other signature entries' headers may be inspected solely to reject inconsistent use of the
-> JWS Unencoded Payload Option, and their headers are not included in the returned result.
-> Recipients of a General JWS should only rely on the returned (verified) data.
+> Returns payload and headers from the first signature that verifies successfully. Other entries'
+> headers may be inspected to reject inconsistent use of the JWS Unencoded Payload Option, but are
+> not included in the result. Rely only on the returned data.
 
 ### Parameters
 
 | Parameter | Type | Description |
 | ------ | ------ | ------ |
 | `jws` | [`GeneralJWSInput`](../../../../types/interfaces/GeneralJWSInput.md) | General JWS. |
-| `key` | [`KeyInput`](../../../../types/type-aliases/KeyInput.md) | Key to verify the JWS with. See [Algorithm Key Requirements](https://github.com/panva/jose/issues/210#jws-alg). |
+| `key` | [`KeyInput`](../../../../types/type-aliases/KeyInput.md) | Public key or shared secret. See [Algorithm Key Requirements](https://github.com/panva/jose/issues/210#jws-alg). |
 | `options?` | [`VerifyOptions`](../../../../types/interfaces/VerifyOptions.md) | JWS Verify options. |
 
 ### Returns
@@ -57,8 +54,8 @@ console.log(new TextDecoder().decode(payload))
 
 ▸ **generalVerify**\<`KeyType`\>(`jws`, `getKey`, `options?`): [`Promise`](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise)\<[`GeneralVerifyResult`](../../../../types/interfaces/GeneralVerifyResult.md) & [`ResolvedKey`](../../../../types/interfaces/ResolvedKey.md)\<`KeyType`\>\>
 
-Verifies a General JWS signature and decodes its payload, resolving the key dynamically. The
-result additionally carries the [resolved key](../../../../types/interfaces/ResolvedKey.md#key).
+Verifies a General JWS signature and decodes its payload with a dynamically resolved key,
+included in the result.
 
 ### Type Parameters
 
@@ -71,7 +68,7 @@ result additionally carries the [resolved key](../../../../types/interfaces/Reso
 | Parameter | Type | Description |
 | ------ | ------ | ------ |
 | `jws` | [`GeneralJWSInput`](../../../../types/interfaces/GeneralJWSInput.md) | General JWS. |
-| `getKey` | [`GeneralVerifyGetKey`](../interfaces/GeneralVerifyGetKey.md)\<`KeyType`\> | Function resolving a key to verify the JWS with. See [Algorithm Key Requirements](https://github.com/panva/jose/issues/210#jws-alg). |
+| `getKey` | [`GeneralVerifyGetKey`](../interfaces/GeneralVerifyGetKey.md)\<`KeyType`\> | Resolves a public key or shared secret from unverified token data. |
 | `options?` | [`VerifyOptions`](../../../../types/interfaces/VerifyOptions.md) | JWS Verify options. |
 
 ### Returns
@@ -82,16 +79,15 @@ result additionally carries the [resolved key](../../../../types/interfaces/Reso
 
 ▸ **generalVerify**(`jws`, `key`, `options?`): [`Promise`](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise)\<[`GeneralVerifyResult`](../../../../types/interfaces/GeneralVerifyResult.md) & [`Partial`](https://www.typescriptlang.org/docs/handbook/utility-types.html#partialtype)\<[`ResolvedKey`](../../../../types/interfaces/ResolvedKey.md)\<[`Uint8Array`](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Uint8Array) \| [`CryptoKey`](https://developer.mozilla.org/docs/Web/API/CryptoKey)\>\>\>
 
-Accepts either form of the `key` argument. Use this overload when forwarding a value that may be
-either a key or a key resolution function; `key` is present on the result only when a resolution
-function was used.
+Verifies a General JWS and decodes its payload using a key or key resolver. The result includes
+`key` only when a resolver is used.
 
 ### Parameters
 
 | Parameter | Type | Description |
 | ------ | ------ | ------ |
 | `jws` | [`GeneralJWSInput`](../../../../types/interfaces/GeneralJWSInput.md) | General JWS. |
-| `key` | [`KeyInput`](../../../../types/type-aliases/KeyInput.md) \| [`GeneralVerifyGetKey`](../interfaces/GeneralVerifyGetKey.md)\<[`Uint8Array`](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Uint8Array) \| [`CryptoKey`](https://developer.mozilla.org/docs/Web/API/CryptoKey)\> | Key, or function resolving a key, to verify the JWS with. See [Algorithm Key Requirements](https://github.com/panva/jose/issues/210#jws-alg). |
+| `key` | [`KeyInput`](../../../../types/type-aliases/KeyInput.md) \| [`GeneralVerifyGetKey`](../interfaces/GeneralVerifyGetKey.md)\<[`Uint8Array`](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Uint8Array) \| [`CryptoKey`](https://developer.mozilla.org/docs/Web/API/CryptoKey)\> | Public key or shared secret, or a function resolving one. |
 | `options?` | [`VerifyOptions`](../../../../types/interfaces/VerifyOptions.md) | JWS Verify options. |
 
 ### Returns

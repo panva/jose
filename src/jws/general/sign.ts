@@ -13,36 +13,32 @@ import { assertNotSet, assertUint8Array } from '../../lib/validate.js'
 /** Configures an individual signature in a General JWS. */
 export interface Signature {
   /**
-   * Sets the JWS Protected Header on the Signature object.
+   * Sets the JWS Protected Header. May only be called once.
    *
    * @param protectedHeader JWS Protected Header.
    */
   setProtectedHeader(protectedHeader: types.JWSHeaderParameters): Signature
 
   /**
-   * Sets the JWS Unprotected Header on the Signature object.
+   * Sets the JWS Unprotected Header. May only be called once.
    *
    * @param unprotectedHeader JWS Unprotected Header.
    */
   setUnprotectedHeader(unprotectedHeader: types.JWSHeaderParameters): Signature
 
   /**
-   * A shorthand for calling {@link GeneralSign.addSignature addSignature()} on the enclosing
-   * {@link GeneralSign} instance.
+   * Adds another signature to the enclosing {@link GeneralSign} and returns its configuration.
    *
-   * @param key Private Key or Secret to sign the individual JWS signature with. See
+   * @param key Private key or shared secret. See
    *   {@link https://github.com/panva/jose/issues/210#jws-alg Algorithm Key Requirements}.
    * @param options JWS Sign options.
    */
   addSignature(key: types.KeyInput, options?: types.SignOptions): Signature
 
-  /**
-   * A shorthand for calling {@link GeneralSign.sign sign()} on the enclosing {@link GeneralSign}
-   * instance. Takes no arguments — each signature's key is supplied to {@link addSignature}.
-   */
+  /** Creates all signatures on the enclosing {@link GeneralSign}, using their configured keys. */
   sign(): Promise<types.GeneralJWS>
 
-  /** Returns the enclosing {@link GeneralSign} instance */
+  /** Returns the enclosing {@link GeneralSign} instance. */
   done(): GeneralSign
 }
 
@@ -115,7 +111,7 @@ export class GeneralSign {
   #signatures: IndividualSignature[] = []
 
   /**
-   * {@link GeneralSign} constructor
+   * Creates a General JWS signer.
    *
    * @param payload Binary representation of the payload to sign.
    */
@@ -124,9 +120,9 @@ export class GeneralSign {
   }
 
   /**
-   * Adds an additional signature for the General JWS object.
+   * Adds a signature and returns its configuration.
    *
-   * @param key Private Key or Secret to sign the individual JWS signature with. See
+   * @param key Private key or shared secret. See
    *   {@link https://github.com/panva/jose/issues/210#jws-alg Algorithm Key Requirements}.
    * @param options JWS Sign options.
    */
@@ -136,7 +132,7 @@ export class GeneralSign {
     return signature
   }
 
-  /** Signs and resolves the value of the General JWS object. */
+  /** Signs the payload as a General JWS. */
   async sign(): Promise<types.GeneralJWS> {
     if (!this.#signatures.length) {
       throw new JWSInvalid('at least one signature must be added')

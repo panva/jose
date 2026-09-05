@@ -32,7 +32,7 @@ export class CompactSign {
   #protectedHeader!: types.CompactJWSHeaderParameters
 
   /**
-   * {@link CompactSign} constructor
+   * Creates a Compact JWS signer.
    *
    * @param payload Binary representation of the payload to sign.
    */
@@ -42,7 +42,7 @@ export class CompactSign {
   }
 
   /**
-   * Sets the JWS Protected Header on the CompactSign object.
+   * Sets the JWS Protected Header. May only be called once.
    *
    * @param protectedHeader JWS Protected Header.
    */
@@ -53,9 +53,9 @@ export class CompactSign {
   }
 
   /**
-   * Signs and resolves the value of the Compact JWS string.
+   * Signs the payload as a Compact JWS.
    *
-   * @param key Private Key or Secret to sign the JWS with. See
+   * @param key Private key or shared secret. See
    *   {@link https://github.com/panva/jose/issues/210#jws-alg Algorithm Key Requirements}.
    * @param options JWS Sign options.
    */

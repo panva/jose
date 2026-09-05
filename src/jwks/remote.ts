@@ -32,14 +32,14 @@ if (typeof navigator === 'undefined' || !navigator.userAgent?.startsWith?.('Mozi
 }
 
 /**
- * Symbol used to configure a custom fetch implementation for remote JWKS retrieval.
+ * Configures a custom fetch implementation for remote JWKS retrieval.
  *
  * Pass this to {@link jwks/remote.createRemoteJWKSet createRemoteJWKSet} to use advanced fetch
  * configurations, HTTP proxies, network-error retries, and similar behavior.
  *
  * > [!NOTE]\
- * > Known caveat: Expect Type-related issues when passing the inputs through to fetch-like modules,
- * > they hardly ever get their typings inline with actual fetch, you should `@ts-expect-error` them.
+ * > Fetch-like libraries may have incompatible TypeScript signatures even when they accept the
+ * > supplied arguments at runtime.
  *
  * @example
  *
@@ -161,15 +161,13 @@ if (typeof navigator === 'undefined' || !navigator.userAgent?.startsWith?.('Mozi
  */
 export const customFetch: unique symbol = Symbol()
 
-/** Function signature accepted by {@link customFetch}. */
+/** Custom fetch function. Must return HTTP 200 with a JSON JWKS. See {@link customFetch}. */
 export type FetchImplementation = (
-  /** URL the request is being made sent to {@link !fetch} as the `resource` argument */
+  /** JWKS URL, passed as the fetch resource. */
   url: string,
-  /** Options otherwise sent to {@link !fetch} as the `options` argument */
+  /** Options passed to fetch. */
   options: {
-    /** HTTP Headers */
     headers: Headers
-    /** The {@link https://developer.mozilla.org/en-US/docs/Web/HTTP/Methods request method} */
     method: 'GET'
     /** See {@link !Request.redirect} */
     redirect: 'manual'
@@ -211,9 +209,8 @@ async function fetchJwks(
  * Symbol used to configure an externally persisted remote JWKS cache.
  *
  * > [!WARNING]\
- * > This option has security implications that must be understood, assessed for applicability, and
- * > accepted before use. It is critical that the JSON Web Key Set cache only be writable by your own
- * > code.
+ * > Only trusted application code must be allowed to write this cache; its keys are trusted for
+ * > signature verification.
  *
  * This option is intended for cloud computing runtimes that cannot keep an in memory cache between
  * their code's invocations. The supplied writable object seeds the resolver's cache and is updated
@@ -275,14 +272,14 @@ export interface RemoteJWKSetOptions {
   timeoutDuration?: number
 
   /**
-   * Duration (in milliseconds) for which no more HTTP requests will be triggered after a previous
-   * successful fetch. Must not be `NaN`. Default is 30000 (30 seconds).
+   * Time in milliseconds after a successful fetch before a missing key can trigger another fetch.
+   * Must not be `NaN`. Defaults to 30000 (30 seconds).
    */
   cooldownDuration?: number
 
   /**
-   * Maximum time (in milliseconds) between successful HTTP requests. Default is 600000 (10
-   * minutes). Must not be `NaN`.
+   * Maximum age of cached keys in milliseconds. Defaults to 600000 (10 minutes); `Infinity`
+   * disables expiry. Must not be `NaN`.
    */
   cacheMaxAge?: number | typeof Infinity
 
@@ -300,7 +297,7 @@ export interface RemoteJWKSetOptions {
 export interface ExportedJWKSCache {
   /** Current cached JSON Web Key Set */
   jwks: types.JSONWebKeySet
-  /** Last updated at timestamp (milliseconds since epoch) */
+  /** Last successful fetch, in milliseconds since Unix epoch. */
   uat: number
 }
 
@@ -338,8 +335,8 @@ export interface RemoteJWKSet {
   reload: () => Promise<void>
 
   /**
-   * The currently cached JSON Web Key Set, or `undefined` when none has been fetched or seeded via
-   * {@link jwksCache} yet.
+   * Returns a structured clone of the cached JSON Web Key Set, or `undefined` before keys have been
+   * fetched or seeded via {@link jwksCache}.
    */
   jwks: () => types.JSONWebKeySet | undefined
 }
@@ -356,20 +353,17 @@ function validateDuration(value: number | undefined, fallback: number, option: s
 }
 
 /**
- * Creates a resolver for a JSON Web Key Set available at an HTTP(S) URL.
+ * Creates a resolver for a JSON Web Key Set available at an HTTP(S) URL. Fetches the JSON Web Key
+ * Set when the cache is missing or stale. An unmatched key triggers another fetch only when
+ * `cooldownDuration` has elapsed since the last successful fetch. Selection uses the header's "alg"
+ * and "kid" and respects the JWK's "use" and "key_ops". Exactly one key must match.
  *
- * The JSON Web Key Set is fetched when no key matches, but only as frequently as the
- * `cooldownDuration` option allows. Selection uses the header's "alg" (Algorithm) and "kid" (Key
- * ID), and respects the JWK's "use" (Public Key Use) and "key_ops" (Key Operations). Exactly one
- * key must match.
- *
- * Only a single public key must match the selection process. As shown in the example below when
- * multiple keys get matched it is possible to opt-in to iterate over the matched keys and attempt
- * verification in an iterative manner.
+ * If multiple keys match, the thrown {@link util/errors.JWKSMultipleMatchingKeys} error exposes an
+ * async iterator over the matching keys. The example below shows how to attempt verification with
+ * each.
  *
  * > [!NOTE]\
- * > The function's purpose is to resolve public keys used for verifying signatures and will not work
- * > for public encryption keys.
+ * > Only public signature verification keys are supported, not public encryption keys.
  *
  * This function is exported (as a named export) from the main `'jose'` module entry point as well
  * as from its subpath export `'jose/jwks/remote'`.

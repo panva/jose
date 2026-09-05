@@ -7,11 +7,11 @@
 import { parseJoseHeader } from '../lib/validate.js'
 import type * as types from '../types.d.ts'
 
-/** JWE and JWS Header Parameters. */
+/** JWE and JWS Header Parameters returned by {@link decodeProtectedHeader}. */
 export type ProtectedHeaderParameters = types.JWSHeaderParameters & types.JWEHeaderParameters
 
 /**
- * Decodes the Protected Header of a JWE, JWS, or JWT in any JOSE serialization.
+ * Decodes the Protected Header of a JWE, JWS, or JWT without authenticating the token.
  *
  * This function is exported (as a named export) from the main `'jose'` module entry point as well
  * as from its subpath export `'jose/decode/protected_header'`.
@@ -23,7 +23,9 @@ export type ProtectedHeaderParameters = types.JWSHeaderParameters & types.JWEHea
  * console.log(protectedHeader)
  * ```
  *
- * @param token JWE/JWS/JWT token in any JOSE serialization.
+ * @param token Compact token or JSON serialization object with a `protected` member.
+ *
+ * @returns The parsed Protected Header.
  */
 export function decodeProtectedHeader(token: string | object): ProtectedHeaderParameters {
   let protectedB64u!: unknown

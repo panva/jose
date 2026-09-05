@@ -12,7 +12,7 @@ Convenience interface for private OKP JSON Web Keys.
 
 • **crv**: `string`
 
-OKP JWK "crv" (The Subtype of Key Pair) Parameter
+Key pair subtype.
 
 ***
 
@@ -20,7 +20,7 @@ OKP JWK "crv" (The Subtype of Key Pair) Parameter
 
 • **d**: `string`
 
-OKP JWK "d" (The Private Key) Parameter
+Private key.
 
 ***
 
@@ -28,7 +28,7 @@ OKP JWK "d" (The Private Key) Parameter
 
 • **x**: `string`
 
-OKP JWK "x" (The public key) Parameter
+Public key.
 
 ***
 
@@ -48,7 +48,7 @@ JWK "alg" (Algorithm) Parameter
 
 • `optional` **ext?**: `boolean`
 
-JWK "ext" (Extractable) Parameter
+Whether the key may be exported.
 
 ***
 
@@ -56,7 +56,7 @@ JWK "ext" (Extractable) Parameter
 
 • `optional` **key\_ops?**: `string`[]
 
-JWK "key_ops" (Key Operations) Parameter
+Permitted key operations.
 
 ***
 
@@ -88,7 +88,7 @@ JWK "use" (Public Key Use) Parameter
 
 • `optional` **x5c?**: `string`[]
 
-JWK "x5c" (X.509 Certificate Chain) Parameter
+X.509 certificate chain.
 
 ***
 
@@ -96,7 +96,7 @@ JWK "x5c" (X.509 Certificate Chain) Parameter
 
 • `optional` **x5t?**: `string`
 
-JWK "x5t" (X.509 Certificate SHA-1 Thumbprint) Parameter
+X.509 certificate SHA-1 thumbprint.
 
 ***
 
@@ -104,7 +104,7 @@ JWK "x5t" (X.509 Certificate SHA-1 Thumbprint) Parameter
 
 • `optional` **x5t#S256?**: `string`
 
-JWK "x5t#S256" (X.509 Certificate SHA-256 Thumbprint) Parameter
+X.509 certificate SHA-256 thumbprint.
 
 ***
 
@@ -112,4 +112,4 @@ JWK "x5t#S256" (X.509 Certificate SHA-256 Thumbprint) Parameter
 
 • `optional` **x5u?**: `string`
 
-JWK "x5u" (X.509 URL) Parameter
+X.509 certificate URL.

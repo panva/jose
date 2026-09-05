@@ -11,8 +11,8 @@ Generates an asymmetric key pair for a JWA algorithm identifier.
 For symmetric secrets use the [generateSecret](../../generate_secret/functions/generateSecret.md) function.
 
 > [!NOTE]\
-> The `privateKey` is generated with `extractable` set to `false` by default. See
-> [GenerateKeyPairOptions.extractable](../interfaces/GenerateKeyPairOptions.md#extractable) to generate an extractable `privateKey`.
+> Private keys are not extractable by default. Set [GenerateKeyPairOptions.extractable](../interfaces/GenerateKeyPairOptions.md#extractable) to
+> export them; public keys are always extractable.
 
 This function is exported (as a named export) from the main `'jose'` module entry point as well
 as from its subpath export `'jose/key/generate/keypair'`.

@@ -24,8 +24,8 @@ as from its subpath export `'jose/jwt/verify'`.
 | Parameter | Type | Description |
 | ------ | ------ | ------ |
 | `jwt` | `string` \| [`Uint8Array`](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Uint8Array) | JSON Web Token value (encoded as JWS). |
-| `key` | [`KeyInput`](../../../types/type-aliases/KeyInput.md) | Key to verify the JWT with. See [Algorithm Key Requirements](https://github.com/panva/jose/issues/210#jws-alg). |
-| `options?` | [`JWTVerifyOptions`](../interfaces/JWTVerifyOptions.md) | JWT Decryption and JWT Claims Set validation options. |
+| `key` | [`KeyInput`](../../../types/type-aliases/KeyInput.md) | Public key or shared secret to verify the JWT with. See [Algorithm Key Requirements](https://github.com/panva/jose/issues/210#jws-alg). |
+| `options?` | [`JWTVerifyOptions`](../interfaces/JWTVerifyOptions.md) | JWT Verification and JWT Claims Set validation options. |
 
 ### Returns
 
@@ -103,6 +103,8 @@ console.log(payload)
 
 ▸ **jwtVerify**\<`PayloadType`, `KeyType`\>(`jwt`, `getKey`, `options?`): [`Promise`](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise)\<[`JWTVerifyResult`](../../../types/interfaces/JWTVerifyResult.md)\<`PayloadType`\> & [`ResolvedKey`](../../../types/interfaces/ResolvedKey.md)\<`KeyType`\>\>
 
+Verifies the JWT signature and claims, returning the resolved key.
+
 ### Type Parameters
 
 | Type Parameter | Default type |
@@ -115,8 +117,8 @@ console.log(payload)
 | Parameter | Type | Description |
 | ------ | ------ | ------ |
 | `jwt` | `string` \| [`Uint8Array`](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Uint8Array) | JSON Web Token value (encoded as JWS). |
-| `getKey` | [`JWTVerifyGetKey`](../interfaces/JWTVerifyGetKey.md)\<`KeyType`\> | Function resolving a key to verify the JWT with. See [Algorithm Key Requirements](https://github.com/panva/jose/issues/210#jws-alg). |
-| `options?` | [`JWTVerifyOptions`](../interfaces/JWTVerifyOptions.md) | JWT Decryption and JWT Claims Set validation options. |
+| `getKey` | [`JWTVerifyGetKey`](../interfaces/JWTVerifyGetKey.md)\<`KeyType`\> | Function resolving a public key or shared secret to verify the JWT with. See [Algorithm Key Requirements](https://github.com/panva/jose/issues/210#jws-alg). |
+| `options?` | [`JWTVerifyOptions`](../interfaces/JWTVerifyOptions.md) | JWT Verification and JWT Claims Set validation options. |
 
 ### Returns
 
@@ -141,9 +143,8 @@ console.log(payload)
 
 ▸ **jwtVerify**\<`PayloadType`\>(`jwt`, `key`, `options?`): [`Promise`](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise)\<[`JWTVerifyResult`](../../../types/interfaces/JWTVerifyResult.md)\<`PayloadType`\> & [`Partial`](https://www.typescriptlang.org/docs/handbook/utility-types.html#partialtype)\<[`ResolvedKey`](../../../types/interfaces/ResolvedKey.md)\<[`Uint8Array`](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Uint8Array) \| [`CryptoKey`](https://developer.mozilla.org/docs/Web/API/CryptoKey)\>\>\>
 
-Accepts either form of the `key` argument. Use this overload when forwarding a value that may be
-either a key or a key resolution function; `key` is present on the result only when a resolution
-function was used.
+Accepts a key or key resolver. Use this overload when forwarding either form; the result includes
+`key` only when a resolver was used.
 
 ### Type Parameters
 
@@ -157,7 +158,7 @@ function was used.
 | ------ | ------ | ------ |
 | `jwt` | `string` \| [`Uint8Array`](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Uint8Array) | JSON Web Token value (encoded as JWS). |
 | `key` | [`KeyInput`](../../../types/type-aliases/KeyInput.md) \| [`JWTVerifyGetKey`](../interfaces/JWTVerifyGetKey.md)\<[`Uint8Array`](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Uint8Array) \| [`CryptoKey`](https://developer.mozilla.org/docs/Web/API/CryptoKey)\> | Key, or function resolving a key, to verify the JWT with. See [Algorithm Key Requirements](https://github.com/panva/jose/issues/210#jws-alg). |
-| `options?` | [`JWTVerifyOptions`](../interfaces/JWTVerifyOptions.md) | JWT Decryption and JWT Claims Set validation options. |
+| `options?` | [`JWTVerifyOptions`](../interfaces/JWTVerifyOptions.md) | JWT Verification and JWT Claims Set validation options. |
 
 ### Returns
 
