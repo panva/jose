@@ -1,6 +1,7 @@
 import type * as types from '../types.d.ts'
 import { decode as b64uDecode, encode as b64u } from '../util/base64url.js'
 import { concat, encode, digest } from './buffer_utils.js'
+import * as ecdsa from './composite_ecdsa.js'
 import type { CompositeParameters, JWSAlgorithm } from './jws_algorithms.js'
 import type { KeyDescriptor } from './key_descriptor.js'
 
@@ -35,6 +36,16 @@ function componentToJwk(
   publicKey: Uint8Array,
   privateKey?: Uint8Array,
 ): types.JWK {
+  if (component.kty[0] === 'EC') {
+    if (publicKey[0] !== 0x04) {
+      throw new TypeError('Invalid composite ECDSA public key')
+    }
+    publicKey = publicKey.subarray(1)
+    if (privateKey) privateKey = ecdsa.decodePrivateKey(privateKey, component.raw[1])
+  }
+  assertLength(publicKey, component.raw[0], 'Component public key')
+  if (privateKey) assertLength(privateKey, component.raw[1], 'Component private key')
+
   const [publicJwkParameters, privateJwkParameter] = componentJwkParameters(component)
   const jwk: types.JWK = { kty: component.kty[0] }
   if (jwk.kty === 'AKP') {
@@ -52,7 +63,7 @@ function componentToJwk(
   return jwk
 }
 
-function importComponent(
+async function importComponent(
   component: Component,
   publicKey: Uint8Array,
   privateKey: Uint8Array | undefined,
@@ -82,7 +93,6 @@ async function importComponents(
 
   if (jwk.priv) {
     const privateKey = b64uDecode(jwk.priv)
-    assertLength(privateKey, mldsa.raw[1] + traditional.raw[1], 'Composite private key')
     ;[mldsaPrivateKey, traditionalPrivateKey] = split(privateKey, mldsa.raw[1])
   }
 
@@ -99,7 +109,11 @@ export async function compositeJwkToKey(
   const profile = (entry as JWSAlgorithm).composite!()
   const [mldsa, traditional] = profile
   const publicKey = b64uDecode(jwk.pub!)
-  assertLength(publicKey, mldsa.raw[0] + traditional.raw[0], 'Composite public key')
+  assertLength(
+    publicKey,
+    mldsa.raw[0] + traditional.raw[0] + (traditional.kty[0] === 'EC' ? 1 : 0),
+    'Composite public key',
+  )
 
   const type = jwk.priv ? 'private' : 'public'
   const usages: KeyUsage[] =
@@ -136,8 +150,6 @@ export function compositeKeyToJWK(key: unknown): types.JWK | undefined {
 
 async function representative(profile: CompositeParameters, data: Uint8Array) {
   const preHash = await digest(`sha${profile[2]}`, data)
-  // TODO: Resolve draft-02 mismatch between the JOSE base64url Encode(M') text and
-  // Appendix A vectors, which sign these raw combiner bytes.
   return concat(prefix, profile[3], Uint8Array.of(0), preHash)
 }
 
@@ -159,7 +171,11 @@ export async function compositeSign(
     crypto.subtle.sign(traditional.signing, traditionalKey, toBeSigned as Uint8Array<ArrayBuffer>),
   ])
 
-  return concat(new Uint8Array(mldsaSignature), new Uint8Array(traditionalSignature))
+  const traditionalBytes = new Uint8Array(traditionalSignature)
+  return concat(
+    new Uint8Array(mldsaSignature),
+    traditional.kty[0] === 'EC' ? ecdsa.encodeSignature(traditionalBytes) : traditionalBytes,
+  )
 }
 
 export async function compositeVerify(
@@ -170,15 +186,20 @@ export async function compositeVerify(
 ): Promise<boolean> {
   const profile = entry.composite!()
   const [mldsa, traditional] = profile
-  if (signature.length !== mldsa.raw[2] + traditional.raw[2]) {
+  if (signature.length <= mldsa.raw[2]) {
     return false
   }
 
-  const [mldsaSignature, traditionalSignature] = split(signature, mldsa.raw[2])
-  const toBeSigned = await representative(profile, data)
-  const [, mldsaKey, traditionalKey] = state.get(key)!
+  let [mldsaSignature, traditionalSignature] = split(signature, mldsa.raw[2])
 
   try {
+    if (traditional.kty[0] === 'EC') {
+      traditionalSignature = ecdsa.decodeSignature(traditionalSignature, traditional.raw[1])
+    } else {
+      assertLength(traditionalSignature, traditional.raw[2], 'Component signature')
+    }
+    const toBeSigned = await representative(profile, data)
+    const [, mldsaKey, traditionalKey] = state.get(key)!
     const [mldsaVerified, traditionalVerified] = await Promise.all([
       crypto.subtle.verify(
         { ...profile[0].signing, context: profile[3] } as Algorithm & { context: Uint8Array },
@@ -201,17 +222,18 @@ export async function compositeVerify(
 }
 
 async function generateComponent(component: Component): Promise<[Uint8Array, Uint8Array]> {
-  const { privateKey } = (await crypto.subtle.generateKey(component.subtle, true, [
+  const { privateKey: key } = (await crypto.subtle.generateKey(component.subtle, true, [
     ...component.usages[1],
     ...component.usages[0],
   ])) as CryptoKeyPair
-  const jwk = (await crypto.subtle.exportKey('jwk', privateKey)) as types.JWK
+  const jwk = (await crypto.subtle.exportKey('jwk', key)) as types.JWK
   const [publicJwkParameters, privateJwkParameter] = componentJwkParameters(component)
 
-  return [
-    concat(...publicJwkParameters.map((parameter) => b64uDecode(jwk[parameter]!))),
-    b64uDecode(jwk[privateJwkParameter]!),
-  ]
+  const publicKey = concat(...publicJwkParameters.map((parameter) => b64uDecode(jwk[parameter]!)))
+  const privateKey = b64uDecode(jwk[privateJwkParameter]!)
+  return component.kty[0] === 'EC'
+    ? [concat(Uint8Array.of(0x04), publicKey), ecdsa.encodePrivateKey(privateKey)]
+    : [publicKey, privateKey]
 }
 
 export async function generateCompositeKeyPair(

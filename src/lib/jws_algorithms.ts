@@ -27,7 +27,7 @@ export type CompositeParameters = readonly [
 export interface JWSAlgorithm extends KeyDescriptor {
   /** WebCrypto parameters for subtle.sign and subtle.verify. */
   signing: { name: string; hash?: string; saltLength?: number }
-  /** Fixed-width values used when this algorithm is a composite component. */
+  /** Raw component sizes, before the composite ECDSA wire encodings are applied. */
   raw?: RawKeyParameters
   /** Component algorithms and pre-hash used by a composite signature algorithm. */
   composite?: () => CompositeParameters
