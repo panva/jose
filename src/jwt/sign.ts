@@ -6,7 +6,7 @@
 
 import { createCompactSignature } from '../lib/jws_sign.js'
 import { JWTInvalid } from '../util/errors.js'
-import { JWTClaimsBuilder, jwtData } from '../lib/jwt_claims_set.js'
+import { JWTClaimsBuilder, jwtClaimsSetBytes } from '../lib/jwt_claims_set.js'
 import { assertNotSet } from '../lib/validate.js'
 import type * as types from '../types.d.ts'
 
@@ -14,7 +14,7 @@ import type * as types from '../types.d.ts'
 const SignJWT_base: new (payload?: types.JWTPayload) => types.ProduceJWT = JWTClaimsBuilder
 
 /**
- * Builds and signs Compact JWS-formatted JSON Web Tokens.
+ * Produces JWTs in JWS Compact Serialization using a digital signature or MAC.
  *
  * This class is exported (as a named export) from the main `'jose'` module entry point as well as
  * from its subpath export `'jose/jwt/sign'`.
@@ -42,7 +42,7 @@ const SignJWT_base: new (payload?: types.JWTPayload) => types.ProduceJWT = JWTCl
  *
  * @example
  *
- * Usage with a private PKCS#8 encoded RSA key
+ * Usage with a private PKCS #8 encoded RSA key
  *
  * ```js
  * const alg = 'RS256'
@@ -139,8 +139,15 @@ export class SignJWT extends SignJWT_base {
    * @param options JWT Sign options.
    */
   async sign(key: types.KeyInput, options?: types.SignOptions): Promise<string> {
-    return createCompactSignature(jwtData(this), this.#protectedHeader, options?.crit, key, () => {
-      throw new JWTInvalid('JWTs MUST NOT use unencoded payload')
-    })
+    return createCompactSignature(
+      jwtClaimsSetBytes(this),
+      this.#protectedHeader,
+      options?.crit,
+      key,
+      () => {
+        // RFC 7797, Section 7: JWTs must not use the unencoded payload option.
+        throw new JWTInvalid('JWTs MUST NOT use unencoded payload')
+      },
+    )
   }
 }

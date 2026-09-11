@@ -2,6 +2,8 @@
  * Signing JSON Web Signature (JWS) in Flattened JSON Serialization
  *
  * @module
+ *
+ * @see {@link https://www.rfc-editor.org/info/rfc7515/#section-7.2.2 RFC 7515, Section 7.2.2}
  */
 
 import type * as types from '../../types.d.ts'
@@ -10,7 +12,7 @@ import type { SignInput } from '../../lib/jws_sign.js'
 import { assertNotSet, assertUint8Array } from '../../lib/validate.js'
 
 /**
- * Builds and signs Flattened JWS objects.
+ * Produces flattened JWS JSON Serialization using a digital signature or MAC.
  *
  * This class is exported (as a named export) from the main `'jose'` module entry point as well as
  * from its subpath export `'jose/jws/flattened/sign'`.
@@ -31,9 +33,9 @@ export class FlattenedSign {
   #input: SignInput
 
   /**
-   * Creates a Flattened JWS signer.
+   * Creates a signer for flattened JWS JSON Serialization.
    *
-   * @param payload Binary representation of the payload to sign.
+   * @param payload JWS Payload bytes to sign or MAC.
    */
   constructor(payload: Uint8Array) {
     assertUint8Array(payload, 'payload')
@@ -63,7 +65,8 @@ export class FlattenedSign {
   }
 
   /**
-   * Signs the payload as a Flattened JWS.
+   * Computes the JWS Signature (digital signature or MAC) and returns the flattened JWS JSON
+   * Serialization.
    *
    * @param key Private key or shared secret. See
    *   {@link https://github.com/panva/jose/issues/210#jws-alg Algorithm Key Requirements}.

@@ -57,7 +57,7 @@ keys.
 ▸ **setKeyManagementParameters**(`parameters`): `Recipient`
 
 Sets key management inputs such as ECDH-ES "apu"/"apv" or PBES2 "p2c". Use this method instead
-of header setters; the resulting parameters are added to the JOSE header. May only be called
+of header setters; the resulting parameters are added to the JOSE Header. May only be called
 once.
 
 #### Parameters

@@ -91,20 +91,26 @@ export type JWKParameters = {
    * @see {@link https://github.com/panva/jose/issues/210 Algorithm Key Requirements}
    */
   alg?: JWSAlgorithm | JWEKeyManagementAlgorithm | JWEContentEncryptionAlgorithm
-  /** Permitted key operations. */
+  /** JWK "key_ops" (Key Operations) Parameter (RFC 7517, Section 4.3). */
   key_ops?: string[]
-  /** Whether the key may be exported. */
+  /** Web Crypto "ext" (Extractable) member; whether the key may be exported. */
   ext?: boolean
 
   /** JWK "use" (Public Key Use) Parameter */
   use?: 'sig' | 'enc' | (string & {})
-  /** X.509 certificate chain. */
+  /**
+   * "x5c" (X.509 Certificate Chain): base64-encoded DER certificates (RFC 7517, Section 4.7; RFC
+   * 7515, Section 4.1.6).
+   */
   x5c?: string[]
-  /** X.509 certificate SHA-1 thumbprint. */
+  /** "x5t" (X.509 Certificate SHA-1 Thumbprint): base64url-encoded digest of the DER certificate. */
   x5t?: string
-  /** X.509 certificate SHA-256 thumbprint. */
+  /**
+   * "x5t#S256" (X.509 Certificate SHA-256 Thumbprint): base64url-encoded digest of the DER
+   * certificate.
+   */
   'x5t#S256'?: string
-  /** X.509 certificate URL. */
+  /** JWK "x5u" (X.509 URL) Parameter: URL of a PEM-encoded certificate or certificate chain. */
   x5u?: string
 
   /** JWK "kid" (Key ID) Parameter */
@@ -113,15 +119,15 @@ export type JWKParameters = {
 
 /** Convenience interface for public OKP JSON Web Keys. */
 export interface JWK_OKP_Public extends JWKParameters {
-  /** Key pair subtype. */
+  /** JWK "crv" (Subtype of Key Pair) Parameter (RFC 8037, Section 2). */
   crv: string
-  /** Public key. */
+  /** Base64url-encoded public key (RFC 8037, Section 2). */
   x: string
 }
 
 /** Convenience interface for private OKP JSON Web Keys. */
 export interface JWK_OKP_Private extends JWK_OKP_Public {
-  /** Private key. */
+  /** Base64url-encoded private key (RFC 8037, Section 2). */
   d: string
 }
 
@@ -130,59 +136,62 @@ export interface JWK_AKP_Public extends JWKParameters {
   /** JWK "alg" (Algorithm) Parameter */
   alg: string
 
-  /** AKP JWK "pub" (The Public key) Parameter */
+  /** AKP JWK "pub" (Public Key): base64url-encoded public key (RFC 9964, Section 3) */
   pub: string
 }
 
 /** Convenience interface for private AKP JSON Web Keys. */
 export interface JWK_AKP_Private extends JWK_AKP_Public {
-  /** AKP JWK "priv" (The Private Key) Parameter */
+  /**
+   * AKP JWK "priv" (Private Key): base64url-encoded private key; ML-DSA uses a 32-octet seed (RFC
+   * 9964, Sections 3-4)
+   */
   priv: string
 }
 
 /** Convenience interface for public EC JSON Web Keys. */
 export interface JWK_EC_Public extends JWKParameters {
-  /** Curve. */
+  /** JWK "crv" (Curve) Parameter (RFC 7518, Section 6.2.1.1). */
   crv: string
-  /** Public key X coordinate. */
+  /** Base64url-encoded x-coordinate (RFC 7518, Section 6.2.1.2). */
   x: string
-  /** Public key Y coordinate. */
+  /** Base64url-encoded y-coordinate (RFC 7518, Section 6.2.1.3). */
   y: string
 }
 
 /** Convenience interface for private EC JSON Web Keys. */
 export interface JWK_EC_Private extends JWK_EC_Public {
-  /** Private key. */
+  /** Base64url-encoded private key (RFC 7518, Section 6.2.2). */
   d: string
 }
 
 /** Convenience interface for public RSA JSON Web Keys. */
 export interface JWK_RSA_Public extends JWKParameters {
-  /** Public exponent. */
+  /** Public exponent, encoded as Base64urlUInt (RFC 7518, Section 6.3.1). */
   e: string
-  /** Modulus. */
+  /** Modulus, encoded as Base64urlUInt (RFC 7518, Section 6.3.1). */
   n: string
 }
 
 /** Convenience interface for private RSA JSON Web Keys. */
 export interface JWK_RSA_Private extends JWK_RSA_Public {
-  /** Private exponent. */
+  /** Private exponent, encoded as Base64urlUInt (RFC 7518, Section 6.3.2). */
   d: string
-  /** First factor CRT exponent. */
+  /** First factor CRT exponent, encoded as Base64urlUInt (RFC 7518, Section 6.3.2). */
   dp: string
-  /** Second factor CRT exponent. */
+  /** Second factor CRT exponent, encoded as Base64urlUInt (RFC 7518, Section 6.3.2). */
   dq: string
-  /** First prime factor. */
+  /** First prime factor, encoded as Base64urlUInt (RFC 7518, Section 6.3.2). */
   p: string
-  /** Second prime factor. */
+  /** Second prime factor, encoded as Base64urlUInt (RFC 7518, Section 6.3.2). */
   q: string
-  /** First CRT coefficient. */
+  /** First CRT coefficient, encoded as Base64urlUInt (RFC 7518, Section 6.3.2). */
   qi: string
 }
 
 /** Convenience interface for "oct" JSON Web Keys. */
 export interface JWK_oct extends JWKParameters {
-  /** Symmetric key value. */
+  /** JWK "k" (Key Value): base64url-encoded key octets (RFC 7518, Section 6.4.1). */
   k: string
 }
 
@@ -216,61 +225,76 @@ export type JWK = {
    * @see {@link https://github.com/panva/jose/issues/210 Algorithm Key Requirements}
    */
   alg?: JWSAlgorithm | JWEKeyManagementAlgorithm | JWEContentEncryptionAlgorithm
-  /** Permitted key operations. */
+  /** JWK "key_ops" (Key Operations) Parameter (RFC 7517, Section 4.3). */
   key_ops?: string[]
-  /** Whether the key may be exported. */
+  /** Web Crypto "ext" (Extractable) member; whether the key may be exported. */
   ext?: boolean
 
   /** JWK "use" (Public Key Use) Parameter */
   use?: 'sig' | 'enc' | (string & {})
-  /** X.509 certificate chain. */
+  /**
+   * "x5c" (X.509 Certificate Chain): base64-encoded DER certificates (RFC 7517, Section 4.7; RFC
+   * 7515, Section 4.1.6).
+   */
   x5c?: string[]
-  /** X.509 certificate SHA-1 thumbprint. */
+  /** "x5t" (X.509 Certificate SHA-1 Thumbprint): base64url-encoded digest of the DER certificate. */
   x5t?: string
-  /** X.509 certificate SHA-256 thumbprint. */
+  /**
+   * "x5t#S256" (X.509 Certificate SHA-256 Thumbprint): base64url-encoded digest of the DER
+   * certificate.
+   */
   'x5t#S256'?: string
-  /** X.509 certificate URL. */
+  /** JWK "x5u" (X.509 URL) Parameter: URL of a PEM-encoded certificate or certificate chain. */
   x5u?: string
 
   /** JWK "kid" (Key ID) Parameter */
   kid?: string
-  /** EC curve or OKP key pair subtype. */
+  /** JWK "crv" Parameter: Curve for EC keys or Subtype of Key Pair for OKP keys. */
   crv?: string
-  /** Private RSA exponent, EC key, or OKP key. */
+  /**
+   * Private key material: Base64urlUInt for RSA (RFC 7518, Section 6.3.2.1), base64url-encoded
+   * octets for EC (Section 6.2.2.1) or OKP (RFC 8037, Section 2).
+   */
   d?: string
-  /** RSA first factor CRT exponent. */
+  /** RSA first factor CRT exponent, encoded as Base64urlUInt (RFC 7518, Section 6.3). */
   dp?: string
-  /** RSA second factor CRT exponent. */
+  /** RSA second factor CRT exponent, encoded as Base64urlUInt (RFC 7518, Section 6.3). */
   dq?: string
-  /** RSA public exponent. */
+  /** RSA public exponent, encoded as Base64urlUInt (RFC 7518, Section 6.3). */
   e?: string
-  /** Symmetric key value. */
+  /** JWK "k" (Key Value): base64url-encoded key octets (RFC 7518, Section 6.4.1). */
   k?: string
-  /** RSA modulus. */
+  /** RSA modulus, encoded as Base64urlUInt (RFC 7518, Section 6.3). */
   n?: string
-  /** RSA first prime factor. */
+  /** RSA first prime factor, encoded as Base64urlUInt (RFC 7518, Section 6.3). */
   p?: string
-  /** RSA second prime factor. */
+  /** RSA second prime factor, encoded as Base64urlUInt (RFC 7518, Section 6.3). */
   q?: string
-  /** RSA first CRT coefficient. */
+  /** RSA first CRT coefficient, encoded as Base64urlUInt (RFC 7518, Section 6.3). */
   qi?: string
-  /** EC public key X coordinate or OKP public key. */
+  /**
+   * Base64url-encoded EC x-coordinate (RFC 7518, Section 6.2.1.2) or OKP public key (RFC 8037,
+   * Section 2).
+   */
   x?: string
-  /** EC public key Y coordinate. */
+  /** Base64url-encoded EC y-coordinate (RFC 7518, Section 6.2.1.3). */
   y?: string
 
-  /** AKP JWK "pub" (Public Key) Parameter */
+  /** AKP JWK "pub" (Public Key): base64url-encoded public key (RFC 9964, Section 3) */
   pub?: string
 
-  /** AKP JWK "priv" (Private key) Parameter */
+  /**
+   * AKP JWK "priv" (Private Key): base64url-encoded private key; ML-DSA uses a 32-octet seed (RFC
+   * 9964, Sections 3-4)
+   */
   priv?: string
   /** Additional RSA prime factors. */
   oth?: Array<{
-    /** Factor CRT exponent. */
+    /** Factor CRT exponent, encoded as Base64urlUInt (RFC 7518, Section 6.3). */
     d?: string
-    /** Prime factor. */
+    /** Prime factor, encoded as Base64urlUInt (RFC 7518, Section 6.3). */
     r?: string
-    /** Factor CRT coefficient. */
+    /** Factor CRT coefficient, encoded as Base64urlUInt (RFC 7518, Section 6.3). */
     t?: string
   }>
 }
@@ -329,43 +353,47 @@ export interface GetKeyFunction<IProtectedHeader, IToken, KeyTypes extends KeyIn
 }
 
 /**
- * Flattened JWS verification input.
+ * Flattened JWS JSON Serialization verification input.
  *
  * The payload may be a {@link !Uint8Array} for detached signature validation.
+ *
+ * @see {@link https://www.rfc-editor.org/info/rfc7515/#section-7.2.2 RFC 7515, Section 7.2.2}
  */
 export interface FlattenedJWSInput {
   /** JWS Unprotected Header as a JSON object. Not integrity protected; omit when empty. */
   header?: JWSHeaderParameters
 
-  /** Base64url-encoded payload; with `b64: false`, supply an unencoded string or Uint8Array. */
+  /** Base64url-encoded JWS Payload; with `b64: false`, supply an unencoded string or Uint8Array. */
   payload: string | Uint8Array
 
   /** Base64url-encoded UTF-8 JWS Protected Header. Integrity protected; omit when empty. */
   protected?: string
 
-  /** Base64url-encoded signature or MAC. */
+  /** Base64url-encoded JWS Signature (digital signature or MAC). */
   signature: string
 }
 
 /**
- * General JWS verification input.
+ * General JWS JSON Serialization verification input.
  *
  * The payload may be a {@link !Uint8Array} for detached signature validation.
+ *
+ * @see {@link https://www.rfc-editor.org/info/rfc7515/#section-7.2.1 RFC 7515, Section 7.2.1}
  */
 export interface GeneralJWSInput {
-  /** Base64url-encoded payload; with `b64: false`, supply an unencoded string or Uint8Array. */
+  /** Base64url-encoded JWS Payload; with `b64: false`, supply an unencoded string or Uint8Array. */
   payload: string | Uint8Array
 
   /**
-   * The "signatures" member value MUST be an array of JSON objects. Each object represents a
-   * signature or MAC over the JWS Payload and the JWS Protected Header.
+   * The "signatures" member value MUST be an array of JSON objects. Each object represents a JWS
+   * Signature (digital signature or MAC) over the JWS Payload and the JWS Protected Header.
    */
   signatures: Omit<FlattenedJWSInput, 'payload'>[]
 }
 
 /**
- * Flattened JWS JSON Serialization token. The payload is an empty string when the
- * {@link https://www.rfc-editor.org/info/rfc7797/ unencoded payload option} is used.
+ * Flattened JWS JSON Serialization token. The payload is an empty string for detached content when
+ * the {@link https://www.rfc-editor.org/info/rfc7797/ unencoded payload option} is used.
  */
 export interface FlattenedJWS extends Partial<FlattenedJWSInput> {
   payload: string
@@ -373,8 +401,8 @@ export interface FlattenedJWS extends Partial<FlattenedJWSInput> {
 }
 
 /**
- * General JWS JSON Serialization token. The payload is an empty string when the
- * {@link https://www.rfc-editor.org/info/rfc7797/ unencoded payload option} is used.
+ * General JWS JSON Serialization token. The payload is an empty string for detached content when
+ * the {@link https://www.rfc-editor.org/info/rfc7797/ unencoded payload option} is used.
  */
 export interface GeneralJWS {
   payload: string
@@ -386,25 +414,31 @@ export interface JoseHeaderParameters {
   /** "kid" (Key ID) Header Parameter */
   kid?: string
 
-  /** X.509 certificate SHA-1 thumbprint. */
+  /** "x5t" (X.509 Certificate SHA-1 Thumbprint): base64url-encoded digest of the DER certificate. */
   x5t?: string
 
-  /** X.509 certificate chain. */
+  /**
+   * "x5c" (X.509 Certificate Chain): base64-encoded DER certificates (RFC 7517, Section 4.7; RFC
+   * 7515, Section 4.1.6).
+   */
   x5c?: string[]
 
-  /** X.509 certificate URL. */
+  /** "x5u" (X.509 URL) Header Parameter: URL of a PEM-encoded certificate or certificate chain. */
   x5u?: string
 
-  /** JWK Set URL. */
+  /** "jku" (JWK Set URL) Header Parameter (RFC 7515, Section 4.1.2). */
   jku?: string
 
-  /** Public JWK only; private and symmetric key parameters are not permitted. */
+  /**
+   * "jwk" (JSON Web Key) Header Parameter: public JWK only; private and symmetric key parameters
+   * are not permitted.
+   */
   jwk?: Omit<JWK, 'd' | 'dp' | 'dq' | 'k' | 'p' | 'q' | 'qi' | 'priv' | 'oth'>
 
   /** "typ" (Type) Header Parameter */
   typ?: string
 
-  /** Content type. */
+  /** "cty" (Content Type) Header Parameter (RFC 7515, Section 4.1.10). */
   cty?: string
 }
 
@@ -418,13 +452,16 @@ export interface JWSHeaderParameters extends JoseHeaderParameters {
   alg?: JWSAlgorithm
 
   /**
-   * Controls payload encoding and the JWS signing input as defined by
+   * Controls payload encoding and the JWS Signing Input as defined by
    * {@link https://www.rfc-editor.org/info/rfc7797/ RFC7797}. Set to `false` and list `b64` in
    * `crit` to use an unencoded payload.
    */
   b64?: boolean
 
-  /** Extension parameters that must be recognized. */
+  /**
+   * "crit" (Critical) Header Parameter: names of extensions that must be understood and processed;
+   * must be integrity protected (RFC 7515, Section 4.1.11).
+   */
   crit?: string[]
 
   /** Any other JWS Header member. */
@@ -433,35 +470,58 @@ export interface JWSHeaderParameters extends JoseHeaderParameters {
 
 /** Recognized JWE Key Management-related Header Parameters. */
 export interface JWEKeyManagementHeaderParameters {
-  /** ECDH-ES Agreement PartyUInfo bytes, used in ConcatKDF and added to the JOSE header. */
+  /**
+   * Raw Agreement PartyUInfo bytes; base64url-encoded as the "apu" Header Parameter (RFC 7518,
+   * Section 4.6.1.2).
+   */
   apu?: Uint8Array
 
-  /** ECDH-ES Agreement PartyVInfo bytes, used in ConcatKDF and added to the JOSE header. */
+  /**
+   * Raw Agreement PartyVInfo bytes; base64url-encoded as the "apv" Header Parameter (RFC 7518,
+   * Section 4.6.1.3).
+   */
   apv?: Uint8Array
 
-  /** PBES2 PBKDF2 iteration count, added to the JOSE header. */
+  /**
+   * "p2c" (PBES2 Count) Header Parameter: positive PBKDF2 iteration count (RFC 7518, Section
+   * 4.8.1.2).
+   */
   p2c?: number
 
-  /** @deprecated For testing and vector validation only. */
+  /**
+   * Raw PBES2 Salt Input bytes (RFC 7518, Section 4.8.1.1).
+   *
+   * @deprecated For testing and vector validation only.
+   */
   p2s?: Uint8Array
-  /** @deprecated For testing and vector validation only. */
+  /**
+   * Raw Initialization Vector bytes for AES GCM Key Encryption (RFC 7518, Section 4.7.1.1).
+   *
+   * @deprecated For testing and vector validation only.
+   */
   iv?: Uint8Array
-  /** @deprecated For testing and vector validation only. */
+  /**
+   * Ephemeral private key input. The resulting "epk" (Ephemeral Public Key) Header Parameter
+   * contains only the public key (RFC 7518, Section 4.6.1.1).
+   *
+   * @deprecated For testing and vector validation only.
+   */
   epk?: CryptoKey | KeyObject
 }
 
-/** Flattened JWE JSON Serialization token. */
+/**
+ * Flattened JWE JSON Serialization token.
+ *
+ * @see {@link https://www.rfc-editor.org/info/rfc7516/#section-7.2.2 RFC 7516, Section 7.2.2}
+ */
 export interface FlattenedJWE {
-  /**
-   * Base64url-encoded additional authenticated data; integrity protected but not encrypted. Omit
-   * when empty.
-   */
+  /** Base64url-encoded JWE AAD; integrity protected but not encrypted. Omit when empty. */
   aad?: string
 
-  /** Base64url-encoded ciphertext. */
+  /** Base64url-encoded JWE Ciphertext. */
   ciphertext: string
 
-  /** Base64url-encoded encrypted key. Omit when empty. */
+  /** Base64url-encoded JWE Encrypted Key. Omit when empty. */
   encrypted_key?: string
 
   /**
@@ -470,20 +530,24 @@ export interface FlattenedJWE {
    */
   header?: JWEHeaderParameters
 
-  /** Base64url-encoded initialization vector. Omit when empty. */
+  /** Base64url-encoded JWE Initialization Vector. Omit when empty. */
   iv?: string
 
   /** Base64url-encoded UTF-8 JWE Protected Header. Integrity protected; omit when empty. */
   protected?: string
 
-  /** Base64url-encoded authentication tag. Omit when empty. */
+  /** Base64url-encoded JWE Authentication Tag. Omit when empty. */
   tag?: string
 
   /** JWE Shared Unprotected Header as a JSON object. Not integrity protected; omit when empty. */
   unprotected?: JWEHeaderParameters
 }
 
-/** General JWE JSON Serialization token. */
+/**
+ * General JWE JSON Serialization token.
+ *
+ * @see {@link https://www.rfc-editor.org/info/rfc7516/#section-7.2.1 RFC 7516, Section 7.2.1}
+ */
 export interface GeneralJWE extends Omit<FlattenedJWE, 'encrypted_key' | 'header'> {
   recipients: Pick<FlattenedJWE, 'encrypted_key' | 'header'>[]
 }
@@ -504,12 +568,16 @@ export interface JWEHeaderParameters extends JoseHeaderParameters {
    */
   enc?: JWEContentEncryptionAlgorithm
 
-  /** Extension parameters that must be recognized. */
+  /**
+   * "crit" (Critical) Header Parameter: names of extensions that must be understood and processed;
+   * must be integrity protected (RFC 7516, Section 4.1.13).
+   */
   crit?: string[]
 
   /**
-   * JWE compression algorithm. Only `"DEF"` (DEFLATE) is supported, requiring the runtime's
-   * `CompressionStream` / `DecompressionStream` APIs.
+   * JWE "zip" (Compression Algorithm) Header Parameter; must be integrity protected. Only `"DEF"`
+   * (raw DEFLATE) is supported, requiring the runtime's `CompressionStream` / `DecompressionStream`
+   * APIs.
    *
    * @see {@link https://www.rfc-editor.org/info/rfc7516/#section-4.1.3 JWE "zip" Header Parameter}
    */
@@ -620,61 +688,61 @@ export interface SignOptions extends CritOption {}
 /** Recognized JWT Claims Set members; additional members may also be present. */
 export interface JWTPayload {
   /**
-   * JWT Issuer
+   * "iss" (Issuer) Claim.
    *
    * @see {@link https://www.rfc-editor.org/info/rfc7519/#section-4.1.1 RFC7519#section-4.1.1}
    */
   iss?: string
 
   /**
-   * JWT Subject
+   * "sub" (Subject) Claim.
    *
    * @see {@link https://www.rfc-editor.org/info/rfc7519/#section-4.1.2 RFC7519#section-4.1.2}
    */
   sub?: string
 
   /**
-   * JWT Audience
+   * "aud" (Audience) Claim.
    *
    * @see {@link https://www.rfc-editor.org/info/rfc7519/#section-4.1.3 RFC7519#section-4.1.3}
    */
   aud?: string | string[]
 
   /**
-   * JWT ID
+   * "jti" (JWT ID) Claim.
    *
    * @see {@link https://www.rfc-editor.org/info/rfc7519/#section-4.1.7 RFC7519#section-4.1.7}
    */
   jti?: string
 
   /**
-   * Not valid before this Unix timestamp in seconds.
+   * "nbf" (Not Before) Claim, expressed as a NumericDate (seconds since the Unix epoch).
    *
    * @see {@link https://www.rfc-editor.org/info/rfc7519/#section-4.1.5 RFC7519#section-4.1.5}
    */
   nbf?: number
 
   /**
-   * Expiration Unix timestamp in seconds.
+   * "exp" (Expiration Time) Claim, expressed as a NumericDate (seconds since the Unix epoch).
    *
    * @see {@link https://www.rfc-editor.org/info/rfc7519/#section-4.1.4 RFC7519#section-4.1.4}
    */
   exp?: number
 
   /**
-   * Issued-at Unix timestamp in seconds.
+   * "iat" (Issued At) Claim, expressed as a NumericDate (seconds since the Unix epoch).
    *
    * @see {@link https://www.rfc-editor.org/info/rfc7519/#section-4.1.6 RFC7519#section-4.1.6}
    */
   iat?: number
 
-  /** Any other JWT Claim Set member. */
+  /** Any other JWT Claims Set member. */
   [propName: string]: unknown
 }
 
 /** Flattened JWE JSON Serialization decryption result. */
 export interface FlattenedDecryptResult {
-  /** JWE Additional Authenticated Data, integrity protected but not encrypted. */
+  /** Decoded JWE AAD bytes, integrity protected but not encrypted. */
   additionalAuthenticatedData?: Uint8Array
 
   /** Plaintext. */
@@ -693,7 +761,7 @@ export interface FlattenedDecryptResult {
 /** General JWE JSON Serialization decryption result. */
 export interface GeneralDecryptResult extends FlattenedDecryptResult {}
 
-/** Compact JWE decryption result. */
+/** JWE Compact Serialization decryption result. */
 export interface CompactDecryptResult {
   /** Plaintext. */
   plaintext: Uint8Array
@@ -717,7 +785,7 @@ export interface FlattenedVerifyResult {
 /** General JWS JSON Serialization verification result. */
 export interface GeneralVerifyResult extends FlattenedVerifyResult {}
 
-/** Compact JWS verification result. */
+/** JWS Compact Serialization verification result. */
 export interface CompactVerifyResult {
   /** JWS Payload. */
   payload: Uint8Array
@@ -727,7 +795,7 @@ export interface CompactVerifyResult {
 }
 
 /**
- * Signed JSON Web Token (JWT) verification result.
+ * Signed or MACed JSON Web Token (JWT) verification result.
  *
  * @typeParam PayloadType Type definition of the JWT Claims Set the token is expected to carry.
  */
@@ -770,17 +838,17 @@ export interface ResolvedKey<KeyType extends CryptoKey | Uint8Array = CryptoKey 
   key: KeyType
 }
 
-/** Recognized Compact JWS Header Parameters; additional members may also be present. */
+/** Recognized JWS Compact Serialization Header Parameters; additional members may also be present. */
 export interface CompactJWSHeaderParameters extends JWSHeaderParameters {
   alg: JWSAlgorithm
 }
 
-/** Recognized signed JWT Header Parameters; additional members may also be present. */
+/** Recognized JWT Header Parameters for JWS; additional members may also be present. */
 export interface JWTHeaderParameters extends CompactJWSHeaderParameters {
   b64?: boolean
 }
 
-/** Recognized Compact JWE Header Parameters; additional members may also be present. */
+/** Recognized JWE Compact Serialization Header Parameters; additional members may also be present. */
 export interface CompactJWEHeaderParameters extends JWEHeaderParameters {
   alg: JWEKeyManagementAlgorithm
   enc: JWEContentEncryptionAlgorithm
@@ -788,6 +856,7 @@ export interface CompactJWEHeaderParameters extends JWEHeaderParameters {
 
 /** JSON Web Key Set. */
 export interface JSONWebKeySet {
+  /** "keys" Parameter: an array of JWKs (RFC 7517, Section 5.1). */
   keys: JWK[]
 }
 
@@ -832,37 +901,38 @@ export interface CryptoKeyStructuralFallback {
 /** Shared fluent API for JWT-producing classes. */
 export interface ProduceJWT {
   /**
-   * Set the "iss" (Issuer) Claim.
+   * Set the "iss" (Issuer) Claim (RFC 7519, Section 4.1.1).
    *
    * @param issuer "Issuer" Claim value to set on the JWT Claims Set.
    */
   setIssuer(issuer: string): this
 
   /**
-   * Set the "sub" (Subject) Claim.
+   * Set the "sub" (Subject) Claim (RFC 7519, Section 4.1.2).
    *
    * @param subject "sub" (Subject) Claim value to set on the JWT Claims Set.
    */
   setSubject(subject: string): this
 
   /**
-   * Set the "aud" (Audience) Claim.
+   * Set the "aud" (Audience) Claim (RFC 7519, Section 4.1.3).
    *
    * @param audience "aud" (Audience) Claim value to set on the JWT Claims Set.
    */
   setAudience(audience: string | string[]): this
 
   /**
-   * Set the "jti" (JWT ID) Claim.
+   * Set the "jti" (JWT ID) Claim (RFC 7519, Section 4.1.7).
    *
    * @param jwtId "jti" (JWT ID) Claim value to set on the JWT Claims Set.
    */
   setJti(jwtId: string): this
 
   /**
-   * Set the "nbf" (Not Before) Claim. Numbers are Unix timestamps in seconds; Dates are converted
-   * to seconds. Strings are relative to now, using seconds, minutes, hours, days, weeks, or years
-   * (365.25 days; no months). Prefix `-` or suffix `ago` subtracts the duration.
+   * Set the "nbf" (Not Before) Claim. Numbers are NumericDate values (seconds since the Unix
+   * epoch); Dates are converted to seconds. Strings are relative to now, using seconds, minutes,
+   * hours, days, weeks, or years (365.25 days; no months). Prefix `-` or suffix `ago` subtracts the
+   * duration.
    *
    * Format used for time span should be a number followed by a unit, such as "5 minutes" or "1
    * day".
@@ -874,12 +944,14 @@ export interface ProduceJWT {
    * A "from now" suffix can be used for readability when adding to the current Unix timestamp.
    *
    * @param input "nbf" (Not Before) Claim value as a timestamp, Date, or relative duration.
+   *
+   * @see {@link https://www.rfc-editor.org/info/rfc7519/#section-4.1.5 RFC 7519, Section 4.1.5}
    */
   setNotBefore(input: number | string | Date): this
 
   /**
-   * Set the "exp" (Expiration Time) Claim. Accepts a Unix timestamp in seconds, a Date, or a
-   * duration relative to now using the same formats as {@link setNotBefore}.
+   * Set the "exp" (Expiration Time) Claim. Accepts a NumericDate value (seconds since the Unix
+   * epoch), a Date, or a duration relative to now using the same formats as {@link setNotBefore}.
    *
    * Format used for time span should be a number followed by a unit, such as "5 minutes" or "1
    * day".
@@ -891,6 +963,8 @@ export interface ProduceJWT {
    * A "from now" suffix can be used for readability when adding to the current Unix timestamp.
    *
    * @param input "exp" (Expiration Time) Claim value as a timestamp, Date, or relative duration.
+   *
+   * @see {@link https://www.rfc-editor.org/info/rfc7519/#section-4.1.4 RFC 7519, Section 4.1.4}
    */
   setExpirationTime(input: number | string | Date): this
 
@@ -909,6 +983,8 @@ export interface ProduceJWT {
    * A "from now" suffix can be used for readability when adding to the current Unix timestamp.
    *
    * @param input "iat" (Issued At) Claim value as a timestamp, Date, or relative duration.
+   *
+   * @see {@link https://www.rfc-editor.org/info/rfc7519/#section-4.1.6 RFC 7519, Section 4.1.6}
    */
   setIssuedAt(input?: number | string | Date): this
 }

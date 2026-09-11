@@ -2,6 +2,8 @@
  * Encrypting JSON Web Encryption (JWE) in Compact Serialization
  *
  * @module
+ *
+ * @see {@link https://www.rfc-editor.org/info/rfc7516/#section-7.1 RFC 7516, Section 7.1}
  */
 
 import type * as types from '../../types.d.ts'
@@ -10,7 +12,7 @@ import { compactJWE, createJWE } from '../../lib/jwe_encrypt.js'
 import type { EncryptInput } from '../../lib/jwe_encrypt.js'
 
 /**
- * Builds and encrypts Compact JWE strings.
+ * Produces JWE Compact Serialization using authenticated encryption.
  *
  * This class is exported (as a named export) from the main `'jose'` module entry point as well as
  * from its subpath export `'jose/jwe/compact/encrypt'`.
@@ -31,7 +33,7 @@ export class CompactEncrypt {
   #input: EncryptInput
 
   /**
-   * Creates a Compact JWE encryptor.
+   * Creates an encryptor for JWE Compact Serialization.
    *
    * @param plaintext Binary representation of the plaintext to encrypt.
    */
@@ -81,7 +83,7 @@ export class CompactEncrypt {
 
   /**
    * Sets key management inputs such as ECDH-ES "apu"/"apv" or PBES2 "p2c". Use this method instead
-   * of header setters; the resulting parameters are added to the JOSE header. May only be called
+   * of header setters; the resulting parameters are added to the JOSE Header. May only be called
    * once.
    *
    * @param parameters JWE Key Management parameters.
@@ -93,7 +95,7 @@ export class CompactEncrypt {
   }
 
   /**
-   * Encrypts the plaintext as a Compact JWE.
+   * Encrypts the plaintext and returns the JWE Compact Serialization.
    *
    * @param key Public key or shared secret. See
    *   {@link https://github.com/panva/jose/issues/210#jwe-alg Algorithm Key Requirements}.

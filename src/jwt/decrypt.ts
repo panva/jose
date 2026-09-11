@@ -30,7 +30,7 @@ export interface JWTDecryptGetKey<
 > {}
 
 /**
- * Decrypts a Compact JWE-formatted JWT and validates its Claims Set.
+ * Authenticates and decrypts a JWT in JWE Compact Serialization and validates its JWT Claims Set.
  *
  * This function is exported (as a named export) from the main `'jose'` module entry point as well
  * as from its subpath export `'jose/jwt/decrypt'`.
@@ -52,7 +52,7 @@ export interface JWTDecryptGetKey<
  * ```
  *
  * @param jwt JSON Web Token value (encoded as JWE).
- * @param key Private key or shared secret to decrypt and verify the JWT with. See
+ * @param key Private key or shared secret to authenticate and decrypt the JWT with. See
  *   {@link https://github.com/panva/jose/issues/210#jwe-alg Algorithm Key Requirements}.
  * @param options JWT Decryption and JWT Claims Set validation options.
  */
@@ -66,8 +66,9 @@ export function jwtDecrypt<PayloadType = types.JWTPayload>(
  * {@link types.ResolvedKey.key resolved key}.
  *
  * @param jwt JSON Web Token value (encoded as JWE).
- * @param getKey Function resolving a private key or shared secret to decrypt and verify the JWT
- *   with. See {@link https://github.com/panva/jose/issues/210#jwe-alg Algorithm Key Requirements}.
+ * @param getKey Function resolving a private key or shared secret to authenticate and decrypt the
+ *   JWT with. See
+ *   {@link https://github.com/panva/jose/issues/210#jwe-alg Algorithm Key Requirements}.
  * @param options JWT Decryption and JWT Claims Set validation options.
  */
 export function jwtDecrypt<
@@ -83,8 +84,8 @@ export function jwtDecrypt<
  * `key` only when a resolver was used.
  *
  * @param jwt JSON Web Token value (encoded as JWE).
- * @param key Private key or shared secret, or a function resolving one, to decrypt and verify the
- *   JWT with. See
+ * @param key Private key or shared secret, or a function resolving one, to authenticate and decrypt
+ *   the JWT with. See
  *   {@link https://github.com/panva/jose/issues/210#jwe-alg Algorithm Key Requirements}.
  * @param options JWT Decryption and JWT Claims Set validation options.
  */
@@ -104,8 +105,11 @@ export async function jwtDecrypt(
     key as types.KeyInput | DecryptGetKey,
   )
   const { protectedHeader } = result
+  // RFC 7519, Section 7.2, step 10: parse and validate the JWT Claims Set.
   const payload = validateClaimsSet(protectedHeader, plaintext, options)
 
+  // RFC 7519, Section 5.3: compare replicated claims with the encrypted Claims Set.
+  // The audience-array comparison below requires the same element order.
   for (const claim of ['iss', 'sub', 'aud'] as const) {
     if (
       protectedHeader[claim] !== undefined &&

@@ -4,7 +4,7 @@
 
 Support from the community to continue maintaining and improving this module is welcome. If you find the module useful, please consider supporting the project by [becoming a sponsor](https://github.com/sponsors/panva).
 
-Builds and signs Compact JWS-formatted JSON Web Tokens.
+Produces JWTs in JWS Compact Serialization using a digital signature or MAC.
 
 This class is exported (as a named export) from the main `'jose'` module entry point as well as
 from its subpath export `'jose/jwt/sign'`.
@@ -30,7 +30,7 @@ const jwt = await new jose.SignJWT({ 'urn:example:claim': true })
 console.log(jwt)
 ```
 
-Usage with a private PKCS#8 encoded RSA key
+Usage with a private PKCS #8 encoded RSA key
 
 ```js
 const alg = 'RS256'
@@ -125,7 +125,7 @@ console.log(jwt)
 
 ▸ **setAudience**(`audience`): `this`
 
-Set the "aud" (Audience) Claim.
+Set the "aud" (Audience) Claim (RFC 7519, Section 4.1.3).
 
 #### Parameters
 
@@ -143,8 +143,8 @@ Set the "aud" (Audience) Claim.
 
 ▸ **setExpirationTime**(`input`): `this`
 
-Set the "exp" (Expiration Time) Claim. Accepts a Unix timestamp in seconds, a Date, or a
-duration relative to now using the same formats as [setNotBefore](../../../types/interfaces/ProduceJWT.md#setnotbefore).
+Set the "exp" (Expiration Time) Claim. Accepts a NumericDate value (seconds since the Unix
+epoch), a Date, or a duration relative to now using the same formats as [setNotBefore](../../../types/interfaces/ProduceJWT.md#setnotbefore).
 
 Format used for time span should be a number followed by a unit, such as "5 minutes" or "1
 day".
@@ -164,6 +164,10 @@ A "from now" suffix can be used for readability when adding to the current Unix 
 #### Returns
 
 `this`
+
+#### See
+
+[RFC 7519, Section 4.1.4](https://www.rfc-editor.org/info/rfc7519/#section-4.1.4)
 
 ***
 
@@ -194,13 +198,17 @@ A "from now" suffix can be used for readability when adding to the current Unix 
 
 `this`
 
+#### See
+
+[RFC 7519, Section 4.1.6](https://www.rfc-editor.org/info/rfc7519/#section-4.1.6)
+
 ***
 
 ### setIssuer()
 
 ▸ **setIssuer**(`issuer`): `this`
 
-Set the "iss" (Issuer) Claim.
+Set the "iss" (Issuer) Claim (RFC 7519, Section 4.1.1).
 
 #### Parameters
 
@@ -218,7 +226,7 @@ Set the "iss" (Issuer) Claim.
 
 ▸ **setJti**(`jwtId`): `this`
 
-Set the "jti" (JWT ID) Claim.
+Set the "jti" (JWT ID) Claim (RFC 7519, Section 4.1.7).
 
 #### Parameters
 
@@ -236,9 +244,10 @@ Set the "jti" (JWT ID) Claim.
 
 ▸ **setNotBefore**(`input`): `this`
 
-Set the "nbf" (Not Before) Claim. Numbers are Unix timestamps in seconds; Dates are converted
-to seconds. Strings are relative to now, using seconds, minutes, hours, days, weeks, or years
-(365.25 days; no months). Prefix `-` or suffix `ago` subtracts the duration.
+Set the "nbf" (Not Before) Claim. Numbers are NumericDate values (seconds since the Unix
+epoch); Dates are converted to seconds. Strings are relative to now, using seconds, minutes,
+hours, days, weeks, or years (365.25 days; no months). Prefix `-` or suffix `ago` subtracts the
+duration.
 
 Format used for time span should be a number followed by a unit, such as "5 minutes" or "1
 day".
@@ -258,6 +267,10 @@ A "from now" suffix can be used for readability when adding to the current Unix 
 #### Returns
 
 `this`
+
+#### See
+
+[RFC 7519, Section 4.1.5](https://www.rfc-editor.org/info/rfc7519/#section-4.1.5)
 
 ***
 
@@ -283,7 +296,7 @@ Sets the JWS Protected Header. May only be called once.
 
 ▸ **setSubject**(`subject`): `this`
 
-Set the "sub" (Subject) Claim.
+Set the "sub" (Subject) Claim (RFC 7519, Section 4.1.2).
 
 #### Parameters
 

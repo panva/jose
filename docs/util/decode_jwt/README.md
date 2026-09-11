@@ -1,9 +1,9 @@
 # util/decode\_jwt
 
-JSON Web Token (JWT) Claims Set Decoding (no validation, no signature checking)
+JSON Web Token (JWT) Claims Set Decoding (no signature, MAC, or claims validation)
 
 ## Functions
 
 | Function | Description |
 | ------ | ------ |
-| [decodeJwt](functions/decodeJwt.md) | Decodes the Claims Set of a JWT in Compact JWS serialization without checking its signature or validating claim types and values. |
+| [decodeJwt](functions/decodeJwt.md) | Decodes the Claims Set of a JWT in JWS Compact Serialization without validating its JWS Signature (digital signature or MAC) or claim types and values. |

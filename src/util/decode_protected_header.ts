@@ -1,5 +1,5 @@
 /**
- * JOSE Protected Header Decoding (JWE, JWS, all serialization syntaxes)
+ * JWE and JWS Protected Header Decoding (JWE, JWS, all serialization syntaxes)
  *
  * @module
  */
@@ -28,16 +28,16 @@ export type ProtectedHeaderParameters = types.JWSHeaderParameters & types.JWEHea
  * @returns The parsed Protected Header.
  */
 export function decodeProtectedHeader(token: string | object): ProtectedHeaderParameters {
-  let protectedB64u!: unknown
+  let encodedProtectedHeader!: unknown
 
   if (typeof token === 'string') {
     const parts = token.split('.')
     if (parts.length === 3 || parts.length === 5) {
-      ;[protectedB64u] = parts
+      ;[encodedProtectedHeader] = parts
     }
   } else if (typeof token === 'object' && token) {
     if ('protected' in token) {
-      protectedB64u = token.protected
+      encodedProtectedHeader = token.protected
     } else {
       throw new TypeError('Token does not contain a Protected Header')
     }
@@ -45,9 +45,11 @@ export function decodeProtectedHeader(token: string | object): ProtectedHeaderPa
 
   const invalid = 'Invalid Token or Protected Header formatting'
 
-  if (typeof protectedB64u !== 'string' || !protectedB64u) {
+  if (typeof encodedProtectedHeader !== 'string' || !encodedProtectedHeader) {
     throw new TypeError(invalid)
   }
 
-  return parseJoseHeader<ProtectedHeaderParameters>(protectedB64u, TypeError, invalid)
+  // Decoding only: RFC 7515, Section 5.2, steps 2-3;
+  // draft-ietf-jose-hpke-encrypt-22, Section 7.2, steps 2-3.
+  return parseJoseHeader<ProtectedHeaderParameters>(encodedProtectedHeader, TypeError, invalid)
 }

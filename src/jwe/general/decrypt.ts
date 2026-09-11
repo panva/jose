@@ -2,6 +2,8 @@
  * Decrypting JSON Web Encryption (JWE) in General JSON Serialization
  *
  * @module
+ *
+ * @see {@link https://www.rfc-editor.org/info/rfc7516/#section-7.2.1 RFC 7516, Section 7.2.1}
  */
 
 import {
@@ -33,7 +35,7 @@ export interface GeneralDecryptGetKey<
 > {}
 
 /**
- * Decrypts a General JWE.
+ * Authenticates and decrypts a general JWE JSON Serialization.
  *
  * This function is exported (as a named export) from the main `'jose'` module entry point as well
  * as from its subpath export `'jose/jwe/general/decrypt'`.
@@ -80,7 +82,8 @@ export function generalDecrypt(
   options?: types.DecryptOptions,
 ): Promise<types.GeneralDecryptResult>
 /**
- * Decrypts a General JWE with a dynamically resolved key, included in the result.
+ * Authenticates and decrypts a general JWE JSON Serialization with a dynamically resolved key,
+ * included in the result.
  *
  * @param jwe General JWE.
  * @param getKey Resolves a private key or shared secret from unverified token data.
@@ -94,8 +97,8 @@ export function generalDecrypt<
   options?: types.DecryptOptions,
 ): Promise<types.GeneralDecryptResult & types.ResolvedKey<KeyType>>
 /**
- * Decrypts a General JWE with a key or key resolver. The result includes `key` only when a resolver
- * is used.
+ * Authenticates and decrypts a general JWE JSON Serialization with a key or key resolver. The
+ * result includes `key` only when a resolver is used.
  *
  * @param jwe General JWE.
  * @param key Private key or shared secret, or a function resolving one.
@@ -143,6 +146,7 @@ export async function generalDecrypt(
   }
 
   const recipientSnapshots = recipients.map((recipient) => snapshotRecipientJWE(recipient))
+  // draft-ietf-jose-hpke-encrypt-22, Section 7.2, step 7: single-recipient modes.
   if (recipients.length > 1) {
     // A recognized direct mode makes the serialization invalid as a whole. Unknown or otherwise
     // invalid algorithms remain recipient-local so a successful recipient can still be returned,
@@ -156,6 +160,8 @@ export async function generalDecrypt(
     }
   }
 
+  // draft-ietf-jose-hpke-encrypt-22, Section 7.2, step 21: at least one recipient must
+  // succeed. This API returns the first success, which is a library selection policy.
   for (const [recipient] of recipientSnapshots) {
     if (!recipient) continue
     try {

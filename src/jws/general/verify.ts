@@ -2,6 +2,8 @@
  * Verifying JSON Web Signature (JWS) in General JSON Serialization
  *
  * @module
+ *
+ * @see {@link https://www.rfc-editor.org/info/rfc7515/#section-7.2.1 RFC 7515, Section 7.2.1}
  */
 
 import type * as types from '../../types.d.ts'
@@ -19,7 +21,8 @@ import { isObject } from '../../lib/validate.js'
 type SignatureCandidate = [
   jws: types.FlattenedJWSInput,
   protectedHeader: types.JWSHeaderParameters,
-  mode: 0 | 1 | 2,
+  /** 0: invalid b64; 1: base64url-encoded; 2: unencoded payload. */
+  payloadEncoding: 0 | 1 | 2,
 ]
 
 function snapshotSignature(
@@ -64,7 +67,8 @@ export interface GeneralVerifyGetKey<
 > {}
 
 /**
- * Verifies a General JWS signature and decodes its payload.
+ * Validates a JWS Signature (digital signature or MAC) from a general JWS JSON Serialization and
+ * decodes its JWS Payload.
  *
  * This function is exported (as a named export) from the main `'jose'` module entry point as well
  * as from its subpath export `'jose/jws/general/verify'`.
@@ -105,8 +109,8 @@ export function generalVerify(
   options?: types.VerifyOptions,
 ): Promise<types.GeneralVerifyResult>
 /**
- * Verifies a General JWS signature and decodes its payload with a dynamically resolved key,
- * included in the result.
+ * Validates a JWS Signature (digital signature or MAC) from a general JWS JSON Serialization and
+ * decodes its JWS Payload with a dynamically resolved key, included in the result.
  *
  * @param jws General JWS.
  * @param getKey Resolves a public key or shared secret from unverified token data.
@@ -120,8 +124,9 @@ export function generalVerify<
   options?: types.VerifyOptions,
 ): Promise<types.GeneralVerifyResult & types.ResolvedKey<KeyType>>
 /**
- * Verifies a General JWS and decodes its payload using a key or key resolver. The result includes
- * `key` only when a resolver is used.
+ * Validates a JWS Signature (digital signature or MAC) from a general JWS JSON Serialization and
+ * decodes its JWS Payload using a key or key resolver. The result includes `key` only when a
+ * resolver is used.
  *
  * @param jws General JWS.
  * @param key Public key or shared secret, or a function resolving one.
@@ -165,14 +170,17 @@ export async function generalVerify(
     .map((signature) => snapshotSignature(signature, payload))
     .filter((candidate): candidate is SignatureCandidate => candidate !== undefined)
 
-  let modes = 0
-  for (const [, , mode] of candidates) {
-    modes |= mode
-    if (modes === 3) {
+  // RFC 7797, Section 3: reject differing b64 values across signatures.
+  let payloadEncodings = 0
+  for (const [, , payloadEncoding] of candidates) {
+    payloadEncodings |= payloadEncoding
+    if (payloadEncodings === 3) {
       throw new JWSInvalid('inconsistent use of JWS Unencoded Payload (RFC7797)')
     }
   }
 
+  // RFC 7515, Section 5.2, steps 9-10: at least one signature must validate.
+  // Returning the first valid signature is this API’s selection policy.
   for (const candidate of candidates) {
     try {
       const [result] = await verifySignature(

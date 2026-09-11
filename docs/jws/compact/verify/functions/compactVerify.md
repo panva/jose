@@ -8,7 +8,7 @@ Support from the community to continue maintaining and improving this module is 
 
 ▸ **compactVerify**(`jws`, `key`, `options?`): [`Promise`](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise)\<[`CompactVerifyResult`](../../../../types/interfaces/CompactVerifyResult.md)\>
 
-Verifies a Compact JWS signature and decodes its payload.
+Validates a JWS Compact Serialization (digital signature or MAC) and decodes its JWS Payload.
 
 This function is exported (as a named export) from the main `'jose'` module entry point as well
 as from its subpath export `'jose/jws/compact/verify'`.
@@ -41,8 +41,8 @@ console.log(new TextDecoder().decode(payload))
 
 ▸ **compactVerify**\<`KeyType`\>(`jws`, `getKey`, `options?`): [`Promise`](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise)\<[`CompactVerifyResult`](../../../../types/interfaces/CompactVerifyResult.md) & [`ResolvedKey`](../../../../types/interfaces/ResolvedKey.md)\<`KeyType`\>\>
 
-Verifies a Compact JWS signature and decodes its payload with a dynamically resolved key,
-included in the result.
+Validates a JWS Compact Serialization (digital signature or MAC) and decodes its JWS Payload with
+a dynamically resolved key, included in the result.
 
 ### Type Parameters
 
@@ -66,8 +66,8 @@ included in the result.
 
 ▸ **compactVerify**(`jws`, `key`, `options?`): [`Promise`](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise)\<[`CompactVerifyResult`](../../../../types/interfaces/CompactVerifyResult.md) & [`Partial`](https://www.typescriptlang.org/docs/handbook/utility-types.html#partialtype)\<[`ResolvedKey`](../../../../types/interfaces/ResolvedKey.md)\<[`Uint8Array`](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Uint8Array) \| [`CryptoKey`](https://developer.mozilla.org/docs/Web/API/CryptoKey)\>\>\>
 
-Verifies a Compact JWS and decodes its payload using a key or key resolver. The result includes
-`key` only when a resolver is used.
+Validates a JWS Compact Serialization (digital signature or MAC) and decodes its JWS Payload
+using a key or key resolver. The result includes `key` only when a resolver is used.
 
 ### Parameters
 

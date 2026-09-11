@@ -4,7 +4,7 @@
 
 Support from the community to continue maintaining and improving this module is welcome. If you find the module useful, please consider supporting the project by [becoming a sponsor](https://github.com/sponsors/panva).
 
-Builds and encrypts Compact JWE strings.
+Produces JWE Compact Serialization using authenticated encryption.
 
 This class is exported (as a named export) from the main `'jose'` module entry point as well as
 from its subpath export `'jose/jwe/compact/encrypt'`.
@@ -27,7 +27,7 @@ console.log(jwe)
 
 ▸ **new CompactEncrypt**(`plaintext`): `CompactEncrypt`
 
-Creates a Compact JWE encryptor.
+Creates an encryptor for JWE Compact Serialization.
 
 #### Parameters
 
@@ -45,7 +45,7 @@ Creates a Compact JWE encryptor.
 
 ▸ **encrypt**(`key`, `options?`): [`Promise`](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise)\<`string`\>
 
-Encrypts the plaintext as a Compact JWE.
+Encrypts the plaintext and returns the JWE Compact Serialization.
 
 #### Parameters
 
@@ -111,7 +111,7 @@ Use only for testing and vector validation.
 ▸ **setKeyManagementParameters**(`parameters`): `this`
 
 Sets key management inputs such as ECDH-ES "apu"/"apv" or PBES2 "p2c". Use this method instead
-of header setters; the resulting parameters are added to the JOSE header. May only be called
+of header setters; the resulting parameters are added to the JOSE Header. May only be called
 once.
 
 #### Parameters

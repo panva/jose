@@ -20,6 +20,8 @@ interface Cache {
   [alg: string]: types.CryptoKey | Promise<types.CryptoKey>
 }
 
+// RFC 7515, Appendix D: key selection is application-specific. This resolver uses
+// JWK metadata (RFC 7517, Sections 4.1-4.5); AKP requires alg (RFC 9964, Section 3).
 function isUsableJWK(jwk: types.JWK, entry: JWSAlgorithm, alg: string, kid: unknown): boolean {
   const { kty, key_ops: keyOps, ext, kid: jwkKid, alg: jwkAlg, use, crv } = jwk
 

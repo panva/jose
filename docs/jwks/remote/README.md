@@ -2,6 +2,10 @@
 
 Verification using a JSON Web Key Set (JWKS) available on an HTTP(S) URL
 
+JWK Set format: RFC 7517, Section 5. Key selection uses [jwks/local.createLocalJWKSet](../local/functions/createLocalJWKSet.md).
+Fetching and cache lifetimes are library policy; this does not automatically follow a jku
+header.
+
 ## Interfaces
 
 | Interface | Description |

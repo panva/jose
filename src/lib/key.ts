@@ -7,6 +7,7 @@ import type * as types from '../types.d.ts'
 const tag = (key: object): string | undefined =>
   (key as { [Symbol.toStringTag]?: string })[Symbol.toStringTag]
 
+// RFC 7517, Sections 4.2-4.4: honor declared use, key_ops and alg when consuming a JWK.
 const jwkMatchesOp = (entry: KeyDescriptor, key: types.JWK, usage: Usage) => {
   const { alg } = entry
   if (key.use !== undefined) {
@@ -41,7 +42,7 @@ export async function prepareKey(
   usage: Usage,
 ): Promise<types.CryptoKey | Uint8Array> {
   const { alg, secret } = entry
-  const privateKey = usage === 'decrypt' || usage === 'sign'
+  const requiresPrivateKey = usage === 'decrypt' || usage === 'sign'
   if (secret && key instanceof Uint8Array) return key
 
   let normalized: types.JWK | undefined
@@ -54,7 +55,7 @@ export async function prepareKey(
     const valid = secret
       ? normalized.kty === 'oct' && typeof normalized.k === 'string'
       : normalized.kty !== 'oct' &&
-        (privateKey
+        (requiresPrivateKey
           ? (normalized.kty === 'AKP' && typeof normalized.priv === 'string') ||
             typeof normalized.d === 'string'
           : normalized.d === undefined && normalized.priv === undefined)
@@ -62,7 +63,7 @@ export async function prepareKey(
       throw new TypeError(
         secret
           ? `JSON Web Key for symmetric algorithms must have JWK "kty" (Key Type) equal to "oct" and the JWK "k" (Key Value) present`
-          : `JSON Web Key for this operation must be a ${privateKey ? 'private' : 'public'} JWK`,
+          : `JSON Web Key for this operation must be a ${requiresPrivateKey ? 'private' : 'public'} JWK`,
       )
     }
     jwkMatchesOp(entry, normalized, usage)
@@ -79,7 +80,7 @@ export async function prepareKey(
       throw invalidKeyType(alg, key, secret)
     }
 
-    const expectedType = secret ? 'secret' : privateKey ? 'private' : 'public'
+    const expectedType = secret ? 'secret' : requiresPrivateKey ? 'private' : 'public'
     if (
       key.type !== expectedType &&
       (secret || ['secret', 'public', 'private'].includes(key.type))
@@ -209,6 +210,7 @@ export function checkUsage(key: types.CryptoKey, usage?: KeyUsage): void {
   }
 }
 
+// RFC 7518, Sections 3.3, 3.5 and 4.3: RSA keys must be at least 2048 bits.
 export function checkModulusLength(alg: string, key: types.CryptoKey): void {
   const { modulusLength } = key.algorithm as RsaKeyAlgorithm
   if (typeof modulusLength !== 'number' || modulusLength < 2048) {
@@ -259,6 +261,7 @@ export function normalizeJwk(jwk: types.JWK): types.JWK {
     throw new TypeError('"ext" (Extractable) Parameter must be a boolean')
   }
 
+  // RFC 7517, Section 4.3: key_ops is an array of strings without duplicate values.
   if (normalized.key_ops !== undefined) {
     const value = normalized.key_ops
     const keyOps = Array.isArray(value) ? [...value] : undefined
@@ -296,11 +299,15 @@ export async function jwkToKey(
   const isPrivate = !!(jwk.d || jwk.priv)
 
   const keyData: types.JWK = { ...jwk, ext: extractable ?? jwk.ext }
+  // RFC 9964, Section 3 requires alg for AKP. Other algorithms are already resolved above.
+  // Removing JOSE metadata here is a Web Crypto adapter choice, not a JWK format rule.
   if (keyData.kty !== 'AKP') {
     delete keyData.alg
   }
   delete keyData.use
 
+  // Key-material validation is delegated to Web Crypto, including RFC 9964, Sections 4/7.3
+  // seed-length validation for ML-DSA and RFC 7518, Section 6 public/private key encodings.
   return crypto.subtle.importKey(
     'jwk',
     keyData,

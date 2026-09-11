@@ -2,6 +2,8 @@
  * Encrypting JSON Web Encryption (JWE) in Flattened JSON Serialization
  *
  * @module
+ *
+ * @see {@link https://www.rfc-editor.org/info/rfc7516/#section-7.2.2 RFC 7516, Section 7.2.2}
  */
 
 import { assertNotSet, assertUint8Array } from '../../lib/validate.js'
@@ -10,7 +12,7 @@ import type { EncryptInput } from '../../lib/jwe_encrypt.js'
 import type * as types from '../../types.d.ts'
 
 /**
- * Builds and encrypts Flattened JWE objects.
+ * Produces flattened JWE JSON Serialization using authenticated encryption.
  *
  * This class is exported (as a named export) from the main `'jose'` module entry point as well as
  * from its subpath export `'jose/jwe/flattened/encrypt'`.
@@ -32,7 +34,7 @@ export class FlattenedEncrypt {
   #input: EncryptInput
 
   /**
-   * Creates a Flattened JWE encryptor.
+   * Creates an encryptor for flattened JWE JSON Serialization.
    *
    * @param plaintext Binary representation of the plaintext to encrypt.
    */
@@ -43,7 +45,7 @@ export class FlattenedEncrypt {
 
   /**
    * Sets key management inputs such as ECDH-ES "apu"/"apv" or PBES2 "p2c". Use this method instead
-   * of header setters; the resulting parameters are added to the JOSE header. May only be called
+   * of header setters; the resulting parameters are added to the JOSE Header. May only be called
    * once.
    *
    * @param parameters JWE Key Management parameters.
@@ -88,9 +90,13 @@ export class FlattenedEncrypt {
   }
 
   /**
-   * Sets additional data to authenticate without encrypting it.
+   * Sets the JWE AAD, which is integrity protected but not encrypted.
    *
-   * @param aad Additional Authenticated Data.
+   * Its base64url encoding is combined with the Encoded Protected Header to form the Additional
+   * Authenticated Data encryption parameter. See
+   * {@link https://www.ietf.org/archive/id/draft-ietf-jose-hpke-encrypt-22.html#section-7.1 draft-ietf-jose-hpke-encrypt-22, Section 7.1, step 15}.
+   *
+   * @param aad JWE Additional Authenticated Data (JWE AAD).
    */
   setAdditionalAuthenticatedData(aad: Uint8Array): this {
     this.#input[4] = aad
@@ -126,7 +132,7 @@ export class FlattenedEncrypt {
   }
 
   /**
-   * Encrypts the plaintext as a Flattened JWE.
+   * Encrypts the plaintext and returns the flattened JWE JSON Serialization.
    *
    * @param key Public key or shared secret. See
    *   {@link https://github.com/panva/jose/issues/210#jwe-alg Algorithm Key Requirements}.

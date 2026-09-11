@@ -2,6 +2,8 @@
  * Decrypting JSON Web Encryption (JWE) in Compact Serialization
  *
  * @module
+ *
+ * @see {@link https://www.rfc-editor.org/info/rfc7516/#section-7.1 RFC 7516, Section 7.1}
  */
 
 import { prepareDecrypt, decryptCompact } from '../../lib/jwe_decrypt.js'
@@ -23,7 +25,7 @@ export interface CompactDecryptGetKey<
 > {}
 
 /**
- * Decrypts a Compact JWE.
+ * Authenticates and decrypts a JWE Compact Serialization.
  *
  * This function is exported (as a named export) from the main `'jose'` module entry point as well
  * as from its subpath export `'jose/jwe/compact/decrypt'`.
@@ -51,7 +53,8 @@ export function compactDecrypt(
   options?: types.DecryptOptions,
 ): Promise<types.CompactDecryptResult>
 /**
- * Decrypts a Compact JWE with a dynamically resolved key, included in the result.
+ * Authenticates and decrypts a JWE Compact Serialization with a dynamically resolved key, included
+ * in the result.
  *
  * @param jwe Compact JWE.
  * @param getKey Resolves a private key or shared secret from unverified token data.
@@ -65,8 +68,8 @@ export function compactDecrypt<
   options?: types.DecryptOptions,
 ): Promise<types.CompactDecryptResult & types.ResolvedKey<KeyType>>
 /**
- * Decrypts a Compact JWE with a key or key resolver. The result includes `key` only when a resolver
- * is used.
+ * Authenticates and decrypts a JWE Compact Serialization with a key or key resolver. The result
+ * includes `key` only when a resolver is used.
  *
  * @param jwe Compact JWE.
  * @param key Private key or shared secret, or a function resolving one.

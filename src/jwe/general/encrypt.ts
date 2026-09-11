@@ -2,6 +2,8 @@
  * Encrypting JSON Web Encryption (JWE) in General JSON Serialization
  *
  * @module
+ *
+ * @see {@link https://www.rfc-editor.org/info/rfc7516/#section-7.2.1 RFC 7516, Section 7.2.1}
  */
 
 import type * as types from '../../types.d.ts'
@@ -26,7 +28,7 @@ export interface Recipient {
 
   /**
    * Sets key management inputs such as ECDH-ES "apu"/"apv" or PBES2 "p2c". Use this method instead
-   * of header setters; the resulting parameters are added to the JOSE header. May only be called
+   * of header setters; the resulting parameters are added to the JOSE Header. May only be called
    * once.
    *
    * @param parameters JWE Key Management parameters.
@@ -94,7 +96,7 @@ class IndividualRecipient implements Recipient {
 }
 
 /**
- * Builds and encrypts General JWE objects.
+ * Produces general JWE JSON Serialization using authenticated encryption.
  *
  * This class is exported (as a named export) from the main `'jose'` module entry point as well as
  * from its subpath export `'jose/jwe/general/encrypt'`.
@@ -122,12 +124,12 @@ export class GeneralEncrypt {
 
   #protectedHeader!: types.JWEHeaderParameters
 
-  #unprotectedHeader!: types.JWEHeaderParameters
+  #sharedUnprotectedHeader!: types.JWEHeaderParameters
 
   #aad!: Uint8Array
 
   /**
-   * Creates a General JWE encryptor.
+   * Creates an encryptor for general JWE JSON Serialization.
    *
    * @param plaintext Binary representation of the plaintext to encrypt.
    */
@@ -165,22 +167,26 @@ export class GeneralEncrypt {
    * @param sharedUnprotectedHeader JWE Shared Unprotected Header object.
    */
   setSharedUnprotectedHeader(sharedUnprotectedHeader: types.JWEHeaderParameters): this {
-    assertNotSet(this.#unprotectedHeader, 'setSharedUnprotectedHeader')
-    this.#unprotectedHeader = sharedUnprotectedHeader
+    assertNotSet(this.#sharedUnprotectedHeader, 'setSharedUnprotectedHeader')
+    this.#sharedUnprotectedHeader = sharedUnprotectedHeader
     return this
   }
 
   /**
-   * Sets additional data to authenticate without encrypting it.
+   * Sets the JWE AAD, which is integrity protected but not encrypted.
    *
-   * @param aad Additional Authenticated Data.
+   * Its base64url encoding is combined with the Encoded Protected Header to form the Additional
+   * Authenticated Data encryption parameter. See
+   * {@link https://www.ietf.org/archive/id/draft-ietf-jose-hpke-encrypt-22.html#section-7.1 draft-ietf-jose-hpke-encrypt-22, Section 7.1, step 15}.
+   *
+   * @param aad JWE Additional Authenticated Data (JWE AAD).
    */
   setAdditionalAuthenticatedData(aad: Uint8Array): this {
     this.#aad = aad
     return this
   }
 
-  /** Encrypts the plaintext as a General JWE. */
+  /** Encrypts the plaintext and returns the general JWE JSON Serialization. */
   async encrypt(): Promise<types.GeneralJWE> {
     if (!this.#recipients.length) {
       throw new JWEInvalid('at least one recipient must be added')
@@ -191,7 +197,7 @@ export class GeneralEncrypt {
     const multiple = this.#recipients.length > 1
     let enc: string | undefined
     let protectedHeader = this.#protectedHeader
-    let sharedUnprotectedHeader = this.#unprotectedHeader
+    let sharedUnprotectedHeader = this.#sharedUnprotectedHeader
     const recipients: [input: EncryptInput, headers: CheckedHeaders, key: types.KeyInput][] = []
     for (const recipient of this.#recipients) {
       const [unprotectedHeader, keyManagementParameters, key, crit] = recipient.state
@@ -216,6 +222,7 @@ export class GeneralEncrypt {
       recipients.push([input, headers, key])
 
       const [{ alg, enc: recipientEnc }, , algEntry] = headers
+      // draft-ietf-jose-hpke-encrypt-22, Section 7.2, step 7: single-recipient modes.
       if (multiple && algEntry && !isJWECEKTransport(algEntry)) {
         throw new JWEInvalid(`"${alg}" alg may only have a single recipient`)
       }
@@ -233,6 +240,7 @@ export class GeneralEncrypt {
       headers[2] ??= jweAlgorithm(headers[0].alg)
     }
     const [firstInput, firstHeaders, firstKey] = recipients[0]
+    // draft-ietf-jose-hpke-encrypt-22, Section 7.1, steps 2 and 9: reuse one CEK.
     const cek = multiple ? generateCek(firstHeaders[1]!) : undefined
     firstInput[5] = cek
     const { encrypted_key, header, ...shared } = await encryptJWE(
@@ -248,6 +256,7 @@ export class GeneralEncrypt {
     if (encrypted_key) jwe.recipients[0].encrypted_key = encrypted_key
     if (header) jwe.recipients[0].header = header
 
+    // RFC 7516, Section 7.2.1: all recipients share the ciphertext, IV, and Authentication Tag.
     for (let i = 1; i < recipients.length; i++) {
       const [input, [joseHeader, encEntry, algEntry], key] = recipients[i]
       const unprotectedHeader = input[2]

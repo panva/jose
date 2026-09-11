@@ -13,4 +13,4 @@ JSON Web Token (JWT) Verification (JWT is in JWS format)
 
 | Function | Description |
 | ------ | ------ |
-| [jwtVerify](functions/jwtVerify.md) | Verifies a Compact JWS-formatted JWT and validates its Claims Set. |
+| [jwtVerify](functions/jwtVerify.md) | Validates a JWT in JWS Compact Serialization (digital signature or MAC) and its JWT Claims Set. |

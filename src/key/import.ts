@@ -2,6 +2,9 @@
  * Cryptographic key import functions
  *
  * @module
+ *
+ * @see {@link https://www.rfc-editor.org/info/rfc7468/#section-10 RFC 7468, Section 10: PKCS #8}
+ * @see {@link https://www.rfc-editor.org/info/rfc7468/#section-13 RFC 7468, Section 13: SubjectPublicKeyInfo}
  */
 
 import { decode as decodeBase64URL } from '../util/base64url.js'
@@ -112,7 +115,7 @@ export async function importX509(
 }
 
 /**
- * Imports a PEM-encoded PKCS#8 string as a {@link !CryptoKey}.
+ * Imports a PEM-encoded PKCS #8 string as a {@link !CryptoKey}.
  *
  * > [!NOTE]\
  * > For RSA keys, use the rsaEncryption OID (1.2.840.113549.1.1.1). The id-RSASSA-PSS OID
@@ -133,7 +136,7 @@ export async function importX509(
  * const ecPrivateKey = await jose.importPKCS8(pkcs8, algorithm)
  * ```
  *
- * @param pkcs8 PEM-encoded PKCS#8 string
+ * @param pkcs8 PEM-encoded PKCS #8 string
  * @param alg JSON Web Algorithm identifier to be used with the imported key. See
  *   {@link https://github.com/panva/jose/issues/210 Algorithm Key Requirements}.
  */
@@ -214,12 +217,14 @@ export async function importJWK(
   }
 
   switch (normalized.kty) {
+    // RFC 7518, Section 6.4.1: decode the symmetric Key Value.
     case 'oct':
       if (typeof normalized.k !== 'string') {
         throw new TypeError('missing "k" (Key Value) Parameter value')
       }
 
       return decodeBase64URL(normalized.k)
+    // RFC 9964, Section 3: AKP requires the alg Parameter.
     case 'AKP': {
       if (typeof jwkAlg !== 'string' || !jwkAlg) {
         throw new TypeError('missing "alg" (Algorithm) Parameter value')

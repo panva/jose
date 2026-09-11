@@ -75,6 +75,8 @@ export interface GenerateKeyPairOptions {
   extractable?: boolean
 }
 
+// RFC 7518, Sections 3.3, 3.5, and 4.3: RSA keys must be at least 2048 bits.
+// Using 2048 bits by default is library policy.
 function getModulusLengthOption(options?: GenerateKeyPairOptions) {
   const modulusLength = options?.modulusLength ?? 2048
   if (

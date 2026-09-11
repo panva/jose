@@ -18,7 +18,7 @@ Decoded Unsecured JWT.
 
 • **header**: [`JWSHeaderParameters`](../../../types/interfaces/JWSHeaderParameters.md)
 
-The decoded JOSE Header; always `{ "alg": "none" }` for an Unsecured JWT.
+The decoded JOSE Header; its "alg" (Algorithm) Header Parameter is "none".
 
 ***
 

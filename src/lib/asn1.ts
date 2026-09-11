@@ -13,6 +13,8 @@ import type { KeyImportOptions } from '../key/import.js'
  *
  * @returns PEM-formatted string
  */
+// RFC 7468, Sections 2, 10, and 13: base64 textual encodings, 64-character lines,
+// PRIVATE KEY for PrivateKeyInfo and PUBLIC KEY for SubjectPublicKeyInfo.
 const formatPEM = (b64: string, descriptor: string) => {
   const newlined = (b64.match(/.{1,64}/g) || []).join('\n')
   return `-----BEGIN ${descriptor}-----\n${newlined}\n-----END ${descriptor}-----`
@@ -138,7 +140,9 @@ const parseAlgorithmOID = (state: ASN1State): Uint8Array => {
   return getSubarray(state, oidLen)
 }
 
-/** Parses a PKCS#8 or SPKI structure up to its algorithm identifier. */
+/** Parses a PKCS #8 or SPKI structure up to its algorithm identifier. */
+// RFC 5208, Section 5; RFC 5280, Section 4.1.2.7: inspect AlgorithmIdentifier.
+// Web Crypto importKey performs the remaining key-format validation.
 function parseKeyHeader(state: ASN1State, keyFormat: 'spki' | 'pkcs8') {
   expectTag(state, 0x30, `Invalid ${keyFormat === 'spki' ? 'SPKI' : 'PKCS#8'} structure`)
   parseLength(state) // Skip outer length
@@ -159,12 +163,12 @@ function parseKeyHeader(state: ASN1State, keyFormat: 'spki' | 'pkcs8') {
 const parseECAlgorithmIdentifier = (state: ASN1State): string => {
   const algOid = parseAlgorithmOID(state)
 
-  // id-x25519
+  // RFC 8410, Section 3: id-X25519 1.3.101.110
   if (bytesEqual(algOid, [0x2b, 0x65, 0x6e])) {
     return 'X25519'
   }
 
-  // id-ecPublicKey 1.2.840.10045.2.1
+  // RFC 5480, Section 2.1.1: id-ecPublicKey and namedCurve parameters.
   if (!bytesEqual(algOid, [0x2a, 0x86, 0x48, 0xce, 0x3d, 0x02, 0x01])) {
     throw new Error('Unsupported key algorithm')
   }
@@ -245,6 +249,8 @@ export const fromSPKI: PEMImportFunction = (pem, alg, options?) => {
  *
  * @returns SPKI structure as bytes
  */
+// RFC 5280, Sections 4.1.2 and 4.1.2.7: extract subjectPublicKeyInfo from TBSCertificate.
+// This is key extraction, not certificate path validation (Section 6).
 function spkiFromX509(buf: Uint8Array): Uint8Array {
   const state = createASN1State(buf)
 

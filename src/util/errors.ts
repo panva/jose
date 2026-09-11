@@ -4,6 +4,8 @@
  * These are exported (as the `errors` namespace) from the main `'jose'` module entry point as well
  * as from the subpath export `'jose/errors'`.
  *
+ * Error classes, codes, and reasons are library API identifiers, not JOSE wire values.
+ *
  * @module
  */
 
@@ -604,7 +606,7 @@ export class JWKSTimeout extends JOSEError {
 }
 
 /**
- * Thrown when JWS signature verification fails.
+ * Thrown when JWS Signature validation (digital signature or MAC) fails.
  *
  * @example
  *

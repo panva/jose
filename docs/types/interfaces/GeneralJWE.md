@@ -6,13 +6,17 @@ Support from the community to continue maintaining and improving this module is 
 
 General JWE JSON Serialization token.
 
+## See
+
+[RFC 7516, Section 7.2.1](https://www.rfc-editor.org/info/rfc7516/#section-7.2.1)
+
 ## Properties
 
 ### ciphertext
 
 • **ciphertext**: `string`
 
-Base64url-encoded ciphertext.
+Base64url-encoded JWE Ciphertext.
 
 ***
 
@@ -26,8 +30,7 @@ Base64url-encoded ciphertext.
 
 • `optional` **aad?**: `string`
 
-Base64url-encoded additional authenticated data; integrity protected but not encrypted. Omit
-when empty.
+Base64url-encoded JWE AAD; integrity protected but not encrypted. Omit when empty.
 
 ***
 
@@ -35,7 +38,7 @@ when empty.
 
 • `optional` **iv?**: `string`
 
-Base64url-encoded initialization vector. Omit when empty.
+Base64url-encoded JWE Initialization Vector. Omit when empty.
 
 ***
 
@@ -51,7 +54,7 @@ Base64url-encoded UTF-8 JWE Protected Header. Integrity protected; omit when emp
 
 • `optional` **tag?**: `string`
 
-Base64url-encoded authentication tag. Omit when empty.
+Base64url-encoded JWE Authentication Tag. Omit when empty.
 
 ***
 

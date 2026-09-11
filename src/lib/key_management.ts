@@ -37,7 +37,7 @@ function checkEcdhCryptoKey(key: types.CryptoKey, usage?: KeyUsage): void {
   checkUsage(key, usage)
 }
 
-// --- aeskw ---
+// RFC 7518, Section 4.4: wrap the CEK using AES Key Wrap with the default initial value.
 
 async function aeskwWrap(
   alg: string,
@@ -46,7 +46,7 @@ async function aeskwWrap(
 ): Promise<Uint8Array> {
   const cryptoKey = await rawKey(key, jweAlgorithm(alg).subtle, 'wrapKey', true)
 
-  // algorithm used is irrelevant
+  // The algorithm only supplies a carrier key for Web Crypto wrapKey/unwrapKey.
   const cryptoKeyCek = await crypto.subtle.importKey(
     'raw',
     cek as Uint8Array<ArrayBuffer>,
@@ -65,7 +65,7 @@ async function aeskwUnwrap(
 ): Promise<Uint8Array> {
   const cryptoKey = await rawKey(key, jweAlgorithm(alg).subtle, 'unwrapKey', true)
 
-  // algorithm used is irrelevant
+  // The algorithm only supplies a carrier key for Web Crypto wrapKey/unwrapKey.
   const cryptoKeyCek = await crypto.subtle.unwrapKey(
     'raw',
     encryptedKey as Uint8Array<ArrayBuffer>,
@@ -79,14 +79,14 @@ async function aeskwUnwrap(
   return new Uint8Array(await crypto.subtle.exportKey('raw', cryptoKeyCek))
 }
 
-// --- rsaes ---
+// RFC 7518, Section 4.3: RSAES OAEP parameters and minimum RSA key size.
 
 function checkRsaKey(alg: string, key: types.CryptoKey, usage: 'encrypt' | 'decrypt') {
   checkCryptoKey(key, jweAlgorithm(alg).subtle, usage)
   checkModulusLength(alg, key)
 }
 
-// --- pbes2kw ---
+// RFC 7518, Sections 4.8 and 4.8.1: PBES2 derives an AES Key Wrap key from a password.
 
 async function deriveKey(
   p2s: Uint8Array,
@@ -94,15 +94,18 @@ async function deriveKey(
   p2c: number,
   key: types.CryptoKey | Uint8Array,
 ) {
+  // RFC 7518, Section 4.8.1.1 requires at least eight Salt Input octets.
   if (!(p2s instanceof Uint8Array) || p2s.length < 8) {
     throw new JWEInvalid('PBES2 Salt Input must be 8 or more octets')
   }
+  // RFC 7518, Section 4.8.1.2: PBES2 Count is a positive JSON integer.
   if (!Number.isSafeInteger(p2c) || Math.sign(p2c) !== 1) {
     throw new JWEInvalid('PBES2 Count Input must be a positive integer')
   }
 
+  // RFC 7518, Section 4.8.1.1: UTF8(alg) || 0x00 || Salt Input; alg is ASCII here.
   const salt = concat(encode(alg), Uint8Array.of(0), p2s)
-  const keylen = parseInt(alg.slice(13, 16), 10)
+  const keyLengthBits = parseInt(alg.slice(13, 16), 10)
   const subtleAlg = {
     hash: `SHA-${alg.slice(8, 11)}`,
     iterations: p2c,
@@ -112,10 +115,10 @@ async function deriveKey(
 
   const cryptoKey = await rawKey(key, jweAlgorithm(alg).subtle, 'deriveBits')
 
-  return new Uint8Array(await crypto.subtle.deriveBits(subtleAlg, cryptoKey, keylen))
+  return new Uint8Array(await crypto.subtle.deriveBits(subtleAlg, cryptoKey, keyLengthBits))
 }
 
-// --- ecdhes ---
+// RFC 7518, Section 4.6.2: Concat KDF inputs for ECDH-ES.
 
 function lengthAndInput(input: Uint8Array) {
   return concat(uint32be(input.length), input)
@@ -125,12 +128,12 @@ function lengthAndInput(input: Uint8Array) {
  * Concat KDF implementation
  *
  * @param Z - Shared secret from key-agreement scheme
- * @param L - Length of derived keying material in bits
+ * @param keyDataLength - RFC 7518 keydatalen, in bits
  * @param OtherInfo - Context and application specific data
  */
-async function concatKdf(Z: Uint8Array, L: number, OtherInfo: Uint8Array) {
-  // dkLen = L (in bits), converted to bytes for output length
-  const dkLen = L >> 3
+async function concatKdf(Z: Uint8Array, keyDataLength: number, OtherInfo: Uint8Array) {
+  // dkLen = keyDataLength (in bits), converted to bytes for output length
+  const dkLen = keyDataLength >> 3
   // Hash output length in bytes (SHA-256 produces 32 bytes)
   const hashLen = 32
   // Number of hash function calls needed
@@ -145,7 +148,7 @@ async function concatKdf(Z: Uint8Array, L: number, OtherInfo: Uint8Array) {
     dk.set(hashResult, (i - 1) * hashLen)
   }
 
-  // Return leading L bits of dk (truncate to exact length needed)
+  // Return leading keyDataLength bits of dk (truncate to exact length needed)
   return dk.slice(0, dkLen)
 }
 
@@ -154,28 +157,33 @@ async function concatKdf(Z: Uint8Array, L: number, OtherInfo: Uint8Array) {
  *
  * @param publicKey
  * @param privateKey
- * @param algorithm - AlgorithmID: For Direct Key Agreement (ECDH-ES), this is the "enc" value. For
- *   Key Agreement with Key Wrapping, this is the "alg" value
- * @param keyLength - Keydatalen: Number of bits in the desired output key
- * @param apu - PartyUInfo: Agreement PartyUInfo value (information about the producer)
- * @param apv - PartyVInfo: Agreement PartyVInfo value (information about the recipient)
+ * @param algorithmId - Data for the length-prefixed AlgorithmID: For Direct Key Agreement
+ *   (ECDH-ES), this is the "enc" value. For Key Agreement with Key Wrapping, this is the "alg"
+ *   value
+ * @param keyDataLength - Keydatalen: Number of bits in the desired output key
+ * @param apu - Data for the length-prefixed PartyUInfo: Agreement PartyUInfo value (information
+ *   about the producer)
+ * @param apv - Data for the length-prefixed PartyVInfo: Agreement PartyVInfo value (information
+ *   about the recipient)
  */
 async function ecdhesDeriveKey(
   publicKey: types.CryptoKey,
   privateKey: types.CryptoKey,
-  algorithm: string,
-  keyLength: number,
+  algorithmId: string,
+  keyDataLength: number,
   apu: Uint8Array = new Uint8Array(),
   apv: Uint8Array = new Uint8Array(),
 ): Promise<Uint8Array> {
   checkEcdhCryptoKey(publicKey)
   checkEcdhCryptoKey(privateKey, 'deriveBits')
 
+  // RFC 7518, Section 4.6.2: AlgorithmID || PartyUInfo || PartyVInfo || SuppPubInfo.
+  // Each variable-length field has a 32-bit octet count; SuppPrivInfo is empty.
   const otherInfo = concat(
-    lengthAndInput(encode(algorithm)),
+    lengthAndInput(encode(algorithmId)),
     lengthAndInput(apu),
     lengthAndInput(apv),
-    uint32be(keyLength),
+    uint32be(keyDataLength),
   )
 
   // Perform ECDH to get the shared secret Z
@@ -195,7 +203,7 @@ async function ecdhesDeriveKey(
   )
 
   // Apply Concat KDF to derive the final key material
-  return concatKdf(Z, keyLength, otherInfo)
+  return concatKdf(Z, keyDataLength, otherInfo)
 }
 
 function assertEcdhKey(key: types.CryptoKey | Uint8Array): asserts key is types.CryptoKey {
@@ -224,6 +232,7 @@ function partyInfo(joseHeader: types.JWEHeaderParameters, name: 'apu' | 'apv') {
   return decodeBase64url(value, name, JWEInvalid)
 }
 
+// RFC 7518, Section 4.6.2, paragraph after SuppPrivInfo: apu and apv MUST be distinct.
 function checkPartyInfo(apu: Uint8Array | undefined, apv: Uint8Array | undefined): void {
   if (apu === undefined || apv === undefined || apu.byteLength !== apv.byteLength) return
   for (let i = 0; i < apu.byteLength; i++) {
@@ -258,6 +267,7 @@ export async function decryptKeyManagement(
 ): Promise<types.CryptoKey | Uint8Array> {
   const { alg } = entry
   const mode = entry.mode
+  // draft-ietf-jose-hpke-encrypt-22, Section 7.2, steps 11-12; RFC 7518, Section 4.5.
   if (mode === 'direct-encryption') {
     assertNoEncryptedKey(encryptedKey)
     return key
@@ -268,6 +278,7 @@ export async function decryptKeyManagement(
 
   switch (entry.subtle.name) {
     case 'ECDH': {
+      // RFC 7518, Section 4.6.1.1: epk is a JWK containing only public key parameters.
       const { epk } = joseHeader
       if (
         !isObject<types.JWK>(epk) ||
@@ -285,7 +296,7 @@ export async function decryptKeyManagement(
       const partyVInfo = partyInfo(joseHeader, 'apv')
       checkPartyInfo(partyUInfo, partyVInfo)
 
-      const sharedSecret = await ecdhesDeriveKey(
+      const derivedKey = await ecdhesDeriveKey(
         ephemeralPublicKey,
         key,
         direct ? enc.alg : alg,
@@ -294,9 +305,9 @@ export async function decryptKeyManagement(
         partyVInfo,
       )
 
-      if (direct) return sharedSecret
+      if (direct) return derivedKey
 
-      key = sharedSecret
+      key = derivedKey
       break
     }
     case 'RSA-OAEP': {
@@ -331,6 +342,7 @@ export async function decryptKeyManagement(
       if (typeof joseHeader.tag !== 'string')
         throw new JWEInvalid(`JOSE Header "tag" (Authentication Tag) missing or invalid`)
 
+      // RFC 7518, Sections 4.7 and 4.7.1: 96-bit IV, 128-bit tag, empty AAD.
       const iv = decodeBase64url(joseHeader.iv, 'iv', JWEInvalid)
       const tag = decodeBase64url(joseHeader.tag, 'tag', JWEInvalid)
 
@@ -367,6 +379,7 @@ export async function encryptKeyManagement(
   let key = await prepareKey(mode === 'direct-encryption' ? enc : entry, inputKey, 'encrypt')
   if (mode === 'direct-encryption') return [key, undefined, undefined]
 
+  // draft-ietf-jose-hpke-encrypt-22, Section 7.1, step 2: generate one CEK for the content encryption algorithm.
   const cek = transport ? (providedCek ?? generateCek(enc)) : undefined
   if (cek) checkCekLength(cek, enc.cekBits)
   let encryptedKey: Uint8Array | undefined
@@ -384,31 +397,32 @@ export async function encryptKeyManagement(
       const apu = providedApu ?? partyInfo(joseHeader, 'apu')
       const apv = providedApv ?? partyInfo(joseHeader, 'apv')
       checkPartyInfo(apu, apv)
-      let ephemeralKey: types.CryptoKey
+      let ephemeralPrivateKey: types.CryptoKey
       if (providedParameters.epk !== undefined) {
-        ephemeralKey = (await prepareKey(
+        ephemeralPrivateKey = (await prepareKey(
           entry,
           providedParameters.epk,
           'decrypt',
         )) as types.CryptoKey
       } else {
-        ephemeralKey = (
+        // RFC 7518, Section 4.6: a new ephemeral key is required for each agreement.
+        ephemeralPrivateKey = (
           await crypto.subtle.generateKey(key.algorithm as EcKeyAlgorithm, true, ['deriveBits'])
         ).privateKey
       }
       const subtle = crypto.subtle as SubtleCryptoWithGetPublicKey
-      let exportableEpk = ephemeralKey
+      let exportableEpk = ephemeralPrivateKey
       if (!exportableEpk.extractable) {
         if (typeof subtle.getPublicKey !== 'function') {
           throw new TypeError('CryptoKey for "epk" must be extractable')
         }
-        exportableEpk = await subtle.getPublicKey(ephemeralKey, [])
+        exportableEpk = await subtle.getPublicKey(ephemeralPrivateKey, [])
       }
       const { x, y, crv, kty } = (await subtle.exportKey('jwk', exportableEpk)) as types.JWK
       const direct = mode === 'direct-key-agreement'
-      const sharedSecret = await ecdhesDeriveKey(
+      const derivedKey = await ecdhesDeriveKey(
         key,
-        ephemeralKey,
+        ephemeralPrivateKey,
         direct ? enc.alg : alg,
         direct ? enc.cekBits : parseInt(alg.slice(-5, -2), 10),
         apu,
@@ -420,9 +434,9 @@ export async function encryptKeyManagement(
       if (providedApu !== undefined) parameters.apu = b64u(providedApu)
       if (providedApv !== undefined) parameters.apv = b64u(providedApv)
 
-      if (direct) return [sharedSecret, undefined, parameters]
+      if (direct) return [derivedKey, undefined, parameters]
 
-      key = sharedSecret
+      key = derivedKey
       break
     }
     case 'RSA-OAEP': {
@@ -434,6 +448,8 @@ export async function encryptKeyManagement(
       break
     }
     case 'PBKDF2': {
+      // RFC 7518, Sections 4.8.1.1-4.8.1.2: fresh Salt Input; 1000 iterations recommended.
+      // 2048 iterations and 16 Salt Input octets are library defaults; overrides support vectors.
       const { p2c = 2048, p2s = crypto.getRandomValues(new Uint8Array(16)) } = providedParameters
       key = await deriveKey(p2s, alg, p2c, key)
       parameters = { p2c, p2s: b64u(p2s) }
@@ -447,6 +463,7 @@ export async function encryptKeyManagement(
       if (!(iv instanceof Uint8Array)) {
         throw new TypeError('"iv" must be an instance of Uint8Array')
       }
+      // RFC 7518, Section 4.7: the CEK is plaintext; key-encryption AAD is empty.
       const wrapped = await encrypt(
         jweEncryption(alg.slice(0, -2)),
         cek!,

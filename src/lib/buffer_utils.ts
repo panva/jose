@@ -8,7 +8,7 @@ export const decoder: TextDecoder = new TextDecoder()
  */
 export const strictDecoder: TextDecoder = new TextDecoder('utf-8', { fatal: true })
 
-const MAX_INT32 = 2 ** 32
+const UINT32_RANGE = 2 ** 32
 
 export function concat(...buffers: Uint8Array[]): Uint8Array {
   const size = buffers.reduce((acc, { length }) => acc + length, 0)
@@ -22,15 +22,15 @@ export function concat(...buffers: Uint8Array[]): Uint8Array {
 }
 
 function writeUInt32BE(buf: Uint8Array, value: number, offset?: number) {
-  if (value < 0 || value >= MAX_INT32) {
-    throw new RangeError(`value must be >= 0 and <= ${MAX_INT32 - 1}. Received ${value}`)
+  if (value < 0 || value >= UINT32_RANGE) {
+    throw new RangeError(`value must be >= 0 and <= ${UINT32_RANGE - 1}. Received ${value}`)
   }
   buf.set([value >>> 24, value >>> 16, value >>> 8, value & 0xff], offset)
 }
 
 export function uint64be(value: number): Uint8Array {
-  const high = Math.floor(value / MAX_INT32)
-  const low = value % MAX_INT32
+  const high = Math.floor(value / UINT32_RANGE)
+  const low = value % UINT32_RANGE
   const buf = new Uint8Array(8)
   writeUInt32BE(buf, high, 0)
   writeUInt32BE(buf, low, 4)

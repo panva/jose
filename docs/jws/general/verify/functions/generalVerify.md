@@ -8,7 +8,8 @@ Support from the community to continue maintaining and improving this module is 
 
 ▸ **generalVerify**(`jws`, `key`, `options?`): [`Promise`](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise)\<[`GeneralVerifyResult`](../../../../types/interfaces/GeneralVerifyResult.md)\>
 
-Verifies a General JWS signature and decodes its payload.
+Validates a JWS Signature (digital signature or MAC) from a general JWS JSON Serialization and
+decodes its JWS Payload.
 
 This function is exported (as a named export) from the main `'jose'` module entry point as well
 as from its subpath export `'jose/jws/general/verify'`.
@@ -54,8 +55,8 @@ console.log(new TextDecoder().decode(payload))
 
 ▸ **generalVerify**\<`KeyType`\>(`jws`, `getKey`, `options?`): [`Promise`](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise)\<[`GeneralVerifyResult`](../../../../types/interfaces/GeneralVerifyResult.md) & [`ResolvedKey`](../../../../types/interfaces/ResolvedKey.md)\<`KeyType`\>\>
 
-Verifies a General JWS signature and decodes its payload with a dynamically resolved key,
-included in the result.
+Validates a JWS Signature (digital signature or MAC) from a general JWS JSON Serialization and
+decodes its JWS Payload with a dynamically resolved key, included in the result.
 
 ### Type Parameters
 
@@ -79,8 +80,9 @@ included in the result.
 
 ▸ **generalVerify**(`jws`, `key`, `options?`): [`Promise`](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise)\<[`GeneralVerifyResult`](../../../../types/interfaces/GeneralVerifyResult.md) & [`Partial`](https://www.typescriptlang.org/docs/handbook/utility-types.html#partialtype)\<[`ResolvedKey`](../../../../types/interfaces/ResolvedKey.md)\<[`Uint8Array`](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Uint8Array) \| [`CryptoKey`](https://developer.mozilla.org/docs/Web/API/CryptoKey)\>\>\>
 
-Verifies a General JWS and decodes its payload using a key or key resolver. The result includes
-`key` only when a resolver is used.
+Validates a JWS Signature (digital signature or MAC) from a general JWS JSON Serialization and
+decodes its JWS Payload using a key or key resolver. The result includes `key` only when a
+resolver is used.
 
 ### Parameters
 

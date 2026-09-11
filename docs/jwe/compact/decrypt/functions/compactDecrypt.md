@@ -8,7 +8,7 @@ Support from the community to continue maintaining and improving this module is 
 
 ▸ **compactDecrypt**(`jwe`, `key`, `options?`): [`Promise`](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise)\<[`CompactDecryptResult`](../../../../types/interfaces/CompactDecryptResult.md)\>
 
-Decrypts a Compact JWE.
+Authenticates and decrypts a JWE Compact Serialization.
 
 This function is exported (as a named export) from the main `'jose'` module entry point as well
 as from its subpath export `'jose/jwe/compact/decrypt'`.
@@ -41,7 +41,8 @@ console.log(new TextDecoder().decode(plaintext))
 
 ▸ **compactDecrypt**\<`KeyType`\>(`jwe`, `getKey`, `options?`): [`Promise`](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise)\<[`CompactDecryptResult`](../../../../types/interfaces/CompactDecryptResult.md) & [`ResolvedKey`](../../../../types/interfaces/ResolvedKey.md)\<`KeyType`\>\>
 
-Decrypts a Compact JWE with a dynamically resolved key, included in the result.
+Authenticates and decrypts a JWE Compact Serialization with a dynamically resolved key, included
+in the result.
 
 ### Type Parameters
 
@@ -65,8 +66,8 @@ Decrypts a Compact JWE with a dynamically resolved key, included in the result.
 
 ▸ **compactDecrypt**(`jwe`, `key`, `options?`): [`Promise`](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise)\<[`CompactDecryptResult`](../../../../types/interfaces/CompactDecryptResult.md) & [`Partial`](https://www.typescriptlang.org/docs/handbook/utility-types.html#partialtype)\<[`ResolvedKey`](../../../../types/interfaces/ResolvedKey.md)\<[`Uint8Array`](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Uint8Array) \| [`CryptoKey`](https://developer.mozilla.org/docs/Web/API/CryptoKey)\>\>\>
 
-Decrypts a Compact JWE with a key or key resolver. The result includes `key` only when a resolver
-is used.
+Authenticates and decrypts a JWE Compact Serialization with a key or key resolver. The result
+includes `key` only when a resolver is used.
 
 ### Parameters
 

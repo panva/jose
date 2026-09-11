@@ -48,7 +48,6 @@ const REPORT_STRIPPED = process.env.JOSE_DEBUG_TYPES === '1'
 const PRIVATE_DECLARATIONS = `${join('dist', 'types', 'lib')}${sep}`
 const ERROR_TYPES = join('dist', 'types', 'util', 'errors.d.ts')
 const REDUNDANT_PARAMETER_DESCRIPTIONS = new Set([
-  'Additional Authenticated Data.',
   'Additional options passed down to the key pair generation.',
   'Additional options passed down to the secret generation.',
   'Compact JWE.',
@@ -59,6 +58,7 @@ const REDUNDANT_PARAMETER_DESCRIPTIONS = new Set([
   'General JWS.',
   'JSON Web Token value (encoded as JWE).',
   'JSON Web Token value (encoded as JWS).',
+  'JWE Additional Authenticated Data (JWE AAD).',
   'JWE Content Encryption Key.',
   'JWE Decryption options.',
   'JWE Encryption options.',
@@ -77,7 +77,8 @@ const REDUNDANT_PARAMETER_DESCRIPTIONS = new Set([
   'JWT Claims Set validation options.',
   'JWT Decryption and JWT Claims Set validation options.',
   'JWT Sign options.',
-  'JWT token in compact JWS serialization.',
+  'JWT Verification and JWT Claims Set validation options.',
+  'JWT token in JWS Compact Serialization.',
   'Options for the remote JSON Web Key Set.',
   'Unsecured JWT to decode the payload of.',
 ])

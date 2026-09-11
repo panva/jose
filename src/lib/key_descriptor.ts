@@ -7,7 +7,7 @@ export interface KeyDescriptor {
   alg: string
   /** JWK "kty" (Key Type) values this algorithm accepts. */
   kty: readonly string[]
-  /** JWK "crv" the identifier implies, where it implies one. */
+  /** JWK "crv" (Curve) Parameter the identifier implies, where it implies one. */
   crv?: string
   /**
    * Resolves the WebCrypto parameters from the key itself, for algorithms whose curve the
@@ -19,16 +19,17 @@ export interface KeyDescriptor {
     hash?: string
     namedCurve?: string
   }
-  /** True for algorithms that take a secret rather than a key pair. */
+  /** True for symmetric-key algorithms. */
   secret?: boolean
   /** WebCrypto parameters for importing, generating, and asserting a key's shape. */
   subtle: { name: string; hash?: string; namedCurve?: string; length?: number }
   /** Key usages, ordered as public then private. */
   usages: [publicKey: KeyUsage[], privateKey: KeyUsage[]]
   /**
-   * JWK "key_ops" expected per operation. Absent for JWS, where it is always the operation itself.
-   * A JWE entry states it explicitly, and may leave an operation out to mean that no key_ops value
-   * is implied - deriving with a recipient's public ECDH key, for one.
+   * JWK "key_ops" (Key Operations) Parameter expected per operation. Absent for JWS, where it is
+   * always the operation itself. A JWE entry states it explicitly, and may leave an operation out
+   * to mean that no key_ops value is implied - deriving with a recipient's public ECDH key, for
+   * one.
    */
   ops?: [encrypt: string | undefined, decrypt: string | undefined]
   /** Minimum RSA modulus length in bits. */

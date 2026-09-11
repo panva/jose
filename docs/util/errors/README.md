@@ -5,6 +5,8 @@ JOSE module errors and error codes
 These are exported (as the `errors` namespace) from the main `'jose'` module entry point as well
 as from the subpath export `'jose/errors'`.
 
+Error classes, codes, and reasons are library API identifiers, not JOSE wire values.
+
 ## Classes
 
 | Class | Description |
@@ -20,7 +22,7 @@ as from the subpath export `'jose/errors'`.
 | [JWKSNoMatchingKey](classes/JWKSNoMatchingKey.md) | Thrown when no keys match in a JWKS. |
 | [JWKSTimeout](classes/JWKSTimeout.md) | Thrown when fetching a remote JWKS times out. |
 | [JWSInvalid](classes/JWSInvalid.md) | Thrown when a JWS is invalid. |
-| [JWSSignatureVerificationFailed](classes/JWSSignatureVerificationFailed.md) | Thrown when JWS signature verification fails. |
+| [JWSSignatureVerificationFailed](classes/JWSSignatureVerificationFailed.md) | Thrown when JWS Signature validation (digital signature or MAC) fails. |
 | [JWTClaimValidationFailed](classes/JWTClaimValidationFailed.md) | Thrown when JWT claim or header validation fails. Expiration is reported separately as [JWTExpired](classes/JWTExpired.md). |
 | [JWTExpired](classes/JWTExpired.md) | Thrown when a JWT has expired or exceeds the configured maximum token age. |
 | [JWTInvalid](classes/JWTInvalid.md) | Thrown when a JWT is invalid. |

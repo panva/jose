@@ -31,7 +31,7 @@ export interface JWTVerifyGetKey<
 > {}
 
 /**
- * Verifies a Compact JWS-formatted JWT and validates its Claims Set.
+ * Validates a JWT in JWS Compact Serialization (digital signature or MAC) and its JWT Claims Set.
  *
  * This function is exported (as a named export) from the main `'jose'` module entry point as well
  * as from its subpath export `'jose/jwt/verify'`.
@@ -120,7 +120,8 @@ export async function jwtVerify<PayloadType = types.JWTPayload>(
 ): Promise<types.JWTVerifyResult<PayloadType>>
 
 /**
- * Verifies the JWT signature and claims, returning the resolved key.
+ * Validates the JWT's JWS Signature (digital signature or MAC) and JWT Claims Set, returning the
+ * resolved key.
  *
  * @example
  *
@@ -176,9 +177,11 @@ export async function jwtVerify(
     prepareVerify(options),
     key as types.KeyInput | VerifyGetKey,
   )
+  // RFC 7797, Section 7: JWTs must not use the unencoded payload option.
   if (!b64) {
     throw new JWTInvalid('JWTs MUST NOT use unencoded payload')
   }
+  // RFC 7519, Section 7.2, step 10: parse and validate the JWT Claims Set.
   const payload = validateClaimsSet(verified.protectedHeader!, verified.payload, options)
   return { ...verified, payload }
 }

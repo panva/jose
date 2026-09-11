@@ -19,7 +19,7 @@ export type SignInput = [
   unprotectedHeader?: types.JWSHeaderParameters,
   crit?: { [propName: string]: boolean },
   /** Reused across the signatures of a General JWS, which all cover the same payload. */
-  encoded?: [b64?: string, raw?: Uint8Array],
+  encodedPayloadCache?: [value?: string, octets?: Uint8Array],
 ]
 
 export type CreatedSignature = [jws: types.FlattenedJWS, b64: boolean]
@@ -31,11 +31,12 @@ export async function createSignature(
 ): Promise<CreatedSignature> {
   let [payload, protectedHeader, unprotectedHeader, crit] = input
 
-  let protectedHeaderString = ''
+  // RFC 7515, Section 5.1, step 4.
+  let encodedProtectedHeader = ''
   if (protectedHeader !== undefined) {
     const normalized = serializeJoseHeader(JWSInvalid, protectedHeader)
     protectedHeader = normalized[0]
-    protectedHeaderString = b64u(normalized[1])
+    encodedProtectedHeader = b64u(normalized[1])
   }
   if (unprotectedHeader !== undefined) {
     unprotectedHeader = serializeJoseHeader(JWSInvalid, unprotectedHeader)[0]
@@ -47,6 +48,7 @@ export async function createSignature(
     )
   }
 
+  // RFC 7515, Section 7.2.1: the JOSE Header is a disjoint union.
   if (!isDisjoint(protectedHeader, unprotectedHeader)) {
     throw new JWSInvalid(
       'JWS Protected and JWS Unprotected Header Parameter names must be disjoint',
@@ -69,33 +71,43 @@ export async function createSignature(
   }
   const entry = jwsAlgorithm(alg)
 
-  let payloadS = ''
-  let payloadB = payload
-  let data: Uint8Array | undefined
+  // RFC 7515, Section 5.1, step 2; RFC 7797, Section 3 for an unencoded payload.
+  let encodedPayload = ''
+  let signingPayload = payload
+  let signingInput: Uint8Array | undefined
   if (b64) {
-    const encoded = input[4]
-    if (encoded) {
-      payloadS = encoded[0] ??= b64u(payload)
-      payloadB = encoded[1] ??= encode(payloadS)
+    const encodedPayloadCache = input[4]
+    if (encodedPayloadCache) {
+      encodedPayload = encodedPayloadCache[0] ??= b64u(payload)
+      signingPayload = encodedPayloadCache[1] ??= encode(encodedPayload)
     } else {
-      payloadS = b64u(payload)
+      encodedPayload = b64u(payload)
       // Both components are generated base64url strings.
-      data = encoder.encode(`${protectedHeaderString}.${payloadS}`)
+      signingInput = encoder.encode(`${encodedProtectedHeader}.${encodedPayload}`)
     }
   }
 
-  data ??= concat(encode(protectedHeaderString), encode('.'), payloadB)
-  const k = await rawKey(await prepareKey(entry, key, 'sign'), entry.subtle, 'sign')
-  if (entry.minRsaBits) checkModulusLength(entry.alg, k)
+  // RFC 7515, Section 5.1, step 5: JWS Signing Input (modified by RFC 7797, Section 3).
+  signingInput ??= concat(encode(encodedProtectedHeader), encode('.'), signingPayload)
+  const signingKey = await rawKey(await prepareKey(entry, key, 'sign'), entry.subtle, 'sign')
+  if (entry.minRsaBits) checkModulusLength(entry.alg, signingKey)
+  // RFC 7515, Section 5.1, steps 6 and 8: encode the JWS Signature and serialize.
+  // With b64=false this API returns detached content (Appendix F; RFC 7797, Section 5.1).
   const jws: types.FlattenedJWS = {
     signature: b64u(
-      new Uint8Array(await crypto.subtle.sign(entry.signing, k, data as Uint8Array<ArrayBuffer>)),
+      new Uint8Array(
+        await crypto.subtle.sign(
+          entry.signing,
+          signingKey,
+          signingInput as Uint8Array<ArrayBuffer>,
+        ),
+      ),
     ),
-    payload: payloadS,
+    payload: encodedPayload,
   }
 
   if (protectedHeader) {
-    jws.protected = protectedHeaderString
+    jws.protected = encodedProtectedHeader
   }
   if (unprotectedHeader) {
     jws.header = unprotectedHeader

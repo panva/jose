@@ -58,6 +58,7 @@ export async function EmbeddedJWK(
   }
 
   const entry = jwsAlgorithm(joseHeader.alg)
+  // RFC 7517, Sections 4.2 and 4.4: respect declared key use and algorithm.
   if (jwk.use !== undefined && jwk.use !== 'sig') {
     throw new JWSInvalid('Invalid Embedded JWK, its "use" must be "sig" when present')
   }
@@ -66,6 +67,7 @@ export async function EmbeddedJWK(
   }
   const key = await jwkToKey(entry, jwk, true)
 
+  // RFC 7515, Section 4.1.3: the jwk Header Parameter represents a public key.
   if (key.type !== 'public') {
     throw new JWSInvalid('"jwk" (JSON Web Key) Header Parameter must be a public key')
   }

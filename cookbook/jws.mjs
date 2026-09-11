@@ -232,8 +232,7 @@ export default [
     },
   },
   {
-    title:
-      'https://www.rfc-editor.org/info/rfc7520/#section-4.6 - Protecting Specific Header Fields',
+    title: 'https://www.rfc-editor.org/info/rfc7520/#section-4.6 - Protecting Specific Header Fields',
     deterministic: true,
     input: {
       payload:
@@ -329,7 +328,7 @@ export default [
     },
   },
   {
-    title: 'https://www.rfc-editor.org/info/rfc7797/#section-4.1 - { "b64": false } JSON only',
+    title: 'https://www.rfc-editor.org/info/rfc7797/#section-4.2 - { "b64": false } JSON only',
     deterministic: true,
     input: {
       payload: '$.02',

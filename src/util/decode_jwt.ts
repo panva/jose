@@ -1,5 +1,5 @@
 /**
- * JSON Web Token (JWT) Claims Set Decoding (no validation, no signature checking)
+ * JSON Web Token (JWT) Claims Set Decoding (no signature, MAC, or claims validation)
  *
  * @module
  */
@@ -11,8 +11,8 @@ import { JWTInvalid } from './errors.js'
 import type * as types from '../types.d.ts'
 
 /**
- * Decodes the Claims Set of a JWT in Compact JWS serialization without checking its signature or
- * validating claim types and values.
+ * Decodes the Claims Set of a JWT in JWS Compact Serialization without validating its JWS Signature
+ * (digital signature or MAC) or claim types and values.
  *
  * Use {@link "jwt/verify".jwtVerify jwtVerify} to verify signed JWTs or
  * {@link "jwt/decrypt".jwtDecrypt jwtDecrypt} to decrypt and validate encrypted JWTs.
@@ -29,7 +29,7 @@ import type * as types from '../types.d.ts'
  *
  * @typeParam PayloadType Type definition of the JWT Claims Set the token is expected to carry.
  *
- * @param jwt JWT token in compact JWS serialization.
+ * @param jwt JWT token in JWS Compact Serialization.
  *
  * @returns The parsed JWT Claims Set.
  */
@@ -41,29 +41,30 @@ export function decodeJwt<PayloadType = types.JWTPayload>(
   if (typeof jwt !== 'string')
     throw new JWTInvalid('JWTs must use Compact JWS serialization, JWT must be a string')
 
-  const { 1: payload, length } = jwt.split('.')
+  const { 1: encodedPayload, length } = jwt.split('.')
 
   if (length === 5) throw new JWTInvalid('Only JWTs using Compact JWS serialization can be decoded')
   if (length !== 3) throw new JWTInvalid('Invalid JWT')
-  if (!payload) throw new JWTInvalid('JWTs must contain a payload')
+  if (!encodedPayload) throw new JWTInvalid('JWTs must contain a payload')
 
-  let decoded: Uint8Array
+  let claimsSetBytes: Uint8Array
   try {
-    decoded = b64u(payload)
+    claimsSetBytes = b64u(encodedPayload)
   } catch {
     throw new JWTInvalid('Failed to base64url decode the payload')
   }
 
-  let result: unknown
+  // RFC 7519, Section 7.2, step 10 only: UTF-8 and JSON Claims Set parsing.
+  let claimsSet: unknown
   try {
-    result = JSON.parse(strictDecoder.decode(decoded))
+    claimsSet = JSON.parse(strictDecoder.decode(claimsSetBytes))
   } catch {
     throw new JWTInvalid('Failed to parse the decoded payload as JSON')
   }
 
-  if (!isObject<types.JWTPayload>(result)) throw new JWTInvalid('Invalid JWT Claims Set')
+  if (!isObject<types.JWTPayload>(claimsSet)) throw new JWTInvalid('Invalid JWT Claims Set')
 
-  return result as PayloadType &
+  return claimsSet as PayloadType &
     types.JWTPayload &
     ([PayloadType] extends [object] ? unknown : unknown extends PayloadType ? unknown : never)
 }

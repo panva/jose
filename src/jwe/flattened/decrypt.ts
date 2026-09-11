@@ -2,6 +2,8 @@
  * Decrypting JSON Web Encryption (JWE) in Flattened JSON Serialization
  *
  * @module
+ *
+ * @see {@link https://www.rfc-editor.org/info/rfc7516/#section-7.2.2 RFC 7516, Section 7.2.2}
  */
 
 import type * as types from '../../types.d.ts'
@@ -30,7 +32,7 @@ export interface FlattenedDecryptGetKey<
 > {}
 
 /**
- * Decrypts a Flattened JWE.
+ * Authenticates and decrypts a flattened JWE JSON Serialization.
  *
  * This function is exported (as a named export) from the main `'jose'` module entry point as well
  * as from its subpath export `'jose/jwe/flattened/decrypt'`.
@@ -68,7 +70,8 @@ export function flattenedDecrypt(
   options?: types.DecryptOptions,
 ): Promise<types.FlattenedDecryptResult>
 /**
- * Decrypts a Flattened JWE with a dynamically resolved key, included in the result.
+ * Authenticates and decrypts a flattened JWE JSON Serialization with a dynamically resolved key,
+ * included in the result.
  *
  * @param jwe Flattened JWE.
  * @param getKey Resolves a private key or shared secret from unverified token data.
@@ -82,8 +85,8 @@ export function flattenedDecrypt<
   options?: types.DecryptOptions,
 ): Promise<types.FlattenedDecryptResult & types.ResolvedKey<KeyType>>
 /**
- * Decrypts a Flattened JWE with a key or key resolver. The result includes `key` only when a
- * resolver is used.
+ * Authenticates and decrypts a flattened JWE JSON Serialization with a key or key resolver. The
+ * result includes `key` only when a resolver is used.
  *
  * @param jwe Flattened JWE.
  * @param key Private key or shared secret, or a function resolving one.

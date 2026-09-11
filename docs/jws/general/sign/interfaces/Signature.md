@@ -4,7 +4,7 @@
 
 Support from the community to continue maintaining and improving this module is welcome. If you find the module useful, please consider supporting the project by [becoming a sponsor](https://github.com/sponsors/panva).
 
-Configures an individual signature in a General JWS.
+Configures an individual JWS Signature (digital signature or MAC) in a General JWS.
 
 ## Methods
 
@@ -79,7 +79,7 @@ Sets the JWS Unprotected Header. May only be called once.
 
 ▸ **sign**(): [`Promise`](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise)\<[`GeneralJWS`](../../../../types/interfaces/GeneralJWS.md)\>
 
-Creates all signatures on the enclosing [GeneralSign](../classes/GeneralSign.md), using their configured keys.
+Computes all JWS Signatures on the enclosing [GeneralSign](../classes/GeneralSign.md), using their configured keys.
 
 #### Returns
 

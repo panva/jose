@@ -66,7 +66,7 @@ The `jose` module supports importing, exporting, and generating keys and secrets
 
 ### JSON Web Signature (JWS)
 
-The `jose` module supports signing and verification of JWS messages with arbitrary payloads in Compact, Flattened JSON, and General JSON serialization syntaxes.
+The `jose` module supports digital signature and MAC computation and validation over arbitrary JWS Payloads using the JWS Compact Serialization and the flattened and general JWS JSON Serialization syntaxes ([RFC 7515, Section 7](https://www.rfc-editor.org/info/rfc7515/#section-7)).
 
 - Signing - [Compact](jws/compact/sign/classes/CompactSign.md), [Flattened JSON](jws/flattened/sign/classes/FlattenedSign.md), [General JSON](jws/general/sign/classes/GeneralSign.md)
 - Verification - [Compact](jws/compact/verify/functions/compactVerify.md), [Flattened JSON](jws/flattened/verify/functions/flattenedVerify.md), [General JSON](jws/general/verify/functions/generalVerify.md)
@@ -77,7 +77,7 @@ The `jose` module supports signing and verification of JWS messages with arbitra
 
 ### JSON Web Encryption (JWE)
 
-The `jose` module supports encryption and decryption of JWE messages with arbitrary plaintext in Compact, Flattened JSON, and General JSON serialization syntaxes.
+The `jose` module supports encryption and authenticated decryption of arbitrary plaintext using the JWE Compact Serialization and the flattened and general JWE JSON Serialization syntaxes ([RFC 7516, Section 7](https://www.rfc-editor.org/info/rfc7516/#section-7)).
 
 - Encryption - [Compact](jwe/compact/encrypt/classes/CompactEncrypt.md), [Flattened JSON](jwe/flattened/encrypt/classes/FlattenedEncrypt.md), [General JSON](jwe/general/encrypt/classes/GeneralEncrypt.md)
 - Decryption - [Compact](jwe/compact/decrypt/functions/compactDecrypt.md), [Flattened JSON](jwe/flattened/decrypt/functions/flattenedDecrypt.md), [General JSON](jwe/general/decrypt/functions/generalDecrypt.md)

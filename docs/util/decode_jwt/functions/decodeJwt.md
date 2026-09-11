@@ -6,8 +6,8 @@ Support from the community to continue maintaining and improving this module is 
 
 ▸ **decodeJwt**\<`PayloadType`\>(`jwt`): `PayloadType` & [`JWTPayload`](../../../types/interfaces/JWTPayload.md)
 
-Decodes the Claims Set of a JWT in Compact JWS serialization without checking its signature or
-validating claim types and values.
+Decodes the Claims Set of a JWT in JWS Compact Serialization without validating its JWS Signature
+(digital signature or MAC) or claim types and values.
 
 Use [jwtVerify](../../../jwt/verify/functions/jwtVerify.md) to verify signed JWTs or
 [jwtDecrypt](../../../jwt/decrypt/functions/jwtDecrypt.md) to decrypt and validate encrypted JWTs.
@@ -25,7 +25,7 @@ as from its subpath export `'jose/jwt/decode'`.
 
 | Parameter | Type | Description |
 | ------ | ------ | ------ |
-| `jwt` | `string` | JWT token in compact JWS serialization. |
+| `jwt` | `string` | JWT token in JWS Compact Serialization. |
 
 ## Returns
 

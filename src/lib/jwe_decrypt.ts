@@ -2,7 +2,7 @@ import type * as types from '../types.d.ts'
 import { decrypt, generateCek } from './content_encryption.js'
 import {
   decodeBase64url,
-  encodeBase64url,
+  encodeAsciiMember,
   parseJoseHeader,
   isDisjoint,
   isObject,
@@ -37,11 +37,11 @@ export type DecryptShared = [
  * per recipient.
  */
 export type SharedJWE = [
-  parsedProt: types.JWEHeaderParameters | undefined,
+  protectedHeader: types.JWEHeaderParameters | undefined,
   ciphertext: Uint8Array,
   iv: Uint8Array | undefined,
   tag: Uint8Array | undefined,
-  additionalData: Uint8Array,
+  additionalAuthenticatedData: Uint8Array,
 ]
 
 export type SharedJWEMembers = Pick<
@@ -140,18 +140,24 @@ export function checkRecipient(jwe: types.FlattenedJWE): void {
 
 /** Parses and decodes the shared members. Their types must already have been checked. */
 export function shareJWE(jwe: SharedJWEMembers): SharedJWE {
+  // draft-ietf-jose-hpke-encrypt-22, Section 7.2, steps 2-3: decode and parse.
   const { protected: encodedProtected, ciphertext, iv, tag, aad } = jwe
-  let parsedProt: types.JWEHeaderParameters | undefined
+  let protectedHeader: types.JWEHeaderParameters | undefined
   if (encodedProtected !== undefined) {
-    parsedProt = parseJoseHeader(encodedProtected, JWEInvalid, 'JWE Protected Header is invalid')
+    protectedHeader = parseJoseHeader(
+      encodedProtected,
+      JWEInvalid,
+      'JWE Protected Header is invalid',
+    )
   }
 
   return [
-    parsedProt,
+    protectedHeader,
     decodeBase64url(ciphertext, 'ciphertext', JWEInvalid),
     iv !== undefined ? decodeBase64url(iv, 'iv', JWEInvalid) : undefined,
     tag !== undefined ? decodeBase64url(tag, 'tag', JWEInvalid) : undefined,
-    encodeBase64url(
+    // draft-ietf-jose-hpke-encrypt-22, Section 7.2, steps 15-16: use the received Encoded Protected Header.
+    encodeAsciiMember(
       (encodedProtected ?? '') + (aad !== undefined ? `.${aad}` : ''),
       'aad',
       JWEInvalid,
@@ -177,19 +183,20 @@ export async function decryptJWE(
   key: types.KeyInput | DecryptGetKey,
   token: SharedJWE = shareJWE(jwe),
 ): Promise<types.FlattenedDecryptResult & Partial<types.ResolvedKey>> {
-  const [parsedProt, ciphertext, iv, tag, additionalData] = token
+  const [protectedHeader, ciphertext, iv, tag, additionalAuthenticatedData] = token
   const { header, unprotected, aad } = jwe
 
+  // draft-ietf-jose-hpke-encrypt-22, Section 7.2, step 4: form the JOSE Header.
   let joseHeader: types.JWEHeaderParameters
   if (header !== undefined || unprotected !== undefined) {
-    if (!isDisjoint(parsedProt, header, unprotected)) {
+    if (!isDisjoint(protectedHeader, header, unprotected)) {
       throw new JWEInvalid(
         'JWE Protected, JWE Unprotected Header, and JWE Per-Recipient Unprotected Header Parameter names must be disjoint',
       )
     }
-    joseHeader = { ...parsedProt, ...header, ...unprotected }
+    joseHeader = { ...protectedHeader, ...header, ...unprotected }
   } else {
-    joseHeader = parsedProt ?? {}
+    joseHeader = protectedHeader ?? {}
   }
 
   const [
@@ -201,9 +208,9 @@ export async function decryptJWE(
   ] = shared
   const { encrypted_key: encodedKey } = jwe
 
-  validateCrit(JWEInvalid, JWE_RECOGNIZED, crit, parsedProt, joseHeader)
+  validateCrit(JWEInvalid, JWE_RECOGNIZED, crit, protectedHeader, joseHeader)
 
-  validateZip(joseHeader, parsedProt)
+  validateZip(joseHeader, protectedHeader)
 
   const { alg, enc } = joseHeader
 
@@ -229,6 +236,7 @@ export async function decryptJWE(
 
   let encEntry: JWEEncryption | undefined
   if (integrated) {
+    // draft-ietf-jose-hpke-encrypt-22, Section 7.2, step 18: enc must be absent.
     if (enc !== undefined) {
       throw new JWEInvalid(
         'JWE "enc" (Encryption Algorithm) Header Parameter must not be present for integrated encryption',
@@ -262,7 +270,7 @@ export async function decryptJWE(
 
   let resolvedKey = false
   if (typeof key === 'function') {
-    key = await key(parsedProt, jwe)
+    key = await key(protectedHeader, jwe)
     resolvedKey = true
   }
   const algEntry = selected ?? jweAlgorithm(alg)
@@ -279,12 +287,13 @@ export async function decryptJWE(
 
   let plaintext: Uint8Array
   if (algEntry.mode === 'integrated-encryption') {
+    // draft-ietf-jose-hpke-encrypt-22, Section 7.2, step 19: authenticated integrated decryption.
     plaintext = await algEntry.decrypt(
       k,
       encryptedKey,
       ciphertext,
-      additionalData,
-      parsedProt,
+      additionalAuthenticatedData,
+      protectedHeader,
       joseHeader,
     )
   } else {
@@ -324,9 +333,11 @@ export async function decryptJWE(
       cek = generateCek(encryption)
     }
 
-    plaintext = await decrypt(encryption, cek, ciphertext, iv, tag, additionalData)
+    // draft-ietf-jose-hpke-encrypt-22, Section 7.2, step 17: authenticate before releasing plaintext.
+    plaintext = await decrypt(encryption, cek, ciphertext, iv, tag, additionalAuthenticatedData)
   }
 
+  // draft-ietf-jose-hpke-encrypt-22, Section 7.2, step 20.
   if (joseHeader.zip === 'DEF') {
     const decompressionLimit = maxDecompressedLength ?? 250_000
     if (decompressionLimit === 0) {
@@ -348,7 +359,7 @@ export async function decryptJWE(
 
   return {
     plaintext,
-    ...(parsedProt && { protectedHeader: parsedProt }),
+    ...(protectedHeader && { protectedHeader }),
     ...(aad !== undefined && {
       additionalAuthenticatedData: decodeBase64url(aad, 'aad', JWEInvalid),
     }),

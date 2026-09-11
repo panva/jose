@@ -8,7 +8,7 @@ export type JWECEKTransportMode =
 
 export type JWEConventionalMode = JWECEKTransportMode | 'direct-encryption' | 'direct-key-agreement'
 
-/** The five RFC 7516 key-management modes plus Integrated Encryption. */
+/** Key Management Modes from draft-ietf-jose-hpke-encrypt-22, Section 3. */
 export type JWEKeyManagementMode = JWEConventionalMode | 'integrated-encryption'
 
 /** Everything the implementation needs to know about one conventional JWE "alg". */
@@ -60,6 +60,7 @@ const wrap: [KeyUsage[], KeyUsage[]] = [
 const derive: [KeyUsage[], KeyUsage[]] = [[], ['deriveBits']]
 const none: [KeyUsage[], KeyUsage[]] = [[], []]
 
+// RFC 7518, Section 4.3: RSAES-OAEP; the hash also selects MGF1’s hash.
 function rsaes(bits: number): AlgEntry {
   return {
     kty: ['RSA'],
@@ -70,6 +71,7 @@ function rsaes(bits: number): AlgEntry {
   }
 }
 
+// RFC 7518, Section 4.6; RFC 8037, Sections 3.2-3.2.1: ECDH-ES with EC or X25519.
 function ecdh(mode: 'direct-key-agreement' | 'key-agreement-with-key-wrapping'): AlgEntry {
   return {
     kty: ['EC', 'OKP'],
@@ -90,6 +92,7 @@ function ecdh(mode: 'direct-key-agreement' | 'key-agreement-with-key-wrapping'):
   }
 }
 
+// RFC 7518, Sections 4.4 and 4.7: AES Key Wrap and AES GCM Key Encryption.
 function aeskw(bits: number, gcm = false): AlgEntry {
   return {
     kty: ['oct'],
@@ -101,6 +104,7 @@ function aeskw(bits: number, gcm = false): AlgEntry {
   }
 }
 
+// RFC 7518, Section 4.8: PBES2 derives the AES Key Wrap key using PBKDF2.
 function pbes2(): AlgEntry {
   return {
     kty: ['oct'],
@@ -155,6 +159,8 @@ export interface JWEEncryption extends KeyDescriptor {
 
 const contentOps: [string, string] = ['encrypt', 'decrypt']
 
+// RFC 7518, Sections 5.2.3-5.2.5 and 5.3: combined CBC-HMAC CEK sizes,
+// 128-bit CBC IVs, and 96-bit GCM IVs. CBC-HMAC divides the CEK into two keys.
 function contentEncryption(bits: number, cbc = false): EncEntry {
   return {
     kty: ['oct'],

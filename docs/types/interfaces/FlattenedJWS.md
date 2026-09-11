@@ -4,8 +4,8 @@
 
 Support from the community to continue maintaining and improving this module is welcome. If you find the module useful, please consider supporting the project by [becoming a sponsor](https://github.com/sponsors/panva).
 
-Flattened JWS JSON Serialization token. The payload is an empty string when the
-[unencoded payload option](https://www.rfc-editor.org/info/rfc7797/) is used.
+Flattened JWS JSON Serialization token. The payload is an empty string for detached content when
+the [unencoded payload option](https://www.rfc-editor.org/info/rfc7797/) is used.
 
 ## Properties
 
@@ -13,7 +13,7 @@ Flattened JWS JSON Serialization token. The payload is an empty string when the
 
 • **payload**: `string`
 
-Base64url-encoded payload; with `b64: false`, supply an unencoded string or Uint8Array.
+Base64url-encoded JWS Payload; with `b64: false`, supply an unencoded string or Uint8Array.
 
 ***
 
@@ -21,7 +21,7 @@ Base64url-encoded payload; with `b64: false`, supply an unencoded string or Uint
 
 • **signature**: `string`
 
-Base64url-encoded signature or MAC.
+Base64url-encoded JWS Signature (digital signature or MAC).
 
 ***
 

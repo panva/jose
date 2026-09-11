@@ -1,7 +1,10 @@
 /**
- * Base64URL encoding and decoding utilities
+ * Base64url encoding and decoding utilities
  *
  * @module
+ *
+ * @see {@link https://www.rfc-editor.org/info/rfc4648/#section-5 RFC 4648, Section 5}
+ * @see {@link https://www.rfc-editor.org/info/rfc7515/#section-2 RFC 7515, Section 2: unpadded base64url}
  */
 
 import { encoder, decoder, encodeBase64, decodeBase64 } from '../lib/buffer_utils.js'

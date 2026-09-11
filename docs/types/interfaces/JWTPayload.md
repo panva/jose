@@ -10,7 +10,7 @@ Recognized JWT Claims Set members; additional members may also be present.
 
 > \[`propName`: `string`\]: `unknown`
 
-Any other JWT Claim Set member.
+Any other JWT Claims Set member.
 
 ## Properties
 
@@ -18,7 +18,7 @@ Any other JWT Claim Set member.
 
 • `optional` **aud?**: `string` \| `string`[]
 
-JWT Audience
+"aud" (Audience) Claim.
 
 #### See
 
@@ -30,7 +30,7 @@ JWT Audience
 
 • `optional` **exp?**: `number`
 
-Expiration Unix timestamp in seconds.
+"exp" (Expiration Time) Claim, expressed as a NumericDate (seconds since the Unix epoch).
 
 #### See
 
@@ -42,7 +42,7 @@ Expiration Unix timestamp in seconds.
 
 • `optional` **iat?**: `number`
 
-Issued-at Unix timestamp in seconds.
+"iat" (Issued At) Claim, expressed as a NumericDate (seconds since the Unix epoch).
 
 #### See
 
@@ -54,7 +54,7 @@ Issued-at Unix timestamp in seconds.
 
 • `optional` **iss?**: `string`
 
-JWT Issuer
+"iss" (Issuer) Claim.
 
 #### See
 
@@ -66,7 +66,7 @@ JWT Issuer
 
 • `optional` **jti?**: `string`
 
-JWT ID
+"jti" (JWT ID) Claim.
 
 #### See
 
@@ -78,7 +78,7 @@ JWT ID
 
 • `optional` **nbf?**: `number`
 
-Not valid before this Unix timestamp in seconds.
+"nbf" (Not Before) Claim, expressed as a NumericDate (seconds since the Unix epoch).
 
 #### See
 
@@ -90,7 +90,7 @@ Not valid before this Unix timestamp in seconds.
 
 • `optional` **sub?**: `string`
 
-JWT Subject
+"sub" (Subject) Claim.
 
 #### See
 

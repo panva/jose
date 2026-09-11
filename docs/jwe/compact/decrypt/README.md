@@ -2,6 +2,10 @@
 
 Decrypting JSON Web Encryption (JWE) in Compact Serialization
 
+## See
+
+[RFC 7516, Section 7.1](https://www.rfc-editor.org/info/rfc7516/#section-7.1)
+
 ## Interfaces
 
 | Interface | Description |
@@ -12,4 +16,4 @@ Decrypting JSON Web Encryption (JWE) in Compact Serialization
 
 | Function | Description |
 | ------ | ------ |
-| [compactDecrypt](functions/compactDecrypt.md) | Decrypts a Compact JWE. |
+| [compactDecrypt](functions/compactDecrypt.md) | Authenticates and decrypts a JWE Compact Serialization. |

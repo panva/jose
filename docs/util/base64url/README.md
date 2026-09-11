@@ -1,6 +1,11 @@
 # util/base64url
 
-Base64URL encoding and decoding utilities
+Base64url encoding and decoding utilities
+
+## See
+
+ - [RFC 4648, Section 5](https://www.rfc-editor.org/info/rfc4648/#section-5)
+ - [RFC 7515, Section 2: unpadded base64url](https://www.rfc-editor.org/info/rfc7515/#section-2)
 
 ## Functions
 

@@ -11,3 +11,5 @@ JSON Web Key Set.
 ### keys
 
 • **keys**: [`JWK`](../type-aliases/JWK.md)[]
+
+"keys" Parameter: an array of JWKs (RFC 7517, Section 5.1).

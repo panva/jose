@@ -30,7 +30,8 @@ JWE "alg" (Algorithm) Header Parameter
 
 • `optional` **crit?**: `string`[]
 
-Extension parameters that must be recognized.
+"crit" (Critical) Header Parameter: names of extensions that must be understood and processed;
+must be integrity protected (RFC 7516, Section 4.1.13).
 
 ***
 
@@ -38,7 +39,7 @@ Extension parameters that must be recognized.
 
 • `optional` **cty?**: `string`
 
-Content type.
+"cty" (Content Type) Header Parameter (RFC 7515, Section 4.1.10).
 
 ***
 
@@ -58,7 +59,7 @@ JWE "enc" (Encryption Algorithm) Header Parameter
 
 • `optional` **jku?**: `string`
 
-JWK Set URL.
+"jku" (JWK Set URL) Header Parameter (RFC 7515, Section 4.1.2).
 
 ***
 
@@ -66,7 +67,8 @@ JWK Set URL.
 
 • `optional` **jwk?**: [`Omit`](https://www.typescriptlang.org/docs/handbook/utility-types.html#omittype-keys)\<[`JWK`](../type-aliases/JWK.md), `"d"` \| `"p"` \| `"q"` \| `"k"` \| `"dp"` \| `"dq"` \| `"qi"` \| `"priv"` \| `"oth"`\>
 
-Public JWK only; private and symmetric key parameters are not permitted.
+"jwk" (JSON Web Key) Header Parameter: public JWK only; private and symmetric key parameters
+are not permitted.
 
 ***
 
@@ -90,7 +92,8 @@ Public JWK only; private and symmetric key parameters are not permitted.
 
 • `optional` **x5c?**: `string`[]
 
-X.509 certificate chain.
+"x5c" (X.509 Certificate Chain): base64-encoded DER certificates (RFC 7517, Section 4.7; RFC
+7515, Section 4.1.6).
 
 ***
 
@@ -98,7 +101,7 @@ X.509 certificate chain.
 
 • `optional` **x5t?**: `string`
 
-X.509 certificate SHA-1 thumbprint.
+"x5t" (X.509 Certificate SHA-1 Thumbprint): base64url-encoded digest of the DER certificate.
 
 ***
 
@@ -106,7 +109,7 @@ X.509 certificate SHA-1 thumbprint.
 
 • `optional` **x5u?**: `string`
 
-X.509 certificate URL.
+"x5u" (X.509 URL) Header Parameter: URL of a PEM-encoded certificate or certificate chain.
 
 ***
 
@@ -114,8 +117,9 @@ X.509 certificate URL.
 
 • `optional` **zip?**: `string`
 
-JWE compression algorithm. Only `"DEF"` (DEFLATE) is supported, requiring the runtime's
-`CompressionStream` / `DecompressionStream` APIs.
+JWE "zip" (Compression Algorithm) Header Parameter; must be integrity protected. Only `"DEF"`
+(raw DEFLATE) is supported, requiring the runtime's `CompressionStream` / `DecompressionStream`
+APIs.
 
 #### See
 

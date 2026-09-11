@@ -1,6 +1,6 @@
 # util/decode\_protected\_header
 
-JOSE Protected Header Decoding (JWE, JWS, all serialization syntaxes)
+JWE and JWS Protected Header Decoding (JWE, JWS, all serialization syntaxes)
 
 ## Type Aliases
 

@@ -3,6 +3,7 @@ import { JWTClaimValidationFailed, JWTExpired, JWTInvalid } from '../util/errors
 import { encoder, strictDecoder } from './buffer_utils.js'
 import { isObject } from './validate.js'
 
+// RFC 7519, Section 2: NumericDate counts seconds since the Unix epoch, ignoring leap seconds.
 const epoch = (date: Date) => Math.floor(date.getTime() / 1000)
 
 const multipliers: Record<string, number> = {
@@ -33,17 +34,17 @@ export function secs(str: string): number {
   }
 
   const value = parseFloat(matched[2])
-  const numericDate = Math.round(value * multipliers[matched[3][0].toLowerCase()])
+  const durationSeconds = Math.round(value * multipliers[matched[3][0].toLowerCase()])
 
-  if (!Number.isFinite(numericDate)) {
+  if (!Number.isFinite(durationSeconds)) {
     invalidDuration()
   }
 
   if (matched[1] === '-' || matched[4] === 'ago') {
-    return -numericDate
+    return -durationSeconds
   }
 
-  return numericDate
+  return durationSeconds
 }
 
 function validateInput(label: string, input: number) {
@@ -75,6 +76,7 @@ function numericDate(value: number | string | Date, label: string) {
   return epoch(new Date()) + secs(value)
 }
 
+// RFC 7515, Section 4.1.9: media types are case-insensitive; application/ may be omitted.
 const normalizeTyp = (value: string) => {
   const normalized = value.toLowerCase()
   return value.includes('/') ? normalized : `application/${normalized}`
@@ -86,8 +88,7 @@ const checkAudiencePresence = (audPayload: unknown, audOption: unknown[]) => {
   }
 
   if (Array.isArray(audPayload)) {
-    // Each principal intended to process the JWT MUST
-    // identify itself with a value in the audience claim
+    // RFC 7519, Section 4.1.3: match an intended recipient in the Audience Claim.
     return audOption.some((aud) => audPayload.includes(aud))
   }
 
@@ -95,16 +96,16 @@ const checkAudiencePresence = (audPayload: unknown, audOption: unknown[]) => {
 }
 
 function validateNumericDate(
-  payload: { [propName: string]: unknown },
+  claimsSet: { [propName: string]: unknown },
   claim: 'iat' | 'nbf' | 'exp',
   required = false,
 ): number | undefined {
-  const value = payload[claim]
+  const value = claimsSet[claim]
   if (value === undefined && !required) return undefined
   if (typeof value !== 'number') {
     throw new JWTClaimValidationFailed(
       `"${claim}" claim must be a number`,
-      payload,
+      claimsSet,
       claim,
       'invalid',
     )
@@ -112,10 +113,10 @@ function validateNumericDate(
   return value
 }
 
-function unexpectedClaim(payload: types.JWTPayload, claim: 'iss' | 'sub' | 'aud'): never {
+function unexpectedClaim(claimsSet: types.JWTPayload, claim: 'iss' | 'sub' | 'aud'): never {
   throw new JWTClaimValidationFailed(
     `unexpected "${claim}" claim value`,
-    payload,
+    claimsSet,
     claim,
     checkFailed,
   )
@@ -123,17 +124,18 @@ function unexpectedClaim(payload: types.JWTPayload, claim: 'iss' | 'sub' | 'aud'
 
 export function validateClaimsSet(
   protectedHeader: types.JWEHeaderParameters | types.JWSHeaderParameters,
-  encodedPayload: Uint8Array,
+  claimsSetBytes: Uint8Array,
   options: types.JWTClaimVerificationOptions = {},
 ) {
-  let payload!: { [propName: string]: unknown }
+  // RFC 7519, Section 7.2, step 10: decode UTF-8 and parse the JWT Claims Set.
+  let claimsSet!: { [propName: string]: unknown }
   try {
-    payload = JSON.parse(strictDecoder.decode(encodedPayload))
+    claimsSet = JSON.parse(strictDecoder.decode(claimsSetBytes))
   } catch {
     //
   }
 
-  if (!isObject(payload)) {
+  if (!isObject(claimsSet)) {
     throw new JWTInvalid('JWT Claims Set must be a top-level JSON object')
   }
 
@@ -145,7 +147,7 @@ export function validateClaimsSet(
   ) {
     throw new JWTClaimValidationFailed(
       'unexpected "typ" JWT header value',
-      payload,
+      claimsSet,
       'typ',
       checkFailed,
     )
@@ -153,6 +155,7 @@ export function validateClaimsSet(
 
   const { requiredClaims = [], issuer, subject, audience, maxTokenAge } = options
 
+  // Required claims are application policy (RFC 7519, Section 4); options opt into it.
   const presenceCheck = [...requiredClaims]
 
   if (maxTokenAge !== undefined) presenceCheck.push('iat')
@@ -161,32 +164,34 @@ export function validateClaimsSet(
   if (issuer !== undefined) presenceCheck.push('iss')
 
   for (const claim of new Set(presenceCheck.reverse())) {
-    if (!Object.hasOwn(payload, claim)) {
+    if (!Object.hasOwn(claimsSet, claim)) {
       throw new JWTClaimValidationFailed(
         `missing required "${claim}" claim`,
-        payload,
+        claimsSet,
         claim,
         'missing',
       )
     }
   }
 
+  // RFC 7519, Sections 4.1.1-4.1.2: issuer and subject values are case-sensitive.
+  // Requiring a particular value is the application’s configured policy.
   if (
     issuer !== undefined &&
-    !((Array.isArray(issuer) ? issuer : [issuer]) as unknown[]).includes(payload.iss!)
+    !((Array.isArray(issuer) ? issuer : [issuer]) as unknown[]).includes(claimsSet.iss!)
   ) {
-    unexpectedClaim(payload, 'iss')
+    unexpectedClaim(claimsSet, 'iss')
   }
 
-  if (subject !== undefined && payload.sub !== subject) {
-    unexpectedClaim(payload, 'sub')
+  if (subject !== undefined && claimsSet.sub !== subject) {
+    unexpectedClaim(claimsSet, 'sub')
   }
 
   if (
     audience !== undefined &&
-    !checkAudiencePresence(payload.aud, typeof audience === 'string' ? [audience] : audience)
+    !checkAudiencePresence(claimsSet.aud, typeof audience === 'string' ? [audience] : audience)
   ) {
-    unexpectedClaim(payload, 'aud')
+    unexpectedClaim(claimsSet, 'aud')
   }
 
   const { clockTolerance } = options
@@ -208,27 +213,30 @@ export function validateClaimsSet(
     epoch(currentDate === undefined ? new Date() : currentDate),
   )
 
-  const iat = validateNumericDate(payload, 'iat', maxTokenAge !== undefined)
+  const iat = validateNumericDate(claimsSet, 'iat', maxTokenAge !== undefined)
 
-  const nbf = validateNumericDate(payload, 'nbf')
+  // RFC 7519, Section 4.1.5: allow processing at or after nbf, with clock-skew leeway.
+  const nbf = validateNumericDate(claimsSet, 'nbf')
   if (nbf !== undefined) {
     if (nbf > now + tolerance) {
       throw new JWTClaimValidationFailed(
         '"nbf" claim timestamp check failed',
-        payload,
+        claimsSet,
         'nbf',
         checkFailed,
       )
     }
   }
 
-  const exp = validateNumericDate(payload, 'exp')
+  // RFC 7519, Section 4.1.4: reject at or after exp, with clock-skew leeway.
+  const exp = validateNumericDate(claimsSet, 'exp')
   if (exp !== undefined) {
     if (exp <= now - tolerance) {
-      throw new JWTExpired('"exp" claim timestamp check failed', payload, 'exp', checkFailed)
+      throw new JWTExpired('"exp" claim timestamp check failed', claimsSet, 'exp', checkFailed)
     }
   }
 
+  // RFC 7519, Section 4.1.6 defines iat; maxTokenAge and future-iat checks are library policy.
   if (maxTokenAge !== undefined) {
     const age = now - iat!
     const max = validateInput(
@@ -239,7 +247,7 @@ export function validateClaimsSet(
     if (age - tolerance > max) {
       throw new JWTExpired(
         '"iat" claim timestamp check failed (too far in the past)',
-        payload,
+        claimsSet,
         'iat',
         checkFailed,
       )
@@ -248,88 +256,89 @@ export function validateClaimsSet(
     if (age < -tolerance) {
       throw new JWTClaimValidationFailed(
         '"iat" claim timestamp check failed (it should be in the past)',
-        payload,
+        claimsSet,
         'iat',
         checkFailed,
       )
     }
   }
 
-  return payload as types.JWTPayload
+  return claimsSet as types.JWTPayload
 }
 
-let producerPayloads: WeakMap<object, types.JWTPayload>
+let producerClaimsSets: WeakMap<object, types.JWTPayload>
 
-function producerPayload(producer: object): types.JWTPayload {
-  return producerPayloads.get(producer)!
+function producerClaimsSet(producer: object): types.JWTPayload {
+  return producerClaimsSets.get(producer)!
 }
 
-export function jwtData(producer: object): Uint8Array {
-  const payload = producerPayload(producer)
+export function jwtClaimsSetBytes(producer: object): Uint8Array {
+  const claimsSet = producerClaimsSet(producer)
   for (const claim of ['iat', 'nbf', 'exp'] as const) {
-    const value = payload[claim]
+    const value = claimsSet[claim]
     if (typeof value === 'number' && !Number.isFinite(value)) {
       throw new TypeError(`"${claim}" claim must be a finite number`)
     }
   }
 
-  return encoder.encode(JSON.stringify(payload))
+  // RFC 7519, Section 7.1, steps 2 and 4: UTF-8 Claims Set for JWS Payload / JWE plaintext.
+  return encoder.encode(JSON.stringify(claimsSet))
 }
 
 export function jwtClaim(producer: object, claim: 'iss' | 'sub' | 'aud'): unknown {
-  return producerPayload(producer)[claim]
+  return producerClaimsSet(producer)[claim]
 }
 
 export class JWTClaimsBuilder {
-  constructor(payload: types.JWTPayload = {}) {
-    if (!isObject(payload)) {
+  constructor(claimsSet: types.JWTPayload = {}) {
+    if (!isObject(claimsSet)) {
       throw new TypeError('JWT Claims Set MUST be an object')
     }
-    ;(producerPayloads ||= new WeakMap()).set(this, structuredClone(payload))
+    ;(producerClaimsSets ||= new WeakMap()).set(this, structuredClone(claimsSet))
   }
 
   setIssuer(value: string): this {
     validateStringClaim('iss', value)
-    producerPayload(this).iss = value
+    producerClaimsSet(this).iss = value
     return this
   }
 
   setSubject(value: string): this {
     validateStringClaim('sub', value)
-    producerPayload(this).sub = value
+    producerClaimsSet(this).sub = value
     return this
   }
 
   setAudience(value: string | string[]): this {
     validateAudienceClaim(value)
-    producerPayload(this).aud = value
+    producerClaimsSet(this).aud = value
     return this
   }
 
   setJti(value: string): this {
     validateStringClaim('jti', value)
-    producerPayload(this).jti = value
+    producerClaimsSet(this).jti = value
     return this
   }
 
   setNotBefore(value: number | string | Date): this {
-    producerPayload(this).nbf = numericDate(value, 'setNotBefore')
+    producerClaimsSet(this).nbf = numericDate(value, 'setNotBefore')
     return this
   }
 
   setExpirationTime(value: number | string | Date): this {
-    producerPayload(this).exp = numericDate(value, 'setExpirationTime')
+    producerClaimsSet(this).exp = numericDate(value, 'setExpirationTime')
     return this
   }
 
   setIssuedAt(value?: number | string | Date): this {
-    const payload = producerPayload(this)
+    const claimsSet = producerClaimsSet(this)
     if (value === undefined) {
-      payload.iat = epoch(new Date())
+      claimsSet.iat = epoch(new Date())
     } else if (typeof value === 'string') {
-      payload.iat = validateInput('setIssuedAt', epoch(new Date()) + secs(value))
+      claimsSet.iat = validateInput('setIssuedAt', epoch(new Date()) + secs(value))
     } else {
-      payload.iat = numericDate(value, 'setIssuedAt')
+      claimsSet.iat = numericDate(value, 'setIssuedAt')
     }
     return this
   }

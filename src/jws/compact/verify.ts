@@ -2,6 +2,8 @@
  * Verifying JSON Web Signature (JWS) in Compact Serialization
  *
  * @module
+ *
+ * @see {@link https://www.rfc-editor.org/info/rfc7515/#section-7.1 RFC 7515, Section 7.1}
  */
 
 import type * as types from '../../types.d.ts'
@@ -25,7 +27,7 @@ export interface CompactVerifyGetKey<
 > {}
 
 /**
- * Verifies a Compact JWS signature and decodes its payload.
+ * Validates a JWS Compact Serialization (digital signature or MAC) and decodes its JWS Payload.
  *
  * This function is exported (as a named export) from the main `'jose'` module entry point as well
  * as from its subpath export `'jose/jws/compact/verify'`.
@@ -53,8 +55,8 @@ export function compactVerify(
   options?: types.VerifyOptions,
 ): Promise<types.CompactVerifyResult>
 /**
- * Verifies a Compact JWS signature and decodes its payload with a dynamically resolved key,
- * included in the result.
+ * Validates a JWS Compact Serialization (digital signature or MAC) and decodes its JWS Payload with
+ * a dynamically resolved key, included in the result.
  *
  * @param jws Compact JWS.
  * @param getKey Resolves a public key or shared secret from unverified token data.
@@ -68,8 +70,8 @@ export function compactVerify<
   options?: types.VerifyOptions,
 ): Promise<types.CompactVerifyResult & types.ResolvedKey<KeyType>>
 /**
- * Verifies a Compact JWS and decodes its payload using a key or key resolver. The result includes
- * `key` only when a resolver is used.
+ * Validates a JWS Compact Serialization (digital signature or MAC) and decodes its JWS Payload
+ * using a key or key resolver. The result includes `key` only when a resolver is used.
  *
  * @param jws Compact JWS.
  * @param key Public key or shared secret, or a function resolving one.

@@ -8,7 +8,7 @@ Support from the community to continue maintaining and improving this module is 
 
 ▸ **generalDecrypt**(`jwe`, `key`, `options?`): [`Promise`](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise)\<[`GeneralDecryptResult`](../../../../types/interfaces/GeneralDecryptResult.md)\>
 
-Decrypts a General JWE.
+Authenticates and decrypts a general JWE JSON Serialization.
 
 This function is exported (as a named export) from the main `'jose'` module entry point as well
 as from its subpath export `'jose/jwe/general/decrypt'`.
@@ -60,7 +60,8 @@ console.log(decoder.decode(additionalAuthenticatedData))
 
 ▸ **generalDecrypt**\<`KeyType`\>(`jwe`, `getKey`, `options?`): [`Promise`](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise)\<[`GeneralDecryptResult`](../../../../types/interfaces/GeneralDecryptResult.md) & [`ResolvedKey`](../../../../types/interfaces/ResolvedKey.md)\<`KeyType`\>\>
 
-Decrypts a General JWE with a dynamically resolved key, included in the result.
+Authenticates and decrypts a general JWE JSON Serialization with a dynamically resolved key,
+included in the result.
 
 ### Type Parameters
 
@@ -84,8 +85,8 @@ Decrypts a General JWE with a dynamically resolved key, included in the result.
 
 ▸ **generalDecrypt**(`jwe`, `key`, `options?`): [`Promise`](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise)\<[`GeneralDecryptResult`](../../../../types/interfaces/GeneralDecryptResult.md) & [`Partial`](https://www.typescriptlang.org/docs/handbook/utility-types.html#partialtype)\<[`ResolvedKey`](../../../../types/interfaces/ResolvedKey.md)\<[`Uint8Array`](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Uint8Array) \| [`CryptoKey`](https://developer.mozilla.org/docs/Web/API/CryptoKey)\>\>\>
 
-Decrypts a General JWE with a key or key resolver. The result includes `key` only when a resolver
-is used.
+Authenticates and decrypts a general JWE JSON Serialization with a key or key resolver. The
+result includes `key` only when a resolver is used.
 
 ### Parameters
 

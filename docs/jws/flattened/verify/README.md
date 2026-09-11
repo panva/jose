@@ -2,6 +2,10 @@
 
 Verifying JSON Web Signature (JWS) in Flattened JSON Serialization
 
+## See
+
+[RFC 7515, Section 7.2.2](https://www.rfc-editor.org/info/rfc7515/#section-7.2.2)
+
 ## Interfaces
 
 | Interface | Description |
@@ -12,4 +16,4 @@ Verifying JSON Web Signature (JWS) in Flattened JSON Serialization
 
 | Function | Description |
 | ------ | ------ |
-| [flattenedVerify](functions/flattenedVerify.md) | Verifies a Flattened JWS signature and decodes its payload. |
+| [flattenedVerify](functions/flattenedVerify.md) | Validates a flattened JWS JSON Serialization (digital signature or MAC) and decodes its JWS Payload. |

@@ -6,4 +6,4 @@ JSON Web Token (JWT) Signing (JWT is in JWS format)
 
 | Class | Description |
 | ------ | ------ |
-| [SignJWT](classes/SignJWT.md) | Builds and signs Compact JWS-formatted JSON Web Tokens. |
+| [SignJWT](classes/SignJWT.md) | Produces JWTs in JWS Compact Serialization using a digital signature or MAC. |

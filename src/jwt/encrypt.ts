@@ -7,14 +7,14 @@
 import type * as types from '../types.d.ts'
 import { compactJWE, createJWE } from '../lib/jwe_encrypt.js'
 import type { EncryptInput } from '../lib/jwe_encrypt.js'
-import { JWTClaimsBuilder, jwtClaim, jwtData } from '../lib/jwt_claims_set.js'
+import { JWTClaimsBuilder, jwtClaim, jwtClaimsSetBytes } from '../lib/jwt_claims_set.js'
 import { assertNotSet } from '../lib/validate.js'
 
 /** @param payload Initial JWT Claims Set. Defaults to an empty object. */
 const EncryptJWT_base: new (payload?: types.JWTPayload) => types.ProduceJWT = JWTClaimsBuilder
 
 /**
- * Builds and encrypts Compact JWE-formatted JSON Web Tokens.
+ * Produces encrypted JWTs in JWE Compact Serialization.
  *
  * This class is exported (as a named export) from the main `'jose'` module entry point as well as
  * from its subpath export `'jose/jwt/encrypt'`.
@@ -137,7 +137,7 @@ export class EncryptJWT extends EncryptJWT_base {
    * @param options JWE Encryption options.
    */
   async encrypt(key: types.KeyInput, options?: types.EncryptOptions): Promise<string> {
-    const plaintext = jwtData(this)
+    const plaintext = jwtClaimsSetBytes(this)
     if (
       this.#input[1] &&
       (this.#replicateIssuerAsHeader ||

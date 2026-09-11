@@ -4,7 +4,7 @@
 
 Support from the community to continue maintaining and improving this module is welcome. If you find the module useful, please consider supporting the project by [becoming a sponsor](https://github.com/sponsors/panva).
 
-Builds and signs General JWS objects.
+Produces general JWS JSON Serialization using digital signatures or MACs.
 
 This class is exported (as a named export) from the main `'jose'` module entry point as well as
 from its subpath export `'jose/jws/general/sign'`.
@@ -30,13 +30,13 @@ console.log(jws)
 
 ▸ **new GeneralSign**(`payload`): `GeneralSign`
 
-Creates a General JWS signer.
+Creates a signer for general JWS JSON Serialization.
 
 #### Parameters
 
 | Parameter | Type | Description |
 | ------ | ------ | ------ |
-| `payload` | [`Uint8Array`](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Uint8Array) | Binary representation of the payload to sign. |
+| `payload` | [`Uint8Array`](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Uint8Array) | JWS Payload bytes to sign or MAC. |
 
 #### Returns
 
@@ -67,7 +67,8 @@ Adds a signature and returns its configuration.
 
 ▸ **sign**(): [`Promise`](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise)\<[`GeneralJWS`](../../../../types/interfaces/GeneralJWS.md)\>
 
-Signs the payload as a General JWS.
+Computes each JWS Signature (digital signature or MAC) and returns the general JWS JSON
+Serialization.
 
 #### Returns
 

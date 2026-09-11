@@ -12,7 +12,7 @@ Convenience interface for private RSA JSON Web Keys.
 
 • **d**: `string`
 
-Private exponent.
+Private exponent, encoded as Base64urlUInt (RFC 7518, Section 6.3.2).
 
 ***
 
@@ -20,7 +20,7 @@ Private exponent.
 
 • **dp**: `string`
 
-First factor CRT exponent.
+First factor CRT exponent, encoded as Base64urlUInt (RFC 7518, Section 6.3.2).
 
 ***
 
@@ -28,7 +28,7 @@ First factor CRT exponent.
 
 • **dq**: `string`
 
-Second factor CRT exponent.
+Second factor CRT exponent, encoded as Base64urlUInt (RFC 7518, Section 6.3.2).
 
 ***
 
@@ -36,7 +36,7 @@ Second factor CRT exponent.
 
 • **e**: `string`
 
-Public exponent.
+Public exponent, encoded as Base64urlUInt (RFC 7518, Section 6.3.1).
 
 ***
 
@@ -44,7 +44,7 @@ Public exponent.
 
 • **n**: `string`
 
-Modulus.
+Modulus, encoded as Base64urlUInt (RFC 7518, Section 6.3.1).
 
 ***
 
@@ -52,7 +52,7 @@ Modulus.
 
 • **p**: `string`
 
-First prime factor.
+First prime factor, encoded as Base64urlUInt (RFC 7518, Section 6.3.2).
 
 ***
 
@@ -60,7 +60,7 @@ First prime factor.
 
 • **q**: `string`
 
-Second prime factor.
+Second prime factor, encoded as Base64urlUInt (RFC 7518, Section 6.3.2).
 
 ***
 
@@ -68,7 +68,7 @@ Second prime factor.
 
 • **qi**: `string`
 
-First CRT coefficient.
+First CRT coefficient, encoded as Base64urlUInt (RFC 7518, Section 6.3.2).
 
 ***
 
@@ -88,7 +88,7 @@ JWK "alg" (Algorithm) Parameter
 
 • `optional` **ext?**: `boolean`
 
-Whether the key may be exported.
+Web Crypto "ext" (Extractable) member; whether the key may be exported.
 
 ***
 
@@ -96,7 +96,7 @@ Whether the key may be exported.
 
 • `optional` **key\_ops?**: `string`[]
 
-Permitted key operations.
+JWK "key_ops" (Key Operations) Parameter (RFC 7517, Section 4.3).
 
 ***
 
@@ -128,7 +128,8 @@ JWK "use" (Public Key Use) Parameter
 
 • `optional` **x5c?**: `string`[]
 
-X.509 certificate chain.
+"x5c" (X.509 Certificate Chain): base64-encoded DER certificates (RFC 7517, Section 4.7; RFC
+7515, Section 4.1.6).
 
 ***
 
@@ -136,7 +137,7 @@ X.509 certificate chain.
 
 • `optional` **x5t?**: `string`
 
-X.509 certificate SHA-1 thumbprint.
+"x5t" (X.509 Certificate SHA-1 Thumbprint): base64url-encoded digest of the DER certificate.
 
 ***
 
@@ -144,7 +145,8 @@ X.509 certificate SHA-1 thumbprint.
 
 • `optional` **x5t#S256?**: `string`
 
-X.509 certificate SHA-256 thumbprint.
+"x5t#S256" (X.509 Certificate SHA-256 Thumbprint): base64url-encoded digest of the DER
+certificate.
 
 ***
 
@@ -152,4 +154,4 @@ X.509 certificate SHA-256 thumbprint.
 
 • `optional` **x5u?**: `string`
 
-X.509 certificate URL.
+JWK "x5u" (X.509 URL) Parameter: URL of a PEM-encoded certificate or certificate chain.

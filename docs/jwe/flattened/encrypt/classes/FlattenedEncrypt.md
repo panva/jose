@@ -4,7 +4,7 @@
 
 Support from the community to continue maintaining and improving this module is welcome. If you find the module useful, please consider supporting the project by [becoming a sponsor](https://github.com/sponsors/panva).
 
-Builds and encrypts Flattened JWE objects.
+Produces flattened JWE JSON Serialization using authenticated encryption.
 
 This class is exported (as a named export) from the main `'jose'` module entry point as well as
 from its subpath export `'jose/jwe/flattened/encrypt'`.
@@ -28,7 +28,7 @@ console.log(jwe)
 
 ▸ **new FlattenedEncrypt**(`plaintext`): `FlattenedEncrypt`
 
-Creates a Flattened JWE encryptor.
+Creates an encryptor for flattened JWE JSON Serialization.
 
 #### Parameters
 
@@ -46,7 +46,7 @@ Creates a Flattened JWE encryptor.
 
 ▸ **encrypt**(`key`, `options?`): [`Promise`](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise)\<[`FlattenedJWE`](../../../../types/interfaces/FlattenedJWE.md)\>
 
-Encrypts the plaintext as a Flattened JWE.
+Encrypts the plaintext and returns the flattened JWE JSON Serialization.
 
 #### Parameters
 
@@ -65,13 +65,17 @@ Encrypts the plaintext as a Flattened JWE.
 
 ▸ **setAdditionalAuthenticatedData**(`aad`): `this`
 
-Sets additional data to authenticate without encrypting it.
+Sets the JWE AAD, which is integrity protected but not encrypted.
+
+Its base64url encoding is combined with the Encoded Protected Header to form the Additional
+Authenticated Data encryption parameter. See
+[draft-ietf-jose-hpke-encrypt-22, Section 7.1, step 15](https://www.ietf.org/archive/id/draft-ietf-jose-hpke-encrypt-22.html#section-7.1).
 
 #### Parameters
 
 | Parameter | Type | Description |
 | ------ | ------ | ------ |
-| `aad` | [`Uint8Array`](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Uint8Array) | Additional Authenticated Data. |
+| `aad` | [`Uint8Array`](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Uint8Array) | JWE Additional Authenticated Data (JWE AAD). |
 
 #### Returns
 
@@ -130,7 +134,7 @@ Use only for testing and vector validation.
 ▸ **setKeyManagementParameters**(`parameters`): `this`
 
 Sets key management inputs such as ECDH-ES "apu"/"apv" or PBES2 "p2c". Use this method instead
-of header setters; the resulting parameters are added to the JOSE header. May only be called
+of header setters; the resulting parameters are added to the JOSE Header. May only be called
 once.
 
 #### Parameters

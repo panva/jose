@@ -33,7 +33,7 @@ export type GenerateSecretAlgorithm =
   | (string & {})
 
 /**
- * Maps a JWA algorithm identifier to the value returned by {@link generateSecret}. AES-CBC-HMAC
+ * Maps a JWA algorithm identifier to the value returned by {@link generateSecret}. AES_CBC_HMAC_SHA2
  * algorithms return {@link !Uint8Array}; other supported algorithms return
  * {@link types.CryptoKey CryptoKey}. When the algorithm is not statically known, the result is their
  * union.
@@ -87,36 +87,40 @@ export async function generateSecret(
   options?: GenerateSecretOptions,
 ): Promise<types.CryptoKey | Uint8Array> {
   const extractable = validateExtractableOption(options?.extractable)
-  let length: number
+  let keyLengthBits: number
   let algorithm: AesKeyGenParams | HmacKeyGenParams
   let keyUsages: KeyUsage[]
   switch (alg) {
+    // RFC 7518, Section 3.2: generate a key as long as the hash output.
     case 'HS256':
     case 'HS384':
     case 'HS512':
-      length = +alg.slice(-3)
-      algorithm = { name: 'HMAC', hash: `SHA-${length}`, length }
+      keyLengthBits = +alg.slice(-3)
+      algorithm = { name: 'HMAC', hash: `SHA-${keyLengthBits}`, length: keyLengthBits }
       keyUsages = ['sign', 'verify']
       break
+    // RFC 7518, Sections 5.2.3-5.2.5: combined MAC_KEY and ENC_KEY lengths.
     case 'A128CBC-HS256':
     case 'A192CBC-HS384':
     case 'A256CBC-HS512':
       return crypto.getRandomValues(new Uint8Array(+alg.slice(-3) >> 3))
+    // RFC 7518, Section 4.4: AES Key Wrap key sizes.
     case 'A128KW':
     case 'A192KW':
     case 'A256KW':
-      length = +alg.slice(1, 4)
-      algorithm = { name: 'AES-KW', length }
+      keyLengthBits = +alg.slice(1, 4)
+      algorithm = { name: 'AES-KW', length: keyLengthBits }
       keyUsages = ['wrapKey', 'unwrapKey']
       break
+    // RFC 7518, Sections 4.7 and 5.3: AES-GCM key sizes.
     case 'A128GCMKW':
     case 'A192GCMKW':
     case 'A256GCMKW':
     case 'A128GCM':
     case 'A192GCM':
     case 'A256GCM':
-      length = +alg.slice(1, 4)
-      algorithm = { name: 'AES-GCM', length }
+      keyLengthBits = +alg.slice(1, 4)
+      algorithm = { name: 'AES-GCM', length: keyLengthBits }
       keyUsages = ['encrypt', 'decrypt']
       break
     default:

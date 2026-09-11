@@ -16,11 +16,13 @@ type Entry = Omit<JWSAlgorithm, 'alg'>
 
 const sig: [KeyUsage[], KeyUsage[]] = [['verify'], ['sign']]
 
+// RFC 7518, Section 3.2: HMAC with the SHA-2 hash selected by the JWA identifier.
 function hmac(bits: number): Entry {
   const subtle = { name: 'HMAC', hash: `SHA-${bits}` }
   return { kty: ['oct'], secret: true, subtle, signing: subtle, usages: sig }
 }
 
+// RFC 7518, Sections 3.3/3.5: RSA signature parameters; PSS salt length equals hash length.
 function rsa(bits: number, saltLength?: 32 | 48 | 64): Entry {
   const name = saltLength ? 'RSA-PSS' : 'RSASSA-PKCS1-v1_5'
   const subtle = { name, hash: `SHA-${bits}` }
@@ -33,6 +35,8 @@ function rsa(bits: number, saltLength?: 32 | 48 | 64): Entry {
   }
 }
 
+// RFC 7518, Section 3.4: the identifier selects both curve and SHA-2 hash.
+// Web Crypto supplies the fixed-width R || S signature representation required by JWS.
 function ecdsa(crv: string, bits: number): Entry {
   return {
     kty: ['EC'],
@@ -43,6 +47,7 @@ function ecdsa(crv: string, bits: number): Entry {
   }
 }
 
+// RFC 8037, Sections 3.1.1-3.1.2; RFC 9864, Section 2.2 for the Ed25519 identifier.
 function eddsa(): Entry {
   const subtle = { name: 'Ed25519' }
   return {
@@ -55,8 +60,9 @@ function eddsa(): Entry {
 }
 
 /** ML-DSA names its WebCrypto algorithm and its Node key type after the JWA identifier. */
-function mldsa(bits: 44 | 65 | 87): Entry {
-  const name = `ML-DSA-${bits}`
+// RFC 9964, Section 5: use pure ML-DSA with an empty context, the Web Crypto default.
+function mldsa(parameterSet: 44 | 65 | 87): Entry {
+  const name = `ML-DSA-${parameterSet}`
   const subtle = { name }
   return {
     kty: ['AKP'],

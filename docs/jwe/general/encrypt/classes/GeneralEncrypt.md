@@ -4,7 +4,7 @@
 
 Support from the community to continue maintaining and improving this module is welcome. If you find the module useful, please consider supporting the project by [becoming a sponsor](https://github.com/sponsors/panva).
 
-Builds and encrypts General JWE objects.
+Produces general JWE JSON Serialization using authenticated encryption.
 
 This class is exported (as a named export) from the main `'jose'` module entry point as well as
 from its subpath export `'jose/jwe/general/encrypt'`.
@@ -31,7 +31,7 @@ console.log(jwe)
 
 ▸ **new GeneralEncrypt**(`plaintext`): `GeneralEncrypt`
 
-Creates a General JWE encryptor.
+Creates an encryptor for general JWE JSON Serialization.
 
 #### Parameters
 
@@ -68,7 +68,7 @@ Adds a recipient and returns its configuration.
 
 ▸ **encrypt**(): [`Promise`](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise)\<[`GeneralJWE`](../../../../types/interfaces/GeneralJWE.md)\>
 
-Encrypts the plaintext as a General JWE.
+Encrypts the plaintext and returns the general JWE JSON Serialization.
 
 #### Returns
 
@@ -80,13 +80,17 @@ Encrypts the plaintext as a General JWE.
 
 ▸ **setAdditionalAuthenticatedData**(`aad`): `this`
 
-Sets additional data to authenticate without encrypting it.
+Sets the JWE AAD, which is integrity protected but not encrypted.
+
+Its base64url encoding is combined with the Encoded Protected Header to form the Additional
+Authenticated Data encryption parameter. See
+[draft-ietf-jose-hpke-encrypt-22, Section 7.1, step 15](https://www.ietf.org/archive/id/draft-ietf-jose-hpke-encrypt-22.html#section-7.1).
 
 #### Parameters
 
 | Parameter | Type | Description |
 | ------ | ------ | ------ |
-| `aad` | [`Uint8Array`](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Uint8Array) | Additional Authenticated Data. |
+| `aad` | [`Uint8Array`](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Uint8Array) | JWE Additional Authenticated Data (JWE AAD). |
 
 #### Returns
 

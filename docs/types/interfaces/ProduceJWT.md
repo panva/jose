@@ -12,7 +12,7 @@ Shared fluent API for JWT-producing classes.
 
 ▸ **setAudience**(`audience`): `this`
 
-Set the "aud" (Audience) Claim.
+Set the "aud" (Audience) Claim (RFC 7519, Section 4.1.3).
 
 #### Parameters
 
@@ -30,8 +30,8 @@ Set the "aud" (Audience) Claim.
 
 ▸ **setExpirationTime**(`input`): `this`
 
-Set the "exp" (Expiration Time) Claim. Accepts a Unix timestamp in seconds, a Date, or a
-duration relative to now using the same formats as [setNotBefore](#setnotbefore).
+Set the "exp" (Expiration Time) Claim. Accepts a NumericDate value (seconds since the Unix
+epoch), a Date, or a duration relative to now using the same formats as [setNotBefore](#setnotbefore).
 
 Format used for time span should be a number followed by a unit, such as "5 minutes" or "1
 day".
@@ -51,6 +51,10 @@ A "from now" suffix can be used for readability when adding to the current Unix 
 #### Returns
 
 `this`
+
+#### See
+
+[RFC 7519, Section 4.1.4](https://www.rfc-editor.org/info/rfc7519/#section-4.1.4)
 
 ***
 
@@ -81,13 +85,17 @@ A "from now" suffix can be used for readability when adding to the current Unix 
 
 `this`
 
+#### See
+
+[RFC 7519, Section 4.1.6](https://www.rfc-editor.org/info/rfc7519/#section-4.1.6)
+
 ***
 
 ### setIssuer()
 
 ▸ **setIssuer**(`issuer`): `this`
 
-Set the "iss" (Issuer) Claim.
+Set the "iss" (Issuer) Claim (RFC 7519, Section 4.1.1).
 
 #### Parameters
 
@@ -105,7 +113,7 @@ Set the "iss" (Issuer) Claim.
 
 ▸ **setJti**(`jwtId`): `this`
 
-Set the "jti" (JWT ID) Claim.
+Set the "jti" (JWT ID) Claim (RFC 7519, Section 4.1.7).
 
 #### Parameters
 
@@ -123,9 +131,10 @@ Set the "jti" (JWT ID) Claim.
 
 ▸ **setNotBefore**(`input`): `this`
 
-Set the "nbf" (Not Before) Claim. Numbers are Unix timestamps in seconds; Dates are converted
-to seconds. Strings are relative to now, using seconds, minutes, hours, days, weeks, or years
-(365.25 days; no months). Prefix `-` or suffix `ago` subtracts the duration.
+Set the "nbf" (Not Before) Claim. Numbers are NumericDate values (seconds since the Unix
+epoch); Dates are converted to seconds. Strings are relative to now, using seconds, minutes,
+hours, days, weeks, or years (365.25 days; no months). Prefix `-` or suffix `ago` subtracts the
+duration.
 
 Format used for time span should be a number followed by a unit, such as "5 minutes" or "1
 day".
@@ -146,13 +155,17 @@ A "from now" suffix can be used for readability when adding to the current Unix 
 
 `this`
 
+#### See
+
+[RFC 7519, Section 4.1.5](https://www.rfc-editor.org/info/rfc7519/#section-4.1.5)
+
 ***
 
 ### setSubject()
 
 ▸ **setSubject**(`subject`): `this`
 
-Set the "sub" (Subject) Claim.
+Set the "sub" (Subject) Claim (RFC 7519, Section 4.1.2).
 
 #### Parameters
 

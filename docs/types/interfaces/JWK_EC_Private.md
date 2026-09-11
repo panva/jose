@@ -12,7 +12,7 @@ Convenience interface for private EC JSON Web Keys.
 
 • **crv**: `string`
 
-Curve.
+JWK "crv" (Curve) Parameter (RFC 7518, Section 6.2.1.1).
 
 ***
 
@@ -20,7 +20,7 @@ Curve.
 
 • **d**: `string`
 
-Private key.
+Base64url-encoded private key (RFC 7518, Section 6.2.2).
 
 ***
 
@@ -28,7 +28,7 @@ Private key.
 
 • **x**: `string`
 
-Public key X coordinate.
+Base64url-encoded x-coordinate (RFC 7518, Section 6.2.1.2).
 
 ***
 
@@ -36,7 +36,7 @@ Public key X coordinate.
 
 • **y**: `string`
 
-Public key Y coordinate.
+Base64url-encoded y-coordinate (RFC 7518, Section 6.2.1.3).
 
 ***
 
@@ -56,7 +56,7 @@ JWK "alg" (Algorithm) Parameter
 
 • `optional` **ext?**: `boolean`
 
-Whether the key may be exported.
+Web Crypto "ext" (Extractable) member; whether the key may be exported.
 
 ***
 
@@ -64,7 +64,7 @@ Whether the key may be exported.
 
 • `optional` **key\_ops?**: `string`[]
 
-Permitted key operations.
+JWK "key_ops" (Key Operations) Parameter (RFC 7517, Section 4.3).
 
 ***
 
@@ -96,7 +96,8 @@ JWK "use" (Public Key Use) Parameter
 
 • `optional` **x5c?**: `string`[]
 
-X.509 certificate chain.
+"x5c" (X.509 Certificate Chain): base64-encoded DER certificates (RFC 7517, Section 4.7; RFC
+7515, Section 4.1.6).
 
 ***
 
@@ -104,7 +105,7 @@ X.509 certificate chain.
 
 • `optional` **x5t?**: `string`
 
-X.509 certificate SHA-1 thumbprint.
+"x5t" (X.509 Certificate SHA-1 Thumbprint): base64url-encoded digest of the DER certificate.
 
 ***
 
@@ -112,7 +113,8 @@ X.509 certificate SHA-1 thumbprint.
 
 • `optional` **x5t#S256?**: `string`
 
-X.509 certificate SHA-256 thumbprint.
+"x5t#S256" (X.509 Certificate SHA-256 Thumbprint): base64url-encoded digest of the DER
+certificate.
 
 ***
 
@@ -120,4 +122,4 @@ X.509 certificate SHA-256 thumbprint.
 
 • `optional` **x5u?**: `string`
 
-X.509 certificate URL.
+JWK "x5u" (X.509 URL) Parameter: URL of a PEM-encoded certificate or certificate chain.

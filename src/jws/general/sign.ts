@@ -2,6 +2,8 @@
  * Signing JSON Web Signature (JWS) in General JSON Serialization
  *
  * @module
+ *
+ * @see {@link https://www.rfc-editor.org/info/rfc7515/#section-7.2.1 RFC 7515, Section 7.2.1}
  */
 
 import type * as types from '../../types.d.ts'
@@ -10,7 +12,7 @@ import type { SignInput } from '../../lib/jws_sign.js'
 import { JWSInvalid } from '../../util/errors.js'
 import { assertNotSet, assertUint8Array } from '../../lib/validate.js'
 
-/** Configures an individual signature in a General JWS. */
+/** Configures an individual JWS Signature (digital signature or MAC) in a General JWS. */
 export interface Signature {
   /**
    * Sets the JWS Protected Header. May only be called once.
@@ -35,7 +37,7 @@ export interface Signature {
    */
   addSignature(key: types.KeyInput, options?: types.SignOptions): Signature
 
-  /** Creates all signatures on the enclosing {@link GeneralSign}, using their configured keys. */
+  /** Computes all JWS Signatures on the enclosing {@link GeneralSign}, using their configured keys. */
   sign(): Promise<types.GeneralJWS>
 
   /** Returns the enclosing {@link GeneralSign} instance. */
@@ -85,7 +87,7 @@ class IndividualSignature implements Signature {
 }
 
 /**
- * Builds and signs General JWS objects.
+ * Produces general JWS JSON Serialization using digital signatures or MACs.
  *
  * This class is exported (as a named export) from the main `'jose'` module entry point as well as
  * from its subpath export `'jose/jws/general/sign'`.
@@ -111,9 +113,9 @@ export class GeneralSign {
   #signatures: IndividualSignature[] = []
 
   /**
-   * Creates a General JWS signer.
+   * Creates a signer for general JWS JSON Serialization.
    *
-   * @param payload Binary representation of the payload to sign.
+   * @param payload JWS Payload bytes to sign or MAC.
    */
   constructor(payload: Uint8Array) {
     this.#payload = payload
@@ -132,7 +134,10 @@ export class GeneralSign {
     return signature
   }
 
-  /** Signs the payload as a General JWS. */
+  /**
+   * Computes each JWS Signature (digital signature or MAC) and returns the general JWS JSON
+   * Serialization.
+   */
   async sign(): Promise<types.GeneralJWS> {
     if (!this.#signatures.length) {
       throw new JWSInvalid('at least one signature must be added')
@@ -145,24 +150,25 @@ export class GeneralSign {
       payload: '',
     }
 
-    const encoded: NonNullable<SignInput[4]> = []
+    const encodedPayloadCache: NonNullable<SignInput[4]> = []
     let b64: boolean | undefined
 
     for (const signature of this.#signatures) {
       const [protectedHeader, unprotectedHeader, key, crit] = signature.state
 
-      const [{ payload, ...rest }, signatureB64] = await createSignature(
-        [this.#payload, protectedHeader, unprotectedHeader, crit, encoded],
+      const [{ payload, ...signatureMembers }, signatureB64] = await createSignature(
+        [this.#payload, protectedHeader, unprotectedHeader, crit, encodedPayloadCache],
         key,
       )
 
+      // RFC 7797, Section 3: every signature must use the same b64 value.
       if (b64 === undefined) {
         b64 = signatureB64
         jws.payload = payload
       } else if (b64 !== signatureB64) {
         throw new JWSInvalid('inconsistent use of JWS Unencoded Payload (RFC7797)')
       }
-      jws.signatures.push(rest)
+      jws.signatures.push(signatureMembers)
     }
 
     return jws

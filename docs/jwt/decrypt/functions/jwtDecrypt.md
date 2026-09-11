@@ -8,7 +8,7 @@ Support from the community to continue maintaining and improving this module is 
 
 ▸ **jwtDecrypt**\<`PayloadType`\>(`jwt`, `key`, `options?`): [`Promise`](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise)\<[`JWTDecryptResult`](../../../types/interfaces/JWTDecryptResult.md)\<`PayloadType`\>\>
 
-Decrypts a Compact JWE-formatted JWT and validates its Claims Set.
+Authenticates and decrypts a JWT in JWE Compact Serialization and validates its JWT Claims Set.
 
 This function is exported (as a named export) from the main `'jose'` module entry point as well
 as from its subpath export `'jose/jwt/decrypt'`.
@@ -24,7 +24,7 @@ as from its subpath export `'jose/jwt/decrypt'`.
 | Parameter | Type | Description |
 | ------ | ------ | ------ |
 | `jwt` | `string` \| [`Uint8Array`](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Uint8Array) | JSON Web Token value (encoded as JWE). |
-| `key` | [`KeyInput`](../../../types/type-aliases/KeyInput.md) | Private key or shared secret to decrypt and verify the JWT with. See [Algorithm Key Requirements](https://github.com/panva/jose/issues/210#jwe-alg). |
+| `key` | [`KeyInput`](../../../types/type-aliases/KeyInput.md) | Private key or shared secret to authenticate and decrypt the JWT with. See [Algorithm Key Requirements](https://github.com/panva/jose/issues/210#jwe-alg). |
 | `options?` | [`JWTDecryptOptions`](../interfaces/JWTDecryptOptions.md) | JWT Decryption and JWT Claims Set validation options. |
 
 ### Returns
@@ -66,7 +66,7 @@ Decrypts a JWT and validates its claims, returning the dynamically
 | Parameter | Type | Description |
 | ------ | ------ | ------ |
 | `jwt` | `string` \| [`Uint8Array`](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Uint8Array) | JSON Web Token value (encoded as JWE). |
-| `getKey` | [`JWTDecryptGetKey`](../interfaces/JWTDecryptGetKey.md)\<`KeyType`\> | Function resolving a private key or shared secret to decrypt and verify the JWT with. See [Algorithm Key Requirements](https://github.com/panva/jose/issues/210#jwe-alg). |
+| `getKey` | [`JWTDecryptGetKey`](../interfaces/JWTDecryptGetKey.md)\<`KeyType`\> | Function resolving a private key or shared secret to authenticate and decrypt the JWT with. See [Algorithm Key Requirements](https://github.com/panva/jose/issues/210#jwe-alg). |
 | `options?` | [`JWTDecryptOptions`](../interfaces/JWTDecryptOptions.md) | JWT Decryption and JWT Claims Set validation options. |
 
 ### Returns
@@ -91,7 +91,7 @@ Accepts a key or key resolver. Use this overload when forwarding either form; th
 | Parameter | Type | Description |
 | ------ | ------ | ------ |
 | `jwt` | `string` \| [`Uint8Array`](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Uint8Array) | JSON Web Token value (encoded as JWE). |
-| `key` | [`KeyInput`](../../../types/type-aliases/KeyInput.md) \| [`JWTDecryptGetKey`](../interfaces/JWTDecryptGetKey.md)\<[`Uint8Array`](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Uint8Array) \| [`CryptoKey`](https://developer.mozilla.org/docs/Web/API/CryptoKey)\> | Private key or shared secret, or a function resolving one, to decrypt and verify the JWT with. See [Algorithm Key Requirements](https://github.com/panva/jose/issues/210#jwe-alg). |
+| `key` | [`KeyInput`](../../../types/type-aliases/KeyInput.md) \| [`JWTDecryptGetKey`](../interfaces/JWTDecryptGetKey.md)\<[`Uint8Array`](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Uint8Array) \| [`CryptoKey`](https://developer.mozilla.org/docs/Web/API/CryptoKey)\> | Private key or shared secret, or a function resolving one, to authenticate and decrypt the JWT with. See [Algorithm Key Requirements](https://github.com/panva/jose/issues/210#jwe-alg). |
 | `options?` | [`JWTDecryptOptions`](../interfaces/JWTDecryptOptions.md) | JWT Decryption and JWT Claims Set validation options. |
 
 ### Returns

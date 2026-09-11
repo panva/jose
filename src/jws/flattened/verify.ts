@@ -2,6 +2,8 @@
  * Verifying JSON Web Signature (JWS) in Flattened JSON Serialization
  *
  * @module
+ *
+ * @see {@link https://www.rfc-editor.org/info/rfc7515/#section-7.2.2 RFC 7515, Section 7.2.2}
  */
 
 import type * as types from '../../types.d.ts'
@@ -31,7 +33,8 @@ export interface FlattenedVerifyGetKey<
 > {}
 
 /**
- * Verifies a Flattened JWS signature and decodes its payload.
+ * Validates a flattened JWS JSON Serialization (digital signature or MAC) and decodes its JWS
+ * Payload.
  *
  * This function is exported (as a named export) from the main `'jose'` module entry point as well
  * as from its subpath export `'jose/jws/flattened/verify'`.
@@ -64,8 +67,8 @@ export function flattenedVerify(
   options?: types.VerifyOptions,
 ): Promise<types.FlattenedVerifyResult>
 /**
- * Verifies a Flattened JWS signature and decodes its payload with a dynamically resolved key,
- * included in the result.
+ * Validates a flattened JWS JSON Serialization (digital signature or MAC) and decodes its JWS
+ * Payload with a dynamically resolved key, included in the result.
  *
  * @param jws Flattened JWS.
  * @param getKey Resolves a public key or shared secret from unverified token data.
@@ -79,8 +82,8 @@ export function flattenedVerify<
   options?: types.VerifyOptions,
 ): Promise<types.FlattenedVerifyResult & types.ResolvedKey<KeyType>>
 /**
- * Verifies a Flattened JWS and decodes its payload using a key or key resolver. The result includes
- * `key` only when a resolver is used.
+ * Validates a flattened JWS JSON Serialization (digital signature or MAC) and decodes its JWS
+ * Payload using a key or key resolver. The result includes `key` only when a resolver is used.
  *
  * @param jws Flattened JWS.
  * @param key Public key or shared secret, or a function resolving one.

@@ -4,23 +4,23 @@
 
 | Interface | Description |
 | ------ | ------ |
-| [CompactDecryptResult](interfaces/CompactDecryptResult.md) | Compact JWE decryption result. |
-| [CompactJWEHeaderParameters](interfaces/CompactJWEHeaderParameters.md) | Recognized Compact JWE Header Parameters; additional members may also be present. |
-| [CompactJWSHeaderParameters](interfaces/CompactJWSHeaderParameters.md) | Recognized Compact JWS Header Parameters; additional members may also be present. |
-| [CompactVerifyResult](interfaces/CompactVerifyResult.md) | Compact JWS verification result. |
+| [CompactDecryptResult](interfaces/CompactDecryptResult.md) | JWE Compact Serialization decryption result. |
+| [CompactJWEHeaderParameters](interfaces/CompactJWEHeaderParameters.md) | Recognized JWE Compact Serialization Header Parameters; additional members may also be present. |
+| [CompactJWSHeaderParameters](interfaces/CompactJWSHeaderParameters.md) | Recognized JWS Compact Serialization Header Parameters; additional members may also be present. |
+| [CompactVerifyResult](interfaces/CompactVerifyResult.md) | JWS Compact Serialization verification result. |
 | [CritOption](interfaces/CritOption.md) | Shared "crit" option for signing, verification, encryption, and decryption. |
 | [CryptoKeyStructuralFallback](interfaces/CryptoKeyStructuralFallback.md) | Structural fallback used when the host [CryptoKey](https://developer.mozilla.org/docs/Web/API/CryptoKey) type cannot be inferred. |
 | [DecryptOptions](interfaces/DecryptOptions.md) | JWE Decryption options. |
 | [EncryptOptions](interfaces/EncryptOptions.md) | JWE Encryption options. |
 | [FlattenedDecryptResult](interfaces/FlattenedDecryptResult.md) | Flattened JWE JSON Serialization decryption result. |
 | [FlattenedJWE](interfaces/FlattenedJWE.md) | Flattened JWE JSON Serialization token. |
-| [FlattenedJWS](interfaces/FlattenedJWS.md) | Flattened JWS JSON Serialization token. The payload is an empty string when the [unencoded payload option](https://www.rfc-editor.org/info/rfc7797/) is used. |
-| [FlattenedJWSInput](interfaces/FlattenedJWSInput.md) | Flattened JWS verification input. |
+| [FlattenedJWS](interfaces/FlattenedJWS.md) | Flattened JWS JSON Serialization token. The payload is an empty string for detached content when the [unencoded payload option](https://www.rfc-editor.org/info/rfc7797/) is used. |
+| [FlattenedJWSInput](interfaces/FlattenedJWSInput.md) | Flattened JWS JSON Serialization verification input. |
 | [FlattenedVerifyResult](interfaces/FlattenedVerifyResult.md) | Flattened JWS JSON Serialization verification result. |
 | [GeneralDecryptResult](interfaces/GeneralDecryptResult.md) | General JWE JSON Serialization decryption result. |
 | [GeneralJWE](interfaces/GeneralJWE.md) | General JWE JSON Serialization token. |
-| [GeneralJWS](interfaces/GeneralJWS.md) | General JWS JSON Serialization token. The payload is an empty string when the [unencoded payload option](https://www.rfc-editor.org/info/rfc7797/) is used. |
-| [GeneralJWSInput](interfaces/GeneralJWSInput.md) | General JWS verification input. |
+| [GeneralJWS](interfaces/GeneralJWS.md) | General JWS JSON Serialization token. The payload is an empty string for detached content when the [unencoded payload option](https://www.rfc-editor.org/info/rfc7797/) is used. |
+| [GeneralJWSInput](interfaces/GeneralJWSInput.md) | General JWS JSON Serialization verification input. |
 | [GeneralVerifyResult](interfaces/GeneralVerifyResult.md) | General JWS JSON Serialization verification result. |
 | [GetKeyFunction](interfaces/GetKeyFunction.md) | Dynamic key resolver for consuming operations. |
 | [JoseHeaderParameters](interfaces/JoseHeaderParameters.md) | Header Parameters common to JWE and JWS. |
@@ -39,9 +39,9 @@
 | [JWSHeaderParameters](interfaces/JWSHeaderParameters.md) | Recognized JWS Header Parameters; additional members may also be present. |
 | [JWTClaimVerificationOptions](interfaces/JWTClaimVerificationOptions.md) | JWT Claims Set verification options. |
 | [JWTDecryptResult](interfaces/JWTDecryptResult.md) | Encrypted JSON Web Token (JWT) decryption result. |
-| [JWTHeaderParameters](interfaces/JWTHeaderParameters.md) | Recognized signed JWT Header Parameters; additional members may also be present. |
+| [JWTHeaderParameters](interfaces/JWTHeaderParameters.md) | Recognized JWT Header Parameters for JWS; additional members may also be present. |
 | [JWTPayload](interfaces/JWTPayload.md) | Recognized JWT Claims Set members; additional members may also be present. |
-| [JWTVerifyResult](interfaces/JWTVerifyResult.md) | Signed JSON Web Token (JWT) verification result. |
+| [JWTVerifyResult](interfaces/JWTVerifyResult.md) | Signed or MACed JSON Web Token (JWT) verification result. |
 | [KeyObject](interfaces/KeyObject.md) | Node.js [KeyObject](https://nodejs.org/api/crypto.html#class-keyobject) representation accepted as key input. |
 | [ProduceJWT](interfaces/ProduceJWT.md) | Shared fluent API for JWT-producing classes. |
 | [ResolvedKey](interfaces/ResolvedKey.md) | Key resolver result metadata. |

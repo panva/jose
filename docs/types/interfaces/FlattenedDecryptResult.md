@@ -20,7 +20,7 @@ Plaintext.
 
 • `optional` **additionalAuthenticatedData?**: [`Uint8Array`](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Uint8Array)
 
-JWE Additional Authenticated Data, integrity protected but not encrypted.
+Decoded JWE AAD bytes, integrity protected but not encrypted.
 
 ***
 

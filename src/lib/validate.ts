@@ -21,6 +21,7 @@ export function isObject<T = object>(input: unknown): input is T {
   return prototype === null || Object.getPrototypeOf(prototype) === null
 }
 
+// RFC 7517, Section 5: a JWK Set is an object whose "keys" member is an array of JWKs.
 export function isJwkSet(input: unknown): input is types.JSONWebKeySet {
   return (
     isObject<types.JSONWebKeySet>(input) &&
@@ -63,10 +64,11 @@ export function decodeBase64url(
 }
 
 /**
- * Encodes the ASCII octets of a token member that is used as-is when recomputing a signing input or
- * AEAD additional data, rather than being base64url decoded first.
+ * Encodes the ASCII octets of a token member that is used as-is when recomputing the JWS Signing
+ * Input or the Additional Authenticated Data encryption parameter for a JWE, rather than being
+ * base64url decoded first.
  */
-export function encodeBase64url(
+export function encodeAsciiMember(
   value: string,
   label: string,
   ErrorClass: new (message: string) => Error,
@@ -80,13 +82,13 @@ export function encodeBase64url(
 
 /** Base64url decode, UTF-8 decode, JSON parse, and require a JSON object - in one place. */
 export function parseJoseHeader<T>(
-  b64: string,
+  encodedProtectedHeader: string,
   ErrorClass: new (message: string) => Error,
   message: string,
 ): T {
   let parsed: unknown
   try {
-    parsed = JSON.parse(strictDecoder.decode(decode(b64)))
+    parsed = JSON.parse(strictDecoder.decode(decode(encodedProtectedHeader)))
   } catch {
     throw new ErrorClass(message)
   }
@@ -134,6 +136,8 @@ export function validateCritDuplicates(
   }
 }
 
+// RFC 7515, Section 4.1.11; RFC 7516, Section 4.1.13: protected, nonempty crit,
+// understood extensions, and presence of each listed Header Parameter.
 export function validateCrit(
   Err: typeof JWEInvalid | typeof JWSInvalid,
   recognizedDefault: Record<string, boolean>,
@@ -186,6 +190,8 @@ export function validateCrit(
   return protectedHeader.crit
 }
 
+// RFC 7797, Sections 3 and 6: b64 defaults to true; an explicit value is protected
+// and listed in crit. Recognition of an extension does not validate its application semantics.
 export function validateB64(
   protectedHeader: CritCheckHeader | undefined,
   extensions: string[],

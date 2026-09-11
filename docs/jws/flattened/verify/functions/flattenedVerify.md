@@ -8,7 +8,8 @@ Support from the community to continue maintaining and improving this module is 
 
 ▸ **flattenedVerify**(`jws`, `key`, `options?`): [`Promise`](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise)\<[`FlattenedVerifyResult`](../../../../types/interfaces/FlattenedVerifyResult.md)\>
 
-Verifies a Flattened JWS signature and decodes its payload.
+Validates a flattened JWS JSON Serialization (digital signature or MAC) and decodes its JWS
+Payload.
 
 This function is exported (as a named export) from the main `'jose'` module entry point as well
 as from its subpath export `'jose/jws/flattened/verify'`.
@@ -46,8 +47,8 @@ console.log(decoder.decode(payload))
 
 ▸ **flattenedVerify**\<`KeyType`\>(`jws`, `getKey`, `options?`): [`Promise`](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise)\<[`FlattenedVerifyResult`](../../../../types/interfaces/FlattenedVerifyResult.md) & [`ResolvedKey`](../../../../types/interfaces/ResolvedKey.md)\<`KeyType`\>\>
 
-Verifies a Flattened JWS signature and decodes its payload with a dynamically resolved key,
-included in the result.
+Validates a flattened JWS JSON Serialization (digital signature or MAC) and decodes its JWS
+Payload with a dynamically resolved key, included in the result.
 
 ### Type Parameters
 
@@ -71,8 +72,8 @@ included in the result.
 
 ▸ **flattenedVerify**(`jws`, `key`, `options?`): [`Promise`](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise)\<[`FlattenedVerifyResult`](../../../../types/interfaces/FlattenedVerifyResult.md) & [`Partial`](https://www.typescriptlang.org/docs/handbook/utility-types.html#partialtype)\<[`ResolvedKey`](../../../../types/interfaces/ResolvedKey.md)\<[`Uint8Array`](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Uint8Array) \| [`CryptoKey`](https://developer.mozilla.org/docs/Web/API/CryptoKey)\>\>\>
 
-Verifies a Flattened JWS and decodes its payload using a key or key resolver. The result includes
-`key` only when a resolver is used.
+Validates a flattened JWS JSON Serialization (digital signature or MAC) and decodes its JWS
+Payload using a key or key resolver. The result includes `key` only when a resolver is used.
 
 ### Parameters
 

@@ -2,6 +2,10 @@
 
 Decrypting JSON Web Encryption (JWE) in Flattened JSON Serialization
 
+## See
+
+[RFC 7516, Section 7.2.2](https://www.rfc-editor.org/info/rfc7516/#section-7.2.2)
+
 ## Interfaces
 
 | Interface | Description |
@@ -12,4 +16,4 @@ Decrypting JSON Web Encryption (JWE) in Flattened JSON Serialization
 
 | Function | Description |
 | ------ | ------ |
-| [flattenedDecrypt](functions/flattenedDecrypt.md) | Decrypts a Flattened JWE. |
+| [flattenedDecrypt](functions/flattenedDecrypt.md) | Authenticates and decrypts a flattened JWE JSON Serialization. |

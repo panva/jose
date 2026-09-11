@@ -15,7 +15,7 @@ import {
   validateCrit,
 } from '../lib/validate.js'
 import { JWSInvalid, JWTInvalid } from '../util/errors.js'
-import { validateClaimsSet, JWTClaimsBuilder, jwtData } from '../lib/jwt_claims_set.js'
+import { validateClaimsSet, JWTClaimsBuilder, jwtClaimsSetBytes } from '../lib/jwt_claims_set.js'
 
 /**
  * Decoded Unsecured JWT.
@@ -28,7 +28,7 @@ export interface UnsecuredResult<PayloadType = types.JWTPayload> {
     types.JWTPayload &
     ([PayloadType] extends [object] ? unknown : unknown extends PayloadType ? unknown : never)
 
-  /** The decoded JOSE Header; always `{ "alg": "none" }` for an Unsecured JWT. */
+  /** The decoded JOSE Header; its "alg" (Algorithm) Header Parameter is "none". */
   header: types.JWSHeaderParameters
 }
 
@@ -75,10 +75,11 @@ export class UnsecuredJWT extends UnsecuredJWT_base {
 
   /** Encodes the Unsecured JWT. */
   encode(): string {
-    const header = b64u.encode(JSON.stringify({ alg: 'none' }))
-    const payload = b64u.encode(jwtData(this))
+    // RFC 7519, Section 6; RFC 7518, Section 3.6: none and an empty JWS Signature.
+    const encodedProtectedHeader = b64u.encode(JSON.stringify({ alg: 'none' }))
+    const encodedPayload = b64u.encode(jwtClaimsSetBytes(this))
 
-    return `${header}.${payload}.`
+    return `${encodedProtectedHeader}.${encodedPayload}.`
   }
 
   /**
@@ -116,6 +117,7 @@ export class UnsecuredJWT extends UnsecuredJWT_base {
     if (header.alg !== 'none') {
       throw new JWTInvalid('Invalid Unsecured JWT')
     }
+    // RFC 7797, Section 7: JWTs must not use the unencoded payload option.
     if (!b64) {
       throw new JWTInvalid('JWTs MUST NOT use unencoded payload')
     }

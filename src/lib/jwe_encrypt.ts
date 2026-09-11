@@ -38,7 +38,7 @@ export type CheckedHeaders = [
   algEntry: JWEAlgorithm | undefined,
 ]
 
-/** https://www.rfc-editor.org/rfc/rfc7516#section-7.2.1 */
+/** https://www.rfc-editor.org/info/rfc7516/#section-7.2.1 */
 export function checkDisjoint(
   protectedHeader: types.JWEHeaderParameters | undefined,
   unprotectedHeader: types.JWEHeaderParameters | undefined,
@@ -208,10 +208,14 @@ export async function encryptJWE(
     checkDisjoint(protectedHeader, unprotectedHeader, sharedUnprotectedHeader)
   }
 
-  const protectedHeaderS = protectedHeader ? b64u(JSON.stringify(protectedHeader)) : ''
-  const aadMember = aad?.byteLength ? b64u(aad) : undefined
-  const additionalData = encode(aadMember ? `${protectedHeaderS}.${aadMember}` : protectedHeaderS)
+  // draft-ietf-jose-hpke-encrypt-22, Section 7.1, steps 14-15: Encoded Protected Header and encryption AAD.
+  const encodedProtectedHeader = protectedHeader ? b64u(JSON.stringify(protectedHeader)) : ''
+  const encodedAad = aad?.byteLength ? b64u(aad) : undefined
+  const additionalAuthenticatedData = encode(
+    encodedAad ? `${encodedProtectedHeader}.${encodedAad}` : encodedProtectedHeader,
+  )
 
+  // draft-ietf-jose-hpke-encrypt-22, Section 7.1, step 12: M is the optionally compressed plaintext.
   let plaintext = inputPlaintext
   if (joseHeader.zip === 'DEF') {
     plaintext = await compress(plaintext).catch((cause) => {
@@ -223,18 +227,27 @@ export async function encryptJWE(
   let tag: Uint8Array | undefined
   let iv: Uint8Array | undefined
   if (algEntry.mode === 'integrated-encryption') {
+    // draft-ietf-jose-hpke-encrypt-22, Section 7.1, steps 7 and 17: integrated encryption.
     ;[encryptedKey, ciphertext] = await algEntry.encrypt(
       cek,
       plaintext,
-      additionalData,
+      additionalAuthenticatedData,
       protectedHeader,
       joseHeader,
       keyManagementParameters,
     )
   } else {
-    ;({ ciphertext, tag, iv } = await encrypt(encEntry!, plaintext, cek, inputIv, additionalData))
+    // draft-ietf-jose-hpke-encrypt-22, Section 7.1, step 16.
+    ;({ ciphertext, tag, iv } = await encrypt(
+      encEntry!,
+      plaintext,
+      cek,
+      inputIv,
+      additionalAuthenticatedData,
+    ))
   }
 
+  // draft-ietf-jose-hpke-encrypt-22, Section 7.1, steps 18-21: encode and serialize.
   const jwe: types.FlattenedJWE = {
     ciphertext: b64u(ciphertext),
   }
@@ -251,12 +264,12 @@ export async function encryptJWE(
     jwe.encrypted_key = b64u(encryptedKey)
   }
 
-  if (aadMember) {
-    jwe.aad = aadMember
+  if (encodedAad) {
+    jwe.aad = encodedAad
   }
 
   if (protectedHeader) {
-    jwe.protected = protectedHeaderS
+    jwe.protected = encodedProtectedHeader
   }
 
   if (sharedUnprotectedHeader) {

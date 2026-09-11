@@ -74,14 +74,14 @@ The library does not generally enforce size limits on inputs (tokens, keys, payl
 
 #### Side-Channel Attacks
 
-This library delegates all cryptographic operations to the underlying Web Cryptography. Any resistance to side-channel attacks (timing attacks, cache attacks, etc.) is entirely dependent on the underlying cryptographic implementations and is outside the scope of this library.
+This library delegates cryptographic primitives to Web Cryptography. Resistance to side-channel attacks within those primitives depends on the runtime and is outside the scope of this library. The library composes those primitives for AES_CBC_HMAC_SHA2 and Concat KDF, and implements the random-CEK failure handling described in RFC 7516, Section 11.5.
 
 ### Security Guarantees
 
 This library aims to provide the following security guarantees:
 
 - **Specification compliance**: Correct implementation of the JOSE family of specifications (RFC 7515, RFC 7516, RFC 7517, RFC 7518, RFC 7519, and related RFCs), validated against test vectors from the respective specifications.
-- **JWT Claims Set validation**: Validation of JWT claims (`exp`, `nbf`, `iat`, `aud`, `iss`, `sub`, `typ`, etc.) according to the options supplied by the application. Claims or policies not required through the API remain the application's responsibility.
+- **JWT Claims Set validation**: Validation of JWT claims (`exp`, `nbf`, `iat`, `aud`, `iss`, `sub`, etc.) and the `typ` (Type) Header Parameter according to the options supplied by the application. Claims or policies not required through the API remain the application's responsibility.
 - **Input validation**: Validation of inputs to prevent misuse of the API.
 
 ### Out of Scope
@@ -100,7 +100,7 @@ This library does not guarantee that key material or other sensitive data is cle
 
 ### Threat Actors and Security Properties
 
-This library aims to provide the security properties defined by the JOSE specifications. For detailed security considerations, refer to the Security Considerations sections in [RFC 7515 (JWS)](https://www.rfc-editor.org/info/rfc7515/#section-10), [RFC 7516 (JWE)](https://www.rfc-editor.org/info/rfc7516/#section-11), [RFC 7517 (JWK)](https://www.rfc-editor.org/info/rfc7517/#section-9), [RFC 7518 (JWA)](https://www.rfc-editor.org/info/rfc7518/#section-8), and [RFC 7519 (JWT)](https://www.rfc-editor.org/info/rfc7519/#section-8).
+This library aims to provide the security properties defined by the JOSE specifications. For detailed security considerations, refer to the Security Considerations sections in [RFC 7515 (JWS)](https://www.rfc-editor.org/info/rfc7515/#section-10), [RFC 7516 (JWE)](https://www.rfc-editor.org/info/rfc7516/#section-11), [RFC 7517 (JWK)](https://www.rfc-editor.org/info/rfc7517/#section-9), [RFC 7518 (JWA)](https://www.rfc-editor.org/info/rfc7518/#section-8), and [RFC 7519 (JWT)](https://www.rfc-editor.org/info/rfc7519/#section-11).
 
 The primary in-scope threat actor is able to provide arbitrary JOSE objects, JWTs, JWSs, JWEs, JWKs, JWKS responses, key identifiers, and JOSE Header Parameters to application code using this library. This threat model assumes application-controlled keys, validation options, trusted URLs, runtime behavior, network configuration, and cache storage have not been compromised.
 

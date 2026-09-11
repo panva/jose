@@ -13,4 +13,4 @@ JSON Web Token (JWT) Decryption (JWT is in JWE format)
 
 | Function | Description |
 | ------ | ------ |
-| [jwtDecrypt](functions/jwtDecrypt.md) | Decrypts a Compact JWE-formatted JWT and validates its Claims Set. |
+| [jwtDecrypt](functions/jwtDecrypt.md) | Authenticates and decrypts a JWT in JWE Compact Serialization and validates its JWT Claims Set. |

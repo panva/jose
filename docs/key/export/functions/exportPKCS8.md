@@ -6,7 +6,7 @@ Support from the community to continue maintaining and improving this module is 
 
 ▸ **exportPKCS8**(`key`): [`Promise`](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise)\<`string`\>
 
-Exports a private key to PEM-encoded PKCS#8. CryptoKey inputs must be extractable.
+Exports a private key to PEM-encoded PKCS #8. CryptoKey inputs must be extractable.
 
 This function is exported (as a named export) from the main `'jose'` module entry point as well
 as from its subpath export `'jose/key/export'`.
