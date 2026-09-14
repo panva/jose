@@ -9,13 +9,13 @@ on:
 jobs:
   release:
     permissions:
-      actions: read
-      attestations: write
-      artifact-metadata: write
-      contents: write
-      discussions: write
-      id-token: write
-    uses: panva/.github/.github/workflows/npm-release.yml@bd045b0d7d15f7827910cdedd3e7f0570bc5bf58
+      actions: read # Download the package artifact.
+      attestations: write # Attest the package artifact.
+      artifact-metadata: write # Record attested artifact metadata.
+      contents: write # Update release branches and publish GitHub Releases.
+      discussions: write # Create release discussions.
+      id-token: write # Authenticate npm and JSR publishing and sign attestations.
+    uses: panva/.github/.github/workflows/npm-release.yml@3faba8af3880247be43547787aedd52780c9f946
     with:
       cleanup_paths: '["dist"]'
       prepare_command: npm clean-install && npm run build-all && node tools/publish.cjs

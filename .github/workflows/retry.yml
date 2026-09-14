@@ -3,19 +3,26 @@ name: Retry
 permissions: {}
 
 on:
-  workflow_run:
+  # Only reruns failed jobs by ID, without checking out code or downloading artifacts.
+  workflow_run: # zizmor: ignore[dangerous-triggers]
     workflows:
       - Test
     types:
       - completed
 
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.workflow_run.id }}
+  cancel-in-progress: false
+
 jobs:
   retry:
+    name: retry
     permissions:
-      actions: write
+      actions: write # Rerun failed jobs.
     runs-on: ubuntu-latest
     if: ${{ github.repository == 'panva/jose' && github.event.workflow_run.conclusion == 'failure' && github.event.workflow_run.run_attempt == 1 }}
     steps:
-      - run: gh api -XPOST ${{ github.event.workflow_run.rerun_url }}-failed-jobs
+      - run: gh api --method POST "repos/$GITHUB_REPOSITORY/actions/runs/$FAILED_RUN_ID/rerun-failed-jobs"
         env:
           GH_TOKEN: ${{ github.token }}
+          FAILED_RUN_ID: ${{ github.event.workflow_run.id }}

@@ -11,17 +11,24 @@ on:
     - cron: '11 11 * * 1'
   workflow_dispatch:
 
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
 jobs:
   build:
-    uses: ./.github/workflows/build.yml
+    uses: $/.github/workflows/build.yml
 
   package:
+    name: package
     needs:
       - build
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
       - name: Setup node
         uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
         with:
@@ -55,11 +62,12 @@ jobs:
           test -z "$(git status --porcelain --untracked-files=all -- docs/)"
 
   node-versions:
-    uses: panva/.github/.github/workflows/node-versions.yml@bd045b0d7d15f7827910cdedd3e7f0570bc5bf58
+    uses: panva/.github/.github/workflows/node-versions.yml@3faba8af3880247be43547787aedd52780c9f946
     with:
       min: 20
 
   node:
+    name: node (${{ matrix.node-version }}, ${{ matrix.suite }})
     needs:
       - node-versions
     strategy:
@@ -74,6 +82,8 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
       - name: Setup node
         id: node
         uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
@@ -83,13 +93,18 @@ jobs:
           check-latest: true
       - run: npm clean-install
       - name: Run Test Suite
-        run: npm run ${{ matrix.suite }}
+        run: npm run "$TEST_SUITE"
+        env:
+          TEST_SUITE: ${{ matrix.suite }}
 
   deno:
+    name: deno
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
       - uses: denoland/setup-deno@22d081ff2d3a40755e97629de92e3bcbfa7cf2ed # v2.0.5
         with:
           deno-version: latest
@@ -105,10 +120,13 @@ jobs:
         run: npm run tap:deno
 
   bun:
+    name: bun
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
       - uses: oven-sh/setup-bun@0c5077e51419868618aeaa5fe8019c62421857d6 # v2.2.0
         with:
           bun-version: latest
@@ -122,10 +140,13 @@ jobs:
         run: npm run tap:bun
 
   workerd:
+    name: workerd
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
       - name: Setup node
         uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
         with:
@@ -143,6 +164,7 @@ jobs:
           WORKERD_MODULE: ${{ github.workspace }}/tap/workerd/node_modules/workerd
 
   browsers:
+    name: browsers (${{ matrix.browser }})
     runs-on: macos-latest
     strategy:
       fail-fast: false
@@ -151,6 +173,8 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
       - name: Setup node
         uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
         with:
@@ -171,10 +195,13 @@ jobs:
           BROWSER: ${{ matrix.browser }}
 
   electron:
+    name: electron
     runs-on: macos-15
     steps:
       - name: Checkout
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
       - name: Setup node
         uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
         with:

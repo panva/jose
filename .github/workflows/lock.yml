@@ -6,12 +6,17 @@ on:
   schedule:
     - cron: '11 11 * * 1'
 
+concurrency:
+  group: ${{ github.workflow }}
+  cancel-in-progress: false
+
 jobs:
   lock:
+    name: lock
     permissions:
-      issues: write
-      pull-requests: write
-      discussions: write
+      issues: write # Lock inactive issues.
+      pull-requests: write # Lock inactive pull requests.
+      discussions: write # Lock inactive discussions.
     continue-on-error: true
     runs-on: ubuntu-latest
     steps:
