@@ -22,7 +22,7 @@ jobs:
     runs-on: ubuntu-latest
     if: ${{ github.repository == 'panva/jose' && github.event.workflow_run.conclusion == 'failure' && github.event.workflow_run.run_attempt == 1 }}
     steps:
-      - run: gh api --method POST "repos/$GITHUB_REPOSITORY/actions/runs/$FAILED_RUN_ID/rerun-failed-jobs"
+      - run: gh run rerun "$FAILED_RUN_ID" --failed --repo "$GITHUB_REPOSITORY"
         env:
           GH_TOKEN: ${{ github.token }}
           FAILED_RUN_ID: ${{ github.event.workflow_run.id }}
