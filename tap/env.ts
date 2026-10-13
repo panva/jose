@@ -80,7 +80,13 @@ export function supported(identifier?: string, op?: string) {
             return isElectronChromiumVersionAtLeast(150)
         }
       }
-      return isBun || isDeno || isLlrt || (isNode && isNodeVersionAtLeast(24, 7))
+      return (
+        isBun ||
+        isDeno ||
+        isLlrt ||
+        (isNode && isNodeVersionAtLeast(24, 7)) ||
+        (isBlink && isBrowserVersionAtLeast(155))
+      )
   }
 
   if (isBlink) {
