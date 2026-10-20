@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [commit-and-tag-version](https://github.com/absolute-version/commit-and-tag-version) for commit guidelines.
 
+## [6.2.13](https://github.com/panva/jose/compare/v6.2.12...v6.2.13) (2026-10-20)
+
+### Refactor
+
+* align terminology with JOSE specifications ([bafcb74](https://github.com/panva/jose/commit/bafcb74f5fc070f4f5fd48b12c8bb90af832385e))
+* preserve underlying error causes ([724ba24](https://github.com/panva/jose/commit/724ba24b5aaa205000ff33f0a5a393879fd77758)), closes [#908](https://github.com/panva/jose/issues/908)
+
 ## [6.2.12](https://github.com/panva/jose/compare/v6.2.11...v6.2.12) (2026-09-05)
 
 ### Documentation
