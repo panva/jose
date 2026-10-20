@@ -166,7 +166,9 @@ export function createLocalJWKSet(jwks: types.JSONWebKeySet): LocalJWKSet {
   let snapshot: unknown
   try {
     snapshot = structuredClone(jwks)
-  } catch {}
+  } catch (cause) {
+    throw new JWKSInvalid('JSON Web Key Set malformed', { cause })
+  }
 
   if (!isJwkSet(snapshot)) {
     throw new JWKSInvalid('JSON Web Key Set malformed')

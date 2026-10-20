@@ -50,16 +50,16 @@ export function decodeJwt<PayloadType = types.JWTPayload>(
   let claimsSetBytes: Uint8Array
   try {
     claimsSetBytes = b64u(encodedPayload)
-  } catch {
-    throw new JWTInvalid('Failed to base64url decode the payload')
+  } catch (cause) {
+    throw new JWTInvalid('Failed to base64url decode the payload', { cause })
   }
 
   // RFC 7519, Section 7.2, step 10 only: UTF-8 and JSON Claims Set parsing.
   let claimsSet: unknown
   try {
     claimsSet = JSON.parse(strictDecoder.decode(claimsSetBytes))
-  } catch {
-    throw new JWTInvalid('Failed to parse the decoded payload as JSON')
+  } catch (cause) {
+    throw new JWTInvalid('Failed to parse the decoded payload as JSON', { cause })
   }
 
   if (!isObject<types.JWTPayload>(claimsSet)) throw new JWTInvalid('Invalid JWT Claims Set')

@@ -54,12 +54,12 @@ export function assertNotSet(value: unknown, name: string): void {
 export function decodeBase64url(
   value: string,
   label: string,
-  ErrorClass: new (message: string) => Error,
+  ErrorClass: new (message: string, options?: { cause?: unknown }) => Error,
 ): Uint8Array {
   try {
     return decode(value)
-  } catch {
-    throw new ErrorClass(`Failed to base64url decode the ${label}`)
+  } catch (cause) {
+    throw new ErrorClass(`Failed to base64url decode the ${label}`, { cause })
   }
 }
 
@@ -71,26 +71,26 @@ export function decodeBase64url(
 export function encodeAsciiMember(
   value: string,
   label: string,
-  ErrorClass: new (message: string) => Error,
+  ErrorClass: new (message: string, options?: { cause?: unknown }) => Error,
 ): Uint8Array {
   try {
     return encode(value)
-  } catch {
-    throw new ErrorClass(`The ${label} is not a valid base64url string`)
+  } catch (cause) {
+    throw new ErrorClass(`The ${label} is not a valid base64url string`, { cause })
   }
 }
 
 /** Base64url decode, UTF-8 decode, JSON parse, and require a JSON object - in one place. */
 export function parseJoseHeader<T>(
   encodedProtectedHeader: string,
-  ErrorClass: new (message: string) => Error,
+  ErrorClass: new (message: string, options?: { cause?: unknown }) => Error,
   message: string,
 ): T {
   let parsed: unknown
   try {
     parsed = JSON.parse(strictDecoder.decode(decode(encodedProtectedHeader)))
-  } catch {
-    throw new ErrorClass(message)
+  } catch (cause) {
+    throw new ErrorClass(message, { cause })
   }
   if (!isObject(parsed)) {
     throw new ErrorClass(message)

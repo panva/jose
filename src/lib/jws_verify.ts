@@ -99,8 +99,10 @@ export function encodeJsonUnencodedPayload(payload: string): Uint8Array {
 function encodeCompactUnencodedPayload(payload: string): Uint8Array {
   try {
     return encode(payload)
-  } catch {
-    throw new JWSInvalid('JWS Compact Serialization payload must use only ASCII characters')
+  } catch (cause) {
+    throw new JWSInvalid('JWS Compact Serialization payload must use only ASCII characters', {
+      cause,
+    })
   }
 }
 
@@ -180,7 +182,9 @@ export async function verifySignature(
       signature as Uint8Array<ArrayBuffer>,
       signingInput as Uint8Array<ArrayBuffer>,
     )
-  } catch {}
+  } catch (cause) {
+    throw new JWSSignatureVerificationFailed(undefined, { cause })
+  }
   if (!verified) {
     throw new JWSSignatureVerificationFailed()
   }
