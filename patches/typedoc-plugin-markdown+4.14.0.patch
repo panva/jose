@@ -1,8 +1,7 @@
 diff --git a/node_modules/typedoc-plugin-markdown/dist/libs/utils/escape-chars.js b/node_modules/typedoc-plugin-markdown/dist/libs/utils/escape-chars.js
-index e29ab44..38f70d5 100644
 --- a/node_modules/typedoc-plugin-markdown/dist/libs/utils/escape-chars.js
 +++ b/node_modules/typedoc-plugin-markdown/dist/libs/utils/escape-chars.js
-@@ -5,7 +5,7 @@ export function escapeChars(str) {
+@@ -7,7 +7,7 @@
          .replace(/{/g, '\\{')
          .replace(/}/g, '\\}')
          .replace(/_/g, '\\_')
@@ -12,11 +11,10 @@ index e29ab44..38f70d5 100644
          .replace(/\[/g, '\\[')
          .replace(/\]/g, '\\]')
 diff --git a/node_modules/typedoc-plugin-markdown/dist/theme/context/helpers/get-project-name.js b/node_modules/typedoc-plugin-markdown/dist/theme/context/helpers/get-project-name.js
-index 1c71dae..c031a54 100644
 --- a/node_modules/typedoc-plugin-markdown/dist/theme/context/helpers/get-project-name.js
 +++ b/node_modules/typedoc-plugin-markdown/dist/theme/context/helpers/get-project-name.js
-@@ -4,6 +4,6 @@ export function getProjectName(stringWithPlaceholders, page, includeVersion = tr
-         .replace('{version}', includeVersion && page.project.packageVersion
+@@ -4,6 +4,6 @@
+         .replace('{version}', () => includeVersion && page.project.packageVersion
          ? `v${page.project.packageVersion}`
          : '')
 -        .replace(/\s+/g, ' ')
@@ -24,10 +22,9 @@ index 1c71dae..c031a54 100644
          .trim();
  }
 diff --git a/node_modules/typedoc-plugin-markdown/dist/theme/context/partials/member.declarationTitle.js b/node_modules/typedoc-plugin-markdown/dist/theme/context/partials/member.declarationTitle.js
-index ee29ee7..9589eae 100644
 --- a/node_modules/typedoc-plugin-markdown/dist/theme/context/partials/member.declarationTitle.js
 +++ b/node_modules/typedoc-plugin-markdown/dist/theme/context/partials/member.declarationTitle.js
-@@ -26,7 +26,7 @@ export function declarationTitle(model) {
+@@ -26,7 +26,7 @@
          md.push(';');
      }
      const result = md.join('');
@@ -37,7 +34,6 @@ index ee29ee7..9589eae 100644
  function getPrefix(context, model, useCodeBlocks) {
      const keyword = context.helpers.getKeyword(model.kind);
 diff --git a/node_modules/typedoc-plugin-markdown/dist/theme/context/partials/member.hierarchy.js b/node_modules/typedoc-plugin-markdown/dist/theme/context/partials/member.hierarchy.js
-index b1d7fd3..b23a8da 100644
 --- a/node_modules/typedoc-plugin-markdown/dist/theme/context/partials/member.hierarchy.js
 +++ b/node_modules/typedoc-plugin-markdown/dist/theme/context/partials/member.hierarchy.js
 @@ -1,6 +1,7 @@
@@ -47,9 +43,8 @@ index b1d7fd3..b23a8da 100644
 +    return '';
      const md = [];
      const getHierarchy = (hModel) => {
-         const parent = !hModel.isTarget
+         // Each parent is its own list item (`interface C extends A, B`).
 diff --git a/node_modules/typedoc-plugin-markdown/dist/theme/context/partials/member.inheritance.js b/node_modules/typedoc-plugin-markdown/dist/theme/context/partials/member.inheritance.js
-index 29eaa2b..c0c0f6c 100644
 --- a/node_modules/typedoc-plugin-markdown/dist/theme/context/partials/member.inheritance.js
 +++ b/node_modules/typedoc-plugin-markdown/dist/theme/context/partials/member.inheritance.js
 @@ -1,6 +1,7 @@
@@ -61,10 +56,9 @@ index 29eaa2b..c0c0f6c 100644
      if (model.implementationOf) {
          if (options.headingLevel !== -1) {
 diff --git a/node_modules/typedoc-plugin-markdown/dist/theme/context/partials/member.memberWithGroups.js b/node_modules/typedoc-plugin-markdown/dist/theme/context/partials/member.memberWithGroups.js
-index c2aab7d..fe6daf9 100644
 --- a/node_modules/typedoc-plugin-markdown/dist/theme/context/partials/member.memberWithGroups.js
 +++ b/node_modules/typedoc-plugin-markdown/dist/theme/context/partials/member.memberWithGroups.js
-@@ -42,7 +42,7 @@ export function memberWithGroups(model, options) {
+@@ -43,7 +43,7 @@
              }));
          }
      }
@@ -74,10 +68,9 @@ index c2aab7d..fe6daf9 100644
          md.push(unorderedList(model.implementedTypes.map((implementedType) => this.partials.someType(implementedType))));
      }
 diff --git a/node_modules/typedoc-plugin-markdown/dist/theme/context/partials/member.signatureTitle.js b/node_modules/typedoc-plugin-markdown/dist/theme/context/partials/member.signatureTitle.js
-index cbc03e8..5fe0813 100644
 --- a/node_modules/typedoc-plugin-markdown/dist/theme/context/partials/member.signatureTitle.js
 +++ b/node_modules/typedoc-plugin-markdown/dist/theme/context/partials/member.signatureTitle.js
-@@ -38,5 +38,5 @@ export function signatureTitle(model, options) {
+@@ -36,5 +36,5 @@
          md.push(';');
      }
      const result = md.join('');
@@ -85,14 +78,29 @@ index cbc03e8..5fe0813 100644
 +    return useCodeBlocks ? codeBlock(result) : `▸ ${result}`;
  }
 diff --git a/node_modules/typedoc-plugin-markdown/dist/theme/context/partials/page.pageTitle.js b/node_modules/typedoc-plugin-markdown/dist/theme/context/partials/page.pageTitle.js
-index 1df516f..9ce6394 100644
 --- a/node_modules/typedoc-plugin-markdown/dist/theme/context/partials/page.pageTitle.js
 +++ b/node_modules/typedoc-plugin-markdown/dist/theme/context/partials/page.pageTitle.js
-@@ -117,6 +117,6 @@ function getFromString(textContent, config) {
-         .replace('{codeKeyword}', config.codeKeyword ?? '')
-         .replace('{group}', config.group ?? '')
+@@ -115,6 +115,6 @@
+         .replace('{codeKeyword}', () => config.codeKeyword ?? '')
+         .replace('{group}', () => config.group ?? '')
          .replace(/``/g, '')
 -        .replace(/\s+/g, ' ')
 +        // .replace(/\s+/g, ' ')
          .trim();
  }
+diff --git a/node_modules/typedoc-plugin-markdown/dist/theme/context/partials/member.typeParametersTable.js b/node_modules/typedoc-plugin-markdown/dist/theme/context/partials/member.typeParametersTable.js
+--- a/node_modules/typedoc-plugin-markdown/dist/theme/context/partials/member.typeParametersTable.js
++++ b/node_modules/typedoc-plugin-markdown/dist/theme/context/partials/member.typeParametersTable.js
+@@ -16,12 +16,6 @@
+     model?.forEach((typeParameter) => {
+         const row = [];
+         const nameCol = [];
+-        const anchor = this.router.hasUrl(typeParameter)
+-            ? this.router.getAnchor(typeParameter)
+-            : undefined;
+-        if (anchor) {
+-            nameCol.push(`<a id="${anchor}"></a>`);
+-        }
+         nameCol.push(backTicks(typeParameter.name));
+         if (typeParameter.type) {
+             nameCol.push(`${italic('extends')} ${this.partials.someType(typeParameter.type)}`);
