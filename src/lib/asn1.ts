@@ -204,8 +204,8 @@ const genericImport = async (
       const state = createASN1State(keyData)
       parseKeyHeader(state, keyFormat)
       algorithm = entry.resolve({ crv: parseECAlgorithmIdentifier(state) })
-    } catch {
-      throw new JOSENotSupported('Invalid or unsupported key format')
+    } catch (cause) {
+      throw new JOSENotSupported('Invalid or unsupported key format', { cause })
     }
   } else {
     algorithm = entry.subtle

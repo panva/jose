@@ -623,10 +623,11 @@ test('encrypted CEK length errors are indistinguishable from decryption failures
   ]
 
   for (const input of inputs) {
-    await t.throwsAsync(flattenedDecrypt(input, privateKey), {
+    const error = await t.throwsAsync(flattenedDecrypt(input, privateKey), {
       code: 'ERR_JWE_DECRYPTION_FAILED',
       message: 'decryption operation failed',
     })
+    t.false(Object.hasOwn(error!, 'cause'))
   }
 })
 

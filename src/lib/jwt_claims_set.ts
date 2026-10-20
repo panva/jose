@@ -128,11 +128,11 @@ export function validateClaimsSet(
   options: types.JWTClaimVerificationOptions = {},
 ) {
   // RFC 7519, Section 7.2, step 10: decode UTF-8 and parse the JWT Claims Set.
-  let claimsSet!: { [propName: string]: unknown }
+  let claimsSet: { [propName: string]: unknown }
   try {
     claimsSet = JSON.parse(strictDecoder.decode(claimsSetBytes))
-  } catch {
-    //
+  } catch (cause) {
+    throw new JWTInvalid('JWT Claims Set must be a top-level JSON object', { cause })
   }
 
   if (!isObject(claimsSet)) {

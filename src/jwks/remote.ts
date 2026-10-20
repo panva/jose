@@ -192,7 +192,7 @@ async function fetchJwks(
     headers,
   }).catch((err) => {
     if (err.name === 'TimeoutError') {
-      throw new JWKSTimeout()
+      throw new JWKSTimeout(undefined, { cause: err })
     }
 
     throw err
@@ -204,8 +204,8 @@ async function fetchJwks(
 
   try {
     return await response.json()
-  } catch {
-    throw new JOSEError('Failed to parse the JSON Web Key Set HTTP response as JSON')
+  } catch (cause) {
+    throw new JOSEError('Failed to parse the JSON Web Key Set HTTP response as JSON', { cause })
   }
 }
 

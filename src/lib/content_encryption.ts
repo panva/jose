@@ -143,7 +143,7 @@ async function cbcDecrypt(
       )
     }
   } catch {
-    //
+    // Do not expose authentication or padding failures through cause (RFC 7516, Section 11.4).
   }
   throw new JWEDecryptionFailed()
 }
@@ -246,6 +246,7 @@ export async function decrypt(
       ),
     )
   } catch {
+    // Keep content and CEK recovery failures indistinguishable (RFC 7516, Section 11.4).
     throw new JWEDecryptionFailed()
   }
 }
