@@ -54,7 +54,7 @@ export default (
       await roundtrip.jwt(t, lib, keys, alg, 'A128GCM', kps[k])
     }
 
-    if (env.supported(alg) && env.supported(curve(options))) {
+    if (env.supported(alg)) {
       test(title(vector), execute)
       test(`${title(vector)} JWT`, jwt)
     } else {

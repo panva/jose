@@ -152,7 +152,7 @@ export default (
       t.ok(1)
     }
 
-    if (env.supported(alg, 'pem import') && env.supported(crv, 'pem import')) {
+    if (env.supported(alg)) {
       test(title(alg, crv, pem), execute)
     } else {
       test(title(alg, crv, pem, false), async (t) => {

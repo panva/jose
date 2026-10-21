@@ -19,7 +19,7 @@ export const isLlrt = typeof process !== 'undefined' && process.release?.name ==
 export const isNode =
   !isBun && !isElectron && !isDeno && !isLlrt && !isWorkerd && typeof process !== 'undefined'
 
-const BOWSER = 'https://cdn.jsdelivr.net/npm/bowser@2.11.0/src/bowser.js'
+const BOWSER = 'https://cdn.jsdelivr.net/npm/bowser@2.14.1/src/bowser.js'
 
 let parsedUserAgent: any
 async function parseUserAgent() {
@@ -33,11 +33,6 @@ async function isEngine(engine: string) {
   return userAgentData.engine.name === engine
 }
 
-export function isBrowserVersionAtLeast(version: number) {
-  if (!parsedUserAgent) throw new Error()
-  return parseInt(parsedUserAgent.browser.version.split('.')[0], 10) >= version
-}
-
 export const isBlink = isBrowser && (await isEngine('Blink'))
 
 export const isWebKit = isBrowser && (await isEngine('WebKit'))
@@ -49,71 +44,14 @@ function isNodeVersionAtLeast(major: number, minor: number) {
   return parts[0] > major || (parts[0] === major && parts[1] >= minor)
 }
 
-function isElectronChromiumVersionAtLeast(major: number) {
-  const version = (process.versions as Record<string, string | undefined>).chrome
-  return typeof version === 'string' && parseInt(version.split('.')[0], 10) >= major
-}
-
-export function supported(identifier?: string, op?: string) {
-  switch (identifier) {
-    case 'RSA1_5':
-    case 'X448':
-    case 'Ed448':
-    case 'ES256K':
-    case 'secp256k1':
-      return false
+export function supported(algorithm: string): boolean {
+  if (/^ML-DSA-/.test(algorithm)) {
+    if (isBun || isDeno || isLlrt || isElectron || isBlink) return true
+    return isNode && isNodeVersionAtLeast(24, 7)
   }
 
-  switch (identifier) {
-    case 'ML-DSA-44':
-    case 'ML-DSA-65':
-    case 'ML-DSA-87':
-      if (isElectron) {
-        if (!isNodeVersionAtLeast(24, 18)) {
-          return false
-        }
-        switch (op) {
-          case 'private jwk import':
-          case 'pem import':
-            return true
-          default:
-            return isElectronChromiumVersionAtLeast(150)
-        }
-      }
-      return (
-        isBun ||
-        isDeno ||
-        isLlrt ||
-        (isNode && isNodeVersionAtLeast(24, 7)) ||
-        (isBlink && isBrowserVersionAtLeast(155))
-      )
-  }
-
-  if (isBlink) {
-    switch (identifier) {
-      case 'A192CBC-HS384':
-      case 'A192GCM':
-      case 'A192GCMKW':
-      case 'A192KW':
-      case 'PBES2-HS384+A192KW':
-        return false
-    }
-  }
-
-  if (isElectron) {
-    switch (identifier) {
-      case 'A128KW':
-      case 'A192KW':
-      case 'A256KW':
-      case 'PBES2-HS256+A128KW':
-      case 'PBES2-HS384+A192KW':
-      case 'PBES2-HS512+A256KW':
-      case 'ECDH-ES+A128KW':
-      case 'ECDH-ES+A192KW':
-      case 'ECDH-ES+A256KW':
-        return isNodeVersionAtLeast(24, 18)
-    }
-  }
+  // Blink does not support AES-192.
+  if (isBlink && /A192/.test(algorithm)) return false
 
   return true
 }

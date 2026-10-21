@@ -95,8 +95,7 @@ export default (
       t.ok(1)
     }
 
-    const op = `${jwk.d || jwk.priv ? 'private' : 'public'} jwk import`
-    if (env.supported(alg, op) && env.supported(jwk.crv, op)) {
+    if (env.supported(alg)) {
       test(title(alg, jwk), execute)
     } else {
       test(title(alg, jwk, false), async (t) => {
