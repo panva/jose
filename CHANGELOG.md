@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file. See [commit-and-tag-version](https://github.com/absolute-version/commit-and-tag-version) for commit guidelines.
 
+## [6.2.14](https://github.com/panva/jose/compare/v6.2.13...v6.2.14) (2026-10-29)
+
+### Fixes
+
+* **types:** preserve contextual JWT payload inference ([0dbf7a0](https://github.com/panva/jose/commit/0dbf7a0d279ab0ad6a31b90bf76d7765a05e5f60)), closes [#911](https://github.com/panva/jose/issues/911)
+
 ## [6.2.13](https://github.com/panva/jose/compare/v6.2.12...v6.2.13) (2026-10-20)
 
 ### Refactor
