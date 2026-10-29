@@ -24,6 +24,6 @@ The decoded JOSE Header; its "alg" (Algorithm) Header Parameter is "none".
 
 ### payload
 
-• **payload**: `PayloadType` & [`JWTPayload`](../../../types/interfaces/JWTPayload.md)
+• **payload**: `PayloadType` & [`JWTPayload`](../../../types/interfaces/JWTPayload.md) & (\[`PayloadType`\] *extends* \[`object`\] ? `unknown` : `unknown` *extends* `PayloadType` ? `unknown` : `never`)
 
 JWT Claims Set.

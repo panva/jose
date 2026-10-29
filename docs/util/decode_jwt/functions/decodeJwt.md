@@ -4,7 +4,7 @@
 
 Support from the community to continue maintaining and improving this module is welcome. If you find the module useful, please consider supporting the project by [becoming a sponsor](https://github.com/sponsors/panva).
 
-▸ **decodeJwt**\<`PayloadType`\>(`jwt`): `PayloadType` & [`JWTPayload`](../../../types/interfaces/JWTPayload.md)
+▸ **decodeJwt**\<`PayloadType`\>(`jwt`): `PayloadType` & [`JWTPayload`](../../../types/interfaces/JWTPayload.md) & (\[`PayloadType`\] *extends* \[`object`\] ? `unknown` : `unknown` *extends* `PayloadType` ? `unknown` : `never`)
 
 Decodes the Claims Set of a JWT in JWS Compact Serialization without validating its JWS Signature
 (digital signature or MAC) or claim types and values.
@@ -29,7 +29,7 @@ as from its subpath export `'jose/jwt/decode'`.
 
 ## Returns
 
-`PayloadType` & [`JWTPayload`](../../../types/interfaces/JWTPayload.md)
+`PayloadType` & [`JWTPayload`](../../../types/interfaces/JWTPayload.md) & (\[`PayloadType`\] *extends* \[`object`\] ? `unknown` : `unknown` *extends* `PayloadType` ? `unknown` : `never`)
 
 The parsed JWT Claims Set.
 

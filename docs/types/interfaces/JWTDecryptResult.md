@@ -16,7 +16,7 @@ Encrypted JSON Web Token (JWT) decryption result.
 
 ### payload
 
-• **payload**: `PayloadType` & [`JWTPayload`](JWTPayload.md)
+• **payload**: `PayloadType` & [`JWTPayload`](JWTPayload.md) & (\[`PayloadType`\] *extends* \[`object`\] ? `unknown` : `unknown` *extends* `PayloadType` ? `unknown` : `never`)
 
 JWT Claims Set.
 

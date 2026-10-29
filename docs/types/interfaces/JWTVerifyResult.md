@@ -16,7 +16,7 @@ Signed or MACed JSON Web Token (JWT) verification result.
 
 ### payload
 
-• **payload**: `PayloadType` & [`JWTPayload`](JWTPayload.md)
+• **payload**: `PayloadType` & [`JWTPayload`](JWTPayload.md) & (\[`PayloadType`\] *extends* \[`object`\] ? `unknown` : `unknown` *extends* `PayloadType` ? `unknown` : `never`)
 
 JWT Claims Set.
 
