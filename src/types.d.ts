@@ -795,6 +795,16 @@ export interface CompactVerifyResult {
 }
 
 /**
+ * Infers the payload separately from its object check while preserving the result metadata. The
+ * guarded payload must be passed inline; moving the check here changes contextual inference.
+ *
+ * @ignore
+ */
+export type InferredJWTResult<Result, Payload> = Omit<Result, 'payload'> & {
+  payload: Payload & JWTPayload
+}
+
+/**
  * Signed or MACed JSON Web Token (JWT) verification result.
  *
  * @typeParam PayloadType Type definition of the JWT Claims Set the token is expected to carry.

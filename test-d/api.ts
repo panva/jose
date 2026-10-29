@@ -451,6 +451,47 @@ async function forwardsClaims<T extends jose.JWTPayload>(
   }
 }
 
+/* Optional contextual payloads must not turn the decoded claims into never. */
+{
+  const decoded = jose.decodeJwt(jwt)
+  const _default: Equals<typeof decoded, jose.JWTPayload> = true
+  const contextual: jose.JWTPayload | undefined = jose.decodeJwt(jwt)
+  const _contextual: Equals<typeof contextual, jose.JWTPayload> = true
+  new jose.SignJWT({ ...decoded })
+  new jose.SignJWT({ ...jose.decodeJwt(jwt) })
+  new jose.EncryptJWT({ ...jose.decodeJwt(jwt) })
+  new jose.UnsecuredJWT({ ...jose.decodeJwt(jwt) })
+
+  const invalid = jose.decodeJwt<string>(jwt)
+  const _invalid: Equals<typeof invalid, never> = true
+  const mixed = jose.decodeJwt<{ role: string } | string>(jwt)
+  const _mixed: Equals<typeof mixed, never> = true
+  const optional = jose.decodeJwt<{ role: string } | undefined>(jwt)
+  const _optional: Equals<typeof optional, never> = true
+  const custom = jose.decodeJwt<{ role: string }>(jwt)
+  const _custom: Equals<typeof custom, { role: string } & jose.JWTPayload> = true
+}
+
+/* Custom claims can still be inferred from assignments, returns, and generic callable types. */
+{
+  const claims: MyClaims = jose.decodeJwt(jwt)
+  const _role: string = claims.role
+  const decoder: <T extends object>(token: string) => T & jose.JWTPayload = jose.decodeJwt
+  const _custom = decoder<MyClaims>(jwt)
+  const customDecoder: (token: string) => MyClaims = jose.decodeJwt
+  const _customRole: string = customDecoder(jwt).role
+
+  // Existing generic implementations remain interchangeable with the released function type.
+  type ReleasedDecoder = <T = jose.JWTPayload>(
+    token: string,
+  ) => T & jose.JWTPayload & ([T] extends [object] ? unknown : unknown extends T ? unknown : never)
+  const released: ReleasedDecoder = jose.decodeJwt
+  const _implementation: typeof jose.decodeJwt = released
+}
+function inferredPayload<T>(token: string): T & jose.JWTPayload {
+  return jose.decodeJwt(token)
+}
+
 type DecodedPayload = ReturnType<typeof jose.decodeJwt>
 type VerifiedPayload = Awaited<ReturnType<typeof jose.jwtVerify>>['payload']
 const _decodedReturnType: Equals<DecodedPayload, jose.JWTPayload> = true

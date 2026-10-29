@@ -29,6 +29,55 @@ export interface JWTDecryptGetKey<
   KeyType | types.KeyObject | types.JWK
 > {}
 
+// Separate contextual payload inference from the object check. Required type parameters leave
+// calls with explicit type arguments to the existing overloads below.
+/** @ignore */
+export function jwtDecrypt<PayloadType, KeyType extends types.KeyInput, InferredPayloadType>(
+  jwt: string | Uint8Array,
+  key: KeyType,
+  options?: JWTDecryptOptions,
+): Promise<
+  types.InferredJWTResult<
+    types.JWTDecryptResult<unknown>,
+    InferredPayloadType &
+      ([PayloadType] extends [object] ? unknown : unknown extends PayloadType ? unknown : never)
+  >
+>
+/** @ignore */
+export function jwtDecrypt<
+  PayloadType,
+  KeyType extends types.CryptoKey | Uint8Array,
+  InferredPayloadType,
+>(
+  jwt: string | Uint8Array,
+  getKey: JWTDecryptGetKey<KeyType>,
+  options?: JWTDecryptOptions,
+): Promise<
+  types.InferredJWTResult<
+    types.JWTDecryptResult<unknown>,
+    InferredPayloadType &
+      ([PayloadType] extends [object] ? unknown : unknown extends PayloadType ? unknown : never)
+  > &
+    types.ResolvedKey<KeyType>
+>
+/** @ignore */
+export function jwtDecrypt<
+  PayloadType,
+  KeyType extends types.KeyInput | JWTDecryptGetKey,
+  InferredPayloadType,
+>(
+  jwt: string | Uint8Array,
+  key: KeyType,
+  options?: JWTDecryptOptions,
+): Promise<
+  types.InferredJWTResult<
+    types.JWTDecryptResult<unknown>,
+    InferredPayloadType &
+      ([PayloadType] extends [object] ? unknown : unknown extends PayloadType ? unknown : never)
+  > &
+    Partial<types.ResolvedKey>
+>
+
 /**
  * Authenticates and decrypts a JWT in JWE Compact Serialization and validates its JWT Claims Set.
  *

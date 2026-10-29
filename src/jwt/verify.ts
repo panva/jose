@@ -30,6 +30,55 @@ export interface JWTVerifyGetKey<
   KeyType | types.KeyObject | types.JWK
 > {}
 
+// Separate contextual payload inference from the object check. Required type parameters leave
+// calls with explicit type arguments to the existing overloads below.
+/** @ignore */
+export async function jwtVerify<PayloadType, KeyType extends types.KeyInput, InferredPayloadType>(
+  jwt: string | Uint8Array,
+  key: KeyType,
+  options?: JWTVerifyOptions,
+): Promise<
+  types.InferredJWTResult<
+    types.JWTVerifyResult<unknown>,
+    InferredPayloadType &
+      ([PayloadType] extends [object] ? unknown : unknown extends PayloadType ? unknown : never)
+  >
+>
+/** @ignore */
+export async function jwtVerify<
+  PayloadType,
+  KeyType extends types.CryptoKey | Uint8Array,
+  InferredPayloadType,
+>(
+  jwt: string | Uint8Array,
+  getKey: JWTVerifyGetKey<KeyType>,
+  options?: JWTVerifyOptions,
+): Promise<
+  types.InferredJWTResult<
+    types.JWTVerifyResult<unknown>,
+    InferredPayloadType &
+      ([PayloadType] extends [object] ? unknown : unknown extends PayloadType ? unknown : never)
+  > &
+    types.ResolvedKey<KeyType>
+>
+/** @ignore */
+export async function jwtVerify<
+  PayloadType,
+  KeyType extends types.KeyInput | JWTVerifyGetKey,
+  InferredPayloadType,
+>(
+  jwt: string | Uint8Array,
+  key: KeyType,
+  options?: JWTVerifyOptions,
+): Promise<
+  types.InferredJWTResult<
+    types.JWTVerifyResult<unknown>,
+    InferredPayloadType &
+      ([PayloadType] extends [object] ? unknown : unknown extends PayloadType ? unknown : never)
+  > &
+    Partial<types.ResolvedKey>
+>
+
 /**
  * Validates a JWT in JWS Compact Serialization (digital signature or MAC) and its JWT Claims Set.
  *

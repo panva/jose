@@ -10,6 +10,15 @@ import { isObject } from '../lib/validate.js'
 import { JWTInvalid } from './errors.js'
 import type * as types from '../types.d.ts'
 
+// Separate contextual payload inference from the object check. Required type parameters leave
+// calls with explicit type arguments to the existing overload below.
+/** @ignore */
+export function decodeJwt<PayloadType, InferredPayloadType>(
+  jwt: string,
+): InferredPayloadType &
+  types.JWTPayload &
+  ([PayloadType] extends [object] ? unknown : unknown extends PayloadType ? unknown : never)
+
 /**
  * Decodes the Claims Set of a JWT in JWS Compact Serialization without validating its JWS Signature
  * (digital signature or MAC) or claim types and values.
@@ -37,7 +46,8 @@ export function decodeJwt<PayloadType = types.JWTPayload>(
   jwt: string,
 ): PayloadType &
   types.JWTPayload &
-  ([PayloadType] extends [object] ? unknown : unknown extends PayloadType ? unknown : never) {
+  ([PayloadType] extends [object] ? unknown : unknown extends PayloadType ? unknown : never)
+export function decodeJwt(jwt: string) {
   if (typeof jwt !== 'string')
     throw new JWTInvalid('JWTs must use Compact JWS serialization, JWT must be a string')
 
@@ -64,7 +74,5 @@ export function decodeJwt<PayloadType = types.JWTPayload>(
 
   if (!isObject<types.JWTPayload>(claimsSet)) throw new JWTInvalid('Invalid JWT Claims Set')
 
-  return claimsSet as PayloadType &
-    types.JWTPayload &
-    ([PayloadType] extends [object] ? unknown : unknown extends PayloadType ? unknown : never)
+  return claimsSet
 }

@@ -85,13 +85,28 @@ export class UnsecuredJWT extends UnsecuredJWT_base {
   /**
    * Decodes an unsecured JWT and validates its claims without authenticating the token.
    *
+   * @ignore
+   */
+  static decode<PayloadType, InferredPayloadType>(
+    jwt: string,
+    options?: types.JWTClaimVerificationOptions,
+  ): types.InferredJWTResult<
+    UnsecuredResult<unknown>,
+    InferredPayloadType &
+      ([PayloadType] extends [object] ? unknown : unknown extends PayloadType ? unknown : never)
+  >
+
+  /**
+   * Decodes an unsecured JWT and validates its claims without authenticating the token.
+   *
    * @param jwt Unsecured JWT to decode the payload of.
    * @param options JWT Claims Set validation options.
    */
   static decode<PayloadType = types.JWTPayload>(
     jwt: string,
     options?: types.JWTClaimVerificationOptions,
-  ): UnsecuredResult<PayloadType> {
+  ): UnsecuredResult<PayloadType>
+  static decode(jwt: string, options?: types.JWTClaimVerificationOptions) {
     if (typeof jwt !== 'string') {
       throw new JWTInvalid('Unsecured JWT must be a string')
     }
@@ -126,7 +141,7 @@ export class UnsecuredJWT extends UnsecuredJWT_base {
       header,
       decodeBase64url(encodedPayload, 'payload', JWTInvalid),
       options,
-    ) as UnsecuredResult<PayloadType>['payload']
+    )
 
     return { payload, header }
   }
