@@ -8,24 +8,62 @@ export default (QUnit: QUnit, lib: typeof jose) => {
   const jwksUri = 'https://www.googleapis.com/oauth2/v3/certs'
 
   test('[createRemoteJWKSet] fetches the JWKSet', async (t: typeof QUnit.assert) => {
-    const response = await fetch(jwksUri).then((r) => r.json())
-    const { alg, kid } = response.keys[0]
-
     const jwks = lib.createRemoteJWKSet(new URL(jwksUri))
     t.false(jwks.coolingDown)
     t.false(jwks.fresh)
     t.equal(jwks.jwks(), undefined)
 
-    await t.rejects(jwks({ alg: 'RS256' }), 'multiple matching keys found in the JSON Web Key Set')
-    await t.rejects(
-      jwks({ kid: 'foo', alg: 'RS256' }),
-      'no applicable key found in the JSON Web Key Set',
+    await jwks.reload()
+    const snapshot = jwks.jwks()!
+    const local = lib.createLocalJWKSet(snapshot)
+    const algorithms = new Set(
+      snapshot.keys.map(({ alg }) => alg).filter((alg): alg is string => typeof alg === 'string'),
     )
-    t.ok(await Promise.all([jwks({ alg, kid }), jwks({ alg, kid })]))
+    const kids = new Set(
+      snapshot.keys.map(({ kid }) => kid).filter((kid): kid is string => typeof kid === 'string'),
+    )
+    let missingKid = 'unknown'
+    while (kids.has(missingKid)) missingKid += '-'
+
+    const lookup = async (
+      resolve: jose.LocalJWKSet | jose.RemoteJWKSet,
+      header: jose.JWSHeaderParameters,
+    ) => {
+      try {
+        const key = await resolve(header)
+        t.equal(key.type, 'public')
+        return await lib.exportJWK(key)
+      } catch (error) {
+        if (
+          error instanceof lib.errors.JWKSNoMatchingKey ||
+          error instanceof lib.errors.JWKSMultipleMatchingKeys ||
+          error instanceof lib.errors.JOSENotSupported
+        ) {
+          return error.code
+        }
+        if (error instanceof DOMException && error.name === 'NotSupportedError') {
+          return error.name
+        }
+        throw error
+      }
+    }
+
+    // Rotation and algorithm migration can leave zero, one, or multiple matches for each header.
+    for (const alg of [undefined, ...algorithms]) {
+      for (const kid of [undefined, missingKid, ...kids]) {
+        const header = { alg, kid }
+        const expected = await lookup(local, header)
+        t.deepEqual(
+          await Promise.all([lookup(jwks, header), lookup(jwks, header)]),
+          [expected, expected],
+          JSON.stringify(header),
+        )
+      }
+    }
 
     t.true(jwks.coolingDown)
     t.true(jwks.fresh)
-    t.ok(jwks.jwks())
+    t.deepEqual(jwks.jwks(), snapshot)
   })
 
   test('[createLocalJWKSet] establishes local JWKSet', async (t: typeof QUnit.assert) => {
