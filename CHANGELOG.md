@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. See [commit-and-tag-version](https://github.com/absolute-version/commit-and-tag-version) for commit guidelines.
 
+## [6.2.15](https://github.com/panva/jose/compare/v6.2.14...v6.2.15) (2026-11-01)
+
+### Fixes
+
+* **jwe:** cancel decompression when output exceeds the limit ([67541aa](https://github.com/panva/jose/commit/67541aa660bbe23d4faf4ba208efa211c0f2f5fe))
+* **jwks:** reject negative cache durations ([a3b296f](https://github.com/panva/jose/commit/a3b296f0f4802adbb22afbb66f3d3120ed5d7941))
+* **jwt:** reject negative clockTolerance ([67d6c83](https://github.com/panva/jose/commit/67d6c838b5a92b9081184ee28eea4eee766f7ccc))
+
 ## [6.2.14](https://github.com/panva/jose/compare/v6.2.13...v6.2.14) (2026-10-29)
 
 ### Fixes
