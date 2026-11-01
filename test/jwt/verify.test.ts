@@ -538,7 +538,7 @@ test('time validation options must be finite', async (t) => {
     .setExpirationTime(now - 30)
     .sign(t.context.secret)
 
-  for (const clockTolerance of [NaN, Infinity, -Infinity]) {
+  for (const clockTolerance of [NaN, Infinity, -Infinity, -1, '-1s', '1s ago']) {
     await t.throwsAsync(jwtVerify(jwt, t.context.secret, { clockTolerance }), {
       instanceOf: TypeError,
       message: 'Invalid clockTolerance option input',

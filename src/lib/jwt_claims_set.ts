@@ -206,6 +206,9 @@ export function validateClaimsSet(
   }
 
   validateInput('clockTolerance option', tolerance)
+  if (tolerance < 0) {
+    throw new TypeError('Invalid clockTolerance option input')
+  }
 
   const { currentDate } = options
   const now = validateInput(
