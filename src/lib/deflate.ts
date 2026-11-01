@@ -46,6 +46,7 @@ async function transform(
     chunks.push(value)
     length += value.byteLength
     if (maxLength !== Infinity && length > maxLength) {
+      await reader.cancel().catch(() => {})
       throw new JWEInvalid('Decompressed plaintext exceeded the configured limit')
     }
   }
