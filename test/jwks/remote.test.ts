@@ -445,6 +445,20 @@ test('remote JWKS duration options reject NaN', (t) => {
   }
 })
 
+test('remote JWKS duration options reject negative values', (t) => {
+  const url = new URL('https://as.example.com/jwks')
+
+  for (const option of ['cooldownDuration', 'cacheMaxAge'] as const) {
+    for (const value of [-1, -Infinity]) {
+      t.throws(() => createRemoteJWKSet(url, { [option]: value }), {
+        instanceOf: TypeError,
+        message: `"${option}" option must not be negative`,
+      })
+    }
+    t.notThrows(() => createRemoteJWKSet(url, { [option]: 0 }))
+  }
+})
+
 test('remote JWKS timeoutDuration must be a non-negative integer', (t) => {
   const url = new URL('https://as.example.com/jwks')
 

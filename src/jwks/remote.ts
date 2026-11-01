@@ -353,6 +353,9 @@ function validateDuration(value: number | undefined, fallback: number, option: s
   if (Number.isNaN(value)) {
     throw new TypeError(`"${option}" option must not be NaN`)
   }
+  if (typeof value === 'number' && value < 0) {
+    throw new TypeError(`"${option}" option must not be negative`)
+  }
   return typeof value === 'number' ? value : fallback
 }
 
