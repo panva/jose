@@ -1,10 +1,14 @@
-import anyTest, { type TestFn } from 'ava'
+import test, { before, after, afterEach } from 'node:test'
+import assert from 'node:assert/strict'
+import { captureRejection, errorLike } from '../_errors.js'
+import '../_undici.js'
 import timekeeper from 'timekeeper'
 import { createServer } from 'http'
 import { once } from 'events'
-import { fetch as undiciFetch, MockAgent, setGlobalDispatcher } from 'undici'
+import { fetch as undiciFetch, MockAgent, getGlobalDispatcher, setGlobalDispatcher } from 'undici'
 import type { Server } from 'node:net'
 
+const dispatcher = getGlobalDispatcher()
 const agent = new MockAgent()
 agent.disableNetConnect()
 setGlobalDispatcher(agent)
@@ -25,36 +29,36 @@ import {
 
 const now = 1604416038
 
-interface WithServer {
-  server: Server
-}
+let server: Server
 
-const test = anyTest as TestFn<WithServer>
-
-test.before(async (t) => {
+before(async () => {
   agent.disableNetConnect()
-  t.context.server = createServer().unref().listen(3000)
-  t.context.server.removeAllListeners('request')
-  await once(t.context.server, 'listening')
+  server = createServer().unref().listen(3000)
+  server.removeAllListeners('request')
+  await once(server, 'listening')
 })
 
-test.after(async (t) => {
+after(async () => {
   agent.enableNetConnect()
-  await new Promise((resolve) => t.context.server.close(resolve))
+  try {
+    await new Promise((resolve) => server.close(resolve))
+  } finally {
+    setGlobalDispatcher(dispatcher)
+    await agent.close()
+  }
 })
 
-test.afterEach(() => {
-  agent.disableNetConnect()
+afterEach(() => {
+  try {
+    agent.disableNetConnect()
+    server.removeAllListeners('request')
+    agent.assertNoPendingInterceptors()
+  } finally {
+    timekeeper.reset()
+  }
 })
 
-test.afterEach((t) => {
-  t.context.server.removeAllListeners('request')
-  agent.assertNoPendingInterceptors()
-})
-
-test.afterEach(() => timekeeper.reset())
-
-test.serial('RemoteJWKSet', async (t) => {
+test('RemoteJWKSet', async () => {
   const keys = [
     {
       e: 'AQAB',
@@ -147,59 +151,62 @@ test.serial('RemoteJWKSet', async (t) => {
     const [jwk] = keys
     const key = await importJWK({ ...jwk, alg: 'PS256' })
     const jwt = await new SignJWT().setProtectedHeader({ alg: 'PS256', kid: jwk.kid }).sign(key)
-    await t.notThrowsAsync(async () => {
+    await assert.doesNotReject(async () => {
       const { key: resolvedKey } = await jwtVerify(jwt, JWKS)
-      t.truthy(resolvedKey)
-      t.true(resolvedKey instanceof CryptoKey)
-      t.is((resolvedKey as CryptoKey).type, 'public')
+      assert.ok(resolvedKey)
+      assert.equal(resolvedKey instanceof CryptoKey, true)
+      assert.equal((resolvedKey as CryptoKey).type, 'public')
     })
   }
   {
     const [jwk] = keys
     const key = await importJWK({ ...jwk, alg: 'RS256' })
     const jwt = await new SignJWT().setProtectedHeader({ alg: 'RS256' }).sign(key)
-    let error: errors.JWKSMultipleMatchingKeys = await t.throwsAsync(jwtVerify(jwt, JWKS), {
+    let error = (await captureRejection(jwtVerify(jwt, JWKS), {
       code: 'ERR_JWKS_MULTIPLE_MATCHING_KEYS',
       message: 'multiple matching keys found in the JSON Web Key Set',
-    })
+    })) as errors.JWKSMultipleMatchingKeys
 
     // async iterator (KeyLike)
     {
       const cache = new WeakSet()
       for await (const ko of error) {
-        t.like(ko, { type: 'public' })
+        assert.equal(ko.type, 'public')
         cache.add(ko)
       }
-      error = await t.throwsAsync(jwtVerify(jwt, JWKS), {
+      error = (await captureRejection(jwtVerify(jwt, JWKS), {
         code: 'ERR_JWKS_MULTIPLE_MATCHING_KEYS',
         message: 'multiple matching keys found in the JSON Web Key Set',
-      })
+      })) as errors.JWKSMultipleMatchingKeys
       let i = 0
       for await (const ko of error) {
         i++
-        t.true(cache.has(ko))
+        assert.equal(cache.has(ko), true)
       }
-      t.is(i, 2)
+      assert.equal(i, 2)
     }
   }
   {
     const [, jwk] = keys
     const key = await importJWK({ ...jwk, alg: 'PS256' })
     const jwt = await new SignJWT().setProtectedHeader({ alg: 'PS256', kid: jwk.kid }).sign(key)
-    await t.throwsAsync(jwtVerify(jwt, JWKS), {
-      code: 'ERR_JWKS_NO_MATCHING_KEY',
-      message: 'no applicable key found in the JSON Web Key Set',
-    })
+    await assert.rejects(
+      jwtVerify(jwt, JWKS),
+      errorLike({
+        code: 'ERR_JWKS_NO_MATCHING_KEY',
+        message: 'no applicable key found in the JSON Web Key Set',
+      }),
+    )
   }
   {
     const [, , jwk] = keys
     const key = await importJWK({ ...jwk, alg: 'ES256' })
     const jwt = await new SignJWT().setProtectedHeader({ alg: 'ES256' }).sign(key)
-    await t.notThrowsAsync(jwtVerify(jwt, JWKS))
+    await assert.doesNotReject(jwtVerify(jwt, JWKS))
   }
 })
 
-test.serial('refreshes the JWKS once off cooldown', async (t) => {
+test('refreshes the JWKS once off cooldown', async () => {
   timekeeper.freeze(now * 1000)
   const jwk = {
     crv: 'P-256',
@@ -228,23 +235,26 @@ test.serial('refreshes the JWKS once off cooldown', async (t) => {
   const key = await importJWK({ ...jwk, alg: 'ES256' })
   {
     const jwt = await new SignJWT().setProtectedHeader({ alg: 'ES256', kid: 'one' }).sign(key)
-    await t.notThrowsAsync(jwtVerify(jwt, JWKS))
-    await t.notThrowsAsync(jwtVerify(jwt, JWKS))
+    await assert.doesNotReject(jwtVerify(jwt, JWKS))
+    await assert.doesNotReject(jwtVerify(jwt, JWKS))
   }
   {
     const jwt = await new SignJWT().setProtectedHeader({ alg: 'ES256', kid: 'two' }).sign(key)
-    await t.throwsAsync(jwtVerify(jwt, JWKS), {
-      code: 'ERR_JWKS_NO_MATCHING_KEY',
-      message: 'no applicable key found in the JSON Web Key Set',
-    })
+    await assert.rejects(
+      jwtVerify(jwt, JWKS),
+      errorLike({
+        code: 'ERR_JWKS_NO_MATCHING_KEY',
+        message: 'no applicable key found in the JSON Web Key Set',
+      }),
+    )
     jwks.keys[0].kid = 'two'
     mockAgent.intercept({ path: '/jwks' }).reply(200, jwks)
     timekeeper.travel((now + 30) * 1000)
-    await t.notThrowsAsync(jwtVerify(jwt, JWKS))
+    await assert.doesNotReject(jwtVerify(jwt, JWKS))
   }
 })
 
-test.serial('createRemoteJWKSet manual reload', async (t) => {
+test('createRemoteJWKSet manual reload', async () => {
   timekeeper.freeze(now * 1000)
   const jwk = {
     crv: 'P-256',
@@ -271,38 +281,41 @@ test.serial('createRemoteJWKSet manual reload', async (t) => {
 
   const url = new URL('https://as.example.com/jwks')
   const JWKS = createRemoteJWKSet(url, { [customFetch]: fetch })
-  t.false(JWKS.coolingDown)
-  t.false(JWKS.fresh)
-  t.false(JWKS.reloading)
-  t.is(JWKS.jwks(), undefined)
+  assert.equal(JWKS.coolingDown, false)
+  assert.equal(JWKS.fresh, false)
+  assert.equal(JWKS.reloading, false)
+  assert.equal(JWKS.jwks(), undefined)
   const key = await importJWK({ ...jwk, alg: 'ES256' })
   {
     const jwt = await new SignJWT().setProtectedHeader({ alg: 'ES256', kid: 'two' }).sign(key)
-    await t.throwsAsync(jwtVerify(jwt, JWKS), {
-      code: 'ERR_JWKS_NO_MATCHING_KEY',
-      message: 'no applicable key found in the JSON Web Key Set',
-    })
+    await assert.rejects(
+      jwtVerify(jwt, JWKS),
+      errorLike({
+        code: 'ERR_JWKS_NO_MATCHING_KEY',
+        message: 'no applicable key found in the JSON Web Key Set',
+      }),
+    )
     jwks.keys[0].kid = 'two'
     mockAgent.intercept({ path: '/jwks' }).reply(200, jwks)
-    t.true(JWKS.coolingDown)
-    t.true(JWKS.fresh)
-    t.false(JWKS.reloading)
-    t.notDeepEqual(JWKS.jwks(), jwks)
+    assert.equal(JWKS.coolingDown, true)
+    assert.equal(JWKS.fresh, true)
+    assert.equal(JWKS.reloading, false)
+    assert.notDeepEqual(JWKS.jwks(), jwks)
     const reload = JWKS.reload()
-    t.true(JWKS.reloading)
+    assert.equal(JWKS.reloading, true)
     await reload
-    t.true(JWKS.coolingDown)
-    t.true(JWKS.fresh)
-    t.false(JWKS.reloading)
-    t.deepEqual(JWKS.jwks(), jwks)
-    await t.notThrowsAsync(jwtVerify(jwt, JWKS))
+    assert.equal(JWKS.coolingDown, true)
+    assert.equal(JWKS.fresh, true)
+    assert.equal(JWKS.reloading, false)
+    assert.deepEqual(JWKS.jwks(), jwks)
+    await assert.doesNotReject(jwtVerify(jwt, JWKS))
     JWKS.jwks()!.keys = []
-    t.deepEqual(JWKS.jwks(), jwks)
-    await t.notThrowsAsync(jwtVerify(jwt, JWKS))
+    assert.deepEqual(JWKS.jwks(), jwks)
+    await assert.doesNotReject(jwtVerify(jwt, JWKS))
   }
 })
 
-test.serial('an older concurrent workerd reload cannot overwrite a newer JWKS', async (t) => {
+test('an older concurrent workerd reload cannot overwrite a newer JWKS', async () => {
   const descriptor = Object.getOwnPropertyDescriptor(globalThis, 'WebSocketPair')
   Object.defineProperty(globalThis, 'WebSocketPair', {
     configurable: true,
@@ -323,18 +336,18 @@ test.serial('an older concurrent workerd reload cannot overwrite a newer JWKS', 
     const older = JWKS.reload()
     const newer = JWKS.reload()
 
-    t.is(responders.length, 2)
+    assert.equal(responders.length, 2)
     responders[1](
       new Response(JSON.stringify({ keys: [{ kty: 'RSA', kid: 'newer' }] }), { status: 200 }),
     )
     await newer
-    t.is(JWKS.jwks()!.keys[0].kid, 'newer')
+    assert.equal(JWKS.jwks()!.keys[0].kid, 'newer')
 
     responders[0](
       new Response(JSON.stringify({ keys: [{ kty: 'RSA', kid: 'older' }] }), { status: 200 }),
     )
     await older
-    t.is(JWKS.jwks()!.keys[0].kid, 'newer')
+    assert.equal(JWKS.jwks()!.keys[0].kid, 'newer')
 
     responders.length = 0
     const Recovery = createRemoteJWKSet(new URL('https://as.example.com/jwks'), {
@@ -347,15 +360,18 @@ test.serial('an older concurrent workerd reload cannot overwrite a newer JWKS', 
       new Response(JSON.stringify({ keys: [{ kty: 'RSA', kid: 'recovered' }] }), { status: 200 }),
     )
     await recoverable
-    t.true(Recovery.reloading)
-    t.is(Recovery.jwks()!.keys[0].kid, 'recovered')
+    assert.equal(Recovery.reloading, true)
+    assert.equal(Recovery.jwks()!.keys[0].kid, 'recovered')
 
     responders[1](new Response(null, { status: 500 }))
-    await t.throwsAsync(failing, {
-      message: 'Expected 200 OK from the JSON Web Key Set HTTP response',
-    })
-    t.false(Recovery.reloading)
-    t.is(Recovery.jwks()!.keys[0].kid, 'recovered')
+    await assert.rejects(
+      failing,
+      errorLike({
+        message: 'Expected 200 OK from the JSON Web Key Set HTTP response',
+      }),
+    )
+    assert.equal(Recovery.reloading, false)
+    assert.equal(Recovery.jwks()!.keys[0].kid, 'recovered')
   } finally {
     if (descriptor) {
       Object.defineProperty(globalThis, 'WebSocketPair', descriptor)
@@ -365,7 +381,7 @@ test.serial('an older concurrent workerd reload cannot overwrite a newer JWKS', 
   }
 })
 
-test.serial('refreshes the JWKS once stale', async (t) => {
+test('refreshes the JWKS once stale', async () => {
   timekeeper.freeze(now * 1000)
   const jwk = {
     crv: 'P-256',
@@ -393,14 +409,14 @@ test.serial('refreshes the JWKS once stale', async (t) => {
   const key = await importJWK({ ...jwk, alg: 'ES256' })
   {
     const jwt = await new SignJWT().setProtectedHeader({ alg: 'ES256', kid: 'one' }).sign(key)
-    await t.notThrowsAsync(jwtVerify(jwt, JWKS))
-    await t.notThrowsAsync(jwtVerify(jwt, JWKS))
+    await assert.doesNotReject(jwtVerify(jwt, JWKS))
+    await assert.doesNotReject(jwtVerify(jwt, JWKS))
     timekeeper.travel((now + 60 * 10) * 1000)
-    await t.notThrowsAsync(jwtVerify(jwt, JWKS))
+    await assert.doesNotReject(jwtVerify(jwt, JWKS))
   }
 })
 
-test.serial('can be configured to never be stale', async (t) => {
+test('can be configured to never be stale', async () => {
   timekeeper.freeze(now * 1000)
   const jwk = {
     crv: 'P-256',
@@ -428,50 +444,50 @@ test.serial('can be configured to never be stale', async (t) => {
   const key = await importJWK({ ...jwk, alg: 'ES256' })
   {
     const jwt = await new SignJWT().setProtectedHeader({ alg: 'ES256', kid: 'one' }).sign(key)
-    await t.notThrowsAsync(jwtVerify(jwt, JWKS))
-    await t.notThrowsAsync(jwtVerify(jwt, JWKS))
+    await assert.doesNotReject(jwtVerify(jwt, JWKS))
+    await assert.doesNotReject(jwtVerify(jwt, JWKS))
     timekeeper.travel((now + 60 * 10) * 1000)
-    await t.notThrowsAsync(jwtVerify(jwt, JWKS))
+    await assert.doesNotReject(jwtVerify(jwt, JWKS))
   }
 })
 
-test('remote JWKS duration options reject NaN', (t) => {
+test('remote JWKS duration options reject NaN', () => {
   const url = new URL('https://as.example.com/jwks')
 
   for (const option of ['timeoutDuration', 'cooldownDuration', 'cacheMaxAge'] as const) {
-    t.throws(() => createRemoteJWKSet(url, { [option]: NaN }), {
-      instanceOf: TypeError,
-    })
+    assert.throws(() => createRemoteJWKSet(url, { [option]: NaN }), TypeError)
   }
 })
 
-test('remote JWKS duration options reject negative values', (t) => {
+test('remote JWKS duration options reject negative values', () => {
   const url = new URL('https://as.example.com/jwks')
 
   for (const option of ['cooldownDuration', 'cacheMaxAge'] as const) {
     for (const value of [-1, -Infinity]) {
-      t.throws(() => createRemoteJWKSet(url, { [option]: value }), {
-        instanceOf: TypeError,
-        message: `"${option}" option must not be negative`,
-      })
+      assert.throws(
+        () => createRemoteJWKSet(url, { [option]: value }),
+        (error) => {
+          assert.ok(error instanceof TypeError)
+          assert.equal(error.message, `"${option}" option must not be negative`)
+          return true
+        },
+      )
     }
-    t.notThrows(() => createRemoteJWKSet(url, { [option]: 0 }))
+    assert.doesNotThrow(() => createRemoteJWKSet(url, { [option]: 0 }))
   }
 })
 
-test('remote JWKS timeoutDuration must be a non-negative integer', (t) => {
+test('remote JWKS timeoutDuration must be a non-negative integer', () => {
   const url = new URL('https://as.example.com/jwks')
 
   for (const timeoutDuration of [-1, 0.5, Infinity, -Infinity]) {
-    t.throws(() => createRemoteJWKSet(url, { timeoutDuration }), {
-      instanceOf: TypeError,
-    })
+    assert.throws(() => createRemoteJWKSet(url, { timeoutDuration }), TypeError)
   }
 
-  t.notThrows(() => createRemoteJWKSet(url, { timeoutDuration: 0 }))
+  assert.doesNotThrow(() => createRemoteJWKSet(url, { timeoutDuration: 0 }))
 })
 
-test('remote JWKS duration options are read once', (t) => {
+test('remote JWKS duration options are read once', () => {
   const url = new URL('https://as.example.com/jwks')
 
   for (const [option, value] of [
@@ -489,12 +505,12 @@ test('remote JWKS duration options are read once', (t) => {
       },
     })
 
-    t.notThrows(() => createRemoteJWKSet(url, options))
-    t.is(reads, 1)
+    assert.doesNotThrow(() => createRemoteJWKSet(url, options))
+    assert.equal(reads, 1)
   }
 })
 
-test('remote JWKS validates a single cache snapshot', (t) => {
+test('remote JWKS validates a single cache snapshot', () => {
   timekeeper.freeze(now * 1000)
   const url = new URL('https://as.example.com/jwks')
   const jwks = { keys: [] }
@@ -521,62 +537,80 @@ test('remote JWKS validates a single cache snapshot', (t) => {
   )
 
   const resolver = createRemoteJWKSet(url, { [jwksCache]: cache })
-  t.deepEqual(resolver.jwks(), jwks)
-  t.is(timestampReads, 1)
-  t.is(jwksReads, 1)
+  assert.deepEqual(resolver.jwks(), jwks)
+  assert.equal(timestampReads, 1)
+  assert.equal(jwksReads, 1)
 
   for (const uat of [NaN, Infinity, now * 1000 - 600_000]) {
     const stale = createRemoteJWKSet(url, { [jwksCache]: { uat, jwks } })
-    t.is(stale.jwks(), undefined)
+    assert.equal(stale.jwks(), undefined)
   }
 })
 
-test.serial('throws on invalid JWKSet', async (t) => {
+test('throws on invalid JWKSet', async () => {
   const mockAgent = agent.get('https://as.example.com')
 
   mockAgent.intercept({ path: '/jwks' }).reply(200, 'null')
   const url = new URL('https://as.example.com/jwks')
   const JWKS = createRemoteJWKSet(url, { [customFetch]: fetch })
-  await t.throwsAsync(JWKS({ alg: 'RS256' }, {} as FlattenedJWSInput), {
-    code: 'ERR_JWKS_INVALID',
-    message: 'JSON Web Key Set malformed',
-  })
+  await assert.rejects(
+    JWKS({ alg: 'RS256' }, {} as FlattenedJWSInput),
+    errorLike({
+      code: 'ERR_JWKS_INVALID',
+      message: 'JSON Web Key Set malformed',
+    }),
+  )
 
   mockAgent.intercept({ path: '/jwks' }).reply(200, {})
-  await t.throwsAsync(JWKS({ alg: 'RS256' }, {} as FlattenedJWSInput), {
-    code: 'ERR_JWKS_INVALID',
-    message: 'JSON Web Key Set malformed',
-  })
+  await assert.rejects(
+    JWKS({ alg: 'RS256' }, {} as FlattenedJWSInput),
+    errorLike({
+      code: 'ERR_JWKS_INVALID',
+      message: 'JSON Web Key Set malformed',
+    }),
+  )
 
   mockAgent.intercept({ path: '/jwks' }).reply(200, { keys: null })
-  await t.throwsAsync(JWKS({ alg: 'RS256' }, {} as FlattenedJWSInput), {
-    code: 'ERR_JWKS_INVALID',
-    message: 'JSON Web Key Set malformed',
-  })
+  await assert.rejects(
+    JWKS({ alg: 'RS256' }, {} as FlattenedJWSInput),
+    errorLike({
+      code: 'ERR_JWKS_INVALID',
+      message: 'JSON Web Key Set malformed',
+    }),
+  )
 
   mockAgent
     .intercept({ path: '/jwks' })
 
     .reply(200, { keys: [null] })
-  await t.throwsAsync(JWKS({ alg: 'RS256' }, {} as FlattenedJWSInput), {
-    code: 'ERR_JWKS_INVALID',
-    message: 'JSON Web Key Set malformed',
-  })
+  await assert.rejects(
+    JWKS({ alg: 'RS256' }, {} as FlattenedJWSInput),
+    errorLike({
+      code: 'ERR_JWKS_INVALID',
+      message: 'JSON Web Key Set malformed',
+    }),
+  )
 
   mockAgent.intercept({ path: '/jwks' }).reply(404)
-  await t.throwsAsync(JWKS({ alg: 'RS256' }, {} as FlattenedJWSInput), {
-    code: 'ERR_JOSE_GENERIC',
-    message: 'Expected 200 OK from the JSON Web Key Set HTTP response',
-  })
+  await assert.rejects(
+    JWKS({ alg: 'RS256' }, {} as FlattenedJWSInput),
+    errorLike({
+      code: 'ERR_JOSE_GENERIC',
+      message: 'Expected 200 OK from the JSON Web Key Set HTTP response',
+    }),
+  )
 
   mockAgent.intercept({ path: '/jwks' }).reply(200, '{')
-  await t.throwsAsync(JWKS({ alg: 'RS256' }, {} as FlattenedJWSInput), {
-    code: 'ERR_JOSE_GENERIC',
-    message: 'Failed to parse the JSON Web Key Set HTTP response as JSON',
-  })
+  await assert.rejects(
+    JWKS({ alg: 'RS256' }, {} as FlattenedJWSInput),
+    errorLike({
+      code: 'ERR_JOSE_GENERIC',
+      message: 'Failed to parse the JSON Web Key Set HTTP response as JSON',
+    }),
+  )
 })
 
-test.serial('can have headers configured', async (t) => {
+test('can have headers configured', async () => {
   agent
     .get('https://as.example.com')
     .intercept({
@@ -590,35 +624,39 @@ test.serial('can have headers configured', async (t) => {
   const url = new URL('https://as.example.com/jwks')
   const JWKS = createRemoteJWKSet(url, { headers: { 'x-custom': 'foo' }, [customFetch]: fetch })
   await JWKS().catch(() => {})
-  t.pass()
 })
 
-test('handles ENOTFOUND', async (t) => {
+test('handles ENOTFOUND', async () => {
   agent.enableNetConnect()
   const url = new URL('https://op.example.com/jwks')
   const JWKS = createRemoteJWKSet(url, { [customFetch]: fetch })
-  const err = await t.throwsAsync(JWKS({ alg: 'RS256' }, {} as FlattenedJWSInput))
-  t.true(err instanceof Error)
-  t.true(err.cause instanceof Error && 'code' in err.cause && err.cause.code === 'ENOTFOUND')
+  const err = await captureRejection(JWKS({ alg: 'RS256' }, {} as FlattenedJWSInput))
+  assert.equal(err instanceof Error, true)
+  assert.equal(
+    err.cause instanceof Error && 'code' in err.cause && err.cause.code === 'ENOTFOUND',
+    true,
+  )
 })
 
-test('handles ECONNREFUSED', async (t) => {
+test('handles ECONNREFUSED', async () => {
   agent.enableNetConnect()
   const url = new URL('http://localhost:3001/jwks')
   const JWKS = createRemoteJWKSet(url, { [customFetch]: fetch })
-  const err = await t.throwsAsync(JWKS({ alg: 'RS256' }, {} as FlattenedJWSInput))
-  t.true(err instanceof Error)
-  t.true(err.cause instanceof Error && 'code' in err.cause && err.cause.code === 'ECONNREFUSED')
+  const err = await captureRejection(JWKS({ alg: 'RS256' }, {} as FlattenedJWSInput))
+  assert.equal(err instanceof Error, true)
+  assert.equal(
+    err.cause instanceof Error && 'code' in err.cause && err.cause.code === 'ECONNREFUSED',
+    true,
+  )
 })
 
-test.serial('handles a timeout', async (t) => {
-  t.timeout(1000)
+test('handles a timeout', { timeout: 1000 }, async () => {
   agent.enableNetConnect()
   const url = new URL('http://localhost:3000/jwks')
   const JWKS = createRemoteJWKSet(url, {
     timeoutDuration: 500,
     [customFetch]: fetch,
   })
-  const err = await t.throwsAsync(JWKS({ alg: 'RS256' }, {} as FlattenedJWSInput))
-  t.true(err instanceof errors.JWKSTimeout)
+  const err = await captureRejection(JWKS({ alg: 'RS256' }, {} as FlattenedJWSInput))
+  assert.equal(err instanceof errors.JWKSTimeout, true)
 })

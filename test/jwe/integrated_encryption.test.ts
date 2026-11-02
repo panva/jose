@@ -1,4 +1,5 @@
-import test from 'ava'
+import test, { before, after } from 'node:test'
+import assert from 'node:assert/strict'
 import { AEAD_AES_256_GCM, CipherSuite, KDF_HKDF_SHA256, KEM_DHKEM_P256_HKDF_SHA256 } from 'hpke'
 
 import { CompactEncrypt } from '../../src/jwe/compact/encrypt.js'
@@ -14,6 +15,7 @@ import { JOSENotSupported, JWEDecryptionFailed, JWEInvalid } from '../../src/uti
 import { decode as b64u, encode as encodeB64u } from '../../src/util/base64url.js'
 import { decompress } from '../../src/lib/deflate.js'
 import type * as types from '../../src/types.d.ts'
+import { errorLike } from '../_errors.js'
 
 const alg = 'HPKE-7'
 const encoder = new TextEncoder()
@@ -65,11 +67,11 @@ const integrated: JWEIntegratedEncryptionAlgorithm = {
   },
 }
 
-test.before(() => {
+before(() => {
   JWE[alg] = integrated
 })
 
-test.after(() => {
+after(() => {
   delete JWE[alg]
 })
 
@@ -95,47 +97,50 @@ function tamper(input: string): string {
   return encodeB64u(bytes)
 }
 
-test('integrated encryption round trips every JWE serialization', async (t) => {
+test('integrated encryption round trips every JWE serialization', async () => {
   const { publicKey, privateKey } = await generateKeyPair()
   const flattened = await new FlattenedEncrypt(plaintext)
     .setProtectedHeader(header())
     .setAdditionalAuthenticatedData(aad)
     .encrypt(publicKey)
-  t.truthy(flattened.encrypted_key)
-  t.false('iv' in flattened)
-  t.false('tag' in flattened)
+  assert.ok(flattened.encrypted_key)
+  assert.strictEqual('iv' in flattened, false)
+  assert.strictEqual('tag' in flattened, false)
   const flattenedResult = await flattenedDecrypt(flattened, privateKey, {
     contentEncryptionAlgorithms: [],
   })
-  t.deepEqual(flattenedResult.plaintext, plaintext)
-  t.deepEqual(flattenedResult.additionalAuthenticatedData, aad)
+  assert.deepStrictEqual(flattenedResult.plaintext, plaintext)
+  assert.deepStrictEqual(flattenedResult.additionalAuthenticatedData, aad)
 
   const compact = await new CompactEncrypt(plaintext)
     .setProtectedHeader(compactHeader())
     .encrypt(publicKey)
   const [, encryptedKey, iv, ciphertext, tag] = compact.split('.')
-  t.truthy(encryptedKey)
-  t.is(iv, '')
-  t.truthy(ciphertext)
-  t.is(tag, '')
-  t.deepEqual((await compactDecrypt(compact, privateKey)).plaintext, plaintext)
+  assert.ok(encryptedKey)
+  assert.strictEqual(iv, '')
+  assert.ok(ciphertext)
+  assert.strictEqual(tag, '')
+  assert.deepStrictEqual((await compactDecrypt(compact, privateKey)).plaintext, plaintext)
 
   const general = await new GeneralEncrypt(plaintext)
     .setProtectedHeader(header())
     .addRecipient(publicKey)
     .encrypt()
-  t.false('iv' in general)
-  t.false('tag' in general)
-  t.deepEqual((await generalDecrypt(general, privateKey)).plaintext, plaintext)
+  assert.strictEqual('iv' in general, false)
+  assert.strictEqual('tag' in general, false)
+  assert.deepStrictEqual((await generalDecrypt(general, privateKey)).plaintext, plaintext)
 
   const conventionalKey = crypto.getRandomValues(new Uint8Array(32))
   const conventional = await new FlattenedEncrypt(plaintext)
     .setProtectedHeader({ alg: 'dir', enc: 'A256GCM' })
     .encrypt(conventionalKey)
-  t.deepEqual((await flattenedDecrypt(conventional, conventionalKey)).plaintext, plaintext)
+  assert.deepStrictEqual(
+    (await flattenedDecrypt(conventional, conventionalKey)).plaintext,
+    plaintext,
+  )
 })
 
-test('HPKE-7 interoperates with the HPKE single-shot API', async (t) => {
+test('HPKE-7 interoperates with the HPKE single-shot API', async () => {
   const { publicKey, privateKey } = await generateKeyPair()
   const encodedProtected = encodeB64u(JSON.stringify({ alg }))
   const encodedAad = encodeB64u(aad)
@@ -144,7 +149,7 @@ test('HPKE-7 interoperates with the HPKE single-shot API', async (t) => {
     aad: additionalData,
   })
 
-  t.deepEqual(
+  assert.deepStrictEqual(
     (
       await flattenedDecrypt(
         {
@@ -163,7 +168,7 @@ test('HPKE-7 interoperates with the HPKE single-shot API', async (t) => {
     .setProtectedHeader(header())
     .setAdditionalAuthenticatedData(aad)
     .encrypt(publicKey)
-  t.deepEqual(
+  assert.deepStrictEqual(
     await suite.Open(privateKey, b64u(jwe.encrypted_key!), b64u(jwe.ciphertext), {
       aad: encoder.encode(`${jwe.protected}.${jwe.aad}`),
     }),
@@ -171,20 +176,20 @@ test('HPKE-7 interoperates with the HPKE single-shot API', async (t) => {
   )
 })
 
-test('integrated encryption works with JWT and compression', async (t) => {
+test('integrated encryption works with JWT and compression', async () => {
   const { publicKey, privateKey } = await generateKeyPair()
   const flattened = await new FlattenedEncrypt(plaintext)
     .setProtectedHeader({ alg, zip: 'DEF' } as unknown as types.JWEHeaderParameters)
     .encrypt(publicKey)
-  t.deepEqual((await flattenedDecrypt(flattened, privateKey)).plaintext, plaintext)
+  assert.deepStrictEqual((await flattenedDecrypt(flattened, privateKey)).plaintext, plaintext)
 
   const jwt = await new EncryptJWT({ sub: 'subject' })
     .setProtectedHeader(compactHeader())
     .encrypt(publicKey)
-  t.deepEqual((await jwtDecrypt(jwt, privateKey)).payload, { sub: 'subject' })
+  assert.deepStrictEqual((await jwtDecrypt(jwt, privateKey)).payload, { sub: 'subject' })
 })
 
-test('integrated encryption passes algorithm-owned inputs through unchanged', async (t) => {
+test('integrated encryption passes algorithm-owned inputs through unchanged', async () => {
   const { publicKey, privateKey } = await generateKeyPair()
   const passthroughAlg = 'test-integrated-passthrough'
   let encryptInput:
@@ -201,7 +206,7 @@ test('integrated encryption passes algorithm-owned inputs through unchanged', as
       return [undefined, inputPlaintext]
     },
     async decrypt(_key, encryptedKey, ciphertext, additionalData, protectedHeader, joseHeader) {
-      t.is(encryptedKey, undefined)
+      assert.strictEqual(encryptedKey, undefined)
       decryptInput = [ciphertext, additionalData, protectedHeader, joseHeader]
       return ciphertext
     },
@@ -221,81 +226,81 @@ test('integrated encryption passes algorithm-owned inputs through unchanged', as
       .setAdditionalAuthenticatedData(aad)
       .encrypt(publicKey)
 
-    t.false('encrypted_key' in jwe)
-    t.false('iv' in jwe)
-    t.false('tag' in jwe)
-    t.deepEqual(encryptInput?.[2], protectedHeader)
-    t.deepEqual(encryptInput?.[3], protectedHeader)
-    t.deepEqual(encryptInput?.[1], encoder.encode(`${jwe.protected}.${jwe.aad}`))
-    t.deepEqual(await decompress(encryptInput![0], Infinity), plaintext)
+    assert.strictEqual('encrypted_key' in jwe, false)
+    assert.strictEqual('iv' in jwe, false)
+    assert.strictEqual('tag' in jwe, false)
+    assert.deepStrictEqual(encryptInput?.[2], protectedHeader)
+    assert.deepStrictEqual(encryptInput?.[3], protectedHeader)
+    assert.deepStrictEqual(encryptInput?.[1], encoder.encode(`${jwe.protected}.${jwe.aad}`))
+    assert.deepStrictEqual(await decompress(encryptInput![0], Infinity), plaintext)
 
     const result = await flattenedDecrypt(jwe, privateKey, {
       keyManagementAlgorithms: [passthroughAlg],
     })
-    t.deepEqual(result.plaintext, plaintext)
-    t.deepEqual(decryptInput?.[2], protectedHeader)
-    t.deepEqual(decryptInput?.[3], protectedHeader)
-    t.deepEqual(decryptInput?.[1], encryptInput?.[1])
-    t.deepEqual(decryptInput?.[0], encryptInput?.[0])
+    assert.deepStrictEqual(result.plaintext, plaintext)
+    assert.deepStrictEqual(decryptInput?.[2], protectedHeader)
+    assert.deepStrictEqual(decryptInput?.[3], protectedHeader)
+    assert.deepStrictEqual(decryptInput?.[1], encryptInput?.[1])
+    assert.deepStrictEqual(decryptInput?.[0], encryptInput?.[0])
 
-    await t.throwsAsync(
+    await assert.rejects(
       flattenedDecrypt(jwe, privateKey, {
         keyManagementAlgorithms: [passthroughAlg],
         maxDecompressedLength: plaintext.byteLength - 1,
       }),
-      {
+      errorLike({
         code: 'ERR_JWE_INVALID',
         message: 'Decompressed plaintext exceeded the configured limit',
-      },
+      }),
     )
 
     const compact = await new CompactEncrypt(plaintext)
       .setProtectedHeader({ alg: passthroughAlg } as unknown as types.CompactJWEHeaderParameters)
       .encrypt(publicKey)
-    t.is(compact.split('.')[1], '')
-    t.deepEqual((await compactDecrypt(compact, privateKey)).plaintext, plaintext)
+    assert.strictEqual(compact.split('.')[1], '')
+    assert.deepStrictEqual((await compactDecrypt(compact, privateKey)).plaintext, plaintext)
   } finally {
     delete JWE[passthroughAlg]
   }
 })
 
-test('HPKE-7 applies its algorithm-specific header rules', async (t) => {
+test('HPKE-7 applies its algorithm-specific header rules', async () => {
   const { publicKey, privateKey } = await generateKeyPair()
   const jwe = await new FlattenedEncrypt(plaintext).setProtectedHeader(header()).encrypt(publicKey)
 
-  await t.throwsAsync(
+  await assert.rejects(
     new FlattenedEncrypt(plaintext).setUnprotectedHeader(header()).encrypt(publicKey),
-    {
+    errorLike({
       code: 'ERR_JWE_INVALID',
       message: 'JWE "alg" (Algorithm) Header Parameter MUST be in a protected header.',
-    },
+    }),
   )
-  await t.throwsAsync(
+  await assert.rejects(
     new FlattenedEncrypt(plaintext)
       .setProtectedHeader({ alg, ek: 'AA' } as unknown as types.JWEHeaderParameters)
       .encrypt(publicKey),
-    {
+    errorLike({
       code: 'ERR_JWE_INVALID',
       message: 'JWE "ek" Header Parameter must not be present',
-    },
+    }),
   )
-  await t.throwsAsync(
+  await assert.rejects(
     new FlattenedEncrypt(plaintext)
       .setProtectedHeader({ alg, psk_id: 'cHNr' } as unknown as types.JWEHeaderParameters)
       .encrypt(publicKey),
-    {
+    errorLike({
       code: 'ERR_JOSE_NOT_SUPPORTED',
       message: 'JWE HPKE PSK mode is not supported',
-    },
+    }),
   )
-  await t.throwsAsync(
+  await assert.rejects(
     flattenedDecrypt({ ...replaceProtectedHeader(jwe, {}), header: header() }, privateKey),
-    {
+    errorLike({
       code: 'ERR_JWE_INVALID',
       message: 'JWE "alg" (Algorithm) Header Parameter MUST be in a protected header.',
-    },
+    }),
   )
-  await t.throwsAsync(
+  await assert.rejects(
     flattenedDecrypt(
       replaceProtectedHeader(jwe, {
         alg,
@@ -303,12 +308,12 @@ test('HPKE-7 applies its algorithm-specific header rules', async (t) => {
       } as unknown as types.JWEHeaderParameters),
       privateKey,
     ),
-    {
+    errorLike({
       code: 'ERR_JWE_INVALID',
       message: 'JWE "ek" Header Parameter must not be present',
-    },
+    }),
   )
-  await t.throwsAsync(
+  await assert.rejects(
     flattenedDecrypt(
       replaceProtectedHeader(jwe, {
         alg,
@@ -316,77 +321,89 @@ test('HPKE-7 applies its algorithm-specific header rules', async (t) => {
       } as unknown as types.JWEHeaderParameters),
       privateKey,
     ),
-    {
+    errorLike({
       code: 'ERR_JOSE_NOT_SUPPORTED',
       message: 'JWE HPKE PSK mode is not supported',
-    },
+    }),
   )
 })
 
-test('integrated encryption enforces generic processing rules', async (t) => {
+test('integrated encryption enforces generic processing rules', async () => {
   const { publicKey, privateKey } = await generateKeyPair()
   const jwe = await new FlattenedEncrypt(plaintext).setProtectedHeader(header()).encrypt(publicKey)
 
-  await t.throwsAsync(
+  await assert.rejects(
     new FlattenedEncrypt(plaintext)
       .setProtectedHeader({ alg, enc: 'A256GCM' } as unknown as types.JWEHeaderParameters)
       .encrypt(publicKey),
-    {
+    errorLike({
       code: 'ERR_JWE_INVALID',
       message:
         'JWE "enc" (Encryption Algorithm) Header Parameter must not be present for integrated encryption',
-    },
+    }),
   )
-  await t.throwsAsync(
+  await assert.rejects(
     new FlattenedEncrypt(plaintext)
       .setProtectedHeader(header())
       .setContentEncryptionKey(new Uint8Array())
       .encrypt(publicKey),
-    {
-      instanceOf: TypeError,
-      message: `setContentEncryptionKey cannot be called with JWE "alg" (Algorithm) Header ${alg}`,
-    },
+    (error) =>
+      error instanceof TypeError &&
+      error.message ===
+        `setContentEncryptionKey cannot be called with JWE "alg" (Algorithm) Header ${alg}`,
   )
-  await t.throwsAsync(
+  await assert.rejects(
     new FlattenedEncrypt(plaintext)
       .setProtectedHeader(header())
       .setInitializationVector(new Uint8Array())
       .encrypt(publicKey),
-    {
-      instanceOf: TypeError,
-      message: `setInitializationVector cannot be called with JWE "alg" (Algorithm) Header ${alg}`,
-    },
+    (error) =>
+      error instanceof TypeError &&
+      error.message ===
+        `setInitializationVector cannot be called with JWE "alg" (Algorithm) Header ${alg}`,
   )
-  await t.throwsAsync(flattenedDecrypt({ ...jwe, iv: 'AA' }, privateKey), {
-    code: 'ERR_JWE_INVALID',
-    message: 'JWE Initialization Vector must be empty for integrated encryption',
-  })
-  await t.throwsAsync(flattenedDecrypt({ ...jwe, tag: 'AA' }, privateKey), {
-    code: 'ERR_JWE_INVALID',
-    message: 'JWE Authentication Tag must be empty for integrated encryption',
-  })
-  await t.throwsAsync(flattenedDecrypt({ ...jwe, encrypted_key: '' }, privateKey), {
-    code: 'ERR_JWE_INVALID',
-    message: 'JWE Encrypted Key incorrect type',
-  })
-  await t.throwsAsync(
+  await assert.rejects(
+    flattenedDecrypt({ ...jwe, iv: 'AA' }, privateKey),
+    errorLike({
+      code: 'ERR_JWE_INVALID',
+      message: 'JWE Initialization Vector must be empty for integrated encryption',
+    }),
+  )
+  await assert.rejects(
+    flattenedDecrypt({ ...jwe, tag: 'AA' }, privateKey),
+    errorLike({
+      code: 'ERR_JWE_INVALID',
+      message: 'JWE Authentication Tag must be empty for integrated encryption',
+    }),
+  )
+  await assert.rejects(
+    flattenedDecrypt({ ...jwe, encrypted_key: '' }, privateKey),
+    errorLike({
+      code: 'ERR_JWE_INVALID',
+      message: 'JWE Encrypted Key incorrect type',
+    }),
+  )
+  await assert.rejects(
     flattenedDecrypt(replaceProtectedHeader(jwe, { alg, enc: 'A256GCM' }), privateKey),
-    {
+    errorLike({
       code: 'ERR_JWE_INVALID',
       message:
         'JWE "enc" (Encryption Algorithm) Header Parameter must not be present for integrated encryption',
-    },
+    }),
   )
-  await t.notThrowsAsync(
+  await assert.doesNotReject(
     flattenedDecrypt(jwe, privateKey, {
       keyManagementAlgorithms: [alg],
       contentEncryptionAlgorithms: [],
     }),
   )
-  await t.throwsAsync(flattenedDecrypt(jwe, privateKey, { keyManagementAlgorithms: [] }), {
-    code: 'ERR_JOSE_ALG_NOT_ALLOWED',
-    message: '"alg" (Algorithm) Header Parameter value not allowed',
-  })
+  await assert.rejects(
+    flattenedDecrypt(jwe, privateKey, { keyManagementAlgorithms: [] }),
+    errorLike({
+      code: 'ERR_JOSE_ALG_NOT_ALLOWED',
+      message: '"alg" (Algorithm) Header Parameter value not allowed',
+    }),
+  )
 
   const compact = await new CompactEncrypt(plaintext)
     .setProtectedHeader(compactHeader())
@@ -394,17 +411,20 @@ test('integrated encryption enforces generic processing rules', async (t) => {
   for (const index of [2, 4]) {
     const segments = compact.split('.')
     segments[index] = 'AA'
-    await t.throwsAsync(compactDecrypt(segments.join('.'), privateKey), {
-      code: 'ERR_JWE_INVALID',
-      message:
-        index === 2
-          ? 'JWE Initialization Vector must be empty for integrated encryption'
-          : 'JWE Authentication Tag must be empty for integrated encryption',
-    })
+    await assert.rejects(
+      compactDecrypt(segments.join('.'), privateKey),
+      errorLike({
+        code: 'ERR_JWE_INVALID',
+        message:
+          index === 2
+            ? 'JWE Initialization Vector must be empty for integrated encryption'
+            : 'JWE Authentication Tag must be empty for integrated encryption',
+      }),
+    )
   }
 })
 
-test('integrated algorithms own their encrypted key and ciphertext failures', async (t) => {
+test('integrated algorithms own their encrypted key and ciphertext failures', async () => {
   const { publicKey, privateKey } = await generateKeyPair()
   const jwe = await new FlattenedEncrypt(plaintext).setProtectedHeader(header()).encrypt(publicKey)
   const authenticated = await new FlattenedEncrypt(plaintext)
@@ -422,24 +442,27 @@ test('integrated algorithms own their encrypted key and ciphertext failures', as
       kid: 'other',
     } as unknown as types.JWEHeaderParameters),
   ]) {
-    await t.throwsAsync(flattenedDecrypt(input, privateKey), {
-      code: 'ERR_JWE_DECRYPTION_FAILED',
-      message: 'decryption operation failed',
-    })
+    await assert.rejects(
+      flattenedDecrypt(input, privateKey),
+      errorLike({
+        code: 'ERR_JWE_DECRYPTION_FAILED',
+        message: 'decryption operation failed',
+      }),
+    )
   }
 
-  await t.throwsAsync(
+  await assert.rejects(
     new GeneralEncrypt(plaintext)
       .setProtectedHeader(header())
       .addRecipient(publicKey)
       .addRecipient(publicKey)
       .encrypt(),
-    {
+    errorLike({
       code: 'ERR_JWE_INVALID',
       message: `"${alg}" alg may only have a single recipient`,
-    },
+    }),
   )
-  await t.throwsAsync(
+  await assert.rejects(
     generalDecrypt(
       {
         ciphertext: jwe.ciphertext,
@@ -451,9 +474,9 @@ test('integrated algorithms own their encrypted key and ciphertext failures', as
       },
       privateKey,
     ),
-    {
+    errorLike({
       code: 'ERR_JWE_INVALID',
       message: `"${alg}" alg may only have a single recipient`,
-    },
+    }),
   )
 })

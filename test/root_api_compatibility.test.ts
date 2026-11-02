@@ -1,4 +1,5 @@
-import test from 'ava'
+import assert from 'node:assert/strict'
+import test from 'node:test'
 
 import * as root from '../src/index.js'
 import * as compactDecrypt from '../src/jwe/compact/decrypt.js'
@@ -72,11 +73,11 @@ const rootRuntimeExports = [
   'jwtVerify',
 ] as const
 
-test('root runtime export keys remain unchanged', (t) => {
-  t.deepEqual(Object.keys(root).sort(), rootRuntimeExports)
+test('root runtime export keys remain unchanged', () => {
+  assert.deepStrictEqual(Object.keys(root).sort(), rootRuntimeExports)
 })
 
-test('root runtime exports retain their deep-import identity', (t) => {
+test('root runtime exports retain their deep-import identity', () => {
   const bindings = [
     ['CompactEncrypt', compactEncrypt.CompactEncrypt],
     ['CompactSign', compactSign.CompactSign],
@@ -117,11 +118,11 @@ test('root runtime exports retain their deep-import identity', (t) => {
     ['jwtVerify', jwtVerify.jwtVerify],
   ] as const
 
-  t.deepEqual(
+  assert.deepStrictEqual(
     bindings.map(([name]) => name),
     rootRuntimeExports.filter((name) => name !== 'cryptoRuntime'),
   )
   for (const [name, deep] of bindings) {
-    t.is(root[name], deep, name)
+    assert.strictEqual(root[name], deep, name)
   }
 })

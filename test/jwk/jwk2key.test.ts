@@ -1,45 +1,55 @@
-import test from 'ava'
+import assert from 'node:assert/strict'
+import test from 'node:test'
 
 import { errors, importJWK, exportJWK } from '../../src/index.js'
+import { errorLike } from '../_errors.js'
 
-test('JWK must be an object', async (t) => {
-  await t.throwsAsync(importJWK(true), {
-    instanceOf: TypeError,
-    message: 'JWK must be an object',
+test('JWK must be an object', async () => {
+  await assert.rejects(importJWK(true), (error) => {
+    assert.ok(error instanceof TypeError)
+    assert.strictEqual(error.message, 'JWK must be an object')
+    return true
   })
-  await t.throwsAsync(importJWK(null), {
-    instanceOf: TypeError,
-    message: 'JWK must be an object',
+  await assert.rejects(importJWK(null), (error) => {
+    assert.ok(error instanceof TypeError)
+    assert.strictEqual(error.message, 'JWK must be an object')
+    return true
   })
-  await t.throwsAsync(importJWK(Boolean), {
-    instanceOf: TypeError,
-    message: 'JWK must be an object',
+  await assert.rejects(importJWK(Boolean), (error) => {
+    assert.ok(error instanceof TypeError)
+    assert.strictEqual(error.message, 'JWK must be an object')
+    return true
   })
-  await t.throwsAsync(importJWK([]), {
-    instanceOf: TypeError,
-    message: 'JWK must be an object',
+  await assert.rejects(importJWK([]), (error) => {
+    assert.ok(error instanceof TypeError)
+    assert.strictEqual(error.message, 'JWK must be an object')
+    return true
   })
-  await t.throwsAsync(importJWK(''), {
-    instanceOf: TypeError,
-    message: 'JWK must be an object',
+  await assert.rejects(importJWK(''), (error) => {
+    assert.ok(error instanceof TypeError)
+    assert.strictEqual(error.message, 'JWK must be an object')
+    return true
   })
   const nullPrototype = Object.create(null)
   nullPrototype.crv = 'P-256'
   nullPrototype.kty = 'EC'
   nullPrototype.x = 'q3zAwR_kUwtdLEwtB2oVfucXiLHmEhu9bJUFYjJxYGs'
   nullPrototype.y = '8h0D-ONoU-iZqrq28TyUxEULxuGwJZGMJYTMbeMshvI'
-  await t.notThrowsAsync(importJWK(nullPrototype, 'ES256'))
+  await assert.doesNotReject(importJWK(nullPrototype, 'ES256'))
 })
 
-test('JWK kty must be recognized', async (t) => {
-  await t.throwsAsync(importJWK({ kty: 'unrecognized' }, 'HS256'), {
-    code: 'ERR_JOSE_NOT_SUPPORTED',
-    message: 'Unsupported "kty" (Key Type) Parameter value',
-  })
+test('JWK kty must be recognized', async () => {
+  await assert.rejects(
+    importJWK({ kty: 'unrecognized' }, 'HS256'),
+    errorLike({
+      code: 'ERR_JOSE_NOT_SUPPORTED',
+      message: 'Unsupported "kty" (Key Type) Parameter value',
+    }),
+  )
 })
 
-test('JWK alg must be a string', async (t) => {
-  await t.throwsAsync(
+test('JWK alg must be a string', async () => {
+  await assert.rejects(
     importJWK({
       alg: ['ES256'],
       crv: 'P-256',
@@ -47,21 +57,22 @@ test('JWK alg must be a string', async (t) => {
       x: 'q3zAwR_kUwtdLEwtB2oVfucXiLHmEhu9bJUFYjJxYGs',
       y: '8h0D-ONoU-iZqrq28TyUxEULxuGwJZGMJYTMbeMshvI',
     } as any),
-    {
+    errorLike({
       code: 'ERR_JOSE_NOT_SUPPORTED',
       message: 'Invalid or unsupported JWK "alg" (Algorithm) Parameter value',
-    },
+    }),
   )
 })
 
-test('oct JWK must have "k"', async (t) => {
-  await t.throwsAsync(importJWK({ kty: 'oct' }, 'HS256'), {
-    instanceOf: TypeError,
-    message: 'missing "k" (Key Value) Parameter value',
+test('oct JWK must have "k"', async () => {
+  await assert.rejects(importJWK({ kty: 'oct' }, 'HS256'), (error) => {
+    assert.ok(error instanceof TypeError)
+    assert.strictEqual(error.message, 'missing "k" (Key Value) Parameter value')
+    return true
   })
 })
 
-test('RSA JWK oth validation is left to WebCrypto', async (t) => {
+test('RSA JWK oth validation is left to WebCrypto', async () => {
   try {
     await importJWK(
       {
@@ -84,19 +95,19 @@ test('RSA JWK oth validation is left to WebCrypto', async (t) => {
       },
       'RS256',
     )
-    t.pass()
+    assert.ok(true)
   } catch (err) {
-    t.false(err instanceof errors.JOSEError)
+    assert.strictEqual(err instanceof errors.JOSEError, false)
   }
 })
 
-test('oct JWK', async (t) => {
+test('oct JWK', async () => {
   const oct = {
     k: 'FyCq1CKBflh3I5gikEjpYrdOXllzxB_yc02za8ERknI',
     kty: 'oct',
   }
 
-  t.deepEqual(
+  assert.deepStrictEqual(
     [...(await importJWK(oct, 'HS256'))],
     [
       23, 32, 170, 212, 34, 129, 126, 88, 119, 35, 152, 34, 144, 72, 233, 98, 183, 78, 94, 89, 115,
@@ -105,9 +116,9 @@ test('oct JWK', async (t) => {
   )
 })
 
-test('JWK key_ops must be an array of unique strings', async (t) => {
+test('JWK key_ops must be an array of unique strings', async () => {
   for (const key_ops of [null, {}, 0, 'sign', Array(1), ['sign', 'sign'], ['sign', 0]]) {
-    await t.throwsAsync(
+    await assert.rejects(
       importJWK(
         {
           kty: 'oct',
@@ -116,13 +127,13 @@ test('JWK key_ops must be an array of unique strings', async (t) => {
         } as never,
         'HS256',
       ),
-      { instanceOf: TypeError },
+      TypeError,
     )
   }
 })
 
-test('JWK ext must be a boolean', async (t) => {
-  await t.throwsAsync(
+test('JWK ext must be a boolean', async () => {
+  await assert.rejects(
     importJWK(
       {
         crv: 'P-256',
@@ -133,10 +144,10 @@ test('JWK ext must be a boolean', async (t) => {
       } as never,
       'ES256',
     ),
-    { instanceOf: TypeError },
+    TypeError,
   )
 
-  await t.throwsAsync(
+  await assert.rejects(
     importJWK(
       {
         ext: 'false',
@@ -145,11 +156,11 @@ test('JWK ext must be a boolean', async (t) => {
       } as never,
       'HS256',
     ),
-    { instanceOf: TypeError },
+    TypeError,
   )
 })
 
-test('importJWK snapshots JWK data properties', async (t) => {
+test('importJWK snapshots JWK data properties', async () => {
   let extReads = 0
   const key = await importJWK(
     {
@@ -163,8 +174,8 @@ test('importJWK snapshots JWK data properties', async (t) => {
     },
     'ES256',
   )
-  t.is(extReads, 1)
-  t.false(key.extractable)
+  assert.strictEqual(extReads, 1)
+  assert.strictEqual(key.extractable, false)
 
   const first = 'FyCq1CKBflh3I5gikEjpYrdOXllzxB_yc02za8ERknI'
   const second = 'AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA'
@@ -178,20 +189,20 @@ test('importJWK snapshots JWK data properties', async (t) => {
     },
     'HS256',
   )
-  t.is(keyReads, 1)
-  t.deepEqual(secret, await importJWK({ k: first, kty: 'oct' }, 'HS256'))
+  assert.strictEqual(keyReads, 1)
+  assert.deepStrictEqual(secret, await importJWK({ k: first, kty: 'oct' }, 'HS256'))
 })
 
-test('empty octet sequence JWK export/import round trip', async (t) => {
+test('empty octet sequence JWK export/import round trip', async () => {
   const key = new Uint8Array()
   const jwk = await exportJWK(key)
 
-  t.deepEqual(jwk, { kty: 'oct', k: '' })
-  t.deepEqual(await importJWK(jwk), key)
+  assert.deepStrictEqual(jwk, { kty: 'oct', k: '' })
+  assert.deepStrictEqual(await importJWK(jwk), key)
 })
 
-test('Uin8tArray can be transformed to a JWK', async (t) => {
-  t.deepEqual(
+test('Uin8tArray can be transformed to a JWK', async () => {
+  assert.deepStrictEqual(
     await exportJWK(new Uint8Array([1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15])),
     {
       k: 'AQIDBAUGBwgJCgsMDQ4P',
@@ -200,7 +211,7 @@ test('Uin8tArray can be transformed to a JWK', async (t) => {
   )
 })
 
-test('secret KeyLike can be transformed to a JWK', async (t) => {
+test('secret KeyLike can be transformed to a JWK', async () => {
   const keylike = await importJWK(
     {
       ext: true,
@@ -209,7 +220,7 @@ test('secret KeyLike can be transformed to a JWK', async (t) => {
     },
     'HS256',
   )
-  t.deepEqual(await exportJWK(keylike), {
+  assert.deepStrictEqual(await exportJWK(keylike), {
     k: 'AQIDBAUGBwgJCgsMDQ4P',
     kty: 'oct',
   })

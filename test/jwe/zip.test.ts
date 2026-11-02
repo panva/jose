@@ -1,4 +1,5 @@
-import test from 'ava'
+import test, { before } from 'node:test'
+import assert from 'node:assert/strict'
 import * as crypto from 'node:crypto'
 
 import {
@@ -12,127 +13,144 @@ import {
   jwtDecrypt,
   generateSecret,
 } from '../../src/index.js'
+import { errorLike } from '../_errors.js'
 
 const hasCompressionStreams = typeof globalThis.CompressionStream !== 'undefined'
 
 const encode = TextEncoder.prototype.encode.bind(new TextEncoder())
 
-test.before(async (t) => {
-  t.context.plaintext = encode("It's a dangerous business, Frodo, going out your door.")
-  t.context.secret = await generateSecret('A128GCM')
+const context = {} as {
+  plaintext: Uint8Array<ArrayBuffer>
+  secret: Awaited<ReturnType<typeof generateSecret>>
+}
+
+before(async () => {
+  context.plaintext = encode("It's a dangerous business, Frodo, going out your door.")
+  context.secret = await generateSecret('A128GCM')
 })
 
 if (hasCompressionStreams) {
-  test('FlattenedEncrypt/flattenedDecrypt with zip: DEF', async (t) => {
-    const jwe = await new FlattenedEncrypt(t.context.plaintext)
+  test('FlattenedEncrypt/flattenedDecrypt with zip: DEF', async () => {
+    const jwe = await new FlattenedEncrypt(context.plaintext)
       .setProtectedHeader({ alg: 'dir', enc: 'A128GCM', zip: 'DEF' })
-      .encrypt(t.context.secret)
+      .encrypt(context.secret)
 
-    const { plaintext } = await flattenedDecrypt(jwe, t.context.secret)
-    t.deepEqual(plaintext, t.context.plaintext)
+    const { plaintext } = await flattenedDecrypt(jwe, context.secret)
+    assert.deepStrictEqual(plaintext, context.plaintext)
   })
 
-  test('CompactEncrypt/compactDecrypt with zip: DEF', async (t) => {
-    const jwe = await new CompactEncrypt(t.context.plaintext)
+  test('CompactEncrypt/compactDecrypt with zip: DEF', async () => {
+    const jwe = await new CompactEncrypt(context.plaintext)
       .setProtectedHeader({ alg: 'dir', enc: 'A128GCM', zip: 'DEF' })
-      .encrypt(t.context.secret)
+      .encrypt(context.secret)
 
-    const { plaintext } = await compactDecrypt(jwe, t.context.secret)
-    t.deepEqual(plaintext, t.context.plaintext)
+    const { plaintext } = await compactDecrypt(jwe, context.secret)
+    assert.deepStrictEqual(plaintext, context.plaintext)
   })
 
-  test('GeneralEncrypt/generalDecrypt with zip: DEF', async (t) => {
-    const jwe = await new GeneralEncrypt(t.context.plaintext)
+  test('GeneralEncrypt/generalDecrypt with zip: DEF', async () => {
+    const jwe = await new GeneralEncrypt(context.plaintext)
       .setProtectedHeader({ enc: 'A128GCM', zip: 'DEF' })
-      .addRecipient(t.context.secret)
+      .addRecipient(context.secret)
       .setUnprotectedHeader({ alg: 'A128GCMKW' })
       .encrypt()
 
-    const { plaintext } = await generalDecrypt(jwe, t.context.secret)
-    t.deepEqual(plaintext, t.context.plaintext)
+    const { plaintext } = await generalDecrypt(jwe, context.secret)
+    assert.deepStrictEqual(plaintext, context.plaintext)
   })
 
-  test('EncryptJWT/jwtDecrypt with zip: DEF', async (t) => {
+  test('EncryptJWT/jwtDecrypt with zip: DEF', async () => {
     const jwt = await new EncryptJWT({ foo: 'bar' })
       .setProtectedHeader({ alg: 'dir', enc: 'A128GCM', zip: 'DEF' })
-      .encrypt(t.context.secret)
+      .encrypt(context.secret)
 
-    const { payload, protectedHeader } = await jwtDecrypt(jwt, t.context.secret)
-    t.is(payload.foo, 'bar')
-    t.is(protectedHeader.zip, 'DEF')
+    const { payload, protectedHeader } = await jwtDecrypt(jwt, context.secret)
+    assert.strictEqual(payload.foo, 'bar')
+    assert.strictEqual(protectedHeader.zip, 'DEF')
   })
 
-  test('jwtDecrypt with zip: DEF and maxDecompressedLength option', async (t) => {
+  test('jwtDecrypt with zip: DEF and maxDecompressedLength option', async () => {
     const jwt = await new EncryptJWT({ foo: 'bar' })
       .setProtectedHeader({ alg: 'dir', enc: 'A128GCM', zip: 'DEF' })
-      .encrypt(t.context.secret)
+      .encrypt(context.secret)
 
     // Should succeed with a generous limit
-    await t.notThrowsAsync(jwtDecrypt(jwt, t.context.secret, { maxDecompressedLength: Infinity }))
+    await assert.doesNotReject(jwtDecrypt(jwt, context.secret, { maxDecompressedLength: Infinity }))
 
     // Should succeed with a reasonable limit
-    await t.notThrowsAsync(jwtDecrypt(jwt, t.context.secret, { maxDecompressedLength: 1024 }))
+    await assert.doesNotReject(jwtDecrypt(jwt, context.secret, { maxDecompressedLength: 1024 }))
   })
 
-  test('maxDecompressedLength: 0 disables zip support on decrypt', async (t) => {
-    const jwe = await new CompactEncrypt(t.context.plaintext)
+  test('maxDecompressedLength: 0 disables zip support on decrypt', async () => {
+    const jwe = await new CompactEncrypt(context.plaintext)
       .setProtectedHeader({ alg: 'dir', enc: 'A128GCM', zip: 'DEF' })
-      .encrypt(t.context.secret)
+      .encrypt(context.secret)
 
-    await t.throwsAsync(compactDecrypt(jwe, t.context.secret, { maxDecompressedLength: 0 }), {
-      message: 'JWE "zip" (Compression Algorithm) Header Parameter is not supported.',
-      code: 'ERR_JOSE_NOT_SUPPORTED',
-    })
+    await assert.rejects(
+      compactDecrypt(jwe, context.secret, { maxDecompressedLength: 0 }),
+      errorLike({
+        message: 'JWE "zip" (Compression Algorithm) Header Parameter is not supported.',
+        code: 'ERR_JOSE_NOT_SUPPORTED',
+      }),
+    )
   })
 
-  test('maxDecompressedLength: Infinity disables bomb protection', async (t) => {
+  test('maxDecompressedLength: Infinity disables bomb protection', async () => {
     // Create a large plaintext
     const largePlaintext = new Uint8Array(300_000)
     const jwe = await new CompactEncrypt(largePlaintext)
       .setProtectedHeader({ alg: 'dir', enc: 'A128GCM', zip: 'DEF' })
-      .encrypt(t.context.secret)
+      .encrypt(context.secret)
 
     // Default limit (250KB) should reject
-    await t.throwsAsync(compactDecrypt(jwe, t.context.secret), {
-      message: 'Decompressed plaintext exceeded the configured limit',
-      code: 'ERR_JWE_INVALID',
-    })
+    await assert.rejects(
+      compactDecrypt(jwe, context.secret),
+      errorLike({
+        message: 'Decompressed plaintext exceeded the configured limit',
+        code: 'ERR_JWE_INVALID',
+      }),
+    )
 
     // Infinity should allow
-    const { plaintext } = await compactDecrypt(jwe, t.context.secret, {
+    const { plaintext } = await compactDecrypt(jwe, context.secret, {
       maxDecompressedLength: Infinity,
     })
-    t.is(plaintext.byteLength, 300_000)
+    assert.strictEqual(plaintext.byteLength, 300_000)
   })
 
-  test('maxDecompressedLength enforcement', async (t) => {
+  test('maxDecompressedLength enforcement', async () => {
     const plaintext = new Uint8Array(1024)
     const jwe = await new CompactEncrypt(plaintext)
       .setProtectedHeader({ alg: 'dir', enc: 'A128GCM', zip: 'DEF' })
-      .encrypt(t.context.secret)
+      .encrypt(context.secret)
 
-    await t.throwsAsync(compactDecrypt(jwe, t.context.secret, { maxDecompressedLength: 512 }), {
-      message: 'Decompressed plaintext exceeded the configured limit',
-      code: 'ERR_JWE_INVALID',
-    })
+    await assert.rejects(
+      compactDecrypt(jwe, context.secret, { maxDecompressedLength: 512 }),
+      errorLike({
+        message: 'Decompressed plaintext exceeded the configured limit',
+        code: 'ERR_JWE_INVALID',
+      }),
+    )
 
-    await t.notThrowsAsync(compactDecrypt(jwe, t.context.secret, { maxDecompressedLength: 2048 }))
+    await assert.doesNotReject(compactDecrypt(jwe, context.secret, { maxDecompressedLength: 2048 }))
   })
 
-  test('maxDecompressedLength must be 0, a positive safe integer, or Infinity', async (t) => {
-    const jwe = await new CompactEncrypt(t.context.plaintext)
+  test('maxDecompressedLength must be 0, a positive safe integer, or Infinity', async () => {
+    const jwe = await new CompactEncrypt(context.plaintext)
       .setProtectedHeader({ alg: 'dir', enc: 'A128GCM', zip: 'DEF' })
-      .encrypt(t.context.secret)
+      .encrypt(context.secret)
 
     for (const value of [-1, 0.5, NaN, -Infinity]) {
-      await t.throwsAsync(compactDecrypt(jwe, t.context.secret, { maxDecompressedLength: value }), {
-        instanceOf: TypeError,
-        message: 'maxDecompressedLength must be 0, a positive safe integer, or Infinity',
-      })
+      await assert.rejects(
+        compactDecrypt(jwe, context.secret, { maxDecompressedLength: value }),
+        (error) =>
+          error instanceof TypeError &&
+          error.message === 'maxDecompressedLength must be 0, a positive safe integer, or Infinity',
+      )
     }
   })
 
-  test('invalid deflate data is properly rejected', async (t) => {
+  test('invalid deflate data is properly rejected', async () => {
     const { publicKey, privateKey } = crypto.generateKeyPairSync('rsa', { modulusLength: 2048 })
     const cek = crypto.randomBytes(32)
     const iv = crypto.randomBytes(12)
@@ -153,57 +171,58 @@ if (hasCompressionStreams) {
       tag: Buffer.from(tag).toString('base64url'),
     }
 
-    await t.throwsAsync(flattenedDecrypt(flattened, privateKey), {
-      code: 'ERR_JWE_INVALID',
-      message: 'Failed to decompress plaintext',
-    })
-
-    t.pass()
+    await assert.rejects(
+      flattenedDecrypt(flattened, privateKey),
+      errorLike({
+        code: 'ERR_JWE_INVALID',
+        message: 'Failed to decompress plaintext',
+      }),
+    )
   })
 }
 
-test('unsupported zip value on encrypt throws JOSENotSupported', async (t) => {
-  await t.throwsAsync(
-    new FlattenedEncrypt(t.context.plaintext)
+test('unsupported zip value on encrypt throws JOSENotSupported', async () => {
+  await assert.rejects(
+    new FlattenedEncrypt(context.plaintext)
       .setProtectedHeader({ alg: 'dir', enc: 'A128GCM', zip: 'gzip' })
-      .encrypt(t.context.secret),
-    {
+      .encrypt(context.secret),
+    errorLike({
       message: 'Unsupported JWE "zip" (Compression Algorithm) Header Parameter value.',
       code: 'ERR_JOSE_NOT_SUPPORTED',
-    },
+    }),
   )
 })
 
-test('zip must be in a protected header on encrypt', async (t) => {
-  await t.throwsAsync(
-    new FlattenedEncrypt(t.context.plaintext)
+test('zip must be in a protected header on encrypt', async () => {
+  await assert.rejects(
+    new FlattenedEncrypt(context.plaintext)
       .setProtectedHeader({ alg: 'dir', enc: 'A128GCM' })
       .setSharedUnprotectedHeader({ zip: 'DEF' })
-      .encrypt(t.context.secret),
-    {
+      .encrypt(context.secret),
+    errorLike({
       message: 'JWE "zip" (Compression Algorithm) Header Parameter MUST be in a protected header.',
       code: 'ERR_JWE_INVALID',
-    },
+    }),
   )
 
-  await t.throwsAsync(
-    new FlattenedEncrypt(t.context.plaintext)
+  await assert.rejects(
+    new FlattenedEncrypt(context.plaintext)
       .setProtectedHeader({ alg: 'dir', enc: 'A128GCM' })
       .setUnprotectedHeader({ zip: 'DEF' })
-      .encrypt(t.context.secret),
-    {
+      .encrypt(context.secret),
+    errorLike({
       message: 'JWE "zip" (Compression Algorithm) Header Parameter MUST be in a protected header.',
       code: 'ERR_JWE_INVALID',
-    },
+    }),
   )
 })
 
-test('zip must be in a protected header on encrypt (multi-recipient)', async (t) => {
+test('zip must be in a protected header on encrypt (multi-recipient)', async () => {
   const secret1 = await generateSecret('A128KW')
   const secret2 = await generateSecret('A128KW')
 
-  await t.throwsAsync(
-    new GeneralEncrypt(t.context.plaintext)
+  await assert.rejects(
+    new GeneralEncrypt(context.plaintext)
       .setProtectedHeader({ enc: 'A128GCM' })
       .setSharedUnprotectedHeader({ zip: 'DEF' })
       .addRecipient(secret1)
@@ -211,52 +230,58 @@ test('zip must be in a protected header on encrypt (multi-recipient)', async (t)
       .addRecipient(secret2)
       .setUnprotectedHeader({ alg: 'A128KW' })
       .encrypt(),
-    {
+    errorLike({
       message: 'JWE "zip" (Compression Algorithm) Header Parameter MUST be in a protected header.',
       code: 'ERR_JWE_INVALID',
-    },
+    }),
   )
 
-  await t.throwsAsync(
-    new GeneralEncrypt(t.context.plaintext)
+  await assert.rejects(
+    new GeneralEncrypt(context.plaintext)
       .setProtectedHeader({ enc: 'A128GCM' })
       .addRecipient(secret1)
       .setUnprotectedHeader({ alg: 'A128KW' })
       .addRecipient(secret2)
       .setUnprotectedHeader({ alg: 'A128KW', zip: 'DEF' })
       .encrypt(),
-    {
+    errorLike({
       message: 'JWE "zip" (Compression Algorithm) Header Parameter MUST be in a protected header.',
       code: 'ERR_JWE_INVALID',
-    },
+    }),
   )
 })
 
-test('zip must be in a protected header on decrypt', async (t) => {
-  const jwe = await new FlattenedEncrypt(t.context.plaintext)
+test('zip must be in a protected header on decrypt', async () => {
+  const jwe = await new FlattenedEncrypt(context.plaintext)
     .setProtectedHeader({ alg: 'dir', enc: 'A128GCM' })
-    .encrypt(t.context.secret)
+    .encrypt(context.secret)
 
   // Tamper: put zip in unprotected header
   const tampered = { ...jwe, unprotected: { zip: 'DEF' } }
-  await t.throwsAsync(flattenedDecrypt(tampered, t.context.secret), {
-    message: 'JWE "zip" (Compression Algorithm) Header Parameter MUST be in a protected header.',
-    code: 'ERR_JWE_INVALID',
-  })
+  await assert.rejects(
+    flattenedDecrypt(tampered, context.secret),
+    errorLike({
+      message: 'JWE "zip" (Compression Algorithm) Header Parameter MUST be in a protected header.',
+      code: 'ERR_JWE_INVALID',
+    }),
+  )
 
   // Tamper: put zip in per-recipient header
   const tampered2 = { ...jwe, header: { zip: 'DEF' } }
-  await t.throwsAsync(flattenedDecrypt(tampered2, t.context.secret), {
-    message: 'JWE "zip" (Compression Algorithm) Header Parameter MUST be in a protected header.',
-    code: 'ERR_JWE_INVALID',
-  })
+  await assert.rejects(
+    flattenedDecrypt(tampered2, context.secret),
+    errorLike({
+      message: 'JWE "zip" (Compression Algorithm) Header Parameter MUST be in a protected header.',
+      code: 'ERR_JWE_INVALID',
+    }),
+  )
 })
 
-test('unsupported zip value on decrypt throws JOSENotSupported', async (t) => {
+test('unsupported zip value on decrypt throws JOSENotSupported', async () => {
   // Build a JWE without zip, then tamper the protected header to have zip: gzip
-  const jwe = await new FlattenedEncrypt(t.context.plaintext)
+  const jwe = await new FlattenedEncrypt(context.plaintext)
     .setProtectedHeader({ alg: 'dir', enc: 'A128GCM' })
-    .encrypt(t.context.secret)
+    .encrypt(context.secret)
 
   // Replace protected header with one containing zip: gzip
   const tampered = {
@@ -267,20 +292,23 @@ test('unsupported zip value on decrypt throws JOSENotSupported', async (t) => {
       .replace(/=+$/, ''),
   }
 
-  await t.throwsAsync(flattenedDecrypt(tampered, t.context.secret), {
-    code: 'ERR_JOSE_NOT_SUPPORTED',
-  })
+  await assert.rejects(
+    flattenedDecrypt(tampered, context.secret),
+    errorLike({
+      code: 'ERR_JOSE_NOT_SUPPORTED',
+    }),
+  )
 })
 
 if (!hasCompressionStreams) {
-  test('zip: DEF throws JOSENotSupported when CompressionStream is unavailable', async (t) => {
-    await t.throwsAsync(
-      new FlattenedEncrypt(t.context.plaintext)
+  test('zip: DEF throws JOSENotSupported when CompressionStream is unavailable', async () => {
+    await assert.rejects(
+      new FlattenedEncrypt(context.plaintext)
         .setProtectedHeader({ alg: 'dir', enc: 'A128GCM', zip: 'DEF' })
-        .encrypt(t.context.secret),
-      {
+        .encrypt(context.secret),
+      errorLike({
         code: 'ERR_JOSE_NOT_SUPPORTED',
-      },
+      }),
     )
   })
 }

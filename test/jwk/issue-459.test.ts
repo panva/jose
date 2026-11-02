@@ -1,6 +1,8 @@
-import test from 'ava'
+import assert from 'node:assert/strict'
+import test from 'node:test'
 
 import { importX509 } from '../../src/index.js'
+import { errorLike } from '../_errors.js'
 
 const cert = `-----BEGIN CERTIFICATE-----
 MIID5jCCAs6gAwIBAgIBAjANBgkqhkiG9w0BAQsFADB7MQswCQYDVQQGEwJVUzEL
@@ -26,24 +28,27 @@ PQYlbfO0XV727QUZ1YyG8rR/3VVRsBOmwZBKCj0dkh9eiRcNpJloqe1uZ83EBG/W
 Cic5wE9P+Ol/pFNJFpfjXMsmT8lkCK954aYf2xoH1bHkONYAEEk0iQu/
 -----END CERTIFICATE-----`
 
-test('https://github.com/panva/jose/issues/459', (t) => {
-  return t.notThrowsAsync(() => importX509(cert, 'RS256'))
+test('https://github.com/panva/jose/issues/459', () => {
+  return assert.doesNotReject(() => importX509(cert, 'RS256'))
 })
 
-test('X.509 import rejects a truncated certificate', async (t) => {
+test('X.509 import rejects a truncated certificate', async () => {
   const der = Buffer.from(cert.replace(/-----[^-]+-----|\s/g, ''), 'base64')
   const truncated = `-----BEGIN CERTIFICATE-----\n${der.subarray(0, -1).toString('base64')}\n-----END CERTIFICATE-----`
 
-  await t.throwsAsync(importX509(truncated, 'RS256'))
+  await assert.rejects(importX509(truncated, 'RS256'), Error)
 })
 
-test('X.509 import tolerates data after the PEM footer', async (t) => {
-  await t.notThrowsAsync(importX509(`${cert}AAAA`, 'RS256'))
+test('X.509 import tolerates data after the PEM footer', async () => {
+  await assert.doesNotReject(importX509(`${cert}AAAA`, 'RS256'))
 })
 
-test('X.509 import rejects symmetric algorithms', async (t) => {
-  await t.throwsAsync(importX509(cert, 'HS256'), {
-    code: 'ERR_JOSE_NOT_SUPPORTED',
-    message: 'Invalid or unsupported "alg" (Algorithm) value',
-  })
+test('X.509 import rejects symmetric algorithms', async () => {
+  await assert.rejects(
+    importX509(cert, 'HS256'),
+    errorLike({
+      code: 'ERR_JOSE_NOT_SUPPORTED',
+      message: 'Invalid or unsupported "alg" (Algorithm) value',
+    }),
+  )
 })

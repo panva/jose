@@ -1,8 +1,10 @@
-import test, { type ExecutionContext } from 'ava'
+import test, { type TestContext } from 'node:test'
+import assert from 'node:assert/strict'
+import { captureRejection, errorLike } from '../_errors.js'
 
 import { createLocalJWKSet, errors, exportJWK, generateKeyPair } from '../../src/index.js'
 
-function trackImports(t: ExecutionContext, failure?: Error) {
+function trackImports(t: TestContext, failure?: Error) {
   const subtle = crypto.subtle
   const descriptor = Object.getOwnPropertyDescriptor(subtle, 'importKey')
   const importKey = subtle.importKey
@@ -16,14 +18,14 @@ function trackImports(t: ExecutionContext, failure?: Error) {
       return error ? Promise.reject(error) : Reflect.apply(importKey, subtle, args)
     },
   })
-  t.teardown(() => {
+  t.after(() => {
     if (descriptor) Object.defineProperty(subtle, 'importKey', descriptor)
     else Reflect.deleteProperty(subtle, 'importKey')
   })
   return state
 }
 
-test('LocalJWKSet', async (t) => {
+test('LocalJWKSet', async () => {
   const sparseKeys = Array<object>(1)
   for (const f of [
     null,
@@ -38,20 +40,20 @@ test('LocalJWKSet', async (t) => {
     1,
     Boolean,
   ]) {
-    t.throws(() => createLocalJWKSet(f), { code: 'ERR_JWKS_INVALID' })
+    assert.throws(() => createLocalJWKSet(f), errorLike({ code: 'ERR_JWKS_INVALID' }))
   }
 
   const jwks = { keys: [] }
   const set = createLocalJWKSet(jwks)
 
   const clone = set.jwks()
-  t.false(clone === jwks)
-  t.false(clone === set.jwks())
-  t.deepEqual(clone, jwks)
-  t.deepEqual(clone, set.jwks())
+  assert.equal(clone === jwks, false)
+  assert.equal(clone === set.jwks(), false)
+  assert.deepEqual(clone, jwks)
+  assert.deepEqual(clone, set.jwks())
 })
 
-test('JWK use must be a string', async (t) => {
+test('JWK use must be a string', async () => {
   const set = createLocalJWKSet({
     keys: [
       {
@@ -65,12 +67,15 @@ test('JWK use must be a string', async (t) => {
     ],
   })
 
-  await t.throwsAsync(set({ alg: 'ES256' }), {
-    code: 'ERR_JWKS_NO_MATCHING_KEY',
-  })
+  await assert.rejects(
+    set({ alg: 'ES256' }),
+    errorLike({
+      code: 'ERR_JWKS_NO_MATCHING_KEY',
+    }),
+  )
 })
 
-test('JWK alg must be a string', async (t) => {
+test('JWK alg must be a string', async () => {
   const set = createLocalJWKSet({
     keys: [
       {
@@ -84,12 +89,15 @@ test('JWK alg must be a string', async (t) => {
     ],
   })
 
-  await t.throwsAsync(set({ alg: 'ES256' }), {
-    code: 'ERR_JWKS_NO_MATCHING_KEY',
-  })
+  await assert.rejects(
+    set({ alg: 'ES256' }),
+    errorLike({
+      code: 'ERR_JWKS_NO_MATCHING_KEY',
+    }),
+  )
 })
 
-test('a non-string kid must not bypass key selection', async (t) => {
+test('a non-string kid must not bypass key selection', async () => {
   const set = createLocalJWKSet({
     keys: [
       {
@@ -102,12 +110,15 @@ test('a non-string kid must not bypass key selection', async (t) => {
     ],
   })
 
-  await t.throwsAsync(set({ alg: 'ES256', kid: 0 as never }), {
-    code: 'ERR_JWKS_NO_MATCHING_KEY',
-  })
+  await assert.rejects(
+    set({ alg: 'ES256', kid: 0 as never }),
+    errorLike({
+      code: 'ERR_JWKS_NO_MATCHING_KEY',
+    }),
+  )
 })
 
-test('JWK key_ops must be an array of unique strings', async (t) => {
+test('JWK key_ops must be an array of unique strings', async () => {
   const key = {
     kty: 'EC',
     crv: 'P-256',
@@ -131,14 +142,17 @@ test('JWK key_ops must be an array of unique strings', async (t) => {
       keys: [{ ...key, key_ops } as never],
     })
 
-    await t.throwsAsync(set({ alg: 'ES256' }), {
-      code: 'ERR_JWKS_NO_MATCHING_KEY',
-    })
-    t.deepEqual(set.jwks().keys[0].key_ops, key_ops)
+    await assert.rejects(
+      set({ alg: 'ES256' }),
+      errorLike({
+        code: 'ERR_JWKS_NO_MATCHING_KEY',
+      }),
+    )
+    assert.deepEqual(set.jwks().keys[0].key_ops, key_ops)
   }
 })
 
-test.serial('JWKS selection ignores inherited key metadata', async (t) => {
+test('JWKS selection ignores inherited key metadata', async () => {
   const descriptor = Object.getOwnPropertyDescriptor(Object.prototype, 'kid')
   for (const beforeCreation of [true, false]) {
     const install = () =>
@@ -152,10 +166,13 @@ test.serial('JWKS selection ignores inherited key metadata', async (t) => {
       const set = createLocalJWKSet({ keys: [{ kty: 'EC', crv: 'P-256' }] })
       if (!beforeCreation) install()
 
-      await t.throwsAsync(set({ alg: 'ES256', kid: 'inherited' }), {
-        code: 'ERR_JWKS_NO_MATCHING_KEY',
-      })
-      t.false(Object.hasOwn(set.jwks().keys[0], 'kid'))
+      await assert.rejects(
+        set({ alg: 'ES256', kid: 'inherited' }),
+        errorLike({
+          code: 'ERR_JWKS_NO_MATCHING_KEY',
+        }),
+      )
+      assert.equal(Object.hasOwn(set.jwks().keys[0], 'kid'), false)
     } finally {
       if (descriptor) Object.defineProperty(Object.prototype, 'kid', descriptor)
       else Reflect.deleteProperty(Object.prototype, 'kid')
@@ -163,7 +180,7 @@ test.serial('JWKS selection ignores inherited key metadata', async (t) => {
   }
 })
 
-test('JWKS selection preserves snapshots, candidate order, and cached keys', async (t) => {
+test('JWKS selection preserves snapshots, candidate order, and cached keys', async () => {
   const first = await exportJWK((await generateKeyPair('ES256')).publicKey)
   const second = await exportJWK((await generateKeyPair('ES256')).publicKey)
   const input = {
@@ -182,66 +199,67 @@ test('JWKS selection preserves snapshots, candidate order, and cached keys', asy
   clone.keys[2].key_ops!.push('sign')
   clone.keys.reverse()
 
-  const error = await t.throwsAsync(set({ alg: 'ES256' }), {
-    instanceOf: errors.JWKSMultipleMatchingKeys,
-  })
+  const error = await captureRejection(set({ alg: 'ES256' }), errors.JWKSMultipleMatchingKeys)
   const keys = []
-  for await (const key of error!) keys.push(key)
-  t.is(keys.length, 2)
-  t.deepEqual(await exportJWK(keys[0]), first)
-  t.deepEqual(await exportJWK(keys[1]), second)
-  t.is(await set({ alg: 'ES256', kid: 'first' }), keys[0])
-  t.is(await set({ alg: 'ES256', kid: 'second' }), keys[1])
-  t.deepEqual(set.jwks(), original)
+  for await (const key of error as errors.JWKSMultipleMatchingKeys) keys.push(key)
+  assert.equal(keys.length, 2)
+  assert.deepEqual(await exportJWK(keys[0]), first)
+  assert.deepEqual(await exportJWK(keys[1]), second)
+  assert.equal(await set({ alg: 'ES256', kid: 'first' }), keys[0])
+  assert.equal(await set({ alg: 'ES256', kid: 'second' }), keys[1])
+  assert.deepEqual(set.jwks(), original)
 })
 
-test.serial('concurrent JWKS lookups share a pending import', async (t) => {
+test('concurrent JWKS lookups share a pending import', async (t) => {
   const key = await exportJWK((await generateKeyPair('ES256')).publicKey)
   const set = createLocalJWKSet({ keys: [key] })
   const imports = trackImports(t)
   const keys = await Promise.all(Array.from({ length: 16 }, () => set({ alg: 'ES256' })))
-  t.is(imports.count, 1)
-  t.is(new Set(keys).size, 1)
-  t.is(keys[0].type, 'public')
-  t.is(await set({ alg: 'ES256' }), keys[0])
-  t.is(imports.count, 1)
+  assert.equal(imports.count, 1)
+  assert.equal(new Set(keys).size, 1)
+  assert.equal(keys[0].type, 'public')
+  assert.equal(await set({ alg: 'ES256' }), keys[0])
+  assert.equal(imports.count, 1)
 })
 
-test.serial('failed pending JWKS imports can be retried', async (t) => {
+test('failed pending JWKS imports can be retried', async (t) => {
   const key = await exportJWK((await generateKeyPair('ES256')).publicKey)
   const set = createLocalJWKSet({ keys: [key] })
   const failure = new Error('transient import failure')
   const imports = trackImports(t, failure)
   const results = await Promise.allSettled(Array.from({ length: 16 }, () => set({ alg: 'ES256' })))
-  t.true(results.every((result) => result.status === 'rejected' && result.reason === failure))
-  t.is(imports.count, 1)
+  assert.equal(
+    results.every((result) => result.status === 'rejected' && result.reason === failure),
+    true,
+  )
+  assert.equal(imports.count, 1)
 
   const keys = await Promise.all(Array.from({ length: 16 }, () => set({ alg: 'ES256' })))
-  t.is(imports.count, 2)
-  t.is(new Set(keys).size, 1)
-  t.is(await set({ alg: 'ES256' }), keys[0])
-  t.is(imports.count, 2)
+  assert.equal(imports.count, 2)
+  assert.equal(new Set(keys).size, 1)
+  assert.equal(await set({ alg: 'ES256' }), keys[0])
+  assert.equal(imports.count, 2)
 })
 
-test.serial('pending JWKS imports remain separate for each algorithm', async (t) => {
+test('pending JWKS imports remain separate for each algorithm', async (t) => {
   const key = await exportJWK((await generateKeyPair('RS256')).publicKey)
   const set = createLocalJWKSet({ keys: [key] })
   const imports = trackImports(t)
   const [rs, ps] = await Promise.all(
     ['RS256', 'PS256'].map((alg) => Promise.all(Array.from({ length: 16 }, () => set({ alg })))),
   )
-  t.is(imports.count, 2)
-  t.is(new Set(rs).size, 1)
-  t.is(new Set(ps).size, 1)
-  t.not(rs[0], ps[0])
-  t.is(rs[0].algorithm.name, 'RSASSA-PKCS1-v1_5')
-  t.is(ps[0].algorithm.name, 'RSA-PSS')
-  t.is(await set({ alg: 'RS256' }), rs[0])
-  t.is(await set({ alg: 'PS256' }), ps[0])
-  t.is(imports.count, 2)
+  assert.equal(imports.count, 2)
+  assert.equal(new Set(rs).size, 1)
+  assert.equal(new Set(ps).size, 1)
+  assert.notEqual(rs[0], ps[0])
+  assert.equal(rs[0].algorithm.name, 'RSASSA-PKCS1-v1_5')
+  assert.equal(ps[0].algorithm.name, 'RSA-PSS')
+  assert.equal(await set({ alg: 'RS256' }), rs[0])
+  assert.equal(await set({ alg: 'PS256' }), ps[0])
+  assert.equal(imports.count, 2)
 })
 
-test.serial('JWKS imports never cache rejected private keys', async (t) => {
+test('JWKS imports never cache rejected private keys', async (t) => {
   const privateKeySet = createLocalJWKSet({
     keys: [
       {
@@ -255,10 +273,13 @@ test.serial('JWKS imports never cache rejected private keys', async (t) => {
   })
   const imports = trackImports(t)
   for (let i = 0; i < 2; i++) {
-    await t.throwsAsync(privateKeySet({ alg: 'ES256' }), {
-      code: 'ERR_JWKS_INVALID',
-      message: 'JSON Web Key Set members must be public keys',
-    })
+    await assert.rejects(
+      privateKeySet({ alg: 'ES256' }),
+      errorLike({
+        code: 'ERR_JWKS_INVALID',
+        message: 'JSON Web Key Set members must be public keys',
+      }),
+    )
   }
-  t.is(imports.count, 2)
+  assert.equal(imports.count, 2)
 })

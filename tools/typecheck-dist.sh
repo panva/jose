@@ -30,7 +30,6 @@ echo "module resolution modes"
 run --module preserve --moduleResolution bundler --lib esnext,dom,dom.iterable
 run --module node16 --moduleResolution node16 --lib esnext,dom,dom.iterable
 run --module nodenext --moduleResolution nodenext --lib esnext,dom,dom.iterable
-run --module commonjs --moduleResolution node10 --ignoreDeprecations 6.0 --lib esnext,dom,dom.iterable
 
 echo "supported consumer lib configurations"
 # Browser / bundler: DOM lib, no @types/node

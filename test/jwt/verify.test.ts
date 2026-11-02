@@ -1,20 +1,22 @@
-import test from 'ava'
+import test, { before, after } from 'node:test'
+import assert from 'node:assert/strict'
 import timekeeper from 'timekeeper'
-
 import { base64url, SignJWT, jwtVerify, CompactSign } from '../../src/index.js'
+import { errorLike } from '../_errors.js'
+
+const context = {} as { secret: Uint8Array; payload: Record<string, unknown> }
 
 const now = 1604416038
 
-test.before(async (t) => {
-  t.context.secret = new Uint8Array(32)
-  t.context.payload = { 'urn:example:claim': true }
-
+before(async () => {
+  context.secret = new Uint8Array(32)
+  context.payload = { 'urn:example:claim': true }
   timekeeper.freeze(now * 1000)
 })
 
-test.after(timekeeper.reset)
+after(timekeeper.reset)
 
-test('Basic JWT Claims Set verification', async (t) => {
+test('Basic JWT Claims Set verification', async () => {
   const issuer = 'urn:example:issuer'
   const subject = 'urn:example:subject'
   const audience = 'urn:example:audience'
@@ -23,7 +25,7 @@ test('Basic JWT Claims Set verification', async (t) => {
   const iat = now - 20
   const exp = now + 10
   const typ = 'urn:example:typ'
-  const jwt = await new SignJWT(t.context.payload)
+  const jwt = await new SignJWT(context.payload)
     .setProtectedHeader({ alg: 'HS256', typ })
     .setIssuer(issuer)
     .setSubject(subject)
@@ -32,10 +34,9 @@ test('Basic JWT Claims Set verification', async (t) => {
     .setNotBefore(nbf)
     .setExpirationTime(exp)
     .setIssuedAt(iat)
-    .sign(t.context.secret)
-
-  t.deepEqual(
-    await jwtVerify(jwt, t.context.secret, {
+    .sign(context.secret)
+  assert.deepEqual(
+    await jwtVerify(jwt, context.secret, {
       issuer,
       subject,
       audience,
@@ -60,541 +61,574 @@ test('Basic JWT Claims Set verification', async (t) => {
       },
     },
   )
-  await t.notThrowsAsync(jwtVerify(new TextEncoder().encode(jwt), t.context.secret))
+  await assert.doesNotReject(jwtVerify(new TextEncoder().encode(jwt), context.secret))
 })
 
-test('Payload must be an object', async (t) => {
+test('Payload must be an object', async () => {
   const encode = TextEncoder.prototype.encode.bind(new TextEncoder())
   for (const value of [0, 1, -1, true, false, null, [], '']) {
     const token = await new CompactSign(encode(JSON.stringify(value)))
       .setProtectedHeader({ alg: 'HS256' })
-      .sign(t.context.secret)
-    await t.throwsAsync(jwtVerify(token, t.context.secret), {
-      code: 'ERR_JWT_INVALID',
-      message: 'JWT Claims Set must be a top-level JSON object',
-    })
+      .sign(context.secret)
+    await assert.rejects(
+      jwtVerify(token, context.secret),
+      errorLike({
+        code: 'ERR_JWT_INVALID',
+        message: 'JWT Claims Set must be a top-level JSON object',
+      }),
+    )
   }
 })
 
-test('incorrect hmac signature lengths', async (t) => {
-  const jwt = await new SignJWT(t.context.payload)
+test('incorrect hmac signature lengths', async () => {
+  const jwt = await new SignJWT(context.payload)
     .setProtectedHeader({ alg: 'HS256' })
-    .sign(t.context.secret)
-
-  await t.throwsAsync(jwtVerify(jwt.slice(0, -3), t.context.secret), {
-    code: 'ERR_JWS_SIGNATURE_VERIFICATION_FAILED',
-    message: 'signature verification failed',
-  })
+    .sign(context.secret)
+  await assert.rejects(
+    jwtVerify(jwt.slice(0, -3), context.secret),
+    errorLike({
+      code: 'ERR_JWS_SIGNATURE_VERIFICATION_FAILED',
+      message: 'signature verification failed',
+    }),
+  )
 })
 
-test('Payload must JSON parseable', async (t) => {
+test('Payload must JSON parseable', async () => {
   const encode = TextEncoder.prototype.encode.bind(new TextEncoder())
   const token = await new CompactSign(encode('{'))
     .setProtectedHeader({ alg: 'HS256' })
-    .sign(t.context.secret)
-  await t.throwsAsync(jwtVerify(token, t.context.secret), {
-    code: 'ERR_JWT_INVALID',
-    message: 'JWT Claims Set must be a top-level JSON object',
-  })
+    .sign(context.secret)
+  await assert.rejects(
+    jwtVerify(token, context.secret),
+    errorLike({
+      code: 'ERR_JWT_INVALID',
+      message: 'JWT Claims Set must be a top-level JSON object',
+    }),
+  )
 })
 
-test('algorithms options', async (t) => {
-  const jwt = await new SignJWT(t.context.payload)
+test('algorithms options', async () => {
+  const jwt = await new SignJWT(context.payload)
     .setProtectedHeader({ alg: 'HS256' })
-    .sign(t.context.secret)
-
-  await t.throwsAsync(
-    jwtVerify(jwt, t.context.secret, {
+    .sign(context.secret)
+  await assert.rejects(
+    jwtVerify(jwt, context.secret, {
       algorithms: ['PS256'],
     }),
-    {
+    errorLike({
       code: 'ERR_JOSE_ALG_NOT_ALLOWED',
       message: '"alg" (Algorithm) Header Parameter value not allowed',
-    },
+    }),
   )
-  await t.throwsAsync(
-    jwtVerify(jwt, t.context.secret, {
+  await assert.rejects(
+    jwtVerify(jwt, context.secret, {
       algorithms: [null],
     }),
-    {
-      instanceOf: TypeError,
-      message: '"algorithms" option must be an array of strings',
+    (error) => {
+      assert.ok(error instanceof TypeError)
+      assert.equal(error.message, '"algorithms" option must be an array of strings')
+      return true
     },
   )
 })
 
-test('typ verification', async (t) => {
+test('typ verification', async () => {
   {
-    const jwt = await new SignJWT(t.context.payload)
+    const jwt = await new SignJWT(context.payload)
       .setProtectedHeader({ alg: 'HS256', typ: 'JWT' })
-      .sign(t.context.secret)
-
-    await t.throwsAsync(jwtVerify(jwt, t.context.secret, { typ: '' }), {
-      code: 'ERR_JWT_CLAIM_VALIDATION_FAILED',
-      message: 'unexpected "typ" JWT header value',
-    })
+      .sign(context.secret)
+    await assert.rejects(
+      jwtVerify(jwt, context.secret, { typ: '' }),
+      errorLike({
+        code: 'ERR_JWT_CLAIM_VALIDATION_FAILED',
+        message: 'unexpected "typ" JWT header value',
+      }),
+    )
   }
   {
     const typ = 'urn:example:typ'
-    const jwt = await new SignJWT(t.context.payload)
+    const jwt = await new SignJWT(context.payload)
       .setProtectedHeader({ alg: 'HS256', typ })
-      .sign(t.context.secret)
-
-    await t.notThrowsAsync(
-      jwtVerify(jwt, t.context.secret, {
+      .sign(context.secret)
+    await assert.doesNotReject(
+      jwtVerify(jwt, context.secret, {
         typ: 'application/urn:example:typ',
       }),
     )
-
-    await t.throwsAsync(
-      jwtVerify(jwt, t.context.secret, {
+    await assert.rejects(
+      jwtVerify(jwt, context.secret, {
         typ: 'urn:example:typ:2',
       }),
-      { code: 'ERR_JWT_CLAIM_VALIDATION_FAILED', message: 'unexpected "typ" JWT header value' },
+      errorLike({
+        code: 'ERR_JWT_CLAIM_VALIDATION_FAILED',
+        message: 'unexpected "typ" JWT header value',
+      }),
     )
-
-    await t.throwsAsync(
-      jwtVerify(jwt, t.context.secret, {
+    await assert.rejects(
+      jwtVerify(jwt, context.secret, {
         typ: 'application/urn:example:typ:2',
       }),
-      { code: 'ERR_JWT_CLAIM_VALIDATION_FAILED', message: 'unexpected "typ" JWT header value' },
+      errorLike({
+        code: 'ERR_JWT_CLAIM_VALIDATION_FAILED',
+        message: 'unexpected "typ" JWT header value',
+      }),
     )
   }
   {
     const typ = 'application/urn:example:typ'
-    const jwt = await new SignJWT(t.context.payload)
+    const jwt = await new SignJWT(context.payload)
       .setProtectedHeader({ alg: 'HS256', typ })
-      .sign(t.context.secret)
-
-    await t.notThrowsAsync(
-      jwtVerify(jwt, t.context.secret, {
+      .sign(context.secret)
+    await assert.doesNotReject(
+      jwtVerify(jwt, context.secret, {
         typ: 'urn:example:typ',
       }),
     )
-
-    await t.throwsAsync(
-      jwtVerify(jwt, t.context.secret, {
+    await assert.rejects(
+      jwtVerify(jwt, context.secret, {
         typ: 'application/urn:example:typ:2',
       }),
-      { code: 'ERR_JWT_CLAIM_VALIDATION_FAILED', message: 'unexpected "typ" JWT header value' },
+      errorLike({
+        code: 'ERR_JWT_CLAIM_VALIDATION_FAILED',
+        message: 'unexpected "typ" JWT header value',
+      }),
     )
-
-    await t.throwsAsync(
-      jwtVerify(jwt, t.context.secret, {
+    await assert.rejects(
+      jwtVerify(jwt, context.secret, {
         typ: 'urn:example:typ:2',
       }),
-      { code: 'ERR_JWT_CLAIM_VALIDATION_FAILED', message: 'unexpected "typ" JWT header value' },
+      errorLike({
+        code: 'ERR_JWT_CLAIM_VALIDATION_FAILED',
+        message: 'unexpected "typ" JWT header value',
+      }),
     )
   }
   {
     const typ = 'text/plain'
-    const jwt = await new SignJWT(t.context.payload)
+    const jwt = await new SignJWT(context.payload)
       .setProtectedHeader({ alg: 'HS256', typ })
-      .sign(t.context.secret)
-
-    await t.notThrowsAsync(
-      jwtVerify(jwt, t.context.secret, {
+      .sign(context.secret)
+    await assert.doesNotReject(
+      jwtVerify(jwt, context.secret, {
         typ: 'text/plain',
       }),
     )
-
-    await t.throwsAsync(
-      jwtVerify(jwt, t.context.secret, {
+    await assert.rejects(
+      jwtVerify(jwt, context.secret, {
         typ: 'application/text/plain',
       }),
-      { code: 'ERR_JWT_CLAIM_VALIDATION_FAILED', message: 'unexpected "typ" JWT header value' },
+      errorLike({
+        code: 'ERR_JWT_CLAIM_VALIDATION_FAILED',
+        message: 'unexpected "typ" JWT header value',
+      }),
     )
   }
 })
 
-test('Issuer[] verification', async (t) => {
+test('Issuer[] verification', async () => {
   const issuer = 'urn:example:issuer'
-  const jwt = await new SignJWT(t.context.payload)
+  const jwt = await new SignJWT(context.payload)
     .setProtectedHeader({ alg: 'HS256' })
     .setIssuer(issuer)
-    .sign(t.context.secret)
-
-  await t.notThrowsAsync(
-    jwtVerify(jwt, t.context.secret, {
+    .sign(context.secret)
+  await assert.doesNotReject(
+    jwtVerify(jwt, context.secret, {
       issuer: [issuer],
     }),
   )
 })
 
-test('Issuer[] verification failed', async (t) => {
+test('Issuer[] verification failed', async () => {
   const issuer = 'urn:example:issuer'
-  const jwt = await new SignJWT(t.context.payload)
+  const jwt = await new SignJWT(context.payload)
     .setProtectedHeader({ alg: 'HS256' })
     .setIssuer(issuer)
-    .sign(t.context.secret)
-
-  await t.throwsAsync(
-    jwtVerify(jwt, t.context.secret, {
+    .sign(context.secret)
+  await assert.rejects(
+    jwtVerify(jwt, context.secret, {
       issuer: [],
     }),
-    { code: 'ERR_JWT_CLAIM_VALIDATION_FAILED', message: 'unexpected "iss" claim value' },
+    errorLike({ code: 'ERR_JWT_CLAIM_VALIDATION_FAILED', message: 'unexpected "iss" claim value' }),
   )
 })
 
-test('Issuer[] verification failed []', async (t) => {
+test('Issuer[] verification failed []', async () => {
   const issuer = 'urn:example:issuer'
-  const jwt = await new SignJWT({ ...t.context.payload, iss: [issuer] as never })
+  const jwt = await new SignJWT({ ...context.payload, iss: [issuer] as never })
     .setProtectedHeader({ alg: 'HS256' })
-    .sign(t.context.secret)
-
-  await t.throwsAsync(
-    jwtVerify(jwt, t.context.secret, {
+    .sign(context.secret)
+  await assert.rejects(
+    jwtVerify(jwt, context.secret, {
       issuer: [],
     }),
-    { code: 'ERR_JWT_CLAIM_VALIDATION_FAILED', message: 'unexpected "iss" claim value' },
+    errorLike({ code: 'ERR_JWT_CLAIM_VALIDATION_FAILED', message: 'unexpected "iss" claim value' }),
   )
 })
 
-test('Audience[] verification', async (t) => {
+test('Audience[] verification', async () => {
   const audience = 'urn:example:audience'
-  const jwt = await new SignJWT(t.context.payload)
+  const jwt = await new SignJWT(context.payload)
     .setProtectedHeader({ alg: 'HS256' })
     .setAudience(audience)
-    .sign(t.context.secret)
-
-  await t.notThrowsAsync(
-    jwtVerify(jwt, t.context.secret, {
+    .sign(context.secret)
+  await assert.doesNotReject(
+    jwtVerify(jwt, context.secret, {
       audience: [audience],
     }),
   )
 })
 
-test('Audience[] verification failed', async (t) => {
+test('Audience[] verification failed', async () => {
   const audience = 'urn:example:audience'
-  const jwt = await new SignJWT(t.context.payload)
+  const jwt = await new SignJWT(context.payload)
     .setProtectedHeader({ alg: 'HS256' })
     .setAudience(audience)
-    .sign(t.context.secret)
-
-  await t.throwsAsync(
-    jwtVerify(jwt, t.context.secret, {
+    .sign(context.secret)
+  await assert.rejects(
+    jwtVerify(jwt, context.secret, {
       audience: [],
     }),
-    { code: 'ERR_JWT_CLAIM_VALIDATION_FAILED', message: 'unexpected "aud" claim value' },
+    errorLike({ code: 'ERR_JWT_CLAIM_VALIDATION_FAILED', message: 'unexpected "aud" claim value' }),
   )
 })
 
-test('Audience[] verification failed []', async (t) => {
+test('Audience[] verification failed []', async () => {
   const audience = 'urn:example:audience'
-  const jwt = await new SignJWT(t.context.payload)
+  const jwt = await new SignJWT(context.payload)
     .setProtectedHeader({ alg: 'HS256' })
     .setAudience([audience])
-    .sign(t.context.secret)
-
-  await t.throwsAsync(
-    jwtVerify(jwt, t.context.secret, {
+    .sign(context.secret)
+  await assert.rejects(
+    jwtVerify(jwt, context.secret, {
       audience: [],
     }),
-    { code: 'ERR_JWT_CLAIM_VALIDATION_FAILED', message: 'unexpected "aud" claim value' },
+    errorLike({ code: 'ERR_JWT_CLAIM_VALIDATION_FAILED', message: 'unexpected "aud" claim value' }),
   )
 })
 
-test('Subject verification failed', async (t) => {
+test('Subject verification failed', async () => {
   const subject = 'urn:example:subject'
-  const jwt = await new SignJWT(t.context.payload)
+  const jwt = await new SignJWT(context.payload)
     .setProtectedHeader({ alg: 'HS256' })
     .setSubject(subject)
-    .sign(t.context.secret)
-
-  await t.throwsAsync(
-    jwtVerify(jwt, t.context.secret, {
+    .sign(context.secret)
+  await assert.rejects(
+    jwtVerify(jwt, context.secret, {
       subject: 'urn:example:subject:2',
     }),
-    { code: 'ERR_JWT_CLAIM_VALIDATION_FAILED', message: 'unexpected "sub" claim value' },
+    errorLike({ code: 'ERR_JWT_CLAIM_VALIDATION_FAILED', message: 'unexpected "sub" claim value' }),
   )
 })
 
-async function numericDateNumber(t, claim) {
+async function numericDateNumber(claim: string) {
   const jwt = await new SignJWT({ [claim]: null })
     .setProtectedHeader({ alg: 'HS256' })
-    .sign(t.context.secret)
-
-  await t.throwsAsync(jwtVerify(jwt, t.context.secret), {
-    code: 'ERR_JWT_CLAIM_VALIDATION_FAILED',
-    message: `"${claim}" claim must be a number`,
-  })
+    .sign(context.secret)
+  await assert.rejects(
+    jwtVerify(jwt, context.secret),
+    errorLike({
+      code: 'ERR_JWT_CLAIM_VALIDATION_FAILED',
+      message: `"${claim}" claim must be a number`,
+    }),
+  )
 }
-numericDateNumber.title = (t, claim) => `${claim} must be a number`
 
-test('clockTolerance num', async (t) => {
+test('clockTolerance num', async () => {
   const jwt = await new SignJWT({ exp: now })
     .setProtectedHeader({ alg: 'HS256' })
-    .sign(t.context.secret)
-
-  await t.notThrowsAsync(jwtVerify(jwt, t.context.secret, { clockTolerance: 1 }))
-  await t.notThrowsAsync(jwtVerify(jwt, t.context.secret, { clockTolerance: '1s' }))
+    .sign(context.secret)
+  await assert.doesNotReject(jwtVerify(jwt, context.secret, { clockTolerance: 1 }))
+  await assert.doesNotReject(jwtVerify(jwt, context.secret, { clockTolerance: '1s' }))
 })
 
-async function failingNumericDate(t, claims, assertion, verifyOptions) {
+async function failingNumericDate(
+  claims: Record<string, unknown>,
+  assertion: import('node:assert').AssertPredicate,
+  verifyOptions: import('../../src/index.js').JWTVerifyOptions = {},
+) {
   const jwt = await new SignJWT({ ...claims })
     .setProtectedHeader({ alg: 'HS256' })
-    .sign(t.context.secret)
-
-  await t.throwsAsync(jwtVerify(jwt, t.context.secret, { ...verifyOptions }), assertion)
+    .sign(context.secret)
+  await assert.rejects(jwtVerify(jwt, context.secret, { ...verifyOptions }), errorLike(assertion))
 }
 
-test(
-  'exp must be in the future',
-  failingNumericDate,
-  { exp: now },
-  {
-    code: 'ERR_JWT_EXPIRED',
-    message: '"exp" claim timestamp check failed',
-  },
-)
+test('exp must be in the future', () =>
+  failingNumericDate(
+    { exp: now },
+    {
+      code: 'ERR_JWT_EXPIRED',
+      message: '"exp" claim timestamp check failed',
+    },
+  ))
 
-test(
-  'nbf must be at least now',
-  failingNumericDate,
-  { nbf: now + 1 },
-  {
-    code: 'ERR_JWT_CLAIM_VALIDATION_FAILED',
-    message: '"nbf" claim timestamp check failed',
-  },
-)
+test('nbf must be at least now', () =>
+  failingNumericDate(
+    { nbf: now + 1 },
+    {
+      code: 'ERR_JWT_CLAIM_VALIDATION_FAILED',
+      message: '"nbf" claim timestamp check failed',
+    },
+  ))
 
-test(
-  'iat must be in the past (maxTokenAge, no exp)',
-  failingNumericDate,
-  { iat: now + 1 },
-  {
-    code: 'ERR_JWT_CLAIM_VALIDATION_FAILED',
-    message: '"iat" claim timestamp check failed (it should be in the past)',
-  },
-  {
-    maxTokenAge: 5,
-  },
-)
+test('iat must be in the past (maxTokenAge, no exp)', () =>
+  failingNumericDate(
+    { iat: now + 1 },
+    {
+      code: 'ERR_JWT_CLAIM_VALIDATION_FAILED',
+      message: '"iat" claim timestamp check failed (it should be in the past)',
+    },
+    {
+      maxTokenAge: 5,
+    },
+  ))
 
-test(
-  'iat must be in the past (maxTokenAge, with exp)',
-  failingNumericDate,
-  { iat: now + 1, exp: now + 10 },
-  {
-    code: 'ERR_JWT_CLAIM_VALIDATION_FAILED',
-    message: '"iat" claim timestamp check failed (it should be in the past)',
-  },
-  {
-    maxTokenAge: 5,
-  },
-)
+test('iat must be in the past (maxTokenAge, with exp)', () =>
+  failingNumericDate(
+    { iat: now + 1, exp: now + 10 },
+    {
+      code: 'ERR_JWT_CLAIM_VALIDATION_FAILED',
+      message: '"iat" claim timestamp check failed (it should be in the past)',
+    },
+    {
+      maxTokenAge: 5,
+    },
+  ))
 
-test(
-  'iat must be in the past (maxTokenAge, with exp, as a string)',
-  failingNumericDate,
-  { iat: now + 1, exp: now + 10 },
-  {
-    code: 'ERR_JWT_CLAIM_VALIDATION_FAILED',
-    message: '"iat" claim timestamp check failed (it should be in the past)',
-  },
-  {
-    maxTokenAge: '5s',
-  },
-)
+test('iat must be in the past (maxTokenAge, with exp, as a string)', () =>
+  failingNumericDate(
+    { iat: now + 1, exp: now + 10 },
+    {
+      code: 'ERR_JWT_CLAIM_VALIDATION_FAILED',
+      message: '"iat" claim timestamp check failed (it should be in the past)',
+    },
+    {
+      maxTokenAge: '5s',
+    },
+  ))
 
-test(
-  'maxTokenAge option',
-  failingNumericDate,
-  { iat: now - 31 },
-  {
-    code: 'ERR_JWT_EXPIRED',
-    message: '"iat" claim timestamp check failed (too far in the past)',
-  },
-  {
-    maxTokenAge: '30s',
-  },
-)
+test('maxTokenAge option', () =>
+  failingNumericDate(
+    { iat: now - 31 },
+    {
+      code: 'ERR_JWT_EXPIRED',
+      message: '"iat" claim timestamp check failed (too far in the past)',
+    },
+    {
+      maxTokenAge: '30s',
+    },
+  ))
 
 for (const claim of ['iat', 'nbf', 'exp']) {
-  test(numericDateNumber, claim)
+  test(`${claim} must be a number`, () => numericDateNumber(claim))
 }
 
-test('Signed JWTs cannot use unencoded payload', async (t) => {
+test('Signed JWTs cannot use unencoded payload', async () => {
   const jwt =
     'eyJhbGciOiJIUzI1NiIsImI2NCI6ZmFsc2UsImNyaXQiOlsiYjY0Il19.foo.VklKdp4tVYD61VNPDBTqxqdEQcUL3JK-D4dGXu9NvWs'
-
-  await t.throwsAsync(jwtVerify(jwt, t.context.secret), {
-    code: 'ERR_JWT_INVALID',
-    message: 'JWTs MUST NOT use unencoded payload',
-  })
-
+  await assert.rejects(
+    jwtVerify(jwt, context.secret),
+    errorLike({
+      code: 'ERR_JWT_INVALID',
+      message: 'JWTs MUST NOT use unencoded payload',
+    }),
+  )
   const [protectedHeader, payload] = jwt.split('.')
-  await t.throwsAsync(jwtVerify(`${protectedHeader}.${payload}.AA`, t.context.secret), {
-    code: 'ERR_JWS_SIGNATURE_VERIFICATION_FAILED',
-  })
+  await assert.rejects(
+    jwtVerify(`${protectedHeader}.${payload}.AA`, context.secret),
+    errorLike({
+      code: 'ERR_JWS_SIGNATURE_VERIFICATION_FAILED',
+    }),
+  )
 })
 
-test('JWT verification ignores b64 false without crit', async (t) => {
+test('JWT verification ignores b64 false without crit', async () => {
   const jwt = await new CompactSign(new TextEncoder().encode('{}'))
     .setProtectedHeader({ alg: 'HS256', b64: false })
-    .sign(t.context.secret)
-  const { payload, protectedHeader } = await jwtVerify(jwt, t.context.secret)
-
-  t.deepEqual(payload, {})
-  t.false(protectedHeader.b64)
+    .sign(context.secret)
+  const { payload, protectedHeader } = await jwtVerify(jwt, context.secret)
+  assert.deepEqual(payload, {})
+  assert.equal(protectedHeader.b64, false)
 })
 
-test('signatures are compared before claim set', async (t) => {
+test('signatures are compared before claim set', async () => {
   // https://github.com/panva/jose/discussions/447
   const jwt = await new SignJWT({ exp: 0 })
     .setProtectedHeader({ alg: 'HS256' })
-    .sign(t.context.secret)
-
+    .sign(context.secret)
   // with valid secret should throw exp failing to verify
-  await t.throwsAsync(jwtVerify(jwt, t.context.secret), { code: 'ERR_JWT_EXPIRED' })
-
+  await assert.rejects(jwtVerify(jwt, context.secret), errorLike({ code: 'ERR_JWT_EXPIRED' }))
   // with invalid secret should throw signature failing to verify
-  await t.throwsAsync(jwtVerify(jwt, new Uint8Array([0x00, 0x01])), {
-    code: 'ERR_JWS_SIGNATURE_VERIFICATION_FAILED',
-  })
+  await assert.rejects(
+    jwtVerify(jwt, new Uint8Array([0x00, 0x01])),
+    errorLike({
+      code: 'ERR_JWS_SIGNATURE_VERIFICATION_FAILED',
+    }),
+  )
 })
 
-test('requiredClaims claims check', async (t) => {
+test('requiredClaims claims check', async () => {
   const jwt = await new SignJWT({
-    ...t.context.payload,
+    ...context.payload,
   })
     .setProtectedHeader({ alg: 'HS256' })
-    .sign(t.context.secret)
-
+    .sign(context.secret)
   const requiredClaims = ['nbf']
-
   for (const [claim, option] of [
     ['iss', 'issuer'],
     ['aud', 'audience'],
     ['iat', 'maxTokenAge'],
     ['sub', 'subject'],
   ]) {
-    await t.throwsAsync(jwtVerify(jwt, t.context.secret, { [option]: 'foo' }), {
-      code: 'ERR_JWT_CLAIM_VALIDATION_FAILED',
-      message: `missing required "${claim}" claim`,
-    })
-    await t.throwsAsync(jwtVerify(jwt, t.context.secret, { [option]: 'foo', requiredClaims }), {
-      code: 'ERR_JWT_CLAIM_VALIDATION_FAILED',
-      message: `missing required "${claim}" claim`,
-    })
+    await assert.rejects(
+      jwtVerify(jwt, context.secret, { [option]: 'foo' }),
+      errorLike({
+        code: 'ERR_JWT_CLAIM_VALIDATION_FAILED',
+        message: `missing required "${claim}" claim`,
+      }),
+    )
+    await assert.rejects(
+      jwtVerify(jwt, context.secret, { [option]: 'foo', requiredClaims }),
+      errorLike({
+        code: 'ERR_JWT_CLAIM_VALIDATION_FAILED',
+        message: `missing required "${claim}" claim`,
+      }),
+    )
   }
-  await t.throwsAsync(jwtVerify(jwt, t.context.secret, { requiredClaims }), {
-    code: 'ERR_JWT_CLAIM_VALIDATION_FAILED',
-    message: `missing required "nbf" claim`,
-  })
-
+  await assert.rejects(
+    jwtVerify(jwt, context.secret, { requiredClaims }),
+    errorLike({
+      code: 'ERR_JWT_CLAIM_VALIDATION_FAILED',
+      message: `missing required "nbf" claim`,
+    }),
+  )
   for (const claim of ['constructor', 'toString', '__proto__']) {
-    await t.throwsAsync(jwtVerify(jwt, t.context.secret, { requiredClaims: [claim] }), {
-      code: 'ERR_JWT_CLAIM_VALIDATION_FAILED',
-      message: `missing required "${claim}" claim`,
-    })
+    await assert.rejects(
+      jwtVerify(jwt, context.secret, { requiredClaims: [claim] }),
+      errorLike({
+        code: 'ERR_JWT_CLAIM_VALIDATION_FAILED',
+        message: `missing required "${claim}" claim`,
+      }),
+    )
   }
-
-  t.deepEqual(requiredClaims, ['nbf'])
+  assert.deepEqual(requiredClaims, ['nbf'])
 })
 
-test('empty string validation options compare the claim value', async (t) => {
+test('empty string validation options compare the claim value', async () => {
   const jwt = await new SignJWT({ iss: 'urn:example:issuer', sub: 'urn:example:subject' })
     .setProtectedHeader({ alg: 'HS256' })
     .setAudience('urn:example:audience')
-    .sign(t.context.secret)
-
+    .sign(context.secret)
   for (const [claim, option] of [
     ['iss', 'issuer'],
     ['sub', 'subject'],
     ['aud', 'audience'],
   ]) {
-    await t.throwsAsync(jwtVerify(jwt, t.context.secret, { [option]: '' }), {
-      code: 'ERR_JWT_CLAIM_VALIDATION_FAILED',
-      message: `unexpected "${claim}" claim value`,
-    })
+    await assert.rejects(
+      jwtVerify(jwt, context.secret, { [option]: '' }),
+      errorLike({
+        code: 'ERR_JWT_CLAIM_VALIDATION_FAILED',
+        message: `unexpected "${claim}" claim value`,
+      }),
+    )
   }
 })
 
-test('maxTokenAge of 0 is enforced', async (t) => {
-  const jwt = await new SignJWT(t.context.payload)
+test('maxTokenAge of 0 is enforced', async () => {
+  const jwt = await new SignJWT(context.payload)
     .setProtectedHeader({ alg: 'HS256' })
     .setIssuedAt(now - 30)
-    .sign(t.context.secret)
-
-  await t.throwsAsync(jwtVerify(jwt, t.context.secret, { maxTokenAge: 0 }), {
-    code: 'ERR_JWT_EXPIRED',
-    message: '"iat" claim timestamp check failed (too far in the past)',
-  })
-  await t.throwsAsync(jwtVerify(jwt, t.context.secret, { maxTokenAge: '0 seconds' }), {
-    code: 'ERR_JWT_EXPIRED',
-  })
-
-  const fresh = await new SignJWT(t.context.payload)
+    .sign(context.secret)
+  await assert.rejects(
+    jwtVerify(jwt, context.secret, { maxTokenAge: 0 }),
+    errorLike({
+      code: 'ERR_JWT_EXPIRED',
+      message: '"iat" claim timestamp check failed (too far in the past)',
+    }),
+  )
+  await assert.rejects(
+    jwtVerify(jwt, context.secret, { maxTokenAge: '0 seconds' }),
+    errorLike({
+      code: 'ERR_JWT_EXPIRED',
+    }),
+  )
+  const fresh = await new SignJWT(context.payload)
     .setProtectedHeader({ alg: 'HS256' })
     .setIssuedAt(now)
-    .sign(t.context.secret)
-  await t.notThrowsAsync(jwtVerify(fresh, t.context.secret, { maxTokenAge: 0 }))
+    .sign(context.secret)
+  await assert.doesNotReject(jwtVerify(fresh, context.secret, { maxTokenAge: 0 }))
 })
 
-test('time validation options must be finite', async (t) => {
-  const jwt = await new SignJWT(t.context.payload)
+test('time validation options must be finite', async () => {
+  const jwt = await new SignJWT(context.payload)
     .setProtectedHeader({ alg: 'HS256' })
     .setExpirationTime(now - 30)
-    .sign(t.context.secret)
-
+    .sign(context.secret)
   for (const clockTolerance of [NaN, Infinity, -Infinity, -1, '-1s', '1s ago']) {
-    await t.throwsAsync(jwtVerify(jwt, t.context.secret, { clockTolerance }), {
-      instanceOf: TypeError,
-      message: 'Invalid clockTolerance option input',
+    await assert.rejects(jwtVerify(jwt, context.secret, { clockTolerance }), (error) => {
+      assert.ok(error instanceof TypeError)
+      assert.equal(error.message, 'Invalid clockTolerance option input')
+      return true
     })
   }
-
-  await t.throwsAsync(jwtVerify(jwt, t.context.secret, { currentDate: new Date('nope') }), {
-    instanceOf: TypeError,
-    message: 'Invalid currentDate option input',
-  })
-
-  const issued = await new SignJWT(t.context.payload)
+  await assert.rejects(
+    jwtVerify(jwt, context.secret, { currentDate: new Date('nope') }),
+    (error) => {
+      assert.ok(error instanceof TypeError)
+      assert.equal(error.message, 'Invalid currentDate option input')
+      return true
+    },
+  )
+  const issued = await new SignJWT(context.payload)
     .setProtectedHeader({ alg: 'HS256' })
     .setIssuedAt(now)
-    .sign(t.context.secret)
+    .sign(context.secret)
   for (const maxTokenAge of [NaN, Infinity, -Infinity]) {
-    await t.throwsAsync(jwtVerify(issued, t.context.secret, { maxTokenAge }), {
-      instanceOf: TypeError,
-      message: 'Invalid maxTokenAge option input',
+    await assert.rejects(jwtVerify(issued, context.secret, { maxTokenAge }), (error) => {
+      assert.ok(error instanceof TypeError)
+      assert.equal(error.message, 'Invalid maxTokenAge option input')
+      return true
     })
   }
-
   // The token is genuinely expired, so a valid tolerance still rejects it.
-  await t.throwsAsync(jwtVerify(jwt, t.context.secret, { clockTolerance: 0 }), {
-    code: 'ERR_JWT_EXPIRED',
-  })
-})
-
-test('currentDate must not silently default invalid falsy values', async (t) => {
-  const jwt = await new SignJWT(t.context.payload)
-    .setProtectedHeader({ alg: 'HS256' })
-    .setExpirationTime(now + 30)
-    .sign(t.context.secret)
-
-  for (const currentDate of [null, 0, false, '']) {
-    await t.throwsAsync(jwtVerify(jwt, t.context.secret, { currentDate: currentDate as never }), {
-      instanceOf: TypeError,
-    })
-  }
-})
-
-test('maxTokenAge must not coerce arbitrary values to duration strings', async (t) => {
-  const jwt = await new SignJWT(t.context.payload)
-    .setProtectedHeader({ alg: 'HS256' })
-    .setIssuedAt()
-    .sign(t.context.secret)
-
-  await t.throwsAsync(
-    jwtVerify(jwt, t.context.secret, {
-      maxTokenAge: { toString: () => '1 hour' } as never,
+  await assert.rejects(
+    jwtVerify(jwt, context.secret, { clockTolerance: 0 }),
+    errorLike({
+      code: 'ERR_JWT_EXPIRED',
     }),
-    { instanceOf: TypeError, message: 'Invalid time period format' },
   )
 })
 
-test('invalid UTF-8 in the Claims Set is rejected', async (t) => {
+test('currentDate must not silently default invalid falsy values', async () => {
+  const jwt = await new SignJWT(context.payload)
+    .setProtectedHeader({ alg: 'HS256' })
+    .setExpirationTime(now + 30)
+    .sign(context.secret)
+  for (const currentDate of [null, 0, false, '']) {
+    await assert.rejects(
+      jwtVerify(jwt, context.secret, { currentDate: currentDate as never }),
+      TypeError,
+    )
+  }
+})
+
+test('maxTokenAge must not coerce arbitrary values to duration strings', async () => {
+  const jwt = await new SignJWT(context.payload)
+    .setProtectedHeader({ alg: 'HS256' })
+    .setIssuedAt()
+    .sign(context.secret)
+  await assert.rejects(
+    jwtVerify(jwt, context.secret, {
+      maxTokenAge: { toString: () => '1 hour' } as never,
+    }),
+    (error) => {
+      assert.ok(error instanceof TypeError)
+      assert.equal(error.message, 'Invalid time period format')
+      return true
+    },
+  )
+})
+
+test('invalid UTF-8 in the Claims Set is rejected', async () => {
   // RFC 7519 Section 7.2 step 10 requires verifying the octets are a UTF-8 encoding.
   // C0 AF is an overlong encoding of "/".
   const header = base64url.encode(JSON.stringify({ alg: 'HS256' }))
@@ -605,14 +639,13 @@ test('invalid UTF-8 in the Claims Set is rejected', async (t) => {
     ...new TextEncoder().encode('b"}'),
   ])
   const payload = base64url.encode(claims)
-
   const signature = base64url.encode(
     new Uint8Array(
       await crypto.subtle.sign(
         'HMAC',
         await crypto.subtle.importKey(
           'raw',
-          t.context.secret,
+          context.secret,
           { name: 'HMAC', hash: 'SHA-256' },
           false,
           ['sign'],
@@ -621,8 +654,10 @@ test('invalid UTF-8 in the Claims Set is rejected', async (t) => {
       ),
     ),
   )
-
-  await t.throwsAsync(jwtVerify(`${header}.${payload}.${signature}`, t.context.secret), {
-    code: 'ERR_JWT_INVALID',
-  })
+  await assert.rejects(
+    jwtVerify(`${header}.${payload}.${signature}`, context.secret),
+    errorLike({
+      code: 'ERR_JWT_INVALID',
+    }),
+  )
 })

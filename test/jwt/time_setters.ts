@@ -1,5 +1,18 @@
-export function setters(now) {
-  const timeSetters = [
+export type SetterMethod =
+  | 'setIssuer'
+  | 'setSubject'
+  | 'setAudience'
+  | 'setJti'
+  | 'setIssuedAt'
+  | 'setExpirationTime'
+  | 'setNotBefore'
+
+export type SetterValue = string | number | Date | undefined
+
+type Vector = [input: SetterValue, expected?: SetterValue]
+
+export function setters(now: number): [method: SetterMethod, claim: string, vectors: Vector[]][] {
+  const timeSetters: Vector[] = [
     [0],
     [new Date(now * 1000), now],
     ['10s', now + 10],

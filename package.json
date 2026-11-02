@@ -153,7 +153,7 @@
     "docs": "node ./tools/docs.cjs",
     "docs:generate": "typedoc",
     "types:find": "find dist/types -name '*.d.ts' -type f -print0",
-    "test": "bash -c 'source .node_flags.sh && ava'",
+    "test": "bash -c 'source .node_flags.sh && node tools/test.js \"$@\"' --",
     "format": "prettier --log-level silent --write ./test ./tap ./test-d ./src ./tools ./cookbook ./tsconfig",
     "tap:browsers": "./tap/.browsers.sh",
     "tap:bun": "./tap/.bun.sh",
@@ -172,9 +172,9 @@
   "devDependencies": {
     "@arethetypeswrong/cli": "0.18.5",
     "@playwright/test": "^1.64.1",
-    "@types/node": "^24.19.2",
+    "@types/node": "^26.6.6",
     "@types/qunit": "^2.19.14",
-    "ava": "^7.0.0",
+    "@typescript/native": "npm:typescript@^7.0.2",
     "esbuild": "^0.28.2",
     "fast-check": "^4.10.2",
     "hpke": "^1.1.7",
@@ -190,7 +190,7 @@
     "typedoc": "^0.28.20",
     "typedoc-plugin-markdown": "^4.14.1",
     "typedoc-plugin-mdn-links": "^5.1.1",
-    "typescript": "^6.0.3",
-    "undici": "^7.30.1"
+    "typescript": "npm:@typescript/typescript6@6.0.2",
+    "undici": "^8.12.3"
   }
 }

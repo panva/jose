@@ -1,4 +1,6 @@
-import test from 'ava'
+import test, { before } from 'node:test'
+import assert from 'node:assert/strict'
+import { captureRejection, errorLike } from '../_errors.js'
 import * as crypto from 'node:crypto'
 
 import {
@@ -12,35 +14,42 @@ import {
 const rsa = crypto.generateKeyPairSync('rsa', { modulusLength: 2048 })
 const keyObjectTest = typeof rsa.publicKey.toCryptoKey === 'function' ? test : test.skip
 
-test.before(async (t) => {
+const context = {} as {
+  plaintext: Uint8Array<ArrayBuffer>
+  initializationVector: Uint8Array<ArrayBuffer>
+  secret: Uint8Array<ArrayBuffer>
+}
+
+before(async () => {
   const encode = TextEncoder.prototype.encode.bind(new TextEncoder())
-  t.context.plaintext = encode('It’s a dangerous business, Frodo, going out your door.')
-  t.context.initializationVector = new Uint8Array(12)
-  t.context.secret = new Uint8Array(16)
+  context.plaintext = encode('It’s a dangerous business, Frodo, going out your door.')
+  context.initializationVector = new Uint8Array(12)
+  context.secret = new Uint8Array(16)
 })
 
-test('CompactEncrypt constructor validates plaintext', (t) => {
-  t.throws(() => new CompactEncrypt(null as never), {
-    instanceOf: TypeError,
-    message: 'plaintext must be an instance of Uint8Array',
-  })
+test('CompactEncrypt constructor validates plaintext', () => {
+  assert.throws(
+    () => new CompactEncrypt(null as never),
+    (error) =>
+      error instanceof TypeError && error.message === 'plaintext must be an instance of Uint8Array',
+  )
 })
 
-test('CompactEncrypt', async (t) => {
-  const jwe = await new CompactEncrypt(t.context.plaintext)
-    .setInitializationVector(t.context.initializationVector)
+test('CompactEncrypt', async () => {
+  const jwe = await new CompactEncrypt(context.plaintext)
+    .setInitializationVector(context.initializationVector)
     .setProtectedHeader({ alg: 'dir', enc: 'A128GCM' })
-    .encrypt(t.context.secret)
-  t.deepEqual(
+    .encrypt(context.secret)
+  assert.deepStrictEqual(
     jwe,
     'eyJhbGciOiJkaXIiLCJlbmMiOiJBMTI4R0NNIn0..AAAAAAAAAAAAAAAA.Svw4TvnFg_PTTKPXFteMF4Lmisk8ODBNko7607TNs49EbT0BKRz9tEep2dmks9KPvD-CfX7hW1M.Y5cdeOSFYNyxcPWQlrVFzw',
   )
 })
 
-test('JWE builders snapshot headers and critical extension options per operation', async (t) => {
+test('JWE builders snapshot headers and critical extension options per operation', async () => {
   for (const builder of [
-    new CompactEncrypt(t.context.plaintext),
-    new FlattenedEncrypt(t.context.plaintext),
+    new CompactEncrypt(context.plaintext),
+    new FlattenedEncrypt(context.plaintext),
     new EncryptJWT(),
   ]) {
     const protectedHeader = {
@@ -50,75 +59,76 @@ test('JWE builders snapshot headers and critical extension options per operation
       test: 'first',
     }
     builder.setProtectedHeader(protectedHeader)
-    const first = builder.encrypt(t.context.secret, { crit: { test: true } })
+    const first = builder.encrypt(context.secret, { crit: { test: true } })
     protectedHeader.test = 'second'
-    const second = builder.encrypt(t.context.secret, { crit: { test: true } })
+    const second = builder.encrypt(context.secret, { crit: { test: true } })
 
     const headers = (await Promise.all([first, second])).map(decodeProtectedHeader)
-    t.is(headers[0].test, 'first')
-    t.is(headers[1].test, 'second')
-    await t.throwsAsync(builder.encrypt(t.context.secret), { code: 'ERR_JOSE_NOT_SUPPORTED' })
+    assert.strictEqual(headers[0].test, 'first')
+    assert.strictEqual(headers[1].test, 'second')
+    await assert.rejects(
+      builder.encrypt(context.secret),
+      errorLike({ code: 'ERR_JOSE_NOT_SUPPORTED' }),
+    )
   }
 })
 
-test('CompactEncrypt.prototype.setProtectedHeader', (t) => {
-  t.throws(
-    () => new CompactEncrypt(t.context.plaintext).setProtectedHeader({}).setProtectedHeader({}),
-    {
-      instanceOf: TypeError,
-      message: 'setProtectedHeader can only be called once',
-    },
+test('CompactEncrypt.prototype.setProtectedHeader', () => {
+  assert.throws(
+    () => new CompactEncrypt(context.plaintext).setProtectedHeader({}).setProtectedHeader({}),
+    (error) =>
+      error instanceof TypeError && error.message === 'setProtectedHeader can only be called once',
   )
 })
 
-test('CompactEncrypt.prototype.setKeyManagementParameters', (t) => {
-  t.throws(
+test('CompactEncrypt.prototype.setKeyManagementParameters', () => {
+  assert.throws(
     () =>
-      new CompactEncrypt(t.context.plaintext)
+      new CompactEncrypt(context.plaintext)
         .setKeyManagementParameters({})
         .setKeyManagementParameters({}),
-    {
-      instanceOf: TypeError,
-      message: 'setKeyManagementParameters can only be called once',
-    },
+    (error) =>
+      error instanceof TypeError &&
+      error.message === 'setKeyManagementParameters can only be called once',
   )
 })
 
-test('CompactEncrypt.prototype.setInitializationVector', (t) => {
-  t.throws(
+test('CompactEncrypt.prototype.setInitializationVector', () => {
+  assert.throws(
     () =>
-      new CompactEncrypt(t.context.plaintext)
-        .setInitializationVector(t.context.initializationVector)
-        .setInitializationVector(t.context.initializationVector),
-    {
-      instanceOf: TypeError,
-      message: 'setInitializationVector can only be called once',
-    },
+      new CompactEncrypt(context.plaintext)
+        .setInitializationVector(context.initializationVector)
+        .setInitializationVector(context.initializationVector),
+    (error) =>
+      error instanceof TypeError &&
+      error.message === 'setInitializationVector can only be called once',
   )
 })
 
-test('CompactEncrypt.prototype.setContentEncryptionKey', (t) => {
-  t.throws(
+test('CompactEncrypt.prototype.setContentEncryptionKey', () => {
+  assert.throws(
     () =>
-      new CompactEncrypt(t.context.plaintext)
-        .setContentEncryptionKey(t.context.secret)
-        .setContentEncryptionKey(t.context.secret),
-    {
-      instanceOf: TypeError,
-      message: 'setContentEncryptionKey can only be called once',
-    },
+      new CompactEncrypt(context.plaintext)
+        .setContentEncryptionKey(context.secret)
+        .setContentEncryptionKey(context.secret),
+    (error) =>
+      error instanceof TypeError &&
+      error.message === 'setContentEncryptionKey can only be called once',
   )
 })
 
-test('CompactEncrypt.prototype.encrypt must have a JOSE header', async (t) => {
-  await t.throwsAsync(new CompactEncrypt(t.context.plaintext).encrypt(t.context.secret), {
-    code: 'ERR_JWE_INVALID',
-    message:
-      'either setProtectedHeader, setUnprotectedHeader, or sharedUnprotectedHeader must be called before #encrypt()',
-  })
+test('CompactEncrypt.prototype.encrypt must have a JOSE header', async () => {
+  await assert.rejects(
+    new CompactEncrypt(context.plaintext).encrypt(context.secret),
+    errorLike({
+      code: 'ERR_JWE_INVALID',
+      message:
+        'either setProtectedHeader, setUnprotectedHeader, or sharedUnprotectedHeader must be called before #encrypt()',
+    }),
+  )
 })
 
-test('CompactEncrypt.prototype.encrypt validates the JOSE header before options', async (t) => {
+test('CompactEncrypt.prototype.encrypt validates the JOSE header before options', async () => {
   let reads = 0
   const options = {
     get crit() {
@@ -127,60 +137,63 @@ test('CompactEncrypt.prototype.encrypt validates the JOSE header before options'
     },
   }
 
-  await t.throwsAsync(new CompactEncrypt(t.context.plaintext).encrypt(t.context.secret, options), {
-    code: 'ERR_JWE_INVALID',
-    message:
-      'either setProtectedHeader, setUnprotectedHeader, or sharedUnprotectedHeader must be called before #encrypt()',
-  })
-  t.is(reads, 0)
+  await assert.rejects(
+    new CompactEncrypt(context.plaintext).encrypt(context.secret, options),
+    errorLike({
+      code: 'ERR_JWE_INVALID',
+      message:
+        'either setProtectedHeader, setUnprotectedHeader, or sharedUnprotectedHeader must be called before #encrypt()',
+    }),
+  )
+  assert.strictEqual(reads, 0)
 })
 
-test('CompactEncrypt.prototype.encrypt JOSE header have an alg', async (t) => {
-  await t.throwsAsync(
-    new CompactEncrypt(t.context.plaintext)
+test('CompactEncrypt.prototype.encrypt JOSE header have an alg', async () => {
+  await assert.rejects(
+    new CompactEncrypt(context.plaintext)
       .setProtectedHeader({ enc: 'A128GCM' })
-      .encrypt(t.context.secret),
-    {
+      .encrypt(context.secret),
+    errorLike({
       code: 'ERR_JWE_INVALID',
       message: 'JWE "alg" (Algorithm) Header Parameter missing or invalid',
-    },
+    }),
   )
 })
 
-test('CompactEncrypt.prototype.encrypt JOSE header have an enc', async (t) => {
-  await t.throwsAsync(
-    new CompactEncrypt(t.context.plaintext)
+test('CompactEncrypt.prototype.encrypt JOSE header have an enc', async () => {
+  await assert.rejects(
+    new CompactEncrypt(context.plaintext)
       .setProtectedHeader({ alg: 'dir' })
-      .encrypt(t.context.secret),
-    {
+      .encrypt(context.secret),
+    errorLike({
       code: 'ERR_JWE_INVALID',
       message: 'JWE "enc" (Encryption Algorithm) Header Parameter missing or invalid',
-    },
+    }),
   )
 })
 
-keyObjectTest('ECDH-ES validates KeyObject compatibility', async (t) => {
-  await t.throwsAsync(
-    new CompactEncrypt(t.context.plaintext)
+keyObjectTest('ECDH-ES validates KeyObject compatibility', async () => {
+  await assert.rejects(
+    new CompactEncrypt(context.plaintext)
       .setProtectedHeader({ alg: 'ECDH-ES', enc: 'A128GCM' })
       .encrypt(rsa.publicKey),
-    {
-      instanceOf: TypeError,
-      code: 'ERR_MISSING_OPTION',
-      message: /'namedCurve' is required/,
-    },
+    (error) =>
+      error instanceof TypeError &&
+      'code' in error &&
+      error.code === 'ERR_MISSING_OPTION' &&
+      /'namedCurve' is required/.test(error.message),
   )
 
   const x25519 = crypto.generateKeyPairSync('x25519')
-  const jwe = await new CompactEncrypt(t.context.plaintext)
+  const jwe = await new CompactEncrypt(context.plaintext)
     .setProtectedHeader({ alg: 'ECDH-ES', enc: 'A128GCM' })
     .encrypt(x25519.publicKey)
   const { plaintext } = await compactDecrypt(jwe, x25519.privateKey)
 
-  t.deepEqual(plaintext, t.context.plaintext)
+  assert.deepStrictEqual(plaintext, context.plaintext)
 })
 
-keyObjectTest('KeyObject conversion errors do not trigger a JWK fallback', async (t) => {
+keyObjectTest('KeyObject conversion errors do not trigger a JWK fallback', async () => {
   const sentinel = new RangeError('sentinel')
   const { publicKey } = crypto.generateKeyPairSync('x25519')
   Object.defineProperty(publicKey, 'toCryptoKey', {
@@ -189,11 +202,11 @@ keyObjectTest('KeyObject conversion errors do not trigger a JWK fallback', async
     },
   })
 
-  const error = await t.throwsAsync(
-    new CompactEncrypt(t.context.plaintext)
+  const error = await captureRejection(
+    new CompactEncrypt(context.plaintext)
       .setProtectedHeader({ alg: 'ECDH-ES', enc: 'A128GCM' })
       .encrypt(publicKey),
   )
 
-  t.is(error, sentinel)
+  assert.strictEqual(error, sentinel)
 })

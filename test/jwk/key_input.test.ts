@@ -1,4 +1,5 @@
-import test from 'ava'
+import assert from 'node:assert/strict'
+import test from 'node:test'
 import { createSecretKey, generateKeyPairSync } from 'node:crypto'
 
 import {
@@ -14,7 +15,7 @@ import {
 
 const payload = new TextEncoder().encode('You step into the Road, and if you do not keep your feet')
 
-test.serial('JWK inputs are frozen before import and cached afterward', async (t) => {
+test('JWK inputs are frozen before import and cached afterward', async () => {
   const { privateKey, publicKey } = await generateKeyPair('ES256', { extractable: true })
   const jwk = await exportJWK(privateKey)
   jwk.key_ops = ['sign']
@@ -44,19 +45,19 @@ test.serial('JWK inputs are frozen before import and cached afterward', async (t
     // The cache key must become immutable before the import promise can yield.
     firstPending = new CompactSign(payload).setProtectedHeader({ alg: 'ES256' }).sign(jwk)
 
-    t.is(imports, 1)
-    t.true(Object.isFrozen(jwk))
-    t.true(Object.isFrozen(jwk.key_ops))
-    t.throws(() => Object.assign(jwk, { kid: 'changed' }), { instanceOf: TypeError })
-    t.throws(() => jwk.key_ops!.push('verify'), { instanceOf: TypeError })
+    assert.strictEqual(imports, 1)
+    assert.strictEqual(Object.isFrozen(jwk), true)
+    assert.strictEqual(Object.isFrozen(jwk.key_ops), true)
+    assert.throws(() => Object.assign(jwk, { kid: 'changed' }), TypeError)
+    assert.throws(() => jwk.key_ops!.push('verify'), TypeError)
 
     release()
     const first = await firstPending
     const second = await new CompactSign(payload).setProtectedHeader({ alg: 'ES256' }).sign(jwk)
 
-    t.is(imports, 1)
-    await t.notThrowsAsync(compactVerify(first, publicKey))
-    await t.notThrowsAsync(compactVerify(second, publicKey))
+    assert.strictEqual(imports, 1)
+    await assert.doesNotReject(compactVerify(first, publicKey))
+    await assert.doesNotReject(compactVerify(second, publicKey))
   } finally {
     release()
     await firstPending?.catch(() => {})
@@ -68,23 +69,23 @@ test.serial('JWK inputs are frozen before import and cached afterward', async (t
   }
 })
 
-test('direct oct JWK key_ops must be an array of unique strings', async (t) => {
+test('direct oct JWK key_ops must be an array of unique strings', async () => {
   const key = {
     k: 'AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA',
     kty: 'oct' as const,
   }
 
   for (const key_ops of [null, {}, 0, 'sign', ['sign', 'sign'], ['sign', 0]]) {
-    await t.throwsAsync(
+    await assert.rejects(
       new CompactSign(payload)
         .setProtectedHeader({ alg: 'HS256' })
         .sign({ ...key, key_ops } as never),
-      { instanceOf: TypeError },
+      TypeError,
     )
   }
 })
 
-test('direct JWK inputs use one normalized snapshot', async (t) => {
+test('direct JWK inputs use one normalized snapshot', async () => {
   const first = 'AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA'
   const second = 'AQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQE'
   let keyReads = 0
@@ -101,12 +102,12 @@ test('direct JWK inputs use one normalized snapshot', async (t) => {
 
   const signature = await new CompactSign(payload).setProtectedHeader({ alg: 'HS256' }).sign(jwk)
 
-  t.is(keyReads, 1)
-  t.is(keyOpsReads, 1)
-  await t.notThrowsAsync(compactVerify(signature, await importJWK({ k: first, kty: 'oct' })))
+  assert.strictEqual(keyReads, 1)
+  assert.strictEqual(keyOpsReads, 1)
+  await assert.doesNotReject(compactVerify(signature, await importJWK({ k: first, kty: 'oct' })))
 })
 
-test.serial('cached asymmetric data JWKs reuse their imported key', async (t) => {
+test('cached asymmetric data JWKs reuse their imported key', async () => {
   const { privateKey, publicKey } = await generateKeyPair('ES256', { extractable: true })
   const jwk = await exportJWK(publicKey)
   const signature = await new CompactSign(payload)
@@ -126,10 +127,10 @@ test.serial('cached asymmetric data JWKs reuse their imported key', async (t) =>
   })
 
   try {
-    await t.notThrowsAsync(compactVerify(signature, jwk))
-    await t.notThrowsAsync(compactVerify(signature, jwk))
-    t.is(imports, 1)
-    t.true(Object.isFrozen(jwk))
+    await assert.doesNotReject(compactVerify(signature, jwk))
+    await assert.doesNotReject(compactVerify(signature, jwk))
+    assert.strictEqual(imports, 1)
+    assert.strictEqual(Object.isFrozen(jwk), true)
   } finally {
     if (descriptor) {
       Object.defineProperty(subtle, 'importKey', descriptor)
@@ -139,70 +140,100 @@ test.serial('cached asymmetric data JWKs reuse their imported key', async (t) =>
   }
 })
 
-test('signing rejects unsupported key inputs', async (t) => {
+test('signing rejects unsupported key inputs', async () => {
   for (const key of [undefined, null, 1, 0, true, Boolean, [], '', 'foo', {}]) {
-    await t.throwsAsync(
+    await assert.rejects(
       new CompactSign(payload).setProtectedHeader({ alg: 'HS256' }).sign(key as never),
-      {
-        instanceOf: TypeError,
-        message:
+      (error) => {
+        assert.ok(error instanceof TypeError)
+        assert.match(
+          error.message,
           /^Key for the HS256 algorithm must be one of type CryptoKey, KeyObject, JSON Web Key, or Uint8Array\./,
+        )
+        return true
       },
     )
   }
-  await t.throwsAsync(
+  await assert.rejects(
     new CompactSign(payload).setProtectedHeader({ alg: 'PS256' }).sign(new Uint8Array()),
-    {
-      instanceOf: TypeError,
-      message:
+    (error) => {
+      assert.ok(error instanceof TypeError)
+      assert.match(
+        error.message,
         /^Key for the PS256 algorithm must be one of type CryptoKey, KeyObject, or JSON Web Key\./,
+      )
+      return true
     },
   )
 })
 
-test('operations require the appropriate CryptoKey type', async (t) => {
+test('operations require the appropriate CryptoKey type', async () => {
   const secret = await generateSecret('HS256')
   const { privateKey, publicKey } = await generateKeyPair('PS256')
   const sign = (alg: string, key: Parameters<CompactSign['sign']>[0]) =>
     new CompactSign(payload).setProtectedHeader({ alg }).sign(key)
 
-  await t.throwsAsync(sign('PS256', secret), {
-    instanceOf: TypeError,
-    message: 'CryptoKey instances must be of type "private" for the PS256 algorithm',
+  await assert.rejects(sign('PS256', secret), (error) => {
+    assert.ok(error instanceof TypeError)
+    assert.strictEqual(
+      error.message,
+      'CryptoKey instances must be of type "private" for the PS256 algorithm',
+    )
+    return true
   })
-  await t.throwsAsync(sign('HS256', privateKey), {
-    instanceOf: TypeError,
-    message: 'CryptoKey instances must be of type "secret" for the HS256 algorithm',
+  await assert.rejects(sign('HS256', privateKey), (error) => {
+    assert.ok(error instanceof TypeError)
+    assert.strictEqual(
+      error.message,
+      'CryptoKey instances must be of type "secret" for the HS256 algorithm',
+    )
+    return true
   })
-  await t.throwsAsync(sign('PS256', publicKey), {
-    instanceOf: TypeError,
-    message: 'CryptoKey instances must be of type "private" for the PS256 algorithm',
+  await assert.rejects(sign('PS256', publicKey), (error) => {
+    assert.ok(error instanceof TypeError)
+    assert.strictEqual(
+      error.message,
+      'CryptoKey instances must be of type "private" for the PS256 algorithm',
+    )
+    return true
   })
   const jws = await sign('PS256', privateKey)
-  await t.throwsAsync(compactVerify(jws, privateKey), {
-    instanceOf: TypeError,
-    message: 'CryptoKey instances must be of type "public" for the PS256 algorithm',
+  await assert.rejects(compactVerify(jws, privateKey), (error) => {
+    assert.ok(error instanceof TypeError)
+    assert.strictEqual(
+      error.message,
+      'CryptoKey instances must be of type "public" for the PS256 algorithm',
+    )
+    return true
   })
 
   const ecdh = await generateKeyPair('ECDH-ES')
   const encrypt = (key: Parameters<CompactEncrypt['encrypt']>[0]) =>
     new CompactEncrypt(payload).setProtectedHeader({ alg: 'ECDH-ES', enc: 'A128GCM' }).encrypt(key)
-  await t.throwsAsync(encrypt(ecdh.privateKey), {
-    instanceOf: TypeError,
-    message: 'CryptoKey instances must be of type "public" for the ECDH-ES algorithm',
+  await assert.rejects(encrypt(ecdh.privateKey), (error) => {
+    assert.ok(error instanceof TypeError)
+    assert.strictEqual(
+      error.message,
+      'CryptoKey instances must be of type "public" for the ECDH-ES algorithm',
+    )
+    return true
   })
   const jwe = await encrypt(ecdh.publicKey)
-  await t.throwsAsync(compactDecrypt(jwe, ecdh.publicKey), {
-    instanceOf: TypeError,
-    message: 'CryptoKey instances must be of type "private" for the ECDH-ES algorithm',
+  await assert.rejects(compactDecrypt(jwe, ecdh.publicKey), (error) => {
+    assert.ok(error instanceof TypeError)
+    assert.strictEqual(
+      error.message,
+      'CryptoKey instances must be of type "private" for the ECDH-ES algorithm',
+    )
+    return true
   })
 })
 
-test('symmetric operations accept raw bytes, CryptoKey, and KeyObject inputs', async (t) => {
+test('symmetric operations accept raw bytes, CryptoKey, and KeyObject inputs', async () => {
   const bytes = new Uint8Array(32)
   for (const key of [bytes, await generateSecret('HS256'), createSecretKey(bytes)]) {
     const jws = await new CompactSign(payload).setProtectedHeader({ alg: 'HS256' }).sign(key)
-    t.deepEqual((await compactVerify(jws, key)).payload, payload)
+    assert.deepStrictEqual((await compactVerify(jws, key)).payload, payload)
   }
   for (const alg of ['dir', 'PBES2-HS256+A128KW', 'A256GCMKW', 'A256KW']) {
     const keys: Array<Parameters<CompactEncrypt['encrypt']>[0]> = [bytes, createSecretKey(bytes)]
@@ -212,17 +243,20 @@ test('symmetric operations accept raw bytes, CryptoKey, and KeyObject inputs', a
         .setProtectedHeader({ alg, enc: 'A256GCM' })
         .encrypt(key)
       const result = await compactDecrypt(jwe, key, { keyManagementAlgorithms: [alg] })
-      t.deepEqual(result.plaintext, payload)
+      assert.deepStrictEqual(result.plaintext, payload)
     }
   }
 })
 
-test('operations validate JWK type and metadata before importing', async (t) => {
+test('operations validate JWK type and metadata before importing', async () => {
   const key = { kty: 'oct', k: 'AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA' }
   const sign = (jwk: Parameters<CompactSign['sign']>[0]) =>
     new CompactSign(payload).setProtectedHeader({ alg: 'HS256' }).sign(jwk)
   for (const metadata of [{}, { use: 'sig' }, { key_ops: ['sign'] }, { alg: 'HS256' }]) {
-    t.deepEqual((await compactVerify(await sign({ ...key, ...metadata }), key)).payload, payload)
+    assert.deepStrictEqual(
+      (await compactVerify(await sign({ ...key, ...metadata }), key)).payload,
+      payload,
+    )
   }
   for (const [metadata, message] of [
     [{ use: 'enc' }, 'Invalid key for this operation, its "use" must be "sig" when present'],
@@ -236,28 +270,34 @@ test('operations validate JWK type and metadata before importing', async (t) => 
       'JSON Web Key for symmetric algorithms must have JWK "kty" (Key Type) equal to "oct" and the JWK "k" (Key Value) present',
     ],
   ] as const) {
-    await t.throwsAsync(sign({ ...key, ...metadata } as never), { instanceOf: TypeError, message })
+    await assert.rejects(sign({ ...key, ...metadata } as never), (error) => {
+      assert.ok(error instanceof TypeError)
+      assert.strictEqual(error.message, message)
+      return true
+    })
   }
 
   const { privateKey, publicKey } = await generateKeyPair('PS256', { extractable: true })
   const privateJwk = await exportJWK(privateKey)
   const publicJwk = await exportJWK(publicKey)
   const jws = await new CompactSign(payload).setProtectedHeader({ alg: 'PS256' }).sign(privateJwk)
-  t.deepEqual((await compactVerify(jws, publicJwk)).payload, payload)
-  await t.throwsAsync(compactVerify(jws, privateJwk), {
-    instanceOf: TypeError,
-    message: 'JSON Web Key for this operation must be a public JWK',
+  assert.deepStrictEqual((await compactVerify(jws, publicJwk)).payload, payload)
+  await assert.rejects(compactVerify(jws, privateJwk), (error) => {
+    assert.ok(error instanceof TypeError)
+    assert.strictEqual(error.message, 'JSON Web Key for this operation must be a public JWK')
+    return true
   })
-  await t.throwsAsync(
+  await assert.rejects(
     new CompactSign(payload).setProtectedHeader({ alg: 'PS256' }).sign(publicJwk),
-    {
-      instanceOf: TypeError,
-      message: 'JSON Web Key for this operation must be a private JWK',
+    (error) => {
+      assert.ok(error instanceof TypeError)
+      assert.strictEqual(error.message, 'JSON Web Key for this operation must be a private JWK')
+      return true
     },
   )
 })
 
-test('JWE JWK key_ops follow each key management operation', async (t) => {
+test('JWE JWK key_ops follow each key management operation', async () => {
   const { privateKey, publicKey } = await generateKeyPair('ECDH-ES', { extractable: true })
   const privateJwk = await exportJWK(privateKey)
   const publicJwk = await exportJWK(publicKey)
@@ -266,29 +306,39 @@ test('JWE JWK key_ops follow each key management operation', async (t) => {
       .setProtectedHeader({ alg: 'ECDH-ES', enc: 'A128GCM' })
       .encrypt({ ...publicJwk, key_ops })
     const result = await compactDecrypt(jwe, { ...privateJwk, key_ops: ['deriveBits'] })
-    t.deepEqual(result.plaintext, payload)
-    await t.throwsAsync(compactDecrypt(jwe, { ...privateJwk, key_ops: ['sign'] }), {
-      instanceOf: TypeError,
-      message:
+    assert.deepStrictEqual(result.plaintext, payload)
+    await assert.rejects(compactDecrypt(jwe, { ...privateJwk, key_ops: ['sign'] }), (error) => {
+      assert.ok(error instanceof TypeError)
+      assert.strictEqual(
+        error.message,
         'Invalid key for this operation, its "key_ops" must include "deriveBits" when present',
+      )
+      return true
     })
   }
   const key = { kty: 'oct', k: 'AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA', key_ops: ['encrypt'] }
-  await t.throwsAsync(
+  await assert.rejects(
     new CompactEncrypt(payload).setProtectedHeader({ alg: 'A256KW', enc: 'A128GCM' }).encrypt(key),
-    {
-      instanceOf: TypeError,
-      message: 'Invalid key for this operation, its "key_ops" must include "wrapKey" when present',
+    (error) => {
+      assert.ok(error instanceof TypeError)
+      assert.strictEqual(
+        error.message,
+        'Invalid key for this operation, its "key_ops" must include "wrapKey" when present',
+      )
+      return true
     },
   )
   const jwe = await new CompactEncrypt(payload)
     .setProtectedHeader({ alg: 'A256GCMKW', enc: 'A128GCM' })
     .encrypt(key)
-  t.deepEqual((await compactDecrypt(jwe, { ...key, key_ops: ['decrypt'] })).plaintext, payload)
+  assert.deepStrictEqual(
+    (await compactDecrypt(jwe, { ...key, key_ops: ['decrypt'] })).plaintext,
+    payload,
+  )
 })
 
 for (const fallback of [false, true]) {
-  test(`KeyObject signing and verification ${fallback ? 'JWK fallback' : 'direct conversion'}`, async (t) => {
+  test(`KeyObject signing and verification ${fallback ? 'JWK fallback' : 'direct conversion'}`, async () => {
     const { privateKey, publicKey } = generateKeyPairSync('ec', { namedCurve: 'P-256' })
     if (fallback) {
       Object.defineProperty(privateKey, 'toCryptoKey', { value: undefined })
@@ -309,8 +359,8 @@ for (const fallback of [false, true]) {
       const jws = await new CompactSign(payload)
         .setProtectedHeader({ alg: 'ES256' })
         .sign(privateKey)
-      t.deepEqual((await compactVerify(jws, publicKey)).payload, payload)
+      assert.deepStrictEqual((await compactVerify(jws, publicKey)).payload, payload)
     }
-    t.is(conversions, 2)
+    assert.strictEqual(conversions, 2)
   })
 }

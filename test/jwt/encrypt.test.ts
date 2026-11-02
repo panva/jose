@@ -1,182 +1,204 @@
-import anyTest, { type TestFn } from 'ava'
+import test, { before, after } from 'node:test'
+import assert from 'node:assert/strict'
 import timekeeper from 'timekeeper'
-import { setters } from './time_setters.js'
-
+import { setters, type SetterMethod, type SetterValue } from './time_setters.js'
 import { EncryptJWT, compactDecrypt, jwtDecrypt } from '../../src/index.js'
+import { errorLike } from '../_errors.js'
+
+const context = {} as {
+  secret: Uint8Array
+  initializationVector: Uint8Array
+  payload: Record<string, unknown>
+}
 
 const now = 1604416038
 
-interface Context {
-  secret: Uint8Array
-  initializationVector: Uint8Array
-  payload: Record<string, any>
-}
-
-const test = anyTest as TestFn<Context>
-
-test.before(async (t) => {
-  t.context.secret = new Uint8Array(16)
-  t.context.initializationVector = new Uint8Array(12)
-  t.context.payload = { 'urn:example:claim': true }
-
+before(async () => {
+  context.secret = new Uint8Array(16)
+  context.initializationVector = new Uint8Array(12)
+  context.payload = { 'urn:example:claim': true }
   timekeeper.freeze(new Date(now * 1000))
 })
 
-test.after(timekeeper.reset)
+after(timekeeper.reset)
 
-test('EncryptJWT', async (t) => {
-  const jwt = await new EncryptJWT(t.context.payload)
-    .setInitializationVector(t.context.initializationVector)
+test('EncryptJWT', async () => {
+  const jwt = await new EncryptJWT(context.payload)
+    .setInitializationVector(context.initializationVector)
     .setProtectedHeader({ alg: 'dir', enc: 'A128GCM' })
-    .encrypt(t.context.secret)
-  t.is(
+    .encrypt(context.secret)
+  assert.equal(
     jwt,
     'eyJhbGciOiJkaXIiLCJlbmMiOiJBMTI4R0NNIn0..AAAAAAAAAAAAAAAA.eKqvvA6MxuqSRbLVFIidFJb8x4lzPytWkoA.aglYAurAaFCoM8sCqaXSyw',
   )
 })
 
-test('EncryptJWT w/crit', async (t) => {
+test('EncryptJWT w/crit', async () => {
   const expected =
     'eyJhbGciOiJkaXIiLCJlbmMiOiJBMTI4R0NNIiwiY3JpdCI6WyJodHRwOi8vb3BlbmJhbmtpbmcub3JnLnVrL2lhdCJdLCJodHRwOi8vb3BlbmJhbmtpbmcub3JnLnVrL2lhdCI6MH0..AAAAAAAAAAAAAAAA.eKqvvA6MxuqSRbLVFIidFJb8x4lzPytWkoA.Kl-auiUImwUWk4X0xpxa8A'
-  await t.throwsAsync(
-    new EncryptJWT(t.context.payload)
-      .setInitializationVector(t.context.initializationVector)
+  await assert.rejects(
+    new EncryptJWT(context.payload)
+      .setInitializationVector(context.initializationVector)
       .setProtectedHeader({
         alg: 'dir',
         enc: 'A128GCM',
         crit: ['http://openbanking.org.uk/iat'],
         'http://openbanking.org.uk/iat': 0,
       })
-      .encrypt(t.context.secret),
-    {
+      .encrypt(context.secret),
+    errorLike({
       code: 'ERR_JOSE_NOT_SUPPORTED',
       message: 'Extension Header Parameter "http://openbanking.org.uk/iat" is not recognized',
-    },
+    }),
   )
-
-  await t.notThrowsAsync(async () => {
-    const jwt = await new EncryptJWT(t.context.payload)
-      .setInitializationVector(t.context.initializationVector)
+  await assert.doesNotReject(async () => {
+    const jwt = await new EncryptJWT(context.payload)
+      .setInitializationVector(context.initializationVector)
       .setProtectedHeader({
         alg: 'dir',
         enc: 'A128GCM',
         crit: ['http://openbanking.org.uk/iat'],
         'http://openbanking.org.uk/iat': 0,
       })
-      .encrypt(t.context.secret, { crit: { 'http://openbanking.org.uk/iat': true } })
-    t.is(jwt, expected)
+      .encrypt(context.secret, { crit: { 'http://openbanking.org.uk/iat': true } })
+    assert.equal(jwt, expected)
   })
-
-  await t.throwsAsync(jwtDecrypt(expected, t.context.secret), {
-    code: 'ERR_JOSE_NOT_SUPPORTED',
-    message: 'Extension Header Parameter "http://openbanking.org.uk/iat" is not recognized',
-  })
-  await t.notThrowsAsync(
-    jwtDecrypt(expected, t.context.secret, { crit: { 'http://openbanking.org.uk/iat': true } }),
+  await assert.rejects(
+    jwtDecrypt(expected, context.secret),
+    errorLike({
+      code: 'ERR_JOSE_NOT_SUPPORTED',
+      message: 'Extension Header Parameter "http://openbanking.org.uk/iat" is not recognized',
+    }),
+  )
+  await assert.doesNotReject(
+    jwtDecrypt(expected, context.secret, { crit: { 'http://openbanking.org.uk/iat': true } }),
   )
 })
 
-async function testJWTsetFunction(t, method, claim, value, duplicate = false, expected = value) {
-  let enc = new EncryptJWT().setProtectedHeader({ alg: 'dir', enc: 'A128GCM' })[method](value)
-
+async function testJWTsetFunction(
+  method: SetterMethod,
+  claim: string,
+  value: SetterValue,
+  duplicate = false,
+  expected: SetterValue = value,
+) {
+  let enc = new EncryptJWT()
+    .setProtectedHeader({ alg: 'dir', enc: 'A128GCM' })
+    [method](value as never)
   if (duplicate) {
-    enc = enc[`replicate${method.slice(3)}AsHeader`]()
+    enc =
+      enc[
+        `replicate${method.slice(3)}AsHeader` as
+          'replicateIssuerAsHeader' | 'replicateSubjectAsHeader' | 'replicateAudienceAsHeader'
+      ]()
   }
-
-  const jwt = await enc.encrypt(t.context.secret)
-
+  const jwt = await enc.encrypt(context.secret)
   const {
     plaintext,
     protectedHeader,
     key: resolvedKey,
   } = await compactDecrypt(jwt, async (header, token) => {
-    t.true('alg' in header)
-    t.true('enc' in header)
-    t.is(header.alg, 'dir')
-    t.is(header.enc, 'A128GCM')
-    t.true('ciphertext' in token)
-    t.true('iv' in token)
-    t.true('protected' in token)
-    t.true('tag' in token)
-    return t.context.secret
+    assert.equal('alg' in header, true)
+    assert.equal('enc' in header, true)
+    assert.equal(header.alg, 'dir')
+    assert.equal(header.enc, 'A128GCM')
+    assert.equal('ciphertext' in token, true)
+    assert.equal('iv' in token, true)
+    assert.equal('protected' in token, true)
+    assert.equal('tag' in token, true)
+    return context.secret
   })
-  t.is(resolvedKey, t.context.secret)
+  assert.equal(resolvedKey, context.secret)
   const payload = JSON.parse(new TextDecoder().decode(plaintext))
-  t.is(payload[claim], expected)
+  assert.equal(payload[claim], expected)
   if (duplicate) {
-    t.true(claim in protectedHeader)
-    t.is(protectedHeader[claim], expected)
+    assert.equal(claim in protectedHeader, true)
+    assert.equal(protectedHeader[claim], expected)
   } else {
-    t.false(claim in protectedHeader)
+    assert.equal(claim in protectedHeader, false)
   }
 }
-testJWTsetFunction.title = (title, method, claim, value) =>
-  `EncryptJWT.prototype.${method} called with ${
-    value?.constructor?.name || typeof value
-  } (${value}) ${title ? ` (${title})` : ''}`
+
+const testJWTsetFunctionTitle = (method: SetterMethod, value: SetterValue, title = '') =>
+  `EncryptJWT.prototype.${method} called with ${value?.constructor?.name || typeof value} (${value}) ${title ? ` (${title})` : ''}`
 
 for (const [method, claim, vectors] of setters(now)) {
   for (const [input, output = input] of vectors) {
-    test(testJWTsetFunction, method, claim, input, false, output)
+    test(testJWTsetFunctionTitle(method, input), () =>
+      testJWTsetFunction(method, claim, input, false, output),
+    )
   }
 }
 
-test('duplicated', testJWTsetFunction, 'setIssuer', 'iss', 'urn:example:issuer', true)
-test('duplicated', testJWTsetFunction, 'setSubject', 'sub', 'urn:example:subject', true)
-test('duplicated', testJWTsetFunction, 'setAudience', 'aud', 'urn:example:audience', true)
+test(testJWTsetFunctionTitle('setIssuer', 'urn:example:issuer', 'duplicated'), () =>
+  testJWTsetFunction('setIssuer', 'iss', 'urn:example:issuer', true),
+)
 
-test('EncryptJWT serializes updated claims and replicated headers per operation', async (t) => {
+test(testJWTsetFunctionTitle('setSubject', 'urn:example:subject', 'duplicated'), () =>
+  testJWTsetFunction('setSubject', 'sub', 'urn:example:subject', true),
+)
+
+test(testJWTsetFunctionTitle('setAudience', 'urn:example:audience', 'duplicated'), () =>
+  testJWTsetFunction('setAudience', 'aud', 'urn:example:audience', true),
+)
+
+test('EncryptJWT serializes updated claims and replicated headers per operation', async () => {
   const builder = new EncryptJWT()
     .setProtectedHeader({ alg: 'dir', enc: 'A128GCM' })
     .setIssuer('first')
     .replicateIssuerAsHeader()
-  const first = builder.encrypt(t.context.secret)
+  const first = builder.encrypt(context.secret)
   builder.setIssuer('second')
-  const second = builder.encrypt(t.context.secret)
-
+  const second = builder.encrypt(context.secret)
   const results = await Promise.all(
-    [first, second].map(async (jwt) => jwtDecrypt(await jwt, t.context.secret)),
+    [first, second].map(async (jwt) => jwtDecrypt(await jwt, context.secret)),
   )
-  t.is(results[0].payload.iss, 'first')
-  t.is(results[0].protectedHeader.iss, 'first')
-  t.is(results[1].payload.iss, 'second')
-  t.is(results[1].protectedHeader.iss, 'second')
+  assert.equal(results[0].payload.iss, 'first')
+  assert.equal(results[0].protectedHeader.iss, 'first')
+  assert.equal(results[1].payload.iss, 'second')
+  assert.equal(results[1].protectedHeader.iss, 'second')
 })
 
-test('EncryptJWT.prototype.setProtectedHeader', (t) => {
-  t.throws(() => new EncryptJWT(t.context.payload).setProtectedHeader({}).setProtectedHeader({}), {
-    instanceOf: TypeError,
-    message: 'setProtectedHeader can only be called once',
-  })
-})
-
-test('EncryptJWT.prototype.setContentEncryptionKey', (t) => {
-  t.throws(
-    () =>
-      new EncryptJWT(t.context.payload)
-        .setContentEncryptionKey(t.context.secret)
-        .setContentEncryptionKey(t.context.secret),
-    {
-      instanceOf: TypeError,
-      message: 'setContentEncryptionKey can only be called once',
+test('EncryptJWT.prototype.setProtectedHeader', () => {
+  assert.throws(
+    () => new EncryptJWT(context.payload).setProtectedHeader({}).setProtectedHeader({}),
+    (error) => {
+      assert.ok(error instanceof TypeError)
+      assert.equal(error.message, 'setProtectedHeader can only be called once')
+      return true
     },
   )
 })
 
-test('EncryptJWT.prototype.setInitializationVector', (t) => {
-  t.throws(
+test('EncryptJWT.prototype.setContentEncryptionKey', () => {
+  assert.throws(
     () =>
-      new EncryptJWT(t.context.payload)
-        .setInitializationVector(t.context.initializationVector)
-        .setInitializationVector(t.context.initializationVector),
-    {
-      instanceOf: TypeError,
-      message: 'setInitializationVector can only be called once',
+      new EncryptJWT(context.payload)
+        .setContentEncryptionKey(context.secret)
+        .setContentEncryptionKey(context.secret),
+    (error) => {
+      assert.ok(error instanceof TypeError)
+      assert.equal(error.message, 'setContentEncryptionKey can only be called once')
+      return true
     },
   )
 })
 
-test('EncryptJWT.prototype.encrypt must have a JOSE header', async (t) => {
+test('EncryptJWT.prototype.setInitializationVector', () => {
+  assert.throws(
+    () =>
+      new EncryptJWT(context.payload)
+        .setInitializationVector(context.initializationVector)
+        .setInitializationVector(context.initializationVector),
+    (error) => {
+      assert.ok(error instanceof TypeError)
+      assert.equal(error.message, 'setInitializationVector can only be called once')
+      return true
+    },
+  )
+})
+
+test('EncryptJWT.prototype.encrypt must have a JOSE header', async () => {
   let critReads = 0
   const options = {
     get crit() {
@@ -184,16 +206,18 @@ test('EncryptJWT.prototype.encrypt must have a JOSE header', async (t) => {
       throw new Error('unexpected crit option getter')
     },
   }
-
-  await t.throwsAsync(new EncryptJWT(t.context.payload).encrypt(t.context.secret, options), {
-    code: 'ERR_JWE_INVALID',
-    message:
-      'either setProtectedHeader, setUnprotectedHeader, or sharedUnprotectedHeader must be called before #encrypt()',
-  })
-  t.is(critReads, 0)
+  await assert.rejects(
+    new EncryptJWT(context.payload).encrypt(context.secret, options),
+    errorLike({
+      code: 'ERR_JWE_INVALID',
+      message:
+        'either setProtectedHeader, setUnprotectedHeader, or sharedUnprotectedHeader must be called before #encrypt()',
+    }),
+  )
+  assert.equal(critReads, 0)
 })
 
-test('EncryptJWT validates NumericDate claims before reading replicated headers', async (t) => {
+test('EncryptJWT validates NumericDate claims before reading replicated headers', async () => {
   let reads = 0
   const protectedHeader = {
     get alg() {
@@ -202,21 +226,21 @@ test('EncryptJWT validates NumericDate claims before reading replicated headers'
     },
     enc: 'A128GCM',
   }
-
-  await t.throwsAsync(
+  await assert.rejects(
     new EncryptJWT({ exp: NaN })
       .setProtectedHeader(protectedHeader)
       .replicateIssuerAsHeader()
-      .encrypt(t.context.secret),
-    {
-      instanceOf: TypeError,
-      message: '"exp" claim must be a finite number',
+      .encrypt(context.secret),
+    (error) => {
+      assert.ok(error instanceof TypeError)
+      assert.equal(error.message, '"exp" claim must be a finite number')
+      return true
     },
   )
-  t.is(reads, 0)
+  assert.equal(reads, 0)
 })
 
-test('EncryptJWT does not ignore invalid falsy encryption parameters', async (t) => {
+test('EncryptJWT does not ignore invalid falsy encryption parameters', async () => {
   for (const [configure, message] of [
     [
       (jwt: EncryptJWT) => jwt.setInitializationVector(0 as never),
@@ -235,14 +259,18 @@ test('EncryptJWT does not ignore invalid falsy encryption parameters', async (t)
       'JWE Key Management Parameters must be an object',
     ],
   ] as const) {
-    await t.throwsAsync(
-      configure(new EncryptJWT(t.context.payload))
+    await assert.rejects(
+      configure(new EncryptJWT(context.payload))
         .setProtectedHeader({
           alg: 'dir',
           enc: 'A128GCM',
         })
-        .encrypt(t.context.secret),
-      { instanceOf: TypeError, message },
+        .encrypt(context.secret),
+      (error) => {
+        assert.ok(error instanceof TypeError)
+        assert.equal(error.message, message)
+        return true
+      },
     )
   }
 })

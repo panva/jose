@@ -1,9 +1,10 @@
-import test from 'ava'
+import assert from 'node:assert/strict'
+import test from 'node:test'
 
 import { decompress } from '../../src/lib/deflate.js'
 import { JWEInvalid } from '../../src/util/errors.js'
 
-test.serial('decompression cancels its reader when the output exceeds the limit', async (t) => {
+test('decompression cancels its reader when the output exceeds the limit', async () => {
   const descriptor = Object.getOwnPropertyDescriptor(globalThis, 'DecompressionStream')
   try {
     for (const rejectCancellation of [false, true]) {
@@ -24,11 +25,12 @@ test.serial('decompression cancels its reader when the output exceeds the limit'
         },
       })
 
-      await t.throwsAsync(decompress(new Uint8Array(), 1), {
-        instanceOf: JWEInvalid,
-        message: 'Decompressed plaintext exceeded the configured limit',
+      await assert.rejects(decompress(new Uint8Array(), 1), (error) => {
+        assert.ok(error instanceof JWEInvalid)
+        assert.strictEqual(error.message, 'Decompressed plaintext exceeded the configured limit')
+        return true
       })
-      t.is(cancellations, 1)
+      assert.strictEqual(cancellations, 1)
     }
   } finally {
     if (descriptor) Object.defineProperty(globalThis, 'DecompressionStream', descriptor)

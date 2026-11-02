@@ -28,9 +28,9 @@ const stub: Pick<
       return Buffer.from(jwk.k, 'base64url')
     }
     if (jwk.d || jwk.priv) {
-      return crypto.createPrivateKey({ format: 'jwk', key: jwk as crypto.JsonWebKey })
+      return crypto.createPrivateKey({ format: 'jwk', key: jwk as crypto.webcrypto.JsonWebKey })
     }
-    return crypto.createPublicKey({ format: 'jwk', key: jwk as crypto.JsonWebKey })
+    return crypto.createPublicKey({ format: 'jwk', key: jwk as crypto.webcrypto.JsonWebKey })
   },
   // @ts-expect-error
   generateSecret(alg) {

@@ -1,4 +1,5 @@
-import test from 'ava'
+import assert from 'node:assert/strict'
+import test from 'node:test'
 import fc from 'fast-check'
 
 import {
@@ -32,20 +33,20 @@ function tamper(encoded: string, position: number): string {
   return base64url.encode(decoded)
 }
 
-test('HS256 compact JWS round trips preserve the payload', async (t) => {
+test('HS256 compact JWS round trips preserve the payload', async () => {
   await fc.assert(
     fc.asyncProperty(payloads, async (payload) => {
       const jws = await new CompactSign(payload).setProtectedHeader({ alg: 'HS256' }).sign(key)
       const result = await compactVerify(jws, key)
 
-      t.deepEqual(result.payload, payload)
-      t.deepEqual(result.protectedHeader, { alg: 'HS256' })
+      assert.deepStrictEqual(result.payload, payload)
+      assert.deepStrictEqual(result.protectedHeader, { alg: 'HS256' })
     }),
     options,
   )
 })
 
-test('HS256 compact JWS rejects tampered authenticated components', async (t) => {
+test('HS256 compact JWS rejects tampered authenticated components', async () => {
   await fc.assert(
     fc.asyncProperty(nonEmptyPayloads, fc.nat(), async (payload, position) => {
       const jws = await new CompactSign(payload).setProtectedHeader({ alg: 'HS256' }).sign(key)
@@ -55,7 +56,7 @@ test('HS256 compact JWS rejects tampered authenticated components', async (t) =>
         const tampered = members.slice()
         tampered[member] = tamper(tampered[member], position)
 
-        await t.throwsAsync(compactVerify(tampered.join('.'), key))
+        await assert.rejects(compactVerify(tampered.join('.'), key), Error)
       }
     }),
     options,
@@ -63,7 +64,7 @@ test('HS256 compact JWS rejects tampered authenticated components', async (t) =>
 })
 
 for (const enc of contentEncryptionAlgorithms) {
-  test(`dir/${enc} compact JWE round trips preserve boundary-biased plaintexts`, async (t) => {
+  test(`dir/${enc} compact JWE round trips preserve boundary-biased plaintexts`, async () => {
     await fc.assert(
       fc.asyncProperty(boundaryPlaintexts, async (plaintext) => {
         const jwe = await new CompactEncrypt(plaintext)
@@ -71,14 +72,14 @@ for (const enc of contentEncryptionAlgorithms) {
           .encrypt(key)
         const result = await compactDecrypt(jwe, key)
 
-        t.deepEqual(result.plaintext, plaintext)
-        t.deepEqual(result.protectedHeader, { alg: 'dir', enc })
+        assert.deepStrictEqual(result.plaintext, plaintext)
+        assert.deepStrictEqual(result.protectedHeader, { alg: 'dir', enc })
       }),
       options,
     )
   })
 
-  test(`dir/${enc} compact JWE rejects tampered authenticated components`, async (t) => {
+  test(`dir/${enc} compact JWE rejects tampered authenticated components`, async () => {
     await fc.assert(
       fc.asyncProperty(nonEmptyPayloads, fc.nat(), async (plaintext, position) => {
         const jwe = await new CompactEncrypt(plaintext)
@@ -90,14 +91,14 @@ for (const enc of contentEncryptionAlgorithms) {
           const tampered = members.slice()
           tampered[member] = tamper(tampered[member], position)
 
-          await t.throwsAsync(compactDecrypt(tampered.join('.'), key))
+          await assert.rejects(compactDecrypt(tampered.join('.'), key), Error)
         }
       }),
       options,
     )
   })
 
-  test(`dir/${enc} flattened JWE round trips arbitrary additional authenticated data`, async (t) => {
+  test(`dir/${enc} flattened JWE round trips arbitrary additional authenticated data`, async () => {
     await fc.assert(
       fc.asyncProperty(boundaryPlaintexts, payloads, async (plaintext, aad) => {
         const jwe = await new FlattenedEncrypt(plaintext)
@@ -106,21 +107,21 @@ for (const enc of contentEncryptionAlgorithms) {
           .encrypt(key)
         const result = await flattenedDecrypt(jwe, key)
 
-        t.deepEqual(result.plaintext, plaintext)
-        t.deepEqual(result.protectedHeader, { alg: 'dir', enc })
+        assert.deepStrictEqual(result.plaintext, plaintext)
+        assert.deepStrictEqual(result.protectedHeader, { alg: 'dir', enc })
         if (aad.length === 0) {
-          t.false(Object.hasOwn(jwe, 'aad'))
-          t.is(result.additionalAuthenticatedData, undefined)
+          assert.strictEqual(Object.hasOwn(jwe, 'aad'), false)
+          assert.strictEqual(result.additionalAuthenticatedData, undefined)
         } else {
-          t.is(jwe.aad, base64url.encode(aad))
-          t.deepEqual(result.additionalAuthenticatedData, aad)
+          assert.strictEqual(jwe.aad, base64url.encode(aad))
+          assert.deepStrictEqual(result.additionalAuthenticatedData, aad)
         }
       }),
       options,
     )
   })
 
-  test(`dir/${enc} flattened JWE rejects tampered additional authenticated data`, async (t) => {
+  test(`dir/${enc} flattened JWE rejects tampered additional authenticated data`, async () => {
     await fc.assert(
       fc.asyncProperty(payloads, nonEmptyPayloads, fc.nat(), async (plaintext, aad, position) => {
         const jwe = await new FlattenedEncrypt(plaintext)
@@ -128,11 +129,14 @@ for (const enc of contentEncryptionAlgorithms) {
           .setAdditionalAuthenticatedData(aad)
           .encrypt(key)
 
-        await t.throwsAsync(flattenedDecrypt({ ...jwe, aad: tamper(jwe.aad!, position) }, key))
+        await assert.rejects(
+          flattenedDecrypt({ ...jwe, aad: tamper(jwe.aad!, position) }, key),
+          Error,
+        )
 
         const withoutAad = { ...jwe }
         delete withoutAad.aad
-        await t.throwsAsync(flattenedDecrypt(withoutAad, key))
+        await assert.rejects(flattenedDecrypt(withoutAad, key), Error)
       }),
       options,
     )
@@ -146,15 +150,15 @@ const jwtPayloads = fc.dictionary(
   { maxKeys: 12, noNullPrototype: true },
 )
 
-test('HS256 JWT round trips preserve arbitrary structured JSON claims', async (t) => {
+test('HS256 JWT round trips preserve arbitrary structured JSON claims', async () => {
   await fc.assert(
     fc.asyncProperty(jwtPayloads, async (payload) => {
       const jwt = await new SignJWT(payload).setProtectedHeader({ alg: 'HS256' }).sign(key)
       const result = await jwtVerify(jwt, key)
       const normalized = JSON.parse(JSON.stringify(payload))
 
-      t.deepEqual(result.payload, normalized)
-      t.deepEqual(result.protectedHeader, { alg: 'HS256' })
+      assert.deepStrictEqual(result.payload, normalized)
+      assert.deepStrictEqual(result.protectedHeader, { alg: 'HS256' })
     }),
     options,
   )

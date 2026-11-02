@@ -1,4 +1,5 @@
-import test from 'ava'
+import assert from 'node:assert/strict'
+import test from 'node:test'
 import { execFileSync } from 'node:child_process'
 import { mkdirSync, mkdtempSync, readFileSync, rmSync, writeFileSync } from 'node:fs'
 import { tmpdir } from 'node:os'
@@ -12,7 +13,7 @@ test('tools/declaration-comments.js', (t) => {
   const types = join(cwd, 'dist', 'types')
   const declaration = join(types, 'example.d.ts')
 
-  t.teardown(() => rmSync(cwd, { recursive: true }))
+  t.after(() => rmSync(cwd, { recursive: true }))
   const input = `/**
  * Module documentation.
  *
@@ -99,7 +100,7 @@ export declare class JWTExpired extends JOSEError {
   delete env.NODE_OPTIONS
   const output = execFileSync(process.execPath, [processor], { cwd, env, encoding: 'utf8' })
 
-  t.is(output, 'rewrote 6 declaration comment(s) for editor hovers\n')
+  assert.strictEqual(output, 'rewrote 6 declaration comment(s) for editor hovers\n')
   const expected = `import type * as t from './types.d.ts'
 /**
  * First summary.
@@ -131,8 +132,8 @@ export interface Options {
 export interface InternalHelper {}
 `
 
-  t.is(readFileSync(declaration, 'utf8'), expected)
-  t.is(
+  assert.strictEqual(readFileSync(declaration, 'utf8'), expected)
+  assert.strictEqual(
     readFileSync(errors, 'utf8'),
     `export declare class JOSEError {
   /**
@@ -145,11 +146,11 @@ export declare class JWTExpired extends JOSEError {
 }
 `,
   )
-  t.is(
+  assert.strictEqual(
     execFileSync(process.execPath, [processor], { cwd, env, encoding: 'utf8' }),
     'rewrote 0 declaration comment(s) for editor hovers\n',
   )
-  t.is(readFileSync(declaration, 'utf8'), expected)
+  assert.strictEqual(readFileSync(declaration, 'utf8'), expected)
 
   writeFileSync(declaration, input)
   const privateTypes = join(types, 'lib')
@@ -171,17 +172,18 @@ export interface PrivateDeclaration {}
     encoding: 'utf8',
   })
 
-  t.true(report.startsWith('stripped published declaration documentation\n\n'))
-  t.true(report.includes('dist/types/example.d.ts:1\n- Module documentation.'))
-  t.true(
+  assert.strictEqual(report.startsWith('stripped published declaration documentation\n\n'), true)
+  assert.strictEqual(report.includes('dist/types/example.d.ts:1\n- Module documentation.'), true)
+  assert.strictEqual(
     report.includes('- Extended documentation only needed on the generated documentation page.'),
+    true,
   )
-  t.true(report.includes('- @example'))
-  t.true(report.includes('- @typeParam T Type parameter documentation.'))
-  t.true(report.includes('- @see https://example.com'))
-  t.true(report.includes('- @internal'))
-  t.false(report.includes('- @deprecated Use next instead.'))
-  t.false(report.includes('private.d.ts'))
-  t.true(report.endsWith('rewrote 6 declaration comment(s) for editor hovers\n'))
-  t.is(readFileSync(declaration, 'utf8'), expected)
+  assert.strictEqual(report.includes('- @example'), true)
+  assert.strictEqual(report.includes('- @typeParam T Type parameter documentation.'), true)
+  assert.strictEqual(report.includes('- @see https://example.com'), true)
+  assert.strictEqual(report.includes('- @internal'), true)
+  assert.strictEqual(report.includes('- @deprecated Use next instead.'), false)
+  assert.strictEqual(report.includes('private.d.ts'), false)
+  assert.strictEqual(report.endsWith('rewrote 6 declaration comment(s) for editor hovers\n'), true)
+  assert.strictEqual(readFileSync(declaration, 'utf8'), expected)
 })

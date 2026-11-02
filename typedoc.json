@@ -21,6 +21,7 @@
   "hideGenerator": true,
   "out": "docs",
   "plugin": ["typedoc-plugin-markdown", "typedoc-plugin-mdn-links"],
+  "additionalModuleSources": ["@typescript/old"],
   "readme": "none",
   "sort": ["kind", "static-first", "required-first", "alphabetical"],
   "githubPages": false,

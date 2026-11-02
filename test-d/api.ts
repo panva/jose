@@ -6,7 +6,7 @@
 import * as jose from 'jose'
 import type { GeneratedSecret } from 'jose/key/generate/secret'
 import type { ImportedJWK } from 'jose/key/import'
-import { createPrivateKey, type JsonWebKey } from 'node:crypto'
+import { createPrivateKey, type webcrypto } from 'node:crypto'
 
 type Equals<A, B> = [A] extends [B] ? ([B] extends [A] ? true : never) : never
 
@@ -38,11 +38,11 @@ declare const anyString: string
   type _JwksFns = jose.RemoteJWKSet | jose.LocalJWKSet
 }
 
-/* JWK must satisfy the implicit index signature of @types/node's JsonWebKey, otherwise round
+/* JWK must satisfy the implicit index signature of @types/node's webcrypto.JsonWebKey, otherwise round
  * tripping a key through node:crypto does not compile. */
 async function nodeInterop() {
   const jwk = await jose.exportJWK(cryptoKey)
-  const _parameters: JsonWebKey = {} as jose.JWKParameters
+  const _parameters: webcrypto.JsonWebKey = {} as jose.JWKParameters
   return createPrivateKey({ key: jwk, format: 'jwk' })
 }
 

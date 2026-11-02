@@ -1,4 +1,6 @@
-import test from 'ava'
+import test, { before } from 'node:test'
+import assert from 'node:assert/strict'
+import { captureRejection, errorLike } from '../_errors.js'
 import * as crypto from 'crypto'
 
 import {
@@ -13,76 +15,86 @@ import type * as types from '../../src/types.d.ts'
 const protectedHeader = (jwe: types.GeneralJWE): Record<string, any> =>
   JSON.parse(new TextDecoder().decode(base64url.decode(jwe.protected!)))
 
-test.before(async (t) => {
+const context = {} as {
+  plaintext: Uint8Array<ArrayBuffer>
+  additionalAuthenticatedData: Uint8Array<ArrayBuffer>
+  initializationVector: Uint8Array<ArrayBuffer>
+  secret: Uint8Array<ArrayBuffer>
+  secret2: Uint8Array<ArrayBuffer>
+}
+
+before(async () => {
   const encode = TextEncoder.prototype.encode.bind(new TextEncoder())
-  t.context.plaintext = encode('It’s a dangerous business, Frodo, going out your door.')
-  t.context.additionalAuthenticatedData = encode('The Fellowship of the Ring')
-  t.context.initializationVector = crypto.randomFillSync(new Uint8Array(12))
-  t.context.secret = crypto.randomFillSync(new Uint8Array(32))
-  t.context.secret2 = crypto.randomFillSync(new Uint8Array(16))
+  context.plaintext = encode('It’s a dangerous business, Frodo, going out your door.')
+  context.additionalAuthenticatedData = encode('The Fellowship of the Ring')
+  context.initializationVector = crypto.randomFillSync(new Uint8Array(12))
+  context.secret = crypto.randomFillSync(new Uint8Array(32))
+  context.secret2 = crypto.randomFillSync(new Uint8Array(16))
 })
 
-test('General JWE encryption', async (t) => {
-  const generalJwe = await new GeneralEncrypt(t.context.plaintext)
-    .setAdditionalAuthenticatedData(t.context.additionalAuthenticatedData)
+test('General JWE encryption', async () => {
+  const generalJwe = await new GeneralEncrypt(context.plaintext)
+    .setAdditionalAuthenticatedData(context.additionalAuthenticatedData)
     .setProtectedHeader({ enc: 'A256GCM' })
     .setSharedUnprotectedHeader({ foo: 'bar' })
-    .addRecipient(t.context.secret)
+    .addRecipient(context.secret)
     .setUnprotectedHeader({ alg: 'A256GCMKW' })
-    .addRecipient(t.context.secret2)
+    .addRecipient(context.secret2)
     .setUnprotectedHeader({ alg: 'A128GCMKW' })
     .encrypt()
 
-  t.true(generalJwe.aad && typeof generalJwe.aad === 'string')
-  t.true(generalJwe.ciphertext && typeof generalJwe.ciphertext === 'string')
-  t.true(generalJwe.iv && typeof generalJwe.iv === 'string')
-  t.true(generalJwe.protected && typeof generalJwe.protected === 'string')
-  t.true(
+  assert.strictEqual(generalJwe.aad && typeof generalJwe.aad === 'string', true)
+  assert.strictEqual(generalJwe.ciphertext && typeof generalJwe.ciphertext === 'string', true)
+  assert.strictEqual(generalJwe.iv && typeof generalJwe.iv === 'string', true)
+  assert.strictEqual(generalJwe.protected && typeof generalJwe.protected === 'string', true)
+  assert.strictEqual(
     generalJwe.unprotected &&
       typeof generalJwe.unprotected === 'object' &&
       Object.keys(generalJwe.unprotected).length === 1,
+    true,
   )
-  t.true(generalJwe.tag && typeof generalJwe.tag === 'string')
-  t.is(generalJwe.recipients.length, 2)
+  assert.strictEqual(generalJwe.tag && typeof generalJwe.tag === 'string', true)
+  assert.strictEqual(generalJwe.recipients.length, 2)
 
   for (const recipient of generalJwe.recipients) {
-    t.true(recipient.encrypted_key && typeof recipient.encrypted_key === 'string')
-    t.true(
+    assert.strictEqual(recipient.encrypted_key && typeof recipient.encrypted_key === 'string', true)
+    assert.strictEqual(
       recipient.header &&
         typeof recipient.header === 'object' &&
         Object.keys(recipient.header).length !== 0,
+      true,
     )
   }
 
-  for (const secret of [t.context.secret, t.context.secret2]) {
+  for (const secret of [context.secret, context.secret2]) {
     await generalDecrypt(generalJwe, secret)
   }
 })
 
-test('GeneralEncrypt validates and emits normalized recipient headers', async (t) => {
-  await t.throwsAsync(
-    new GeneralEncrypt(t.context.plaintext)
+test('GeneralEncrypt validates and emits normalized recipient headers', async () => {
+  await assert.rejects(
+    new GeneralEncrypt(context.plaintext)
       .setProtectedHeader({ enc: 'A128GCM', crit: ['foo'] })
-      .addRecipient(t.context.secret, { crit: { foo: false } })
+      .addRecipient(context.secret, { crit: { foo: false } })
       .setUnprotectedHeader({ alg: 'A256KW', foo: true })
-      .addRecipient(t.context.secret2, { crit: { foo: false } })
+      .addRecipient(context.secret2, { crit: { foo: false } })
       .setUnprotectedHeader({ alg: 'A128KW', foo: () => true })
       .encrypt(),
-    { code: 'ERR_JWE_INVALID' },
+    errorLike({ code: 'ERR_JWE_INVALID' }),
   )
 
   let protectedReads = 0
   let recipientReads = 0
-  const jwe = await new GeneralEncrypt(t.context.plaintext)
+  const jwe = await new GeneralEncrypt(context.plaintext)
     .setProtectedHeader({
       get enc() {
         protectedReads++
         return 'A128GCM'
       },
     })
-    .addRecipient(t.context.secret)
+    .addRecipient(context.secret)
     .setUnprotectedHeader({ alg: 'A256KW' })
-    .addRecipient(t.context.secret2)
+    .addRecipient(context.secret2)
     .setUnprotectedHeader({
       get alg() {
         recipientReads++
@@ -91,16 +103,16 @@ test('GeneralEncrypt validates and emits normalized recipient headers', async (t
     })
     .encrypt()
 
-  t.is(protectedReads, 1)
-  t.is(recipientReads, 1)
-  t.is(jwe.recipients[1].header!.alg, 'A128KW')
-  await t.notThrowsAsync(generalDecrypt(jwe, t.context.secret2))
+  assert.strictEqual(protectedReads, 1)
+  assert.strictEqual(recipientReads, 1)
+  assert.strictEqual(jwe.recipients[1].header!.alg, 'A128KW')
+  await assert.doesNotReject(generalDecrypt(jwe, context.secret2))
 })
 
-test('GeneralEncrypt snapshots shared headers in the first recipient normalization order', async (t) => {
+test('GeneralEncrypt snapshots shared headers in the first recipient normalization order', async () => {
   const reads: string[] = []
   let sharedValue = 'initial'
-  const jwe = await new GeneralEncrypt(t.context.plaintext)
+  const jwe = await new GeneralEncrypt(context.plaintext)
     .setProtectedHeader({
       get enc() {
         reads.push('protected')
@@ -113,7 +125,7 @@ test('GeneralEncrypt snapshots shared headers in the first recipient normalizati
         return sharedValue
       },
     })
-    .addRecipient(t.context.secret)
+    .addRecipient(context.secret)
     .setUnprotectedHeader({
       toJSON() {
         reads.push('first recipient')
@@ -121,7 +133,7 @@ test('GeneralEncrypt snapshots shared headers in the first recipient normalizati
         return { alg: 'A256KW' }
       },
     })
-    .addRecipient(t.context.secret2)
+    .addRecipient(context.secret2)
     .setUnprotectedHeader({
       toJSON() {
         reads.push('second recipient')
@@ -131,17 +143,17 @@ test('GeneralEncrypt snapshots shared headers in the first recipient normalizati
     })
     .encrypt()
 
-  t.deepEqual(reads, ['protected', 'first recipient', 'shared', 'second recipient'])
-  t.deepEqual(jwe.unprotected, { foo: 'first' })
-  t.is(sharedValue, 'second')
-  t.deepEqual((await generalDecrypt(jwe, t.context.secret2)).plaintext, t.context.plaintext)
+  assert.deepStrictEqual(reads, ['protected', 'first recipient', 'shared', 'second recipient'])
+  assert.deepStrictEqual(jwe.unprotected, { foo: 'first' })
+  assert.strictEqual(sharedValue, 'second')
+  assert.deepStrictEqual((await generalDecrypt(jwe, context.secret2)).plaintext, context.plaintext)
 })
 
-test('GeneralEncrypt reports recipient normalization errors before reading the shared header', async (t) => {
+test('GeneralEncrypt reports recipient normalization errors before reading the shared header', async () => {
   const reads: string[] = []
   const recipientError = new Error('recipient header')
-  const error = await t.throwsAsync(
-    new GeneralEncrypt(t.context.plaintext)
+  const error = await captureRejection(
+    new GeneralEncrypt(context.plaintext)
       .setProtectedHeader({
         get enc() {
           reads.push('protected')
@@ -154,61 +166,61 @@ test('GeneralEncrypt reports recipient normalization errors before reading the s
           throw new Error('shared header')
         },
       })
-      .addRecipient(t.context.secret)
+      .addRecipient(context.secret)
       .setUnprotectedHeader({
         toJSON() {
           reads.push('recipient')
           throw recipientError
         },
       })
-      .addRecipient(t.context.secret2)
+      .addRecipient(context.secret2)
       .setUnprotectedHeader({ alg: 'A128KW' })
       .encrypt(),
     { code: 'ERR_JWE_INVALID' },
   )
 
-  t.is(error?.cause, recipientError)
-  t.deepEqual(reads, ['protected', 'recipient'])
+  assert.strictEqual(error?.cause, recipientError)
+  assert.deepStrictEqual(reads, ['protected', 'recipient'])
 })
 
-test('GeneralEncrypt additional authenticated data must be a Uint8Array', async (t) => {
+test('GeneralEncrypt additional authenticated data must be a Uint8Array', async () => {
   for (const aad of ['secret aad', [1, 2, 3], new ArrayBuffer(3)]) {
-    await t.throwsAsync(
-      new GeneralEncrypt(t.context.plaintext)
+    await assert.rejects(
+      new GeneralEncrypt(context.plaintext)
         .setAdditionalAuthenticatedData(aad as never)
         .setProtectedHeader({ enc: 'A128GCM' })
-        .addRecipient(t.context.secret)
+        .addRecipient(context.secret)
         .setUnprotectedHeader({ alg: 'A256GCMKW' })
-        .addRecipient(t.context.secret2)
+        .addRecipient(context.secret2)
         .setUnprotectedHeader({ alg: 'A128GCMKW' })
         .encrypt(),
-      { instanceOf: TypeError },
+      TypeError,
     )
   }
 })
 
-test('GeneralEncrypt key management parameters must be an object', async (t) => {
+test('GeneralEncrypt key management parameters must be an object', async () => {
   for (const value of [null, 'not an object', [], new Date(0), 42, false]) {
-    await t.throwsAsync(
-      new GeneralEncrypt(t.context.plaintext)
+    await assert.rejects(
+      new GeneralEncrypt(context.plaintext)
         .setProtectedHeader({ enc: 'A128GCM' })
-        .addRecipient(t.context.secret)
+        .addRecipient(context.secret)
         .setUnprotectedHeader({ alg: 'A256KW' })
         .setKeyManagementParameters(value as never)
-        .addRecipient(t.context.secret2)
+        .addRecipient(context.secret2)
         .setUnprotectedHeader({ alg: 'A128KW' })
         .encrypt(),
-      { instanceOf: TypeError },
+      TypeError,
     )
   }
 })
 
-test('AES-GCMKW authentication tags must be 128 bits', async (t) => {
-  const jwe = await new GeneralEncrypt(t.context.plaintext)
+test('AES-GCMKW authentication tags must be 128 bits', async () => {
+  const jwe = await new GeneralEncrypt(context.plaintext)
     .setProtectedHeader({ enc: 'A256GCM' })
-    .addRecipient(t.context.secret)
+    .addRecipient(context.secret)
     .setUnprotectedHeader({ alg: 'A256GCMKW' })
-    .addRecipient(t.context.secret2)
+    .addRecipient(context.secret2)
     .setUnprotectedHeader({ alg: 'A128GCMKW' })
     .encrypt()
   const recipient = jwe.recipients[0]
@@ -231,264 +243,300 @@ test('AES-GCMKW authentication tags must be 128 bits', async (t) => {
     malformed.recipients[0].encrypted_key = base64url.encode(members.encryptedKey)
     malformed.recipients[0].header!.tag = base64url.encode(members.tag)
 
-    await t.throwsAsync(generalDecrypt(malformed, t.context.secret), {
-      code: 'ERR_JWE_DECRYPTION_FAILED',
-    })
+    await assert.rejects(
+      generalDecrypt(malformed, context.secret),
+      errorLike({
+        code: 'ERR_JWE_DECRYPTION_FAILED',
+      }),
+    )
   }
 })
 
-test('General JWE encryption validates multi-recipient plaintext', async (t) => {
+test('General JWE encryption validates multi-recipient plaintext', async () => {
   const encrypt = new GeneralEncrypt(new ArrayBuffer(1) as any).setProtectedHeader({
     enc: 'A128GCM',
   })
-  encrypt.addRecipient(t.context.secret).setUnprotectedHeader({ alg: 'A256KW' })
-  encrypt.addRecipient(t.context.secret2).setUnprotectedHeader({ alg: 'A128KW' })
+  encrypt.addRecipient(context.secret).setUnprotectedHeader({ alg: 'A256KW' })
+  encrypt.addRecipient(context.secret2).setUnprotectedHeader({ alg: 'A128KW' })
 
-  await t.throwsAsync(encrypt.encrypt(), {
-    instanceOf: TypeError,
-    message: 'plaintext must be an instance of Uint8Array',
-  })
+  await assert.rejects(
+    encrypt.encrypt(),
+    (error) =>
+      error instanceof TypeError && error.message === 'plaintext must be an instance of Uint8Array',
+  )
 })
 
-test('General JWE single-recipient encryption requires a JOSE header', async (t) => {
-  const encrypt = new GeneralEncrypt(t.context.plaintext).addRecipient(t.context.secret)
+test('General JWE single-recipient encryption requires a JOSE header', async () => {
+  const encrypt = new GeneralEncrypt(context.plaintext).addRecipient(context.secret)
 
-  await t.throwsAsync(encrypt.encrypt(), {
-    code: 'ERR_JWE_INVALID',
-    message:
-      'either setProtectedHeader, setUnprotectedHeader, or sharedUnprotectedHeader must be called before #encrypt()',
-  })
+  await assert.rejects(
+    encrypt.encrypt(),
+    errorLike({
+      code: 'ERR_JWE_INVALID',
+      message:
+        'either setProtectedHeader, setUnprotectedHeader, or sharedUnprotectedHeader must be called before #encrypt()',
+    }),
+  )
 })
 
-test('General JWE multi-recipient encryption requires a JOSE header', async (t) => {
-  const encrypt = new GeneralEncrypt(t.context.plaintext)
-  encrypt.addRecipient(t.context.secret)
-  encrypt.addRecipient(t.context.secret2)
+test('General JWE multi-recipient encryption requires a JOSE header', async () => {
+  const encrypt = new GeneralEncrypt(context.plaintext)
+  encrypt.addRecipient(context.secret)
+  encrypt.addRecipient(context.secret2)
 
-  await t.throwsAsync(encrypt.encrypt(), {
-    code: 'ERR_JWE_INVALID',
-    message:
-      'either setProtectedHeader, setUnprotectedHeader, or sharedUnprotectedHeader must be called before #encrypt()',
-  })
+  await assert.rejects(
+    encrypt.encrypt(),
+    errorLike({
+      code: 'ERR_JWE_INVALID',
+      message:
+        'either setProtectedHeader, setUnprotectedHeader, or sharedUnprotectedHeader must be called before #encrypt()',
+    }),
+  )
 })
 
-test('General JWE resolves algorithms after cross-recipient validation', async (t) => {
-  await t.throwsAsync(
-    new GeneralEncrypt(t.context.plaintext)
+test('General JWE resolves algorithms after cross-recipient validation', async () => {
+  await assert.rejects(
+    new GeneralEncrypt(context.plaintext)
       .setProtectedHeader({ enc: 'A128GCM' })
-      .addRecipient(t.context.secret)
+      .addRecipient(context.secret)
       .setUnprotectedHeader({ alg: 'unsupported' })
-      .addRecipient(t.context.secret2)
+      .addRecipient(context.secret2)
       .setUnprotectedHeader({ alg: 'dir' })
       .encrypt(),
-    {
+    errorLike({
       code: 'ERR_JWE_INVALID',
       message: '"dir" alg may only have a single recipient',
-    },
+    }),
   )
 
-  await t.throwsAsync(
-    new GeneralEncrypt(t.context.plaintext)
-      .addRecipient(t.context.secret)
+  await assert.rejects(
+    new GeneralEncrypt(context.plaintext)
+      .addRecipient(context.secret)
       .setUnprotectedHeader({ alg: 'unsupported', enc: 'A128GCM' })
-      .addRecipient(t.context.secret2)
+      .addRecipient(context.secret2)
       .setUnprotectedHeader({ alg: 'A128KW', enc: 'A256GCM' })
       .encrypt(),
-    {
+    errorLike({
       code: 'ERR_JWE_INVALID',
       message:
         'JWE "enc" (Encryption Algorithm) Header Parameter must be the same for all recipients',
-    },
+    }),
   )
 })
 
-test('General JWE resolves every recipient before performing cryptographic operations', async (t) => {
-  await t.throwsAsync(
-    new GeneralEncrypt(t.context.plaintext)
+test('General JWE resolves every recipient before performing cryptographic operations', async () => {
+  await assert.rejects(
+    new GeneralEncrypt(context.plaintext)
       .setProtectedHeader({ enc: 'A128GCM' })
       .addRecipient(new Uint8Array(1))
       .setUnprotectedHeader({ alg: 'A128KW' })
-      .addRecipient(t.context.secret2)
+      .addRecipient(context.secret2)
       .setUnprotectedHeader({ alg: 'unsupported' })
       .encrypt(),
-    {
+    errorLike({
       code: 'ERR_JOSE_NOT_SUPPORTED',
       message: 'Invalid or unsupported "alg" (JWE Algorithm) header value',
-    },
+    }),
   )
 })
 
-test('General JWE encryption (single recipient dir)', async (t) => {
-  const generalJwe = await new GeneralEncrypt(t.context.plaintext)
-    .setAdditionalAuthenticatedData(t.context.additionalAuthenticatedData)
+test('General JWE encryption (single recipient dir)', async () => {
+  const generalJwe = await new GeneralEncrypt(context.plaintext)
+    .setAdditionalAuthenticatedData(context.additionalAuthenticatedData)
     .setProtectedHeader({ enc: 'A256GCM' })
     .setSharedUnprotectedHeader({ alg: 'dir' })
-    .addRecipient(t.context.secret)
+    .addRecipient(context.secret)
     .encrypt()
 
-  t.true(generalJwe.aad && typeof generalJwe.aad === 'string')
-  t.true(generalJwe.ciphertext && typeof generalJwe.ciphertext === 'string')
-  t.true(generalJwe.iv && typeof generalJwe.iv === 'string')
-  t.true(generalJwe.protected && typeof generalJwe.protected === 'string')
-  t.true(generalJwe.tag && typeof generalJwe.tag === 'string')
-  t.true(
+  assert.strictEqual(generalJwe.aad && typeof generalJwe.aad === 'string', true)
+  assert.strictEqual(generalJwe.ciphertext && typeof generalJwe.ciphertext === 'string', true)
+  assert.strictEqual(generalJwe.iv && typeof generalJwe.iv === 'string', true)
+  assert.strictEqual(generalJwe.protected && typeof generalJwe.protected === 'string', true)
+  assert.strictEqual(generalJwe.tag && typeof generalJwe.tag === 'string', true)
+  assert.strictEqual(
     generalJwe.unprotected &&
       typeof generalJwe.unprotected === 'object' &&
       Object.keys(generalJwe.unprotected).length === 1,
+    true,
   )
-  t.is(generalJwe.recipients.length, 1)
+  assert.strictEqual(generalJwe.recipients.length, 1)
 
-  t.deepEqual(generalJwe.recipients, [{}])
+  assert.deepStrictEqual(generalJwe.recipients, [{}])
 
-  await generalDecrypt(generalJwe, t.context.secret)
+  await generalDecrypt(generalJwe, context.secret)
 })
 
-test('General JWE encryption (single recipient ECDH-ES)', async (t) => {
+test('General JWE encryption (single recipient ECDH-ES)', async () => {
   const kp = await generateKeyPair('ECDH-ES')
-  const generalJwe = await new GeneralEncrypt(t.context.plaintext)
-    .setAdditionalAuthenticatedData(t.context.additionalAuthenticatedData)
+  const generalJwe = await new GeneralEncrypt(context.plaintext)
+    .setAdditionalAuthenticatedData(context.additionalAuthenticatedData)
     .setProtectedHeader({ enc: 'A256GCM' })
     .setSharedUnprotectedHeader({ alg: 'ECDH-ES' })
     .addRecipient(kp.publicKey)
     .encrypt()
 
-  t.true(generalJwe.aad && typeof generalJwe.aad === 'string')
-  t.true(generalJwe.ciphertext && typeof generalJwe.ciphertext === 'string')
-  t.true(generalJwe.iv && typeof generalJwe.iv === 'string')
-  t.true(generalJwe.protected && typeof generalJwe.protected === 'string')
-  t.true(generalJwe.tag && typeof generalJwe.tag === 'string')
-  t.deepEqual(generalJwe.recipients, [{}])
-  t.true(
+  assert.strictEqual(generalJwe.aad && typeof generalJwe.aad === 'string', true)
+  assert.strictEqual(generalJwe.ciphertext && typeof generalJwe.ciphertext === 'string', true)
+  assert.strictEqual(generalJwe.iv && typeof generalJwe.iv === 'string', true)
+  assert.strictEqual(generalJwe.protected && typeof generalJwe.protected === 'string', true)
+  assert.strictEqual(generalJwe.tag && typeof generalJwe.tag === 'string', true)
+  assert.deepStrictEqual(generalJwe.recipients, [{}])
+  assert.strictEqual(
     generalJwe.unprotected &&
       typeof generalJwe.unprotected === 'object' &&
       Object.keys(generalJwe.unprotected).length === 1,
+    true,
   )
 
   await generalDecrypt(generalJwe, kp.privateKey)
 })
 
-test('General JWE format validation', async (t) => {
-  const encrypt = new GeneralEncrypt(t.context.plaintext)
+test('General JWE format validation', async () => {
+  const encrypt = new GeneralEncrypt(context.plaintext)
     .setProtectedHeader({ bar: 'baz' })
     .setSharedUnprotectedHeader({ foo: 'bar' })
-    .setAdditionalAuthenticatedData(t.context.additionalAuthenticatedData)
+    .setAdditionalAuthenticatedData(context.additionalAuthenticatedData)
 
-  encrypt.addRecipient(t.context.secret).setUnprotectedHeader({ alg: 'A256GCMKW', enc: 'A256GCM' })
+  encrypt.addRecipient(context.secret).setUnprotectedHeader({ alg: 'A256GCMKW', enc: 'A256GCM' })
 
   const generalJwe = await encrypt.encrypt()
 
   {
-    await t.throwsAsync(generalDecrypt(null, t.context.secret), {
-      message: 'General JWE must be an object',
-      code: 'ERR_JWE_INVALID',
-    })
+    await assert.rejects(
+      generalDecrypt(null, context.secret),
+      errorLike({
+        message: 'General JWE must be an object',
+        code: 'ERR_JWE_INVALID',
+      }),
+    )
   }
 
   {
-    await t.throwsAsync(generalDecrypt({ recipients: null }, t.context.secret), {
-      message: 'JWE Recipients missing or incorrect type',
-      code: 'ERR_JWE_INVALID',
-    })
+    await assert.rejects(
+      generalDecrypt({ recipients: null }, context.secret),
+      errorLike({
+        message: 'JWE Recipients missing or incorrect type',
+        code: 'ERR_JWE_INVALID',
+      }),
+    )
   }
 
   {
-    await t.throwsAsync(generalDecrypt({ recipients: [null] }, t.context.secret), {
-      message: 'JWE Recipients missing or incorrect type',
-      code: 'ERR_JWE_INVALID',
-    })
+    await assert.rejects(
+      generalDecrypt({ recipients: [null] }, context.secret),
+      errorLike({
+        message: 'JWE Recipients missing or incorrect type',
+        code: 'ERR_JWE_INVALID',
+      }),
+    )
   }
 
   {
-    await t.throwsAsync(generalDecrypt({ recipients: Array(1) }, t.context.secret), {
-      message: 'JWE Recipients missing or incorrect type',
-      code: 'ERR_JWE_INVALID',
-    })
+    await assert.rejects(
+      generalDecrypt({ recipients: Array(1) }, context.secret),
+      errorLike({
+        message: 'JWE Recipients missing or incorrect type',
+        code: 'ERR_JWE_INVALID',
+      }),
+    )
   }
 
   {
     const jwe = { ...generalJwe, recipients: [] }
 
-    await t.throwsAsync(generalDecrypt(jwe, t.context.secret), {
-      message: 'JWE Recipients has no members',
-      code: 'ERR_JWE_INVALID',
-    })
+    await assert.rejects(
+      generalDecrypt(jwe, context.secret),
+      errorLike({
+        message: 'JWE Recipients has no members',
+        code: 'ERR_JWE_INVALID',
+      }),
+    )
   }
 
   {
     const jwe = { ...generalJwe, recipients: [{}] }
 
-    await t.throwsAsync(generalDecrypt(jwe, t.context.secret), {
-      message: 'decryption operation failed',
-      code: 'ERR_JWE_DECRYPTION_FAILED',
-    })
+    await assert.rejects(
+      generalDecrypt(jwe, context.secret),
+      errorLike({
+        message: 'decryption operation failed',
+        code: 'ERR_JWE_DECRYPTION_FAILED',
+      }),
+    )
   }
 
   {
     const jwe = { ...generalJwe, recipients: [generalJwe.recipients[0]] }
 
-    await t.notThrowsAsync(generalDecrypt(jwe, t.context.secret))
+    await assert.doesNotReject(generalDecrypt(jwe, context.secret))
   }
 
   {
     const jwe = { ...generalJwe, recipients: [generalJwe.recipients[0], {}] }
 
-    await t.notThrowsAsync(generalDecrypt(jwe, t.context.secret))
+    await assert.doesNotReject(generalDecrypt(jwe, context.secret))
   }
 
   {
     const jwe = { ...generalJwe, recipients: [{}, generalJwe.recipients[0]] }
 
-    await t.notThrowsAsync(generalDecrypt(jwe, t.context.secret))
+    await assert.doesNotReject(generalDecrypt(jwe, context.secret))
   }
 })
 
-test('an empty protected member is not an encoded protected header', async (t) => {
-  const jwe = await new GeneralEncrypt(t.context.plaintext)
+test('an empty protected member is not an encoded protected header', async () => {
+  const jwe = await new GeneralEncrypt(context.plaintext)
     .setSharedUnprotectedHeader({ alg: 'dir', enc: 'A256GCM' })
-    .addRecipient(t.context.secret)
+    .addRecipient(context.secret)
     .encrypt()
 
   jwe.protected = ''
 
-  await t.throwsAsync(generalDecrypt(jwe, t.context.secret), {
-    code: 'ERR_JWE_DECRYPTION_FAILED',
-  })
+  await assert.rejects(
+    generalDecrypt(jwe, context.secret),
+    errorLike({
+      code: 'ERR_JWE_DECRYPTION_FAILED',
+    }),
+  )
 })
 
-test('General JWE decryption requires a single recipient for dir and ECDH-ES', async (t) => {
-  const direct = await new GeneralEncrypt(t.context.plaintext)
+test('General JWE decryption requires a single recipient for dir and ECDH-ES', async () => {
+  const direct = await new GeneralEncrypt(context.plaintext)
     .setProtectedHeader({ alg: 'dir', enc: 'A256GCM' })
-    .addRecipient(t.context.secret)
+    .addRecipient(context.secret)
     .encrypt()
 
-  await t.throwsAsync(generalDecrypt({ ...direct, recipients: [{}, {}] }, t.context.secret), {
-    message: '"dir" alg may only have a single recipient',
-    code: 'ERR_JWE_INVALID',
-  })
+  await assert.rejects(
+    generalDecrypt({ ...direct, recipients: [{}, {}] }, context.secret),
+    errorLike({
+      message: '"dir" alg may only have a single recipient',
+      code: 'ERR_JWE_INVALID',
+    }),
+  )
 
-  const perRecipient = await new GeneralEncrypt(t.context.plaintext)
+  const perRecipient = await new GeneralEncrypt(context.plaintext)
     .setProtectedHeader({ enc: 'A256GCM' })
-    .addRecipient(t.context.secret)
+    .addRecipient(context.secret)
     .setUnprotectedHeader({ alg: 'A256GCMKW' })
-    .addRecipient(t.context.secret2)
+    .addRecipient(context.secret2)
     .setUnprotectedHeader({ alg: 'A128GCMKW' })
     .encrypt()
 
-  await t.throwsAsync(
+  await assert.rejects(
     generalDecrypt(
       {
         ...perRecipient,
         recipients: [perRecipient.recipients[0], { header: { alg: 'ECDH-ES' } }],
       },
-      t.context.secret,
+      context.secret,
     ),
-    {
+    errorLike({
       message: '"ECDH-ES" alg may only have a single recipient',
       code: 'ERR_JWE_INVALID',
-    },
+    }),
   )
 
-  await t.throwsAsync(
+  await assert.rejects(
     generalDecrypt(
       {
         ...perRecipient,
@@ -497,12 +545,12 @@ test('General JWE decryption requires a single recipient for dir and ECDH-ES', a
           { header: { alg: 'dir' }, encrypted_key: 0 as never },
         ],
       },
-      t.context.secret,
+      context.secret,
     ),
-    {
+    errorLike({
       message: '"dir" alg may only have a single recipient',
       code: 'ERR_JWE_INVALID',
-    },
+    }),
   )
 
   const mutatingHeader = { alg: 'dir' }
@@ -513,15 +561,15 @@ test('General JWE decryption requires a single recipient for dir and ECDH-ES', a
       return 0
     },
   })
-  await t.throwsAsync(
+  await assert.rejects(
     generalDecrypt(
       { ...perRecipient, recipients: [perRecipient.recipients[0], mutatingRecipient] },
-      t.context.secret,
+      context.secret,
     ),
-    {
+    errorLike({
       message: '"dir" alg may only have a single recipient',
       code: 'ERR_JWE_INVALID',
-    },
+    }),
   )
 
   for (const thrown of [new Error('unexpected encrypted key getter'), undefined]) {
@@ -531,15 +579,15 @@ test('General JWE decryption requires a single recipient for dir and ECDH-ES', a
         throw thrown
       },
     }
-    await t.throwsAsync(
+    await assert.rejects(
       generalDecrypt(
         { ...perRecipient, recipients: [perRecipient.recipients[0], throwingRecipient] },
-        t.context.secret,
+        context.secret,
       ),
-      {
+      errorLike({
         message: '"dir" alg may only have a single recipient',
         code: 'ERR_JWE_INVALID',
-      },
+      }),
     )
   }
 
@@ -549,24 +597,24 @@ test('General JWE decryption requires a single recipient for dir and ECDH-ES', a
       throw new Error('unexpected header getter')
     },
   }
-  await t.throwsAsync(
+  await assert.rejects(
     generalDecrypt(
       {
         ...perRecipient,
         recipients: [perRecipient.recipients[0], { header: partiallyThrowingHeader }],
       },
-      t.context.secret,
+      context.secret,
     ),
-    {
+    errorLike({
       message: '"dir" alg may only have a single recipient',
       code: 'ERR_JWE_INVALID',
-    },
+    }),
   )
 
-  const flattened = await new FlattenedEncrypt(t.context.plaintext)
+  const flattened = await new FlattenedEncrypt(context.plaintext)
     .setProtectedHeader({ enc: 'A256GCM' })
     .setUnprotectedHeader({ alg: 'dir' })
-    .encrypt(t.context.secret)
+    .encrypt(context.secret)
   let reads = 0
   const switching = {
     get header() {
@@ -575,7 +623,7 @@ test('General JWE decryption requires a single recipient for dir and ECDH-ES', a
     },
   }
 
-  await t.throwsAsync(
+  await assert.rejects(
     generalDecrypt(
       {
         ciphertext: flattened.ciphertext,
@@ -584,18 +632,18 @@ test('General JWE decryption requires a single recipient for dir and ECDH-ES', a
         recipients: [switching, {}],
         tag: flattened.tag,
       },
-      t.context.secret,
+      context.secret,
     ),
-    { code: 'ERR_JWE_DECRYPTION_FAILED' },
+    errorLike({ code: 'ERR_JWE_DECRYPTION_FAILED' }),
   )
-  t.is(reads, 1)
+  assert.strictEqual(reads, 1)
 })
 
-test('General JWE decryption rejects a dir CEK key-wrapped for a second recipient', async (t) => {
+test('General JWE decryption rejects a dir CEK key-wrapped for a second recipient', async () => {
   const cek = crypto.randomFillSync(new Uint8Array(32))
   const kek = crypto.randomFillSync(new Uint8Array(32))
 
-  const flattened = await new FlattenedEncrypt(t.context.plaintext)
+  const flattened = await new FlattenedEncrypt(context.plaintext)
     .setProtectedHeader({ enc: 'A256GCM' })
     .setUnprotectedHeader({ alg: 'dir' })
     .encrypt(cek)
@@ -624,47 +672,50 @@ test('General JWE decryption rejects a dir CEK key-wrapped for a second recipien
   // "dir" fixes the CEK rather than transporting it, so a second recipient can key wrap that same
   // CEK and both parties really do decrypt. RFC 7516 forbids it regardless.
   for (const key of [cek, kek]) {
-    await t.throwsAsync(generalDecrypt(jwe, key), {
-      message: '"dir" alg may only have a single recipient',
-      code: 'ERR_JWE_INVALID',
-    })
+    await assert.rejects(
+      generalDecrypt(jwe, key),
+      errorLike({
+        message: '"dir" alg may only have a single recipient',
+        code: 'ERR_JWE_INVALID',
+      }),
+    )
   }
 })
 
-test('Default PBES2 Count', async (t) => {
-  const jwe = await new GeneralEncrypt(t.context.plaintext)
+test('Default PBES2 Count', async () => {
+  const jwe = await new GeneralEncrypt(context.plaintext)
     .setProtectedHeader({ alg: 'PBES2-HS256+A128KW', enc: 'A128GCM' })
-    .addRecipient(t.context.secret)
-    .addRecipient(t.context.secret)
-    .encrypt(t.context.secret)
+    .addRecipient(context.secret)
+    .addRecipient(context.secret)
+    .encrypt(context.secret)
 
   const [{ header: bob }, { header: charlie }] = jwe.recipients
-  t.is(bob.p2c, 2048)
-  t.is(charlie.p2c, 2048)
-  t.true(bob.p2s !== charlie.p2s)
+  assert.strictEqual(bob.p2c, 2048)
+  assert.strictEqual(charlie.p2c, 2048)
+  assert.strictEqual(bob.p2s !== charlie.p2s, true)
 })
 
-test('single recipient key management parameters are honoured', async (t) => {
-  const jwe = await new GeneralEncrypt(t.context.plaintext)
+test('single recipient key management parameters are honoured', async () => {
+  const jwe = await new GeneralEncrypt(context.plaintext)
     .setProtectedHeader({ alg: 'PBES2-HS256+A128KW', enc: 'A128GCM' })
-    .addRecipient(t.context.secret)
+    .addRecipient(context.secret)
     .setKeyManagementParameters({ p2c: 4096 })
     .encrypt()
 
-  t.is(protectedHeader(jwe).p2c, 4096)
+  assert.strictEqual(protectedHeader(jwe).p2c, 4096)
 
-  const { plaintext } = await generalDecrypt(jwe, t.context.secret, {
+  const { plaintext } = await generalDecrypt(jwe, context.secret, {
     keyManagementAlgorithms: ['PBES2-HS256+A128KW'],
   })
-  t.deepEqual(plaintext, t.context.plaintext)
+  assert.deepStrictEqual(plaintext, context.plaintext)
 })
 
-test('single recipient ECDH-ES apu/apv are honoured', async (t) => {
+test('single recipient ECDH-ES apu/apv are honoured', async () => {
   const { privateKey, publicKey } = await generateKeyPair('ECDH-ES', { extractable: true })
   const apu = crypto.randomFillSync(new Uint8Array(8))
   const apv = crypto.randomFillSync(new Uint8Array(8))
 
-  const jwe = await new GeneralEncrypt(t.context.plaintext)
+  const jwe = await new GeneralEncrypt(context.plaintext)
     .setProtectedHeader({ enc: 'A256GCM' })
     .addRecipient(publicKey)
     .setUnprotectedHeader({ alg: 'ECDH-ES+A256KW' })
@@ -674,14 +725,14 @@ test('single recipient ECDH-ES apu/apv are honoured', async (t) => {
   // A single recipient does not request per-recipient parameter placement, so the derived
   // parameters land in the JWE Protected Header.
   const { apu: apuS, apv: apvS } = protectedHeader(jwe)
-  t.is(apuS, base64url.encode(apu))
-  t.is(apvS, base64url.encode(apv))
+  assert.strictEqual(apuS, base64url.encode(apu))
+  assert.strictEqual(apvS, base64url.encode(apv))
 
   const { plaintext } = await generalDecrypt(jwe, privateKey)
-  t.deepEqual(plaintext, t.context.plaintext)
+  assert.deepStrictEqual(plaintext, context.plaintext)
 })
 
-test('General JWE generated Key Management Parameters must be disjoint', async (t) => {
+test('General JWE generated Key Management Parameters must be disjoint', async () => {
   // With more than one recipient the generated Key Management Parameters land in the JWE
   // Per-Recipient Unprotected Header, so a name the caller already used in another header would
   // make the emitted JWE violate RFC 7516 Section 7.2.1 - and generalDecrypt rejects such a JWE.
@@ -690,25 +741,25 @@ test('General JWE generated Key Management Parameters must be disjoint', async (
     message:
       'JWE Protected, JWE Shared Unprotected and JWE Per-Recipient Header Parameter names must be disjoint',
   }
-  await t.throwsAsync(
-    new GeneralEncrypt(t.context.plaintext)
+  await assert.rejects(
+    new GeneralEncrypt(context.plaintext)
       .setProtectedHeader({ enc: 'A128GCM', p2c: 4096 })
-      .addRecipient(t.context.secret)
+      .addRecipient(context.secret)
       .setUnprotectedHeader({ alg: 'PBES2-HS256+A128KW' })
-      .addRecipient(t.context.secret2)
+      .addRecipient(context.secret2)
       .setUnprotectedHeader({ alg: 'A128GCMKW' })
       .encrypt(),
-    message,
+    errorLike(message),
   )
-  await t.throwsAsync(
-    new GeneralEncrypt(t.context.plaintext)
+  await assert.rejects(
+    new GeneralEncrypt(context.plaintext)
       .setProtectedHeader({ enc: 'A128GCM' })
       .setSharedUnprotectedHeader({ p2c: 4096 })
-      .addRecipient(t.context.secret2)
+      .addRecipient(context.secret2)
       .setUnprotectedHeader({ alg: 'A128GCMKW' })
-      .addRecipient(t.context.secret)
+      .addRecipient(context.secret)
       .setUnprotectedHeader({ alg: 'PBES2-HS256+A128KW' })
       .encrypt(),
-    message,
+    errorLike(message),
   )
 })

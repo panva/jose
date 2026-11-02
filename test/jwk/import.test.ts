@@ -1,4 +1,5 @@
-import test from 'ava'
+import assert from 'node:assert/strict'
+import test from 'node:test'
 
 import {
   exportJWK,
@@ -9,8 +10,9 @@ import {
   importPKCS8,
   importSPKI,
 } from '../../src/index.js'
+import { errorLike } from '../_errors.js'
 
-test('PEM imports reject symmetric algorithms', async (t) => {
+test('PEM imports reject symmetric algorithms', async () => {
   const { privateKey, publicKey } = await generateKeyPair('ES256', { extractable: true })
   const spki = await exportSPKI(publicKey)
   const pkcs8 = await exportPKCS8(privateKey)
@@ -20,25 +22,21 @@ test('PEM imports reject symmetric algorithms', async (t) => {
   }
 
   for (const alg of ['HS256', 'A128KW']) {
-    await t.throwsAsync(importSPKI(spki, alg), expected)
-    await t.throwsAsync(importPKCS8(pkcs8, alg), expected)
+    await assert.rejects(importSPKI(spki, alg), errorLike(expected))
+    await assert.rejects(importPKCS8(pkcs8, alg), errorLike(expected))
   }
 })
 
-test('private key import extractable option must be a boolean', async (t) => {
+test('private key import extractable option must be a boolean', async () => {
   const { privateKey } = await generateKeyPair('ES256', { extractable: true })
   const pkcs8 = await exportPKCS8(privateKey)
   const jwk = await exportJWK(privateKey)
 
-  await t.throwsAsync(importPKCS8(pkcs8, 'ES256', { extractable: 'false' as never }), {
-    instanceOf: TypeError,
-  })
-  await t.throwsAsync(importJWK(jwk, 'ES256', { extractable: 'false' as never }), {
-    instanceOf: TypeError,
-  })
+  await assert.rejects(importPKCS8(pkcs8, 'ES256', { extractable: 'false' as never }), TypeError)
+  await assert.rejects(importJWK(jwk, 'ES256', { extractable: 'false' as never }), TypeError)
 })
 
-test('key imports snapshot the extractable option', async (t) => {
+test('key imports snapshot the extractable option', async () => {
   const { privateKey, publicKey } = await generateKeyPair('ES256', { extractable: true })
   const pkcs8 = await exportPKCS8(privateKey)
   const jwk = await exportJWK(publicKey)
@@ -54,7 +52,7 @@ test('key imports snapshot the extractable option', async (t) => {
       },
     })
 
-    t.is(reads, 1)
-    t.false(key.extractable)
+    assert.strictEqual(reads, 1)
+    assert.strictEqual(key.extractable, false)
   }
 })

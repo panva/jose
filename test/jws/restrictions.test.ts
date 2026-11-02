@@ -1,6 +1,6 @@
-import test from 'ava'
+import test, { before } from 'node:test'
+import assert from 'node:assert/strict'
 import * as crypto from 'crypto'
-
 import {
   base64url,
   exportPKCS8,
@@ -11,16 +11,23 @@ import {
   generateKeyPair,
   importJWK,
 } from '../../src/index.js'
+import { errorLike } from '../_errors.js'
 
-function pubjwk(jwk) {
+const context = {} as {
+  payload: Uint8Array
+  rsa2040: import('../../src/index.js').JWK
+  rsa2048: import('../../src/index.js').JWK
+}
+
+function pubjwk(jwk: import('../../src/index.js').JWK) {
   const { d, p, q, dp, dq, qi, ...publicJwk } = jwk
   return publicJwk
 }
 
-test.before((t) => {
+before(() => {
   const encode = TextEncoder.prototype.encode.bind(new TextEncoder())
-  t.context.payload = encode('It’s a dangerous business, Frodo, going out your door.')
-  t.context.rsa2040 = {
+  context.payload = encode('It’s a dangerous business, Frodo, going out your door.')
+  context.rsa2040 = {
     e: 'AQAB',
     n: '4waoB9XUAsGc-bhkfY-v3hKEqmLYF4nS-8nji5R5KoOOeWC2hCkvbMfd2IlKRdMU7EmGXNx2BD2FVIqN9mWyZKJlzR2125lgJ-VxCymGv1A9057LEAFIrXsCUqwjPO07hCzZNv8IAAQzq53pnlAgb3TbfrxW24tamhCtaKHb5upAwo4jhYnfzex2--vD7mPxMoTuikno-eD_hxYmA52Uh1gu3wEWy44KA6aFJBpP7m4G5StuHSCXxiOWDaqMeFsMX1jqrom7SwbGJ7j0sf3ZqWrZR4x1pB3wk5Sixi_lmDfOkXhiizYnvJJ5rzr_f0bVdXeAe2U8vpEJSQeA36T7',
     d: 'T7ZPm2it50XZ-yiOSDQCWSQBZt4L57_hz7ykY6b_IDlO9jlJ_H-FgllvAI-7_2ZNC2YJgmN6IKUFQpjfnas5hvIqcmnDJ9bjlz6NgZDUGipvevVfcUAyJ49wUlzUhpj5c8BXiGLliTPwfIqWs5qIuPm78_TnPnDgoAXJDVr_njr_C6CJFVfWni_6MTeT8iSApGrIJ-tovLlUWSQAyKfWT0QK8dclmREla6-B4YPFwMuBViiSI8dGFpw1O-sEn7D1aMWRepWKr-dgvukuksdL39LxBeGz-iHpI_DMdSB63t5kyjT7GPlbBkD__4ie_Vl4bG30dUZvH_Vt6nXxyXEh',
@@ -31,7 +38,7 @@ test.before((t) => {
     qi: 'AkpKJwYKvaB73G7IQK5yxXCOvypwSEUK1bOcbhOZSQPPNtKvov11dVsGs-pqHo0Su06IXQv0Ayyy3uxXvsY8CyZ3CbPWMXM06Z3Gr0kZWWfNu8NiFwXvkbe24P-KeXIQGFTfdqSMTfm2an1YNE9e9F36rZ0EkhdKzmwzudA7jtw',
     kty: 'RSA',
   }
-  t.context.rsa2048 = {
+  context.rsa2048 = {
     e: 'AQAB',
     n: '3egkthDOqRIif9azx83Q-HKcVNUeDALom8e5L1rjljB82EKYt5zgfKlgLW4NuJQgLDx5jA7Ez_nz-8lIcVTez-C75_M-Thv2wLhk4ZAYAZZPEmZr76zH8-lClnhxcqFnkOABqLmopr2gF1gBG_IkqEnH_h_yH486YkCd0G2ZNJAzjCOCQMR5pzBnIxC4YUAX7r_-9ilQ8Lv3MSJ0MLv6cujJTneyjWnoh_SfOXRsY6f3gkfR9APj9Q5A8PA8gvbYyN8EHr4OYb1KwNjs_0_X0Aq0e1NJx3H5eiZe6UaFleIbEVZYoNtlNJO3kmGESaxepkWTRAqBZVTfj4KnKX_9Ow',
     d: 'Q17sbl4x8ACyeq97i4jADf312oeNhMYJSupbHbZxbDKyZJHrfatiOFbP_VrxTX2jOurtWAlP1Xiki2fz13yV3PT095nQ67PvuVkCP70YnLq-rO5tjKmfVz0VW0ub3dqE7-YietBLFLxzc0Ljq1FbscAcuNmID-7TIetOPm5X2i3wxOuiEV2xz1nHVuys3yoO3z4rAitGFl943k71P4FKxK9mp9oTQTnDfKauP0eSOD10L2NiYLkUTg9YC8A0EQopdZatDVAz3hWitNpJg28fWe7rp7yR2YBb4nFcNuygZmzEzp7x0r87NnTt9t4Hjd1rNFbd3hdT6Dy9_pejkmdU2Q',
@@ -44,80 +51,94 @@ test.before((t) => {
   }
 })
 
-async function testRSAsig(t, alg) {
+async function testRSAsig(alg: string) {
   const message = `${alg} requires key modulusLength to be 2048 bits or larger`
-  const keyBad = t.context.rsa2040
-  const keyOk = t.context.rsa2048
-  await t.throwsAsync(
-    new FlattenedSign(t.context.payload)
+  const keyBad = context.rsa2040
+  const keyOk = context.rsa2048
+  await assert.rejects(
+    new FlattenedSign(context.payload)
       .setProtectedHeader({ alg })
       .sign(await importJWK(keyBad, alg)),
-    { instanceOf: TypeError, message },
+    (error) => {
+      assert.ok(error instanceof TypeError)
+      assert.equal(error.message, message)
+      return true
+    },
   )
-
-  const jws = await new FlattenedSign(t.context.payload)
+  const jws = await new FlattenedSign(context.payload)
     .setProtectedHeader({ alg })
     .sign(await importJWK(keyOk, alg))
-
-  await t.throwsAsync(flattenedVerify(jws, await importJWK(pubjwk(keyBad), alg)), {
-    instanceOf: TypeError,
-    message,
+  await assert.rejects(flattenedVerify(jws, await importJWK(pubjwk(keyBad), alg)), (error) => {
+    assert.ok(error instanceof TypeError)
+    assert.equal(error.message, message)
+    return true
   })
 }
-testRSAsig.title = (title, alg) => `${alg} requires key modulusLength to be 2048 bits or larger`
 
-async function testRSAenc(t, alg) {
+async function testRSAenc(alg: string) {
   const message = `${alg} requires key modulusLength to be 2048 bits or larger`
-  const keyBad = t.context.rsa2040
-  const keyOk = t.context.rsa2048
-  await t.throwsAsync(
-    new FlattenedEncrypt(t.context.payload)
+  const keyBad = context.rsa2040
+  const keyOk = context.rsa2048
+  await assert.rejects(
+    new FlattenedEncrypt(context.payload)
       .setProtectedHeader({ alg, enc: 'A256GCM' })
       .encrypt(await importJWK(pubjwk(keyBad), alg)),
-    { instanceOf: TypeError, message },
+    (error) => {
+      assert.ok(error instanceof TypeError)
+      assert.equal(error.message, message)
+      return true
+    },
   )
-
-  const jwe = await new FlattenedEncrypt(t.context.payload)
+  const jwe = await new FlattenedEncrypt(context.payload)
     .setProtectedHeader({ alg, enc: 'A256GCM' })
     .encrypt(await importJWK(pubjwk(keyOk), alg))
-
-  await t.throwsAsync(flattenedDecrypt(jwe, await importJWK(keyBad, alg)), {
-    instanceOf: TypeError,
-    message,
+  await assert.rejects(flattenedDecrypt(jwe, await importJWK(keyBad, alg)), (error) => {
+    assert.ok(error instanceof TypeError)
+    assert.equal(error.message, message)
+    return true
   })
 }
-testRSAenc.title = (title, alg) => `${alg} requires key modulusLength to be 2048 bits or larger`
 
-async function testECDSASigEncoding(t, alg) {
+async function testECDSASigEncoding(alg: string) {
   const { privateKey, publicKey } = await generateKeyPair(alg, { extractable: true })
-
-  const jws = await new FlattenedSign(t.context.payload)
-    .setProtectedHeader({ alg })
-    .sign(privateKey)
-
+  const jws = await new FlattenedSign(context.payload).setProtectedHeader({ alg }).sign(privateKey)
   const derEncodedSignature = base64url.encode(
     crypto.sign(`sha${alg.slice(2, 5)}`, Buffer.from('foo'), await exportPKCS8(privateKey)),
   )
-
-  await t.throwsAsync(flattenedVerify({ ...jws, signature: derEncodedSignature }, publicKey), {
-    message: 'signature verification failed',
-    code: 'ERR_JWS_SIGNATURE_VERIFICATION_FAILED',
-  })
+  await assert.rejects(
+    flattenedVerify({ ...jws, signature: derEncodedSignature }, publicKey),
+    errorLike({
+      message: 'signature verification failed',
+      code: 'ERR_JWS_SIGNATURE_VERIFICATION_FAILED',
+    }),
+  )
 }
-testECDSASigEncoding.title = (title, alg) => `${alg} swallows invalid signature encoding errors`
 
-test(testRSAsig, 'RS256')
-test(testRSAsig, 'PS256')
-test(testRSAsig, 'RS384')
-test(testRSAsig, 'PS384')
-test(testRSAsig, 'RS512')
-test(testRSAsig, 'PS512')
+test(`RS256 requires key modulusLength to be 2048 bits or larger`, () => testRSAsig('RS256'))
 
-test(testRSAenc, 'RSA-OAEP')
-test(testRSAenc, 'RSA-OAEP-256')
-test(testRSAenc, 'RSA-OAEP-384')
-test(testRSAenc, 'RSA-OAEP-512')
+test(`PS256 requires key modulusLength to be 2048 bits or larger`, () => testRSAsig('PS256'))
 
-test(testECDSASigEncoding, 'ES256')
-test(testECDSASigEncoding, 'ES384')
-test(testECDSASigEncoding, 'ES512')
+test(`RS384 requires key modulusLength to be 2048 bits or larger`, () => testRSAsig('RS384'))
+
+test(`PS384 requires key modulusLength to be 2048 bits or larger`, () => testRSAsig('PS384'))
+
+test(`RS512 requires key modulusLength to be 2048 bits or larger`, () => testRSAsig('RS512'))
+
+test(`PS512 requires key modulusLength to be 2048 bits or larger`, () => testRSAsig('PS512'))
+
+test(`RSA-OAEP requires key modulusLength to be 2048 bits or larger`, () => testRSAenc('RSA-OAEP'))
+
+test(`RSA-OAEP-256 requires key modulusLength to be 2048 bits or larger`, () =>
+  testRSAenc('RSA-OAEP-256'))
+
+test(`RSA-OAEP-384 requires key modulusLength to be 2048 bits or larger`, () =>
+  testRSAenc('RSA-OAEP-384'))
+
+test(`RSA-OAEP-512 requires key modulusLength to be 2048 bits or larger`, () =>
+  testRSAenc('RSA-OAEP-512'))
+
+test(`ES256 swallows invalid signature encoding errors`, () => testECDSASigEncoding('ES256'))
+
+test(`ES384 swallows invalid signature encoding errors`, () => testECDSASigEncoding('ES384'))
+
+test(`ES512 swallows invalid signature encoding errors`, () => testECDSASigEncoding('ES512'))
