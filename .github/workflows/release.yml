@@ -15,7 +15,7 @@ jobs:
       contents: write # Update release branches and publish GitHub Releases.
       discussions: write # Create release discussions.
       id-token: write # Authenticate npm and JSR publishing and sign attestations.
-    uses: panva/.github/.github/workflows/npm-release.yml@3faba8af3880247be43547787aedd52780c9f946
+    uses: panva/.github/.github/workflows/npm-release.yml@a4736719ab55fdedeee01739c175e01bff32386f # v1
     with:
       cleanup_paths: '["dist"]'
       prepare_command: npm clean-install && npm run build-all && node tools/publish.cjs

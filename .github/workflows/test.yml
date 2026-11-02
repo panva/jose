@@ -62,7 +62,7 @@ jobs:
           test -z "$(git status --porcelain --untracked-files=all -- docs/)"
 
   node-versions:
-    uses: panva/.github/.github/workflows/node-versions.yml@3faba8af3880247be43547787aedd52780c9f946
+    uses: panva/.github/.github/workflows/node-versions.yml@a4736719ab55fdedeee01739c175e01bff32386f # v1
     with:
       min: 20
 
