@@ -332,6 +332,31 @@ test('an empty protected member is not an encoded protected header', async () =>
   )
 })
 
+test('General JWS reports an invalid "algorithms" option instead of a verification failure', async () => {
+  const jws = await new GeneralSign(context.plaintext)
+    .addSignature(context.secret)
+    .setProtectedHeader({ alg: 'HS256' })
+    .sign()
+
+  // The option belongs to the caller, not to the token, so it cannot be folded into the
+  // indistinguishable failure a malformed token produces. compactVerify and flattenedVerify
+  // already report it.
+  const invalid = errorLike({
+    name: 'TypeError',
+    message: '"algorithms" option must be an array of strings',
+  })
+  await assert.rejects(generalVerify(jws, context.secret, { algorithms: 'HS256' } as any), invalid)
+  await assert.rejects(generalVerify(jws, context.secret, { algorithms: [1] } as any), invalid)
+
+  await assert.doesNotReject(generalVerify(jws, context.secret, { algorithms: ['HS256'] }))
+
+  // A payload fault stays indistinguishable from a signature that is not the caller's.
+  await assert.rejects(
+    generalVerify({ signatures: jws.signatures }, context.secret),
+    errorLike({ code: 'ERR_JWS_SIGNATURE_VERIFICATION_FAILED' }),
+  )
+})
+
 test('sign empty data', async () => {
   const jws = await new GeneralSign(new Uint8Array(0))
     .addSignature(new Uint8Array(32))

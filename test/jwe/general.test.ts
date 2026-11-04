@@ -732,6 +732,46 @@ test('single recipient ECDH-ES apu/apv are honoured', async () => {
   assert.deepStrictEqual(plaintext, context.plaintext)
 })
 
+test('General JWE reports invalid algorithm options instead of a decryption failure', async () => {
+  const jwe = await new GeneralEncrypt(context.plaintext)
+    .setProtectedHeader({ enc: 'A256GCM' })
+    .addRecipient(context.secret)
+    .setUnprotectedHeader({ alg: 'dir' })
+    .encrypt()
+
+  // The options belong to the caller, not to the token, so they cannot be folded into the
+  // indistinguishable failure a malformed token produces. compactDecrypt and flattenedDecrypt
+  // already report them.
+  await assert.rejects(
+    generalDecrypt(jwe, context.secret, { contentEncryptionAlgorithms: 'A256GCM' } as any),
+    errorLike({
+      name: 'TypeError',
+      message: '"contentEncryptionAlgorithms" option must be an array of strings',
+    }),
+  )
+  await assert.rejects(
+    generalDecrypt(jwe, context.secret, { keyManagementAlgorithms: 'dir' } as any),
+    errorLike({
+      name: 'TypeError',
+      message: '"keyManagementAlgorithms" option must be an array of strings',
+    }),
+  )
+
+  await assert.doesNotReject(
+    generalDecrypt(jwe, context.secret, { contentEncryptionAlgorithms: ['A256GCM'] }),
+  )
+
+  // A shared member fault stays indistinguishable from a key that is not the recipient's.
+  await assert.rejects(
+    generalDecrypt({ ...jwe, tag: 'AAAA' }, context.secret),
+    errorLike({ code: 'ERR_JWE_DECRYPTION_FAILED' }),
+  )
+  await assert.rejects(
+    generalDecrypt(jwe, new Uint8Array(32)),
+    errorLike({ code: 'ERR_JWE_DECRYPTION_FAILED' }),
+  )
+})
+
 test('General JWE generated Key Management Parameters must be disjoint', async () => {
   // With more than one recipient the generated Key Management Parameters land in the JWE
   // Per-Recipient Unprotected Header, so a name the caller already used in another header would

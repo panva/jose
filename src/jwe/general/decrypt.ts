@@ -132,11 +132,10 @@ export async function generalDecrypt(
     throw new JWEInvalid('JWE Recipients has no members')
   }
 
-  let shared: DecryptShared
+  const shared: DecryptShared = prepareDecrypt(options)
   let sharedJwe!: types.FlattenedJWE
   let token: SharedJWE
   try {
-    shared = prepareDecrypt(options)
     sharedJwe = snapshotSharedJWE(jwe)
     token = shareJWE(sharedJwe)
   } catch {

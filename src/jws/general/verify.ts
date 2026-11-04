@@ -155,15 +155,12 @@ export async function generalVerify(
     throw new JWSInvalid('JWS Signatures missing or incorrect type')
   }
 
-  let shared: VerifyShared
-  try {
-    if (inputPayload === undefined) throw new Error()
-    shared = prepareVerify(options)
-  } catch {
+  if (inputPayload === undefined) {
     // Reporting the real fault here would distinguish a malformed token from a signature that is
     // simply not the caller's. Stay indistinguishable.
     throw new JWSSignatureVerificationFailed()
   }
+  const shared: VerifyShared = prepareVerify(options)
 
   const payload = inputPayload instanceof Uint8Array ? new Uint8Array(inputPayload) : inputPayload
   const candidates = signatureEntries
