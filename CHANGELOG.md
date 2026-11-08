@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file. See [commit-and-tag-version](https://github.com/absolute-version/commit-and-tag-version) for commit guidelines.
 
+## [6.2.16](https://github.com/panva/jose/compare/v6.2.15...v6.2.16) (2026-11-08)
+
+### Fixes
+
+* expose invalid options in general JWS and JWE ([e41e54e](https://github.com/panva/jose/commit/e41e54eafd7769e3aa6ef2f6d16e3cd06f00882b)), closes [#920](https://github.com/panva/jose/issues/920)
+
 ## [6.2.15](https://github.com/panva/jose/compare/v6.2.14...v6.2.15) (2026-11-01)
 
 ### Fixes
