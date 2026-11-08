@@ -57,6 +57,13 @@ if (hasCompressionStreams) {
 
     const { plaintext } = await generalDecrypt(jwe, context.secret)
     assert.deepStrictEqual(plaintext, context.plaintext)
+
+    for (const maxDecompressedLength of [0, context.plaintext.byteLength - 1]) {
+      await assert.rejects(
+        generalDecrypt(jwe, context.secret, { maxDecompressedLength }),
+        errorLike({ code: 'ERR_JWE_DECRYPTION_FAILED' }),
+      )
+    }
   })
 
   test('EncryptJWT/jwtDecrypt with zip: DEF', async () => {

@@ -391,6 +391,110 @@ test('General JWE encryption (single recipient ECDH-ES)', async () => {
   await generalDecrypt(generalJwe, kp.privateKey)
 })
 
+test('General JWE decryption does not hide invalid algorithms options', async () => {
+  const jwe = await new GeneralEncrypt(context.plaintext)
+    .setProtectedHeader({ enc: 'A256GCM' })
+    .addRecipient(context.secret)
+    .setUnprotectedHeader({ alg: 'A256KW' })
+    .addRecipient(context.secret2)
+    .setUnprotectedHeader({ alg: 'A128KW' })
+    .encrypt()
+  let resolveCalls = 0
+  const resolve = () => {
+    resolveCalls++
+    return context.secret
+  }
+  for (const option of ['keyManagementAlgorithms', 'contentEncryptionAlgorithms']) {
+    for (const algorithms of [null, 'A256KW', {}, [1], ['A256KW', null]]) {
+      for (const input of [
+        jwe,
+        { ...jwe, ciphertext: null },
+        { ...jwe, protected: '*' },
+        { ...jwe, recipients: [{}] },
+      ]) {
+        for (const key of [context.secret, resolve]) {
+          await assert.rejects(
+            generalDecrypt(input as never, key, { [option]: algorithms }),
+            errorLike({
+              name: 'TypeError',
+              message: `"${option}" option must be an array of strings`,
+            }),
+          )
+        }
+      }
+    }
+  }
+  assert.equal(resolveCalls, 0)
+  for (const input of [
+    { ...jwe, ciphertext: null },
+    { ...jwe, protected: '*' },
+    { ...jwe, recipients: [{}] },
+  ]) {
+    await assert.rejects(
+      generalDecrypt(input as never, context.secret),
+      errorLike({ code: 'ERR_JWE_DECRYPTION_FAILED' }),
+    )
+  }
+  for (const options of [
+    { keyManagementAlgorithms: [] },
+    { keyManagementAlgorithms: ['A192KW'] },
+    { contentEncryptionAlgorithms: [] },
+    { contentEncryptionAlgorithms: ['A128GCM'] },
+  ]) {
+    await assert.rejects(
+      generalDecrypt(jwe, resolve, options as types.DecryptOptions),
+      errorLike({ code: 'ERR_JWE_DECRYPTION_FAILED' }),
+    )
+  }
+  assert.equal(resolveCalls, 0)
+})
+
+test('General JWE decryption does not hide invalid numeric options', async () => {
+  const jwe = await new GeneralEncrypt(context.plaintext)
+    .setProtectedHeader({ alg: 'dir', enc: 'A256GCM' })
+    .addRecipient(context.secret)
+    .encrypt()
+  let resolveCalls = 0
+  const resolve = () => {
+    resolveCalls++
+    return context.secret
+  }
+  const invalid = [-1, 0.5, NaN, -Infinity, Number.MAX_SAFE_INTEGER + 1, '1', false, {}]
+  for (const [option, values, message] of [
+    [
+      'maxPBES2Count',
+      [0, null, ...invalid],
+      'maxPBES2Count must be a positive safe integer or Infinity',
+    ],
+    [
+      'maxDecompressedLength',
+      invalid,
+      'maxDecompressedLength must be 0, a positive safe integer, or Infinity',
+    ],
+  ] as const) {
+    for (const value of values) {
+      for (const input of [jwe, { ...jwe, ciphertext: null }, { ...jwe, protected: '*' }]) {
+        for (const key of [context.secret, resolve]) {
+          await assert.rejects(
+            generalDecrypt(input as never, key, { [option]: value }),
+            errorLike({ name: 'TypeError', message }),
+          )
+        }
+      }
+    }
+  }
+  assert.equal(resolveCalls, 0)
+  for (const value of [undefined, 1, Number.MAX_SAFE_INTEGER, Infinity]) {
+    await assert.doesNotReject(
+      generalDecrypt(jwe, context.secret, {
+        maxPBES2Count: value,
+        maxDecompressedLength: value,
+      }),
+    )
+  }
+  await assert.doesNotReject(generalDecrypt(jwe, context.secret, { maxDecompressedLength: 0 }))
+})
+
 test('General JWE format validation', async () => {
   const encrypt = new GeneralEncrypt(context.plaintext)
     .setProtectedHeader({ bar: 'baz' })
@@ -708,6 +812,14 @@ test('single recipient key management parameters are honoured', async () => {
     keyManagementAlgorithms: ['PBES2-HS256+A128KW'],
   })
   assert.deepStrictEqual(plaintext, context.plaintext)
+
+  await assert.rejects(
+    generalDecrypt(jwe, context.secret, {
+      keyManagementAlgorithms: ['PBES2-HS256+A128KW'],
+      maxPBES2Count: 4095,
+    }),
+    errorLike({ code: 'ERR_JWE_DECRYPTION_FAILED' }),
+  )
 })
 
 test('single recipient ECDH-ES apu/apv are honoured', async () => {

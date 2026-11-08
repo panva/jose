@@ -321,8 +321,6 @@ export async function decryptKeyManagement(
       if (typeof joseHeader.p2c !== 'number')
         throw new JWEInvalid(`JOSE Header "p2c" (PBES2 Count) missing or invalid`)
 
-      validateMaxPBES2Count(maxPBES2Count)
-
       const p2cLimit = maxPBES2Count ?? 10_000
 
       if (joseHeader.p2c > p2cLimit)

@@ -248,6 +248,37 @@ test('General JWS verification rejects inconsistent b64 modes', async () => {
   assert.equal(resolveCalls, 2)
 })
 
+test('General JWS verification does not hide invalid algorithms options', async () => {
+  const jws = await new GeneralSign(context.plaintext)
+    .addSignature(context.secret)
+    .setProtectedHeader({ alg: 'HS256' })
+    .sign()
+  let resolveCalls = 0
+  const resolve = () => {
+    resolveCalls++
+    return context.secret
+  }
+  for (const algorithms of [null, 'HS256', {}, [1], ['HS256', null]]) {
+    for (const input of [jws, { ...jws, signatures: [] }, { ...jws, signatures: [{}] }]) {
+      for (const key of [context.secret, resolve]) {
+        await assert.rejects(
+          generalVerify(input as never, key, { algorithms: algorithms as never }),
+          errorLike({
+            name: 'TypeError',
+            message: '"algorithms" option must be an array of strings',
+          }),
+        )
+      }
+    }
+  }
+  assert.equal(resolveCalls, 0)
+  await assert.rejects(
+    generalVerify(jws, resolve, { algorithms: ['HS384'] }),
+    errorLike({ code: 'ERR_JWS_SIGNATURE_VERIFICATION_FAILED' }),
+  )
+  assert.equal(resolveCalls, 0)
+})
+
 test('General JWS verify format validation', async () => {
   const sig = new GeneralSign(context.plaintext)
   sig
@@ -305,6 +336,12 @@ test('General JWS verify format validation', async () => {
   }
   {
     await assert.doesNotReject(generalVerify(generalJws, context.secret))
+  }
+  {
+    await assert.rejects(
+      generalVerify({ ...generalJws, payload: undefined as never }, context.secret),
+      errorLike({ code: 'ERR_JWS_SIGNATURE_VERIFICATION_FAILED' }),
+    )
   }
   {
     const { payload, signatures } = generalJws

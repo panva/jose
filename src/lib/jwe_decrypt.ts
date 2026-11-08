@@ -11,7 +11,7 @@ import {
   JWE_RECOGNIZED,
 } from './validate.js'
 import { JOSEAlgNotAllowed, JOSENotSupported, JWEInvalid } from '../util/errors.js'
-import { decryptKeyManagement } from './key_management.js'
+import { decryptKeyManagement, validateMaxPBES2Count } from './key_management.js'
 import { decoder } from './buffer_utils.js'
 import { prepareKey } from './key.js'
 import { JWE, isJWECEKTransport, jweAlgorithm, jweEncryption } from './jwe_algorithms.js'
@@ -166,13 +166,29 @@ export function shareJWE(jwe: SharedJWEMembers): SharedJWE {
 }
 
 export function prepareDecrypt(options?: types.DecryptOptions): DecryptShared {
-  return [
-    options && validateAlgorithms('keyManagementAlgorithms', options.keyManagementAlgorithms),
+  const keyManagementAlgorithms =
+    options && validateAlgorithms('keyManagementAlgorithms', options.keyManagementAlgorithms)
+  const contentEncryptionAlgorithms =
     options &&
-      validateAlgorithms('contentEncryptionAlgorithms', options.contentEncryptionAlgorithms),
-    options?.crit,
-    options?.maxPBES2Count,
-    options?.maxDecompressedLength,
+    validateAlgorithms('contentEncryptionAlgorithms', options.contentEncryptionAlgorithms)
+  const { crit, maxPBES2Count, maxDecompressedLength } = options ?? {}
+
+  validateMaxPBES2Count(maxPBES2Count)
+  const decompressionLimit = maxDecompressedLength ?? 250_000
+  if (
+    decompressionLimit !== 0 &&
+    decompressionLimit !== Infinity &&
+    (!Number.isSafeInteger(decompressionLimit) || decompressionLimit < 1)
+  ) {
+    throw new TypeError('maxDecompressedLength must be 0, a positive safe integer, or Infinity')
+  }
+
+  return [
+    keyManagementAlgorithms,
+    contentEncryptionAlgorithms,
+    crit,
+    maxPBES2Count,
+    maxDecompressedLength,
   ]
 }
 
@@ -344,12 +360,6 @@ export async function decryptJWE(
       throw new JOSENotSupported(
         'JWE "zip" (Compression Algorithm) Header Parameter is not supported.',
       )
-    }
-    if (
-      decompressionLimit !== Infinity &&
-      (!Number.isSafeInteger(decompressionLimit) || decompressionLimit < 1)
-    ) {
-      throw new TypeError('maxDecompressedLength must be 0, a positive safe integer, or Infinity')
     }
     plaintext = await decompress(plaintext, decompressionLimit).catch((cause) => {
       if (cause instanceof JWEInvalid) throw cause

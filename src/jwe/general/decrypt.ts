@@ -14,7 +14,7 @@ import {
   snapshotSharedJWE,
   snapshotRecipientJWE,
 } from '../../lib/jwe_decrypt.js'
-import type { DecryptShared, SharedJWE } from '../../lib/jwe_decrypt.js'
+import type { SharedJWE } from '../../lib/jwe_decrypt.js'
 import { JWEDecryptionFailed, JWEInvalid } from '../../util/errors.js'
 import { isObject } from '../../lib/validate.js'
 import { JWE, isJWECEKTransport } from '../../lib/jwe_algorithms.js'
@@ -132,11 +132,10 @@ export async function generalDecrypt(
     throw new JWEInvalid('JWE Recipients has no members')
   }
 
-  let shared: DecryptShared
+  const shared = prepareDecrypt(options)
   let sharedJwe!: types.FlattenedJWE
   let token: SharedJWE
   try {
-    shared = prepareDecrypt(options)
     sharedJwe = snapshotSharedJWE(jwe)
     token = shareJWE(sharedJwe)
   } catch {
