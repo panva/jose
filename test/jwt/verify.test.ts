@@ -558,6 +558,28 @@ test('maxTokenAge of 0 is enforced', async () => {
   await assert.doesNotReject(jwtVerify(fresh, context.secret, { maxTokenAge: 0 }))
 })
 
+for (const [iat, clockTolerance] of [
+  [now, 0],
+  [now + 1, 2],
+]) {
+  test(`negative maxTokenAge is rejected with clockTolerance ${clockTolerance}`, async () => {
+    const jwt = await new SignJWT(context.payload)
+      .setProtectedHeader({ alg: 'HS256' })
+      .setIssuedAt(iat)
+      .sign(context.secret)
+    for (const maxTokenAge of [-1, '-1s', '1s ago']) {
+      await assert.rejects(
+        jwtVerify(jwt, context.secret, { maxTokenAge, clockTolerance }),
+        (error) => {
+          assert.ok(error instanceof TypeError)
+          assert.equal(error.message, 'Invalid maxTokenAge option input')
+          return true
+        },
+      )
+    }
+  })
+}
+
 test('time validation options must be finite', async () => {
   const jwt = await new SignJWT(context.payload)
     .setProtectedHeader({ alg: 'HS256' })

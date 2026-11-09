@@ -67,6 +67,25 @@ test('UnsecuredJWT validations', () => {
   )
 })
 
+for (const [iat, clockTolerance] of [
+  [now, 0],
+  [now + 1, 2],
+]) {
+  test(`negative maxTokenAge is rejected with clockTolerance ${clockTolerance}`, () => {
+    const jwt = new UnsecuredJWT(context.payload).setIssuedAt(iat).encode()
+    for (const maxTokenAge of [-1, '-1s', '1s ago']) {
+      assert.throws(
+        () => UnsecuredJWT.decode(jwt, { maxTokenAge, clockTolerance }),
+        (error) => {
+          assert.ok(error instanceof TypeError)
+          assert.equal(error.message, 'Invalid maxTokenAge option input')
+          return true
+        },
+      )
+    }
+  })
+}
+
 test('UnsecuredJWT rejects unrecognized critical header parameters', () => {
   const header = base64url.encode(
     JSON.stringify({ alg: 'none', crit: ['urn:example:critical'], 'urn:example:critical': true }),

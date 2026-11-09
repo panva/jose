@@ -425,6 +425,28 @@ test('maxTokenAge option', () =>
     },
   ))
 
+for (const [iat, clockTolerance] of [
+  [now, 0],
+  [now + 1, 2],
+]) {
+  test(`negative maxTokenAge is rejected with clockTolerance ${clockTolerance}`, async () => {
+    const jwt = await new EncryptJWT(context.payload)
+      .setProtectedHeader({ alg: 'dir', enc: 'A256GCM' })
+      .setIssuedAt(iat)
+      .encrypt(context.secret)
+    for (const maxTokenAge of [-1, '-1s', '1s ago']) {
+      await assert.rejects(
+        jwtDecrypt(jwt, context.secret, { maxTokenAge, clockTolerance }),
+        (error) => {
+          assert.ok(error instanceof TypeError)
+          assert.equal(error.message, 'Invalid maxTokenAge option input')
+          return true
+        },
+      )
+    }
+  })
+}
+
 for (const claim of ['iat', 'nbf', 'exp']) {
   test(`${claim} must be a number`, () => numericDateNumber(claim))
 }
