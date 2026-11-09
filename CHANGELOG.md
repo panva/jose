@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file. See [commit-and-tag-version](https://github.com/absolute-version/commit-and-tag-version) for commit guidelines.
 
+## [6.2.17](https://github.com/panva/jose/compare/v6.2.16...v6.2.17) (2026-11-09)
+
+### Fixes
+
+* **jwt:** reject negative maxTokenAge ([a5b422c](https://github.com/panva/jose/commit/a5b422c8c04c7baedd94804162bdd36ddaabcb7d))
+
 ## [6.2.16](https://github.com/panva/jose/compare/v6.2.15...v6.2.16) (2026-11-08)
 
 ### Fixes
