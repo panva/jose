@@ -61,6 +61,9 @@ NO_COMPAT=$?
 run_test "$COMPAT_FLAGS"
 COMPAT=$?
 
+run_test '["webcrypto_modern_algorithms"]'
+MODERN_ALGOS=$?
+
 echo ""
 echo "Workerd without nodejs_compat"
 test $NO_COMPAT -eq 0 && echo "  passed" || echo "  failed"
@@ -69,4 +72,8 @@ echo ""
 echo "Workerd with nodejs_compat"
 test $COMPAT -eq 0 && echo "  passed" || echo "  failed"
 
-test $NO_COMPAT -eq 0 && test $COMPAT -eq 0
+echo ""
+echo "Workerd with webcrypto_modern_algorithms"
+test $MODERN_ALGOS -eq 0 && echo "  passed" || echo "  failed"
+
+test $NO_COMPAT -eq 0 && test $COMPAT -eq 0 && test $MODERN_ALGOS -eq 0

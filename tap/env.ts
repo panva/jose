@@ -46,6 +46,13 @@ function isNodeVersionAtLeast(major: number, minor: number) {
 
 export function supported(algorithm: string): boolean {
   if (/^ML-DSA-/.test(algorithm)) {
+    if (isWorkerd) {
+      return (
+        'supports' in SubtleCrypto &&
+        typeof SubtleCrypto.supports === 'function' &&
+        SubtleCrypto.supports('generateKey', algorithm)
+      )
+    }
     if (isBun || isDeno || isLlrt || isElectron || isBlink) return true
     return isNode && isNodeVersionAtLeast(24, 7)
   }
