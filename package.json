@@ -177,7 +177,7 @@
     "@typescript/native": "npm:typescript@^7.0.2",
     "esbuild": "^0.28.2",
     "fast-check": "^4.10.2",
-    "hpke": "^1.1.7",
+    "hpke": "^1.1.8",
     "npm-run-all2": "^9.0.4",
     "patch-package": "^8.0.1",
     "prettier": "^3.9.10",
