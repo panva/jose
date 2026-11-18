@@ -660,3 +660,11 @@ test('handles a timeout', { timeout: 1000 }, async () => {
   const err = await captureRejection(JWKS({ alg: 'RS256' }, {} as FlattenedJWSInput))
   assert.equal(err instanceof errors.JWKSTimeout, true)
 })
+
+test('handles a timeout while reading the response body', { timeout: 1000 }, async () => {
+  agent.enableNetConnect()
+  server.once('request', (_request, response) => response.write('{"keys":'))
+  const url = new URL('http://localhost:3000/jwks')
+  const JWKS = createRemoteJWKSet(url, { timeoutDuration: 500, [customFetch]: fetch })
+  await assert.rejects(JWKS.reload(), errors.JWKSTimeout)
+})

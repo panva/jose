@@ -205,6 +205,9 @@ async function fetchJwks(
   try {
     return await response.json()
   } catch (cause) {
+    if (signal.aborted) {
+      throw new JWKSTimeout(undefined, { cause })
+    }
     throw new JOSEError('Failed to parse the JSON Web Key Set HTTP response as JSON', { cause })
   }
 }
