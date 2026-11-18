@@ -362,7 +362,7 @@ export async function decryptJWE(
       )
     }
     plaintext = await decompress(plaintext, decompressionLimit).catch((cause) => {
-      if (cause instanceof JWEInvalid) throw cause
+      if (cause instanceof JWEInvalid || cause instanceof JOSENotSupported) throw cause
       throw new JWEInvalid('Failed to decompress plaintext', { cause })
     })
   }

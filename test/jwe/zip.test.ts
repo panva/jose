@@ -1,4 +1,4 @@
-import test, { before } from 'node:test'
+import test, { before, type TestContext } from 'node:test'
 import assert from 'node:assert/strict'
 import * as crypto from 'node:crypto'
 
@@ -16,6 +16,16 @@ import {
 import { errorLike } from '../_errors.js'
 
 const hasCompressionStreams = typeof globalThis.CompressionStream !== 'undefined'
+
+function hideStream(t: TestContext, name: 'CompressionStream' | 'DecompressionStream') {
+  const descriptor = Object.getOwnPropertyDescriptor(globalThis, name)
+  if (descriptor) {
+    t.after(() => {
+      Object.defineProperty(globalThis, name, descriptor)
+    })
+    Reflect.deleteProperty(globalThis, name)
+  }
+}
 
 const encode = TextEncoder.prototype.encode.bind(new TextEncoder())
 
@@ -46,6 +56,18 @@ if (hasCompressionStreams) {
 
     const { plaintext } = await compactDecrypt(jwe, context.secret)
     assert.deepStrictEqual(plaintext, context.plaintext)
+  })
+
+  test('zip: DEF throws JOSENotSupported when DecompressionStream is unavailable', async (t) => {
+    const jwe = await new CompactEncrypt(context.plaintext)
+      .setProtectedHeader({ alg: 'dir', enc: 'A128GCM', zip: 'DEF' })
+      .encrypt(context.secret)
+
+    hideStream(t, 'DecompressionStream')
+    await assert.rejects(
+      compactDecrypt(jwe, context.secret),
+      errorLike({ code: 'ERR_JOSE_NOT_SUPPORTED' }),
+    )
   })
 
   test('GeneralEncrypt/generalDecrypt with zip: DEF', async () => {
@@ -307,15 +329,12 @@ test('unsupported zip value on decrypt throws JOSENotSupported', async () => {
   )
 })
 
-if (!hasCompressionStreams) {
-  test('zip: DEF throws JOSENotSupported when CompressionStream is unavailable', async () => {
-    await assert.rejects(
-      new FlattenedEncrypt(context.plaintext)
-        .setProtectedHeader({ alg: 'dir', enc: 'A128GCM', zip: 'DEF' })
-        .encrypt(context.secret),
-      errorLike({
-        code: 'ERR_JOSE_NOT_SUPPORTED',
-      }),
-    )
-  })
-}
+test('zip: DEF throws JOSENotSupported when CompressionStream is unavailable', async (t) => {
+  hideStream(t, 'CompressionStream')
+  await assert.rejects(
+    new FlattenedEncrypt(context.plaintext)
+      .setProtectedHeader({ alg: 'dir', enc: 'A128GCM', zip: 'DEF' })
+      .encrypt(context.secret),
+    errorLike({ code: 'ERR_JOSE_NOT_SUPPORTED' }),
+  )
+})

@@ -2,7 +2,7 @@ import type * as types from '../types.d.ts'
 import { encode as b64u } from '../util/base64url.js'
 import { encrypt } from './content_encryption.js'
 import { encryptKeyManagement } from './key_management.js'
-import { JWEInvalid } from '../util/errors.js'
+import { JOSENotSupported, JWEInvalid } from '../util/errors.js'
 import {
   assertUint8Array,
   isDisjoint,
@@ -219,6 +219,7 @@ export async function encryptJWE(
   let plaintext = inputPlaintext
   if (joseHeader.zip === 'DEF') {
     plaintext = await compress(plaintext).catch((cause) => {
+      if (cause instanceof JOSENotSupported) throw cause
       throw new JWEInvalid('Failed to compress plaintext', { cause })
     })
   }
