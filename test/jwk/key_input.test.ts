@@ -85,6 +85,26 @@ test('direct oct JWK key_ops must be an array of unique strings', async () => {
   }
 })
 
+test(
+  'direct AKP JWK inputs require alg',
+  {
+    skip: !SubtleCrypto.supports?.('generateKey', 'ML-DSA-65'),
+  },
+  async () => {
+    const alg = 'ML-DSA-65'
+    const { privateKey, publicKey } = await generateKeyPair(alg, { extractable: true })
+    const privateJwk = await exportJWK(privateKey)
+    const publicJwk = await exportJWK(publicKey)
+    const sign = new CompactSign(payload).setProtectedHeader({ alg })
+    const signature = await sign.sign(privateJwk)
+    await compactVerify(signature, publicJwk)
+
+    const expected = { name: 'TypeError', message: 'missing "alg" (Algorithm) Parameter value' }
+    await assert.rejects(sign.sign({ ...privateJwk, alg: undefined }), expected)
+    await assert.rejects(compactVerify(signature, { ...publicJwk, alg: undefined }), expected)
+  },
+)
+
 test('direct JWK inputs use one normalized snapshot', async () => {
   const first = 'AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA'
   const second = 'AQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQE'

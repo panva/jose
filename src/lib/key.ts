@@ -19,6 +19,9 @@ const jwkMatchesOp = (entry: KeyDescriptor, key: types.JWK, usage: Usage) => {
     }
   }
 
+  if (key.kty === 'AKP' && key.alg === undefined) {
+    throw new TypeError('missing "alg" (Algorithm) Parameter value')
+  }
   if (key.alg !== undefined && key.alg !== alg) {
     throw new TypeError(`Invalid key for this operation, its "alg" must be "${alg}" when present`)
   }
