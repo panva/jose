@@ -137,23 +137,21 @@ export class EncryptJWT extends EncryptJWT_base {
    * @param options JWE Encryption options.
    */
   async encrypt(key: types.KeyInput, options?: types.EncryptOptions): Promise<string> {
-    const plaintext = jwtClaimsSetBytes(this)
+    const input: EncryptInput = [...this.#input]
+    input[0] = jwtClaimsSetBytes(this)
     if (
-      this.#input[1] &&
+      input[1] &&
       (this.#replicateIssuerAsHeader ||
         this.#replicateSubjectAsHeader ||
         this.#replicateAudienceAsHeader)
     ) {
-      this.#input[1] = {
-        ...this.#input[1],
-        iss: this.#replicateIssuerAsHeader ? jwtClaim(this, 'iss') : undefined,
-        sub: this.#replicateSubjectAsHeader ? jwtClaim(this, 'sub') : undefined,
-        aud: this.#replicateAudienceAsHeader ? jwtClaim(this, 'aud') : undefined,
-      }
+      const header = { ...input[1] }
+      if (this.#replicateIssuerAsHeader) header.iss = jwtClaim(this, 'iss')
+      if (this.#replicateSubjectAsHeader) header.sub = jwtClaim(this, 'sub')
+      if (this.#replicateAudienceAsHeader) header.aud = jwtClaim(this, 'aud')
+      input[1] = header
     }
 
-    const input: EncryptInput = [...this.#input]
-    input[0] = plaintext
     return compactJWE(await createJWE(input, key, options))
   }
 }

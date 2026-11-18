@@ -159,6 +159,19 @@ test('EncryptJWT serializes updated claims and replicated headers per operation'
   assert.equal(results[1].protectedHeader.iss, 'second')
 })
 
+test('replicating an issuer preserves the configured subject and audience headers', async () => {
+  const claims = { iss: 'issuer', sub: 'subject', aud: ['audience'] }
+  const header = { alg: 'dir', enc: 'A128GCM', sub: claims.sub, aud: claims.aud }
+  const jwt = await new EncryptJWT(claims)
+    .setProtectedHeader(header)
+    .replicateIssuerAsHeader()
+    .encrypt(context.secret)
+
+  const { protectedHeader } = await jwtDecrypt(jwt, context.secret)
+  assert.deepEqual(protectedHeader, { ...header, iss: claims.iss })
+  assert.equal('iss' in header, false)
+})
+
 test('EncryptJWT.prototype.setProtectedHeader', () => {
   assert.throws(
     () => new EncryptJWT(context.payload).setProtectedHeader({}).setProtectedHeader({}),
