@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file. See [commit-and-tag-version](https://github.com/absolute-version/commit-and-tag-version) for commit guidelines.
 
+## [6.2.18](https://github.com/panva/jose/compare/v6.2.17...v6.2.18) (2026-11-18)
+
+### Fixes
+
+* **jwe:** preserve errors for unavailable compression streams ([58444c1](https://github.com/panva/jose/commit/58444c19640e7b660bfab61893ce3d395889f1d2))
+* **jwk:** require alg on direct AKP key inputs ([29ce44a](https://github.com/panva/jose/commit/29ce44ae4cedc723d992dafa6eda1120426530d7))
+* **jwks:** report timeouts while reading the response body ([3280172](https://github.com/panva/jose/commit/328017207e770dc8dede4a0788b18b0611dd3b50))
+* **jwt:** handle mixed-case ago suffixes ([d05bf94](https://github.com/panva/jose/commit/d05bf94f5b1034c6dfa0fe869d5cc38e682dbb54))
+* **jwt:** preserve headers when replicating claims ([316bb26](https://github.com/panva/jose/commit/316bb2647f67d980917588388e10ef805567b59c))
+
 ## [6.2.17](https://github.com/panva/jose/compare/v6.2.16...v6.2.17) (2026-11-09)
 
 ### Fixes
