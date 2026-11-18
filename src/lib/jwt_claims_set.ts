@@ -40,7 +40,7 @@ export function secs(str: string): number {
     invalidDuration()
   }
 
-  if (matched[1] === '-' || matched[4] === 'ago') {
+  if (matched[1] === '-' || matched[4]?.toLowerCase() === 'ago') {
     return -durationSeconds
   }
 

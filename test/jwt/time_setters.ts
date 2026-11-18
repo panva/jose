@@ -22,6 +22,7 @@ export function setters(now: number): [method: SetterMethod, claim: string, vect
     ['- 10s', now - 10],
     ['10s from now', now + 10],
     ['10s ago', now - 10],
+    ['10s aGo', now - 10],
   ]
 
   return [
