@@ -82,14 +82,20 @@ const normalizeTyp = (value: string) => {
   return value.includes('/') ? normalized : `application/${normalized}`
 }
 
-const checkAudiencePresence = (audPayload: unknown, audOption: unknown[]) => {
+const checkAudiencePresence = (audPayload: unknown, audOption: string | string[]) => {
+  if (typeof audOption === 'string') {
+    audOption = [audOption]
+  } else if (!Array.isArray(audOption)) {
+    return false
+  }
+
   if (typeof audPayload === 'string') {
     return audOption.includes(audPayload)
   }
 
   if (Array.isArray(audPayload)) {
     // RFC 7519, Section 4.1.3: match an intended recipient in the Audience Claim.
-    return audOption.some((aud) => audPayload.includes(aud))
+    return audOption.some((aud) => typeof aud === 'string' && audPayload.includes(aud))
   }
 
   return false
@@ -187,10 +193,7 @@ export function validateClaimsSet(
     unexpectedClaim(claimsSet, 'sub')
   }
 
-  if (
-    audience !== undefined &&
-    !checkAudiencePresence(claimsSet.aud, typeof audience === 'string' ? [audience] : audience)
-  ) {
+  if (audience !== undefined && !checkAudiencePresence(claimsSet.aud, audience)) {
     unexpectedClaim(claimsSet, 'aud')
   }
 

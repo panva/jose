@@ -306,6 +306,19 @@ test('Audience[] verification failed []', async () => {
   )
 })
 
+test('Audience verification rejects a boxed string option', async () => {
+  const audience = 'urn:example:audience'
+  const jwt = await new SignJWT(context.payload)
+    .setProtectedHeader({ alg: 'HS256' })
+    .setAudience([audience])
+    .sign(context.secret)
+
+  await assert.rejects(
+    jwtVerify(jwt, context.secret, { audience: new String(audience) as never }),
+    errorLike({ code: 'ERR_JWT_CLAIM_VALIDATION_FAILED', message: 'unexpected "aud" claim value' }),
+  )
+})
+
 test('Subject verification failed', async () => {
   const subject = 'urn:example:subject'
   const jwt = await new SignJWT(context.payload)
